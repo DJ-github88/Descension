@@ -15,53 +15,52 @@ export const DOOMSAYER_DATA = {
 
   overview: {
     title: "The Doomsayer",
-    subtitle: "Prophet of Catastrophe, Weaver of Living Doom",
+    subtitle: "The End Already Came. Now It Answers to You.",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: Doomsayers place "living bomb" prophecies on targets or areas. Each prophecy has a **Prophecy Range** created by rolling 2 dice—the results form a range (e.g., d8=1 and d6=3 → range is 1-3). When the prophecy resolves, a roll is made against this range: landing **between** the boundaries triggers the **Prophesied** effect (enhanced), landing **on** a boundary gives the **Base** effect, and landing **outside** the range triggers the **Outside** effect (negative/fizzle/spell-dependent). You earn **Havoc** from fulfilled prophecies and spend it to fuel stronger spells.
+      content: `**What You Need to Know**: Doomsayers plant "living bomb" prophecies — words of ruin stitched into flesh and air, each one a wound in the fabric of fate waiting to tear open. Each prophecy has a **Prophecy Range** created by rolling 2 dice — the results form a range (e.g., d8=1 and d6=3 → range is 1-3). When the prophecy resolves, a roll is made against this range: landing **between** the boundaries triggers the **Prophesied** effect (enhanced — catastrophe made manifest), landing **on** a boundary gives the **Base** effect (the doom speaks, but quietly), and landing **outside** the range triggers the **Outside** effect — and the fates turn their teeth on YOU. Self-damage. Mana drain. Worse. You earn **Havoc** from fulfilled prophecies — stolen entropy ripped from dying certainties — and spend it to fuel greater ruination.
 
 **Prophecy Range Rules**:
 1. **Creating the Range**: Roll 2 dice (type specified by each spell). The lower result becomes the **Low Boundary**; the higher result becomes the **High Boundary**. Die type does NOT determine position—only the numbers matter.
 2. **Resolving the Prophecy**: Roll a resolution die (type specified by each spell) and compare the result to the range:
    - **Prophesied** (result falls between Low and High): Enhanced effect + Havoc earned.
    - **Base** (result equals Low or High boundary): Standard effect + 1 Havoc.
-   - **Outside** (result is less than Low or greater than High): Negative effect / fizzle / self-damage. No Havoc.
+   - **Outside** (result is less than Low or greater than High): Negative effect / fizzle / self-damage. No Havoc. **Prophecy Backlash** — the doom turns inward.
 3. **Doubles Rule**: If both dice roll the same number (e.g., d4=3 and d4=3), the range is a single value. The result can ONLY be Base (on the value) or Outside (any other result). Prophesied is impossible on doubles.
 
-**Resource**: Havoc (earned by fulfilling prophecies, spent on stronger spells). Max 15. Persists between combats, resets on long rest.
+**Resource**: Havoc (stolen entropy from fulfilled prophecies, spent on greater catastrophe). Max 15. Persists between combats, resets on long rest.
 
-**Playstyle**: Calculated chaos—place prophecies, watch them detonate with RNG outcomes, manipulate prophecy ranges with Havoc
+**Playstyle**: Weaponized fatalism — plant prophecies like landmines in the bones of your enemies, detonate them for cascading catastrophe, hoard Havoc to widen fate's knife-edge
 
-**Best For**: Players who love unpredictable high-impact moments, ticking time bomb mechanics, and controlled chaos that's different from pure RNG`,
+**Best For**: Players who love placing ticking time bombs in their enemies, detonating them for cascading chaos, and earning Havoc from fulfilled doom to fuel even greater explosions — and who accept that every prophecy is a gamble paid in their own flesh`,
     },
 
-    description: `Doomsayers are harbingers of the inevitable—prophets who speak doom into existence. They don't merely predict catastrophe; they CREATE it. By placing "living bomb" prophecies on targets or areas, Doomsayers set the stage for devastating RNG-based explosions of fate. Some prophecies detonate immediately; others tick like time bombs, accumulating Havoc before unleashing accumulated catastrophe.`,
+    description: `Something broke inside them the day they saw how it all ends. Not a crack — a rupture, clean through the soul. Now that ending bleeds out of them in prophecy and flame. Doomsayers do not predict doom. They CREATE it — planting living words of ruin into flesh and stone and air, each prophecy a wound in the world that festers until it bursts. Some detonate the moment they're spoken. Others burrow deep, ticking like a second heartbeat in the victim's chest, accumulating stolen entropy — Havoc — before unleashing catastrophe in a single, devastating convulsion. Every prophecy is a gamble. Miss the range, and the doom turns inward, chewing on the prophet's own flesh instead. The fates are not kind. The fates are a weapon, and the Doomsayer aims it.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Doomsayers carry the weight of inevitable doom. They have seen the end of all things—a vision that forever changed them—and now they bring pieces of that end to the present. They are not evil by nature; they simply understand that destruction is a necessary part of existence. Some are cursed with the sight, others chose it willingly. They might be:
+      content: `They saw the end of all things. It did not kill them. It should have. Now they carry fragments of that ending wherever they go — prophecy-bombs stitched into the marrow of the world, waiting to detonate. They are not evil by nature. They are worse: they are right. Every doom they speak will come true. The question is only when, and who pays. They might be:
 
-**The End Seer**: One who glimpsed the apocalypse and now channels fragments of it
-**The Doom Herald**: A divine messenger carrying prophecies of destruction from angry gods
-**The Entropy Scholar**: A scholar who studied the heat death of the universe and learned to accelerate it locally
-**The Cursed Oracle**: One whose predictions of doom always come true—whether they want them to or not
-**The War Prophet**: Military doomsayer who places catastrophic prophecies on enemy formations
+**The Shattered Seer**: One who looked directly into the death of the world and came back with cracks running through their mind — and power leaking out through every fracture
+**The Hollow Prophet**: A divine mouthpiece abandoned by their god, still speaking prophecy because the words no longer need a god behind them
+**The Grave Scholar**: One who dug too deep into the mathematics of entropy and learned to WRITE new endings into the equation
+**The Accursed Witness**: One whose every prediction of doom comes true — whether they want it to or not. The fates do not ask permission
+**The Mourning Herald**: A war prophet who learned to weaponize grief itself, planting doom in enemy ranks like seeds in a graveyard
 
-Doomsayers tend to be intense, dramatic, and slightly unsettling. They speak in absolutes—"this WILL end," "your doom is WRITTEN"—because for them, it literally is. They find beauty in destruction and meaning in entropy. Their companions often find them both terrifying and oddly comforting—at least someone knows how it all ends.`,
+Doomsayers speak in certainties because for them, there is nothing else. "This WILL end." "Your doom is WRITTEN." They do not say these things to be dramatic. They say them because they can see the words, burning, etched into the skin of everything that lives. Their companions find them terrifying — and correct, always correct.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `In combat, Doomsayers are chaotic damage dealers and controllers who excel at:
+      content: `In combat, the Doomsayer is the only soul mad enough to plant living bomb prophecies in the bones of their enemies — words of ruin that tick and fester until detonated on command, unleashing RNG-chaos outcomes that no other class can create, cascade, or control. No one else earns Havoc from fulfilled doom and spends it to widen fate's knife-edge for even bigger explosions. Their chaos is FORECASTED — placed deliberately, detonated deliberately. A Chaos Weaver rolls the bones and prays. A Doomsayer writes the ending first, then forces the world to read it.
 
-**Living Bomb Placement**: First round of combat, place a prophecy on a target or area
-**Prophecy Range Manipulation**: Roll 2 dice to set prophecy ranges, then spend Havoc to widen or narrow them
-**RNG Chaos**: Prophecy outcomes are random but bounded—calculated chaos, not pure randomness
-**Ticking Time Bombs**: Some prophecies accumulate effects over rounds before detonating
-**Havoc Generation**: Every fulfilled prophecy generates Havoc for stronger spells
+**Living Bomb Placement**: First round, plant a prophecy in a target or area — a wound in fate that waits to tear open
+**Prophecy Range Manipulation**: Roll 2 dice to carve fate's boundaries, then spend Havoc to widen or narrow the blade
+**Ticking Time Bombs**: Some prophecies accumulate dread over rounds before detonating — second heartbeats in the victim's chest
+**Havoc Generation**: Every fulfilled prophecy rips stolen entropy from dying certainty, fueling greater catastrophe
 
-Doomsayers differ from Chaos Weavers in that their chaos is FORECASTED—placed deliberately and detonated on command. A Chaos Weaver rolls randomly and adapts; a Doomsayer sets the terms of chaos and watches them unfold.`,
+But every prophecy is a wound in the Doomsayer too. When a resolution roll lands OUTSIDE the range, **Prophecy Backlash** tears into them — self-damage, mana drain, debilitation. Narrow ranges are devastating when they land, catastrophic when they miss. The fates punish hubris, and the prophet pays in blood.`,
     },
 
     playstyle: {
@@ -244,11 +243,11 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     title: "Havoc",
     subtitle: "The Currency of Fulfilled Doom",
 
-    description: `Doomsayers earn **Havoc** by fulfilling prophecies—when a target rolls inside the Prophecy Range and the Prophesied effect triggers, Havoc is generated. This chaotic energy is then spent to cast stronger spells, widen prophecy ranges for safer bets, or fuel devastating abilities. Unlike other resources that generate passively, Havoc only flows from successful prophecy fulfillment—rewarding aggressive play and accurate range-setting.
+    description: `Havoc is not a resource. It is stolen entropy — the heat death of small certainties, ripped screaming from the moment a prophecy fulfills its terrible promise. When a target's doom comes to pass exactly as foretold, the universe bleeds energy, and the Doomsayer catches it in their teeth. This stolen decay is then spent to tear wider wounds in fate, to strengthen prophecies, or to fuel abilities that have no business existing in a world that hasn't ended yet. Havoc does not generate passively. It only flows from successful prophecy fulfillment — the Doomsayer must plant the bomb, watch it detonate, and drink the wreckage.
 
-**Havoc Persistence**: Havoc carries over between combats but resets to 0 on a long rest. You cannot bank Havoc across days—use it or lose it.
+**Havoc Persistence**: Havoc carries over between combats but drains to nothing on a long rest. Sleep is the only mercy. You cannot bank Havoc across days — the stolen entropy finds its way back to the void.
 
-**Havoc Overflow**: If an effect would grant you Havoc beyond your maximum (15), the excess is converted into 1d4 fire damage per point of overflow to a random enemy within 30ft (or wasted if no enemies are nearby). You never waste Havoc entirely—the energy finds an outlet.
+**Havoc Overflow**: If an effect would grant Havoc beyond your maximum (15), the excess does not quietly vanish. It converts into 1d4 fire damage per point of overflow, hurled at a random enemy within 30ft — or it eats inward, wasted, if no enemies are near. Havoc ALWAYS finds an outlet. It is not polite.
 
 **Concentration Limit**: You can maintain only **one concentration spell at a time**. If you cast a new concentration spell while maintaining another, the older one ends immediately. Choose carefully between your ticking prophecies and aura effects.`,
 
@@ -363,9 +362,9 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
 
   specializations: {
     title: "Doomsayer Specializations",
-    subtitle: "Three Paths of Catastrophe",
+    subtitle: "Three Roads to Ruin",
 
-    description: `Every Doomsayer chooses one of three paths that define how they deliver doom. Requiems focus on devastating single-target death prophecies. Endbringers specialize in escalating effects that grow more powerful each round. Cataclysms create area-based prophecies and battlefield-wide RNG chaos.`,
+    description: `Every Doomsayer stared into the same abyss and came back speaking the same language of endings. But the way they USE that ending — the shape of the ruin they carry — splits them into three paths. Requiems are assassins of fate, threading needles of absolute death through the narrowest prophetic windows, gambling everything on a single perfect strike. Endbringers are slow-motion catastrophes, their doom growing heavier and more suffocating with every passing round until the weight of it crushes everything nearby. Cataclysms are walking apocalypses, spraying prophecy-shrapnel across the entire battlefield, earning Havoc from every screaming target caught in the blast radius.`,
 
     passiveAbility: {
       name: "Prophet's Sight",
@@ -381,7 +380,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
         color: "#4B0082",
         theme: "Single-Target Death Prophecies",
 
-        description: `Requiems are assassins of fate, placing devastating single-target prophecies that can obliterate a single enemy. Their prophecy ranges are narrower but their Prophesied effects are the most lethal in the game. They earn bonus Havoc from single-target Prophesied hits and can stack multiple prophecies on the same target.`,
+        description: `Requiems are fate's surgeons of death — or its butchers, depending on how the dice fall. They plant the narrowest, most lethal prophecies in a single target's flesh, each one a razor-thin window of absolute destruction. Their Prophesied effects are the most devastating in existence, but the margins are knife-edge thin. Miss the range, and the doom claws back into the Requiem's own body with unmatched cruelty. They earn bonus Havoc from single-target Prophesied hits and can stack multiple prophecies on the same victim — layering doom upon doom until the target is a walking graveyard of unfulfilled endings, each one waiting to detonate.`,
 
         playstyle:
           "Single-target nuke, precision prophecy, death stacking, high burst damage",
@@ -423,7 +422,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
         color: "#FF4500",
         theme: "Escalating Effects & Doom Aura",
 
-        description: `Endbringers embody the escalating nature of doom. Their effects grow stronger each round they remain active—prophecies that tick longer deal more damage, generate more Havoc, and eventually reach devastating crescendos. They also project a doom aura that weakens nearby enemies.`,
+        description: `Endbringers are what happens when a prophecy doesn't detonate — it just keeps GROWING. Every round their doom lingers, it gains weight: more damage, more Havoc, more devastation, a slow-motion collapse that accelerates toward a crescendo of total ruin. They radiate a doom aura that crushes the will of anything nearby, and the longer a fight drags on, the more terrifying they become — their prophecies thickening like clotting blood, their Havoc reserves swelling with stolen entropy until the final detonation drowns everything in screaming light. Weak in the opening moments. Unstoppable by the end.`,
 
         playstyle:
           "Escalating damage, delayed gratification, doom aura, round-dependent power scaling",
@@ -465,7 +464,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
         color: "#FF6347",
         theme: "Area Prophecies & Battlefield-Wide Chaos",
 
-        description: `Cataclysms specialize in area-based prophecies that create RNG chaos across the entire battlefield. Their prophecy ranges affect zones rather than single targets, and they can have multiple area prophecies active simultaneously. They earn Havoc from every target caught in their area prophecies—making them the most efficient Havoc generators.`,
+        description: `Cataclysms do not aim. They do not need to. Every prophecy they speak becomes a blast zone — 15 feet, 30 feet, 40 feet of weaponized fate that catches everything inside its radius and subjects every screaming target to the same RNG-ruin. They earn Havoc from each body caught in the detonation, making them the most efficient entropy harvesters alive, and they can layer multiple area prophecies on top of each other until the overlapping zones become nothing but a howling wound in reality. Where the Requiem is a scalpel and the Endbringer is a slow poison, the Cataclysm is a wildfire that does not care who burns.`,
 
         playstyle:
           "Area control, multi-target RNG chaos, simultaneous prophecies, battlefield domination",
@@ -503,2647 +502,3254 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   },
 
   exampleSpells: [
-    {
-      id: "doomsayer_doom_bolt",
-      name: "Doom Bolt",
-      description:
-        "Place a prophecy of ruin on a target, marking them for inevitable destruction.",
-      spellType: "ACTION",
+/**
+ * Doomsayer Spells Part 1: Levels 1-5
+ *
+ * Overhauled spell data for the Doomsayer class.
+ * Dark, oppressive descriptions. Doom stacking debuffs.
+ * No 5e terminology. Prophecy resolution where applicable.
+ * HP sacrifice costs on Level 3+ spells.
+ */
+
+  // ============================================================
+  // LEVEL 1 SPELLS (4)
+  // ============================================================
+
+  {
+    id: "doomsayer_doom_bolt",
+    name: "Doom Bolt",
+    description:
+      "Your throat tears open as you speak the first syllable of ending. A bolt of pure necrotic certainty lances toward the target, branding their flesh with a doom that whispers of inevitable ruin. Every word costs blood — your vocal cords shred, your eyes well with crimson, and the taste of copper fills your mouth.",
+    spellType: "ACTION",
+    icon: "Necrotic/Skull Burst",
+    level: 1,
+    specialization: "universal",
+    effectTypes: ["damage", "debuff"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
       icon: "Necrotic/Skull Burst",
-      school: "necrotic",
-      level: 1,
-      specialization: "universal",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Skull Burst",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 60,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 1,
-        mana: 6,
-        classResource: {
-          type: "havoc",
-          cost: -3,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d8", "d6"],
-            resolutionDie: "d6",
-            prophesied: {
-              damage: "4d8",
-              effect: {
-                name: "Weakened",
-                duration: 2,
-                unit: "rounds",
-                statModifiers: [
-                  {
-                    stat: "ALL ROLLS",
-                    value: -2,
-                  },
-                ],
-                description:
-                  "-2 penalty to all attack rolls, ability checks, and saving throws for 2 rounds.",
-              },
-              havocGain: 3,
-              description:
-                "Deals 4d8 necrotic damage and imposes -2 to all rolls for 2 rounds.",
-            },
-            base: {
-              damage: "2d8",
-              havocGain: 1,
-              description: "Deals 2d8 necrotic damage.",
-            },
-            outside: {
-              backlash: "1d8 necrotic to self",
-              havocGain: 0,
-              description:
-                "The prophecy backfires, dealing 1d8 necrotic damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "2d8",
-        damageTypes: ["necrotic"],
-        resolution: "PROPHECY",
-      },
-      tags: ["damage", "necrotic", "prophecy", "universal"],
     },
-    {
-      id: "doomsayer_doom_whisper",
-      name: "Doom Whisper",
-      description:
-        "Whisper inevitable failure into a target's mind, manifesting their fears into reality.",
-      spellType: "ACTION",
-      icon: "Psychic/Agonizing Scream",
-      school: "psychic",
-      level: 1,
-      specialization: "requiem",
-      effectTypes: ["debuff"],
-      typeConfig: {
-        school: "psychic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Psychic/Agonizing Scream",
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 60,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 6,
+      classResource: {
+        type: "havoc",
+        cost: -3,
       },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 1,
-        mana: 5,
-        classResource: {
-          type: "havoc",
-          cost: -2,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d4", "d4"],
-            resolutionDie: "d4",
-            prophesied: {
-              debuff: "-3 to all rolls",
-              damage: "2d6",
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d8", "d6"],
+          resolutionDie: "d6",
+          prophesied: {
+            damage: "4d8",
+            effect: {
+              id: "doom_i",
+              name: "Doom I",
               duration: 2,
-              havocGain: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -1,
+                  magnitudeType: "penalty",
+                },
+              ],
               description:
-                "Deals 2d6 psychic damage and imposes a -3 penalty to all rolls for 2 rounds.",
+                "Marked by prophetic doom. The target suffers -1 to Spirit saves for 2 rounds as the certainty of their end seeps into their soul.",
+              doomStack: true,
+              doomStackValue: 1,
             },
-            base: {
-              debuff: "-1 to all rolls",
-              damage: "1d6",
-              duration: 2,
-              havocGain: 1,
-              description:
-                "Deals 1d6 psychic damage and imposes a -1 penalty to all rolls.",
-            },
-            outside: {
-              backlash: "1d4 psychic to self",
-              havocGain: 0,
-              description:
-                "The whispers echo in your own mind, dealing 1d4 psychic damage.",
-            },
-          },
-        },
-      ],
-      debuffConfig: {
-        debuffType: "statPenalty",
-        effects: [
-          {
-            id: "whisper_doom",
-            name: "Whisper of Doom",
-            description: "-1 to -3 to all rolls",
-            mechanicsText: "",
-          },
-        ],
-        durationType: "rounds",
-        durationValue: 2,
-        durationUnit: "rounds",
-      },
-      tags: ["debuff", "psychic", "prophecy", "requiem"],
-    },
-    {
-      id: "doomsayer_omen_flame",
-      name: "Omen Flame",
-      description:
-        "Hurl a bolt of prophetic fire that burns with the heat of a thousand dying suns.",
-      spellType: "ACTION",
-      icon: "Fire/Fire Bolt",
-      school: "fire",
-      level: 1,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "fire",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Fire/Fire Bolt",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 40,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 1,
-        mana: 5,
-        classResource: {
-          type: "havoc",
-          cost: -2,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d6", "d6"],
-            resolutionDie: "d6",
-            prophesied: {
-              damage: "3d6 fire + 1d6 force",
-              effect: {
-                name: "Ignited",
-                duration: 3,
-                damagePerRound: "1d6",
-                description:
-                  "The target is engulfed in prophetic flames, suffering 1d6 fire damage each round.",
-              },
-              havocGain: 2,
-              description:
-                "Deals 3d6 fire + 1d6 force damage and ignites the target.",
-            },
-            base: {
-              damage: "2d6 fire",
-              havocGain: 1,
-              description: "Deals 2d6 fire damage.",
-            },
-            outside: {
-              backlash: "1d4 fire to self",
-              havocGain: 0,
-              description:
-                "The flames singe your hands, dealing 1d4 fire damage.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "2d6",
-        damageTypes: ["fire"],
-        resolution: "PROPHECY",
-      },
-      tags: ["damage", "fire", "prophecy", "cataclysm"],
-    },
-    {
-      id: "doomsayer_omen_of_ash",
-      name: "Omen of Ash",
-      description:
-        "Place a creeping doom prophecy on a target, causing them to slowly wither into dust.",
-      spellType: "ACTION",
-      icon: "Void/Black Hole",
-      school: "necrotic",
-      level: 1,
-      specialization: "endbringer",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Void/Black Hole",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 1,
-        mana: 5,
-        classResource: {
-          type: "havoc",
-          cost: -2,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d6", "d4"],
-            resolutionDie: "d4",
-            prophesied: {
-              damage: "2d6",
-              effect: {
-                name: "Creeping Doom",
-                duration: 3,
-                unit: "rounds",
-                damagePerRound: "1d4",
-                damageType: "necrotic",
-                statModifiers: [
-                  {
-                    stat: "ALL ROLLS",
-                    value: -1,
-                  },
-                ],
-                description:
-                  "Target withers under necrotic decay, taking 1d4 necrotic damage and suffering -1 to all rolls at the start of each turn for 3 rounds.",
-              },
-              havocGain: 2,
-              description:
-                "Deals 2d6 necrotic damage and afflicts the target with Creeping Doom (1d4 necrotic/round + -1 all rolls for 3 rounds).",
-            },
-            base: {
-              damage: "1d6",
-              havocGain: 1,
-              description: "Deals 1d6 necrotic damage.",
-            },
-            outside: {
-              backlash: "1d4 psychic to self",
-              havocGain: 0,
-              description: "The decay touches you, dealing 1d4 psychic damage.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "1d6",
-        damageTypes: ["necrotic"],
-        resolution: "PROPHECY",
-      },
-      tags: [
-        "damage",
-        "necrotic",
-        "prophecy",
-        "endbringer",
-        "delayed",
-        "escalating",
-      ],
-    },
-    {
-      id: "doomsayer_doom_countdown",
-      name: "Doom Countdown",
-      description: "Place a ticking time bomb prophecy on a target.",
-      spellType: "ACTION",
-      icon: "Necrotic/Skull Explosion",
-      school: "necrotic",
-      level: 2,
-      specialization: "endbringer",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Skull Explosion",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 40,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 8,
-        classResource: {
-          type: "havoc",
-          cost: -3,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d6", "d4"],
-            resolutionDie: "d4",
-            tickDamage: "1d6 necrotic",
-            prophesied: {
-              damage: "4d8",
-              effect: {
-                name: "Stunned",
-                duration: 1,
-                unit: "round",
-                saveDC: 14,
-                saveType: "Constitution",
-                description:
-                  "The detonation concusses the target. They must succeed on a DC 14 Constitution save or be stunned for 1 round, unable to act.",
-              },
-              havocGain: 3,
-              description:
-                "Detonates for 4d8 necrotic damage. Target must make DC 14 Con save or be stunned for 1 round.",
-            },
-            base: {
-              damage: "2d8",
-              havocGain: 1,
-              description: "Detonates for 2d8 necrotic damage.",
-            },
-            outside: {
-              backlash: "1d8 to self",
-              havocGain: 0,
-              description:
-                "The countdown backfires, dealing 1d8 necrotic damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "1d6",
-        damageTypes: ["necrotic"],
-        resolution: "PROPHECY",
-      },
-      durationConfig: {
-        durationValue: 3,
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        durationType: "rounds",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-      tags: [
-        "damage",
-        "necrotic",
-        "prophecy",
-        "endbringer",
-        "delayed",
-        "concentration",
-      ],
-    },
-    {
-      id: "doomsayer_calamity_zone",
-      name: "Calamity Zone",
-      description: "Create a zone of RNG effects centered on a point.",
-      spellType: "ACTION",
-      icon: "Fire/Fire Storm",
-      school: "fire",
-      level: 2,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "fire",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Fire/Fire Storm",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        areaShape: "circle",
-        areaSize: 15,
-        rangeDistance: 40,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 10,
-        classResource: {
-          type: "havoc",
-          cost: -4,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d10", "d8"],
-            resolutionDie: "d8",
-            prophesied: {
-              damage: "3d8 fire + 1d8 force",
-              effect: {
-                name: "Burning Ground",
-                duration: 3,
-                unit: "rounds",
-                damagePerRound: "1d4",
-                damageType: "fire",
-                description:
-                  "The 15ft zone becomes burning difficult terrain for 3 rounds. Enemies entering or starting their turn in the zone take 1d4 fire damage and move at half speed.",
-              },
-              havocGain: 4,
-              description:
-                "Deals 3d8 fire + 1d8 force damage to all in area. Zone becomes burning difficult terrain (1d4 fire/round, half speed) for 3 rounds.",
-            },
-            base: {
-              damage: "2d8 fire",
-              havocGain: 2,
-              description: "Deals 2d8 fire damage to all in area.",
-            },
-            outside: {
-              backlash: "1d6 fire to self",
-              havocGain: 0,
-              description:
-                "The ground erupts beneath you, dealing 1d6 fire damage.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "2d8",
-        damageTypes: ["fire"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-      tags: ["damage", "fire", "prophecy", "cataclysm", "area"],
-    },
-    {
-      id: "doomsayer_death_mark",
-      name: "Death Mark",
-      description: "Mark a target with a narrow but deadly prophecy.",
-      spellType: "ACTION",
-      icon: "Necrotic/Death Mark",
-      school: "necrotic",
-      level: 2,
-      specialization: "requiem",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Death Mark",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 10,
-        classResource: {
-          type: "havoc",
-          cost: 1,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d4", "d4"],
-            resolutionDie: "d4",
-            prophesied: {
-              damage: "6d8",
-              effect: {
-                name: "Marked for Death",
-                duration: 5,
-                unit: "rounds",
-                healingBlock: true,
-                bonusDamageTaken: "1d8",
-                bonusDamageType: "necrotic",
-                description:
-                  "The target is branded with inevitable death. They cannot be healed by any means (spells, potions, features) and take +1d8 necrotic damage from every source that hits them for 5 rounds.",
-              },
-              havocGain: 0,
-              description:
-                "Deals 6d8 necrotic damage and brands the target for 5 rounds: no healing + +1d8 necrotic from all incoming damage.",
-            },
-            base: {
-              damage: "3d8",
-              havocGain: 0,
-              description: "Deals 3d8 necrotic damage. No mark applied.",
-            },
-            outside: {
-              backlash: "2d8 to self",
-              havocGain: 0,
-              description:
-                "The death mark rebounds, dealing 2d8 necrotic damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "3d8",
-        damageTypes: ["necrotic"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-      tags: ["damage", "necrotic", "prophecy", "requiem", "precision"],
-    },
-    {
-      id: "doomsayer_havoc_blast",
-      name: "Havoc Blast",
-      description:
-        "Unleash stored Havoc as a devastating blast of chaotic energy that ripples through fate.",
-      spellType: "ACTION",
-      icon: "Arcane/Swirling Vortex",
-      school: "force",
-      level: 3,
-      specialization: "universal",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "force",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Arcane/Swirling Vortex",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 50,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 14,
-        classResource: {
-          type: "havoc",
-          cost: 3,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d10", "d10"],
-            resolutionDie: "d10",
-            prophesied: {
-              damage: "5d10",
-              havocGain: 0,
-              description: "Deals 5d10 force damage.",
-            },
-            base: {
-              damage: "3d10",
-              havocGain: 0,
-              description: "Deals 3d10 force damage.",
-            },
-            outside: {
-              backlash: "2d10 to self",
-              havocGain: 0,
-              description: "Deals 2d10 damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "3d10",
-        damageTypes: ["force"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-      tags: ["damage", "force", "prophecy", "universal", "havoc"],
-    },
-    {
-      id: "doomsayer_calamity_bolt",
-      name: "Calamity Bolt",
-      description:
-        "A bolt of chaotic energy that deals more damage if your prediction is accurate.",
-      spellType: "ACTION",
-      icon: "Chaos/Chaotic Bolt",
-      school: "force",
-      level: 3,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "force",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Chaos/Chaotic Bolt",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 60,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 10,
-        classResource: {
-          type: "havoc",
-          cost: 2,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d8", "d6"],
-            resolutionDie: "d6",
-            prophesied: {
-              damage: "6d8",
-              effect: {
-                name: "Weakened",
-                duration: 2,
-                unit: "rounds",
-                statModifiers: [
-                  {
-                    stat: "STR",
-                    value: -4,
-                  },
-                  {
-                    stat: "AGI",
-                    value: -4,
-                  },
-                ],
-                description:
-                  "Target is crushed by prophetic weight. -4 to Strength and Agility for 2 rounds, affecting melee/ranged attacks, damage, and physical checks.",
-              },
-              havocGain: 4,
-              description: "Deals 6d8 chaotic damage and weakens the target.",
-            },
-            base: {
-              damage: "4d8",
-              havocGain: 2,
-              description: "Deals 4d8 chaotic damage.",
-            },
-            outside: {
-              backlash: "2d8 chaotic to self",
-              havocGain: 0,
-              description: "The blast backfires, dealing 2d8 damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "4d8",
-        damageTypes: ["chaos"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-      tags: ["damage", "chaotic", "prophecy", "universal", "havoc"],
-    },
-    {
-      id: "doomsayer_escalating_doom",
-      name: "Escalating Doom",
-      description:
-        "Place a prophecy that grows more devastating each round it remains active. Each turn the doom lingers, it deals pulsing force damage and accumulates power, culminating in a violent detonation.",
-      spellType: "ACTION",
-      icon: "Void/Black Hole",
-      school: "force",
-      level: 3,
-      specialization: "endbringer",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "force",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Void/Black Hole",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 40,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 12,
-        classResource: {
-          type: "havoc",
-          cost: -2,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d8", "d6"],
-            resolutionDie: "d6",
-            tickDamage: {
-              formula: "1d8",
-              scaling: "+1d6 per round",
-              damageTypes: ["force"],
-            },
-            prophesied: {
-              damage: "4d10",
-              effect: {
-                name: "Devastating Detonation",
-                duration: 2,
-                unit: "rounds",
-                damagePerRound: "2d6",
-                damageType: "force",
-                statModifiers: [
-                  {
-                    stat: "ALL ROLLS",
-                    value: -2,
-                  },
-                ],
-                description:
-                  "The detonation unleashes accumulated force energy. Target takes 2d6 force damage and suffers -2 to all rolls for 2 rounds after detonation. Also roll on the Detonation Table.",
-              },
-              havocGain: 5,
-              description:
-                "Deals 4d10 force damage plus all accumulated bonus damage on detonation. Target takes 2d6 force/round and -2 all rolls for 2 rounds. Roll on Detonation Table.",
-            },
-            base: {
-              damage: "2d10",
-              havocGain: 2,
-              description:
-                "Deals 2d10 force damage plus all accumulated bonus damage on detonation.",
-            },
-            outside: {
-              backlash: "1d10 self",
-              havocGain: 0,
-              description:
-                "The doom collapses prematurely. You take 1d10 force damage and the target is spared the detonation.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "1d8",
-        damageTypes: ["force"],
-        resolution: "PROPHECY",
-      },
-      durationConfig: {
-        durationValue: 5,
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        durationType: "rounds",
-      },
-      triggerConfig: {
-        triggers: [
-          {
-            id: "escalation_tick",
-            name: "Doom Escalation",
-            triggerType: "start_of_turn",
-            action:
-              "Increase bonus damage by 1d6 and deal 1d8 base force damage",
-          },
-        ],
-      },
-      tableConfig: {
-        name: "Detonation Table",
-        rolls: [
-          {
-            roll: "1-2",
-            effect: "Shockwave: All targets knocked back 10ft",
-          },
-          {
-            roll: "3-4",
-            effect:
-              "Lingering Void: Target takes 1d10 force damage per round for 2 rounds",
-          },
-          {
-            roll: "5",
-            effect: "Fate Breach: Target takes a -2 penalty to their next save",
-          },
-          {
-            roll: "6",
-            effect:
-              "Cascading Blast: The detonation deals an additional +2d10 force damage",
-          },
-        ],
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-      tags: [
-        "damage",
-        "force",
-        "prophecy",
-        "endbringer",
-        "delayed",
-        "escalating",
-        "concentration",
-      ],
-    },
-    {
-      id: "doomsayer_rain_of_doom",
-      name: "Rain of Doom",
-      description:
-        "Create a 30ft zone where prophetic effects rain down each round based on the whims of fate.",
-      spellType: "ACTION",
-      icon: "Chaos/Comet Rain",
-      school: "force",
-      level: 3,
-      specialization: "cataclysm",
-      effectTypes: [],
-      typeConfig: {
-        school: "force",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Chaos/Comet Rain",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        areaShape: "circle",
-        areaSize: 30,
-        rangeDistance: 50,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 16,
-        classResource: {
-          type: "havoc",
-          cost: 3,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d6", "d6"],
-            resolutionDie: "d6",
-            prophesied: {
-              effect: {
-                name: "Double Rain",
-                description:
-                  "Roll twice on the Rain Table and apply both results to all enemies in the 30ft zone.",
-              },
-              description:
-                "Roll twice on the Rain Table. Each result applies to ALL enemies in the zone.",
-            },
-            base: {
-              effect: {
-                name: "Single Rain",
-                description:
-                  "Roll once on the Rain Table and apply the result to all enemies in the 30ft zone.",
-              },
-              description:
-                "Roll once on the Rain Table. Result applies to all enemies in the zone.",
-            },
-            outside: {
-              backlash: {
-                name: "Self Rain",
-                description:
-                  "The rain falls on YOU instead. Roll once on the Rain Table and apply the result to yourself.",
-              },
-              description:
-                "The rain falls on you instead. Roll on the Rain Table against yourself.",
-            },
-          },
-        },
-      ],
-      durationConfig: {
-        durationValue: 3,
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        durationType: "rounds",
-      },
-      tableConfig: {
-        name: "Rain Table",
-        rolls: [
-          {
-            roll: "1",
-            effect: "2d6 fire damage to all",
-          },
-          {
-            roll: "2",
-            effect: "2d6 necrotic damage to all",
-          },
-          {
-            roll: "3",
-            effect: "2d6 psychic damage to all",
-          },
-          {
-            roll: "4",
-            effect: "1d6 force damage + knocked prone",
-          },
-          {
-            roll: "5",
-            effect: "Stunned for 1 round (CON DC 15 negates)",
-          },
-          {
-            roll: "6",
-            effect: "Roll twice",
-          },
-        ],
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-      tags: [
-        "damage",
-        "prophecy",
-        "cataclysm",
-        "area",
-        "table",
-        "concentration",
-      ],
-    },
-    {
-      id: "doomsayer_requiem_of_death",
-      name: "Requiem of Death",
-      description:
-        "A focused death prophecy that deals devastating single-target damage through a narrow but absolute window of fate.",
-      spellType: "ACTION",
-      icon: "Necrotic/Necrotic Skull",
-      school: "necrotic",
-      level: 4,
-      specialization: "requiem",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Necrotic Skull",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 40,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 20,
-        classResource: {
-          type: "havoc",
-          cost: 4,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d6", "d4"],
-            resolutionDie: "d4",
-            prophesied: {
-              damage: "8d10",
-              effect: {
-                name: "Soul Wound",
-                duration: 5,
-                unit: "rounds",
-                damagePerRound: "1d6",
-                damageType: "necrotic",
-                healingBlock: true,
-                description:
-                  "Spiritual wounds refuse to close. Target cannot be healed by any means and bleeds for 1d6 necrotic damage at the start of each turn for 5 rounds.",
-              },
-              havocGain: 6,
-              description:
-                "Deals 8d10 necrotic damage and inflicts Soul Wound: no healing + 1d6 necrotic/round for 5 rounds.",
-            },
-            base: {
-              damage: "5d10",
-              havocGain: 3,
-              description: "Deals 5d10 necrotic damage.",
-            },
-            outside: {
-              backlash: "3d10 necrotic to self",
-              havocGain: 0,
-              description: "Deals 3d10 necrotic damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "5d10",
-        damageTypes: ["necrotic"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-      tags: ["damage", "necrotic", "prophecy", "requiem"],
-    },
-    {
-      id: "doomsayer_doom_aura",
-      name: "Doom Aura",
-      description:
-        "Project an aura of escalating doom that weakens nearby enemies and generates Havoc passively as their resolve withers.",
-      spellType: "ACTION",
-      icon: "Necrotic/Necrotic Wither",
-      school: "psychic",
-      level: 4,
-      specialization: "endbringer",
-      effectTypes: ["debuff"],
-      typeConfig: {
-        school: "psychic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Necrotic Wither",
-      },
-      targetingConfig: {
-        targetingType: "self_centered",
-        areaShape: "circle",
-        areaSize: 20,
-        rangeType: "self_centered",
-        targetRestrictions: ["any"],
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 18,
-        classResource: {
-          type: "havoc",
-          cost: 3,
-        },
-      },
-      resolution: "AUTOMATIC",
-      debuffConfig: {
-        debuffType: "aura",
-        effects: [
-          {
-            id: "doom_aura_debuff",
-            name: "Doom Aura",
-            description: "-2 to all rolls, increasing by -1 per round (max -5)",
-            mechanicsText: "",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-      },
-      durationConfig: {
-        durationValue: 5,
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        durationType: "rounds",
-      },
-      statusEffectsConfig: [
-        {
-          name: "Doom Aura",
-          duration: 5,
-          unit: "rounds",
-          statModifiers: [
-            {
-              stat: "ALL ROLLS",
-              value: -2,
-            },
-          ],
-          description:
-            "Nearby enemies feel the crushing weight of their coming end. The penalty increases by -1 each round (max -5).",
-        },
-      ],
-      triggerConfig: {
-        triggers: [
-          {
-            id: "aura_debuff",
-            name: "Doom Presence",
-            triggerType: "passive_aura",
-            action:
-              "Enemies take -2 to all rolls, increasing by -1 per round (max -5)",
-          },
-          {
-            id: "aura_havoc",
-            name: "Havoc Siphon",
-            triggerType: "end_of_turn",
-            action: "Gain 1 Havoc per enemy within the aura",
-          },
-        ],
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-      tags: ["debuff", "aura", "endbringer", "prophecy", "concentration"],
-    },
-    {
-      id: "doomsayer_cataclysm_blast",
-      name: "Cataclysm Blast",
-      description:
-        "A massive area prophecy detonation that creates a chaotic rupture in space.",
-      spellType: "ACTION",
-      icon: "Fire/Volcanic Erupt",
-      school: "fire",
-      level: 4,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "fire",
-        secondaryElement: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Fire/Volcanic Erupt",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        areaShape: "circle",
-        areaSize: 25,
-        rangeDistance: 50,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 20,
-        classResource: {
-          type: "havoc",
-          cost: 4,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d10", "d8"],
-            resolutionDie: "d8",
-            prophesied: {
-              damage: "6d8 fire + 3d8 necrotic",
-              effect: {
-                name: "Difficult Terrain",
-                duration: 5,
-                unit: "rounds",
-                description: "The area becomes difficult terrain.",
-              },
-              havocGain: 6,
-              description:
-                "Deals 6d8 fire + 3d8 necrotic damage and turns the area into difficult terrain for 5 rounds.",
-            },
-            base: {
-              damage: "4d8 fire + 2d8 necrotic",
-              havocGain: 3,
-              description: "Deals fire and necrotic damage to all in area.",
-            },
-            outside: {
-              backlash: "2d8 to self",
-              havocGain: 0,
-              description: "Deals 2d8 damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "4d8+2d8",
-        damageTypes: ["fire", "necrotic"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-      tags: ["damage", "fire", "necrotic", "prophecy", "cataclysm", "area"],
-    },
-    {
-      id: "doomsayer_prophecy_of_ruin",
-      name: "Prophecy of Ruin",
-      description:
-        "A devastating prophecy that shatters an area with concentrated RNG chaos, twisting reality itself.",
-      spellType: "ACTION",
-      icon: "Void/Red Energy Burst",
-      school: "fire",
-      level: 5,
-      specialization: "universal",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "fire",
-        secondaryElement: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Void/Red Energy Burst",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        areaShape: "circle",
-        areaSize: 20,
-        rangeDistance: 60,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 25,
-        classResource: {
-          type: "havoc",
-          cost: 5,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d12", "d8"],
-            resolutionDie: "d8",
-            prophesied: {
-              damage: "8d8",
-              effect: {
-                name: "Stunned",
-                duration: 1,
-                unit: "round",
-                saveDC: 16,
-                saveType: "Constitution",
-              },
-              havocGain: 8,
-              description:
-                "Deals 8d8 mixed damage and stuns all enemies in the area for 1 round.",
-            },
-            base: {
-              damage: "5d8",
-              havocGain: 4,
-              description: "Deals 5d8 mixed damage to all in area.",
-            },
-            outside: {
-              backlash: "3d8 to self + Stunned (1 round)",
-              havocGain: 0,
-              description: "Deals 3d8 damage to you and stuns you for 1 round.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "5d8",
-        damageTypes: ["fire", "necrotic", "psychic", "force"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-      tags: ["damage", "prophecy", "universal", "area"],
-    },
-    {
-      id: "doomsayer_stacked_doom",
-      name: "Stacked Doom",
-      description:
-        "Forcefully detonate all active prophecies on a single target simultaneously. Each active prophecy resolves as its Prophesied outcome, dealing 2d8 necrotic damage per prophecy detonated. If 3 or more prophecies are detonated at once, the target is paralyzed for 1 round.",
-      spellType: "ACTION",
-      icon: "Necrotic/Skull Burst",
-      school: "necrotic",
-      level: 5,
-      specialization: "requiem",
-      effectTypes: ["damage", "control"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Skull Burst",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 24,
-        classResource: {
-          type: "havoc",
-          cost: 6,
-        },
-      },
-      resolution: "AUTOMATIC",
-      damageConfig: {
-        formula: "2d8 × active_prophecies",
-        damageTypes: ["necrotic"],
-        resolution: "AUTOMATIC",
-        dotConfig: {
-          enabled: false,
-        },
-      },
-      controlConfig: {
-        controlType: "incapacitation",
-        effects: [
-          {
-            id: "paralyzed",
-            controlType: "incapacitation",
-            name: "Paralyzed",
-            description: "Paralyzed for 1 round if 3+ prophecies are detonated",
-            mechanicsText:
-              "Triggered when 3 or more active prophecies are detonated simultaneously",
-            config: {
-              duration: 1,
-              durationUnit: "rounds",
-              strength: "strong",
-              recoveryMethod: "save",
-              durationType: "conditional",
-            },
-          },
-        ],
-        duration: 1,
-        durationUnit: "rounds",
-      },
-      triggerConfig: {
-        triggers: [
-          {
-            id: "mass_detonation",
-            name: "Chain Detonation",
-            triggerType: "on_cast",
-            action:
-              "All active prophecies on the target resolve as Prophesied. Each prophecy deals 2d8 necrotic damage. If 3+ prophecies detonated, target is paralyzed for 1 round.",
-          },
-        ],
-        conditionalEffects: {
-          damage: {
-            isConditional: true,
-            defaultEnabled: false,
-            conditionalFormulas: {
-              "3+ prophecies": "2d8 × active_prophecies + paralysis",
-              "1-2 prophecies": "2d8 × active_prophecies",
-              default: "2d8 × active_prophecies",
-            },
-          },
-        },
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-      tags: ["damage", "prophecy", "requiem", "detonate"],
-    },
-    {
-      id: "doomsayer_doom_nova",
-      name: "Doom Nova",
-      description:
-        "Create an expanding wave of prophetic doom that damages all enemies in a 40-foot area. Prophesied: 6d8 fire + 6d8 necrotic damage and ignites enemies for 2d6 fire damage per round for 3 rounds. Base: 4d8 fire + 4d8 necrotic. Outside: 2d8 fire + 2d8 necrotic backlash to self.",
-      spellType: "ACTION",
-      icon: "Fire/Fire Storm",
-      school: "fire",
-      level: 5,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "fire",
-        secondaryElement: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Fire/Fire Storm",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        areaShape: "circle",
-        areaSize: 40,
-        rangeDistance: 60,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 26,
-        classResource: {
-          type: "havoc",
-          cost: 6,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d12", "d10"],
-            resolutionDie: "d10",
-            prophesied: {
-              damage: "6d8 fire + 6d8 necrotic",
-              effect: {
-                name: "Ignited",
-                duration: 3,
-                unit: "rounds",
-                damagePerRound: "2d6 fire",
-                dotDamageType: "fire",
-              },
-              havocGain: 8,
-              description:
-                "Deals 6d8 fire + 6d8 necrotic damage and ignites all enemies for 2d6 fire damage per round for 3 rounds.",
-            },
-            base: {
-              damage: "4d8 fire + 4d8 necrotic",
-              havocGain: 4,
-              description:
-                "Deals 4d8 fire + 4d8 necrotic damage to all enemies.",
-            },
-            outside: {
-              backlash: "2d8 fire + 2d8 necrotic to self",
-              havocGain: 0,
-              description:
-                "Backfires: deals 2d8 fire + 2d8 necrotic damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "4d8 fire + 4d8 necrotic",
-        damageTypes: ["fire", "necrotic"],
-        resolution: "PROPHECY",
-        dotConfig: {
-          enabled: true,
-          damagePerTick: "2d6",
-          damageType: "fire",
-          tickFrequency: "round",
-          duration: 3,
-          canStack: false,
-          maxStacks: 1,
-        },
-      },
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 3,
-        durationUnit: "rounds",
-      },
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-      tags: [
-        "damage",
-        "fire",
-        "necrotic",
-        "prophecy",
-        "cataclysm",
-        "area",
-        "dot",
-      ],
-    },
-    {
-      id: "doomsayer_cascade_doom",
-      name: "Cascade Doom",
-      description:
-        "When a prophecy Prophesied, all targets in the zone trigger a secondary, cascading prophecy.",
-      spellType: "ACTION",
-      icon: "Fire/Fiery Arc",
-      school: "fire",
-      level: 6,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "fire",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Fire/Fiery Arc",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        areaShape: "circle",
-        areaSize: 25,
-        rangeDistance: 50,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 2,
-        mana: 30,
-        classResource: {
-          type: "havoc",
-          cost: 7,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d10", "d8"],
-            resolutionDie: "d8",
-            prophesied: {
-              damage: "8d8",
-              effect: {
-                name: "Cascade",
-                cascadeDamage: "4d8",
-                cascadeRange: 15,
-                description:
-                  "Primary targets take 8d8 fire damage. Each primary target triggers a secondary prophecy dealing 4d8 fire damage to all enemies within 15ft of them.",
-              },
-              havocGain: 8,
-              description:
-                "Deals 8d8 fire damage. Each hit target cascades 4d8 fire damage to enemies within 15ft.",
-            },
-            base: {
-              damage: "5d8",
-              havocGain: 4,
-              description: "Deals 5d8 fire damage. No cascade.",
-            },
-            outside: {
-              backlash: "3d8 to self",
-              havocGain: 0,
-              description:
-                "The cascade implodes, dealing 3d8 fire damage to you.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "5d8",
-        damageTypes: ["fire"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["damage", "prophecy", "cataclysm", "area", "cascade"],
-    },
-    {
-      id: "doomsayer_endbringer_finale",
-      name: "Endbringer's Finale",
-      description:
-        "The final bell tolls. Detonate all active prophecies with maximized effects after the battle has ripened.",
-      spellType: "ACTION",
-      icon: "Void/Falling Meteors",
-      school: "necrotic",
-      level: 6,
-      specialization: "endbringer",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        secondaryElement: "fire",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Void/Falling Meteors",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        areaShape: "circle",
-        areaSize: 60,
-        rangeDistance: 60,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 32,
-        classResource: {
-          type: "havoc",
-          cost: 8,
-        },
-      },
-      resolution: "AUTOMATIC",
-      damageConfig: {
-        formula: "10d10",
-        damageTypes: ["necrotic", "fire"],
-        resolution: "AUTOMATIC",
-      },
-      triggerConfig: {
-        triggers: [
-          {
-            id: "ultimate_detonation",
-            name: "The Finale",
-            triggerType: "on_cast",
-            action:
-              "Can only be cast after 5 rounds. All active prophecies resolve as Prophesied automatically and generate double Havoc.",
-          },
-        ],
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "prophecy", "endbringer", "detonate"],
-    },
-    {
-      id: "doomsayer_execution_prophecy",
-      name: "Execution Prophecy",
-      description:
-        "Place a lethal prophecy on a target. If fate decrees it, their existence is simply erased.",
-      spellType: "ACTION",
-      icon: "Necrotic/Necrotic Skull",
-      school: "necrotic",
-      level: 6,
-      specialization: "requiem",
-      effectTypes: [],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Necrotic Skull",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 30,
-        classResource: {
-          type: "havoc",
-          cost: 8,
-        },
-      },
-      resolution: "PROPHECY",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "partial",
-      },
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d4", "d4"],
-            resolutionDie: "d4",
-            prophesied: {
-              effect: {
-                name: "Instant Death",
-                instantKill: true,
-                description:
-                  "Target is reduced to 0 HP regardless of their current health. No save. No immunity.",
-              },
-              description: "Target is reduced to 0 HP. No save. No immunity.",
-            },
-            base: {
-              damage: "8d10",
-              effect: {
-                name: "Execution Save",
-                saveDC: 18,
-                saveType: "Constitution",
-                instantKillThreshold: 0.5,
-                description:
-                  "Target must make a Constitution save (DC 18). On failure, if the target is below 50% HP, they are reduced to 0 HP. On success or above 50% HP, they take 8d10 necrotic damage instead.",
-              },
-              description:
-                "Target makes Constitution save (DC 18). Fail + below 50% HP = instant death. Otherwise 8d10 necrotic damage.",
-            },
-            outside: {
-              backlash: "8d10 to self",
-              description:
-                "The death sentence rebounds. You take 8d10 necrotic damage.",
-            },
-          },
-        },
-      ],
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "death", "prophecy", "requiem"],
-    },
-    {
-      id: "doomsayer_armageddon_herald",
-      name: "Armageddon Herald",
-      description:
-        "Become a living conduit of the apocalypse, gaining powerful passive effects that twist fate in your presence.",
-      spellType: "ACTION",
-      icon: "Void/Demonic Possesion",
-      school: "force",
-      level: 7,
-      specialization: "endbringer",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "force",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Void/Demonic Possesion",
-      },
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-        targetRestrictions: ["self"],
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 35,
-        classResource: {
-          type: "havoc",
-          cost: 8,
-        },
-      },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "transformation",
-        effects: [
-          {
-            id: "doom_form",
-            name: "Herald Form",
+            havocGain: 3,
             description:
-              "+2 to all Prophecy Range resolution rolls, double Havoc generation, and 30ft Doom Aura (-3 penalty).",
-            mechanicsText: "",
+              "Deals 4d8 necrotic damage and afflicts the target with Doom I (-1 Spirit saves, 2 rounds).",
           },
-        ],
+          base: {
+            damage: "2d8",
+            havocGain: 1,
+            description: "Deals 2d8 necrotic damage.",
+          },
+          outside: {
+            backlash: "1d8 psychic to self",
+            havocGain: 0,
+            description:
+              "The prophecy turns inward. Your mind recoils as the doom finds no purchase, dealing 1d8 psychic damage to you.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "2d8",
+      damageTypes: ["necrotic"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "none",
+      cooldownValue: 0,
+    },
+    tags: ["damage", "debuff", "necrotic", "prophecy", "universal", "doom"],
+  },
+
+  {
+    id: "doomsayer_doom_whisper",
+    name: "Doom Whisper",
+    description:
+      "You lean close to the fabric of fate and whisper a name that should never be spoken. The syllables shred your vocal cords like broken glass and your throat fills with hot copper, but the whisper reaches the target's mind — a dirge of inevitable failure that splinters thought and drowns hope in black water.",
+    spellType: "ACTION",
+    icon: "Psychic/Agonizing Scream",
+    level: 1,
+    specialization: "requiem",
+    effectTypes: ["debuff", "damage"],
+    typeConfig: {
+      school: "psychic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Psychic/Agonizing Scream",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 30,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 5,
+      classResource: {
+        type: "havoc",
+        cost: -2,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d4", "d4"],
+          resolutionDie: "d4",
+          prophesied: {
+            damage: "2d6",
+            effect: {
+              id: "doom_ii",
+              name: "Doom II",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -2,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The whispers burrow deep. The target suffers -2 to Spirit saves for 2 rounds as prophetic certainty rots their resolve from within.",
+              doomStack: true,
+              doomStackValue: 2,
+            },
+            havocGain: 2,
+            description:
+              "Deals 2d6 psychic damage and afflicts the target with Doom II (-2 Spirit saves, 2 rounds).",
+          },
+          base: {
+            damage: "1d6",
+            effect: {
+              id: "doom_i",
+              name: "Doom I",
+              duration: 1,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -1,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "A whisper of doom lingers. -1 to Spirit saves for 1 round.",
+              doomStack: true,
+              doomStackValue: 1,
+            },
+            havocGain: 1,
+            description:
+              "Deals 1d6 psychic damage and afflicts the target with Doom I (-1 Spirit saves, 1 round).",
+          },
+          outside: {
+            backlash: "1d4 psychic to self",
+            havocGain: 0,
+            description:
+              "The whispers turn on you. Your own mind becomes the instrument of suffering as the words you spoke echo back, dealing 1d4 psychic damage.",
+          },
+        },
+      },
+    ],
+    debuffConfig: {
+      debuffType: "statusEffect",
+      effects: [
+        {
+          id: "doom_whisper_debuff",
+          name: "Whisper of Doom",
+          description: "Doom stacking: -1 to -2 Spirit saves per stack",
+          statusType: "doom",
+          doomStack: true,
+          doomStackValue: 1,
+          mechanicsText:
+            "Afflicts the target with Doom, reducing Spirit saves. Stacks with other Doom effects.",
+        },
+      ],
+      durationType: "rounds",
+      durationValue: 2,
+      durationUnit: "rounds",
+    },
+    damageConfig: {
+      formula: "1d6",
+      damageTypes: ["psychic"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "none",
+      cooldownValue: 0,
+    },
+    tags: ["debuff", "damage", "psychic", "prophecy", "requiem", "doom"],
+  },
+
+  {
+    id: "doomsayer_omen_flame",
+    name: "Omen Flame",
+    description:
+      "You speak the word that burns and your palms blister as prophetic fire takes shape — a flame that burns with the heat of a thousand dying suns, each tongue of fire a premonition of something that has not yet ended but already smells of ash. The flesh on your hands cracks and weeps as you release it.",
+    spellType: "ACTION",
+    icon: "Fire/Fire Bolt",
+    level: 1,
+    specialization: "cataclysm",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "fire",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Fire/Fire Bolt",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 40,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 5,
+      classResource: {
+        type: "havoc",
+        cost: -2,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d6", "d6"],
+          resolutionDie: "d6",
+          prophesied: {
+            damage: "3d6 fire + 1d6 force",
+            effect: {
+              name: "Ignited",
+              duration: 3,
+              unit: "rounds",
+              damagePerRound: "1d6",
+              damageType: "fire",
+              description:
+                "Prophetic flames cling to the target, searing flesh with the heat of prophecy itself. 1d6 fire damage per round for 3 rounds.",
+            },
+            havocGain: 2,
+            description:
+              "Deals 3d6 fire + 1d6 force damage and ignites the target (1d6 fire/round, 3 rounds).",
+          },
+          base: {
+            damage: "2d6 fire",
+            havocGain: 1,
+            description: "Deals 2d6 fire damage.",
+          },
+          outside: {
+            backlash: "1d4 fire to self",
+            havocGain: 0,
+            description:
+              "The flames sear the speaker's hands instead. Your blistered palms scream as 1d4 fire damage crawls up your fingers.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "2d6",
+      damageTypes: ["fire", "force"],
+      resolution: "PROPHECY",
+      dotConfig: {
+        enabled: true,
+        damagePerTick: "1d6",
+        damageType: "fire",
+        tickFrequency: "round",
+        duration: 3,
+        canStack: false,
+        maxStacks: 1,
+      },
+    },
+    cooldownConfig: {
+      cooldownType: "none",
+      cooldownValue: 0,
+    },
+    tags: ["damage", "fire", "force", "prophecy", "cataclysm", "dot"],
+  },
+
+  {
+    id: "doomsayer_omen_of_ash",
+    name: "Omen of Ash",
+    description:
+      "A creeping doom seeps from your fingertips — a withering prophecy that turns living flesh to ash, cell by cell. The target's skin grays and cracks as the doom burrows in, and you feel your own flesh trying to slough off your bones in sympathy. Some truths should not be spoken aloud.",
+    spellType: "ACTION",
+    icon: "Void/Black Hole",
+    level: 1,
+    specialization: "endbringer",
+    effectTypes: ["damage", "debuff"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Void/Black Hole",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 30,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 5,
+      classResource: {
+        type: "havoc",
+        cost: -2,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d6", "d4"],
+          resolutionDie: "d4",
+          prophesied: {
+            damage: "2d6",
+            effect: {
+              id: "creeping_doom",
+              name: "Creeping Doom",
+              duration: 3,
+              unit: "rounds",
+              damagePerRound: "1d4",
+              damageType: "necrotic",
+              statModifiers: [
+                {
+                  stat: "ALL ROLLS",
+                  value: -1,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "Flesh withers like ash in wind. Target takes 1d4 necrotic damage per round and suffers -1 to all rolls for 3 rounds as the doom eats them from the inside.",
+            },
+            havocGain: 2,
+            description:
+              "Deals 2d6 necrotic damage and afflicts the target with Creeping Doom (1d4 necrotic/round + -1 all rolls, 3 rounds).",
+          },
+          base: {
+            damage: "1d6",
+            havocGain: 1,
+            description: "Deals 1d6 necrotic damage.",
+          },
+          outside: {
+            backlash: "1d4 psychic to self",
+            havocGain: 0,
+            description:
+              "The decay reaches for you instead. Your own skin crawls with phantom rot as 1d4 psychic damage wracks your body.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "1d6",
+      damageTypes: ["necrotic"],
+      resolution: "PROPHECY",
+    },
+    debuffConfig: {
+      debuffType: "statusEffect",
+      effects: [
+        {
+          id: "creeping_doom",
+          name: "Creeping Doom",
+          description: "1d4 necrotic/round + -1 to all rolls for 3 rounds",
+          statusType: "dot_penalty",
+          mechanicsText:
+            "Target withers under necrotic decay. Damage and penalty each round.",
+        },
+      ],
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds",
+    },
+    cooldownConfig: {
+      cooldownType: "none",
+      cooldownValue: 0,
+    },
+    tags: [
+      "damage",
+      "debuff",
+      "necrotic",
+      "prophecy",
+      "endbringer",
+      "dot",
+    ],
+  },
+
+  // ============================================================
+  // LEVEL 2 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_doom_countdown",
+    name: "Doom Countdown",
+    description:
+      "You press your bloodied palm against the air and speak a number — and doom burrows into the target's flesh like a second heartbeat. Each round it ticks, a slow drumbeat of necrotic certainty building toward detonation. Your eyes bleed black as you set the countdown. The target will know exactly when the end comes. They just will not be able to stop it.",
+    spellType: "ACTION",
+    icon: "Necrotic/Skull Explosion",
+    level: 2,
+    specialization: "endbringer",
+    effectTypes: ["damage", "debuff"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Skull Explosion",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 40,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 8,
+      hp: 5,
+      classResource: {
+        type: "havoc",
+        cost: -3,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d6", "d4"],
+          resolutionDie: "d4",
+          tickDamage: "1d6 necrotic",
+          prophesied: {
+            damage: "4d8",
+            effect: {
+              id: "doom_i",
+              name: "Doom I",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -1,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The detonation plants a doom seed. Target suffers -1 to Spirit saves for 2 rounds.",
+              doomStack: true,
+              doomStackValue: 1,
+            },
+            havocGain: 3,
+            description:
+              "Detonates for 4d8 necrotic damage. Target suffers Doom I (-1 Spirit saves, 2 rounds).",
+          },
+          base: {
+            damage: "2d8",
+            havocGain: 1,
+            description: "Detonates for 2d8 necrotic damage.",
+          },
+          outside: {
+            backlash: "1d8 necrotic to self",
+            havocGain: 0,
+            description:
+              "The countdown backfires. The doom that was meant for another crawls back up through your veins, dealing 1d8 necrotic damage to you.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "1d6",
+      damageTypes: ["necrotic"],
+      resolution: "PROPHECY",
+    },
+    durationConfig: {
+      durationValue: 3,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+      durationType: "rounds",
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 3,
+    },
+    tags: [
+      "damage",
+      "debuff",
+      "necrotic",
+      "prophecy",
+      "endbringer",
+      "delayed",
+      "concentration",
+      "doom",
+    ],
+  },
+
+  {
+    id: "doomsayer_calamity_zone",
+    name: "Calamity Zone",
+    description:
+      "The ground ruptures in prophetic fire as you speak the zone into existence. The word tastes like copper and ash on your tongue — every syllable a small sacrifice. Flames erupt in a ring of devastation, and the earth itself remembers what you said and refuses to forget. The zone burns with the memory of every ending you have ever witnessed.",
+    spellType: "ACTION",
+    icon: "Fire/Fire Storm",
+    level: 2,
+    specialization: "cataclysm",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "fire",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Fire/Fire Storm",
+    },
+    targetingConfig: {
+      targetingType: "area",
+      areaShape: "circle",
+      areaSize: 15,
+      rangeDistance: 40,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 10,
+      classResource: {
+        type: "havoc",
+        cost: -4,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d10", "d8"],
+          resolutionDie: "d8",
+          prophesied: {
+            damage: "3d8 fire + 1d8 force",
+            effect: {
+              name: "Burning Ground",
+              duration: 3,
+              unit: "rounds",
+              damagePerRound: "1d4",
+              damageType: "fire",
+              description:
+                "The 15ft zone becomes burning difficult terrain for 3 rounds. Enemies entering or starting their turn in the zone take 1d4 fire damage and are reduced to half movement speed.",
+            },
+            havocGain: 4,
+            description:
+              "Deals 3d8 fire + 1d8 force to all in area. Zone becomes burning difficult terrain (1d4 fire/round, half speed) for 3 rounds.",
+          },
+          base: {
+            damage: "2d8 fire",
+            havocGain: 2,
+            description: "Deals 2d8 fire damage to all in area.",
+          },
+          outside: {
+            backlash: "1d6 fire to self",
+            havocGain: 0,
+            description:
+              "The ground erupts beneath you instead. Flames lick at your heels as 1d6 fire damage scorches your legs.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "2d8",
+      damageTypes: ["fire", "force"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 3,
+    },
+    tags: ["damage", "fire", "force", "prophecy", "cataclysm", "area"],
+  },
+
+  {
+    id: "doomsayer_death_mark",
+    name: "Death Mark",
+    description:
+      "Your throat constricts painfully as the death brand burns itself into existence — a sigil of absolute ending that sears into the target's very soul. The brand pulses with the rhythm of their heartbeat, counting down to a close they cannot escape. You cannot speak for a moment after casting this; the word of death always takes something from the speaker.",
+    spellType: "ACTION",
+    icon: "Necrotic/Death Mark",
+    level: 2,
+    specialization: "requiem",
+    effectTypes: ["damage", "debuff"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Death Mark",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 30,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 10,
+      classResource: {
+        type: "havoc",
+        cost: 1,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d4", "d4"],
+          resolutionDie: "d4",
+          prophesied: {
+            damage: "6d8",
+            effect: {
+              id: "marked_for_death",
+              name: "Marked for Death",
+              duration: 5,
+              unit: "rounds",
+              healingBlock: true,
+              bonusDamageTaken: "1d8",
+              bonusDamageType: "necrotic",
+              description:
+                "Branded with inevitable death. The target cannot be healed by any means and takes +1d8 necrotic damage from every source that hits them for 5 rounds. The mark knows their name.",
+            },
+            havocGain: 0,
+            description:
+              "Deals 6d8 necrotic damage and brands the target for 5 rounds: no healing + +1d8 necrotic from all incoming damage.",
+          },
+          base: {
+            damage: "3d8",
+            havocGain: 0,
+            description: "Deals 3d8 necrotic damage. No mark applied.",
+          },
+          outside: {
+            backlash: "2d8 necrotic to self + Doom I",
+            havocGain: 0,
+            effect: {
+              id: "doom_i",
+              name: "Doom I",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -1,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The death mark rebounds. You suffer -1 to Spirit saves for 2 rounds as your own ending whispers to you.",
+              doomStack: true,
+              doomStackValue: 1,
+            },
+            description:
+              "The death mark rebounds, dealing 2d8 necrotic damage to you and afflicting you with Doom I (-1 Spirit saves, 2 rounds).",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "3d8",
+      damageTypes: ["necrotic"],
+      resolution: "PROPHECY",
+    },
+    debuffConfig: {
+      debuffType: "statusEffect",
+      effects: [
+        {
+          id: "marked_for_death",
+          name: "Marked for Death",
+          description: "No healing + +1d8 necrotic from all damage sources, 5 rounds",
+          statusType: "death_mark",
+          mechanicsText:
+            "Target cannot be healed and takes bonus necrotic from all incoming damage.",
+        },
+      ],
+      durationType: "rounds",
+      durationValue: 5,
+      durationUnit: "rounds",
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 3,
+    },
+    tags: ["damage", "debuff", "necrotic", "prophecy", "requiem", "precision"],
+  },
+
+  // ============================================================
+  // LEVEL 3 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_havoc_blast",
+    name: "Havoc Blast",
+    description:
+      "You tear open a wound in fate itself and convert raw Havoc into a devastating blast of pure force. The energy rips through your arms before launching — muscles tearing, veins bulging black — and erupts toward the target in a shrieking column of devastation. Your limbs shake for a long moment after. The price of weaponizing chaos is always paid in flesh.",
+    spellType: "ACTION",
+    icon: "Arcane/Swirling Vortex",
+    level: 3,
+    specialization: "universal",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "force",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Arcane/Swirling Vortex",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 50,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 14,
+      hp: 3,
+      classResource: {
+        type: "havoc",
+        cost: 3,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d10", "d10"],
+          resolutionDie: "d10",
+          prophesied: {
+            damage: "5d10",
+            havocGain: 0,
+            description: "Deals 5d10 force damage.",
+          },
+          base: {
+            damage: "3d10",
+            havocGain: 0,
+            description: "Deals 3d10 force damage.",
+          },
+          outside: {
+            backlash: "2d10 force to self",
+            havocGain: 0,
+            description:
+              "The Havoc detonates in your grasp. The force tears through your arms, dealing 2d10 force damage to you.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "3d10",
+      damageTypes: ["force"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 3,
+    },
+    tags: ["damage", "force", "prophecy", "universal", "havoc"],
+  },
+
+  {
+    id: "doomsayer_escalating_doom",
+    name: "Escalating Doom",
+    description:
+      "A doom that grows more devastating with each passing moment. You plant the seed of ending in the target's flesh and with every round that passes it swells — a tumor of pure destructive force that feeds on time itself. Your sanity frays at the edges as the prophecy accumulates power; you can feel the weight of accumulated doom pressing against the inside of your skull. When it finally detonates, the world holds its breath.",
+    spellType: "ACTION",
+    icon: "Void/Black Hole",
+    level: 3,
+    specialization: "endbringer",
+    effectTypes: ["damage", "debuff"],
+    typeConfig: {
+      school: "force",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Void/Black Hole",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 40,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 12,
+      hp: 5,
+      classResource: {
+        type: "havoc",
+        cost: -2,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d8", "d6"],
+          resolutionDie: "d6",
+          tickDamage: {
+            formula: "1d8",
+            scaling: "+1d6 per round",
+            damageTypes: ["force"],
+          },
+          prophesied: {
+            damage: "4d10",
+            effect: {
+              id: "doom_ii",
+              name: "Doom II",
+              duration: 2,
+              unit: "rounds",
+              damagePerRound: "2d6",
+              damageType: "force",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -2,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The detonation unleashes accumulated doom. Target takes 2d6 force/round and -2 to Spirit saves for 2 rounds. Roll on the Detonation Table.",
+              doomStack: true,
+              doomStackValue: 2,
+            },
+            havocGain: 5,
+            description:
+              "Deals 4d10 force detonation + 2d6 force/round for 2 rounds + Doom II. Roll on Detonation Table.",
+          },
+          base: {
+            damage: "2d10",
+            havocGain: 2,
+            description:
+              "Deals 2d10 force detonation plus accumulated bonus damage.",
+          },
+          outside: {
+            backlash: "1d10 force to self",
+            havocGain: 0,
+            description:
+              "The doom collapses prematurely. The accumulated force recoils through your body, dealing 1d10 force damage.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "1d8",
+      damageTypes: ["force"],
+      resolution: "PROPHECY",
+    },
+    durationConfig: {
+      durationValue: 5,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+      durationType: "rounds",
+    },
+    triggerConfig: {
+      triggers: [
+        {
+          id: "escalation_tick",
+          name: "Doom Escalation",
+          triggerType: "start_of_turn",
+          action:
+            "Increase bonus damage by 1d6 and deal 1d8 base force damage",
+        },
+      ],
+    },
+    tableConfig: {
+      name: "Detonation Table",
+      die: "1d6",
+      rolls: [
+        {
+          roll: "1-2",
+          effect:
+            "Shockwave: All targets within 10ft knocked back 10ft",
+        },
+        {
+          roll: "3-4",
+          effect:
+            "Lingering Void: Target takes 1d10 force damage per round for 2 rounds",
+        },
+        {
+          roll: "5",
+          effect:
+            "Fate Breach: Target suffers -2 penalty to their next saving throw",
+        },
+        {
+          roll: "6",
+          effect:
+            "Cascading Blast: The detonation deals an additional +2d10 force damage",
+        },
+      ],
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 3,
+    },
+    tags: [
+      "damage",
+      "debuff",
+      "force",
+      "prophecy",
+      "endbringer",
+      "delayed",
+      "escalating",
+      "concentration",
+      "doom",
+    ],
+  },
+
+  {
+    id: "doomsayer_rain_of_doom",
+    name: "Rain of Doom",
+    description:
+      "You scream the zone into being and your voice cracks — a wet, broken sound that tastes of iron. Above the targeted area, the sky bruises and prophetic effects begin to rain down, each one a different flavor of catastrophe visited upon every enemy within. The rain does not discriminate. It simply ends.",
+    spellType: "ACTION",
+    icon: "Chaos/Comet Rain",
+    level: 3,
+    specialization: "cataclysm",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "force",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Chaos/Comet Rain",
+    },
+    targetingConfig: {
+      targetingType: "area",
+      areaShape: "circle",
+      areaSize: 30,
+      rangeDistance: 50,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 16,
+      hp: 5,
+      classResource: {
+        type: "havoc",
+        cost: 3,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d6", "d6"],
+          resolutionDie: "d6",
+          prophesied: {
+            effect: {
+              name: "Double Rain",
+              description:
+                "Roll twice on the Rain Table. Both results apply to ALL enemies in the 30ft zone.",
+            },
+            havocGain: 4,
+            description:
+              "Roll twice on the Rain Table. Each result applies to all enemies in the zone.",
+          },
+          base: {
+            effect: {
+              name: "Single Rain",
+              description:
+                "Roll once on the Rain Table. Result applies to all enemies in the 30ft zone.",
+            },
+            havocGain: 2,
+            description:
+              "Roll once on the Rain Table. Result applies to all enemies in the zone.",
+          },
+          outside: {
+            backlash: {
+              name: "Self Rain",
+              description:
+                "The rain falls on YOU instead. Roll once on the Rain Table and apply the result to yourself.",
+            },
+            havocGain: 0,
+            description:
+              "The rain turns. Fate's cruelty finds its source. Roll on the Rain Table against yourself.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "2d6",
+      damageTypes: ["force"],
+      resolution: "PROPHECY",
+    },
+    durationConfig: {
+      durationValue: 3,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+      durationType: "rounds",
+    },
+    tableConfig: {
+      name: "Rain Table",
+      die: "1d6",
+      rolls: [
+        {
+          roll: "1",
+          effect: "2d6 fire damage to all",
+        },
+        {
+          roll: "2",
+          effect: "2d6 necrotic damage to all",
+        },
+        {
+          roll: "3",
+          effect: "2d6 psychic damage to all",
+        },
+        {
+          roll: "4",
+          effect: "1d6 force damage + knocked prone",
+        },
+        {
+          roll: "5",
+          effect: "Doom II: -2 Spirit saves for 2 rounds (Spirit save DC SPELL_DC negates)",
+        },
+        {
+          roll: "6",
+          effect: "Roll twice on this table",
+        },
+      ],
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 3,
+    },
+    tags: [
+      "damage",
+      "prophecy",
+      "cataclysm",
+      "area",
+      "table",
+      "concentration",
+    ],
+  },
+
+  // ============================================================
+  // LEVEL 4 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_requiem_of_death",
+    name: "Requiem of Death",
+    description:
+      "A focused death prophecy of devastating precision. You speak the target's ending in a voice that is not your own — something older speaks through you, something that remembers every death that has ever occurred and catalogs them like music. Your eyes weep black ichor as the requiem builds. The target's flesh splits along invisible seams as the prophecy carves itself into their very being.",
+    spellType: "ACTION",
+    icon: "Necrotic/Necrotic Skull",
+    level: 4,
+    specialization: "requiem",
+    effectTypes: ["damage", "debuff"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Necrotic Skull",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 40,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 20,
+      hp: 8,
+      classResource: {
+        type: "havoc",
+        cost: 4,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d6", "d4"],
+          resolutionDie: "d4",
+          prophesied: {
+            damage: "8d10",
+            effect: {
+              id: "soul_wound",
+              name: "Soul Wound",
+              duration: 5,
+              unit: "rounds",
+              damagePerRound: "1d6",
+              damageType: "necrotic",
+              healingBlock: true,
+              description:
+                "Spiritual wounds that refuse to close. Target cannot be healed by any means and bleeds 1d6 necrotic damage at the start of each turn for 5 rounds. The soul remembers what the body tries to forget.",
+            },
+            havocGain: 6,
+            description:
+              "Deals 8d10 necrotic damage and inflicts Soul Wound: no healing + 1d6 necrotic/round for 5 rounds.",
+          },
+          base: {
+            damage: "5d10",
+            havocGain: 3,
+            description: "Deals 5d10 necrotic damage.",
+          },
+          outside: {
+            backlash: "3d10 necrotic to self + Doom II",
+            havocGain: 0,
+            effect: {
+              id: "doom_ii",
+              name: "Doom II",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -2,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The requiem turns. Your own soul bleeds as the death prophecy finds no target. -2 to Spirit saves for 2 rounds.",
+              doomStack: true,
+              doomStackValue: 2,
+            },
+            description:
+              "Deals 3d10 necrotic damage to you and afflicts you with Doom II (-2 Spirit saves, 2 rounds).",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "5d10",
+      damageTypes: ["necrotic"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 2,
+    },
+    tags: ["damage", "debuff", "necrotic", "prophecy", "requiem"],
+  },
+
+  {
+    id: "doomsayer_doom_aura",
+    name: "Doom Aura",
+    description:
+      "Your mere presence becomes a weapon. An aura of escalating doom radiates outward — a crushing weight that makes the air thick with the stench of endings. Nearby enemies feel their will to fight drain away as the certainty of their defeat settles into their bones like lead. You do not speak this power into being. You simply ARE, and that is enough to break them.",
+    spellType: "ACTION",
+    icon: "Necrotic/Necrotic Wither",
+    level: 4,
+    specialization: "endbringer",
+    effectTypes: ["debuff"],
+    typeConfig: {
+      school: "psychic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Necrotic Wither",
+    },
+    targetingConfig: {
+      targetingType: "self_centered",
+      areaShape: "circle",
+      areaSize: 20,
+      rangeType: "self_centered",
+      targetRestrictions: ["any"],
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 18,
+      classResource: {
+        type: "havoc",
+        cost: 3,
+      },
+    },
+    resolution: "AUTOMATIC",
+    debuffConfig: {
+      debuffType: "aura",
+      effects: [
+        {
+          id: "doom_aura_debuff",
+          name: "Doom Aura",
+          description: "-2 to all rolls, increasing by -1 per round (max -5)",
+          statusType: "doom_aura",
+          mechanicsText:
+            "Penalty increases by -1 each round the target remains in the aura.",
+        },
+      ],
+      durationValue: 5,
+      durationType: "rounds",
+      durationUnit: "rounds",
+    },
+    durationConfig: {
+      durationValue: 5,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+      durationType: "rounds",
+    },
+    statusEffectsConfig: [
+      {
+        name: "Doom Aura",
+        duration: 5,
+        unit: "rounds",
         statModifiers: [
           {
-            stat: "Prophecy Resolution",
-            value: 2,
+            stat: "ALL ROLLS",
+            value: -2,
+            magnitudeType: "penalty",
           },
         ],
-        customEffects: [
-          {
-            id: "doom_aura_passive",
-            name: "Doom Aura",
-            description:
-              "Enemies within 30ft take -3 to all rolls. Gain double Havoc from fulfilled prophecies.",
-          },
-        ],
+        description:
+          "Nearby enemies feel the crushing weight of their coming end. -2 to all rolls, increasing by -1 per round (max -5).",
       },
-      durationConfig: {
-        durationValue: 1,
-        durationUnit: "minutes",
-        concentrationRequired: true,
-        durationType: "minutes",
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "transformation", "endbringer", "prophecy"],
+    ],
+    triggerConfig: {
+      triggers: [
+        {
+          id: "aura_debuff",
+          name: "Doom Presence",
+          triggerType: "passive_aura",
+          action:
+            "Enemies take -2 to all rolls, increasing by -1 per round (max -5)",
+        },
+        {
+          id: "aura_havoc",
+          name: "Havoc Siphon",
+          triggerType: "end_of_turn",
+          action: "Gain 1 Havoc per enemy within the aura",
+        },
+      ],
     },
-    {
-      id: "doomsayer_apocalypse_zone",
-      name: "Apocalypse Zone",
-      description:
-        "Create a 40ft zone where fate itself is subject to your prophecy range for 3 rounds.",
-      spellType: "ACTION",
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 2,
+    },
+    tags: ["debuff", "aura", "endbringer", "concentration"],
+  },
+
+  {
+    id: "doomsayer_cataclysm_blast",
+    name: "Cataclysm Blast",
+    description:
+      "A massive area prophecy detonation that tears open a wound in the world. Fire and necrotic energy cascade outward in a ring of annihilation, and your chest constricts as though your heart is being crushed in a fist of pure malice. The ground itself cracks and groans under the weight of what you have spoken. Nothing grows here again. Nothing ever will.",
+    spellType: "ACTION",
+    icon: "Fire/Volcanic Erupt",
+    level: 4,
+    specialization: "cataclysm",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "fire",
+      secondaryElement: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
       icon: "Fire/Volcanic Erupt",
-      school: "fire",
-      level: 7,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "fire",
-        secondaryElement: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Fire/Volcanic Erupt",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        areaShape: "circle",
-        areaSize: 40,
-        rangeDistance: 60,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 38,
-        classResource: {
-          type: "havoc",
-          cost: 10,
-        },
-      },
-      resolution: "AUTOMATIC",
-      damageConfig: {
-        formula: "3d8+3d8",
-        damageTypes: ["fire", "necrotic"],
-        damageNote: "3d8 fire + 3d8 necrotic per round to enemies in zone",
-      },
-      durationConfig: {
-        durationValue: 3,
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        durationType: "rounds",
-      },
-      triggerConfig: {
-        triggers: [
-          {
-            id: "zone_fate",
-            name: "Fate Manipulation",
-            triggerType: "passive_aura",
-            action:
-              "All d20 rolls in zone use your prophecy range. Even = bonus, Odd = penalty.",
-          },
-          {
-            id: "zone_damage",
-            name: "Armageddon Pulse",
-            triggerType: "start_of_turn",
-            action: "All enemies in zone take 3d8 fire + 3d8 necrotic damage.",
-          },
-        ],
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "prophecy", "cataclysm", "area", "zone"],
     },
-    {
-      id: "doomsayer_prophecy_of_annihilation",
-      name: "Prophecy of Annihilation",
-      description:
-        "The ultimate single-target prophecy. If Prophesied, the target is annihilated across all timelines.",
-      spellType: "ACTION",
-      icon: "Necrotic/Grim Reaper Casting",
-      school: "necrotic",
-      level: 7,
-      specialization: "requiem",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Grim Reaper Casting",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 38,
-        classResource: {
-          type: "havoc",
-          cost: 10,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d4", "d4"],
-            resolutionDie: "d4",
-            prophesied: {
-              damage: "12d12",
-              effect: {
-                name: "Annihilation",
-                instantKillThreshold: 0.25,
-                description:
-                  "Deals 12d12 necrotic damage. If the target is below 25% HP after damage, they are erased from existence — reduced to 0 HP and cannot be resurrected for 24 hours.",
-              },
-              havocGain: 10,
-              description:
-                "Deals 12d12 necrotic. If target drops below 25% HP, they are erased from existence.",
-            },
-            base: {
-              damage: "8d12",
-              havocGain: 5,
-              description: "Deals 8d12 necrotic damage.",
-            },
-            outside: {
-              backlash: "6d12 to self",
-              effect: {
-                name: "Stunned",
-                duration: 1,
-                unit: "round",
-                description:
-                  "The annihilation energy rebounds into you. Stunned for 1 round.",
-              },
-              description:
-                "Deals 6d12 necrotic damage to you and stuns you for 1 round.",
-            },
-          },
-        },
-      ],
-      damageConfig: {
-        formula: "8d12",
-        damageTypes: ["necrotic"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "damage", "prophecy", "requiem"],
+    targetingConfig: {
+      targetingType: "area",
+      areaShape: "circle",
+      areaSize: 25,
+      rangeDistance: 50,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
     },
-    {
-      id: "doomsayer_twist_of_doom",
-      name: "Twist of Doom",
-      description:
-        "Reaction: Reroll a prophecy range resolution and force the new result through sheer force of will.",
-      spellType: "REACTION",
-      icon: "Arcane/Magical Staff",
-      school: "arcane",
-      level: 8,
-      specialization: "universal",
-      effectTypes: ["utility"],
-      typeConfig: {
-        school: "arcane",
-        castTime: "1 reaction",
-        castTimeType: "reaction",
-        icon: "Arcane/Magical Staff",
+    resourceCost: {
+      actionPoints: 2,
+      mana: 20,
+      hp: 8,
+      classResource: {
+        type: "havoc",
+        cost: 4,
       },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 60,
-        rangeType: "ranged",
-        targetRestrictions: ["enemies"],
-      },
-      resourceCost: {
-        actionPoints: 0,
-        mana: 15,
-        classResource: {
-          type: "havoc",
-          cost: 5,
-        },
-        components: ["verbal"],
-      },
-      resolution: "AUTOMATIC",
-      utilityConfig: {
-        utilityType: "fate",
-        utilitySubtype: "reroll",
-        effects: [
-          {
-            id: "twist_of_doom_reroll",
-            name: "Twist of Doom",
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d10", "d8"],
+          resolutionDie: "d8",
+          prophesied: {
+            damage: "6d8 fire + 3d8 necrotic",
+            effect: {
+              name: "Difficult Terrain",
+              duration: 5,
+              unit: "rounds",
+              description:
+                "The area becomes shattered, difficult terrain for 5 rounds. The ground itself bears the scars of your prophecy.",
+            },
+            havocGain: 6,
             description:
-              "Reroll any prophecy range resolution die. Gain +3 bonus Havoc if new result is Prophesied.",
-            mechanicsText: "",
+              "Deals 6d8 fire + 3d8 necrotic to all in area. Zone becomes difficult terrain for 5 rounds.",
           },
-        ],
-      },
-      triggerConfig: {
-        triggers: [
-          {
-            id: "fate_twist",
-            name: "Twist Fate",
-            triggerType: "reaction",
-            action:
-              "Reroll any prophecy range resolution die. Must accept new result. If new result is Prophesied, gain +3 bonus Havoc.",
+          base: {
+            damage: "4d8 fire + 2d8 necrotic",
+            havocGain: 3,
+            description: "Deals 4d8 fire + 2d8 necrotic to all in area.",
           },
-        ],
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["reaction", "prophecy", "universal", "reroll"],
-    },
-    {
-      id: "doomsayer_doom_legion",
-      name: "Doom Legion",
-      description:
-        "Place a prophecy on every enemy you can see. All detonate simultaneously in a chorus of ruin.",
-      spellType: "ACTION",
-      icon: "Chaos/Chaotic Rupture",
-      school: "necrotic",
-      level: 8,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Chaos/Chaotic Rupture",
-      },
-      targetingConfig: {
-        targetingType: "multi",
-        rangeDistance: 60,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 40,
-        classResource: {
-          type: "havoc",
-          cost: 10,
+          outside: {
+            backlash: "2d8 to self + Doom I",
+            havocGain: 0,
+            effect: {
+              id: "doom_i",
+              name: "Doom I",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -1,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The cataclysm recoils. You suffer Doom I (-1 Spirit saves) as prophetic backlash.",
+              doomStack: true,
+              doomStackValue: 1,
+            },
+            description:
+              "Deals 2d8 damage to you and afflicts you with Doom I (-1 Spirit saves, 2 rounds).",
+          },
         },
       },
+    ],
+    damageConfig: {
+      formula: "4d8+2d8",
+      damageTypes: ["fire", "necrotic"],
       resolution: "PROPHECY",
-      mechanicsConfig: [
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 2,
+    },
+    tags: ["damage", "fire", "necrotic", "prophecy", "cataclysm", "area"],
+  },
+
+  // ============================================================
+  // LEVEL 5 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_prophecy_of_ruin",
+    name: "Prophecy of Ruin",
+    description:
+      "Reality itself ruptures. You speak a word that should not exist — a word that IS ending, that MEANS ending, that MAKES ending — and it tears through you like shrapnel. Your nose bleeds profusely, your eyes roll back, and for one terrible moment you see exactly how everything dies. Fire, necrotic rot, psychic dissolution, and the raw force of oblivion cascade across the battlefield. The word echoes long after you stop speaking. It will never fully stop.",
+    spellType: "ACTION",
+    icon: "Void/Red Energy Burst",
+    level: 5,
+    specialization: "universal",
+    effectTypes: ["damage", "debuff"],
+    typeConfig: {
+      school: "fire",
+      secondaryElement: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Void/Red Energy Burst",
+    },
+    targetingConfig: {
+      targetingType: "area",
+      areaShape: "circle",
+      areaSize: 20,
+      rangeDistance: 60,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 25,
+      hp: 10,
+      classResource: {
+        type: "havoc",
+        cost: 5,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d12", "d8"],
+          resolutionDie: "d8",
+          prophesied: {
+            damage: "8d8",
+            effect: {
+              id: "doom_iii",
+              name: "Doom III",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -3,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The word of ruin brands all it touches. Targets suffer -3 to Spirit saves for 2 rounds as the prophecy etches itself into their very essence.",
+              doomStack: true,
+              doomStackValue: 3,
+            },
+            havocGain: 8,
+            description:
+              "Deals 8d8 mixed damage to all in area + Doom III (-3 Spirit saves, 2 rounds).",
+          },
+          base: {
+            damage: "5d8",
+            havocGain: 4,
+            description: "Deals 5d8 mixed damage to all in area.",
+          },
+          outside: {
+            backlash: "3d8 to self + Doom II",
+            havocGain: 0,
+            effect: {
+              id: "doom_ii",
+              name: "Doom II",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -2,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The word of ruin turns on its speaker. You suffer -2 to Spirit saves for 2 rounds.",
+              doomStack: true,
+              doomStackValue: 2,
+            },
+            description:
+              "Deals 3d8 damage to you and afflicts you with Doom II (-2 Spirit saves, 2 rounds).",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "5d8",
+      damageTypes: ["fire", "necrotic", "psychic", "force"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 2,
+    },
+    tags: [
+      "damage",
+      "debuff",
+      "prophecy",
+      "universal",
+      "area",
+      "doom",
+    ],
+  },
+
+  {
+    id: "doomsayer_stacked_doom",
+    name: "Stacked Doom",
+    description:
+      "You SCREAM and blood pours from your mouth. Every active prophecy on the target detonates simultaneously — a cascade of fulfilled doom that rips through the victim in a single, devastating convulsion. Each prophecy resolves as its Prophesied outcome, no mercy, no second chances. If three or more prophecies tear open at once, the accumulated catastrophe is so total that the victim's spirit simply breaks. The scream never leaves your lips. It stays inside, where it has always been.",
+    spellType: "ACTION",
+    icon: "Necrotic/Skull Burst",
+    level: 5,
+    specialization: "requiem",
+    effectTypes: ["damage", "control"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Skull Burst",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 30,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 24,
+      hp: 12,
+      classResource: {
+        type: "havoc",
+        cost: 6,
+      },
+    },
+    resolution: "AUTOMATIC",
+    damageConfig: {
+      formula: "2d8 × active_prophecies",
+      damageTypes: ["necrotic"],
+      resolution: "AUTOMATIC",
+      dotConfig: {
+        enabled: false,
+      },
+    },
+    controlConfig: {
+      controlType: "incapacitation",
+      effects: [
         {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d8", "d6"],
-            resolutionDie: "d6",
-            prophesied: {
-              damage: "8d8",
-              effect: {
-                name: "Mass Ignition",
-                duration: 3,
-                unit: "rounds",
-                damagePerRound: "2d6",
-                damageType: "fire",
-                description:
-                  "Each enemy hit is engulfed in prophetic flames, burning for 2d6 fire damage per round for 3 rounds. Gain 4 Havoc per enemy ignited.",
-              },
-              havocGain: 4,
-              description:
-                "Deals 8d8 fire + necrotic damage to EACH enemy. Ignites all targets (2d6 fire/round for 3 rounds). +4 Havoc per enemy.",
-            },
-            base: {
-              damage: "5d8",
-              havocGain: 2,
-              description: "Deals 5d8 damage to each enemy.",
-            },
-            outside: {
-              backlash: "2d8 to self per miss",
-              description:
-                "Deals 2d8 damage to you for each target that is missed.",
-            },
+          id: "doom_iv",
+          controlType: "incapacitation",
+          name: "Doom IV",
+          description:
+            "Target suffers -4 to Spirit saves for 2 rounds when 3+ prophecies detonated simultaneously",
+          statusType: "doom",
+          doomStack: true,
+          doomStackValue: 4,
+          mechanicsText:
+            "Triggered when 3 or more active prophecies are detonated simultaneously. Spirit breaks under accumulated doom.",
+          config: {
+            duration: 2,
+            durationUnit: "rounds",
+            strength: "strong",
+            recoveryMethod: "save",
+            durationType: "conditional",
           },
         },
       ],
-      damageConfig: {
-        formula: "5d8",
-        damageTypes: ["fire", "necrotic"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "prophecy", "cataclysm", "area", "multi"],
+      duration: 2,
+      durationUnit: "rounds",
     },
-    {
-      id: "doomsayer_death_sentence",
-      name: "Death Sentence",
-      description:
-        "Mark a target with an inescapable doom brand. All future prophecies against this target gain advantage and guaranteed Havoc.",
-      spellType: "ACTION",
+    triggerConfig: {
+      triggers: [
+        {
+          id: "mass_detonation",
+          name: "Chain Detonation",
+          triggerType: "on_cast",
+          action:
+            "All active prophecies on the target resolve as Prophesied. Each prophecy deals 2d8 necrotic damage. If 3+ prophecies detonated, target suffers Doom IV (-4 Spirit saves) for 2 rounds.",
+        },
+      ],
+      conditionalEffects: {
+        damage: {
+          isConditional: true,
+          defaultEnabled: false,
+          conditionalFormulas: {
+            "3+ prophecies": "2d8 × active_prophecies + Doom IV",
+            "1-2 prophecies": "2d8 × active_prophecies",
+            default: "2d8 × active_prophecies",
+          },
+        },
+      },
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 2,
+    },
+    tags: ["damage", "control", "prophecy", "requiem", "detonate", "doom"],
+  },
+
+  {
+    id: "doomsayer_doom_nova",
+    name: "Doom Nova",
+    description:
+      "An expanding wave of prophetic doom that rips outward from the impact point like the death scream of a dying star. Your entire body trembles as the nova launches — bones rattling, teeth cracking, blood vessels bursting behind your eyes. Fire and necrotic energy roll outward in a devastating ring, igniting everything they touch with prophetic flame. The battlefield will bear the scars of this word for generations. If there are generations left to count.",
+    spellType: "ACTION",
+    icon: "Fire/Fire Storm",
+    level: 5,
+    specialization: "cataclysm",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "fire",
+      secondaryElement: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Fire/Fire Storm",
+    },
+    targetingConfig: {
+      targetingType: "area",
+      areaShape: "circle",
+      areaSize: 40,
+      rangeDistance: 60,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 26,
+      hp: 10,
+      classResource: {
+        type: "havoc",
+        cost: 6,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d12", "d10"],
+          resolutionDie: "d10",
+          prophesied: {
+            damage: "6d8 fire + 6d8 necrotic",
+            effect: {
+              name: "Ignited",
+              duration: 3,
+              unit: "rounds",
+              damagePerRound: "2d6 fire",
+              dotDamageType: "fire",
+              description:
+                "Prophetic flames cling to all enemies. 2d6 fire damage per round for 3 rounds. The fire does not go out because the fire remembers.",
+            },
+            havocGain: 8,
+            description:
+              "Deals 6d8 fire + 6d8 necrotic and ignites all enemies (2d6 fire/round, 3 rounds).",
+          },
+          base: {
+            damage: "4d8 fire + 4d8 necrotic",
+            havocGain: 4,
+            description: "Deals 4d8 fire + 4d8 necrotic to all enemies.",
+          },
+          outside: {
+            backlash: "2d8 fire + 2d8 necrotic to self",
+            havocGain: 0,
+            description:
+              "The nova collapses inward. You stand at ground zero as 2d8 fire + 2d8 necrotic damage detonates against your own flesh.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "4d8 fire + 4d8 necrotic",
+      damageTypes: ["fire", "necrotic"],
+      resolution: "PROPHECY",
+      dotConfig: {
+        enabled: true,
+        damagePerTick: "2d6",
+        damageType: "fire",
+        tickFrequency: "round",
+        duration: 3,
+        canStack: false,
+        maxStacks: 1,
+      },
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds",
+    },
+    cooldownConfig: {
+      cooldownType: "turn_based",
+      cooldownValue: 2,
+    },
+    tags: [
+      "damage",
+      "fire",
+      "necrotic",
+      "prophecy",
+      "cataclysm",
+      "area",
+      "dot",
+    ],
+   },
+
+/**
+ * Doomsayer Spells Part 2: Levels 6-10 + Passives
+ *
+ * The darkest spells in the Doomsayer arsenal. Reality-breaking
+ * prophecies, walking cataclysms, and the final requiems.
+ * No 5e terminology. Prophecy resolution where applicable.
+ */
+
+  // ============================================================
+  // LEVEL 6 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_cascade_doom",
+    name: "Cascade Doom",
+    description:
+      "Chain reaction detonation. You speak the word that multiplies — each syllable splitting into a hundred prophetic embers that seek out every enemy in range. When the first target ignites, they BECOME the prophecy, detonating outward in a secondary explosion that engulfs everything nearby. The caster's veins bulge black as the cascade rips through their arms. Each link in the chain costs more blood than the last.",
+    spellType: "ACTION",
+    icon: "Fire/Fire Storm",
+    level: 6,
+    specialization: "cataclysm",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "fire",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Fire/Fire Storm",
+    },
+    targetingConfig: {
+      targetingType: "area",
+      areaShape: "circle",
+      areaSize: 25,
+      rangeDistance: 50,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 30,
+      hp: 12,
+      classResource: {
+        type: "havoc",
+        cost: 7,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d10", "d8"],
+          resolutionDie: "d8",
+          prophesied: {
+            damage: "8d8 fire",
+            effect: {
+              name: "Cascade Detonation",
+              description:
+                "Each target hit becomes a secondary explosion, dealing 4d8 fire damage to all enemies within 15ft. Chain reactions propagate from secondary targets as well.",
+              cascadeRadius: 15,
+              cascadeDamage: "4d8",
+              cascadeDamageType: "fire",
+            },
+            havocGain: 8,
+            description:
+              "Deals 8d8 fire damage. Each target detonates in a secondary 15ft explosion dealing 4d8 fire to nearby enemies.",
+          },
+          base: {
+            damage: "5d8 fire",
+            havocGain: 4,
+            description: "Deals 5d8 fire damage to all in area.",
+          },
+          outside: {
+            backlash: "3d8 fire to self",
+            havocGain: 0,
+            description:
+              "The cascade collapses inward. The chain reaction finds no purchase and detonates against you instead, dealing 3d8 fire damage to yourself.",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "5d8",
+      damageTypes: ["fire"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "fire",
+      "prophecy",
+      "cataclysm",
+      "area",
+      "cascade",
+    ],
+  },
+
+  {
+    id: "doomsayer_endbringer_finale",
+    name: "Endbringer Finale",
+    description:
+      "The final bell tolls. The caster has bled enough. This spell can only be unleashed after 5 rounds of combat — the caster has paid in blood for every round, and now the debt comes due. ALL active prophecies resolve as Prophesied automatically, reality surrendering to the accumulated weight of so much doom. Havoc generation doubles. Fire and necrotic energy erupt across the battlefield in a cataclysm that reshapes the terrain itself. When the dust settles, nothing remains unchanged.",
+    spellType: "ACTION",
+    icon: "Necrotic/Necrotic Skull",
+    level: 6,
+    specialization: "endbringer",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "necrotic",
+      secondaryElement: "fire",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
       icon: "Necrotic/Necrotic Skull",
-      school: "necrotic",
-      level: 8,
-      specialization: "requiem",
-      effectTypes: ["debuff"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Necrotic Skull",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 40,
-        classResource: {
-          type: "havoc",
-          cost: 10,
-        },
-      },
-      resolution: "AUTOMATIC",
-      debuffConfig: {
-        debuffType: "brand",
-        effects: [
-          {
-            id: "doom_brand",
-            name: "Death Sentence",
-            description:
-              "Target cannot resolve as Outside (minimum Base). Prophesied generate +3 Havoc. Target cannot heal above 50% HP.",
-            mechanicsText: "",
-          },
-        ],
-      },
-      durationConfig: {
-        durationValue: 1,
-        durationUnit: "minutes",
-        concentrationRequired: true,
-        durationType: "minutes",
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "debuff", "prophecy", "requiem", "concentration"],
     },
-    {
-      id: "doomsayer_the_end",
-      name: "The End",
-      description:
-        "Speak the Word of Ending. All creatures in range face a prophecy of total annihilation.",
-      spellType: "ACTION",
-      icon: "Void/Black Hole",
-      school: "necrotic",
-      level: 9,
-      specialization: "universal",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        secondaryElement: "fire",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Void/Black Hole",
+    targetingConfig: {
+      targetingType: "area",
+      areaShape: "circle",
+      areaSize: 60,
+      rangeDistance: 60,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 32,
+      hp: 15,
+      classResource: {
+        type: "havoc",
+        cost: 8,
       },
-      targetingConfig: {
-        targetingType: "self_centered",
-        areaShape: "circle",
-        areaSize: 60,
-        rangeType: "self_centered",
-        targetRestrictions: ["any"],
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 50,
-        classResource: {
-          type: "havoc",
-          cost: 12,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
+    },
+    resolution: "AUTOMATIC",
+    damageConfig: {
+      formula: "10d10",
+      damageTypes: ["necrotic", "fire"],
+      resolution: "AUTOMATIC",
+    },
+    triggerConfig: {
+      triggers: [
         {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d12", "d10"],
-            resolutionDie: "d10",
-            prophesied: {
-              damage: "10d10",
-              effect: {
-                name: "Erasure",
-                instantKillThreshold: 0.3,
-                description:
-                  "Deals 10d10 mixed damage. All enemies below 30% HP after damage are instantly reduced to 0 HP.",
-              },
-              havocGain: 12,
-              description:
-                "Deals 10d10 mixed damage. Enemies below 30% HP are instantly erased.",
-            },
-            base: {
-              damage: "6d10",
-              havocGain: 6,
-              description: "Deals 6d10 mixed damage to all enemies.",
-            },
-            outside: {
-              backlash: "4d10 to self",
-              description: "Deals 4d10 damage to you.",
-            },
-          },
+          id: "ultimate_detonation",
+          name: "Ultimate Detonation",
+          triggerType: "on_cast",
+          action:
+            "Requires 5 rounds of combat elapsed. All active prophecies on the battlefield resolve as Prophesied automatically. Havoc generation doubled for this cast.",
         },
       ],
-      damageConfig: {
-        formula: "6d10",
-        damageTypes: ["necrotic", "fire", "psychic", "force"],
-        resolution: "PROPHECY",
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "damage", "prophecy", "universal", "area"],
-    },
-    {
-      id: "doomsayer_cataclysm_incarnate",
-      name: "Cataclysm Incarnate",
-      description:
-        "Become a walking cataclysm. Everything around you is subject to prophetic destruction as you step through the ruins of fate.",
-      spellType: "ACTION",
-      icon: "Fire/Fire Demon",
-      school: "fire",
-      level: 9,
-      specialization: "cataclysm",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "fire",
-        secondaryElement: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Fire/Fire Demon",
-      },
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-        targetRestrictions: ["self"],
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 50,
-        classResource: {
-          type: "havoc",
-          cost: 12,
+      conditionalEffects: {
+        damage: {
+          isConditional: true,
+          defaultEnabled: false,
+          conditionalFormulas: {
+            "5+ rounds combat": "10d10 necrotic+fire, all prophecies auto-Prophesied, double Havoc",
+            default: "Cannot cast — requires 5 rounds of combat",
+          },
         },
       },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "ultimate_transformation",
-        effects: [
-          {
-            id: "cataclysm_incarnate",
-            name: "Cataclysm Incarnate",
-            description:
-              "Walking apocalypse. Auto-Prophesied on all enemies in 40ft each turn via Cataclysm Table.",
-            mechanicsText: "",
-          },
-        ],
-      },
-      durationConfig: {
-        durationValue: 1,
-        durationUnit: "minutes",
-        concentrationRequired: true,
-        durationType: "minutes",
-      },
-      triggerConfig: {
-        triggers: [
-          {
-            id: "turn_cataclysm",
-            name: "Walking Apocalypse",
-            triggerType: "start_of_turn",
-            action:
-              "Roll on the Cataclysm Table for all enemies within 40ft. All hits are auto-Prophesied.",
-          },
-        ],
-      },
-      tableConfig: {
-        name: "Cataclysm Table",
-        rolls: [
-          {
-            roll: "1-2",
-            effect: "4d6 fire damage",
-          },
-          {
-            roll: "3-4",
-            effect: "4d6 necrotic damage",
-          },
-          {
-            roll: "5",
-            effect:
-              "4d6 psychic damage + Stunned for 1 round (CON DC 18 negates)",
-          },
-          {
-            roll: "6",
-            effect: "4d6 force damage + knockback 30ft",
-          },
-        ],
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "transformation", "cataclysm", "prophecy", "area"],
     },
-    {
-      id: "doomsayer_requiem_absolute",
-      name: "Requiem Absolute",
-      description:
-        "The final requiem. Place a prophecy so absolute that fate itself cannot deny the target's end.",
-      spellType: "ACTION",
-      icon: "Necrotic/Necrotic Wither 2",
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "necrotic",
+      "fire",
+      "endbringer",
+      "area",
+      "ultimate",
+      "prophecy_resolve",
+    ],
+  },
+
+  {
+    id: "doomsayer_execution_prophecy",
+    name: "Execution Prophecy",
+    description:
+      "A lethal prophecy of absolute death. The caster's voice becomes something OTHER — hollow, resonant, inhuman — as they speak a word that exists outside the boundaries of mortal language. The word carves through reality like a blade through silk, seeking the target's thread in the tapestry of fate and CUTTING it. The caster's throat bleeds from the effort of channeling something that was never meant to pass through human lips.",
+    spellType: "ACTION",
+    icon: "Necrotic/Death Mark",
+    level: 6,
+    specialization: "requiem",
+    effectTypes: ["damage"],
+    typeConfig: {
       school: "necrotic",
-      level: 9,
-      specialization: "requiem",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Necrotic Wither 2",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Death Mark",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 30,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 30,
+      hp: 15,
+      classResource: {
+        type: "havoc",
+        cost: 8,
       },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 50,
-        classResource: {
-          type: "havoc",
-          cost: 12,
-        },
-      },
-      resolution: "PROPHECY",
-      mechanicsConfig: [
-        {
-          enabled: true,
-          system: "PROPHECY",
-          prophecy: {
-            rangeDice: ["d4", "d4"],
-            resolutionDie: "d4",
-            prophesied: {
-              effect: {
-                name: "Absolute Death",
-                instantKill: true,
-                bypassImmunity: true,
-                description:
-                  "Target is reduced to 0 HP. No save. No immunity. Affects undead, constructs, and all creature types. This is absolute — fate has spoken.",
-              },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d4", "d4"],
+          resolutionDie: "d4",
+          prophesied: {
+            damage: "instant_death",
+            effect: {
+              name: "Execution",
               description:
-                "Target is reduced to 0 HP. No save. No immunity. Affects all creature types.",
+                "Target reduced to 0 HP instantly. No save. No immunity. The prophecy has spoken and reality obeys.",
+              instantKill: true,
+              bypassImmunity: true,
             },
-            base: {
-              damage: "15d12",
-              havocGain: 6,
-              description: "Deals 15d12 necrotic damage.",
+            havocGain: 10,
+            description:
+              "Target reduced to 0 HP. Instant death — no save, no immunity.",
+          },
+          base: {
+            damage: "8d10 necrotic",
+            effect: {
+              name: "Near Execution",
+              description:
+                "If target is below 50% HP, they must make a Spirit save (DC SPELL_DC) or be reduced to 0 HP. On success, takes full damage.",
+              conditionalKill: true,
+              hpThreshold: 50,
+              saveType: "spirit",
             },
-            outside: {
-              backlash: "15d12 to self",
-              description: "Deals 15d12 necrotic damage to you.",
+            havocGain: 5,
+            description:
+              "Deals 8d10 necrotic damage. If target below 50% HP, Spirit save DC SPELL_DC or reduced to 0 HP.",
+          },
+          outside: {
+            backlash: "8d10 necrotic to self",
+            effect: {
+              id: "doom_iii",
+              name: "Doom III",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -3,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The execution turns on its speaker. You suffer -3 to Spirit saves for 2 rounds as the death word reverberates through your own soul.",
+              doomStack: true,
+              doomStackValue: 3,
             },
+            havocGain: 0,
+            description:
+              "Deals 8d10 necrotic damage to you and afflicts you with Doom III (-3 Spirit saves, 2 rounds).",
           },
         },
-      ],
-      damageConfig: {
-        formula: "15d12",
-        damageTypes: ["necrotic"],
-        resolution: "PROPHECY",
       },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
+      {
+        enabled: true,
+        system: "SAVING_THROW",
+        savingThrow: {
+          saveStat: "spirit",
+          saveAgainst: "SPELL_DC",
+          successEffect: "Target takes full 8d10 necrotic damage but is not reduced to 0 HP",
+          failureEffect: "Target reduced to 0 HP",
+          condition: "Target below 50% HP (base outcome only)",
+        },
       },
-      tags: ["ultimate", "death", "prophecy", "requiem"],
+    ],
+    damageConfig: {
+      formula: "8d10",
+      damageTypes: ["necrotic"],
+      resolution: "PROPHECY",
     },
-    {
-      id: "doomsayer_herald_of_the_end",
-      name: "Herald of the End",
-      description:
-        "Transform into the Herald of the End Times. For one minute, you ARE the apocalypse, and fate bows to your command.",
-      spellType: "ACTION",
-      icon: "Void/Falling Meteors",
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "necrotic",
+      "prophecy",
+      "requiem",
+      "execution",
+      "instant_kill",
+    ],
+  },
+
+  // ============================================================
+  // LEVEL 7 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_armageddon_herald",
+    name: "Armageddon Herald",
+    description:
+      "The caster becomes a conduit of the apocalypse. Their eyes go entirely black — not the whites, not the iris, ALL of it — and their voice echoes with something ancient that has been waiting for this moment since before the world was made. In Herald form, prophecies bend toward fulfillment, Havoc generation doubles, and a Doom Aura radiates outward, breaking the spirit of everything nearby. The transformation is not painless. The caster's humanity frays with each passing second.",
+    spellType: "ACTION",
+    icon: "Arcane/Swirling Vortex",
+    level: 7,
+    specialization: "endbringer",
+    effectTypes: ["buff"],
+    typeConfig: {
       school: "force",
-      level: 10,
-      specialization: "universal",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "force",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Void/Falling Meteors",
-      },
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-        targetRestrictions: ["self"],
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 60,
-        classResource: {
-          type: "havoc",
-          cost: 15,
-        },
-      },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "ultimate_transformation",
-        effects: [
-          {
-            id: "end_herald",
-            name: "Herald of the End",
-            description:
-              "All prophecies auto-resolve as Prophesied. Triple Havoc generation. Immune to fire, necrotic, psychic. Backlash deals double damage to enemies instead.",
-            mechanicsText: "",
-          },
-        ],
-      },
-      durationConfig: {
-        durationValue: 1,
-        durationUnit: "minutes",
-        concentrationRequired: true,
-        durationType: "minutes",
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "transformation", "prophecy", "universal"],
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Arcane/Swirling Vortex",
     },
-    {
-      id: "doomsayer_end_of_all_things",
-      name: "End of All Things",
-      description:
-        "Speak the prophecy that ends all prophecies. Every active prophecy on the battlefield detonates simultaneously at maximum power.",
-      spellType: "ACTION",
-      icon: "Void/Consumed by Void",
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self",
+      rangeDistance: 0,
+      targetRestrictions: ["self"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 35,
+      hp: 10,
+      classResource: {
+        type: "havoc",
+        cost: 8,
+      },
+    },
+    resolution: "AUTOMATIC",
+    buffConfig: {
+      buffType: "transformation",
+      effects: [
+        {
+          id: "herald_prophecy_bonus",
+          name: "Prophetic Authority",
+          description:
+            "+2 to all Prophecy resolution rolls. The Herald's words carry the weight of inevitability.",
+          statModifiers: [
+            {
+              stat: "PROPHECY_RESOLUTION",
+              value: 2,
+              magnitudeType: "bonus",
+            },
+          ],
+        },
+        {
+          id: "herald_double_havoc",
+          name: "Double Havoc",
+          description:
+            "All Havoc generation is doubled while in Herald form. The apocalypse feeds itself.",
+          havocMultiplier: 2,
+        },
+        {
+          id: "herald_doom_aura",
+          name: "Doom Aura",
+          description:
+            "30ft aura: All enemies within suffer -3 penalty to Spirit saves and all rolls. The Herald's mere presence breaks resolve.",
+          auraRadius: 30,
+          auraPenalty: -3,
+          statModifiers: [
+            {
+              stat: "spirit",
+              value: -3,
+              magnitudeType: "penalty",
+            },
+            {
+              stat: "ALL ROLLS",
+              value: -3,
+              magnitudeType: "penalty",
+            },
+          ],
+        },
+      ],
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "buff",
+      "transformation",
+      "force",
+      "endbringer",
+      "concentration",
+      "aura",
+    ],
+  },
+
+  {
+    id: "doomsayer_apocalypse_zone",
+    name: "Apocalypse Zone",
+    description:
+      "Fate itself is rewritten within this zone. The caster speaks a boundary into existence and the air within SHATTERS — reality becoming a fractured mirror where even d20 rolls are subject to prophecy (even results grant bonuses, odd results inflict penalties). Enemies standing in the zone at the start of their turn burn with prophetic fire and wither under necrotic decay simultaneously. The caster's skin cracks with prophetic energy, thin lines of light tracing across their body like a map of every possible future.",
+    spellType: "ACTION",
+    icon: "Chaos/Comet Rain",
+    level: 7,
+    specialization: "cataclysm",
+    effectTypes: ["damage", "control"],
+    typeConfig: {
       school: "fire",
-      level: 10,
-      specialization: "cataclysm",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "fire",
-        secondaryElement: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Void/Consumed by Void",
-      },
-      targetingConfig: {
-        targetingType: "self_centered",
-        areaShape: "circle",
-        areaSize: 120,
-        rangeType: "self_centered",
-        targetRestrictions: ["any"],
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 60,
-        classResource: {
-          type: "havoc",
-          cost: 15,
-        },
-      },
-      resolution: "AUTOMATIC",
-      damageConfig: {
-        formula: "4d8 fire + 4d8 necrotic per active prophecy",
-        damageTypes: ["fire", "necrotic", "force"],
-        resolution: "AUTOMATIC",
-        dotConfig: {
-          enabled: true,
-          damagePerTick: "3d8",
-          damageType: "fire",
-          tickFrequency: "round",
-          duration: 5,
-          canStack: false,
-          maxStacks: 1,
-        },
-      },
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 5,
-        durationUnit: "rounds",
-      },
-      triggerConfig: {
-        triggers: [
-          {
-            id: "final_detonation",
-            name: "The End of All Things",
-            triggerType: "on_cast",
-            action:
-              "Detonate ALL active prophecies within 120ft. Each resolves as Prophesied. Creates a Scorched Earth zone (3d8/round) for 5 rounds.",
-          },
-        ],
-      },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-      tags: ["ultimate", "prophecy", "cataclysm", "detonate", "area"],
+      secondaryElement: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Chaos/Comet Rain",
     },
-    {
-      id: "doomsayer_final_requiem",
-      name: "Final Requiem",
-      description:
-        "The last song of doom. Sing the prophecy that cannot be denied, cannot be survived, cannot be escaped, and cannot be forgiven.",
-      spellType: "ACTION",
-      icon: "Necrotic/Necrotic Wither 4",
+    targetingConfig: {
+      targetingType: "area",
+      areaShape: "circle",
+      areaSize: 40,
+      rangeDistance: 60,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 38,
+      hp: 12,
+      classResource: {
+        type: "havoc",
+        cost: 10,
+      },
+    },
+    resolution: "AUTOMATIC",
+    damageConfig: {
+      formula: "3d8+3d8",
+      damageTypes: ["fire", "necrotic"],
+      resolution: "AUTOMATIC",
+    },
+    triggerConfig: {
+      triggers: [
+        {
+          id: "zone_fate",
+          name: "Prophetic Fate Zone",
+          triggerType: "passive_zone",
+          action:
+            "All d20 rolls made within the zone use prophecy range: even results grant a bonus, odd results inflict a penalty. Fate itself is rewritten.",
+        },
+        {
+          id: "zone_damage",
+          name: "Prophetic Burn",
+          triggerType: "start_of_turn",
+          action:
+            "Enemies starting their turn in the zone take 3d8 fire + 3d8 necrotic damage automatically.",
+        },
+      ],
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 3,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "control",
+      "fire",
+      "necrotic",
+      "cataclysm",
+      "area",
+      "zone",
+      "concentration",
+    ],
+  },
+
+  {
+    id: "doomsayer_prophecy_of_annihilation",
+    name: "Prophecy of Annihilation",
+    description:
+      "The ultimate single-target prophecy. The caster speaks a word that should not exist — a word that is the ANNIHILATION of something, not the description of it — and their throat BLEEDS. The word tears through the target's existence like a blade through smoke. If the target is weakened enough, they are not merely killed but ERASED — no resurrection, no return, no hope. The caster's voice may never fully recover from channeling something this absolute.",
+    spellType: "ACTION",
+    icon: "Necrotic/Necrotic Skull",
+    level: 7,
+    specialization: "requiem",
+    effectTypes: ["damage"],
+    typeConfig: {
       school: "necrotic",
-      level: 10,
-      specialization: "requiem",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "necrotic",
-        castTime: "1 action",
-        castTimeType: "action",
-        icon: "Necrotic/Necrotic Wither 4",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Necrotic Skull",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 30,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 38,
+      hp: 15,
+      classResource: {
+        type: "havoc",
+        cost: 10,
       },
-      targetingConfig: {
-        targetingType: "single",
-        rangeDistance: 60,
-        targetRestrictions: ["enemies"],
-        rangeType: "ranged",
-      },
-      resourceCost: {
-        actionPoints: 3,
-        mana: 60,
-        classResource: {
-          type: "havoc",
-          cost: 15,
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d4", "d4"],
+          resolutionDie: "d4",
+          prophesied: {
+            damage: "12d12 necrotic",
+            effect: {
+              name: "Erasure",
+              description:
+                "If target is below 25% HP after damage, they are erased from existence. 0 HP, no resurrection possible for 24 hours. The prophecy does not kill — it UNMAKES.",
+              conditionalErase: true,
+              hpThreshold: 25,
+              eraseDuration: 24,
+              eraseDurationUnit: "hours",
+              blockResurrection: true,
+            },
+            havocGain: 10,
+            description:
+              "Deals 12d12 necrotic damage. If target below 25% HP after damage, erased from existence (no resurrection 24h).",
+          },
+          base: {
+            damage: "8d12 necrotic",
+            havocGain: 5,
+            description: "Deals 8d12 necrotic damage.",
+          },
+          outside: {
+            backlash: "6d12 necrotic to self",
+            effect: {
+              id: "doom_iii",
+              name: "Doom III",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -3,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The annihilation prophecy finds no target and turns inward. You suffer -3 to Spirit saves for 2 rounds and are stunned for 1 round as your mind reels.",
+              doomStack: true,
+              doomStackValue: 3,
+              stunDuration: 1,
+              stunDurationUnit: "rounds",
+            },
+            havocGain: 0,
+            description:
+              "Deals 6d12 necrotic damage to you, afflicts you with Doom III (-3 Spirit saves), and stuns you for 1 round.",
+          },
         },
       },
-      resolution: "AUTOMATIC",
-      damageConfig: {
-        formula: "20d12",
-        damageTypes: ["necrotic"],
-        resolution: "AUTOMATIC",
+    ],
+    damageConfig: {
+      formula: "8d12",
+      damageTypes: ["necrotic"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "necrotic",
+      "prophecy",
+      "requiem",
+      "annihilation",
+      "erase",
+    ],
+  },
+
+  // ============================================================
+  // LEVEL 8 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_twist_of_doom",
+    name: "Twist of Doom",
+    description:
+      "You twist fate through sheer force of will. Blood trickles from your ear — the mental cost of reshaping prophecy — as you reach into the fabric of an active prophecy and FORCE it to reroll. The new result must be accepted, for better or worse. If the twist results in a Prophesied outcome, the surge of vindicated doom grants +3 Havoc. Fate does not appreciate being corrected, and the headache will last for days.",
+    spellType: "REACTION",
+    icon: "Arcane/Swirling Vortex",
+    level: 8,
+    specialization: "universal",
+    effectTypes: ["utility"],
+    typeConfig: {
+      school: "arcane",
+      castTime: 1,
+      castTimeType: "REACTION",
+      icon: "Arcane/Swirling Vortex",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 60,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 0,
+      mana: 15,
+      hp: 5,
+      classResource: {
+        type: "havoc",
+        cost: 5,
       },
-      triggerConfig: {
-        triggers: [
-          {
-            id: "absolute_execution",
-            name: "Final Requiem",
-            triggerType: "on_cast",
-            action:
-              "Target takes 20d12 necrotic damage. No save. If they die, they cannot be resurrected. If they survive, all future prophecies against them auto-Prophesize.",
+    },
+    resolution: "AUTOMATIC",
+    utilityConfig: {
+      utilityType: "reroll",
+      effects: [
+        {
+          id: "fate_reroll",
+          name: "Fate Reroll",
+          description:
+            "Reroll any prophecy resolution die. The new result must be accepted. Cannot reroll the same prophecy twice.",
+          rerollTarget: "prophecy_resolution",
+          mustAccept: true,
+        },
+        {
+          id: "twist_havoc",
+          name: "Twist Reward",
+          description:
+            "+3 Havoc if the new result is Prophesied. The universe rewards audacity, grudgingly.",
+          conditionalHavoc: 3,
+          condition: "New result is Prophesied",
+        },
+      ],
+    },
+    triggerConfig: {
+      triggers: [
+        {
+          id: "fate_twist",
+          name: "Fate Twist",
+          triggerType: "on_prophecy_resolution",
+          action:
+            "Reroll the prophecy resolution die. Must accept the new result. +3 Havoc if new result is Prophesied.",
+        },
+      ],
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "utility",
+      "arcane",
+      "universal",
+      "reaction",
+      "reroll",
+      "prophecy",
+    ],
+  },
+
+  {
+    id: "doomsayer_doom_legion",
+    name: "Doom Legion",
+    description:
+      "A prophecy placed on EVERY enemy simultaneously. The caster SCREAMS until their voice gives out — a single sustained note that fractures into a thousand prophetic echoes, each one finding a different target. Every enemy the caster can see receives the doom. The sound is not human. It is not meant for human ears. The caster's throat tears, their eyes burst blood vessels, and for a moment they see every enemy's ending laid out like cards on a table.",
+    spellType: "ACTION",
+    icon: "Necrotic/Skull Explosion",
+    level: 8,
+    specialization: "cataclysm",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "fire",
+      secondaryElement: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Skull Explosion",
+    },
+    targetingConfig: {
+      targetingType: "multi",
+      rangeDistance: 60,
+      rangeType: "ranged",
+      targetRestrictions: ["enemies"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 40,
+      hp: 15,
+      classResource: {
+        type: "havoc",
+        cost: 10,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d8", "d6"],
+          resolutionDie: "d6",
+          prophesied: {
+            damage: "8d8",
+            effect: {
+              name: "Legion Ignition",
+              description:
+                "All hit targets are ignited, taking 2d6 fire damage per round for 3 rounds. Each enemy hit generates +4 Havoc.",
+              dotDamage: "2d6",
+              dotDamageType: "fire",
+              dotDuration: 3,
+              dotDurationUnit: "rounds",
+              havocPerTarget: 4,
+            },
+            havocGain: 4,
+            description:
+              "Deals 8d8 fire+necrotic to EACH enemy you can see. All ignited (2d6 fire/round, 3 rounds). +4 Havoc per enemy hit.",
           },
-        ],
+          base: {
+            damage: "5d8",
+            havocGain: 2,
+            description:
+              "Deals 5d8 fire+necrotic to each enemy you can see.",
+          },
+          outside: {
+            backlash: "2d8 per target in range to self",
+            havocGain: 0,
+            description:
+              "The legion turns. For every enemy in range, you take 2d8 damage as the accumulated doom finds no purchase and recoils through your body.",
+          },
+        },
       },
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
+    ],
+    damageConfig: {
+      formula: "5d8",
+      damageTypes: ["fire", "necrotic"],
+      resolution: "PROPHECY",
+      dotConfig: {
+        enabled: true,
+        damagePerTick: "2d6",
+        damageType: "fire",
+        tickFrequency: "round",
+        duration: 3,
+        canStack: false,
+        maxStacks: 1,
       },
-      tags: ["ultimate", "death", "prophecy", "requiem", "absolute"],
     },
-    {
-      id: "doomsayer_doom_fatigue",
-      name: "Doom Fatigue",
-      description:
-        "Each doom or prophecy you have active beyond the first drains you. For each active doom beyond 1, you take 1d4 necrotic damage at the start of your turn. Spreading doom exhausts the prophet. You can feel each prophecy like a weight on your soul.",
-      level: 1,
-      spellType: "PASSIVE",
-      icon: "Magic/Doom",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "necromancy",
-        icon: "Magic/Doom",
-        tags: ["passive", "weakness"],
-        castTime: 0,
-        castTimeType: "PASSIVE",
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "fire",
+      "necrotic",
+      "prophecy",
+      "cataclysm",
+      "multi_target",
+      "dot",
+    ],
+  },
+
+  {
+    id: "doomsayer_death_sentence",
+    name: "Death Sentence",
+    description:
+      "An inescapable doom brand. The caster carves the sentence into the air with a finger that leaves a trail of blood — not from a wound, but from the sheer act of writing fate itself. The brand sears into the target's essence: they cannot resolve prophecies as Outside (minimum Base outcome), every Prophesied result generates +3 Havoc, and their body refuses to heal above half health. The sentence is absolute. It can only be endured.",
+    spellType: "ACTION",
+    icon: "Necrotic/Death Mark",
+    level: 8,
+    specialization: "requiem",
+    effectTypes: ["debuff"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Death Mark",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 30,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 40,
+      hp: 15,
+      classResource: {
+        type: "havoc",
+        cost: 10,
       },
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-        rangeDistance: 0,
-        targetRestrictions: ["self"],
+    },
+    resolution: "AUTOMATIC",
+    debuffConfig: {
+      debuffType: "brand",
+      effects: [
+        {
+          id: "death_sentence_brand",
+          name: "Death Sentence",
+          description:
+            "Cannot resolve prophecies as Outside — minimum Base outcome is enforced. All Prophesied results generate +3 additional Havoc.",
+          statusType: "doom_brand",
+          prophecyFloor: "base",
+          bonusHavoc: 3,
+        },
+        {
+          id: "death_sentence_heal_cap",
+          name: "Sentenced Flesh",
+          description:
+            "Cannot be healed above 50% HP while branded. The body refuses to recover fully under the weight of the sentence.",
+          healCapPercent: 50,
+        },
+      ],
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "debuff",
+      "necrotic",
+      "requiem",
+      "brand",
+      "concentration",
+      "prophecy",
+    ],
+  },
+
+  // ============================================================
+  // LEVEL 9 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_the_end",
+    name: "The End",
+    description:
+      "The Word of Ending. The caster speaks it and reality RECOILS — the air itself flinches, the ground shudders, and for one terrible moment everything within range sees their own ending reflected in the blast. Necrotic, fire, psychic, and raw force cascade outward in equal measure, and nothing is spared. Allies may be caught — the End does not discriminate. The caster's eyes turn entirely black for a full minute after casting, and the taste of ash never leaves their mouth.",
+    spellType: "ACTION",
+    icon: "Void/Red Energy Burst",
+    level: 9,
+    specialization: "universal",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "necrotic",
+      secondaryElement: "fire",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Void/Red Energy Burst",
+    },
+    targetingConfig: {
+      targetingType: "self_centered",
+      areaShape: "circle",
+      areaSize: 60,
+      rangeType: "self_centered",
+      rangeDistance: 0,
+      targetRestrictions: ["any"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 50,
+      hp: 20,
+      classResource: {
+        type: "havoc",
+        cost: 12,
       },
-      resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
-        actionPoints: 0,
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d12", "d10"],
+          resolutionDie: "d10",
+          prophesied: {
+            damage: "10d10 mixed",
+            effect: {
+              name: "Erasure",
+              description:
+                "Enemies below 30% HP after damage are instantly reduced to 0 HP. No save. No immunity. The End has spoken.",
+              instantKillThreshold: 30,
+              instantKillMetric: "hp_percent",
+              bypassImmunity: true,
+            },
+            havocGain: 12,
+            description:
+              "Deals 10d10 mixed damage to all in 60ft. Enemies below 30% HP after damage are erased (0 HP, no save). Friendly fire possible.",
+          },
+          base: {
+            damage: "6d10 mixed",
+            havocGain: 6,
+            description:
+              "Deals 6d10 mixed damage to all in 60ft. Friendly fire possible.",
+          },
+          outside: {
+            backlash: "4d10 to self",
+            effect: {
+              id: "doom_iii",
+              name: "Doom III",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -3,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The End turns on its speaker. You suffer -3 to Spirit saves for 2 rounds as the word of ending echoes through your own existence.",
+              doomStack: true,
+              doomStackValue: 3,
+            },
+            havocGain: 0,
+            description:
+              "Deals 4d10 damage to you and afflicts you with Doom III (-3 Spirit saves, 2 rounds).",
+          },
+        },
       },
+    ],
+    damageConfig: {
+      formula: "6d10",
+      damageTypes: ["necrotic", "fire", "psychic", "force"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "necrotic",
+      "fire",
+      "psychic",
+      "force",
+      "prophecy",
+      "universal",
+      "area",
+      "friendly_fire",
+    ],
+  },
+
+  {
+    id: "doomsayer_cataclysm_incarnate",
+    name: "Cataclysm Incarnate",
+    description:
+      "The caster becomes a walking cataclysm. Their skin cracks with prophetic fire — not burning, but ILLUMINATING from within, thin lines of molten gold tracing across their body like fault lines. Everything near them BURNS. Each turn, the Cataclysm Table rolls against every enemy within 40ft, auto-resolving as Prophesied. The caster does not choose what burns. The cataclysm decides. Their voice becomes the sound of cities falling.",
+    spellType: "ACTION",
+    icon: "Fire/Volcanic Erupt",
+    level: 9,
+    specialization: "cataclysm",
+    effectTypes: ["buff"],
+    typeConfig: {
+      school: "fire",
+      secondaryElement: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Fire/Volcanic Erupt",
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self",
+      rangeDistance: 0,
+      targetRestrictions: ["self"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 50,
+      hp: 20,
+      classResource: {
+        type: "havoc",
+        cost: 12,
+      },
+    },
+    resolution: "AUTOMATIC",
+    buffConfig: {
+      buffType: "ultimate_transformation",
+      effects: [
+        {
+          id: "cataclysm_aura",
+          name: "Cataclysm Aura",
+          description:
+            "Auto-Prophesied damage to all enemies within 40ft each turn via Cataclysm Table. The walking end does not negotiate.",
+          auraRadius: 40,
+          autoProphesied: true,
+        },
+      ],
+    },
+    triggerConfig: {
+      triggers: [
+        {
+          id: "turn_cataclysm",
+          name: "Cataclysm Turn",
+          triggerType: "start_of_turn",
+          action:
+            "Roll on Cataclysm Table for each enemy within 40ft. All results resolve as Prophesied automatically.",
+        },
+      ],
+    },
+    tableConfig: {
+      name: "Cataclysm Table",
+      die: "1d6",
+      rolls: [
+        {
+          roll: "1-2",
+          effect: "4d6 fire damage to target",
+        },
+        {
+          roll: "3-4",
+          effect: "4d6 necrotic damage to target",
+        },
+        {
+          roll: "5",
+          effect:
+            "4d6 psychic damage + Doom III (-3 Spirit saves, Spirit save DC SPELL_DC negates doom)",
+        },
+        {
+          roll: "6",
+          effect: "4d6 force damage + 30ft knockback",
+        },
+      ],
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "buff",
+      "transformation",
+      "fire",
+      "necrotic",
+      "cataclysm",
+      "concentration",
+      "table",
+      "aura",
+    ],
+  },
+
+  {
+    id: "doomsayer_requiem_absolute",
+    name: "Requiem Absolute",
+    description:
+      "The final requiem. Fate itself cannot deny this doom. The caster's voice becomes something beyond human — something that should not exist, something that predates language and will outlast it. A single syllable carries the weight of absolute ending: the target is reduced to 0 HP. No save. No immunity. ALL creature types. No entity in existence can resist a song this final. The caster's nose bleeds black ichor and their eyes weep crimson. The word has been spoken. It cannot be unspoken.",
+    spellType: "ACTION",
+    icon: "Necrotic/Death Mark",
+    level: 9,
+    specialization: "requiem",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Death Mark",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 30,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 50,
+      hp: 20,
+      classResource: {
+        type: "havoc",
+        cost: 12,
+      },
+    },
+    resolution: "PROPHECY",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "PROPHECY",
+        prophecy: {
+          rangeDice: ["d4", "d4"],
+          resolutionDie: "d4",
+          prophesied: {
+            damage: "instant_death",
+            effect: {
+              name: "Absolute Requiem",
+              description:
+                "Target reduced to 0 HP. No save. No immunity. All creature types. Absolute. The requiem has no exceptions because the requiem is the exception to existence itself.",
+              instantKill: true,
+              bypassImmunity: true,
+              allCreatureTypes: true,
+              absolute: true,
+            },
+            havocGain: 12,
+            description:
+              "Target reduced to 0 HP. No save. No immunity. All creature types. Absolute.",
+          },
+          base: {
+            damage: "15d12 necrotic",
+            havocGain: 6,
+            description: "Deals 15d12 necrotic damage.",
+          },
+          outside: {
+            backlash: "15d12 necrotic to self",
+            effect: {
+              id: "doom_iv",
+              name: "Doom IV",
+              duration: 2,
+              unit: "rounds",
+              statModifiers: [
+                {
+                  stat: "spirit",
+                  value: -4,
+                  magnitudeType: "penalty",
+                },
+              ],
+              description:
+                "The absolute requiem turns on its speaker. You suffer -4 to Spirit saves for 2 rounds as the final song echoes through your own soul.",
+              doomStack: true,
+              doomStackValue: 4,
+            },
+            havocGain: 0,
+            description:
+              "Deals 15d12 necrotic damage to you and afflicts you with Doom IV (-4 Spirit saves, 2 rounds).",
+          },
+        },
+      },
+    ],
+    damageConfig: {
+      formula: "15d12",
+      damageTypes: ["necrotic"],
+      resolution: "PROPHECY",
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "necrotic",
+      "prophecy",
+      "requiem",
+      "instant_kill",
+      "absolute",
+    ],
+  },
+
+  // ============================================================
+  // LEVEL 10 SPELLS (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_herald_of_the_end",
+    name: "Herald of the End",
+    description:
+      "For one minute, you ARE the apocalypse. Fate bows. The caster's humanity burns away — eyes black, voice resonant with the End itself — and in its place stands something that prophecies obey. ALL prophecies auto-resolve as Prophesied. Havoc generation TRIPLES. The Herald is immune to fire, necrotic, and psychic damage. Backlash that would damage the Herald instead deals DOUBLE damage to enemies within range. The transformation is total. The person who was here before is gone. Whether they come back is uncertain.",
+    spellType: "ACTION",
+    icon: "Void/Black Hole",
+    level: 10,
+    specialization: "universal",
+    effectTypes: ["buff"],
+    typeConfig: {
+      school: "force",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Void/Black Hole",
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self",
+      rangeDistance: 0,
+      targetRestrictions: ["self"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 60,
+      hp: 25,
+      classResource: {
+        type: "havoc",
+        cost: 15,
+      },
+    },
+    resolution: "AUTOMATIC",
+    buffConfig: {
+      buffType: "ultimate_transformation",
+      effects: [
+        {
+          id: "herald_auto_prophesied",
+          name: "Fate's Submission",
+          description:
+            "All prophecies cast by or against the Herald auto-resolve as Prophesied. Fate has surrendered.",
+          autoProphesied: true,
+        },
+        {
+          id: "herald_triple_havoc",
+          name: "Apocalypse Engine",
+          description:
+            "Havoc generation tripled. The Herald does not merely channel doom — they ARE doom, and doom generates itself.",
+          havocMultiplier: 3,
+        },
+        {
+          id: "herald_immunity",
+          name: "End Made Flesh",
+          description:
+            "Immune to fire, necrotic, and psychic damage. The Herald cannot be harmed by the very forces they embody.",
+          immunities: ["fire", "necrotic", "psychic"],
+        },
+        {
+          id: "herald_backlash_redirect",
+          name: "Deflected Apocalypse",
+          description:
+            "Backlash damage that would affect the Herald instead deals double damage to the nearest enemy within 30ft. The End does not harm its Herald.",
+          backlashRedirect: true,
+          backlashMultiplier: 2,
+          backlashRange: 30,
+        },
+      ],
+    },
+    durationConfig: {
+      durationType: "rounds",
+      durationValue: 10,
+      durationUnit: "rounds",
+      concentrationRequired: true,
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "buff",
+      "transformation",
+      "force",
+      "universal",
+      "concentration",
+      "ultimate",
+    ],
+  },
+
+  {
+    id: "doomsayer_end_of_all_things",
+    name: "End of All Things",
+    description:
+      "Every prophecy detonates. EVERY. SINGLE. ONE. The caster reaches out with both hands and TEARS — ripping every active prophecy off the battlefield within 120ft and forcing them to resolve as Prophesied simultaneously. The combined detonation creates a Scorched Earth zone that continues to burn for 5 rounds afterward. The battlefield becomes a hellscape of fire, necrotic rot, and raw force. The caster may not survive the backlash. There is a very real chance they die casting this spell. The End does not care who it takes.",
+    spellType: "ACTION",
+    icon: "Fire/Volcanic Erupt",
+    level: 10,
+    specialization: "cataclysm",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "fire",
+      secondaryElement: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Fire/Volcanic Erupt",
+    },
+    targetingConfig: {
+      targetingType: "self_centered",
+      areaShape: "circle",
+      areaSize: 120,
+      rangeType: "self_centered",
+      rangeDistance: 0,
+      targetRestrictions: ["any"],
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 60,
+      hp: 25,
+      classResource: {
+        type: "havoc",
+        cost: 15,
+      },
+    },
+    resolution: "AUTOMATIC",
+    damageConfig: {
+      formula: "4d8 fire + 4d8 necrotic per active prophecy",
+      damageTypes: ["fire", "necrotic", "force"],
       resolution: "AUTOMATIC",
-      tags: ["passive", "weakness"],
+      dotConfig: {
+        enabled: true,
+        damagePerTick: "3d8",
+        damageType: "fire",
+        tickFrequency: "round",
+        duration: 5,
+        canStack: false,
+        maxStacks: 1,
+        zoneName: "Scorched Earth",
+        zoneDescription:
+          "The ground itself burns with prophetic fire. 3d8 damage per round to all creatures in the zone for 5 rounds.",
+      },
     },
-    {
-      id: "doomsayer_inevitable_isolation",
-      name: "Inevitable Isolation",
-      description:
-        "You cannot benefit from ally healing spells or positive buffs while you have an active doom prophecy. The weight of your visions isolates you from hope. Allies can still target you, but their healing and buffs simply fail to take hold on a soul so saturated with doom.",
-      level: 3,
-      spellType: "PASSIVE",
-      icon: "Magic/Doom",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "necromancy",
-        icon: "Magic/Doom",
-        tags: ["passive", "weakness"],
-        castTime: 0,
-        castTimeType: "PASSIVE",
+    triggerConfig: {
+      triggers: [
+        {
+          id: "final_detonation",
+          name: "Final Detonation",
+          triggerType: "on_cast",
+          action:
+            "Detonate ALL active prophecies on the battlefield within 120ft. Each resolves as Prophesied. Creates Scorched Earth zone (3d8/round, 5 rounds). Massive friendly fire risk.",
+        },
+      ],
+    },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "fire",
+      "necrotic",
+      "force",
+      "cataclysm",
+      "area",
+      "ultimate",
+      "prophecy_resolve",
+      "dot",
+      "friendly_fire",
+    ],
+  },
+
+  {
+    id: "doomsayer_final_requiem",
+    name: "Final Requiem",
+    description:
+      "The last song of doom. Cannot be denied, survived, escaped, or forgiven. The caster's voice GIVES OUT permanently — they may never speak again — as the final requiem pours out of them in a sound that is not a scream, not a whisper, not a word. It is simply END. 20d12 necrotic damage with no save. If the target dies, they cannot be resurrected by any means. If they somehow survive, every future prophecy cast against them resolves as Prophesied permanently — their doom is no longer a possibility, it is a certainty awaiting its moment. The caster slumps, silent. Some words cost everything.",
+    spellType: "ACTION",
+    icon: "Necrotic/Necrotic Skull",
+    level: 10,
+    specialization: "requiem",
+    effectTypes: ["damage"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 1,
+      castTimeType: "IMMEDIATE",
+      icon: "Necrotic/Necrotic Skull",
+    },
+    targetingConfig: {
+      targetingType: "single",
+      rangeDistance: 60,
+      targetRestrictions: ["enemies"],
+      rangeType: "ranged",
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 60,
+      hp: 25,
+      classResource: {
+        type: "havoc",
+        cost: 15,
       },
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-        rangeDistance: 0,
-        targetRestrictions: ["self"],
-      },
-      resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
-        actionPoints: 0,
-      },
+    },
+    resolution: "AUTOMATIC",
+    damageConfig: {
+      formula: "20d12",
+      damageTypes: ["necrotic"],
       resolution: "AUTOMATIC",
-      tags: ["passive", "weakness"],
     },
-    {
-      id: "doomsayer_prophets_burden",
-      name: "Prophet's Burden",
-      description:
-        "When a doom prophecy you placed is cleansed, dispelled, or removed before it resolves naturally, you take psychic damage equal to the doom's remaining potential damage (minimum 1d6). Failed prophecies hurt the prophet -- your visions demand to be fulfilled.",
-      level: 5,
-      spellType: "PASSIVE",
-      icon: "Magic/Doom",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "necromancy",
-        icon: "Magic/Doom",
-        tags: ["passive", "weakness"],
-        castTime: 0,
-        castTimeType: "PASSIVE",
+    triggerConfig: {
+      triggers: [
+        {
+          id: "absolute_execution",
+          name: "Absolute Execution",
+          triggerType: "on_cast",
+          action:
+            "20d12 necrotic, no save. If target dies, cannot be resurrected. If target survives, all future prophecies against them auto-Prophesied permanently. Caster's voice gives out permanently.",
+        },
+      ],
+      conditionalEffects: {
+        damage: {
+          isConditional: true,
+          defaultEnabled: true,
+          conditionalFormulas: {
+            "target dies": "20d12 necrotic + no resurrection",
+            "target survives":
+              "20d12 necrotic + permanent auto-Prophesied on all future prophecies against target",
+            default: "20d12 necrotic, no save",
+          },
+        },
       },
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-        rangeDistance: 0,
-        targetRestrictions: ["self"],
-      },
-      resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
-        actionPoints: 0,
-      },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "weakness"],
     },
+    cooldownConfig: {
+      cooldownType: "long_rest",
+      cooldownValue: 1,
+    },
+    tags: [
+      "damage",
+      "necrotic",
+      "requiem",
+      "ultimate",
+      "no_save",
+      "no_resurrection",
+    ],
+  },
+
+  // ============================================================
+  // PASSIVE ABILITIES (3)
+  // ============================================================
+
+  {
+    id: "doomsayer_doom_fatigue",
+    name: "Doom Fatigue",
+    description:
+      "Each doom and prophecy beyond the first drains you. Spreading doom exhausts the prophet — you feel each prophecy like a weight on your soul, a slow accumulation of endings that your body was never meant to carry. At the start of each turn, you take 1d4 necrotic damage per active doom beyond the first. The more doom you spread, the more it consumes you from within. Your veins darken with each prophecy, and your coughs bring up something that is not entirely blood.",
+    spellType: "PASSIVE",
+    icon: "Necrotic/Necrotic Death",
+    level: 1,
+    specialization: "universal",
+    effectTypes: ["passive"],
+    typeConfig: {
+      school: "necrotic",
+      castTime: 0,
+      castTimeType: "PASSIVE",
+      icon: "Necrotic/Necrotic Death",
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self",
+      rangeDistance: 0,
+      targetRestrictions: ["self"],
+    },
+    resourceCost: {
+      resourceTypes: [],
+      resourceValues: {},
+      actionPoints: 0,
+    },
+    resolution: "AUTOMATIC",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "SELF_DAMAGE",
+        triggerType: "start_of_turn",
+        action:
+          "Deal 1d4 necrotic damage to self per active doom beyond the first. Doom fatigue accumulates with each prophecy.",
+        damageFormula: "1d4 per active doom beyond 1",
+        damageType: "necrotic",
+      },
+    ],
+    cooldownConfig: {
+      cooldownType: "none",
+      cooldownValue: 0,
+    },
+    tags: ["passive", "necrotic", "universal", "self_damage"],
+  },
+
+  {
+    id: "doomsayer_inevitable_isolation",
+    name: "Inevitable Isolation",
+    description:
+      "Your visions isolate you from hope. While you have active doom prophecies, you cannot benefit from ally healing or positive buffs — their healing simply fails to take hold on a soul so saturated with doom, their buffs sliding off you like water off a gravestone. The isolation is absolute. You also take 50% increased psychic damage from all sources — your mind, stretched thin by the constant flood of prophetic visions, has become catastrophically vulnerable to anything that targets the psyche.",
+    spellType: "PASSIVE",
+    icon: "Necrotic/Necrotic Death",
+    level: 3,
+    specialization: "universal",
+    effectTypes: ["passive"],
+    typeConfig: {
+      school: "psychic",
+      castTime: 0,
+      castTimeType: "PASSIVE",
+      icon: "Necrotic/Necrotic Death",
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self",
+      rangeDistance: 0,
+      targetRestrictions: ["self"],
+    },
+    resourceCost: {
+      resourceTypes: [],
+      resourceValues: {},
+      actionPoints: 0,
+    },
+    resolution: "AUTOMATIC",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "BUFF_BLOCK",
+        condition: "Has active doom prophecies",
+        action:
+          "Cannot benefit from ally healing or positive buffs while active doom prophecies exist.",
+        healingBlock: true,
+        buffBlock: true,
+        blockCondition: "active_doom_prophecies",
+      },
+      {
+        enabled: true,
+        system: "VULNERABILITY",
+        vulnerabilityType: "psychic",
+        vulnerabilityPercent: 50,
+        description:
+          "50% increased psychic damage from all sources. The prophet's mind is an open wound.",
+      },
+    ],
+    cooldownConfig: {
+      cooldownType: "none",
+      cooldownValue: 0,
+    },
+    tags: ["passive", "psychic", "universal", "self_debuff"],
+  },
+
+  {
+    id: "doomsayer_prophets_burden",
+    name: "Prophet's Burden",
+    description:
+      "Failed prophecies hurt the prophet. When a doom prophecy is cleansed or dispelled before its natural resolution, the accumulated prophetic energy has nowhere to go but back into the one who spoke it. You take psychic damage equal to the doom's remaining potential damage (minimum 1d6). Your visions demand to be fulfilled — denied prophecy does not simply vanish. It returns to its source, and you ARE the source. Each undone prophecy is a psychic wound that reopens every time someone cheats fate.",
+    spellType: "PASSIVE",
+    icon: "Necrotic/Necrotic Death",
+    level: 5,
+    specialization: "universal",
+    effectTypes: ["passive"],
+    typeConfig: {
+      school: "psychic",
+      castTime: 0,
+      castTimeType: "PASSIVE",
+      icon: "Necrotic/Necrotic Death",
+    },
+    targetingConfig: {
+      targetingType: "self",
+      rangeType: "self",
+      rangeDistance: 0,
+      targetRestrictions: ["self"],
+    },
+    resourceCost: {
+      resourceTypes: [],
+      resourceValues: {},
+      actionPoints: 0,
+    },
+    resolution: "AUTOMATIC",
+    mechanicsConfig: [
+      {
+        enabled: true,
+        system: "BACKLASH_ON_DISPEL",
+        triggerType: "on_prophecy_dispelled",
+        action:
+          "When a doom prophecy is cleansed or dispelled before natural resolution, take psychic damage equal to the doom's remaining potential damage (minimum 1d6).",
+        damageFormula: "remaining_potential_damage",
+        minimumDamage: "1d6",
+        damageType: "psychic",
+      },
+    ],
+    cooldownConfig: {
+      cooldownType: "none",
+      cooldownValue: 0,
+    },
+    tags: ["passive", "psychic", "universal", "self_damage"],
+  },
   ],
 
   spellPools: {
@@ -3201,3 +3807,4 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 };
+

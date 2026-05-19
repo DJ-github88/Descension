@@ -15,50 +15,52 @@ export const TOXICOLOGIST_DATA = {
   // Overview Section
   overview: {
     title: "The Toxicologist",
-    subtitle: "Master of Poisons, Concoctions, and Contraptions",
+    subtitle: "The Self-Poisoned Surgeon -- Every Cure Is for Someone Else",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: Toxicologists wield a dual-resource alchemy systemÃ¢â‚¬â€spending Toxin Vials to craft deadly poisons and mid-combat concoctions, while deploying Contraption Parts as battlefield devices that control enemy movement and create tactical advantages.
+      content: `**What You Need to Know**: You are the only preparation-based alchemist. You set traps before initiative, craft poisons mid-combat, and stack debilitating debuffs no other class can apply. Your enemies are weakened, slowed, bleeding, and armor-shredded before the real fight begins. But your own blood rejects medicine -- all healing you receive is halved, and fire or radiant damage causes your active poisons to detonate inside you. Without preparation time, you are a basic combatant with a body full of toxins and nowhere to spend them.
 
-**Core Mechanic**: Manage Toxin Vials Ã¢â€ â€™ Craft Poisons & Concoctions Mid-Combat Ã¢â€ â€™ Deploy Contraption Parts Ã¢â€ â€™ Stack Debuffs and Control the Battlefield
+**Core Mechanic**: Bleed Toxin Vials from your own flesh -> Craft Poisons & Concoctions Mid-Combat -> Deploy Contraption Parts -> Stack Debuffs and Watch Them Crumble
 
 **Resource**: Toxin Vials (INT mod + 3, min 4) & Contraption Parts (max 5)
 
-**Playstyle**: Tactical alchemical preparation and adaptation
+**Playstyle**: Oppressive alchemical preparation -- set the board, then watch them suffer
 
-**Best For**: Players who love pre-combat planning, mid-fight crafting, and weaving poisons with gadgets into lethal synergies`,
+**Best For**: Players who love pre-combat planning, mid-fight crafting, and the grim satisfaction of watching enemies crumble under layered afflictions they never saw coming`,
     },
 
-    description: `The Toxicologist is a master of poisons, concoctions, and minor contraptions, combining their knowledge of alchemy with deadly combat skills. Through the dual-resource system of Toxin Vials and Contraption Parts, they control the battlefield with strategic poison application and tactical device deployment, weakening enemies and creating devastating synergies. Ã¢Å¡Â Ã¯Â¸Â **Unlike the Plaguebringer** (who benefits from enemy death via Plague Carrier) or **Witch Doctor** (who channels angry gods via Loa Disfavor), the Toxicologist is PREPARATION-BASED. You set up before combat, craft during combat, and reclaim after combat. No passive pressure, no divine demands Ã¢â‚¬â€ just science, poison, and contraptions. Your strength is that NOTHING forces you to act Ã¢â‚¬â€ but also nothing helps you if you didn't prepare.`,
+    description: `There is no cure for what you have become. The Toxicologist began as a healer -- someone who understood the boundary between medicine and venom, who could save a life with one drop and end it with two. That person is dead. What remains is a self-poisoned surgeon whose veins run thick with weaponized toxin, whose body is a walking crucible of reagents that rejects restoration. Every poison you craft costs blood. Every antidote you brew is for someone else. Your own flesh cannot be saved -- it is saturated past the point of no return. Unlike the Plaguebringer (who feeds on enemy death) or the Witch Doctor (who channels angry gods), the Toxicologist is PREPARATION-BASED. You set up before combat, craft during combat, and reclaim after combat. No passive pressure, no divine demands -- just science, poison, and contraptions. Your strength is that NOTHING forces you to act -- but also nothing helps you if you didn't prepare.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Toxicologists are alchemists who have turned their knowledge of chemistry and biology into weapons of war. They understand the delicate balance between medicine and poison, life and death. Their laboratories are filled with bubbling vials, exotic ingredients, and mechanical contraptionsÃ¢â‚¬â€each one a tool for controlling the battlefield.
+      content: `You were a healer once. Or perhaps you were a scholar who wandered too far into forbidden pharmacology. Or a field medic who learned that the same needle that delivers morphine can deliver something far more permanent. However you arrived here, the result is the same: your body is a temple to toxins, your mind a catalogue of suffering, your hands instruments of slow, deliberate ruin.
 
-Unlike traditional mages who rely on arcane power, Toxicologists trust in science, experimentation, and preparation. They spend hours perfecting poison formulas, testing contraption designs, and studying the weaknesses of their enemies. Every battle is an experiment, every enemy a test subject.
+Toxicologists do not practice magic in any traditional sense. They practice mutilation refined to a science. Every poison is a wound that hasn't happened yet. Every antidote is a kindness they can extend to others but never to themselves. Their laboratories smell of copper and formaldehyde -- or perhaps that is just the smell of their own blood, which hasn't been truly clean in years.
 
 In roleplay, Toxicologists often embody:
-- **The Mad Scientist**: Obsessed with perfecting the ultimate poison or contraption
-- **The Plague Doctor**: Uses knowledge of disease and toxins to both harm and heal
-- **The Assassin Alchemist**: Crafts poisons for silent, efficient kills
-- **The Battlefield Engineer**: Deploys contraptions to control territory and protect allies
-- **The Herbalist Gone Dark**: Turned knowledge of healing plants into deadly toxins
+- **The Self-Poisoned Surgeon**: A healer who began testing cures on themselves until cure and curse became indistinguishable
+- **The battlefield Mortician**: Collects tissue samples from the dying to refine their craft, always seeking the perfect toxin
+- **The Tragic Alchemist**: Knows they are killing themselves slowly, believes it is a worthy trade for the lives they save with their antidotes
+- **The Venom-Sick Hermit**: Has lived so long among poisons that their touch is dangerous, their breath is acrid, and they cannot remember what health feels like
+- **The Punisher**: Turned their knowledge of anatomy into a weapon after witnessing something unforgivable -- every poison is calibrated to the exact amount of suffering they believe a target deserves
 
-Toxicologists often carry the scent of chemicals and herbs, their fingers stained with reagents. They collect rare ingredients obsessively, always seeking new components for their experiments. Some wear protective gearÃ¢â‚¬â€masks, gloves, apronsÃ¢â‚¬â€while others have built up immunity to their own poisons through careful exposure.
+Their fingers are stained permanent yellow-green. Their veins are visible beneath the skin, dark with circulating reagents. They carry the scent of a hospital ward that has seen too much death.
 
-**Philosophy**: "Nature provides the ingredients. Science provides the method. I provide the application."`,
+**Philosophy**: "I cannot save myself. But I can ensure that whatever killed me dies slower, suffers longer, and begs louder."`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `The Toxicologist is a tactical damage dealer and battlefield controller who excels at:
+      content: `**Why Bring Me?** Because no other class can prepare the battlefield before initiative is rolled. You are the ONLY preparation-based alchemist. You set traps at choke points, craft poisons mid-combat, and stack debilitating debuffs -- weakened, slowed, bleeding, armor-shredded -- that no other class can apply. By the time the real fight starts, your enemies are already dying and don't know it yet.
+
+**Fatal Flaw**: You CANNOT heal yourself. All healing you receive from any source is reduced by 50% -- your blood rejects medicine like it rejects purity. Fire and radiant damage causes your active poisons to detonate INSIDE you. You are your own worst hazard zone. Without preparation time, you are a basic combatant carrying a body full of toxins with nowhere to spend them.
 
 **Poison Application**: Apply various poisons to weapons for DoT, debuffs, and burst damage
 **Battlefield Control**: Deploy contraptions to control enemy movement and create tactical advantages
 **Mid-Combat Crafting**: Craft concoctions for 1 AP to adapt to changing situations
 **Debuff Mastery**: Weaken enemies through stacking poison effects and contraption synergies
-**Strategic Utility**: Provide antidotes, explosives, and tactical support
+**Strategic Utility**: Provide antidotes for others, explosives, and tactical support
 
 **Strengths**:
 - Exceptional battlefield control through contraption placement
@@ -72,11 +74,11 @@ Toxicologists often carry the scent of chemicals and herbs, their fingers staine
 - Requires careful management of two separate resources
 - Contraption deployment costs action economy
 - Less effective against poison-immune enemies
-- Limited direct healing capabilities
-- Complexity requires planning and game knowledge
+- 50% healing reduction makes you dangerously fragile
+- Fire/radiant damage triggers internal poison detonation
 - Vulnerable when caught without prepared resources
 
-The Toxicologist shines in tactical combats where they can prepare the battlefield with contraptions, apply poisons strategically, and adapt their concoctions to counter enemy tactics.`,
+The Toxicologist shines in tactical combats where they can prepare the battlefield with contraptions, apply poisons strategically, and adapt their concoctions to counter enemy tactics. But every battle is a gamble -- the wrong flame spell turns your own blood into a weapon against you.`,
     },
 
     playstyle: {
@@ -315,14 +317,13 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
     title: "Alchemical Arsenal",
     subtitle: "Toxin Vials & Contraption Parts",
 
-    description: `The Toxicologist's unique mechanic revolves around managing two distinct resources: **Toxin Vials** (for crafting poisons and concoctions) and **Contraption Parts** (for deploying battlefield devices). This dual-resource system rewards strategic planning and tactical adaptation.
+    description: `Your arsenal is fed by self-mutilation and scavenged wreckage. **Toxin Vials** are filled by slicing open your own flesh -- each vial drawn from a body already saturated with reagents, your blood mixing with venom until the distinction is meaningless. **Contraption Parts** are pried from battlefield debris, salvaged from the dead, or assembled from components no surgeon would sanction.
 
 **Two Crafting Systems:**
 - **Weapon Poisons** (1 vial, 1 AP): Quick-apply poisons to your weapon. Lasts 3 attacks or until end of combat. Choose from 5 poison types (Neurotoxin, Hemotoxin, Cytotoxin, Myotoxin, Cardiotoxin).
-- **Brewed Concoctions** (1-3 vials, 1 AP): More powerful crafted items Ã¢â‚¬â€ Explosive Concoctions, Smoke Bombs, Antidotes, Healing Mist. These have stronger effects but higher vial costs.
+- **Brewed Concoctions** (1-3 vials, 1 AP): More powerful crafted items -- Explosive Concoctions, Smoke Bombs, Antidotes, Healing Mist. These have stronger effects but higher vial costs.
 
-**Active Contraption Limit:** A Toxicologist can have up to 3 active contraptions on the battlefield at once (Gadgeteer specialization: up to 4). Contraption parts are **recovered after combat** when you reclaim your devices Ã¢â‚¬â€ you do not lose parts permanently by deploying contraptions that survive the encounter. Destroyed or triggered consumable contraptions ( Explosive Mine) have their parts spent until recovered on rest.`,
-
+**Active Contraption Limit:** A Toxicologist can have up to 3 active contraptions on the battlefield at once (Gadgeteer specialization: up to 4). Contraption parts are **recovered after combat** when you reclaim your devices -- you do not lose parts permanently by deploying contraptions that survive the encounter. Destroyed or triggered consumable contraptions (Explosive Mine) have their parts spent until recovered on rest.`,
     cards: [
       {
         title: "Toxin Vials",
@@ -620,10 +621,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
   // Specializations
   specializations: {
     title: "Toxicologist Specializations",
-    subtitle: "Three Paths of Alchemical Mastery",
+    subtitle: "Three Paths of Self-Destruction",
 
-    description: `Toxicologists can specialize in three distinct approaches to alchemy and battlefield control, each focusing on different aspects of poison crafting, contraption deployment, and tactical expertise.`,
-
+    description: "Three ways to weaponize your own decay. Each path deepens your corruption in a different direction -- Venomancers become the poison itself, Gadgeteers build killing machines from refuse, and Saboteurs turn the enemy's own body against them. Choose how you suffer.",
     passiveAbility: {
       name: "Alchemical Expertise",
       description:
@@ -635,8 +635,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         name: "Venomancer",
         icon: "fas fa-skull-crossbones",
         description:
-          "Masters of deadly poisons and toxins. Venomancers focus on maximizing poison damage and duration, creating the most lethal concoctions possible.",
-
+          "Poisoners who have made their own blood a reservoir of death. Venomancers don't just apply toxins -- they embody them, brewing concentrations so lethal that even their sweat is hazardous. Their poisons don't kill quickly. They linger, they worsen, they make the victim beg for the end.",
         passiveAbility: {
           name: "Potent Toxins",
           description:
@@ -668,8 +667,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         name: "Gadgeteer",
         icon: "fas fa-cog",
         description:
-          "Masters of contraptions and mechanical devices. Gadgeteers excel at deploying multiple contraptions and enhancing their effects.",
-
+          "Engineers of suffering who build instruments of pain from battlefield salvage. Gadgeteers cobble together death from scrap and spite -- spike traps from shattered shields, gas dispensers from condemned alchemy vials. Their contraptions are graves waiting for someone to step in.",
         passiveAbility: {
           name: "Improved Contraptions",
           description:
@@ -701,8 +699,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         name: "Saboteur",
         icon: "fas fa-user-secret",
         description:
-          "Masters of debuffs and battlefield disruption. Saboteurs focus on weakening enemies and creating chaos through combined poison and contraption effects.",
-
+          "Masters of sabotage and systemic decay. Saboteurs don't just poison the body -- they poison the plan. Every trap is a betrayal, every debuff a slow unraveling of an enemy's will to fight. Where others see a battlefield, the Saboteur sees a patient already dying.",
         passiveAbility: {
           name: "Debilitating Expertise",
           description:
@@ -3174,11 +3171,11 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         "When you take fire or radiant damage, one random poison effect you have active on an enemy prematurely detonates -- dealing its remaining damage to YOU instead of the target. Your concoctions are volatile and react poorly to heat and light.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "Fire/Fire Vulnerability",
+      icon: "Fire/Burning Status",
       effectTypes: ["passive"],
       typeConfig: {
         school: "poison",
-        icon: "Fire/Fire Vulnerability",
+        icon: "Fire/Burning Status",
         tags: ["passive", "weakness", "fire vulnerability", "backlash", "toxicologist"],
         castTime: 0,
         castTimeType: "PASSIVE",

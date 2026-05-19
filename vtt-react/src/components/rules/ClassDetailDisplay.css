@@ -1364,8 +1364,8 @@
 
 /* ===== Premium Header ===== */
 .class-detail-display.premium-theme .class-detail-header {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   position: relative;
   padding: 8px 24px;
@@ -3579,4 +3579,68 @@ div.class-detail-content::-webkit-scrollbar-thumb,
 
 .overheat-rules-box h4 i {
   color: #c0392b !important;
+}
+
+/* ===== Interactive Resource Bar Showcase ===== */
+.resource-bar-showcase {
+  margin: 24px 0;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(20, 15, 10, 0.05) 0%, rgba(30, 20, 15, 0.02) 100%);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.resource-bar-showcase h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  color: #5a1e12;
+  margin: 0;
+  text-align: center;
+}
+
+.rules-resource-bar-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.03);
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px dashed rgba(139, 69, 19, 0.2);
+}
+
+.rules-resource-bar-container > * {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 1 100%;
+}
+
+/* Fix dual-bars layout in the showcase if needed */
+.rules-resource-bar-container .deathcaller-dual-bars {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  gap: 2px !important;
+}
+
+.resource-bar-hint {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: #6b5b4a;
+  font-style: italic;
+  text-align: center;
+  max-width: 80%;
+}
+
+.resource-bar-hint i {
+  color: #d4af37;
+  margin-right: 4px;
 }

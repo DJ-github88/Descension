@@ -1,333 +1,145 @@
 /**
  * Exorcist Class Data
  *
- * Complete class information for the Exorcist — a divine agent who walks
- * the razor's edge between holiness and heresy, binding demons through
- * sacred ritual and commanding them with divine authority.
+ * Ground-up, surgical overhaul of the Exorcist class.
+ * Embraces a heavy, oppressive, blackened thall and symphonic deathcore aesthetic.
+ * Magic is a mutilation; command is a desperate battle of wills.
+ *
+ * Complies strictly with Mythrill VTT SPELL_DATA_REFERENCE.md.
+ * Eradicates D&D tropes (AC, Dexterity, Spell Slots, Bonus Actions).
+ * Eradicates the 'holy' damage type, replacing it strictly with 'radiant'.
+ * Scrubs all D&D skill checks (Arcana, Stealth, Religion, etc.) from spell data.
+ * Places all schools inside typeConfig.
+ * Removes all redundant elementType fields from damageConfig.
  */
 
 export const EXORCIST_DATA = {
   id: "exorcist",
   name: "Exorcist",
   icon: "fas fa-cross",
-  role: "Summoner/Controller",
+  role: "Iron Inquisitor / Sin-Eater",
   damageTypes: ["radiant", "force", "necrotic"],
 
   overview: {
     title: "The Exorcist",
-    subtitle: "Divine Authority Over Demonic Fury",
+    subtitle: "Rusted Iron, Agonizing Salt, and the Barbed Leash of Demons",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Exorcist is a divine paradox — a holy agent who wields the very demons they should be destroying. Through sacred binding rituals, you capture demonic entities and command them in battle using the **Divine Dominance** system. Each bound demon has a Dominance Die (d12 → d10 → d8 → d6 → 0) that tracks your control. Every command weakens your grip. Let the die reach zero and your demon may break free and turn hostile.
+      content: `**What You Must Know**: The Exorcist is a grim, blue-collar tradesman of the occult. They do not cast clean, glowing divine magic; their tools are burning salt, rusted iron nails, and agonizing brands. They bind demons through grueling rituals and command them with a barbed leash called **Divine Dominance**, tracking their grip with a shifting Dominance Die. Every aggressive action or strike of pain degrades this leash. Let the die hit zero, and the demon breaks free, its red eyes turning upon you with murderous revenge.
 
-**Core Mechanic**: Perform binding rituals → Command demons in battle → Dominance Die decreases with each action → Cast restoration spells to regain control → Risk demons escaping if control is lost
+**Core Mechanic**: Bind demons through ritual → Command them in battle → Dominance Die decreases with actions and damage → Cast painful disciplinary spells to regain control → Risk absolute rebellion if the leash snaps.
 
-**Resource**: Divine Dominance (Dominance Dice: d12 down to d6 per bound demon, up to 4 demons simultaneously)
+**Resource**: Divine Dominance (Dominance Dice: d12 down to d6 per bound demon, up to 4 demons simultaneously).
 
-**Playstyle**: High-tension summoner balancing devastating demonic power against the ever-present risk of rebellion
+**Playstyle**: High-tension summoner and support-controller balancing devastating demonic violence against the constant risk of rebellion and the agony of self-inflicted wounds.
 
-**Best For**: Players who thrive on risk management, pet micromanagement, and the constant adrenaline of wielding weapons that could turn on them at any moment`,
+**Best For**: Players who crave high-risk pet micromanagement, tragic roleplay, and the visceral feel of a character who bleeds for every scrap of power they command.`,
     },
 
-    description: `The Exorcist is a living contradiction — a divine agent who does the unthinkable: binding demons not to destroy them, but to weaponize them. Where clerics banish and paladins smite, the Exorcist captures, commands, and unleashes demonic fury against the very darkness that spawned it. Through sacred binding rituals infused with holy authority, they maintain iron-willed dominance over creatures that would see them dead — and through the Divine Dominance system, they hold the leash on power that could snap at any moment.`,
+    description: `The Exorcist stands on the thin, bleeding edge between divine authority and heresy. They believe the most effective weapon against evil is the evil itself—chained, mutilated, and forced to claw at its own kin. It is a grueling, blue-collar trade of flesh and willpower. Where others pray for salvation, the Exorcist hammers rusted iron stakes into the earth and burns salt across open wounds. Their presence is a tragedy, a copper-smelling dirge that demands a toll of blood from all who seek their aid.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Not all who fight darkness do so with pure light. Exorcists are divine agents who believe the most effective weapon against evil is evil itself — captured, restrained, and turned against its own kind. This philosophy makes them both revered and reviled: saviors to those they protect, and heretics to the holy orders who view demon-binding as corruption incarnate.
-
-Their power flows from sacred binding rituals — ancient ceremonies that fuse divine authority with arcane containment. Each ritual demands specific components, precise celestial timing, and the Exorcist's unbreakable will. The demons they bind are not allies. They are prisoners in holy chains, testing their captor's resolve with every heartbeat, searching for the slightest crack in their divine armor.
-
-Physically, Exorcists bear the marks of their calling: ritual scars from binding ceremonies, glowing sigils tattooed across their arms, and eyes that flicker between holy gold and demonic crimson. Bound demons manifest as shadowy presences — spectral chains linking captor to captive, visible reminders of the power and peril the Exorcist wields.
+      content: `Exorcists are not priests of high cathedrals; they are the Iron Inquisitors and Sin-Eaters who clean the gutter of the supernatural. They carry the crushing, atmospheric weight of their calling: ritual scars from binding ceremonies, hands permanently blackened by sulfur, and eyes that flicker with a cold, radiant light. Bound demons manifest as heavy spectral chains and weeping shadow, constant reminders of the horror they keep on a leash.
 
 Common Exorcist archetypes include:
-- **The Divine Warden**: Captures demons to prevent them from harming the innocent
-- **The Forbidden Scholar**: Studies demonic binding despite religious prohibition
-- **The Desperate Guardian**: Binds demons out of necessity, defending what cannot be defended otherwise
-- **The Walking Heresy**: Embraces both holy and demonic power, caring for neither heaven's approval nor hell's opinion
-- **The Penitent Inquisitor**: Atone for past sins by enslaving evil itself — and trust the demons to remind them of the debt
+- **The Iron Inquisitor**: Driven by an unyielding hatred of the supernatural, they use cold iron and holy fire to subjugate horrors.
+- **The Sin-Eater**: A weary wanderer who absorbs the curses of others into their own flesh, paying the price of agony to keep the innocent clean.
+- **The Chained General**: Binds multiple lesser fiends, split in attention, walking the razor's edge of a collective rebellion.
+- **The Flesh Vessel**: Channels a demon internally, lock-stepping their sanity with a monster that wants to steer their bones.
 
-Every demon bound is a gamble. The power is immense. The cost of failure is catastrophic. The Exorcist stands on the edge of a blade, holy light in one hand and demonic fire in the other, daring both to consume them.`,
+Every ritual is a mutilation, and every victory is paid for in salt, iron, and blood. They do not seek heaven's approval, only the survival of the meat and bone they are bound to protect.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `The Exorcist is a summoner/controller who dominates the battlefield through demonic proxies:
+      content: `In the theater of war, the Exorcist is a brutal, high-impact specialist:
 
-**Demon Binding**: Capture and command demons through sacred ritual
-**Battlefield Control**: Position demons to control space, block chokepoints, and flank enemies
-**Sustained Damage**: Demons provide consistent damage output across multiple targets
-**Divine Dominance Management**: Juggle control over multiple entities — each one a ticking time bomb
+**The Purge Utility ('Why Bring Me?')**: You are the absolute authority on purging curses, demonic possessions, and paranormal crowd control (stun, paralyze, fear) from allies, and you completely devastate supernatural entities (Undead, Spirits, Aberrations). However, your purges are traumatizing, dealing physical damage to the ally to rip the magic out of their nerve endings.
 
-**Strengths**:
-- Fields multiple combatants simultaneously (Exorcist + bound demons)
-- Diverse demon abilities provide tactical flexibility
-- Strong action economy (demons have their own action pools)
-- Excels at controlling multiple enemies at once
-- Can adapt mid-fight by summoning different demons
+**The Fatal Flaw (The 'Mortal Deficit')**: Because your entire arsenal is hyper-specialized against the supernatural (radiant damage, salt, iron), you are staggeringly ineffective against mundane, mortal threats (bandits, beasts, mercenaries). Against normal flesh and blood, your spells do fractionary damage, and your physical frailty leaves you highly vulnerable to basic kinetic, martial attacks.
 
-**Weaknesses**:
-- Extremely vulnerable when demons are dismissed or escape
-- Demands constant Dominance Die attention — look away and lose control
-- Binding rituals require pre-combat preparation and rare components
-- Demons can turn hostile if control slips, creating a second front
-- Fragile without demon protection — the chain goes both ways
-- Mana-hungry: balancing combat spells vs. Dominance restoration is a constant tension
-
-The Exorcist thrives when they prepare rituals before combat and maintain Divine Dominance throughout the battle. They suffer when caught unprepared or forced to split attention between too many demons.`,
+**Agonizing Command**: Position your bound demons to block chokepoints and shred supernatural threats while carefully managing the fragile leash of your Dominance Die.`,
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `Playing an Exorcist is about preparation, control, and risk management. You're not just a spellcaster — you're a demon wrangler armed with divine authority, constantly balancing the power of your bound servants against the risk of losing control. Every command you give, every hit your demon takes, tightens the leash one notch closer to snapping.
+      content: `Playing an Exorcist requires cold calculation and a high tolerance for operational friction. You are managing high-powered, volatile tools that will turn on you the moment you look away.
 
-**Pre-Combat Preparation**:
+**Operational Friction**: Your spells are heavy and agonizing. Restoring your Dominance Die requires self-inflicted wounds and caster HP sacrifice. Purging an ally of a curse requires splitting their skin with salt and iron. You must accept that your allies will bleed to be saved.
 
-Before battle even begins, the Exorcist's work has already started. You must perform binding rituals to capture demons, each requiring specific components and conditions:
+**Mortal Deficit Tactics**: When facing mundane mortal soldiers, your damage is cut to a fraction. You must rely on your demons' raw physical strikes or pivot entirely to crowd control and ally purges. Stand far behind your armored companions—a single basic sword strike can easily shatter your frail frame.
 
-- **Imp Binding** (d12 DD - Easiest): Gather purified lava from a volcanic region, ash from a burned holy text, and a flame-touched gemstone. Perform the ritual at midnight under a new moon. The imp will resist with fire and trickery, but its will is weak.
-
-- **Shadow Hound Binding** (d10 DD - Moderate): Collect nightshade essence, a cloak woven from shadows, and a silver mirror that has never reflected sunlight. Perform the ritual in complete darkness. The hound will test your resolve with fear and illusions.
-
-- **Wraith Binding** (d10 DD - Moderate): Acquire ectoplasm from a recent haunting, a moonstone shard blessed under a full moon, and a veil of spider silk. Perform the ritual during a full moon in a place where someone died. The wraith will attempt to possess you during the binding.
-
-- **Abyssal Brute Binding** (d8 DD - Difficult): Obtain giant's blood (fresh, within 24 hours), iron chains forged in dragonfire, and a stone from the deepest earth. Perform the ritual during a thunderstorm. The brute will physically resist, requiring you to overpower its will through sheer force of personality.
-
-- **Banshee Binding** (d8 DD - Difficult): Gather a locket containing hair from someone who died of grief, tears shed in genuine sorrow, and a white rose that bloomed in a graveyard. Perform the ritual in a place of great tragedy. The banshee's wail will test your sanity.
-
-Each binding ritual requires a skill check (Arcana, Religion, or Persuasion depending on demon type) with DC ranging from 12 (Imp) to 18 (Greater Demons). Failure means the demon escapes, and you've wasted your components. Success means the demon is bound with its starting Dominance Die.
-
-**If a bound demon dies in combat**, it is gone. You must perform the binding ritual again with fresh components and a new skill check. Protect your demons — their death is not just a tactical loss, it's a resource investment lost.
-
-**Divine Dominance — The Core Mechanic**:
-
-Every bound demon has a Dominance Die (DD) that represents how firmly your divine authority grips it. Think of it as a leash — the bigger the die, the longer the leash. But every action the demon takes, every hit it suffers, shortens that leash.
-
-**Dominance Die Degradation**:
-- d12 (Fully Submissive) → d10 (Obedient) → d8 (Resistant) → d6 (Rebellious) → 0 (Breaking Free)
-
-**What Decreases Dominance**:
-- **Demon Performs Action**: Attack, use ability, move aggressively → DD decreases by 1 step
-- **Demon Takes Damage**: Each hit from an enemy → DD decreases by 1 step
-- **Demon Uses Special Ability**: Powerful abilities → DD decreases by 2 steps
-
-**Example Degradation**:
-- Turn 1: Command Abyssal Brute (d8 DD) to attack → Hits enemy → DD becomes d6
-- Turn 2: Brute takes 15 damage from enemy counterattack → DD becomes 0
-- Turn 2 (Immediate): Brute must make Constitution save DC 16 or escape!
-
-**Dominance Restoration — Your Three Lifelines**:
-
-You have three spells to restore Dominance. Use them wisely — they cost mana you could be spending on combat spells.
-
-1. **Divine Rebuke** (3 mana, 1 AP)
-   - Restores one demon's DD by 1 step (e.g., d6 → d8)
-   - Use when: Demon has dipped to d6 and you want cheap insurance
-   - Example: Your Shadow Hound just hit d6 after a long fight. Divine Rebuke nudges it back to d8 for just 3 mana.
-
-2. **Chain of Light** (5 mana, 1 AP)
-   - Restores one demon's DD by 2 steps (e.g., d6 → d10)
-   - Use when: Demon is critically low and you need meaningful recovery
-   - Example: Your Abyssal Brute is at d6 after two brutal rounds. Chain of Light restores it to d10, buying you several more actions.
-
-3. **Absolute Dominion** (7 mana, 1 AP)
-   - Restores one demon's DD to its maximum size (full reset)
-   - Use when: Demon is at 0 or d6 and you absolutely cannot risk losing it
-   - Example: Your only demon is at 0 DD and about to escape. Absolute Dominion is your emergency brake — expensive but definitive.
-
-**Demon Command Strategy**:
-
-Commanding demons is an art. Weaker demons are easier to control but less impactful. Stronger demons hit like trucks but require constant Dominance investment.
-
-**Demon Power vs. Control Trade-off**:
-- **Imp** (d12 DD): Attacks for 1d6+2 damage, easy to maintain, can act 6+ times before needing restoration
-- **Shadow Hound** (d10 DD): Attacks for 2d6+3 damage, moderate maintenance, acts 5 times before restoration
-- **Abyssal Brute** (d8 DD): Attacks for 3d8+5 damage, high maintenance, acts 4 times before restoration
-- **Banshee** (d8 DD): Wail attack (2d8 psychic + fear), high maintenance, powerful crowd control
-- **Greater Demons** (d6 DD): Devastating attacks (4d10+), extreme maintenance, acts only 3 times before restoration
-
-**Optimal Demon Usage Pattern**:
-1. **Early Combat**: Command demons aggressively while DD is high (d12/d10)
-2. **Mid Combat**: Monitor DD, use Chain of Light for meaningful recovery
-3. **Critical Moment**: When DD hits d6, decide — restore now or push to 0 and risk the save?
-4. **Emergency**: If demon reaches 0, immediately cast Absolute Dominion or accept potential escape
-
-**Losing Control — The Consequences**:
-
-When a demon's DD reaches 0, it makes a saving throw specific to its type:
-- **Imp**: Charisma (Persuasion) DC 12 - "Please, master, I'll behave!"
-- **Shadow Hound**: Agility (Stealth) DC 14 - Tries to slip away into shadows
-- **Wraith**: Intelligence (Arcana) DC 14 - Attempts to phase through bindings
-- **Abyssal Brute**: Constitution (Endurance) DC 16 - Brute force resistance
-- **Banshee**: Charisma (Performance) DC 15 - Wails to shatter bindings
-
-**If the demon succeeds the save**: DD restored to d6, demon remains bound but weakened. You got lucky.
-
-**If the demon fails the save**: The demon escapes. Now you have a problem.
-
-**Escaped Demon Behavior** (Roll 1d6):
-1-2: Demon flees immediately, disappearing into the nearest shadow/portal
-3-4: Demon attacks you once in revenge, then flees
-5-6: Demon turns fully hostile, attacking you and your allies until killed or banished
-
-**Specialization Synergies**:
-- **Demonologist**: Bind up to 4 weaker demons, spread Dominance management across multiple targets
-- **Demon Lord**: Bind only 1 demon but it's incredibly powerful, focus all Dominance on single entity
-- **Possessed**: Channel demon internally — Internal DD tracks your struggle for self-control
-
-**Team Dynamics**:
-- **Frontline Presence**: Demons tank damage meant for squishy allies
-- **Action Economy**: Demons act independently, giving you extra attacks per turn
-- **Battlefield Control**: Position demons to block chokepoints or flank enemies
-- **Warning System**: Communicate DD levels to allies ("Brute is at d6, might go hostile soon!")
-- **Synergy Classes**: Works well with supports who can heal/buff demons, crowd control to protect demons from damage`,
+**The Dominance Loop**: Command your demons while their die is large (d12/d10). As they degrade to d8 or d6 through action and damage, spend your own health to whip them back into submission. If they hit 0, pray your Agility or Spirit saves hold, or prepare to banish the very creature you spent minutes binding.`,
     },
 
     immersiveCombatExample: {
-      title: "Combat Example: The Demon Wrangler's Gambit",
-      content: `**The Setup**: You're an Exorcist with two bound demons: a Shadow Hound (d10 DD) and an Abyssal Brute (d8 DD). Your party is ambushed by a pack of cultists (4 cultists + 1 cult leader). Your mana: 35/50. Your job: Control your demons while eliminating the threat.
+      title: "Combat Example: The Price of the Purge",
+      content: `**The Setup**: Your party is ambushed in a lightless tomb by a towering Wraith and three mundane skeletal archers. Your ally, the Paladin, is struck by a paralyzing death curse, frozen in terror. Your bound Shadow Hound is at d8 Dominance. You are already bleeding from your previous ritual.
 
-**Turn 1 - Unleashing the Hounds (Hound DD: d10 → d8, Brute DD: d8 → d6)**
+**Turn 1 - Ripping the Curse (Why Bring Me?)**
+*The Paladin stands paralyzed, eyes wide as necrotic veins crawl up his neck. You step forward, ignoring the arrows whistling by your head. You reach into your pouch, pull out a handful of coarse rock salt, and slam it directly into the Paladin's neck.*
+* **Your Action**: Cast "Purge the Defiled" on the Paladin (1 AP, 6 mana).
+* **The Toll**: The Paladin takes 1d8 physical damage (6 damage) as your salt burns his flesh.
+* **The Purge**: The paralyzing death curse is instantly ripped out, dissolving into black smoke. The Paladin gasps, freed from the CC.
 
-*The cultists emerge from the shadows, chanting dark prayers. You raise your hand, and spectral chains materialize, connecting you to your bound demons.*
+**Turn 2 - The Hound Lunges (Dominance Cost: d8 -> d6)**
+*You point a scarred finger at the Wraith. The Shadow Hound roars, shadow-wreathed jaws clamping onto the Wraith's incorporeal flank.*
+* **Your Action**: Command Shadow Hound to attack (1 AP).
+* **The Strike**: 3d6 + 4 radiant damage = 14 damage. The Wraith shudders in agony.
+* **The Cost**: The Shadow Hound's Dominance Die degrades from d8 to d6. You feel the spectral chain strain against your wrists as the hound's eyes turn back to lock onto your throat.
 
-**Your Action**: Command Shadow Hound to attack Cultist #1 (1 AP)
-**Hound's Action**: Lunges forward, shadow-wreathed jaws clamping down
-**Attack Roll**: 18 → Hit! → 2d6+3 = 11 damage → Cultist #1 bloodied
-**Dominance Cost**: Shadow Hound's DD decreases d10 → d8
+**Turn 3 - Agonizing Discipline (Hound DD: d6 -> d10)**
+*You cannot let the leash slip any further. You take your ritual iron nail and slice it across your own palm, letting your own blood drip onto the spectral chains.*
+* **Your Action**: Cast "Shackles of Searing Iron" on the Shadow Hound (1 AP, 5 mana).
+* **The Sacrifice**: You take 1d6 caster HP damage (4 HP lost).
+* **The Recovery**: The spectral chains flare with blinding radiant wire, searing the hound back into absolute obedience. The hound's DD is restored from d6 back to d10.
 
-*The hound's eyes flicker with red light—a sign of growing independence. The spectral chain connecting you dims slightly.*
-
-**Your Action**: Command Abyssal Brute to attack Cultist #2 (1 AP)
-**Brute's Action**: Massive fists slam down with earth-shaking force
-**Attack Roll**: 16 → Hit! → 3d8+5 = 19 damage → Cultist #2 obliterated
-**Dominance Cost**: Abyssal Brute's DD decreases d8 → d6
-
-*The brute roars in triumph, and you feel its will pushing against your bindings. The iron chains around its wrists glow hot—it's testing you.*
-
-**Your Action**: Cast "Eldritch Blast" at Cult Leader (5 mana, 2 AP)
-**Result**: 2d10 = 14 force damage
-
-**Current State**: Hound DD: d8 | Brute DD: d6 | Mana: 30/50
-
-**Turn 2 - The Brute Rebels (Hound DD: d8 → d6, Brute DD: d6 → 0 → SAVE!)**
-
-*The cult leader raises his staff, dark energy crackling. He targets your Abyssal Brute.*
-
-**Cult Leader's Action**: Casts "Shadow Bolt" at Abyssal Brute
-**Attack Roll**: 19 → Hit! → 18 shadow damage to Brute
-**Dominance Cost**: Brute takes damage → DD decreases d6 → 0
-
-*The brute ROARS in pain and fury. The spectral chains binding it SHATTER. Its eyes blaze with hellfire as it turns to look at you. This is the moment—will it obey or rebel?*
-
-**Dominance Saving Throw**: Abyssal Brute must make Constitution save DC 16
-**Your Roll**: 14 → FAILURE!
-
-*The brute's bindings dissolve. It's free. And it's ANGRY.*
-
-**Brute's Behavior Roll**: 1d6 → [5] → Turns hostile!
-
-*"FREEDOM!" the brute bellows in Abyssal. It swings its massive fist—not at the cultists, but at YOU.*
-
-**Brute's Attack on You**: Attack roll 17 → Hit! → 3d8+5 = 18 damage to you!
-
-*You're slammed backward, ribs cracking. Your Shadow Hound whimpers, confused—should it defend you or flee?*
-
-**Your Decision**: You need to rebind the Brute or banish it, but first you need to survive.
-
-**Your Action**: Cast "Banish Demon" on Abyssal Brute (8 mana, 3 AP)
-**Spell Save DC**: 15 (your spell save DC)
-**Brute's Save**: Charisma save → 12 → FAILURE!
-
-*You raise your hand, blood dripping from your mouth, and speak the words of banishment. The brute's form flickers, then EXPLODES into black smoke, dragged back to the Abyss. You'll have to rebind it later—if you survive.*
-
-**Your Action**: Command Shadow Hound to attack Cultist #3 (1 AP)
-**Hound's Action**: Attacks → Hit! → 2d6+3 = 10 damage → Cultist #3 killed
-**Dominance Cost**: Hound DD decreases d8 → d6
-
-**Current State**: Hound DD: d6 (CRITICAL!) | Brute: Banished | Mana: 22/50 | Your HP: 32/50
-
-**Turn 3 - Desperate Restoration (Hound DD: d6 → d10)**
-
-*Two cultists remain, plus the leader. Your Shadow Hound is at d6—one more action and it might escape too. You can't afford to lose both demons.*
-
-**Your Action**: Cast "Chain of Light" on Shadow Hound (5 mana, 1 AP)
-
-*You channel divine light through the spectral chains. The hound yelps as golden energy pulses through the links, its eyes dimming from red back to yellow. The leash holds firm again.*
-
-**Result**: Shadow Hound's DD restored d6 → d10 (+2 steps)
-
-**Your Action**: Command Shadow Hound to attack Cult Leader (1 AP)
-**Hound's Action**: Leaps at leader → Hit! → 2d6+3 = 12 damage
-**Dominance Cost**: Hound DD decreases d10 → d8
-
-**Your Action**: Cast "Eldritch Blast" at Cult Leader (5 mana, 2 AP)
-**Result**: 2d10 = 16 damage → Cult Leader falls!
-
-*The remaining cultists flee. You collapse to one knee, breathing heavily. Your Shadow Hound sits beside you, loyal once more. The Abyssal Brute is gone—you'll need to perform another binding ritual to reclaim it. But you survived.*
-
-**The Lesson**: The Exorcist walks a razor's edge between divine authority and demonic rebellion. Every command is a gamble. Push too hard and they turn on you. Restore too often and you burn through mana. The key is knowing when to spend Dominance spells, when to let a demon go, and when to fight without them. You're not just managing resources — you're commanding living, hostile entities that want nothing more than to snap their chains and tear you apart. And the most terrifying part? You knew this when you signed up.`,
+**The Lesson**: You saved the Paladin, devastated the Wraith, and secured your hound, but your own palms are shredded and your blood stains the stone. Every choice is a transaction of flesh.`,
     },
   },
 
-  // Resource System
   resourceSystem: {
     title: "Divine Dominance",
-    subtitle: "The Chain of Sacred Authority",
+    subtitle: "The Barbed Leash of Sacred Terror",
 
-    description: `The Exorcist does not request power; they command it. Through sacred binding rituals, you leash demonic entities to your will. This relationship is tracked by the **Dominance Die**—a shifting resource that measures how tightly your divine authority holds the darkness. As your demons act or suffer damage, the chains weaken, and you must re-assert control or face a hostile rebellion.`,
+    description: `The Exorcist does not request power; they command it. Through grueling binding rituals, you lash demonic entities to your will. This volatile relationship is tracked by the **Dominance Die**—a shifting resource that measures how tightly your divine authority holds the darkness. As your demons act or suffer damage, the chains weaken, and you must re-assert control through agonizing discipline or face a hostile rebellion.`,
 
     cards: [
       {
         title: "Dominance Dice (DD)",
         stats: "d12 down to d6",
-        details:
-          'Each bound demon has its own die. It represents your current "grip." d12 is total submission; d6 is a hair-trigger rebellion.',
+        details: "Each bound demon has its own die representing your current grip. d12 is total submission; d6 is a hair-trigger rebellion.",
       },
       {
-        title: "Binding Rituals",
-        stats: "Pre-Combat Prep",
-        details:
-          "Demons are not summoned; they are captured. You must perform rituals with specific components to bring them into your service.",
+        title: "The Purge Toll",
+        stats: "Agonizing Cleansing",
+        details: "You possess absolute authority to rip curses and crowd control from allies, but they suffer physical damage as the magic is torn out.",
       },
       {
         title: "The Rebellion Save",
         stats: "Triggered at 0 DD",
-        details:
-          "If a die reaches 0, the demon makes a save to break free. Failure means it turns on you or flees the battlefield.",
+        details: "If a die reaches 0, the demon makes a saving throw to break free. Failure means it turns fully hostile or flees.",
       },
     ],
 
     generationTable: {
       headers: ["Trigger", "Dominance Change", "Notes"],
       rows: [
-        [
-          "Successful Binding",
-          "→ Starting Die",
-          "Set by demon tier (Imp=d12, Brute=d8)",
-        ],
+        ["Successful Binding", "→ Starting Die", "Set by demon tier (Imp = d12, Shadow Hound = d10, Brute = d8)"],
         ["Standard Command", "-1 Step", "Simple attacks or movement"],
-        ["Demon Takes Damage", "-1 Step", "Pain fuels their resistance"],
+        ["Demon Takes Damage", "-1 Step", "Pain fuels their resistance against your chains"],
         ["Special Ability", "-2 Steps", "High-power demonic maneuvers"],
-        [
-          "Divine Rebuke (Spell)",
-          "+1 Step",
-          "Quick corrective discipline (3 mana)",
-        ],
-        [
-          "Chain of Light (Spell)",
-          "+2 Steps",
-          "Reinforcing the sacred bonds (5 mana)",
-        ],
-        ["Absolute Dominion", "→ Reset to Max", "Total divine reset (7 mana)"],
+        ["Scourge of Submission", "+1 Step", "Quick corrective discipline (costs 1d4 caster HP)"],
+        ["Shackles of Searing Iron", "+2 Steps", "Reinforcing the sacred bonds (costs 1d6 caster HP)"],
+        ["Iron Yoke of Calamity", "→ Reset to Max", "Total divine reset (costs 2d8 caster HP and -3 Max HP)"],
       ],
     },
 
     usage: {
-      momentum:
-        "Command demons early and often while their DD is high. As they dip into d8 and d6, shift your focus to restoration or prepare to dismiss them.",
-      flourish:
-        '⚠️ Tactical Release: If a demon is at d6 and you lack mana for restoration, use your Action to "Dismiss" it safely. It is better to lose a servant than to gain a new enemy.',
+      momentum: "Command demons early and aggressively while their DD is high. As they dip into d8 and d6, shift your focus to self-sacrificing restoration or prepare to dismiss them.",
+      flourish: "⚠️ Tactical Release: If a demon is at d6 and you lack the HP or mana for restoration, use your Action to 'Dismiss' it safely. It is better to lose a servant than to gain a new enemy.",
     },
 
     overheatRules: {
@@ -341,17 +153,14 @@ When a demon's DD reaches 0, it makes a saving throw specific to its type:
   - **3-4**: Attacks you once, then flees.
   - **5-6**: Turns fully hostile—attacking you and your allies until destroyed.
 
-**Risk Management**:
 Never leave a demon at 0 DD at the end of your turn unless you are prepared to fight it next.`,
     },
 
     strategicConsiderations: {
-      title: "Managing the Menagerie",
-      content: `**The Tier Trade-off**: Imps start at d12 and are easy to keep in line. Abyssal Brutes start at d8 and will rebel after only 4 actions. Don't bind a Brute if you don't have the "Chain of Light" mana to back it up.
+      title: "The Mortal Deficit & The Occult Trade",
+      content: `**The Supernatural Specialization**: Your radiant salt and rusted iron deal massive damage to Undead, Spirits, and Aberrations, but against normal mortals, your magic suffers a massive damage penalty. You must rely on your summons' physical claws or support your allies.
 
-**Possessed Path**: If you choose the *Possessed* specialization, you *are* the demon. Your Internal DD tracks your struggle for self-control. Failure here means you lose control of your character for one turn as the demon drives.
-
-**Synergy**: Pair with classes that can taunt enemies (like Titan) to prevent your demons from taking damage, preserving their Dominance Dice for longer.`,
+**The Frailty Clause**: Your flesh is weak to mundane metal. Any kinetic or martial attack from normal enemies deals double damage to you. Stay behind your allies and let your summons take the blows.`,
     },
 
     playingInPerson: {
@@ -359,26 +168,17 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       subtitle: "The Leash Dice",
       content: `Tracking multiple dice sizes can be a nightmare on paper. Use these physical hacks:
 
-**Required Materials**:
-- **Set of Polyhedral Dice**: (d12, d10, d8, d6) for each demon.
-- **Demon Reference Cards**: To hold the active die.
-- **Red "Hostile" Tokens**.
-
-**The Physical Hack (Friction Points)**:
-- **The Leash Dice**: Place the actual die on the demon's card. When you command them, physically swap the die for the next size down (d12 → d10). This provides an immediate visual of which "leash" is the shortest.
+- **The Leash Dice**: Place the actual die on the demon's card. When you command them, physically swap the die for the next size down (d12 → d10). This provides an immediate visual of which 'leash' is the shortest.
 - **The AP Coin**: Use a coin to track if you've already commanded a specific demon this turn. Flip it once they've acted.
-- **Restoration Tokens**: Use golden glass beads to represent your restoration spells. Hand one to the DM when you "discipline" a demon.
-
-**Pro Tip**: Voice-act the demon's growing resistance. As the die hits d6, have the demon start talking back or straining against its spectral chains. It makes the Rebellion Save feel earned.`,
+- **Restoration Tokens**: Use rusted iron nails or red glass beads to represent your restoration spells, reminding you of the physical toll.`,
     },
   },
 
-  // Specializations
   specializations: {
-    title: "Exorcist Specializations",
-    subtitle: "Three Paths of Divine Dominion",
+    title: "Tragic Specializations",
+    subtitle: "Three Paths of Barbed Dominion",
 
-    description: `Every Exorcist binds demons through divine authority — but how they wield that authority defines their path. Three specializations offer radically different relationships with the darkness they command.`,
+    description: `Every Exorcist binds demons through divine authority — but how they weld that authority defines their path. Three specializations offer radically different relationships with the darkness they command.`,
 
     specs: [
       {
@@ -387,2621 +187,1267 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         icon: "Necrotic/Demonic Empowerment",
         color: "#8B0000",
         theme: "Multiple Demon Control",
-
-        description: `Demonologists are legion commanders — divine generals who split their willpower across multiple bound demons, sacrificing individual power for overwhelming numbers. Where others bind one demon, the Demonologist binds four, turning the battlefield into a zoo of chained horrors under their singular command.`,
-
-        playstyle:
-          "Summoner swarm — multiple demons, overwhelming action economy, constant DD juggling",
-
+        description: "Demonologists are legion commanders — general tradesmen who split their willpower across multiple bound demons, sacrificing individual power for overwhelming numbers. Where others bind one demon, the Demonologist binds four, turning the battlefield into a zoo of chained horrors.",
+        playstyle: "Summoner swarm — multiple demons, overwhelming action economy, constant DD juggling",
         strengths: [
           "Can bind up to 4 demons simultaneously",
           "Reduced Dominance restoration spell costs (-2 mana)",
           "Swarm bonus damage when multiple demons attack the same target",
-          "Excellent action economy with independent demon actions",
         ],
-
         weaknesses: [
           "Individual demons are weaker than other specs",
           "Cannot bind Tier 4 (Greater) demons",
           "Managing 4 Dominance Dice simultaneously is demanding",
-          "Catastrophic if multiple demons escape in the same turn",
         ],
-
-        passiveAbilities: [
-          {
-            name: "Divine Authority",
-            tier: "Path Passive",
-            description:
-              "When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to that demon's escape save DC. The chains tighten with time.",
-            sharedBy: "All Exorcists",
-          },
-          {
-            name: "Legion Commander",
-            tier: "Specialization Passive",
-            description:
-              "You can bind up to 4 demons simultaneously (instead of 2). All DD restoration spells cost -2 mana. When 2+ demons attack the same target, each deals +1d6 bonus damage.",
-            uniqueTo: "Demonologist",
-          },
-        ],
-
-        recommendedFor:
-          "Players who enjoy RTS-style multi-unit management, overwhelming action economy, and the chaos of commanding a demonic squad",
       },
-
       {
         id: "demon_lord",
         name: "Demon Lord",
         icon: "Utility/Resistance",
         color: "#4B0082",
-        theme: "Single Powerful Demon + Self Empowerment",
-
-        description: `Demon Lords forge an unbreakable bond with a single demon — a partnership of mutual destruction. They channel demonic power into both their bound servant AND themselves, becoming something greater than either alone. Their singular focus means no backup plan: if the demon falls, the Exorcist stands alone.`,
-
-        playstyle:
-          "One devastating demon + self buffs — high risk, highest single-target reward, master-servant symbiosis",
-
+        theme: "Single Powerful Demon & Covenant Focus",
+        description: "Demon Lords forge an unbreakable bond with a single demon — a covenant of mutual destruction. They channel demonic power into both their bound servant and themselves, becoming something greater than either alone. Their singular focus means no backup plan: if the demon falls, the Exorcist stands alone.",
+        playstyle: "One devastating demon + self buffs — high risk, highest single-target reward, master-servant symbiosis",
         strengths: [
           "Can bind Tier 4 Greater Demons (most powerful)",
           "Bound demon has +2 to all stats, DD degrades every 2 actions",
-          "Demonic power bleeds into the Exorcist (armor, damage buffs)",
-          "Demon deals +2d8 bonus damage when at d6 DD or lower (desperation fury)",
+          "Demon deals +2d8 bonus damage when at d6 DD or lower",
         ],
-
         weaknesses: [
           "Can only bind 1 demon at a time",
           "All eggs in one basket — no backup if the demon escapes or dies",
           "Greater Demons start at d6 DD (hardest to control)",
-          "Highest mana investment of any spec",
         ],
-
-        passiveAbilities: [
-          {
-            name: "Divine Authority",
-            tier: "Path Passive",
-            description:
-              "When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to that demon's escape save DC. The chains tighten with time.",
-            sharedBy: "All Exorcists",
-          },
-          {
-            name: "Infernal Pact",
-            tier: "Specialization Passive",
-            description:
-              "Your single bound demon gains +2 to all stats and its DD degrades every 2 actions instead of every action. You can bind Tier 4 Greater Demons. When your demon is at d6 DD or lower, it deals +2d8 damage on all attacks. Additionally, you gain +2 armor while your demon is bound.",
-            uniqueTo: "Demon Lord",
-          },
-        ],
-
-        recommendedFor:
-          "Players who enjoy boss-pet dynamics, high-risk/high-reward gameplay, and the fantasy of dominating a single terrifying entity",
       },
-
       {
         id: "possessed",
         name: "Possessed",
         icon: "Psychic/Mind Control",
         color: "#9400D3",
         theme: "Internal Demon Channeling",
-
-        description: `The Possessed don't bind demons into the world — they invite them in. By channeling demonic essence directly into their own flesh, they gain supernatural physical power at the cost of constant internal warfare. Their Dominance Die doesn't track a pet's obedience — it tracks who's driving the body.`,
-
-        playstyle:
-          "Hybrid melee/caster — self-buffs, demonic transformations, internal DD tracking self-control",
-
-        internalDominanceRules: `**Internal Dominance Die Rules**: The Possessed uses an Internal DD (starting at d10) instead of external demon DD. It degrades when you: use demonic abilities (1 step), take damage (1 step), or use powerful demon abilities (2 steps). When Internal DD reaches 0, the demon takes control for 1 turn — you attack the nearest creature (ally or enemy) with enhanced damage. After the demon's turn, Internal DD resets to d6. DD restoration spells (Divine Rebuke, Chain of Light, Absolute Dominion) work on your Internal DD instead of targeting external demons.`,
-
+        description: "The Possessed don't bind demons into the world — they invite them in. By channeling demonic essence directly into their own flesh, they gain supernatural physical power at the cost of constant internal warfare. Their Dominance Die doesn't track a pet's obedience — it tracks who's driving the body.",
+        playstyle: "Hybrid melee/caster — self-buffs, demonic transformations, internal DD tracking self-control",
         strengths: [
-          "Gain demonic physical enhancements (+2 Str, +2 Con, +10 speed)",
+          "Gain demonic physical enhancements (+2 Strength, +2 Constitution, +10 speed)",
           "Melee attacks deal additional 1d8 necrotic damage",
           "No external demons to manage or position",
-          "Powerful self-buffs and demon form transformations",
         ],
-
         weaknesses: [
           "Cannot summon external demons at all",
           "Internal DD failure = demon takes control of your body for 1 turn",
           "Self-harm risk: 3d6 psychic damage when Internal DD hits 0",
-          "No tactical positioning advantage from summon placement",
         ],
-
-        passiveAbilities: [
-          {
-            name: "Divine Authority",
-            tier: "Path Passive",
-            description:
-              "When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to that demon's escape save DC. The chains tighten with time.",
-            sharedBy: "All Exorcists",
-          },
-          {
-            name: "Demonic Fusion",
-            tier: "Specialization Passive",
-            description:
-              "You channel a demon internally instead of binding it externally. Gain +2 Strength, +2 Constitution, and +10 movement speed. Your melee attacks deal an additional 1d8 necrotic damage. Your Internal DD starts at d10 and degrades when you use demonic abilities or take damage. At 0 DD, the demon takes control for 1 turn (attack nearest creature), then resets to d6. You take 3d6 psychic damage on loss of control.",
-            uniqueTo: "Possessed",
-          },
-        ],
-
-        recommendedFor:
-          "Players who enjoy hybrid melee/caster gameplay, self-buff management, and the constant drama of wrestling a demon inside their own skull",
       },
     ],
   },
 
-  // Example Spells - showcasing the spell wizard system
   exampleSpells: [
-    // BINDING RITUALS
+    // ============================================================
+    // LEVEL 1 SPELLS
+    // ============================================================
+    {
+      id: "exo_purge_the_defiled",
+      name: "Purge the Defiled",
+      description: "You grab your ally and scream a tragic dirge, pressing raw rock salt directly into their flesh. The agony is immediate and severe, but the foreign magic is violently ripped from their nervous system, leaving them clean but scarred.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Golden Shield",
+      effectTypes: ["damage", "utility"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Radiant Golden Shield",
+        tags: ["purification", "dispel", "utility", "Why Bring Me?"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "touch",
+        rangeDistance: 5,
+        targetRestrictions: ["allies"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 6
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 1
+      },
+      damageConfig: {
+        formula: "1d8",
+        damageTypes: ["physical"],
+        resolution: "DICE"
+      },
+      utilityConfig: {
+        utilityType: "protection",
+        selectedEffects: [
+          {
+            id: "purge_debuffs",
+            name: "Violent Purge",
+            description: "Instantly removes all Curses, Possessions, and mental Crowd Control (paralyzed, stunned, feared) from the target ally."
+          }
+        ]
+      },
+      resolution: "DICE",
+      tags: ["purification", "dispel", "utility", "Why Bring Me?"],
+      flavorText: "The salt does not soothe; it burns until the heresy is purged."
+    },
+    {
+      id: "exo_salt_brand",
+      name: "Brand of Burning Salt",
+      description: "You press a red-hot iron brand of coarse salt into the enemy's skin. The radiant heat burns deep into their spirit. Against supernatural horrors, it hollows out their defenses, leaving them intensely vulnerable. Against normal mortals, the brand fails to find purchase, leaving only a superficial scrape.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Radiant/Divine Downward Sword",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Divine Downward Sword",
+        tags: ["damage", "debuff", "brand", "Mortal Deficit"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["enemies"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 5
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
+      damageConfig: {
+        formula: "2d6 + spirit",
+        damageTypes: ["radiant"],
+        resolution: "DICE"
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "radiant_vulnerability",
+            name: "Salt Withered",
+            description: "If target is Undead, Spirit, or Aberration, they gain +50% damage vulnerability to all damage for 2 rounds. Against Mortals, this spell deals 1/4 damage.",
+            mechanicsText: "Precise vulnerability modifier applied to supernatural types.",
+            statusEffect: {
+              vulnerabilityType: "radiant",
+              vulnerabilityPercent: 50
+            }
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 13,
+          saveOutcome: "negates"
+        },
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      resolution: "DICE",
+      tags: ["damage", "debuff", "brand", "Mortal Deficit"],
+      flavorText: "Agony is a universal key, but some locks are made of mundane meat."
+    },
+    {
+      id: "exo_scourge_of_submission",
+      name: "Scourge of Submission",
+      description: "You whip your bound demon with spectral, radiant barbed wire, or slice your own palm open to reinforce your authority. It flinches, its rebellious will broken, restoring its Dominance Die by 1 step.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["damage", "utility"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Radiant Divinity",
+        tags: ["dominance", "restoration", "discipline"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["bound_demon_or_self"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 3,
+        resourceTypes: ["health"],
+        resourceValues: {},
+        useFormulas: { health: true },
+        resourceFormulas: { health: "1d4" }
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
+      damageConfig: {
+        formula: "1d6",
+        damageTypes: ["radiant"],
+        resolution: "DICE"
+      },
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
+          {
+            id: "restore_dd_1",
+            name: "Dominance Restored",
+            description: "Restores the target demon's Dominance Die by 1 step (e.g. d6 -> d8, 0 -> d6)."
+          }
+        ]
+      },
+      resolution: "DICE",
+      tags: ["dominance", "restoration", "discipline"],
+      flavorText: "A crack of radiant metal. The fiend whines. The leash holds."
+    },
+    {
+      id: "exo_cinder_leash",
+      name: "Command: Cinder Leash",
+      description: "You yank the leash, sending a pulse of searing radiant energy through the chains. Your bound demon lunges forward, executing a basic attack wreathed in ash and flame.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Fire/Flame Burst",
+      effectTypes: ["damage"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Fire/Flame Burst",
+        tags: ["command", "damage"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["enemies"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 2
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
+      damageConfig: {
+        formula: "1d6 + spirit",
+        damageTypes: ["radiant"],
+        resolution: "DICE"
+      },
+      resolution: "DICE",
+      tags: ["command", "damage"],
+      flavorText: "Bite when I command, or burn when I pull."
+    },
+    {
+      id: "exo_iron_barrier",
+      name: "Zone of Rusted Nails",
+      description: "You drive four rusted iron nails blessed in salt water into the soil around you. A cold, protective circle forms, repelling the supernatural and reinforcing the physical resolve of all allies within the zone.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Force/Force Field",
+      effectTypes: ["buff"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Force/Force Field",
+        tags: ["buff", "zone", "protection"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
+        areaSize: 15,
+        targetRestrictions: ["allies"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 4
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 2
+      },
+      buffConfig: {
+        buffType: "damageMitigation",
+        effects: [
+          {
+            id: "iron_protection",
+            name: "Rusted Resolve",
+            description: "Grants +2 Armor and halves any psychic damage taken while standing in the circle.",
+            mechanicsText: "+2 Armor, 50% psychic resistance.",
+            statModifier: {
+              stat: "armor",
+              magnitude: 2,
+              magnitudeType: "flat"
+            }
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resolution: "AUTOMATIC",
+      tags: ["buff", "zone", "protection"],
+      flavorText: "Cold iron and bitter salt. A boundary the unholy cannot breathe within."
+    },
+    {
+      id: "exo_spectral_dread",
+      name: "Passive: Spectral Dread",
+      description: "Your flesh is permanently thinned by the spirits tearing at your collar. While you devastate the supernatural, the mundane blade cuts deep. Any kinetic or martial weapon attack from normal mortal enemies deals double damage to you.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Psychic/Mental Chaos",
+      effectTypes: ["debuff"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Psychic/Mental Chaos",
+        tags: ["passive", "weakness", "Mortal Deficit"],
+        castTime: 0,
+        castTimeType: "PASSIVE"
+      },
+      targetingConfig: {
+        targetingType: "self"
+      },
+      resourceCost: {
+        actionPoints: 0,
+        mana: 0
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "mortal_deficit_vulnerabilitiy",
+            name: "Mortal Deficit",
+            description: "Caster takes 100% increased damage from non-magical, mundane physical and martial attacks.",
+            mechanicsText: "Double physical damage from mundane sources.",
+            statusEffect: {
+              vulnerabilityType: "physical",
+              vulnerabilityPercent: 100
+            }
+          }
+        ]
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "weakness", "Mortal Deficit"],
+      flavorText: "Chaining the abyss leaves no armor for the stones of the earth."
+    },
+
+    // ============================================================
+    // LEVEL 2 SPELLS
+    // ============================================================
     {
       id: "exo_bind_imp",
-      name: "Bind Imp",
-      description:
-        "Perform a ritual to bind an Imp to your service. Requires purified lava, ash, and flame-touched gemstone. Must be cast at midnight under a new moon. The Imp starts with a d12 Dominance Die.",
-      spellType: "ACTION",
-      effectTypes: ["summoning"],
+      name: "Ritual: Bind Imp",
+      description: "A grueling ritual binding a minor, cowering fire-imp to your service. Requires purified lava, ash from a burnt holy text, and a gemstone. The Imp starts with a d12 Dominance Die.",
       level: 2,
-
+      spellType: "ACTION",
+      icon: "Fire/Flame Burst",
+      effectTypes: ["summoning"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Fire/Flame Burst",
-        castTime: 10,
-        castTimeType: "MINUTES",
-        ritual: true,
+        tags: ["summoning", "binding", "imp"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "self",
-        aoeType: "circle",
-        aoeSize: 5,
+        areaShape: "circle",
+        areaSize: 5
       },
-
-      durationConfig: {
-        durationType: "permanent",
-        description: "Imp remains bound until dismissed, killed, or escapes",
+      resourceCost: {
+        actionPoints: 2,
+        mana: 15
       },
-
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
+      },
       summoningConfig: {
         summonType: "permanent",
-        creatureName: "Imp",
+        creatureName: "Fire Imp",
         creatureType: "fiend",
         quantity: 1,
-        statsFormula: "2d6 + 6",
+        statsFormula: "2d6 + 4",
         attackFormula: "1d6 + 2",
         duration: 0,
         durationUnit: "permanent",
         commandable: true,
         actionsPerTurn: 1,
-        abilities: ["Fire Bolt", "Flight", "Invisibility"],
+        abilities: ["Searing Bolt", "Agile Flight"]
       },
-
+      resolution: "AUTOMATIC",
+      tags: ["summoning", "binding", "imp"],
+      flavorText: "It whimpers and spits sparks, but the iron collar locks tight."
+    },
+    {
+      id: "exo_shackles_of_searing_iron",
+      name: "Shackles of Searing Iron",
+      description: "You pull an agonizing chain of rusted iron and salt out of your own open veins, wrapping it around a bound demon. Restores its Dominance Die by 2 steps, but the backlash cuts deep into your own chest.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Radiant/Divine Halo",
+      effectTypes: ["damage", "utility"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Divine Halo",
+        tags: ["dominance", "restoration", "shackles"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["bound_demon_or_self"]
+      },
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
-        actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Incantation in Infernal tongue",
-        somaticText: "Draw summoning circle with ash",
-        materialComponents: [
-          "Vial of purified lava",
-          "Ash from a burnt offering",
-          "Flame-touched gemstone",
-        ],
-        ritualConditions: [
-          "Must be performed at midnight",
-          "Must be under a new moon",
-          "Summoning circle required",
-        ],
+        actionPoints: 1,
+        mana: 5,
+        resourceTypes: ["health"],
+        resourceValues: {},
+        useFormulas: { health: true },
+        resourceFormulas: { health: "1d6" }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
+      damageConfig: {
+        formula: "2d6",
+        damageTypes: ["radiant"],
+        resolution: "DICE"
+      },
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
+          {
+            id: "restore_dd_2",
+            name: "Dominance Restored",
+            description: "Restores target demon's Dominance Die by 2 steps (e.g. d6 -> d10)."
+          }
+        ]
+      },
       resolution: "DICE",
-
-      skillCheck: {
-        skill: "ARCANA",
-        attribute: "SPIRIT",
-        dc: 12,
-        onSuccess: "Imp is bound with d12 Dominance Die",
-        onFailure: "Ritual fails, materials consumed",
+      tags: ["dominance", "restoration", "shackles"],
+      flavorText: "Golden, brine-soaked chains drag the demon down. It screams; you bleed."
+    },
+    {
+      id: "exo_agonizing_possession",
+      name: "Agonizing Possession",
+      description: "For the Possessed: Invite the fire-imp into your own marrow. Your skin blackens and cracks as embers glow beneath your veins, turning your hands into molten talons. Your melee attacks deal bonus fire and radiant damage, but you burn from within.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Fire/Flame Burst",
+      effectTypes: ["buff", "damage"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Fire/Flame Burst",
+        tags: ["possessed", "buff", "transformation"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
       },
-
-      effects: {
-        summon: {
-          creatureType: "Imp",
-          tier: 1,
-          dominanceDie: "d12",
-          duration: "permanent",
-          description:
-            "Binds an Imp with d12 Dominance Die. Imp has fire abilities and flight.",
-        },
+      targetingConfig: {
+        targetingType: "self"
       },
-
-      specialMechanics: {
-        bindingRitual: {
-          enabled: true,
-          demonType: "Imp",
-          startingDD: "d12",
-          savingThrow: "Charisma (Persuasion) DC 12",
-          abilities: [
-            "Fire Bolt (2d6 fire damage)",
-            "Flight (30 ft)",
-            "Invisibility (1/day)",
-          ],
-        },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 6,
+        resourceTypes: ["health"],
+        resourceValues: {},
+        useFormulas: { health: true },
+        resourceFormulas: { health: "1d6" }
       },
-
-      tags: ["summoning", "binding", "ritual", "imp"],
-      flavorText: "The flames answer. The Imp bows. For now.",
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "molten_claws",
+            name: "Cinder Talons",
+            description: "Melee attacks deal +1d6 fire and +1d6 radiant damage. Agility is increased by 2. Lasts 3 rounds.",
+            mechanicsText: "+1d6 fire/radiant, +2 Agility.",
+            statModifier: {
+              stat: "agility",
+              magnitude: 2,
+              magnitudeType: "flat"
+            }
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      damageConfig: {
+        formula: "1d4",
+        damageTypes: ["radiant"],
+        resolution: "DICE"
+      },
+      resolution: "DICE",
+      tags: ["possessed", "buff", "transformation"],
+      flavorText: "My lungs are ash. My heart is a coal. Let them burn."
     },
 
+    // ============================================================
+    // LEVEL 3 SPELLS
+    // ============================================================
+    {
+      id: "exo_iron_nail_smite",
+      name: "Smite of Rusted Iron",
+      description: "You launch three rusted, salt-crusted iron nails from your hand. They drive deep into the target's spirit. Against supernatural horrors (Undead/Spirits/Aberrations), the cold iron shatters their essence, dealing triple damage. Against mortal enemies, the nails deal only a fraction of their force.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["damage"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Radiant Divinity",
+        tags: ["damage", "smite", "Mortal Deficit"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["enemies"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 8
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
+      damageConfig: {
+        formula: "3d8",
+        damageTypes: ["radiant"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 14,
+          saveOutcome: "half_damage"
+        },
+        conditionalDamage: {
+          enabled: true,
+          conditions: [
+            {
+              targetType: "creature_type",
+              creatureTypes: ["fiend", "undead", "spirit", "aberration"],
+              bonusFormula: "6d8",
+              description: "Deals triple damage (additional +6d8) to supernatural threats. Against Mortals, damage is reduced by 75%."
+            }
+          ]
+        }
+      },
+      resolution: "DICE",
+      tags: ["damage", "smite", "Mortal Deficit"],
+      flavorText: "Cold iron splits the ghost. Mortals only feel the scratch of rust."
+    },
+    {
+      id: "exo_iron_yoke_of_calamity",
+      name: "Iron Yoke of Calamity",
+      description: "An absolute, terrifying assertion of your authority. You force a massive, crushing collar of cold iron onto your demon's neck. Instantly resets its Dominance Die to maximum size. The extreme effort permanently drains your vitality until you next rest.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Force/Force Field",
+      effectTypes: ["damage", "utility"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Force/Force Field",
+        tags: ["dominance", "ultimate_restoration", "mutilation"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["bound_demon_or_self"]
+      },
+      resourceCost: {
+        actionPoints: 2,
+        mana: 10,
+        resourceTypes: ["health"],
+        resourceValues: {},
+        useFormulas: { health: true },
+        resourceFormulas: { health: "2d8" }
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 5
+      },
+      damageConfig: {
+        formula: "3d6",
+        damageTypes: ["radiant"],
+        resolution: "DICE"
+      },
+      utilityConfig: {
+        utilityType: "restoration",
+        selectedEffects: [
+          {
+            id: "absolute_dominance_reset",
+            name: "Absolute Dominion",
+            description: "Resets the target's Dominance Die to its absolute maximum size. Reduces the caster's Max HP by 3 until their next long rest."
+          }
+        ]
+      },
+      resolution: "DICE",
+      tags: ["dominance", "ultimate_restoration", "mutilation"],
+      flavorText: "Kneel. Suffer. Obey. There is no other path for either of us."
+    },
+    {
+      id: "exo_empower_covenant",
+      name: "Empower Covenant",
+      description: "You cut your forearm, spraying hot blood onto your bound demon. It drinks the offering, growing larger and more savage. The demon gains massive combat bonuses, but your vitality is depleted.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Necrotic/Ritual of Blood",
+      effectTypes: ["damage", "buff"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Ritual of Blood",
+        tags: ["buff", "demon_buff", "blood"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["bound_demon_or_self"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 6,
+        resourceTypes: ["health"],
+        resourceValues: {},
+        useFormulas: { health: true },
+        resourceFormulas: { health: "2d6" }
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
+      },
+      damageConfig: {
+        formula: "2d6",
+        damageTypes: ["necrotic"],
+        resolution: "DICE"
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "demonic_ferocity",
+            name: "Blooded Ferocity",
+            description: "Demon gains +3 to all attack rolls and its Agility is increased by 3 for 3 rounds.",
+            mechanicsText: "+3 attacks, +3 Agility.",
+            statModifier: {
+              stat: "agility",
+              magnitude: 3,
+              magnitudeType: "flat"
+            }
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      resolution: "DICE",
+      tags: ["buff", "demon_buff", "blood"],
+      flavorText: "Drink of my ruin, and tear them to shreds."
+    },
+
+    // ============================================================
+    // LEVEL 4 SPELLS
+    // ============================================================
     {
       id: "exo_bind_shadow_hound",
-      name: "Bind Shadow Hound",
-      description:
-        "Capture a Shadow Hound using darkness and stealth. Requires nightshade essence, shadowy cloak, and silver mirror. Must be cast in complete darkness.",
-      spellType: "ACTION",
-      effectTypes: ["summoning"],
-      icon: "Necrotic/Ghostly Menace",
-      school: "shadow",
+      name: "Ritual: Bind Shadow Hound",
+      description: "A dark ceremony to bind a feral Shadow Hound. Requires nightshade essence, a shadowy cloak, and a mirror. The hound starts with a d10 Dominance Die and attacks with shadow and bite.",
       level: 4,
-
+      spellType: "ACTION",
+      icon: "Necrotic/Ghostly Menace",
+      effectTypes: ["summoning"],
       typeConfig: {
-        school: "shadow",
-        castTime: 15,
+        school: "necrotic",
+        icon: "Necrotic/Ghostly Menace",
+        tags: ["summoning", "binding", "hound"],
+        castTime: 2,
         castTimeType: "MINUTES",
-        ritual: true,
+        ritual: true
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "self",
-        aoeType: "circle",
-        aoeSize: 5,
+        areaShape: "circle",
+        areaSize: 5
       },
-
-      durationConfig: {
-        durationType: "permanent",
-        description:
-          "Shadow Hound remains bound until dismissed, killed, or escapes",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 30 },
         actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        somaticText: "Blend with shadows using mirror",
-        materialComponents: [
-          "Essence of nightshade",
-          "Shadowy cloak",
-          "Silver mirror",
-        ],
-        ritualConditions: [
-          "Must be in complete darkness",
-          "Preferably in a cave or lightless room",
-          "Exorcist must wear the shadowy cloak",
-        ],
+        mana: 25
       },
-
-      resolution: "SKILL_CHECK",
-
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 5
+      },
       summoningConfig: {
         summonType: "permanent",
         creatureName: "Shadow Hound",
         creatureType: "fiend",
         quantity: 1,
-        statsFormula: "3d6 + 10",
+        statsFormula: "3d6 + 8",
         attackFormula: "2d6 + 3",
         duration: 0,
         durationUnit: "permanent",
         commandable: true,
         actionsPerTurn: 1,
-        abilities: ["Shadow Bite", "Shadow Step", "Pack Tactics"],
+        abilities: ["Shadow Bite", "Flickering Step"]
       },
-
-      skillCheck: {
-        skill: "STEALTH",
-        attribute: "AGILITY",
-        dc: 14,
-        onSuccess: "Shadow Hound is bound with d10 Dominance Die",
-        onFailure: "Ritual fails, Shadow Hound escapes into darkness",
-      },
-
-      effects: {
-        summon: {
-          creatureType: "Shadow Hound",
-          tier: 2,
-          dominanceDie: "d10",
-          duration: "permanent",
-          description:
-            "Binds a Shadow Hound with d10 Dominance Die. Hound has stealth and shadow abilities.",
-        },
-      },
-
-      specialMechanics: {
-        bindingRitual: {
-          enabled: true,
-          demonType: "Shadow Hound",
-          startingDD: "d10",
-          savingThrow: "Agility (Stealth) DC 14",
-          abilities: [
-            "Shadow Bite (3d6 necrotic)",
-            "Shadow Step (teleport 30 ft)",
-            "Pack Tactics (advantage when ally nearby)",
-          ],
-        },
-      },
-
-      flavorText: "The shadows coalesce. The hound emerges. The hunt begins.",
+      resolution: "AUTOMATIC",
+      tags: ["summoning", "binding", "hound"],
+      flavorText: "Out of the darkness, a snarling jaw. The leash snaps tight."
     },
-
     {
-      id: "exo_bind_abyssal_brute",
-      name: "Bind Abyssal Brute",
-      description:
-        "Bind an Abyssal Brute through raw strength and endurance. Requires giant's blood, iron chains, and deep earth stone. Must be cast during a thunderstorm in mountainous terrain.",
+      id: "exo_severe_chains",
+      name: "Severe Chains",
+      description: "You summon agonizing spectral chains that wrap around a target, binding them to the spot. If the target is a fiend, spirit, or undead, the radiant salt on the chains eats into their marrow, dealing radiant damage over time.",
+      level: 4,
       spellType: "ACTION",
-      effectTypes: ["summoning"],
-      icon: "Necrotic/Spectral Summoning",
-      school: "shadow",
-      level: 6,
-
+      icon: "Force/Force Field",
+      effectTypes: ["control", "damage"],
       typeConfig: {
-        school: "shadow",
-        castTime: 20,
-        castTimeType: "MINUTES",
-        ritual: true,
+        school: "radiant",
+        icon: "Force/Force Field",
+        tags: ["control", "paralyze", "damage"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
-        targetingType: "area",
-        rangeType: "self",
-        aoeType: "circle",
-        aoeSize: 10,
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemies"]
       },
-
-      durationConfig: {
-        durationType: "permanent",
-        description:
-          "Abyssal Brute remains bound until dismissed, killed, or escapes",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 45 },
         actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        somaticText: "Self-inflicted wound to show dominance",
-        materialComponents: [
-          "Blood of a giant",
-          "Iron chains",
-          "Stone from the deepest part of the earth",
-        ],
-        ritualConditions: [
-          "Must be in mountainous or rocky terrain",
-          "Must be during a thunderstorm",
-          "Exorcist must endure self-inflicted wound (1d6 damage)",
-        ],
+        mana: 10
       },
-
-      resolution: "SKILL_CHECK",
-
-      summoningConfig: {
-        summonType: "permanent",
-        creatureName: "Abyssal Brute",
-        creatureType: "fiend",
-        quantity: 1,
-        statsFormula: "5d10 + 20",
-        attackFormula: "3d8 + 5",
-        duration: 0,
-        durationUnit: "permanent",
-        commandable: true,
-        actionsPerTurn: 1,
-        abilities: [
-          "Crushing Blow",
-          "Demonic Resilience",
-          "Intimidating Presence",
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
+      },
+      controlConfig: {
+        controlType: "incapacitation",
+        effects: [
+          {
+            id: "paralyzed_chains",
+            name: "Severely Chained",
+            description: "Target is Paralyzed for 2 rounds. Constitution save DC 15 to negate."
+          }
         ],
-      },
-
-      skillCheck: {
-        skill: "ENDURANCE",
-        attribute: "CONSTITUTION",
-        dc: 16,
-        onSuccess: "Abyssal Brute is bound with d8 Dominance Die",
-        onFailure: "Ritual fails, Brute attacks Exorcist before fleeing",
-      },
-
-      effects: {
-        summon: {
-          creatureType: "Abyssal Brute",
-          tier: 3,
-          dominanceDie: "d8",
-          duration: "permanent",
-          description:
-            "Binds an Abyssal Brute with d8 Dominance Die. Brute is a powerful melee tank.",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15
         },
+        duration: 2,
+        durationUnit: "rounds"
       },
-
-      specialMechanics: {
-        bindingRitual: {
+      damageConfig: {
+        formula: "2d6",
+        damageTypes: ["radiant"],
+        resolution: "DICE",
+        dotConfig: {
           enabled: true,
-          demonType: "Abyssal Brute",
-          startingDD: "d8",
-          savingThrow: "Constitution (Endurance) DC 16",
-          abilities: [
-            "Crushing Blow (4d8 bludgeoning)",
-            "Demonic Resilience (resistance to physical)",
-            "Intimidating Presence (enemies have disadvantage)",
-          ],
-        },
-        selfHarm: {
-          enabled: true,
-          damage: "1d6",
-          description: "Exorcist takes 1d6 damage as part of ritual",
-        },
+          damagePerTick: "2d6",
+          damageType: "radiant",
+          tickFrequency: "round",
+          duration: 2,
+          canStack: false,
+          maxStacks: 1
+        }
       },
-
-      flavorText: "Strength meets strength. Will meets will. One must submit.",
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
+      resolution: "DICE",
+      tags: ["control", "paralyze", "damage"],
+      flavorText: "The iron sinks deep. The spirit cannot run."
     },
 
+    // ============================================================
+    // LEVEL 5 SPELLS
+    // ============================================================
     {
-      id: "exo_bind_banshee",
-      name: "Bind Banshee",
-      description:
-        "Bind a Banshee through shared grief and sorrow. Requires locket with loved one's picture, sorrowful tears, and white rose. Must be cast in a graveyard at dusk.",
-      spellType: "ACTION",
-      effectTypes: ["summoning"],
-      icon: "Necrotic/Drain Soul",
-      school: "shadow",
+      id: "exo_bind_wraith",
+      name: "Ritual: Bind Wraith",
+      description: "A horrifying ritual to bind a weeping Wraith of grief. Requires ectoplasm and moonstone shard. The Wraith starts with a d10 Dominance Die and attacks with psychic screams.",
       level: 5,
-
+      spellType: "ACTION",
+      icon: "Necrotic/Skull Burst",
+      effectTypes: ["summoning"],
       typeConfig: {
-        school: "shadow",
-        castTime: 15,
+        school: "necrotic",
+        icon: "Necrotic/Skull Burst",
+        tags: ["summoning", "binding", "wraith"],
+        castTime: 3,
         castTimeType: "MINUTES",
-        ritual: true,
+        ritual: true
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "self",
-        aoeType: "circle",
-        aoeSize: 5,
+        areaShape: "circle",
+        areaSize: 5
       },
-
-      durationConfig: {
-        durationType: "permanent",
-        description:
-          "Banshee remains bound until dismissed, killed, or escapes",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
         actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        somaticText: "Place locket and rose in circle",
-        materialComponents: [
-          "Locket with picture of a loved one",
-          "Tears of the sorrowful",
-          "White rose",
-        ],
-        ritualConditions: [
-          "Must be in a graveyard or place of mourning",
-          "Must be at dusk",
-          "Exorcist must genuinely grieve",
-        ],
+        mana: 30
       },
-
-      resolution: "SKILL_CHECK",
-
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 6
+      },
       summoningConfig: {
         summonType: "permanent",
-        creatureName: "Banshee",
-        creatureType: "fiend",
+        creatureName: "Grave Wraith",
+        creatureType: "undead",
         quantity: 1,
-        statsFormula: "4d8 + 12",
+        statsFormula: "4d6 + 10",
         attackFormula: "2d8 + 4",
         duration: 0,
         durationUnit: "permanent",
         commandable: true,
         actionsPerTurn: 1,
-        abilities: ["Wail of Sorrow", "Incorporeal", "Fear Aura"],
+        abilities: ["Psychic Scream", "Incorporeal Shift"]
       },
-
-      skillCheck: {
-        skill: "PERSUASION",
-        attribute: "CHARISMA",
-        dc: 15,
-        onSuccess: "Banshee is bound with d8 Dominance Die",
-        onFailure: "Ritual fails, Banshee's wail causes 2d6 psychic damage",
+      resolution: "AUTOMATIC",
+      tags: ["summoning", "binding", "wraith"],
+      flavorText: "It weeps. It screams. It obeys, for the moment."
+    },
+    {
+      id: "exo_cinder_purge",
+      name: "AoE: Cinder Purge",
+      description: "You shatter an entire vial of purified brine and salt over a wide area, sending a wave of burning salt across the battlefield. Purges all curses and crowd control from all allies within 20 feet, but deals physical damage to each of them. Devastates supernatural entities caught in the ash.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Golden Shield",
+      effectTypes: ["damage", "utility"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Radiant Golden Shield",
+        tags: ["purification", "aoe_purge", "Why Bring Me?"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
       },
-
-      effects: {
-        summon: {
-          creatureType: "Banshee",
-          tier: 3,
-          dominanceDie: "d8",
-          duration: "permanent",
-          description:
-            "Binds a Banshee with d8 Dominance Die. Banshee has powerful psychic abilities.",
-        },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
+        areaSize: 20,
+        targetRestrictions: ["allies", "enemies"]
       },
-
-      specialMechanics: {
-        bindingRitual: {
+      resourceCost: {
+        actionPoints: 2,
+        mana: 15
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
+      },
+      damageConfig: {
+        formula: "2d6",
+        damageTypes: ["physical"],
+        resolution: "DICE",
+        conditionalDamage: {
           enabled: true,
-          demonType: "Banshee",
-          startingDD: "d8",
-          savingThrow: "Charisma (Performance) DC 15",
-          abilities: [
-            "Wail of Sorrow (3d8 psychic, AoE)",
-            "Incorporeal (resistance to physical)",
-            "Fear Aura (enemies frightened)",
-          ],
-        },
+          conditions: [
+            {
+              targetType: "creature_type",
+              creatureTypes: ["fiend", "undead", "spirit"],
+              bonusFormula: "4d6",
+              description: "Deals additional 4d6 radiant damage to supernatural enemies caught in the area."
+            }
+          ]
+        }
       },
-
-      flavorText:
-        "Grief calls to grief. Sorrow binds sorrow. The wail is silenced.",
+      utilityConfig: {
+        utilityType: "protection",
+        selectedEffects: [
+          {
+            id: "mass_purge_effects",
+            name: "Cinder Cleansing",
+            description: "Instantly removes all Curses, Possessions, and mental CC from all allies in the 20ft area."
+          }
+        ]
+      },
+      resolution: "DICE",
+      tags: ["purification", "aoe_purge", "Why Bring Me?"],
+      flavorText: "The air fills with white dust. The allies scream in agony; the spirits melt."
     },
 
+    // ============================================================
+    // LEVEL 6 SPELLS
+    // ============================================================
     {
-      id: "exo_bind_wraith",
-      name: "Bind Wraith",
-      description:
-        "Capture a Wraith from the ethereal plane. Requires ectoplasm, moonstone shard, and spider silk veil. Must be cast at forest edge during full moon.",
+      id: "exo_bind_abyssal_brute",
+      name: "Ritual: Bind Abyssal Brute",
+      description: "A grueling, life-threatening ritual to bind a hulking Abyssal Brute. Requires giant's blood, Dragonfire chains, and deep earth stone. The Brute starts with a d8 Dominance Die and executes crushing strikes.",
+      level: 6,
       spellType: "ACTION",
+      icon: "Necrotic/Spectral Summoning",
       effectTypes: ["summoning"],
-      icon: "Void/Consumed by Void",
-      school: "shadow",
-      level: 5,
-
       typeConfig: {
-        school: "shadow",
-        castTime: 15,
+        school: "necrotic",
+        icon: "Necrotic/Spectral Summoning",
+        tags: ["summoning", "binding", "brute"],
+        castTime: 4,
         castTimeType: "MINUTES",
-        ritual: true,
+        ritual: true
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "self",
-        aoeType: "circle",
-        aoeSize: 5,
+        areaShape: "circle",
+        areaSize: 10
       },
-
-      durationConfig: {
-        durationType: "permanent",
-        description: "Wraith remains bound until dismissed, killed, or escapes",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
         actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        somaticText: "Drape spider silk veil over head",
-        materialComponents: [
-          "Ectoplasm",
-          "Shard of moonstone",
-          "Veil woven from spider silk",
-        ],
-        ritualConditions: [
-          "Must be at the edge of a forest",
-          "Must be during a full moon",
-          "Moonstone must be placed in circle center",
-        ],
+        mana: 40
       },
-
-      resolution: "SKILL_CHECK",
-
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 6
+      },
       summoningConfig: {
         summonType: "permanent",
-        creatureName: "Wraith",
+        creatureName: "Abyssal Brute",
         creatureType: "fiend",
         quantity: 1,
-        statsFormula: "3d8 + 12",
-        attackFormula: "3d6 + 4",
+        statsFormula: "6d10 + 15",
+        attackFormula: "3d8 + 5",
         duration: 0,
         durationUnit: "permanent",
         commandable: true,
         actionsPerTurn: 1,
-        abilities: ["Life Drain", "Ethereal Jaunt", "Spectral Touch"],
+        abilities: ["Crushing Slam", "Abyssal Guard"]
       },
-
-      skillCheck: {
-        skill: "ARCANA",
-        attribute: "INTELLIGENCE",
-        dc: 14,
-        onSuccess: "Wraith is bound with d10 Dominance Die",
-        onFailure: "Ritual fails, Wraith drains 2d6 HP before dissipating",
-      },
-
-      effects: {
-        summon: {
-          creatureType: "Wraith",
-          tier: 2,
-          dominanceDie: "d10",
-          duration: "permanent",
-          description:
-            "Binds a Wraith with d10 Dominance Die. Wraith can phase through walls and drain life.",
-        },
-      },
-
-      specialMechanics: {
-        bindingRitual: {
-          enabled: true,
-          demonType: "Wraith",
-          startingDD: "d10",
-          savingThrow: "Intelligence (Arcana) DC 14",
-          abilities: [
-            "Life Drain (3d6 necrotic, heals Wraith)",
-            "Ethereal Jaunt (phase through walls)",
-            "Spectral Touch (ignores armor)",
-          ],
-        },
-      },
-
-      flavorText:
-        "The veil parts. The ethereal bleeds through. The Wraith is bound.",
-    },
-
-    // DOMINANCE MANAGEMENT SPELLS
-    {
-      id: "exo_divine_rebuke",
-      name: "Divine Rebuke",
-      description:
-        "Channel a pulse of divine authority into a bound demon, restoring its Dominance Die by 1 step.",
-      spellType: "ACTION",
-      effectTypes: ["utility"],
-      icon: "Radiant/Radiant Bolt",
-      school: "radiant",
-      level: 1,
-
-      typeConfig: {
-        school: "radiant",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        validTargets: "bound_demon_or_self",
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
-        actionPoints: 1,
-        components: ["verbal"],
-        verbalText: "Recede!",
-      },
-
       resolution: "AUTOMATIC",
-
-      effects: {
-        dominance: {
-          type: "restore_steps",
-          amount: "1 step",
-          description:
-            "Restores target's Dominance Die by 1 step (e.g., d6 → d8, 0 → d6)",
-        },
-      },
-
-      specialMechanics: {
-        dominanceManagement: {
-          enabled: true,
-          effect: "Restore DD by 1 step",
-          example: "d6 → d8, or 0 → d6. For Possessed: works on Internal DD.",
-          note: "Cheapest restoration. Your bread-and-butter maintenance spell.",
-        },
-      },
-
-      flavorText:
-        "A crack of divine light. The demon flinches. The leash holds.",
+      tags: ["summoning", "binding", "brute"],
+      flavorText: "A mountain of muscle and fire. You hold the leash, but it shakes the earth."
     },
-
     {
-      id: "exo_chain_of_light",
-      name: "Chain of Light",
-      description:
-        "Forge a chain of holy radiance between you and a bound demon, restoring its Dominance Die by 2 steps.",
+      id: "exo_mass_discipline",
+      name: "Mass Discipline",
+      description: "You crack a massive spectral whip made of radiant barbed wire, lashing all active bound demons simultaneously. Restores the Dominance Die of all active demons by 2 steps, but the severe blood cost splits your own flesh.",
+      level: 6,
       spellType: "ACTION",
-      effectTypes: ["utility"],
       icon: "Radiant/Divine Halo",
-      school: "radiant",
-      level: 2,
-
+      effectTypes: ["damage", "utility"],
       typeConfig: {
         school: "radiant",
+        icon: "Radiant/Divine Halo",
+        tags: ["dominance", "restoration", "mass_discipline"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        validTargets: "bound_demon_or_self",
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 5 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Catena Lucis!",
-        somaticText: "Binding gesture with both hands",
-      },
-
-      resolution: "AUTOMATIC",
-
-      effects: {
-        dominance: {
-          type: "restore_steps",
-          amount: "2 steps",
-          description:
-            "Restores Dominance Die by 2 steps (e.g., d6 → d10, 0 → d8)",
-        },
-      },
-
-      specialMechanics: {
-        dominanceManagement: {
-          enabled: true,
-          effect: "Restore DD by 2 steps",
-          example: "d6 → d8 → d10. For Possessed: works on Internal DD.",
-          note: "The efficiency sweet spot — meaningful recovery without breaking the mana bank.",
-        },
-      },
-
-      flavorText:
-        "Golden chains materialize from nothing. The demon screams. The light is absolute.",
-    },
-
-    {
-      id: "exo_absolute_dominion",
-      name: "Absolute Dominion",
-      description:
-        "Unleash the full force of your divine authority, resetting a demon's Dominance Die to its maximum.",
-      spellType: "ACTION",
-      effectTypes: ["utility"],
-      icon: "Force/Force Field",
-      school: "radiant",
-      level: 3,
-
-      typeConfig: {
-        school: "radiant",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        validTargets: "bound_demon_or_self",
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 7 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Imperium Absolutum!",
-        somaticText: "Commanding gesture with holy symbol raised",
-      },
-
-      resolution: "AUTOMATIC",
-
-      effects: {
-        dominance: {
-          type: "restore_maximum",
-          description:
-            "Resets target's Dominance Die to its maximum size (full reset)",
-        },
-      },
-
-      specialMechanics: {
-        dominanceManagement: {
-          enabled: true,
-          effect: "Reset DD to maximum",
-          example:
-            "Any → d12 (Imp), Any → d10 (Shadow Hound), etc. For Possessed: resets Internal DD to d10.",
-          note: "Your emergency brake. Expensive but absolute. Always keep 7 mana banked for this.",
-        },
-      },
-
-      flavorText:
-        "Your voice splits the air like a thunderclap. The demon drops to its knees. There is no debate.",
-    },
-
-    // DEMON COMMAND SPELLS
-    {
-      id: "exo_command_attack",
-      name: "Command: Attack",
-      description:
-        "Command a bound demon to attack a target with enhanced ferocity.",
-      spellType: "ACTION",
-      effectTypes: ["utility"],
-      icon: "Utility/Overlords Command",
-      school: "radiant",
-      level: 1,
-
-      typeConfig: {
-        school: "radiant",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        validTargets: "bound_demon",
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
-        actionPoints: 1,
-        components: ["verbal"],
-        verbalText: "Impetus!",
-      },
-
-      resolution: "AUTOMATIC",
-
-      effects: {
-        command: {
-          type: "attack",
-          bonus: "+1d6 damage",
-          description: "Demon attacks designated target with +1d6 bonus damage",
-        },
-      },
-
-      specialMechanics: {
-        demonCommand: {
-          enabled: true,
-          commandType: "attack",
-          dominanceCost: "Decreases DD by 1 step after attack",
-        },
-      },
-
-      flavorText: "Your word is law. The demon strikes.",
-    },
-
-    {
-      id: "exo_dismiss_demon",
-      name: "Dismiss Demon",
-      description:
-        "Safely dismiss a bound demon, sending it back to its binding circle. Prevents hostile escape.",
-      spellType: "ACTION",
-      effectTypes: ["utility"],
-      icon: "Necrotic/Spectral Summoning",
-      school: "radiant",
-      level: 1,
-
-      typeConfig: {
-        school: "radiant",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        validTargets: "bound_demon",
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 2 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Dimitte!",
-        somaticText: "Dismissive wave",
-      },
-
-      resolution: "AUTOMATIC",
-
-      effects: {
-        dismiss: {
-          type: "safe_dismissal",
-          description:
-            "Demon is dismissed without turning hostile, can be resummoned later",
-        },
-      },
-
-      specialMechanics: {
-        demonCommand: {
-          enabled: true,
-          commandType: "dismiss",
-          note: "Use this when DD is low to prevent hostile escape",
-        },
-      },
-
-      flavorText: "Return to your prison. Your service is complete. For now.",
-    },
-
-    // EXORCISM/BANISHMENT SPELLS
-    {
-      id: "exo_banish_demon",
-      name: "Banish Demon",
-      description:
-        "Banish a hostile demon or enemy summoned creature, sending it back to its plane of origin.",
-      spellType: "ACTION",
-      effectTypes: ["utility"],
-      icon: "Radiant/Divine Beam",
-      school: "radiant",
-      level: 4,
-
-      typeConfig: {
-        school: "radiant",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 40,
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "Exorcizamus te!",
-        somaticText: "Banishing gesture with holy symbol",
-      },
-
-      resolution: "SAVING_THROW",
-      savingThrow: {
-        attribute: "CHARISMA",
-        dc: "SPELL_DC",
-        onSuccess: "negated",
-        onFailure: "banished",
-      },
-
-      effects: {
-        banishment: {
-          type: "planar_banishment",
-          description:
-            "Target demon/summoned creature is banished to its home plane",
-        },
-      },
-
-      specialMechanics: {
-        exorcism: {
-          enabled: true,
-          effectiveAgainst: [
-            "demons",
-            "devils",
-            "summoned creatures",
-            "undead",
-          ],
-          note: "Can be used on escaped bound demons to recapture them",
-        },
-      },
-
-      flavorText: "By divine authority, I cast you out!",
-    },
-
-    {
-      id: "exo_holy_smite",
-      name: "Holy Smite",
-      description:
-        "Strike a target with holy energy, dealing radiant damage. Extra effective against demons and undead.",
-      level: 3,
-      spellType: "ACTION",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Radiant/Divine Blessing",
-        tags: ["damage", "holy", "radiant", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 50,
-        targetRestrictions: ["enemy"],
-      },
-
-      damageConfig: {
-        formula: "3d8 + spirit",
-        elementType: "radiant",
-        damageTypes: ["radiant"],
-        attackType: "spell_attack",
-        conditionalDamage: {
-          enabled: true,
-          conditions: [
-            {
-              targetType: "creature_type",
-              creatureTypes: ["fiend", "undead"],
-              bonusFormula: "2d8",
-              description: "Deals extra damage to demons and undead",
-            },
-          ],
-        },
-        resolution: "DICE",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 15,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "DICE",
-      tags: ["damage", "holy", "radiant", "universal"],
-    },
-
-    {
-      id: "exo_empower_demon",
-      name: "Empower Demon",
-      description:
-        "Channel energy into a bound demon, enhancing its combat abilities.",
-      level: 3,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "General/Increase Strength",
-        tags: ["buff", "demon enhancement", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        targetRestrictions: ["bound_demon"],
-      },
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "empower_demon",
-            name: "Empowered Demon",
-            description:
-              "Gain +2 to attack rolls, +1d8 necrotic damage on all attacks, and +2 Armor for 3 rounds",
-            statModifier: {
-              stat: "attack_rolls",
-              magnitude: 2,
-              magnitudeType: "flat",
-            },
-            bonusDamage: {
-              formula: "1d8",
-              damageType: "necrotic",
-              appliesTo: "all_attacks",
-            },
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 12,
-        },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "AUTOMATIC",
-      tags: ["buff", "demon enhancement", "universal"],
-    },
-
-    // POSSESSED SPEC SPELLS
-    {
-      id: "exo_channel_demon_strength",
-      name: "Channel Demon Strength",
-      description:
-        "Channel your internal demon's strength, gaining enhanced physical power.",
-      level: 2,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "Psychic/Mind Control",
-        tags: ["buff", "possession", "self", "possessed"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "channel_demon_strength",
-            name: "Demonic Strength",
-            description:
-              "Gain +4 Strength and +2d6 necrotic damage on all melee attacks for 5 rounds",
-            statModifier: {
-              stat: "strength",
-              magnitude: 4,
-              magnitudeType: "flat",
-            },
-            bonusDamage: {
-              formula: "2d6",
-              damageType: "necrotic",
-              appliesTo: "melee_attacks",
-            },
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 10,
-        },
-        actionPoints: 1,
-        components: ["verbal"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "AUTOMATIC",
-      tags: ["buff", "possession", "self", "possessed"],
-    },
-
-    {
-      id: "exo_demonic_fury",
-      name: "Demonic Fury",
-      description:
-        "Unleash your internal demon's rage, gaining attack speed and ferocity.",
-      level: 4,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "General/Fiery Rage",
-        tags: ["buff", "possession", "self", "possessed"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "demonic_fury",
-            name: "Demonic Fury",
-            description:
-              "Gain +1 extra attack per turn, increased critical hit range (19-20), and +20 feet movement speed for 4 rounds",
-            statModifier: {
-              stat: "extra_attacks",
-              magnitude: 1,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 4,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 18,
-        },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      resolution: "AUTOMATIC",
-      tags: ["buff", "possession", "self", "possessed"],
-    },
-
-    {
-      id: "exo_purifying_light",
-      name: "Purifying Light",
-      description:
-        "Emit a burst of purifying light that damages demons and undead while healing allies.",
-      level: 5,
-      spellType: "ACTION",
-      effectTypes: ["damage", "healing"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Healing/Prayer",
-        tags: ["damage", "healing", "holy", "aoe", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingMode: "effect",
       targetingConfig: {
         targetingType: "area",
-        rangeType: "self",
-        aoeShape: "circle",
-        aoeParameters: { radius: 20 },
-        targetRestrictions: ["enemy", "ally"],
+        rangeType: "self_centered",
+        areaShape: "circle",
+        areaSize: 60,
+        targetRestrictions: ["bound_demon_or_self"]
       },
-
-      effectTargeting: {
-        damage: {
-          targetingType: "area",
-          rangeType: "self",
-          aoeShape: "circle",
-          aoeParameters: { radius: 20 },
-          targetRestrictions: ["enemy"],
-        },
-        healing: {
-          targetingType: "area",
-          rangeType: "self",
-          aoeShape: "circle",
-          aoeParameters: { radius: 20 },
-          targetRestrictions: ["ally"],
-        },
-      },
-
-      damageConfig: {
-        formula: "5d6 + spirit",
-        elementType: "radiant",
-        damageTypes: ["radiant"],
-        savingThrow: {
-          ability: "constitution",
-          difficultyClass: 15,
-          saveOutcome: "half_damage",
-        },
-        conditionalDamage: {
-          enabled: true,
-          conditions: [
-            {
-              targetType: "creature_type",
-              creatureTypes: ["fiend", "undead"],
-              bonusFormula: "2d6",
-              description: "Deals extra damage to demons and undead",
-            },
-          ],
-        },
-        resolution: "DICE",
-      },
-
-      healingConfig: {
-        formula: "2d6 + spirit",
-        healingType: "aoe",
-        targetRestrictions: ["ally"],
-        description: "Heals all allies in the area",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 25,
-        },
         actionPoints: 2,
-        components: ["verbal", "somatic"],
+        mana: 15,
+        resourceTypes: ["health"],
+        resourceValues: {},
+        useFormulas: { health: true },
+        resourceFormulas: { health: "3d6" }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      resolution: "DICE",
-      tags: ["damage", "healing", "holy", "aoe", "universal"],
-    },
-
-    // ADDITIONAL LEVEL 1 SPELLS
-    {
-      id: "exo_holy_brand",
-      name: "Holy Brand",
-      description:
-        "Brand an enemy with holy light, marking them and dealing bonus radiant damage on next attack.",
-      level: 1,
-      spellType: "ACTION",
-      effectTypes: ["debuff", "damage"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Radiant/Divine Blessing",
-        tags: ["debuff", "holy", "mark", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
       },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["enemy"],
-        maxTargets: 1,
-        requiresLineOfSight: true,
-      },
-
       damageConfig: {
-        formula: "1d6",
-        elementType: "radiant",
+        formula: "3d6",
         damageTypes: ["radiant"],
-        resolution: "DICE",
+        resolution: "DICE"
       },
-
-      debuffConfig: {
-        debuffType: "statusEffect",
-        effects: [
-          {
-            id: "holy_brand",
-            name: "Holy Brand",
-            description:
-              "Marked with holy light - takes +1d6 radiant damage from next attack for 2 rounds",
-            statusType: "marked",
-            dotFormula: "+1d6",
-            dotDamageType: "radiant",
-            damagePerTurn: "+1d6",
-            mechanicsText: "+1d6 radiant damage from next attack for 2 rounds",
-          },
-        ],
-        durationValue: 2,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 12,
-          saveOutcome: "negates",
-        },
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 4,
-        },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "DICE",
-      tags: ["debuff", "holy", "mark", "universal"],
-    },
-
-    {
-      id: "exo_demon_sense",
-      name: "Demon Sense",
-      description:
-        "Sense nearby demons and fiends, revealing their location for 3 rounds.",
-      level: 1,
-      spellType: "ACTION",
-      effectTypes: ["utility"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Radiant/Redemption",
-        tags: ["utility", "detection", "demons", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
       utilityConfig: {
-        utilityType: "detection",
+        utilityType: "fate_manipulation",
         selectedEffects: [
           {
-            id: "demon_sense",
-            name: "Demon Sense",
-            detectionType: "creature_type",
-            creatureType: "fiend",
-            range: 60,
-          },
-        ],
-        duration: 3,
-        durationUnit: "rounds",
-        concentration: false,
-        power: "weak",
+            id: "restore_all_dd",
+            name: "Legion Obedience",
+            description: "Restores the Dominance Die of all active summons by 2 steps."
+          }
+        ]
       },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 4,
-        },
-        actionPoints: 1,
-        components: ["verbal"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
       resolution: "DICE",
-      tags: ["utility", "detection", "demons", "universal"],
+      tags: ["dominance", "restoration", "mass_discipline"],
+      flavorText: "Hear the whip crack. Fall in line, or return to the ash."
     },
 
-    {
-      id: "exo_binding_circle",
-      name: "Binding Circle",
-      description:
-        "Create a holy circle that prevents demons from entering or leaving for 3 rounds.",
-      level: 1,
-      spellType: "ACTION",
-      effectTypes: ["control"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Healing/Prayer",
-        tags: ["control", "zone", "holy", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        aoeShape: "circle",
-        aoeParameters: { radius: 10 },
-      },
-
-      controlConfig: {
-        controlType: "restriction",
-        duration: 3,
-        durationUnit: "rounds",
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 12,
-          saveOutcome: "negates",
-        },
-        effects: [
-          {
-            id: "binding_circle",
-            name: "Binding Circle",
-            description:
-              "Holy circle prevents demons from crossing - movement blocked for fiends",
-            config: {
-              creatureType: "fiend",
-              blocksEntry: true,
-              blocksExit: true,
-              saveType: "charisma",
-              saveDC: 15,
-              condition: "restrained",
-              duration: 5,
-              durationUnit: "rounds",
-            },
-          },
-        ],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 5,
-        },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      resolution: "DICE",
-      tags: ["control", "zone", "holy", "universal"],
-    },
-
-    // LEVEL 6 SPELLS
-    {
-      id: "exo_bind_pit_fiend",
-      name: "Bind Pit Fiend",
-      description:
-        "Bind a powerful Pit Fiend through hellfire and iron will. Starts at d6 DD — extremely hard to control.",
-      level: 6,
-      spellType: "ACTION",
-      effectTypes: ["summoning"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "Utility/Summon Minion",
-        tags: ["summoning", "binding", "demon", "pit fiend", "demonologist"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["ground"],
-      },
-
-      summoningConfig: {
-        summonType: "permanent",
-        creatureName: "Pit Fiend",
-        creatureType: "fiend",
-        quantity: 1,
-        statsFormula: "8d10 + 40",
-        attackFormula: "3d8 + 6",
-        duration: 0,
-        durationUnit: "permanent",
-        commandable: true,
-        actionsPerTurn: 2,
-        abilities: ["Fire Breath", "Claw Attack", "Intimidating Presence"],
-      },
-
-      specialMechanics: {
-        bindingRitual: {
-          enabled: true,
-          demonType: "Pit Fiend",
-          startingDD: "d6",
-          savingThrow: "Constitution (Endurance) DC 18",
-          abilities: [
-            "Fire Breath (6d6 fire, AoE)",
-            "Claw Attack (3d8+6 slashing)",
-            "Intimidating Presence (enemies frightened)",
-          ],
-          deathRule:
-            "If the Pit Fiend dies, you must perform this binding ritual again with fresh components.",
-        },
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 35,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
-
-      resolution: "DICE",
-      tags: ["summoning", "binding", "demon", "pit fiend", "demonologist"],
-      flavorText:
-        "The ground cracks. Hellfire erupts. The Pit Fiend rises — and for one terrible moment, it looks you in the eye.",
-    },
-
-    {
-      id: "exo_mass_dominance",
-      name: "Mass Dominance",
-      description:
-        "Restore dominance over all controlled demons simultaneously, restoring 2 DD to each.",
-      level: 6,
-      spellType: "ACTION",
-      effectTypes: ["utility"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Force/Force Field",
-        tags: ["utility", "demon control", "dominance", "demonologist"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      utilityConfig: {
-        utilityType: "resource_restoration",
-        selectedEffects: [
-          {
-            id: "mass_dominance",
-            name: "Mass Dominance",
-            resourceType: "dominance_die",
-            amount: 2,
-            targetType: "all_demons",
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
-        concentration: false,
-        power: "major",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 30,
-        },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      resolution: "DICE",
-      tags: ["utility", "demon control", "dominance", "demonologist"],
-    },
-
-    {
-      id: "exo_holy_wrath",
-      name: "Holy Wrath",
-      description:
-        "Channel holy power to deal massive radiant damage to all demons in an area.",
-      level: 6,
-      spellType: "ACTION",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Radiant/Divine Beam",
-        tags: ["damage", "holy", "aoe", "anti demon", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        aoeShape: "circle",
-        aoeParameters: { radius: 20 },
-        targetRestrictions: ["enemy"],
-      },
-
-      damageConfig: {
-        formula: "6d10 + spirit",
-        elementType: "radiant",
-        damageTypes: ["radiant"],
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 16,
-          saveOutcome: "half_damage",
-        },
-        criticalConfig: {
-          enabled: true,
-          critType: "dice",
-          critMultiplier: 2.0,
-          extraDice: "3d10",
-          critEffects: ["radiant_burn"],
-        },
-        resolution: "DICE",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 30,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      resolution: "DICE",
-      tags: ["damage", "holy", "aoe", "anti demon", "universal"],
-    },
-
+    // ============================================================
     // LEVEL 7 SPELLS
+    // ============================================================
     {
       id: "exo_bind_balor",
-      name: "Bind Balor",
-      description:
-        "Bind a legendary Balor — a demon of annihilation. Starts at d6 DD with DC 18 escape. If it breaks free, it attacks EVERYTHING.",
+      name: "Ritual: Bind Balor",
+      description: "An incredibly dangerous ritual to bind a towering flame-fiend of ruin. Requires active magma, blood of a dragon, and a blackened holy relic. The Balor starts with a d6 Dominance Die and sweeps the area with molten iron.",
       level: 7,
       spellType: "ACTION",
+      icon: "Fire/Flame Burst",
       effectTypes: ["summoning"],
-
       typeConfig: {
-        school: "shadow",
-        icon: "Utility/Summon Minion",
-        tags: ["summoning", "binding", "demon", "balor", "demon lord"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
+        school: "necrotic",
+        icon: "Fire/Flame Burst",
+        tags: ["summoning", "binding", "balor"],
+        castTime: 5,
+        castTimeType: "MINUTES",
+        ritual: true
       },
-
       targetingConfig: {
         targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["ground"],
+        rangeType: "self",
+        areaShape: "circle",
+        areaSize: 15
       },
-
+      resourceCost: {
+        actionPoints: 3,
+        mana: 50
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 7
+      },
       summoningConfig: {
         summonType: "permanent",
-        creatureName: "Balor",
+        creatureName: "Balor Fiend",
         creatureType: "fiend",
         quantity: 1,
-        statsFormula: "10d12 + 60",
-        attackFormula: "4d10 + 8",
+        statsFormula: "8d10 + 20",
+        attackFormula: "4d10 + 6",
         duration: 0,
         durationUnit: "permanent",
         commandable: true,
-        actionsPerTurn: 3,
-        abilities: ["Flame Whip", "Death Throes", "Flaming Sword", "Teleport"],
-      },
-
-      specialMechanics: {
-        bindingRitual: {
-          enabled: true,
-          demonType: "Balor",
-          startingDD: "d6",
-          savingThrow: "Constitution (Endurance) DC 18",
-          abilities: [
-            "Flame Whip (4d10+8 fire)",
-            "Death Throes (8d6 fire AoE on death)",
-            "Flaming Sword (5d10 slashing+fire)",
-            "Teleport (60ft)",
-          ],
-          deathRule:
-            "If the Balor dies, it explodes (Death Throes: 8d6 fire to all within 30ft) and must be rebound from scratch.",
-          escapeBehavior:
-            "On failed escape: always rolls hostile (5-6 on 1d6). A freed Balor does not flee.",
-        },
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 45,
-        },
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 15 },
-
-      resolution: "DICE",
-      tags: ["summoning", "binding", "demon", "balor", "demon lord"],
-      flavorText:
-        "The Balor opens its eyes. For the first time in a thousand years, it knows fear — of you.",
-    },
-
-    {
-      id: "exo_infernal_empowerment",
-      name: "Infernal Empowerment",
-      description:
-        "Empower all controlled demons with infernal energy, enhancing their damage and defense.",
-      level: 7,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "Necrotic/Demonic Empowerment",
-        tags: ["buff", "demon enhancement", "mass", "demonologist"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "infernal_empowerment",
-            name: "Infernal Empowerment",
-            description:
-              "All controlled demons gain +4 to attack rolls, +3d8 damage, and +30 temporary HP for 5 rounds",
-            statModifier: {
-              stat: "attack_rolls",
-              magnitude: 4,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 35,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
-
-      resolution: "DICE",
-      tags: ["buff", "demon enhancement", "mass", "demonologist"],
-    },
-
-    {
-      id: "exo_possession_mastery",
-      name: "Possession Mastery",
-      description:
-        "Master your internal demon, gaining ultimate control and enhanced power for 5 rounds.",
-      level: 7,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "Psychic/Mind Control",
-        tags: ["buff", "possession", "transformation", "possessed"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "possession_mastery",
-            name: "Possession Mastery",
-            description:
-              "Gain +5 to all stats, +4d8 damage on all attacks, resistance to all damage, and enhanced demonic abilities for 5 rounds",
-            statModifier: {
-              stat: "all_stats",
-              magnitude: 5,
-              magnitudeType: "flat",
-            },
-            bonusDamage: {
-              formula: "4d8",
-              damageType: "necrotic",
-              appliesTo: "all_attacks",
-            },
-            damageResistance: {
-              types: ["all"],
-              reduction: "half",
-            },
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: false,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 40,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-
-      resolution: "DICE",
-      tags: ["buff", "possession", "transformation", "possessed"],
-    },
-
-    // LEVEL 8 SPELLS
-    {
-      id: "exo_infernal_legion",
-      name: "Infernal Legion",
-      description:
-        "Summon 3 lesser demons, each bound with d10 Dominance Die. The swarm obeys — but each one chafes at the leash.",
-      level: 8,
-      spellType: "ACTION",
-      effectTypes: ["summoning"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "Utility/Summon Minion",
-        tags: ["summoning", "mass", "demons", "demonologist"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        targetRestrictions: ["ground"],
-      },
-
-      summoningConfig: {
-        summonType: "temporary",
-        creatureName: "Lesser Demon",
-        creatureType: "fiend",
-        quantity: 3,
-        statsFormula: "3d8 + 10",
-        attackFormula: "1d8 + 2",
-        duration: 5,
-        durationUnit: "rounds",
-        commandable: true,
         actionsPerTurn: 1,
-        abilities: ["Claw Attack", "Swarm Tactics"],
+        abilities: ["Molten Sweep", "Firestorm Aura"]
       },
-
-      specialMechanics: {
-        bindingRitual: {
-          enabled: true,
-          demonType: "Lesser Demon",
-          startingDD: "d10",
-          savingThrow: "Charisma (Persuasion) DC 12",
-          abilities: [
-            "Claw Attack (1d8+2 slashing)",
-            "Swarm Tactics (+1d4 when 2+ demons attack same target)",
-          ],
-          deathRule:
-            "Lesser demons despawn after 5 rounds. If killed, they are gone — no rebind needed.",
-        },
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 45,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
-
-      resolution: "DICE",
-      tags: ["summoning", "mass", "demons", "demonologist"],
+      resolution: "AUTOMATIC",
+      tags: ["summoning", "binding", "balor"],
+      flavorText: "A walking volcano on a thread. If the thread snaps, the world ends."
     },
 
+    // ============================================================
+    // LEVEL 8 SPELLS
+    // ============================================================
     {
-      id: "exo_divine_judgment",
-      name: "Divine Judgment",
-      description:
-        "Call down divine judgment on all enemies, dealing massive holy damage to fiends and demons.",
+      id: "exo_divine_crucifixion",
+      name: "Ultimate: Divine Crucifixion",
+      description: "You drive a colossal spectral stake of salt and cold iron directly through the target's spirit, pinning them to the fabric of reality. Deals colossal radiant damage to Undead, Fiends, and Spirits, paralyzing them instantly. Against mortals, the stake shatters on their mundane meat, dealing negligible damage.",
       level: 8,
       spellType: "ACTION",
-      effectTypes: ["damage"],
-
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["damage", "control"],
       typeConfig: {
-        school: "holy",
-        icon: "Radiant/Divine Halo",
-        tags: ["damage", "holy", "aoe", "ultimate", "universal"],
+        school: "radiant",
+        icon: "Radiant/Radiant Divinity",
+        tags: ["damage", "execute", "paralyze", "Mortal Deficit"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
-        targetingType: "area",
+        targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 50,
-        aoeShape: "circle",
-        aoeParameters: { radius: 30 },
-        targetRestrictions: ["enemy"],
+        rangeDistance: 60,
+        targetRestrictions: ["enemies"]
       },
-
+      resourceCost: {
+        actionPoints: 3,
+        mana: 30
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
+      },
       damageConfig: {
-        formula: "8d12 + spirit",
-        elementType: "radiant",
+        formula: "8d10",
         damageTypes: ["radiant"],
+        resolution: "DICE",
         savingThrow: {
           ability: "spirit",
           difficultyClass: 18,
-          saveOutcome: "half_damage",
+          saveOutcome: "half_damage"
         },
-        criticalConfig: {
+        conditionalDamage: {
           enabled: true,
-          critType: "dice",
-          critMultiplier: 2.5,
-          extraDice: "4d12",
-          critEffects: ["divine_burn", "stun"],
-        },
-        resolution: "DICE",
+          conditions: [
+            {
+              targetType: "creature_type",
+              creatureTypes: ["fiend", "undead", "spirit", "aberration"],
+              bonusFormula: "12d10",
+              description: "Deals massive bonus damage (additional +12d10) to supernatural targets. Deals only 1/4 damage to Mortals."
+            }
+          ]
+        }
       },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 50,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-
-      resolution: "DICE",
-      tags: ["damage", "holy", "aoe", "ultimate", "universal"],
-    },
-
-    {
-      id: "exo_demonic_transformation",
-      name: "Demonic Transformation",
-      description:
-        "Fully transform into a demon, gaining devastating power and abilities.",
-      level: 8,
-      spellType: "ACTION",
-      effectTypes: ["transformation"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "Necrotic/Transform Demon",
-        tags: ["transformation", "demon", "ultimate", "possessed"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      transformationConfig: {
-        transformationType: "demonic",
-        targetType: "self",
-        duration: 6,
-        durationUnit: "rounds",
-        power: "major",
-        newForm: "Demon Form",
-        description:
-          "Embrace the demon within, gaining terrible power at great risk.",
-        grantedAbilities: [
-          {
-            id: "demon_stats",
-            name: "Demonic Might",
-            description: "+6 Strength, +4 Agility, +6 Constitution",
-          },
-          {
-            id: "claw_attack",
-            name: "Claw Attack",
-            description: "Natural weapon dealing 2d8+Str slashing damage",
-          },
-          {
-            id: "demonic_roar",
-            name: "Demonic Roar",
-            description:
-              "Frighten enemies within 30ft (once per transformation)",
-          },
-          {
-            id: "flame_aura",
-            name: "Flame Aura",
-            description: "Deal 1d6 fire damage to attackers",
-          },
-          {
-            id: "demon_resistances",
-            name: "Resistances",
-            description: "Resist fire, necrotic, poison; Vulnerable to radiant",
-          },
-        ],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 45,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
-
-      resolution: "DICE",
-      tags: ["transformation", "demon", "ultimate", "possessed"],
-    },
-
-    // LEVEL 9 SPELLS
-    {
-      id: "exo_apocalyptic_summoning",
-      name: "Apocalyptic Summoning",
-      description:
-        "Summon multiple powerful demons simultaneously to unleash apocalyptic destruction.",
-      level: 9,
-      spellType: "ACTION",
-      effectTypes: ["summoning"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "Utility/Summon Minion",
-        tags: ["summoning", "mass", "ultimate", "demonologist"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 50,
-        targetRestrictions: ["ground"],
-      },
-
-      summoningConfig: {
-        summonType: "temporary",
-        creatureName: "Apocalypse Demon",
-        creatureType: "fiend",
-        quantity: 3,
-        statsFormula: "8d10 + 50",
-        attackFormula: "4d8 + 6",
-        duration: 6,
-        durationUnit: "rounds",
-        commandable: true,
-        actionsPerTurn: 2,
-        abilities: ["Multi-Attack", "Flame Breath", "Teleport", "Fear Aura"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 55,
-        },
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 15 },
-
-      resolution: "DICE",
-      tags: ["summoning", "mass", "ultimate", "demonologist"],
-    },
-
-    {
-      id: "exo_holy_apocalypse",
-      name: "Holy Apocalypse",
-      description:
-        "Unleash apocalyptic holy power that obliterates all demons in a massive area.",
-      level: 9,
-      spellType: "ACTION",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Force/Force Field",
-        tags: ["damage", "holy", "ultimate", "mass", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 40 },
-        targetRestrictions: ["enemy"],
-      },
-
-      damageConfig: {
-        formula: "10d12 + spirit",
-        elementType: "radiant",
-        damageTypes: ["radiant"],
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 19,
-          saveOutcome: "half_damage",
-        },
-        criticalConfig: {
-          enabled: true,
-          critType: "dice",
-          critMultiplier: 3.0,
-          extraDice: "5d12",
-          critEffects: ["divine_annihilation", "banishment"],
-        },
-        resolution: "DICE",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 60,
-        },
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 12 },
-
-      resolution: "DICE",
-      tags: ["damage", "holy", "ultimate", "mass", "universal"],
-    },
-
-    {
-      id: "exo_perfect_dominance",
-      name: "Perfect Dominance",
-      description:
-        "Achieve perfect dominance over all demons, maximizing their power and loyalty.",
-      level: 9,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Force/Force Field",
-        tags: [
-          "buff",
-          "dominance",
-          "demon enhancement",
-          "ultimate",
-          "demon lord",
-        ],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      buffConfig: {
-        buffType: "statEnhancement",
+      controlConfig: {
+        controlType: "incapacitation",
         effects: [
           {
-            id: "perfect_dominance",
-            name: "Perfect Dominance",
-            description:
-              "All controlled demons gain maximum stats, +6 to all rolls, damage immunity to one element each, and cannot be turned or dismissed for 6 rounds",
-            statModifier: {
-              stat: "all_stats",
-              magnitude: 6,
-              magnitudeType: "flat",
-            },
-          },
+            id: "crucifixion_paralysis",
+            name: "Spirit Crucified",
+            description: "Target is Paralyzed for 3 rounds. Spirit save DC 18 to negate."
+          }
         ],
-        durationValue: 6,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: false,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 55,
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 18
         },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
+        duration: 3,
+        durationUnit: "rounds"
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 15 },
-
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
       resolution: "DICE",
-      tags: [
-        "buff",
-        "dominance",
-        "demon enhancement",
-        "ultimate",
-        "demon lord",
-      ],
+      tags: ["damage", "execute", "paralyze", "Mortal Deficit"],
+      flavorText: "A scream that shakes the veil. The iron stake remains, smoking with sulfur."
     },
 
-    // LEVEL 10 SPELLS
+    // ============================================================
+    // LEVEL 9 SPELLS
+    // ============================================================
     {
       id: "exo_bind_demon_prince",
-      name: "Bind Demon Prince",
-      description:
-        "Bind a Demon Prince — an entity of apocalyptic power. d6 DD, DC 20 escape. If it breaks free, it does not flee. Ever.",
-      level: 10,
+      name: "Ritual: Bind Demon Prince",
+      description: "The absolute pinnacle of binding rituals. You chain an Arch-Demon of the pit to your very heartbeat. Requires a dark ritual circle and three rare materials. The Prince starts with a d6 Dominance Die and has extreme maintenance.",
+      level: 9,
       spellType: "ACTION",
+      icon: "Necrotic/Arise",
       effectTypes: ["summoning"],
-
       typeConfig: {
-        school: "shadow",
-        icon: "Utility/Summon Minion",
-        tags: ["summoning", "ultimate", "demon prince", "demon lord"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
+        school: "necrotic",
+        icon: "Necrotic/Arise",
+        tags: ["summoning", "binding", "demon_prince"],
+        castTime: 10,
+        castTimeType: "MINUTES",
+        ritual: true
       },
-
       targetingConfig: {
         targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        targetRestrictions: ["ground"],
+        rangeType: "self",
+        areaShape: "circle",
+        areaSize: 20
       },
-
+      resourceCost: {
+        actionPoints: 3,
+        mana: 80
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 10
+      },
       summoningConfig: {
         summonType: "permanent",
         creatureName: "Demon Prince",
         creatureType: "fiend",
         quantity: 1,
-        statsFormula: "15d12 + 100",
-        attackFormula: "6d10 + 10",
+        statsFormula: "10d10 + 30",
+        attackFormula: "5d12 + 8",
         duration: 0,
         durationUnit: "permanent",
         commandable: true,
-        actionsPerTurn: 4,
-        abilities: [
-          "Apocalyptic Strike",
-          "Infernal Command",
-          "Reality Tear",
-          "Flame Storm",
-          "Teleport",
-        ],
+        actionsPerTurn: 2,
+        abilities: ["Void Ruin", "Command Lesser Fiend"]
       },
-
-      specialMechanics: {
-        bindingRitual: {
-          enabled: true,
-          demonType: "Demon Prince",
-          startingDD: "d6",
-          savingThrow: "Constitution (Endurance) DC 20",
-          abilities: [
-            "Apocalyptic Strike (6d10+10 mixed)",
-            "Infernal Command (buffs nearby demons)",
-            "Reality Tear (teleport + 4d12 force)",
-            "Flame Storm (8d6 fire AoE)",
-            "Teleport (120ft)",
-          ],
-          deathRule:
-            "If the Demon Prince dies, reality shudders. You must obtain Prince-tier components and succeed a DC 20 binding check to rebind.",
-          escapeBehavior:
-            "On failed escape: ALWAYS turns fully hostile. A freed Demon Prince does not flee. It conquers.",
-        },
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 70,
-        },
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 30 },
-
-      resolution: "DICE",
-      tags: ["summoning", "ultimate", "demon prince", "demon lord"],
-    },
-
-    {
-      id: "exo_divine_annihilation",
-      name: "Divine Annihilation",
-      description:
-        "Channel ultimate divine power to annihilate all demons and fiends in sight.",
-      level: 10,
-      spellType: "ACTION",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "holy",
-        icon: "Radiant/Divine Halo",
-        tags: ["damage", "holy", "ultimate", "annihilation", "universal"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "sight",
-        rangeDistance: 120,
-        aoeShape: "circle",
-        aoeParameters: { radius: 60 },
-        targetRestrictions: ["enemy"],
-      },
-
-      damageConfig: {
-        formula: "15d12 + spirit",
-        elementType: "radiant",
-        damageTypes: ["radiant"],
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 20,
-          saveOutcome: "half_damage",
-        },
-        criticalConfig: {
-          enabled: true,
-          critType: "dice",
-          critMultiplier: 3.5,
-          extraDice: "8d12",
-          critEffects: ["divine_annihilation", "banishment", "stun"],
-        },
-        resolution: "DICE",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 80,
-        },
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 20 },
-
-      resolution: "DICE",
-      tags: ["damage", "holy", "ultimate", "annihilation", "universal"],
-    },
-
-    {
-      id: "exo_demon_god_form",
-      name: "Demon God Form",
-      description:
-        "Ascend to become a Demon God with ultimate power and abilities.",
-      level: 10,
-      spellType: "ACTION",
-      effectTypes: ["transformation"],
-
-      typeConfig: {
-        school: "shadow",
-        icon: "Necrotic/Transform Demon",
-        tags: ["transformation", "ultimate", "god form", "possessed"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      transformationConfig: {
-        transformationType: "demonic",
-        targetType: "self",
-        duration: 5,
-        durationUnit: "rounds",
-        power: "major",
-        newForm: "Demon Lord",
-        description:
-          "Fully embrace the demon, becoming a terrifying lord of the infernal.",
-        grantedAbilities: [
-          {
-            id: "lord_stats",
-            name: "Infernal Might",
-            description: "+8 to all attributes",
-          },
-          {
-            id: "reality_warp",
-            name: "Reality Warp",
-            description: "Teleport up to 60ft using action points",
-          },
-          {
-            id: "infernal_command",
-            name: "Infernal Command",
-            description: "Command demons and undead within 60ft",
-          },
-          {
-            id: "terror_aura",
-            name: "Aura of Terror",
-            description: "Enemies within 30ft must save or be frightened",
-          },
-          {
-            id: "demon_immunities",
-            name: "Infernal Immunity",
-            description: "Immune to fire, necrotic, poison damage",
-          },
-          {
-            id: "demon_exhaustion",
-            name: "Corruption (On End)",
-            description:
-              "Take 4d10 psychic damage and gain 2 exhaustion levels when transformation ends",
-          },
-        ],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 100,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 30 },
-
-      resolution: "DICE",
-      tags: ["transformation", "ultimate", "god form", "possessed"],
-    },
-    // ===== PASSIVE ABILITIES =====
-    {
-      id: "exorcist_demonic_backlash",
-      name: "Demonic Backlash",
-      description:
-        "Binding demons is not without risk. When a bound demon is destroyed by enemy action (not released voluntarily), the binding contracts shatter. You take 2d6 necrotic damage per demon tier that was destroyed and lose concentration on any other active bindings for 1 round. The demon's death scream echoes through your soul.",
-      level: 1,
-      spellType: "PASSIVE",
-      icon: "Necrotic/Necrotic Death",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "necrotic",
-        icon: "Necrotic/Necrotic Death",
-        tags: ["passive", "exorcist", "weakness"],
-      },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
-      tags: ["passive", "exorcist", "weakness"],
+      tags: ["summoning", "binding", "demon_prince"],
+      flavorText: "An arch-horror bound by a single thread. Look away for a second, and it will tear your world apart."
     },
+
+    // ============================================================
+    // LEVEL 10 SPELLS
+    // ============================================================
     {
-      id: "exorcist_binding_components",
-      name: "Binding Components",
-      description:
-        "Your demon-binding rituals require holy implements: blessed chalk, silver chains, and sanctified incense. You begin each encounter with 5 Binding Components. Each binding ritual costs 1 component. At 0 components, binding rituals have a 50% chance to fail (the demon resists). You regain 1 component per demon slain. Without your tools, demons slip their chains.",
-      level: 1,
-      spellType: "PASSIVE",
-      icon: "Radiant/Holy Light",
-      effectTypes: ["passive"],
+      id: "exo_calamitous_ascension",
+      name: "Ultimate: Calamitous Ascension",
+      description: "For the Possessed: Invite the demon prince into your soul. You undergo a terrifying, tragic transformation into a towering beacon of blackened ash and searing radiant light. You gain absolute invulnerability to all supernatural and magical damage, but your Mortal Deficit is magnified: normal, mundane kinetic attacks deal quadruple damage.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      effectTypes: ["buff", "damage"],
       typeConfig: {
         school: "radiant",
-        icon: "Radiant/Holy Light",
-        tags: ["passive", "exorcist", "restriction"],
+        icon: "Radiant/Radiant Divinity",
+        tags: ["possessed", "transformation", "ultimate", "Mortal Deficit"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
       },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "exorcist", "restriction"],
-    },
-    {
-      id: "exorcist_holy_corruption",
-      name: "Holy Corruption",
-      description:
-        "Every demon you bind taints your holy aura slightly. For each bound demon currently active, you lose 1 point of radiant damage on your holy spells (minimum 0). Additionally, healing spells cast by other classes on you are 10% less effective per bound demon. The darkness bleeds through.",
-      level: 3,
-      spellType: "PASSIVE",
-      icon: "Shadow/Shadow Portal",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "shadow",
-        icon: "Shadow/Shadow Portal",
-        tags: ["passive", "exorcist", "weakness"],
+      targetingConfig: {
+        targetingType: "self"
       },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "exorcist", "weakness"],
-    },
-  ],
+      resourceCost: {
+        actionPoints: 3,
+        mana: 50,
+        resourceTypes: ["health"],
+        resourceValues: {},
+        useFormulas: { health: true },
+        resourceFormulas: { health: "5d6" }
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 10
+      },
+      buffConfig: {
+        buffType: "statusEffectBuff",
+        effects: [
+          {
+            id: "demon_god_ascension",
+            name: "Ash and Light",
+            description: "Caster gains absolute invulnerability to all magical and elemental damage. Caster deals +3d10 radiant damage on all attacks. However, any mundane physical attacks deal 300% increased damage (quadruple damage). Lasts 3 rounds.",
+            mechanicsText: "Invulnerability to magic, +3d10 radiant damage, 300% vulnerability to mundane physical attacks.",
+            statusEffect: {
+              vulnerabilityType: "physical",
+              vulnerabilityPercent: 300
+            }
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
+      damageConfig: {
+        formula: "5d6",
+        damageTypes: ["radiant"],
+        resolution: "DICE"
+      },
+      resolution: "DICE",
+      tags: ["possessed", "transformation", "ultimate", "Mortal Deficit"],
+      flavorText: "I am become the cataclysm. Chained, yet absolute."
+    }
+  ]
 };

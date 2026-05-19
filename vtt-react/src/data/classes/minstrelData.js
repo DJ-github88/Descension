@@ -1,8 +1,9 @@
 /**
  * Minstrel Class Data
  *
- * Complete class information for the Minstrel - a musical spellcaster
- * who weaves magic through chord progressions and harmonic resonance.
+ * Complete class information for the Minstrel — a conductor of reality's death rattle
+ * who tears magic from dying dimensions through bone and grief instruments.
+ * Music is not art. It is violation. Every note is theft. Every cadence is mutilation.
  */
 
 export const MINSTREL_DATA = {
@@ -15,64 +16,63 @@ export const MINSTREL_DATA = {
   // Overview section
   overview: {
     title: "The Minstrel",
-    subtitle: "Master of Musical Magic",
+    subtitle: "Conductor of Reality's Death Rattle",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Minstrel weaves magic through music theory, building musical notes with spells and resolving them into powerful chord progressions called cadences.
+      content: `**What You Need to Know**: The Minstrel does not play music — they tear it screaming from the corpses of dying realities. Each note is a stolen fragment of a collapsing dimension, hoarded and combined into cadences that violate the laws of existence.
 
-**Core Mechanic**: Cast builder spells → Generate musical notes (I–VII) → Combine notes into cadences → Unleash powerful effects based on chord progression
+**Core Mechanic**: Cast builder spells → Harvest musical notes (I–VII) from unraveling planes → Combine notes into cadences → Unleash catastrophic effects that reshape the battlefield
 
-**Resource**: Musical Notes (7 types, stack up to 5 each), Mana
+**Resource**: Musical Notes (7 types, stack up to 5 each), Mana — and the slow erosion of your own body
 
-**Playstyle**: Combo-building support with sustained power escalation
+**Playstyle**: Combo-building support with sustained power escalation through accumulated sonic atrocities
 
-**Best For**: Players who enjoy combo systems, musical themes, and orchestrating group buffs and battlefield control`,
+**Best For**: Players who enjoy combo systems, the creeping dread of building toward devastation, and the martyrdom of protecting everyone except themselves`,
     },
 
-    description: `The Minstrel is a master of musical magic, weaving spells through intricate chord progressions and harmonic resonance. By combining spells with specific musical functions, the Minstrel creates harmonious effects that support allies, hinder foes, and manipulate the battlefield through the power of song. Their unique mechanic revolves around building musical notes and resolving them into powerful cadences.`,
+    description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art — it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Minstrels are wandering performers, court musicians, battlefield drummers, and mystical bards who have discovered that music is not merely art—it is a fundamental force of reality. Through years of study and practice, they've learned to channel magic through musical theory, turning chord progressions into tangible power.
+      content: `Minstrels are not entertainers. They are hollow-eyed vagabonds who stumbled upon a terrible truth: music is not sound, but the death cry of parallel dimensions compressed into audible form. They learned to capture those cries, to string them into sequences that shatter minds and splinter bone. Their instruments — things of sinew and sorrow — are the only conduits capable of channeling frequencies that should never have been heard.
 
-Their instruments are their spellcasting foci, and each Minstrel develops a unique relationship with their chosen instrument. Some carry ancient lutes passed down through generations, others wield war drums that echo with ancestral spirits, while still others use their own voice as their primary instrument.
+Each Minstrel bears the marks of their calling: ruptured eardrums that healed wrong, fingertips worn to bone from strings that cut deeper than steel, a voice that sounds like it belongs to several people dying simultaneously. They carry their instruments like open wounds.
 
 In roleplay, Minstrels often serve as:
-- **The Traveling Bard**: Collecting songs and stories while secretly gathering magical power
-- **The Court Musician**: Using their position to influence politics and protect their patrons
-- **The Battle Hymn Singer**: Leading troops with inspiring war songs and devastating sonic attacks
-- **The Mystical Composer**: Seeking the perfect song that will unlock ultimate magical power
-- **The Instrument Collector**: Hunting for legendary instruments with unique magical properties
+- **The Mourning Busker**: Playing on street corners, each song siphoning years from surrounding buildings
+- **The War Drummer**: Driving soldiers into a killing frenzy with rhythms that bypass the conscious mind entirely
+- **The Silence Seeker**: Desperately searching for a counter-melody that might undo the damage they've caused
+- **The Bone Violinist**: Whose instrument's strings are made from something they refuse to discuss
+- **The Dirge Singer**: Collecting the last breaths of the dying and weaving them into songs that keep the rest alive
 
-Minstrels understand that every sound has meaning, every rhythm has power, and every melody can change the world. They see music in everything—the clash of swords, the rhythm of footsteps, the harmony of voices in conversation.`,
+Minstrels understand that every sound is a small death. They hear the world decomposing in concert pitch — the groan of rotting wood, the whimper of collapsing stone, the arrhythmic flutter of a failing heart. They weaponize the elegy of a dying world.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `The Minstrel is a versatile support class that excels at:
+      content: `The Minstrel is a fragile conductor who stands at the epicenter of atrocity, weaponizing stolen frequencies to reshape the battlefield:
 
-**Adaptive Support**: Can switch between healing, buffing, and damage based on the situation
-**Combo Gameplay**: Building musical notes and resolving them into powerful cadences creates engaging tactical decisions
-**Area Effects**: Most Minstrel abilities affect multiple allies or enemies, making positioning crucial
-**Sustained Power**: Unlike burst classes, Minstrels build power over time through careful note management
+**Cadence Architect**: No other class offers the Minstrel's note-building strategic depth. Through builder spells, they harvest musical notes from collapsing planes, then resolve them into devastating cadences — Perfect Cadence guarantees critical hits, Deceptive Cadence stuns enemies, Authentic Cadence heals the entire party. This is the ONLY combo-building support with cadence mechanics in existence.
+
+**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal — all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 AC, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
 
 **Strengths**:
-- Excellent multi-target support capabilities
-- High versatility through different chord progressions
-- Strong sustained healing and buffing
-- Unique utility through musical effects
-- Can adapt to different party compositions
+- Unmatched combo-building support with cadence resolution
+- Guarantees critical hits through Perfect Cadence (I-IV-V-I)
+- Powerful sustained healing for the party (never for themselves)
+- Area control through Deceptive Cadence and Tritone Substitution
+- Unique strategic depth through 10 distinct cadence progressions
 
 **Weaknesses**:
-- Requires an instrument to cast (Instrument Dependency -- disarmed = no spells)
-- Requires setup time to build notes
-- Cannot self-heal -- all healing targets allies only
-- Combo system requires planning and foresight
-- Vulnerable to silence and interruption effects
-- Fragile while performing (-2 AC while playing any active song)
+- Requires an instrument to cast (Instrument Dependency — disarmed = no spells, no hope)
+- Cannot self-heal — all healing targets allies only, leaving the Minstrel to rot
+- -2 AC while performing any active song — the music demands total vulnerability
+- Combo system requires planning and foresight across multiple turns
+- Vulnerable to silence and interruption effects — rendered completely useless
+- Fragile without armor, fragile with it, fragile always
 
-The Minstrel shines in group content where they can orchestrate the flow of battle, building notes through builder spells and unleashing devastating cadences at critical moments.`,
+The Minstrel shines when they can endure long enough to unleash a prepared cadence at the exact moment their party needs it most — a guaranteed crit on the killing blow, a desperate party heal when death is certain, a stun that buys one more round of survival. They are the doomed conductor of an orchestra that plays on only because they refuse to stop bleeding.`,
     },
 
     playstyle: {
@@ -268,9 +268,9 @@ You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes 
   // Resource System
   resourceSystem: {
     title: "Musical Combo System",
-    subtitle: "Chord Progressions & Harmonic Resonance",
+    subtitle: "Harvesting the Death Cries of Collapsing Realities",
 
-    description: `The Minstrel's unique resource system is based on Western music theory. Builder spells generate musical notes (I through VII), and Resolving spells consume specific note combinations to create powerful cadences. Mastering the Minstrel requires understanding both musical theory and tactical timing.`,
+    description: `The Minstrel's resource system is built on a foundation of cosmic theft. Every musical note is a splinter harvested from a dimension in its final moments of collapse — a dying reality's last frequency, captured and compressed into something a mortal mind can barely comprehend. Builder spells gouge these fragments from the fabric of existence, accumulating them in a terrible ledger. Resolving spells — cadences — then spend these hoarded fragments to commit fresh atrocities: guaranteeing critical wounds, stunning minds with impossible harmonics, or stitching allies back together through frequencies that should have stayed silent. Mastering the Minstrel means accepting that your power is stolen from the dead, and that every cadence you play hastens the entropy of everything around you.`,
 
     resourceBarExplanation: {
       title: "Understanding Your Musical Notes Interface",
@@ -689,9 +689,9 @@ Before combat, decide which cadences you want to prioritize:
   // Specializations
   specializations: {
     title: "Minstrel Specializations",
-    subtitle: "Three Paths of Musical Mastery",
+    subtitle: "Three Paths of Accumulated Suffering",
 
-    description: `Every Minstrel chooses one of three specializations that define their musical style and magical focus. Each specialization offers unique passive abilities and influences your spell selection and playstyle.`,
+    description: `Every Minstrel chooses how they will suffer. The music demands a specialty — a particular brand of torment through which they channel their stolen frequencies. Each path offers unique passive abilities and shapes both the spells they learn and the manner in which the magic consumes them.`,
 
     specs: [
       {
@@ -701,7 +701,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#DC143C",
         theme: "War Songs & Aggressive Support",
 
-        description: `Battlechoir Minstrels are battlefield commanders who turn combat into a symphony of destruction. Their war songs amplify ally damage, grant tactical advantages, and demoralize enemies. They favor drums, horns, and powerful vocals that can be heard over the chaos of battle.`,
+        description: `Battlechoir Minstrels are the butchers of the battlefield — war drummers who drive soldiers into a killing frenzy with rhythms that bypass the conscious mind entirely. Their songs do not inspire courage; they strip away hesitation, morality, and restraint, leaving only the compulsion to slaughter. Every cadence they play amplifies ally lethality while grinding enemy morale into dust. They favor drums made from stretched skin and horns carved from the ribs of beasts that should have stayed extinct. The Battlechoir does not play music to uplift — they play to ensure that nothing on the receiving end survives.`,
 
         playstyle: "Aggressive support, damage amplification, offensive buffs",
 
@@ -747,7 +747,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#4169E1",
         theme: "Healing Melodies & Emotional Magic",
 
-        description: `Soulsingers are empathic healers who channel emotion through music. Their gentle melodies soothe wounds, calm fears, and restore hope. They understand that music touches the soul, and through this connection, they can heal both body and spirit. Soulsingers favor lutes, harps, and soft vocals.`,
+        description: `Soulsingers are not healers — they are desperate mourners whose songs are final pleas to powers that may not be listening. They channel raw anguish through their instruments, weaving frequencies that knit torn flesh and mend shattered bone through sheer sonic coercion. Their melodies are not gentle; they are the sounds of grief weaponized, lullabies sung over open graves that somehow keep the living from joining the dead. They favor lutes strung with hair from the bereaved and harps whose frames creek like gallows. A Soulsinger's healing is effective because it transfers the agony — not from patient to healer, but into the instrument itself, which slowly warps and cracks under accumulated sorrow.`,
 
         playstyle:
           "Sustained healing, emotional manipulation, protective support",
@@ -794,7 +794,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#8B008B",
         theme: "Chaotic Sounds & Reality Warping",
 
-        description: `Dissonance Minstrels have discovered that not all music is harmonious—and that chaos has its own terrible beauty. They wield discordant sounds, atonal melodies, and reality-warping frequencies that confuse, terrify, and control. Their music is an assault on the senses and the mind itself.`,
+        description: `Dissonance Minstrels have gazed into the void between notes and found something staring back. They wield frequencies that should not exist — atonal shrieks that unravel thought, progressions that cause the inner ear to bleed, chords that make the air itself flinch. Their music is not chaos; it is a calculated assault on the fundamental structure of reality, each discordant interval a crowbar prying at the seams of existence. They carry instruments that no luthier would claim: twisted constructions of metal and nerve that produce sounds more felt than heard. To hear a Dissonance Minstrel play is to understand that madness has a melody, and it is being performed at you.`,
 
         playstyle:
           "Crowd control, debuffs, chaotic effects, reality manipulation",
@@ -4034,11 +4034,11 @@ Before combat, decide which cadences you want to prioritize:
         "Your magic flows through your instrument. You must have a musical instrument equipped to cast any spell. If you are disarmed, silenced, or your instrument is destroyed, you cannot cast spells or maintain active songs. A replacement instrument costs 50 gold and requires a short rest to attune.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "General/Music",
+      icon: "Social/Golden Harp",
       effectTypes: ["passive"],
       typeConfig: {
         school: "enchantment",
-        icon: "General/Music",
+        icon: "Social/Golden Harp",
         tags: ["passive", "minstrel", "restriction"],
       },
       targetingConfig: { targetingType: "self" },
@@ -4053,11 +4053,11 @@ Before combat, decide which cadences you want to prioritize:
         "While you are playing an active song or maintaining a cadence, your guard is lowered. You suffer -2 AC for the duration of any actively maintained musical effect. This penalty stacks with other effects but cannot reduce AC below 10.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "General/Defense Down",
+      icon: "General/Broken Armor",
       effectTypes: ["passive"],
       typeConfig: {
         school: "enchantment",
-        icon: "General/Defense Down",
+        icon: "General/Broken Armor",
         tags: ["passive", "minstrel", "weakness"],
       },
       targetingConfig: { targetingType: "self" },
@@ -4072,11 +4072,11 @@ Before combat, decide which cadences you want to prioritize:
         "When a musical combo fails (wrong notes played, interrupted, or target resists your cadence), the discordant energy feeds back through your instrument. You take 1d4 psychic damage per note level of the failed combo. This damage cannot be reduced or prevented.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "Psychic/Psychic Scream",
+      icon: "Psychic/Agonizing Scream",
       effectTypes: ["passive"],
       typeConfig: {
         school: "enchantment",
-        icon: "Psychic/Psychic Scream",
+        icon: "Psychic/Agonizing Scream",
         tags: ["passive", "minstrel", "weakness"],
       },
       targetingConfig: { targetingType: "self" },

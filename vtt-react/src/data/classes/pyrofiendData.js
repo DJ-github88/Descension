@@ -1,8 +1,10 @@
 /**
  * Pyrofiend Class Data
  *
- * Complete class information for the Pyrofiend - a demonic fire wielder
- * with ascending corruption stages and massive damage potential.
+ * The Damned Conduit — flesh surrendered to Scathrach, the Ashen Sovereign.
+ * Ascending corruption, exponential devastation, and the literal death clock.
+ * Overhauled per the Auditor's Report: Apostate's Path, Demonic Whisper,
+ * Corruption Manifestation Table, and named demon patron.
  */
 
 export const PYROFIEND_DATA = {
@@ -12,6 +14,21 @@ export const PYROFIEND_DATA = {
   role: "Damage",
   damageTypes: ["fire"],
 
+  classIdentity: {
+    title: "The Damned Conduit",
+    subtitle: "Flesh Surrendered to Scathrach, the Ashen Sovereign",
+    demonPatron: {
+      name: "Scathrach, the Ashen Sovereign",
+      title: "The Ninth Flame of the Burning Throne",
+      description:
+        "Scathrach is not a benevolent patron. It is a parasitic intelligence from the deepest furnace of the infernal deep — a thing that was never mortal, never alive in any sense that flesh understands. It feeds on desperation, answers prayers with combustion, and considers every mortal body it inhabits to be kindling. The Pyrofiend did not make a deal with Scathrach. They were chosen — selected for their particular brand of despair, their willingness to burn rather than endure. The pact is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
+    },
+    utility:
+      "Unmatched, escalating, exponential area-of-effect devastation. As the Inferno Veil ascends, damage multiplies to world-ending levels — capable of melting boss-tier encounters in a single turn. No other class can match the Pyrofiend's ceiling when the Veil climbs.",
+    fatalFlaw:
+      "The Death Clock and the Mana Tax. Power literally kills the Pyrofiend. At Inferno Level 9, exactly 3 of their own turns remain before permanent death. Furthermore, staying cool requires Cooling Ember, which drains mana the Pyrofiend cannot afford to lose. Their body runs at an agonizing internal temperature, suffering catastrophic vulnerability to Cold damage — rapid internal crystallization causes massive physical trauma, and cold sources force the Veil to ascend as the body burns hotter to compensate.",
+  },
+
   // Overview section
   overview: {
     title: "The Pyrofiend",
@@ -19,72 +36,75 @@ export const PYROFIEND_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Pyrofiend ascends through 10 levels of demonic corruption (Inferno Veil 0-9), gaining escalating fire damage bonuses at the cost of increasingly catastrophic drawbacks inspired by the circles of Hell. Climb too high and the corruption will kill you—stay too low and you waste your demonic potential.
+      content: `**What You Need to Know**: You did not study magic. You surrendered your flesh to Scathrach, the Ashen Sovereign — a parasitic intelligence from the infernal deep. Your power is a debt paid in blood. The Inferno Veil ascends through 10 levels (0-9), each one rewriting your body into something less human. Climb too high and the corruption kills you. Stay too low and you insult the demon that owns you.
 
-**Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain fire damage bonus (+1 to +8, then +10 at Level 9 "The Demon's Bargain") → Suffer escalating drawbacks (self-damage, movement loss, suffocation) → Use Cooling Ember to descend and heal
+**Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain fire damage bonus (+1 to +8, then +10 at Level 9 "Scathrach's Bargain") → Suffer escalating drawbacks (self-damage, movement loss, suffocation, demonic possession) → Use Cooling Ember to descend (imposes Mana Tax) → At Level 5+, make Spirit saves or be forced to attack the nearest living thing (friend or foe)
 
 **Resource**: Inferno Veil (0-9 scale, tracked with a single d10 die)
 
-**Playstyle**: Risk-reward demonic escalation with catastrophic consequences
+**Playstyle**: Risk-reward demonic escalation with catastrophic consequences and friendly-fire risk
 
-**Best For**: Players who thrive on living dangerously, managing escalating self-harm for devastating firepower, and making split-second tactical decisions about when to push harder or pull back`,
+**Best For**: Players who thrive on living dangerously, managing escalating self-harm for devastating firepower, and making split-second tactical decisions — and who are comfortable being a potential liability to their own party at high corruption`,
     },
 
-    description: `The Pyrofiend is a master of demonic fire magic, channeling infernal power through the dangerous Inferno Veil mechanic. As they cast fire spells, they ascend through increasingly powerful—and perilous—stages of demonic corruption. Each stage amplifies their fire damage but inflicts severe drawbacks inspired by the circles of Dante's Inferno and the seven deadly sins.`,
+    description: `The Pyrofiend did not choose this path — Scathrach chose them. They are a Damned Conduit: a mortal body repurposed as a furnace for an infernal parasite. Every spell cast is a surrender, every Inferno ascent another strip of flesh traded for fire. The Pyrofiend wields the most devastating area-of-effect power in Mythrill, but every point of that power is borrowed against their own life. At Level 9, Scathrach fully manifests — and the Pyrofiend has three turns to descend or die permanently. There is no resurrection from Scathrach's grasp. Only ash.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Pyrofiends walk a razor's edge between mortal and demon. They have made pacts with infernal entities, trading their humanity for devastating power. In roleplay, Pyrofiends often struggle with their demonic nature—some embrace it fully, reveling in destruction, while others fight to maintain control over the corruption that threatens to consume them.
+      content: `Pyrofiends did not make a deal — they were selected by Scathrach, the Ashen Sovereign, a parasitic intelligence that feeds on desperation. The pact was not negotiated. It was inflicted. Scathrach tasted their despair, their willingness to burn rather than endure, and it moved in.
       
-Their connection to hellfire manifests physically: eyes that glow with inner flame, skin that radiates heat, and an aura of sulfur and ash. At higher Inferno Levels, their appearance becomes increasingly demonic—horns may sprout, skin may crack to reveal molten veins, and their voice may echo with infernal resonance.
+Their connection to hellfire manifests physically at every threshold (see the Corruption Manifestation Table in the Resource System). Eyes ignite. Veins darken. Horns erupt. At Level 5, Scathrach begins speaking through them — and forcing their body to act against their will. At Level 9, the original personality is a passenger in their own charring flesh.
 
 Common Pyrofiend archetypes include:
-- **The Damned Scholar**: Sought forbidden knowledge and paid the price
-- **The Vengeful Burned**: Survived a terrible fire and emerged changed
-- **The Willing Vessel**: Deliberately sought demonic power for a greater purpose
-- **The Cursed Bloodline**: Born with infernal heritage they cannot escape`,
+- **The Grief-Stricken**: Lost everything and chose to become the fire that consumed their world
+- **The Failed Priest**: Prayed to every god and was answered only by Scathrach
+- **The Calculating Arsonist**: Believes the demon can be controlled through sheer will and mathematics
+- **The Resigned Kindling**: Knows they will die by fire and has made peace with it — fights to take the enemy with them`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `The Pyrofiend is one of the highest damage dealers in the game. They excel at:
+      content: `The Pyrofiend is the highest area-of-effect damage ceiling in Mythrill — capable of melting boss-tier encounters in a single turn when the Inferno Veil climbs. They excel at:
 
-**Burst Damage**: Ascending to high Inferno Levels unleashes devastating fire damage
-**Sustained Pressure**: Burn effects and damage-over-time keep enemies under constant threat  
-**Risk-Reward Gameplay**: Managing Inferno Levels creates exciting tactical decisions
-**Area Control**: Fire-based AOE spells can control the battlefield
+**Exponential Burst Damage**: Ascending to high Inferno Levels multiplies fire damage beyond any other class's capability
+**Area Devastation**: No other class can match a Level 8+ Pyrofiend's AoE destruction
+**Risk-Reward Tension**: Managing Inferno Levels creates agonizing tactical decisions every single turn
+**The Demonic Whisper Threat**: At Level 5+, the Pyrofiend may be forced to attack allies — the party must position carefully around them
 
-However, this power comes at a cost. The Pyrofiend's drawbacks at high Inferno Levels can be crippling, requiring careful resource management and strategic timing. A Pyrofiend who ascends too quickly may find themselves unable to survive their own power.`,
+The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are catastrophic: self-damage, movement loss, suffocation, demonic possession, and eventually the death clock. Their vulnerability to Cold damage is devastating — frost attacks deal +50% damage and force the Veil to ascend. A Pyrofiend who ascends too quickly dies by their own fire. A Pyrofiend who ascends too slowly insults the demon. There is no safe middle ground — only calculated sacrifice.`,
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `Playing a Pyrofiend is about managing risk versus reward. Key strategic considerations:
+      content: `Playing a Pyrofiend is about managing an addiction that is literally killing you. Every turn is a question: push harder or pull back? Neither answer is safe.
 
 **Inferno Level Management**: 
-- Low levels (0-3): Safe, consistent damage
-- Mid levels (4-6): High damage with manageable drawbacks
-- High levels (7-9): Devastating power but extreme vulnerability
+- Low levels (0-3): Safe, consistent damage — but Scathrach whispers that you're wasting its gifts
+- Mid levels (4-6): High damage with manageable drawbacks — the Demonic Whisper begins at Level 5
+- High levels (7-9): Devastating power but you are dying in real-time. Level 9 starts a 3-turn death clock
 
 **Timing Your Ascension**: 
 - Ascend rapidly for burst damage when you need to eliminate priority targets
 - Maintain mid-levels for sustained combat effectiveness
-- Use Cooling Ember strategically to descend when drawbacks become too severe
+- Use Cooling Ember strategically to descend — but it costs precious mana you need for offense
+
+**The Mana Tax**: Cooling Ember (4 mana) is the only reliable way to descend. Every cast is mana you can't spend on damage. At high Inferno Levels, you must save enough for Cooling Ember or die. This creates a permanent tension between offense and survival.
 
 **Specialization Synergies**:
-- **Inferno**: Pure damage, aggressive ascension
-- **Wildfire**: Spread and area control
-- **Hellfire**: Demonic utility and self-sustain
+- **Inferno**: Pure destruction, aggressive ascension — maximum risk, maximum reward
+- **Wildfire**: Spread and area control — sustained pressure across multiple targets
+- **The Apostate's Path**: Controlled corruption — double mana cost, half ascent rate, advantage on Demonic Whisper saves
 
 **Team Dynamics**:
-- Requires protection from tanks when at high Inferno Levels
-- Benefits from healers who can offset self-damage
-- Synergizes with crowd control to safely ascend`,
+- The party must protect the Pyrofiend at high Inferno Levels — they are extremely vulnerable
+- At Level 5+, the party must also protect themselves FROM the Pyrofiend if the Demonic Whisper takes hold
+- Healers cannot help at Inferno Level 6+ (Heresy blocks outside healing)
+- Synergizes with crowd control to safely ascend — but CC the Pyrofiend too if they fail their Whisper save`,
     },
 
     immersiveCombatExample: {
       title: "Combat Example: The Infernal Ascension",
-      content: `**The Setup**: You're a Pyrofiend (Inferno specialization) facing a powerful ice elemental and its minions (1 ice elemental + 4 frost wraiths). Your party is with you. Starting Inferno Level: 0. Starting Mana: 60/60. Your goal: Ascend through Inferno Levels to maximize fire damage, but manage the increasingly severe drawbacks.
+      content: `**The Setup**: You're a Pyrofiend (Inferno specialization) facing a powerful ice elemental and its minions (1 ice elemental + 4 frost wraiths). Your party is with you. Starting Inferno Level: 0. Starting Mana: 60/60. Your goal: Ascend through Inferno Levels to maximize fire damage, but manage the increasingly severe drawbacks. Remember — cold damage forces your Veil to ascend (+1 Inferno per cold attack received) as Scathrach's furnace burns hotter to compensate.
 
 **Starting State**: Inferno Level: 0/9 | Fire Damage Bonus: +0 | Mana: 60/60 | HP: 45/45
 
@@ -193,7 +213,7 @@ However, this power comes at a cost. The Pyrofiend's drawbacks at high Inferno L
 
 *But you're not done. The elemental is dead, but the demon HUNGERs. You cast one more —*
 
-**Bonus Action**: Cast "Infernal Blast" at surviving Frost Wraith (20 mana, ascends +2)
+**Second Action**: Cast "Infernal Blast" at surviving Frost Wraith (20 mana, ascends +2)
 **Damage Roll**: 5d6 + INT fire → [6, 5, 4, 6, 5] + 3 = 29 fire damage
 **Inferno Bonus**: +7 (currently at Level 7)
 **Total Damage**: 29 + 7 = **36 fire damage!**
@@ -294,16 +314,16 @@ However, this power comes at a cost. The Pyrofiend's drawbacks at high Inferno L
 7. **Cooling Ember**: Descended from 8 → 6 → 4 with two casts, removing the worst drawbacks and getting below Level 6 (which blocks outside healing) so the healer could top us off
 8. **Resource Tension**: Nearly ran out of mana (6/60 remaining). Ascension costs spells, and spells cost mana.
 
-You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno Levels, each one adding +1 fire damage (+10 at the deadly Level 9) but imposing escalating drawbacks based on the circles of Hell. The key is knowing when to ASCEND for burst damage (Hellfire Wave at Level 5 with Infernal Surge = 72 damage) and when to use Cooling Ember to DESCEND and survive. You're not a safe class. You're a DEMONIC GLASS CANNON who trades their own blood for DEVASTATING POWER.`,
+You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno Levels, each one adding +1 fire damage (+10 at the deadly Level 9) but imposing escalating drawbacks as Scathrach rewrites your body. The key is knowing when to ASCEND for burst damage (Hellfire Wave at Level 5 with Infernal Surge = 72 damage) and when to use Cooling Ember to DESCEND and survive. At Level 5, the Demonic Whisper begins — fail a Spirit save and you may be forced to burn your own allies. You're not a safe class. You are a LIVING WEAPON that is slowly killing its wielder — a DEMONIC GLASS CANNON who trades their own blood, mana, and eventually their soul for DEVASTATING POWER.`,
     },
   },
 
   // Resource System
   resourceSystem: {
     title: "Inferno Veil",
-    subtitle: "The Demonic Ascension",
+    subtitle: "Scathrach's Corruption Ascendant",
 
-    description: `Your power is a debt to the circles of Hell. As you cast fire magic, you ascend through nine stages of demonic corruption, trading your mortal safety for escalating firepower. Climb too high and you risk total possession; stay too low and you waste the demon's gifts.`,
+    description: `Your power is a debt to Scathrach, the Ashen Sovereign. As you cast fire magic, you ascend through nine stages of demonic corruption — each one rewriting your body into something less human and more furnace. Every level adds to your fire damage. Every level takes something from your flesh. Climb too high and the death clock begins. Stay too low and Scathrach grows impatient. The Veil is not a resource. It is a disease, and you chose to be infected.`,
 
     cards: [
       {
@@ -339,7 +359,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
           "The essential release valve; heals 1d6 + spirit/3 HP",
         ],
         [
-          "The Demon's Bargain",
+          "Scathrach's Bargain",
           "Level 9 (+10)",
           "Disproportionate power; death in 3 of your turns if not cleared",
         ],
@@ -359,21 +379,21 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     },
 
     overheatRules: {
-      title: "The Demon's Bargain (Level 9)",
-      content: `Reaching Inferno Level 9 represents total surrender to the infernal forces.
+      title: "Scathrach's Bargain (Level 9)",
+      content: `Reaching Inferno Level 9 represents total surrender to Scathrach, the Ashen Sovereign. You are no longer in control. The demon is.
 
 **You have THREE OF YOUR TURNS** to descend below Level 9. At the start of each of your turns while at Inferno Level 9, the death clock ticks down. If you have not descended below Level 9 after 3 of your turns:
-- You are **consumed by fire** (Immediate Death)
-- Your soul is **claimed** (Standard resurrection may fail)
+- You are **consumed by fire** (Immediate Death — your body detonates in a 30-foot radius of 10d6 fire damage)
+- Your soul is **claimed by Scathrach** (Standard resurrection fails — you belong to the furnace now)
 
 **Survival Guide**:
 - Use **Cooling Ember** immediately to drop 2 levels (fixed).
-- Hellfire spec can use **Demonic Vitality** to survive the self-damage.
-- Do NOT reach Level 9 unless the boss is at <10% HP.`,
+- The Apostate's Path can use **Tempered Pact** to manage ascent rate more carefully.
+- Do NOT reach Level 9 unless the boss is at <10% HP and your party is out of range of your detonation.`,
     },
 
     infernoLevelsTable: {
-      title: "Inferno Veil: Level Effects",
+      title: "Inferno Veil: Level Effects & Corruption",
       headers: ["Level", "Bonus", "Drawback", "Inspiration"],
       rows: [
         ["0", "+0", "None", "Mortal"],
@@ -390,8 +410,91 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         ],
         ["7", "+7", "-15ft Speed, 1d6 Suffocation", "Violence"],
         ["8", "+8", "2d4 Self-dmg, Disadv Dex", "Fraud"],
-        ["9", "+10", "4d8 Self-dmg, Death in 3 Turns", "Treachery"],
+        ["9", "+10", "4d8 Self-dmg, Death in 3 Turns, Scathrach Manifests", "Treachery"],
       ],
+    },
+
+    corruptionManifestation: {
+      title: "Corruption Manifestation: The Flesh Remembers",
+      subtitle: "What the Pyrofiend Looks Like at Each Threshold",
+      description:
+        "Scathrach's influence is not subtle. As the Inferno Veil ascends, the demon rewrites the Pyrofiend's body — transforming meat and bone into a furnace of ruin. These changes are physical, visible to all, and persist until the Veil descends. The DM should use these descriptions to narrate the horror at the table.",
+      stages: [
+        {
+          level: 0,
+          title: "The Mortal Husk",
+          appearance:
+            "Outwardly normal. A faint scent of sulfur clings to their clothes. Skin runs slightly warm — enough to notice, not enough to alarm. The only sign is in their eyes: a barely perceptible amber ring around the pupil that was not there before the pact.",
+        },
+        {
+          level: 1,
+          title: "The Flicker Behind the Eyes",
+          appearance:
+            "The eyes ignite. Not metaphorically — a literal orange light pulses behind the irises, flickering like a candle in wind. The air within arm's reach shimmers with heat distortion. Allies standing nearby feel sudden warmth. Breath comes as steam.",
+        },
+        {
+          level: 2,
+          title: "The Veins Darken",
+          appearance:
+            "Dark lines crawl beneath the skin — veins turning black as Scathrach's ichor replaces blood. Breath fogs as steam even in warm air. The Pyrofiend's shadow flickers: sometimes larger than it should be, sometimes in the wrong direction. Headaches are constant. The mind feels... crowded.",
+        },
+        {
+          level: 3,
+          title: "The Sweat of Furnaces",
+          appearance:
+            "Skin runs hot enough to blister paper on contact. Sweat is replaced by oily residue that evaporates immediately. Minor burns appear spontaneously on palms and forearms — stigmata of the internal furnace. Movement becomes labored, as though wading through thick air. Fatigue is constant and crushing.",
+        },
+        {
+          level: 4,
+          title: "The Cracking",
+          appearance:
+            "Skin begins to split. Not wounds — eruptions. Thin fissures form along joints and ribs, revealing not tissue but a dim orange-red ember glow beneath, as though the body is a ceramic vessel filled with coals. Fingertips are permanently charred. Touching the Pyrofiend deals 1 fire damage. The smell of burning hair and rendered fat is constant and nauseating.",
+        },
+        {
+          level: 5,
+          title: "The Horns and the Whisper",
+          appearance:
+            "Small blackened horns push through the temples — Scathrach marking its territory in flesh. Veins glow molten orange through the cracks. The voice acquires a metallic, echoing quality, as though speaking through a furnace pipe. The Pyrofiend's shadow now moves independently — twitching, grasping. THIS IS THE THRESHOLD WHERE THE DEMONIC WHISPER BEGINS: Scathrach can now force the Pyrofiend to target the nearest living thing, friend or foe.",
+        },
+        {
+          level: 6,
+          title: "The Schism of Flesh",
+          appearance:
+            "Skin splits at every joint, revealing magma beneath. Eyes are solid orange — no pupil, no iris, just burning light. Teeth have sharpened into points. The Pyrofiend can no longer be healed by others; Scathrach's corruption rejects mortal magic. Smoke curls from every orifice. The Pyrofiend speaks in two voices — their own and something ancient. Body temperature ignites dry wood on contact.",
+        },
+        {
+          level: 7,
+          title: "The Smoldering Atrocity",
+          appearance:
+            "Horns curl backward like a crown of charred bone. Smoke pours continuously from mouth, ears, and wounds. Movement leaves burning footprints that persist for 1 round. The Pyrofiend is barely recognizable as having once been mortal — they are now a shambling furnace, a vessel of hate and fire. Flammable objects within 5 feet ignite spontaneously. Allies give them a wide berth. Children weep.",
+        },
+        {
+          level: 8,
+          title: "The Unraveling",
+          appearance:
+            "The body distorts. Legs char and crack with every step. Arms trail flame like tattered banners. The face is a mask of splitting flesh over white-hot bone — still recognizably humanoid, but only just. Movement is agonizing — every step costs hit points. Scathrach's voice is now dominant; the original personality screams from behind eyes of solid fire. They leave a trail of ash and embers. They smell like a crematorium.",
+        },
+        {
+          level: 9,
+          title: "The Death Threshold — Scathrach Made Manifest",
+          appearance:
+            "BARELY HUMAN. The Pyrofiend is a charring, screaming vessel of living fire held together by will and demonic spite. Flesh sloughs off in burning sheets, revealing bone that glows white-hot. Scathrach's voice IS the only voice now — the original personality is a passenger, a spectator in their own execution. The death clock begins: 3 of your turns before Scathrach claims you entirely. Your soul becomes fuel. You become the fire. There is no coming back from this except through desperate, immediate descent. If you fail — if the clock runs out — your body detonates in a 30-foot radius of 10d6 fire damage and your soul is dragged into Scathrach's furnace forever. Standard resurrection fails. You are ash. You are kindling. You are finished.",
+        },
+      ],
+    },
+
+    demonicWhisper: {
+      title: "The Demonic Whisper",
+      subtitle: "Scathrach's Will Intrudes",
+      description: `At Inferno Level 5 and above, Scathrach's grip on the Pyrofiend's mind tightens. The demon whispers — not words, but impulses. Urges. The desire to burn the nearest thing, regardless of allegiance.
+
+**Mechanic**: At the start of each of your turns while at Inferno Level 5 or higher, you must make a **Spirit saving throw** against DC 12 + your current Inferno Level. On a failure, your next offensive action this turn MUST target the nearest living entity (friend or foe). If there are multiple equidistant targets, the DM determines randomly.
+
+**This is not optional.** The Pyrofiend does not choose who they attack — Scathrach chooses. The DM should describe the horror: the Pyrofiend's arm moving against their will, the demonic voice laughing as a fireball streaks toward their own healer.
+
+**Important**: This check is made AFTER the Inferno Level drawback is resolved but BEFORE you take any actions. If you pass the save, you act normally. If you fail, you must still spend the action points and mana for your intended action — you simply cannot choose the target.
+
+**The Apostate's Path Exception**: Pyrofiends following The Apostate's Path specialization gain advantage on this save. Their tempered pact gives them more resistance to Scathrach's direct control — but does not eliminate it entirely.`,
     },
 
     strategicConsiderations: {
@@ -402,17 +505,21 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
 
 **Important — Inferno Level Cap**: Your Inferno Level cannot exceed 9. If a spell would cause you to ascend past Level 9, the excess ascension is lost and your level remains at 9.
 
-**Important — Inferno Required (Spell Gating)**: Many spells list an "Inferno Required" cost in addition to mana. You must be at or above that Inferno Level to cast the spell. For example, Hellfire Wave (Level 5) requires Inferno Level 2+. If you are at Level 1, you cannot cast it. Plan your ascension so you reach the required level before you need your strongest spells.
+**Important — Inferno Required (Spell Gating)**: Many spells list an "Inferno Required" cost in addition to mana. You must be at or above that Inferno Level to cast the spell. Plan your ascension so you reach the required level before you need your strongest spells.
 
-**The Safe Zone (Lv 0–3)**: Minimal drawbacks. Use this for clearing minor enemies or during exploration. You are consistent but not devastating.
+**Important — Cold Vulnerability**: The Pyrofiend suffers +50% damage from all Cold/Frost sources (rounded up). Additionally, any Cold damage received forces the Inferno Veil to ascend by +1 as Scathrach's furnace burns hotter to compensate for the internal crystallization. A frost attack does not cool the Pyrofiend down — it makes them burn hotter and die faster.
 
-**The Power Zone (Lv 4–6)**: The optimal state. High damage bonuses with manageable penalties. Most specializations (like Wildfire) thrive here.
+**Important — The Demonic Whisper (Level 5+)**: At the start of each turn while at Inferno Level 5+, make a Spirit save (DC 12 + Inferno Level) or be forced to target the nearest entity (friend or foe) with your next offensive action. See the Demonic Whisper section for full rules.
 
-**The Danger Zone (Lv 7–9)**: Reserved for finales. The self-damage and speed penalties are brutal. Only enter this zone if you have a clear shot at finishing the encounter or a healer ready to dump resources into you.
+**The Safe Zone (Lv 0–3)**: Minimal drawbacks. Use this for clearing minor enemies or during exploration. You are consistent but not devastating. Scathrach is patient here. It can afford to be.
 
-**The Release Valve**: Never enter a turn with 0 Mana if you are above Level 5. You MUST save enough for **Cooling Ember** (4 Mana) to descend if the corruption becomes life-threatening.
+**The Power Zone (Lv 4–6)**: The optimal state. High damage bonuses with manageable penalties. Most specializations thrive here. The Demonic Whisper begins at Level 5 — your party must now account for friendly-fire risk. At Level 6, you cannot be healed by others.
 
-**Out of Combat Recovery**: When combat ends, your Inferno Level decreases by 1 per minute of rest. After a Short Rest, it resets to 0. The corruption fades with time and meditation — but it does not vanish instantly.`,
+**The Danger Zone (Lv 7–9)**: Reserved for finales. The self-damage and speed penalties are brutal. You are dying in real-time. Only enter this zone if you have a clear shot at finishing the encounter or a plan to descend immediately after.
+
+**The Release Valve**: Never enter a turn with 0 Mana if you are above Level 5. You MUST save enough for **Cooling Ember** (4 Mana) to descend if the corruption becomes life-threatening. This is the Mana Tax — the permanent cost of being a living furnace.
+
+**Out of Combat Recovery**: When combat ends, your Inferno Level decreases by 1 per minute of rest. After a Short Rest, it resets to 0. The corruption fades with time and meditation — but it does not vanish instantly. Scathrach always leaves a mark.`,
     },
 
     playingInPerson: {
@@ -436,9 +543,9 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
   // Specializations
   specializations: {
     title: "Pyrofiend Specializations",
-    subtitle: "Three Paths of Infernal Power",
+    subtitle: "Three Responses to Scathrach's Hunger",
 
-    description: `Every Pyrofiend chooses one of three specializations that define their approach to demonic fire magic. Each specialization offers unique passive abilities and influences your spell selection and playstyle.`,
+    description: `Every Pyrofiend chooses how they respond to the parasite living inside them. Each specialization represents a different philosophy — not of power, but of survival. How long can you endure the furnace before Scathrach claims you? The answer depends on which path you walk.`,
 
     sharedPassive: {
       name: "Infernal Surge",
@@ -528,42 +635,45 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       },
 
       {
-        id: "hellfire",
-        name: "Hellfire",
-        icon: "Psychic/Mind Strike",
-        color: "#8B0000",
-        theme: "Demonic Resilience",
+        id: "apostate",
+        name: "The Apostate's Path",
+        icon: "Fire/Burning Ember",
+        color: "#6B2020",
+        theme: "Controlled Corruption",
 
-        description: `Hellfire Pyrofiends embrace their demonic nature, gaining dark powers beyond mere fire. They convert damage into healing, summon infernal minions, and use demonic magic to sustain themselves through the Inferno Veil's drawbacks.`,
+        description: `The Apostate walks the razor's edge between mastery and damnation. Where other Pyrofiends surrender to Scathrach's hunger, the Apostate fights for every inch of control — pouring double the mana into each spell to slow the corruption's advance. They do not heal. They do not sustain. They endure. The Apostate's Path is not a road to power; it is a desperate, agonizing bid to delay the inevitable. Every spell costs twice the mana for half the corruption. It is a philosophy of survival through restraint — and it is slowly killing them in a different way.
 
-        playstyle: "Self-sustain, demonic utility, balanced ascension",
+Apostates burn through their mana reserves at a terrifying rate. They deal less burst damage than Inferno Pyrofiends and lack the area control of Wildfire. What they gain is time — more turns before the death clock, more room to maneuver at high Inferno Levels, and the ability to deliberately push to dangerous thresholds with less risk of losing control. The Apostate's tragedy is that their restraint does not come from discipline. It comes from fear. They have seen what Scathrach truly wants. And they will spend every last drop of mana to deny it.`,
+
+        playstyle:
+          "Mana-intensive sustained damage, controlled corruption, endurance over burst",
 
         strengths: [
-          "Best survivability of all specs",
-          "Healing from damage dealt",
-          "Demonic utility spells",
-          "Can maintain high Inferno Levels longer",
+          "Ascends Inferno Veil at half the rate — more turns at safe levels",
+          "Gains advantage on Demonic Whisper Spirit saves",
+          "Descent via Cooling Ember grants bonus damage on next spell",
+          "Can sustain higher Inferno Levels longer than other specs",
         ],
 
         weaknesses: [
-          "Lowest raw damage output",
-          "More complex resource management",
-          "Requires strategic spell selection",
-          "Less burst damage than Inferno",
+          "ALL fire spells cost DOUBLE mana",
+          "Lowest raw damage output of all specs",
+          "Mana starvation is a constant, lethal threat",
+          "No self-healing whatsoever — every wound is permanent until healed by others (and only below Level 6)",
         ],
 
         passiveAbilities: [
           {
-            name: "Demonic Vitality",
+            name: "Tempered Pact",
             tier: "Specialization Passive",
             description:
-              "You heal for 20% of all fire damage you deal (maximum 40% of a single spell's total damage). Additionally, when you descend Inferno Levels (through Cooling Ember or other means), you gain temporary hit points equal to 3 times the number of levels descended.",
-            uniqueTo: "Hellfire",
+              "All fire spells cost double mana but ascend the Inferno Veil at half the rate (rounded down, minimum 0). When you descend Inferno Levels via Cooling Ember, you gain a bonus of +1 to your next fire spell's damage per level descended. This bonus stacks with Inferno Level bonuses and expires after 1 use. Additionally, you gain advantage on Demonic Whisper Spirit saves.",
+            uniqueTo: "The Apostate's Path",
           },
         ],
 
         recommendedFor:
-          "Players who want survivability, self-sufficiency, and a more forgiving playstyle",
+          "Players who want a resource-management puzzle, controlled escalation, and the tragic fantasy of fighting a losing war against their own demonic patron",
       },
     ],
   },
@@ -646,7 +756,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_ember_spark",
       name: "Ember Spark",
       description:
-        "Launch a malevolent spark that burrows into the target, dealing initial fire damage and leaving a persistent burn. The demonic flame smolders within, dealing additional damage over the next 2 rounds.",
+        "Scathrach gifts you a malevolent spark — a fragment of its own hatred, compressed into a projectile. It burrows into flesh, igniting a smolder that no mortal can extinguish. Deals initial fire damage and leaves a persistent burn that consumes the target over 2 rounds. The ember is the demon's way of saying: burn everything.",
       level: 1,
       spellType: "ACTION",
       icon: "Fire/Flame Burst",
@@ -672,7 +782,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         useFormulas: {},
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        verbalText: "Ignis Daemonis!",
+        verbalText: "Scathrach, exuro!",
         somaticText:
           "Snap fingers together, a malevolent red-orange spark forming and launching forward",
       },
@@ -712,7 +822,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_smoldering_touch",
       name: "Smoldering Touch",
       description:
-        "Your hand glows with heat as you touch an enemy, dealing 1d8 + INT/3 fire damage and leaving a lingering smolder that burns for 1d4 fire damage per round for 2 rounds.",
+        "Your hand glows with the heat of Scathrach's contempt. You press it into an enemy's flesh — not gently — searing through armor and leaving a smolder that burns for 1d4 fire damage per round for 2 rounds. The touch is not a spell. It is an imposition. You are sharing what lives inside you.",
       level: 1,
       spellType: "ACTION",
       icon: "Fire/Fire Bolt",
@@ -776,7 +886,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_flicker",
       name: "Flicker",
       description:
-        "A quick flash of fire that streaks toward your target. The flame is small but precise, igniting instantly and leaving a trail of heat in its wake. This spell is cast as a bonus action, allowing you to weave it between other attacks.",
+        "A quick flash of Scathrach's spite streaks toward your target. Small but precise, the flame ignites instantly and leaves a trail of heat in its wake. This is the demon flicking a match — dismissive, casual, and still enough to set the world alight.",
       level: 1,
       spellType: "ACTION",
       icon: "Fire/Fiery Symbol",
@@ -825,7 +935,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_cooling_ember",
       name: "Cooling Ember",
       description:
-        "Soothes the infernal fire within, drawing away excess heat to restore your body and maintain control over demonic corruption. Essential for managing your dangerous power.",
+        "You press your hand to your own chest and will the furnace to dim. Scathrach screams inside your skull — it hates this. Cooling Ember draws the infernal heat back into the demon's prison, soothing your corrupted flesh and restoring a fraction of your health. Essential for survival. Every cast costs mana you cannot afford. This is the Mana Tax — the price of not dying.",
       level: 1,
       spellType: "ACTION",
       icon: "Fire/Dragon Breath",
@@ -873,7 +983,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_heat_shield",
       name: "Heat Shield",
       description:
-        "Surround yourself with a shimmering heat barrier that distorts vision, absorbing and dispersing incoming attacks. The shield glows with protective inner fire.",
+        "You pull Scathrach's heat outward, wrapping yourself in a shimmering barrier of superheated air. Attacks that pass through it are warped and dissipated by the thermal distortion. The shield is a fragment of the demon's own defenses — borrowed, not earned.",
       level: 1,
       spellType: "ACTION",
       icon: "Radiant/Radiant Divinity",
@@ -941,7 +1051,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_scorching_grasp",
       name: "Scorching Grasp",
       description:
-        "Flames envelop your hand, searing through armor and flesh on contact for 2d8 + INT/2 fire damage. The fire clings to the target, burning for 1d4 fire damage per round for 2 rounds.",
+        "Flames engulf your hand — not the warm orange of a hearth, but the sickly black-red of Scathrach's ire. You seize the enemy and the fire clings, searing through armor and flesh for 2d8 + INT/2 fire damage, then burning for 1d4 fire damage per round for 2 rounds. Your touch is a branding iron. The mark says: property of the Ashen Sovereign.",
       level: 2,
       spellType: "ACTION",
       icon: "Fire/Scorching Rune",
@@ -1005,7 +1115,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_flame_lash",
       name: "Flame Lash",
       description:
-        "A whip of fire lashes out, pulling your enemy closer while burning them.",
+        "A whip of condensed fire lashes out from your palm, coiling around an enemy and dragging them toward you through sheer infernal fury. The flames sear as they grip, and the target feels Scathrach's hunger pulling them closer to the furnace.",
       level: 2,
       spellType: "ACTION",
       icon: "Fire/Sun Symbol",
@@ -1079,7 +1189,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_cinder_bolt",
       name: "Cinder Bolt",
       description:
-        "A bolt of cinders that explodes on impact, dealing fire damage in a small area.",
+        "You compress Scathrach's hatred into a bolt of cinders and hurl it. On impact, the bolt detonates — showering the area in sparks and slag. A small explosion by Pyrofiend standards. A catastrophic one by anyone else's.",
       level: 2,
       spellType: "ACTION",
       icon: "Fire/Swirling Fireball",
@@ -1134,7 +1244,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_fireball",
       name: "Fireball",
       description:
-        "A classic explosive ball of fire that detonates on impact, damaging all nearby enemies.",
+        "The classic instrument of Scathrach's wrath. A sphere of condensed demonic fire streaks to a point you choose and detonates, engulfing everything within range in a roaring inferno. This is the spell that earned the Pyrofiend its reputation — and its body count.",
       level: 3,
       spellType: "ACTION",
       icon: "Fire/Swirling Fireball",
@@ -1200,7 +1310,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_burning_hands",
       name: "Burning Hands",
       description:
-        "A cone of fire erupts from your hands, scorching enemies in front of you.",
+        "You spread your fingers wide and Scathrach exhales through your palms. A cone of demonic fire erupts, scorching everything in a 20-foot arc. Close-range devastation for when the enemy is too close — which is exactly when Scathrach is happiest.",
       level: 3,
       spellType: "ACTION",
       icon: "Fire/Flame Burst",
@@ -1265,7 +1375,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_flame_step",
       name: "Flame Step",
       description:
-        "Teleport a short distance in a burst of fire, leaving flames at your departure and arrival points.",
+        "You step through a tear in reality — a wound carved by Scathrach's fire. You vanish in a burst of flame and reappear nearby, leaving fire at both points of departure and arrival. The teleport is not graceful. It is violent, disorienting, and leaves the smell of burnt air.",
       level: 3,
       spellType: "ACTION",
       icon: "Fire/Burning Ember",
@@ -1343,7 +1453,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_infernal_blast",
       name: "Infernal Blast",
       description:
-        "A concentrated blast of demonic fire that erupts from your hands for 5d6 + INT fire damage, searing through defenses and leaving nothing but ash in its wake. At Inferno Level 4+, deals an additional 2d6 fire damage.",
+        "A concentrated blast of Scathrach's purest hatred erupts from your hands, searing through defenses and leaving nothing but ash. 5d6 + INT fire damage. At Inferno Level 4+, the corruption surges — dealing an additional 2d6 fire damage. The blast is not fire. It is annihilation wearing fire as a mask.",
       level: 4,
       spellType: "ACTION",
       icon: "Fire/Infernal Fire",
@@ -1426,7 +1536,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_searing_chains",
       name: "Searing Chains",
       description:
-        "Conjure burning chains of demonic fire that lash between enemies, dealing 3d6 + INT fire damage and tethering them together. Each chain jump deals 75% damage but ignites all targets struck for 1d6 fire damage per round for 2 rounds. Chains can jump to up to 3 additional targets within 15 feet.",
+        "Conjure burning chains of Scathrach's binding — links of condensed hatred that lash between enemies, dealing 3d6 + INT fire damage and tethering them together. Each chain jump deals 75% damage but ignites all targets struck for 1d6 fire damage per round for 2 rounds. Chains leap to up to 3 additional targets within 15 feet. The chains do not merely burn — they bind. Scathrach was a warden before it was a flame.",
       level: 4,
       spellType: "ACTION",
       icon: "Fire/Scorching Rune",
@@ -1500,7 +1610,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_fiery_aura",
       name: "Fiery Aura",
       description:
-        "Surround yourself with an aura of heat that damages nearby enemies for 2d6 fire damage at the start of each of their turns. The aura persists for up to 3 rounds while you concentrate.",
+        "You open the furnace door. An aura of Scathrach's contempt radiates outward, dealing 2d6 fire damage to any enemy foolish enough to stand within 5 feet. The aura persists for up to 3 rounds while you concentrate — a constant, pulsing reminder that you are not safe to be near.",
       level: 4,
       spellType: "CHANNELED",
       icon: "Fire/Fire Orb",
@@ -1573,7 +1683,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_hellfire_wave",
       name: "Hellfire Wave",
       description:
-        "A wave of hellish fire sweeps over your enemies in a 30-foot cone, dealing 8d6 + INT fire damage and burning intensely.",
+        "Scathrach opens its mouth through yours. A wave of hellish fire sweeps over everything in a 30-foot cone — 8d6 + INT fire damage. The wave is not a spell. It is the demon vomiting its rage through your body. Anything caught in the cone does not burn. It ceases.",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Fiery Symbol",
@@ -1624,7 +1734,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_immolation",
       name: "Immolation",
       description:
-        "Engulf your target in flames, dealing 6d8 + INT/2 fire damage immediately and burning them for 1d6 + INT/4 fire damage per round for 3 rounds.",
+        "You designate a target for Scathrach's obsession. Flames engulf them — 6d8 + INT/2 fire damage immediately — and then the real cruelty begins. The fire does not stop. 1d6 + INT/4 fire damage per round for 3 rounds. The target screams. Scathrach hums contentedly. You try not to think about what that says about you.",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Enveloping Fire",
@@ -1689,7 +1799,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_fire_whip",
       name: "Fire Whip",
       description:
-        "A whip of pure fire lashes out, dealing damage and potentially stunning your target.",
+        "A whip of condensed infernal fury — not fire, but the idea of fire made violent. It lashes out, dealing 7d6 + INT fire damage and potentially stunning the target as Scathrach's malice briefly overwhelms their nervous system. The whip is the demon's tongue. It tastes what it strikes.",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Sun Symbol",
@@ -1760,7 +1870,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_lava_burst",
       name: "Lava Burst",
       description:
-        "A burst of molten lava erupts from the ground, dealing 9d6 + INT fire damage in a 15-foot radius.",
+        "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT fire damage. The ground does not simply burn — it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT×2.",
       level: 6,
       spellType: "ACTION",
       icon: "Fire/Dripping Lava",
@@ -1827,7 +1937,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_flame_storm",
       name: "Flame Storm",
       description:
-        "Create a swirling storm of fire that damages all enemies in a large area over time.",
+        "You raise your arms and Scathrach screams into the sky. A swirling storm of fire descends on a 20-foot radius, dealing 8d6 + INT fire damage immediately and 2d6 + INT/2 fire damage per round for 3 rounds. The storm is not natural. It is the demon's rage made manifest — a localized apocalypse that turns earth to ash and air to agony.",
       level: 6,
       spellType: "ACTION",
       icon: "Fire/Swirling Fireball",
@@ -1894,7 +2004,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_infernal_brand_advanced",
       name: "Infernal Brand (Advanced)",
       description:
-        "Mark an enemy with a burning infernal sigil that sears into their flesh, dealing ongoing fire damage and sapping their strength as flames consume them.",
+        "You carve Scathrach's sigil into an enemy's flesh with a gesture. The brand sears into them — 4d6 + INT/3 fire damage immediately, then 2d6 + INT/2 fire per round for 4 rounds. The sigil does more than burn: it weakens, sapping the target's strength as Scathrach feeds on their vitality through the mark. They are branded. They are marked for the furnace.",
       level: 6,
       spellType: "ACTION",
       icon: "Fire/Fiery Symbol",
@@ -1984,7 +2094,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_volcanic_eruption",
       name: "Volcanic Eruption",
       description:
-        "Cause the ground to erupt with volcanic fire, dealing 12d6 + INT×2 fire damage in a 25-foot radius. Targets may make a DC 16 Agility save for half damage. At Inferno Level 7+, damage increases to 16d6 + INT×2.",
+        "You command the earth to open and Scathrach obliges with volcanic fury. A 25-foot radius eruption of magma and ash deals 12d6 + INT×2 fire damage (DC 16 Agility save for half). At Inferno Level 7+, the corruption deepens the caldera — 16d6 + INT×2. The ground becomes a crematorium. Bodies are not found. Only shapes in the slag.",
       level: 7,
       spellType: "ACTION",
       icon: "Fire/Flowing Lava",
@@ -2092,7 +2202,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_hellfire_breath",
       name: "Hellfire Breath",
       description:
-        "Breathe a 40-foot cone of hellfire that incinerates everything in its path for 10d6 + INT×2 fire damage.",
+        "You inhale and Scathrach exhales through you. A 40-foot cone of hellfire pours from your throat — 10d6 + INT×2 fire damage. This is not a spell. This is regurgitation. The demon has been living in your chest and now it breathes. Anything caught in the cone does not catch fire. It was always on fire. It simply didn't know it until now.",
       level: 7,
       spellType: "ACTION",
       icon: "Fire/Flame Burst",
@@ -2158,7 +2268,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_demonic_empowerment",
       name: "Demonic Empowerment",
       description:
-        "Channel demonic power to enhance your fire damage. Your connection to infernal flames intensifies, allowing you to deal +5 fire damage on all fire-based attacks for 5 rounds.",
+        "You open yourself fully to Scathrach's influence, allowing the demon to amplify your fire for 5 rounds. +5 fire damage on all fire-based attacks. As the channel deepens: enemies within 5 feet begin taking 1d6 fire (round 3), and your fire resistance doubles (round 5). This is borrowing power from the thing that is killing you. The interest rate is your soul.",
       level: 7,
       spellType: "CHANNELED",
       icon: "Utility/Powerful Warrior",
@@ -2253,7 +2363,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_meteor_shower",
       name: "Meteor Shower",
       description:
-        "Summon a shower of flaming meteors from the sky, dealing 14d6 + INT×2 fire damage in a 30-foot radius. The devastating rain of fire crashes into the ground with explosive force, engulfing the area in flames.",
+        "You reach into Scathrach's furnace and pull down the sky. A shower of flaming meteors descends on a 30-foot radius, dealing 14d6 + INT×2 fire damage with explosive force. The ground craters. The air ignites. This is not a spell — it is a natural disaster with your body as the epicenter.",
       level: 8,
       spellType: "ACTION",
       icon: "Fire/Fiery Comet",
@@ -2323,7 +2433,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_infernal_nova",
       name: "Infernal Nova",
       description:
-        "Release a massive explosion of infernal fire in all directions, dealing 14d6 + INT×2 fire damage to all enemies within 35 feet.",
+        "You detonate. Not metaphorically — you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT×2 fire damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you.",
       level: 8,
       spellType: "ACTION",
       icon: "Fire/Swirling Fireball",
@@ -2374,7 +2484,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_phoenix_flame",
       name: "Phoenix Flame",
       description:
-        "Summon the essence of a phoenix, dealing 12d6 + INT×2 fire damage in a 25-foot radius and leaving burning ground that deals 3d6 + INT/2 fire damage per round for 4 rounds.",
+        "You summon the ghost of a phoenix — or perhaps Scathrach merely allows you to believe that. A 25-foot radius detonation deals 12d6 + INT×2 fire damage, then the ground itself catches fire: 3d6 + INT/2 fire damage per round for 4 rounds. The flames do not die. They persist, feeding on the corruption you've seeded into the earth. This is a funeral pyre. The question is whose.",
       level: 8,
       spellType: "ACTION",
       icon: "Fire/Rising Inferno",
@@ -2444,7 +2554,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_infernal_avatar",
       name: "Infernal Avatar",
       description:
-        "Transform into a being of pure fire for 10 rounds, gaining +5 fire spell power, +3 Armor, immunity to fire damage, and a burning aura that deals 2d6 fire damage to enemies within 10 feet.",
+        "You stop being human and start being a furnace. For 10 rounds, you become an Infernal Avatar — a being of pure demonic fire, wreathed in Scathrach's essence. +5 fire spell power, +3 Armor, fire immunity, and a burning aura (2d6 fire to enemies within 10 feet). Your skin is gone. Your voice is gone. Only the fire remains. When it ends, you will feel every second of what you've become.",
       level: 9,
       spellType: "CHANNELED",
       icon: "Fire/Fire Demon",
@@ -2520,7 +2630,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_apocalypse",
       name: "Apocalypse",
       description:
-        "Unleash the full power of demonic fire, creating a cataclysmic explosion that deals 16d10 + INT×2 fire damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls.",
+        "Scathrach's grandest gift and cruelest joke. A cataclysmic explosion deals 16d10 + INT×2 fire damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls — the demon's fury is infinite, and it chooses to share. This is the end of something. Possibly the enemy. Possibly you. The blast radius is a grave. The silence afterward is Scathrach's applause.",
       level: 9,
       spellType: "ACTION",
       icon: "Utility/Explosive Detonation",
@@ -2580,7 +2690,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_hellfire_ritual",
       name: "Hellfire Ritual",
       description:
-        "Perform a ritual that channels infernal power, dramatically increasing your fire damage for a short time.",
+        "You perform a ritual of invocation — not to summon Scathrach, but to open the floodgates wider. For 3 rounds, your fire damage surges by +10. The demon does not grant this power freely; it uses the ritual to deepen its hold. By round 3, your Inferno Level bonuses are doubled. This is borrowing against your own annihilation.",
       level: 9,
       spellType: "CHANNELED",
       icon: "Radiant/Radiant Divinity",
@@ -2677,7 +2787,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_brimstone_teleport",
       name: "Brimstone Teleport",
       description:
-        "Teleport through hellfire up to 60 feet, appearing in a burst of flames that deals 6d6 + INT×2 fire damage to all enemies within 10 feet of your arrival point.",
+        "You tear a wound in reality and step through Scathrach's furnace, reappearing up to 60 feet away in a burst of hellfire that deals 6d6 + INT×2 fire damage to everything within 10 feet of your arrival. The teleport is not travel — it is passing through the demon's maw. You are digested and reborn in fire. The destination does not thank you.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Burning Ember",
@@ -2747,7 +2857,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_demonic_ascension",
       name: "Demonic Ascension",
       description:
-        "Reach the pinnacle of demonic power, transforming into a true demon of fire with overwhelming power. **WARNING:** This spell requires Inferno Level 9. Demonic Ascension does NOT pause the Level 9 death clock — you must still descend below Level 9 within 3 of your turns or die, even while transformed.",
+        "You surrender completely. Demonic Ascension is the final act of the Damned Conduit — transforming into a true demon of fire with overwhelming power. +15 fire damage to all spells, +5 Armor, fire immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire at the start of their turn. **WARNING:** This spell requires Inferno Level 9. The death clock does NOT pause while transformed — you must still descend below Level 9 within 3 of your turns or Scathrach claims you. Permanently. This is not a power-up. It is a eulogy you perform while still alive.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Fire Demon",
@@ -2841,7 +2951,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyro_inferno_mastery",
       name: "Inferno Mastery",
       description:
-        "Unleash a cataclysmic inferno that consumes everything in its path, dealing 20d10 + INT×2 fire damage in a 50-foot radius. This ultimate display of pyromantic mastery leaves nothing but ash and cinders.",
+        "The ultimate expression of Scathrach's hunger made manifest through your ruined body. A cataclysmic inferno consumes a 50-foot radius, dealing 20d10 + INT×2 fire damage. At Inferno Level 7+, it deepens to 22d10. At Level 9, 25d10 + INT×3. This is not a spell. This is what happens when the demon stops pretending you're in control. The world burns. You burn. The distinction is meaningless.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Fire Orb",
@@ -2936,14 +3046,14 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyrofiend_burnout",
       name: "Burnout",
       description:
-        "When you have no active fire effects (no burning targets, no active Inferno Level, no fire auras), your inner flame sputters. You suffer -2 to all spell attack rolls and your fire spells deal -1d6 damage. This penalty is removed the moment you cast any fire spell that deals damage. The fire must burn or you burn out.",
+        "When no fire burns — no ignited targets, no active Inferno Level, no fire auras — Scathrach's furnace sputters. You suffer -2 to all spell attack rolls and your fire spells deal -1d6 damage. The demon's contempt for inaction is physical: your power dims, your flames weaken. Cast something. Set something ablaze. The fire must burn or you burn out. This penalty lifts the moment any fire spell deals damage.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Fire/Fire Shield",
+      icon: "Fire/Flame Shield",
       effectTypes: ["passive"],
       typeConfig: {
         school: "fire",
-        icon: "Fire/Fire Shield",
+        icon: "Fire/Flame Shield",
         tags: ["passive", "pyrofiend", "weakness"],
       },
       targetingConfig: { targetingType: "self" },
@@ -2955,14 +3065,14 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyrofiend_fire_dependency",
       name: "Fire Dependency",
       description:
-        "You take +3 damage from all cold and water-based attacks. Additionally, if you are submerged in water or affected by a cold-based environment effect, your Inferno Level decreases by 2 per round instead of the normal descent rate. Water is not just uncomfortable -- it is antithetical to your existence.",
+        "Your body runs at a temperature that makes cold damage catastrophically lethal. You take +50% damage from all cold and frost attacks (rounded up). Additionally, any cold damage received forces your Inferno Veil to ascend by +1 — Scathrach's furnace burns hotter to compensate for internal crystallization, turning frost into fuel for your corruption. If submerged in water or affected by a cold environment, your Inferno Level decreases by 2 per round instead of the normal descent rate. Water is not uncomfortable. It is antithetical to your existence. Frost does not soothe the furnace — it enrages the demon.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Ice/Frost Shield",
+      icon: "Frost/Icy Shield",
       effectTypes: ["passive"],
       typeConfig: {
         school: "fire",
-        icon: "Ice/Frost Shield",
+        icon: "Frost/Icy Shield",
         tags: ["passive", "pyrofiend", "weakness"],
       },
       targetingConfig: { targetingType: "self" },
@@ -2974,14 +3084,14 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       id: "pyrofiend_heat_signature",
       name: "Heat Signature",
       description:
-        "Your body radiates intense heat at all times. You cannot benefit from Stealth or invisibility effects -- the thermal glow gives you away. Enemies have advantage on Perception checks to detect you within 60 feet. Additionally, ice-based terrain melts within 10 feet of you, and water terrain deals you 1d6 damage per round of immersion.",
+        "Your body radiates Scathrach's heat at all times. You cannot benefit from Stealth or invisibility — the thermal glow gives you away like a bonfire in a dark room. Enemies have advantage on Perception checks to detect you within 60 feet. Ice-based terrain melts within 10 feet of you. Water terrain deals you 1d6 damage per round of immersion. You are never hidden. You are never cold. You are never safe.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "Fire/Fire Nova",
+      icon: "Fire/Eruption",
       effectTypes: ["passive"],
       typeConfig: {
         school: "fire",
-        icon: "Fire/Fire Nova",
+        icon: "Fire/Eruption",
         tags: ["passive", "pyrofiend", "weakness"],
       },
       targetingConfig: { targetingType: "self" },

@@ -3,17 +3,27 @@
 .elemental-spheres-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align to left for HUD */
-    gap: 4px; /* Smaller gap for HUD */
+    align-items: flex-start;
+    gap: 4px;
     width: 100%;
-    margin-top: 2px; /* Small margin from other bars */
-    /* Frame styling */
-    border: 2px solid rgba(138, 43, 226, 0.6); /* Purple border */
+    margin-top: 2px;
+    border: 2px solid rgba(138, 43, 226, 0.6);
     background: linear-gradient(135deg, rgba(25, 25, 25, 0.9), rgba(45, 45, 45, 0.8));
     border-radius: 8px;
     padding: 8px;
     box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
     position: relative;
+    box-sizing: border-box;
+}
+
+.elemental-spheres-container.small {
+    padding: 3px 4px;
+    gap: 2px;
+    border-width: 1px;
+    border-color: rgba(138, 43, 226, 0.4);
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(20, 18, 25, 0.85), rgba(35, 30, 45, 0.75));
+    box-shadow: 0 0 4px rgba(138, 43, 226, 0.15);
 }
 
 .elemental-spheres-container.large {

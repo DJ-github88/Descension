@@ -1,5 +1,8 @@
 /* Class Resource Bar Styles */
 
+/* Import canvas resource bar styles */
+@import './ResourceCanvasBar.css';
+
 /* Import individual class resource bar styles */
 @import './resourceBars/base.css';
 @import './resourceBars/minstrel.css';

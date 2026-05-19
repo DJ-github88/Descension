@@ -9,192 +9,187 @@ export const COVENBANE_DATA = {
   // Overview section
   overview: {
     title: "The Covenbane",
-    subtitle: "Anti-Magic Hunter and Evil Destroyer",
+    subtitle: "A Mutilated Instrument of Divine Negation",
 
     quickOverview: {
-      title: "Quick Overview",
-      content: `**What You Need to Know**: The Covenbane builds Hexbreaker Charges (0-6) by witnessing, disrupting, and enduring enemy magic. Attacking mundane enemies generates NOTHING — you are a weapon forged specifically to break spellcasters. Only magical confrontation fuels your power. Against evil magic users, every ability hits harder with bonus effects. No magic user is safe when a Covenbane is hunting.
+      title: "The Agony of the Hunt",
+      content: `**A Crown of Ash and Lead**: The Covenbane is a tragic negation of the natural order -- a mortal who has poisoned their own flesh with alchemical silver salts and black thall-dust to become a walking grave for the arcane. You build Hexbreaker Charges (0-6) exclusively through the agonizing friction of magical confrontation: absorbing, witnessing, and shattering reality-warping spells. Against simple beasts or mundane bandits, you generate NOTHING. Your silver-poisoned veins only sing when reality is torn by magic.
 
-**Core Mechanic**: Encounter enemy magic → Generate Hexbreaker Charges from anti-magic events (being targeted by spells, dispelling, counterspelling, witnessing spell failure, killing evil magic users) → Spend charges on escalating anti-magic abilities → Bonus effects against evil magic users
+**Core Mechanic**: Consume active magic → Forge Hexbreaker Charges from anti-magic friction (intercepting curses, breaking wards, shattering enchantments) → Spend charges on horrifying rituals of negation → Bonus atrocities against evil magic users
 
-**Resource**: Hexbreaker Charges (0-6 scale, generated ONLY through anti-magic events)
+**Resource**: Hexbreaker Charges (0-6 scale, decaying rapidly when the battlefield falls silent)
 
-**Passive**: Witch Hunter's Precision — Every 3rd attack against an evil magic user deals 1d6 radiant damage that bypasses all resistance
+**Passive**: Witch Hunter's Precision — Every 3rd strike against a spellcaster unleashes a white-hot spike of alchemical silver that bypasses all resistance
 
-**Playstyle**: Relentless anti-magic striker — effective against all foes, devastating against evil casters
+**Playstyle**: Relentless anti-magic striker — carrying alchemical fragility, hunting down reality-warping corruption
 
-**Best For**: Players who love shutting down enemy casters, hunting specific targets, and being the ultimate counter to magical threats`,
+**Best For**: Players who crave systematic oppression of spellcasters, tactile resource systems, and heavy, high-stakes trade-offs`,
     },
 
-    description: `The Covenbane is a relentless hunter of evil magic, wielding powerful anti-magic abilities to track, weaken, and destroy spellcasters who wield dark forces. Through the Hexbreaker Charge mechanic, Covenbanes build power exclusively through magical confrontation — every spell cast at you, every enchantment you dispel, every caster you bring down fills your anti-magic reservoir. Against mundane foes you are a capable fighter, but without magical opposition your charges run dry. This is the price of absolute specialization.`,
+    description: `To hunt the witch, one must first murder their own connection to the natural flow of life. The Covenbane is a solemn zealot who has undergone the excruciating Ritual of the Silvered Veins, transforming their own body into a cold, sterile void where magic dies. They do not cast spells; they unleash the agonizing pressure of absolute negation. Against mundane steel they are brittle and slow, but when an arcane target attempts to shape a spell, the Covenbane's poisoned blood boils, channeling the collective screams of everyone who has ever burned at the stake.`,
 
     roleplayIdentity: {
-      title: "Roleplay Identity",
-      content: `Covenbanes are driven by an unyielding hatred of evil magic and those who wield it. They may be religious inquisitors, seasoned monster hunters, or survivors of magical atrocities who have dedicated their lives to eradicating magical threats. Their anti-magic abilities manifest as holy silver weapons, divine seals that disrupt spells, and the ability to sense evil magic from afar.
+      title: "Blackened Oaths & Tragic Folklore",
+      content: `A Covenbane's existence is a slow, cold martyrdom. Their weapons are not forged, but baptized in liquid silver and tears; their flesh is branded with runes of negation that thrum with a sickening ache whenever magic is shaped nearby. They are survivors of dark covens, hollowed-out templars who watched their gods burn, or desperate zealots who chose physical mutilation over magical slavery.
 
-Their dedication often shows physically: blessed silver weapons that glow when evil magic is near, holy seals tattooed on their skin that flare when spells are cast nearby, or an aura of righteous fury when confronting spellcasters.
+Their curse is visible and tragic: alchemical silver bleeding from their pores, black veins branching across their eyes, and an atmosphere of leaden silence that follows them like a shroud.
 
 Common Covenbane archetypes include:
-- **The Inquisitor**: Religious hunter of heretics and dark sorcerers
-- **The Witch Hunter**: Seasoned veteran who has faced countless magical threats
-- **The Demon Slayer**: Specializes in hunting fiends and otherworldly entities
-- **The Silver Knight**: Noble warrior wielding blessed weapons against evil
-- **The Seal Bearer**: Marked by divine authority to judge and destroy magical corruption
+- **The Ash Inquisitor**: A joyless wanderer whose cathedral was turned to slag, seeking absolute purging
+- **The Null-Zealot**: A seasoned veteran who has hollowed out their own soul to reject magical influence
+- **The Silver Knight**: A warrior who has bound their fading life to cold, blessed iron and alchemist's salt
+- **The Brand-Bearer**: Marked by ancient runes that burn when the natural law is bent
+- **The Grave Inquisitor**: Marked to drag spellcasters down into the silent, unyielding earth
 
-Covenbanes understand that magic itself is not evil, but that evil corrupts everything it touches. They are the scalpel that removes the cancer of dark magic from the world.`,
+Covenbanes know that power demands an agonizing toll. They do not save lives; they excise the rot from reality, one screaming caster at a time.`,
     },
 
     combatRole: {
-      title: "Combat Role",
-      content: `The Covenbane is a specialized anti-magic striker that excels at:
+      title: "The Silent Shroud",
+      content: `The Covenbane is an oppressive anti-magic predator that excels at:
 
-**Spell Disruption**: Breaking enemy spells, silencing casters, and dispelling magical effects
-**Evil Hunter**: Tracking and relentlessly pursuing evil magic users
-**Area Control**: Creating zones where magic fails and evil creatures are weakened
-**Radiant Damage**: Channeling divine power against evil and demonic threats
+**Arcane Desecration**: Shattering active enchantments, silencing spoken incantations, and turning mana to boiling poison in the caster's throat
+**Relentless Pursuit**: Scenting the ripple of magic and closing the gap with terrifying, singleminded speed
+**Dead-Magic Zones**: Forcing reality back to its inert state, creating boundaries where spellcasters choke on their own power
+**Radiant Rupture**: Channeling white-hot alchemical silver to disintegrate evil and demonic flesh
 
-**Strengths**:
-- Can completely shut down enemy spellcasters
-- Builds charges from magical confrontation — every enemy spell is fuel for your retaliation
-- Excellent at hunting and eliminating evil creatures
-- Provides anti-magic protection for allies
-- Witch Hunter's Precision adds passive bonus damage against evil casters
-- Spells deal full damage to all targets (only bonus effects require evil magic users)
+**The Strength of the Void**:
+- Systematically strips casters of their safety, shutting down their spells completely
+- Every spell cast at you is fuel -- their arrogance builds your negation
+- Absolute execution thresholds against spell-wielding targets
+- Protective dead-magic fields shield your allies from ruinous spells
+- Deals devastating, raw radiant damage that burns away magical wards
+- Your strikes bypass resistances of those who have warped their souls
 
-**Weaknesses**:
-- Bonus effects (debuffs, instant kills, charge refunds) only trigger against evil magic users
-- Hexbreaker Charges can ONLY be generated through anti-magic events — mundane combat yields NOTHING
-- Charges decay by -1 per round when no magical event occurs
-- In encounters with zero spellcasters, you are a capable fighter with no access to your strongest abilities
-- You are HUNGRY for magic. Without it, you weaken. This is the cost of being the ultimate anti-mage
-
-The Covenbane shines in campaigns with significant magical threats, demonic encounters, and spellcaster antagonists. They are the perfect counter to evil sorcerers and fiendish invaders.`,
+**The Agonizing Toll (Your Fatal Flaws)**:
+- **Rejection of all Magic**: Because your body is a sterile void, you cannot receive beneficial magical buffs or healing from allies without suffering 1d10 psychic damage from the agonizing friction
+- **Brittle Skeleton**: The silver deposits in your marrow make you fragile. You suffer a permanent 50% vulnerability to physical bludgeoning and slashing damage
+- **Rapid Decay**: Your Hexbreaker Charges decay by -1 per round when the battlefield falls silent
+- **Mundane Famine**: In encounters without spellcasters, you have no resource, no spells, and no miracles. You are a slow, fragile mortal carrying heavy iron
+- **The Hunger**: You crave magic. Without its presence, the silver in your veins stagnates, slowly poisoning your mind`,
     },
 
     playstyle: {
-      title: "Playstyle & Strategy",
-      content: `Playing a Covenbane is about strategic anti-magic warfare and resource management. Key considerations:
+      title: "The Dirge of Battle",
+      content: `Playing a Covenbane is to manage a decaying resource of pure spite. Your engine runs on the desecration of the arcane:
 
-**Building Hexbreaker Charges** (Anti-Magic Events Only):
-- Be targeted by a spell (+1 charge — the magic washes over you and you drink it in)
-- Successfully dispel or counterspell (+2 charges — unraveling magic feeds your power)
-- Witness an enemy spell fail, fizzle, or be resisted (+1 charge — the void answers)
-- Use a Covenbane spell against a magic-using target (+1 charge)
-- Kill an evil magic user (+3 charges — the ultimate reward)
-- Kill a mundane enemy: NO CHARGE GENERATED
-- Hit a mundane enemy: NO CHARGE GENERATED
+**Feeding the Embers** (Hexbreaker Charges):
+- **Targeted by a Spell**: +1 Charge. You let their curse sink into your skin, converting the agony into cold resolve
+- **Ally Targeted Nearby**: +1 Charge. The ripple in reality makes your silvered teeth ache
+- **Dispelling or Countering**: +2 Charges. Physically tearing a spell apart is the ultimate alchemical relief
+- **Witnessing Spell Failure**: +1 Charge. The void laughs when their magic sputters
+- **Striking a Spellcaster**: +1 Charge. Tearing the silver blade through active mana
+- **Executing a Caster**: +3 Charges. A momentary silence in the screaming void
+- **Mundane Combat**: NO CHARGES GENERATED. Bandit blades and beast teeth yield no magic to devour
+- **Quiet Rounds**: -1 Charge per round. The decay of your ash-bound soul
 
-⚠️ **The Hunter's Curse**: Without magical opposition, your charges decay by -1 per round. You cannot build power from bandits and beasts. You need WITCHES.
+⚠️ **The Silver Starvation**: Against mundane threats, you are slow, heavy, and extremely vulnerable. You must rely on physical positioning while your allies shield your fragile bones.
 
 **Witch Hunter's Precision** (Level 2 Passive):
-- Every 3rd weapon attack against an evil magic user deals 1d6 radiant damage bypassing resistance
+- Every 3rd weapon strike against an active caster unleashes alchemical fire, bypassing all defenses
 
 **Hexbreaker Charge Strategy**:
-- **1-2 Charges**: Basic anti-magic utilities and damage enhancement
-- **3-4 Charges**: Area effects and spell disruption abilities
-- **5-6 Charges**: Ultimate abilities and massive anti-magic effects
+- **1-2 Charges**: Fueling small, agonizing self-buffs and minor anti-magic disruptions
+- **3-4 Charges**: Creating persistent dead-magic fields and silencing major circles
+- **5-6 Charges**: Unleashing terminal executions and absolute reality-purging strikes
 
-**Specialization Synergies**:
-- **Shadowbane**: Stealth and assassination focus, perfect for hunting casters
-- **Spellbreaker**: Anti-magic disruption, excels at shutting down spells
-- **Demonhunter**: Pursuit and divine judgment, specializes in demonic threats
+**Specialization Paths**:
+- **Shadowbane**: Striking from absolute darkness, silencing the target before they can speak the first rune
+- **Spellbreaker**: The ultimate bulwark, turning the enemy's spells into their own physical graves
+- **Demonhunter**: A fanatical executioner who marks demons and heretics, chasing them into the mouth of hell
 
-**Spell Design Rule**: All Covenbane spells deal full damage to any target. Bonus effects (debuffs, instant kills, charge refunds, extra damage dice) only activate against evil magic users.
+**Absolute Specialization**: All your spells deal full damage to any target, but the agonizing debuffs and instant-kill executions only trigger when the victim carries the stench of the arcane.
 
-**Team Dynamics**:
-- Position to intercept enemy spellcasters
-- Use area anti-magic effects to protect allies
-- Coordinate with party to focus down magical threats
-- Provide anti-magic support while others handle physical combat
-
-**Anti-Magic Tactics**:
-- Use Shadow Hunt to mark and track priority targets
-- Dispel dangerous buffs before major encounters
-- Create anti-magic zones during boss fights
-- Save ultimate abilities for when enemies unleash powerful spells`,
+**Tactical Martyrdom**:
+- Position yourself in the trajectory of the spell. Your flesh is the shield
+- Maintain your silver coating or watch your DC fail as alchemical decay sets in
+- Coordinate with your party: they must protect you from physical steel while you devour the witch
+- Never let a spellcaster breathe. Run them down, choke their words, and burn their bones.`,
     },
 
     combatExampleVsEvil: {
       title: "Combat Example: The Witch Hunt",
-      content: `**The Setup**: You're a Covenbane (Spellbreaker) hunting a dark witch in a ruined temple. Your party: fighter, rogue, wizard. The witch is casting a summoning ritual. Starting Hexbreaker Charges: 0.
+      content: `**The Setup**: You stand in a ruined chantry. Rain like cold nails. A coven of dark witches chants around a pulsing brand. You (Spellbreaker specialization) mark the lead witch, sensing her corrupt pulse. Starting Hexbreaker Charges: 0.
 
-**Starting State**: HP: 85/85 | Hexbreaker Charges: 0 | Spells Ready: Shadow Hunt, Hex Strike, Silver Bolt
+**Starting State**: HP: 85/85 | Hexbreaker Charges: 0 | Spells Ready: Scent of Ash, Null-Salts Strike, Silver Bolt
 
-**Round 1 — Mark the Target**
+**Round 1 — Scent the Blood**
 
-*The witch gestures over a glowing circle. Demonic energy crackles.*
+*The witch screams as her fingers trace the air, molding a curse.*
 
-**Your Action**: Cast Shadow Hunt (bonus action) → Mark the witch
-**Effect**: Advantage on attacks against her, +1d4 radiant per hit
+**Your Action**: Unleash Scent of Ash (1 AP) → Brand the witch's soul
+**Effect**: Advantage on d20 attack rolls against her, +1d4 radiant per hit as the silver burns
 
 *Hexbreaker Charges: 0 → 1*
 
-**Your Attack**: Strike with Hex Strike active → Hit! +1d8 necrotic (evil target)
+**Your Attack**: Strike with Null-Salts Strike active → Hit! +1d8 necrotic (evil caster)
 
 *Hexbreaker Charges: 1 → 2*
 
-**Round 2 — Build and Punish**
+**Round 2 — The Fire and the Silver**
 
-*The witch hurls a fireball at your party.*
+*The witch hurls a crackling firestorm to burn you to cinders.*
 
-**Your Action**: Attack the witch again (advantage from Shadow Hunt)
-**Effect**: Weapon damage + Shadow Hunt radiant. This is your 3rd attack vs an evil caster — Witch Hunter's Precision triggers! +1d6 radiant bypasses resistance.
+**Your Action**: Close the distance and strike (advantage from Scent of Ash)
+**Effect**: Weapon damage + Scent of Ash radiant. This is your 3rd attack against the spellcaster — Witch Hunter's Precision triggers! +1d6 radiant damage that bypasses all resistance.
 
 *Hexbreaker Charges: 2 → 3*
 
-**Round 3 — Shut Her Down**
+**Round 3 — The Inevitable Silence**
 
-*The witch begins her major summoning ritual.*
+*The witch desperately gathers mana for a terminal spell.*
 
-**Your Action**: Cast Anti-Magic Barrier (costs 2 charges)
-**Effect**: 10ft dome where spells fail. The ritual sputters and dies.
+**Your Action**: Erect Anti-Magic Barrier (costs 2 charges, 1 AP)
+**Effect**: A 10ft dome of dead magic. Her spell sputters and implodes, scorching her skin.
 
 *Hexbreaker Charges: 3 → 1*
 
-**Round 4 — Finish the Hunt**
+**Round 4 — Terminal Execution**
 
-*Your fighter charges in. The witch is cornered.*
+*The witch lies bleeding, her magic broken. She cannot escape.*
 
-**Your Action**: Cast Hexbreaker Execution (costs 3 charges)
-**Effect**: 6d10 radiant damage. The witch (28 HP) is an evil magic user at 25+ HP — no instant kill, but the damage is devastating. Fighter finishes her.
+**Your Action**: Unleash Terminal Execution (costs 3 charges, 2 AP)
+**Effect**: 6d10 radiant damage. The silver in her veins erupts into white-hot spikes, leaving only ash.
 
-*Hexbreaker Charges: 0 → 3 (killing evil magic user = +3 charges)*
+*Hexbreaker Charges: 0 → 3 (defeating evil magic user = +3 charges)*
 
-**Victory**: The witch is dead, the ritual stopped, and you're charged up for the next fight.`,
+**Victory**: The witch is ash. The void falls silent. You carry 3 charges to the next hunt.`,
     },
 
     combatExampleMixed: {
-      title: "Combat Example: The Bandit Ambush",
-      content: `**The Setup**: Your party is ambushed by bandits on a forest road — no magic users, no evil auras. A mundane encounter. Starting Hexbreaker Charges: 2 (carried from last fight).
+      title: "Combat Example: The Forest Ambush",
+      content: `**The Setup**: A gang of highwaymen ambushes your wagon on the forest road. No spellcasters. No curses. Only mundane muscle and cold steel. Starting Hexbreaker Charges: 2.
 
-**Key Insight**: You're not useless without evil targets. Your spells still deal full damage and generate charges — you just lose the bonus effects.
+**Key Insight**: Your alchemist's salt still deals raw damage, but you have no magic to feed on. You are just a fragile mortal carrying a crushing weight.
 
-**Round 1 — Charge Building**
+**Round 1 — Cold Iron**
 
-*Three bandits rush from the treeline.*
+*Three bandits rush from the brush, swords raised.*
 
-**Your Action**: Cast Hex Strike (bonus action) → Attack the nearest bandit
-**Effect**: +1d6 necrotic damage (not +1d8 — they're not evil). Generate 1 charge.
+**Your Action**: Activate Null-Salts Strike (1 AP) → Strike the closest bandit
+**Effect**: Deals +1d6 necrotic damage (not +1d8, they carry no active magic). Generate no charges.
 
-*Hexbreaker Charges: 2 → 3*
+*Hexbreaker Charges: 2 → 1 (decay due to no magic present)*
 
-**Round 2 — Spend Wisely**
+**Round 2 — Desperate Agility**
 
-*The bandit chief charges you.*
+*The bandit chief sweeps a heavy axe toward your chest.*
 
-**Your Action**: Cast Dark Pursuit (costs 1 charge) → Dash 30ft, advantage on next attack
-**Effect**: Close the gap and strike with advantage.
+**Your Action**: Cast Dark Pursuit (costs 1 charge, 1 AP) → Dash 30ft, advantage on next strike
+**Effect**: Slide under the blade and position yourself behind him.
 
-*Hexbreaker Charges: 3 → 2*
+*Hexbreaker Charges: 1 → 0*
 
-**Round 3 — Clean Up**
+**Round 3 — The Silver Bolt**
 
-**Your Action**: Cast Silver Bolt at a fleeing bandit
-**Effect**: 2d8 radiant damage (doesn't curve around cover — they're not evil). Drops the bandit.
+*A bandit archer aims at your allies.*
 
-*Hexbreaker Charges: 2 → 2 (cast +1, spent 1)*
+**Your Action**: Cast Silver Bolt (1 AP) at the archer
+**Effect**: 2d8 radiant damage. The projectile flies straight (doesn't curve, as he has no magical scent). It clips his shoulder, dropping him.
 
-**Takeaway**: Against mundane enemies you're still a capable combatant — just without the extra debuffs, instant kills, and charge bonuses that make you devastating against evil casters.`,
+*Hexbreaker Charges: 0 → 0*
+
+**Takeaway**: Against mundane threats, you can still fight, but your alchemical fragility makes you vulnerable. You are a dying ember, waiting for the witch to light the fire.`,
     },
   },
 
@@ -345,6 +340,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         "You gain proficiency with light armor, medium armor, shields, simple weapons, martial weapons, and alchemist's supplies.",
       level: 1,
     },
+    
     {
       id: "hexbreaker_charges",
       name: "Hexbreaker Charges",
@@ -352,6 +348,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         "You build Hexbreaker charges exclusively through anti-magic events — being targeted by spells, dispelling enchantments, witnessing spell failure, and destroying evil magic users. Mundane combat generates no charges. Charges decay -1/round without magical opposition.",
       level: 1,
     },
+    
     {
       id: "covenbane_magic",
       name: "Covenbane Magic",
@@ -359,6 +356,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         "You know the cantrips Light and Sacred Flame. At 2nd level you learn the spell Detect Magic.",
       level: 1,
     },
+    
     {
       id: "witch_hunters_precision",
       name: "Witch Hunter's Precision",
@@ -379,6 +377,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       color: "#2F2F4F",
       talents: [],
     },
+    
     {
       id: "spellbreaker",
       name: "Spellbreaker - Anti-Magic Mastery",
@@ -388,6 +387,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       color: "#4F2F2F",
       talents: [],
     },
+    
     {
       id: "demonhunter",
       name: "Demonhunter - Relentless Pursuit",
@@ -407,9 +407,9 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
 
     {
       id: "cov_shadow_hunt",
-      name: "Shadow Hunt",
+      name: "Scent of Ash",
       description:
-        "Mark a creature within 60 feet with a spectral brand, sensing its presence and direction. Attacks against the marked target gain advantage and deal +1d4 radiant damage for 10 minutes.",
+        "Mark a creature within 60 feet with a spectral brand of ash, sensing its presence and direction. Attacks against the marked target gain advantage and deal +1d4 radiant damage for 10 minutes.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["buff"],
@@ -417,8 +417,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Piercing/Targeted Strike",
-        castTime: "1 bonus action",
-        castTimeType: "bonus",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
         range: "60 feet",
         rangeType: "ranged",
         tags: ["tracking", "marking", "utility"],
@@ -476,9 +476,9 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
 
     {
       id: "cov_hex_strike",
-      name: "Hex Strike",
+      name: "Null-Salts Strike",
       description:
-        "Imbue your weapon with disruptive hex energy. Your next melee attack deals +1d6 necrotic damage and generates 1 Hexbreaker Charge on hit. Against evil magic users, the damage increases to +1d8.",
+        "Imbue your weapon with flesh-burning null-salts. Your next melee attack deals +1d6 necrotic damage and generates 1 Hexbreaker Charge on hit. Against evil magic users, the damage increases to +1d8.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["buff"],
@@ -486,8 +486,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Necrotic/Necrotic Skull",
-        castTime: "1 bonus action",
-        castTimeType: "bonus",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
         range: "self",
         rangeType: "self",
         tags: ["damage", "weapon", "charge generation"],
@@ -543,9 +543,9 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
 
     {
       id: "cov_silver_blade",
-      name: "Silver Blade",
+      name: "Agonizing Silver Binding",
       description:
-        "Coat your weapon in blessed silver for 1 minute. Attacks deal +1d4 radiant damage. Against evil creatures, attacks also bypass magical resistance.",
+        "Coat your blade in liquid silver for 1 minute. Each attack deals +1d4 radiant damage. Against evil creatures, attacks also bypass magical resistance.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["buff"],
@@ -553,8 +553,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Beam",
-        castTime: "1 bonus action",
-        castTimeType: "bonus",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
         range: "self",
         rangeType: "self",
         tags: ["weapon", "anti magic", "resistance piercing"],
@@ -610,9 +610,9 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
 
     {
       id: "cov_dark_pursuit",
-      name: "Dark Pursuit",
+      name: "Ash Step",
       description:
-        "Dash 30 feet on a wave of living shadow, ignoring difficult terrain and opportunity attacks. Gain advantage on your next melee attack.",
+        "Dash 30 feet on a wave of living ash, ignoring difficult terrain and opportunity attacks. Gain advantage on your next melee attack.",
       level: 2,
       spellType: "ACTION",
       effectTypes: ["utility", "buff"],
@@ -620,8 +620,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Utility/Speed Boot",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["mobility", "speed", "utility"],
@@ -694,7 +694,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
 
     {
       id: "cov_hex_weakness",
-      name: "Hex of Weakness",
+      name: "Sigil of Rotting Mana",
       description:
         "Afflict a target with a sigil unraveling their magic for 1 minute. Spell attacks suffer -2 penalty and spell save DC drops by 1. Evil casters have disadvantage on concentration checks when taking damage.",
       level: 2,
@@ -704,8 +704,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Necrotic/Necrotic Decay 1",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "30 feet",
         rangeType: "ranged",
         tags: ["debuff", "curse", "anti magic"],
@@ -796,8 +796,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Bolt",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "60 feet",
         rangeType: "ranged",
         tags: ["damage", "ranged", "anti magic"],
@@ -862,8 +862,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Necrotic/Devour",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "touch",
         rangeType: "touch",
         tags: ["dispel", "anti magic", "healing"],
@@ -917,8 +917,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Utility/Hide",
-        castTime: "1 bonus action",
-        castTimeType: "bonus",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
         range: "self",
         rangeType: "self",
         tags: ["stealth", "utility", "shadowbane"],
@@ -987,8 +987,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Arcane/Magical Cross Emblem 2",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["protection", "anti magic", "spellbreaker"],
@@ -1066,8 +1066,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Beam",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "30 feet",
         rangeType: "ranged",
         tags: ["debuff", "curse", "anti magic"],
@@ -1159,8 +1159,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Necrotic/Corruption",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "30 feet",
         rangeType: "ranged",
         tags: ["crowd control", "root", "silence", "control", "resource_gated"],
@@ -1244,8 +1244,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Piercing/Focused Arrow Shot",
-        castTime: "1 bonus action",
-        castTimeType: "bonus",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
         range: "self",
         rangeType: "self",
         tags: ["buff", "accuracy", "anti magic"],
@@ -1332,8 +1332,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Bright Explosion",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "60 feet",
         rangeType: "ranged",
         tags: ["damage", "aoe", "radiant"],
@@ -1421,8 +1421,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Slashing/Execution",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "melee",
         rangeType: "melee",
         tags: ["execute", "control", "melee"],
@@ -1511,8 +1511,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Necrotic/Protective Aura",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["aoe", "anti magic", "suppression", "spellbreaker"],
@@ -1568,8 +1568,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Necrotic/Crossed Bones",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "30 feet",
         rangeType: "ranged",
         tags: ["aoe", "crowd control", "anti magic", "demonhunter"],
@@ -1669,8 +1669,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Poison/Poison Plague",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["aoe", "damage", "stun", "ultimate"],
@@ -1763,8 +1763,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Void/Consumed by Void",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["aoe", "damage", "debuff", "vision", "shadowbane"],
@@ -1859,8 +1859,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Radiant/Golden Ring",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "60 feet",
         rangeType: "ranged",
         tags: ["anti magic", "seal", "spellbreaker"],
@@ -1955,8 +1955,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Void/Black Hole",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "60 feet",
         rangeType: "ranged",
         tags: ["aoe", "damage over time", "anti magic", "concentration"],
@@ -2043,8 +2043,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Void/Shadowy Potion",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["transformation", "mobility", "damage", "shadowbane"],
@@ -2123,8 +2123,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Divine Beam",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["buff", "damage", "last stand", "demonhunter"],
@@ -2208,8 +2208,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Divine Blessing",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "60 feet",
         rangeType: "ranged",
         tags: ["aoe", "damage", "judgment", "demonhunter"],
@@ -2280,8 +2280,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Void/Consumed by Void",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["transformation", "stealth", "damage", "shadowbane"],
@@ -2360,8 +2360,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Void/Black Hole",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "60 feet",
         rangeType: "ranged",
         tags: ["aoe", "damage", "dispel", "spellbreaker"],
@@ -2450,8 +2450,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Necrotic/Necrotic Death",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["aoe", "damage", "permanent", "spellbreaker"],
@@ -2537,8 +2537,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Psychic/Psionic Boom",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
       triggerConfig: {
@@ -2618,8 +2618,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Warrior",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["transformation", "damage", "demonhunter"],
@@ -2701,8 +2701,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "necrotic",
         icon: "Necrotic/Ritual",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
         tags: ["aoe", "damage", "permanent", "anti magic"],
@@ -2785,8 +2785,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "shadow",
         icon: "Utility/Summon Minion",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
       triggerConfig: {
@@ -2869,8 +2869,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Winged Angel",
-        castTime: "1 action",
-        castTimeType: "action",
+        castTime: 1,
+        castTimeType: "ACTION",
         range: "self",
         rangeType: "self",
       triggerConfig: {
@@ -2948,11 +2948,11 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         "Your anti-magic weapons must be coated in silver. You begin each encounter with 5 Silver Coatings. Each anti-magic or anti-spell ability costs 1 Silver Coating. At 0 coatings, anti-magic abilities have their duration halved and their save DC reduced by 2.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Physical/Silver Weapon",
+      icon: "Slashing/Glowing Scimitar",
       effectTypes: ["passive"],
       typeConfig: {
         school: "physical",
-        icon: "Physical/Silver Weapon",
+        icon: "Slashing/Glowing Scimitar",
         tags: ["passive", "resource", "silver", "anti-magic dependency", "covenbane"],
         castTime: 0,
         castTimeType: "PASSIVE",
@@ -2975,11 +2975,11 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         "You cannot attack allies, even if they are mind-controlled, charmed, or possessed. You must find another way to break the effect. Your oath forbids harming the innocent -- even when they wear an enemy's face.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "Holy/Holy Shield",
+      icon: "Radiant/Radiant Golden Shield",
       effectTypes: ["passive"],
       typeConfig: {
         school: "holy",
-        icon: "Holy/Holy Shield",
+        icon: "Radiant/Radiant Golden Shield",
         tags: ["passive", "restriction", "no friendly fire", "oath", "covenbane"],
         castTime: 0,
         castTimeType: "PASSIVE",

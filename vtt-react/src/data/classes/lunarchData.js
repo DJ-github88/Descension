@@ -1,50 +1,114 @@
 ﻿/**
  * Lunarch Class Data
  *
- * Complete class information for the Lunarch - a celestial archer and lunar mage
- * who channels the power of moon phases to adapt their combat style.
+ * The Vessel of the Lunar Parasite. An ancient, unfeeling celestial entity has
+ * burrowed into the Lunarch's nervous system. The moon is not their ally -- it
+ * is a cold, parasitic predator that feeds on memory, sensation, sanity, and
+ * vitality in exchange for devastating cosmic power.
  */
 
 export const LUNARCH_DATA = {
   id: "lunarch",
   name: "Lunarch",
   icon: "fas fa-moon",
-  role: "Support/Control",
-  damageTypes: ["arcane", "radiant"],
+  role: "Control/Support",
+  damageTypes: ["radiant", "necrotic", "psychic"],
 
   // Overview section
   overview: {
     title: "The Lunarch",
-    subtitle: "Celestial Archer and Lunar Mage",
+    subtitle: "Vessel of the Lunar Parasite",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Lunarch channels power from four moon phases, each granting distinct bonuses that cycle naturally or can be shifted manually for mana.
+      content: `**What You Need to Know**: You did not choose this. An ancient celestial parasite has fused with your nervous system. Every three rounds it FORCEFULLY REWRITES your physiology -- dealing 2d6 necrotic damage as it feeds on a different aspect of your humanity. You are its host. Its hunger is your power.
 
-**Core Mechanic**: New Moon (defense/recovery) â†’ Waxing Moon (support/healing) â†’ Full Moon (offense/damage) â†’ Waning Moon (control/efficiency)
+**Core Mechanic**: Parasitic Phase Cycle -- New Moon (Memory Eater: +3 Armor, immune to charm/fear, but -2 attacks, lose 1d4 mana/turn) â†’ Waxing Moon (Sensation Harvest: +1d6 damage, +10ft speed, but take 1d4 necrotic/turn, no healing) â†’ Full Moon (Sanity Erosion: +2d8 radiant, crit 19-20, ignores 50% armor, but Delirium rolls each turn, -5 max HP/round) â†’ Waning Moon (Vitality Drain: -3 mana costs, vampiric 25%, but -2 Armor, -10 max HP)
 
-**Resource**: Mana (8 per Phase Shift), 4-phase cycle (auto-advances every 3 rounds)
+**Resource**: Mana + Flesh. Every natural cycle shift deals 2d6 necrotic. Manual shifts cost 8 mana + 1d8+2 necrotic. Roll on the Transition Shock Table (1d6) every time.
 
-**Playstyle**: Adaptive ranged combat with phase-based versatility
+**Fatal Flaw -- Celestial Rejection**: +25% vulnerability to Bludgeoning damage. Standard magical healing deals psychic damage to you instead of healing (the parasite devours foreign magic). Only your own phase-specific restoration works.
 
-**Best For**: Players who enjoy flexible role-shifting, celestial themes, and timing-based resource management`,
+**Unique Utility -- Battlefield Cycle Manipulation**: The only class that can distort the passage of rounds, impose phase-specific vulnerabilities across the entire battlefield, and force enemies to sync with your volatile internal clock.
+
+**Best For**: Players who want to play a tragic, self-destructive tactical mastermind who turns their own suffering into a weapon that warps reality`,
     },
 
-    description: `The Lunarch is a master of celestial magic who draws power from the phases of the moon. Inspired by ancient lunar priestesses and celestial guardians, Lunarchs channel the ever-changing energy of the moon to adapt their combat style. Through the Phase Shift system, they flow between four distinct lunar phases, each granting unique bonuses and altering their spell effects. This dynamic resource system rewards tactical thinking and phase management, allowing Lunarchs to excel as versatile ranged combatants who can shift between offense, defense, and support as the battle demands.`,
+    description: `The Lunarch is not a priest. The Lunarch is a host -- a walking crime scene where an ancient, unfeeling celestial parasite has burrowed into the nervous system and refused to leave. The moon is not a symbol of hope or guidance; it is a cold, alien predator that has been feeding on the light of dying stars since before flesh existed. When it chose the Lunarch, it did not ask permission. It seeped into their spine through the soft tissue at the base of the skull, threaded tendrils of starlight through their nerve clusters, and began to feed.
+
+The Lunar Cycle is not a tool. It is the parasite's feeding schedule. Every three rounds, it rewrites the host's physiology to extract a different nutrient: memory during the New Moon, physical sensation during the Waxing, sanity during the Full, and raw vitality during the Waning. Each shift tears flesh along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop it. They can only direct it -- choosing which horror to embrace, weaponizing the parasite's hunger against their enemies, and hoping their body holds together long enough to matter.
+
+No other class can manipulate the passage of rounds on the battlefield. No other class can impose a cosmic feeding cycle on their enemies, spreading phase-corresponding afflictions across an entire fight. But the cost is absolute: the Lunarch is immune to standard magical healing, their parasite-interlaced organs rupture catastrophically under bludgeoning trauma, and every phase shift is a gamble with the Transition Shock Table. The Lunarch does not win fights through strength. They win by making the battlefield as hostile to existence as their own body has become.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Lunarchs are devoted followers of lunar deities, celestial scholars, or individuals touched by moonlight magic. They often serve as guardians of sacred groves, protectors of the night, or wandering mystics who follow the moon's guidance.
+      content: `Lunarchs are not born -- they are claimed. The parasite selects its host through unknown criteria, though victims often report a single night where the moon seemed impossibly large and a cold pressure settled at the base of their skull. By morning, the Lunarch can feel it: something stirring behind their thoughts, something that is not them, something that is older than the ground beneath their feet.
 
 **Common Lunarch Archetypes**:
-- **The Moonlight Sentinel**: A vigilant guardian who patrols under the moon's watchful gaze, protecting sacred sites and innocent travelers
-- **The Celestial Scholar**: An academic who studies the movements of celestial bodies and harnesses their power through careful observation
-- **The Lunar Priestess**: A devoted servant of a moon deity, channeling divine lunar power to heal allies and smite enemies
-- **The Night Hunter**: A ranger who thrives in darkness, using moonlight to track prey and strike from the shadows
-- **The Tide Caller**: A coastal mystic who understands the moon's influence on tides and uses this connection to manipulate water and fate
+- **The Reluctant Vessel**: A farmer, a soldier, a beggar -- someone ordinary who woke up one night with starlight bleeding from their eyes and a voice that was not theirs whispering the names of dead stars
+- **The Willing Sacrifice**: Someone who sought out the parasite deliberately, believing that cosmic horror was preferable to the alternative -- a dying parent, a losing war, a debt that could only be paid in flesh
+- **The Hollowed Scholar**: A mage or astronomer who studied the moon too closely, too hungrily, and drew the parasite's attention through sheer obsession
+- **The Weaponized Host**: A soldier or assassin who was deliberately infected by an organization that treats Lunarchs as living siege engines -- pointed at enemies and released
 
-**Personality Traits**:
-Lunarchs tend to be contemplative, patient, and attuned to natural cycles. They understand that power waxes and wanes, and they embrace change rather than resist it. Many are nocturnal by preference, finding peace and clarity under starlit skies.`,
+**Physical Signs**: All Lunarchs carry visible marks of their parasitic bond. Starlight-visible veins beneath translucent skin. Eyes that reflect moonlight even in total darkness. A faint hum or crackle of static when the phase shifts. At higher levels, the Lunarch's flesh develops visible seams -- thin lines of cold white light where the parasite's tendrils have replaced connective tissue.
+
+**Personality**: Lunarchs tend toward fatalism. They know what lives inside them. They know it is killing them. They know they cannot remove it without dying. Some become cold and detached, viewing their body as a borrowed weapon. Others become fiercely defiant, determined to wring every drop of power from the parasite before it consumes them entirely. All of them flinch when they see the moon.`,
+    },
+
+    combatRole: {
+      title: "Combat Role",
+      content: `**Primary Role**: Battlefield cycle manipulator and phase-contagion spreader with adaptive damage potential
+
+**What You Bring That No One Else Can**:
+- Distort the passage of rounds -- add or remove rounds from active effects on the battlefield
+- Impose phase-specific vulnerabilities on enemies across the entire battlefield
+- Force enemies to "sync" with your current phase, applying phase-corresponding debuffs (memory loss, pain amplification, radiant vulnerability, life drain)
+- The only class that can weaponize a feeding cycle as a battlefield-wide control mechanism
+
+**Combat Strengths**:
+- Unmatched battlefield control through phase contagion and round manipulation
+- Devastating burst damage during Full Moon (Sanity Erosion) -- +2d8 radiant, crit 19-20, ignores 50% armor
+- Vampiric sustain during Waning Moon (Vitality Drain) -- 25% of damage dealt returns as healing
+- Extreme survivability during New Moon (Memory Eater) -- +3 Armor, immune to charm/fear
+- Every phase shift creates a reality pulse that can be weaponized against nearby enemies
+
+**Combat Weaknesses (The Fatal Flaw)**:
+- **Celestial Rejection**: +25% vulnerability to Bludgeoning damage (your starlight-infused organs rupture under blunt trauma)
+- **Healing Immunity**: Standard magical healing deals psychic damage to you equal to 50% of the heal amount -- the parasite devours foreign magic and converts it to psychic feedback
+- **Transition Shock**: Every phase shift (natural or manual) forces a roll on the Transition Shock Table (1d6) -- you may take extra damage, lose mana, lose AP, or go blind
+- **Self-Destructive Economy**: Natural cycle shifts deal 2d6 necrotic damage every 3 rounds. Manual shifts cost 8 mana + 1d8+2 necrotic. You are always bleeding.
+- **Full Moon Delirium**: During Sanity Erosion, you must roll on the Delirium Table each turn -- you may attack allies, lose AP, or take psychic damage
+
+**Optimal Positioning**:
+Medium range (30-60 feet), close enough to spread phase contagion to enemies but far enough to avoid the bludgeoning attacks that will rupture your organs. Position near allies during Waxing Moon so they benefit from your redirected parasite-feeding (Sanguine Warden). Stay far from allies during Full Moon -- the Delirium Table may force you to attack them.`,
+    },
+
+    playstyle: {
+      title: "Playstyle & Strategy",
+      content: `**Phase Management (Choose Your Suffering)**:
+The Lunarch does not choose whether to suffer -- only HOW. Each phase is a different flavor of horror:
+
+- **New Moon (Memory Eater)**: The parasite feeds on cognition. +3 Armor, immune to charm/fear, but -2 to attacks and lose 1d4 mana/turn. Use this when you're being targeted and need to survive. You are a passenger in your own body -- the parasite drives, and it has excellent reflexes but terrible aim.
+- **Waxing Moon (Sensation Harvest)**: The parasite feeds on nerve endings. +1d6 damage, +10ft speed, advantage on perception, but take 1d4 necrotic/turn and CANNOT be healed by any means. Use this for aggressive repositioning and damage bursts when you're healthy enough to absorb the feeding.
+- **Full Moon (Sanity Erosion)**: The parasite floods your brain with cosmic signal. +2d8 radiant, crit 19-20, ignores 50% armor, but roll Delirium each turn and lose 5 max HP/round. This is your nuclear option -- devastating but self-destructive. Never stay here longer than you must.
+- **Waning Moon (Vitality Drain)**: The parasite drinks your life force. -3 mana costs, +10ft spell range, debuffs last +1 round, 25% vampiric healing, but -2 Armor, -10ft speed, -10 max HP. Use this to recover through vampirism while controlling the field.
+
+**The Transition Shock Table**:
+Every shift (natural or manual), roll 1d6:
+| d6 | Effect |
+|---|---|
+| 1 | Tissue Rupture -- Take 2d6 necrotic as flesh tears along starlight seams |
+| 2 | Synaptic Flash -- Blinded for 1 round as the parasite reroutes your optic nerves |
+| 3 | Mana Hemorrhage -- Lose 2d4 mana as the parasite drains arcane reserves |
+| 4 | Temporal Dissonance -- Lose 1 AP on your next turn as time stutters |
+| 5 | Psychic Whiplash -- Take 1d6 psychic damage, disadvantage on next save |
+| 6 | Parasitic Mercy -- Only 1 necrotic damage. The parasite is sated... for now |
+
+**The Healing Problem**:
+You CANNOT be healed by standard magical means. A cleric casting healing spells on you deals psychic damage instead. Your only recovery options are: Waning Moon vampirism (25% of damage dealt), Sanguine Warden blood-rites (cost your own HP), and specific self-damage spells that convert parasite-feeding into temporary sustenance. Plan accordingly.
+
+**Round Manipulation**:
+Your unique utility. Key abilities let you add or remove rounds from effects, extend debuffs on enemies, compress buff durations on allies, and force enemies to "sync" with your current phase. This makes you the only class that can accelerate or decelerate the entire battlefield's tempo.`,
     },
 
     combatRole: {
@@ -102,481 +166,501 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
     },
 
     immersiveCombatExample: {
-      title: "Combat Example: The Lunar Cycle",
-      content: `**The Setup**: You're a Lunarch (Moonlight Sentinel specialization) facing a group of shadow creatures (4 shadow wraiths + 1 shadow lord). Your party is with you. Starting Phase: New Moon (all Lunarchs start combat in New Moon). Starting Mana: 50/60. Your goal: Cycle through lunar phases strategically, using each phase's unique bonuses to adapt to the battle.
+      title: "Combat Example: The Parasite Feeds",
+      content: `**The Setup**: You are a Level 4 Lunarch (Hollow Sentinel). Your nervous system hosts a celestial parasite that rewrites your flesh every 3 rounds. You are fighting 3 Corpse-Weavers (undead, bludgeoning attacks -- your worst nightmare) and 1 Corpse-Weaver Matriarch. Starting Phase: New Moon. Starting Mana: 50/60. HP: 55/65. Your Phylactery... you don't have one. You just have scars that glow in the dark.
 
-> **PHASE SKIP RULE**: When you manually shift to any phase, the 3-round timer resets. After your shifted phase ends, the cycle resumes from the NEXT phase in order. For example, shifting New Moon â†’ Full Moon means after Full expires, you cycle to Waning (Waxing was skipped). Waxing returns after Waning completes.
+**Starting State**: Phase: New Moon (Memory Eater) | Mana: 50/60 | HP: 55/65 | Round: 1
 
-**Starting State**: Phase: New Moon | Mana: 50/60 | HP: 65/65 | Round: 1
+**NEW MOON -- THE MEMORY EATER (Rounds 1-3)**
 
-**NEW MOON PHASE (Rounds 1-3)**
+**Turn 1 -- The Parasite Takes the Reins (Phase: New Moon, Round 1/3)**
 
-**Turn 1 - New Moon: Recovery and Preparation (Phase: New Moon, Round 1/3)**
+*The Corpse-Weavers emerge from the darkness, their limbs clicking. You feel the parasite stir at the base of your skull -- cold, hungry, patient. New Moon. It is feeding on your memories. Your mother's face is already blurry.*
 
-*The shadow wraiths emerge from the darkness, their forms shifting and ethereal. You raise your bow, moonlight gathering around you. The moon is NEWâ€”dark, hidden, a time for recovery and preparation.*
+**New Moon (Memory Eater) Active**:
+- +3 Armor (parasite controls motor function -- your body dodges before you think)
+- Immune to Charm and Fear
+- -2 to all attack rolls (you can barely remember how to aim)
+- Lose 1d4 mana at start of turn (the parasite eats thought)
 
-**New Moon Bonuses**:
-- +2 Armor (defensive bonus)
-- +1d6 HP regeneration per turn
-- Advantage on stealth checks
+**Mana Drain**: -1d4 → [3] = -3 mana
+**Mana**: 50 - 3 = 47/60
 
-**Regeneration**: +1d6 HP â†’ [4] = +4 HP
-**Your HP**: 65 + 4 = 69/65 (over max, capped at 65)
+*Your hands move without your permission. The parasite knows where the enemies are even if you're starting to forget why you're here.*
 
-*You feel the new moon's energy flowing through you, subtle and protective.*
+**Your Action**: Cast "Parasitic Bolt" at Corpse-Weaver #1 (4 mana)
+**Attack Roll**: d20+6, but -2 from Memory Eater → [12] = Hit!
+**Base Damage**: 1d8 radiant → [6] = 6 radiant
+**New Moon Phase Bonus**: Target loses 1d4 mana or takes 1d4 extra necrotic → [3] necrotic
+**Total Damage**: **6 radiant + 3 necrotic = 9 damage**
+**Self-Damage from Parasitic Bolt**: 1d4 necrotic → [2] = 2 necrotic to you
 
-**Your Action**: Cast "Moonbeam" at Shadow Wraith #1 (6 mana)
-**Attack Roll**: d20+6 â†’ [15] = Hit!
-**Damage**: 2d10 radiant â†’ [8, 7] = **15 radiant damage**
+**HP**: 55 - 2 = 53/65
+**Mana**: 47 - 4 = 43/60
 
-*A beam of pale moonlight strikes the wraith. It shrieks, recoiling from the radiant energy.*
+*The bolt punches through the Weaver's carapace. Cold white light bleeds from the wound. You feel a distant kinship with the thing -- something alien lives in both of you.*
 
-**Mana**: 50 - 6 = 44/60
+**Corpse-Weaver #2's Turn**: Attacks you with bludgeoning slam!
+**Attack Roll**: d20+5 → [15] = Hit!
+**Damage**: 1d8+3 bludgeoning → [7] + 3 = 10 bludgeoning
+**CELESTIAL REJECTION (Fatal Flaw)**: +25% vulnerability to Bludgeoning → 10 × 1.25 = **12 bludgeoning damage**
 
-**Shadow Wraith #1's Turn**: Attacks you â†’ [14] â†’ Miss! (your Armor is 16 + 2 = 18 from New Moon)
+*The slam connects with your ribs. You feel something SHIFT inside -- not bone breaking, but the parasite's tendrils being jostled. Starlight bleeds from the impact site. Pain is distant. The Memory Eater is consuming the part of you that processes agony.*
 
-*The wraith's claws pass through empty air. The new moon's protection shields you.*
+**HP**: 53 - 12 = 41/65
 
-**Current State**: Phase: New Moon (Round 1/3) | Mana: 44/60 | HP: 65/65
+**Current State**: Phase: New Moon (Round 1/3) | Mana: 43/60 | HP: 41/65
 
-**Turn 2 - New Moon: Continued Defense (Phase: New Moon, Round 2/3)**
+**Turn 2 -- Paying in Flesh (Phase: New Moon, Round 2/3)**
 
-**Regeneration**: +1d6 HP â†’ [3] = +3 HP (already at max, no effect)
+**Mana Drain**: -1d4 → [2] = -2 mana. *Your memory of last night's campfire fades.*
+**Mana**: 43 - 2 = 41/60
 
-**Your Action**: Cast "Lunar Arrow" at Shadow Wraith #2 (4 mana)
-**Attack Roll**: d20+6 â†’ [17] = Hit!
-**Damage**: 1d8+4 radiant â†’ [7] + 4 = **11 radiant damage**
+**Your Action**: Cast "Phase Tear" -- Force shift to FULL MOON (8 mana + 1d8+2 necrotic self-damage)
+*You cannot endure another round of being a punching bag. You reach into the parasite's cycle and TEAR yourself toward Full Moon. Your flesh screams.*
 
-**Mana**: 44 - 4 = 40/60
+**Phase Shift Cost**: 8 mana + 1d8+2 necrotic → [6] + 2 = 8 necrotic to you
+**Transition Shock Table (1d6)**: [4] = **Temporal Dissonance** -- lose 1 AP on your next turn
 
-**Shadow Lord's Turn**: Casts "Shadow Bolt" at you â†’ [16] â†’ Miss! (armor 18)
+*Your skin splits along the starlight seams. Cold white light pours from the cracks. Your perception SHATTERS -- for a moment, you see through the moon's eyes. Everything is so small. Everything is so breakable.*
 
-*The shadow bolt dissipates against your new moon protection.*
+**Mana**: 41 - 8 = 33/60
+**HP**: 41 - 8 = 33/65
 
-**Current State**: Phase: New Moon (Round 2/3) | Mana: 40/60 | HP: 65/65
+**FULL MOON -- THE SANITY EROSION (Rounds 2-4)**
 
-**Turn 3 - New Moon Ending, Manual Shift to Full Moon (Phase: New Moon â†’ Full Moon)**
+**Full Moon Active**:
+- +2d8 radiant damage on all attacks
+- Critical hits on 19-20
+- Attacks ignore 50% of Armor
+- DELIRIUM: Roll on Delirium Table at start of each turn
+- -5 max HP per round in this phase
 
-*The new moon phase is ending. Normally it would cycle to Waxing Moon, but you need DAMAGE. Time to shift to Full Moon.*
+**Max HP Reduction**: 65 - 5 = 60 (temporary)
+**HP**: 33/60 (still 33 HP, but ceiling drops)
 
-**Your Action**: Manual Phase Shift to Full Moon (8 mana, resets 3-round timer)
+**Delirium Roll (1d4)**: [3] = Take 1d6 psychic damage
+**Psychic Damage**: [4] = 4 psychic. *The cosmos whisper a name. It might be yours. It might be the name of the star that will die last.*
 
-*You reach out to the lunar energies and PULL. The moon in your mind's eye SWELLS from new to full. Brilliant silver light erupts around you.*
+**HP**: 33 - 4 = 29/60
 
-**Phase Shift**: New Moon â†’ **Full Moon**
-**Mana**: 40 - 8 = 32/60
-**Phase Timer**: Reset to Round 1/3 (Full Moon will last 3 rounds)
+**Your Action**: Cast "Parasitic Bolt" at Corpse-Weaver #1 (4 mana, Full Moon bonus)
+**Attack Roll**: d20+6 → [19] = **CRITICAL HIT!** (19-20 crit range)
+**Base Damage**: 1d8 radiant → [8] = 8, doubled = 16 radiant
+**Full Moon Bonus**: +2d8 radiant → [7, 6] = 13, doubled = 26 radiant
+**Total Critical Damage**: **42 radiant damage**
+**Self-Damage**: 1d4 necrotic → [3] = 3
 
-**FULL MOON PHASE (Rounds 4-6)**
+*The bolt doesn't just hit the Weaver. It UNRAVELS it. Cold starlight erupts from every joint, every orifice, every crack in its carapace. The thing doesn't die -- it stops. Mid-motion. Frozen in a moment of cosmic horror. Then it collapses into a pile of light-bleached chitin.*
 
-**Full Moon Bonuses**:
-- +2d6 radiant damage on all attacks
-- Critical hits on 19-20 (expanded crit range)
-- Advantage on attack rolls
+**Corpse-Weaver #1**: OBLITERATED
 
-**Your Action**: Cast "Moonbeam" at Shadow Wraith #3 (6 mana, with Full Moon bonus)
-**Attack Roll**: d20+6 with ADVANTAGE â†’ [18, 12] â†’ Take 18 = Hit!
-**Base Damage**: 2d10 radiant â†’ [9, 8] = 17 damage
-**Full Moon Bonus**: +2d6 radiant â†’ [5, 6] = +11 damage
-**Total Damage**: 17 + 11 = **28 radiant damage!**
+**HP**: 29 - 3 = 26/60
+**Mana**: 33 - 4 = 29/60
 
-*The moonbeam BLAZES with full moon power. The wraith is VAPORIZED.*
+**Current State**: Phase: Full Moon (Round 1/3) | Mana: 29/60 | HP: 26/60 (max reduced)
 
-**Shadow Wraith #3**: DEAD
+**Turn 3 -- The Matriarch (Phase: Full Moon, Round 2/3)**
 
-**Mana**: 32 - 6 = 26/60
+**Max HP Reduction**: 60 - 5 = 55 (cumulative)
+**Delirium Roll**: [1] = **Attack nearest creature.** *The parasite doesn't care about tactics. It is hungry and the Matriarch is too far.*
 
-**Current State**: Phase: Full Moon (Round 1/3) | Mana: 26/60 | HP: 65/65
+**Your Action (FORCED)**: Attack nearest target -- Corpse-Weaver #3 (adjacent)
+**Attack Roll**: d20+6 → [17] = Hit!
+**Damage**: 1d8 + 2d8 radiant (Full Moon) → [7] + [5, 8] = 20 radiant
+**Self-Damage**: 1d4 → [1] = 1
 
-**Turn 4 - Full Moon: Maximum Damage (Phase: Full Moon, Round 2/3)**
+**Corpse-Weaver #3**: Severely wounded
+**HP**: 26 - 1 = 25/55
+**Mana**: 29 (no mana spent -- forced basic attack)
 
-*The full moon's power surges through you. Your attacks are DEVASTATING.*
+**Matriarch's Turn**: Slams you with bludgeoning attack!
+**Damage**: 2d8+5 bludgeoning → [8, 6] + 5 = 19 → ×1.25 (Celestial Rejection) = **23 bludgeoning**
 
-**Your Action**: Cast "Lunar Arrow" at Shadow Lord (4 mana, with Full Moon bonus)
-**Attack Roll**: d20+6 with ADVANTAGE â†’ [19, 14] â†’ Take 19 = **CRITICAL HIT!** (19-20 crit range)
-**Base Damage**: 1d8+4 radiant â†’ [8] + 4 = 12 damage â†’ DOUBLED = 24 damage
-**Full Moon Bonus**: +2d6 radiant â†’ [6, 5] = +11 damage â†’ DOUBLED = 22 damage
-**Total Damage**: 24 + 22 = **46 radiant damage!**
+*The Matriarch's massive limb catches you square in the chest. You HEAR your own ribs crack -- not bone, but the starlight seams rupturing. White light sprays from your mouth. You taste cold vacuum.*
 
-*Your arrow EXPLODES with full moon energy, striking the shadow lord with devastating force. It staggers, badly wounded.*
+**HP**: 25 - 23 = 2/55
 
-**Mana**: 26 - 4 = 22/60
+**Your Party's Healer**: "I'll heal you!"
+**You**: "DON'T. Your healing will KILL me. The parasite eats foreign magic and feeds it back as psychic damage. I need to shift to Waning and vampiric drain."
 
-**Shadow Lord**: 46 damage taken, severely wounded
+**Your Party's Tank**: Interposes, blocking the Matriarch's next attack.
 
-**Current State**: Phase: Full Moon (Round 2/3) | Mana: 22/60 | HP: 65/65
+**Current State**: Phase: Full Moon (Round 2/3) | Mana: 29/60 | HP: 2/55 (max reduced)
 
-**Turn 5 - Full Moon Ending, Natural Cycle to Waning Moon (Phase: Full Moon â†’ Waning Moon)**
+**Turn 4 -- Survival Through Parasitism (Manual Shift to Waning Moon)**
 
-*The full moon phase ends naturally. The moon begins to WANE, shifting to the waning phase.*
+*You are dying. The Full Moon is eating you from the inside. You reach into the cycle and RIP yourself toward Waning. The parasite protests -- it was enjoying the Sanity Erosion. Your flesh tears again.*
 
-**Phase Cycle**: Full Moon â†’ **Waning Moon** (natural cycle, no mana cost)
-**Phase Timer**: Reset to Round 1/3
+**Phase Shift**: Full Moon → Waning Moon (8 mana + 1d8+2 necrotic)
+**Shift Cost**: 1d8+2 → [5] + 2 = 7 necrotic
+**Transition Shock**: [6] = **Parasitic Mercy** -- only 1 necrotic. *The parasite is briefly sated from the Sanity Erosion feeding. It almost feels... grateful.*
 
-**WANING MOON PHASE (Rounds 6-8)**
+**Total Self-Damage from Shift**: 7 + 1 = 8 necrotic
+**HP**: 2 - 8 = ... **-6 HP**
 
-**Waning Moon Bonuses**:
-- Spell mana costs reduced by 2
-- Debuffs last +1 round
-- +10 ft spell range
+*You collapse. Starlight bleeds from your eyes, your mouth, the seams in your skin. The parasite SCREAMS inside your skull -- not in fear, but in fury. Its host is dying and it has not finished feeding.*
 
-**Your Action**: Cast "Moonbeam" at Shadow Lord (6 mana - 2 = 4 mana, with Waning Moon cost reduction)
-**Attack Roll**: d20+6 â†’ [16] = Hit!
-**Damage**: 2d10 radiant â†’ [9, 7] = **16 radiant damage**
-**Result**: Shadow Lord DEAD (was already severely wounded)
+**Your Party's Tank**: "THE LUNARCH IS DOWN!"
 
-*The shadow lord falls, dissolving into darkness.*
+*...but then your body TWITCHES. The Waning Moon takes hold. The parasite, desperate to preserve its host, inverts its feeding -- drinking from the ambient life force of everything around you rather than from your own fading body.*
 
-**Mana**: 22 - 4 = 18/60 (saved 2 mana from Waning Moon!)
+**WANING MOON -- THE VITALITY DRAIN Active**:
+- -3 mana costs
+- 25% vampiric healing on all damage dealt
+- -2 Armor, -10 max HP
+- But you're at NEGATIVE HP. The vampirism kicks in as a death-sustaining reflex.
 
-**Your Party's Tank**: Kills Shadow Wraith #1
-**Your Party's Mage**: Kills Shadow Wraith #2
+**Your Action**: Cast "Void Rend" at Matriarch and nearby Weavers (reduced cost: 8-3 = 5 mana)
+**Damage**: 3d6 radiant → [5, 6, 4] = 15 radiant (AoE, hits all 3 enemies)
+**Vampiric Healing**: 25% of 15 × 3 targets hit = 25% of 45 = 11 HP healed!
 
-**Only Shadow Wraith #4 remains**
+**HP**: -6 + 11 = 5/45 (max HP reduced by 10 from Waning + accumulated Full Moon penalties)
+**Mana**: 29 - 8 + 3 = 24/60 (Waning cost reduction applied)
 
-**Current State**: Phase: Waning Moon (Round 1/3) | Mana: 18/60 | HP: 65/65
+*You drag yourself upright. Blood-tinged moonlight drips from your fingertips. Your veins are black. Your skin is gray. But you are ALIVE, and the parasite is HUNGRY, and the Matriarch is looking at you with something it has never felt before: fear.*
 
-**Turn 6 - Waning Moon: Mana Efficiency (Phase: Waning Moon, Round 2/3)**
+**Combat Continues...**
 
-**Your Action**: Cast "Lunar Arrow" at Shadow Wraith #4 (4 mana - 2 = 2 mana)
-**Attack Roll**: d20+6 â†’ [18] = Hit!
-**Damage**: 1d8+4 radiant â†’ [6] + 4 = **10 radiant damage**
-**Result**: Shadow Wraith #4 DEAD
-
-**Mana**: 18 - 2 = 16/60 (saved 2 mana!)
-
-**Combat Over**
-
-*You lower your bow. The shadow creatures are gone, dissolved by moonlight. The waning moon's energy fades, and you feel the cycle preparing to begin anew.*
-
-**Your Party's Mage**: "Your arrows... they were GLOWING. And that one critical hit did FORTY-SIX damage. What happened?"
-**You**: "I shifted to Full Moon phase. +2d6 radiant damage on all attacks, advantage on attack rolls, and critical hits on 19-20. That's why the critical did so muchâ€”both the base damage AND the Full Moon bonus were doubled."
-**Your Party's Tank**: "And at the end? Your spells cost less mana?"
-**You**: "Waning Moon phase. All spell costs reduced by 2 mana. I cast Moonbeam for 4 mana instead of 6, and Lunar Arrow for 2 mana instead of 4. Saved 4 mana total."
-**Your Party's Healer**: "And at the start? The wraiths couldn't hit you."
-**You**: "New Moon phase. +2 Armor, +1d6 HP regeneration per turn. I started defensive, then shifted to Full Moon for damage, then naturally cycled to Waning Moon for efficiency."
-
-**Final State**: Phase: Waning Moon (Round 2/3) | Mana: 16/60 | HP: 65/65
-
-**The Lesson**: Lunarch gameplay is about:
-1. **Phase Cycling**: Started in New Moon (defensive), manually shifted to Full Moon (offensive), naturally cycled to Waning Moon (efficiency)
-2. **Manual Shifting**: Spent 8 mana Turn 3 to shift from New Moon to Full Moon (skipped Waxing Moon because didn't need healing)
-3. **Full Moon Damage**: Moonbeam: 17 â†’ 28 damage (+11 from +2d6), Lunar Arrow crit: 12 â†’ 46 damage (doubled base + doubled Full Moon bonus)
-4. **Waning Moon Efficiency**: Saved 4 mana total (Moonbeam 6 â†’ 4, Lunar Arrow 4 â†’ 2)
-5. **New Moon Defense**: +2 armor caused 2 attacks to miss (armor 16 â†’ 18)
-6. **Phase Duration**: Each phase lasts 3 rounds naturally, manual shift resets timer
-7. **Strategic Shifting**: Skipped Waxing Moon (healing) because didn't need it, went straight to Full Moon for damage
-
-You're not a static caster. You're a LUNAR MAGE who flows through moon phases. New Moon for defense and recovery. Waxing Moon for healing and support. Full Moon for MAXIMUM DAMAGE. Waning Moon for mana efficiency and control. The key is knowing when to let phases cycle naturally (free) and when to manually shift (8 mana). If you need damage NOW, shift to Full Moon. If you're low on mana, let it cycle to Waning Moon. The moon is always changing, and so are you.`,
+**The Lesson**: Playing a Lunarch is about:
+1. **Choosing Your Suffering**: New Moon for survivability at the cost of offense. Full Moon for devastation at the cost of sanity and HP. Waning for vampiric sustain at the cost of defense.
+2. **The Flesh Economy**: Every shift costs blood. The Transition Shock Table is always looming. You cannot be healed normally. Your HP is a countdown timer, not a health bar.
+3. **Celestial Rejection is Real**: That Bludgeoning vulnerability is not theoretical. Two hits took you from 55 HP to death's door. Avoid blunt weapons at all costs.
+4. **Phase Weaponization**: You don't just cycle phases for yourself -- you spread them to enemies, manipulate round counts, and force the entire battlefield to sync with your parasite's feeding schedule.
+5. **The Delirium Gamble**: Full Moon's damage is unmatched, but the Delirium Table can force you to attack allies or lose your turn. Never stay in Sanity Erosion longer than absolutely necessary.
+6. **Vampiric Emergency**: Waning Moon's 25% vampirism is your only reliable self-heal. When you're dying, shifting to Waning and dealing AoE damage can pull you back from the brink -- but it requires enemies to be nearby and mana to be available.`,
     },
   },
 
   resourceSystem: {
-    title: "The Lunar Cycle",
-    subtitle: "Flowing Through the Four Phases",
+    title: "The Lunar Parasite Economy",
+    subtitle: "Flesh Is the Currency of the Cosmos",
 
-    description: `The Lunarch is a celestial master who channels the shifting phases of the moon to adapt their combat role. By flowing through the Lunar Cycleâ€”from the defensive stillness of the New Moon to the radiant fury of the Full Moonâ€”they adapt to the battlefield's needs. Whether they are healing wounds under a Waxing Moon or conserving mana during the Waning phase, the Lunarch's strength lies in their rhythmic mastery of time and celestial alignment.`,
+    description: `The Lunar Cycle is not a tool. It is a feeding schedule imposed by an alien parasite fused to the Lunarch's nervous system. Every three rounds, the parasite FORCEFULLY REWRITES the host's physiology to extract a different nutrient -- memory, sensation, sanity, or vitality. This is not optional. This is not free. Every natural cycle shift deals 2d6 irreducible necrotic damage as the Lunarch's flesh tears along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop the feeding. They can only direct it -- choosing which horror to embrace at the cost of their own blood, and praying the parasite's hunger can be weaponized against their enemies before it consumes them entirely.`,
 
     cards: [
       {
-        title: "ðŸŒ‘ New Moon (Defensive)",
-        stats: "+2 Armor | +1d6 HP Regen | Stealth Adv",
+        title: "New Moon -- The Memory Eater",
+        stats: "+3 Armor | Immune: Charm/Fear | -2 Attacks | -1d4 Mana/turn",
         details:
-          "The phase of hidden potential. Use this for recovery and preparation. You start every combat encounter here.",
+          "The parasite feeds on cognition. You lose memories, tactical awareness, and fine motor control. In exchange, the parasite drives your body autonomously -- reacting to threats faster than conscious thought. You are a passenger in your own flesh. You start every combat here.",
       },
       {
-        title: "ðŸŒ’ Waxing Moon (Growth)",
-        stats: "+1d6 Healing | +10ft Speed",
+        title: "Waxing Moon -- The Sensation Harvest",
+        stats: "+1d6 Damage | +10ft Speed | Adv Perception | 1d4 Necrotic/turn | No Healing",
         details:
-          "The phase of expansion. Your supportive spells and movement are enhanced, allowing you to reposition and mend allies.",
+          "The parasite feeds on nerve endings. Every sensation is amplified into agony. Pain becomes power -- channeled into destructive force and hyper-awareness. But you CANNOT be healed by any means during this phase. The parasite intercepts all restoration and converts it into more sensation to feed on.",
       },
       {
-        title: "ðŸŒ• Full Moon (Radiance)",
-        stats: "+2d6 Radiant DMG | Crit 19-20",
+        title: "Full Moon -- The Sanity Erosion",
+        stats: "+2d8 Radiant | Crit 19-20 | Ignores 50% Armor | Delirium Roll/turn | -5 Max HP/round",
         details:
-          "The phase of peak power. Unleash your most devastating attacks. Advantage on all attack rolls while the moon is full.",
+          "The parasite floods your brain with cosmic signal. Reality fractures. Your attacks become terrifying -- raw stellar radiation channeled through a breaking mind. But each turn you must roll on the Delirium Table: attack an ally, lose AP, take psychic damage, or -- rarely -- nothing. Your max HP erodes every round you remain.",
       },
       {
-        title: "ðŸŒ˜ Waning Moon (Efficiency)",
-        stats: "-2 Mana Costs | +1 Rnd Debuffs",
+        title: "Waning Moon -- The Vitality Drain",
+        stats: "-3 Mana Costs | 25% Vampiric | +10ft Range | +1 Rnd Debuffs | -2 Armor | -10 Max HP",
         details:
-          "The phase of release. Conserve your mana and ensure your control effects linger longer on the battlefield.",
+          "The parasite drinks raw life force. Your body withers -- skin grays, veins blacken, breath shallows. But the siphoned vitality is converted into arcane efficiency and vampiric healing. This is your only reliable self-sustain. The 25% vampirism on all damage dealt is how you survive.",
       },
     ],
 
     generationTable: {
       headers: ["Action", "Cost", "Effect"],
       rows: [
-        ["Natural Cycle", "Free", "Auto-advances to next phase every 3 rounds"],
         [
-          "Phase Shift",
-          "8 Mana",
-          "Manually jump to any phase (resets 3-rnd timer)",
+          "Natural Cycle",
+          "2d6 Necrotic (irreducible)",
+          "Auto-advances to next phase every 3 rounds. The parasite feeds. You bleed.",
         ],
         [
-          "Lunar Eclipse",
-          "15 Mana",
-          "Gain benefits of New + Full Moon for 2 rounds (Starfall Invoker Lv6 spell)",
+          "Manual Phase Shift",
+          "8 Mana + 1d8+2 Necrotic",
+          "Choose your horror. Resets 3-round timer. Roll Transition Shock (1d6).",
+        ],
+        [
+          "Total Eclipse (Lv6)",
+          "15 Mana + 3d6 Necrotic",
+          "Gain TWO phases simultaneously for 2 rounds. Both drawbacks. Both boons. Roll Transition Shock twice.",
         ],
       ],
     },
 
     usage: {
       momentum:
-        'Coordinate your burst with the Full Moon. If the timer is almost up, spend the mana to "Shift" back into Full Moon to reset the 3-round clock and stay in the offensive pocket.',
+        "Full Moon (Sanity Erosion) is your nuclear option. +2d8 radiant, crit 19-20, ignores half armor -- but the Delirium Table can force you to attack allies and your max HP bleeds away every round. Never stay longer than you must. Get in, unleash hell, get out.",
       flourish:
-        "âš ï¸ Phase Awareness: Donâ€™t get caught in Full Moon when your team is at critical health. Anticipate the cycle and shift to Waxing Moon early if danger is spiked.",
+        "Waning Moon (Vitality Drain) is your survival phase. The 25% vampirism is your ONLY reliable self-heal. When you're dying -- and you will be dying often -- shift to Waning and deal AoE damage to pull yourself back from the brink. The -2 Armor hurts, but being dead hurts more.",
     },
 
     overheatRules: {
-      title: "Celestial Alignment",
-      content: `Your current lunar phase determines your **Stance**, significantly altering your role on the battlefield. 
+      title: "The Transition Shock Table",
+      content: `Every time a phase shift occurs -- natural cycle OR manual -- the Lunarch's flesh tears along the starlight seams where the parasite has replaced connective tissue. Roll 1d6:
 
-**ðŸŒ‘ New Moon (Defensive Stance)**:
-- **Focus**: High survivability and recovery.
-- **Strategy**: Use this time for mana-free utility or to reposition safely. The +2 Armor bonus makes you a difficult target for ranged enemies.
+| d6 | Name | Effect |
+|---|---|---|
+| 1 | Tissue Rupture | Take 2d6 necrotic damage as flesh splits along starlight seams |
+| 2 | Synaptic Flash | Blinded for 1 round as the parasite reroutes optic nerves |
+| 3 | Mana Hemorrhage | Lose 2d4 mana as the parasite drains arcane reserves to fuel transition |
+| 4 | Temporal Dissonance | Lose 1 AP on your next turn as your perception of time stutters |
+| 5 | Psychic Whiplash | Take 1d6 psychic damage and disadvantage on your next saving throw |
+| 6 | Parasitic Mercy | Only 1 necrotic damage. The parasite is briefly sated. It almost feels... grateful. |
 
-**ðŸŒ’ Waxing Moon (Support Stance)**:
-- **Focus**: Enhancing allies and mobility.
-- **Strategy**: Move to the frontline to distribute heals. The speed bonus allows you to kite enemies while keeping your tank healthy.
+**The Delirium Table (Full Moon Only)**:
+At the START of each turn during Full Moon (Sanity Erosion), roll 1d4:
 
-**ðŸŒ• Full Moon (Offensive Stance)**:
-- **Focus**: Maximum aggression and burst.
-- **Strategy**: This is your "Go" window. Spend your mana on your most expensive spells. The expanded crit range and bonus radiant damage make your damage output peak here.
-
-**ðŸŒ˜ Waning Moon (Efficiency Stance)**:
-- **Focus**: Crowd control and stabilization.
-- **Strategy**: Use the reduced mana costs to spam control spells. The increased debuff duration ensures your slowing and blinding effects stabilize the field before the cycle resets.`,
+| d4 | Effect |
+|---|---|
+| 1 | Cosmic Hallucination -- You MUST attack the nearest creature (ally or enemy) with your next action |
+| 2 | Temporal Seizure -- Lose 1 AP this turn as your body convulses with starlight |
+| 3 | Psychic Bleed -- Take 1d6 psychic damage as the cosmos whisper the names of dead stars |
+| 4 | Moment of Clarity -- No drawback this turn. The parasite blinks. Make it count. |`,
     },
 
     strategicConsiderations: {
-      title: "The Rhythmic Archer",
-      content: `**The 3-Round Rhythm**: Every combat has a pulse. You have 3 rounds to maximize each phase. Don't waste "Full Moon" rounds moving; move during "Waxing Moon" so you're planted and ready to fire when the light peaks.
+      title: "The Flesh Economist",
+      content: `**The 3-Round Death Clock**: Every 3 rounds, the parasite forces a natural cycle shift. This deals 2d6 necrotic damage AND forces a Transition Shock roll. You cannot opt out. You cannot reduce the damage. You can only choose WHICH phase you bleed into by shifting manually (which costs MORE blood). Every combat is a countdown -- how many cycles can your body survive before the parasite consumes more than you can replenish?
 
-**The Mana-Rich Shift**: Shifting costs 8 Manaâ€”more than many spells. Only shift when the situation is desperate or when skipping a phase (like Waning) allows you to secure a kill that ends the fight early.
+**The Healing Problem**: You CANNOT be healed by standard magical means. The parasite devours foreign magic and converts it to psychic feedback. A cleric's healing spell deals psychic damage to you equal to 50% of the heal amount. Your ONLY recovery options are:
+- Waning Moon vampirism (25% of all damage dealt returns as HP)
+- Sanguine Warden blood-rites (heal allies by damaging yourself, then leech life back through Waning)
+- Specific self-damaging spells that convert the parasite's feeding into temporary sustenance
+- Natural HP recovery during short/long rests (the parasite sleeps too)
 
-**Defensive Pivoting**: If you are focused by a boss, shift to New Moon immediately. The +2 Armor and HP regeneration can be the difference between a wipe and a recovery.
+**The Bludgeoning Death Sentence**: Your starlight-infused organs are fragile. +25% vulnerability to Bludgeoning damage means a single critical hit from a mace, hammer, or slam attack can rupture your internal seams. Avoid. Blunt. Weapons. At. All. Costs.
 
-**Worked Example (Shift Timing)**:
-- **Round 2 of Waxing Moon**: Your tank is hit for 50 damage.
-- **The Play**: Don't wait for the cycle. Spend 8 Mana to Shift to Waxing Moon *again* (resetting the timer) or stay and use your enhanced +1d6 healing immediately. 
-- **The Result**: You maximize the support window when it's needed most, rather than being forced into an offensive phase next round.`,
+**Phase Triage (Choose Your Suffering)**:
+- Being focused by enemies? New Moon. The +3 Armor and charm/fear immunity might keep you alive. You'll hit like a toddler, but you'll be alive.
+- Healthy and need damage? Waxing Moon. +1d6 damage and +10ft speed. You'll take 1d4 necrotic/turn and can't be healed, but if you're healthy that's manageable.
+- Something needs to DIE right now? Full Moon. +2d8 radiant, crit 19-20, ignores half armor. You may hallucinate and stab your healer. Your max HP drops every round. Get in, kill, get out.
+- Dying and need sustain? Waning Moon. -3 mana costs and 25% vampirism. Your body withers but you steal life from everything you damage. This is your emergency room.
+
+**Round Manipulation (Your Unique Edge)**:
+No other class can manipulate the passage of rounds. Key applications:
+- Extend debuffs on enemies by adding rounds
+- Compress buff durations on allies by removing wasted rounds
+- Force enemies to "sync" with your current phase via Phase Contagion
+- Accelerate or decelerate the battlefield's entire tempo to match your parasite's feeding cycle`,
     },
 
     playingInPerson: {
       title: "Playing in Person",
-      subtitle: "The Phase Dial",
-      content: `Tracking a 4-phase cycle that changes every 3 rounds can be tricky. Use physical props to keep the rhythm.
+      subtitle: "The Wound Tracker",
+      content: `Tracking a 4-phase cycle that damages you every 3 rounds requires physical props. The Lunarch bleeds. Make it visible.
 
 **Required Materials**:
-- **Lunar Phase Wheel** â€” A paper plate or card with the 4 phases. Use a clothespin to mark the current phase.
-- **Cycle d6** â€” Use a die to track rounds. (1-2 = Rnd 1, 3-4 = Rnd 2, 5-6 = Rnd 3).
+- **Phase Dial** -- A disc marked with 4 phases. Use a red clothespin to mark the current phase. The red reminds everyone you are suffering.
+- **Damage d6** -- Roll this EVERY cycle shift. Natural or manual. No exceptions. The table should hear it.
+- **Self-Damage Tracker** -- A row of d6s or tokens showing accumulated self-damage this combat. When it gets scary, the table feels it.
 
 **The Physical Hack**:
-- **The Moon Coin**: Use a large silver coin or token. When you shift to Full Moon, place it prominently on your character sheet. When it cycles to Waning, move it half-off the sheet.
-- **LED Pulse**: If playing with lights, a blue light for New/Waning and a bright white light for Waxing/Full helps the whole table see your current "stance" without asking.
+- **The Bleeding Token**: Start with 10 red glass beads. Every time you take self-damage from a phase shift, remove one. When you're out of beads, your character is in critical danger. The whole table can see your countdown.
+- **The Seam Lines**: Draw thin white lines on your character sheet with a gel pen. When you shift phases, trace one with your finger. These are the seams where the parasite has replaced your connective tissue with starlight. They glow faintly under UV light.
+- **The Moon Coin**: A large coin, silver on one side (Full/Waxing), black on the other (New/Waning). Flip it on shifts. When it lands silver-side-up during Full Moon, everyone at the table tenses.
 
 **Quick Reference**:
 \`\`\`
-CYCLE: New ðŸŒ‘ â†’ Waxing ðŸŒ’ â†’ Full ðŸŒ• â†’ Waning ðŸŒ˜
-TIMER: 3 Rounds per Phase (Auto-Advances)
-SHIFT: 8 Mana to change immediately (Resets Timer)
+CYCLE:  New Moon (Memory Eater) → Waxing (Sensation) → Full Moon (Sanity) → Waning (Vitality)
+TIMER:  3 Rounds per Phase (FORCED, costs 2d6 necrotic)
+SHIFT:  8 Mana + 1d8+2 Necrotic (Choose phase, roll Transition Shock 1d6)
+HEAL:   Cannot be healed by magic. Waning vampirism only.
+WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 \`\`\`
 
-**Tactile Tip**: When you "Shift" manually, physically spin your phase dial. It emphasizes the magical effort of bending the heavens to your will.`,
+**Tactile Tip**: When you "Shift" manually, physically press your hand against the base of your skull where the parasite fused. Flinch slightly. The other players should feel uncomfortable watching you decide which part of yourself to sacrifice next.`,
     },
   },
 
   // Specializations
   specializations: {
     title: "Lunarch Specializations",
-    subtitle: "Three Paths of Lunar Mastery",
+    subtitle: "Three Expressions of the Parasite's Hunger",
 
-    description: `Every Lunarch chooses one of three specializations that define their approach to lunar magic. Each specialization emphasizes different aspects of the moon's power and offers unique passive abilities that enhance specific playstyles.`,
+    description: `The parasite has fused with your nervous system, but HOW it manifests depends on which part of your anatomy it has colonized most aggressively. Every Lunarch develops one dominant expression of the infection -- a specialization that determines how the parasite's feeding is weaponized. These are not choices made at a temple or academy. They are biological mutations. The parasite reshapes you according to its own unknowable criteria, and you discover your specialization the first time you survive a phase shift that should have killed you.`,
 
     sharedPassive: {
-      name: "Lunar Empowerment",
+      name: "Parasitic Bond",
       icon: "Arcane/Star Trail Path",
       description:
-        "Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.",
+        "The parasite grants you darkvision up to 60 feet -- your eyes have been partially replaced with photosensitive starlight receptors. You are immune to magical charm and fear effects during Full Moon (Sanity Erosion) because there is nothing left of your 'self' for those effects to target. You can see the seams in reality where the parasite has touched the world.",
     },
 
     specs: [
       {
-        id: "moonlight-sentinel",
-        name: "Moonlight Sentinel",
+        id: "hollow-sentinel",
+        name: "Hollow Sentinel",
         icon: "Nature/Owl",
-        color: "#C0C0C0",
-        theme: "Precision Archer",
+        color: "#A0A0A0",
+        theme: "Precision Killer",
 
-        description: `The Moonlight Sentinel specialization focuses on ranged precision and lunar-infused archery. These Lunarchs are deadly marksmen who channel moonlight through their arrows, dealing devastating damage from afar. They excel at single-target elimination and marking priority targets for their team.`,
+        description: `The parasite has hollowed out the Lunarch's eyes, replacing the vitreous humor with condensed starlight. They do not see the world as others do -- they perceive it through the parasite's alien geometry, a lattice of angles and trajectories where every living thing is a target and every gap in armor is a screaming invitation. The Hollow Sentinel is a precision killer, and the parasite aims through them like a weapon. During Full Moon, their strikes bypass armor entirely -- the starlight in their eyes can see through solid matter, finding the soft tissue beneath.`,
 
         playstyle:
-          "Ranged damage dealer alternating between bow attacks and lunar spells, with emphasis on critical strikes during Full Moon",
+          "Precision ranged assassin who must carefully manage Full Moon (Sanity Erosion) to land devastating armor-ignoring critical strikes while surviving the Delirium Table",
 
         strengths: [
-          "Highest single-target ranged damage among Lunarch specs",
-          "Excellent critical strike potential during Full Moon phase",
-          "Can mark targets to amplify team damage",
-          "Strong at long range (60+ feet)",
+          "Ranged attacks ignore 25% of Armor (the parasite calculates weak points)",
+          "Critical hits during Full Moon deal additional 2d6 psychic damage -- the target glimpses the cosmos through the wound",
+          "Can mark targets, making them visible through walls and immune to concealment",
+          "Devastating single-target elimination potential",
         ],
 
         weaknesses: [
-          "Less effective in melee range",
-          "Limited AoE damage compared to Starfall Invoker",
-          "Requires clear line of sight for bow attacks",
-          "Dependent on Full Moon phase for peak damage",
+          "No AoE capability -- every shot is a single, surgical incision",
+          "Full Moon Delirium can force you to attack allies instead of your marked target",
+          "Extremely vulnerable when caught in melee (no close-range tools)",
+          "Overwhelming dependence on Full Moon for peak performance",
         ],
 
         passiveAbilities: [
           {
-            name: "Lunar Empowerment",
+            name: "Parasitic Bond",
             tier: "Path Passive",
             description:
-              "Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.",
+              "The parasite grants you darkvision up to 60 feet and immunity to charm/fear during Full Moon. Your eyes contain starlight receptors that see through the parasite's alien geometry.",
             sharedBy: "All Lunarch",
           },
           {
-            name: "Lunar Precision",
+            name: "Starlight Sockets",
             tier: "Specialization Passive",
             icon: "Piercing/On the Mark",
             description:
-              "Your critical hits during Full Moon phase deal an additional 2d6 radiant damage. This bonus applies to both weapon attacks and spell attacks.",
-            uniqueTo: "Moonlight Sentinel",
+              "Your ranged attacks ignore 25% of the target's Armor. The starlight in your eyes perceives structural weak points in any defense. During Full Moon (Sanity Erosion), critical hits deal an additional 2d6 psychic damage as the wound channels a glimpse of the cosmos directly into the target's mind.",
+            uniqueTo: "Hollow Sentinel",
           },
           {
-            name: "Sentinel's Mark",
+            name: "Hollow Mark",
             tier: "Specialization Ability",
             icon: "Piercing/Targeted Strike",
             description:
-              "When you hit a creature with a ranged weapon attack, you can mark them until the end of your next turn. Marked creatures take +1d4 damage from your next spell that targets them.",
-            uniqueTo: "Moonlight Sentinel",
+              "When you hit a creature with a ranged attack, you can mark them until the end of your next turn. Marked creatures are visible to you through walls and concealment. Your next spell against a marked creature deals +1d6 radiant damage as the parasite focuses its hunger.",
+            uniqueTo: "Hollow Sentinel",
           },
         ],
 
         recommendedSpells: [
-          "Lunar Arrow - Your bread-and-butter ranged attack",
-          "Sentinel's Shot - Mark and eliminate priority targets",
-          "Moonfire Barrage - Multi-target damage when needed",
-          "Phase Shift - Ensure you're in Full Moon for burst windows",
+          "Parasitic Bolt - Your primary ranged attack, damages you as it damages them",
+          "Hollow Sight - Mark priority targets for armor-piercing elimination",
+          "Hollow Volley - Multi-target execution during Full Moon",
+          "Phase Tear - Force-shift to Full Moon when a target must die NOW",
         ],
       },
       {
-        id: "starfall-invoker",
-        name: "Starfall Invoker",
+        id: "void-caller",
+        name: "Void Caller",
         icon: "Arcane/Missile",
-        color: "#4B0082",
-        theme: "Celestial Bombardment",
+        color: "#2A0040",
+        theme: "Reality Warper",
 
-        description: `The Starfall Invoker calls down the wrath of the heavens, raining celestial energy upon their enemies. This specialization excels at area-of-effect damage and battlefield control, making them ideal for handling multiple enemies or controlling choke points. They channel the destructive power of falling stars and cosmic beams.`,
+        description: `The parasite has opened a channel to the void between stars -- the cold, hateful space where light goes to die. The Void Caller does not 'call down stars' or 'invoke celestial energy.' They tear holes in reality through which cold, predatory starlight bleeds. These rifts contaminate everything they touch, spreading cosmic sickness that disadvantages enemies and corrodes their ability to fight. The Void Caller is a battlefield controller who warps the geometry of combat, and their AoE abilities apply 'Star-Sickness' -- a lingering contamination that represents the parasite spreading its influence through the wounds it creates.`,
 
         playstyle:
-          "AoE damage and control specialist, focusing on positioning and timing to maximize celestial bombardment effects",
+          "Battlefield controller who tears reality apart, spreading cosmic contamination and phase contagion across entire enemy formations",
 
         strengths: [
-          "Exceptional AoE damage potential",
-          "Strong battlefield control with blinding and stunning effects",
-          "Enhanced spell range and area during Full Moon",
-          "Excellent at handling multiple enemies simultaneously",
+          "AoE spells apply Star-Sickness: disadvantage on next attack roll, 1d4 radiant damage at start of turn for 2 rounds",
+          "During Waxing Moon, AoE radius increases by 5 ft (the parasite's tendrils reach further when feeding on sensation)",
+          "Can spread the current phase's effects to enemies via Phase Contagion",
+          "Round manipulation -- add or remove rounds from active battlefield effects",
         ],
 
         weaknesses: [
-          "Lower single-target damage than Moonlight Sentinel",
-          "High mana consumption for AoE spells",
-          "Requires good positioning to avoid friendly fire",
-          "Less effective against spread-out enemies",
+          "Lower single-target damage than Hollow Sentinel",
+          "Self-damage from AoE spells is higher (the parasite feeds more aggressively when reality tears)",
+          "Requires precise positioning to avoid hitting allies with contamination",
+          "Mana-intensive -- most abilities cost 2+ more mana than equivalent Hollow Sentinel spells",
         ],
 
         passiveAbilities: [
           {
-            name: "Lunar Empowerment",
+            name: "Parasitic Bond",
             tier: "Path Passive",
             description:
-              "Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.",
+              "The parasite grants you darkvision up to 60 feet and immunity to charm/fear during Full Moon. Your eyes contain starlight receptors that see through the parasite's alien geometry.",
             sharedBy: "All Lunarch",
           },
           {
-            name: "Celestial Cascade",
+            name: "Void Aperture",
             tier: "Specialization Passive",
             icon: "Arcane/Star Trail Path",
             description:
-              "Your AoE spells during Full Moon phase affect an additional 5-foot radius beyond their normal area. This does not increase mana cost.",
-            uniqueTo: "Starfall Invoker",
+              "Your AoE spells during Full Moon apply Star-Sickness to all enemies hit: disadvantage on their next attack roll and 1d4 radiant damage at the start of their next turn for 2 rounds. During Waxing Moon, all AoE spell radii increase by 5 feet as the parasite's tendrils extend through the tears in reality.",
+            uniqueTo: "Void Caller",
           },
           {
-            name: "Stellar Guidance",
+            name: "Phase Contagion",
             tier: "Specialization Passive",
             icon: "Arcane/Magical Sword",
             description:
-              "During Waxing Moon phase, you gain +2 to spell attack rolls. This bonus helps ensure your celestial bombardments hit their targets.",
-            uniqueTo: "Starfall Invoker",
+              "When you deal damage with an AoE spell, you can choose to spread your current phase's horror to one enemy hit. New Moon: target loses 1d4 mana or takes 1d4 psychic damage. Waxing: target takes 1d4 extra necrotic. Full Moon: target has disadvantage on next save. Waning: target loses 5 ft speed for 1 round.",
+            uniqueTo: "Void Caller",
           },
         ],
 
         recommendedSpells: [
-          "Starfall - Your signature AoE damage ability",
-          "Celestial Beam - Line AoE with blinding effect",
-          "Lunar Eclipse - Ultimate ability for massive burst",
-          "Moonbeam - Sustained damage that changes with phases",
+          "Void Rend - Your signature AoE, tears reality and spreads Star-Sickness",
+          "Void Beam - Line attack that leaves a trail of cosmic contamination",
+          "Void Collapse - Massive AoE with phase contagion",
+          "Total Eclipse - Ultimate reality distortion, gain two phases at double the cost",
         ],
       },
       {
-        id: "moonwell-guardian",
-        name: "Moonwell Guardian",
+        id: "sanguine-warden",
+        name: "Sanguine Warden",
         icon: "Nature/Ethereal Bird",
-        color: "#20B2AA",
-        theme: "Lunar Warden",
+        color: "#8B0000",
+        theme: "Self-Mutilating Healer",
 
-        description: `The Moonwell Guardian is a devoted warden who channels the moon's restorative power to heal and shield allies. They create sacred moonwells that pulse with lunar energy, bestow blessings that shift with the phases, and ensure their companions survive even the most dire battles. While rooted in the Lunarch's phase system, this specialization leans into the Waxing Moon's growth and the New Moon's protection, making them essential battlefield sustainers who shape the fight through healing zones and protective barriers.`,
+        description: `The Sanguine Warden has learned to redirect the parasite's feeding outward -- siphoning vitality from the moon's gravitational pull and channeling it through their own bleeding flesh to mend allies. This is not holy healing. This is not divine intervention. The Sanguine Warden literally bleeds moonlight, tearing open the starlight seams in their own body to create conduits through which stolen life force can flow into wounded companions. During Waxing Moon, their healing is increased by 50% because the parasite's sensation-feeding creates more tears to channel through -- but each heal costs the Warden 1d4 necrotic damage as they rip themselves open further. During Waning Moon, a vampiric feedback loop allows them to recover 25% of the healing they deal to others. The Sanguine Warden is the only Lunarch who can semi-reliably sustain themselves, and they do it by making their own suffering into medicine.`,
 
         playstyle:
-          "Support healer and protector, focusing on sustained healing, shields, and protective buffs for the party",
+          "Self-mutilating healer who bleeds moonlight to keep allies alive, sustaining themselves through vampiric feedback loops during Waning Moon",
 
         strengths: [
-          "Strongest healing output among Lunarch specs",
-          "Can grant temporary hit points and shields",
-          "Provides defensive buffs to nearby allies",
-          "Excellent sustained healing during Waxing Moon",
+          "Only Lunarch spec with reliable self-sustain (Waning Moon vampiric feedback)",
+          "Healing is increased by 50% during Waxing Moon (more flesh-tears to channel through)",
+          "Can create persistent healing zones that pulse with stolen life force",
+          "Allies healed by the Sanguine Warden gain temporary HP from the parasite's residue",
         ],
 
         weaknesses: [
+          "Every heal costs the Warden HP -- you are literally bleeding yourself dry to keep others alive",
           "Lowest damage output of all Lunarch specs",
-          "Requires proximity to allies to maximize passive benefits",
-          "Mana-intensive healing rotation",
-          "Vulnerable when focused by enemies",
+          "Must stay in Waning Moon as long as possible to recover from Waxing Moon healing binges",
+          "Cannot benefit from OTHER healers (Celestial Rejection applies to all magical healing)",
         ],
 
         passiveAbilities: [
           {
-            name: "Lunar Empowerment",
+            name: "Parasitic Bond",
             tier: "Path Passive",
             description:
-              "Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.",
+              "The parasite grants you darkvision up to 60 feet and immunity to charm/fear during Full Moon. Your eyes contain starlight receptors that see through the parasite's alien geometry.",
             sharedBy: "All Lunarch",
           },
           {
-            name: "Elune's Grace",
+            name: "Blood Rite",
             tier: "Specialization Passive",
             icon: "Radiant/Radiant Golden Shield",
             description:
-              "Your healing spells during Waxing Moon phase grant the target 1d6 temporary hit points in addition to the healing. These temporary HP last for 1 minute.",
-            uniqueTo: "Lunar Guardian",
+              "Your healing spells during Waxing Moon deal 1d4 necrotic damage to you but heal for 50% more. During Waning Moon, you recover 25% of all healing you deal to others as self-healing (vampiric feedback). This is the only reliable way a Lunarch can sustain themselves.",
+            uniqueTo: "Sanguine Warden",
           },
           {
-            name: "Lunar Sanctuary",
+            name: "Parasitic Sanctuary",
             tier: "Specialization Passive",
             icon: "Healing/Prayer",
             description:
-              "While you are in New Moon phase, all allies within 15 feet of you gain +1 Armor. This bonus is lost if you move more than 15 feet away from them.",
-            uniqueTo: "Lunar Guardian",
+              "During New Moon (Memory Eater), all allies within 15 feet gain +1 Armor as the parasite's defensive reflexes extend to protect nearby life signatures. During Waning Moon, allies healed by you also gain 1d6 temporary HP from the parasite's residue -- starlight-scabbed wounds that harden into protective barriers.",
+            uniqueTo: "Sanguine Warden",
           },
         ],
 
         recommendedSpells: [
-          "Moonwell - Create persistent healing zones",
-          "Lunar Blessing - Shield allies with lunar energy",
-          "Elune's Grace - Powerful healing and cleansing",
-          "Phase Shift - Ensure you're in Waxing Moon when healing is needed",
+          "Sanguine Transfer - Heal an ally at the cost of your own HP",
+          "Sanguine Rites - Major heal during Waxing Moon for massive recovery",
+          "Sanguine Deluge - AoE heal at massive self-cost during critical moments",
+          "Phase Tear - Shift to Waning Moon to recover via vampiric feedback",
         ],
       },
     ],
@@ -584,21 +668,21 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
   // Example Spells - showcasing Phase Shift mechanics
   exampleSpells: [
-    // MOONLIGHT SENTINEL - Precision Archery
+    // MOONLIGHT SENTINEL - Precision Archery → HOLLOW SENTINEL - Precision Killer
     {
-      id: "lunarch_lunar_arrow",
-      name: "Lunar Arrow",
+      id: "lunarch_parasitic_bolt",
+      name: "Parasitic Bolt",
       description:
-        "Fire an arrow infused with moonlight that deals radiant damage. Effects vary with your current lunar phase.",
+        "Channel a sliver of the parasite's hunger into a bolt of condensed starlight that burrows into the target. The casting tears a seam in your palm -- you bleed, they bleed, the parasite feeds on both.",
       spellType: "ACTION",
-      icon: "Nature/Owl",
+      icon: "Arcane/Star Trail Path",
       level: 1,
-      specialization: "moonlight-sentinel",
+      specialization: "universal",
       effectTypes: ["damage"],
 
       typeConfig: {
         school: "radiant",
-        icon: "Nature/Owl",
+        icon: "Arcane/Star Trail Path",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -607,6 +691,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
+        targetRestrictions: ["enemy"],
       },
 
       durationConfig: {
@@ -617,18 +702,15 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
         actionPoints: 1,
-        components: ["somatic", "material"],
-        somaticText: "Draw and loose arrow",
-        materialText: "Arrow infused with moonlight",
+        components: ["somatic"],
+        somaticText: "Tear open palm, channel starlight through the wound",
       },
 
       resolution: "DICE",
 
       damageConfig: {
-        formula: "1d8",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        scalingType: "none",
+        formula: "1d8 + intelligence/4",
+        damageTypes: ["radiant"],
         resolution: "DICE",
       },
 
@@ -636,135 +718,38 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: "If you are hidden, add +1d4 damage",
-          waxingMoon: "Add +1d4 radiant damage",
-          fullMoon: "Add +1d6 radiant damage and increase crit range by 2",
-          waningMoon: "Costs 1d4 less mana (minimum 1)",
+          newMoon: "Damage type becomes necrotic. Target loses 1d4 mana or takes 1d4 extra necrotic if no mana.",
+          waxingMoon: "Add +1d4 radiant damage. Take 1 necrotic damage.",
+          fullMoon: "Add +1d8 radiant damage and increase crit range by 2.",
+          waningMoon: "Heal for 25% of damage dealt. Costs 1 less mana (minimum 1).",
         },
+        selfDamage: "Take 1d4 necrotic damage when you cast this spell",
       },
 
-      tags: [
-        "radiant",
-        "damage",
-        "ranged",
-        "phase dependent",
-        "moonlight sentinel",
-      ],
+      tags: ["radiant", "damage", "ranged", "phase dependent", "self damage"],
     },
 
     {
-      id: "lunarch_sentinels_shot",
-      name: "Sentinel's Shot",
+      id: "lunarch_phase_tear",
+      name: "Phase Tear",
       description:
-        "Fire an arrow that strikes with unerring accuracy, leaving a glowing mark on your target. The mark pulses with lunar energy, making the target vulnerable to your next spell. The mark's power intensifies during Full Moon, lasting longer and amplifying your magic more effectively.",
+        "Gouge your own flesh to fuel a violent phase shift, releasing a shockwave of stellar energy that damages nearby enemies based on which horror you drag yourself into.",
       spellType: "ACTION",
-      icon: "Piercing/Targeted Strike",
-      level: 3,
-      specialization: "moonlight-sentinel",
-      effectTypes: ["damage", "debuff"],
+      icon: "Force/Explosion Burst",
+      level: 1,
+      specialization: "universal",
+      effectTypes: ["damage", "utility"],
 
       typeConfig: {
-        school: "radiant",
-        icon: "Piercing/Targeted Strike",
+        school: "arcane",
+        icon: "Force/Explosion Burst",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 80,
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        duration: 2,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 7 },
-        actionPoints: 1,
-        components: ["somatic", "material"],
-        somaticText: "Draw arrow with focused aim",
-        materialText: "Silver-tipped arrow",
-      },
-
-      resolution: "DICE",
-
-      damageConfig: {
-        formula: "3d6",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        scalingType: "none",
-        resolution: "DICE",
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      debuffConfig: {
-        debuffType: "statusEffect",
-        durationValue: 2,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "marked",
-            name: "Marked",
-            description: "Marked targets take +1d4 damage from your next spell",
-            statusType: "marked",
-            level: "moderate",
-            mechanicsText: "+1d4 damage from next spell for 2 rounds",
-            dotFormula: "+1d4",
-            dotDamageType: "radiant",
-          },
-        ],
-      },
-
-      specialMechanics: {
-        phaseInteraction: {
-          fullMoon:
-            "Mark lasts 3 rounds instead of 2, and bonus damage increases to 1d6",
-        },
-        sentinelMark: {
-          description: "Marked targets take bonus damage from your next spell",
-          stackable: false,
-        },
-      },
-
-      tags: [
-        "radiant",
-        "damage",
-        "ranged",
-        "debuff",
-        "mark",
-        "moonlight sentinel",
-      ],
-    },
-
-    {
-      id: "lunarch_moonfire_barrage",
-      name: "Moonfire Barrage",
-      description:
-        "Unleash a volley of moonfire-infused arrows that rain down on multiple targets.",
-      spellType: "ACTION",
-      icon: "Piercing/Rapid Arrows",
-      level: 5,
-      specialization: "moonlight-sentinel",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Piercing/Rapid Arrows",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "multi",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        maxTargets: 3,
+        targetingType: "self",
+        rangeType: "self_centered",
       },
 
       durationConfig: {
@@ -773,66 +758,344 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 8 },
         actionPoints: 1,
-        components: ["somatic", "material"],
-        somaticText: "Rapid-fire arrow volley",
-        materialText: "3 arrows",
+        components: ["somatic"],
+        somaticText: "Drive fingers into the starlight seams and tear",
       },
 
       resolution: "DICE",
 
       damageConfig: {
-        formula: "2d6",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        scalingType: "none",
+        formula: "1d6",
+        damageTypes: ["radiant"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 13,
+          saveOutcome: "half_damage",
+        },
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon: "Enemies within 10 ft lose 1d4 mana or take 1d4 psychic. Gain +1 Armor until next turn.",
+          waxingMoon: "Enemies within 10 ft take 1d4 extra radiant. Gain +10 ft speed until next turn.",
+          fullMoon: "Enemies within 15 ft take 2d6 radiant. Gain +1d6 radiant on next attack.",
+          waningMoon: "Enemies within 10 ft slowed 1 round (save negates). Heal 1d4 HP.",
+        },
+        shiftEffect: "Force manual phase shift. Deals 1d8+2 necrotic and triggers Transition Shock.",
+      },
+
+      tags: ["utility", "phase shift", "damage", "universal", "self damage"],
+    },
+
+    {
+      id: "lunarch_moon_touched_wound",
+      name: "Moon-Touched Wound",
+      description:
+        "Strike a target in melee with a hand seething with parasitic starlight. The wound glows with cold light and inflicts a phase-dependent affliction.",
+      spellType: "ACTION",
+      icon: "Arcane/Magical Cross Emblem 2",
+      level: 1,
+      specialization: "universal",
+      effectTypes: ["damage", "debuff"],
+
+      typeConfig: {
+        school: "radiant",
+        icon: "Arcane/Magical Cross Emblem 2",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        rangeDistance: 10,
+        targetRestrictions: ["enemy"],
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 3 },
+        actionPoints: 1,
+        components: ["somatic"],
+        somaticText: "Drive starlight-infused fingers into flesh",
+      },
+
+      resolution: "DICE",
+
+      damageConfig: {
+        formula: "1d6 + intelligence/4",
+        damageTypes: ["radiant"],
         resolution: "DICE",
       },
 
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      effects: {
-        damage: {
-          perTarget: {
-            formula: "2d6",
-            type: "radiant",
-            targets: 3,
+      debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "star_sickness_minor",
+            name: "Star-Sick Wound",
+            description: "Wound glows with cold starlight. Phase-dependent debuff.",
+            statusType: "weakened",
+            level: "minor",
+            mechanicsText: "Effect varies by current phase",
           },
-        },
+        ],
       },
 
       specialMechanics: {
         phaseInteraction: {
-          fullMoon:
-            "Can target up to 5 enemies instead of 3, and each arrow deals +1d6 damage",
-        },
-        multiTarget: {
-          description: "Each arrow targets a different enemy within range",
-          requiresLineOfSight: true,
+          newMoon: "Target has disadvantage on next attack roll.",
+          waxingMoon: "Target takes 1d4 necrotic per round for 2 rounds.",
+          fullMoon: "Target has disadvantage on all saves for 2 rounds.",
+          waningMoon: "Target loses 5 ft speed for 2 rounds.",
         },
       },
 
-      tags: [
-        "radiant",
-        "damage",
-        "ranged",
-        "multi target",
-        "moonlight sentinel",
-      ],
+      tags: ["radiant", "damage", "debuff", "melee", "phase dependent", "universal"],
     },
 
-    // STARFALL INVOKER - Celestial AoE
     {
-      id: "lunarch_starfall",
-      name: "Starfall",
+      id: "lunarch_crescent_blade",
+      name: "Crescent Blade",
       description:
-        "Call down a shower of falling stars that crash into a target area, dealing radiant damage to all enemies within.",
+        "Sweep a blade of crystallized parasite-secretion in a horizontal arc. It cuts cleanly but feeds on your nerve endings with each swing.",
+      spellType: "ACTION",
+      icon: "Arcane/Magical Cross Emblem 2",
+      level: 2,
+      specialization: "universal",
+      effectTypes: ["damage"],
+
+      typeConfig: {
+        school: "radiant",
+        icon: "Arcane/Magical Cross Emblem 2",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "cone",
+        rangeType: "melee",
+        rangeDistance: 15,
+      },
+
+      durationConfig: {
+        durationType: "instant",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 },
+        actionPoints: 1,
+        components: ["somatic"],
+        somaticText: "Sweep arm, excrete crystallized parasite membrane",
+      },
+
+      resolution: "DICE",
+
+      damageConfig: {
+        formula: "2d8",
+        damageTypes: ["radiant"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 14,
+          saveOutcome: "half_damage",
+        },
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon: "Damage type becomes necrotic. Targets have disadvantage on next attack.",
+          waxingMoon: "Add +1d4 radiant. Take 1d4 necrotic yourself.",
+          fullMoon: "Add +1d8 radiant, increase crit range by 1.",
+          waningMoon: "Heal for 25% of total damage dealt. Costs 1 less mana.",
+        },
+      },
+
+      tags: ["radiant", "damage", "cone", "phase dependent", "universal"],
+    },
+
+    {
+      id: "lunarch_parasitic_stride",
+      name: "Parasitic Stride",
+      description:
+        "The parasite partially phases your body, allowing you to glide through space trailing starlight contamination. You do not run -- you are pulled by the parasite's gravitational will.",
+      spellType: "ACTION",
+      icon: "Nature/Ethereal Bird",
+      level: 2,
+      specialization: "universal",
+      effectTypes: ["utility"],
+
+      typeConfig: {
+        school: "arcane",
+        icon: "Nature/Ethereal Bird",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self",
+      },
+
+      durationConfig: {
+        durationType: "instant",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 },
+        actionPoints: 1,
+        components: ["somatic"],
+        somaticText: "Let the parasite pull, body phases partially",
+      },
+
+      resolution: "AUTOMATIC",
+
+      utilityConfig: {
+        utilityType: "movement",
+        selectedEffects: [
+          {
+            id: "parasitic_stride",
+            name: "Parasitic Stride",
+            distance: 30,
+            needsLineOfSight: false,
+            isSpeedBoost: true,
+            grantsOpportunityAttackImmunity: true,
+          },
+        ],
+        duration: 0,
+        durationUnit: "instant",
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      specialMechanics: {
+        trailDamage: "Leave a 5 ft trail of starlight. Enemies entering take 1d4 radiant. Duration: 1 round.",
+        phaseInteraction: {
+          newMoon: "Speed 45 ft. Trail deals necrotic. Invisible until end of turn.",
+          waxingMoon: "Gain +1d4 damage on next attack this turn.",
+          fullMoon: "Gain advantage on next attack. Trail deals 1d6 radiant.",
+          waningMoon: "Heal 25% of trail damage. Mana cost reduced by 1.",
+        },
+      },
+
+      tags: ["utility", "movement", "trail damage", "phase dependent", "universal"],
+    },
+
+    {
+      id: "lunarch_celestial_rejection",
+      name: "Celestial Rejection",
+      description:
+        "PASSIVE: +25% Bludgeoning vulnerability (starlight-infused organs rupture under blunt trauma). Immune to standard magical healing -- the parasite devours foreign magic, dealing psychic damage equal to 50% of heal amount instead. Only your own phase-specific restoration works.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Force/Explosion Burst",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Force/Explosion Burst",
+        tags: ["passive", "lunarch", "fatal flaw"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent",
+        effects: [
+          {
+            id: "bludgeoning_vulnerability",
+            name: "Organ Rupture",
+            description: "+25% Bludgeoning damage taken. Starlight-infused organs rupture under blunt force.",
+            statusType: "vulnerability",
+            level: "major",
+            mechanicsText: "+25% Bludgeoning damage taken",
+          },
+          {
+            id: "healing_rejection",
+            name: "Magic Devourer",
+            description: "Magical healing deals psychic damage equal to 50% of heal amount. The parasite devours foreign magic.",
+            statusType: "cursed",
+            level: "major",
+            mechanicsText: "Magical healing deals 50% psychic damage instead",
+          },
+        ],
+      },
+      tags: ["passive", "lunarch", "fatal flaw", "vulnerability"],
+    },
+
+    {
+      id: "lunarch_phase_lock",
+      name: "Phase Lock",
+      description:
+        "PASSIVE: Taking damage during a manual phase shift interrupts it. Mana and necrotic cost are still paid but the shift fails.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Arcane/Spiral Vortex",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Spiral Vortex",
+        tags: ["passive", "lunarch", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "lunarch", "weakness"],
+    },
+
+    {
+      id: "lunarch_transition_shock",
+      name: "Transition Shock",
+      description:
+        "PASSIVE: Every phase shift forces a 1d6 Transition Shock roll. 1=Tissue Rupture (2d6 necrotic), 2=Synaptic Flash (blinded 1 rnd), 3=Mana Hemorrhage (lose 2d4 mana), 4=Temporal Dissonance (lose 1 AP next turn), 5=Psychic Whiplash (1d6 psychic + disadv next save), 6=Parasitic Mercy (1 necrotic only).",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Force/Explosion Burst",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Force/Explosion Burst",
+        tags: ["passive", "lunarch", "transition shock"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "lunarch", "transition shock"],
+    },
+
+    // STARFALL INVOKER → VOID CALLER
+    {
+      id: "lunarch_void_rend",
+      name: "Void Rend",
+      description:
+        "Tear a hole in reality. Cold, hateful starlight bleeds through the rift, scorching enemies and contaminating them with cosmic sickness.",
       spellType: "ACTION",
       icon: "Arcane/Star Trail Path",
       level: 2,
-      specialization: "starfall-invoker",
-      effectTypes: ["damage"],
+      specialization: "void-caller",
+      effectTypes: ["damage", "debuff"],
 
       typeConfig: {
         school: "radiant",
@@ -847,6 +1110,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         rangeDistance: 60,
         areaType: "circle",
         areaSize: 15,
+        targetRestrictions: ["enemy"],
       },
 
       durationConfig: {
@@ -858,64 +1122,199 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         resourceValues: { mana: 8 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Stellae cadunt!",
-        somaticText: "Point skyward and bring hand down",
+        verbalText: "A word that sounds like glass breaking in a vacuum",
+        somaticText: "Claw at the air until it bleeds light",
       },
 
       resolution: "DICE",
 
       damageConfig: {
         formula: "3d6",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        scalingType: "none",
+        damageTypes: ["radiant"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
           difficultyClass: 14,
-          saveOutcome: "half",
+          saveOutcome: "half_damage",
         },
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      effects: {
-        damage: {
-          aoe: {
-            formula: "3d6",
-            type: "radiant",
-            shape: "circle",
-            radius: 15,
+      debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "star_sickness",
+            name: "Star-Sickness",
+            description: "Contaminated by cosmic rift-energy. Disadvantage on next attack, 1d4 radiant at start of turn.",
+            statusType: "sickened",
+            level: "moderate",
+            mechanicsText: "Disadvantage on next attack and 1d4 radiant/turn for 2 rounds",
           },
-        },
-      },
-
-      savingThrowEffect: {
-        onSuccess: "Takes half damage (1d6+3)",
-        onFailure: "Takes full damage (3d6)",
+        ],
       },
 
       specialMechanics: {
         phaseInteraction: {
-          fullMoon:
-            "Radius increases to 20 feet (Celestial Cascade passive adds +5 feet to base 15)",
-          waxingMoon:
-            "+2 to spell attack rolls (from Stellar Guidance passive)",
+          fullMoon: "Radius increases to 20 ft. Star-Sickness deals 1d6 radiant/turn.",
+          waxingMoon: "Radius increases by 5 ft (Void Aperture passive).",
+          waningMoon: "Heal for 25% of damage dealt to all targets.",
         },
       },
 
-      tags: ["radiant", "damage", "aoe", "starfall invoker"],
+      tags: ["radiant", "damage", "aoe", "debuff", "star-sickness", "void caller"],
     },
 
     {
-      id: "lunarch_celestial_beam",
-      name: "Celestial Beam",
+      id: "lunarch_sanguine_transfer",
+      name: "Sanguine Transfer",
       description:
-        "Channel a concentrated beam of celestial energy in a line, dealing radiant damage. Targets must save or be blinded for 1 round.",
+        "Tear open a seam in your flesh and channel stolen life force through the wound into an ally. Blood-tinged moonlight seals their wounds. You lose HP. They gain HP.",
+      spellType: "ACTION",
+      icon: "Healing/Prayer",
+      level: 2,
+      specialization: "sanguine-warden",
+      effectTypes: ["healing"],
+
+      typeConfig: {
+        school: "radiant",
+        icon: "Healing/Prayer",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["ally"],
+      },
+
+      durationConfig: {
+        durationType: "instant",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 5 },
+        actionPoints: 1,
+        components: ["somatic"],
+        somaticText: "Tear open a starlight seam in your forearm",
+      },
+
+      resolution: "DICE",
+
+      healingConfig: {
+        formula: "2d8 + spirit",
+        healingType: "direct",
+        resolution: "DICE",
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+
+      specialMechanics: {
+        selfDamage: "Take 1d6 necrotic when cast. During Waxing: take 1d4 extra but healing +50%.",
+        phaseInteraction: {
+          waxingMoon: "Healing +50%. Take 1d4 extra necrotic. Target gains 1d6 temp HP.",
+          fullMoon: "Also cleanses one poison or disease from target.",
+          waningMoon: "Recover 25% of healing dealt as self-healing (vampiric feedback).",
+          newMoon: "Target also gains +1 Armor for 1 round.",
+        },
+      },
+
+      tags: ["healing", "self damage", "sanguine warden"],
+    },
+
+    {
+      id: "lunarch_hollow_sight",
+      name: "Hollow Sight",
+      description:
+        "Focus the parasite's alien perception through your starlight sockets, searing a sigil into a target that only you can see. The sigil burns through armor, through walls, through flesh.",
+      spellType: "ACTION",
+      icon: "Piercing/Targeted Strike",
+      level: 3,
+      specialization: "hollow-sentinel",
+      effectTypes: ["damage", "debuff"],
+
+      typeConfig: {
+        school: "radiant",
+        icon: "Piercing/Targeted Strike",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 80,
+        targetRestrictions: ["enemy"],
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 7 },
+        actionPoints: 1,
+        components: ["somatic"],
+        somaticText: "Focus starlight through hollowed eyes",
+      },
+
+      resolution: "DICE",
+
+      damageConfig: {
+        formula: "3d6",
+        damageTypes: ["radiant"],
+        resolution: "DICE",
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "hollow_mark",
+            name: "Hollow Mark",
+            description: "Marked by the parasite. Ignore 25% armor. +1d6 from next spell.",
+            statusType: "marked",
+            level: "moderate",
+            mechanicsText: "Ignore 25% armor, +1d6 next spell, 2 rounds",
+          },
+        ],
+      },
+
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon: "Mark lasts 3 rounds. Bonus damage 1d8. Advantage on next attack vs target below half HP.",
+          waxingMoon: "Mark also deals 1d4 necrotic/round.",
+          waningMoon: "Duration +1 round. Heal 25% of damage to marked target.",
+        },
+      },
+
+      tags: ["radiant", "damage", "debuff", "mark", "hollow sentinel"],
+    },
+
+    {
+      id: "lunarch_void_beam",
+      name: "Void Beam",
+      description:
+        "Open a rift along a line and pour the void's hatred through it. Enemies are scorched by cold starlight and contaminated with cosmic sickness.",
       spellType: "ACTION",
       icon: "Arcane/Missile",
-      level: 4,
-      specialization: "starfall-invoker",
+      level: 3,
+      specialization: "void-caller",
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
@@ -931,6 +1330,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         rangeDistance: 60,
         lineLength: 30,
         lineWidth: 5,
+        targetRestrictions: ["enemy"],
       },
 
       durationConfig: {
@@ -942,565 +1342,141 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         resourceValues: { mana: 9 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Lux caelestis!",
-        somaticText: "Extend both hands forward",
+        verbalText: "A sound like a star dying",
+        somaticText: "Extend both arms, claw a rift through the air",
       },
 
       resolution: "SAVE",
 
       damageConfig: {
         formula: "4d6",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        scalingType: "none",
+        damageTypes: ["radiant"],
         resolution: "DICE",
         savingThrow: {
-          ability: "constitution",
+          ability: "agility",
           difficultyClass: 15,
-          saveOutcome: "half",
+          saveOutcome: "half_damage",
         },
       },
 
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       debuffConfig: {
         debuffType: "statusEffect",
         durationValue: 1,
         durationType: "rounds",
         durationUnit: "rounds",
+        effects: [
+          {
+            id: "star_sickness_beam",
+            name: "Star-Sickness",
+            description: "Contaminated by void beam. Disadvantage on next attack, 1d4 radiant at start of turn.",
+            statusType: "sickened",
+            level: "moderate",
+            mechanicsText: "Disadvantage on next attack and 1d4 radiant/turn for 1 round",
+          },
+        ],
+      },
+
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon: "Star-Sickness 2 rounds. +1d6 damage. Line width 10 ft.",
+          waxingMoon: "Line length 40 ft. +5 ft radius (Void Aperture).",
+          waningMoon: "Heal 25% of total damage. Mana cost reduced by 2.",
+        },
+      },
+
+      tags: ["radiant", "damage", "line", "debuff", "star-sickness", "void caller"],
+    },
+
+    {
+      id: "lunarch_binding_horror",
+      name: "Binding Horror",
+      description:
+        "Project parasitic tendrils from the seams in your arms that wrap around a target, constricting and feeding. The tendrils are alive -- extensions of the parasite.",
+      spellType: "ACTION",
+      icon: "Frost/Confused",
+      level: 3,
+      specialization: "universal",
+      effectTypes: ["control"],
+
+      typeConfig: {
+        school: "radiant",
+        icon: "Frost/Confused",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        verbalText: "A command in a language that predates speech",
+        somaticText: "Extend arms, let tendrils extrude from the seams",
+      },
+
+      resolution: "SAVE",
+
+      controlConfig: {
+        controlType: "restraint",
+        duration: 3,
+        durationUnit: "rounds",
         savingThrow: {
-          ability: "constitution",
+          ability: "strength",
           difficultyClass: 15,
           saveOutcome: "negates",
         },
         effects: [
           {
-            id: "blinded",
-            name: "Blinded",
-            description:
-              "Blinded for 1 round - disadvantage on attack rolls, cannot see, automatically fails sight-based checks",
-            statusType: "blinded",
-            level: "moderate",
-            statPenalty: [
-              { stat: "attack", value: -99, magnitudeType: "disadvantage" },
-            ],
-            mechanicsText: "Disadvantage on attack rolls for 1 round",
+            id: "parasitic_bind",
+            name: "Parasitic Bind",
+            description: "Restrained by living tendrils. Cannot move. 1d4 necrotic/turn as tendrils feed.",
+            config: {
+              restraintType: "parasitic_bind",
+              saveType: "strength",
+              saveDC: 15,
+              duration: 3,
+              durationUnit: "rounds",
+              immobilize: true,
+            },
           },
         ],
       },
 
-      effects: {
-        damage: {
-          line: {
-            formula: "4d6",
-            type: "radiant",
-            length: 30,
-            width: 5,
-          },
-        },
-        debuff: {
-          type: "blinded",
-          duration: 1,
-          saveToNegate: true,
-        },
-      },
-
-      savingThrowEffect: {
-        onSuccess: "Takes full damage but not blinded",
-        onFailure: "Takes full damage and is blinded for 1 round",
-      },
-
-      specialMechanics: {
-        phaseInteraction: {
-          fullMoon:
-            "Blinded duration increases to 2 rounds, and damage increases by +1d6",
-        },
-      },
-
-      tags: [
-        "radiant",
-        "damage",
-        "line",
-        "aoe",
-        "blind",
-        "debuff",
-        "starfall invoker",
-      ],
-    },
-
-    {
-      id: "lunarch_lunar_eclipse",
-      name: "Lunar Eclipse",
-      description:
-        "Channel both New Moon and Full Moon simultaneously. Gain New Moon's defensive power and Full Moon's offensive might, wreathed in a radiant lunar aura that burns nearby enemies.",
-      spellType: "ACTION",
-      icon: "Healing/Cure Within",
-      level: 6,
-      specialization: "starfall-invoker",
-      effectTypes: ["buff", "damage"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Healing/Cure Within",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        duration: 2,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 15 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "Eclipse lunaris!",
-        somaticText: "Cross arms then spread wide",
-      },
-
-      resolution: "AUTOMATIC",
-
-      buffConfig: {
-        buffType: "dual_phase",
-        effects: [
-          {
-            id: "new_moon_benefit",
-            name: "New Moon Eclipse",
-            description:
-              "Gain +1d4 mana per turn and reduce incoming damage by 1d4",
-            mechanicsText: "+1d4 mana regen and -1d4 damage reduction per turn",
-          },
-          {
-            id: "full_moon_benefit",
-            name: "Full Moon Eclipse",
-            description: "Gain +1d6 to all damage and expand crit range by 2",
-            mechanicsText: "+1d6 damage and +2 crit range",
-          },
-          {
-            id: "radiant_aura",
-            name: "Radiant Aura",
-            description: "Deal 1d4 radiant damage to enemies within 10 feet",
-            mechanicsText:
-              "1d4 radiant damage to enemies within 10 feet per turn",
-          },
-        ],
-        durationValue: 2,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      effects: {
-        buff: {
-          duration: 2,
-          benefits: [
-            "New Moon: Mana regen +1d4/turn, damage reduction -1d4",
-            "Full Moon: Damage +1d6, crit range +2",
-            "Aura: 1d4 radiant damage to nearby enemies",
-          ],
-        },
-      },
-
-      specialMechanics: {
-        dualPhase: {
-          description:
-            "Gain benefits from both New Moon and Full Moon simultaneously. The eclipse creates a perfect balance where you draw power from both phases, becoming both a shield and a weapon. A radiant aura of lunar energy surrounds you, burning enemies who venture too close.",
-          phaseLock: "Your phase does not cycle during Eclipse duration",
-          afterEffect:
-            "After Eclipse ends, you return to the phase you were in before casting",
-        },
-      },
-
-      tags: ["buff", "self", "dual phase", "ultimate", "starfall invoker"],
-    },
-
-    // MOONWELL GUARDIAN - Healing & Support
-    {
-      id: "lunarch_moonwell",
-      name: "Moonwell",
-      description:
-        "Create a sacred pool of lunar energy that heals all allies who stand within it.",
-      spellType: "ACTION",
-      icon: "Nature/Ethereal Bird",
-      level: 2,
-      specialization: "moonwell-guardian",
-      effectTypes: ["healing"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Nature/Ethereal Bird",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        areaType: "circle",
-        areaSize: 10,
-      },
-
-      durationConfig: {
-        durationType: "minutes",
-        duration: 1,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 8 },
-        actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Fons lunae!",
-        somaticText: "Touch ground to create moonwell",
-        materialText: "Vial of blessed water",
-      },
-
-      resolution: "AUTOMATIC",
-
-      healingConfig: {
-        formula: "1d6",
-        healingType: "area",
-        trigger: "start_of_turn",
-      },
-
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      effects: {
-        healing: {
-          aoe: {
-            formula: "1d6",
-            trigger: "At start of ally turn in area",
-            shape: "circle",
-            radius: 10,
-            duration: "1 minute",
-          },
-        },
-      },
-
       specialMechanics: {
         phaseInteraction: {
-          waxingMoon:
-            "Healing increases to 1d6+1d6 (total 2d6) and grants 1d6 temporary HP (Elune's Grace passive)",
-          fullMoon: "Radius increases to 15 feet",
-          waningMoon: "Duration increases to 2 minutes",
-        },
-        persistent: {
-          description:
-            "Moonwell remains until duration expires or you create a new one",
-          limit: "Only one Moonwell can exist at a time",
+          newMoon: "Target loses 1d4 mana/round or takes 1d4 psychic.",
+          waxingMoon: "Disadvantage on initial save.",
+          fullMoon: "Tendrils deal 1d6 radiant/round. Duration 4 rounds.",
+          waningMoon: "Heal 25% of tendril damage. Mana cost reduced by 2.",
         },
       },
 
-      tags: ["healing", "aoe", "persistent", "support", "moonwell guardian"],
+      tags: ["control", "restrain", "parasitic", "universal"],
     },
 
+    // MOONWELL GUARDIAN → SANGUINE WARDEN
     {
-      id: "lunarch_lunar_blessing",
-      name: "Lunar Blessing",
+      id: "lunarch_fractured_timeline",
+      name: "Fractured Timeline",
       description:
-        "Bestow a protective shield of lunar energy upon an ally, absorbing incoming damage.",
-      spellType: "ACTION",
-      icon: "Force/Force Shield",
-      level: 3,
-      specialization: "moonwell-guardian",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Force/Force Shield",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 40,
-      },
-
-      durationConfig: {
-        durationType: "minutes",
-        duration: 5,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 7 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Benedictio lunae!",
-        somaticText: "Gesture toward ally",
-      },
-
-      resolution: "AUTOMATIC",
-
-      shieldConfig: {
-        formula: "2d8",
-        shieldType: "temporary_hp",
-        duration: "5 minutes",
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      effects: {
-        shield: {
-          amount: "2d8",
-          type: "temporary_hp",
-          duration: "5 minutes or until depleted",
-        },
-      },
-
-      specialMechanics: {
-        phaseInteraction: {
-          waxingMoon: "Shield amount increases to 2d8+1d6",
-          fullMoon: "Shield also grants +1 Armor while active",
-          newMoon:
-            "If cast on ally within 15 feet, they also gain Lunar Sanctuary +1 Armor bonus",
-        },
-      },
-
-      tags: ["shield", "protection", "support", "moonwell guardian"],
-    },
-
-    {
-      id: "lunarch_elunes_grace",
-      name: "Elune's Grace",
-      description:
-        "Channel the moon goddess's blessing to heal an ally and cleanse them of harmful effects.",
-      spellType: "ACTION",
-      icon: "Radiant/Radiant Golden Shield",
-      level: 5,
-      specialization: "moonwell-guardian",
-      effectTypes: ["healing"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Radiant/Radiant Golden Shield",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 40,
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 12 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Gratia Elunae!",
-        somaticText: "Raise hand toward ally with palm open",
-      },
-
-      resolution: "AUTOMATIC",
-
-      healingConfig: {
-        formula: "4d8",
-        healingType: "single",
-        cleanse: true,
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      effects: {
-        healing: {
-          instant: {
-            formula: "4d8",
-            type: "radiant",
-          },
-        },
-        cleanse: {
-          removes: ["poison", "disease", "curse"],
-          limit: "One condition removed",
-        },
-      },
-
-      specialMechanics: {
-        phaseInteraction: {
-          waxingMoon:
-            "Healing increases to 4d8+2d6, and target gains 2d6 temporary HP (Elune's Grace passive doubled)",
-          fullMoon: "Can cleanse two conditions instead of one",
-          waningMoon: "Costs 1d4 less mana",
-        },
-      },
-
-      tags: ["healing", "cleanse", "support", "powerful", "moonwell guardian"],
-    },
-
-    // UNIVERSAL SPELLS - Phase Manipulation
-    {
-      id: "lunarch_phase_shift",
-      name: "Phase Shift",
-      description:
-        "Manually shift to any lunar phase of your choice, resetting the natural cycle.",
-      spellType: "ACTION",
-      icon: "Arcane/Rewind Time",
-      level: 1,
-      specialization: "universal",
-      effectTypes: ["utility"],
-
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Rewind Time",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        duration: 3,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 8 },
-        actionPoints: 1,
-        components: ["verbal"],
-        verbalText:
-          'Choose phase name: "Luna Nova!" (New), "Luna Crescens!" (Waxing), "Luna Plena!" (Full), "Luna Decrescens!" (Waning)',
-      },
-
-      resolution: "AUTOMATIC",
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      effects: {
-        utility: {
-          phaseChange: {
-            description: "Immediately shift to chosen phase",
-            duration: "3 rounds before natural cycling resumes",
-            choices: ["New Moon", "Waxing Moon", "Full Moon", "Waning Moon"],
-          },
-        },
-      },
-
-      specialMechanics: {
-        phaseMechanic: {
-          description: "Core ability for all Lunarchs",
-          tacticalUse: "Use to adapt to changing combat situations",
-          manaCost: "Significant investment - use wisely",
-        },
-      },
-
-      tags: ["utility", "phase shift", "universal", "core mechanic"],
-    },
-
-    {
-      id: "lunarch_moonbeam",
-      name: "Moonbeam",
-      description:
-        "Create a beam of moonlight that follows a target, dealing damage that changes based on your current phase.",
-      spellType: "ACTION",
-      icon: "Healing/Prayer",
-      level: 3,
-      specialization: "universal",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Healing/Prayer",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 60,
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        duration: 3,
-        concentration: true,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 9 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Radius lunae!",
-        somaticText: "Point at target with glowing finger",
-      },
-
-      resolution: "DICE",
-
-      damageConfig: {
-        formula: "2d6",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        scalingType: "none",
-        recurring: true,
-        resolution: "DICE",
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      effects: {
-        damage: {
-          recurring: {
-            formula: "2d6",
-            type: "radiant",
-            trigger: "Start of target turn",
-            duration: 3,
-          },
-        },
-      },
-
-      specialMechanics: {
-        phaseInteraction: {
-          newMoon:
-            "Damage type becomes necrotic, and target loses 1d4 mana (or takes 1d4 extra necrotic if no mana)",
-          waxingMoon: "Damage increases to 2d6+1d4",
-          fullMoon:
-            "Damage increases to 2d6+1d6 and beam cannot be broken by movement",
-          waningMoon: "Duration increases to 5 rounds",
-        },
-        concentration: {
-          description:
-            "Requires concentration - ends if you lose concentration",
-          movement: "Beam follows target if they move (unless in Full Moon)",
-        },
-      },
-
-      tags: [
-        "radiant",
-        "damage",
-        "concentration",
-        "phase dependent",
-        "universal",
-      ],
-    },
-
-    {
-      id: "lunarch_lunar_cycle",
-      name: "Lunar Cycle",
-      description:
-        "Rapidly cycle through all four lunar phases in sequence, gaining brief benefits from each.",
+        "Violently cycle through all four phases in rapid succession, each shift tearing a different piece of your physiology. You gain one brief benefit from each horror but pay in cumulative flesh damage.",
       spellType: "ACTION",
       icon: "Arcane/Magical Sword",
       level: 4,
@@ -1528,113 +1504,245 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         resourceValues: { mana: 14 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Cyclus lunaris!",
-        somaticText: "Spin in place with arms extended",
+        verbalText: "QUATTUOR FAMIS!",
+        somaticText: "Convulse as the parasite tears through all four feedings",
       },
 
       resolution: "AUTOMATIC",
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      effects: {
-        multiPhase: {
-          sequence: [
-            "New Moon: Restore 1d4 mana, reduce next attack by 1d4",
-            "Waxing Moon: Next spell deals +1d4 damage or heals +1d6",
-            "Full Moon: Next attack deals +1d6 damage with +2 crit range",
-            "Waning Moon: Next spell costs 1d4 less mana",
-          ],
-          duration: "Benefits last until used or 1 minute",
-        },
-      },
-
       specialMechanics: {
         rapidCycle: {
-          description: "Gain one benefit from each phase in rapid succession",
-          usage: "All benefits are active simultaneously until consumed",
-          afterEffect:
-            "After all benefits are consumed, return to New Moon phase",
+          description: "Gain one benefit from each phase simultaneously until consumed or 1 minute:",
+          sequence: [
+            "New Moon: Restore 1d4 mana, reduce next incoming attack by 1d4",
+            "Waxing: Next spell deals +1d4 damage or next heal is +1d6",
+            "Full Moon: Next attack deals +1d6 damage with +2 crit range",
+            "Waning: Next spell costs 2 less mana",
+          ],
+          selfDamage: "Take 4d4 necrotic damage (cumulative tissue damage from four rapid shifts). Roll Transition Shock once.",
         },
       },
 
-      tags: ["utility", "buff", "multi phase", "universal"],
+      tags: ["utility", "buff", "multi phase", "universal", "self damage"],
     },
 
-    // ========================================
-    // LEVEL 7 SPELLS
-    // ========================================
     {
-      id: "lunarch_moonbeam_barrage",
-      name: "Moonbeam Barrage",
+      id: "lunarch_sanguine_rites",
+      name: "Sanguine Rites",
       description:
-        "Fire a volley of moonlight arrows that rain down on enemies in a wide area.",
-      level: 7,
+        "Open every seam in your arms simultaneously, flooding an ally with concentrated stolen life force. The price is written in your own blood.",
       spellType: "ACTION",
-      icon: "Arcane/Empowering Growth",
-      specialization: "moonlight-sentinel",
+      icon: "Radiant/Radiant Golden Shield",
+      level: 5,
+      specialization: "sanguine-warden",
+      effectTypes: ["healing"],
 
       typeConfig: {
         school: "radiant",
-        icon: "Arcane/Empowering Growth",
+        icon: "Radiant/Radiant Golden Shield",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: "area",
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["ally"],
+      },
+
+      durationConfig: {
+        durationType: "instant",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
+        components: ["somatic"],
+        somaticText: "Tear open every seam in both arms, channel the flood",
+      },
+
+      resolution: "DICE",
+
+      healingConfig: {
+        formula: "4d8 + spirit",
+        healingType: "direct",
+        resolution: "DICE",
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+
+      specialMechanics: {
+        selfDamage: "Take 2d6 necrotic when cast. During Waxing: healing +50% but take 1d6 extra necrotic.",
+        phaseInteraction: {
+          waxingMoon: "Healing increases to 4d8+spirit+2d6. Target gains 2d6 temp HP. Take 1d6 extra necrotic.",
+          fullMoon: "Can cleanse two conditions (poison, disease, curse).",
+          waningMoon: "Recover 25% of healing as self-healing. Mana cost reduced by 2.",
+        },
+      },
+
+      tags: ["healing", "cleanse", "self damage", "sanguine warden"],
+    },
+
+    {
+      id: "lunarch_total_eclipse",
+      name: "Total Eclipse",
+      description:
+        "Force the parasite into a catastrophic overfeed, simultaneously drawing from New Moon and Full Moon. Your body becomes a warzone of competing cosmic energies at double the flesh cost. Roll Transition Shock twice.",
+      spellType: "ACTION",
+      icon: "Healing/Cure Within",
+      level: 6,
+      specialization: "universal",
+      effectTypes: ["buff", "damage"],
+
+      typeConfig: {
+        school: "radiant",
+        icon: "Healing/Cure Within",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self",
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 15 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+        verbalText: "CONCURRIS!",
+        somaticText: "Cross arms over chest, spread wide as body cracks with starlight",
+      },
+
+      resolution: "AUTOMATIC",
+
+      buffConfig: {
+        buffType: "dual_phase",
+        effects: [
+          {
+            id: "new_moon_eclipse",
+            name: "Memory Eater Eclipse",
+            description: "+2 Armor. Immune to charm and fear. -1 to attack rolls.",
+            mechanicsText: "+2 Armor, charm/fear immune, -1 attacks",
+          },
+          {
+            id: "full_moon_eclipse",
+            name: "Sanity Erosion Eclipse",
+            description: "+1d8 radiant on all attacks. Crit range +2. Roll Delirium each turn.",
+            mechanicsText: "+1d8 radiant, +2 crit range, Delirium each turn",
+          },
+          {
+            id: "stellar_aura",
+            name: "Contagion Aura",
+            description: "1d6 radiant to enemies within 10 ft each turn. Applies Star-Sickness.",
+            mechanicsText: "1d6 radiant to enemies within 10 ft/turn, applies Star-Sickness",
+          },
+        ],
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+
+      specialMechanics: {
+        dualPhase: {
+          selfDamage: "Take 3d6 necrotic when cast. Roll Transition Shock twice.",
+          phaseLock: "Phase does not cycle during Eclipse.",
+          afterEffect: "After Eclipse ends, shift to Waning Moon (no additional cost).",
+          delirium: "Still roll Delirium each turn (Full Moon drawback persists).",
+        },
+      },
+
+      tags: ["buff", "self", "dual phase", "universal", "self damage"],
+    },
+
+    // LEVEL 7-10 SPELLS
+
+    // LEVEL 7 SPELLS
+    {
+      id: "lunarch_hollow_volley",
+      name: "Hollow Volley",
+      description:
+        "Loose a volley of parasitic bolts that seek out multiple targets. Each bolt carries a sliver of the parasite's hunger, and each one tears a seam in your flesh as it leaves.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Piercing/Rapid Arrows",
+      specialization: "hollow-sentinel",
+      effectTypes: ["damage"],
+
+      typeConfig: {
+        school: "radiant",
+        icon: "Piercing/Rapid Arrows",
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "multi",
         rangeType: "ranged",
         rangeDistance: 120,
-        aoeShape: "circle",
-        aoeParameters: { radius: 30 },
+        maxTargets: 4,
         targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
+        resourceValues: { mana: 30 },
         actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "Arrows of moonlight!",
-        somaticText: "Fire into sky",
+        components: ["somatic"],
+        somaticText: "Rip seams in both arms, let bolts seek through starlight sockets",
       },
 
       resolution: "DICE",
-      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: "8d6 + agility",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        formula: "6d6 + agility",
+        damageTypes: ["radiant"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
           difficultyClass: 17,
-          saveOutcome: "half",
+          saveOutcome: "half_damage",
         },
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
+        selfDamage: "Take 2d4 necrotic damage per target hit (parasite feeds on each bolt).",
         phaseInteraction: {
-          fullMoon:
-            "Radius increases to 40 feet and each target takes an additional +2d6 radiant damage",
-          waningMoon: "Mana cost reduced by 2",
+          fullMoon: "Can target 6 enemies. Each bolt deals +1d8 radiant. Ignore 25% armor (Starlight Sockets).",
+          waningMoon: "Heal 25% of total damage dealt. Mana cost reduced by 3.",
         },
       },
 
-      tags: ["damage", "aoe", "radiant", "archery", "level 7", "lunarch"],
+      tags: ["damage", "multi target", "radiant", "hollow sentinel"],
     },
 
     {
-      id: "lunarch_stellar_nova",
-      name: "Stellar Nova",
+      id: "lunarch_void_supernova",
+      name: "Void Supernova",
       description:
-        "Detonate a star above enemies, dealing massive damage and blinding those who fail their save.",
+        "Detonate a rift-core above your enemies. The explosion is not fire -- it is the void remembering what light used to be, and hating it. Enemies are scorched and contaminated with mass delirium.",
       level: 7,
       spellType: "ACTION",
       icon: "Radiant/Radiant Glow",
-      specialization: "starfall-invoker",
+      specialization: "void-caller",
+      effectTypes: ["damage", "debuff"],
 
       typeConfig: {
         school: "radiant",
@@ -1647,33 +1755,34 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         targetingType: "area",
         rangeType: "ranged",
         rangeDistance: 90,
-        aoeShape: "circle",
-        aoeParameters: { radius: 25 },
+        areaType: "circle",
+        areaSize: 25,
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 40 },
+        resourceValues: { mana: 35 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        verbalText: "Star, explode!",
-        somaticText: "Pull down celestial energy",
+        verbalText: "A syllable that sounds like a star collapsing",
+        somaticText: "Pull a rift-core from your own chest and hurl it skyward",
       },
 
       resolution: "DICE",
-      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "7d10 + intelligence",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
           difficultyClass: 17,
-          saveOutcome: "half",
+          saveOutcome: "half_damage",
         },
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       debuffConfig: {
         debuffType: "statusEffect",
@@ -1682,40 +1791,37 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         durationUnit: "rounds",
         effects: [
           {
-            id: "blinded",
-            name: "Blinded",
-            description:
-              "Blinded by stellar light - disadvantage on attack rolls, cannot see",
-            statusType: "blinded",
+            id: "mass_delirium",
+            name: "Cosmic Delirium",
+            description: "Mind shattered by void supernova. Disadvantage on all rolls for 2 rounds.",
+            statusType: "confused",
             level: "strong",
-            mechanicsText:
-              "Disadvantage on attack rolls for 2 rounds, constitution save DC 17 to negate",
+            mechanicsText: "Disadvantage on all rolls for 2 rounds (Con save DC 17 to negate)",
           },
         ],
       },
 
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
       specialMechanics: {
+        selfDamage: "Take 3d6 necrotic (tearing the rift-core from your chest).",
         phaseInteraction: {
-          fullMoon:
-            "Radius increases to 30 feet and blinded duration increases to 3 rounds",
-          waningMoon: "Blinded duration increases to 3 rounds",
+          fullMoon: "Radius 30 ft. Delirium 3 rounds. +2d10 radiant.",
+          waningMoon: "Heal 25% of damage. Delirium duration +1 round.",
         },
       },
 
-      tags: ["damage", "control", "blind", "radiant", "level 7", "lunarch"],
+      tags: ["damage", "control", "debuff", "radiant", "void caller"],
     },
 
     {
-      id: "lunarch_moonwell_surge",
-      name: "Moonwell Surge",
+      id: "lunarch_sanguine_deluge",
+      name: "Sanguine Deluge",
       description:
-        "Create a surge of healing moonlight that heals all allies in an area and cleanses harmful effects.",
+        "Burst every seam in your body simultaneously. A deluge of blood-tinged moonlight erupts outward, healing allies caught in the flood while you collapse from catastrophic blood loss. This is the Sanguine Warden's final gift -- you give everything.",
       level: 7,
       spellType: "ACTION",
       icon: "Radiant/Bright Explosion",
-      specialization: "moonwell-guardian",
+      specialization: "sanguine-warden",
+      effectTypes: ["healing", "purification"],
 
       typeConfig: {
         school: "radiant",
@@ -1727,30 +1833,31 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       targetingConfig: {
         targetingType: "area",
         rangeType: "self_centered",
-        aoeShape: "circle",
-        aoeParameters: { radius: 30 },
+        areaType: "circle",
+        areaSize: 30,
         targetRestrictions: ["ally"],
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 38 },
+        resourceValues: { mana: 32 },
         actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "Moonwell, surge!",
-        somaticText: "Raise staff to moon",
+        components: ["somatic"],
+        somaticText: "Burst every seam. Let the blood-moonlight flood.",
       },
 
       resolution: "DICE",
-      effectTypes: ["healing", "purification"],
 
       healingConfig: {
         formula: "6d8 + spirit",
         healingType: "direct",
-        hasHotEffect: true,
-        hotFormula: "2d6",
-        hotDuration: 3,
-        hotTickType: "round",
+        resolution: "DICE",
+        hotConfig: {
+          enabled: true,
+          healingPerTick: "2d6",
+          tickFrequency: "round",
+          duration: 3,
+        },
       },
 
       purificationConfig: {
@@ -1763,29 +1870,28 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
+        selfDamage: "Take 4d6 necrotic damage. This damage cannot reduce you below 1 HP (the parasite will not let you die before it finishes feeding).",
         phaseInteraction: {
-          waxingMoon:
-            "Direct healing increases to 6d8+spirit+2d6 and HOT healing increases to 2d6+1d6",
-          newMoon: "All healed allies gain 2d6 temporary hit points",
-          fullMoon: "Radius increases to 40 feet",
+          waxingMoon: "Direct healing +2d6. HOT +1d6. Allies gain 2d6 temp HP.",
+          newMoon: "All healed allies gain +2 Armor for 1 round.",
+          waningMoon: "Recover 25% of total healing dealt as self-healing.",
         },
       },
 
-      tags: ["healing", "purification", "aoe", "level 7", "lunarch"],
+      tags: ["healing", "purification", "aoe", "self damage", "sanguine warden"],
     },
 
-    // ========================================
     // LEVEL 8 SPELLS
-    // ========================================
     {
-      id: "lunarch_phase_arrow_ultimate",
-      name: "Phase Arrow: Annihilation",
+      id: "lunarch_hollow_annihilation",
+      name: "Hollow Annihilation",
       description:
-        "Fire an arrow that phases through all obstacles and enemies, dealing damage to everything in its path.",
+        "Focus the entirety of the parasite's hunger into a single bolt that phases through all obstacles. It ignores armor, ignores cover, ignores the boundaries between spaces. Everything in its path ceases to exist as a concept.",
       level: 8,
       spellType: "ACTION",
       icon: "Arcane/Quick Step",
-      specialization: "universal",
+      specialization: "hollow-sentinel",
+      effectTypes: ["damage"],
 
       typeConfig: {
         school: "force",
@@ -1798,52 +1904,55 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         targetingType: "line",
         rangeType: "ranged",
         rangeDistance: 200,
-        aoeShape: "line",
-        aoeParameters: { width: 5, length: 200 },
+        lineLength: 200,
+        lineWidth: 5,
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 50 },
+        resourceValues: { mana: 45 },
         actionPoints: 2,
         components: ["somatic"],
-        somaticText: "Fire with ultimate precision",
+        somaticText: "Drive both hands into your chest, extract the bolt from your own parasite-touched heart",
       },
 
       resolution: "DICE",
-      effectTypes: ["damage"],
 
       damageConfig: {
         formula: "10d8 + agility * 2",
-        elementType: "force",
-        damageTypes: ["direct"],
-        specialRules:
-          "Ignores cover, concealment, and armor. Hits all enemies in line.",
+        damageTypes: ["force"],
         resolution: "DICE",
+        criticalConfig: {
+          enabled: true,
+          critRange: [19, 20],
+          critMultiplier: 2,
+          critBonusDamage: "3d8",
+        },
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
       specialMechanics: {
+        selfDamage: "Take 4d6 necrotic damage. The bolt is forged from your own vital essence.",
         phaseInteraction: {
-          fullMoon:
-            "Damage increases to 10d8+agility*2+3d6 radiant and crit range expands by 2",
-          waningMoon: "Mana cost reduced by 4",
+          fullMoon: "Damage +3d8 radiant. Crit range 18-20. Ignore 50% armor.",
+          waningMoon: "Heal 25% of total damage. Mana cost reduced by 5.",
         },
       },
 
-      tags: ["damage", "line", "piercing", "level 8", "lunarch"],
+      tags: ["damage", "line", "force", "hollow sentinel"],
     },
 
     {
-      id: "lunarch_constellation_burst",
-      name: "Constellation Burst",
+      id: "lunarch_void_constellation",
+      name: "Void Constellation",
       description:
-        "Summon a constellation that fires beams of starlight at multiple targets simultaneously.",
+        "Summon a constellation of rift-wounds across the battlefield, each one firing a beam of cold void-light at a different enemy. The constellation persists for moments -- long enough to scar reality and everything caught in its geometry.",
       level: 8,
       spellType: "ACTION",
       icon: "Arcane/Magical Sword",
-      specialization: "starfall-invoker",
+      specialization: "void-caller",
+      effectTypes: ["damage", "debuff"],
 
       typeConfig: {
         school: "radiant",
@@ -1862,47 +1971,61 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 48 },
+        resourceValues: { mana: 42 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        verbalText: "Stars, align and strike!",
-        somaticText: "Draw constellation in air",
+        verbalText: "The names of six dead stars, spoken in sequence",
+        somaticText: "Draw the constellation in the air with bleeding fingers",
       },
 
       resolution: "DICE",
-      effectTypes: ["damage"],
 
       damageConfig: {
         formula: "6d8 + intelligence",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        specialRules:
-          "Each target hit separately. Can hit same target multiple times.",
+        damageTypes: ["radiant"],
         resolution: "DICE",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
+      debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "star_sickness_constellation",
+            name: "Star-Sickness",
+            description: "Contaminated by void constellation. Disadvantage on attacks, 1d4 radiant/turn.",
+            statusType: "sickened",
+            level: "strong",
+            mechanicsText: "Disadvantage on attacks and 1d4 radiant/turn for 2 rounds",
+          },
+        ],
+      },
+
       specialMechanics: {
+        selfDamage: "Take 3d6 necrotic. Each rift-wound bleeds you as it fires.",
         phaseInteraction: {
-          fullMoon:
-            "Can target up to 8 enemies instead of 6, and each beam deals +1d6 radiant damage",
-          waningMoon: "Mana cost reduced by 4",
+          fullMoon: "8 targets. +1d8 radiant each. Star-Sickness deals 1d6/turn.",
+          waningMoon: "Heal 25% of total damage. Mana cost reduced by 4.",
         },
       },
 
-      tags: ["damage", "multi target", "radiant", "level 8", "lunarch"],
+      tags: ["damage", "multi target", "debuff", "radiant", "void caller"],
     },
 
     {
-      id: "lunarch_eclipse_barrier",
-      name: "Eclipse Barrier",
+      id: "lunarch_parasitic_bulwark",
+      name: "Parasitic Bulwark",
       description:
-        "Create a barrier of eclipse energy that absorbs damage and reflects attacks.",
+        "The parasite erupts from your body in a defensive web of crystallized tendrils, forming a living barrier that absorbs attacks and reflects the damage through the starlight seams. Allies behind the bulwark are shielded. Enemies who strike it are burned.",
       level: 8,
       spellType: "REACTION",
       icon: "Force/Force Field",
-      specialization: "moonwell-guardian",
+      specialization: "sanguine-warden",
+      effectTypes: ["buff"],
 
       typeConfig: {
         school: "radiant",
@@ -1914,36 +2037,35 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       targetingConfig: {
         targetingType: "area",
         rangeType: "self_centered",
-        aoeShape: "circle",
-        aoeParameters: { radius: 20 },
+        areaType: "circle",
+        areaSize: 20,
         targetRestrictions: ["ally"],
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 45 },
+        resourceValues: { mana: 40 },
         actionPoints: 0,
         components: ["verbal"],
-        verbalText: "Eclipse, shield us!",
+        verbalText: "SURGE!",
       },
 
-      resolution: "DICE",
-      effectTypes: ["buff"],
+      resolution: "AUTOMATIC",
 
       buffConfig: {
-        buffType: "shield",
+        buffType: "damageMitigation",
         effects: [
           {
-            id: "eclipse_barrier",
-            name: "Eclipse Barrier",
-            description:
-              "Absorbs up to 50 damage. Reflects 50% of absorbed damage back to attackers.",
-            shieldValue: {
-              formula: "50",
-              shieldType: "absorption",
-            },
-            mechanicsText:
-              "Absorbs up to 50 damage. Reflects 50% of absorbed damage back at attackers.",
+            id: "parasitic_bulwark",
+            name: "Parasitic Bulwark",
+            description: "Absorbs 50 damage. Reflects 50% of absorbed damage to attackers. Take 2d6 necrotic when cast.",
+            mechanicsText: "Absorbs 50 damage, reflects 50% to attackers, 2 round duration",
           },
         ],
         durationValue: 2,
@@ -1956,30 +2078,28 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
+        selfDamage: "Take 2d6 necrotic when cast (the tendrils erupt violently from your flesh).",
         phaseInteraction: {
-          newMoon:
-            "Barrier absorption increases to 75 and grants +2 Armor to allies within",
-          fullMoon:
-            "Reflected damage increases to 75% and barrier deals 1d6 radiant to attackers",
-          waningMoon: "Duration increases to 3 rounds",
+          newMoon: "Absorption increases to 75. Allies within gain +2 Armor.",
+          fullMoon: "Reflected damage increases to 75%. Bulwark deals 1d6 radiant to attackers.",
+          waningMoon: "Duration 3 rounds. You heal for 25% of all reflected damage.",
         },
       },
 
-      tags: ["buff", "shield", "reflect", "reaction", "level 8", "lunarch"],
+      tags: ["buff", "shield", "reflect", "reaction", "sanguine warden"],
     },
 
-    // ========================================
     // LEVEL 9 SPELLS
-    // ========================================
     {
-      id: "lunarch_moonfire_rain",
-      name: "Moonfire Rain",
+      id: "lunarch_skyhole",
+      name: "Skyhole",
       description:
-        "Call down a rain of moonfire that scorches enemies in a wide area. Creates a persistent zone of radiant damage.",
+        "Tear open the sky above a battlefield. Raw, predatory starlight pours through the wound in reality, scorching everything below. The tear persists -- a gaping hole where the sky used to be, raining cosmic radiation each round.",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Star Trail Path",
-      specialization: "moonlight-sentinel",
+      specialization: "void-caller",
+      effectTypes: ["damage"],
 
       typeConfig: {
         school: "radiant",
@@ -1992,70 +2112,65 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         targetingType: "area",
         rangeType: "ranged",
         rangeDistance: 120,
-        aoeShape: "circle",
-        aoeParameters: { radius: 40 },
+        areaType: "circle",
+        areaSize: 40,
         targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 65 },
+        resourceValues: { mana: 60 },
         actionPoints: 3,
         components: ["verbal", "somatic"],
-        verbalText: "MOONFIRE, RAIN DOWN!",
-        somaticText: "Draw bow to sky",
+        verbalText: "The sound of the sky being ripped open like cloth",
+        somaticText: "Reach upward and PULL the firmament apart",
       },
 
       resolution: "DICE",
-      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: "12d8 + agility * 2",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        formula: "12d8 + intelligence * 2",
+        damageTypes: ["radiant"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
           difficultyClass: 19,
-          saveOutcome: "half",
+          saveOutcome: "half_damage",
         },
-      },
-
-      zoneConfig: {
-        duration: 3,
-        durationUnit: "rounds",
-        effects: ["persistent_damage"],
-        persistentDamage: "3d8 radiant per round",
       },
 
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
-        phaseInteraction: {
-          fullMoon:
-            "Persistent damage increases to 5d8 radiant per round and radius expands to 50 feet",
-          waningMoon: "Zone duration increases to 5 rounds",
+        selfDamage: "Take 5d6 necrotic (the tear opens through your own body first).",
+        zoneConfig: {
+          persistentDamage: "3d8 radiant per round for 3 rounds.",
+          phaseInteraction: {
+            fullMoon: "Persistent 5d8 radiant. Radius 50 ft.",
+            waningMoon: "Duration 5 rounds. You heal 25% of persistent damage each round.",
+          },
         },
       },
 
-      tags: ["damage", "aoe", "zone", "ultimate", "level 9", "lunarch"],
+      tags: ["damage", "aoe", "zone", "radiant", "void caller"],
     },
 
     {
-      id: "lunarch_celestial_archery",
-      name: "Celestial Archery",
+      id: "lunarch_host_ascension",
+      name: "Host Ascension",
       description:
-        "Enter a state of perfect celestial archery, channeling the full moon into your aim.",
+        "Surrender completely to the parasite. For 3 rounds, you are not the pilot -- you are the vehicle. The parasite takes full control, turning your body into a weapon of cosmic horror. Your mind watches from behind starlight-barred windows, screaming.",
       level: 9,
       spellType: "ACTION",
-      icon: "Nature/Ethereal Bird",
+      icon: "Radiant/Radiant Divinity",
       specialization: "universal",
+      effectTypes: ["transformation"],
 
       typeConfig: {
         school: "radiant",
-        icon: "Nature/Ethereal Bird",
+        icon: "Radiant/Radiant Divinity",
         castTime: 1,
-        castTimeType: "BONUS",
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
@@ -2065,30 +2180,54 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 60 },
-        actionPoints: 0,
+        resourceValues: { mana: 55 },
+        actionPoints: 3,
         components: ["verbal"],
-        verbalText: "Perfect aim, granted!",
+        verbalText: "Nothing. The parasite speaks through your mouth in a voice that is not yours.",
       },
 
       resolution: "NONE",
-      effectTypes: ["buff"],
 
-      buffConfig: {
-        buffType: "accuracy",
-        effects: [
+      transformationConfig: {
+        transformationType: "parasitic",
+        targetType: "self",
+        duration: 3,
+        durationUnit: "rounds",
+        power: "major",
+        newForm: "Ascended Host",
+        description: "The parasite assumes direct control. Your body moves with alien precision.",
+        grantedAbilities: [
           {
-            id: "celestial_archery",
-            name: "Celestial Archery",
-            description:
-              "Gain advantage on all ranged attack rolls. Critical hits on 18-20. Critical hits deal double damage.",
-            mechanicsText:
-              "Advantage on ranged attacks. Crit on 18-20. Double damage on crits.",
+            id: "parasitic_stats",
+            name: "Alien Physiology",
+            description: "+4 to all attributes, +5 Armor, immune to charm/fear/stun",
+          },
+          {
+            id: "parasitic_damage",
+            name: "Cosmic Weapon",
+            description: "+3d8 radiant on all attacks. Attacks ignore 50% armor.",
+          },
+          {
+            id: "parasitic_immunity",
+            name: "Starlight Form",
+            description: "Immune to radiant and necrotic damage. Half damage from all other sources.",
+          },
+          {
+            id: "parasitic_flight",
+            name: "Void Step",
+            description: "60 ft fly speed. Can phase through solid objects.",
+          },
+          {
+            id: "parasitic_contagion",
+            name: "Passive Contagion",
+            description: "All enemies within 15 ft have disadvantage on attack rolls (cosmic aura).",
+          },
+          {
+            id: "parasitic_toll",
+            name: "The Price of Surrender",
+            description: "When transformation ends: take 4d10 necrotic, gain 2 exhaustion, shift to New Moon. No saving throw.",
           },
         ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
         concentrationRequired: false,
         canBeDispelled: false,
       },
@@ -2096,109 +2235,24 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
-        phaseInteraction: {
-          fullMoon:
-            "Critical hit range expands to 17-20 and critical hits deal triple damage instead of double",
-          newMoon: "Also gain +2 Armor while active",
-        },
+        phaseLock: "Phase does not cycle during Ascension. All phase benefits and drawbacks are suspended.",
+        delirium: "No Delirium rolls during Ascension -- the parasite IS the delirium.",
       },
 
-      tags: ["buff", "archery", "ultimate", "level 9", "lunarch"],
+      tags: ["transformation", "ultimate", "parasitic ascension", "universal"],
     },
 
-    {
-      id: "lunarch_full_moon_blessing",
-      name: "Full Moon Blessing",
-      description:
-        "Invoke the full power of the full moon to empower all allies with celestial strength.",
-      level: 9,
-      spellType: "ACTION",
-      icon: "Radiant/Divine Illumination",
-      specialization: "moonwell-guardian",
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Radiant/Divine Illumination",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "self_centered",
-        aoeShape: "circle",
-        aoeParameters: { radius: 40 },
-        targetRestrictions: ["ally"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 70 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "Full Moon, bless us all!",
-        somaticText: "Arms raised to moon",
-      },
-
-      resolution: "DICE",
-      effectTypes: ["buff", "healing"],
-
-      buffConfig: {
-        buffType: "empowerment",
-        effects: [
-          {
-            id: "full_moon_blessing",
-            name: "Full Moon Blessing",
-            description:
-              "All allies gain +2 to all stats, advantage on attack rolls, and deal +1d6 radiant damage on attacks",
-            statModifier: {
-              stat: "all_stats",
-              magnitude: 2,
-              magnitudeType: "flat",
-            },
-            mechanicsText:
-              "+2 all stats, advantage on attacks, +1d6 radiant damage on attacks",
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      healingConfig: {
-        formula: "6d8 + spirit",
-        healingType: "direct",
-        hasHotEffect: false,
-      },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      specialMechanics: {
-        phaseInteraction: {
-          fullMoon:
-            "Stat bonus increases to +3 and radiant damage bonus increases to +2d6",
-          waxingMoon:
-            "Healing increases to 6d8+spirit+2d6 and grants 2d6 temporary HP",
-        },
-      },
-
-      tags: ["buff", "healing", "aoe", "ultimate", "level 9", "lunarch"],
-    },
-
-    // ========================================
     // LEVEL 10 SPELLS
-    // ========================================
     {
-      id: "lunarch_avatar_of_the_moon",
-      name: "Avatar of the Moon",
+      id: "lunarch_vessel_of_the_parasite",
+      name: "Vessel of the Parasite",
       description:
-        "Transform into an avatar of the moon itself, gaining godlike power over moonlight and shadows.",
+        "Become the moon. Not a vessel -- the moon itself, made flesh. Your body dissolves into condensed starlight and reforms as a walking eclipse. The parasite does not ride you anymore. You ARE the parasite. For 4 rounds, you are a cosmic horror walking among mortals. When it ends, you will not remember being human.",
       level: 10,
       spellType: "ACTION",
       icon: "Radiant/Radiant Divinity",
       specialization: "universal",
+      effectTypes: ["transformation"],
 
       typeConfig: {
         school: "radiant",
@@ -2214,14 +2268,13 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 80 },
         actionPoints: 3,
         components: ["verbal"],
-        verbalText: "I BECOME THE MOON!",
+        verbalText: "A sound that makes nearby creatures weep without knowing why",
       },
 
       resolution: "NONE",
-      effectTypes: ["transformation"],
 
       transformationConfig: {
         transformationType: "celestial",
@@ -2229,39 +2282,38 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         duration: 4,
         durationUnit: "rounds",
         power: "major",
-        newForm: "Avatar of the Moon",
-        description: "Become one with the moon, a being of pure moonlight.",
+        newForm: "The Lunar Horror",
+        description: "Your body dissolves into living starlight. You are no longer entirely mortal.",
         grantedAbilities: [
           {
             id: "lunar_stats",
-            name: "Lunar Enhancement",
-            description: "+5 to all attributes, +5 armor",
+            name: "Cosmic Form",
+            description: "+6 to all attributes, +8 Armor",
           },
           {
             id: "lunar_damage",
-            name: "Moonlight Empowerment",
-            description: "+50% damage on all attacks",
+            name: "Moonlight Incarnate",
+            description: "+5d8 radiant on all attacks. Critical hits on 18-20.",
           },
           {
             id: "lunar_immunity",
-            name: "Celestial Immunity",
-            description: "Immune to radiant and necrotic damage",
+            name: "Eclipse Body",
+            description: "Immune to radiant, necrotic, and psychic damage. Half damage from all other sources.",
           },
           {
-            id: "moonlight_phase",
-            name: "Moonlight Phasing",
-            description:
-              "Can phase through solid objects, immune to opportunity attacks",
+            id: "lunar_phasing",
+            name: "Phase Walk",
+            description: "Phase through solid objects. Immune to opportunity attacks. 60 ft fly speed.",
           },
           {
-            id: "lunar_flight",
-            name: "Lunar Gravity",
-            description: "Gain 60ft flying speed",
+            id: "lunar_aura",
+            name: "The Feeding Zone",
+            description: "All enemies within 30 ft take 2d6 radiant damage at start of each turn. You heal for 100% of this damage (the parasite feeds on a cosmic scale).",
           },
           {
             id: "lunar_exhaustion",
-            name: "Lunar Drain (On End)",
-            description: "Gain 2 levels of exhaustion when transformation ends",
+            name: "The Reversion (On End)",
+            description: "When transformation ends: take 6d10 necrotic, gain 3 exhaustion, forget the last hour (narrative). Shift to New Moon. No save.",
           },
         ],
         concentrationRequired: false,
@@ -2271,28 +2323,23 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
-        phaseInteraction: {
-          fullMoon:
-            "Damage bonus increases to +75% and gain immunity to all damage for 1 round",
-          newMoon:
-            "Armor bonus increases to +8 and gain resistance to necrotic damage",
-          waxingMoon: "Allies within 30 feet gain half your buff benefits",
-          waningMoon: "Transformation duration increases to 5 rounds",
-        },
+        phaseLock: "Phase does not cycle during transformation. All phase mechanics suspended.",
+        permanentConsequence: "The 3 exhaustion levels are real and cumulative across uses. The narrative memory loss is at GM discretion but should be enforced.",
       },
 
-      tags: ["transformation", "ultimate", "level 10", "lunarch"],
+      tags: ["transformation", "ultimate", "level 10", "cosmic horror"],
     },
 
     {
-      id: "lunarch_arrow_of_annihilation",
-      name: "Arrow of Annihilation",
+      id: "lunarch_hollowpoint",
+      name: "Hollowpoint",
       description:
-        "Fire the ultimate arrow - a bolt of pure moonlight that annihilates everything in its path.",
+        "Forge a single bolt from the concentrated essence of the parasite itself -- a projectile of pure cosmic hunger that annihilates everything in its path. The bolt is forged by reaching into your own chest and pulling out the part of the parasite that screams the loudest.",
       level: 10,
       spellType: "ACTION",
       icon: "Radiant/Divine Blessing",
-      specialization: "moonlight-sentinel",
+      specialization: "hollow-sentinel",
+      effectTypes: ["damage"],
 
       typeConfig: {
         school: "radiant",
@@ -2305,57 +2352,61 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         targetingType: "line",
         rangeType: "ranged",
         rangeDistance: 500,
-        aoeShape: "line",
-        aoeParameters: { width: 10, length: 500 },
+        lineLength: 500,
+        lineWidth: 10,
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 80 },
         actionPoints: 3,
         components: ["somatic"],
-        somaticText: "Draw bow with all your might",
+        somaticText: "Reach into your chest, extract the screaming core, and loose it",
       },
 
       resolution: "DICE",
-      effectTypes: ["damage"],
 
       damageConfig: {
         formula: "20d6 + agility",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
           difficultyClass: 22,
-          saveOutcome: "half",
+          saveOutcome: "half_damage",
         },
-        specialRules:
-          "Ignores resistance to radiant damage. Destroys unattended objects in path.",
+        criticalConfig: {
+          enabled: true,
+          critRange: [18, 19, 20],
+          critMultiplier: 2,
+          critBonusDamage: "4d6",
+        },
       },
 
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
+        selfDamage: "Take 6d6 necrotic damage. Your maximum HP is reduced by 10 until your next long rest (the parasite takes time to regenerate the portion of itself you fired).",
+        specialRules: "Ignores resistance to radiant damage. Destroys unattended objects in path.",
         phaseInteraction: {
-          fullMoon:
-            "Damage increases to 20d6+agility+4d6 and crit range expands to 18-20",
-          waningMoon: "Mana cost reduced by 10",
+          fullMoon: "Damage +4d6 radiant. Crit range 17-20.",
+          waningMoon: "Heal 25% of total damage. Mana cost reduced by 10.",
         },
       },
 
-      tags: ["damage", "line", "ultimate", "level 10", "lunarch"],
+      tags: ["damage", "line", "radiant", "ultimate", "hollow sentinel"],
     },
 
     {
-      id: "lunarch_eternal_moonwell",
-      name: "Eternal Moonwell",
+      id: "lunarch_sanguine_eternity",
+      name: "Sanguine Eternity",
       description:
-        "Create an eternal moonwell that continuously heals allies and damages enemies within it for the rest of combat.",
+        "Burst every seam in your body and create a permanent zone of blood-tinged moonlight that persists for the rest of combat. The zone is fed by your agony -- allies within are continuously healed, enemies are continuously drained. You become the living heart of a parasitic ecosystem.",
       level: 10,
       spellType: "ACTION",
       icon: "Healing/Heart Ripple",
-      specialization: "moonwell-guardian",
+      specialization: "sanguine-warden",
+      effectTypes: ["healing", "damage"],
 
       typeConfig: {
         school: "radiant",
@@ -2365,12 +2416,13 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       targetingMode: "effect",
+
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 30 },
+        areaType: "circle",
+        areaSize: 30,
       },
 
       effectTargeting: {
@@ -2378,582 +2430,68 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
           targetingType: "area",
           rangeType: "ranged",
           rangeDistance: 60,
-          aoeShape: "circle",
-          aoeParameters: { radius: 30 },
+          areaType: "circle",
+          areaSize: 30,
           targetRestrictions: ["ally"],
-          description: "All allies in the moonwell zone are healed each round",
+          description: "All allies in the zone are healed each round",
         },
         damage: {
           targetingType: "area",
           rangeType: "ranged",
           rangeDistance: 60,
-          aoeShape: "circle",
-          aoeParameters: { radius: 30 },
+          areaType: "circle",
+          areaSize: 30,
           targetRestrictions: ["enemy"],
-          description:
-            "All enemies in the moonwell zone take radiant damage each round",
+          description: "All enemies in the zone take radiant damage each round",
         },
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 80 },
         actionPoints: 3,
         components: ["verbal", "somatic"],
-        verbalText: "ETERNAL MOONWELL, ARISE!",
-        somaticText: "Draw power from moon",
+        verbalText: "The oldest prayer, spoken in a language that died with the first moon",
+        somaticText: "Burst every seam. Become the heart.",
       },
 
       resolution: "DICE",
-      effectTypes: ["utility", "healing", "damage"],
-
-      zoneConfig: {
-        duration: 0,
-        durationUnit: "combat",
-        effects: ["healing", "damage", "purification"],
-        movable: false,
-        size: { radius: 30 },
-      },
 
       healingConfig: {
         formula: "4d8 + spirit",
         healingType: "hot",
-        hasHotEffect: true,
-        hotFormula: "4d8",
-        hotDuration: 0,
-        hotTickType: "round",
-        targetRestrictions: ["ally"],
-        description: "Heals all allies in zone each round for rest of combat",
+        resolution: "DICE",
+        hotConfig: {
+          enabled: true,
+          healingPerTick: "4d8",
+          tickFrequency: "round",
+          duration: 0,
+        },
       },
 
       damageConfig: {
         formula: "3d8",
-        elementType: "radiant",
-        damageTypes: ["persistent"],
-        targetRestrictions: ["enemy"],
-        description: "Damages all enemies in zone each round",
+        damageTypes: ["radiant"],
         resolution: "DICE",
       },
 
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
+        selfDamage: "Take 5d6 necrotic when cast. At the start of each subsequent turn, take 1d6 necrotic while the zone persists (your body is the pump).",
+        zoneConfig: {
+          duration: "rest of combat",
+          movable: false,
+        },
         phaseInteraction: {
-          fullMoon:
-            "Enemy damage increases to 5d8 radiant and radius expands to 40 feet",
-          waxingMoon:
-            "Healing increases to 4d8+2d6 and cleanses one condition per round",
-          newMoon: "Allies in zone gain +2 Armor",
-          waningMoon: "Enemy damage applies a 1-round slow debuff",
+          fullMoon: "Enemy damage 5d8 radiant. Radius 40 ft.",
+          waxingMoon: "Healing +2d6. Cleanses one condition per round.",
+          newMoon: "Allies gain +2 Armor while in zone.",
+          waningMoon: "Enemy damage applies 1-round slow. You heal 25% of ALL damage dealt by the zone.",
         },
       },
 
-      tags: ["zone", "healing", "damage", "ultimate", "level 10", "lunarch"],
-    },
-
-    // ADDITIONAL LEVEL 1 SPELLS
-    {
-      id: "lunarch_moonlight_bolt",
-      name: "Moonlight Bolt",
-      description:
-        "Fire a bolt of concentrated moonlight at a target, dealing radiant damage.",
-      level: 1,
-      spellType: "ACTION",
-      icon: "Arcane/Star Trail Path",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Arcane/Star Trail Path",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        targetRestrictions: ["enemy"],
-        maxTargets: 1,
-      },
-
-      damageConfig: {
-        formula: "1d8",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        resolution: "DICE",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 4,
-        },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "DICE",
-
-      specialMechanics: {
-        phaseInteraction: {
-          newMoon:
-            "Damage type becomes necrotic, and target loses 1d4 mana (or takes 1d4 extra necrotic if no mana)",
-          waxingMoon: "Add +1d4 radiant damage",
-          fullMoon: "Add +1d6 radiant damage",
-          waningMoon: "Costs 1d4 less mana (minimum 1)",
-        },
-      },
-
-      tags: ["damage", "radiant", "moonlight", "universal"],
-    },
-
-    {
-      id: "lunarch_minor_blessing",
-      name: "Minor Blessing",
-      description: "Bless an ally with lunar power, healing them.",
-      level: 1,
-      spellType: "ACTION",
-      icon: "Healing/Prayer",
-      effectTypes: ["healing"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Healing/Prayer",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["ally"],
-        maxTargets: 1,
-      },
-
-      healingConfig: {
-        formula: "1d8 + spirit",
-        healingType: "single_target",
-        targetRestrictions: ["ally"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 4,
-        },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "DICE",
-
-      specialMechanics: {
-        phaseInteraction: {
-          waxingMoon:
-            "Healing increases to 1d8+spirit+1d4 and grants 1d4 temporary HP",
-          fullMoon: "Healing increases to 1d8+spirit+1d6",
-          newMoon: "Also grants +1 Armor for 1 round",
-        },
-      },
-
-      tags: ["healing", "blessing", "minor blessing", "universal"],
-    },
-
-    // ADDITIONAL LEVEL 2 SPELLS
-    {
-      id: "lunarch_moon_glide",
-      name: "Moon Glide",
-      description:
-        "Channel lunar energy into your movement, gaining +30ft speed and immunity to opportunity attacks for 1 turn. You glide across the battlefield bathed in moonlight.",
-      level: 2,
-      spellType: "ACTION",
-      icon: "Nature/Ethereal Bird",
-      effectTypes: ["utility"],
-
-      typeConfig: {
-        school: "arcane",
-        icon: "Nature/Ethereal Bird",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      utilityConfig: {
-        utilityType: "movement",
-        selectedEffects: [
-          {
-            id: "moon_glide_speed",
-            name: "Moon Glide",
-            distance: 30,
-            needsLineOfSight: false,
-            isSpeedBoost: true,
-            grantsOpportunityAttackImmunity: true,
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
-        concentration: false,
-        power: "moderate",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 8,
-        },
-        actionPoints: 1,
-        components: ["verbal"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      resolution: "DICE",
-
-      specialMechanics: {
-        phaseInteraction: {
-          newMoon:
-            "Speed boost increases to +45 feet and you become invisible until end of turn",
-          waxingMoon: "After moving, gain +2 AC until end of turn",
-          fullMoon:
-            "After teleporting, gain advantage on your next attack roll",
-          waningMoon: "Costs 1d4 less mana (minimum 1)",
-        },
-      },
-
-      tags: ["utility", "movement", "speed", "universal"],
-    },
-
-    {
-      id: "lunarch_crescent_strike",
-      name: "Crescent Strike",
-      description:
-        "Strike with a crescent moon blade of lunar energy that deals radiant damage.",
-      level: 2,
-      spellType: "ACTION",
-      icon: "Arcane/Magical Cross Emblem 2",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Arcane/Magical Cross Emblem 2",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "melee",
-        rangeDistance: 10,
-        targetRestrictions: ["enemy"],
-        maxTargets: 1,
-      },
-
-      damageConfig: {
-        formula: "2d8",
-        elementType: "radiant",
-        damageTypes: ["direct"],
-        resolution: "DICE",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 8,
-        },
-        actionPoints: 1,
-        components: ["somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "DICE",
-
-      specialMechanics: {
-        phaseInteraction: {
-          newMoon:
-            "Damage type becomes arcane, and target has disadvantage on next attack roll",
-          waxingMoon: "Add +1d4 radiant damage",
-          fullMoon: "Add +1d6 radiant damage and increase crit range by 1",
-          waningMoon: "Costs 1d4 less mana (minimum 1)",
-        },
-      },
-
-      tags: ["damage", "radiant", "arcane", "crescent", "universal"],
-    },
-
-    // ADDITIONAL LEVEL 4 SPELL
-    {
-      id: "lunarch_lunar_chains",
-      name: "Lunar Chains",
-      description:
-        "Bind an enemy with chains of moonlight, restraining them for 3 rounds.",
-      level: 4,
-      spellType: "ACTION",
-      icon: "Frost/Confused",
-      effectTypes: ["control"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Frost/Confused",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        targetRestrictions: ["enemy"],
-        maxTargets: 1,
-      },
-
-      controlConfig: {
-        controlType: "restraint",
-        duration: 3,
-        durationUnit: "rounds",
-        saveDC: 15,
-        saveType: "strength",
-        savingThrow: true,
-        effects: [
-          {
-            id: "lunar_chains",
-            name: "Lunar Chains",
-            description:
-              "Restrained by moonlight chains - cannot move or take actions",
-            config: {
-              restraintType: "magical_bind",
-              saveType: "charisma",
-              saveDC: 17,
-              duration: 3,
-              durationUnit: "rounds",
-              immobilize: true,
-            },
-          },
-        ],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 15,
-        },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      resolution: "DICE",
-
-      specialMechanics: {
-        phaseInteraction: {
-          newMoon: "Chains also drain 1d4 mana from the target each round",
-          waxingMoon: "Target has disadvantage on the initial saving throw",
-          fullMoon:
-            "Restrained duration increases to 4 rounds, and chains deal 1d6 radiant damage per round",
-          waningMoon: "Costs 1d4 less mana (minimum 1)",
-        },
-      },
-
-      tags: ["control", "restrain", "moonlight", "universal"],
-    },
-
-    // ADDITIONAL LEVEL 5 SPELL
-    {
-      id: "lunarch_full_moon_radiance",
-      name: "Full Moon Radiance",
-      description: "Channel the full moon to heal all allies in a radius.",
-      level: 5,
-      spellType: "ACTION",
-      icon: "Arcane/Star Trail Path",
-      effectTypes: ["healing"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Arcane/Star Trail Path",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "self_centered",
-        aoeShape: "circle",
-        aoeParameters: { radius: 20 },
-        targetRestrictions: ["ally"],
-      },
-
-      healingConfig: {
-        formula: "5d8 + spirit",
-        healingType: "aoe",
-        targetRestrictions: ["ally"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 18,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      resolution: "DICE",
-
-      specialMechanics: {
-        phaseInteraction: {
-          newMoon: "Healing also grants each ally 1d4 temporary hit points",
-          waxingMoon:
-            "Healing increases to 5d8+spirit+1d6, and targets are cleansed of one poison or disease",
-          fullMoon: "Radius increases to 30 feet",
-          waningMoon: "Costs 1d4 less mana (minimum 1)",
-        },
-      },
-
-      tags: ["healing", "aoe", "full moon", "universal"],
-    },
-
-    // ADDITIONAL LEVEL 6 SPELL
-    {
-      id: "lunarch_eclipse_burst",
-      name: "Eclipse Burst",
-      description:
-        "Create an eclipse that deals massive radiant damage to all enemies in an area.",
-      level: 6,
-      spellType: "ACTION",
-      icon: "Void/Consumed by Void",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "radiant",
-        icon: "Void/Consumed by Void",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 50,
-        aoeShape: "circle",
-        aoeParameters: { radius: 25 },
-        targetRestrictions: ["enemy"],
-      },
-
-      damageConfig: {
-        formula: "6d10 + spirit",
-        elementType: "radiant",
-        damageTypes: ["area"],
-        savingThrow: {
-          ability: "constitution",
-          difficultyClass: 17,
-          saveOutcome: "half",
-        },
-        criticalConfig: {
-          enabled: true,
-          critType: "dice",
-          critMultiplier: 2.0,
-          extraDice: "3d10",
-          critEffects: ["radiant_burn"],
-        },
-        resolution: "DICE",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: {
-          mana: 22,
-        },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      resolution: "DICE",
-
-      specialMechanics: {
-        phaseInteraction: {
-          newMoon:
-            "Eclipse becomes a void eclipse - damage type changes to necrotic and enemies are weakened (-2 to attack rolls) for 1 round",
-          waxingMoon: "Allies in the area are healed for 2d6",
-          fullMoon:
-            "Radius increases to 30 feet, and critical hit extra dice increase to 5d10",
-          waningMoon: "Costs 1d4 less mana (minimum 1)",
-        },
-      },
-
-      tags: ["damage", "radiant", "aoe", "eclipse", "universal"],
-    },
-    // ===== PASSIVE ABILITIES =====
-    {
-      id: "lunarch_no_self_heal",
-      name: "Lunar Conduit",
-      description:
-        "You channel the moon's power outward to others but cannot turn it inward. You can never heal yourself with your own lunar spells. All healing effects from your abilities target allies only. This is the price of being a conduit -- the moon's light passes through you but never pools within.",
-      level: 1,
-      spellType: "PASSIVE",
-      icon: "Arcane/Star Fall",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "radiant",
-        icon: "Arcane/Star Fall",
-        tags: ["passive", "lunarch", "restriction"],
-      },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "lunarch", "restriction"],
-    },
-    {
-      id: "lunarch_phase_lock",
-      name: "Phase Lock",
-      description:
-        "When you take damage during a phase shift (changing between moon phases), the shift is interrupted and fails. You still spend the mana for the shift but remain in your current phase. You must wait until your next turn to attempt another shift.",
-      level: 1,
-      spellType: "PASSIVE",
-      icon: "Arcane/Time Lock",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Time Lock",
-        tags: ["passive", "lunarch", "weakness"],
-      },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "lunarch", "weakness"],
-    },
-    {
-      id: "lunarch_eclipse_vulnerability",
-      name: "Eclipse Vulnerability",
-      description:
-        "During the round you shift from one moon phase to another, the celestial transition leaves you exposed. Roll 1d4 on the Transition Shock table: 1=Take 1d8 radiant damage (Celestial Burn), 2=Disadvantage on next attack (Lunar Dizziness), 3=Lose 1d4 mana (Mana Drain), 4=Double damage from next hit (Exposed). The stars demand a toll for every change.",
-      level: 3,
-      spellType: "PASSIVE",
-      icon: "Arcane/Arcane Explosion",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Arcane Explosion",
-        tags: ["passive", "lunarch", "weakness"],
-      },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "lunarch", "weakness"],
+      tags: ["zone", "healing", "damage", "ultimate", "sanguine warden"],
     },
   ],
 };

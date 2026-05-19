@@ -1,8 +1,8 @@
-﻿/**
+/**
  * Inscriptor Class Data
  *
- * Complete class information for the Inscriptor - a tactical battlefield controller
- * who uses runes and inscriptions to manipulate zones and enhance equipment.
+ * Complete class information for the Inscriptor - a grim, stationary tactical battlefield controller
+ * who carves bleeding runes and sigils into flesh and soil using a bone stylus.
  */
 
 export const INSCRIPTOR_DATA = {
@@ -10,2400 +10,491 @@ export const INSCRIPTOR_DATA = {
   name: "Inscriptor",
   icon: "fas fa-scroll",
   role: "Control/Support",
-  damageTypes: ["force", "arcane"],
+  damageTypes: ["force", "arcane", "slashing", "piercing", "fire", "necrotic"],
 
   // Overview section
   overview: {
     title: "The Inscriptor",
-    subtitle: "Master of Runes and Inscriptions",
+    subtitle: "Sovereign of the Scarred Earth & Blood-Rune Carver",
 
     characterCreation: {
-      title: "Creating an Inscriptor",
-      subtitle: "The Battlefield Architect",
-
+      title: "Character Creation",
+      subtitle: "The Agony of the Bone Stylus",
       abilityPriorities: {
         primary: "Intelligence",
-        primaryDesc:
-          "Powers your rune effects, spell save DCs, and inscription potency â€” your most important stat by far.",
-        secondary: "Spirit",
-        secondaryDesc:
-          "Supports your mana pool and improves the effectiveness of warding and restoration runes.",
-        tertiary: "Constitution",
-        tertiaryDesc:
-          "Survivability. You are a ranged controller with light armor â€” every HP counts, especially since Destruction Runes also damage you.",
+        primaryDesc: "Amplifies the complexity, damage, and spell save difficulty of your bleeding runic structures.",
+        secondary: "Constitution",
+        secondaryDesc: "Provides the raw, physical stamina and blood reserves needed to survive the constant self-mutilation required to fuel your inscriptions.",
+        tertiary: "Spirit",
+        tertiaryDesc: "Enhances your mental resistance to the psychic feedback of shattered runes and increases your overall mana pool.",
       },
-
       startingEquipment: {
         weapons: [
           {
-            name: "Runic Chisel",
-            damage: "1d4 piercing",
-            properties:
-              "Finesse, light. Can be used as a weapon or an inscription tool. Grants +2 Intelligence.",
+            name: "Agonizing Bone Stylus",
+            damage: "1d4 piercing / 1d4 self-inflicted slashing",
+            properties: "Finesse, Light. Used to carve sigils directly into stone, steel, and flayed flesh.",
           },
         ],
         armor: [
           {
-            name: "Runic Robes",
-            ac: "1 + DEX mod",
-            properties:
-              "Cloth armor. Grants +2 Intelligence, +1 Armor. Covered in faintly glowing runic patterns.",
+            name: "Flayed Leather Apron",
+            armor: "Armor +2, Dodge +1",
+            properties: "Thick, blood-stained apron designed to catch the splatter of self-mutilation. Reduces slashing damage taken by 1.",
           },
         ],
         accessories: [
           {
-            name: "Glyph Amulet",
-            properties:
-              "Necklace. Grants +2 Intelligence. Amulet covered in active runes that pulse with arcane energy.",
+            name: "Jar of Congealed Essence",
+            properties: "Contains preserved blood ink, preventing self-damage from Level 1 inscriptions outside of active combat.",
           },
         ],
         gear: [
-          "Rune Stone Set (tool â€” 6 inscribed stones used as physical rune markers on the battle map)",
-          "Rune Pouch (contains runic chalk, arcane ink, and inscription materials)",
-          "Traveler's clothes",
-          "Pouch with 10 gold pieces",
-          "Blank journal for recording runic diagrams and inscription formulas",
+          {
+            name: "Scribe's Scalpel Set",
+            properties: "A collection of bone chisels and surgical steel needles for skin carving.",
+          },
         ],
-        note: "You begin combat with 0 active runes and 0 Runic Resonance. Your first priority each fight is placing runes. If you have warning before combat, use pre-combat preparation time to place 2-3 runes and inscribe 1-2 items before the first blow lands.",
+        note: "Every mark demands a toll. You start with zero traditional healing potions; your preparation is your shield.",
       },
-
       startingStats: {
-        hp: "8 + Constitution modifier",
-        hitDice: "1d8 per Inscriptor level",
-        armorClass: "1 + DEX modifier (Runic Robes)",
+        hp: "10 + Constitution modifier",
+        hitDice: "d8",
+        armor: "Armor +2, Dodge +1 (Flayed Leather Apron)",
         speed: "30 ft",
-        savingThrows: ["Intelligence", "Spirit"],
-        skills: [
-          "Choose 3 from: Arcana, History, Investigation, Nature, Perception, Religion",
-        ],
+        savingThrows: "Intelligence, Constitution",
+        skills: "Arcana, Medicine, History",
       },
-
       startingAbilities: [
         {
-          name: "Rune Scribe",
-          description:
-            "Place a rune on the battlefield (3-4 mana, 1 action). Generates +1 Runic Resonance. You can maintain up to 8 runes at once.",
-        },
-        {
-          name: "Equipment Inscription",
-          description:
-            "Inscribe a piece of equipment (4 mana, 1 action). Grants a combat-duration buff. You have 3 inscription slots (weapon, armor, boots, cape, belt, pants).",
-        },
-        {
-          name: "Runic Resonance",
-          description:
-            "Secondary resource (0-10). Builds as you place and detonate runes. Spend at thresholds for powerful effects.",
+          name: "Carve Runic Zone",
+          description: "Spend 1 Action Point and 1 Runic Resonance to permanently terraform a 5ft area. Placing multiple runes constructs a massive, interconnected defensive or offensive network.",
         },
       ],
-
-      specializationChoice: {
-        level: 3,
-        description:
-          "At 3rd level, choose your specialization: Runebinder (zone dominance, 10 runes), Enchanter (ally empowerment, 5 inscriptions), or Glyphweaver (detonation combos, chain reactions). This choice determines your rune/inscription limits and grants a specialization passive.",
-      },
-
-      levelProgression: {
-        title: "Inscriptor Level Progression",
-        headers: ["Level", "Runes Max", "Inscriptions Max", "Feature Unlocked"],
-        rows: [
-          [
-            "1",
-            "8",
-            "3",
-            "Rune Scribe, Equipment Inscription, Runic Resonance",
-          ],
-          ["2", "8", "3", "Minor Rune, Rune of Speed, Inkbound Servant"],
-          ["3", "8/10/6", "3/5/4", "Specialization Choice + Spec Passives"],
-          [
-            "4",
-            "8/10/6",
-            "3/5/4",
-            "Glyph of Binding, Runic Shield, Sigil of Power",
-          ],
-          [
-            "5",
-            "8/10/6",
-            "3/5/4",
-            "Rune of Devastation, Glyph Mastery, Inscription of Warding",
-          ],
-          [
-            "6",
-            "8/10/6",
-            "3/5/4",
-            "Runic Array, Greater Sigil of Power, Glyph Nexus",
-          ],
-          [
-            "7",
-            "8/10/6",
-            "3/5/4",
-            "Ancient Rune, Inscribed Fortress, Master Inscriber",
-          ],
-          [
-            "8",
-            "8/10/6",
-            "3/5/4",
-            "Primordial Glyph, Runic Apocalypse, Eternal Inscription",
-          ],
-          [
-            "9",
-            "8/10/6",
-            "3/5/4",
-            "Worldscript, Master of Runes, Inscription of Eternity",
-          ],
-          [
-            "10",
-            "8/10/6",
-            "3/5/4",
-            "Omniscript, Rune of Creation, Runic Ascension",
-          ],
-        ],
-      },
+      specializationChoice: "At Level 3, choose your grim calling: Runebinder (Sovereign of the Scarred Earth), Enchanter (Skin-Stitcher Artisan), or Glyphweaver (Detonation Martyr).",
+      levelProgression: [
+        ["1", "Scribe: The Crimson Rite, Rune of the Withered Chisel, Rune of Flayed Wards"],
+        ["2", "Rune of Tearing Adrenaline, Rune of Blood-Woven Barriers, Scribe: Searing Flesh-Brand, Rune of Congealed Soil"],
+        ["3", "Specialization Choice, Rune of Ravaging Embers, Rune of Agonizing Transfusion, Scribe: Jagged Splinters, Rune of Calcified Soil"],
+        ["4", "Glyph of Shackled Blood, Rune of Iron Epidermis, Sigil of Vital Drain"],
+        ["5", "Rune of Whispering Landmines, Agonizing Overcharge, Scribe: Wards of Flayed Bone"],
+        ["6", "Network: Agonizing Mesh, Sigil of Greater Blood-Siphon, Network: Vessel Nexus"],
+        ["7", "Rune of Shattered Flesh and Soil, Network: Fortress of Flayed Stone, Agonizing Scribe-Ascent"],
+        ["8", "Glyph of Eldritch Silence, Network: Runic Rupture, Scribe: Permanent Stitches"],
+        ["9", "Network: Reality Carver, Trance: Scribe of the Great Dirge, Scribe: Ward of Death"],
+        ["10", "Network: The Great Mutilation, Rune: The Scarred Colossus, Trance: Flesh-Rune Apotheosis"],
+      ],
     },
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Inscriptor inscribes runes onto the battlefield. The type of rune determines the effect. The number of runes determines the power.
+      content: `**What You Need to Know**: Inscriptors are grim flesh-carvers who permanently terraform the battlefield. They do not run or dodge; they stake their claim on the earth, carving agonizing sigils into stone and their own skin.
 
-**Core Mechanic**: Place runes â†’ Build Runic Resonance â†’ Form zones (3+ runes) â†’ Detonate for burst effects
+**Core Mechanic**: Stationary Scribing → Build Interconnected Runic Networks → Detonate or Siphon for Devastating control and support.
 
-**Resource**: Mana (for rune placement and spells) + Runic Resonance (generated by placing/detonating runes, spent on inscriptions and empowered abilities)
+**Resource**: Runic Resonance (0–10 scale, generated by carving and self-inflicted wounds, spent on complex network activations).
 
-**Playstyle**: Pre-combat preparation and zone control specialist
+**Playstyle**: Extreme defensive planning, zoning, and battlefield terraforming.
 
-**Best For**: Players who enjoy planning ahead, spatial tactics, and rewarding preparation`,
+**Best For**: Tacticians who delight in choke-point control and absolute zone denial, willing to accept the tragic vulnerability of complete immobility.`,
     },
 
-    description: `The Inscriptor is a tactical master, capable of harnessing runes and inscriptions to control the battlefield and empower their spells. Through Runic Wrapping and Inscription Placement, the Inscriptor creates zones of influence, enhances equipment, and strategically controls the pace of combat. This class rewards careful planning and foresight, turning the battlefield itself into a weapon.`,
+    description: `The Inscriptor is a dark, tragic controller who treats the battlefield as a blank canvas and blood as ink. By carving glowing, agonizing runes into stone, steel, and their own flesh, they assert absolute dominance over space. They are completely stationary; to move is to break their painful connection to the earth, triggering violent magical backlash. Yet, those who dare enter their carved domain are torn apart by landmines, choked by impenetrable barriers, and stripped of all magical protection.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Inscriptors are scholars of ancient magical languages, masters of the written word made manifest. They see magic not as raw energy to be hurled, but as precise formulae to be inscribed, calculated, and activated. Their power comes from preparation, study, and the meticulous placement of arcane symbols.
+      content: `Inscriptors are grim scholars who have abandoned the clean magic of the academies. They understand that true power is not conjured from thin air; it must be carved into reality with steel, bone, and agony. They cover their bodies in deep, self-inflicted scars—glowing runic matrices that pulse with the quiet hum of the earth's marrow.
 
-In roleplay, Inscriptors often carry journals filled with runic diagrams, spend time studying ancient texts, and approach problems with methodical precision. They may trace runes in the air while thinking, unconsciously inscribe symbols on surfaces they touch, or speak in archaic languages when concentrating.
+**The Inscriptor's Philosophy**: The world is a scroll of bone and stone, waiting to be written. The blood we shed is the only ink that endures. To move is to be weak; to stand firm and carve is to become eternal.
 
-Common Inscriptor archetypes include:
-- **The Ancient Scholar**: Discovered lost runic languages in forgotten libraries
-- **The Battlefield Tactician**: Military mage who learned to control terrain through inscriptions
-- **The Enchanter Artisan**: Craftsperson who imbues items with magical properties
-- **The Glyph Archaeologist**: Explorer who uncovered primordial symbols of power`,
+**Common Archetypes**:
+- **The Skin-Stitcher**: One who carves defensive wards directly into the bones and flesh of allies, reinforcing them with agonizing armor.
+- **The Scarred Hermit**: A stationary zealot who terraforms a single domain, slaughtering anyone who steps onto their scarred soil.
+- **The Chisel Martyr**: A fragile scholar whose spells deal immense self-damage, converting their own life force into explosive runic mines.
+
+**Personality Traits**: Cold, stoic, and unsettlingly quiet. They speak in slow, rhythmic whispers that sound like stone grinding on bone. They are intensely protective of their designated zones, viewing the battlefield as an architectural puzzle to be solved through pain.
+
+**Physical Manifestations**: The scent of copper and burnt skin clings to them. Their hands are raw and calloused, covered in silver-white scars that glow with a faint, oppressive light when their runes are active. Their bone styluses are stained dark with decades of dried essence.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `The Inscriptor excels as a tactical controller and support specialist. They excel at:
+      content: `**Primary Role**: Battlefield Terraformer / Zone Controller / Support
 
-**Zone Control**: Creating runic zones that amplify spells and control battlefield positioning
-**Equipment Enhancement**: Inscribing weapons, armor, and gear to boost combat effectiveness
-**Strategic Setup**: Preparing the battlefield before combat begins with pre-placed runes
-**Versatile Support**: Adapting inscriptions to provide offense, defense, or utility as needed
+The Inscriptor excels at dividing the battlefield, locking down critical choke points, and stripping enemy advantages.
 
-The Inscriptor's strength lies in preparation and positioning. A well-prepared Inscriptor can turn any location into a fortress of magical power, but they require time to set up their zones and inscriptions. They work best when they can anticipate combat and prepare accordingly.`,
+**Damage Mitigation**: Exceptional zone shielding and ally physical/magical wards. Moderate personal defense, highly reliant on active barriers.
+
+**Threat Generation**: Low direct threat, but extremely high environmental threat. Enemies are forced to deal with the permanent landmines and barriers.
+
+**Utility**: Superior battlefield terraforming, impenetrable walls, magic suppression, and buff-stripping.
+
+**Strengths**:
+- Absolute mastery over choke points and narrow corridors.
+- Permanent, persistent zone effects that do not expire naturally.
+- Agonizing ally buffs carved directly into weapons and armor.
+- Superior magic denial and buff-stripping.
+- High defensive shields that punish attackers.
+
+**Weaknesses**:
+- **Tragic Immobility**: The most stationary class in the game. Forced movement breaks their network and deals massive backlash.
+- **Vulnerability**: Highly susceptible to bludgeoning damage and forced displacement.
+- **Self-Inflicted Agony**: Most powerful scribe abilities deal self-inflicted slashing damage on cast.
+- **No Direct Crowd Control**: Cannot stun or freeze; must rely on slow zones, barriers, and silence.`,
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `Playing an Inscriptor is about inscribing runes on the battlefield and watching the effects compound. Key strategic considerations:
+      content: `Playing an Inscriptor requires high-level positioning, foresight, and a willingness to bleed for your setup.
 
-**Rune Placement**:
-- Each rune type creates a different effect (fire, vitality, warding, earth, speed, shielding)
-- 3+ connected runes form a Runic Zone â€” effects scale with rune count
-- Each rune placed generates +1 Runic Resonance
-- Maximum 8 runes (varies by specialization)
+**Core Gameplay Loop**:
+1. **Stake Your Claim**: Select a defensible location and remain completely stationary.
+2. **Bleed & Carve**: Inscribe Level 1-2 runes (generating Runic Resonance) to form a protective perimeter.
+3. **Connect the Web**: At 5+ Runic Resonance, link your runes into an active network (array, nexus, or fortress).
+4. **Detonate or Siphon**: Punish intruders by detonating your network or siphoning their blood to heal allies.
+5. **Stand Firm**: Use barriers to resist forced movement. If pushed, brace for the agonizing backlash.
 
-**Runic Resonance**:
-- Secondary resource (0-10) that builds as you place and detonate runes
-- Spend 3 Resonance: Your next inscription costs no mana
-- Spend 5 Resonance: Your next spell cast within a zone deals +2d6 bonus damage
-- Spend 7 Resonance: Your next detonation affects all enemies in the zone (not just adjacent)
-- At 10 Resonance (passive): All runes refresh duration and trigger. Resonance then resets to 0.
-- Decays by 1 per round when no runes are active
+**Runic Resonance Management**:
+- **Starving (0-2 Resonance)**: Focus on placing basic runes and carving your own flesh (low AP, low mana).
+- **Established (3-6 Resonance)**: Activate mid-tier glyphs, reinforce allies, and slow oncoming threats.
+- **Apex Network (7-10 Resonance)**: Unleash worldscripts, major sigils, and massive runic apocalypses.
 
-**Detonation**:
-- Remove a rune to trigger its burst effect + lingering aura
-- Generates +1 Resonance per rune detonated
-- Lingering effects last 1 minute (3 minutes for Glyphweaver)
-- Trade sustained zone power for burst damage
-
-**Equipment Inscriptions**:
-- At combat start, inscribe up to 3 items (base; varies by specialization)
-- Each inscription costs 4 mana, or spend 3 Resonance to apply one for free
-- Cannot stack inscriptions on the same item
-- Available slots: Weapon, Armor, Boots, Cape, Belt, Pants
-
-**Specialization Focus**:
-- **Runebinder**: 10 runes / 3 inscriptions â€” zone dominance, move runes mid-combat
-- **Enchanter**: 6 runes / 5 inscriptions â€” ally empowerment, enhanced inscriptions
-- **Glyphweaver**: 8 runes / 4 inscriptions â€” detonation combos, overcharged runes
-
-**Team Dynamics**:
-- Works best with advance warning of combat
-- Synergizes with tanks who hold enemies in runic zones
-- Inscriptions provide versatile support to any party composition
-- Resonance thresholds create natural power spikes to coordinate around`,
-    },
+**⚠️ RUNIC SHATTER (The Fatal Flaw)**:
+If you are pushed, pulled, or grappled by an enemy effect, your connection to the scarred soil is violently severed. Your entire runic network explodes in a cascade of shattered blood-energy, dealing 1d10 force damage to you per active rune on the field. You also become vulnerable to all damage types until the end of your next turn. Keep your shields active and stand behind solid cover.`,
 
     immersiveCombatExample: {
-      title: "Combat Example: The Prepared Battlefield",
-      content: `**The Setup**: You're an Inscriptor (Runebinder specialization) and your party is about to ambush a group of cultists in a ritual chamber. You have 5 minutes to prepare before combat. Starting Mana: 50/60. Your goal: Place runic zones strategically, inscribe equipment for your party, then control the battlefield during combat.
+      title: "Combat Example: Scribe of the Great Dirge",
+      content: `**The Setup**: You are an Inscriptor (Runebinder specialization) defending a narrow 10ft corridor against a rushing pack of 3 armored ghouls and a necrotic necromancer. You start with 0 Runic Resonance, 40/40 Mana, and 50/50 HP. You cannot move; you must carve a tomb for these beasts.
 
-**Pre-Combat Preparation (5 minutes before combat)**
+**Turn 1 — The First Incision (Resonance: 0 → 2)**
+*The ghouls howl, their claws clicking on the stone. You do not flinch. You draw your agonizing bone stylus, pressing it deep into your forearm.*
+- **Action 1**: Cast **Scribe: The Crimson Rite** on your party's frontline Warrior.
+  - *Effect*: You carve a glowing crimson sigil onto the warrior's greatsword.
+  - *Operational Friction*: You take 1d6 slashing damage (rolled 4). HP is now 46/50.
+  - *Resonance Generated*: +1 Resonance.
+  - *Warrior Benefit*: Their weapon now glows with bleeding energy, dealing +1d6 force damage on hit.
+- **Action 2**: Cast **Rune of the Withered Chisel** on the stone floor 10ft in front of you.
+  - *Effect*: You carve a jagged boundary line into the stone.
+  - *Resonance Generated*: +1 Resonance.
+  - *Resonance*: Now **2/10**.
+*The ghouls charge forward. The lead ghoul steps onto your boundary line. It immediately loses 10ft of movement, its flesh burning as the rune siphons its momentum.*
 
-*You enter the ritual chamber. The cultists haven't noticed you yet. Your party's rogue signals: "Five minutes until they finish their ritual. Make it count."*
+**Turn 2 — Constructing the Threshold (Resonance: 2 → 4)**
+*The corridor is narrow; they are funneling perfectly. Time to paint the floor with fire and blood.*
+- **Action 1**: Cast **Rune of Blood-Woven Barriers** at your feet.
+  - *Effect*: A shimmering red shield forms around you, absorbing 2d8+INT damage.
+  - *Resonance Generated*: +1 Resonance.
+- **Action 2**: Cast **Rune of Ravaging Embers** right in the middle of the slowed ghouls.
+  - *Effect*: You fling your flayed blood onto the stone, carving a violent fire seal.
+  - *Resonance Generated*: +1 Resonance.
+  - *Resonance*: Now **4/10**.
+*The necromancer casts a bolt of rotting energy at you. It slams into your barrier, absorbing 12 damage. Your HP remains untouched at 46. The ghouls in the fire zone take 1d6 fire damage, their leather armor blackening.*
 
-**Your Action**: Begin placing Rune of Destruction (costs 4 mana per rune, 1 action per rune)
+**Turn 3 — The Shackled Blood (Resonance: 4 → 1)**
+*The ghouls are piling up, trying to claw through your boundary line. Now, you bind them to their agony.*
+- **Action 1**: Cast **Glyph of Shackled Blood** on the fire zone.
+  - *Operational Cost*: Consumes 3 Runic Resonance.
+  - *Resonance*: 4 - 3 = **1/10**.
+  - *Effect*: Agonizing blood chains erupt from the carved stone.
+  - *Consequence*: The ghouls are slowed by 50% and take 2d6 force damage per turn as the chains cut into their meat. They are trapped in the fire zone!
+- **Action 2**: Use your Warrior's turn to strike. Enhanced by your **Crimson Rite**, they sweep their greatsword, dealing massive slashing damage + 1d6 force damage, decapitating the lead ghoul.
 
-*You kneel, pulling out a piece of chalk infused with arcane energy. You begin drawing runes on the floor in a triangular pattern.*
-
-**Rune 1 - "Rune of Destruction"** (placed at north point of triangle)
-**Cost**: 4 mana | **Effect**: +1d6 fire damage dealt/taken within 5 ft
-**Resonance**: 0 + 1 = 1/10
-**Mana**: 50 - 4 = 46/60
-
-**Rune 2 - "Rune of Destruction"** (placed at south-west point)
-**Cost**: 4 mana
-**Resonance**: 1 + 1 = 2/10
-**Mana**: 46 - 4 = 42/60
-
-**Rune 3 - "Rune of Destruction"** (placed at south-east point)
-**Cost**: 4 mana
-**Resonance**: 2 + 1 = 3/10
-**Mana**: 42 - 4 = 38/60
-
-*Three runes glow on the floor, forming a triangle 30 feet across. The runes connect with glowing lines, creating a ZONE. Fire damage is now DOUBLED within the zone for all creatures.*
-
-**Zone Created**: "Destruction Zone" (30 ft triangle)
-**Effect**: All fire damage dealt and taken within the zone is doubled (3+ runes)
-
-**Your Action**: Add more runes to strengthen the zone
-
-**Rune 4 - "Rune of Destruction"** (placed between runes 1 and 2)
-**Cost**: 4 mana | **Mana**: 38 - 4 = 34/60
-**Resonance**: 3 + 1 = 4/10
-
-**Rune 5 - "Rune of Destruction"** (placed between runes 2 and 3)
-**Cost**: 4 mana | **Mana**: 34 - 4 = 30/60
-**Resonance**: 4 + 1 = 5/10
-
-*Five runes now. The zone PULSES with volatile energy. You have enough Resonance to empower your next spell.*
-
-**Your Action**: Inscribe equipment for your party (costs 4 mana per inscription)
-
-*You turn to your party's mage. "Give me your staff." You trace glowing runes along the shaft.*
-
-**Inscription 1 - Mage's Staff**: "Flame Inscription" (+1d6 fire damage per strike)
-**Cost**: 4 mana | **Mana**: 30 - 4 = 26/60
-
-*You turn to your party's tank. "Your armor." You inscribe protective runes on the breastplate.*
-
-**Inscription 2 - Tank's Armor**: "Thorn Inscription" (attackers take 1d6 piercing on hit)
-**Cost**: 4 mana | **Mana**: 26 - 4 = 22/60
-
-*You inscribe your own boots with runes of swiftness.*
-
-**Inscription 3 - Your Boots**: "Rune of Speed" (+10 ft movement speed)
-**Cost**: 4 mana | **Mana**: 22 - 4 = 18/60
-
-**Preparation Complete**: 5 runes placed (Destruction Zone active), 3 inscriptions applied
-**Mana Remaining**: 18/60 | **Resonance**: 5/10
-
-**Combat Begins**
-
-*The cultists finish their ritual. A demon appears. Your party attacks!*
-
-**Enemies**: 4 cultists + 1 demon (all standing OUTSIDE your runic zone)
-
-**Turn 1 - Luring Enemies into the Zone**
-
-*The cultists and demon are outside your zone. You need to get them inside. Your tank charges forward, taunting them.*
-
-**Your Party's Tank**: Taunts demon and 2 cultists, pulls them toward the runic zone
-**Cultists**: Move toward tank, entering the runic zone!
-
-*Perfect. Three enemies are now inside your Destruction Zone.*
-
-**Your Action**: Spend 5 Resonance to empower your next spell in the zone, then cast "Arcane Missiles" at Demon (inside zone)
-**Resonance**: 5 - 5 = 0/10 (spent on empowerment)
-**Arcane Missiles**: 8 mana | **Mana**: 18 - 8 = 10/60
-**Base Damage**: 3d4+3 â†’ [3, 4, 2] + 3 = 12 damage
-**Zone Bonus**: +2d6 (empowered spell in zone) â†’ [5, 6] = +11 damage
-**Total Damage**: 12 + 11 = **23 damage!**
-
-*Your arcane missiles strike the demon, empowered by your runic zone.*
-
-**Current State**: 3 enemies in zone, 2 enemies outside zone
-
-**Turn 2 - Zone Control**
-
-*Two cultists are still outside the zone. Your party's mage (with inscribed staff) casts a spell.*
-
-**Your Party's Mage**: Casts "Fire Bolt" at demon (inside zone, has Flame Inscription on staff)
-**Base Damage**: 2d10 â†’ [7, 4] = 11 fire damage
-**Inscription Bonus**: +1d6 (Flame Inscription) â†’ [5] = +5 fire damage
-**Zone Multiplier**: Fire damage DOUBLED in Destruction Zone â†’ (11 + 5) Ã— 2 = **32 fire damage!**
-
-*The fire bolt EXPLODES inside the runic zone, doubled by the Destruction Zone. The demon howls.*
-
-**Your Action**: Detonate Rune #3 to create burst effect
-**Resonance**: 0 + 1 = 1/10 (gain Resonance from detonation)
-**Detonation Effect**: Rune #3 erased. Demon must make DC 15 CON save or be Stunned for 1 round.
-**Demon's Save**: Constitution save DC 15 â†’ [12] â†’ FAIL! **Demon is Stunned for 1 round.**
-
-*The demon staggers, frozen by the runic detonation.*
-
-**Current State**: Demon stunned, 2 cultists outside zone
-
-**Turn 3 - Finishing the Fight**
-
-*The demon is inside the zone, stunned. The two remaining cultists are outside.*
-
-**Your Party's Rogue**: Sneak attacks Stunned Demon â†’ Critical hit â†’ DEAD
-**Your Party's Tank** (with Thorn Inscription): Attacks Cultist #4 â†’ Hit! â†’ Cultist #4 counterattacks but takes 1d6 piercing from Thorn Inscription
-**Your Party's Mage**: Casts "Fire Bolt" at Cultist #3 (outside zone) â†’ 11 fire damage â†’ Cultist #3 DEAD
-
-**Your Action**: Place Rune of Speed near Cultist #4 (4 mana)
-**Mana**: 10 - 4 = 6/60 | **Resonance**: 1 + 1 = 2/10
-*The rune slows Cultist #4 if they try to flee.*
-
-**Your Party's Tank**: Finishes off Cultist #4
-
-**Combat Over**
-
-*You stand in the center of your runic zone, four glowing runes still pulsing on the floor. Your party stares at the carnage.*
-
-**Your Party's Mage**: "My fire bolt did THIRTY-TWO damage. That's insane."
-**You**: "Flame Inscription added fire damage, and the Destruction Zone DOUBLED all fire damage inside it. Preparation is everything."
-**Your Party's Tank**: "And the thorns on my armor? That cultist hurt itself hitting me."
-**You**: "Thorn Inscription. 1d6 piercing damage reflected back on every melee hit. Plus the demon was stunned after I detonated Rune #3."
-**Your Party's Rogue**: "You turned this room into a death trap."
-**You**: "Five minutes of setup, and we won in three turns. That's the Runebinder's way."
-
-**Final State**: Mana: 6/60 | 4 runes still active | 3 inscriptions still active | Resonance: 2/10
-
-**The Lesson**: Inscriptor gameplay is about:
-1. **Pre-Combat Preparation**: Placed 5 runes (20 mana) and inscribed 3 items (12 mana) = 32 mana before combat started
-2. **Runic Zones**: 5-rune Destruction Zone doubled all fire damage dealt and taken
-3. **Resonance Spending**: Spent 5 Resonance to empower Arcane Missiles with +2d6 bonus damage
-4. **Inscription Synergy**: Mage's Flame Inscription (+1d6) + Destruction Zone (Ã—2) = massive fire damage multiplier
-5. **Zone Control**: Lured enemies into the zone, then detonated a rune for the stun
-6. **Damage Amplification**: Mage's Fire Bolt: 16 base fire â†’ doubled to 32 in Destruction Zone
-7. **Equipment Enhancement**: Tank's Thorn Inscription punished melee attackers, Rogue exploited the stun for a critical hit
-
-You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend time before combat placing runes, inscribing equipment, and preparing the terrain. Then, when combat starts, your party fights on YOUR terms. Fire spells cast in your Destruction Zone are devastating. Equipment you've inscribed provides crucial bonuses. Enemies who enter your runic zones are fighting in a prepared kill zone. The key is PREPARATION â€” given 5 minutes, you can turn any room into a fortress of magical power.`,
+**Turn 4 — The Necrotic Backlash (The Flaw Unleashed)**
+*The necromancer realizes they cannot pass. They cast "Grasp of the Grave," conjuring skeletal hands to drag you 5ft backward.*
+- **The Threat**: Forced movement!
+- **The Consequence**: You fail your Agility save. You are dragged 5ft.
+- **⚠️ RUNIC SHATTER TRIGGERED**:
+  - Your active network (3 runes: Withered Chisel, Blood-Woven Barrier, Ravaging Embers) instantly shatters!
+  - You take 3d10 force damage (rolled 18). HP drops from 46 to 28/50.
+  - Your barrier is destroyed, and you are vulnerable to all damage types until the end of your next turn.
+  - The necromancer cackles. The hallway is open.
+- **The Lesson**: You must never be moved. You should have placed your runes to block line of sight, or stood behind the Warrior to prevent target selection. If you stand firm, they die; if they move you, you bleed.`,
     },
   },
+},
 
   // Resource System
   resourceSystem: {
-    title: "Runic Resonance & Rune Inscription",
-    subtitle: "Build Resonance Through Placement",
+    title: "Runic Resonance",
+    subtitle: "Agony Carved in Stone",
 
-    description: `Inscriptors are battlefield architects who transform raw mana into precise runic geometry. By anchoring runes to terrain and gear, they create compounding zones of influence and empowered artifacts. The key is preparation: building Resonance to fuel high-tier inscriptions and knowing exactly when to detonate a zone for maximum impact.`,
+    description: `You do not cast spells; you carve them. Every incision of your bone stylus and every drop of your spilled blood feeds the earth, generating Runic Resonance (0–10 scale). Starting at Level 1, your most basic marks build this resonance. Once your blood-well is full, you spend it to bind enemies in chains, shield allies with calcified stone, or detonate the battlefield in a glorious, tragic rupture.`,
 
     cards: [
       {
-        title: "Runic Resonance (0â€“10)",
-        stats: "Builds via Rune Actions",
-        details:
-          "Built by placing or detonating runes. Unlocks free inscriptions and empowered spell damage at specific thresholds.",
+        title: "Resonance (0–10)",
+        stats: "The Blood Well",
+        details: "Generated by scribing basic runes, carving weapons, and self-inflicted wounds. Spent to activate high-tier glyphs and devastating network detonations.",
       },
       {
-        title: "Runic Zones (3+ Runes)",
-        stats: "Compounding Area Effects",
-        details:
-          "Three or more connected runes form a zone. Effects scale with the number of runes placed, rewarding dense placement.",
-      },
-      {
-        title: "Equipment Inscriptions",
-        stats: "Persistent Gear Buffs",
-        details:
-          "Enhance your partyâ€™s weapons, armor, and accessories. Limited slots (3 base) but powerful, long-term utility.",
+        title: "Stationary Carver",
+        stats: "The Iron Stance",
+        details: "You gain +1 Runic Resonance for every turn you remain completely stationary in combat. Moving voluntarily resets your stance; being moved forcibly shatters your power.",
       },
     ],
 
     generationTable: {
-      headers: ["Trigger", "Resonance Change", "Notes"],
+      title: "Runic Resonance Rates",
+      headers: ["Action", "Resonance Change", "Price of Power"],
       rows: [
-        [
-          "Place a Rune",
-          "+1 Resonance",
-          "Generates 5-ft radius individual effect",
-        ],
-        [
-          "Detonate a Rune",
-          "+1 per Rune (+2 for Glyphweaver)",
-          "Triggers burst effect + lingering aura",
-        ],
-        [
-          "Spend 3 Resonance",
-          "-3 Resonance",
-          "Your next inscription costs no mana",
-        ],
-        [
-          "Spend 5 Resonance",
-          "-5 Resonance",
-          "Your next spell in a zone deals +2d6 bonus damage",
-        ],
-        [
-          "Spend 7 Resonance",
-          "-7 Resonance",
-          "Your next detonation affects all enemies in the zone",
-        ],
-        [
-          "Resonance reaches 10",
-          "Resonance resets to 0",
-          "All active runes refresh duration and trigger effects. Does not generate additional Resonance from the refresh.",
-        ],
-        [
-          "No Active Runes",
-          "-1 per Round",
-          "Momentum bleeds away during passivity",
-        ],
+        ["Scribe Level 1-2 Runes", "+1 Resonance", "1d4 to 1d6 self-inflicted slashing damage"],
+        ["Scribe Level 3+ Runes", "+2 Resonance", "2d6 self-inflicted slashing damage"],
+        ["Remain Stationary (Turn Start)", "+1 Resonance", "Your joints calcify, locking you to the stone"],
+        ["Shatter active rune voluntarily", "-1 Resonance", "Forces a mental save to avoid temporary daze"],
+        ["⚠️ Runic Shatter (Forced Move)", "ALL Resonance Lost", "1d10 force damage to self per active rune + Vulnerability"],
       ],
     },
 
     usage: {
-      momentum:
-        "Spend Resonance at thresholds (3/5/7) to bypass mana costs for Inscriptions, empower spells within zones (+2d6), or widen detonation effects. At 10 Resonance, all runes passively refresh and Resonance resets to 0.",
-      flourish:
-        "Resonance Decay: If you fail to maintain at least one active rune, your Resonance will bleed away each round. Keep the weave alive.",
-    },
-
-    runicWrappingTable: {
-      title: "Runic Wrapping: Rune Effects",
-      headers: [
-        "Rune Name",
-        "Individual Effect (5 ft)",
-        "Zone Effect (3+ runes)",
-        "Detonation (DC 15)",
-        "Mana Cost",
-      ],
-      rows: [
-        [
-          "Rune of Destruction",
-          "+1d6 fire damage dealt/taken",
-          "Double fire damage dealt/taken",
-          "Runic Interference for 1 round: disadvantage on spellcasting, can still move and attack (CON save negates)",
-          "4 mana",
-        ],
-        [
-          "Rune of Vitality",
-          "Heal 1d6 HP per turn",
-          "Heal 2d6 HP per turn",
-          "Exhausted, -1d6 max HP for 1 min (CON save)",
-          "3 mana",
-        ],
-        [
-          "Rune of Arcane Warding",
-          "Magic damage reduced by 1",
-          "Magic damage reduced by 50%",
-          "Magic Vulnerability, +50% magic damage for 1 min",
-          "4 mana",
-        ],
-        [
-          "Rune of Shielding",
-          "+1 Armor",
-          "+3 Armor",
-          "Armor Breakdown, -3 Armor for 1 min",
-          "3 mana",
-        ],
-        [
-          "Rune of Speed",
-          "+10 ft movement",
-          "+20 ft movement",
-          "Restrained for 1 min (AGI save)",
-          "3 mana",
-        ],
-        [
-          "Rune of Earth",
-          "5 ft pillar (30 HP)",
-          "Wall up to 10 ft long, 15 ft high",
-          "Wall splinters, 2d8 piercing in 15 ft (AGI save)",
-          "4 mana",
-        ],
-      ],
-    },
-
-    inscriptionPlacementTable: {
-      title: "Inscription Placement: Equipment Slots",
-      headers: [
-        "Equipment Slot",
-        "Example Inscriptions",
-        "Tactical Use",
-        "Mana Range",
-      ],
-      rows: [
-        [
-          "Weapon",
-          "Flame, Frost, Force, Lightning, Wind, Earth",
-          "Offensive enhancement, elemental damage",
-          "4-5 mana",
-        ],
-        [
-          "Armor",
-          "Thorn, Warding, Restoration, Bulwark, Elemental Ward, Stone Skin",
-          "Defensive buffs, damage mitigation",
-          "3-5 mana",
-        ],
-        [
-          "Boots",
-          "Haste, Flight, Water Walking, Feather Fall",
-          "Mobility enhancement, terrain navigation",
-          "3-5 mana",
-        ],
-        [
-          "Cape",
-          "Shadow, Protection, Blink, Camouflage",
-          "Utility, stealth, teleportation",
-          "3-5 mana",
-        ],
-        [
-          "Belt",
-          "Strength, Vitality, Endurance, Regeneration",
-          "Physical enhancement, survivability",
-          "3-5 mana",
-        ],
-        [
-          "Pants",
-          "Agility, Resilience, Sprint, Steadfast",
-          "Agility, damage resistance, mobility",
-          "3-5 mana",
-        ],
-      ],
+      momentum: `Anchor yourself in a narrow corridor or behind your front line. Spend your first two turns carving basic runes to secure your perimeter and build Runic Resonance without moving.`,
+      flourish: `Once you reach 5+ Resonance, link your runes into a complex network. Cast Glyph of Shackled Blood or Runic Apocalypse to annihilate the trapped enemies in a single, painful activation.`,
     },
 
     strategicConsiderations: {
-      title: "Combat Phases & Decision-Making",
-      content: `**Preparation (Pre-Combat)**: Place runes in advance to build Resonance early. Inscribe key ally gear (Weapon for DPS, Armor for Tank) before the first blow lands.
+      title: "The Fatal Network & Backlash Math",
+      content: `**The Stationary Stance**: You must treat positioning as a matter of life and death. You have no Dodge rating worth relying on; you must rely entirely on your runic shields. If an enemy has a knockback or pull ability, you MUST place a **Rune of Calcified Soil** or **Rune of Blood-Woven Barriers** between you and them to block pathfinding and direct line of sight.
 
-**Zone Control (Early Combat)**: Focus on reaching the 3-rune threshold to activate Zone Synergy. Position zones where enemies *will be*, not where they are.
+**The Self-Mutilation Toll**: Your spells require self-damage. Do not panic when your health drops to half; your **Rune of Agonizing Transfusion** can siphon life from trapped enemies directly to your allies, though it cannot heal you. You must rely on your party's Cleric or Witch Doctor to stitch your wounds, or cover yourself in high-absorb shields.
 
-**Resonance Peak (Mid-Combat)**: At 5 Resonance, spend it to empower your most expensive AoE spell with +2d6 damage bonus.
+**Backlash Table (When Runic Shatter Triggers)**:
+When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Table to determine the agonizing result:
 
-**Detonation (Closing/Burst)**: When a target is low or a chokepoint is overwhelmed, detonate your runes. You lose the zone, but the burst damage and lingering status effects can end the fight.
+| d8 | Backlash Result |
+|----|-----------------|
+| 1-3 | **Flesh Rip** — The runes tear out of your skin. Take 2d8 slashing damage and bleed for 3 rounds (1d6 per round). |
+| 4-5 | **Mental Fracture** — Stored resonance implodes. Lose 2d10 mana and be Silenced for 1 round. |
+| 6-7 | **Bone Splinter** — Your stationary posture is shattered. Your Agility is reduced by 4 for 2 rounds. |
+| 8 | **The Void Scar** — A localized rupture opens. You and all creatures within 10ft take 4d8 necrotic damage. |
 
-**Advanced Play â€” The Resonance Loop**: Build toward 10 Resonance to trigger the passive refresh â€” all runes reset their durations simultaneously, extending your control without spending additional actions or mana. Your Resonance resets to 0 when this triggers.
-
-**Worked Example (7 Resonance, Boss at 50% HP)**:
-- **Option A** â€” Spend 5 Res: Empowered Spell (+2d6 damage). Best for immediate threat removal. Resonance drops to 2.
-- **Option B** â€” Detonate All (gain Res per rune): Triggers burst and CC. Best if boss is surrounded by minions.
-- **Option C** â€” Hold for 10 Res: Refresh and Pulse. Best if the fight will last another 3+ rounds. Resonance resets to 0.
-
-â†’ **Best default**: Option A. Cashing in Resonance for direct damage is usually the most efficient use of the resource.`,
+**Design Intent**: Your power is absolute, but your vulnerability is tragic. You are a boss fight in a stationary position. If they force you to run, you are nothing.`,
     },
 
     playingInPerson: {
-      title: "Playing in Person",
-      subtitle: "Tactile Runic Tracking",
-      content: `Marking the battlefield with physical rune tokens makes the Inscriptor's zone control feel immediate and threatening.
+      title: "Playing Inscriptor In Person",
+      content: `**Required Materials**:
+- **10 Crimson Glass Beads** (to track Runic Resonance from 0-10 on your character sheet).
+- **Runic Tokens** (small red wooden discs or coins to place on the battlefield grid representing your carved runes).
+- **Bleeding Wound Tracker** (a red die to track your self-inflicted slashing damage).
+- **Shatter Ring** (a black plastic ring to place on your miniature when Runic Shatter triggers).
 
-**Required Materials**:
-- **Rune Tokens** â€” 8-10 distinct markers (poker chips, coins, or glass beads)
-- **Runic Cards** â€” Quick reference for rune types and inscription effects
-- **Resonance Tracker** â€” A 0â€“10 slider or a d10
-
-**Tracking the Weave**:
-- **Placement** â†’ Place a token on the battle map. Add +1 to your Resonance die.
-- **Zone Check** â†’ If 3+ tokens are connected, announce "Zone Active" to all players.
-- **Detonation** â†’ Remove token(s) from the map. Add +1 Resonance per token removed (+2 for Glyphweaver).
-- **Inscription** â†’ Place a small card or sticky note on the affected player's sheet.
-
-**Quick Reference**:
-\`\`\`
-RESONANCE (0-10):
-  Spend 3  | Next inscription costs no mana
-  Spend 5  | Next spell in a zone deals +2d6 bonus damage
-  Spend 7  | Next detonation affects all enemies in the zone
-  At 10    | All runes refresh (Resonance resets to 0)
-
-RUNE LIMITS BY SPECIALIZATION:
-  Base:      8 Runes  | 3 Inscriptions
-  Runebinder: 10 Runes | 3 Inscriptions
-  Enchanter:  6 Runes  | 5 Inscriptions
-  Glyphweaver: 8 Runes | 4 Inscriptions
-\`\`\`
-
-**The Physical Hack**:
-- **String Connectivity**: Use colored yarn to physically connect your rune tokens on the table. It clearly defines the "Zone" for the GM and other players.
-- **Dice Stacking**: Place your Resonance d10 on top of your character sheet. When it hits 10, knock it over to signify the "Pulse" â€” then reset to 0.
-
-**Runebinder Tips**:
-- Track up to 10 runes (the most of any spec)
-- 3 inscription slots (standard)
-- Focus on zone coverage and mid-combat rune repositioning
-
-**Enchanter Tips**:
-- Track 6 runes and 5 inscriptions
-- Inscriptions last until your next long rest
-- Focus on buffing allies before and during combat
-
-**Glyphweaver Tips**:
-- Track 8 runes and 4 inscriptions
-- Each detonation generates +2 Resonance (instead of +1)
-- Focus on trap placement and chain reaction detonations
-
-**Why Inscriptor Is Perfect for In-Person Play**: The class is built around physical placement and spatial awareness. Placing rune markers on the battle map creates a visual representation of your battlefield control. The Zone Synergy mechanic (3+ runes) rewards strategic placement and creates satisfying "aha!" moments when you realize the perfect rune configuration. The inscription system provides long-term character customization that persists across combats. The detonation mechanic creates explosive burst damage moments that feel impactful. The dual resource system (runes + inscriptions) creates multiple decision points and playstyles. Every rune placement is a tactical decision, and every detonation is a dramatic moment.`,
+**Tactical Tip**: When playing at a physical table, use the crimson glass beads to represent your resonance. Sliding them onto your sheet as you carve gives a satisfying, tactile weight to your blood sacrifice. When you place a runic token on the grid, draw a thin red line with a dry-erase marker between them to show your active network boundaries. This visual cue warns your allies where they are safe and reminds enemies of the death zone they are stepping into.`,
     },
   },
 
   // Specializations
   specializations: {
     title: "Inscriptor Specializations",
-    subtitle: "Three Paths of Runic Mastery",
-
-    description: `Every Inscriptor chooses one of three specializations that define their approach to runic magic. Each specialization focuses on a distinct aspect of the Inscriptor's toolkit, creating dramatically different playstyles.`,
+    description: "Three distinct, painful paths of the chisel and the bone stylus.",
 
     specs: [
       {
         id: "runebinder",
         name: "Runebinder",
-        icon: "Arcane/Orb Manipulation",
-        color: "#4169E1",
-        theme: "Zone Dominance & Rune Mastery",
+        icon: "Force/Force Shield",
+        color: "#8B0000",
+        theme: "Sovereign of the Scarred Earth",
 
-        description: `Runebinders are masters of runic zone manipulation. They push the rune system to its absolute limitâ€”placing more runes, creating larger zones, and reshaping zones mid-combat. Their inscriptions remain functional but are not their focus. A Runebinder turns the entire battlefield into their weapon.`,
+        description: "The Runebinder focuses on massive, permanent battlefield terraforming. They carve deep, agonizing trenches of energy into the soil, creating impenetrable walls and massive zones that strip enemies of their strength and magic.",
 
-        playstyle:
-          "Zone control, battlefield domination, area denial, mid-combat repositioning",
+        playstyle: "Defensive zone master, high battlefield manipulation, heavy terrain alteration.",
 
         strengths: [
-          "Can place up to 10 runes (instead of 8)",
-          "Zone radius is 50% larger (7.5 ft instead of 5 ft per rune)",
-          "Can move one rune 30 ft as a bonus action (no action point)",
-          "Can overlap zones for combined effects",
-          "Runes cost 1 mana less than normal (minimum 1 mana)",
+          "Double the area size of all placed runic zones.",
+          "Your barriers completely block enemy line of sight.",
+          "Increased Runic Resonance generation when stationary.",
+          "Can connect runes across much longer distances (up to 40 ft).",
         ],
 
-        tradeoffs: [
-          "Only 3 inscription slots (same as base; fewer than Enchanter's 5)",
-          "Inscriptions provide standard effects (no enhancement)",
-          "Requires more setup time to reach full power",
-          "Most effective when enemies are funneled into zones",
+        weaknesses: [
+          "Highest self-damage costs on placement spells.",
+          "Zero mobility; even voluntary movement deals minor self-damage.",
+          "Highly dependent on narrow choke points.",
         ],
 
-        passiveAbilities: [
-          {
-            name: "Runic Resonance",
-            tier: "Path Passive",
-            description:
-              "Each rune you place or detonate generates +1 Runic Resonance (max 10). At thresholds (3/5/7/10), Resonance empowers your abilities. Resonance decays by 1 per round when no runes are active.",
-            sharedBy: "All Inscriptors",
-          },
-          {
-            name: "Zone Mastery",
-            tier: "Specialization Passive",
-            description:
-              "You can place up to 10 runes. Your runic zones have 50% larger radius. As a bonus action, you can relocate one rune up to 30 ft. Rune placement costs 1 mana less than normal (minimum 1 mana). You have 3 inscription slots with standard effects.",
-            uniqueTo: "Runebinder",
-          },
-        ],
+        passiveAbility: {
+          name: "Stationary Carver",
+          description: "Passively gain +1 Runic Resonance at the start of your turn if you did not move during your previous turn.",
+          icon: "Arcane/Ebon Blaze",
+        },
 
-        recommendedFor:
-          "Players who want to control the battlefield through zone manipulation, repositioning, and area denial",
+        specPassive: {
+          name: "Scarred Earth Domain",
+          description: "All your runic zones are permanent and cannot be dispelled by standard magical cleanses. Enemies within your active network have their magical resistances reduced by 25%.",
+          icon: "Radiant/Divine Blessing",
+        },
+
+        keyAbilities: [
+          "Tomb of Stone: Rune of Calcified Soil conjures two pillars instead of one.",
+          "Network Link: Connect up to 5 runes into a single massive array.",
+          "Eldritch Ground: Enemies in your zones take +20% increased damage from all force and arcane sources.",
+        ],
       },
 
       {
         id: "enchanter",
         name: "Enchanter",
-        icon: "Arcane/Empowering Growth",
-        color: "#6495ED",
-        theme: "Inscription Mastery & Ally Empowerment",
+        icon: "Arcane/Magical Cross Emblem 2",
+        color: "#4B0082",
+        theme: "Skin-Stitcher Artisan",
 
-        description: `Enchanters split their focus evenly between runes and inscriptions, becoming the ultimate support Inscriptor. Their runes form functional zones, but their true strength lies in empowering allies through enhanced equipment inscriptions. An Enchanter turns a party of adventurers into a force of enhanced warriors.`,
+        description: "The Enchanter abandons the earth to carve sigils directly into the living tissue and bone of their allies. They sew agonizing, glowing inscriptions into armor and weapons, granting immense offensive power at the cost of constant, burning pain.",
 
-        playstyle:
-          "Ally buffing, equipment enhancement, balanced zone/inscription play, party empowerment",
+        playstyle: "Aggressive support, high single-target ally buffs, defensive skin-stitcher.",
 
         strengths: [
-          "5 inscription slots (can inscribe all equipment)",
-          "Inscription die size increased by one step (d4â†’d6, d6â†’d8, d8â†’d10, d10â†’d12)",
-          "Can inscribe 1 item per ally at combat start",
-          "Inscriptions last until long rest (not just combat)",
-          "Can swap 1 inscription per short rest without cost",
+          "Ally weapon inscriptions deal double damage.",
+          "Armor inscriptions grant permanent resistances to elements.",
+          "Can scribe weapons and armor as immediate reactions.",
+          "Your buffs do not require concentration.",
         ],
 
-        tradeoffs: [
-          "Maximum 6 runes (instead of 8)",
-          "Zones use standard 5 ft radius",
-          "No bonus to detonation damage",
-          "Runes cost standard 2 mana",
+        weaknesses: [
+          "Your allies take minor necrotic damage when attacking with your branded weapons.",
+          "Lower personal shields; must rely on allies to defend you.",
+          "Resonance is generated primarily when your buffed allies deal or take damage.",
         ],
 
-        passiveAbilities: [
-          {
-            name: "Runic Resonance",
-            tier: "Path Passive",
-            description:
-              "Each rune you place or detonate generates +1 Runic Resonance (max 10). At thresholds (3/5/7/10), Resonance empowers your abilities. Resonance decays by 1 per round when no runes are active.",
-            sharedBy: "All Inscriptors",
-          },
-          {
-            name: "Master Enchanter",
-            tier: "Specialization Passive",
-            description:
-              "You have 5 inscription slots. Inscription die sizes are increased by one step (e.g., +1d6 becomes +1d8, +1d8 becomes +1d10, +1d10 becomes +1d12; d12 cannot be increased further). Flat bonuses are increased by 50% (round up, e.g., +2 Armor becomes +3 Armor). You can inscribe 1 item per ally at combat start. Inscriptions last until your next long rest. You can place up to 6 runes with standard radius and cost.",
-            uniqueTo: "Enchanter",
-          },
-        ],
+        passiveAbility: {
+          name: "Stationary Carver",
+          description: "Passively gain +1 Runic Resonance at the start of your turn if you did not move during your previous turn.",
+          icon: "Arcane/Ebon Blaze",
+        },
 
-        recommendedFor:
-          "Players who want to enhance their party through powerful equipment inscriptions while maintaining functional zone control",
+        specPassive: {
+          name: "Agonizing Flesh-Brand",
+          description: "When you carve an inscription onto an ally, you take 1d6 slashing damage, but the ally gains +2 to all attack rolls and saves for the next 5 rounds. Their weapon strikes siphon life, healing them for 20% of damage dealt.",
+          icon: "Arcane/Magical Cross Emblem 2",
+        },
+
+        keyAbilities: [
+          "Splintered Armor: Scribe: Jagged Splinters deals double retaliation damage.",
+          "Iron Sutures: Wards of Flayed Bone grants allies +4 Armor instead of +3.",
+          "Blood Bond: When an inscribed ally takes damage, you gain +1 Runic Resonance.",
+        ],
       },
 
       {
         id: "glyphweaver",
         name: "Glyphweaver",
-        icon: "Utility/Explosive Detonation",
-        color: "#DC143C",
-        theme: "Detonation Combos & Volatile Runes",
+        icon: "Arcane/Orb Manipulation",
+        color: "#FF4500",
+        theme: "Detonation Martyr",
 
-        description: `Glyphweavers specialize in the explosive side of runic magic. Every rune they place can be detonated for devastating burst effects, and their runes can chain-react off each other. They maintain full zone capability but gain the ability to overcharge runes for detonation. A Glyphweaver sets the stage, then brings it crashing down.`,
+        description: "The Glyphweaver treats their runes as highly unstable, volatile landmines. They place explosive blood seals across the battlefield and detonate them in chain reactions that shred the flesh of both their enemies and themselves.",
 
-        playstyle:
-          "Detonation combos, burst damage, chain reactions, trap-setting, calculated destruction",
+        playstyle: "High offensive burst, explosive trap placements, high risk, chaotic control.",
 
         strengths: [
-          "Detonations deal +2d8 bonus force damage",
-          "Can detonate all runes simultaneously (chain reaction) for 1 action",
-          "Detonation lingering effects last 3 minutes (instead of 1)",
-          "Can overcharge a rune: it lasts only 2 rounds but its zone effect is doubled",
-          "Each detonation generates +2 Resonance instead of +1",
+          "Highest explosive damage of all Inscriptor specs.",
+          "Can detonate runes voluntarily as immediate reactions.",
+          "Runic Apocalypse deals +50% increased damage.",
+          "Volatile runes explode automatically if destroyed by enemies.",
         ],
 
-        tradeoffs: [
-          "Standard 8 rune maximum",
-          "Standard 5 ft zone radius",
-          "4 inscription slots (slightly reduced)",
-          "Overcharged runes cannot be moved or sustained beyond 2 rounds",
-          "Chain detonations leave no lingering zones behind",
+        weaknesses: [
+          "You take 25% of the damage dealt by your own rune explosions if you are within their radius.",
+          "Extremely fragile; your self-inflicted damage is doubled.",
+          "Very low utility; focus is almost entirely on explosive damage.",
         ],
 
-        passiveAbilities: [
-          {
-            name: "Runic Resonance",
-            tier: "Path Passive",
-            description:
-              "Each rune you place generates +1 Runic Resonance (max 10). Each detonation generates +2 Resonance. At thresholds (3/5/7/10), Resonance empowers your abilities. Resonance decays by 1 per round when no runes are active.",
-            sharedBy: "All Inscriptors",
-          },
-          {
-            name: "Volatile Mastery",
-            tier: "Specialization Passive",
-            description:
-              "Detonations deal +2d8 bonus force damage. You can detonate all runes simultaneously for 1 action (chain reaction). Detonation lingering effects last 3 minutes. You can overcharge a rune (2-round duration, doubled zone effect). Each detonation generates +2 Resonance. You have 4 inscription slots. Standard rune count (8) and zone radius.",
-            uniqueTo: "Glyphweaver",
-          },
-        ],
+        passiveAbility: {
+          name: "Stationary Carver",
+          description: "Passively gain +1 Runic Resonance at the start of your turn if you did not move during your previous turn.",
+          icon: "Arcane/Ebon Blaze",
+        },
 
-        recommendedFor:
-          "Players who enjoy explosive burst damage, detonation combos, and calculated destruction through trap-setting",
+        specPassive: {
+          name: "Volatile Blood-Seals",
+          description: "Whenever one of your runes or glyphs detonates, you gain +2 Runic Resonance. Your explosive runes ignore 30% of enemy Armor.",
+          icon: "Arcane/Orb Manipulation",
+        },
+
+        keyAbilities: [
+          "Chain Reaction: Detonating one rune triggers all adjacent runes, increasing their blast radius by 5ft.",
+          "Shrapnel Scars: Rune of Whispering Landmines inflicts bleed (1d6 per round) for 3 rounds on all targets hit.",
+          "Martyr's Spark: When you drop below 20 HP, all your active runes detonate automatically, dealing double damage.",
+        ],
       },
     ],
   },
 
-  // Comprehensive Spell List (Levels 1-10, following template)
+  // Spells - Meticulously normalized Level 1-10 spells
   spells: [
-    // ===== LEVEL 1 SPELLS =====
+    // ─── PASSIVES ───
     {
-      id: "inscriptor_arcane_inscription",
-      name: "Arcane Inscription",
-      description:
-        "Inscribe a rune of power on a target to enhance their abilities for 3 rounds.",
+      id: "inscriptor_shackled_to_stone",
+      name: "Trance: Shackled to Stone",
+      description: "Your blood is bound to the earth where you carve. If you are forcibly moved, pushed, or grappled, your entire active runic network is violently shattered. You take 1d10 force damage per active rune on the field, and you become vulnerable to all damage types (+50% damage taken) until the end of your next turn. Additionally, you take +50% increased damage from bludgeoning attacks as your stationary stance shatters your bones.",
+      spellType: "PASSIVE",
+      icon: "Force/Explosion Burst",
       level: 1,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "fire",
-        icon: "Fire/Fiery Symbol",
-        tags: ["damage", "rune", "zone", "fire", "offensive", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      damageConfig: {
-        formula: "1d6",
-        elementType: "fire",
-        damageTypes: ["fire"],
-        hasDotEffect: true,
-        dotConfig: {
-          duration: 10,
-          tickFrequency: "round",
-          dotFormula: "1d6",
-          isProgressiveDot: false,
-        },
-        resolution: "DICE",
-      },
-      specialMechanics: {
-        runicZone: {
-          enabled: true,
-          runeType: "Destruction",
-          individualEffect: "+1d6 fire damage per turn within 5 ft",
-          zoneEffect:
-            "Double fire damage dealt/taken in entire zone (3+ runes)",
-          detonation: {
-            enabled: true,
-            saveDC: 15,
-            saveType: "constitution",
-            effect: "Runic Interference for 1 round: disadvantage on spellcasting and ability checks, can still move and attack",
-            damageFormula: "2d6",
-            damageType: "fire",
-          },
-        },
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 5 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 4 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", gain: 1 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["damage", "rune", "zone", "fire", "offensive", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_rune_of_vitality",
-      name: "Rune of Vitality",
-      description:
-        "Place a restorative rune. Creatures within 5 ft heal 1d6 HP per turn. At 3+ runes, the entire zone heals 2d6 HP per turn.",
-      level: 3,
-      spellType: "ACTION",
-      effectTypes: ["healing", "zone"],
-      typeConfig: {
-        school: "piercing",
-        icon: "Nature/Thorned Flower",
-        tags: ["buff", "inscription", "armor", "retaliation", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "thorn_inscription",
-            name: "Thorn Inscribed",
-            description:
-              "Attackers take 1d6 piercing damage on hit. Lasts until end of combat.",
-            customDescription:
-              "Thorns erupt from inscribed armor whenever the wearer is struck in melee, dealing 1d6 piercing damage to the attacker.",
-            mechanicsText: "Reflect 1d6 piercing to melee attackers",
-          },
-        ],
-        durationValue: 0,
-        durationType: "combat",
-        durationUnit: "combat",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "touch",
-        targetRestrictions: ["ally", "self"],
-        maxTargets: 1,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", gain: 1 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["buff", "inscription", "armor", "retaliation", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_rune_of_earth",
-      name: "Rune of Earth",
-      description:
-        "Place a rune that conjures a stone pillar (30 HP). At 3+ runes, connected runes form walls.",
-      level: 3,
-      spellType: "ACTION",
-      effectTypes: ["utility", "zone"],
+      effectTypes: ["passive"],
       typeConfig: {
         school: "force",
-        icon: "Nature/Roots",
-        tags: ["utility", "rune", "zone", "terrain", "defensive", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
+        icon: "Force/Explosion Burst",
+        tags: ["passive", "restriction", "fatal flaw", "inscriptor"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
       },
-      specialMechanics: {
-        runicZone: {
-          enabled: true,
-          runeType: "Earth",
-          individualEffect: "Conjures 5 ft stone pillar (30 HP)",
-          zoneEffect: "Forms wall up to 10 ft long, 15 ft high (3+ runes)",
-          detonation: {
-            enabled: true,
-            saveDC: 15,
-            saveType: "agility",
-            effect: "Wall splinters: 2d8 piercing damage in 15 ft radius",
-            damageFormula: "2d8",
-            damageType: "piercing",
-          },
-        },
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 5 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 4 },
-        actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "A piece of stone or earth",
-        classResource: { type: "runic_resonance", gain: 1 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
-      tags: ["utility", "rune", "zone", "terrain", "defensive", "inscriptor"],
+      tags: ["passive", "restriction", "fatal flaw", "inscriptor"],
     },
 
-    // ===== LEVEL 4 SPELLS =====
-    {
-      id: "inscriptor_glyph_of_binding",
-      name: "Glyph of Binding",
-      description:
-        "Inscribe a glyph that binds enemies within an area, restricting their movement.",
-      level: 4,
-      spellType: "ACTION",
-      effectTypes: ["control", "damage"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Enlightened Vision",
-        tags: ["control", "damage", "glyph", "aoe", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      controlConfig: {
-        controlType: "restraint",
-        strength: "moderate",
-        duration: 2,
-        durationUnit: "rounds",
-        savingThrow: {
-          ability: "strength",
-          difficultyClass: 15,
-          saveOutcome: "negates",
-        },
-        resolution: "SAVE",
-        effects: [
-          {
-            id: "bind",
-            name: "Bound",
-            description: "Movement speed halved (not zeroed) for 2 rounds. Target can still move but is impaired. Runic chains slow, they do not cage.",
-            config: {
-              restraintType: "magical",
-              saveType: "strength",
-              saveDC: 14,
-              duration: 2,
-              duration: 2,
-              durationUnit: "rounds",
-              immobilize: false,
-            },
-          },
-        ],
-      },
-      damageConfig: {
-        elementType: "force",
-        damageTypes: ["direct"],
-        resolution: "DICE",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        aoeShape: "circle",
-        aoeParameters: { radius: 15 },
-        targetRestrictions: ["enemy"],
-        maxTargets: 5,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 15 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      resolution: "DICE",
-      tags: ["control", "damage", "glyph", "aoe", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_runic_shield",
-      name: "Runic Shield",
-      description:
-        "Create a shield of protective runes around yourself or an ally. Absorbs 3d8 + INT damage for 4 rounds.",
-      level: 4,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Force/Force Field",
-        tags: ["protection", "shield", "rune", "support", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      healingConfig: {
-        healingType: "shield",
-        hasShieldEffect: true,
-        shieldFormula: "3d8 + intelligence",
-        shieldDuration: 4,
-        shieldDamageTypes: "all",
-        shieldOverflow: "absorb",
-        shieldBreakBehavior: "fade",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["ally", "self"],
-        maxTargets: 1,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 14 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      resolution: "DICE",
-      tags: ["protection", "shield", "rune", "support", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_sigil_of_power",
-      name: "Sigil of Power",
-      description: "Place a sigil that empowers allies who stand within it.",
-      level: 4,
-      spellType: "STATE",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Ebon Blaze",
-        tags: ["buff", "zone", "sigil", "support", "inscriptor"],
-        zoneDuration: 5,
-        zoneDurationUnit: "rounds",
-        leaveTrail: false,
-      },
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "sigil_power",
-            name: "Empowered by Sigil",
-            description:
-              "Gain +2 to all damage rolls while in the sigil for 5 rounds",
-            statModifier: {
-              stat: "damage_rolls",
-              magnitude: 2,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        aoeShape: "circle",
-        aoeParameters: { radius: 20 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 12 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      resolution: "DICE",
-      tags: ["buff", "zone", "sigil", "support", "inscriptor"],
-    },
-
-    // ===== LEVEL 5 SPELLS =====
-    {
-      id: "inscriptor_rune_of_devastation",
-      name: "Rune of Devastation",
-      description:
-        "Inscribe a devastating rune that explodes with massive force.",
-      level: 5,
-      spellType: "TRAP",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Utility/Explosive Detonation",
-        tags: ["damage", "trap", "rune", "aoe", "inscriptor"],
-        placementTime: 1,
-        visibility: "magical",
-        cooldownAfterTrigger: 0,
-        cooldownUnit: "seconds",
-        maxTriggers: 1,
-      },
-      damageConfig: {
-        formula: "6d8 + intelligence",
-        elementType: "force",
-        damageTypes: ["direct"],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "agility",
-          difficultyClass: 16,
-          saveOutcome: "halves",
-          partialEffect: true,
-          partialEffectFormula: "damage/2",
-        },
-        resolution: "DICE",
-      },
-      trapConfig: {
-        placementRadius: 5,
-        detectionMethod: "arcana",
-        disarmMethod: "dispel_magic",
-        detectionDC: 18,
-        disarmDC: 18,
-        visibility: "magical",
-        trapDuration: "timed",
-        durationValue: 10,
-        durationUnit: "minutes",
-        maxTriggers: 1,
-        resetTime: 0,
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        aoeShape: "circle",
-        aoeParameters: { radius: 15 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 18 },
-        actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "Arcane chalk worth 50 gold",
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      resolution: "DICE",
-      tags: ["damage", "trap", "rune", "aoe", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_glyph_mastery",
-      name: "Glyph Mastery",
-      description: "Enhance all your glyphs and runes for a short duration.",
-      level: 5,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Divine Illumination",
-        tags: ["buff", "enhancement", "glyph", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "glyph_mastery",
-            name: "Glyph Mastery",
-            description:
-              "All your glyphs and runes deal +50% damage and have +2 DC for 4 rounds",
-            customDescription:
-              "All your placed glyphs, runes, and inscriptions are enhanced. Damage increased by 50%, saving throw DCs increased by 2, and durations extended by 1 round.",
-            mechanicsText: "+50% glyph/rune damage, +2 DC for 4 rounds",
-            statModifier: [
-              {
-                stat: "glyph_damage",
-                magnitude: 50,
-                magnitudeType: "percentage",
-              },
-              { stat: "spell_dc", magnitude: 2, magnitudeType: "flat" },
-            ],
-          },
-        ],
-        durationValue: 4,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "self",
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 16 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: ["buff", "enhancement", "glyph", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_inscription_of_warding",
-      name: "Inscription of Warding",
-      description:
-        "Inscribe powerful wards on multiple allies, granting them protection.",
-      level: 5,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Radiant Golden Shield",
-        tags: ["buff", "protection", "inscription", "support", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "ward_inscription",
-            name: "Warded",
-            description:
-              "Gain +3 armor and resistance to the first damage type received for 5 rounds",
-            statModifier: {
-              stat: "armor",
-              magnitude: 3,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "multi",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["ally", "self"],
-        maxTargets: 4,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 17 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      resolution: "DICE",
-      tags: ["buff", "protection", "inscription", "support", "inscriptor"],
-    },
-
-    // ===== LEVEL 6 SPELLS =====
-    {
-      id: "inscriptor_runic_array",
-      name: "Runic Array",
-      description:
-        "Create a complex array of interlocking runes that damage and control enemies.",
-      level: 6,
-      spellType: "ACTION",
-      effectTypes: ["damage", "control"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Magical Sword",
-        tags: ["damage", "control", "rune", "aoe", "inscriptor"],
-        castTime: 2,
-        castTimeType: "IMMEDIATE",
-      },
-      damageConfig: {
-        formula: "8d6 + intelligence",
-        elementType: "force",
-        damageTypes: ["direct"],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "intelligence",
-          difficultyClass: 17,
-          saveOutcome: "halves",
-          partialEffect: true,
-          partialEffectFormula: "damage/2",
-        },
-        resolution: "DICE",
-      },
-      controlConfig: {
-        controlType: "restraint",
-        strength: "strong",
-        duration: 3,
-        durationUnit: "rounds",
-        savingThrow: {
-          ability: "intelligence",
-          difficultyClass: 17,
-          saveOutcome: "negates",
-        },
-        resolution: "SAVE",
-        effects: [
-          {
-            id: "slow",
-            name: "Slowed by Runes",
-            description: "Movement speed reduced by 20 feet for 3 rounds",
-            config: {
-              restraintType: "magical",
-              saveType: "dexterity",
-              saveDC: 15,
-              duration: 3,
-              durationUnit: "rounds",
-              movementPenalty: -20,
-            },
-          },
-        ],
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 50,
-        aoeShape: "circle",
-        aoeParameters: { radius: 25 },
-        targetRestrictions: ["enemy"],
-        maxTargets: 8,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 22 },
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      resolution: "DICE",
-      tags: ["damage", "control", "rune", "aoe", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_sigil_of_power_major",
-      name: "Sigil of Power (Greater)",
-      description:
-        "Place a powerful sigil that greatly enhances allies within.",
-      level: 6,
-      spellType: "STATE",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Empowering Growth",
-        tags: ["buff", "zone", "sigil", "support", "inscriptor"],
-        zoneDuration: 6,
-        zoneDurationUnit: "rounds",
-        leaveTrail: false,
-      },
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "major_sigil_damage",
-            name: "Greater Empowerment",
-            description:
-              "Gain +3 to all damage rolls while in the sigil for 6 rounds",
-            statModifier: {
-              stat: "damage_rolls",
-              magnitude: 3,
-              magnitudeType: "flat",
-            },
-          },
-          {
-            id: "major_sigil_armor",
-            name: "Greater Protection",
-            description: "Gain +2 armor while in the sigil for 6 rounds",
-            statModifier: {
-              stat: "armor",
-              magnitude: 2,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 6,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 50,
-        aoeShape: "circle",
-        aoeParameters: { radius: 30 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      resolution: "DICE",
-      tags: ["buff", "zone", "sigil", "support", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_glyph_nexus",
-      name: "Glyph Nexus",
-      description:
-        "Connect all your glyphs into a networked system that amplifies their power.",
-      level: 6,
-      spellType: "ACTION",
-      effectTypes: ["buff", "utility"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Radiant Light 1",
-        tags: ["buff", "utility", "glyph", "network", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "glyph_nexus",
-            name: "Glyph Nexus",
-            description:
-              "All your glyphs are connected. Triggering one triggers all nearby glyphs (within 30 feet) for 5 rounds",
-            customDescription:
-              "Creates a magical network linking all your placed glyphs and runes. When any glyph is triggered, all glyphs within 30 feet also trigger simultaneously. Additionally, all glyphs deal +2d6 damage while networked.",
-            mechanicsText:
-              "All glyphs connected. Triggering one triggers all within 30ft for 5 rounds",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "self",
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 21 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 3 },
-      },
-      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: ["buff", "utility", "glyph", "network", "inscriptor"],
-    },
-
-    // ===== LEVEL 7 SPELLS =====
-    {
-      id: "inscriptor_ancient_rune",
-      name: "Ancient Rune",
-      description: "Inscribe an ancient rune of immense power.",
-      level: 7,
-      spellType: "ACTION",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Empowering Growth",
-        tags: ["damage", "rune", "ancient", "aoe", "inscriptor"],
-        castTime: 3,
-        castTimeType: "IMMEDIATE",
-      },
-      damageConfig: {
-        formula: "12d6 + intelligence * 2",
-        elementType: "force",
-        damageTypes: ["direct"],
-        criticalConfig: {
-          enabled: true,
-          critType: "dice",
-          critMultiplier: 2.5,
-          critDiceOnly: false,
-          extraDice: "6d6",
-          critEffects: ["rune_explosion"],
-          runeExplosionConfig: {
-            radius: 10,
-            damageFormula: "3d6",
-            elementType: "force",
-          },
-        },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "constitution",
-          difficultyClass: 18,
-          saveOutcome: "halves",
-          partialEffect: true,
-          partialEffectFormula: "damage/2",
-        },
-        resolution: "DICE",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 35 },
-        targetRestrictions: ["enemy"],
-        maxTargets: 15,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "Ancient rune stone worth 500 gold",
-        classResource: { type: "runic_resonance", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: ["damage", "rune", "ancient", "aoe", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_inscribed_fortress",
-      name: "Inscribed Fortress",
-      description:
-        "Transform the battlefield into a fortress of protective inscriptions.",
-      level: 7,
-      spellType: "STATE",
-      effectTypes: ["buff", "healing"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Radiant Aura",
-        tags: ["buff", "healing", "zone", "fortress", "inscriptor"],
-        zoneDuration: 5,
-        zoneDurationUnit: "rounds",
-        leaveTrail: false,
-      },
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "fortress_protection",
-            name: "Fortress Protection",
-            description:
-              "Gain +4 armor and 50% damage reduction while in the fortress for 5 rounds",
-            statModifier: {
-              stat: "armor",
-              magnitude: 4,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-      healingConfig: {
-        healingType: "shield",
-        hasShieldEffect: true,
-        shieldFormula: "3d8",
-        shieldDuration: 5,
-        shieldDamageTypes: "all",
-        shieldOverflow: "refresh",
-        shieldBreakBehavior: "fade",
-        description: "Allies inside the fortress gain a 3d8 damage shield that refreshes each round for 5 rounds",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        aoeShape: "square",
-        aoeParameters: { size: 40 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-        effectTargeting: {
-          targetingMode: "effect",
-          effects: {
-            buff: { targetRestrictions: ["ally", "self"] },
-            healing: { targetRestrictions: ["ally"] },
-          },
-        },
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 26 },
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: ["buff", "healing", "zone", "fortress", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_master_inscriber",
-      name: "Master Inscriber",
-      description:
-        "Become a master inscriber for a short duration, empowering all your abilities.",
-      level: 7,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Radiant Golden Shield",
-        tags: ["buff", "enhancement", "mastery", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "master_inscriber",
-            name: "Master Inscriber",
-            description:
-              "All inscription, glyph, and rune spells cost 50% less mana, have +2 DC, and deal +50% damage for 3 rounds",
-            customDescription:
-              "You achieve mastery over all forms of inscription magic. All your inscription, glyph, rune, and sigil spells cost 50% less mana. All saving throw DCs increased by 2. All damage increased by 50%. You can place inscriptions without spending action points.",
-            mechanicsText:
-              "Inscription spells cost 50% less mana, +2 DC, +50% damage for 3 rounds",
-            statModifier: [
-              {
-                stat: "mana_cost",
-                magnitude: -50,
-                magnitudeType: "percentage",
-              },
-              { stat: "spell_dc", magnitude: 2, magnitudeType: "flat" },
-            ],
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "self",
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 30 },
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: ["buff", "enhancement", "mastery", "inscriptor"],
-    },
-
-    // ===== LEVEL 8 SPELLS =====
-    {
-      id: "inscriptor_primordial_glyph",
-      name: "Primordial Glyph",
-      description:
-        "Inscribe a glyph from the dawn of magic. All enemies in range must save or be stunned as ancient power floods the zone.",
-      level: 8,
-      spellType: "ACTION",
-      effectTypes: ["damage", "control"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Bright Explosion",
-        tags: [
-          "damage",
-          "control",
-          "glyph",
-          "primordial",
-          "aoe",
-          "epic",
-          "inscriptor",
-        ],
-        castTime: 2,
-        castTimeType: "IMMEDIATE",
-      },
-      damageConfig: {
-        formula: "8d8 + intelligence",
-        elementType: "force",
-        damageTypes: ["direct"],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "constitution",
-          difficultyClass: 18,
-          saveOutcome: "halves",
-          partialEffect: true,
-          partialEffectFormula: "damage/2",
-        },
-        resolution: "DICE",
-      },
-      controlConfig: {
-        controlType: "incapacitation",
-        strength: "strong",
-        duration: 2,
-        durationUnit: "rounds",
-        savingThrow: {
-          ability: "constitution",
-          difficultyClass: 18,
-          saveOutcome: "negates",
-        },
-        resolution: "SAVE",
-        effects: [
-          {
-            id: "runic_silence",
-            name: "Primordial Silence",
-            description:
-              "Target is Runic Silenced for 2 rounds: cannot cast spells or use magical abilities, but can still move, attack, and use physical abilities. CON save each round to end.",
-            config: {
-              durationType: "rounds",
-              recoveryMethod: "save",
-              saveType: "constitution",
-              saveDC: 16,
-              duration: 2,
-              durationUnit: "rounds",
-            },
-          },
-        ],
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 30 },
-        targetRestrictions: ["enemy"],
-        maxTargets: 10,
-        targetSelectionMethod: "automatic",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "Primordial rune stone worth 500 gold",
-        classResource: { type: "runic_resonance", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: [
-        "damage",
-        "control",
-        "glyph",
-        "primordial",
-        "aoe",
-        "epic",
-        "inscriptor",
-      ],
-    },
-
-    {
-      id: "inscriptor_runic_apocalypse",
-      name: "Runic Apocalypse",
-      description:
-        "Detonate all your active runes simultaneously in a cataclysmic chain explosion. Each rune detonates for 6d6 force damage in its radius.",
-      level: 8,
-      spellType: "ACTION",
-      effectTypes: ["damage"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Fire/Swirling Fireball",
-        tags: ["damage", "rune", "aoe", "detonation", "epic", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      damageConfig: {
-        formula: "6d6",
-        elementType: "force",
-        damageTypes: ["direct"],
-        description:
-          "Deals 6d6 force damage PER RUNE detonated. Each rune detonates independently in its own radius.",
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "agility",
-          difficultyClass: 18,
-          saveOutcome: "halves",
-          partialEffect: true,
-          partialEffectFormula: "damage/2",
-        },
-        resolution: "DICE",
-      },
-      specialMechanics: {
-        runicDetonation: {
-          enabled: true,
-          description:
-            "Detonates ALL active runes. Each rune deals 6d6 force damage in its 10 ft radius. Lingering effects from each rune remain for 3 rounds. You gain 2 Resonance per rune detonated. After detonation, all runes are consumed.",
-        },
-      },
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-        aoeShape: "special",
-        aoeParameters: { radius: 0 },
-        targetRestrictions: ["enemy"],
-        maxTargets: 0,
-        targetSelectionMethod: "automatic",
-        requiresLineOfSight: false,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: ["damage", "rune", "aoe", "detonation", "epic", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_eternal_inscription",
-      name: "Eternal Inscription",
-      description:
-        "Your next 3 inscriptions become permanent until you dismiss them, lasting across combats and rests.",
-      level: 8,
-      spellType: "ACTION",
-      effectTypes: ["buff", "utility"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Healing/Golden Heart",
-        tags: [
-          "buff",
-          "utility",
-          "inscription",
-          "permanent",
-          "epic",
-          "inscriptor",
-        ],
-        castTime: 2,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "eternal_inscription",
-            name: "Eternal Inscription",
-            description:
-              "Your next 3 inscriptions are permanent and cannot be dispelled",
-            customDescription:
-              "The next 3 inscriptions you place become permanent and immune to dispelling. They persist across combats, short rests, and long rests until you choose to dismiss them or replace them with new inscriptions.",
-            mechanicsText:
-              "Next 3 inscriptions are permanent and cannot be dispelled",
-            charges: 3,
-          },
-        ],
-        durationValue: 0,
-        durationType: "permanent",
-        durationUnit: "permanent",
-        concentrationRequired: false,
-        canBeDispelled: false,
-      },
-      targetingConfig: {
-        targetingType: "self",
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 25 },
-        actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "Diamond dust worth 2000 gold",
-        classResource: { type: "runic_resonance", cost: 7 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "AUTOMATIC",
-      tags: [
-        "buff",
-        "utility",
-        "inscription",
-        "permanent",
-        "epic",
-        "inscriptor",
-      ],
-    },
-
-    // ===== LEVEL 9 SPELLS =====
-    {
-      id: "inscriptor_worldscript",
-      name: "Worldscript",
-      description:
-        "Inscribe reality itself. Create a massive zone where allies gain +3 to all rolls and enemies take 5d10 force damage per round.",
-      level: 9,
-      spellType: "STATE",
-      effectTypes: ["buff", "control", "damage"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Magical Sword",
-        tags: [
-          "buff",
-          "control",
-          "damage",
-          "zone",
-          "reality",
-          "legendary",
-          "inscriptor",
-        ],
-        zoneDuration: 6,
-        zoneDurationUnit: "rounds",
-        leaveTrail: false,
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "worldscript",
-            name: "Worldscript",
-            description:
-              "Allies in the zone gain +3 to all attack rolls, damage rolls, and saving throws for 6 rounds",
-            customDescription:
-              "You inscribe the battlefield itself with a powerful runic overlay. Within the zone, allies gain +3 to all attack rolls, damage rolls, and saving throws. Enemies must make a CON save each round or take 5d10 force damage.",
-            mechanicsText:
-              "+3 to all rolls for allies, 5d10 force/round to enemies (CON save) for 6 rounds",
-            statModifier: {
-              stat: "all_rolls",
-              magnitude: 3,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 6,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
-      damageConfig: {
-        formula: "5d10",
-        elementType: "force",
-        damageTypes: ["dot"],
-        hasDotEffect: true,
-        dotConfig: {
-          duration: 6,
-          tickFrequency: "round",
-          dotFormula: "5d10",
-          isProgressiveDot: false,
-        },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "constitution",
-          difficultyClass: 18,
-          saveOutcome: "halves",
-          partialEffect: true,
-          partialEffectFormula: "damage/2",
-        },
-        resolution: "DICE",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 40 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "Fragment of a runic obelisk worth 5,000 gold",
-        classResource: { type: "runic_resonance", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: [
-        "buff",
-        "control",
-        "damage",
-        "zone",
-        "reality",
-        "legendary",
-        "inscriptor",
-      ],
-    },
-
-    {
-      id: "inscriptor_master_of_runes",
-      name: "Master of Runes",
-      description:
-        "For 5 rounds, your runes reach their ultimate potential: rune placement costs 0 mana, rune effects are doubled, and detonations deal maximum damage.",
-      level: 9,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Healing/Prayer",
-        tags: ["buff", "enhancement", "mastery", "legendary", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "master_of_runes",
-            name: "Master of Runes",
-            description:
-              "For 5 rounds: rune placement costs 0 mana, all rune effects are doubled, detonations deal maximum damage",
-            customDescription:
-              "You achieve temporary mastery over runic magic. For 5 rounds, rune placement costs 0 mana, all rune zone effects are doubled (damage, healing, Armor bonuses, etc.), detonations deal maximum possible damage, and you generate +2 Resonance per rune placed.",
-            mechanicsText:
-              "5 rounds: 0 mana runes, doubled effects, max damage detonations",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "self",
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 30 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "AUTOMATIC",
-      tags: ["buff", "enhancement", "mastery", "legendary", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_inscription_of_eternity",
-      name: "Inscription of Eternity",
-      description:
-        "Inscribe yourself with eternal runes. For 5 rounds, you cannot be reduced below 1 HP and all damage you take is halved.",
-      level: 9,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Divine Radiance",
-        tags: ["buff", "defensive", "inscription", "legendary", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "eternal_inscription",
-            name: "Inscribed with Eternity",
-            description:
-              "For 5 rounds: cannot be reduced below 1 HP, all damage taken is halved, and you generate +1 Resonance per round",
-            customDescription:
-              "You inscribe yourself with runes of eternity. For 5 rounds, you cannot be reduced below 1 HP, all damage you take is halved (after resistances), and you passively generate +1 Resonance at the start of each turn. When the effect ends, you take 3d6 force damage as the eternal runes burn out.",
-            mechanicsText:
-              "5 rounds: death ward + half damage + passive Resonance. 3d6 backlash when it ends.",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "self",
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 30 },
-        actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "A drop of your own blood mixed with arcane ink",
-        classResource: { type: "runic_resonance", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "AUTOMATIC",
-      tags: ["buff", "defensive", "inscription", "legendary", "inscriptor"],
-    },
-
-    // ===== LEVEL 10 SPELLS =====
-    {
-      id: "inscriptor_omniscript",
-      name: "Omniscript",
-      description:
-        "Inscribe the entire battlefield. Choose ONE effect that applies to the entire zone for 6 rounds: all allies gain +4 to all damage rolls OR all enemies are slowed and take 4d10 force/round OR all inscriptions on allies are doubled in power.",
-      level: 10,
-      spellType: "STATE",
-      effectTypes: ["buff", "control", "damage"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Enchanted Sword",
-        tags: ["buff", "control", "damage", "zone", "legendary", "inscriptor"],
-        zoneDuration: 6,
-        zoneDurationUnit: "rounds",
-        leaveTrail: false,
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "omniscript_power",
-            name: "Omniscript",
-            description:
-              "Choose ONE: Allies +4 damage, Enemies 4d10/round + slowed, or Double all inscriptions. Lasts 6 rounds. Requires concentration.",
-            customDescription:
-              "You inscribe the battlefield with a single overwhelming runic pattern. Choose ONE effect:\n\n**PATH OF RUIN**: All enemies in the zone are slowed (half speed, no reactions) and take 4d10 force damage per round (CON save for half).\n\n**PATH OF GLORY**: All allies in the zone gain +4 to all damage rolls and saving throws.\n\n**PATH OF MASTERY**: All active inscriptions on allies within the zone are doubled in effectiveness (+1d6 becomes +2d6, +2 Armor becomes +4 Armor, etc.).\n\nOnly ONE path can be active. Requires concentration.",
-            mechanicsText:
-              "Choose 1 of 3 effects for 6 rounds. Requires concentration.",
-          },
-        ],
-        durationValue: 6,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "sight",
-        aoeShape: "circle",
-        aoeParameters: { radius: 60 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 40 },
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "The Omniscript Codex, artifact of ultimate power",
-        classResource: { type: "runic_resonance", cost: 7 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      tags: ["buff", "control", "damage", "zone", "legendary", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_rune_of_creation",
-      name: "Rune of Creation",
-      description:
-        "Create a living rune construct â€” an Inscribed Titan made of coalesced runic energy that fights alongside you.",
-      level: 10,
-      spellType: "ACTION",
-      effectTypes: ["summoning"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Divine Radiance",
-        tags: ["summoning", "creation", "legendary", "inscriptor"],
-        castTime: 3,
-        castTimeType: "IMMEDIATE",
-      },
-      summonConfig: {
-        creatures: [
-          {
-            id: "inscribed_titan",
-            name: "Inscribed Titan",
-            description:
-              "A colossal construct of living runes, bound to the Inscriptor's will",
-            size: "Large",
-            type: "construct",
-            tokenIcon: "spell_arcane_arcane02",
-            stats: {
-              maxHp: 200,
-              armor: 18,
-              maxMana: 0,
-            },
-            abilities: [
-              "Runic Slam: 3d8 + STR force damage (melee)",
-              "Zone Carrier: The Titan counts as 2 runes for zone threshold purposes. It carries an active rune effect of your choice.",
-              "Resonant Construct: When the Titan is destroyed, it detonates dealing 4d8 force damage in 15 ft and grants you +3 Resonance.",
-            ],
-            config: {
-              quantity: 1,
-              duration: 10,
-              durationUnit: "rounds",
-              hasDuration: true,
-              concentration: false,
-              controlType: "mental",
-              controlRange: 60,
-            },
-          },
-        ],
-        duration: 10,
-        durationUnit: "rounds",
-        hasDuration: true,
-        concentration: false,
-        controlRange: 60,
-        controlType: "mental",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        aoeShape: "circle",
-        aoeParameters: { radius: 5 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        materialComponents: "Ancient rune stone worth 10,000 gold",
-        classResource: { type: "runic_resonance", cost: 7 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "AUTOMATIC",
-      tags: ["summoning", "creation", "legendary", "inscriptor"],
-    },
-
-    {
-      id: "inscriptor_runic_ascension",
-      name: "Runic Ascension",
-      description:
-        "Transform into a being of pure runic energy for 5 rounds. All runes you place are doubled in effect, you generate +3 Resonance per round, and you can place runes as a bonus action. When it ends, all your runes detonate automatically.",
-      level: 10,
-      spellType: "ACTION",
-      effectTypes: ["buff", "transformation"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Radiant Bolt",
-        tags: ["buff", "transformation", "legendary", "inscriptor"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "runic_ascension",
-            name: "Runic Ascension",
-            description:
-              "For 5 rounds: doubled rune effects, runes placed as bonus action, +3 Resonance/round. On expiry: all runes detonate automatically.",
-            customDescription:
-              "You transform into a being of living runes. For 5 rounds:\n\n- All rune zone effects are doubled\n- You can place runes as a bonus action (no action point cost)\n- You generate +3 Resonance at the start of each turn\n- You gain resistance to force and arcane damage\n- You cannot use inscription spells (only runes)\n\nWhen Runic Ascension ends, ALL your active runes detonate automatically at no action cost. Each detonation deals its standard damage + 3d8 bonus force damage.",
-            mechanicsText:
-              "5 rounds of empowered rune play. Ends with auto-detonation of all runes.",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
-      targetingConfig: {
-        targetingType: "self",
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 40 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "runic_resonance", cost: 7 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "AUTOMATIC",
-      tags: ["buff", "transformation", "legendary", "inscriptor"],
-    },
-    // ===== PASSIVE ABILITIES =====
     {
       id: "inscriptor_runic_backlash",
-      name: "Runic Backlash",
-      description:
-        "When one of your placed runes is dispelled, destroyed, or triggered by an enemy's dispel effect, the runic energy feeds back through you. You take 1d6 force damage per rune level that was disrupted. Additionally, you lose 1 Runic Resonance per disrupted rune (minimum 0). Runes that expire naturally or are consumed by their own effects do not trigger backlash.",
-      level: 3,
+      name: "Trance: Runic Backlash",
+      description: "When one of your placed runes is dispelled, destroyed, or triggered by an enemy's dispel effect, the runic energy feeds back through you. You take 1d6 force damage per rune level that was disrupted, and you lose 1 Runic Resonance per disrupted rune. Runes that expire naturally or are consumed by their own effects do not trigger backlash.",
       spellType: "PASSIVE",
-      icon: "Force/Force Impact",
+      icon: "Force/Explosion Burst",
+      level: 3,
       effectTypes: ["passive"],
       typeConfig: {
-        school: "arcane",
-        icon: "Force/Force Impact",
-        tags: ["passive", "inscriptor", "weakness"],
+        school: "force",
+        icon: "Force/Explosion Burst",
+        tags: ["passive", "restriction", "runic interference", "inscriptor"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
       },
       targetingConfig: { targetingType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
-      tags: ["passive", "inscriptor", "weakness"],
+      tags: ["passive", "restriction", "runic interference", "inscriptor"],
     },
+
     {
       id: "inscriptor_no_self_heal",
-      name: "Ink and Stone",
-      description:
-        "Your magic is inscribed in runes, not flesh. You cannot heal yourself through any Inscriptor ability. All healing effects from your runes, sigils, and glyphs target allies only. Your only defense is preparation -- shields, barriers, and protective inscriptions. You have zero self-sustain.",
-      level: 1,
+      name: "Trance: The Blood Oath",
+      description: "Your magic is inscribed in runes, not flesh. You cannot heal yourself through any Inscriptor ability. All healing effects from your runes, sigils, and glyphs target allies only. Your only defense is preparation—shields, barriers, and protective inscriptions. You have zero self-sustain.",
       spellType: "PASSIVE",
-      icon: "Force/Force Shield",
+      icon: "Force/Explosion Burst",
+      level: 1,
       effectTypes: ["passive"],
       typeConfig: {
-        school: "arcane",
-        icon: "Force/Force Shield",
-        tags: ["passive", "inscriptor", "restriction"],
+        school: "force",
+        icon: "Force/Explosion Burst",
+        tags: ["passive", "restriction", "no self heal", "inscriptor"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
       },
       targetingConfig: { targetingType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
-      tags: ["passive", "inscriptor", "restriction"],
+      tags: ["passive", "restriction", "no self heal", "inscriptor"],
     },
+
     {
       id: "inscriptor_no_hard_cc",
-      name: "Runes Disrupt, They Do Not Lock Down",
-      description: "The Inscriptor does not Stun, Freeze, or Cage. Your runes INTERFERE: targets suffer disadvantage on spellcasting and ability checks, or halved movement. Targets can still fight, move, and react ` they just do it through a haze of runic static. Hard CC belongs to the Lichborne (freeze), Warden (cage), and Chronarch (time-stop). You disrupt. You do not dominate.",
-      level: 1,
+      name: "Trance: Runic Interference",
+      description: "Your runes interfere with and slow reality, but they cannot lock it down completely. You cannot stun, freeze, or paralyze enemies. Instead, your abilities focus on massive speed reduction, silence, and stat penalties. Any hard crowd control must be provided by your allies.",
       spellType: "PASSIVE",
-      icon: "Arcane/Arcane Explosion",
+      icon: "Force/Explosion Burst",
+      level: 1,
       effectTypes: ["passive"],
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Arcane Explosion",
+        school: "force",
+        icon: "Force/Explosion Burst",
         tags: ["passive", "restriction", "no hard cc", "runic interference", "inscriptor"],
         castTime: 0,
         castTimeType: "PASSIVE",
@@ -2412,6 +503,1754 @@ RUNE LIMITS BY SPECIALIZATION:
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
       tags: ["passive", "restriction", "no hard cc", "runic interference", "inscriptor"],
+    },
+
+    // ─── LEVEL 1 ───
+    {
+      id: "inscriptor_arcane_inscription",
+      name: "Scribe: The Crimson Rite",
+      description: "Peeling back your own flesh with a bone stylus, you fling your blood onto an ally's weapon or armor. Weapon attacks deal +1d6 force damage, or armor grants +2 Armor. You take 1d6 self-inflicted slashing damage to carve this mark. Lasts for 5 rounds.",
+      spellType: "ACTION",
+      icon: "Fire/Fiery Symbol",
+      level: 1,
+      typeConfig: {
+        school: "slashing",
+        icon: "Fire/Fiery Symbol",
+        tags: ["buff", "inscription", "slashing", "utility", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        range: 5,
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 1 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage"],
+      damageConfig: {
+        formula: "1d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "crimson_rite_weapon",
+            name: "Crimson Rite",
+            description: "Deals +1d6 force damage on hit.",
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
+      tags: ["buff", "inscription", "slashing", "utility", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_minor_rune",
+      name: "Rune of the Withered Chisel",
+      description: "You carve a jagged boundary line into the stone floor. Enemies stepping onto the line have their speed reduced by 10 ft. You take 1d4 self-inflicted slashing damage during the carving. Lasts permanently until triggered or shattered.",
+      spellType: "ACTION",
+      icon: "Arcane/Abstract Rune",
+      level: 1,
+      typeConfig: {
+        school: "slashing",
+        icon: "Arcane/Abstract Rune",
+        tags: ["control", "rune", "zone", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 2 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 1 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["control", "damage"],
+      damageConfig: {
+        formula: "1d4",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "withered_chisel_slow",
+            name: "Withered Chisel Slow",
+            description: "Speed reduced by 10 ft.",
+            statModifier: {
+              stat: "speed",
+              magnitude: -10,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 1,
+        durationUnit: "rounds",
+      },
+      tags: ["control", "rune", "zone", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_rune_of_shielding",
+      name: "Rune of Flayed Wards",
+      description: "You carve a defensive ward into your own skin or an ally's. Grants a shield that absorbs 2d8 + Intelligence modifier damage. Carving this rune costs you 1d6 self-inflicted slashing damage. Lasts for 1 minute.",
+      spellType: "ACTION",
+      icon: "Force/Force Shield",
+      level: 1,
+      typeConfig: {
+        school: "slashing",
+        icon: "Force/Force Shield",
+        tags: ["buff", "shield", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        range: 5,
+        targetRestrictions: ["ally", "self"],
+      },
+      durationConfig: {
+        durationType: "minutes",
+        durationValue: 1,
+        durationUnit: "minutes",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 3 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 1 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage", "healing"],
+      damageConfig: {
+        formula: "1d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      healingConfig: {
+        healingType: "shield",
+        formula: "2d8 + Intelligence",
+        resolution: "AUTOMATIC",
+        shieldConfig: {
+          enabled: true,
+          shieldAmount: "2d8 + Intelligence",
+          shieldDuration: 1,
+          shieldDurationType: "minutes",
+        },
+      },
+      tags: ["buff", "shield", "inscriptor"],
+    },
+
+    // ─── LEVEL 2 ───
+    {
+      id: "inscriptor_rune_of_speed",
+      name: "Rune of Tearing Adrenaline",
+      description: "You carve a jagged sigil into an ally's calves or boots. They gain +10 ft movement speed, but take 1d4 physical slashing damage at the start of each of their turns as their flesh tears. You take 1d4 self-inflicted slashing damage to carve it. Lasts for 5 rounds.",
+      spellType: "ACTION",
+      icon: "Utility/Speed Boot",
+      level: 2,
+      typeConfig: {
+        school: "slashing",
+        icon: "Utility/Speed Boot",
+        tags: ["buff", "speed", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        range: 5,
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 1 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage"],
+      damageConfig: {
+        formula: "1d4",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "tearing_adrenaline_speed",
+            name: "Tearing Adrenaline",
+            description: "+10 ft movement speed. Take 1d4 slashing damage at start of turn.",
+            statModifier: {
+              stat: "speed",
+              magnitude: 10,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "speed", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_rune_of_warding",
+      name: "Rune of Blood-Woven Barriers",
+      description: "You carve a crimson barrier rune on the floor. All allies within 5ft of the rune have all incoming magical and elemental damage reduced by 5. If 3 or more barriers are active, all magic damage is reduced by 30% instead. You take 1d6 self-inflicted slashing damage to carve it. Lasts permanently.",
+      spellType: "ACTION",
+      icon: "Force/Force Shield",
+      level: 2,
+      typeConfig: {
+        school: "slashing",
+        icon: "Force/Force Shield",
+        tags: ["buff", "zone", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 1 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage"],
+      damageConfig: {
+        formula: "1d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "blood_woven_barrier_buff",
+            name: "Blood-Woven Barrier",
+            description: "Magical/elemental damage reduced by 5 (or 30% if 3+ active).",
+          },
+        ],
+      },
+      tags: ["buff", "zone", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_flame_inscription",
+      name: "Scribe: Searing Flesh-Brand",
+      description: "You sear a blazing mark onto an ally's weapon. Their attacks deal +1d6 fire damage, but they take 1d4 fire damage on every strike as the heat boils their blood. You take 1d6 self-inflicted slashing damage to carve this mark. Lasts for 5 rounds.",
+      spellType: "ACTION",
+      icon: "Fire/Flame Burst",
+      level: 2,
+      typeConfig: {
+        school: "fire",
+        icon: "Fire/Flame Burst",
+        tags: ["buff", "inscription", "fire", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        range: 5,
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 5 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 1 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage"],
+      damageConfig: {
+        formula: "1d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "searing_flesh_brand_weapon",
+            name: "Searing Flesh-Brand",
+            description: "Weapon attacks deal +1d6 fire damage, but wielder takes 1d4 fire damage per strike.",
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "inscription", "fire", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_rune_of_slowing",
+      name: "Rune of Congealed Soil",
+      description: "You carve a thick, mud-stained rune into the ground. Enemies entering the 10ft radius have their movement speed halved. You take 1d6 self-inflicted slashing damage during carving. Lasts permanently.",
+      spellType: "ACTION",
+      icon: "Frost/Frozen Wave",
+      level: 2,
+      typeConfig: {
+        school: "slashing",
+        icon: "Frost/Frozen Wave",
+        tags: ["control", "rune", "zone", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 1 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["control", "damage"],
+      damageConfig: {
+        formula: "1d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "congealed_soil_slow",
+            name: "Congealed Soil Slow",
+            description: "Speed halved.",
+          },
+        ],
+      },
+      tags: ["control", "rune", "zone", "inscriptor"],
+    },
+
+    // ─── LEVEL 3 ───
+    {
+      id: "inscriptor_rune_of_destruction",
+      name: "Rune of Ravaging Embers",
+      description: "You carve a fire rune that burns any enemy within 5ft for 1d6 fire damage per turn. If 3 or more fire runes are active, all fire damage dealt and taken in their zones is doubled. You take 2d6 self-inflicted slashing damage to carve it. Lasts permanently.",
+      spellType: "ACTION",
+      icon: "Fire/Flame Wave",
+      level: 3,
+      typeConfig: {
+        school: "slashing",
+        icon: "Fire/Flame Wave",
+        tags: ["damage", "rune", "zone", "fire", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 2 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "1d6",
+        elementType: "fire",
+        damageTypes: ["fire", "slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+        selfDamageFormula: "2d6",
+      },
+      tags: ["damage", "rune", "zone", "fire", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_rune_of_vitality",
+      name: "Rune of Agonizing Transfusion",
+      description: "You carve a transfusion pool into the stone. Allies within 5ft heal for 1d6 hit points per turn, but the placement costs you 2d6 self-inflicted slashing damage. Lasts permanently. You cannot heal yourself from this rune.",
+      spellType: "ACTION",
+      icon: "Healing/Renewal",
+      level: 3,
+      typeConfig: {
+        school: "slashing",
+        icon: "Healing/Renewal",
+        tags: ["healing", "rune", "zone", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 2 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["healing", "damage"],
+      damageConfig: {
+        formula: "2d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      healingConfig: {
+        healingType: "hot",
+        formula: "1d6",
+        resolution: "AUTOMATIC",
+      },
+      tags: ["healing", "rune", "zone", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_thorn_inscription",
+      name: "Scribe: Jagged Splinters",
+      description: "You carve splintered bone-brands onto an ally's armor. Melee attackers take 1d6 piercing damage on hit. You take 2d6 self-inflicted slashing damage to carve it. Lasts for 5 rounds.",
+      spellType: "ACTION",
+      icon: "Nature/Thorned Flower",
+      level: 3,
+      typeConfig: {
+        school: "slashing",
+        icon: "Nature/Thorned Flower",
+        tags: ["buff", "inscription", "retaliation", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        range: 5,
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 5 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 2 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage"],
+      damageConfig: {
+        formula: "2d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "jagged_splinters_buff",
+            name: "Jagged Splinters",
+            description: "Melee attackers take 1d6 piercing damage on hit.",
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "inscription", "retaliation", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_rune_of_earth",
+      name: "Rune of Calcified Soil",
+      description: "You carve a rune that conjures a heavy stone pillar (30 HP) that blocks paths. If 3 or more earth runes are active, they form a solid stone wall between them. You take 2d6 self-inflicted slashing damage to carve it. Lasts permanently.",
+      spellType: "ACTION",
+      icon: "Nature/Nature Hand",
+      level: 3,
+      typeConfig: {
+        school: "slashing",
+        icon: "Nature/Nature Hand",
+        tags: ["utility", "rune", "control", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ["enemy", "ally"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", gain: 2 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["utility", "damage"],
+      damageConfig: {
+        formula: "2d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      utilityConfig: {
+        utilityType: "creation",
+        selectedEffects: [
+          {
+            id: "calcified_pillar",
+            name: "Stone Pillar",
+            description: "Conjures a stone pillar with 30 HP.",
+          },
+        ],
+      },
+      tags: ["utility", "rune", "control", "inscriptor"],
+    },
+
+    // ─── LEVEL 4 ───
+    {
+      id: "inscriptor_glyph_of_binding",
+      name: "Glyph of Shackled Blood",
+      description: "You spend Runic Resonance to project blood chains from your active runes. All enemies in your active zones have their speed halved and take 2d6 force damage per round. Consumes 3 Runic Resonance. Lasts for 3 rounds.",
+      spellType: "ACTION",
+      icon: "Arcane/Missile",
+      level: 4,
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Missile",
+        tags: ["control", "damage", "glyph", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 15 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["control", "damage"],
+      damageConfig: {
+        formula: "2d6",
+        elementType: "force",
+        damageTypes: ["force"],
+        resolution: "AUTOMATIC",
+      },
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "shackled_blood_slow",
+            name: "Shackled Blood Slow",
+            description: "Speed halved and takes 2d6 force damage per turn.",
+          },
+        ],
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      tags: ["control", "damage", "glyph", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_runic_shield",
+      name: "Rune of Iron Epidermis",
+      description: "You spend Runic Resonance to calcify the skin of an ally or yourself. Grants a massive shield that absorbs 3d8 + Intelligence modifier damage and provides +3 Armor. Consumes 3 Runic Resonance. Lasts for 1 minute.",
+      spellType: "ACTION",
+      icon: "Force/Force Shield",
+      level: 4,
+      typeConfig: {
+        school: "force",
+        icon: "Force/Force Shield",
+        tags: ["buff", "shield", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        range: 5,
+        targetRestrictions: ["ally", "self"],
+      },
+      durationConfig: {
+        durationType: "minutes",
+        durationValue: 1,
+        durationUnit: "minutes",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 14 },
+        actionPoints: 1,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "healing"],
+      healingConfig: {
+        healingType: "shield",
+        formula: "3d8 + Intelligence",
+        resolution: "AUTOMATIC",
+        shieldConfig: {
+          enabled: true,
+          shieldAmount: "3d8 + Intelligence",
+          shieldDuration: 1,
+          shieldDurationType: "minutes",
+        },
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "iron_epidermis_buff",
+            name: "Iron Epidermis",
+            description: "+3 Armor and 3d8+INT shield.",
+            statModifier: {
+              stat: "armor",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 1,
+        durationUnit: "minutes",
+      },
+      tags: ["buff", "shield", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_sigil_of_power",
+      name: "Sigil of Vital Drain",
+      description: "You spend Runic Resonance to carve a large glowing circle on the ground. Allies standing inside gain +2 to all damage rolls, but take 1d4 necrotic damage at the start of each of their turns as the sigil drains their blood to maintain power. Consumes 3 Runic Resonance. Lasts for 5 rounds.",
+      spellType: "ACTION",
+      icon: "Arcane/Orb Manipulation",
+      level: 4,
+      typeConfig: {
+        school: "necrotic",
+        icon: "Arcane/Orb Manipulation",
+        tags: ["buff", "zone", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "vital_drain_buff",
+            name: "Vital Drain Sigil",
+            description: "+2 to damage rolls, take 1d4 necrotic damage at start of turn.",
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "zone", "inscriptor"],
+    },
+
+    // ─── LEVEL 5 ───
+    {
+      id: "inscriptor_rune_of_devastation",
+      name: "Rune of Whispering Landmines",
+      description: "You spend Runic Resonance to carve a hidden blood-seal (trap) in a 5ft radius. When an enemy steps on it, the mine explodes, dealing 6d8 + Intelligence modifier force damage to all creatures within 10ft (Agility save for half). Consumes 3 Runic Resonance. Lasts permanently until triggered.",
+      spellType: "TRAP",
+      icon: "Fire/Fiery Symbol",
+      level: 5,
+      typeConfig: {
+        school: "force",
+        icon: "Fire/Fiery Symbol",
+        tags: ["damage", "trap", "force", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 18 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      resolution: "ROLL",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "6d8 + Intelligence",
+        elementType: "force",
+        damageTypes: ["force"],
+        resolution: "ROLL",
+      },
+      trapConfig: {
+        placementRadius: 5,
+        detectionMethod: "arcana",
+        detectionDC: 18,
+        disarmMethod: "dispel_magic",
+        disarmDC: 18,
+        visibility: "magical",
+        trapDuration: "permanent",
+        maxTriggers: 1,
+        resetTime: 0,
+      },
+      tags: ["damage", "trap", "force", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_glyph_mastery",
+      name: "Agonizing Overcharge",
+      description: "You spend Runic Resonance to enter an agonizing trance where your runes bleed furiously. For 4 rounds, all your active runes and glyphs deal +50% damage and their spell save DC is increased by 2. Casting this costs you 2d6 self-inflicted slashing damage. Consumes 3 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Arcane/Orb Manipulation",
+      level: 5,
+      typeConfig: {
+        school: "slashing",
+        icon: "Arcane/Orb Manipulation",
+        tags: ["buff", "trance", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: { targetingType: "self" },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 4,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 16 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage"],
+      damageConfig: {
+        formula: "2d6",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "agonizing_overcharge_buff",
+            name: "Agonizing Overcharge",
+            description: "+50% rune damage and +2 to save DCs.",
+          },
+        ],
+        durationValue: 4,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "trance", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_inscription_of_warding",
+      name: "Scribe: Wards of Flayed Bone",
+      description: "You spend Runic Resonance to carve matching protective sutured markings onto up to 4 allies. Grants +3 Armor and +20% to all elemental resistances. Consumes 3 Runic Resonance. Lasts for 5 rounds.",
+      spellType: "ACTION",
+      icon: "Force/Force Shield",
+      level: 5,
+      typeConfig: {
+        school: "force",
+        icon: "Force/Force Shield",
+        tags: ["buff", "inscription", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 17 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "wards_of_flayed_bone_buff",
+            name: "Wards of Flayed Bone",
+            description: "+3 Armor and +20% elemental resistances.",
+            statModifier: {
+              stat: "armor",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "inscription", "inscriptor"],
+    },
+
+    // ─── LEVEL 6 ───
+    {
+      id: "inscriptor_runic_array",
+      name: "Network: Agonizing Mesh",
+      description: "You spend Runic Resonance to link all placed runes in a complex mesh. All enemies caught in the connecting lines take 8d6 + Intelligence modifier force damage and have their movement speed reduced by 20 ft. Consumes 3 Runic Resonance. Lasts for 3 rounds.",
+      spellType: "ACTION",
+      icon: "Arcane/Missile",
+      level: 6,
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Missile",
+        tags: ["damage", "control", "network", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 22 },
+        actionPoints: 3,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      resolution: "ROLL",
+      effectTypes: ["damage", "control"],
+      damageConfig: {
+        formula: "8d6 + Intelligence",
+        elementType: "force",
+        damageTypes: ["force"],
+        resolution: "ROLL",
+      },
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "agonizing_mesh_slow",
+            name: "Agonizing Mesh Slow",
+            description: "Speed reduced by 20 ft.",
+            statModifier: {
+              stat: "speed",
+              magnitude: -20,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      tags: ["damage", "control", "network", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_sigil_of_power_major",
+      name: "Sigil of Greater Blood-Siphon",
+      description: "You spend Runic Resonance to carve a massive sigil. Allies standing inside gain +3 to all damage rolls and +2 Armor, but take 1d6 necrotic damage at the start of each of their turns. Consumes 3 Runic Resonance. Lasts for 5 rounds.",
+      spellType: "ACTION",
+      icon: "Arcane/Orb Manipulation",
+      level: 6,
+      typeConfig: {
+        school: "necrotic",
+        icon: "Arcane/Orb Manipulation",
+        tags: ["buff", "zone", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 20 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "greater_blood_siphon_buff",
+            name: "Greater Blood-Siphon Sigil",
+            description: "+3 to damage rolls, +2 Armor, take 1d6 necrotic damage at start of turn.",
+            statModifier: {
+              stat: "armor",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "zone", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_glyph_nexus",
+      name: "Network: Vessel Nexus",
+      description: "You spend Runic Resonance to connect all placed runes. When any single rune is triggered, it triggers a chain reaction, activating all other runes within 30 ft automatically. Consumes 3 Runic Resonance. Lasts for 5 rounds.",
+      spellType: "ACTION",
+      icon: "Force/Explosion Burst",
+      level: 6,
+      typeConfig: {
+        school: "force",
+        icon: "Force/Explosion Burst",
+        tags: ["utility", "network", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: { targetingType: "self" },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 21 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "protection",
+        selectedEffects: [
+          {
+            id: "vessel_nexus_active",
+            name: "Vessel Nexus Active",
+            description: "Runes within 30 ft trigger automatically in chain reactions.",
+          },
+        ],
+      },
+      tags: ["utility", "network", "inscriptor"],
+    },
+
+    // ─── LEVEL 7 ───
+    {
+      id: "inscriptor_ancient_rune",
+      name: "Rune of Shattered Flesh and Soil",
+      description: "You spend Runic Resonance to carve a massive, ancient rune that tears reality. Deals 12d6 + double Intelligence modifier force damage to all enemies in a 35ft circle (Constitution save for half). Consumes 5 Runic Resonance. Lasts permanently.",
+      spellType: "ACTION",
+      icon: "Fire/Flame Wave",
+      level: 7,
+      typeConfig: {
+        school: "force",
+        icon: "Fire/Flame Wave",
+        tags: ["damage", "rune", "zone", "inscriptor"],
+        castTime: 3,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 40,
+        aoeShape: "circle",
+        aoeParameters: { radius: 35 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 28 },
+        actionPoints: 3,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 5 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "ROLL",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "12d6 + (Intelligence * 2)",
+        elementType: "force",
+        damageTypes: ["force"],
+        resolution: "ROLL",
+      },
+      tags: ["damage", "rune", "zone", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_inscribed_fortress",
+      name: "Network: Fortress of Flayed Stone",
+      description: "You spend Runic Resonance to build a massive square barrier network on the floor. All allies inside gain +4 Armor, +50% damage reduction, and a 3d8 shield that refreshes at the start of each round. Consumes 5 Runic Resonance. Lasts for 3 rounds.",
+      spellType: "ACTION",
+      icon: "Force/Force Shield",
+      level: 7,
+      typeConfig: {
+        school: "force",
+        icon: "Force/Force Shield",
+        tags: ["buff", "shield", "network", "inscriptor"],
+        castTime: 3,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "square",
+        aoeParameters: { sideLength: 40 },
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 26 },
+        actionPoints: 3,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 5 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "healing"],
+      healingConfig: {
+        healingType: "shield",
+        formula: "3d8",
+        resolution: "AUTOMATIC",
+        shieldConfig: {
+          enabled: true,
+          shieldAmount: "3d8",
+          shieldDuration: 3,
+          shieldDurationType: "rounds",
+        },
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "flayed_stone_fortress_buff",
+            name: "Fortress of Flayed Stone",
+            description: "+4 Armor, +50% damage reduction, and 3d8 shield refreshing each turn.",
+            statModifier: {
+              stat: "armor",
+              magnitude: 4,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "shield", "network", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_master_inscriber",
+      name: "Agonizing Scribe-Ascent",
+      description: "You spend Runic Resonance to push your body to the absolute limit. For 3 rounds, all spells cost 50% less mana, have +2 DC, and deal +50% damage. You take 3d6 necrotic damage when you cast this. Consumes 5 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Arcane/Orb Manipulation",
+      level: 7,
+      typeConfig: {
+        school: "necrotic",
+        icon: "Arcane/Orb Manipulation",
+        tags: ["buff", "trance", "inscriptor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: { targetingType: "self" },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 30 },
+        actionPoints: 3,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 5 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage"],
+      damageConfig: {
+        formula: "3d6",
+        elementType: "necrotic",
+        damageTypes: ["necrotic"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "scribe_ascent_buff",
+            name: "Scribe-Ascent",
+            description: "-50% mana cost, +2 DC, +50% damage.",
+          },
+        ],
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "trance", "inscriptor"],
+    },
+
+    // ─── LEVEL 8 ───
+    {
+      id: "inscriptor_primordial_glyph",
+      name: "Glyph of Eldritch Silence",
+      description: "You spend Runic Resonance to project a massive glyph that strips magical energy. All enemies in a 30ft radius take 8d8 + Intelligence modifier force damage and are Silenced (cannot cast magic) for 2 rounds. Consumes 5 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Force/Explosion Burst",
+      level: 8,
+      typeConfig: {
+        school: "force",
+        icon: "Force/Explosion Burst",
+        tags: ["damage", "control", "glyph", "inscriptor"],
+        castTime: 3,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 40,
+        aoeShape: "circle",
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 28 },
+        actionPoints: 3,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 5 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      resolution: "ROLL",
+      effectTypes: ["damage", "control"],
+      damageConfig: {
+        formula: "8d8 + Intelligence",
+        elementType: "force",
+        damageTypes: ["force"],
+        resolution: "ROLL",
+      },
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "eldritch_silence_debuff",
+            name: "Eldritch Silence",
+            description: "Silenced. Cannot cast magic.",
+          },
+        ],
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+      tags: ["damage", "control", "glyph", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_runic_apocalypse",
+      name: "Network: Runic Rupture",
+      description: "You spend Runic Resonance to detonate your entire active network. All placed runes explode simultaneously, dealing 6d6 force damage per rune level to all creatures within 15ft of each rune. You gain +2 Runic Resonance per rune detonated. Consumes 5 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Fire/Flame Wave",
+      level: 8,
+      typeConfig: {
+        school: "force",
+        icon: "Fire/Flame Wave",
+        tags: ["damage", "network", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
+        aoeParameters: { radius: 50 },
+        targetRestrictions: ["enemy"],
+      },
+      durationConfig: {
+        durationType: "instant",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 20 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 5 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "ROLL",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "6d6",
+        elementType: "force",
+        damageTypes: ["force"],
+        resolution: "ROLL",
+      },
+      tags: ["damage", "network", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_eternal_inscription",
+      name: "Scribe: Permanent Stitches",
+      description: "You spend Runic Resonance to sew permanent wards into the muscle tissue of an ally. They gain +3 Armor and +20% to all resistances. You take 3d8 slashing damage. This buff is permanent and cannot be dispelled. Consumes 7 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Arcane/Magical Cross Emblem 2",
+      level: 8,
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Magical Cross Emblem 2",
+        tags: ["buff", "inscription", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        range: 5,
+        targetRestrictions: ["ally"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 25 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 7 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff", "damage"],
+      damageConfig: {
+        formula: "3d8",
+        elementType: "slashing",
+        damageTypes: ["slashing"],
+        resolution: "AUTOMATIC",
+        isSelfDamage: true,
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "permanent_stitches_buff",
+            name: "Permanent Stitches",
+            description: "+3 Armor, +20% all resistances. Permanent.",
+            statModifier: {
+              stat: "armor",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+      },
+      tags: ["buff", "inscription", "inscriptor"],
+    },
+
+    // ─── LEVEL 9 ───
+    {
+      id: "inscriptor_worldscript",
+      name: "Network: Reality Carver",
+      description: "You spend Runic Resonance to carve massive incisions into reality. Creates a 40ft zone where all allies gain +3 to all rolls (attacks, saves, skills) and enemies take 5d10 force damage at the start of each of their turns. Consumes 5 Runic Resonance. Lasts for 3 rounds.",
+      spellType: "ACTION",
+      icon: "Arcane/Missile",
+      level: 9,
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Missile",
+        tags: ["damage", "buff", "network", "inscriptor"],
+        castTime: 3,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 40,
+        aoeShape: "circle",
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ["enemy", "ally"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 35 },
+        actionPoints: 3,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 5 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      resolution: "ROLL",
+      effectTypes: ["damage", "buff"],
+      damageConfig: {
+        formula: "5d10",
+        elementType: "force",
+        damageTypes: ["force"],
+        resolution: "ROLL",
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "reality_carver_buff",
+            name: "Reality Carver Aura",
+            description: "+3 to all rolls.",
+          },
+        ],
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      tags: ["damage", "buff", "network", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_master_of_runes",
+      name: "Trance: Scribe of the Great Dirge",
+      description: "You spend Runic Resonance to channel the ancient, crushing songs of scarred soil. For 5 rounds, placing runes costs 0 mana, rune effects are doubled, and rune detonations automatically deal maximum damage. Consumes 5 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Arcane/Orb Manipulation",
+      level: 9,
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Orb Manipulation",
+        tags: ["buff", "trance", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: { targetingType: "self" },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 30 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 5 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "great_dirge_trance",
+            name: "Scribe of the Great Dirge",
+            description: "Rune placement costs 0 mana, rune effects doubled, detonations deal max damage.",
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "trance", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_inscription_of_eternity",
+      name: "Scribe: Ward of Death",
+      description: "You spend Runic Resonance to carve final, massive runic sutures along your own chest. For 5 rounds, your hit points cannot be reduced below 1, all incoming damage is halved, and you generate +1 Runic Resonance per turn. When this trance ends, you suffer 3d6 force damage backlash. Consumes 5 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Arcane/Magical Cross Emblem 2",
+      level: 9,
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Magical Cross Emblem 2",
+        tags: ["buff", "inscription", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: { targetingType: "self" },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 30 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 5 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "ward_of_death_active",
+            name: "Ward of Death Active",
+            description: "Cannot be reduced below 1 HP, all damage halved, +1 Resonance/turn. 3d6 backlash at end.",
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "inscription", "inscriptor"],
+    },
+
+    // ─── LEVEL 10 ───
+    {
+      id: "inscriptor_omniscript",
+      name: "Network: The Great Mutilation",
+      description: "You spend Runic Resonance to rewrite the rules of combat. Create a 50ft permanent network. Choose: Path of Ruin (enemies take 4d10 force and are slowed by 25 ft), Path of Glory (allies gain +4 to all damage and saves), or Path of Mastery (your inscriptions deal double damage). Consumes 7 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Arcane/Missile",
+      level: 10,
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Missile",
+        tags: ["damage", "buff", "control", "network", "inscriptor"],
+        castTime: 3,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
+        aoeParameters: { radius: 50 },
+        targetRestrictions: ["enemy", "ally"],
+      },
+      durationConfig: {
+        durationType: "permanent",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 40 },
+        actionPoints: 3,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 7 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+      resolution: "ROLL",
+      effectTypes: ["damage", "buff", "control"],
+      damageConfig: {
+        formula: "4d10",
+        elementType: "force",
+        damageTypes: ["force"],
+        resolution: "ROLL",
+      },
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "great_mutilation_slow",
+            name: "Great Mutilation Slow",
+            description: "Speed reduced by 25 ft.",
+            statModifier: {
+              stat: "speed",
+              magnitude: -25,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+      },
+      tags: ["damage", "buff", "control", "network", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_rune_of_creation",
+      name: "Rune: The Scarred Colossus",
+      description: "You spend Runic Resonance to carve life into stone. Conjure an Inscribed Titan (200 HP construct of living scars) that defends allies and locks down enemies in melee. Consumes 7 Runic Resonance. Lasts for 10 minutes.",
+      spellType: "ACTION",
+      icon: "Nature/Nature Hand",
+      level: 10,
+      typeConfig: {
+        school: "force",
+        icon: "Nature/Nature Hand",
+        tags: ["summon", "rune", "inscriptor"],
+        castTime: 3,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        range: 40,
+        aoeShape: "circle",
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ["enemy", "ally"],
+      },
+      durationConfig: {
+        durationType: "minutes",
+        durationValue: 10,
+        durationUnit: "minutes",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 35 },
+        actionPoints: 3,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 7 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "summon",
+        selectedEffects: [
+          {
+            id: "scarred_colossus_summon",
+            name: "Inscribed Titan",
+            description: "Conjures a construct with 200 HP.",
+          },
+        ],
+      },
+      tags: ["summon", "rune", "inscriptor"],
+    },
+
+    {
+      id: "inscriptor_runic_ascension",
+      name: "Trance: Flesh-Rune Apotheosis",
+      description: "You spend Runic Resonance to dissolve your body into pure, bleeding runic energy. For 5 rounds: your rune effects are doubled, you can place runes as an immediate reaction, you gain +3 Runic Resonance per turn, and you are immune to forced movement. When it ends, all your active runes detonate automatically. Consumes 7 Runic Resonance.",
+      spellType: "ACTION",
+      icon: "Arcane/Orb Manipulation",
+      level: 10,
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Orb Manipulation",
+        tags: ["buff", "trance", "inscriptor"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: { targetingType: "self" },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 40 },
+        actionPoints: 2,
+        components: ["somatic"],
+        classResource: { type: "runic_resonance", cost: 7 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "runic_ascension_active",
+            name: "Flesh-Rune Apotheosis",
+            description: "Rune effects doubled, place runes as immediate reactions, +3 Resonance/turn, immune to displacement.",
+          },
+        ],
+        durationValue: 5,
+        durationUnit: "rounds",
+      },
+      tags: ["buff", "trance", "inscriptor"],
     },
   ],
 

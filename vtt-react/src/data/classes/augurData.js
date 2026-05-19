@@ -1,507 +1,352 @@
 /**
  * Augur Class Data
  *
- * Complete class information for the Augur - an Omen Reader who interprets
- * signs and portents, reading even/odd dice results to fuel Benediction
- * and Malediction, reshaping battlefield conditions through divine omen.
+ * Complete surgical overhaul for the Augur - the Visceral Haruspex who reads
+ * the immediate, blood-soaked future in fresh gore, spilt blood, and splintered marrow.
+ *
+ * Fueling Benediction and Malediction through d20 Even/Odd outcomes and self-mutilation,
+ * this class dominates immediate preemptive action economy and round-by-round survival.
  */
 
 export const AUGUR_DATA = {
   id: "augur",
   name: "Augur",
-  icon: "fas fa-dove",
-  role: "Control/Debuffer (Omen Reading & Battlefield Alteration)",
+  icon: "fas fa-skull-crossbones",
+  role: "Visceral Haruspex (Omen Reading, Flesh Mutilation & Preemptive Evasion)",
   damageTypes: ["psychic", "radiant"],
 
   overview: {
     title: "The Augur",
-    subtitle: "Reader of Signs, Voice of Portent",
+    subtitle: "Visceral Haruspex of the Ripped Flesh",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: Augurs read the signs woven into every die roll. Every time a d20 hits the table—yours, an ally's, or an enemy's—the result speaks: even numbers fill your **Benediction** bar (boons, buffs, terrain blessings) while odd numbers fill your **Malediction** bar (curses, debuffs, battlefield hazards). You spend these twin resources to reshape the battlefield itself.
+      content: `**What You Must Know**: Augurs do not gaze at clean stars; they read the immediate, raw future in wet meat. Every time a d20 rolls within 60 feet—yours, an ally's, or an enemy's—the number speaks: Even results generate **Benediction** (radiant, agonizing foresight) while Odd results generate **Malediction** (psychic, decaying curses). You spend these twin resources to alter the immediate 6 seconds of combat.
 
-**Core Mechanic**: d20 Roll → Even = +1 Benediction, Odd = +1 Malediction → Spend Benediction on boons/terrain blessings, Malediction on curses/hazards/debuffs
+**Core Mechanic**: d20 Roll → Even = +1 Benediction, Odd = +1 Malediction. Spend Benediction for preemptive evasion and warding, Malediction for crippling curses and agonizing rot.
 
-**Resource**: Benediction & Malediction (dual bar, spec-dependent maxes: 10/10, 15/5, or 5/15)
+**Fatal Flaw**: Magic demands fresh violence. If no bleeding targets or fresh corpses are present within 60 feet, your omen spells cannot perceive the future. To force them to speak, you must carve into your own meat, dealing slashing damage to yourself and inducing a Bleed condition.
 
-**Playstyle**: Tactical control/debuffer who reads omens from every roll and weaponizes them
-
-**Best For**: Players who love reading the battlefield, manipulating terrain and conditions, and turning every die roll into a strategic opportunity`,
+**Why Bring Me?**: You dominate the round-by-round action economy. You provide absolute preemptive evasion to allies targeted by deadly strikes, or congeal warm blood across their weapons to guarantee devastating critical counter-strikes.`,
     },
 
-    description: `Augurs are sacred interpreters who perceive the hidden language of fate woven into every moment. Where others see random chance, Augurs read divine messages in the fall of dice, the flight of birds, and the patterns of wind and flame. They do not predict the future—they read the present, interpreting signs that already exist but only they can perceive, then reshaping reality through those interpretations.`,
+    description: `The Augur is a tragic seer of the immediate gutter. While scholars squabble over ancient astronomical charts, the Augur plunges their hands into fresh wounds and reads the heat of spilling intestines. They do not predict broad cosmic destinies—they divine the exact trajectory of a blade, the snapping point of a bone, and the moment a throat will open. Every vision demands a toll of sanity or flesh; magic is not a formula, but a visceral mutilation that must be paid for in blood.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Augurs are intermediaries between the mortal world and the language of signs. They believe that fate is not a river to be dammed but a text to be read—and rewritten. Every event carries meaning; every coincidence is a message. Some are temple-trained scholars of omen, others are wild-born seers who fell into their gift through near-death experiences. They might be:
+      content: `Augurs carry the crushing weight of tomorrow's tragedy today. They see the maggots in the skin of the living, and hear the death rattle in every laugh. Trained in dark folklore, forgotten woodland clearings, or desperate war camps, they use visceral catalysts to force reality to flinch. They are commonly known as:
 
-**The Temple Augur**: Trained in ancient rites, reading entrails, lots, and sacred dice in formal ceremony
-**The Storm Reader**: Interpreting the patterns of weather, bird flight, and natural phenomena
-**The Bone Caster**: Throwing bones, stones, or runes and reading the patterns they form
-**The Sign Bearer**: One who IS the sign—their mere presence causes omens to manifest
-**The War Herald**: Military diviner who reads battlefield conditions as living omens
+**The Gut-Sifter**: A grim diviner who follows the path of armies, sifting through corpses and reading the warm patterns of exposed intestines.
+**The Bone-Fracturer**: One who reads the cracks in their own knuckles or the shattered limbs of foes to map the pressure points of fate.
+**The Self-Flayer**: A flagellant who believes that the only clean portal to the future is the opening of their own skin.
+**The Crow-Call**: A desolate storm reader who maps the flight patterns of carrion birds, tracing where the next carcass will drop.
+**The Desolate Oracle**: A ruined prophet who was blinded by a radiant vision of their own end, left to navigate the darkness by feeling the hot blood of others.
 
-Augurs speak with weight, knowing that their words carry the power of interpretation. They tend to be observant, methodical, and slightly unnerving—always watching, always interpreting. They see meaning in coincidence and coincidence in meaning, which makes them both invaluable advisors and occasionally exhausting companions.`,
+Augurs speak in hushed, heavy tones, like a funeral dirge. They are methodology-driven, intensely observant, and carry the smell of copper and rot wherever they walk.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `In combat, Augurs are control specialists and debuffers who excel at:
+      content: `In the visceral theater of war, Augurs are architects of survival and suffering:
 
-**Battlefield Manipulation**: Altering terrain, creating zones of blessing or curse, changing the conditions of engagement
-**Omen-Based Debuffs**: Cursing enemies with ill omens that sap their strength, cloud their minds, or turn luck against them
-**Benediction Support**: Blessing allies and terrain with favorable omens that enhance abilities and provide protection
-**Sign Reading**: Gaining tactical information from interpreting dice rolls, enabling adaptive strategies
-**Condition Warfare**: Stacking beneficial and detrimental conditions that reshape the flow of combat
+**Preemptive Evasion**: Utilizing reactions to force attacks to automatically miss, shifting allies out of harm's way before blood is drawn.
+**Critical Manipulation**: Guaranteeing devastating critical hits or immediate critical counter-strikes by tracing sigils of congealed blood.
+**Visceral Debuffs**: Breaking bones, splintering marrow, and inflicting profound vulnerability through target flesh mutilation.
+**Self-Inflicted Fuel**: Sacrificing their own health and enduring self-induced Bleed states to cast spells when the battlefield is clean of fresh gore.
 
-Augurs are not primary damage dealers. They are battlefield architects who read the signs in every roll and convert them into strategic advantages. Where an Oracle predicts and a Gambler manipulates probability, the Augur interprets what IS and reshapes conditions accordingly.`,
+Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. They are high-risk, high-reward catalysts of immediate probability who must bleed to keep their allies breathing.`,
     },
 
     playstyle: {
       title: "Playstyle",
-      content: `Augurs reward players who:
+      content: `Playing an Augur is a lesson in tragic economy and intense focus:
 
-**Watch Every Roll**: Every d20 result feeds your resources—even rolls generate Benediction, odd rolls generate Malediction
-**Manage Dual Resources**: Balance between spending Benediction (positive effects) and Malediction (negative effects) based on what the dice give you
-**Control the Battlefield**: Use terrain alteration, zone creation, and condition effects to shape the fight
-**Adapt to Omens**: Your strategy shifts based on what signs appear—sometimes you're blessing-heavy, sometimes curse-heavy
-**Think Spatially**: Many Augur abilities affect areas and terrain, rewarding positional awareness
-
-The class creates a unique rhythm where you're constantly generating resources from the natural flow of dice rolls, then spending them to reshape the battlefield. Some turns you'll be a buffer, others a debuffer—the signs decide, and you interpret.`,
+**Track Every Die**: You are a hawk watching the table. Every d20 roll—attack, save, or check—directly builds your dual pools.
+**Balance the Scales**: You must constantly juggle your Benediction (boons) and Malediction (curses), spending them strategically as the dice dictate.
+**Accept the Agony**: You must be willing to slice your own HP and suffer Bleed damage when starting a fight from ambush or facing clean enemies, knowing that blood is the only key to your magic.
+**Preemptive Focus**: You do not heal damage after it occurs; you prevent it by rewriting the incoming strike before the blade touches meat.`,
     },
 
     immersiveCombatExample: {
-      title: "Combat Example: Reading the Signs",
-      content: `**The Setup**: You're an Augur (Harbinger specialization, Benediction max: 5, Malediction max: 15) facing a warband of hobgoblin soldiers and their warchief. Your party is with you. Starting Benediction: 2, Malediction: 3. Starting Mana: 45/55. Your goal: Read the omens in every roll, generate Benediction/Malediction, and use Malediction to crush the enemy with ill portents.
+      title: "Combat Example: The Haruspex's Toll",
+      content: `**The Setup**: You are an Augur (Harbinger specialization) creeping through a plague-blighted ruin with your party. A massive, iron-clad abominable executioner blocks the path. The room is quiet; no blood has been spilt. You have 0 Benediction and 0 Malediction. You must act.
 
-**Starting State**: Benediction: 2/5 | Malediction: 3/15 | Mana: 45/55 | HP: 50/50
+**Turn 1 - The First Incision**
+*Because no bleeding targets or fresh corpses exist, your eyes are blind to the future. You pull your ritual flaying hook and drag it across your own left forearm, carving the first sign.*
+* **Self-Mutilation**: You take 1d6 slashing damage (4 HP lost) and suffer Bleed (1d4 damage at the start of your turn for 3 rounds). This generates +2 Malediction.
+* **Your Action**: Cast "Splintered Bone Portent" on the Executioner (8 Mana + 2 Malediction spent).
+* **Effect**: You scream the fracture you see. The executioner staggers as his femur cracks internally. He takes 2d6 psychic damage and suffers -2 Armor and -10ft speed for 3 rounds.
+* **Mana**: 45 → 37/55.
+* **Malediction**: 2 → 0/15.
+* **Current State**: Malediction: 0/15 | Benediction: 0/5 | HP: 46/50 | Bleed Active (3 rounds)
 
-**Turn 1 - The First Omen (Benediction: 2→2, Malediction: 3→5)**
-
-*The hobgoblins advance in formation. You pull your sacred dice from their pouch and observe the battlefield. The signs are already speaking.*
-
-**Your Party's Fighter**: Attacks Hobgoblin #1 → d20+6 → [17] → Hit!
-**Omen Reading**: 17 is odd → +1 Malediction
-**Malediction**: 3 + 1 = **4/15**
-
-**Hobgoblin #1's Attack**: Strikes back at Fighter → d20+5 → [12] → Hit!
-**Omen Reading**: 12 is even → +1 Benediction
-**Benediction**: 2 + 1 = **3/5**
-
-*You watch the clash. The numbers speak. Odd, even, odd, even—the battlefield is a living text.*
-
-**Your Action**: Cast "Portent of Weakness" on Warchief (8 mana + 3 Malediction)
-**Effect**: Target has disadvantage on all attacks for 3 rounds and -2 to Armor
-
-*You point your staff at the warchief. "The signs declare your weakness. Your blade will falter. Your armor will fail." A shimmering dark sigil appears above his head—an omen of ill fortune.*
-
-**Mana**: 45 - 8 = 37/55
-**Malediction**: 4 - 3 = **1/15**
-
-**Current State**: Benediction: 3/5 | Malediction: 1/15 | Mana: 37/55 | Warchief: Disadvantage, -2 Armor (3 rounds)
-
-**Turn 2 - The Signs Multiply (Benediction: 3→4, Malediction: 1→4)**
-
-**Your Party's Ranger**: Attacks Hobgoblin #2 → d20+7 → [9] → Miss!
-**Omen Reading**: 9 is odd → +1 Malediction
-**Malediction**: 1 + 1 = **2/15**
-
-**Your Party's Mage**: Casts Fireball → d20+5 → [14] → Hit on Hobgoblins #2, #3!
-**Omen Reading**: 14 is even → +1 Benediction
-**Benediction**: 3 + 1 = **4/5**
-
-**Warchief's Turn**: Attacks Fighter (has disadvantage from Portent of Weakness) → d20+8 with DISADVANTAGE → [11, 7] → Take 11 → 11 + 8 = 19 → Hit (Fighter's Armor is 17)
-
-**Omen Reading**: Both 11 and 7 are odd → +2 Malediction
-**Malediction**: 2 + 2 = **4/15**
-
-*The warchief's attack still lands, but the portent is working—he had to roll twice and take the worse result. The signs are building.*
-
-**Your Action**: Cast "Terrain of Ruin" centered on the hobgoblin cluster (10 mana + 4 Malediction)
-**Effect**: 20ft radius zone becomes cursed terrain—enemies inside take 1d6 psychic damage at the start of each turn and have -10ft movement
-
-*You sweep your staff across the ground. "The earth rejects you. Every step is a curse. Every breath, a burden." The ground darkens, shimmering with maledictory energy.*
-
-**Mana**: 37 - 10 = 27/55
-**Malediction**: 4 - 4 = **0/15**
-
-**Current State**: Benediction: 4/5 | Malediction: 0/15 | Mana: 27/55
-
-**Turn 3 - Turning the Tide (Benediction: 4→5→2, Malediction: 0→2)**
-
-*Your party's Fighter and Ranger are taking hits. The hobgoblins are tough. But the signs keep coming.*
-
-**Your Party's Fighter**: Attacks Warchief → d20+6 → [18] → Hit! (even → +1 Benediction, now 5/5)
-**Warchief's Armor**: 17 - 2 (Portent of Weakness) = 15. Fighter hits!
-**Damage**: 2d8+4 → [7, 6] + 4 = 17 damage
-
-**Your Action**: Spend 3 Benediction to cast "Sign of Protection" on Fighter
-**Effect**: Fighter gains +3 Armor and resistance to the next physical damage source
-
-*You trace a radiant sigil in the air over your Fighter. "The omens favor you. Stand firm." A golden shimmer wraps around their armor.*
-
-**Benediction**: 5 - 3 = **2/5**
-**Mana**: 27 - 6 = 21/55
-
-**Hobgoblin #3**: Enters Terrain of Ruin → takes 1d6 psychic → [4] damage
-**Hobgoblin #3**: Attacks Ranger → d20+5 → [13] → odd → +1 Malediction
-**Malediction**: 0 + 1 = **1/15**
-
-**Hobgoblin #2**: Enters Terrain of Ruin → takes 1d6 psychic → [3] damage
-**Hobgoblin #2**: Attacks Mage → d20+5 → [5] → odd → +1 Malediction
-**Malediction**: 1 + 1 = **2/15**
-
-*The cursed terrain bites at the hobgoblins. They stagger, their movements sluggish. The signs are turning.*
-
-**Current State**: Benediction: 2/5 | Malediction: 2/15 | Mana: 21/55
-
-**Turn 4 - The Final Portent (Benediction: 2→3, Malediction: 2→4→1)**
-
-**Your Party's Mage**: Casts Lightning Bolt at Warchief → d20+5 → [11] → odd → +1 Malediction (now 3/15)
-**Damage**: 6d6 → [5, 4, 6, 3, 5, 4] = 27 lightning damage
-
-**Warchief**: Barely alive. Attacks Fighter again (still has disadvantage) → d20+8 DISADV → [8, 15] → Take 8 → 8+8 = 16 → Miss! (Fighter's Armor is 17+3 from Sign of Protection = 20)
-
-**Omen Reading**: 8 is even → +1 Benediction, 15 is odd → +1 Malediction
-**Benediction**: 2 + 1 = **3/5**
-**Malediction**: 3 + 1 = **4/15**
-
-*The warchief's blade slides off the blessed armor. Your Sign of Protection held. The portent of weakness made him roll poorly. The omens are overwhelming.*
-
-**Your Action**: You want Grand Malediction (20 mana, 6 Malediction) but you only have 4 Malediction. **This is the core tension**—you spent your Malediction on earlier debuffs. Instead, recast "Portent of Weakness" (8 mana + 3 Malediction) to keep the warchief suppressed.
-
-**Mana**: 21 - 8 = 13/55
-**Malediction**: 4 - 3 = **1/15**
-
-*You renew the portent. The dark sigil intensifies. He won't land another clean hit.*
-
-**Warchief's Save**: d20+3 → [14] → 14+3 = 17 vs DC 16 → FAIL (barely)!
-**Effect**: Disadvantage on attacks and -2 Armor for 3 more rounds.
-
-**Your Party's Fighter**: Finishing blow on the weakened Warchief → d20+6 → [16] → Hit!
-**Damage**: 2d8+4 → [8, 7] + 4 = 19 damage → Warchief FALLS
-
-**Omen Reading**: 16 is even → +1 Benediction
-**Benediction**: 3 + 1 = **4/5**
-
-**Combat Effectively Over**
-
-*The remaining hobgoblins, seeing their warchief struck down by divine portent, break and flee through the cursed terrain, taking damage with every step.*
-
-**Your Party's Ranger**: "You... you read every roll. You knew when to curse and when to bless."
-**You**: "I didn't know. I interpreted. The 17 on your hit—odd—I read it as a sign of weakness in our enemies, so I fueled my Malediction. The 12 on the warchief's attack—even—I read it as a sign of fortune for our side, fueling my Benediction. Every number is a message. I simply listened."
-
-**Final State**: Benediction: 4/5 | Malediction: 1/15 | Mana: 13/55 | HP: 50/50
-
-**The Lesson**: Augur gameplay is about:
-1. **Omen Generation**: Every d20 roll feeds your bars. 17 (odd) → +1 Malediction. 12 (even) → +1 Benediction. Combat generates resources constantly.
-2. **Resource Interpretation**: The dice decide what you have more of. Adapt your strategy—if Malediction is full, debuff; if Benediction is full, buff.
-3. **Battlefield Control**: Terrain of Ruin turned a 20ft area into a hazard zone. Portent of Weakness made the warchief roll with disadvantage.
-4. **Resource Budgeting**: You spent 10 Malediction total (Turn 1: 3 on Portent of Weakness, Turn 2: 4 on Terrain of Ruin, Turn 4: 3 on renewed Portent of Weakness) and 3 Benediction (on Sign of Protection). You couldn't afford Grand Malediction (6 Mal) because you'd spent your Malediction on earlier debuffs. **This is the core tension**—spend resources as they come, or save for a big finish?
-5. **Omen Debt**: At the end of the day, if you have unused Benediction/Malediction, you'll suffer Omen Debt—stacking -1 to all rolls per unused point the next day (cap -10). The signs demand to be used. In this fight you ended with 1 Malediction and 4 Benediction unused—if the day ended now, you'd face -5 to all rolls tomorrow. Better find another fight or spend those resources on Omen Rituals.`,
+**Turn 2 - The Blood Flows**
+*The executioner roars in agony, his bones splintering from within. The fight begins.*
+* **Fighter's Turn**: Attacks the executioner → d20+6 → [12] → Hit! 
+* **Omen Reading**: 12 is even → +1 Benediction.
+* **Enemy's Turn**: The executioner swings his massive cleaver at the Fighter → d20+7 → [17] → Hit!
+* **Omen Reading**: 17 is odd → +1 Malediction.
+* **Your Reaction**: Spend 1 Benediction and 1 Malediction to cast "Gore-Sown Foresight".
+* **Effect**: You read the spray of dust and sweat. You pull the threads of the immediate six seconds. The cleaver cleaves empty air as the Fighter slips 10 feet backward under your frantic warning, completely evading the attack without opportunity strikes.
+* **Current State**: Malediction: 0/15 | Benediction: 0/5 | HP: 46/50 | Fighter untouched. The executioner cleaves nothing but shadow.`,
     },
   },
 
   resourceSystem: {
-    title: "Benediction & Malediction",
-    subtitle: "The Omen Interpreter's Dual Resource",
+    title: "Benediction & Malediction of the Haruspex",
+    subtitle: "Agonizing Foresight & Fracturing Curses",
 
-    description: `The Augur's power flows from interpreting the signs embedded in every die roll. When any d20 is rolled by a creature within 60 feet that you can see and are aware of, the result carries an omen: **even numbers generate Benediction** (positive, blessing energy) while **odd numbers generate Malediction** (negative, cursing energy). These twin resources power every Augur ability—Benediction fuels boons, terrain blessings, and protective signs, while Malediction fuels curses, debuffs, battlefield hazards, and ill portents.
+    description: `The Augur's magic is driven by the immediate vibration of combat. Every d20 roll within 60 feet generated by any creature fuels the Haruspex:
+- **Even Rolls**: Generate 1 **Benediction**—the radiant, blinding flash of immediate preservation.
+- **Odd Rolls**: Generate 1 **Malediction**—the psychic, decaying rot of immediate doom.
 
-**Overflow**: When a resource is at its maximum, further generation of that resource is lost—only the unfilled resource benefits from future rolls.
+⚠️ **The Haruspex Flaw**: Your omen-reading spells require fresh violence. If no bleeding targets or fresh corpses exist within 60 feet, your vision is blind. You must execute a **Self-Mutilation** action (0 AP, once per round): take 1d6 slashing damage and inflict Bleed (1d4 damage at start of turn for 3 rounds) on yourself to generate 2 Benediction or 2 Malediction of your choice.
 
-**Advantage/Disadvantage**: When a creature rolls with advantage or disadvantage, both d20 rolls generate resources independently (two rolls = two potential resource gains).`,
+⚠️ **Omen Debt**: Your soul cannot safely hold these visions. At the end of a long rest, any unused Benediction or Malediction decays. If you had unused resources, your mind is scourged by the ghosts of unfulfilled futures, inflicting **Omen Debt** (a permanent -1 penalty to all saving throws per unused point, capped at -10) until you spill blood in combat again.`,
 
     cards: [
       {
-        title: "Benediction (Even Omens)",
-        stats: "Max: 10/10 | 15/5 | 5/15",
+        title: "Benediction",
+        stats: "0-10 Scale (Hierophant: 15)",
         details:
-          "Generated from even d20 results. Powers boons, terrain blessings, protective signs, and ally enhancements. The light side of interpretation.",
+          "Generated by even d20 rolls. Spent on immediate defense, preemptive evasion, and radiant warding of flesh.",
       },
       {
-        title: "Malediction (Odd Omens)",
-        stats: "Max: 10/10 | 5/15 | 15/5",
+        title: "Malediction",
+        stats: "0-10 Scale (Harbinger: 15)",
         details:
-          "Generated from odd d20 results. Powers curses, debuffs, battlefield hazards, ill portents, and enemy weakening. The dark side of interpretation.",
+          "Generated by odd d20 rolls. Spent on bone-splintering psychic damage, crippling physical penalties, and vulnerability markings.",
       },
       {
-        title: "Omen Debt",
-        stats: "End-of-Day Penalty",
+        title: "Visceral Haruspex",
+        stats: "Self-Mutilation",
         details:
-          "Unused Benediction or Malediction at day's end incurs Omen Debt: -1 to all rolls per unused point, carried to the next day. The signs demand to be used.",
+          "If no fresh violence is spilt, you must flay your own flesh to generate omens. Spills 1d6 HP and inflicts self-bleed for 3 rounds.",
       },
     ],
 
-    generationTable: {
-      headers: ["Source", "Gain", "Notes"],
+    usage: {
+      momentum:
+        "Spill blood early. Once an enemy or ally is bleeding, your vision opens and you no longer need to mutilate yourself. Watch the rolls of allies and foes to dynamically adapt your action plan.",
+      flourish:
+        "Use your immediate reactions. Saving an ally from a fatal strike with Gore-Sown Foresight or guaranteeing a critical counter-strike turns the tides of battle instantly.",
+    },
+
+    overheatRules: {
+      title: "Omen Exhaustion & The Flesh Tax",
+      content: `The Augur's manipulation of immediate fate carries severe physical and mental tolls:
+
+**The Resource Caps**:
+Your specialization limits your absolute capacity to store fate:
+* **Auspex (Balanced)**: 10 Benediction / 10 Malediction.
+* **Harbinger (Doom)**: 5 Benediction / 15 Malediction.
+* **Hierophant (Grace)**: 15 Benediction / 5 Malediction.
+Any resource generated beyond these caps is lost and immediately deals 1 psychic damage per wasted point directly to the Augur's mind.
+
+**The Flesh Tax (Operational Friction)**:
+Many advanced spells demand an aggressive sacrifice of the caster's own physical integrity. You do not simply spend mana; you spend your own max HP, split your skin, or blind your own eyes to make the omens absolute.
+
+**The Omen Debt (The Unwritten Future)**:
+Fate demands resolution. If you hoard Benediction or Malediction without spending them, the unfulfilled paths twist inward. For every point of omen resource remaining at a long rest, you suffer 1 stack of Omen Debt. Each stack reduces all saving throws by 1 (max -10). The only way to cleanse Omen Debt is to complete a combat encounter where you successfully trigger at least three critical strikes or absolute evasions.`,
+    },
+
+    essenceGenerationTable: {
+      title: "Haruspex Resource Generation",
+      headers: ["Action", "Resource Gained", "Notes"],
       rows: [
         [
-          "Any d20 Roll (Even Result)",
+          "Even d20 Roll within 60ft",
           "+1 Benediction",
-          "Any d20 rolled by a creature within 60ft that you can see and are aware of—yours, allies, enemies",
+          "Generated by attacks, saves, or checks of allies, enemies, or yourself",
         ],
         [
-          "Any d20 Roll (Odd Result)",
+          "Odd d20 Roll within 60ft",
           "+1 Malediction",
-          "Includes attacks, saves, ability checks, death saves",
+          "Generated by attacks, saves, or checks of allies, enemies, or yourself",
         ],
         [
-          "Advantage/Disadvantage",
-          "+1 per die",
-          "Both d20 rolls from advantage/disadvantage generate resources independently",
+          "Self-Mutilation (No Violence Present)",
+          "+2 Benediction or Malediction",
+          "Takes 1d6 slashing damage and inflicts self-bleed (1d4/round, 3 rounds)",
         ],
         [
-          "Combat Start Passive",
-          "1d4 Benediction + 1d4 Malediction",
-          "Roll at start of each combat encounter",
-        ],
-        [
-          "Omen Ritual (Out of Combat)",
-          "+2 to either",
-          "Spend 10 minutes reading signs (once per short rest)",
-        ],
-        [
-          "Critical Hit (natural 20)",
-          "+2 Benediction",
-          "Natural 20 is the ultimate good omen",
-        ],
-        [
-          "Critical Fail (natural 1)",
-          "+2 Malediction",
-          "Natural 1 is the ultimate ill omen",
-        ],
-        [
-          "Short Rest",
-          "Reset to 0",
-          "Resources reset to 0. No Omen Debt is incurred.",
-        ],
-        [
-          "Long Rest (End of Day)",
-          "Omen Debt check",
-          "Unused resources incur Omen Debt (see below)",
+          "Reading Fresh Entrails (Corpse within 10ft)",
+          "+3 Benediction or Malediction",
+          "Requires 1 Action. Sifts through a creature that died this round",
         ],
       ],
     },
 
-    usage: {
-      momentum:
-        "Early combat generates resources rapidly as multiple d20s are rolled. Watch the flow—if Malediction is building faster, focus on debuffing enemies. If Benediction leads, bless your allies.",
-      flourish:
-        "The Augur thrives in large combats with many participants. More d20 rolls = more omens = more resources. Position yourself where you can observe the most rolls.",
-    },
-
-    overheatRules: {
-      title: "Omen Debt",
-      content: `At the end of each day (long rest), any unused Benediction or Malediction incurs **Omen Debt**:
-
-**The Penalty**: For each point of combined unused Benediction + Malediction, you suffer **-1 to all d20 rolls** the following day. This penalty stacks and applies to attacks, saves, ability checks, and death saves.
-
-**Example**: If you end the day with 3 Benediction and 2 Malediction unused, you start the next day with **-5 to all d20 rolls** until your next long rest.
-
-**The Philosophy**: The signs spoke and you ignored them. The fates do not forgive wasted omens—every unread sign becomes a burden.
-
-**Omen Debt Cap**: Maximum penalty is -10. Any excess unused points beyond 10 are simply lost.
-
-**Clearing Debt**: Omen Debt persists until the NEXT long rest. During that day, you generate resources normally but suffer the penalty on all rolls.`,
-    },
-
-    strategicConsiderations: {
-      title: "Reading the Battlefield",
-      content: `**Resource Imbalance Is Intentional**: You will almost never have equal Benediction and Malediction. The dice decide. Adapt your strategy to what the signs give you.
-
-**High Benediction, Low Malediction**: Focus on buffing allies, creating blessed terrain, and protective signs. Play support.
-
-**High Malediction, Low Benediction**: Focus on cursing enemies, creating hazardous terrain, and ill portents. Play control.
-
-**Balanced Resources**: Use abilities that spend both (some spells cost both Benediction and Malediction for powerful combined effects).
-
-**The "Omen Economy"**: In a typical round of combat with 4 participants, expect 4-8 d20 rolls. That's 4-8 resource points generated per round. Plan your spending around this rate.
-
-**End-of-Day Management**: As the day winds down, be aggressive with your remaining resources. Better to spend them on minor effects than suffer Omen Debt tomorrow.
-
-**Specialization Impact**: Auspex (10/10 balanced) adapts easily. Harbinger (5/15) will almost always have more Malediction—embrace the dark omens. Hierophant (15/5) will overflow with Benediction—become a beacon of good fortune.
-
-**Concentration Management**: Many of the Augur's most powerful effects (Terrain of Ruin, Portent of Weakness, Sacred Ground, Field of Misfortune, Hierophant's Domain) require concentration. You can only maintain ONE concentration spell at a time. This means you cannot stack terrain effects with sustained debuffs. Choose wisely: a persistent zone effect that damages and slows enemies, or a focused debuff that shuts down a single target. Non-concentration spells (Sign of Protection, Grand Malediction, Omen Bolt) can be cast freely while concentrating.`,
-    },
-
-    playingInPerson: {
-      title: "Playing in Person",
-      subtitle: "The Omen Board",
-      content: `The Augur is one of the most tactile classes when played in person.
-
-**Required Materials**:
-- **Two stacks of tokens**: Gold/white for Benediction, dark/purple for Malediction
-- **An Omen Board**: A small cloth or card divided into two halves (Benediction side, Malediction side)
-- **A "Debt" marker**: A red token or cloth for tracking Omen Debt
-
-**The Physical Hack**:
-- **The Omen Board**: Place your board in front of you. When a d20 is rolled and lands even, add a gold token to the Benediction side. Odd? Purple token to the Malediction side.
-- **The "Sign Flash"**: When spending Benediction, physically move a gold token to the center of the table (the "Sign"). When spending Malediction, move a purple token. The pile of spent tokens becomes a visual record of how the battle's omens have been interpreted.
-- **The Debt Counter**: At day's end, count unused tokens. Move that many red markers to your character sheet. The physical weight of those markers reminds you of the penalty every time you roll.
-
-**Pro Tip**: Use different-sized tokens for Benediction (small gold beads) and Malediction (small dark stones). The visual and textural contrast makes resource management intuitive without constant counting.`,
+    loaInvocationTable: {
+      title: "Immediate Action Rites",
+      headers: ["Rite", "Resource Cost", "Defensive / Offensive Focus", "Effect Summary"],
+      rows: [
+        [
+          "Gore-Sown Foresight",
+          "1 Benediction + 1 Malediction",
+          "Absolute Defense",
+          "Reaction: Incoming attack automatically misses; ally slips 10ft away",
+        ],
+        [
+          "Omen of the Flayed Strike",
+          "2 Benediction",
+          "Absolute Offense",
+          "Action: Next weapon attack is a guaranteed critical hit or critical counter-strike",
+        ],
+        [
+          "Splintered Bone Portent",
+          "2 Malediction",
+          "Target Crippling",
+          "Action: Cracks bones internally. Deals 2d6 psychic, -2 Armor, -10ft speed",
+        ],
+      ],
     },
   },
 
   specializations: {
-    title: "Augur Specializations",
-    subtitle: "Three Paths of Omen Interpretation",
+    title: "Visceral Specializations",
+    subtitle: "Three Paths of the Agonizing Sign",
 
-    description: `Every Augur chooses one of three paths that define how they interpret and apply omens. Auspices read balanced signs and adapt to any situation. Harbingers specialize in dark portents, weaponizing ill omens into devastating debuffs. Hierophants channel cosmic signs into terrain-altering battlefield control and powerful blessings.`,
+    description: `Every Haruspex must choose how they interpret the spilt gore of the world. Will you balance the scales of agony, rot away in the shadow of doom, or burn your own sight to channel searing grace?`,
 
     passiveAbility: {
-      name: "Omen Sight",
+      name: "Omen's Path",
       description:
-        "All Augurs can see the omen value of any d20 roll within 60 feet. You intuitively know whether a roll was even or odd and gain the corresponding resource. You also start each combat with a passive omen roll: roll 1d4 Benediction and 1d4 Malediction. Finally, you can sense when a supernatural effect is altering probability within 30 feet (though not what the effect is).",
+        "Your specialization alters your dual resource caps and unlocks distinct rites of flesh manipulation.",
     },
 
     specs: [
       {
         id: "auspex",
         name: "Auspex",
-        icon: "Radiant/Radiant Beam",
-        color: "#F0E68C",
-        theme: "Balanced Omen Interpretation & Adaptive Strategy",
+        icon: "fa-eye",
+        color: "#C8A2C8",
+        theme: "Balanced Haruspex",
 
-        description: `Auspices are balanced interpreters who read both good and ill omens with equal facility. Their dual resource bars are equally sized (10/10), allowing them to adapt to any situation the signs present. They are the most versatile Augurs, capable of shifting between blessing and cursing as the omens demand.`,
+        description: `Auspices seek the perfect, terrifying equilibrium between creation and decay. They believe that fate is a scale that must be balanced in blood. By reading both the radiant spray of life and the dark rot of death, they keep their parties hovering just above the grave while dragging their foes into it.`,
 
-        playstyle:
-          "Balanced resource management, adaptive strategy, versatile support/control, responsive omen interpretation",
+        playstyle: "Balanced control, dynamic adaptation, dual-purpose warding",
 
         strengths: [
-          "Equal Benediction and Malediction caps (10/10) provide maximum flexibility",
-          "Can efficiently use ANY spell regardless of resource cost",
-          "Passive: When a d20 roll generates one resource type, gain +1 of the opposite type as well (even roll → 1 Benediction + 1 Malediction; odd roll → 1 Malediction + 1 Benediction)",
-          'Access to unique "Balanced Sign" abilities that spend equal amounts of both resources',
-          "Best at adapting strategy mid-combat based on omen flow",
+          "Maximum resource caps set to a balanced 10 Benediction and 10 Malediction",
+          "Spelling dual costs (both BN and ML) have their mana costs reduced by 30%",
+          "Gain +1 to all saving throws while both resource pools are exactly equal",
+          "Can spend 1 Benediction and 1 Malediction to instantly cleanse a physical condition",
         ],
 
         weaknesses: [
-          "Neither bar is large enough for the most expensive single-resource spells",
-          "Must be adaptable—cannot specialize in one approach",
-          "Less efficient when combat heavily favors one omen type",
-          "Jack-of-all-trades means less power in any single direction",
+          "Lacks the extreme burst damage of Harbingers",
+          "Lacks the high-impact protection zones of Hierophants",
+          "Highly vulnerable when one resource pool is empty while the other is full",
         ],
 
         specPassive: {
-          name: "Harmonic Interpretation",
+          name: "Symmetric Foresight",
           description:
-            "When a d20 roll generates Benediction or Malediction, you also gain +1 of the opposite resource type (even roll → 1 Benediction + 1 Malediction; odd roll → 1 Malediction + 1 Benediction). This means every d20 roll generates both resources equally. Additionally, when you spend both Benediction and Malediction on the same spell, the spell's effects are enhanced by 50% (rounded up for dice, +50% for flat values).",
+            "10/10 dual resource caps. Dual-cost spells cost 30% less mana. +1 to all saves when pools are balanced.",
         },
 
         keyAbilities: [
-          "Balanced Sign: Spend 3 Benediction + 3 Malediction to create a zone that buffs allies AND debuffs enemies simultaneously (15ft radius)",
-          "Omen Synthesis: Convert 2 points of one resource into 1 point of the other (once per round)",
-          "Harmonic Strike: Attack dealing 2d8 radiant + 2d8 psychic damage, cost 2 Benediction + 2 Malediction",
+          "Cruciform Omen: Traces a bloody cross, splitting a target's destiny between blessing and curse",
+          "Gore-Mist Tempests: A swirling storm of spilt gore that heals allies and blinds enemies",
+          "Sovereign Haruspex: The ultimate transformation, giving total command over the dice.",
         ],
-
-        recommendedFor:
-          "Players who enjoy adaptive gameplay and want to use both sides of the omen system equally",
       },
 
       {
         id: "harbinger",
         name: "Harbinger",
-        icon: "Necrotic/Necrotic Skull",
-        color: "#8B008B",
-        theme: "Dark Portents & Ill Omen Warfare",
+        icon: "fa-cloud-bolt",
+        color: "#8B5A8B",
+        theme: "Prophet of the Black Ash",
 
-        description: `Harbingers specialize in reading and weaponizing dark omens. Their Malediction bar is massive (15) while Benediction is limited (5), reflecting their focus on cursing, debuffing, and bringing ill fortune to their enemies. They are the most aggressive Augurs, turning every odd roll into a weapon of misfortune.`,
+        description: `Harbingers have stared too long into the screaming dark. Their bodies are maps of scars, their veins running with blackened maledictory rot. They care nothing for preservation; they seek only to accelerate the end. Every omen they read is a weapon, every word they whisper a fracture in a foe's skull.`,
 
-        playstyle:
-          "Debuff-focused, curse stacking, enemy weakening, dark omen warfare, aggressive control",
+        playstyle: "High-risk offensive psychic damage, crippling debuffs, vulnerability stacking",
 
         strengths: [
-          "Massive Malediction cap (15) enables the most powerful curses and debuffs",
-          "Passive: Odd d20 rolls generate +1 bonus Malediction (double generation on odds)",
-          'Access to unique "Dark Portent" abilities that stack multiple debuffs',
-          "Malediction-powered abilities are stronger than equivalent Benediction ones",
-          "Excels at single-target enemy shutdown through layered curses",
+          "Maximum resource caps set to 5 Benediction and 15 Malediction",
+          "All psychic damage ignores enemy resistances entirely",
+          "Malediction-fueled spells deal +2d6 additional psychic damage",
+          "Inflicting Bleed on an enemy generates +1 Malediction automatically",
         ],
 
         weaknesses: [
-          "Very limited Benediction (5) restricts buffing and healing options",
-          "Nearly all abilities focus on harming enemies rather than helping allies",
-          "Omen Debt is especially punishing since Malediction overflow is common",
-          "Less effective against enemies immune to debuffs or conditions",
+          "Extremely fragile; max HP reduced permanently by 10%",
+          "Almost entirely lacks defensive or healing capabilities",
+          "Highly prone to self-induced Bleed hazards",
         ],
 
         specPassive: {
-          name: "Dark Portent",
+          name: "Maledictory Rot",
           description:
-            'Every odd d20 roll generates +1 bonus Malediction (2 total per odd roll instead of 1). Additionally, your Malediction-powered spells impose a stacking "Ill Omen" debuff: -1 to all rolls per stack (max 3 stacks). These stacks last until the target takes a short rest or is targeted by a Benediction effect.',
+            "5/15 dual resource caps. Psychic damage ignores resistance. Malediction spells deal +2d6 psychic damage.",
         },
 
         keyAbilities: [
-          "Grand Malediction: Spend 5+ Malediction to place a devastating curse (scale effects with cost)",
-          "Field of Misfortune: Spend 6 Malediction to create 30ft zone where enemies have -2 to all rolls",
-          "Omen of Death: Spend 8 Malediction to mark a target—next time they roll a natural 1, they take critical damage",
+          "Flayed Eyes Gaze: Shatters a target's mind with visions of their own skinning",
+          "Ruinous Flaying Hex: A massive, crippling curse that paralyzes and rots target meat",
+          "Harbinger of the Black Ash: Transform into an aura of pure, decaying death.",
         ],
-
-        recommendedFor:
-          "Players who love debuffing enemies and weaponizing bad luck",
       },
 
       {
         id: "hierophant",
         name: "Hierophant",
-        icon: "Radiant/Radiant Golden Shield",
-        color: "#FFD700",
-        theme: "Cosmic Signs & Battlefield Transformation",
+        icon: "fa-sun",
+        color: "#DAA520",
+        theme: "Martyr of the Blinding Splinters",
 
-        description: `Hierophants channel cosmic signs into reality-altering blessings and terrain manipulation. Their Benediction bar is massive (15) while Malediction is limited (5), reflecting their focus on blessing allies, creating sacred terrain, and reshaping battlefield conditions. They are the most supportive Augurs, turning every even roll into a miracle.`,
+        description: `Hierophants are tragic martyrs who burn away their own sight to channel the searing, blinding light of tomorrow. They read the golden, agonizing threads of grace, congealing spilt blood into shields of shining marrow. They endure immense physical pain to ensure their allies never feel a wound.`,
 
-        playstyle:
-          "Terrain manipulation, battlefield control through blessings, ally enhancement, sacred zone creation",
+        playstyle: "Aggressive defensive support, massive damage-mitigation zones, radiant healing",
 
         strengths: [
-          "Massive Benediction cap (15) enables the most powerful blessings and terrain effects",
-          "Passive: Even d20 rolls generate +1 bonus Benediction (double generation on evens)",
-          'Access to unique "Sacred Terrain" abilities that reshape the battlefield',
-          "Benediction-powered abilities create lasting zone effects that benefit the whole party",
-          "Excels at pre-combat preparation and battlefield setup",
+          "Maximum resource caps set to 15 Benediction and 5 Malediction",
+          "All healing spells restore 50% more HP",
+          "Benediction-fueled spells grant allies +2 Armor for 2 rounds",
+          "Can absorb 50% of all damage taken by nearby allies passively",
         ],
 
         weaknesses: [
-          "Very limited Malediction (5) restricts cursing and debuffing options",
-          "Less direct enemy interaction—focuses on enabling allies rather than hindering foes",
-          "Benediction abilities are proactive and require planning to maximize",
-          "Less effective in reactive situations where enemies dictate the flow",
+          "Extremely low damage output; physical weapon strikes deal half damage",
+          "Spells have high mana costs",
+          "Absorbing ally damage makes them highly prone to sudden death",
         ],
 
         specPassive: {
-          name: "Cosmic Channel",
+          name: "Searing Grace",
           description:
-            "Every even d20 roll generates +1 bonus Benediction (2 total per even roll instead of 1). Additionally, your Benediction-powered terrain/zones last 2 additional rounds and their radius increases by 5ft. Allies within your blessed terrain gain +1 to all saves.",
+            "15/5 dual resource caps. Healing increased by 50%. Benediction spells grant +2 Armor to allies.",
         },
 
         keyAbilities: [
-          "Sacred Ground: Spend 5+ Benediction to create blessed terrain that heals and buffs allies (scale with cost)",
-          "Sign of Warding: Spend 4 Benediction to grant all allies within 20ft +2 Armor for 3 rounds",
-          "Hierophant's Domain: Spend 8 Benediction to create a 40ft sacred zone that provides immunity to fear, advantage on saves, and 1d4 radiant healing per round",
+          "Martyr's Shroud: Wraps allies in a congealed ward that absorbs catastrophic damage",
+          "Blinding Cathedral of Bones: Consecrates a zone with radiant bone splinters that blind foes and heal allies",
+          "Hierophant of Blinding Splinters: Transform into a beacon of blinding light, repelling all evil.",
         ],
-
-        recommendedFor:
-          "Players who love battlefield control through terrain manipulation and party-wide buffs",
       },
     ],
   },
 
   exampleSpells: [
+    // ============================================================
+    // LEVEL 1 SPELLS (5)
+    // ============================================================
+
     {
       id: "augur_read_the_signs",
-      name: "Read the Signs",
+      name: "Read the Guts",
       description:
-        "Observe the immediate omens around a target, learning their vulnerabilities.",
-      spellType: "ACTION",
+        "You plunge your hands into a fresh wound or a corpse to read the steam rising from the exposed viscera. If no violence is present, you slice your own palm, forcing the omens to speak. The tragic patterns reveal the target's fatal structural flaw.",
       level: 1,
-      specialization: "universal",
-      effectTypes: ["utility"],
+      spellType: "ACTION",
+      icon: "Necrotic/Ritual",
+      effectTypes: ["debuff"],
       typeConfig: {
-        school: "arcane",
-        icon: "Utility/Watchful Eye",
+        school: "psychic",
+        icon: "Necrotic/Ritual",
+        tags: ["debuff", "haruspex", "vulnerability", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -509,149 +354,183 @@ The class creates a unique rhythm where you're constantly generating resources f
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ["any"],
+        targetRestrictions: ["enemies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
-        useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        classResource: { type: "malediction", cost: 1 },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      resolution: "AUTOMATIC",
-      utilityConfig: {
-        utilityType: "divination",
-        utilitySubtype: "identification",
-        selectedEffects: [
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
           {
-            id: "vulnerability_read",
-            name: "Reveal Vulnerability",
-            description: "Learn one vulnerability, resistance, or immunity",
-            mechanicsText:
-              "Learn one vulnerability, resistance, or immunity of the target",
+            id: "gut_read_vulnerability",
+            name: "Exposed Flaw",
+            description: "Target has +50% vulnerability to psychic damage for 3 rounds.",
+            mechanicsText: "Imposes 50% psychic vulnerability on the target.",
+            statusEffect: {
+              vulnerabilityType: "psychic",
+              vulnerabilityPercent: 50,
+            },
           },
         ],
-        power: "minor",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 13,
+          saveOutcome: "negates",
+        },
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        canBeDispelled: true,
       },
-      tags: ["divination", "information", "universal", "omen"],
+      resolution: "DICE",
+      tags: ["debuff", "haruspex", "vulnerability", "omen"],
     },
+
     {
       id: "augur_omen_shield",
-      name: "Omen Shield",
-      description: "Intercept an incoming attack with a flash of omen energy.",
-      spellType: "REACTION",
+      name: "Gore-Sown Foresight",
+      description:
+        "You read the arterial spray of a targeted ally six seconds before the strike lands. Screaming an agonizing warning, you tear the fabric of probability to yank them out of harm's way, leaving the enemy cleaving nothing but shadow.",
       level: 1,
-      specialization: "universal",
-      effectTypes: ["buff"],
+      spellType: "REACTION",
+      icon: "Nature/Ethereal Bear Spirit",
+      effectTypes: ["buff", "utility"],
       typeConfig: {
-        school: "radiant",
-        icon: "Radiant/Radiant Golden Shield",
-        castTime: 0,
+        school: "psychic",
+        icon: "Nature/Ethereal Bear Spirit",
+        tags: ["reaction", "evasion", "preemptive", "omen"],
+        castTime: 1,
         castTimeType: "REACTION",
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ["ally"],
+        targetRestrictions: ["allies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
-        useFormulas: {},
+        resourceValues: { mana: 6 },
         actionPoints: 0,
-        components: ["verbal", "somatic"],
-        classResource: { type: "benediction", cost: 1 },
+        components: ["verbal"],
+        classResource: { type: "benediction", cost: 2 },
       },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      resolution: "AUTOMATIC",
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
           {
-            id: "omen_shield_mitigation",
-            name: "Omen Shield",
-            description: "Reduce damage by 1d8 + Spirit",
-            mechanicsText: "Reduce incoming damage by 1d8 + Spirit modifier",
+            id: "preemptive_evasion",
+            name: "Gore-Sown Evasion",
+            description:
+              "The next attack targeting this ally automatically misses. The ally immediately shifts up to 10 feet without provoking opportunity strikes.",
+            mechanicsText: "Forces next attack to miss. Ally moves 10ft free.",
           },
         ],
-        durationType: "instant",
+        durationType: "rounds",
+        durationValue: 1,
+        durationUnit: "rounds",
+        canBeDispelled: false,
       },
-      tags: ["reaction", "protection", "universal", "omen"],
+      utilityConfig: {
+        utilityType: "movement",
+        selectedEffects: [
+          {
+            id: "preemptive_shift",
+            name: "Fated Shift",
+            description: "Shift 10 feet out of danger without provoking opportunity strikes.",
+            distance: 10,
+          },
+        ],
+        power: "minor",
+      },
+      resolution: "AUTOMATIC",
+      tags: ["reaction", "evasion", "preemptive", "omen"],
     },
+
     {
       id: "augur_minor_portent",
-      name: "Minor Portent",
-      description: "Whisper a minor omen that clouds a target's judgment.",
-      spellType: "ACTION",
+      name: "Arterial Curse",
+      description:
+        "You fling a drop of your own fresh blood toward a foe. The blood congeals in mid-air, forming a floating, jagged rune of tragedy. Their eyes cloud with black spots as their heartbeats sync to a slow, dying rhythm.",
       level: 1,
-      specialization: "harbinger",
-      effectTypes: ["debuff"],
+      spellType: "ACTION",
+      icon: "Necrotic/Corruption",
+      effectTypes: ["debuff", "damage"],
       typeConfig: {
         school: "psychic",
-        icon: "Void/All Seeing Eye",
+        icon: "Necrotic/Corruption",
+        tags: ["debuff", "damage", "curse", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 30,
+        rangeDistance: 60,
         targetRestrictions: ["enemies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
-        useFormulas: {},
+        resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        classResource: { type: "malediction", cost: 2 },
+        classResource: { type: "malediction", cost: 1 },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "negates",
-      },
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
           {
-            id: "minor_portent_effect",
-            name: "Minor Portent",
-            description: "-1 to attack rolls",
-            mechanicsText: "-1 to attack rolls for 3 rounds",
+            id: "arterial_curse_debuff",
+            name: "Arterial Decay",
+            description: "Target has -2 to all attack rolls as their vision clouds with rot.",
+            mechanicsText: "-2 penalty to all attack rolls.",
           },
         ],
-        durationValue: 3,
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 13,
+          saveOutcome: "negates",
+        },
         durationType: "rounds",
+        durationValue: 3,
         durationUnit: "rounds",
+        canBeDispelled: true,
       },
-      tags: ["debuff", "curse", "harbinger", "omen"],
+      damageConfig: {
+        formula: "1d6",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
+      },
+      resolution: "DICE",
+      tags: ["debuff", "damage", "curse", "omen"],
     },
+
     {
       id: "augur_sign_of_clarity",
-      name: "Sign of Clarity",
+      name: "Omen of the Flayed Strike",
       description:
-        "Trace a radiant sigil that blesses an ally with clarity of purpose.",
-      spellType: "ACTION",
+        "You paint a wet, crimson sigil on an ally's weapon. In their mind, they see the absolute, terrifying vulnerability of their foe—their guard shattered, their throat exposed. A guaranteed, bone-splintering strike.",
       level: 1,
-      specialization: "hierophant",
+      spellType: "ACTION",
+      icon: "Radiant/Divine Downward Sword",
       effectTypes: ["buff"],
       typeConfig: {
         school: "radiant",
-        icon: "Radiant/Radiant Beam",
+        icon: "Radiant/Divine Downward Sword",
+        tags: ["buff", "critical", "support", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -659,148 +538,196 @@ The class creates a unique rhythm where you're constantly generating resources f
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ["ally"],
+        targetRestrictions: ["allies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
-        useFormulas: {},
+        resourceValues: { mana: 5 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
         classResource: { type: "benediction", cost: 2 },
       },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      resolution: "AUTOMATIC",
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       buffConfig: {
-        buffType: "statEnhancement",
+        buffType: "custom",
         effects: [
           {
-            id: "clarity_buff",
-            name: "Clarity",
-            description: "+1 to next attack or check",
-            mechanicsText: "+1 to next attack roll or ability check",
+            id: "flayed_strike_buff",
+            name: "Fated Critical",
+            description:
+              "The next weapon strike is a guaranteed critical hit. If the ally is attacked before their turn, they may immediately execute a critical counter-strike as a reaction.",
+            mechanicsText: "Next attack is a critical hit, or enables critical counter-strike reaction.",
           },
         ],
         durationType: "rounds",
-        durationValue: 2,
+        durationValue: 1,
         durationUnit: "rounds",
+        canBeDispelled: true,
       },
-      tags: ["buff", "blessing", "hierophant", "omen"],
+      resolution: "AUTOMATIC",
+      tags: ["buff", "critical", "support", "omen"],
     },
 
-    // ===== LEVEL 2 SPELLS =====
     {
-      id: "augur_portent_of_weakness",
-      name: "Portent of Weakness",
+      id: "augur_desperate_omen",
+      name: "Death-Stretched Panic",
       description:
-        "Declare a portent of weakness over a target, sapping their strength and clouding their combat instincts.",
-      spellType: "ACTION",
-      level: 2,
-      specialization: "harbinger",
-      effectTypes: ["debuff"],
+        "When your flesh is reduced to a bloody pulp, your visions of death sharpen into a hyper-focused panic. Agony overrides your fear, giving you the desperate agility of a cornered beast.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Psychic/Mental Chaos",
+      effectTypes: ["passive"],
       typeConfig: {
         school: "psychic",
-        icon: "Necrotic/Necrotic Decay 1",
+        icon: "Psychic/Mental Chaos",
+        tags: ["passive", "debuff", "omen", "augur"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "omen", "augur"],
+    },
+
+    // ============================================================
+    // LEVEL 2 SPELLS (3)
+    // ============================================================
+
+    {
+      id: "augur_portent_of_weakness",
+      name: "Splintered Bone Portent",
+      description:
+        "You declare an omen of imminent fracture. An invisible, crushing weight slams down on the target's joints, cracking their bone structure internally. They stagger, their armor splitting under their own weight.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Necrotic/Bone Shards",
+      effectTypes: ["debuff", "damage"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Necrotic/Bone Shards",
+        tags: ["debuff", "damage", "crippling", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 40,
+        rangeDistance: 60,
         targetRestrictions: ["enemies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 8 },
-        useFormulas: {},
-        actionPoints: 2,
+        actionPoints: 1,
         components: ["verbal", "somatic"],
-        classResource: { type: "malediction", cost: 3 },
+        classResource: { type: "malediction", cost: 2 },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      duration: {
-        durationValue: 3,
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "splintered_bone_debuff",
+            name: "Cracked Frame",
+            description: "Target has -2 Armor and their Agility is reduced by 2 for 3 rounds.",
+            mechanicsText: "-2 Armor and -2 Agility.",
+          },
+        ],
+        statPenalties: [
+          { stat: "armor", magnitude: -2, magnitudeType: "flat" },
+          { stat: "agility", magnitude: -2, magnitudeType: "flat" },
+        ],
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 14,
+          saveOutcome: "negates",
+        },
         durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        canBeDispelled: true,
+      },
+      damageConfig: {
+        formula: "2d6",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
         durationUnit: "rounds",
         concentrationRequired: true,
       },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "negates",
-      },
-      debuffConfig: {
-        debuffType: "statusEffect",
-        effects: [
-          {
-            id: "portent_of_weakness",
-            name: "Portent of Weakness",
-            description:
-              "Weakened by ill portent — disadvantage on attacks, -2 Armor",
-            statusType: "cursed",
-            mechanicsText:
-              "Disadvantage on all attacks and -2 to Armor for 3 rounds",
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-      },
-      tags: ["debuff", "curse", "harbinger", "omen", "concentration"],
+      resolution: "DICE",
+      tags: ["debuff", "damage", "crippling", "omen"],
     },
 
     {
       id: "augur_terrain_of_ruin",
-      name: "Terrain of Ruin",
+      name: "Fleshy Consecration",
       description:
-        "Consecrate a zone with dark omen energy, causing the ground itself to reject your enemies.",
-      spellType: "ACTION",
+        "You pour a chalice of decayed blood onto the earth. The soil instantly putrefies, bubbling into a wet bog of rotting offal and sharp bone fragments. Enemies who walk here are slowed as the dead grasp at their boots.",
       level: 2,
-      specialization: "harbinger",
+      spellType: "ACTION",
+      icon: "Necrotic/Corruption",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "psychic",
-        icon: "Nature/Thorny Entanglement",
+        school: "necrotic",
+        icon: "Necrotic/Corruption",
+        tags: ["area", "damage", "debuff", "hazard", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 40,
-        areaConfig: { areaType: "sphere", areaSize: 20, areaSizeUnit: "ft" },
+        rangeDistance: 60,
+        areaConfig: { areaType: "circle", areaSize: 20, areaSizeUnit: "ft" },
         targetRestrictions: ["enemies"],
-        maxTargets: 10,
-        targetSelectionMethod: "auto",
+        maxTargets: 15,
+        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 10 },
-        useFormulas: {},
-        actionPoints: 2,
+        actionPoints: 1,
         components: ["verbal", "somatic", "material"],
-        classResource: { type: "malediction", cost: 4 },
+        materialComponents: "A cup of stagnant blood",
+        classResource: { type: "malediction", cost: 3 },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      duration: {
-        durationValue: 5,
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "fleshy_bog_slow",
+            name: "Rotting Grasp",
+            description: "Movement speed halved and -2 to all Agility saving throws while in the zone.",
+            mechanicsText: "Speed halved, -2 Agility saves.",
+          },
+        ],
+        statPenalties: [
+          { stat: "speed", magnitude: -50, magnitudeType: "percent" },
+          { stat: "agility_saves", magnitude: -2, magnitudeType: "flat" },
+        ],
         durationType: "rounds",
+        durationValue: 5,
         durationUnit: "rounds",
-        concentrationRequired: true,
+        canBeDispelled: false,
       },
-      resolution: "AUTOMATIC",
       damageConfig: {
         formula: "1d6",
-        elementType: "psychic",
         damageTypes: ["psychic"],
         hasDotEffect: true,
         dotConfig: {
@@ -811,109 +738,84 @@ The class creates a unique rhythm where you're constantly generating resources f
         },
         resolution: "DICE",
       },
-      debuffConfig: {
-        debuffType: "statusEffect",
-        effects: [
-          {
-            id: "terrain_of_ruin_slow",
-            name: "Terrain of Ruin",
-            description: "Movement reduced by 10ft in cursed zone",
-            movementPenalty: -10,
-            mechanicsText: "-10ft movement speed while in the zone",
-          },
-          {
-            id: "terrain_of_ruin_fear",
-            name: "Ruin Fear",
-            description:
-              "Enemies entering the zone must save or be frightened for 1 round",
-            statusType: "frightened",
-            mechanicsText: "Spirit save or frightened 1 round on entering",
-          },
-        ],
-        durationValue: 5,
+      durationConfig: {
         durationType: "rounds",
+        durationValue: 5,
         durationUnit: "rounds",
+        concentrationRequired: true,
       },
-      tags: ["terrain", "curse", "harbinger", "area", "omen", "concentration"],
+      resolution: "DICE",
+      tags: ["area", "damage", "debuff", "hazard", "omen"],
     },
 
     {
       id: "augur_sign_of_protection",
-      name: "Sign of Protection",
+      name: "Congealed Aegis",
       description:
-        "Trace a protective sigil around an ally, using Benediction to shield them from harm.",
-      spellType: "ACTION",
+        "You trace your fingers through spilling blood and flick it at an ally. The warm spray congeals in mid-air, hardening into a shimmering, iron-hard carapace of scab and golden light that drinks incoming trauma.",
       level: 2,
-      specialization: "hierophant",
+      spellType: "ACTION",
+      icon: "Radiant/Divine Blessing",
       effectTypes: ["buff"],
       typeConfig: {
         school: "radiant",
-        icon: "Radiant/Radiant Golden Shield",
+        icon: "Radiant/Divine Blessing",
+        tags: ["buff", "armor", "mitigation", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["ally", "self"],
+        rangeDistance: 40,
+        targetRestrictions: ["allies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 6 },
-        useFormulas: {},
-        actionPoints: 2,
+        actionPoints: 1,
         components: ["verbal", "somatic"],
         classResource: { type: "benediction", cost: 3 },
       },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      duration: {
-        durationValue: 4,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-      },
-      resolution: "AUTOMATIC",
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       buffConfig: {
-        buffType: "statEnhancement",
+        buffType: "custom",
         effects: [
           {
-            id: "sign_of_protection",
-            name: "Sign of Protection",
-            description: "Blessed with protective omen — +3 Armor",
-            statModifier: {
-              stat: "armor",
-              magnitude: 3,
-              magnitudeType: "flat",
-            },
-            mechanicsText: "+3 Armor for 4 rounds",
+            id: "congealed_aegis_buff",
+            name: "Congealed Resolve",
+            description: "Grants +3 Armor and resistance to the next source of physical damage.",
+            mechanicsText: "+3 Armor, physical resistance (1 charge).",
           },
         ],
-        durationValue: 4,
         durationType: "rounds",
+        durationValue: 3,
         durationUnit: "rounds",
-        concentrationRequired: false,
         canBeDispelled: true,
       },
-      tags: ["buff", "blessing", "hierophant", "omen", "protection"],
+      resolution: "AUTOMATIC",
+      tags: ["buff", "armor", "mitigation", "omen"],
     },
 
-    // ===== LEVEL 3 SPELLS =====
+    // ============================================================
+    // LEVEL 3 SPELLS (3)
+    // ============================================================
+
     {
       id: "augur_omen_bolt",
-      name: "Omen Bolt",
+      name: "Lance of Fractured Marrow",
       description:
-        "Channel raw omen energy into a bolt of psychic and radiant force that strikes a target.",
-      spellType: "ACTION",
+        "You thrust your hand forward, casting a dual lance of burning radiant marrow and shattering psychic screams. If the immediate combat signs are even, the bolt strikes with terrible, blinding intensity.",
       level: 3,
-      specialization: "universal",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Sunburst",
       effectTypes: ["damage"],
       typeConfig: {
         school: "psychic",
-        icon: "Psychic/Psionic Strike",
+        secondaryElement: "radiant",
+        icon: "Radiant/Radiant Sunburst",
+        tags: ["attack", "damage", "dual_element", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -923,220 +825,198 @@ The class creates a unique rhythm where you're constantly generating resources f
         rangeDistance: 60,
         targetRestrictions: ["enemies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 15 },
-        useFormulas: {},
-        actionPoints: 2,
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
         components: ["verbal", "somatic"],
+        classResource: { type: "benediction", cost: 2 },
       },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-      resolution: "DICE",
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       damageConfig: {
         formula: "3d8",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
+        damageTypes: ["psychic", "radiant"],
         secondaryDamage: {
           formula: "1d8",
-          elementType: "radiant",
-          condition:
-            "If the damage roll total is even, deal additional radiant damage",
+          condition: "If the damage roll total is even, deal additional radiant damage.",
         },
         resolution: "DICE",
       },
-      tags: ["damage", "psychic", "radiant", "universal", "omen"],
+      resolution: "DICE",
+      tags: ["attack", "damage", "dual_element", "omen"],
     },
 
     {
       id: "augur_harbinger_gaze",
-      name: "Harbinger's Gaze",
+      name: "Flayed Eyes Gaze",
       description:
-        "Fix your gaze upon a target, filling their mind with dark portents that sap their will to fight.",
-      spellType: "ACTION",
+        "You lock eyes with a target and force them to see their own body flayed to the bone, their flesh hung to dry. The horror fractures their mind, leaving them shrieking and clawing at their own face in blind terror.",
       level: 3,
-      specialization: "harbinger",
-      effectTypes: ["debuff", "damage"],
+      spellType: "ACTION",
+      icon: "Psychic/Psionic Boom",
+      effectTypes: ["damage", "debuff"],
       typeConfig: {
         school: "psychic",
-        icon: "Psychic/Hypnotic Eye",
+        icon: "Psychic/Psionic Boom",
+        tags: ["damage", "debuff", "fear", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 30,
+        rangeDistance: 40,
         targetRestrictions: ["enemies"],
         maxTargets: 1,
+        requiresLineOfSight: true,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        classResource: { type: "malediction", cost: 3 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      damageConfig: {
+        formula: "3d6",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "flayed_gaze_fear",
+            name: "Frightened",
+            description: "Target is Frightened and has disadvantage on all attack rolls.",
+            mechanicsText: "Frightened state, disadvantage on attack rolls.",
+          },
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 14,
+          saveOutcome: "negates",
+        },
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        canBeDispelled: true,
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+      resolution: "DICE",
+      tags: ["damage", "debuff", "fear", "omen"],
+    },
+
+    {
+      id: "augur_sacred_ground",
+      name: "Agonizing Sanctuary",
+      description:
+        "You hammer your staff into the ground, creating a zone of blinding, painful radiance. Allies who stand within have their wounds sealed with congealing light, while enemies are scorched by the searing truth.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Light Burst",
+      effectTypes: ["healing", "damage"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Radiant Light Burst",
+        tags: ["area", "healing", "damage", "consecrated", "omen"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 45,
+        areaConfig: { areaType: "circle", areaSize: 15, areaSizeUnit: "ft" },
+        targetRestrictions: ["any"],
+        maxTargets: 15,
         targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 14 },
-        useFormulas: {},
-        actionPoints: 2,
+        actionPoints: 1,
         components: ["verbal", "somatic"],
-        classResource: { type: "malediction", cost: 5 },
+        classResource: { type: "benediction", cost: 3 },
       },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      duration: {
-        durationValue: 4,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "partial",
-      },
-      debuffConfig: {
-        debuffType: "statusEffect",
-        effects: [
-          {
-            id: "harbinger_gaze",
-            name: "Harbinger's Gaze",
-            description:
-              "Consumed by dark portent — frightened, -2 to all rolls",
-            statusType: "frightened",
-            mechanicsText: "Frightened and -2 to all rolls for 4 rounds",
-          },
-        ],
-        durationValue: 4,
-        durationType: "rounds",
-        durationUnit: "rounds",
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      healingConfig: {
+        formula: "2d6",
+        healingType: "zone",
+        hasHotEffect: true,
+        hotFormula: "1d6",
+        hotDuration: 3,
+        hotTickType: "turn",
+        resolution: "DICE",
       },
       damageConfig: {
         formula: "2d6",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
+        damageTypes: ["radiant"],
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: "1d6",
+          duration: 3,
+          tickFrequency: "turn",
+          isProgressiveDot: false,
+        },
         resolution: "DICE",
       },
-      tags: ["debuff", "frightened", "harbinger", "omen", "concentration"],
-    },
-
-    {
-      id: "augur_sacred_ground",
-      name: "Sacred Ground",
-      description:
-        "Consecrate an area with pure omen energy, creating a zone of divine blessing.",
-      spellType: "ACTION",
-      level: 3,
-      specialization: "hierophant",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "nature",
-        icon: "Radiant/Radiant Blessing 1",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        areaConfig: { areaType: "sphere", areaSize: 15, areaSizeUnit: "ft" },
-        targetRestrictions: ["ally"],
-        maxTargets: 10,
-        targetSelectionMethod: "auto",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 16 },
-        useFormulas: {},
-        actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        classResource: { type: "benediction", cost: 5 },
-      },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      duration: {
-        durationValue: 5,
+      durationConfig: {
         durationType: "rounds",
+        durationValue: 3,
         durationUnit: "rounds",
         concentrationRequired: true,
       },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "zone",
-        effects: [
-          {
-            id: "sacred_ground",
-            name: "Sacred Ground",
-            description:
-              "Allies in zone gain +1 to all saves and heal 1d4 at start of turn",
-            statModifier: {
-              stat: "all_saves",
-              magnitude: 1,
-              magnitudeType: "flat",
-            },
-            mechanicsText:
-              "+1 to all saves and 1d4 healing at start of turn while in zone",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      tags: [
-        "terrain",
-        "buff",
-        "hierophant",
-        "area",
-        "omen",
-        "concentration",
-        "healing",
-      ],
+      resolution: "DICE",
+      tags: ["area", "healing", "damage", "consecrated", "omen"],
     },
 
-    // ===== LEVEL 4 SPELLS =====
+    // ============================================================
+    // LEVEL 4 SPELLS (3)
+    // ============================================================
+
     {
       id: "augur_grand_malediction",
-      name: "Grand Malediction",
+      name: "Ruinous Flaying Hex",
       description:
-        "Unleash a devastating malediction that overwhelms a target with accumulated ill omens.",
-      spellType: "ACTION",
+        "You speak the ultimate word of decay. The target's skin begins to peel backward as if invisible blades were flaying them alive. They freeze in absolute, screaming paralysis as their nervous system collapses.",
       level: 4,
-      specialization: "harbinger",
+      spellType: "ACTION",
+      icon: "Necrotic/Death Mark",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "necrotic",
-        icon: "Necrotic/Necrotic Skull",
+        school: "psychic",
+        icon: "Necrotic/Death Mark",
+        tags: ["debuff", "damage", "paralyze", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 50,
+        rangeDistance: 45,
         targetRestrictions: ["enemies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 20 },
-        useFormulas: {},
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        classResource: { type: "malediction", cost: 6 },
+        classResource: { type: "malediction", cost: 5 },
       },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "half_damage",
-      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: {
-        formula: "5d8",
-        elementType: "psychic",
+        formula: "4d8",
         damageTypes: ["psychic"],
         resolution: "DICE",
       },
@@ -1144,49 +1024,61 @@ The class creates a unique rhythm where you're constantly generating resources f
         debuffType: "statusEffect",
         effects: [
           {
-            id: "grand_malediction",
-            name: "Grand Malediction",
-            description: "Overwhelmed by ill omens — paralyzed for 1 round",
-            statusType: "paralyzed",
-            mechanicsText: "Paralyzed for 1 round on failed save",
+            id: "ruinous_flay_paralysis",
+            name: "Skinless Shock",
+            description: "Target is Paralyzed for 2 rounds by catastrophic sensory overload.",
+            mechanicsText: "Paralyzed state.",
           },
         ],
-        durationValue: 1,
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "negates",
+        },
         durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        canBeDispelled: true,
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
         durationUnit: "rounds",
       },
-      tags: ["damage", "psychic", "harbinger", "omen", "paralyze"],
+      resolution: "DICE",
+      tags: ["debuff", "damage", "paralyze", "omen"],
     },
 
     {
       id: "augur_balanced_sign",
-      name: "Balanced Sign",
+      name: "Cruciform Omen",
       description:
-        "Channel both Benediction and Malediction into a single powerful effect that simultaneously blesses allies and curses enemies.",
-      spellType: "ACTION",
+        "You draw a massive, bloody cross in the air. The intersection creates a highly volatile spatial nexus: allies on one axis are bathed in blinding radiant recovery, while enemies on the other are scorched.",
       level: 4,
-      specialization: "auspex",
-      effectTypes: ["buff", "debuff"],
+      spellType: "ACTION",
+      icon: "Arcane/Portal Archway",
+      effectTypes: ["healing", "damage"],
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Magical Staff",
+        school: "radiant",
+        secondaryElement: "psychic",
+        icon: "Arcane/Portal Archway",
+        tags: ["area", "healing", "damage", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 40,
-        areaConfig: { areaType: "sphere", areaSize: 20, areaSizeUnit: "ft" },
+        rangeDistance: 60,
+        areaConfig: { areaType: "line", areaSize: 40, areaSizeUnit: "ft" },
         targetRestrictions: ["any"],
         maxTargets: 20,
-        targetSelectionMethod: "auto",
+        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 18 },
-        useFormulas: {},
         actionPoints: 2,
         components: ["verbal", "somatic"],
         classResource: [
@@ -1195,63 +1087,33 @@ The class creates a unique rhythm where you're constantly generating resources f
         ],
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      duration: {
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
+      healingConfig: {
+        formula: "3d8",
+        healingType: "zone",
+        resolution: "DICE",
       },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "balanced_sign_buff",
-            name: "Balanced Sign (Ally)",
-            description: "Allies in zone gain +2 to attack rolls",
-            statModifier: {
-              stat: "attack_rolls",
-              magnitude: 2,
-              magnitudeType: "flat",
-            },
-            mechanicsText: "+2 to attack rolls for allies in zone",
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
+      damageConfig: {
+        formula: "3d8",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
       },
-      debuffConfig: {
-        debuffType: "statusEffect",
-        effects: [
-          {
-            id: "balanced_sign_debuff",
-            name: "Balanced Sign (Enemy)",
-            description: "Enemies in zone suffer -2 to attack rolls",
-            mechanicsText: "-2 to attack rolls for enemies in zone",
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-      },
-      tags: ["buff", "debuff", "auspex", "area", "omen", "concentration"],
+      resolution: "DICE",
+      tags: ["area", "healing", "damage", "omen"],
     },
 
     {
       id: "augur_hierophants_ward",
-      name: "Hierophant's Ward",
+      name: "Martyr's Shroud",
       description:
-        "Create a powerful ward around all nearby allies, shielding them with concentrated Benediction energy.",
-      spellType: "ACTION",
+        "You trace a massive radiant shroud across your allies. Their skin hardens with the protective glare of congealed bones, making them completely immune to panic and significantly harder to cut.",
       level: 4,
-      specialization: "hierophant",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Golden Shield",
       effectTypes: ["buff"],
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Golden Shield",
+        tags: ["buff", "support", "armor", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1259,287 +1121,459 @@ The class creates a unique rhythm where you're constantly generating resources f
         targetingType: "area",
         rangeType: "self_centered",
         rangeDistance: 0,
-        areaConfig: { areaType: "sphere", areaSize: 20, areaSizeUnit: "ft" },
-        targetRestrictions: ["ally", "self"],
-        maxTargets: 10,
+        areaConfig: { areaType: "sphere", areaSize: 30, areaSizeUnit: "ft" },
+        targetRestrictions: ["allies"],
+        maxTargets: 6,
         targetSelectionMethod: "auto",
         requiresLineOfSight: false,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
-        useFormulas: {},
-        actionPoints: 2,
+        resourceValues: { mana: 16 },
+        actionPoints: 1,
         components: ["verbal", "somatic"],
-        classResource: { type: "benediction", cost: 5 },
+        classResource: { type: "benediction", cost: 4 },
       },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      duration: {
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-      },
-      resolution: "AUTOMATIC",
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       buffConfig: {
-        buffType: "statEnhancement",
+        buffType: "custom",
         effects: [
           {
-            id: "hierophants_ward",
-            name: "Hierophant's Ward",
-            description:
-              "Warded by sacred omen — +2 Armor, advantage on saves against fear",
+            id: "martyrs_shroud_buff",
+            name: "Searing Shroud",
+            description: "Grants +2 Armor and absolute immunity to Charmed and Frightened conditions.",
+            mechanicsText: "+2 Armor, immune to Charmed/Frightened.",
             statModifier: {
               stat: "armor",
               magnitude: 2,
               magnitudeType: "flat",
             },
-            mechanicsText:
-              "+2 Armor and advantage on saves against fear for 3 rounds",
           },
         ],
-        durationValue: 3,
         durationType: "rounds",
+        durationValue: 3,
         durationUnit: "rounds",
-        concentrationRequired: false,
         canBeDispelled: true,
       },
-      tags: ["buff", "blessing", "hierophant", "area", "omen", "protection"],
+      resolution: "AUTOMATIC",
+      tags: ["buff", "support", "armor", "omen"],
     },
 
-    // ===== LEVEL 5 SPELLS =====
+    // ============================================================
+    // LEVEL 5 SPELLS (3)
+    // ============================================================
+
     {
       id: "augur_omen_storm",
-      name: "Omen Storm",
+      name: "Gore-Mist Tempests",
       description:
-        "Unleash a storm of conflicting omens across the battlefield, dealing damage and creating chaos.",
-      spellType: "ACTION",
+        "You conjure a violent, swirling tempest of spilt blood and howling souls. The storm is hyper-volatile: allies within are healed by the life-giving mist, while enemies have their flesh shredded by jagged bone winds.",
       level: 5,
-      specialization: "universal",
-      effectTypes: ["damage"],
+      spellType: "ACTION",
+      icon: "Lightning/Thunderstorm",
+      effectTypes: ["damage", "healing"],
       typeConfig: {
         school: "psychic",
-        icon: "Nature/Nature Wild 2",
+        secondaryElement: "radiant",
+        icon: "Lightning/Thunderstorm",
+        tags: ["area", "damage", "healing", "storm", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 50,
+        rangeDistance: 60,
         areaConfig: { areaType: "sphere", areaSize: 25, areaSizeUnit: "ft" },
-        targetRestrictions: ["enemies"],
-        maxTargets: 15,
-        targetSelectionMethod: "auto",
+        targetRestrictions: ["any"],
+        maxTargets: 20,
+        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 25 },
-        useFormulas: {},
+        resourceValues: { mana: 22 },
         actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
+        components: ["verbal", "somatic"],
         classResource: [
           { type: "benediction", cost: 3 },
           { type: "malediction", cost: 3 },
         ],
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "agility",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "half_damage",
-      },
       damageConfig: {
-        formula: "6d8",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
+        formula: "4d6",
+        damageTypes: ["psychic", "radiant"],
         secondaryDamage: {
-          formula: "3d8",
-          elementType: "radiant",
-          condition: "Against undead or fiends",
+          formula: "2d6",
+          condition: "If the damage roll total is even, deal additional radiant damage.",
         },
         resolution: "DICE",
       },
-      tags: ["damage", "area", "universal", "omen", "storm"],
+      healingConfig: {
+        formula: "4d6",
+        healingType: "zone",
+        resolution: "DICE",
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "DICE",
+      tags: ["area", "damage", "healing", "storm", "omen"],
     },
 
     {
       id: "augur_field_of_misfortune",
-      name: "Field of Misfortune",
+      name: "Desolate Bog of Fractures",
       description:
-        "Create a wide zone of concentrated ill omen that saps the strength and will of all enemies within.",
-      spellType: "ACTION",
+        "You consecrate a massive area with ancient, agonizing curses. The ground shudders as bones break beneath the surface, creating an oppressive aura that saps all martial coordination and breaks armor.",
       level: 5,
-      specialization: "harbinger",
+      spellType: "ACTION",
+      icon: "Necrotic/Corruption",
       effectTypes: ["debuff", "damage"],
       typeConfig: {
         school: "psychic",
-        icon: "Void/Black Hole",
+        icon: "Necrotic/Corruption",
+        tags: ["area", "debuff", "damage", "hazard", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 50,
-        areaConfig: { areaType: "sphere", areaSize: 30, areaSizeUnit: "ft" },
+        rangeDistance: 60,
+        areaConfig: { areaType: "circle", areaSize: 30, areaSizeUnit: "ft" },
         targetRestrictions: ["enemies"],
         maxTargets: 20,
-        targetSelectionMethod: "auto",
+        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 24 },
-        useFormulas: {},
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        classResource: { type: "malediction", cost: 8 },
+        classResource: { type: "malediction", cost: 5 },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      duration: {
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
       debuffConfig: {
-        debuffType: "statusEffect",
+        debuffType: "statPenalty",
         effects: [
           {
-            id: "field_of_misfortune",
-            name: "Field of Misfortune",
-            description: "Enemies in zone have -2 to all d20 rolls",
-            mechanicsText: "-2 to all d20 rolls while in zone",
+            id: "field_misfortune_debuff",
+            name: "Splintered Stance",
+            description: "Enemies have -3 to all attack rolls and -3 to Armor while in the zone.",
+            mechanicsText: "-3 attack rolls, -3 Armor.",
           },
         ],
-        durationValue: 5,
+        statPenalties: [
+          { stat: "attack_rolls", magnitude: -3, magnitudeType: "flat" },
+          { stat: "armor", magnitude: -3, magnitudeType: "flat" },
+        ],
         durationType: "rounds",
+        durationValue: 5,
         durationUnit: "rounds",
+        canBeDispelled: false,
       },
       damageConfig: {
-        formula: "2d6",
-        elementType: "psychic",
+        formula: "3d6",
         damageTypes: ["psychic"],
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: "2d6",
+          dotFormula: "3d6",
           duration: 5,
           tickFrequency: "turn",
           isProgressiveDot: false,
         },
         resolution: "DICE",
       },
-      tags: ["debuff", "terrain", "harbinger", "area", "omen", "concentration"],
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "DICE",
+      tags: ["area", "debuff", "damage", "hazard", "omen"],
     },
 
     {
       id: "augur_hierophants_domain",
-      name: "Hierophant's Domain",
+      name: "Blinding Cathedral of Bones",
       description:
-        "Transform a massive area into sacred ground, providing powerful blessings to all allies within.",
-      spellType: "ACTION",
+        "You raise a colossal temple of radiant bone splinters. The air burns with golden light, providing absolute shelter for your allies. Their wounds seal, their skin hardens, and all fear is instantly incinerated.",
       level: 5,
-      specialization: "hierophant",
-      effectTypes: ["buff", "healing"],
+      spellType: "ACTION",
+      icon: "Healing/Prayer",
+      effectTypes: ["healing", "buff"],
       typeConfig: {
         school: "radiant",
-        icon: "Radiant/Divine Halo",
+        icon: "Healing/Prayer",
+        tags: ["area", "healing", "buff", "sanctuary", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 40,
-        areaConfig: { areaType: "sphere", areaSize: 40, areaSizeUnit: "ft" },
-        targetRestrictions: ["ally", "self"],
-        maxTargets: 20,
-        targetSelectionMethod: "auto",
+        rangeDistance: 60,
+        areaConfig: { areaType: "circle", areaSize: 30, areaSizeUnit: "ft" },
+        targetRestrictions: ["allies"],
+        maxTargets: 10,
+        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
-        useFormulas: {},
+        resourceValues: { mana: 24 },
         actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        classResource: { type: "benediction", cost: 8 },
+        components: ["verbal", "somatic"],
+        classResource: { type: "benediction", cost: 5 },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      duration: {
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "zone",
-        effects: [
-          {
-            id: "hierophants_domain",
-            name: "Hierophant's Domain",
-            description:
-              "Immunity to fear, advantage on all saves, +1d4 radiant healing at start of turn",
-            mechanicsText:
-              "Immunity to fear, advantage on all saves, 1d4 radiant healing at start of turn",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
       healingConfig: {
-        formula: "1d4",
+        formula: "4d6",
         healingType: "zone",
+        hasHotEffect: true,
+        hotFormula: "2d6",
+        hotDuration: 5,
+        hotTickType: "turn",
         resolution: "DICE",
       },
-      tags: [
-        "buff",
-        "terrain",
-        "hierophant",
-        "area",
-        "omen",
-        "concentration",
-        "healing",
-      ],
+      buffConfig: {
+        buffType: "custom",
+        effects: [
+          {
+            id: "hierophants_domain_buff",
+            name: "Sanctuary of Grace",
+            description: "Allies have +3 to all saving throws and gain resistance to psychic damage.",
+            mechanicsText: "+3 all saving throws, psychic resistance.",
+            statModifier: {
+              stat: "all_saves",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "DICE",
+      tags: ["area", "healing", "buff", "sanctuary", "omen"],
     },
 
-    // ===== LEVEL 6 SPELLS =====
+    // ============================================================
+    // LEVEL 6 SPELLS (3)
+    // ============================================================
+
     {
       id: "augur_omen_shatter",
-      name: "Omen Shatter",
+      name: "Flesh-Shattering Portent",
       description:
-        "Shatter the omens surrounding a target, detonating them as a burst of pure psychic and radiant energy.",
-      spellType: "ACTION",
+        "You violently detonate the active omens clinging to your targets. Jagged shards of radiant bone and psychic agony burst outward from their skin, shredding nearby tissue and leaving them bleeding.",
       level: 6,
-      specialization: "universal",
+      spellType: "ACTION",
+      icon: "Necrotic/Bone Shards",
       effectTypes: ["damage"],
       typeConfig: {
         school: "psychic",
-        icon: "Arcane/Swirling Vortex",
+        secondaryElement: "radiant",
+        icon: "Necrotic/Bone Shards",
+        tags: ["damage", "aoe", "detonate", "omen"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        areaConfig: { areaType: "sphere", areaSize: 20, areaSizeUnit: "ft" },
+        targetRestrictions: ["enemies"],
+        maxTargets: 15,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 25 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+        classResource: [
+          { type: "benediction", cost: 3 },
+          { type: "malediction", cost: 3 },
+        ],
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      damageConfig: {
+        formula: "5d8",
+        damageTypes: ["psychic", "radiant"],
+        resolution: "DICE",
+      },
+      resolution: "DICE",
+      tags: ["damage", "aoe", "detonate", "omen"],
+    },
+
+    {
+      id: "augur_curse_of_the_unlucky",
+      name: "Agony of the Miscreant",
+      description:
+        "You cast a horrific curse that binds a target's destiny to immediate misery. Every time they make a d20 roll, odd results are interpreted as natural 1s, causing catastrophic failures and shattering their bones.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Necrotic/Necrotic Death",
+      effectTypes: ["debuff"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Necrotic/Necrotic Death",
+        tags: ["debuff", "curse", "unlucky", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 60,
+        rangeDistance: 45,
         targetRestrictions: ["enemies"],
         maxTargets: 1,
-        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 30 },
-        useFormulas: {},
+        resourceValues: { mana: 28 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+        classResource: { type: "malediction", cost: 6 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "unlucky_curse_debuff",
+            name: "Agonizing Misfortune",
+            description: "All odd d20 rolls count as natural 1s. Target stumbles on every action.",
+            mechanicsText: "Odd rolls count as natural 1s.",
+          },
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "negates",
+        },
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        canBeDispelled: true,
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      resolution: "DICE",
+      tags: ["debuff", "curse", "unlucky", "omen"],
+    },
+
+    {
+      id: "augur_crown_of_radiance",
+      name: "Crown of Thorns and Glory",
+      description:
+        "You crown an ally in a ring of blinding, sharp radiant thorns. The crown bleeds their temples but elevates their soul, providing legendary combat fortune and +3 to all immediate rolls.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Radiant/Golden Ring",
+      effectTypes: ["buff"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Golden Ring",
+        tags: ["buff", "support", "elevate", "omen"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["allies"],
+        maxTargets: 1,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 26 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        classResource: { type: "benediction", cost: 6 },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      buffConfig: {
+        buffType: "custom",
+        effects: [
+          {
+            id: "crown_radiance_buff",
+            name: "Crown of Glory",
+            description: "Grants +3 to all d20 rolls, and resistance to all damage types.",
+            mechanicsText: "+3 to all rolls, all-damage resistance.",
+            statModifier: {
+              stat: "all_rolls",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        canBeDispelled: true,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["buff", "support", "elevate", "omen"],
+    },
+
+    // ============================================================
+    // LEVEL 7 SPELLS (3)
+    // ============================================================
+
+    {
+      id: "augur_reality_of_omens",
+      name: "Splitting of the Flesh",
+      description:
+        "You split reality down the center. On one side, allies are bolstered by congealing marrow and golden fate. On the other, enemies have their skin torn away, suffering catastrophic vulnerability.",
+      level: 7,
+      spellType: "ACTION",
+      icon: "Arcane/Portal Archway",
+      effectTypes: ["buff", "debuff"],
+      typeConfig: {
+        school: "psychic",
+        secondaryElement: "radiant",
+        icon: "Arcane/Portal Archway",
+        tags: ["area", "buff", "debuff", "split", "omen"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        rangeDistance: 0,
+        areaConfig: { areaType: "sphere", areaSize: 45, areaSizeUnit: "ft" },
+        targetRestrictions: ["any"],
+        maxTargets: 30,
+        targetSelectionMethod: "auto",
+        requiresLineOfSight: false,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 35 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
         classResource: [
@@ -1548,242 +1582,67 @@ The class creates a unique rhythm where you're constantly generating resources f
         ],
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      resolution: "DICE",
-      damageConfig: {
-        formula: "8d8",
-        elementType: "psychic",
-        damageTypes: ["psychic", "radiant"],
-        resolution: "DICE",
-      },
-      tags: ["damage", "psychic", "radiant", "universal", "omen"],
-    },
-
-    {
-      id: "augur_curse_of_the_unlucky",
-      name: "Curse of the Unlucky",
-      description:
-        "Place a devastating curse that turns all fortune against a target, making even their successes sour.",
-      spellType: "ACTION",
-      level: 6,
-      specialization: "harbinger",
-      effectTypes: ["debuff"],
-      typeConfig: {
-        school: "psychic",
-        icon: "Necrotic/Necrotic Decay 1",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        targetRestrictions: ["enemies"],
-        maxTargets: 1,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
-        useFormulas: {},
-        actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        classResource: { type: "malediction", cost: 10 },
-      },
-      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "negates",
-      },
-      debuffConfig: {
-        debuffType: "statusEffect",
-        effects: [
-          {
-            id: "curse_of_the_unlucky",
-            name: "Curse of the Unlucky",
-            description:
-              "Fortune has abandoned you—odd rolls become critical failures",
-            statusType: "cursed",
-            mechanicsText:
-              "All odd d20 rolls count as natural 1s for critical failure purposes",
-          },
-        ],
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-      },
-      tags: ["debuff", "curse", "harbinger", "omen", "concentration", "severe"],
-    },
-
-    {
-      id: "augur_crown_of_radiance",
-      name: "Crown of Radiance",
-      description:
-        "Place a crown of pure Benediction energy on an ally, making them a beacon of fortune.",
-      spellType: "ACTION",
-      level: 6,
-      specialization: "hierophant",
-      effectTypes: ["buff"],
-      typeConfig: {
-        school: "radiant",
-        icon: "Radiant/Sacred Symbol",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["ally"],
-        maxTargets: 1,
-        targetSelectionMethod: "manual",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 26 },
-        useFormulas: {},
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "benediction", cost: 10 },
-      },
-      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
       buffConfig: {
-        buffType: "statEnhancement",
+        buffType: "custom",
         effects: [
           {
-            id: "crown_of_radiance",
-            name: "Crown of Radiance",
-            description:
-              "Blessed with radiant fortune — +3 to all rolls, immunity to frightened/charmed",
-            statModifier: {
-              stat: "all_rolls",
-              magnitude: 3,
-              magnitudeType: "flat",
-            },
-            mechanicsText:
-              "+3 to all rolls, immune to frightened and charmed for 5 rounds",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
-      tags: ["buff", "blessing", "hierophant", "omen", "concentration"],
-    },
-
-    // ===== LEVEL 7 SPELLS =====
-    {
-      id: "augur_reality_of_omens",
-      name: "Reality of Omens",
-      description:
-        "Impose your omen reading on reality itself, forcing the battlefield to conform to your interpretation of the signs.",
-      spellType: "ACTION",
-      level: 7,
-      specialization: "universal",
-      effectTypes: ["buff", "debuff"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Open Portal",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "self_centered",
-        rangeDistance: 0,
-        areaConfig: { areaType: "sphere", areaSize: 60, areaSizeUnit: "ft" },
-        targetRestrictions: ["any"],
-        maxTargets: 30,
-        targetSelectionMethod: "auto",
-        requiresLineOfSight: false,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        classResource: [
-          { type: "benediction", cost: 5 },
-          { type: "malediction", cost: 5 },
-        ],
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "reality_of_omens_buff",
-            name: "Reality of Omens (Ally)",
-            description: "Allies within range gain +2 to all rolls",
+            id: "reality_allies_buff",
+            name: "Fated Step",
+            description: "Allies have +2 to all d20 rolls and +2 Armor.",
+            mechanicsText: "+2 all rolls, +2 Armor.",
             statModifier: {
               stat: "all_rolls",
               magnitude: 2,
               magnitudeType: "flat",
             },
-            mechanicsText: "+2 to all rolls for allies within 60ft",
           },
         ],
-        durationValue: 3,
         durationType: "rounds",
+        durationValue: 3,
         durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
+        canBeDispelled: false,
       },
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
           {
-            id: "reality_of_omens_debuff",
-            name: "Reality of Omens (Enemy)",
-            description: "Enemies within range suffer -2 to all rolls",
-            mechanicsText: "-2 to all rolls for enemies within 60ft",
+            id: "reality_enemies_debuff",
+            name: "Flayed Reality",
+            description: "Enemies have -2 to all d20 rolls and +50% vulnerability to all damage types.",
+            mechanicsText: "-2 all rolls, +50% all damage vulnerability.",
+            statusEffect: {
+              vulnerabilityType: "all",
+              vulnerabilityPercent: 50,
+            },
           },
         ],
-        durationValue: 3,
         durationType: "rounds",
+        durationValue: 3,
         durationUnit: "rounds",
       },
-      tags: ["buff", "debuff", "universal", "area", "omen", "concentration"],
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["area", "buff", "debuff", "split", "omen"],
     },
 
     {
       id: "augur_apocalypse_portent",
-      name: "Apocalypse Portent",
+      name: "Dirge of the Unmade",
       description:
-        "Deliver the ultimate dark omen—a prophecy of destruction that damages and debilitates all who hear it.",
-      spellType: "ACTION",
+        "You chant a horrifying, blackened dirge. The sky turns the color of congealed blood as a massive wave of psychic agony crushes your enemies, shattering their mental armor and leaving them paralyzed.",
       level: 7,
-      specialization: "harbinger",
+      spellType: "ACTION",
+      icon: "Psychic/Agonizing Scream",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
         school: "psychic",
-        icon: "Void/Black Hole",
+        icon: "Psychic/Agonizing Scream",
+        tags: ["damage", "debuff", "apocalypse", "omen"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1794,456 +1653,19 @@ The class creates a unique rhythm where you're constantly generating resources f
         areaConfig: { areaType: "sphere", areaSize: 30, areaSizeUnit: "ft" },
         targetRestrictions: ["enemies"],
         maxTargets: 20,
-        targetSelectionMethod: "auto",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
-        classResource: { type: "malediction", cost: 12 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "half_damage",
-      },
-      damageConfig: {
-        formula: "8d10",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
-        resolution: "DICE",
-      },
-      debuffConfig: {
-        debuffType: "statusEffect",
-        effects: [
-          {
-            id: "apocalypse_portent",
-            name: "Apocalypse Portent",
-            description: "-3 to all rolls for 3 rounds",
-            mechanicsText: "-3 to all rolls for 3 rounds on failed save",
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-      },
-      tags: ["damage", "debuff", "harbinger", "area", "omen"],
-    },
-
-    {
-      id: "augur_divine_sanctuary",
-      name: "Divine Sanctuary",
-      description:
-        "Transform the battlefield into a divine sanctuary, making allies nearly invulnerable within its bounds.",
-      spellType: "ACTION",
-      level: 7,
-      specialization: "hierophant",
-      effectTypes: ["buff", "control"],
-      typeConfig: {
-        school: "radiant",
-        icon: "Radiant/Divine Halo",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        areaConfig: { areaType: "sphere", areaSize: 30, areaSizeUnit: "ft" },
-        targetRestrictions: ["ally", "self"],
-        maxTargets: 20,
-        targetSelectionMethod: "auto",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        classResource: { type: "benediction", cost: 12 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "divine_sanctuary",
-            name: "Divine Sanctuary",
-            description:
-              "+4 Armor, resistance to all damage, advantage on all saves",
-            statModifier: {
-              stat: "armor",
-              magnitude: 4,
-              magnitudeType: "flat",
-            },
-            mechanicsText:
-              "+4 Armor, resistance to all damage, advantage on all saves",
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
-      controlConfig: {
-        controlType: "restriction",
-        strength: "strong",
-        duration: 3,
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "sanctuary_repel",
-            name: "Divine Repulsion",
-            description: "Enemies cannot enter the sanctuary zone",
-            mechanicsText: "Enemies are repelled and cannot enter the zone",
-          },
-        ],
-      },
-      tags: ["buff", "terrain", "hierophant", "area", "omen", "concentration"],
-    },
-
-    // ===== LEVEL 8 SPELLS =====
-    {
-      id: "augur_twist_of_fate",
-      name: "Twist of Fate",
-      description:
-        "Grab the threads of omen and twist them, retroactively changing a d20 result that just occurred.",
-      spellType: "REACTION",
-      level: 8,
-      specialization: "universal",
-      effectTypes: ["utility"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Magical Staff",
-        castTime: 0,
-        castTimeType: "REACTION",
-      },
-      targetingConfig: {
-        targetingType: "special",
-        rangeType: "special",
-        rangeDistance: 60,
-        targetRestrictions: ["any"],
-        maxTargets: 1,
-        targetSelectionMethod: "auto",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
-        useFormulas: {},
-        actionPoints: 0,
-        components: ["verbal"],
-        classResource: [
-          { type: "benediction", cost: 5 },
-          { type: "malediction", cost: 5 },
-        ],
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "AUTOMATIC",
-      utilityConfig: {
-        utilityType: "special",
-        selectedEffects: [
-          {
-            id: "twist_of_fate",
-            name: "Twist of Fate",
-            description:
-              "Change a d20 result that just occurred by up to ±5. Must be used within 3 seconds of the roll.",
-            mechanicsText:
-              "Change a d20 result by up to ±5. If result becomes even, gain +2 Benediction; if odd, gain +2 Malediction.",
-          },
-        ],
-        power: "major",
-      },
-      tags: ["reaction", "fate", "universal", "omen"],
-    },
-
-    {
-      id: "augur_omen_of_death",
-      name: "Omen of Death",
-      description:
-        "Mark a target with the ultimate ill omen. If the conditions are met, death follows inevitably.",
-      spellType: "ACTION",
-      level: 8,
-      specialization: "harbinger",
-      effectTypes: ["debuff"],
-      typeConfig: {
-        school: "necrotic",
-        icon: "Necrotic/Necrotic Skull",
-        castTime: 1,
-        castTimeType: "RITUAL",
-      },
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["enemies"],
-        maxTargets: 1,
         targetSelectionMethod: "manual",
         requiresLineOfSight: true,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 40 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        classResource: { type: "malediction", cost: 15 },
+        resourceValues: { mana: 38 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+        classResource: { type: "malediction", cost: 7 },
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "partial",
-      },
-      debuffConfig: {
-        debuffType: "statusEffect",
-        effects: [
-          {
-            id: "omen_of_death",
-            name: "Omen of Death",
-            description:
-              "Marked for death by dark omen—a natural 1 means instant death",
-            statusType: "doomed",
-            mechanicsText:
-              "Marked for death: next natural 1 on any d20 reduces target to 0 HP",
-          },
-        ],
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-      },
-      tags: ["debuff", "death", "harbinger", "omen", "concentration", "severe"],
-    },
-
-    {
-      id: "augur_cosmic_aurora",
-      name: "Cosmic Aurora",
-      description:
-        "Unleash a wave of pure cosmic Benediction that transforms the entire battlefield into sacred ground.",
-      spellType: "ACTION",
-      level: 8,
-      specialization: "hierophant",
-      effectTypes: ["buff", "healing", "damage"],
-      typeConfig: {
-        school: "radiant",
-        icon: "Radiant/Radiant Sunburst",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "self_centered",
-        rangeDistance: 0,
-        areaConfig: { areaType: "sphere", areaSize: 60, areaSizeUnit: "ft" },
-        targetRestrictions: ["any"],
-        maxTargets: 30,
-        targetSelectionMethod: "auto",
-        requiresLineOfSight: false,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 40 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        classResource: { type: "benediction", cost: 15 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "cosmic_aurora_buff",
-            name: "Cosmic Aurora",
-            description: "+3 to all rolls and resistance to all damage",
-            statModifier: {
-              stat: "all_rolls",
-              magnitude: 3,
-              magnitudeType: "flat",
-            },
-            mechanicsText:
-              "+3 to all rolls, resistance to all damage for allies in zone",
-          },
-        ],
-        durationValue: 5,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
-      healingConfig: {
-        formula: "2d8",
-        healingType: "zone",
-        hasHotEffect: true,
-        hotFormula: "2d8",
-        hotDuration: 5,
-        hotTickType: "turn",
-        resolution: "DICE",
-      },
       damageConfig: {
-        formula: "4d8",
-        elementType: "radiant",
-        damageTypes: ["radiant"],
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: "4d8",
-          duration: 5,
-          tickFrequency: "turn",
-          isProgressiveDot: false,
-        },
-        resolution: "DICE",
-      },
-      tags: [
-        "buff",
-        "terrain",
-        "hierophant",
-        "area",
-        "omen",
-        "concentration",
-        "healing",
-      ],
-    },
-
-    // ===== LEVEL 9 SPELLS =====
-    {
-      id: "augur_the_signs_speak",
-      name: "The Signs Speak",
-      description:
-        "Channel every omen you have ever read into a single devastating revelation that reshapes reality.",
-      spellType: "ACTION",
-      level: 9,
-      specialization: "universal",
-      effectTypes: ["utility", "control"],
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Open Portal",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-      targetingConfig: {
-        targetingType: "special",
-        rangeType: "special",
-        rangeDistance: 100,
-        targetRestrictions: ["any"],
-        maxTargets: 30,
-        targetSelectionMethod: "auto",
-        requiresLineOfSight: false,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 50 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        classResource: [
-          { type: "benediction", cost: 8 },
-          { type: "malediction", cost: 8 },
-        ],
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
-      utilityConfig: {
-        utilityType: "special",
-        selectedEffects: [
-          {
-            id: "the_signs_speak",
-            name: "The Signs Speak",
-            description:
-              "Force enemies to reroll last d20 (worse) OR allies to reroll last d20 (better)",
-            mechanicsText:
-              "Choose: force all enemies to reroll last d20 take worse, OR force all allies to reroll last d20 take better. Double resource generation next round.",
-          },
-        ],
-        power: "major",
-      },
-      controlConfig: {
-        controlType: "reroll",
-        strength: "major",
-        duration: 1,
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "signs_speak_reroll",
-            name: "Omen Reroll",
-            description: "Force reroll of last d20 result",
-            mechanicsText: "Force targeted creatures to reroll their last d20",
-          },
-        ],
-      },
-      tags: ["fate", "reroll", "universal", "omen", "powerful"],
-    },
-
-    {
-      id: "augur_cataclysm_portent",
-      name: "Cataclysm Portent",
-      description:
-        "Read the ultimate dark omen in the stars and bring it to pass—a localized cataclysm that devastates all enemies.",
-      spellType: "ACTION",
-      level: 9,
-      specialization: "harbinger",
-      effectTypes: ["damage", "debuff"],
-      typeConfig: {
-        school: "psychic",
-        icon: "Void/Black Hole",
-        castTime: 1,
-        castTimeType: "RITUAL",
-      },
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        areaConfig: { areaType: "sphere", areaSize: 40, areaSizeUnit: "ft" },
-        targetRestrictions: ["enemies"],
-        maxTargets: 30,
-        targetSelectionMethod: "auto",
-        requiresLineOfSight: true,
-      },
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 50 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        classResource: { type: "malediction", cost: 15 },
-      },
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "SAVE",
-      savingThrow: {
-        ability: "spirit",
-        difficultyClass: "SPELL_DC",
-        saveOutcome: "half_damage",
-      },
-      damageConfig: {
-        formula: "12d10",
-        elementType: "psychic",
+        formula: "6d8",
         damageTypes: ["psychic"],
         resolution: "DICE",
       },
@@ -2251,34 +1673,223 @@ The class creates a unique rhythm where you're constantly generating resources f
         debuffType: "statusEffect",
         effects: [
           {
-            id: "cataclysm_portent_stun",
-            name: "Cataclysm Portent",
-            description: "Stunned for 2 rounds on failed save",
-            statusType: "stunned",
-            mechanicsText: "Stunned for 2 rounds (CON DC 18 negates)",
+            id: "apocalypse_debuff_paralyze",
+            name: "Mind Shatter",
+            description: "Enemies are Paralyzed for 1 round by overwhelming trauma.",
+            mechanicsText: "Paralyzed state.",
           },
         ],
-        durationValue: 2,
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 17,
+          saveOutcome: "negates",
+        },
         durationType: "rounds",
+        durationValue: 1,
         durationUnit: "rounds",
       },
-      tags: ["damage", "harbinger", "area", "omen", "stun", "powerful"],
+      resolution: "DICE",
+      tags: ["damage", "debuff", "apocalypse", "omen"],
     },
 
     {
-      id: "augur_eternal_benediction",
-      name: "Eternal Benediction",
+      id: "augur_divine_sanctuary",
+      name: "Bleeding Altar of Grace",
       description:
-        "Channel the purest cosmic omen into an eternal blessing that makes your allies nearly unstoppable.",
+        "You summon a colossal altar of congealed blood and golden splinters. The altar forms an absolute sanctuary: allies within are immune to all damage, while enemies are violently repelled by the searing light.",
+      level: 7,
       spellType: "ACTION",
-      level: 9,
-      specialization: "hierophant",
-      effectTypes: ["buff", "healing", "damage"],
+      icon: "Radiant/Radiant Light Burst",
+      effectTypes: ["buff", "utility"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Radiant Light Burst",
+        tags: ["area", "buff", "sanctuary", "omen"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        rangeDistance: 0,
+        areaConfig: { areaType: "circle", areaSize: 20, areaSizeUnit: "ft" },
+        targetRestrictions: ["any"],
+        maxTargets: 15,
+        targetSelectionMethod: "auto",
+        requiresLineOfSight: false,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 40 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+        classResource: { type: "benediction", cost: 8 },
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      buffConfig: {
+        buffType: "custom",
+        effects: [
+          {
+            id: "divine_sanctuary_buff",
+            name: "Unstoppable Altar",
+            description: "Allies are immune to all damage and conditions while within the sanctuary.",
+            mechanicsText: "Damage and condition immunity.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "divine_sanctuary_repel",
+            name: "Searing Repulsion",
+            description: "Enemies are pushed 30 feet away from the sanctuary boundary (no save).",
+            mechanicsText: "Pushes enemies 30ft away.",
+          },
+        ],
+        power: "supreme",
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["area", "buff", "sanctuary", "omen"],
+    },
+
+    // ============================================================
+    // LEVEL 8 SPELLS (3)
+    // ============================================================
+
+    {
+      id: "augur_twist_of_fate",
+      name: "Agonizing Fate Tear",
+      description:
+        "You reach out with ethereal, bloody talons and tear the thread of a target's destiny. You force an immediate d20 reroll, modifying the final result by up to 5 points by draining your own marrow.",
+      level: 8,
+      spellType: "REACTION",
+      icon: "Arcane/Spiral Vortex",
+      effectTypes: ["utility"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Arcane/Spiral Vortex",
+        tags: ["reaction", "manipulation", "fate", "omen"],
+        castTime: 1,
+        castTimeType: "REACTION",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["any"],
+        maxTargets: 1,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 30 },
+        actionPoints: 0,
+        components: ["verbal"],
+        classResource: [
+          { type: "benediction", cost: 4 },
+          { type: "malediction", cost: 4 },
+        ],
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "fate_tear_reroll",
+            name: "Agonizing Reroll",
+            description:
+              "Force any creature within 60ft to reroll a d20. You may add or subtract up to 5 to the final result.",
+            mechanicsText: "Forces d20 reroll, modify result by ±5.",
+          },
+        ],
+        power: "supreme",
+      },
+      resolution: "AUTOMATIC",
+      tags: ["reaction", "manipulation", "fate", "omen"],
+    },
+
+    {
+      id: "augur_omen_of_death",
+      name: "Entropic Carrion Sign",
+      description:
+        "You mark a target's forehead with a wet, black sigil of absolute ending. The sign calls the carrion crows; if the target rolls an odd number on any d20, they suffer catastrophic bone failure, collapsing to 0 HP instantly.",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Necrotic/Death Mark",
+      effectTypes: ["debuff"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Death Mark",
+        tags: ["debuff", "curse", "execute", "crows", "omen"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 45,
+        targetRestrictions: ["enemies"],
+        maxTargets: 1,
+        requiresLineOfSight: true,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 42 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+        classResource: { type: "malediction", cost: 8 },
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "carrion_sign_death",
+            name: "Entropic Carrion Sign",
+            description:
+              "If the target rolls an odd number on any d20 (attack, save, or check), they are instantly reduced to 0 HP (Constitution save DC 18 reduces this to 10d10 necrotic damage).",
+            mechanicsText: "Odd d20 rolls trigger instant 0 HP or 10d10 necrotic.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+      resolution: "DICE",
+      tags: ["debuff", "curse", "execute", "crows", "omen"],
+    },
+
+    {
+      id: "augur_cosmic_aurora",
+      name: "Searing Agony Aurora",
+      description:
+        "You flood the battlefield in a blinding, searing sky-fire of tragic radiant light. The aurora bleeds the eyes of all who gaze upon it: allies have their flesh hardened, while enemies are charred to black ash.",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Sunburst",
+      effectTypes: ["healing", "damage", "buff"],
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Sunburst",
+        tags: ["area", "healing", "damage", "aurora", "omen"],
         castTime: 1,
-        castTimeType: "RITUAL",
+        castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "area",
@@ -2292,123 +1903,288 @@ The class creates a unique rhythm where you're constantly generating resources f
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 50 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
-        classResource: { type: "benediction", cost: 15 },
+        resourceValues: { mana: 45 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+        classResource: { type: "benediction", cost: 8 },
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "eternal_benediction_buff",
-            name: "Eternal Benediction",
-            description:
-              "+5 to all rolls, immunity to frightened/charmed/stunned",
-            statModifier: {
-              stat: "all_rolls",
-              magnitude: 5,
-              magnitudeType: "flat",
-            },
-            mechanicsText:
-              "+5 to all rolls, immune to frightened/charmed/stunned for duration",
-          },
-        ],
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: true,
-      },
       healingConfig: {
-        formula: "3d8",
+        formula: "5d8",
         healingType: "zone",
-        hasHotEffect: true,
-        hotFormula: "3d8",
-        hotDuration: 10,
-        hotTickType: "turn",
         resolution: "DICE",
       },
       damageConfig: {
-        formula: "6d8",
-        elementType: "radiant",
+        formula: "5d8",
         damageTypes: ["radiant"],
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: "6d8",
-          duration: 10,
-          tickFrequency: "turn",
-          isProgressiveDot: false,
-        },
         resolution: "DICE",
       },
-      tags: ["buff", "hierophant", "area", "omen", "healing", "powerful"],
+      buffConfig: {
+        buffType: "custom",
+        effects: [
+          {
+            id: "aurora_allies_buff",
+            name: "Sky-Clad Flesh",
+            description: "Allies gain +3 Armor and immunity to psychic damage for the duration.",
+            mechanicsText: "+3 Armor, psychic immunity.",
+            statModifier: {
+              stat: "armor",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "DICE",
+      tags: ["area", "healing", "damage", "aurora", "omen"],
     },
 
-    // ===== LEVEL 10 SPELLS =====
+    // ============================================================
+    // LEVEL 9 SPELLS (3)
+    // ============================================================
+
     {
-      id: "augur_master_of_omens",
-      name: "Master of Omens",
+      id: "augur_the_signs_speak",
+      name: "The Gore Whispers",
       description:
-        "Achieve mastery over all signs and portents. For one glorious minute, you are the omen—the battlefield bends to your interpretation.",
+        "You plunge your mind fully into the screaming network of spilt blood. The whispers of gore become a roaring torrent: for one round, you dictate the exact outcome of every d20 roll within 60 feet.",
+      level: 9,
       spellType: "ACTION",
-      level: 10,
-      specialization: "universal",
+      icon: "Psychic/Psionic Boom",
       effectTypes: ["buff", "utility"],
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Magical Staff",
+        school: "psychic",
+        icon: "Psychic/Psionic Boom",
+        tags: ["buff", "manipulation", "fate", "omen"],
         castTime: 1,
-        castTimeType: "RITUAL",
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 50 },
+        actionPoints: 3,
+        components: ["verbal", "somatic"],
+        classResource: [
+          { type: "benediction", cost: 6 },
+          { type: "malediction", cost: 6 },
+        ],
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      buffConfig: {
+        buffType: "custom",
+        effects: [
+          {
+            id: "gore_whispers_buff",
+            name: "Dictate Fate",
+            description:
+              "You choose the exact d20 roll results for all actions within 60 feet for 1 round. All rolls automatically succeed or fail as you command.",
+            mechanicsText: "Choose d20 outcomes for 1 round.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 1,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "gore_whispers_fate",
+            name: "Sovereign Decree",
+            description: "Dictate all d20 results in 60 feet for 1 round.",
+          },
+        ],
+        power: "supreme",
+      },
+      resolution: "AUTOMATIC",
+      tags: ["buff", "manipulation", "fate", "omen"],
+    },
+
+    {
+      id: "augur_cataclysm_portent",
+      name: "Wounded World Portent",
+      description:
+        "You declare a portent of absolute seismic collapse. The ground rips open, spraying molten psychic fire. Enemies are crushed under collapsing mud, stunned, and marked with catastrophic rot.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Void/Red Energy Burst",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Void/Red Energy Burst",
+        tags: ["damage", "debuff", "stun", "omen"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        areaConfig: { areaType: "circle", areaSize: 40, areaSizeUnit: "ft" },
+        targetRestrictions: ["enemies"],
+        maxTargets: 25,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 55 },
+        actionPoints: 3,
+        components: ["verbal", "somatic"],
+        classResource: { type: "malediction", cost: 10 },
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      damageConfig: {
+        formula: "8d8",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "cataclysm_portent_debuff",
+            name: "Cataclysmic Shock",
+            description: "Enemies are Stunned for 2 rounds by absolute shock, and suffer -3 to Spirit saving throws.",
+            mechanicsText: "Stunned state, -3 Spirit saves.",
+          },
+        ],
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 18,
+          saveOutcome: "half_damage_no_stun",
+        },
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+      resolution: "DICE",
+      tags: ["damage", "debuff", "stun", "omen"],
+    },
+
+    {
+      id: "augur_eternal_benediction",
+      name: "Agonizing Immortality Rite",
+      description:
+        "You perform the ultimate sacrificial rite of grace. You permanently blind your left eye, but raise a blinding, golden canopy of absolute preservation. Allies are immortal, completely immune to death and injury.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Healing/Ressusitate",
+      effectTypes: ["buff", "healing"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Healing/Ressusitate",
+        tags: ["area", "buff", "healing", "immortality", "omen"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       targetingConfig: {
         targetingType: "area",
         rangeType: "self_centered",
         rangeDistance: 0,
-        areaConfig: { areaType: "sphere", areaSize: 120, areaSizeUnit: "ft" },
-        targetRestrictions: ["any"],
-        maxTargets: 30,
+        areaConfig: { areaType: "circle", areaSize: 45, areaSizeUnit: "ft" },
+        targetRestrictions: ["allies"],
+        maxTargets: 15,
         targetSelectionMethod: "auto",
         requiresLineOfSight: false,
       },
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 60 },
-        useFormulas: {},
+        resourceValues: { mana: 55 },
         actionPoints: 3,
-        components: ["verbal", "somatic", "material"],
+        components: ["verbal", "somatic"],
+        classResource: { type: "benediction", cost: 10 },
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      buffConfig: {
+        buffType: "custom",
+        effects: [
+          {
+            id: "immortality_rite_buff",
+            name: "Unending Grace",
+            description:
+              "Allies are immune to damage, conditions, and cannot drop below 1 HP. Searing light immediately heals any wound.",
+            mechanicsText: "Damage/condition immunity, HP cannot fall below 1.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
+      healingConfig: {
+        formula: "8d8",
+        healingType: "zone",
+        resolution: "DICE",
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["area", "buff", "healing", "immortality", "omen"],
+    },
+
+    // ============================================================
+    // LEVEL 10 SPELLS (3)
+    // ============================================================
+
+    {
+      id: "augur_master_of_omens",
+      name: "Sovereign Haruspex Transformation",
+      description:
+        "You ascend as the absolute sovereign of blood and fate. Your skin hardens into an ivory armor of bones, your veins glow with blinding gold. You control all numbers: you write the dice, you rewrite the marrow, you decide who lives.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Arcane/Portal Archway",
+      effectTypes: ["buff", "utility"],
+      typeConfig: {
+        school: "radiant",
+        secondaryElement: "psychic",
+        icon: "Arcane/Portal Archway",
+        tags: ["ultimate", "transformation", "fate", "sovereign", "omen"],
+        castTime: 1,
+        castTimeType: "RITUAL",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 60 },
+        actionPoints: 3,
+        components: ["verbal", "somatic"],
         classResource: [
           { type: "benediction", cost: 10 },
           { type: "malediction", cost: 10 },
         ],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
       buffConfig: {
         buffType: "custom",
         effects: [
           {
             id: "master_of_omens",
-            name: "Master of Omens",
+            name: "Sovereign Haruspex",
             description:
-              "Control all omens: declare d20 even/odd before roll, spend resources to change results by ±1/point, doubled resource caps",
-            mechanicsText:
-              "Declare d20 outcomes, change results by ±1 per resource point, doubled resource caps. Allies +2 all rolls, enemies -2 all rolls.",
+              "You control all omens. Declare d20 Even/Odd before any roll. Spend 1 resource to change any result by ±1. All allies gain +2 to all rolls, all enemies suffer -2 to all rolls.",
+            mechanicsText: "Declare d20 outcomes, modify rolls by ±1, allies +2, enemies -2.",
           },
         ],
         durationValue: 10,
@@ -2423,29 +2199,35 @@ The class creates a unique rhythm where you're constantly generating resources f
           {
             id: "master_of_omens_utility",
             name: "Omnipotent Reading",
-            description:
-              "Declare even/odd before any d20 roll. Spend Benediction/Malediction to change results.",
-            mechanicsText:
-              "Declare d20 outcomes before rolls, change results by ±1 per resource point spent",
+            description: "Declare d20 Even/Odd outcomes before rolls. Spend Benediction/Malediction to modify rolls.",
+            mechanicsText: "Modify rolls by ±1 per resource spent.",
           },
         ],
         power: "supreme",
       },
-      tags: ["ultimate", "fate", "universal", "omen", "powerful"],
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 10,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["ultimate", "transformation", "fate", "sovereign", "omen"],
     },
 
     {
       id: "augur_harbinger_supreme",
-      name: "Harbinger Supreme",
+      name: "Harbinger of the Black Ash",
       description:
-        "Become the ultimate harbinger of doom. All who see you are struck with prophetic terror as every omen becomes a weapon.",
-      spellType: "ACTION",
+        "You dissolve your mortal frame, becoming a walking storm of decaying black ash and screaming psychic horror. Every enemy who looks upon you staggers as their skin turns to soot, their femur bones cracking under fated weight.",
       level: 10,
-      specialization: "harbinger",
+      spellType: "ACTION",
+      icon: "Void/Black Hole",
       effectTypes: ["debuff", "damage"],
       typeConfig: {
-        school: "necrotic",
+        school: "psychic",
         icon: "Void/Black Hole",
+        tags: ["ultimate", "transformation", "ash", "debuff", "omen"],
         castTime: 1,
         castTimeType: "RITUAL",
       },
@@ -2462,38 +2244,27 @@ The class creates a unique rhythm where you're constantly generating resources f
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 60 },
-        useFormulas: {},
         actionPoints: 3,
         components: ["verbal", "somatic"],
         classResource: { type: "malediction", cost: 15 },
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
           {
             id: "harbinger_supreme_debuff",
-            name: "Harbinger Supreme",
-            description:
-              "Enemies have -3 to all rolls. Force one reroll of enemy success per round.",
-            mechanicsText:
-              "-3 to all rolls for enemies. Once per round, force enemy to reroll a successful save or attack.",
+            name: "Screaming Ash",
+            description: "Enemies have -3 to all d20 rolls, and you can force one reroll of an enemy success per round.",
+            mechanicsText: "-3 to all rolls for enemies. Force one success reroll per round.",
           },
         ],
-        durationValue: 10,
         durationType: "rounds",
+        durationValue: 10,
         durationUnit: "rounds",
       },
       damageConfig: {
         formula: "3d8",
-        elementType: "psychic",
         damageTypes: ["psychic"],
         hasDotEffect: true,
         dotConfig: {
@@ -2504,21 +2275,29 @@ The class creates a unique rhythm where you're constantly generating resources f
         },
         resolution: "DICE",
       },
-      tags: ["ultimate", "harbinger", "omen", "debuff", "aura", "powerful"],
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 10,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["ultimate", "transformation", "ash", "debuff", "omen"],
     },
 
     {
       id: "augur_hierophant_supreme",
-      name: "Hierophant Supreme",
+      name: "Hierophant of Blinding Splinters",
       description:
-        "Ascend as the ultimate hierophant. The entire battlefield becomes a cathedral of omens, blessing allies with divine fortune.",
-      spellType: "ACTION",
+        "You burn away your humanity, transforming into an towering cathedral of blinding, white-hot radiant splinters. The battlefield is consecrated in a sea of golden light: allies are absolute, healed, and blessed with legendary fortune.",
       level: 10,
-      specialization: "hierophant",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Sunburst",
       effectTypes: ["buff", "healing", "damage"],
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Sunburst",
+        tags: ["ultimate", "transformation", "splinters", "buff", "omen"],
         castTime: 1,
         castTimeType: "RITUAL",
       },
@@ -2535,34 +2314,25 @@ The class creates a unique rhythm where you're constantly generating resources f
       resourceCost: {
         resourceTypes: ["mana"],
         resourceValues: { mana: 60 },
-        useFormulas: {},
         actionPoints: 3,
         components: ["verbal", "somatic"],
         classResource: { type: "benediction", cost: 15 },
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      duration: {
-        durationValue: 10,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: true,
-      },
-      resolution: "AUTOMATIC",
       buffConfig: {
         buffType: "custom",
         effects: [
           {
             id: "hierophant_supreme_buff",
-            name: "Hierophant Supreme",
+            name: "Unending Splendor",
             description:
-              "+3 to all rolls, resistance to all damage, immunity to frightened/charmed. Grant free reroll on failed d20 once/round.",
+              "Allies gain +3 to all d20 rolls, absolute resistance to all damage types, and immunity to frightened/charmed. Grant one free reroll on a failed roll per round.",
             statModifier: {
               stat: "all_rolls",
               magnitude: 3,
               magnitudeType: "flat",
             },
-            mechanicsText:
-              "+3 all rolls, resistance to all damage, immune to frightened/charmed. Once per round grant ally free reroll on failed d20.",
+            mechanicsText: "+3 all rolls, all damage resistance, immune to frightened/charmed. Grant one reroll per round.",
           },
         ],
         durationValue: 10,
@@ -2582,7 +2352,6 @@ The class creates a unique rhythm where you're constantly generating resources f
       },
       damageConfig: {
         formula: "4d8",
-        elementType: "radiant",
         damageTypes: ["radiant"],
         hasDotEffect: true,
         dotConfig: {
@@ -2593,41 +2362,14 @@ The class creates a unique rhythm where you're constantly generating resources f
         },
         resolution: "DICE",
       },
-      tags: [
-        "ultimate",
-        "hierophant",
-        "omen",
-        "buff",
-        "aura",
-        "healing",
-        "powerful",
-      ],
-    },    {
-      id: "augur_desperate_omen",
-      name: "Desperate Omen",
-      description:
-        "When you are reduced below 25% HP, you automatically receive a Desperate Omen -- a vision of your own death. You are Frightened for 1 round (no save). However, this omen also grants you +2 to your next attack roll as the fear sharpens your instincts.",
-      level: 1,
-      spellType: "PASSIVE",
-      icon: "Psychic/Psychic Doom",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "psychic",
-        icon: "Psychic/Psychic Doom",
-        tags: ["passive", "debuff", "omen", "frightened", "augur"],
-        castTime: 0,
-        castTimeType: "PASSIVE",
-      },
-      targetingConfig: {
-        targetingType: "self",
-      },
-      resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
-        actionPoints: 0,
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 10,
+        durationUnit: "rounds",
+        concentrationRequired: true,
       },
       resolution: "AUTOMATIC",
-      tags: ["passive", "debuff", "omen", "frightened", "augur"],
+      tags: ["ultimate", "transformation", "splinters", "buff", "omen"],
     },
   ],
 
@@ -2644,7 +2386,11 @@ The class creates a unique rhythm where you're constantly generating resources f
       "augur_terrain_of_ruin",
       "augur_sign_of_protection",
     ],
-    3: ["augur_omen_bolt", "augur_harbinger_gaze", "augur_sacred_ground"],
+    3: [
+      "augur_omen_bolt",
+      "augur_harbinger_gaze",
+      "augur_sacred_ground",
+    ],
     4: [
       "augur_grand_malediction",
       "augur_balanced_sign",
@@ -2665,7 +2411,11 @@ The class creates a unique rhythm where you're constantly generating resources f
       "augur_apocalypse_portent",
       "augur_divine_sanctuary",
     ],
-    8: ["augur_twist_of_fate", "augur_omen_of_death", "augur_cosmic_aurora"],
+    8: [
+      "augur_twist_of_fate",
+      "augur_omen_of_death",
+      "augur_cosmic_aurora",
+    ],
     9: [
       "augur_the_signs_speak",
       "augur_cataclysm_portent",

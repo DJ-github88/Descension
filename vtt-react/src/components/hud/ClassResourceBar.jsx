@@ -6,6 +6,7 @@ import DemonConfigModal from './DemonConfigModal';
 import useChatStore from '../../store/chatStore';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
+import ResourceCanvasBar from './canvas/ResourceCanvasBar';
 import PlaguebringerResourceBar from '../../data/classes/plaguebringer/components/PlaguebringerResourceBar';
 import PrimalistResourceBar from '../../data/classes/primalist/components/PrimalistResourceBar';
 import PyrofiendResourceBar from '../../data/classes/pyrofiend/components/PyrofiendResourceBar';
@@ -16,6 +17,7 @@ import WardenResourceBar from '../../data/classes/warden/components/WardenResour
 import WitchDoctorResourceBar from '../../data/classes/witchdoctor/components/WitchDoctorResourceBar';
 import AugurResourceBar from '../../data/classes/augur/components/AugurResourceBar';
 import DoomsayerResourceBar from '../../data/classes/doomsayer/components/DoomsayerResourceBar';
+import GamblerResourceBar from '../../data/classes/gambler/components/GamblerResourceBar';
 import '../../styles/unified-context-menu.css';
 
 const ClassResourceBar = ({
@@ -77,8 +79,9 @@ const ClassResourceBar = ({
         localSpheres: [],
         isRolling: false,
         showControls: false,
-        diceButtonMode: 'roll', // 'roll' | 'spec' | 'prism-reroll' | 'architect-swap'
-        showRollTooltip: false
+        diceButtonMode: 'roll',
+        showRollTooltip: false,
+        hoveredElement: null,
     });
 
     // Chaos Weaver state
@@ -111,8 +114,8 @@ const ClassResourceBar = ({
         selectedSpecialization: 'Flow Master' // 'Blade Dancer' | 'Duelist' | 'Shadow Dancer'
     });
     // BLADEDANCER FIX: Read directly from classResource prop
-    const bladedancerMomentum = classResource?.momentum ?? 0;
-    const bladedancerFlourish = classResource?.flourish ?? 3;
+    const bladedancerMomentum = classResource?.momentum?.current ?? classResource?.momentum ?? 0;
+    const bladedancerFlourish = classResource?.flourish?.current ?? classResource?.flourish ?? 3;
 
     const [chronarchState, setChronarchState] = useState({
         showTimeShardsMenu: false,
@@ -829,6 +832,11 @@ const ClassResourceBar = ({
             let top = hudBottom + margin;
 
             if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                // Apply fallback positioning so it doesn't default to the top-left of the viewport,
+                // but keep it hidden (opacity 0) while waiting for layout dimensions to resolve.
+                tt.style.left = `${left}px`;
+                tt.style.top = `${top}px`;
+                tt.style.opacity = '0';
                 requestAnimationFrame(updatePosition);
                 return;
             }
@@ -874,7 +882,7 @@ const ClassResourceBar = ({
             clearTimeout(timeoutId);
             clearTimeout(timeoutId2);
             if (tooltipRef.current) {
-                tooltipRef.current.style.opacity = '';
+                tooltipRef.current.style.opacity = '0';
             }
         };
 
@@ -900,11 +908,6 @@ const ClassResourceBar = ({
                 return;
             }
 
-            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                requestAnimationFrame(updatePosition);
-                return;
-            }
-
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
             const margin = 8;
@@ -917,20 +920,33 @@ const ClassResourceBar = ({
                 hudBottom = hudRect.bottom;
             }
 
-            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
+            const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
+
+            let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
             let top = hudBottom + margin;
 
-            if (left < margin) left = margin;
-            if (left + tooltipRect.width > viewportWidth - margin) {
-                left = viewportWidth - tooltipRect.width - margin;
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                // Apply fallback positioning so it doesn't default to the top-left of the viewport,
+                // but keep it hidden (opacity 0) while waiting for layout dimensions to resolve.
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+                tooltip.style.opacity = '0';
+                requestAnimationFrame(updatePosition);
+                return;
             }
 
-            if (top + tooltipRect.height > viewportHeight - margin) {
+            if (left < margin) left = margin;
+            if (left + tooltipWidth > viewportWidth - margin) {
+                left = viewportWidth - tooltipWidth - margin;
+            }
+
+            if (top + tooltipHeight > viewportHeight - margin) {
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
-                    top = hudRect.top - tooltipRect.height - margin;
+                    top = hudRect.top - tooltipHeight - margin;
                 } else {
-                    top = barRect.top - tooltipRect.height - margin;
+                    top = barRect.top - tooltipHeight - margin;
                 }
                 if (top < margin) top = margin;
             }
@@ -948,7 +964,7 @@ const ClassResourceBar = ({
 
         return () => {
             clearTimeout(timeoutId);
-            if (martyrTooltipRef.current) martyrTooltipRef.current.style.opacity = '';
+            if (martyrTooltipRef.current) martyrTooltipRef.current.style.opacity = '0';
         };
     }, [showTooltip, martyrHoverSection, localDevotionLevel, localDevotionDamage, martyrSpec]);
 
@@ -1330,7 +1346,7 @@ const ClassResourceBar = ({
             case 'wild-instinct-forms':
                 return renderWildInstinctForms();
             case 'fortune-points-gambling':
-                return renderFortunePointsGambling();
+                return <GamblerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'quarry-marks-companion':
                 return renderQuarryMarksCompanion();
             case 'runes-inscriptions':
@@ -7388,7 +7404,7 @@ const ClassResourceBar = ({
 
                 {/* Tooltip */}
                 {showTooltip && martyrHoverSection === 'devotion' && ReactDOM.createPortal(
-                    <div ref={martyrTooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
+                    <div ref={martyrTooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                         <div className="tooltip-header">Devotion</div>
 
                         <div className="tooltip-section">
@@ -7720,64 +7736,40 @@ const ClassResourceBar = ({
                 <div className="sphere-bar-wrapper">
                     <div
                         className={`class-resource-bar elemental-spheres-display ${size}`}
+                        style={{ overflow: 'visible' }}
                     >
-                        <div className="spheres-grid">
-                            {finalConfig.elements?.map((element, index) => {
-                                const count = sphereCounts[element.id] || 0;
-                                const isActive = count > 0;
-                                const isChaos = element.isGradient;
-
-                                const isSelectedForSwap = selectedForSwap.includes(element.id);
-
-                                // Build tooltip text
-                                const tooltipText = count > 0
-                                    ? `${element.name} (${count})\n${element.description}`
-                                    : `${element.name}\n${element.description}`;
-
-                                return (
-                                    <div
-                                        key={element.id}
-                                        className={`sphere-slot ${isActive ? 'active' : 'empty'} ${isChaos ? 'chaos' : ''} ${isRolling ? 'rolling' : ''} ${isSelectedForSwap ? 'selected-for-swap' : ''}`}
-                                        title={tooltipText}
-                                        onClick={(e) => {
-                                            if (!isOwner) return; // Only owner can interact
-                                            e.stopPropagation();
-                                            if (e.button === 0) { // Left click - add orb
-                                                const maxBank = activeSpecialization === 'sphere-architect' ? 15 : 12;
-                                                setArcanoneerState(prev => {
-                                                    if (prev.localSpheres.length >= maxBank) return prev;
-                                                    return { ...prev, localSpheres: [...prev.localSpheres, element.id] };
-                                                });
-                                            }
-                                        }}
-                                        onContextMenu={(e) => {
-                                            if (!isOwner) return; // Only owner can interact
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            // Right click - remove orb (if active)
-                                            if (isActive) {
-                                                if (swapMode && activeSpecialization === 'sphere-architect') {
-                                                    handleSphereSwap(element.id);
-                                                } else {
-                                                    removeElement(element.id);
-                                                }
-                                            }
-                                        }}
-                                        style={{
-                                            backgroundColor: isActive ? element.color : finalConfig.visual.emptyColor,
-                                            background: isChaos && isActive ? element.color : undefined,
-                                            boxShadow: isActive ? `0 0 12px ${element.glowColor}, inset 0 0 8px rgba(255,255,255,0.3)` : 'none',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        <i className={`sphere-icon ${element.icon}`}></i>
-                                        {count > 1 && (
-                                            <span className="sphere-count">{count}</span>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
+                        <ResourceCanvasBar
+                            rendererType="elemental-spheres"
+                            size={size}
+                            spheres={activeSpheres || []}
+                            elements={finalConfig.elements || []}
+                            current={activeSpheres?.length || 0}
+                            max={activeSpecialization === 'sphere-architect' ? 15 : 12}
+                            config={finalConfig}
+                            isOwner={isOwner}
+                            onElementClick={(hit) => {
+                                if (!isOwner || !hit.element) return;
+                                const maxBank = activeSpecialization === 'sphere-architect' ? 15 : 12;
+                                setArcanoneerState(prev => {
+                                    if (prev.localSpheres.length >= maxBank) return prev;
+                                    return { ...prev, localSpheres: [...prev.localSpheres, hit.element.id] };
+                                });
+                            }}
+                            onElementRightClick={(hit) => {
+                                if (!isOwner || !hit.element) return;
+                                const isActive = hit.count > 0;
+                                if (isActive) {
+                                    if (swapMode && activeSpecialization === 'sphere-architect') {
+                                        handleSphereSwap(hit.element.id);
+                                    } else {
+                                        removeElement(hit.element.id);
+                                    }
+                                }
+                            }}
+                            onElementHover={(hit) => {
+                                setArcanoneerState(prev => ({ ...prev, hoveredElement: hit ? hit.element : null }));
+                            }}
+                        />
                     </div>
 
                     {/* Side controls for small/normal sizes (right side of spheres) */}
@@ -7869,6 +7861,70 @@ const ClassResourceBar = ({
         );
     };
 
+    const renderArcanoneerHoverTooltip = () => {
+        const hovered = arcanoneerState.hoveredElement;
+        if (!hovered || finalConfig.visual?.type !== 'elemental-spheres') return null;
+        const count = (arcanoneerState.localSpheres || []).filter(s => s === hovered.id).length;
+        return (
+            <TooltipPortal>
+                <div
+                    className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    style={{ position: 'fixed', pointerEvents: 'none', zIndex: 99999 }}
+                    ref={(el) => {
+                        if (!el) return;
+                        const canvas = document.querySelector('.resource-canvas');
+                        if (!canvas) return;
+                        const rect = canvas.getBoundingClientRect();
+                        const positions = finalConfig.elements || [];
+                        const idx = positions.findIndex(e => e.id === hovered.id);
+                        if (idx < 0) return;
+                        const isLarge = size === 'large';
+                        const orbDiameter = isLarge ? 42 : (size === 'small' ? 24 : 32);
+                        const gap = isLarge ? 7 : (size === 'small' ? 5 : 7);
+                        const cols = isLarge ? 8 : 4;
+                        const col = idx % cols;
+                        const row = Math.floor(idx / cols);
+                        const orbX = col * (orbDiameter + gap) + orbDiameter / 2 + 4;
+                        const orbY = row * (orbDiameter + gap) + orbDiameter / 2 + 4;
+                        el.style.left = (rect.left + orbX) + 'px';
+                        el.style.top = (rect.top + orbY - 30) + 'px';
+                        el.style.transform = 'translate(-50%, -100%)';
+                    }}
+                >
+                    <div className="tooltip-header" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{
+                            display: 'inline-block',
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '50%',
+                            backgroundColor: hovered.isGradient ? '#FF00FF' : hovered.color,
+                            border: '1px solid rgba(255,255,255,0.4)',
+                        }}></span>
+                        {hovered.name}
+                    </div>
+                    <div className="tooltip-section">
+                        <div style={{ fontSize: '0.85rem', color: '#1a0a00' }}>
+                            {hovered.description}
+                        </div>
+                        {count > 0 && (
+                            <div style={{ fontSize: '0.85rem', marginTop: '4px', color: '#5a1e12' }}>
+                                Count: {count}
+                            </div>
+                        )}
+                    </div>
+                    {isOwner && (
+                        <>
+                            <div className="tooltip-divider"></div>
+                            <div className="tooltip-section" style={{ fontSize: '0.75rem', color: '#3a2a1a' }}>
+                                Left-click to add | Right-click to remove
+                            </div>
+                        </>
+                    )}
+                </div>
+            </TooltipPortal>
+        );
+    };
+
     // Arcanoneer Roll Button Tooltip
     const renderArcanoneerRollTooltip = () => {
         if (!arcanoneerState.showRollTooltip || finalConfig.visual?.type !== 'elemental-spheres') return null;
@@ -7881,6 +7937,7 @@ const ClassResourceBar = ({
                 <div
                     ref={tooltipRef}
                     className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                 >
                     {diceButtonMode === 'roll' && (
                         <>
@@ -7975,19 +8032,20 @@ const ClassResourceBar = ({
                         e.stopPropagation();
                         setShowRageMenu((v) => !v);
                     }} style={{ cursor: 'pointer' }}>
-                        <div className="bar-background">
-                            <div
-                                className="bar-fill"
-                                style={{
-                                    width: `${percentage}%`,
-                                    backgroundColor: stateColor,
-                                    boxShadow: `0 0 8px ${stateColor}`
-                                }}
-                            />
-                        </div>
-                        <div className="bar-text">
-                            {rageValue}/100
-                        </div>
+                        <ResourceCanvasBar
+                            rendererType="rage-bar"
+                            size={size}
+                            layoutMode="bar"
+                            spheres={[]}
+                            elements={[]}
+                            config={{
+                                currentRage: rageValue,
+                                maxRage: berserkerRageMax,
+                                rageStates: finalConfig.rageStates,
+                            }}
+                            isOwner={isOwner}
+                            style={{ width: '100%' }}
+                        />
                     </div>
                     {showRageMenu && rageBarRef.current && ReactDOM.createPortal(
                         <div
@@ -8313,44 +8371,65 @@ const ClassResourceBar = ({
         return (
             <div className={`class-resource-bar stance-flow ${size}`}>
                 <div className="stance-flow-compact">
-                    {/* Momentum Bar (Left) */}
-                    <div
-                        ref={momentumBarRef}
-                        className="momentum-bar-left"
-                        onClick={(e) => {
+                    <div ref={momentumBarRef} style={{ position: 'absolute', left: 0, top: 0, width: '40%', height: '100%', zIndex: 0 }} />
+                    <div ref={flourishBarRef} style={{ position: 'absolute', right: 0, top: 0, width: '40%', height: '100%', zIndex: 0 }} />
+                    <ResourceCanvasBar
+                        rendererType="stance-flow"
+                        size={size}
+                        layoutMode="multi-zone"
+                        spheres={[]}
+                        elements={[]}
+                        config={{
+                            momentum: { current: momentumValue, max: momentumMax },
+                            flourish: { current: flourishValue, max: flourishMax },
+                            currentStance: stanceValue,
+                            stances,
+                            transitionCosts,
+                            availableTransitions,
+                            specialization: selectedSpecialization,
+                        }}
+                        isOwner={isOwner}
+                        style={{ width: '100%' }}
+                        onElementClick={(hit) => {
                             if (context === 'account') return;
-                            e.stopPropagation();
-                            setShowMomentumMenu(!showMomentumMenu);
-                            setShowFlourishMenu(false);
-                            setShowStanceMenu(false);
-                            setShowSpecPassiveMenu(false);
+                            if (!hit) return;
+                            if (hit.zone === 'momentum') {
+                                setShowMomentumMenu(!showMomentumMenu);
+                                setShowFlourishMenu(false);
+                                setShowStanceMenu(false);
+                                setShowSpecPassiveMenu(false);
+                            } else if (hit.zone === 'stance') {
+                                setShowStanceMenu(!showStanceMenu);
+                                setShowMomentumMenu(false);
+                                setShowFlourishMenu(false);
+                                setShowSpecPassiveMenu(false);
+                            } else if (hit.zone === 'flourish') {
+                                setShowFlourishMenu(!showFlourishMenu);
+                                setShowMomentumMenu(false);
+                                setShowStanceMenu(false);
+                                setShowSpecPassiveMenu(false);
+                            }
                         }}
-                        onMouseEnter={(e) => {
-                            setBladedancerHoverSection('momentum');
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-                            setShowTooltip(true);
+                        onElementHover={(hit) => {
+                            if (!hit) {
+                                setBladedancerHoverSection(null);
+                                setShowTooltip(false);
+                                return;
+                            }
+                            if (hit.zone === 'momentum') {
+                                setBladedancerHoverSection('momentum');
+                            } else if (hit.zone === 'stance') {
+                                setBladedancerHoverSection('stance');
+                            } else if (hit.zone === 'flourish') {
+                                setBladedancerHoverSection('flourish');
+                            }
                         }}
-                        onMouseLeave={() => {
-                            setBladedancerHoverSection(null);
-                            setShowTooltip(false);
-                        }}
-                    >
-                        <div
-                            className="momentum-fill"
-                            style={{
-                                width: momentumValue > 0 ? `${momentumPercentage}%` : '4px',
-                                backgroundColor: momentumValue > 0 ? finalConfig.visual.momentum.activeColor : 'rgba(52, 152, 219, 0.3)',
-                                boxShadow: momentumValue > 0 ? `0 0 6px ${finalConfig.visual.momentum.glowColor}` : 'none'
-                            }}
-                        />
-                        <span className="resource-value-left">{momentumValue}</span>
-                    </div>
+                    />
 
-                    {/* Stance Icon (Center) */}
+                    {/* Stance Icon Overlay (HTML FA icon on top of canvas glow) */}
                     <div
                         ref={stanceBarRef}
-                        className="stance-icon-center"
+                        className="stance-icon-overlay"
                         onClick={(e) => {
                             if (context === 'account') return;
                             e.stopPropagation();
@@ -8370,50 +8449,7 @@ const ClassResourceBar = ({
                             setShowTooltip(false);
                         }}
                     >
-                        <div className="stance-center-ornament">
-                            <div className="stance-center-circle"></div>
-                            <div className="stance-center-lines">
-                                <div className="stance-line stance-line-1"></div>
-                                <div className="stance-line stance-line-2"></div>
-                                <div className="stance-line stance-line-3"></div>
-                                <div className="stance-line stance-line-4"></div>
-                            </div>
-                            <i className={currentStanceData.icon} style={{ color: currentStanceData.color }}></i>
-                        </div>
-                    </div>
-
-                    {/* Flourish Bar (Right) */}
-                    <div
-                        ref={flourishBarRef}
-                        className="flourish-bar-right"
-                        onClick={(e) => {
-                            if (context === 'account') return;
-                            e.stopPropagation();
-                            setShowFlourishMenu(!showFlourishMenu);
-                            setShowMomentumMenu(false);
-                            setShowStanceMenu(false);
-                            setShowSpecPassiveMenu(false);
-                        }}
-                        onMouseEnter={(e) => {
-                            setBladedancerHoverSection('flourish');
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-                            setShowTooltip(true);
-                        }}
-                        onMouseLeave={() => {
-                            setBladedancerHoverSection(null);
-                            setShowTooltip(false);
-                        }}
-                    >
-                        <div
-                            className="flourish-fill"
-                            style={{
-                                width: flourishValue > 0 ? `${flourishPercentage}%` : '4px',
-                                backgroundColor: flourishValue > 0 ? finalConfig.visual.flourish.activeColor : 'rgba(243, 156, 18, 0.3)',
-                                boxShadow: flourishValue > 0 ? `0 0 6px ${finalConfig.visual.flourish.glowColor}` : 'none'
-                            }}
-                        />
-                        <span className="resource-value-right">{flourishValue}</span>
+                        <i className={currentStanceData.icon} style={{ color: currentStanceData.color }}></i>
                     </div>
 
                     {/* Momentum Adjustment Menu */}
@@ -8878,7 +8914,7 @@ const ClassResourceBar = ({
         // Check if there's any content to show in the tooltip
         const hasTooltipContent =
             (modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'runes-inscriptions' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.tooltip?.description) ||
-            (finalConfig.type === 'spheres' && sphereCount > 0) ||
+            (finalConfig.type === 'spheres') ||
             (finalConfig.type === 'dual-resource' && bladedancerHoverSection) ||
             (finalConfig.visual?.type === 'time-shards-strain' && chronarchHoverSection) ||
             (finalConfig.visual?.type === 'hexbreaker-charges' && covenbaneHoverSection) ||
@@ -8908,6 +8944,7 @@ const ClassResourceBar = ({
                 <div
                     ref={tooltipRef}
                     className="unified-resourcebar-tooltip pathfinder-tooltip"
+                    style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                 >
                     {modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'runes-inscriptions' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.tooltip?.description && (
                         <>
@@ -8919,12 +8956,35 @@ const ClassResourceBar = ({
                     )}
 
                     {/* Simple sphere count */}
-                    {finalConfig.type === 'spheres' && sphereCount > 0 && (
+                    {finalConfig.type === 'spheres' && (
                         <>
                             <div className="tooltip-header">Elemental Spheres</div>
                             <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    <strong>Banked:</strong> {sphereCount} sphere{sphereCount !== 1 ? 's' : ''}
+                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
+                                    <strong>Banked:</strong> {sphereCount} sphere{sphereCount !== 1 ? 's' : ''} / {finalConfig.mechanics?.max || 12}
+                                </div>
+                                {sphereCount > 0 && (
+                                    <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
+                                        {Object.entries(sphereBreakdown).map(([name, count]) => (
+                                            <div key={name}>{name}: {count}</div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="tooltip-divider"></div>
+                            <div className="tooltip-section">
+                                <div className="tooltip-label">Sphere Management</div>
+                                <div className="level-management">
+                                    <strong>Generate:</strong>
+                                    <span>Roll {activeSpecialization === 'entropy-weaver' ? '5d8' : '4d8'} each turn</span>
+                                    <strong>Combine:</strong>
+                                    <span>Spend matching spheres to cast spells</span>
+                                    <strong>Bank Cap:</strong>
+                                    <span>{activeSpecialization === 'sphere-architect' ? 15 : 12} spheres max</span>
+                                    <strong>Add:</strong>
+                                    <span>Left-click an element orb</span>
+                                    <strong>Remove:</strong>
+                                    <span>Right-click an active orb</span>
                                 </div>
                             </div>
                         </>
@@ -10461,15 +10521,16 @@ const ClassResourceBar = ({
             <div
                 ref={resourceBarWrapperRef}
                 className={`class-resource-wrapper ${isGMMode ? 'clickable' : ''}`}
-                onMouseEnter={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseEnter : undefined}
-                onMouseLeave={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseLeave : undefined}
-                onMouseMove={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseMove : undefined}
+                onMouseEnter={!isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseEnter : undefined}
+                onMouseLeave={!isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseLeave : undefined}
+                onMouseMove={!isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseMove : undefined}
                 onClick={handleClick}
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}
             >
                 {renderResourceDisplay()}
-                {!isArcanoneer && !isMartyr && !isAugur && !isDoomsayer && renderTooltip()}
+                {!isMartyr && !isAugur && !isDoomsayer && !(isArcanoneer && arcanoneerState.hoveredElement) && renderTooltip()}
                 {isArcanoneer && renderArcanoneerRollTooltip()}
+                {isArcanoneer && renderArcanoneerHoverTooltip()}
             </div>
 
             {/* Demon Config Modal for Exorcist */}

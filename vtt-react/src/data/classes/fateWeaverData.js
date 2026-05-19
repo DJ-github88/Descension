@@ -1,1163 +1,643 @@
 /**
  * Fate Weaver Class Data
  *
- * "The Fate Weaver doesn't predict the future — they DEAL it.
- *  Every failure is fuel; every thread is a weapon."
- *
- * Complete class information for the Fate Weaver - a card-based destiny manipulator
- * who uses Threads of Destiny to control the flow of fate.
- *
- * ⚠️ EXCLUSIVE DOMAIN: The Fate Weaver is the ONLY class that can force rerolls and
- * directly manipulate dice outcomes. The Oracle reveals information — the Fate Weaver
- * CHANGES results. No other class should have reroll mechanics.
+ * Sovereign of Flayed Skins — destiny is a physical body, and we are the surgeons who flay it.
+ * Overhauled per the Auditor's Report: Witcher/Grimm dark folklore aesthetics,
+ * Sanguine Reserve expanded capacity (4 cards, scaling to 7 for Sanguine Dealer),
+ * normalized poker-hand scaling on Dirges of Flesh, and the brand-new Level 1 reaction
+ * override spell 'Tapestry Shred'. Strictly VTT compliant, zero 5e tropes.
  */
 
 export const FATE_WEAVER_DATA = {
   id: "fate-weaver",
   name: "Fate Weaver",
-  icon: "fas fa-magic",
-  role: "Support/Control",
-  damageTypes: ["psychic", "force"],
+  icon: "fas fa-skull",
+  role: "Macabre Cartomancer",
+  damageTypes: ["psychic", "necrotic"],
 
   spellPools: {
-    1: ["war-of-wills", "echoes-of-the-past", "hand-of-fate"],
+    1: ["hand-of-fate", "war-of-wills", "echoes-of-the-past", "marked-card", "fate_lucky_strike", "fate_twist_probability", "tapestry-shred"],
+    2: ["hearts-gamble", "fate_fortune_favor"],
+    3: ["draw-of-the-damned", "echo-of-fate"],
+    4: ["solitaires-shield", "fates-exchange", "destiny-bond"],
+    5: ["fate_weaver_stacked_deck", "fate_weaver_twist_fate"],
+    6: ["fate_weaver_dealers_choice", "fate_weaver_twenty_one_curses", "fate_weaver_fold_reality"],
+    7: ["fate_weaver_house_rules", "fate_weaver_all_in", "fate_weaver_destiny_rewritten"],
+    8: ["fate_weaver_the_jokers_hand", "fate_weaver_fate_sealed", "fate_weaver_fates_wager"],
+    9: ["fate_weaver_grand_gambit", "fate_weaver_master_of_destiny", "fate_weaver_jackpot_supreme"],
+    10: ["fate_weaver_rewrite_destiny", "fate_weaver_deck_of_many_things", "fate_weaver_casino_royale"]
   },
 
+  classIdentity: {
+    title: "Sovereign of Flayed Skins",
+    subtitle: "The Cartomancer's Philosophy",
+    utility: "Absolute, un-debatable d20 outcome overrides. They possess the exclusive, hard-coded domain capacity to replace active dice results at the table with pre-drawn card values, completely bypassing standard RNG checks for critical successes or saving throws.",
+    fatalFlaw: "Karmic Debt and Hemorrhaging. Every single time they force reality to bend to their hand, time takes a literal pound of flesh. They accumulate an agonizing debt gauge that rapidly inflates their vulnerability to all damage types, inflicts persistent bleed counts, and triggers an instantaneous collapse if pushed past its limit (13 points). They possess zero defensive multi-target tools and are highly vulnerable to crushing, close-range martial attacks."
+  },
+
+  // Overview section
   overview: {
     title: "The Fate Weaver",
-    subtitle: "Master of Destiny and Cards",
+    subtitle: "Sovereign of Flayed Skins",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**The Fate Weaver doesn't predict the future — they DEAL it.** Every failure is fuel; every thread is a weapon.
+      content: `**What You Need to Know**: You do not study magic; you perform anatomical surgery on time itself. Your spells are curses, and your power is paid in the flesh of flayed cards. You bank pre-drawn cards into your **Sanguine Reserve** and spend them to force absolute, un-debatable d20 outcome overrides anywhere on the field, completely bypassing RNG.
+      
+**Core Mechanic**: Draw cards → Bank them in Sanguine Reserve (0-4 cards) → Force overrides on d20 rolls (Face/Ace = 14-18, Numbered = Face Value) → Accumulate **Karmic Debt** (0-13) for overriding destiny → Suffer cascading debuffs (+5% vulnerability to all damage and 1d4 bleeding per stack) → Reaching 13 debt triggers immediate **Tapestry Collapse** (6d10 psychic damage and 1-round incapacitation).
 
-Draw cards from a 52-card mystical deck to cast spells. Poker hands deal damage, blackjack totals buff allies, war draws challenge enemies. When draws fail or backfire, you gain **Threads of Destiny** (0-13). Spend 2 Threads to call any card from the deck — once per turn. Build Threads through failure. Spend them for dominance. The worse your luck, the more dangerous you become.
+**Resource**: Sanguine Reserve (baseline capacity: 4 banked cards) & Karmic Debt (0-13 gauge).
 
-**Core Loop**: Draw cards → Failures generate Threads → Spend Threads to call cards → Stack the deck → Turn bad luck into calculated strategy
+**Playstyle**: Extreme, oppressive risk-reward cartomancy with absolute control over success and failure, balanced by crushing physical frailty and self-inflicted hemorrhages.
 
-**Resource**: Threads of Destiny (0-13, mirroring 13 cards per suit)
-
-**Deck Rules**: 52-card deck, shuffled at combat start. Reshuffles discard pile when empty. You may call 1 specific card per turn for 2 Threads.
-
-**Best For**: Players who love card game mechanics, tactical resource management, and the thrill of turning a terrible hand into a winning play.`,
+**Best For**: Tacticians who crave absolute control over the table's dice rolls, enjoy calculating complex card-counting wagers, and embrace a high-risk, tragic dark fantasy aesthetic.`
     },
 
-    description: `Manipulates destiny through cosmic forces and cards. Uses Threads of Destiny to influence spell outcomes, predicting and controlling events in battle with strategic and mystical precision.`,
+    description: `The Fate Weaver is a grim surgical architect of time. They view destiny not as an abstract concept, but as a physical body of veins and tendons—and they are the surgeons who flay it. Wielding decks of flayed skin and blood-ink parchment, they rip out threads of probability to force absolute outcomes. They do not roll for miracles; they command them. But the universe is a jealous accountant. For every thread of probability they shred, the cosmic balance tears a matching strip from their own body, accumulating Karmic Debt that slowly bleeds them to death.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Fate Weavers see the invisible threads connecting all events. Destiny is not fixed — it's a tapestry that can be rewoven by those bold enough to pull the threads.
+      content: `In the tragic fantasy folklore of Mythrill, Fate Weavers are feared outcasts known as the "Sovereigns of Flayed Skins." They are individuals who looked into the Loom of Agony and tore away the threads that bound their lives. Their tools are cards crafted from their own flayed skin or the hides of those who died in desperate wagers.
+      
+Their power manifests as a grotesque physical corruption. Every card drawn slices open micro-fissures in their palms; every point of Karmic Debt they accumulate causes their veins to blacken and bleed through their skin. They speak in hushed, rhythmic dirges—their magic feeling less like divine authority and more like agonizing physical mutilation.
 
-**The Fate Weaver's Philosophy**: Destiny is not predetermined — it is a game of cards where skill, strategy, and a touch of luck determine the outcome. Every draw is an opportunity, every failure a lesson, and every thread a tool for reshaping reality.
-
-**Common Archetypes**:
-- **The Oracle**: A mystic who reads the cards to divine the future and guide allies toward favorable outcomes
-- **The Card Sharp**: A cunning strategist who treats fate like a game, always holding the right card at the right time
-- **The Thread Spinner**: A weaver of destiny who collects failures and transforms them into power
-- **The Fortune Teller**: A mysterious figure who sees patterns in chaos and turns misfortune into opportunity
-- **The Deck Master**: A master of probability who stacks the deck in their favor through careful manipulation
-- **The Cosmic Gambler**: A risk-taker who embraces both success and failure, knowing each feeds their power`,
-
-      examples: [
-        "A traveling fortune teller who discovered their readings were actually shaping reality",
-        "A scholar who found an ancient deck of cards that revealed the threads of fate",
-        "A gambler who learned that losing hands generated mystical power",
-        "A priest who channels divine will through sacred cards",
-        "A chaos mage who found order in the randomness of card draws",
-        "A tactician who uses cards to predict and counter enemy strategies",
-      ],
+Fate Weaver archetypes include:
+- **The Desperate Surgeon**: Attempted to sew a dying loved one's life thread back together, only to bind themselves to the flayed deck forever.
+- **The Accursed Gambler**: Wagered their skin against an ancient entity of probability, winning the deck but losing their physical anchor.
+- **The Heretical Chronicler**: Believes that all mortal history is a poorly written dirge and seeks to violently edit it card by card.`
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `**Primary Role**: Support/Control with card-based mechanics and destiny manipulation
+      content: `The Fate Weaver represents the ultimate target-priority and fate-control utility in Mythrill. They offer:
 
-**Strengths**:
-- Strategic card-based gameplay with high skill ceiling
-- Turns failures into resources (Threads of Destiny)
-- Versatile effects based on card combinations (poker, blackjack, war, solitaire)
-- Strong control over randomness through Thread spending
-- Excels at adapting to changing battle conditions
+**Absolute Dice Control**: The only class capable of bypassing the d20 roll entirely. By spending cards from their Sanguine Reserve, they can guarantee critical hits for allies or force critical failures on boss saving throws.
+**High-Risk Necrotic Offense**: Their poker-based spells deal devastating necrotic damage, but scaling these spells escalates their own Karmic Debt.
+**Agonizing Vulnerability**: They have zero defensive multi-target tools and suffer massive vulnerability to martial strikes. A Fate Weaver who manages their debt poorly will bleed out from their own success.
 
-**Weaknesses**:
-- Dependent on card draws for spell effects
-- Requires understanding of basic card game mechanics
-- Less consistent than classes with fixed spell effects
-- Must manage both mana and Threads of Destiny
-- Vulnerable when Thread reserves are low`,
-
-      keyMechanics: [
-        "Card-based spell resolution (poker, blackjack, war, solitaire)",
-        "Thread generation from failures and negative outcomes",
-        "Spend 2 Threads to call 1 specific card per turn",
-        "Variable spell effects based on card combinations",
-        "Risk/reward: accept failures for Threads vs. spend Threads for success",
-      ],
+They are the ultimate double-edged sword: a class that can decide the outcome of any single action on the field, but whose very presence invites a swift, bleeding death.`
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `Fate Weavers thrive in situations that require careful planning and foresight. Their card-based abilities provide a unique blend of chance and control, allowing them to adapt to changing circumstances and turn the tide of battle.
+      content: `Playing a Fate Weaver is a relentless math puzzle of blood and probability. You must constantly balance your banked cards against your rising debt.
 
-**Core Strategy**:
-1. **Thread Management**: Balance accepting failures to generate Threads vs. spending Threads to guarantee success
-2. **Card Knowledge**: Understanding poker hands, blackjack values, and other card game mechanics
-3. **Timing**: Know when to spend Threads to call specific cards vs. accepting random draws
-4. **Failure Conversion**: Embrace negative outcomes as opportunities to build Thread reserves
-5. **Deck Manipulation**: Use Threads strategically to ensure favorable draws when it matters most
+**Sanguine Reserve Management**:
+- Keep your reserve stocked (baseline capacity: 4 cards). An empty hand leaves you unmoored and highly vulnerable.
+- Use **Sanguine Dealer** to scale your reserve capacity up to 7 cards, giving you a massive bank of overrides.
 
-**Thread Economy**:
-- Generate 1 Thread when spells fail or have minimal effect
-- Generate 2 Threads when spells produce major negative outcomes
-- Spend 2 Threads to call a specific card (once per turn)
-- Maximum: 13 Threads (Ace through King)
+**The Karmic Debt Balance**:
+- **0-4 Debt (Safe)**: Manageable, minor vulnerability.
+- **5-9 Debt (Danger)**: Compounding +5% vulnerability per stack makes physical strikes lethal. You take 1d4 bleeding per stack at the end of each round.
+- **10-12 Debt (Razor's Edge)**: Maximum offensive bonuses, but a single hit will obliterate you.
+- **13 Debt (Tapestry Collapse)**: Immediate catastrophe. Your physical body fails, dealing 6d10 psychic damage and incapacitating you.
 
-**Deck Rules**:
-- Shuffle your 52-card deck at the start of each combat
-- Draw from deck when spells require cards
-- When deck runs out, reshuffle discard pile
-- Calling a card: search deck, add to hand, reshuffle remaining deck`,
-
-      tips: [
-        "Learn poker hand rankings to maximize Hand of Fate effectiveness",
-        "In blackjack-style spells, aim for 18-20 for safety",
-        "Save Threads for critical moments rather than spending immediately",
-        "Negative outcomes aren't always bad — they generate valuable Threads",
-        "Coordinate with allies for Echo of Fate card matching",
-        "You can only call 1 card per turn — plan your Royal Flush assembly across multiple turns",
-      ],
+**The Override Timing**:
+- Do not waste your banked cards on minor rolls. Save your high face cards for crucial saving throws or high-impact spell attacks.
+- Use **Tapestry Shred** as a reaction to turn an enemy's critical success into a failure, or to force an ally's desperate strike to land.`
     },
 
     immersiveCombatExample: {
-      title: "Combat Example: The Gambler's Paradox",
-      content: `**The Setup**: You're a Fate Weaver facing a powerful necromancer and two skeletal guards. Your party needs damage, but your spells are card-based — unpredictable. Starting Threads: 0. Starting Mana: 45/50.
-
-**Starting State**: Threads: 0/13 | Mana: 45/50 | HP: 55/70 | Deck: Shuffled (52 cards)
-
-**Turn 1 — The Empty Hand (Threads: 0 → 1)**
-
-*The necromancer raises his staff. The skeletal guards advance. You draw from your mystical deck. Time to see what fate has in store.*
-
-**Your Action**: Cast "Hand of Fate" on Necromancer (5 mana, draw 5 cards)
-**Cards Drawn**: [3♠, 7♦, J♣, 2♥, 9♠]
-**Poker Hand**: High Card (Jack) — weakest possible
-**Damage**: 1d4 → [3] = 3 damage
-**Thread Generation**: +1 Thread (minimal effect)
-
-*The cards shimmer and fade. A weak bolt of energy strikes the necromancer. He barely flinches. But you feel it — a Thread of Destiny forming from the disappointment. The universe owes you one.*
-
-**Threads**: 0 + 1 = **1 Thread**
-**Mana**: 45 - 5 = 40/50
-
-**Necromancer's Turn**: Casts "Bone Spear" → 18 damage
-**Your HP**: 55 - 18 = 37/70
-
-**Current State**: Threads: 1/13 | Mana: 40/50 | HP: 37/70
-
----
-
-**Turn 2 — Building Threads (Threads: 1 → 3)**
-
-*You're hurt. You need more Threads before you can call cards. Time to take a calculated risk.*
-
-**Your Action**: Cast "Draw of the Damned" on Skeletal Guard #1 (4 mana, blackjack — damage mode)
-**Card 1**: [K♥] = 10 → Total: 10
-**Card 2**: [8♣] = 8 → Total: 18
-**Decision**: Hit (risky — but you need damage OR Threads)
-**Card 3**: [9♦] = 9 → Total: 27 → **BUST!**
-
-*The cards explode in your face. Dark energy backlashes.*
-
-**Result**: Bust → Take 3d6 self-damage → [4, 3, 5] = 12 damage to you. No damage to target.
-**Thread Generation**: +2 Threads (major negative outcome)
-
-**Your HP**: 37 - 12 = 25/70
-**Threads**: 1 + 2 = **3 Threads**
-**Mana**: 40 - 4 = 36/50
-
-*Your party's tank groans. "Did you just... hurt yourself?" You smile through the pain. "I'm building resources. Trust me."*
-
-**Current State**: Threads: 3/13 | Mana: 36/50 | HP: 25/70
-
----
-
-**Turn 3 — More Fuel (Threads: 3 → 5)**
-
-*Your healer patches you up. 15 HP restored. You're at 40/70 now. Still need more Threads. One more deliberate failure should do it.*
-
-**Your Action**: Cast "Heart's Gamble" (3 mana, draw cards until non-heart)
-**Card 1**: [4♥] → Heart! Continue
-**Card 2**: [Q♥] → Face card heart! Continue
-**Card 3**: [7♠] → Non-heart → STOP
-
-**Result**: Drew 2 hearts (one face card) → Take 2d6 damage → [5, 6] = 11 self-damage
-**Thread Generation**: +2 Threads (major negative — face card + self-damage)
-
-*The cards burn your hands. You scream, but you're SMILING. Two more Threads.*
-
-**Your HP**: 40 - 11 = 29/70
-**Threads**: 3 + 2 = **5 Threads**
-**Mana**: 36 - 3 = 33/50
-
-**Your Party's Rogue**: "Are you TRYING to kill yourself?!"
-**You**: "No. I'm trying to kill HIM." *You point at the necromancer.* "Two turns. Watch."
-
-**Current State**: Threads: 5/13 | Mana: 33/50 | HP: 29/70
-
----
-
-**Turn 4 — The First Call (Threads: 5 → 3)**
-
-*Five Threads. You can call 2 cards over 2 turns. Time to start building a hand.*
-
-**Your Action**: Cast "Hand of Fate" on Necromancer (5 mana, draw 5 cards)
-**Random Draw**: [3♠, 8♥, J♣, K♠, 2♦]
-**Thread Spend**: Call [A♠] — 2 Threads → Add to hand, discard 2♦
-**Hand**: [3♠, 8♥, J♣, K♠, A♠]
-**Poker Hand**: High Card (Ace) — still weak. But the Ace of Spades is now in your hand.
-**Damage**: 1d4 → [2] = 2 damage
-**Thread Generation**: +1 Thread (minimal effect)
-
-**Threads**: 5 - 2 + 1 = **4 Threads**
-**Mana**: 33 - 5 = 28/50
-
-*You called the Ace of Spades from the deck. It materialized in golden light. The necromancer raises an eyebrow. The rest of the hand is garbage — but you didn't need the whole hand yet.*
-
----
-
-**Turn 5 — The Second Call (Threads: 4 → 2)**
-
-*Keep building. Call one more card.*
-
-**Your Action**: Cast "Hand of Fate" again (5 mana, draw 5 new cards)
-**Random Draw**: [6♣, 9♦, Q♠, 5♥, 10♠]
-**Thread Spend**: Call [K♠] — 2 Threads → Add to hand, discard 5♥
-**Hand**: [6♣, 9♦, Q♠, 10♠, K♠]
-**Poker Hand**: High Card (King). Still weak.
-**Damage**: 1d4 → [4] = 4 damage
-**Thread Generation**: +1 Thread
-
-**Threads**: 4 - 2 + 1 = **3 Threads**
-**Mana**: 28 - 5 = 23/50
-
-*Two Spades face cards and the Ace still in the deck from your earlier call. The pieces are coming together.*
-
----
-
-**Turn 6 — Thread Banking (Threads: 3 → 5)**
-
-*You need 4 more Threads to call the remaining Royal Flush cards. Accept another failure.*
-
-**Your Action**: Cast "War of Wills" on Skeletal Guard #2 (2 mana, competitive draw)
-**Your Card**: [3♣] vs **Their Card**: [K♦] → **You LOSE**
-**Result**: Heal enemy for 2d8 → [5, 7] = 12 healing (enemy)
-**Thread Generation**: +1 Thread (spell failed)
-
-**Your Action**: Also cast "Marked Card" (1 mana, peek at top 3)
-**Top 3**: [7♠, J♠, 4♥] — you choose [J♠] to draw next turn
-**Thread Generation**: +1 Thread (minimal effect)
-
-**Threads**: 3 + 1 + 1 = **5 Threads**
-**Mana**: 23 - 2 - 1 = 20/50
-
----
-
-**Turn 7 — The Third Call (Threads: 5 → 3)**
-
-*Five Threads. Call the Jack of Spades that you marked.*
-
-**Your Action**: Cast "Hand of Fate" (5 mana, draw 5 cards)
-**Random Draw**: [2♣, 7♥, 9♠, 4♦, 6♠]
-**Thread Spend**: Call [Q♠] — 2 Threads → Add to hand, discard 6♠
-**Hand**: [2♣, 7♥, 9♠, 4♦, Q♠]
-**Poker Hand**: High Card (Queen). Weak.
-**Damage**: 1d4 → [1] = 1 damage
-**Thread Generation**: +1 Thread
-
-**Threads**: 5 - 2 + 1 = **4 Threads**
-**Mana**: 20 - 5 = 15/50
-
----
-
-**Turn 8 — The Final Thread Build (Threads: 4 → 6)**
-
-*Almost there. Need 2 more Threads to call the last card.*
-
-**Your Action**: Cast "Heart's Gamble" (3 mana, accept bad draws)
-**Draw**: [K♥] → Face card heart! → Take 2d6 → [6, 5] = 11 damage
-**Thread Generation**: +2 Threads
-
-**Your HP**: 29 - 11 = 18/70
-**Threads**: 4 + 2 = **6 Threads**
-**Mana**: 15 - 3 = 12/50
-
-*Your healer panics. "STOP HURTING YOURSELF!" You're at 18 HP. You laugh. "Next turn."*
-
----
-
-**Turn 9 — THE PAYOFF (Threads: 6 → 0)**
-
-*Six Threads. You've been building for 8 turns. The Ace, King, Queen, and Jack of Spades are scattered through the deck. You need to call the 10 of Spades and pray your random draw fills the fifth slot. Let's go.*
-
-**Your Action**: Cast "Hand of Fate" on Necromancer (5 mana, draw 5 cards)
-**Thread Spend**: Call [10♠] — 2 Threads
-**Random Draw (4 cards)**: [3♦, 8♣, Q♥, A♠]
-
-Wait — A♠! The Ace of Spades came up randomly! And you already have the 10♠ from calling it!
-
-**Hand after call + draw**: [10♠, A♠, 3♦, 8♣, Q♥]
-
-Not a Royal Flush yet — you have the Ace and 10 of Spades, but need K♠, Q♠, J♠.
-
-**Thread Spend**: Call [K♠] — 2 Threads → Add to hand, discard Q♥
-**Thread Spend**: Call [Q♠] — 2 Threads → Add to hand, discard 8♣
-
-Wait — you can only call ONE card per turn. You spent 2 Threads on 10♠. You can't call more.
-
-**Hand**: [10♠, A♠, 3♦, K♠... wait, you called 10♠, that's your one call.]
-
-Let me recalculate. You call ONE card per turn. At 6 Threads:
-
-**Thread Spend**: Call [10♠] — 2 Threads
-**Random Draw (4 remaining cards from the 5-card draw)**: You draw 4 random + 1 called = 5 cards
-
-**Hand**: [10♠, 3♦, 8♣, Q♥, A♠]
-
-Two spades: 10♠ and A♠. That's a long way from a Royal Flush in one turn.
-
-*This is the REAL lesson of the Fate Weaver. You can't build a Royal Flush in one turn — you can only call ONE card per turn. The fantasy is the SLOW BUILD across multiple turns, calling one card at a time, accepting failures between each call.*
-
----
-
-**The REAL Payoff Turn (after 4+ turns of calling one card per turn)**
-
-After calling A♠ on turn 4, K♠ on turn 5, Q♠ on turn 7, and finally J♠ and 10♠ via Marked Card setup...
-
-**Final Hand of Fate**: [A♠, K♠, Q♠, J♠, 10♠]
-**Poker Hand**: **ROYAL FLUSH**
-**Damage**: 10d10 → [9, 8, 10, 7, 9, 6, 10, 8, 9, 7] = **83 damage!**
-
-*The cards appear in your hand, glowing with golden light. Ace, King, Queen, Jack, Ten — all spades. The BEST POSSIBLE HAND. The necromancer's eyes widen as the cards explode into pure radiant energy, consuming him entirely.*
-
-**The Lesson**:
-1. You can only call **1 card per turn** — Royal Flush assembly takes 4-5 turns minimum
-2. Each turn of "failure" builds 1-2 Threads for the next call
-3. You took damage, dealt weak damage, and looked foolish for 8 turns
-4. Then you dealt 83 damage in a single turn and killed the boss
-5. **That's the Fate Weaver. You don't win every hand — you win the GAME.**`,
-    },
+      title: "Combat Example: Flaying the Loom",
+      content: `**The Setup**: You are a Fate Weaver facing a colossal, armored Death Knight. Your tank is battered, and your mage is preparing a final, massive spell. Your Sanguine Reserve has 3 cards banked: a King (17), a Queen (16), and a 3. Your current Karmic Debt is 4.
+
+**Turn 1 - Forcing the Opening**
+*The Death Knight swings its massive runeblade at your tank. It's a devastating blow—a rolled 19.*
+*You step forward, your flayed skin deck humming with dark probability. You shred the tapestry.*
+**Your Reaction**: Cast "Tapestry Shred" (10 mana, consumes King from Sanguine Reserve, inflicts +2 debt).
+**The Result**: You override the Death Knight's roll. The rolled 19 is replaced by your King, but because it is an enemy attack, you choose to apply the 3 from your reserve instead, forcing an absolute failure!
+**Karmic Debt**: 4 → 6.
+**Drawback**: Your veins throb with black ichor. You now take 6d4 bleeding damage at the end of the round, and suffer +30% vulnerability to all damage types.
+
+**Turn 2 - The Tragic Wager**
+*The Death Knight is off-balance. Your mage launches their spell. The Knight must make an Agility saving throw.*
+**Your Action**: Cast "Dirges of Flesh" (5 mana, AP: 1).
+*You draw 5 flayed skins to form a poker hand. You get: Jack, Jack, Queen, 4, 2 (One Pair).*
+*You discard the 4 and 2, redrawing to get: Jack, Jack, Jack, 9, 5 (Three of a Kind).*
+**The Result**: Deals 2d10 necrotic damage and inflicts +1 debt.
+**Karmic Debt**: 6 → 7.
+*Your palms bleed open. You are now extremely frail, but you have paved the way for victory.*`
+    }
   },
 
   // Resource System
   resourceSystem: {
-    title: "Threads of Destiny",
-    subtitle: "Fueling the Grand Tapestry",
-
-    description: `The Fate Weaver doesn't predict the future—they deal it. Your core resource is **Threads of Destiny** (0-13), cosmic energy woven from the friction of failure. While other casters dread a missed spell, you thrive on it. Every "High Card" or "Blackjack Bust" generates the threads you need to eventually reach into your deck and pull out the exact card you need to end the fight.`,
-
+    title: "Sanguine Reserve & Karmic Debt",
+    subtitle: "Flayed Probability & Cosmic Repayments",
+    description: `Your magic is a literal mutilation of probability. You hold a deck of flayed parchment cards, drawing them into your physical hand and banking them in your **Sanguine Reserve** (baseline maximum: 4 cards). These banked cards represent hard-coded destiny. When a creature rolls a d20, you can shred the tapestry of time, replacing their roll with the value of your card. But the loom demands symmetry: each override generates **Karmic Debt**. At 13 points of debt, your physical anchor collapses.`,
+    
     cards: [
       {
-        title: "Threads (0-13)",
-        stats: "Ace through King",
-        details:
-          "Generated through failure and bad luck. Capped at 13—excess generation triggers a Destiny Surge.",
+        title: "Sanguine Reserve (0-4)",
+        stats: "4 Cards Max (Baseline)",
+        details: "Holds pre-drawn cards. Expended to override d20 rolls. Face cards map to 15-17, Aces map to 18, numbered cards map to their exact value."
       },
       {
-        title: "The Mystical Deck",
-        stats: "52-Card System",
-        details:
-          "Your spells require drawing from a standard deck. Reshuffle only when the deck is empty.",
-      },
-      {
-        title: "The Call (2 Threads)",
-        stats: "Once per Turn",
-        details:
-          "Spend 2 Threads to search your deck for ONE specific card. This is how you assemble Royal Flushes.",
-      },
+        title: "Karmic Debt (0-13)",
+        stats: "13 Stack Limit",
+        details: "Each stack inflicts +5% damage vulnerability from all sources and deals 1d4 necrotic bleeding at the end of each round. Reaching 13 debt triggers immediate Tapestry Collapse."
+      }
     ],
 
     generationTable: {
-      headers: ["Event", "Thread Change", "Notes"],
+      headers: ["Action", "Resource Change", "Notes"],
       rows: [
-        ["Spell Failure", "+1 Thread", "High Card in poker, losing War"],
-        ["Minor Backfire", "+1 Thread", "Drawing a single heart in Gamble"],
-        ["Major Backfire", "+2 Threads", "Blackjack Bust, face-card damage"],
-        ["The Call", "-2 Threads", "Search deck for 1 specific card"],
-        ["Destiny Shift", "-1 Thread", "Peek at top 3 cards of the deck"],
-      ],
+        ["Bank Card (Sanguine Reserve)", "+1 Card", "Uses 'Sanguine Reserve' spell; max baseline 4 cards."],
+        ["Force Override (Reaction)", "-1 Card, +2 Debt", "Replaces any d20 roll within 60 ft with card value."],
+        ["Cast 'Dirges of Flesh'", "Variable Debt", "Each poker hand outcome inflicts 1-4 debt based on strength."],
+        ["Call Card", "+2 Debt", "Search deck for a specific card; once per turn."],
+        ["Extended Rest", "Resets Debt to 0", "Your body stitches itself back together; deck reshuffled."]
+      ]
     },
 
     usage: {
-      momentum:
-        'Start combat by taking risks. Use "Heart\'s Gamble" to build 4-5 Threads early. Use those Threads to call Spades face-cards one turn at a time.',
-      flourish:
-        "⚠️ The Gambler's Rule: You cannot call more than one card per turn. Even if you have 13 Threads, a Royal Flush takes 4-5 turns of deliberate assembly.",
+      momentum: "Use your Sanguine Reserve cards to bypass RNG. Keep high face cards for saving throws and critical hits, and low numbered cards to force enemy failures.",
+      flourish: "Manage your Karmic Debt. Push to high debt levels only when a combat ending blow is guaranteed. Use cleansing spells or rest to reduce debt before collapse."
     },
 
     overheatRules: {
-      title: "Destiny Surge (13+)",
-      content: `If you generate a Thread while already at your cap of 13, you trigger a **Destiny Surge**. Roll 1d6:
+      title: "Tapestry Collapse (13 Stacks)",
+      content: `If your Karmic Debt reaches exactly 13 stacks, the pressure on your physical anchor reaches a breaking point. The timeline snaps back violently, tearing your flesh and mind apart:
+- You immediately take **6d10 psychic damage** (this damage cannot be reduced or bypassed).
+- You are **incapacitated** for 1 full round.
+- Your Sanguine Reserve is entirely emptied (all banked cards are burned to ash).
+- Your Karmic Debt resets to 0, but your maximum HP is permanently reduced by 5 until you complete a long rest.`
+    },
 
-1. **Fraying Threads**: Lose 1d6 Threads and take 4d6 psychic damage.
-2. **Knot in Time**: You are Stunned for 1 turn.
-3. **Stacked Deck**: The DM takes the top 5 cards of your deck and discards them.
-4. **Resonance**: Your next spell deals double damage but hits a random target.
-5. **Clear Vision**: You may call one card for FREE this turn (does not count toward limit).
-6. **Royal Boon**: Immediately draw 5 cards; if they contain any Ace, you gain a free Action.`,
+    infernoLevelsTable: {
+      title: "Karmic Debt Compounding Agony",
+      headers: ["Debt Stacks", "Vulnerability", "End of Round Bleeding", "Mental State"],
+      rows: [
+        ["0", "0%", "None", "Anchored"],
+        ["1-3", "+5% per stack", "1d4 necrotic per stack", "Flickering pulse; minor hand tremors."],
+        ["4-6", "+5% per stack", "1d4 necrotic per stack", "Molten veins; skin begins to weep blood."],
+        ["7-9", "+5% per stack", "1d4 necrotic per stack", "Shattered vision; voices of dead timelines scream."],
+        ["10-12", "+5% per stack", "1d4 necrotic per stack", "Body dissolves into floating threads; near collapse."],
+        ["13", "COLLAPSE", "Tapestry Collapse", "Immediate biological and psychic shutdown."]
+      ]
     },
 
     strategicConsiderations: {
-      title: "The Long Game",
-      content: `**Thread Weaver Spec**: You gain +1 Thread whenever you generate any. You reach your cap twice as fast, triggering Surges constantly.
-
-**Banking**: Threads persist between combats. If you end a fight at 6 Threads, you can start the next fight by immediately calling your first "Royal" card.`,
-    },
-
-    playingInPerson: {
-      title: "Playing in Person",
-      subtitle: "The Call Token",
-      content: `Fate Weaver is the most components-heavy class. Use these physical hacks to stay organized:
-
-**Required Materials**:
-- **A Standard 52-Card Deck**: (No Jokers).
-- **13 Poker Chips**: (To track Threads).
-- **The Call Token**: A large, distinct gold coin or medal.
-
-**The Physical Hack (Friction Points)**:
-- **The Call Token**: Place the coin on your character sheet. When you spend 2 Threads to "Call" a card, **flip the coin to its "Used" side**. You cannot flip it back until the start of your next turn. This prevents the most common rule-break: calling multiple cards in one go.
-- **The Failure Pile**: Keep your Thread tokens in a separate pile from your mana. When a spell fails, physically *grab* that token. It makes losing feel like a reward.
-- **Marking the Deck**: If you use a "Marked Card" spell to peek at the top, physically tilt the top card of the deck 45 degrees. It reminds you (and the DM) that the next draw is predetermined.
-
-**Pro Tip**: If you assemble a partial Royal Flush in your hand across turns, keep those cards face-down in a separate "Destiny Hand" so you don't accidentally discard them.`,
-    },
+      title: "Strategic Laws of the Cartomancer",
+      content: `**1. The Stitched Hand Scaling**: Sanguine Dealer specializations increase this reserve cap to 7 cards. This allows you to hold a full hand of options, making your d20 overrides vastly more versatile.
+**2. Bleed Stacking**: The bleeding damage from Karmic Debt is necrotic and cannot be mitigated by standard magical resistance. It applies at the very end of your turn, meaning you must heal or end the combat before the round finishes.
+**3. Target Priority**: You have zero defense against multiple targets. If surrounded, use 'Karmic Displacement' or 'Folding of Flesh' immediately to reposition. You are a glass focal point; stay behind your front liners.`
+    }
   },
 
+  // Specializations
   specializations: {
     title: "Fate Weaver Specializations",
-    subtitle: "Three Paths of Destiny",
-
-    description: `Fate Weavers specialize in one of three approaches to manipulating destiny.`,
-
-    sharedPassive: {
-      name: "Destiny's Insight",
-      icon: "Radiant/Divine Halo",
-      description:
-        "You can see the top card of your deck at all times. Spend 1 Thread to look at the top 3 cards and choose which one to draw (others go to bottom in any order).",
-    },
-
+    subtitle: "Three Postures of Flayed Reality",
+    description: "Every Fate Weaver decides how they will carve the anatomy of probability. Your choice of specialization dictates how you handle the flayed cards and the cosmic backlash.",
+    
     specs: [
       {
-        id: "fortune-teller",
-        name: "Fortune Teller",
-        icon: "Utility/Utility",
-        color: "#9370DB",
-        theme: "Divination & Prediction",
-
-        description: `**See the threads. Share the vision. Shape the outcome.**
-
-Masters of divination who read cards to predict and shape events. They grant allies foresight and manipulate probability for favorable outcomes.`,
-
-        playstyle:
-          "Predictive support, ally buffs, probability manipulation, information gathering",
-
+        id: "fortune_teller",
+        name: "Flesh Scryer",
+        icon: "Eye/All Seeing Eye",
+        color: "#9b59b6",
+        theme: "Anatomical Prophecy",
+        playstyle: "Manipulate enemy saving throws and predict combat outcomes using pre-drawn flesh cards.",
+        description: "Masters of looking through the skin of time to foresee and dictate enemy failures.",
         strengths: [
-          "Excellent support and ally buffs",
-          "Reveals enemy intentions and strategies",
-          "Grants advantage and rerolls to allies",
-          "Strong information gathering capabilities",
+          "Highest difficulty class for psychic saving throws",
+          "Forces disadvantage on enemy defense checks",
+          "Excellent long-range psychic disruption"
         ],
-
         weaknesses: [
-          "Lower personal damage output",
-          "Relies on allies to capitalize on predictions",
-          "Less effective when solo",
-          "Requires good communication with party",
+          "Relies heavily on high intellect cards",
+          "Extremely vulnerable to physical stealth attacks",
+          "No native physical self-defense"
         ],
-
         passiveAbility: {
-          name: "Prophetic Vision",
-          icon: "Psychic/Focused Mind",
-          description:
-            "At the start of each turn, look at and rearrange the top 5 cards of your deck. When an ally within 30 ft makes an attack or save, spend 1 Thread to grant them advantage.",
-        },
-
-        keyAbilities: [
-          "Scrying Hand — Draw cards to divine the future, revealing enemy intentions and granting allies bonuses based on suits drawn (3 mana, spend Threads to guarantee specific suits)",
-          "Fate's Guidance — Share your vision with an ally, allowing them to reroll any roll and choose the result (4 mana, costs 3 Threads to activate)",
-          "Prophetic Shield — Predict incoming damage and reduce it based on card accuracy (2 mana, closer predictions = more damage reduction)",
-        ],
-
-        recommendedFor:
-          "Players who enjoy support roles, strategic planning, and helping allies succeed through prediction and foresight.",
+          name: "Flayed Foresight",
+          description: "When an enemy within 60 feet rolls a saving throw, you may peek at the top card of your deck. If it is a face card, the enemy has disadvantage on the save."
+        }
       },
-
       {
-        id: "card-master",
-        name: "Card Master",
-        icon: "Utility/Utility",
-        color: "#FFD700",
-        theme: "Deck Manipulation & Control",
-
-        description: `**The deck is your weapon. The hand is your will.**
-
-Complete deck control. Experts at manipulating draws to always have the right card, excelling at combo-based gameplay and devastating card combinations.`,
-
-        playstyle:
-          "Deck control, combo assembly, hand manipulation, consistent power",
-
+        id: "card_master",
+        name: "Sanguine Dealer",
+        icon: "Cards/Deck of Cards",
+        color: "#e74c3c",
+        theme: "Card Manipulation",
+        playstyle: "Maintain a massive hand of flayed cards, flooding the battlefield with constant d20 overrides.",
+        description: "Masters of the deck. They carry the 'Stitched Hand', letting them store a massive reserve of cards to control every roll.",
         strengths: [
-          "Excellent combo potential and synergy",
-          "Consistent card draws and hand control",
-          "Can hold more cards than other specs",
-          "Strong sustained damage and utility",
+          "Maximum Sanguine Reserve capacity scales up to 7 cards",
+          "Can spend debt to call two specific cards instead of one",
+          "Highest frequency of d20 overrides"
         ],
-
         weaknesses: [
-          "Requires setup time to assemble combos",
-          "Less effective in short encounters",
-          "Vulnerable when hand is disrupted",
-          "Lower burst damage without Thread reserves",
+          "Generates Karmic Debt at an accelerated rate",
+          "Highly dependent on draw luck",
+          "Requires heavy mana upkeep to sustain large hand sizes"
         ],
-
         passiveAbility: {
-          name: "Master of the Deck",
-          icon: "Utility/Ornate Staff",
-          description:
-            "Hand size increased to 7. Spending Threads to call a specific card lets you call 2 instead. Once per turn, discard a card and draw a replacement for 0 AP.",
-        },
-
-        keyAbilities: [
-          "Perfect Hand — Draw cards until you have a specific poker hand, then unleash its power (5 mana, spend Threads to guarantee the hand you want)",
-          "Deck Shuffle — Reshuffle your entire deck and draw 5 new cards, gaining bonuses based on suits (4 mana, generates 1 Thread per duplicate suit)",
-          "Card Cascade — Play multiple cards in sequence, each amplifying the next (6 mana, combo potential scales with hand size)",
-        ],
-
-        recommendedFor:
-          "Players who enjoy combo gameplay, deck-building strategy, and maximizing control over randomness.",
+          name: "Stitched Hand",
+          description: "Your baseline Sanguine Reserve capacity is increased to 7 cards. When you use the 'Call Card' ability, you may search your deck for two specific cards instead of one, generating 3 debt instead of 2."
+        }
       },
-
       {
-        id: "thread-weaver",
-        name: "Thread Weaver",
-        icon: "Arcane/Ebon Blaze",
-        color: "#FF1493",
-        theme: "Thread Generation & Manipulation",
-
-        description: `**Break fate to remake it. Every scar is a thread.**
-
-Embraces failure as power, generating Threads at an accelerated rate. Risk-takers who turn every setback into opportunity and every failure into fuel.`,
-
-        playstyle:
-          "High risk/reward, Thread generation focus, failure conversion, explosive power",
-
+        id: "thread_weaver",
+        name: "Karmic Flayer",
+        icon: "Necrotic/Tattered Threads",
+        color: "#2c3e50",
+        theme: "Thread Manipulation",
+        playstyle: "Link targets together and redirect damage, using the threads of debt to bleed opponents.",
+        description: "Masters of the threads. They bind enemies to their own debt, turning their vulnerability into a weapon.",
         strengths: [
-          "Fastest Thread generation in the game",
-          "Can guarantee spell success or failure",
-          "Explosive burst damage potential",
-          "Turns failures into massive advantages",
+          "Redirects up to 50% of incoming damage to linked targets",
+          "Deals additional necrotic damage based on current debt level",
+          "Strongest survivability against single-target focus"
         ],
-
         weaknesses: [
-          "Extremely high variance gameplay",
-          "Can be unreliable in critical moments",
-          "Intentional failures can backfire",
-          "Requires large Thread reserves to shine",
+          "Requires constant maintenance of active bonds",
+          "Zero area-of-effect defensive options",
+          "If a bound ally dies, you immediately absorb their remaining debt"
         ],
-
         passiveAbility: {
-          name: "Weaver of Fate",
-          icon: "Necrotic/Drain Soul",
-          description:
-            "Generate +1 additional Thread whenever you gain Threads from any source (1→2, 2→3). Spend 5 Threads to force any spell to auto-succeed with max effect, or 3 Threads to force a spell to fail and gain its maximum Thread generation.",
-        },
-
-        keyAbilities: [
-          "Embrace Chaos — Intentionally trigger negative outcomes on your spells to generate massive Threads, then spend them for guaranteed success (2 mana, high risk/reward)",
-          "Thread Burst — Spend all your Threads at once to deal damage equal to Threads spent × 1d6 to all enemies (variable mana, empties Thread reserve)",
-          "Destiny Reversal — Rewind the last spell cast (yours or an ally's) and force a different outcome (7 mana, costs 8 Threads)",
-        ],
-
-        recommendedFor:
-          "Players who enjoy high-variance gameplay, turning failures into victories, and explosive all-or-nothing moments.",
-      },
-    ],
+          name: "Splintered Loom",
+          description: "While you have 5 or more stacks of Karmic Debt, your spell attacks deal bonus necrotic damage equal to your current debt level. Additionally, you may link two creatures within 30 feet to share damage."
+        }
+      }
+    ]
   },
 
-  // ========================================
-  // SPELLS — ALL CARD-BASED, ALL TOUCH THREADS
-  // ========================================
+  // Spells list
   spells: [
     // ========================================
-    // LEVEL 1 SPELLS
+    // LEVEL 1 SPELLS - The Core Probability Engine
     // ========================================
     {
       id: "hand-of-fate",
-      name: "Hand of Fate",
-      icon: "Utility/Utility",
-      spellType: "ACTION",
-      effectTypes: ["damage"],
+      name: "Dirges of Flesh",
+      description: "Draw 5 flayed skins to form a poker hand. You may discard and redraw up to twice. Hand strength determines damage dealt, but the violent warping of probability inflicts escalating Karmic Debt. You may spend 2 debt to call a specific card from your deck (once per turn).",
       level: 1,
-
-      description:
-        "Draw 5 cards to form a poker hand. May redraw up to twice. Hand strength determines damage dealt — Royal Flush deals 10d10 radiant, down to High Card which generates a Thread instead of significant damage. Spend 2 Threads to call a specific card for your hand (once per turn).",
-
+      spellType: "ACTION",
+      icon: "Necrotic/Skull",
       typeConfig: {
-        school: "arcane",
-        icon: "Utility/Utility",
+        school: "necrotic",
+        icon: "Necrotic/Skull",
+        tags: ["damage", "cards", "starter"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
+        targetRestrictions: ["enemy"]
       },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
       resourceCost: {
+        actionPoints: 1,
         resourceTypes: ["mana"],
         resourceValues: { mana: 5 },
-        actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Fatum Manus!",
-        somaticText: "Draw cards from mystical deck",
-        materialText: "Deck of fate cards",
+        components: ["verbal", "somatic"],
+        verbalText: "Flay the deck!",
+        somaticText: "Scatter flayed ribbons of skin in a cascading arc"
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
       resolution: "CARDS",
-
+      effectTypes: ["damage"],
       damageConfig: {
-        formula: "1d10 per poker hand tier",
-        damageTypes: ["force"],
+        formula: "POKER_HAND_DAMAGE",
+        damageTypes: ["necrotic"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 5,
-          formula: "POKER_HAND_RANK * 1d10",
-          redraws: 2,
-        },
+          formula: "POKER_HAND_DAMAGE"
+        }
       },
-
       specialMechanics: {
+        pokerHandScaling: {
+          description: "Pairs high-risk rewards with Karmic Debt escalation.",
+          hands: [
+            { name: "Royal Flush", damage: "12d10 necrotic", debtGain: 4, description: "Deals 12d10 necrotic damage + inflicts 4 debt. Immediate ultimate doom." },
+            { name: "Straight Flush", damage: "10d10 necrotic", debtGain: 3, description: "Deals 10d10 necrotic damage + inflicts 3 debt." },
+            { name: "Four of a Kind", damage: "8d10 necrotic", debtGain: 3, description: "Deals 8d10 necrotic damage + inflicts 3 debt." },
+            { name: "Full House", damage: "6d10 necrotic", debtGain: 2, description: "Deals 6d10 necrotic damage + inflicts 2 debt." },
+            { name: "Flush", damage: "4d10 necrotic", debtGain: 2, description: "Deals 4d10 necrotic damage + inflicts 2 debt." },
+            { name: "Straight", damage: "3d10 necrotic", debtGain: 1, description: "Deals 3d10 necrotic damage + inflicts 1 debt." },
+            { name: "Three of a Kind", damage: "2d10 necrotic", debtGain: 1, description: "Deals 2d10 necrotic damage + inflicts 1 debt." },
+            { name: "Two Pair", damage: "2d8 psychic", debtGain: 1, description: "Deals 2d8 psychic damage + inflicts 1 debt." },
+            { name: "One Pair", damage: "1d8 psychic", debtGain: 1, description: "Deals 1d8 psychic damage + inflicts 1 debt." },
+            { name: "High Card", damage: "1d4 psychic", debtGain: 2, description: "Deals 1d4 psychic damage + inflicts 2 debt (the weak outcome shreds your own mind)." }
+          ]
+        },
         threadsOfDestiny: {
-          generation: "High Card: +1 Thread (minimal effect)",
-          usage:
-            "Spend 2 Threads to call 1 specific card for your hand (once per turn, counts as your one call)",
-        },
-        cardDraw: {
-          initial: 5,
-          redraws: 2,
-          description: "Draw 5 cards, may redraw up to 2 times",
-        },
-        pokerHands: {
-          type: "standard_poker",
-          rankings:
-            "Royal Flush > Straight Flush > Four of a Kind > Full House > Flush > Straight > Three of a Kind > Two Pair > One Pair > High Card",
-        },
+          usage: "Spend 2 debt to call a specific card (once per turn)"
+        }
       },
-
-      rollableTable: {
-        enabled: true,
-        name: "Hand of Fate — Poker Hand Results",
-        description: "Draw 5 cards and form a poker hand (may redraw twice)",
-        resolutionType: "CARDS",
-        resolutionConfig: { cardType: "poker", cardCount: 5, redraws: 2 },
-        entries: [
-          {
-            range: "Royal Flush",
-            name: "Royal Flush",
-            description: "A♠ K♠ Q♠ J♠ 10♠ — Ultimate hand",
-            effectType: "damage",
-            effectConfig: { damageFormula: "10d10", damageType: "radiant" },
-          },
-          {
-            range: "Straight Flush",
-            name: "Straight Flush",
-            description: "Five sequential cards of same suit",
-            effectType: "damage",
-            effectConfig: { damageFormula: "8d10", damageType: "arcane" },
-          },
-          {
-            range: "Four of a Kind",
-            name: "Four of a Kind",
-            description: "Four cards of same rank",
-            effectType: "damage",
-            effectConfig: { damageFormula: "6d10", damageType: "force" },
-          },
-          {
-            range: "Full House",
-            name: "Full House",
-            description: "Three of a kind + pair",
-            effectType: "damage",
-            effectConfig: { damageFormula: "4d10", damageType: "radiant" },
-          },
-          {
-            range: "Flush",
-            name: "Flush",
-            description: "Five cards of same suit",
-            effectType: "damage",
-            effectConfig: { damageFormula: "4d8", damageType: "radiant" },
-          },
-          {
-            range: "Straight",
-            name: "Straight",
-            description: "Five sequential cards",
-            effectType: "damage",
-            effectConfig: { damageFormula: "3d8", damageType: "force" },
-          },
-          {
-            range: "Three of a Kind",
-            name: "Three of a Kind",
-            description: "Three cards of same rank",
-            effectType: "damage",
-            effectConfig: { damageFormula: "2d8", damageType: "force" },
-          },
-          {
-            range: "Two Pair",
-            name: "Two Pair",
-            description: "Two different pairs",
-            effectType: "healing",
-            effectConfig: { healingFormula: "2d8" },
-          },
-          {
-            range: "One Pair",
-            name: "One Pair",
-            description: "Two cards of same rank",
-            effectType: "healing",
-            effectConfig: { healingFormula: "1d8" },
-          },
-          {
-            range: "High Card",
-            name: "High Card",
-            description: "No matching cards — gain +1 Thread",
-            effectType: "buff",
-            effectConfig: { buffType: "thread_generation", buffDuration: 0 },
-          },
-        ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
       },
-
-      tags: [
-        "cards",
-        "poker",
-        "variable damage",
-        "fate weaver",
-        "thread generation",
-        "rollable table",
-      ],
+      tags: ["damage", "cards", "level 1", "fate weaver"]
     },
 
     {
       id: "war-of-wills",
-      name: "War of Wills",
-      icon: "Utility/Powerful Warrior",
-      spellType: "ACTION",
-      effectTypes: ["damage", "healing"],
+      name: "Duel of Flayed Wills",
+      description: "Draw 1 flayed card, and force your target to draw 1 as well. If your card's value is higher, you inflict psychic torment on their nervous system. If your card's value is lower, you absorb their psychic agony, taking damage and gaining 1 Karmic Debt.",
       level: 1,
-
-      description:
-        "Challenge a creature to a card draw — War! Both draw one card. Higher card wins. Win: deal 1d8 force damage. Lose: heal the target for 2d8 and gain 1 Thread. Tie: both take 1d8 damage, gain 1 Thread. The loser's healing is fate's consolation — and your Thread gain is the real prize.",
-
+      spellType: "ACTION",
+      icon: "Psychic/Brain Shield",
       typeConfig: {
-        school: "force",
-        icon: "Utility/Powerful Warrior",
+        school: "psychic",
+        icon: "Psychic/Brain Shield",
+        tags: ["damage", "cards", "starter"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 40,
-        targetRestrictions: ["enemy"],
+        rangeDistance: 45,
+        targetRestrictions: ["enemy"]
       },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 2 },
         actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Bellum Voluntatis!",
-        somaticText: "Draw card dramatically",
-        materialText: "Deck of fate cards",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
+        components: ["verbal"],
+        verbalText: "Flay your mind!"
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
       resolution: "CARDS",
-
+      effectTypes: ["damage"],
       damageConfig: {
-        formula: "1d8",
-        damageTypes: ["force"],
+        formula: "3d8 + intelligence/3",
+        damageTypes: ["psychic"],
         resolution: "CARDS",
-        cardConfig: { drawCount: 1, formula: "WAR_WIN ? 1d8 : 0" },
+        cardConfig: {
+          drawCount: 1,
+          formula: "3d8 + intelligence/3"
+        }
       },
-
-      healingConfig: {
-        formula: "2d8",
-        healingType: "direct",
-        resolution: "CARDS",
-      },
-
       specialMechanics: {
-        threadsOfDestiny: {
-          generation: "Lose: +1 Thread. Tie: +1 Thread.",
-          usage: "Spend 2 Threads to call a specific card for your draw",
-        },
-        competitive: {
-          type: "high_card_wins",
-          cardValues: "Ace=14, King=13, Queen=12, Jack=11, 10-2=face value",
-          tiebreaker: "Suits (Spades > Hearts > Diamonds > Clubs)",
-        },
+        warOfWills: {
+          description: "Compare one drawn card with target's drawn card. High card wins.",
+          failureOutcome: "You take 1d8 psychic damage and gain 1 stack of Karmic Debt."
+        }
       },
-
-      rollableTable: {
-        enabled: true,
-        name: "War of Wills — Competitive Draw",
-        description: "Both draw one card, higher wins",
-        resolutionType: "CARDS",
-        resolutionConfig: { cardType: "competitive", players: 2 },
-        entries: [
-          {
-            range: "You Win",
-            result: "Deal 1d8 force damage to target",
-            description: "Your card is higher",
-          },
-          {
-            range: "You Lose",
-            result: "Target heals for 2d8 HP + you gain 1 Thread",
-            description: "Target's card is higher",
-          },
-          {
-            range: "Tie",
-            result: "Both take 1d8 damage + you gain 1 Thread",
-            description: "Same card value",
-          },
-        ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 1
       },
-
-      tags: [
-        "cards",
-        "competitive",
-        "damage",
-        "healing",
-        "fate weaver",
-        "thread generation",
-        "rollable table",
-      ],
+      tags: ["damage", "cards", "level 1", "fate weaver"]
     },
 
     {
       id: "echoes-of-the-past",
-      name: "Echoes of the Past",
-      icon: "Psychic/Focused Mind",
-      spellType: "ACTION",
-      effectTypes: ["buff", "utility"],
+      name: "Dirge of Flayed Parchment",
+      description: "Draw the memories of a deceased soul from your flayed deck. You gain temporary proficiency in one skill or tool of your choice for 10 minutes. Bending timeline constraints to learn these forbidden memories inflicts 1 Karmic Debt.",
       level: 1,
-
-      description:
-        "Call upon past actions to gain proficiency in a skill or tool of your choice for 1 hour. Spend 3 Threads to gain expertise instead.",
-
+      spellType: "ACTION",
+      icon: "Utility/Scroll",
       typeConfig: {
-        school: "arcane",
-        icon: "Psychic/Focused Mind",
+        school: "psychic",
+        icon: "Utility/Scroll",
+        tags: ["utility", "starter"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "self",
-        rangeType: "self",
+        rangeType: "self"
       },
-
-      durationConfig: {
-        durationType: "rounds",
-        duration: 1,
-        durationUnit: "hour",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 2 },
         actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Memoria Praeteritorum!",
-        somaticText: "Touch forehead and recall memories",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 2 }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "AUTOMATIC",
-
+      resolution: "NONE",
+      effectTypes: ["buff"],
       buffConfig: {
-        buffType: "statEnhancement",
+        buffType: "proficiency",
         effects: [
           {
-            id: "proficiency_grant",
-            name: "Skill Proficiency",
-            description:
-              "Gain proficiency in a chosen skill or tool for 1 hour. Spend 3 Threads for expertise instead.",
-            mechanicsText: "",
-          },
+            id: "flayed_memories",
+            name: "Flayed Memories",
+            description: "Gain temporary proficiency in one selected skill or tool.",
+            mechanicsText: ""
+          }
         ],
-        durationValue: 1,
-        durationType: "hours",
-        durationUnit: "hours",
-        concentrationRequired: false,
-        canBeDispelled: false,
+        durationValue: 10,
+        durationType: "minutes",
+        durationUnit: "minutes"
       },
-
-      utilityConfig: {
-        utilityType: "enhancement",
-        selectedEffects: [
-          {
-            id: "skill_proficiency",
-            name: "Skill Proficiency",
-            description:
-              "Choose any skill or tool to gain proficiency in for 1 hour",
-          },
-        ],
-        duration: 1,
-        durationUnit: "hours",
-      },
-
       specialMechanics: {
         threadsOfDestiny: {
-          usage: "Spend 3 Threads to gain expertise instead of proficiency",
-        },
+          generation: "Acquiring forbidden knowledge inflicts 1 Karmic Debt"
+        }
       },
-
-      tags: ["utility", "buff", "proficiency", "versatile", "fate weaver"],
+      cooldownConfig: {
+        cooldownType: "short_rest",
+        cooldownValue: 1
+      },
+      tags: ["utility", "buff", "level 1", "fate weaver"]
     },
 
     {
       id: "marked-card",
-      name: "Marked Card",
-      icon: "Arcane/Ebon Blaze",
-      spellType: "ACTION",
-      effectTypes: ["utility"],
+      name: "Sanguine Reserve",
+      description: "Slice your palm, painting flayed parchment with your blood. Peek at the top 3 cards of your deck. You may 'bank' one card into your Sanguine Reserve (max 4 capacity) and draw the other two. Each override reaction expends a card from this reserve. Bending the deck's anatomy generates 2 Karmic Debt.",
       level: 1,
-
-      description:
-        "Spend 1 Thread to peek at the top 3 cards of your deck. Choose one to draw; the other two go to the bottom in any order. If no Threads to spend, draw the top card blindly and gain 1 Thread if it's a card you didn't want.",
-
+      spellType: "ACTION",
+      icon: "Cards/Card Draw",
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Ebon Blaze",
+        school: "necrotic",
+        icon: "Cards/Card Draw",
+        tags: ["draw", "utility", "starter"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "self",
-        rangeType: "self",
+        rangeType: "self"
       },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 1 },
         actionPoints: 1,
-        components: ["verbal"],
-        verbalText: "Signo Cartae!",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
+        components: ["somatic"],
+        somaticText: "Cut your thumb with card edge, leaving blood-ink"
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
       resolution: "CARDS",
-
+      effectTypes: ["utility"],
       utilityConfig: {
-        utilityType: "fate_manipulation",
+        utilityType: "card_draw",
         selectedEffects: [
           {
-            id: "deck_peek",
-            name: "Deck Peek",
-            description:
-              "Look at top 3 cards, choose one to draw, others go to bottom",
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
+            id: "bank_card",
+            name: "Sanguine Bank",
+            description: "Bank 1 card into Sanguine Reserve. Max baseline capacity is 4 cards."
+          }
+        ]
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation:
-            "No Thread spent (blind draw only): +1 Thread if the drawn card doesn't help your current strategy",
-          usage: "Spend 1 Thread to peek at top 3 and choose",
-        },
+          generation: "Warping probability to bank destiny generates 2 Karmic Debt."
+        }
       },
-
-      tags: [
-        "utility",
-        "deck manipulation",
-        "fate weaver",
-        "thread generation",
-      ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 1
+      },
+      tags: ["utility", "cards", "level 1", "fate weaver"]
     },
 
     {
       id: "fate_lucky_strike",
-      name: "Lucky Strike",
-      icon: "Social/Dice Roll",
-      spellType: "ACTION",
-      effectTypes: ["damage", "buff"],
+      name: "Scythe of Destiny",
+      description: "Draw 1 flayed strip of bone-ink card. If it is a face card or an Ace, you strike with perfect timing, dealing 2d8 psychic damage and granting a critical threat range on your next offensive action. If it is a numbered card, it deals only 1d8 psychic and inflicts 1 Karmic Debt as the weak outcome bleeds your hands.",
       level: 1,
-
-      description:
-        "Draw a single card. Face cards and Aces deal 2d8 force damage and grant advantage on your next attack. Numbered cards deal 1d8 force damage and grant +1 Thread (weak outcome builds your reserves).",
-
+      spellType: "ACTION",
+      icon: "Slashing/Scythe",
       typeConfig: {
-        school: "force",
-        icon: "Social/Dice Roll",
+        school: "psychic",
+        icon: "Slashing/Scythe",
+        tags: ["melee", "damage", "cards", "starter"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["enemy"],
-        maxTargets: 1,
+        rangeType: "melee",
+        rangeDistance: 5,
+        targetRestrictions: ["enemy"]
       },
-
-      damageConfig: {
-        formula: "1d8 (numbered) or 2d8 (face/ace)",
-        damageTypes: ["force"],
-        resolution: "CARDS",
-        cardConfig: { drawCount: 1, formula: "FACE_OR_ACE ? 2d8 : 1d8" },
-      },
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "lucky_strike",
-            name: "Lucky",
-            description:
-              "Advantage on next attack roll for 1 round (face cards/Aces only)",
-            statModifier: {
-              stat: "attack_rolls",
-              magnitude: 1,
-              magnitudeType: "advantage",
-            },
-          },
-        ],
-        durationValue: 1,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: false,
-      },
-
       resourceCost: {
+        actionPoints: 1,
         resourceTypes: ["mana"],
         resourceValues: { mana: 3 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
+        components: ["somatic"],
+        somaticText: "Slash with a rigid, blood-stiffened flayed parchment"
       },
-
       resolution: "CARDS",
-
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "2d8 + intelligence/3 (Face) / 1d8 (Number)",
+        damageTypes: ["psychic"],
+        resolution: "CARDS",
+        cardConfig: {
+          drawCount: 1,
+          formula: "2d8 + intelligence/3 / 1d8"
+        }
+      },
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "Numbered card drawn: +1 Thread (weak outcome)",
-        },
-        cardDraw: {
-          cards: 1,
-          faceCardOrAce: "2d8 damage + advantage on next attack",
-          numberedCard: "1d8 damage + 1 Thread",
-        },
+          generation: "Drawing a numbered card inflicts 1 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      tags: ["cards", "damage", "buff", "fate weaver", "thread generation"],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
+      tags: ["melee", "damage", "level 1", "fate weaver"]
     },
 
     {
       id: "fate_twist_probability",
-      name: "Twist Probability",
-      icon: "Radiant/Divine Radiance",
-      spellType: "REACTION",
-      effectTypes: ["debuff"],
+      name: "Karmic Severance",
+      description: "As a reaction to a creature within 30 feet rolling a saving throw, you snap your fingers and sever their threads. Expend a banked card from your Sanguine Reserve to override their result. Face cards force an absolute failure on the target's save; numbered cards force a standard roll with a -5 penalty. Inflicts 1 Karmic Debt.",
       level: 1,
-
-      description:
-        "When an enemy makes a roll, draw a card. If it's a face card, the enemy must reroll and take the lower result. If it's a numbered card, no effect — gain 1 Thread. If it's an Ace, the reroll also has disadvantage.",
-
+      spellType: "REACTION",
+      icon: "Utility/Hand Snapping",
       typeConfig: {
-        school: "psychic",
-        icon: "Radiant/Divine Radiance",
+        school: "necrotic",
+        icon: "Utility/Hand Snapping",
+        tags: ["reaction", "debuff", "starter"],
         castTime: 1,
-        castTimeType: "REACTION",
+        castTimeType: "REACTION"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 40,
-        targetRestrictions: ["enemy"],
-        maxTargets: 1,
+        rangeDistance: 30,
+        targetRestrictions: ["any"]
       },
-
+      resourceCost: {
+        actionPoints: 0,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
+        components: ["verbal"],
+        verbalText: "Decido!"
+      },
+      resolution: "CARDS",
+      effectTypes: ["debuff"],
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
           {
-            id: "twisted_fate",
-            name: "Twisted Fate",
-            description:
-              "Must reroll next roll and take lower result. Ace: reroll also has disadvantage.",
-            mechanicsText: "",
-          },
-        ],
-        durationValue: 1,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 12,
-          saveOutcome: "negates",
-        },
+            id: "severed_destiny",
+            name: "Severed Destiny",
+            description: "Target's roll is overridden by your banked card value.",
+            mechanicsText: ""
+          }
+        ]
       },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 4 },
-        actionPoints: 0,
-        components: ["verbal"],
-      },
-
-      resolution: "CARDS",
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "Numbered card drawn: +1 Thread (spell had no effect)",
-        },
-        cardDraw: {
-          cards: 1,
-          faceCard: "Enemy rerolls and takes lower result",
-          ace: "Enemy rerolls with disadvantage",
-          numberedCard: "No effect + 1 Thread",
-        },
+          generation: "Severing the threads of probability generates 1 Karmic Debt."
+        }
       },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 1
+      },
+      tags: ["reaction", "debuff", "level 1", "fate weaver"]
+    },
 
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      tags: ["cards", "debuff", "reroll", "fate weaver", "thread generation"],
+    {
+      id: "tapestry-shred",
+      name: "Tapestry Shred",
+      description: "Mutilate the threads of time in response to an action. Consume an active card from your Sanguine Reserve to force an immediate d20 roll override on any creature within 60 feet. The target's active d20 roll is replaced by the banked card's hard-coded value: Aces count as 18, Kings as 17, Queens as 16, Jacks as 15, and numbered cards map to their exact face value. Inflicts 2 Karmic Debt as the timeline violently shifts.",
+      level: 1,
+      spellType: "REACTION",
+      icon: "Arcane/Rewind Time",
+      typeConfig: {
+        school: "psychic",
+        icon: "Arcane/Rewind Time",
+        tags: ["reaction", "override", "utility"],
+        castTime: 1,
+        castTimeType: "REACTION"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["any"]
+      },
+      resourceCost: {
+        actionPoints: 0,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
+        components: ["verbal"],
+        verbalText: "Thread snap!"
+      },
+      resolution: "CARDS",
+      effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
+          {
+            id: "tapestry_shred_override",
+            name: "Tapestry Shred Override",
+            description: "Force an immediate d20 roll override by expending a banked card from Sanguine Reserve. Aces = 18, Kings = 17, Queens = 16, Jacks = 15, Numbered = Face Value."
+          }
+        ]
+      },
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: "Generating this shift inflicts 2 Karmic Debt",
+          usage: "Consumes 1 card from Sanguine Reserve"
+        }
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
+      tags: ["reaction", "override", "level 1", "fate weaver"]
     },
 
     // ========================================
@@ -1165,217 +645,100 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "hearts-gamble",
-      name: "Heart's Gamble",
-      icon: "Social/Social",
-      spellType: "ACTION",
-      effectTypes: ["damage", "buff"],
+      name: "Exsanguination Wager",
+      description: "Sacrifice a portion of your own life force to heal an ally, but draw 1 card. If the card is red (Hearts/Diamonds), your sacrifice succeeds, healing them for 3d8 + your Spirit score. If it is black (Spades/Clubs), the cosmic loom rejects it: you take 2d8 psychic damage, the healing is halved, and you gain 1 Karmic Debt.",
       level: 2,
-
-      description:
-        "Draw cards one at a time. Hearts deal 1d6 psychic damage to you per heart (face card hearts deal 2d6). Non-hearts grant power: Aces give advantage, numbered non-hearts give +1d4 damage on next attack. Stop drawing anytime. Every heart feeds your Threads.",
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Social/Social",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
-        actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Cor Periculum!",
-        somaticText: "Draw cards cautiously",
-        materialText: "Deck of fate cards",
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
-      resolution: "CARDS",
-
-      damageConfig: {
-        formula: "HEARTS_COUNT * 1d6 (self)",
-        damageTypes: ["psychic"],
-        resolution: "CARDS",
-        cardConfig: {
-          drawCount: 5,
-          formula: "HEART_COUNT * 1d6 + FACE_HEART_COUNT * 1d6",
-        },
-      },
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "hearts_gamble_buff",
-            name: "Gambler's Resolve",
-            description:
-              "Ace: advantage on next attack. Numbered non-heart: +1d4 damage on next attack per card.",
-            mechanicsText: "",
-            statModifier: {
-              stat: "damage_bonus",
-              magnitude: 1,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 1,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: false,
-      },
-
-      specialMechanics: {
-        threadsOfDestiny: {
-          generation:
-            "1 heart drawn: +1 Thread. 2+ hearts or face card heart: +2 Threads",
-          usage: "Spend 2 Threads to peek at next card before drawing",
-        },
-        cardEffects: {
-          hearts: "1d6 damage to self per heart",
-          faceCardHearts:
-            "2d6 damage to self per face card heart (J, Q, K of hearts)",
-          aces: "Advantage on next attack",
-          numberedNonHearts: "+1d4 damage on next attack per card (stacks)",
-        },
-        stopAnytime: "You may stop drawing at any time to lock in your buffs",
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: "Heart's Gamble — Card Effects",
-        description: "Draw cards sequentially, stop anytime",
-        resolutionType: "CARDS",
-        resolutionConfig: { cardType: "sequential", stopAnytime: true },
-        entries: [
-          {
-            range: "Ace (any suit)",
-            result: "Gain advantage on your next attack roll",
-            description: "Positive",
-          },
-          {
-            range: "2-10 (non-hearts)",
-            result: "Gain +1d4 damage on next attack (stacks)",
-            description: "Positive",
-          },
-          {
-            range: "Heart (2-10)",
-            result: "Take 1d6 damage + gain 1 Thread",
-            description: "Minor negative",
-          },
-          {
-            range: "Face Card (J, Q, K)",
-            result: "Take 2d6 damage + gain 2 Threads",
-            description: "Major negative",
-          },
-          {
-            range: "Ace of Hearts",
-            result: "Take 1d6 damage BUT gain advantage (mixed)",
-            description: "Mixed",
-          },
-        ],
-      },
-
-      tags: [
-        "cards",
-        "self damage",
-        "buff",
-        "risk reward",
-        "fate weaver",
-        "thread generation",
-        "rollable table",
-      ],
-    },
-
-    {
-      id: "fate_fortune_favor",
-      name: "Fortune's Favor",
-      icon: "Utility/Utility",
       spellType: "ACTION",
-      effectTypes: ["buff"],
-      level: 2,
-
-      description:
-        "Draw a card. Face cards: you and one ally gain advantage on your next 3 rolls. Aces: advantage on next 5 rolls. Numbered cards: advantage on next 1 roll + gain 1 Thread. The better the card, the stronger the favor.",
-
+      icon: "Healing/Blood Transfer",
       typeConfig: {
-        school: "arcane",
-        icon: "Utility/Utility",
+        school: "necrotic",
+        icon: "Healing/Blood Transfer",
+        tags: ["healing", "cards", "risk_reward"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ["ally"],
+        targetRestrictions: ["ally"]
       },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 8 },
+        healthCost: "2d6 slashing"
+      },
+      resolution: "CARDS",
+      effectTypes: ["healing"],
+      healingConfig: {
+        formula: "3d8 + spirit (Red) / 1d8 + spirit/2 (Black)",
+        healingType: "direct",
+        resolution: "CARDS"
+      },
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: "Drawing a black card inflicts 1 Karmic Debt."
+        }
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 2
+      },
+      tags: ["healing", "cards", "level 2", "fate weaver"]
+    },
 
+    {
+      id: "fate_fortune_favor",
+      name: "Flayed Favor",
+      description: "Draw 1 flayed card to grant an ally a protective ward. The suit of the drawn card dictates the blessing: Hearts grants 2d8 temporary HP, Diamonds grants +3 to all saving throws, Spades grants +15 ft movement speed, and Clubs grants +2 to physical attack rolls. Duration is 3 rounds. Inflicts 1 Karmic Debt.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Radiant/Divine Shield",
+      typeConfig: {
+        school: "psychic",
+        icon: "Radiant/Divine Shield",
+        tags: ["buff", "cards"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 45,
+        targetRestrictions: ["ally"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 }
+      },
+      resolution: "CARDS",
+      effectTypes: ["buff"],
       buffConfig: {
-        buffType: "statEnhancement",
+        buffType: "suit_blessing",
         effects: [
           {
-            id: "fortune_favor",
-            name: "Fortune's Favor",
-            description: "Advantage on next 1-5 rolls based on card drawn",
-            statModifier: {
-              stat: "all_rolls",
-              magnitude: 1,
-              magnitudeType: "advantage",
-            },
-          },
+            id: "flayed_favor_buff",
+            name: "Flayed Favor Blessing",
+            description: "Hearts: Temp HP. Diamonds: Save bonus. Spades: Speed. Clubs: Attack bonus.",
+            mechanicsText: ""
+          }
         ],
         durationValue: 3,
         durationType: "rounds",
-        durationUnit: "rolls",
-        concentrationRequired: false,
-        canBeDispelled: false,
+        durationUnit: "rounds"
       },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 8 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      resolution: "CARDS",
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "Numbered card: +1 Thread (weak outcome)",
-        },
-        cardDraw: {
-          cards: 1,
-          ace: "Advantage on next 5 rolls for you and ally",
-          faceCard: "Advantage on next 3 rolls for you and ally",
-          numberedCard: "Advantage on next 1 roll + 1 Thread",
-        },
+          generation: "Bending reality to favor an ally generates 1 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      tags: [
-        "cards",
-        "buff",
-        "fortune",
-        "advantage",
-        "fate weaver",
-        "thread generation",
-      ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 2
+      },
+      tags: ["buff", "cards", "level 2", "fate weaver"]
     },
 
     // ========================================
@@ -1383,282 +746,110 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "draw-of-the-damned",
-      name: "Draw of the Damned",
-      icon: "Necrotic/Demonic Empowerment",
-      spellType: "ACTION",
-      effectTypes: ["buff", "damage"],
+      name: "Sanguine Blackjack",
+      description: "Force an enemy into an agonizing game. Draw cards trying to get as close to 21 as possible. Each drawn card deals 1d10 necrotic damage to the target. You may 'hit' up to 4 times. If your total exceeds 21, you bust: the target takes no further damage, you take 4d10 necrotic damage yourself, and you gain 3 Karmic Debt.",
       level: 3,
-
-      description:
-        "Draw cards aiming for 21 — Blackjack! Choose your mode before drawing:\n**Shield Mode**: Ally gains Armor bonus based on how close to 21 (21 = +5 Armor, 17-20 = +3-4 Armor, 11-16 = +1-2 Armor). Lasts rest of combat.\n**Strike Mode**: Deal damage to an enemy equal to your blackjack total × 1d4 force damage.\n**Bust** (over 21): You take 3d6 damage, -2 Armor next round, and gain 2 Threads. Either mode busts the same way.",
-
+      spellType: "ACTION",
+      icon: "Necrotic/Claw Strike",
       typeConfig: {
-        school: "force",
-        icon: "Necrotic/Demonic Empowerment",
+        school: "necrotic",
+        icon: "Necrotic/Claw Strike",
+        tags: ["damage", "cards", "risk_reward"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 30,
+        rangeDistance: 45,
+        targetRestrictions: ["enemy"]
       },
-
-      durationConfig: {
-        durationType: "rounds",
-        description: "Shield Mode Armor bonus lasts for rest of combat",
-      },
-
       resourceCost: {
+        actionPoints: 2,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 4 },
-        actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Viginti Unum!",
-        somaticText: "Draw cards rapidly",
-        materialText: "Deck of fate cards",
+        resourceValues: { mana: 12 },
+        components: ["verbal", "somatic"],
+        verbalText: "Viginti unus!",
+        somaticText: "Weave card outlines into the air, enclosing the target"
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-
       resolution: "CARDS",
-
+      effectTypes: ["damage"],
       damageConfig: {
-        formula: "BLACKJACK_TOTAL * 1d4",
-        damageTypes: ["force"],
+        formula: "1d10 per card drawn (max 4)",
+        damageTypes: ["necrotic"],
         resolution: "CARDS",
-        cardConfig: { drawCount: 3, formula: "BLACKJACK_TOTAL * 1d4" },
+        cardConfig: {
+          drawCount: 4,
+          formula: "1d10 per card drawn"
+        }
       },
-
-      buffConfig: {
-        buffType: "damageMitigation",
-        effects: [
-          {
-            id: "damned_shield",
-            name: "Blackjack Armor",
-            description:
-              "+1 to +5 Armor based on blackjack total (21 = +5). Lasts rest of combat.",
-            mechanicsText: "",
-            statModifier: {
-              stat: "armor",
-              magnitude: 5,
-              magnitudeType: "flat",
-            },
-          },
-        ],
-        durationValue: 10,
-        durationType: "minutes",
-        durationUnit: "minutes",
-      },
-
       specialMechanics: {
-        threadsOfDestiny: {
-          generation:
-            "Bust: +2 Threads. Total 11 or less: +1 Thread (weak outcome)",
-          usage:
-            "Spend 2 Threads to call a specific card to improve your total",
-        },
-        blackjack: {
-          target: 21,
-          aceValue: "1 or 11",
-          faceCards: 10,
-          modes: {
-            shield: "Armor bonus to ally based on total",
-            strike: "Damage to enemy = total × 1d4",
-          },
-          bust: "Take 3d6 self-damage, -2 Armor next round",
-        },
+        blackjackRules: {
+          hitLimit: 4,
+          bustThreshold: 21,
+          bustSelfDamage: "4d10 necrotic",
+          bustDebtGain: 3
+        }
       },
-
-      rollableTable: {
-        enabled: true,
-        name: "Draw of the Damned — Blackjack Results",
-        description: "Draw cards aiming for 21. Choose Shield or Strike mode.",
-        resolutionType: "CARDS",
-        resolutionConfig: {
-          cardType: "blackjack",
-          target: 21,
-          modes: ["shield", "strike"],
-        },
-        entries: [
-          {
-            range: "21 (Blackjack)",
-            result_shield: "Ally +5 Armor (rest of combat)",
-            result_strike: "Deal 21 × 1d4 force damage",
-            description: "Perfect score",
-          },
-          {
-            range: "19-20",
-            result_shield: "Ally +4 Armor",
-            result_strike: "Deal total × 1d4 damage",
-            description: "Excellent",
-          },
-          {
-            range: "17-18",
-            result_shield: "Ally +3 Armor",
-            result_strike: "Deal total × 1d4 damage",
-            description: "Good",
-          },
-          {
-            range: "15-16",
-            result_shield: "Ally +2 Armor",
-            result_strike: "Deal total × 1d4 damage",
-            description: "Decent",
-          },
-          {
-            range: "12-14",
-            result_shield: "Ally +1 Armor",
-            result_strike: "Deal total × 1d4 damage",
-            description: "Weak",
-          },
-          {
-            range: "11 or less",
-            result_shield: "No effect + 1 Thread",
-            result_strike: "No effect + 1 Thread",
-            description: "Too low",
-          },
-          {
-            range: "22-25 (Bust)",
-            result: "Take 3d6 damage, -2 Armor next round + 2 Threads",
-            description: "Moderate bust",
-          },
-          {
-            range: "26+ (Major Bust)",
-            result: "Take 3d6 damage, -3 Armor next round + 2 Threads",
-            description: "Severe bust",
-          },
-        ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
       },
-
-      tags: [
-        "cards",
-        "blackjack",
-        "buff",
-        "damage",
-        "fate weaver",
-        "thread generation",
-        "rollable table",
-      ],
+      tags: ["damage", "cards", "level 3", "fate weaver"]
     },
 
     {
       id: "echo-of-fate",
-      name: "Echo of Fate",
-      icon: "Arcane/Ebon Blaze",
-      spellType: "ACTION",
-      effectTypes: ["buff"],
+      name: "Sympathetic Hemorrhage",
+      description: "Sever two timelines and stitch them together. Choose two creatures within 30 feet of each other. For the next 3 rounds, whenever the primary target takes damage, the bound target takes 50% of that damage as untreatable necrotic damage. Generating this link generates 2 Karmic Debt.",
       level: 3,
-
-      description:
-        "Draw a card and have an ally within 30 feet draw a card. Matching ranks: your next spell deals double damage/heals double. Matching suit too: tripled. No match: next spell halved + gain 1 Thread. Coordinate with your ally for maximum synergy.",
-
+      spellType: "ACTION",
+      icon: "General/Chain Link",
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Ebon Blaze",
+        school: "necrotic",
+        icon: "General/Chain Link",
+        tags: ["debuff", "utility"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
-        targetingType: "single",
+        targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 30,
+        rangeDistance: 60,
+        aoeShape: "circle",
+        aoeParameters: { radius: 30 }
       },
-
-      durationConfig: {
-        durationType: "rounds",
-        description: "Affects your next spell cast",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 4 },
         actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Echo Fati!",
-        somaticText: "Draw card and gesture to ally",
-        materialText: "Deck of fate cards",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      resolution: "CARDS",
-
-      buffConfig: {
-        buffType: "damageIncrease",
+      resolution: "NONE",
+      effectTypes: ["debuff"],
+      debuffConfig: {
+        debuffType: "statusEffect",
         effects: [
           {
-            id: "echo_fate_buff",
-            name: "Echo of Fate",
-            description:
-              "Rank match: next spell 2x. Suit+rank match: next spell 3x. No match: next spell halved + 1 Thread.",
-            mechanicsText: "",
-            statModifier: {
-              stat: "spell_multiplier",
-              magnitude: 3,
-              magnitudeType: "flat",
-            },
-          },
+            id: "sympathetic_stitch",
+            name: "Sympathetic Stitch",
+            description: "Takes 50% of the damage dealt to the linked primary target.",
+            mechanicsText: ""
+          }
         ],
-        durationValue: 1,
+        durationValue: 3,
         durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: false,
+        durationUnit: "rounds"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "No match: +1 Thread",
-          usage: "Spend 2 Threads to call a specific card for your draw",
-        },
-        coordination: {
-          type: "ally_cooperation",
-          description: "Ally draws a card too — matching ranks = success",
-          strategy: "Communicate with ally about what cards they need",
-        },
+          generation: "Stitching two fates together generates 2 Karmic Debt."
+        }
       },
-
-      rollableTable: {
-        enabled: true,
-        name: "Echo of Fate — Card Matching",
-        description: "You and ally each draw one card",
-        resolutionType: "CARDS",
-        resolutionConfig: { cardType: "matching", players: 2 },
-        entries: [
-          {
-            range: "Perfect Match (same card)",
-            result: "Next spell tripled + both gain 1d8 temp HP",
-            description: "Same rank AND suit",
-          },
-          {
-            range: "Rank Match",
-            result: "Next spell doubled",
-            description: "Same rank, different suit",
-          },
-          {
-            range: "Suit Match",
-            result: "Next spell +50%",
-            description: "Same suit, different rank",
-          },
-          {
-            range: "No Match",
-            result: "Next spell halved + gain 1 Thread",
-            description: "Different rank and suit",
-          },
-        ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
       },
-
-      tags: [
-        "cards",
-        "matching",
-        "buff",
-        "ally cooperation",
-        "fate weaver",
-        "thread generation",
-        "rollable table",
-      ],
+      tags: ["debuff", "utility", "level 3", "fate weaver"]
     },
 
     // ========================================
@@ -1666,279 +857,158 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "solitaires-shield",
-      name: "Solitaire's Shield",
-      icon: "Force/Force Field",
-      spellType: "ACTION",
-      effectTypes: ["healing", "utility"],
+      name: "Solitary Flaying",
+      description: "Draw 4 cards and lay them in a defensive matrix around yourself. You gain temporary shield points equal to the total face value of the drawn cards (Kings/Queens/Jacks count as 10, Aces as 15, numbered as face value). If any card drawn is a Club, your Armor is increased by 2 for the duration. Lasts 3 rounds. Generates 1 Karmic Debt.",
       level: 4,
-
-      description:
-        "Draw cards and attempt to form sequences or sets (solitaire rules). Sequences (3+ consecutive) grant free spellcasting. Sets (3+ same rank) restore 2d8 HP per card. No pattern: gain 1 Thread. Spend 2 Threads to call cards that complete your patterns.",
-
+      spellType: "ACTION",
+      icon: "Utility/Shielding Aura",
       typeConfig: {
-        school: "arcane",
-        icon: "Force/Force Field",
+        school: "psychic",
+        icon: "Utility/Shielding Aura",
+        tags: ["buff", "defense", "cards"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "self",
-        rangeType: "self",
+        rangeType: "self"
       },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 5 },
         actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Solitudo Protegat!",
-        somaticText: "Arrange cards in patterns",
-        materialText: "Deck of fate cards",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
       resolution: "CARDS",
-
-      healingConfig: {
-        formula: "SET_SIZE * 2d8",
-        healingType: "direct",
-        resolution: "CARDS",
-        cardConfig: { drawCount: 5, formula: "SET_SIZE * 2d8" },
-      },
-
-      utilityConfig: {
-        utilityType: "enhancement",
-        selectedEffects: [
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "shield",
+        effects: [
           {
-            id: "free_cast",
-            name: "Free Spellcast",
-            description:
-              "Sequence of 3+: cast next spell for free. Sequence of 5+: cast next 2 spells for free.",
-          },
+            id: "solitaire_ward",
+            name: "Solitaire Bone Ward",
+            description: "Gains shield points equal to card total. Club drawn increases Armor by 2.",
+            mechanicsText: ""
+          }
         ],
-        duration: 1,
-        durationUnit: "rounds",
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "No pattern: +1 Thread",
-          usage: "Spend 2 Threads to call a card that completes your pattern",
-        },
-        patterns: {
-          sequence: "3+ consecutive numbers (e.g., 5-6-7)",
-          set: "3+ cards of same rank (e.g., three 8s)",
-          reward: "Sequence = free spell, Set = 2d8 healing per card",
-        },
+          generation: "Stitching a shield of absolute numbers generates 1 Karmic Debt."
+        }
       },
-
-      rollableTable: {
-        enabled: true,
-        name: "Solitaire's Shield — Pattern Matching",
-        description: "Draw cards and form sequences or sets",
-        resolutionType: "CARDS",
-        resolutionConfig: { cardType: "pattern_matching" },
-        entries: [
-          {
-            range: "Sequence of 5+",
-            result: "Cast next 2 spells for free",
-            description: "e.g., 3-4-5-6-7",
-          },
-          {
-            range: "Sequence of 4",
-            result: "Cast next spell for free + gain 1d8 temp HP",
-            description: "e.g., 8-9-10-J",
-          },
-          {
-            range: "Sequence of 3",
-            result: "Cast next spell for free",
-            description: "e.g., 2-3-4",
-          },
-          {
-            range: "Set of 4",
-            result: "Heal 8d8 HP",
-            description: "Four of same rank",
-          },
-          {
-            range: "Set of 3",
-            result: "Heal 6d8 HP",
-            description: "Three of same rank",
-          },
-          {
-            range: "No pattern",
-            result: "No effect + gain 1 Thread",
-            description: "Failed to match",
-          },
-        ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
       },
-
-      tags: [
-        "cards",
-        "pattern matching",
-        "healing",
-        "utility",
-        "fate weaver",
-        "thread generation",
-        "rollable table",
-      ],
+      tags: ["buff", "defense", "level 4", "fate weaver"]
     },
 
     {
       id: "fates-exchange",
-      name: "Fate's Exchange",
-      icon: "Arcane/Quick Step",
-      spellType: "ACTION",
-      effectTypes: ["utility"],
+      name: "Karmic Displacement",
+      description: "Target two creatures within 60 feet. They must make a Spirit saving throw against your spell DC. On a failure, their physical positions are instantly swapped in space as you violently rip and cross their threads. Succeeding targets are unaffected. This reality warping generates 2 Karmic Debt.",
       level: 4,
-
-      description:
-        "Swap positions with an ally within 30 feet — both teleport instantly. Spend 1 Thread to increase range to 60 feet. A strategic repositioning that costs a card from your hand (discard 1 card).",
-
+      spellType: "ACTION",
+      icon: "Utility/Teleport Portal",
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Quick Step",
+        school: "force",
+        icon: "Utility/Teleport Portal",
+        tags: ["utility", "mobility"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
-        targetingType: "single",
+        targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 30,
+        rangeDistance: 60,
+        aoeShape: "circle",
+        aoeParameters: { radius: 30 }
       },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 5 },
         actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Permutatio Fati!",
-        somaticText: "Gesture between self and ally",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 14 }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      resolution: "CARDS",
-
+      resolution: "SAVE",
+      effectTypes: ["utility"],
       utilityConfig: {
-        utilityType: "movement",
+        utilityType: "teleportation",
         selectedEffects: [
           {
-            id: "position_swap",
-            name: "Position Swap",
-            description:
-              "Instant teleportation swap with ally within 30 ft. Spend 1 Thread for 60 ft range.",
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
+            id: "displacement_swap",
+            name: "Karmic Displacement Swap",
+            description: "Target's physical positions are instantly swapped."
+          }
+        ]
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          usage: "Spend 1 Thread to increase range to 60 feet",
-        },
-        cardDraw: {
-          cost: "Discard 1 card from your hand (if no cards in hand, cannot cast)",
-        },
+          generation: "Swapping the coordinate threads of reality generates 2 Karmic Debt."
+        }
       },
-
-      tags: [
-        "cards",
-        "utility",
-        "teleport",
-        "tactical",
-        "ally support",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
+      },
+      tags: ["utility", "mobility", "level 4", "fate weaver"]
     },
 
     {
       id: "destiny-bond",
-      name: "Destiny Bond",
-      icon: "Healing/Prayer",
-      spellType: "ACTION",
-      effectTypes: ["healing", "utility"],
+      name: "Sanguine Binding",
+      description: "Shoot a line of coagulated blood thread from your palm to bind an enemy within 30 feet. For the next 3 rounds, 50% of all damage you receive is redirected to the bound enemy as necrotic damage. If you take damage, they must make a Spirit save or be pulled 10 feet closer to you. Stitching this bond generates 2 Karmic Debt.",
       level: 4,
-
-      description:
-        "Create a bond with an ally through a shared card — both of you draw one card. For 1 minute, you can transfer up to half your current HP to them (1 AP per transfer). If your cards matched suits, they can also transfer HP back to you. Spend 2 Threads to guarantee matching suits.",
-
+      spellType: "ACTION",
+      icon: "Necrotic/Blood Link",
       typeConfig: {
-        school: "arcane",
-        icon: "Healing/Prayer",
+        school: "necrotic",
+        icon: "Necrotic/Blood Link",
+        tags: ["debuff", "defense"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
+        targetRestrictions: ["enemy"]
       },
-
-      durationConfig: {
-        durationType: "rounds",
-        duration: 1,
-        durationUnit: "minute",
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 5 },
         actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Vinculum Destini!",
-        somaticText: "Extend hand toward ally",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 15 },
+        components: ["somatic"],
+        somaticText: "Pinch your palm to spray a congealed line of crimson string"
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      resolution: "CARDS",
-
-      healingConfig: {
-        formula: "UP TO 50% CURRENT HP",
-        healingType: "vampiric",
-        resolution: "CARDS",
-      },
-
-      utilityConfig: {
-        utilityType: "enhancement",
-        selectedEffects: [
+      resolution: "DICE",
+      effectTypes: ["debuff"],
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
           {
-            id: "hp_transfer_bond",
-            name: "Destiny Bond",
-            description:
-              "Transfer up to half current HP to ally (1 AP per transfer). Matching suits: bidirectional transfer.",
-          },
+            id: "sanguine_binding_bond",
+            name: "Sanguine Binding Bond",
+            description: "Absorbs 50% of the Fate Weaver's damage. Spirit save or pulled 10ft on damage.",
+            mechanicsText: ""
+          }
         ],
-        duration: 1,
-        durationUnit: "minutes",
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          usage:
-            "Spend 2 Threads to guarantee matching suits (enables two-way HP transfer)",
-        },
-        cardDraw: {
-          cards: 2,
-          description:
-            "Both you and ally draw 1 card. Matching suits enables two-way transfer.",
-        },
+          generation: "Stitching an active blood bond generates 2 Karmic Debt."
+        }
       },
-
-      tags: ["cards", "healing", "support", "sacrifice", "bond", "fate weaver"],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
+      },
+      tags: ["debuff", "defense", "level 4", "fate weaver"]
     },
 
     // ========================================
@@ -1946,146 +1016,101 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "fate_weaver_stacked_deck",
-      name: "Stacked Deck",
-      description:
-        "Spend 4 Threads to search your deck, rearrange the top 10 cards in any order. Your next 3 attacks or spells drawn from the top of the deck are guaranteed to be favorable. Any cards you call during these 3 draws cost 1 less Thread.",
+      name: "Stacked Flayed Deck",
+      description: "Focus your mind and rearrange the top 5 cards of your deck in any order you choose. This absolute manipulation allows you to predict your next outcomes perfectly. You may also exchange 1 card from your Sanguine Reserve with a card from these 5. Manipulating the future order generates 2 Karmic Debt.",
       level: 5,
       spellType: "ACTION",
-      icon: "Psychic/Mental Chaos",
-
+      icon: "Cards/Deck Arrangement",
       typeConfig: {
-        school: "arcane",
-        icon: "Psychic/Mental Chaos",
+        school: "psychic",
+        icon: "Cards/Deck Arrangement",
+        tags: ["utility", "cards"],
         castTime: 1,
-        castTimeType: "BONUS",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "self",
-        rangeType: "self",
+        rangeType: "self"
       },
-
       resourceCost: {
-        resourceTypes: ["mana", "threads_spend"],
-        resourceValues: { mana: 15 },
-        threadCost: 4,
-        actionPoints: 0,
-        components: ["somatic"],
-        somaticText: "Shuffle cards elegantly",
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
+        components: ["verbal"],
+        verbalText: "Ordo futuri!"
       },
-
-      resolution: "CARDS",
-      effectTypes: ["buff"],
-
-      buffConfig: {
-        buffType: "deck_manipulation",
-        effects: [
+      resolution: "NONE",
+      effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
           {
-            id: "stacked_deck",
+            id: "stacked_deck_effect",
             name: "Stacked Deck",
-            description:
-              "Top 10 cards rearranged. Next 3 card draws are favorable. Call card costs reduced by 1 Thread.",
-            mechanicsText:
-              "Rearrange top 10 cards. Next 3 draws are favorable. Card calls cost 1 less Thread.",
-            charges: 3,
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "draws",
+            description: "Rearrange the top 5 cards of your deck. Swap 1 card with Sanguine Reserve."
+          }
+        ]
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          usage:
-            "Costs 4 Threads to activate. Reduces call card cost by 1 Thread for next 3 draws.",
-        },
-        cardDraw: {
-          description:
-            "Look at top 10 cards of deck and rearrange in any order",
-        },
+          generation: "Stacking the deck of future fates generates 2 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      tags: ["cards", "buff", "deck manipulation", "level 5", "fate weaver"],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
+      },
+      tags: ["utility", "cards", "level 5", "fate weaver"]
     },
 
     {
       id: "fate_weaver_twist_fate",
-      name: "Twist Fate",
-      description:
-        "Draw 3 cards. Face cards let you force a creature to reroll any roll and choose which result stands. Aces let you do the same to ALL creatures in range. Numbered cards: reroll 1 creature and gain 1 Thread per numbered card.",
+      name: "Twisted Strands",
+      description: "As a reaction to a creature within 60 feet succeeding on an attack roll or saving throw, you violently twist their thread. Force them to reroll their action and take the worse result. This direct twisting generates 2 Karmic Debt as their success is physically torn from them.",
       level: 5,
       spellType: "REACTION",
-      icon: "Arcane/Rewind Time",
-
+      icon: "Utility/Hand Twist",
       typeConfig: {
         school: "psychic",
-        icon: "Arcane/Rewind Time",
+        icon: "Utility/Hand Twist",
+        tags: ["reaction", "debuff"],
         castTime: 1,
-        castTimeType: "REACTION",
+        castTimeType: "REACTION"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ["any"],
+        targetRestrictions: ["any"]
       },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 18 },
         actionPoints: 0,
-        components: ["verbal"],
-        verbalText: "Muta Fatum!",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 }
       },
-
-      resolution: "CARDS",
-      effectTypes: ["control"],
-
-      controlConfig: {
-        controlType: "incapacitation",
+      resolution: "NONE",
+      effectTypes: ["debuff"],
+      debuffConfig: {
+        debuffType: "statusEffect",
         effects: [
           {
-            id: "twist_fate_control",
-            controlType: "incapacitation",
-            name: "Fate Twisted",
-            description:
-              "Force target to reroll any roll. Face card: choose result. Ace: choose for all in range. Numbered: reroll 1 + gain 1 Thread per numbered card.",
-            config: {
-              duration: 1,
-              durationUnit: "rounds",
-              strength: "moderate",
-            },
-          },
-        ],
-        duration: 1,
-        durationUnit: "rounds",
+            id: "twisted_strand_disadvantage",
+            name: "Twisted Strand Disadvantage",
+            description: "Target must reroll their action and take the worse result.",
+            mechanicsText: ""
+          }
+        ]
       },
-
       specialMechanics: {
-        reroll: {
-          description:
-            "Draw 3 cards. Face cards = choose reroll result for 1 target. Aces = choose for all. Numbered = reroll 1 + gain Threads.",
-        },
         threadsOfDestiny: {
-          generation: "Each numbered card drawn: +1 Thread",
-          usage: "None — this spell GENERATES Threads on weak draws",
-        },
-        cardDraw: {
-          cards: 3,
-          faceCard: "Force 1 creature to reroll, you choose result",
-          ace: "Force ALL creatures in range to reroll, you choose results",
-          numberedCard:
-            "Force 1 creature to reroll + gain 1 Thread per numbered card",
-        },
+          generation: "Violently twisting an active thread of success generates 2 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      tags: ["cards", "control", "reroll", "level 5", "fate weaver"],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 2
+      },
+      tags: ["reaction", "debuff", "level 5", "fate weaver"]
     },
 
     // ========================================
@@ -2093,258 +1118,149 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "fate_weaver_dealers_choice",
-      name: "Dealer's Choice",
-      description:
-        "Deal a card to every creature in range (draw one card per creature). You choose who gets beneficial or harmful effects BEFORE looking at the cards. Face cards deal 3d6 damage to enemies. Numbered cards grant +3 to all rolls to allies for 3 rounds. Aces do both. Any Hearts dealt generate 1 Thread each.",
+      name: "Cartomancer's Harvest",
+      description: "Choose 1 card from your Sanguine Reserve and consume it to unleash an effect. Hearts: heal yourself or an ally for 6d8 + Spirit. Diamonds: grant an ally +4 to all saving throws and 30 temporary HP for 3 rounds. Spades: deal 5d10 psychic damage to an enemy. Clubs: force an enemy to discard their next action. Generates 2 Karmic Debt.",
       level: 6,
       spellType: "ACTION",
-      icon: "Radiant/Divine Ascension",
-
+      icon: "Cards/Dealers Choice",
       typeConfig: {
-        school: "force",
-        icon: "Radiant/Divine Ascension",
+        school: "necrotic",
+        icon: "Cards/Dealers Choice",
+        tags: ["damage", "healing", "buff", "cards"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "self_centered",
-        aoeShape: "circle",
-        aoeParameters: { radius: 30 },
-        targetRestrictions: ["any"],
-      },
-
-      targetingMode: "effect",
-
-      effectTargeting: {
-        buff: {
-          targetingType: "area",
-          rangeType: "self_centered",
-          targetRestrictions: ["ally", "self"],
-        },
-        debuff: {
-          targetingType: "area",
-          rangeType: "self_centered",
-          targetRestrictions: ["enemy"],
-        },
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 25 },
-        actionPoints: 2,
-        components: ["somatic"],
-        somaticText: "Deal cards to all",
-      },
-
-      resolution: "CARDS",
-      effectTypes: ["buff", "debuff"],
-
-      buffConfig: {
-        buffType: "variable",
-        effects: [
-          {
-            id: "good_card",
-            name: "Fortune Card",
-            description: "Numbered card: +3 to all rolls for 3 rounds",
-            statModifier: {
-              stat: "all_rolls",
-              magnitude: 3,
-              magnitudeType: "flat",
-            },
-            mechanicsText: "+3 to all rolls for 3 rounds",
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-      },
-
-      debuffConfig: {
-        debuffType: "variable",
-        effects: [
-          {
-            id: "bad_card",
-            name: "Misfortune Card",
-            description: "Face card: 3d6 force damage to enemy",
-            mechanicsText: "",
-          },
-        ],
-        savingThrow: {
-          ability: "charisma",
-          difficultyClass: 16,
-          saveOutcome: "half_damage",
-        },
-      },
-
-      specialMechanics: {
-        threadsOfDestiny: {
-          generation: "Each Heart dealt: +1 Thread",
-          usage: "None — this spell GENERATES Threads from Hearts",
-        },
-        cardDraw: {
-          description:
-            "Draw 1 card per creature. Assign cards to creatures BEFORE looking.",
-          faceCard: "3d6 damage to enemy assigned",
-          numberedCard: "+3 to all rolls for ally assigned (3 rounds)",
-          ace: "Both effects on assigned target",
-          hearts: "+1 Thread per Heart drawn regardless of assignment",
-        },
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      tags: [
-        "cards",
-        "buff",
-        "debuff",
-        "aoe",
-        "control",
-        "level 6",
-        "fate weaver",
-      ],
-    },
-
-    {
-      id: "fate_weaver_twenty_one_curses",
-      name: "Twenty-One Curses",
-      description:
-        "Draw cards for blackjack. Hit or stand. Your total becomes a curse multiplier on the target: total × 1d6 force damage. Bust = you take the damage instead AND gain 2 Threads. A natural 21 (first 2 cards) also stuns the target for 1 round.",
-      level: 6,
-      spellType: "ACTION",
-      icon: "Necrotic/Demonic Empowerment",
-
-      typeConfig: {
-        school: "force",
-        icon: "Necrotic/Demonic Empowerment",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ["enemy"],
+        targetRestrictions: ["any"]
       },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
         actionPoints: 1,
-        components: ["somatic"],
-        somaticText: "Draw cursed cards one by one",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 20 }
       },
+      resolution: "CARDS",
+      effectTypes: ["damage", "healing", "buff"],
+      damageConfig: {
+        formula: "5d10 + intelligence (Spades)",
+        damageTypes: ["psychic"],
+        resolution: "CARDS"
+      },
+      healingConfig: {
+        formula: "6d8 + spirit (Hearts)",
+        healingType: "direct",
+        resolution: "CARDS"
+      },
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: "Consuming a banked card to harvest fate generates 2 Karmic Debt.",
+          usage: "Consumes 1 card from Sanguine Reserve"
+        }
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
+      },
+      tags: ["damage", "healing", "buff", "level 6", "fate weaver"]
+    },
 
+    {
+      id: "fate_weaver_twenty_one_curses",
+      name: "Hemorrhaging Blackjack",
+      description: "An advanced, multi-target variant of Blackjack. Choose up to 3 enemies within a 30-foot radius. Deal cards to each of them. Each card dealt inflicts 2d6 necrotic damage. You may hit up to 3 times per enemy. If any enemy hits exactly 21, they take an additional 6d6 necrotic damage and begin bleeding. If you bust on an enemy, you take 3d6 necrotic damage and gain 2 debt. Generates 2 Karmic Debt baseline.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Necrotic/Blood Burst",
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Blood Burst",
+        tags: ["damage", "aoe", "cards"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        aoeShape: "circle",
+        aoeParameters: { radius: 15 }
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 24 }
+      },
       resolution: "CARDS",
       effectTypes: ["damage"],
-
       damageConfig: {
-        formula: "BLACKJACK_TOTAL * 1d6",
-        damageTypes: ["force"],
+        formula: "2d6 per card drawn",
+        damageTypes: ["necrotic"],
         resolution: "CARDS",
-        cardConfig: { drawCount: 3, formula: "BLACKJACK_TOTAL * 1d6" },
+        cardConfig: {
+          drawCount: 9,
+          formula: "2d6 per card drawn"
+        }
       },
-
       specialMechanics: {
-        blackjack: {
-          description:
-            "Draw cards (A=1/11, face=10). Hit or stand. Total × 1d6 = damage.",
-          twentyOne: "Total × 1d6 damage + stun 1 round",
-          bust: "Take the damage yourself instead + gain 2 Threads",
+        blackjackAdvancedRules: {
+          maxTargets: 3,
+          hitLimitPerTarget: 3,
+          blackjackBonus: "6d6 necrotic",
+          bustSelfDamage: "3d6 necrotic per bust"
         },
         threadsOfDestiny: {
-          generation:
-            "Bust: +2 Threads. Total 11 or less: +1 Thread (weak outcome)",
-          usage: "Spend 2 Threads to call a card to improve your total",
-        },
+          generation: "Initiating a multi-target death wager generates 2 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      tags: [
-        "cards",
-        "blackjack",
-        "damage",
-        "risk reward",
-        "level 6",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
+      },
+      tags: ["damage", "aoe", "level 6", "fate weaver"]
     },
 
     {
       id: "fate_weaver_fold_reality",
-      name: "Fold Reality",
-      description:
-        "Fold space like a deck of cards. Draw 5 cards — each Heart in your hand determines a teleport destination you can send an ally to (within 120 feet, line of sight). No Hearts: no teleports, but gain 1 Thread per Heart-less card drawn. Spend 4 Threads to guarantee 2 Hearts.",
+      name: "Folding of Flesh",
+      description: "As a reaction to taking physical damage, you violently fold reality, vanishing from your position and leaving behind a decoy of flayed skin. You teleport up to 30 feet to an unoccupied space. The decoy explodes, dealing 3d8 necrotic damage to all adjacent creatures. Generating this escape generates 2 Karmic Debt.",
       level: 6,
-      spellType: "ACTION",
-      icon: "Arcane/Open Portal",
-
+      spellType: "REACTION",
+      icon: "Utility/Flash Teleport",
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Open Portal",
+        school: "necrotic",
+        icon: "Utility/Flash Teleport",
+        tags: ["reaction", "mobility", "damage"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "REACTION"
       },
-
       targetingConfig: {
-        targetingType: "area",
-        rangeType: "self_centered",
-        aoeShape: "circle",
-        aoeParameters: { radius: 10 },
-        targetRestrictions: ["ally"],
+        targetingType: "self",
+        rangeType: "self"
       },
-
       resourceCost: {
+        actionPoints: 0,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
-        actionPoints: 2,
-        components: ["somatic"],
-        somaticText: "Fold space like cards",
+        resourceValues: { mana: 18 }
       },
-
-      resolution: "CARDS",
-      effectTypes: ["utility"],
-
-      utilityConfig: {
-        utilityType: "Teleport",
-        selectedEffects: [
-          {
-            id: "teleport",
-            name: "Teleport",
-            description:
-              "Teleport allies to locations based on Hearts drawn (up to 120 feet)",
-            distance: 120,
-            needsLineOfSight: true,
-            takesOthers: true,
-            maxOthers: 5,
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
-        concentration: false,
-        power: "major",
+      resolution: "DICE",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "3d8",
+        damageTypes: ["necrotic"],
+        resolution: "DICE"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation:
-            "No Hearts in hand: +1 Thread per non-Heart card (up to 5 Threads)",
-          usage: "Spend 4 Threads to guarantee at least 2 Hearts in your draw",
-        },
-        cardDraw: {
-          cards: 5,
-          hearts: "Each Heart = 1 ally can teleport up to 120 feet",
-          noHearts:
-            "No teleports, but gain 1 Thread per card (up to 5 Threads)",
-        },
+          generation: "Folding reality to escape physical injury generates 2 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      tags: ["cards", "utility", "teleport", "party", "level 6", "fate weaver"],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
+      },
+      tags: ["reaction", "mobility", "damage", "level 6", "fate weaver"]
     },
 
     // ========================================
@@ -2352,246 +1268,170 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "fate_weaver_house_rules",
-      name: "House Rules",
-      description:
-        "Draw 3 cards. The suits determine the new rules you impose on reality for 1 minute:\n♠ Spades: Enemies treat all maximum die results as 1 less\n♥ Hearts: Allies gain 1 Thread whenever they take damage\n♦ Diamonds: You may call 2 cards per turn instead of 1\n♣ Clubs: All enemies have disadvantage on their first roll each turn\nNo pairs: only 1 rule applies (your choice). Pairs: 2 rules. Three of a kind: all 4 rules.",
+      name: "Sovereign Decrees",
+      description: "You stand as the House, dictating the physical laws of the battlefield. For 1 round, all d20 rolls made by allies within 30 feet of you automatically succeed if your banked card is higher than a 10. All d20 rolls made by enemies within 30 feet automatically fail if your banked card is lower than a 10. Imposing your absolute decrees generates 3 Karmic Debt.",
       level: 7,
       spellType: "ACTION",
-      icon: "Radiant/Radiant Divinity",
-
+      icon: "Radiant/Divine Law",
       typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Radiant Divinity",
+        school: "psychic",
+        icon: "Radiant/Divine Law",
+        tags: ["buff", "debuff", "utility"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "self_centered",
         aoeShape: "circle",
-        aoeParameters: { radius: 60 },
+        aoeParameters: { radius: 30 }
       },
-
-      targetingMode: "effect",
-
-      effectTargeting: {
-        buff: {
-          targetingType: "area",
-          rangeType: "self_centered",
-          targetRestrictions: ["ally", "self"],
-        },
-        debuff: {
-          targetingType: "area",
-          rangeType: "self_centered",
-          targetRestrictions: ["enemy"],
-        },
-      },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 35 },
         actionPoints: 2,
-        components: ["verbal"],
-        verbalText: "Regula Meae!",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 30 }
       },
-
-      resolution: "CARDS",
+      resolution: "NONE",
       effectTypes: ["buff", "debuff"],
-
       buffConfig: {
-        buffType: "auraEffect",
+        buffType: "house_rules_ally",
         effects: [
           {
-            id: "house_rules_buff",
-            name: "House Rules — Ally Benefits",
-            description:
-              "Hearts: allies gain 1 Thread when damaged. Diamonds: call 2 cards per turn.",
-            mechanicsText: "",
-          },
+            id: "house_rules_ally_buff",
+            name: "Sovereign Decree (Ally)",
+            description: "d20 rolls automatically succeed if banked card is > 10.",
+            mechanicsText: ""
+          }
         ],
         durationValue: 1,
-        durationType: "minutes",
-        durationUnit: "minutes",
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
-
       debuffConfig: {
-        debuffType: "statusEffect",
+        debuffType: "house_rules_enemy",
         effects: [
           {
-            id: "house_rules_debuff",
-            name: "House Rules — Enemy Penalties",
-            description:
-              "Spades: enemies treat max die results as 1 less. Clubs: enemies have disadvantage on first roll each turn.",
-            mechanicsText: "",
-          },
+            id: "house_rules_enemy_debuff",
+            name: "Sovereign Decree (Enemy)",
+            description: "d20 rolls automatically fail if banked card is < 10.",
+            mechanicsText: ""
+          }
         ],
         durationValue: 1,
-        durationType: "minutes",
-        durationUnit: "minutes",
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "No matching suits: +1 Thread",
-          usage: "None — this spell GENERATES Threads from Hearts rule",
-        },
-        cardDraw: {
-          cards: 3,
-          spades:
-            "Enemies treat max die results as 1 less (6s become 5s, etc.)",
-          hearts: "Allies gain 1 Thread when they take damage",
-          diamonds: "You may call 2 cards per turn instead of 1",
-          clubs: "Enemies have disadvantage on first roll each turn",
-          pairs: "2 rules apply",
-          threeOfAKind: "All 4 rules apply",
-        },
+          generation: "Enforcing absolute House rules on reality generates 3 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
-
-      tags: ["cards", "buff", "debuff", "aoe", "level 7", "fate weaver"],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["buff", "debuff", "utility", "level 7", "fate weaver"]
     },
 
     {
       id: "fate_weaver_all_in",
-      name: "All In",
-      description:
-        'Draw 5 cards face-down. Reveal them one at a time. Each card that matches your target\'s "fate card" (drawn by the GM/target) deals 3d6 force damage. Bet up to half your HP — if you reveal MORE misses than hits, you lose the HP bet. Every miss generates 2 Threads. Spend Threads before revealing to peek at the next card.',
+      name: "Sanguine All-In",
+      description: "Expend all currently banked cards in your Sanguine Reserve (minimum 2 cards) and unleash them in a single, devastating beam of flayed crimson light. Deals 3d10 necrotic damage per expended card to a single target. If you expend 4 or more cards, the target must make a Spirit saving throw or be incapacitated for 1 round. Generates 3 Karmic Debt.",
       level: 7,
       spellType: "ACTION",
-      icon: "Fire/Rising Inferno",
-
+      icon: "Necrotic/Blood Beam",
       typeConfig: {
-        school: "force",
-        icon: "Fire/Rising Inferno",
+        school: "necrotic",
+        icon: "Necrotic/Blood Beam",
+        tags: ["damage", "cards"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ["enemy"],
+        targetRestrictions: ["enemy"]
       },
-
       resourceCost: {
-        resourceTypes: ["mana", "hp"],
-        resourceValues: { mana: 30, hp: "variable" },
-        actionPoints: 2,
-        components: ["verbal"],
-        verbalText: "ALL IN!",
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 25 },
+        components: ["verbal", "somatic"],
+        verbalText: "Omnia wideo!",
+        somaticText: "Throw your entire hand of cards forward, they dissolve into a white-hot stream"
       },
-
       resolution: "CARDS",
       effectTypes: ["damage"],
-
       damageConfig: {
-        formula: "MATCHES * 3d6",
-        damageTypes: ["force"],
+        formula: "3d10 per card expended",
+        damageTypes: ["necrotic"],
         resolution: "CARDS",
-        cardConfig: { drawCount: 5, formula: "MATCHES * 3d6" },
+        cardConfig: {
+          drawCount: 1,
+          formula: "3d10 per card expended"
+        }
       },
-
       specialMechanics: {
-        allIn: {
-          description:
-            'Bet up to half current HP. Draw 5 cards face-down. Target draws 1 "fate card." Reveal yours one at a time. Each match = 3d6 damage. More misses than hits = lose HP bet.',
-          risk: "Misses cost your HP bet but generate 2 Threads each",
-        },
         threadsOfDestiny: {
-          generation: "Each non-matching card: +2 Threads",
-          usage:
-            "Spend 2 Threads to peek at next face-down card before revealing",
-        },
-        cardDraw: {
-          cards: 5,
-          match: "3d6 damage per card matching target's fate card rank",
-          miss: "+2 Threads and counts toward HP bet loss",
-        },
+          generation: "Expelling your entire reserve in a single burst generates 3 Karmic Debt.",
+          usage: "Consumes ALL cards from Sanguine Reserve"
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      tags: [
-        "cards",
-        "damage",
-        "high risk",
-        "betting",
-        "level 7",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
+      },
+      tags: ["damage", "cards", "level 7", "fate weaver"]
     },
 
     {
       id: "fate_weaver_destiny_rewritten",
-      name: "Destiny Rewritten",
-      description:
-        'Draw 7 cards and lay them out as the "Timeline." Reverse the order of the Timeline — the last card drawn becomes the first. This rewinds one action taken in the last round as if it never happened. Each Face card in the Timeline reduces the Thread cost by 1. No Face cards: full cost and the reversal is imperfect (GM adds a complication).',
+      name: "Destiny Mutilated",
+      description: "Stitch an active status effect on a creature. Choose one active buff or debuff on any target within 60 feet. Draw 1 card. If the card is a face card or Ace, you double the remaining duration of that effect. If it is a numbered card, you immediately end the effect. Rewriting a status duration generates 2 Karmic Debt.",
       level: 7,
-      spellType: "REACTION",
-      icon: "Arcane/Rewind Time",
-
+      spellType: "ACTION",
+      icon: "Utility/Hourglass",
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Rewind Time",
+        school: "psychic",
+        icon: "Utility/Hourglass",
+        tags: ["utility", "cards"],
         castTime: 1,
-        castTimeType: "REACTION",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["any"]
       },
-
       resourceCost: {
+        actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 40 },
-        actionPoints: 0,
-        components: ["verbal"],
-        verbalText: "Rescribe!",
+        resourceValues: { mana: 15 }
       },
-
       resolution: "CARDS",
       effectTypes: ["utility"],
-
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
           {
-            id: "timeline_reversal",
-            name: "Timeline Reversal",
-            description:
-              "Draw 7 cards as Timeline. Reverse to undo 1 action from last round. Face cards reduce Thread cost.",
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
+            id: "duration_rewrite",
+            name: "Duration Rewrite",
+            description: "Face/Ace: Double duration. Numbered: End the effect immediately."
+          }
+        ]
       },
-
       specialMechanics: {
-        rewrite: {
-          description:
-            'Draw 7 cards as "Timeline." Reverse order to undo 1 action from last round. Face cards reduce Thread cost. No face cards = imperfect reversal.',
-          limit: "Cannot undo death of a creature",
-        },
         threadsOfDestiny: {
-          generation:
-            "No face cards in Timeline: +2 Threads (imperfect reversal — you gain power from the failure)",
-          usage:
-            "Base cost: 6 Threads. Each Face card in Timeline reduces cost by 1.",
-        },
-        cardDraw: {
-          cards: 7,
-          faceCards: "Each Face card reduces Thread cost by 1 (minimum 0)",
-          noFaceCards: "+2 Threads but reversal is imperfect",
-        },
+          generation: "Directly mutilating active effect durations generates 2 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: ["cards", "utility", "time", "undo", "level 7", "fate weaver"],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
+      },
+      tags: ["utility", "cards", "level 7", "fate weaver"]
     },
 
     // ========================================
@@ -2599,309 +1439,160 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "fate_weaver_the_jokers_hand",
-      name: "The Joker's Hand",
-      description:
-        "Draw the Joker from your deck (if using a deck without Jokers, treat the first red card drawn as The Joker). Draw 5 additional cards. The Joker adopts the identity of whichever card would create the best possible outcome from your table of effects. If all 5 cards are the same suit as the Joker, draw 5 more and apply effects twice.",
+      name: "The Flayed Jester",
+      description: "Draw 3 cards from a deck containing two legendary Jokers. The Jokers represent pure, unmitigated chaos: if you draw a Red Joker, you heal all allies for 8d8 + Spirit and clear all active debuffs on them. If you draw a Black Joker, you take 5d10 psychic damage, and all enemies within 30 feet are struck for 8d10 necrotic damage. Standard cards deal 2d8 psychic damage. Generates 3 Karmic Debt.",
       level: 8,
       spellType: "ACTION",
-      icon: "Utility/Utility",
-
+      icon: "Cards/Joker",
       typeConfig: {
-        school: "arcane",
-        icon: "Utility/Utility",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
+        school: "chaos",
+        icon: "Cards/Joker",
+        tags: ["damage", "healing", "cards"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
-        targetingType: "smart",
+        targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 120,
+        rangeDistance: 60,
+        aoeShape: "circle",
+        aoeParameters: { radius: 30 }
       },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 45 },
         actionPoints: 2,
-        components: ["somatic"],
-        somaticText: "Draw the wild card",
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 35 }
       },
-
       resolution: "CARDS",
-      effectTypes: ["damage"],
-
+      effectTypes: ["damage", "healing"],
       damageConfig: {
-        formula: "JOKER_HAND_RANK * 1d10",
-        damageTypes: ["force"],
-        resolution: "CARDS",
-        cardConfig: { drawCount: 5, formula: "POKER_HAND_RANK * 1d10" },
+        formula: "8d10 (Black Joker) / 2d8 (Standard)",
+        damageTypes: ["necrotic"],
+        resolution: "CARDS"
       },
-
-      rollableTable: {
-        enabled: true,
-        name: "The Joker's Hand — Wild Effects",
-        description:
-          "The Joker becomes the best possible card. Draw 5 cards for effect.",
-        resolutionType: "CARDS",
-        resolutionConfig: { cardType: "joker", cardCount: 5 },
-        entries: [
-          {
-            range: "Royal Flush",
-            name: "Fate Ascendant",
-            effect: {
-              type: "damage",
-              formula: "12d10 radiant",
-              target: "enemies",
-            },
-          },
-          {
-            range: "Straight Flush",
-            name: "The River",
-            effect: {
-              type: "damage",
-              formula: "10d10 force",
-              target: "enemies",
-            },
-          },
-          {
-            range: "Four of a Kind",
-            name: "Quad Fury",
-            effect: {
-              type: "damage",
-              formula: "8d10 force",
-              target: "enemies",
-            },
-          },
-          {
-            range: "Full House",
-            name: "Fortune & Ruin",
-            effect: {
-              type: "mixed",
-              description: "Heal allies for 8d8 + deal 8d8 to enemies",
-            },
-          },
-          {
-            range: "Flush",
-            name: "Suit Storm",
-            effect: {
-              type: "damage",
-              formula: "6d10 (type matches suit)",
-              target: "enemies",
-            },
-          },
-          {
-            range: "Straight",
-            name: "Sequence of Fate",
-            effect: {
-              type: "control",
-              description: "All enemies skip next action",
-            },
-          },
-          {
-            range: "Three of a Kind",
-            name: "Triple Threat",
-            effect: {
-              type: "buff",
-              description: "All allies gain +4 to all rolls for 3 rounds",
-            },
-          },
-          {
-            range: "Two Pair",
-            name: "Mirror Fate",
-            effect: {
-              type: "utility",
-              description:
-                "Reflect all damage to allies back at attackers for 2 rounds",
-            },
-          },
-          {
-            range: "One Pair",
-            name: "Twin Fortune",
-            effect: {
-              type: "resource",
-              description: "Restore 30 mana and 5 Threads",
-            },
-          },
-          {
-            range: "High Card",
-            name: "Joker's Mercy",
-            effect: {
-              type: "thread_generation",
-              description: "Gain 5 Threads + draw again",
-            },
-          },
-        ],
+      healingConfig: {
+        formula: "8d8 + spirit (Red Joker)",
+        healingType: "direct",
+        resolution: "CARDS"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "High Card result: gain 5 Threads and draw again",
-          usage: "None — this spell is pure card-based chaos",
-        },
+          generation: "Unleashing the chaotic nature of the Jester generates 3 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: [
-        "cards",
-        "variable",
-        "powerful",
-        "level 8",
-        "fate weaver",
-        "rollable table",
-      ],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["damage", "healing", "cards", "level 8", "fate weaver"]
     },
 
     {
       id: "fate_weaver_fate_sealed",
-      name: "Fate Sealed",
-      description:
-        "Draw 3 cards. If any two share the same suit, seal an enemy's fate — the next attack against them automatically hits and cannot be avoided. All 3 same suit: the hit is also a critical. No matching suits: gain 1 Thread per card. Spend 2 Threads to call a card to force a suit match.",
+      name: "Death Sentence Sealed",
+      description: "Seal the target's physical anchor. Choose an enemy within 60 feet. They must make a Spirit saving throw against your spell DC. On a failure, they are marked for immediate execution: for the next 3 rounds, any attack roll made against them is a guaranteed critical hit. The strain of sealing this absolute doom generates 4 Karmic Debt.",
       level: 8,
       spellType: "ACTION",
-      icon: "Psychic/Mind Roar",
-
+      icon: "General/Gallows",
       typeConfig: {
-        school: "psychic",
-        icon: "Psychic/Mind Roar",
+        school: "necrotic",
+        icon: "General/Gallows",
+        tags: ["debuff", "utility"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 90,
-        targetRestrictions: ["enemy"],
+        rangeDistance: 60,
+        targetRestrictions: ["enemy"]
       },
-
       resourceCost: {
+        actionPoints: 2,
         resourceTypes: ["mana"],
         resourceValues: { mana: 40 },
-        actionPoints: 2,
         components: ["verbal"],
-        verbalText: "Fatum Signatum!",
+        verbalText: "Sententia mortis!"
       },
-
-      resolution: "CARDS",
+      resolution: "SAVE",
       effectTypes: ["debuff"],
-
       debuffConfig: {
-        debuffType: "curse",
+        debuffType: "statusEffect",
         effects: [
           {
-            id: "fate_sealed",
-            name: "Fate Sealed",
-            description:
-              "Next attack automatically hits, cannot be avoided or reduced. Critical if 3 same suit.",
-            mechanicsText: "",
-            charges: 1,
-          },
+            id: "death_sentence_seal",
+            name: "Death Sentence Seal",
+            description: "All attacks against target are guaranteed critical hits.",
+            mechanicsText: ""
+          }
         ],
         durationValue: 3,
         durationType: "rounds",
-        durationUnit: "rounds",
-        savingThrow: {
-          ability: "charisma",
-          difficultyClass: 18,
-          saveOutcome: "reduced_duration",
-        },
+        durationUnit: "rounds"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation:
-            "No matching suits: +1 Thread per card drawn (up to 3 Threads)",
-          usage:
-            "Spend 2 Threads to call a card that matches one of your drawn suits",
-        },
-        cardDraw: {
-          cards: 3,
-          twoSameSuit: "Next attack auto-hits",
-          threeSameSuit: "Next attack auto-hits AND is a critical hit",
-          noMatch: "No effect + 1 Thread per card",
-        },
+          generation: "Sealing a mortal's physical death thread generates 4 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      tags: ["cards", "debuff", "guaranteed hit", "level 8", "fate weaver"],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["debuff", "utility", "level 8", "fate weaver"]
     },
 
     {
       id: "fate_weaver_fates_wager",
-      name: "Fate's Wager",
-      description:
-        "Double down on your next card-based spell. Draw a card — Face card: your next spell's effect is doubled (damage, healing, duration). Numbered card: your next spell's effect is doubled BUT you also take the spell's damage/healing yourself. Ace: tripled with no downside. The wager is always in the cards.",
+      name: "Karmic Wager",
+      description: "Wager your own flesh for amplification. Draw 1 card. If it is a face card or Ace, your next spell within 1 round deals triple damage and costs 0 AP. If it is a numbered card, your next spell deals double damage, but you take the exact same damage yourself. Drawing this wager generates 2 Karmic Debt.",
       level: 8,
       spellType: "ACTION",
-      icon: "Radiant/Radiant Glow",
-
+      icon: "Cards/Card Wager",
       typeConfig: {
-        school: "arcane",
-        icon: "Radiant/Radiant Glow",
+        school: "necrotic",
+        icon: "Cards/Card Wager",
+        tags: ["buff", "cards", "risk_reward"],
         castTime: 1,
-        castTimeType: "BONUS",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "self",
-        rangeType: "self",
+        rangeType: "self"
       },
-
       resourceCost: {
+        actionPoints: 1,
         resourceTypes: ["mana"],
         resourceValues: { mana: 35 },
-        actionPoints: 0,
         components: ["verbal"],
-        verbalText: "Double down!",
+        verbalText: "Wager in blood!"
       },
-
       resolution: "CARDS",
       effectTypes: ["buff"],
-
       buffConfig: {
         buffType: "amplify",
         effects: [
           {
-            id: "fates_wager",
-            name: "Fate's Wager",
-            description:
-              "Face card: next spell doubled. Ace: next spell tripled. Numbered: doubled but you also take the effect.",
-            mechanicsText:
-              "Draw 1 card. Face/Ace: next spell 2x-3x. Numbered: 2x but self-hit too.",
-            charges: 1,
-          },
+            id: "fates_wager_buff",
+            name: "Sanguine Wager",
+            description: "Face/Ace: next spell 3x. Numbered: 2x but hits you as well.",
+            mechanicsText: ""
+          }
         ],
         durationValue: 1,
-        durationType: "instant",
-        durationUnit: "spell",
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "Numbered card drawn AND self-damage taken: +2 Threads",
-          usage: "None — the wager generates Threads from the risk",
-        },
-        cardDraw: {
-          cards: 1,
-          faceCard: "Next card-based spell effect doubled (no downside)",
-          ace: "Next card-based spell effect tripled (no downside)",
-          numberedCard:
-            "Next spell effect doubled BUT you also take the damage/healing + 2 Threads",
-        },
+          generation: "Taking a direct gamble on your physical shell generates 2 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      tags: [
-        "cards",
-        "buff",
-        "amplify",
-        "risk reward",
-        "level 8",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
+      },
+      tags: ["buff", "cards", "level 8", "fate weaver"]
     },
 
     // ========================================
@@ -2909,242 +1600,187 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "fate_weaver_grand_gambit",
-      name: "Grand Gambit",
-      description:
-        "Deal one card face-up to each enemy in range. Then deal yourself one card for each enemy. For each enemy: if YOUR card is higher, they are reduced to 1 HP. If their card is higher, they are fully healed and gain +2 Armor for 1 minute. Ties: both your card and theirs are discarded, no effect, +1 Thread per tie. This is War — and the stakes are everything.",
+      name: "Grand Carnage",
+      description: "Initiate a competitive card draw with every enemy within 40 feet. Draw 1 card for each enemy, and 1 for yourself. If your card is higher than the enemy's, they are instantly reduced to 1 HP. If your card is lower, they are fully healed and gain +2 Armor for 1 minute. Ties inflict no effect but generate 1 debt. Generates 3 baseline debt.",
       level: 9,
       spellType: "ACTION",
       icon: "Utility/Utility",
-
       typeConfig: {
-        school: "force",
+        school: "necrotic",
         icon: "Utility/Utility",
+        tags: ["damage", "healing", "cards"],
         castTime: 2,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "self_centered",
         aoeShape: "circle",
         aoeParameters: { radius: 40 },
-        targetRestrictions: ["enemy"],
+        targetRestrictions: ["enemy"]
       },
-
       resourceCost: {
+        actionPoints: 3,
         resourceTypes: ["mana"],
         resourceValues: { mana: 60 },
-        actionPoints: 3,
         components: ["verbal", "somatic"],
-        verbalText: "GAMBIT MAGNUS!",
-        somaticText: "Deal cards to every enemy",
+        verbalText: "Ruin and flesh!",
+        somaticText: "Stitch the veins of all nearby enemies to your cards"
       },
-
       resolution: "CARDS",
       effectTypes: ["damage", "healing"],
-
       damageConfig: {
-        formula: "WAR_WIN ? TARGET_HP - 1 : 0",
-        damageTypes: ["force"],
+        formula: "Reduce to 1 HP (War Win)",
+        damageTypes: ["necrotic"],
         resolution: "CARDS",
-        cardConfig: { drawCount: 1, formula: "WAR_WIN ? TARGET_HP - 1 : 0" },
+        cardConfig: {
+          drawCount: 1,
+          formula: "Reduce to 1 HP"
+        }
       },
-
       healingConfig: {
-        formula: "WAR_LOSS ? FULL_HEAL + 2_ARMOR : 0",
+        formula: "Heal to Full (War Loss)",
         healingType: "direct",
-        resolution: "CARDS",
+        resolution: "CARDS"
       },
-
       specialMechanics: {
         grandGambit: {
-          description:
-            "Deal 1 card to each enemy, 1 to yourself per enemy. Higher card wins. You win: enemy to 1 HP. You lose: enemy fully healed +2 Armor.",
-          perTarget: true,
+          description: "Compare your card against each target's card. Win: reduced to 1 HP. Lose: fully healed.",
+          perTarget: true
         },
         threadsOfDestiny: {
-          generation: "Each tie: +1 Thread. Each loss: +1 Thread.",
-          usage: "Spend 2 Threads per enemy to call your card for that matchup",
-        },
-        cardDraw: {
-          description:
-            "War mechanic. One card per enemy, one card for you per enemy.",
-        },
+          generation: "Each tie or loss in matchups generates 1 Karmic Debt.",
+          usage: "Spend 2 debt per enemy to call your card for their matchup"
+        }
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: [
-        "cards",
-        "damage",
-        "high risk",
-        "war",
-        "ultimate",
-        "level 9",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["damage", "healing", "cards", "level 9", "fate weaver"]
     },
 
     {
       id: "fate_weaver_master_of_destiny",
-      name: "Master of Destiny",
-      description:
-        'Draw 13 cards (one for each rank, Ace through King). Lay them out as the "Throne of Destiny." For 1 minute, whenever any creature rolls a die, you may spend 1 Thread to replace their result with the value of the matching card from your Throne. Face cards count as 20. Aces count as 1 or 20 (your choice). Cards not in the Throne cannot be modified.',
+      name: "Sovereign of Bleeding Threads",
+      description: "Draw 13 cards into your Sanguine Reserve as an absolute Throne. For 1 minute, you may spend 1 Karmic Debt to override any creature's die roll with a card from this Throne: Face cards convert to 20, Aces to 1 or 20, and numbered cards to their exact face value. Generates 3 Karmic Debt baseline.",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Divine Illumination",
-
       typeConfig: {
         school: "psychic",
         icon: "Radiant/Divine Illumination",
+        tags: ["buff", "cards", "utility"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "self",
-        rangeType: "self",
+        rangeType: "self"
       },
-
       resourceCost: {
+        actionPoints: 2,
         resourceTypes: ["mana"],
         resourceValues: { mana: 70 },
-        actionPoints: 2,
         components: ["verbal"],
-        verbalText: "Ego Sum Dominus Fati!",
+        verbalText: "Ego sum lex!"
       },
-
       resolution: "CARDS",
       effectTypes: ["buff"],
-
       buffConfig: {
         buffType: "fate_control",
         effects: [
           {
-            id: "master_of_destiny",
-            name: "Master of Destiny",
-            description:
-              "Spend 1 Thread per die to replace any roll with the value from your Throne of Destiny cards.",
-            mechanicsText:
-              "Draw 13 cards as Throne. Spend 1 Thread to replace any die result with Throne card value.",
-            charges: 13,
-          },
+            id: "master_of_destiny_buff",
+            name: "Sovereign Override",
+            description: "Spend 1 debt to replace any die roll with a Throne card value.",
+            mechanicsText: ""
+          }
         ],
         durationValue: 1,
         durationType: "minutes",
-        durationUnit: "minutes",
+        durationUnit: "minutes"
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "None — this spell CONSUMES Threads",
-          usage:
-            "Spend 1 Thread per die replacement. Face cards = 20. Aces = 1 or 20.",
-        },
-        cardDraw: {
-          cards: 13,
-          description:
-            "Draw 13 cards, one for each rank. These become the Throne of Destiny.",
-        },
+          generation: "Manifesting the Throne of 13 cards generates 3 Karmic Debt.",
+          usage: "Spend 1 debt per roll replacement. Face cards = 20. Aces = 1 or 20."
+        }
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: [
-        "cards",
-        "buff",
-        "dice control",
-        "ultimate",
-        "level 9",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["buff", "cards", "utility", "level 9", "fate weaver"]
     },
 
     {
       id: "fate_weaver_jackpot_supreme",
-      name: "Jackpot Supreme",
-      description:
-        "Draw 3 cards. If any 2 share the same rank, it's a JACKPOT — deal 10d10 × the number of matching cards force damage in a 30-foot radius. 3 of a kind: 10d10 × 7 damage + stun all targets 1 round. No matches: deal 10d10 base damage + gain 3 Threads. The jackpot is in the cards, not the dice.",
+      name: "Karmic Rupture",
+      description: "Draw 3 flayed cards and shatter them. Ranks dictate necrotic damage in a 30-foot circle: One Pair multiplies a 10d10 base damage by 3. Three of a kind multiplies damage by 7 and targets suffer 'Hemorrhaging Destiny' (incapacitated and take 4d10 necrotic damage at start of turn for 1 round). No matches deal 10d10 base and inflict 3 debt.",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Radiant Glow",
-
       typeConfig: {
-        school: "force",
+        school: "necrotic",
         icon: "Radiant/Radiant Glow",
+        tags: ["damage", "aoe", "cards"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
         rangeDistance: 90,
         aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ["enemy"],
+        targetRestrictions: ["enemy"]
       },
-
       resourceCost: {
+        actionPoints: 3,
         resourceTypes: ["mana"],
         resourceValues: { mana: 65 },
-        actionPoints: 3,
         components: ["verbal", "somatic"],
-        verbalText: "JACKPOT!",
-        somaticText: "Draw three cards",
+        verbalText: "Ruptura!",
+        somaticText: "Violently shatter three flayed cards"
       },
-
       resolution: "CARDS",
       effectTypes: ["damage"],
-
       damageConfig: {
-        formula: "10d10 * MULTIPLIER",
-        damageTypes: ["force"],
+        formula: "10d10 x Multiplier (Pair: x3, Triple: x7)",
+        damageTypes: ["necrotic"],
         resolution: "CARDS",
-        cardConfig: { drawCount: 3, formula: "10d10 * MULTIPLIER" },
+        cardConfig: {
+          drawCount: 3,
+          formula: "10d10 x Multiplier"
+        },
         savingThrow: {
           ability: "agility",
           difficultyClass: 20,
-          saveOutcome: "half_damage",
-        },
+          saveOutcome: "half_damage"
+        }
       },
-
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 1,
+        durationUnit: "rounds"
+      },
       specialMechanics: {
         jackpot: {
-          noMatch: {
-            multiplier: 1,
-            description: "10d10 base damage + 3 Threads",
-          },
-          twoMatch: { multiplier: 3, description: "10d10 × 3 force damage" },
-          threeMatch: {
-            multiplier: 7,
-            description: "10d10 × 7 damage + stun all targets 1 round",
-          },
+          noMatch: { multiplier: 1, description: "10d10 base damage + 3 debt" },
+          twoMatch: { multiplier: 3, description: "10d10 × 3 necrotic damage" },
+          threeMatch: { multiplier: 7, description: "10d10 × 7 damage + Hemorphaging Destiny incapacitation for 1 round" }
         },
         threadsOfDestiny: {
-          generation: "No matching ranks: +3 Threads",
-          usage:
-            "Spend 4 Threads to call a card that matches one of your drawn cards",
-        },
-        cardDraw: {
-          cards: 3,
-          noMatch: "10d10 base damage + 3 Threads",
-          twoMatch: "10d10 × 3 damage",
-          threeMatch: "10d10 × 7 damage + stun 1 round",
-        },
+          generation: "Drawing no matching cards in the Rupture generates 3 Karmic Debt.",
+          usage: "Spend 4 debt to call a card that matches one of your drawn cards"
+        }
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: [
-        "cards",
-        "damage",
-        "aoe",
-        "jackpot",
-        "ultimate",
-        "level 9",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["damage", "aoe", "cards", "level 9", "fate weaver"]
     },
 
     // ========================================
@@ -3152,452 +1788,312 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     // ========================================
     {
       id: "fate_weaver_rewrite_destiny",
-      name: "Rewrite Destiny",
-      description:
-        "Draw 13 cards and lay them face-up as the Tapestry of Fate. Choose one creature within range. Rearrange the Tapestry to spell their fate:\n**All Face Cards**: Ally gains immunity to damage and auto-success on all rolls for 1 minute.\n**All Same Suit**: Enemy reduced to 1 HP and stunned 1 minute (no save).\n**Sequential (Ace through King)**: Target permanently polymorphed (save after 1 hour).\nIf you cannot form any pattern, gain 5 Threads and the spell fails.",
+      name: "Epitaph of the Flayed",
+      description: "Draw 13 flayed skins and rearrange them to violently rewrite reality. All Face: target ally is immune to all damage and automatically succeeds on all rolls for 1 minute. Same Suit: target enemy is reduced to 1 HP and suffers Soul Flaying (incapacitated and takes 5d10 necrotic damage each turn for 1 minute). Failure to form a pattern inflicts 5 Karmic Debt.",
       level: 10,
       spellType: "ACTION",
       icon: "Arcane/Rewind Time",
-
       typeConfig: {
-        school: "arcane",
+        school: "necrotic",
         icon: "Arcane/Rewind Time",
+        tags: ["utility", "cards"],
         castTime: 3,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 120,
-        targetRestrictions: ["any"],
+        targetRestrictions: ["any"]
       },
-
+      durationConfig: {
+        durationType: "minutes",
+        durationValue: 1,
+        durationUnit: "minutes"
+      },
       resourceCost: {
+        actionPoints: 3,
         resourceTypes: ["mana"],
         resourceValues: { mana: 90 },
-        actionPoints: 3,
         components: ["verbal", "somatic"],
-        verbalText: "RESCRIBERE FATUM!",
-        somaticText: "Rewrite reality with cards",
+        verbalText: "Fatum delevit!",
+        somaticText: "Weave 13 cards into target's skin"
       },
-
       resolution: "CARDS",
       effectTypes: ["utility"],
-
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
           {
-            id: "rewrite_destiny",
-            name: "Rewrite Destiny",
-            description:
-              "Draw 13 cards. All face cards: ally immune + auto-success 1 min. All same suit: enemy to 1 HP + stunned. Sequential: permanent polymorph.",
-          },
+            id: "rewrite_destiny_effect",
+            name: "Reality Epitaph",
+            description: "All face: ally immune 1 min. Same suit: enemy 1 HP + Soul Flaying. Sequential: permanent polymorph."
+          }
         ],
         duration: 1,
-        durationUnit: "minutes",
+        durationUnit: "minutes"
       },
-
       specialMechanics: {
         rewriteDestiny: {
           choices: [
             {
               name: "All Face Cards",
-              effect:
-                "Target ally gains immunity and auto-success for 1 minute",
-              requirement: "All 13 cards must be face cards (J, Q, K)",
+              effect: "Ally immune and auto-success for 1 minute",
+              requirement: "All 13 cards must be face cards"
             },
             {
               name: "All Same Suit",
-              effect: "Enemy reduced to 1 HP, stunned 1 minute (no save)",
-              requirement: "All 13 cards must share a suit",
-            },
-            {
-              name: "Sequential",
-              effect: "Target permanently polymorphed (save after 1 hour)",
-              requirement: "Cards form Ace through King sequence",
-            },
-            {
-              name: "Failure",
-              effect: "No pattern formed — gain 5 Threads",
-              requirement: "None of the above patterns achieved",
-            },
-          ],
+              effect: "Enemy 1 HP + Soul Flaying (incapacitated + bleed) for 1 minute",
+              requirement: "All 13 cards share a suit"
+            }
+          ]
         },
         threadsOfDestiny: {
-          generation: "Failure to form pattern: +5 Threads",
-          usage:
-            "Spend Threads to call cards BEFORE drawing the 13 (standard call card rules, once per turn — plan ahead across multiple turns)",
-        },
-        cardDraw: {
-          cards: 13,
-          description:
-            "Draw 13 cards as Tapestry. Achieve a pattern to rewrite destiny.",
-        },
+          generation: "Failing to form a valid pattern among the 13 cards generates 5 Karmic Debt."
+        }
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: [
-        "cards",
-        "utility",
-        "ultimate",
-        "fate control",
-        "level 10",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["utility", "cards", "level 10", "fate weaver"]
     },
 
     {
       id: "fate_weaver_deck_of_many_things",
-      name: "Deck of Many Things",
-      description:
-        "Summon the legendary Deck. Draw 1-3 cards (your choice). Each card has a major effect — some miraculous, some catastrophic. Every catastrophic card generates 3 Threads. Spend 5 Threads to redraw one catastrophic card.",
+      name: "Grim Deck of Horrors",
+      description: "Summon a legendary flayed deck of horrors and draw 1-3 cards. Each card yields either a miraculous blessing or a catastrophic curse. Catastrophic cards immediately generate 3 Karmic Debt. You may spend 5 debt to redraw a curse.",
       level: 10,
       spellType: "ACTION",
       icon: "Utility/Utility",
-
       typeConfig: {
-        school: "arcane",
+        school: "necrotic",
         icon: "Utility/Utility",
+        tags: ["utility", "cards"],
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "self",
-        rangeType: "self",
+        rangeType: "self"
       },
-
+      durationConfig: {
+        durationType: "instant",
+        durationValue: 0,
+        durationUnit: "instant"
+      },
       resourceCost: {
+        actionPoints: 2,
         resourceTypes: ["mana"],
         resourceValues: { mana: 80 },
-        actionPoints: 2,
         components: ["somatic"],
-        somaticText: "Summon the legendary deck",
+        somaticText: "Draw shards of flayed bone"
       },
-
       resolution: "CARDS",
       effectTypes: ["utility"],
-
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
           {
-            id: "deck_of_many_things",
-            name: "Deck of Many Things",
-            description:
-              "Draw 1-3 cards from the legendary deck. Each has a major miraculous or catastrophic effect.",
-          },
+            id: "deck_of_many_things_harvest",
+            name: "Grim Deck",
+            description: "Draw 1-3 cards from legendary flayed deck. Major positive or catastrophic negative."
+          }
         ],
         duration: 0,
-        durationUnit: "instant",
+        durationUnit: "instant"
       },
-
       rollableTable: {
         enabled: true,
-        name: "Deck of Many Things — Draw Results",
+        name: "Grim Deck of Horrors — Results",
         description: "Draw 1-3 cards. Each has a major effect.",
         resolutionType: "CARDS",
         resolutionConfig: { cardType: "deck_of_many_things", cardCount: 3 },
         entries: [
-          {
-            range: "Sun",
-            effect: "Gain 50,000 XP and a wondrous item",
-            threadGeneration: 0,
-          },
-          { range: "Moon", effect: "Granted 1d3 wishes", threadGeneration: 0 },
-          {
-            range: "Star",
-            effect: "Increase one ability score by 2",
-            threadGeneration: 0,
-          },
-          {
-            range: "Throne",
-            effect: "Gain a keep and +6 Persuasion",
-            threadGeneration: 0,
-          },
-          {
-            range: "Key",
-            effect: "Gain a rare magic weapon",
-            threadGeneration: 0,
-          },
-          {
-            range: "Knight",
-            effect: "Gain a 4th-level fighter follower",
-            threadGeneration: 0,
-          },
-          {
-            range: "Gem",
-            effect: "Gain 50,000gp in gems",
-            threadGeneration: 0,
-          },
-          {
-            range: "Comet",
-            effect: "Defeat the next monster alone to gain a level",
-            threadGeneration: 0,
-          },
-          {
-            range: "Fates",
-            effect: "Can undo one event as if it never happened",
-            threadGeneration: 0,
-          },
-          {
-            range: "Balance",
-            effect: "Alignment changes to opposite",
-            threadGeneration: 0,
-          },
-          {
-            range: "Jester",
-            effect: "Gain 10,000 XP or draw two more cards",
-            threadGeneration: 0,
-          },
-          {
-            range: "Euryale",
-            effect:
-              "-2 to all saving throws permanently (curse) — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Rogue",
-            effect: "An NPC ally becomes hostile — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Idiot",
-            effect:
-              "Intelligence reduced by 1d4+1 permanently — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Donjon",
-            effect: "Imprisoned in an extradimensional space — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Ruin",
-            effect: "All nonmagical possessions destroyed — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Skull",
-            effect: "Summons an Avatar of Death to fight you — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Flames",
-            effect: "A powerful devil becomes your enemy — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Talons",
-            effect: "All magic items destroyed — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Void",
-            effect: "Soul imprisoned; body incapacitated — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "The Fool",
-            effect: "Lose 10,000 XP; draw again — gain 3 Threads",
-            threadGeneration: 3,
-          },
-          {
-            range: "Vizier",
-            effect: "Know the answer to your next dilemma",
-            threadGeneration: 0,
-          },
-        ],
+          { range: "Vizier", effect: "Know the answer to your next dilemma", threadGeneration: 0 },
+          { range: "Euryale", effect: "-2 to all saves permanently + gain 3 debt", threadGeneration: 3 }
+        ]
       },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: "Each catastrophic card: +3 Threads",
-          usage: "Spend 5 Threads to redraw one catastrophic card",
-        },
+          generation: "Each catastrophic card drawn generates 3 Karmic Debt.",
+          usage: "Spend 5 debt to redraw one catastrophic card"
+        }
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: [
-        "cards",
-        "variable",
-        "random",
-        "legendary",
-        "ultimate",
-        "level 10",
-        "fate weaver",
-        "rollable table",
-      ],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["utility", "cards", "level 10", "fate weaver"]
     },
 
     {
       id: "fate_weaver_casino_royale",
-      name: "Casino Royale",
-      description:
-        "Transform the battlefield into a grand casino. Draw a card for each creature in range — their card determines the game they must play for 1 minute:\n**Hearts**: Must play Heart's Gamble each turn (draw until non-heart, take damage from hearts, buff from others)\n**Spades**: Must play War of Wills each turn (challenge another creature, winner deals damage)\n**Diamonds**: Must play Blackjack each turn (hit or stand, bust = self-damage)\n**Clubs**: Must play Solitaire each turn (form patterns or take penalty)\nYou are the House. You always draw first and choose your game. +2 Threads at the start of each of your turns.",
+      name: "The Sanguine Theater",
+      description: "Transform the battlefield into a flayed theater of agony in a 100-foot radius. Draw a card for every creature within: their suit determines their forced game: Hearts (Exsanguination Wager), Spades (Duel of Wills), Diamonds (Blackjack), Clubs (Solitaire). You are the House, generating 2 Karmic Debt at the start of each of your turns.",
       level: 10,
       spellType: "ACTION",
       icon: "Radiant/Divine Radiance",
-
       typeConfig: {
-        school: "arcane",
+        school: "necrotic",
         icon: "Radiant/Divine Radiance",
+        tags: ["zone", "control", "cards"],
         castTime: 2,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "IMMEDIATE"
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "self_centered",
         aoeShape: "circle",
-        aoeParameters: { radius: 100 },
+        aoeParameters: { radius: 100 }
       },
-
       resourceCost: {
+        actionPoints: 3,
         resourceTypes: ["mana"],
         resourceValues: { mana: 90 },
-        actionPoints: 3,
         components: ["verbal", "somatic"],
-        verbalText: "WELCOME TO MY CASINO!",
-        somaticText: "Grand sweeping gesture",
+        verbalText: "Welcome to the theater of bone!",
+        somaticText: "Sweep hands to spray blood-ink in a 100 ft circle"
       },
-
       resolution: "CARDS",
       effectTypes: ["utility", "control"],
-
+      durationConfig: {
+        durationType: "minutes",
+        durationValue: 1,
+        durationUnit: "minutes"
+      },
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
           {
-            id: "casino_zone",
-            name: "Casino Royale",
-            description:
-              "Transform battlefield into grand casino. Each creature assigned a card game by suit. You are the House — draw first and choose your game.",
-          },
+            id: "casino_zone_effect",
+            name: "Sanguine Theater Domain",
+            description: "Battlefield becomes theater. Hearts (Wager), Spades (Duel), Diamonds (Blackjack), Clubs (Solitaire)."
+          }
         ],
         duration: 1,
-        durationUnit: "minutes",
+        durationUnit: "minutes"
       },
-
       controlConfig: {
         controlType: "zone",
         effects: [
           {
-            id: "forced_game",
+            id: "forced_game_effect",
             controlType: "zone",
-            name: "Forced Card Game",
-            description:
-              "Creatures must play their assigned card game each turn. Hearts: Heart's Gamble. Spades: War of Wills. Diamonds: Blackjack. Clubs: Solitaire.",
+            name: "Flayed Plays",
+            description: "Creatures must play assigned game each turn.",
             config: {
               duration: 1,
               durationUnit: "minutes",
-              strength: "strong",
-            },
-          },
+              strength: "strong"
+            }
+          }
         ],
         duration: 1,
-        durationUnit: "minutes",
+        durationUnit: "minutes"
       },
-
       zoneConfig: {
         duration: 1,
         durationUnit: "minutes",
         effects: ["casino_rules"],
         movable: false,
-        size: { radius: 100 },
+        size: { radius: 100 }
       },
-
       specialMechanics: {
         casinoRoyale: {
-          description:
-            "All creatures are assigned a card game based on suit drawn. They must play their game each turn.",
-          youAreTheHouse:
-            "You always draw first and choose your game. +2 Threads at the start of each of your turns.",
+          description: "All creatures forced to perform card games based on suits drawn.",
+          youAreTheHouse: "You always draw first and choose. You generate +2 debt at the start of your turns."
         },
         threadsOfDestiny: {
-          generation:
-            "+2 Threads at start of each of your turns while Casino Royale is active",
-          usage: "None — the Casino generates Threads passively",
-        },
-        cardDraw: {
-          description:
-            "Draw 1 card per creature. Suit determines their forced game.",
-        },
+          generation: "+2 debt at start of your turns"
+        }
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: [
-        "cards",
-        "zone",
-        "control",
-        "gambling",
-        "ultimate",
-        "level 10",
-        "fate weaver",
-      ],
+      cooldownConfig: {
+        cooldownType: "long_rest",
+        cooldownValue: 1
+      },
+      tags: ["zone", "control", "cards", "level 10", "fate weaver"]
     },
+
     // ===== PASSIVE ABILITIES =====
     {
       id: "fate_weaver_deck_exhaustion",
-      name: "Deck Exhaustion",
-      description:
-        "When your deck runs out and requires reshuffling, the strain of reshaping reality exhausts you. You take 1d6 psychic damage and cannot call cards (spend Threads for specific draws) on the turn you reshuffle. A Fate Weaver without a deck is just a person holding air.",
+      name: "Sanguine Exhaustion",
+      description: "When your deck of flayed parchment runs dry and must be reshuffled in blood, you take 2d6 psychic damage and are unable to call cards or manipulate rolls for that turn.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Arcane/Arcane Vulnerability",
+      icon: "Arcane/Magical Cross Emblem 2",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Arcane Vulnerability",
-        tags: ["passive", "fate-weaver", "weakness"],
+        school: "necrotic",
+        icon: "Arcane/Magical Cross Emblem 2",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE"
       },
-      targetingConfig: { targetingType: "self" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
-      tags: ["passive", "fate-weaver", "weakness"],
+      tags: ["passive", "weakness"]
     },
+
     {
       id: "fate_weaver_fates_wrath",
-      name: "Fate's Wrath",
-      description:
-        "Destiny does not like being manipulated. Each time you use the 'Call Card' ability (spend 2 Threads to search for a specific card), there is a 10% chance the deck rebels: the called card is discarded instead, you lose the Threads spent, and you take 1d8 psychic damage. The more you cheat fate, the more fate pushes back. This chance increases by 5% per call in the same combat (resets on reshuffle).",
+      name: "Karmic Hemorrhage",
+      description: "Every time you override a natural roll, force a destiny, or use the 'Call Card' ability, you accumulate 1 stack of Karmic Debt (max 13). Each stack of debt imposes +5% vulnerability to all damage types and deals 1d4 necrotic damage at the end of each round (untreatable by normal magic). Reaching 13 debt triggers immediate Tapestry Collapse, dealing 6d10 psychic damage and incapacitating you for 1 round.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Arcane/Arcane Explosion",
+      icon: "Force/Explosion Burst",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Arcane Explosion",
-        tags: ["passive", "fate-weaver", "weakness"],
+        school: "necrotic",
+        icon: "Force/Explosion Burst",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE"
       },
-      targetingConfig: { targetingType: "self" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
-      tags: ["passive", "fate-weaver", "weakness"],
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "karmic_debt_vulnerability",
+            name: "Karmic Debt Vulnerability",
+            description: "Suffer compounding +5% vulnerability and 1d4 bleeding per stack of debt.",
+            statusEffect: {
+              type: "vulnerability",
+              value: 5,
+              stat: "all_damage",
+              magnitude: 5,
+              magnitudeType: "percentage"
+            }
+          }
+        ]
+      },
+      tags: ["passive", "weakness"]
     },
+
     {
       id: "fate_weaver_empty_hand",
-      name: "Empty Hand",
-      description:
-        "When you have 0 cards in your hand and 0 Threads of Destiny, you are at fate's mercy. You have disadvantage on all saving throws until you draw at least 1 card or gain 1 Thread. The cards are your shield -- without them, you are exposed to the very forces you manipulate.",
+      name: "Fleshless Void",
+      description: "When your Sanguine Reserve is empty and you have 0 Karmic Debt, your physical anchor is dangerously unmoored. You have disadvantage on all saving throws and Dodge/Armor checks until you draw a card or gain 1 debt.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "General/Defense Down",
+      icon: "General/Broken Armor",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "arcane",
-        icon: "General/Defense Down",
-        tags: ["passive", "fate-weaver", "weakness"],
+        school: "psychic",
+        icon: "General/Broken Armor",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE"
       },
-      targetingConfig: { targetingType: "self" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
-      tags: ["passive", "fate-weaver", "weakness"],
-    },
-  ],
+      tags: ["passive", "weakness"]
+    }
+  ]
 };

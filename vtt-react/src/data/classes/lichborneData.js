@@ -4459,11 +4459,11 @@ Many players enhance the Lichborne experience with:
         "Your undead body is eternally cold. You take +3 damage from all fire and radiant attacks. Additionally, any ally who ends their turn adjacent to you takes 1d4 cold damage (they feel the death radiating from you). Your presence is harmful to the living.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Frost/Frost Armor",
+      icon: "Frost/Icy Shield",
       effectTypes: ["passive"],
       typeConfig: {
         school: "frost",
-        icon: "Frost/Frost Armor",
+        icon: "Frost/Icy Shield",
         tags: ["passive", "debuff", "cold", "fire weakness", "lichborne"],
         castTime: 0,
         castTimeType: "PASSIVE",

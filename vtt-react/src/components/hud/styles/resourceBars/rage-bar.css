@@ -21,43 +21,24 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-
-.rage-bar-container .bar-background {
-    position: relative;
-    width: 100%;
-    height: 20px;
     background: linear-gradient(180deg, rgba(30, 20, 15, 0.8), rgba(20, 10, 5, 0.9));
     border: 1px solid rgba(139, 115, 85, 0.5);
     border-radius: 4px;
     overflow: hidden;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
-    flex-shrink: 0;
+    height: 20px;
 }
 
-.class-resource-bar.rage-bar.small .rage-bar-container .bar-background {
+.class-resource-bar.rage-bar.small .rage-bar-container {
     height: 14px;
+    border-radius: 3px;
 }
 
-.class-resource-bar.rage-bar.large .rage-bar-container .bar-background {
+.class-resource-bar.rage-bar.large .rage-bar-container {
     height: 28px;
+    border-radius: 6px;
 }
 
-.rage-bar-container .bar-fill {
-    height: 100%;
-    transition: width 0.3s ease, background-color 0.3s ease;
-    background: linear-gradient(90deg, rgba(139, 0, 0, 0.9), rgba(220, 20, 60, 1));
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), 0 0 10px rgba(220, 20, 60, 0.6);
-}
-
-.rage-bar-container .bar-overheat {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, rgba(255, 0, 0, 0.6), rgba(255, 0, 0, 0.3));
-    animation: overheatPulse 0.5s ease-in-out infinite;
-}
 
 @keyframes overheatPulse {
     0%, 100% {
@@ -68,32 +49,6 @@
     }
 }
 
-.rage-bar-container .bar-text {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-    color: #ffffff;
-    text-shadow:
-        0 0 4px rgba(0, 0, 0, 0.9),
-        0 1px 3px rgba(0, 0, 0, 0.8),
-        1px 1px 0 rgba(0, 0, 0, 0.8),
-        -1px -1px 0 rgba(0, 0, 0, 0.8);
-    pointer-events: none;
-    z-index: 2;
-    letter-spacing: 0.5px;
-}
-
-.class-resource-bar.rage-bar.small .rage-bar-container .bar-text {
-    font-size: 10px;
-}
-
-.class-resource-bar.rage-bar.large .rage-bar-container .bar-text {
-    font-size: 14px;
-}
 
 .rage-state-label {
     text-align: center;
@@ -241,13 +196,9 @@
 }
 .rage-menu-input::placeholder { color: #8b7355; opacity: 0.8; }
 
-/* Overheat full-bar animation */
-.class-resource-bar.rage-bar.overheated .rage-bar-container .bar-background {
-    animation: overheatGlow 1s ease-in-out infinite, rageShake 0.5s linear infinite;
-}
-@keyframes overheatGlow {
-    0%, 100% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 6px rgba(255,0,0,0.4); }
-    50% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 16px rgba(255,0,0,0.8); }
+/* Overheat shake on the container (glow is handled by canvas) */
+.class-resource-bar.rage-bar.overheated .rage-bar-container {
+    animation: rageShake 0.5s linear infinite;
 }
 @keyframes rageShake {
     0% { transform: translateX(0); }

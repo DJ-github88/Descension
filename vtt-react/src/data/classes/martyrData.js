@@ -15,88 +15,81 @@ export const MARTYR_DATA = {
   // Overview section
   overview: {
     title: "The Martyr",
-    subtitle: "Selfless Protector and Sacred Sacrifice",
+    subtitle: "Bleeding Faith Healer — Where the Divine Meets the Scalpel",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Martyr grows stronger through ACTIVE self-sacrifice, not passive damage absorption. You don't just "get hit" â€” you deliberately bleed yourself to build Devotion. Use Intervene to intercept attacks, cast self-damaging spells like Penance of Pain, and actively sacrifice HP to cross Devotion thresholds faster.
+      content: `**What You Need to Know**: The Martyr does not use shields or armor to stop blades. They use the soft meat of their own body to catch weapons meant for their companions. Every wound they choose to bear becomes a prayer — and every prayer demands more flesh. You do not get stronger by surviving. You get stronger by volunteering to not survive.
 
-**Core Mechanic**: ACTIVELY sacrifice HP (Intervene, self-damage spells, voluntary offering) â†’ Cross damage thresholds â†’ Unlock Devotion Levels â†’ Spend Devotion to amplify healing/buffs
+**Core Mechanic**: ACTIVELY sacrifice HP (Intervene, self-damage spells, voluntary offering) → Cross damage thresholds → Unlock Devotion Levels → Spend Devotion to amplify healing/buffs
 
 **Resource**: Devotion Gauge (6 levels, thresholds at 10/20/40/60/80/100 damage taken)
 
-**âš ï¸ CRITICAL DIFFERENCE FROM DREADNAUGHT**: The Dreadnaught is an immovable fortress that absorbs damage and converts it into shields. The Martyr is a BLEEDING FAITH HEALER who actively wounds themselves to heal others. The Dreadnaught's power comes from what hits them. The Martyr's power comes from what they CHOOSE to suffer.
+**CRITICAL DIFFERENCE FROM DREADNAUGHT**: The Dreadnaught is an immovable fortress that absorbs damage and converts it into shields. The Martyr is a BLEEDING FAITH HEALER who actively wounds themselves to heal others. The Dreadnaught's power comes from what hits them. The Martyr's power comes from what they CHOOSE to suffer. The Dreadnaught endures. The Martyr volunteers.
 
-**Playstyle**: Frontline tank who ACTIVELY sacrifices HP to build Devotion, then converts suffering into party-wide healing and buffs
+**The Minor Hit Loop**: Intervene creates a tactical fork. Intercepting a major hit (10+ damage) yields maximum Devotion progression — your body drinks the violence and converts it into divine authority. But intercepting a minor hit (less than 10 damage) bypasses Devotion entirely and instead immediately restores 1d4 Mana. You must choose between building power and sustaining your casting endurance.
 
-**Best For**: Players who enjoy protective gameplay, martyrdom fantasy, and turning deliberate self-harm into divine strength`,
+**The Fatal Flaw — Devotion Collapse**: If you go 1 round without taking damage or sacrificing HP, you lose 1 Devotion Level. The faith that is not tested rots immediately. Lose 3 levels through decay in a single combat and you become Faithless for 2 rounds: all healing you deal is halved, and you cannot use Intervene. The divine does not reward fair-weather believers. Recover by sacrificing at least 15 HP in a single round.
+
+**Playstyle**: Frontline bleeding altar who converts deliberate self-harm into emergency salvation for everyone else
+
+**Best For**: Players who enjoy protective gameplay with genuine risk, the martyrdom fantasy, and the visceral satisfaction of turning personal catastrophe into party survival`,
     },
 
-    description: `The Martyr is a devoted protector who draws strength from ACTIVE self-sacrifice, not passive endurance. Through the Devotion Gauge â€” a resource that fills as they deliberately bleed themselves for their allies â€” Martyrs transform willing suffering into healing power. Unlike the Dreadnaught who passively absorbs whatever hits them, the Martyr must ACTIVELY choose to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they CHOOSE to bear becomes a blessing for their companions.`,
+    description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the soft meat of their own body to catch weapons swung at their companions. Through the Devotion Gauge — a resource that fills as they deliberately bleed themselves for allies — the Martyr transforms willing suffering into grotesque acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Dreadnaught who passively absorbs whatever hits them, the Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated agony. No other class can do this. But their connection to the divine is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion — a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Martyrs are driven by unshakeable convictionâ€”whether religious faith, loyalty to a cause, or devotion to their companions. They have sworn oaths to protect others, even at the cost of their own lives. This dedication manifests as divine power that grows stronger the more they sacrifice.
-
-Their devotion often shows physically: scars that glow with holy light, stigmata that bleed radiant energy, or an aura of serenity even in the midst of agony. At high Devotion Levels, they may appear transfiguredâ€”wreathed in golden light, bearing phantom wings, or surrounded by spectral guardians.
+      content: `Martyrs are not saints. Saints are chosen. Martyrs volunteer — and the distinction is the difference between a blessing and a self-inflicted wound. They have sworn oaths to protect others, but the cost of those oaths is etched into their bodies: scars that weep golden light, stigmata that never close, an aura of serene agony that unsettles even their allies. Their devotion does not manifest as clean halos or phantom wings. At high Devotion Levels, their flesh turns translucent, their bones blaze with volatile energy from within, and they become something that looks less like a holy champion and more like an anatomy diagram weaponized by grief.
 
 Common Martyr archetypes include:
-- **The Penitent Knight**: Atoning for past sins through selfless service
-- **The Faithful Shepherd**: Protecting their flock from all harm
-- **The Oath-Bound Guardian**: Sworn to defend a person, place, or ideal
-- **The Suffering Saint**: Believes pain brings them closer to the divine
-- **The Living Shield**: Finds purpose in being the wall between danger and innocents
+- **The Penitent Butcher**: Atoning for past sins by treating every ally's wound as a debt paid in their own flesh
+- **The Shepherd of Sorrows**: Believes suffering is the only honest prayer; protects their flock by absorbing its punishment
+- **The Oath-Corrupted**: Swore a vow so absolute it metastasized into something supernatural and hungry
+- **The Weeping Anatomist**: Treats their own body as a surgical offering — every incision a liturgy, every scar a scripture
+- **The Living Crash Pad**: Finds purpose in being the thing that breaks so others keep moving
 
-Martyrs understand that true strength comes not from avoiding pain, but from enduring it for others. They see each wound as a badge of honor, each sacrifice as a prayer made manifest.`,
+Martyrs understand that true strength is not the absence of pain — it is the willingness to become a vessel for it. They see each wound as a deposit, each sacrifice as a withdrawal from an account that only empties when they stop paying into it. Their magic is not divine generosity. It is a currency exchange: blood for light, agony for salvation, self for other.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `The Martyr is a hybrid support/tank class that excels at:
-
-**Damage Mitigation**: Intercepting attacks meant for allies and redirecting harm to themselves
-**Sustained Healing**: Converting their own suffering into healing power for the party
-**Protective Buffs**: Granting resistance, temporary HP, and defensive bonuses
-**Radiant Damage**: Channeling devotion into holy attacks against enemies
+      content: `The Martyr is a hybrid support/tank whose utility is singular and terrifying: **the exclusive ability to negate fatal blows** tracking toward allies by pulling incoming damage vectors directly into their own body and releasing bursts of emergency vitality scaled to accumulated agony. No other class can do this.
 
 **Strengths**:
-- Excellent at protecting vulnerable allies
-- Scales in power as combat becomes more dangerous
-- Strong sustained healing capabilities
-- Can turn near-death situations into victory through high Devotion abilities
-- Provides both defensive and offensive support
+- **Fatal Blow Negation**: The "Why Bring Me?" answer. Only the Martyr can completely intercept a killing strike and redirect it into themselves
+- Sustained healing that scales with personal suffering — the more damaged they are, the more dangerous their support becomes
+- Protective buffs purchased with self-harm
+- Can turn near-death situations into party-saving turning points through high Devotion abilities
+- Minor Hit Mana Loop creates tactical sustain — intercepting small hits fuels casting instead of Devotion
 
 **Weaknesses**:
-- Requires ACTIVE self-sacrifice to reach full potential â€” passive damage absorption alone is too slow
+- **Devotion Collapse (Fatal Flaw)**: If you go 1 round without taking damage or sacrificing HP, you lose 1 Devotion Level. The faith that is not tested decays immediately. If you lose 3 Devotion Levels through decay in a single combat, you become Faithless for 2 rounds: all healing you deal is halved, and you cannot use Intervene. The divine does not reward fair-weather believers. Recover by sacrificing at least 15 HP in a single round
+- Highly vulnerable to targeted crowd control that isolates them from the party — if they cannot reach allies to intercept, their Devotion starves
 - Can become overwhelmed if they sacrifice too aggressively
-- Less effective when allies are spread out
-- Devotion spending requires careful resource management
-- Vulnerable to burst damage before building Devotion
-    - If you go **1 round** without taking damage or sacrificing HP, you lose 1 Devotion Level. The faith that is not tested fades IMMEDIATELY. A Martyr who does not bleed is a Martyr the divine forgets.
+- Requires ACTIVE self-sacrifice to reach full potential — passive damage absorption alone is insufficient
+- Fundamentally different from Dreadnaught: Dreadnaught absorbs whatever hits them (passive fortress). Martyr must CHOOSE to bleed (active sacrifice)
+- **The Zealot's Wrath Tithe**: Zealot-spec Martyrs deal devastating bonus damage scaled to Devotion, but suffer half that bonus as self-harm — they are simultaneously the party's most aggressive support and their own worst enemy
 
-    **Devotion Collapse (The Spiral)**: If you lose 3 Devotion Levels through decay in a single combat (not through spending), you become **Faithless** for 2 rounds: all healing you deal is halved, and you cannot use Intervene. The divine does not reward fair-weather believers. Recover by sacrificing at least 15 HP in a single round.
-- Fundamentally different from Dreadnaught: Dreadnaught absorbs whatever hits them (passive tank). Martyr must CHOOSE to bleed (active sacrifice tank).
-
-The Martyr shines in prolonged encounters where they can build Devotion Levels and unleash devastating amplified abilities at critical moments.`,
+The Martyr shines in prolonged encounters where they can build Devotion Levels and unleash devastating amplified abilities at critical moments. They wither in fights where they cannot reach allies or where enemies ignore them.`,
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `Playing a Martyr is about strategic sacrifice and resource management. Key considerations:
+      content: `Playing a Martyr is about strategic sacrifice, resource management, and the constant threat of Devotion Collapse. Key considerations:
 
 **Building Devotion** (Active Sacrifice, NOT Passive Tanking):
-- **Intervene**: Intercept an attack meant for an ally â†’ Take the damage â†’ +1 bonus Devotion level per intercept (THIS is your primary Devotion engine)
-- **Self-Damage Spells**: Cast Penance of Pain, Burning Sacrifice, or other self-harming spells â†’ Build Devotion while healing/buffing allies
-- **Voluntary Offering (NEW)**: At the start of your turn, you may sacrifice up to 1d8 HP as a free action to gain +1 Devotion progress toward the next threshold
-- **Passive Damage**: Being hit naturally contributes, but this is SLOW. A Martyr who just stands there and gets hit is a BAD Martyr. You must ACTIVELY seek suffering.
-- If you go **1 round** without taking any damage or sacrificing HP, you lose 1 Devotion Level. Faith that is not tested fades.
-- **Devotion Collapse**: If you lose 3 Devotion Levels through decay in a single combat (not through spending), you become Faithless for 2 rounds (healing halved, cannot Intervene). Recover by sacrificing 15+ HP in a single round.
-- Balance building Devotion with staying alive
+- **Intervene (Major Hit)**: Intercept an attack dealing 10+ damage meant for an ally → Take the damage → Gain bonus Devotion equal to damage ÷ 10 (minimum 1). This is your primary Devotion engine for heavy combat
+- **Intervene (Minor Hit Loop)**: Intercept an attack dealing less than 10 damage → Bypass Devotion gain entirely → Immediately restore 1d4 Mana. Use this when your Devotion is stable but your casting endurance is flagging
+- **Self-Damage Spells**: Cast Penance of Pain, Burning Sacrifice, or other self-harming spells → Build Devotion while healing/buffing allies
+- **Voluntary Offering**: At the start of your turn, sacrifice up to 1d8 HP as a free action to gain +1 Devotion progress toward the next threshold
+- **Passive Damage**: Being hit naturally contributes, but this is SLOW. A Martyr who just stands there and gets hit is a dead Martyr
+- **Devotion Collapse**: If you lose 3 Devotion Levels through decay in a single combat (not through spending), you become Faithless for 2 rounds (healing halved, cannot Intervene). Recover by sacrificing 15+ HP in a single round
 
 **Devotion Level Strategy**:
-- **Level 1-2 (Building Phase)**: Basic defensive benefits, focus on accumulating damage
-- **Level 3-4 (Power Phase)**: Strong passive effects, moderate amplification power
-- **Level 5-6 (Peak Phase)**: Powerful auras and devastating amplified abilities
+- **Level 1-2 (Building Phase)**: Basic defensive benefits, focus on accumulating damage through interception
+- **Level 3-4 (Power Phase)**: Strong passive effects, moderate amplification power — your wounds begin weeping light that hardens into ally armor
+- **Level 5-6 (The Hollow Transfiguration)**: Your flesh turns translucent, bones blaze with volatile golden energy. You become a weaponized, weeping anatomical horror. Powerful auras and devastating amplified abilities. This is not beautiful. This is not clean. This is survival weaponized.
 
 **Spending Devotion**:
 - Amplified spells cost 1-5 Devotion Levels for enhanced effects
@@ -105,15 +98,15 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 - Some situations require immediate amplified healing over passive bonuses
 
 **Specialization Synergies**:
-- **Redemption**: Maximum healing and protection, defensive playstyle
-- **Zealot**: Aggressive damage-dealing through suffering, offensive support
-- **Ascetic**: Balanced endurance, maintains high Devotion efficiently
+- **Redemption**: Maximum healing and protection, defensive playstyle — the purest form of bleeding faith
+- **Zealot**: Aggressive damage-dealing through suffering, offensive support — Wrath Tithe makes your radiant spells devastating but you pay half the bonus damage in self-harm
+- **Ascetic**: Balanced endurance, maintains high Devotion efficiently — the martyr who calculates the cost of every wound
 
 **Team Dynamics**:
 - Position near vulnerable allies to use Intervene effectively
-- Coordinate with tanks to share damage absorption duties
 - Communicate Devotion Levels so team knows when big abilities are ready
-- Synergizes with classes that benefit from resistance and temp HP buffs`,
+- Synergizes with classes that benefit from resistance and temp HP buffs
+- Your fatal flaw is isolation — crowd control that separates you from allies starves your Devotion`,
     },
 
     immersiveCombatExample: {
@@ -298,97 +291,111 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
 
   resourceSystem: {
     title: "Devotion Gauge",
-    subtitle: "Power Through Sacrifice",
+    subtitle: "Power Through Sacrifice — The Currency of Agony",
 
-    description: `The Martyr is a selfless guardian who transforms their own suffering into divine intervention. By absorbing damage meant for their allies, they build their Devotion Gauge, unlocking increasingly powerful passive auras and radiant smites. Each wound is a prayer, and each scar is a source of strength, culminating in a celestial transfiguration that can turn the tide of any losing battle.`,
+    description: `The Devotion Gauge is not a resource. It is an open wound that measures how much of the Martyr's body has been offered to something old and hungry that lives between flesh and faith. By absorbing damage meant for allies, the Martyr builds this gauge — unlocking passive auras and radiant strikes that grow more powerful — and more grotesque — with each threshold crossed. At lower tiers, the Martyr is merely a bruised信徒 with good intentions. At higher tiers, their flesh turns translucent, their bones ignite with volatile golden light, and they become something that should not exist: a weaponized, weeping anatomical horror whose suffering poisons the air with mercy. Each wound is not a prayer — it is a payment. Each scar is not a blessing — it is a receipt. And if the payments stop, the connection dies. Devotion Collapse is not a risk. It is a certainty. The only question is when.`,
 
     cards: [
       {
         title: "Flickering Faith (Level 1â€“2)",
         stats: "Resist 1st Hit | 1d6 HP Regen",
         details:
-          "The foundation of endurance. At these levels, your faith provides personal survival, ensuring you can stay on the frontline to take more hits.",
+          "The foundation of endurance. Your faith is a guttering candle in a cathedral of bones. At these levels, your devotion provides nothing more than the personal survival needed to keep absorbing punishment. You are not holy. You are meat that refuses to stop bleeding.",
       },
       {
         title: "Radiant Sacrifice (Level 3â€“4)",
         stats: "+1 Armor Aura | Resists for Allies",
         details:
-          "Your pain becomes their protection. Allies within 10ft gain armor and resistance to damage types as you bleed for them.",
+          "Your pain becomes their armor. Allies within 10ft gain protection only because your wounds weep light. Every point of resistance you grant was bought with an incision in your own flesh. The divine does not give — it extracts.",
       },
       {
-        title: "Celestial Protector (Level 5â€“6)",
+        title: "The Hollow Transfiguration (Level 5â€“6)",
         stats: "+10 Radiant DMG | Massive Resist",
         details:
-          "Transcendence. You gain phantom wings and a halo, granting your entire party resistance to ALL damage types within 15ft.",
+          "There is nothing beautiful about what you become. Your flesh turns translucent, stretched thin over a skeleton that blazes with volatile golden energy from within. Your bones become lanterns of radioactive devotion. Tears of liquid radiance stream from hollowed eye sockets. You do not gain phantom wings — you manifest as a weaponized, weeping anatomical horror, a crucified saint whose opened body cavity floods the battlefield with agonizing salvation. Allies within 15ft resist ALL damage types because your transfigured suffering poisons the air itself with mercy.",
       },
     ],
 
-    generationTable: {
-      headers: ["Action/Event", "Devotion Gain", "Thresholds"],
-      rows: [
-        ["Take Damage", "1:1 Progress", "10/20/40/60/80/100 Total"],
-        [
-          "Martyr's Intervene",
-          "Redirect + Bonus",
-          "+1 Level (min) per interception",
-        ],
-        [
-          "Self-Sacrifice Spells",
-          "Self-DMG",
-          "Direct conversion of HP to Devotion",
-        ],
-        [
-          "Amplify Spell",
-          "Spend Levels",
-          "Costs 1-5 Levels. Your effective Level decreases by the amount spent. Total damage taken does NOT decrease. Your Level can rise again if total damage crosses the threshold for your current Level + 1.",
-        ],
-        [
-          "Short Rest",
-          "Persistence",
-          "Devotion persists until you complete a Short Rest or are healed above 80% of your max HP",
-        ],
-      ],
-    },
+        generationTable: {
+          headers: ["Action/Event", "Devotion Gain", "Thresholds"],
+          rows: [
+            ["Take Damage", "1:1 Progress", "10/20/40/60/80/100 Total"],
+            [
+              "Martyr's Intervene (Major Hit: 10+ dmg)",
+              "Redirect + Bonus",
+              "Gain Devotion = damage Ã· 10 (min 1)",
+            ],
+            [
+              "Martyr's Intervene (Minor Hit: <10 dmg)",
+              "No Devotion",
+              "Bypass Devotion → Restore 1d4 Mana instead",
+            ],
+            [
+              "Self-Sacrifice Spells",
+              "Self-DMG",
+              "Direct conversion of HP to Devotion",
+            ],
+            [
+              "Amplify Spell",
+              "Spend Levels",
+              "Costs 1-5 Levels. Your effective Level decreases by the amount spent. Total damage taken does NOT decrease. Your Level can rise again if total damage crosses the threshold for your current Level + 1.",
+            ],
+            [
+              "Zealot Wrath Tithe",
+              "Self-Harm Tax",
+              "Bonus damage = Devotion x 3. You suffer half as radiant self-injury.",
+            ],
+            [
+              "Short Rest",
+              "Persistence",
+              "Devotion persists until you complete a Short Rest or are healed above 80% of your max HP",
+            ],
+          ],
+        },
 
     usage: {
       momentum:
-        'Use Intervene aggressively in the first three rounds. Your goal is to "spike" into Level 3 as fast as possible to grant your allies the +1 Armor aura.',
+        'Use Intervene aggressively in the first three rounds. Your goal is to spike into Level 3 as fast as possible to unlock the ally armor aura. Target the biggest incoming hits — the ones that would kill your allies — because the Devotion payoff is proportional to the violence you absorb.',
       flourish:
-        "âš ï¸ The Spending Trap: Amplified spells are seductive, but they strip your passive auras. If you spend Level 6 to save one person, you might lose the resistance that was keeping the rest of the party alive.",
+        "The Spending Trap: Amplified spells are seductive, but they strip your passive auras. If you spend Level 6 to save one person, you lose the resistance that was keeping the rest of the party alive. The Minor Hit Loop is your sustain valve — when Devotion is stable, intercept small hits to recover Mana instead of overstacking thresholds you cannot maintain.",
     },
 
     overheatRules: {
       title: "Sacrificial Tiers",
-      content: `Your **Devotion Level** determines the strength of your passive auras and the magnitude of your divine presence.
+      content: `Your **Devotion Level** determines the strength of your passive auras and the magnitude of your divine presence — and the horror of your transfiguration.
 
-**âœ¨ Transfigured (Level 5â€“6)**:
-- **Effect**: God-Tier Protection.
-- **Strategy**: This is your peak state. You provide resistance to all damage types for the entire team. Do not spend these levels on amplified spells unless it is for a game-ending Smite or a life-saving burst heal.
+**The Hollow Transfiguration (Level 5â€“6)**:
+- **Effect**: God-Tier Protection. Your flesh becomes translucent. Your bones glow with volatile golden energy. You are a weeping anatomical horror — a weaponized saint whose opened body cavity floods the battlefield with agonizing salvation.
+- **Strategy**: This is your peak state, and it is monstrous. You provide resistance to all damage types for the entire team because your transfigured suffering poisons reality itself with mercy. Do not spend these levels on amplified spells unless it is for a game-ending strike or a life-saving burst heal. The transfiguration demands its toll whether you use it or not.
 
-**ðŸ›¡ï¸ Ascendant (Level 3â€“4)**:
-- **Effect**: Support Anchor.
-- **Strategy**: The optimal state for most of the battle. You provide balanced armor buffs and have moderate amplification power ready for emergency interventions.
+**Ascendant (Level 3â€“4)**:
+- **Effect**: Support Anchor. Your wounds weep light that hardens into armor around your allies.
+- **Strategy**: The optimal state for most of the battle. You provide balanced armor buffs and have moderate amplification power ready for emergency interventions. Your suffering is productive, controlled, and sustainable.
 
-**ðŸ©¸ Mortal (Level 0â€“2)**:
-- **Effect**: Vulnerability.
-- **Strategy**: You are just a man. Your priority is to Intercept attacks immediately and use self-sacrificial spells to reach higher tiers before the party takes significant damage.`,
+**Mortal (Level 0â€“2)**:
+- **Effect**: Vulnerability. You are just meat and misplaced faith.
+- **Strategy**: You are just a person with scars and bad theology. Your priority is to Intercept attacks immediately and use self-sacrificial spells to reach higher tiers before the party takes significant damage. A Martyr at Devotion 0 is a liability. Bleed. Rise.`,
     },
 
     strategicConsiderations: {
-      title: "The Living Shield",
-      content: `**The Intervene Priority**: Your best resource isn't your manaâ€”it's your HP. If an ally is targeted by a multi-hit attack, use Intervene on the largest single hit to maximize your "Bonus Devotion" gain (Damage/10).
+      title: "The Living Crash Pad",
+      content: `**The Intervene Priority**: Your best resource isn't your mana — it's your HP. If an ally is targeted by a multi-hit attack, use Intervene on the largest single hit to maximize your Devotion gain (Damage/10). For small, attrition-style hits, use the Minor Hit Loop to sustain your Mana instead.
 
-**Passive vs Active**: A Level 6 Martyr is practically a win-condition due to the group-wide resistance. Spending those levels should be your last resort, used only when the "Amplified" healing is the only way to prevent a death.
+**Passive vs Active**: A Level 6 Martyr is practically a win-condition due to the group-wide resistance aura. Spending those levels should be your last resort, used only when the amplified healing is the only way to prevent a death.
 
-**The Self-Damage Loop**: Some spells, like Penance of Pain, hurt you to heal others. This is a "double-win": you provide necessary support while manually pushing your Devotion Gauge into the next tier. However, self-damage from amplified spells does NOT contribute to your total damage taken for Devotion threshold purposes. This prevents infinite loops where amplified spell self-damage immediately recovers spent Devotion Levels.
+**The Minor Hit Mana Loop**: Not every intercepted blow needs to build Devotion. When you intercept a hit dealing less than 10 damage, you gain no Devotion — but you immediately restore 1d4 Mana. This creates a tactical decision: do you need divine power (major hit → Devotion) or casting endurance (minor hit → Mana)? Late-game, when Devotion is stable, the minor hit loop becomes your primary sustain mechanic.
 
-**Suffering's Gift**: At Devotion Level 3+, this triggers once per instance of damage received. Temporary HP does not stack â€” the higher value applies. Self-inflicted damage does NOT trigger this effect.
+**The Self-Damage Loop**: Some spells, like Penance of Pain, hurt you to heal others. This is a double-win: you provide necessary support while manually pushing your Devotion Gauge into the next tier. However, self-damage from amplified spells does NOT contribute to your total damage taken for Devotion threshold purposes. This prevents infinite loops where amplified spell self-damage immediately recovers spent Devotion Levels.
+
+**Wrath Tithe (Zealot)**: Zealot-spec Martyrs must treat their own offensive casts as additional self-harm events. At Devotion 6, every radiant spell costs you HP equal to half the bonus damage. Factor this into your survival calculations — a Zealot at low HP who casts offensively may kill themselves before the enemy does.
+
+**Devotion Collapse Awareness**: If you are being ignored by enemies, your Devotion will decay. If you are being crowd-controlled, your Devotion will decay. If you are kited away from allies, your Devotion will decay. Three decay levels in one combat = Faithless. Always have a self-sacrifice spell ready to arrest the spiral.
 
 **Worked Example (The Threshold Jump)**:
 - **Scenario**: You are at Level 2 (20 damage taken). A boss targets your Wizard with a 20-damage fireball.
 - **The Play**: Intervene. You take 20 damage.
 - **The Result**: Your total damage hits 40 (Level 3), AND Intervene grants a bonus level. You jump from Level 2 to Level 4 in a single reaction.
-- **Outcome**: The Wizard is safe, and your entire team now has a Resistance Aura they didn't have 10 seconds ago.`,
+- **Outcome**: The Wizard is safe, and your entire team now has a Resistance Aura they didn't have 10 seconds ago. Your bones are starting to glow.`,
     },
 
     playingInPerson: {
@@ -419,9 +426,9 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
   // Specializations
   specializations: {
     title: "Martyr Specializations",
-    subtitle: "Three Paths of Sacred Sacrifice",
+    subtitle: "Three Paths Through the Same Flesh",
 
-    description: `Every Martyr chooses one of three specializations that define their approach to devotion and sacrifice. Each specialization offers unique passive abilities and influences your spell selection and playstyle.`,
+    description: `Every Martyr chooses one of three specializations that define how they approach the fundamental transaction: their body for their allies' survival. Each specialization is a different theology of suffering — not a different job, but a different interpretation of the same horrible math.`,
 
     specs: [
       {
@@ -429,12 +436,12 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
         name: "Redemption",
         icon: "Radiant/Radiant Bolt",
         color: "#FFD700",
-        theme: "Healing Through Sacrifice",
+        theme: "Healing Through Sacrifice — The Open Vein",
 
-        description: `Redemption Martyrs are the ultimate healers and protectors, converting their own suffering into powerful restorative magic. They excel at keeping allies alive through sustained healing and protective buffs, willingly bearing wounds so others may live.`,
+        description: `Redemption Martyrs are the purest expression of bleeding faith. They do not fight — they hemorrhage on behalf of others, converting their own tissue damage into restorative magic. They are the party's emergency transfusion, willingly bearing wounds so others may live. Their healing is not gentle. It is the desperate, agonizing survival of meat and bone repurposed as medicine.`,
 
         playstyle:
-          "Defensive support, maximum healing output, protective buffs",
+          "Defensive support, maximum healing output, protective buffs purchased with flesh",
 
         strengths: [
           "Highest healing output of all Martyr specs",
@@ -476,24 +483,25 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
         name: "Zealot",
         icon: "Radiant/Divine Downward Sword",
         color: "#DC143C",
-        theme: "Righteous Fury",
+        theme: "Righteous Fury — The Blade That Cuts Both Ways",
 
-        description: `Zealot Martyrs channel their suffering into devastating radiant attacks. They believe that pain purifies and empowers, using their wounds as fuel for holy vengeance. The more they suffer, the more destructive their righteous fury becomes.`,
+        description: `Zealot Martyrs channel their suffering into devastating radiant attacks fueled by the Wrath Tithe — a covenant where every point of bonus damage extracted from their Devotion demands an equal toll of flesh. They believe that pain purifies and empowers, but the price is literal: half of their offensive bonus tears through their own body on its way to the enemy. The more they suffer, the more destructive their righteous fury becomes — and the faster they kill themselves doing it.`,
 
-        playstyle: "Aggressive support, radiant damage, offensive buffs",
+        playstyle:
+          "Aggressive support, radiant damage through self-harm, offensive buffs with a visceral tax",
 
         strengths: [
-          "Highest damage output of all Martyr specs",
-          "Converts self-damage into offensive power",
-          "Strong radiant damage scaling with Devotion",
-          "Excellent at eliminating priority targets",
+          "Highest damage output of all Martyr specs via Wrath Tithe scaling",
+          "Wrath Tithe: +(Devotion Level x 3) bonus radiant damage — devastating at high Devotion",
+          "Strong radiant damage scaling with Devotion — suffering is ammunition",
+          "Excellent at eliminating priority targets when health is low",
         ],
 
         weaknesses: [
-          "Lower healing output than Redemption",
-          "More vulnerable due to aggressive playstyle",
-          "Requires balancing offense with survival",
-          "Less effective at pure protection",
+          "Wrath Tithe self-harm: you suffer half of your bonus damage as radiant self-injury every offensive cast",
+          "Lower healing output than Redemption — you are a weapon, not a bandage",
+          "More vulnerable due to accumulated self-harm from Wrath Tithe stacking with enemy damage",
+          "Requires balancing offense with survival — every kill draws your own blood",
         ],
 
         passiveAbilities: [
@@ -508,7 +516,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
             name: "Zealous Wrath",
             tier: "Specialization Passive",
             description:
-              "Your radiant damage spells deal additional damage equal to your current Devotion Level Ã— 2. When you damage an enemy with a radiant spell, you heal for 15% of the damage dealt.",
+              "Wrath Tithe: Your radiant damage spells deal additional damage equal to your current Devotion Level x 3. However, you suffer half of this bonus damage as radiant self-harm. The conviction that burns through your enemies must first cauterize your own flesh. At Devotion 6, a single radiant spell deals +18 bonus damage — and you take 9 damage to yourself. There is no borrowed power here. Only borrowed pain.",
             uniqueTo: "Zealot",
           },
         ],
@@ -522,11 +530,11 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
         name: "Ascetic",
         icon: "Healing/Prayer",
         color: "#4169E1",
-        theme: "Enduring Faith",
+        theme: "Enduring Faith — The Calculated Wound",
 
-        description: `Ascetic Martyrs are masters of endurance, maintaining high Devotion Levels through careful resource management and resilience. They embrace suffering as a path to enlightenment, gaining powerful defensive abilities that allow them to weather any storm.`,
+        description: `Ascetic Martyrs are the accountants of suffering. They treat every wound as an investment, every point of HP as capital, every Devotion threshold as a carefully managed portfolio. They embrace pain not as passion but as discipline — a cold, methodical approach to self-destruction that maximizes efficiency and minimizes waste. They do not bleed recklessly. They bleed precisely.`,
 
-        playstyle: "Balanced support, sustained Devotion, defensive resilience",
+        playstyle: "Balanced support, sustained Devotion management, defensive resilience through calculated sacrifice",
 
         strengths: [
           "Best at maintaining high Devotion Levels",
@@ -657,7 +665,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       id: "martyr_intervene",
       name: "Intervene",
       description:
-        "Step in front of an ally to intercept an attack, taking the damage yourself. Grants bonus Devotion equal to damage taken divided by 10 (minimum 1).",
+        "Step in front of an ally to intercept an attack, taking the damage yourself. If the intercepted damage is 10 or greater, you gain bonus Devotion equal to damage taken divided by 10 (minimum 1). If the intercepted damage is less than 10 (a minor hit), you bypass Devotion gain and instead immediately restore 1d4 Mana. Choose wisely: bleed for power, or sustain your casting.",
       level: 1,
       spellType: "REACTION",
       icon: "Utility/Shield",
@@ -696,6 +704,12 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
             id: "intercept_attack",
             name: "Intercept Attack",
             description: "Take damage meant for ally this turn",
+          },
+          {
+            id: "minor_hit_mana_loop",
+            name: "Minor Hit Mana Loop",
+            description:
+              "If intercepted damage is less than 10, bypass Devotion gain and immediately restore 1d4 Mana instead",
           },
         ],
         duration: 1,
@@ -833,8 +847,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "1d6 + spirit/2",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         resolution: "DICE",
       },
 
@@ -908,8 +921,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "1d8 + strength",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         resolution: "DICE",
       },
 
@@ -1070,8 +1082,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "2d6",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         targetType: "self",
         resolution: "DICE",
       },
@@ -1399,12 +1410,11 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "4d6 + spirit",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         savingThrow: {
           ability: "agility",
           difficultyClass: 14,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -1822,12 +1832,11 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "6d8 + stored_damage",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         savingThrow: {
           ability: "constitution",
           difficultyClass: 15,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -1926,8 +1935,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "3d8",
-        elementType: "radiant",
-        damageTypes: ["persistent"],
+        damageTypes: ["radiant"],
         targetRestrictions: ["undead", "demon"],
         description: "Damages undead and demons in the zone each round",
         resolution: "DICE",
@@ -2051,8 +2059,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "5d10 + spirit + missing_hp_percentage",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         resolution: "DICE",
       },
 
@@ -2229,12 +2236,11 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "8d8 + devotion_spent * 2",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         savingThrow: {
           ability: "constitution",
           difficultyClass: 17,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         criticalConfig: {
           enabled: true,
@@ -2526,12 +2532,11 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "12d10 + spirit * 2",
-        elementType: "radiant",
-        damageTypes: ["direct"],
+        damageTypes: ["radiant"],
         savingThrow: {
           ability: "spirit",
           difficultyClass: 20,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         criticalConfig: {
           enabled: true,
@@ -2791,11 +2796,11 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
         "Your healing power flows through sacrifice, not generosity. You can never heal yourself with any Martyr ability. All your healing spells target allies only. The only HP you gain is through suffering for others. Self-preservation is antithetical to the martyr's path.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Holy/Holy Seal",
+      icon: "Radiant/Sacred Symbol",
       effectTypes: ["passive"],
       typeConfig: {
         school: "holy",
-        icon: "Holy/Holy Seal",
+        icon: "Radiant/Sacred Symbol",
         tags: ["passive", "restriction", "no self-heal", "sacrifice", "martyr"],
         castTime: 0,
         castTimeType: "PASSIVE",

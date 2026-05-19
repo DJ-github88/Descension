@@ -1,2418 +1,1055 @@
-/**
- * Gambler Class Data
- *
- * Complete class information for the Gambler - a daring risk-taker
- * who manipulates luck and probability for high-stakes rewards.
- */
-
 export const GAMBLER_DATA = {
   id: "gambler",
   name: "Gambler",
   icon: "fas fa-dice",
-  role: "Damage/Utility",
-  damageTypes: ["force", "psychic"],
+  role: "Damage / Utility",
+  damageTypes: ["force", "psychic", "necrotic"],
 
-  // Overview section
   overview: {
-    title: "The Gambler",
-    subtitle: "Master of Fortune and Fate",
+    title: "The Desperate Debtor",
+    subtitle: "The Parasite of Probability",
 
     quickOverview: {
       title: "Quick Overview",
-      coreLoop:
-        "Successful spell/attack → Generate Fortune Points → Spend to adjust your own rolls by ±1 per point",
-      resource: "Fortune Points (Cap: 7 / 13 / 21 by spec)",
-      role: "Variable damage dealer + utility",
-      playstyle:
-        "High-risk damage, probability manipulation, rollable table specialist",
-      bestFor:
-        "Players who enjoy gambling mechanics, adjusting roll results, and high-variance gameplay",
+      content: `**What You Need to Know**: The Gambler is no daring risk-taker or charming rogue. They are a gaunt, jittery Desperate Debtor who has bartered away their own natural luck to an extraplanar collector. Now, they must physically rip probability from the flesh of those around them, leaving a trail of biological deterioration in exchange for stolen fortune.
+
+**Core Mechanic (Nudge & Wager)**: You generate Fortune Points (FP) through violent coin-flips, die throws, and card siphoning. You spend these points to manipulate the exact math of active d20 rolls, adjusting results by ±1 per point *after* they are rolled.
+
+**The Debtor's Tax (Physical Toll)**: Banked luck demands a toll of flesh. Every single time you gain or bank a Fortune Point from a successful hit or winning gamble, you suffer 1 immediate, unpreventable HP damage as your body acts as collateral.
+
+**Playstyle**: High-risk, visceral build-and-spend economy. You walk a knife-edge between spectacular fortune-manipulation and catastrophic internal hemorrhaging. If your FP pool drops to zero or you fail a critical gamble, you go Bust.`,
     },
 
-    description: `A daring risk-taker who manipulates luck and probability. Gamblers embrace high-risk, high-reward strategies, using Fortune Points to turn chance into calculated advantage and swing battles on a single bet.`,
+    description: `A tragic dirge written in stolen luck and shattered marrow. The Gambler does not play for gold or glory; they play for the next agonizing breath. Having bartered their soul-anchored fortune to a cosmic debt collector, their veins twitch with the kinetic hum of stolen probability. To twist fate is to mutilate the self—a biological sacrifice that leaves them hollowed-out, gaunt, and perpetually on the verge of bankruptcy.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Gamblers are individuals who have learned to see patterns in chaos and opportunity in uncertainty. They believe that fate is not fixed but fluid—something that can be nudged, influenced, and occasionally cheated. Whether through supernatural luck, divine favor, or simply uncanny intuition, Gamblers have an almost preternatural ability to beat the odds.
+      content: `In the grimdark reality of Mythrill, these desperate souls are hunted outcasts. They are jittery addicts of chance who can see the invisible, vibrating strings of probability and flay their own skin just to pull them. 
 
-**The Gambler's Philosophy**: True power comes not from controlling every variable, but from knowing when to take risks and when to play it safe. Every moment is a gamble, and the universe rewards the bold.
-
-**Common Archetypes**:
-- **The Card Sharp**: A cunning strategist who treats life like a game of cards, always counting odds and reading tells
-- **The Lucky Fool**: Blessed (or cursed) with supernatural fortune, stumbling into success through sheer chance
-- **The Fate Weaver**: Believes they can see and manipulate the threads of destiny itself
-- **The Debt Collector**: Made a deal with a powerful entity and now wields borrowed luck at a price
-- **The Thrill Seeker**: Addicted to the rush of risk, constantly pushing their luck to feel alive
-- **The Statistical Savant**: Uses probability and mathematics to turn randomness into advantage
-
-**Personality Traits**: Gamblers tend to be confident, charismatic, and comfortable with uncertainty. They often have a flair for the dramatic, turning every action into a performance. Some are superstitious, carrying lucky charms and following elaborate rituals, while others are coldly analytical, treating every situation as a probability calculation.
-
-**Physical Manifestations**: A Gambler's connection to fortune often manifests subtly—dice that always seem to roll in their favor, coins that land on the desired side, or an aura that makes others feel either lucky or unlucky in their presence. Some carry enchanted gambling implements that glow when fortune favors them.`,
+- **The Reluctant Debtor**: A desperate soul who bartered their luck to save a dying loved one, only to realize the collector's terms are eternal.
+- **The Probability Savant**: A hollowed-out scholar who mapped the mathematical patterns of cosmic debt and now treats their own blood as numbers.
+- **The Thread Puller**: An addict who has flayed their fingers raw to physically feel and grasp the vibrating strings of destiny.
+- **The Defaulted Hunter**: One who defaults on their loan and now tracks down other debtors, siphoning their fortune before the collector's hounds arrive.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `**Primary Role**: Versatile Damage Dealer with Utility
+      content: `**Why Bring Me?**: Perfect threshold control. The Gambler possesses the exclusive capacity to manipulate the exact math of active d20 rolls. By spending banked Fortune Points, they can squeeze a close failure into a success or drag an enemy's saving throw down beneath a crucial threshold. They are the ultimate mathematical safety net—or the spark that ignites a devastating high-stakes payload.
 
-The Gambler occupies a unique niche as a damage dealer whose output varies wildly based on luck and Fortune Point management. They can swing from devastating burst damage to complete whiffs, making them exciting but unpredictable.
-
-**Damage Output**: Highly variable—can match top-tier damage dealers on lucky streaks or fall behind on unlucky ones. Fortune Points allow skilled players to smooth out variance.
-
-**Utility**: Exceptional utility through probability manipulation, rerolls, and fate-altering abilities that can turn failures into successes for themselves and allies.
-
-**Battlefield Control**: Creates uncertainty for enemies through unpredictable effects, forced gambles, and luck-based debuffs.
-
-**Support Capabilities**: Can grant rerolls, manipulate enemy rolls, and provide luck-based buffs to allies.
-
-**Strengths**:
-- Extreme burst damage potential when luck aligns
-- Fortune Points provide strategic control over randomness
-- Versatile toolkit for various situations
-- Excellent at turning bad situations around with lucky rolls
-- Strong utility and support options
-- Thrives in high-stakes moments
-
-**Weaknesses**:
-- Inconsistent damage output without Fortune Point investment
-- Some abilities can backfire spectacularly
-- Requires good Fortune Point management to be effective
-- Less reliable than consistent damage dealers
-- Can accidentally harm allies with chaotic effects
-- Vulnerable when Fortune Points are depleted
-
-**Team Dynamics**:
-- Works well with adaptable teams who can capitalize on random opportunities
-- Synergizes with support classes who can mitigate bad luck
-- Benefits from tanks who can protect during unlucky streaks
-- Provides valuable reroll support for critical ally actions`,
+**The Fatal Flaw (Cosmic Bankruptcy)**: Your luck is a compounding loan. If you deplete your Fortune Point pool to absolute zero, or catastrophically fail a major gamble (such as a miss on Double or Nothing or rolling a catastrophic failure on Jackpot), you plunge into Cosmic Bankruptcy. Your internal organs hemorrhage, dealing severe necrotic damage, and you suffer a 100% vulnerability to magical Spirit and shadow forces for 2 rounds while unable to generate luck.`,
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `Playing a Gambler is about managing risk versus reward and knowing when to trust in luck versus when to spend Fortune Points for guaranteed results.
+      content: `Playing the Desperate Debtor requires balancing the raw mathematical power of roll manipulation against your own biological decay:
 
-**Core Gameplay Loop**:
-1. **Build Fortune Points** through successful attacks and spell casts
-2. **Take calculated risks** with luck-based abilities
-3. **Spend Fortune Points** to adjust critical rolls
-4. **Capitalize on lucky streaks** while they last
+**The Turn 1 Loop**:
+- Start combat with 1 Fortune Point. 
+- Immediately lock into the build-and-spend economy using **Lucky Strike** or **Lucky Toss** on Turn 1. 
+- Bank Fortune Points at the immediate cost of 1 HP per point, then immediately decide whether to hoard them for roll modifications or spend them on devastating active wagers.
 
-**Fortune Point Management** (thresholds scale with your spec's max):
-- **Low Fortune (0-25%)**: Play conservatively, focus on building points, avoid high-risk abilities
-- **Medium Fortune (25-50%)**: Moderate risk-taking, can afford to adjust important rolls
-- **High Fortune (50-75%)**: Take big risks, use powerful abilities, adjust multiple rolls
-- **Maximum Fortune (75-100%)**: Near-complete control, use highest-risk highest-reward abilities
+**Roll Nudging**:
+- After any d20 roll is made (attack roll, saving throw, check), spend Fortune Points to modify the result by ±1 per point.
+- Spending FP triggers **Calculated Risk**, inflicting 1d4 psychic damage per point spent. You do not just spend points; you bleed for them.
 
-**Risk Assessment**:
-- **Low-Risk Abilities**: Consistent effects with minor random elements (Coin Toss, Gambler's Insight)
-- **Medium-Risk Abilities**: Significant random variance but manageable consequences (Lucky Strike, Twist of Fate)
-- **High-Risk Abilities**: Extreme variance with potential for disaster or triumph (Double or Nothing, Jackpot)
-- **Ultimate Risk**: Life-or-death gambles with game-changing results (All-In, Death Roll)
-
-**When to Spend Fortune Points**:
-- To avoid catastrophic failures (preventing self-damage, ensuring critical hits land)
-- To guarantee success on crucial rolls (boss damage, saving ally lives)
-- To maximize already-good rolls into exceptional ones
-- To turn near-misses into successes
-
-**When to Save Fortune Points**:
-- During trash encounters where variance is acceptable
-- When Fortune Point count is low (below 5)
-- Before boss fights or critical moments
-- When abilities have acceptable failure states
-
-**Specialization Strategies**:
-- **Fortune's Favor**: Maximize coin flip manipulation, focus on rerolls and probability control
-- **High Roller**: Embrace extreme risk/reward, bet resources for massive payoffs
-- **Card Sharp**: Strategic gambling with calculated risks, deck manipulation
-
-**Perfect For**: Players who enjoy randomness, dramatic moments, risk/reward decisions, and don't mind occasional spectacular failures in pursuit of legendary successes.`,
+**Managing the Void**:
+- Never let your Fortune Point pool drop to 0. Always hold a single point in reserve, or the collector's hounds will trigger Cosmic Bankruptcy, locking your abilities and leaving you defenseless.`,
     },
 
     immersiveCombatExample: {
-      title: "Combat Example: The House Always Wins",
-      content: `**The Setup**: You're a Gambler (Card Sharp specialization, Fortune Point max: 13) facing a powerful ogre champion and two goblin minions. Your party needs you to deal damage, but your spells are gambling-based — high risk, high reward. Starting Fortune Points: 3 (from previous encounter). Starting Mana: 40/50. Your goal: Build Fortune Points through successful actions, use them to adjust critical rolls, and unleash devastating gambling abilities.
+      title: "Combat Example: The Debt Paid at Iron Gallows",
+      content: `**The Setup**: You stand before a hulking, armor-clad inquisitor. Your hands tremble; the debt is due. You must harvest his probability to keep your heart beating.
 
-**Starting State**: Fortune Points: 3/13 | Mana: 40/50 | HP: 60/70
+**Turn 1 - Harvesting the Collateral (FP: 1 → 3, HP: 45 → 43)**
+*You mutter a chattering prayer, flaying your knuckles. You cast Lucky Strike!*
+Dice roll matches! You deal 14 force damage.
+**The Debtor's Tax**: You bank 2 Fortune Points. Your veins boil, and you suffer 2 immediate physical damage as collateral.
 
-**Turn 1 - Building Fortune (FP: 3 → 4)**
+**Turn 2 - Nudging the Scales (FP: 3 → 2, HP: 43 → 41)**
+*The inquisitor swings his massive hammer. The roll lands exactly on his hit threshold.*
+**Reaction**: You spend 1 Fortune Point, tugging the strings of his hammer.
+**Calculated Risk**: You suffer 1d4 psychic damage (rolling a 2) as your ears bleed.
+*The hammer swings wide, missing your shoulder by a fraction of an inch. His luck was yours.*
 
-*The ogre roars, raising its massive club. The goblins cackle, circling. You pull out a pair of enchanted dice, grinning. "Let's make this interesting."*
+**Turn 3 - The Ultimate Wager (FP: 2 → 0, HP: 41 → Bankruptcy)**
+*Desperate, you cast Double or Nothing, putting your remaining life on the table.*
+You roll a d20 to hit... and fail. The weapon recoils violently, hitting your own chest.
+Your Fortune Points hit 0.
+**Cosmic Bankruptcy**: Your lungs fill with blood (2d10 necrotic damage). For the next 2 rounds, you are deaf to fate, unable to cast, and 100% vulnerable to his dark spells. The debt collectors have come to harvest.`,
+    },
+  },
 
-**Your Action**: Cast "Lucky Strike" on Ogre (7 mana, roll 4d12 and match for multiplier)
-**4d12 Roll**: [8, 8, 3, 11] → Pair of 8s!
-**Outcome**: Pair = Double damage + 1 Fortune Point
-**Base Damage**: 1d8 → [5] = 5 damage
-**Total Damage**: 5 × 2 = **10 damage**
+  resourceSystem: {
+    title: "Fortune Points & Flesh Collateral",
+    description: "A high-stakes, mathematical resource representing stolen luck and the physical degradation demanded by its extraplanar collectors.",
 
-*The dice glow golden as they land. A pair of eights. Not bad — double damage. The ogre snorts, barely feeling it.*
+    cards: [
+      {
+        title: "Fortune Points (Primary)",
+        stats: "7 to 21 Max (Scales by Spec)",
+        details: "Vibrating tokens of stolen probability. Generated by coin flips, die rolls, and card draws. Spent after any d20 roll to adjust the result by ±1 per point.",
+      },
+      {
+        title: "Flesh Collateral (The Debtor's Tax)",
+        stats: "1 HP per FP Gained",
+        details: "Stolen luck is bought with meat. Every single time you bank or gain a Fortune Point from any spell or effect, you suffer 1 immediate, unpreventable HP damage.",
+      },
+      {
+        title: "Calculated Risk (The Spending Cost)",
+        stats: "1d4 Psychic Damage per FP Spent",
+        details: "Tugging the strings of fate tears your mind. Whenever you spend Fortune Points to modify a roll, you suffer 1d4 psychic damage per point spent. Cannot be mitigated.",
+      },
+    ],
 
-**Fortune Points Generated**: +1 FP (successful spell) + 1 FP (pair bonus) = +2 FP
-**Fortune Points**: 3 + 2 = **5 FP**
-**Mana**: 40 - 7 = 33/50
+    generationTable: {
+      headers: ["Action / Spell", "Fortune Point Change", "Physical Toll (HP)"],
+      rows: [
+        ["Lucky Strike (Level 1)", "+1 to +3 on match", "-1 HP per point generated"],
+        ["Lucky Toss (Level 1)", "+1 on heads", "-1 HP"],
+        ["Beginner's Luck (Level 1)", "+1 on cast", "-1 HP"],
+        ["Dice Dart (Level 1)", "+1 on cast", "-1 HP"],
+        ["Nudge a d20 Roll", "-1 to -X points", "1d4 psychic damage per point spent"],
+        ["Cosmic Bankruptcy (0 FP)", "Resets to 0, Locked", "2d10 necrotic damage + 100% Spirit/shadow vulnerability"],
+      ],
+    },
 
-**Ogre's Turn**: Attacks you → [18] → Hit! → 3d8+5 → [6, 7, 5] + 5 = 23 damage
-**Your HP**: 60 - 23 = 37/70
-
-*The ogre's club slams into you. You're hurt, but you're SMILING. That pair built your stack.*
-
-**Your Party's Healer**: Heals you for 15 HP
-**Your HP**: 37 + 15 = 52/70
-
-**Current State**: FP: 5/13 | Mana: 33/50 | HP: 52/70
-
-**Turn 2 - The Gamble (FP: 5 → 7)**
-
-*You're at 5 Fortune Points. Time to use your signature spell: "Jackpot" — roll 3d20, sum them, and consult the outcome table. Higher sums mean bigger payouts.*
-
-**Your Action**: Cast "Jackpot" on Ogre (28 mana, roll 3d20 and sum for outcome tier)
-**3d20 Roll**: [12], [7], [19]
-**Sum**: 12 + 7 + 19 = **38**
-
-*Three magical slot machine reels appear above the ogre. They spin, then STOP. 12. 7. 19. You check the table...*
-
-**Outcome Lookup**: Sum 38 → "Moderate Win" (Sum 26-38 tier) → 4d10 force damage + stun for 1 round + gain 1 FP
-
-*Not bad, but you have 5 Fortune Points. Scanning the table, Sum 39-48 is "Big Win" for 6d10 damage + stun for 2 rounds + gain 2 FP. You need to shift that 12 up to at least 15 to break into the next tier. That costs 3 FP — affordable.*
-
-**Decision**: Spend 3 Fortune Points to change [12] to [15]
-**Fortune Points**: 5 - 3 = **2 FP**
-**Adjusted Roll**: [15], [7], [19]
-**New Sum**: 15 + 7 + 19 = **41**
-**Outcome Lookup**: Sum 41 → "Big Win" (Sum 39-48 tier) → 6d10 force damage + stun for 2 rounds + gain 2 FP
-
-*You snap your fingers. The first reel SHIFTS from 12 to 15. The sum climbs to 41. Big Win territory!*
-
-**Damage Roll**: 6d10 → [8, 9, 7, 10, 6, 8] = **48 damage!**
-**Effect**: Ogre stunned for 2 rounds
-**Fortune Points Generated**: +1 FP (successful spell) + 2 FP (Big Win bonus) = +3 FP total
-**Fortune Points**: 2 + 3 = **5 FP**
-
-*The ogre is BLASTED by magical energy. It falls to one knee, stunned. The goblins back away, terrified.*
-
-**Mana**: 33 - 28 = 5/50
-**Current State**: FP: 5/13 | Mana: 5/50 | HP: 52/70 | Ogre: Stunned (2 rounds)
-
-**Turn 3 - Low Mana, Smart Play (FP: 5 → 6)**
-
-*The ogre is stunned. Time to clean up a goblin, but you're almost out of mana. Time for a cheap spell.*
-
-**Your Action**: Cast "Lucky Toss" on Goblin #1 (3 mana, flip a coin — heads deals damage, tails gives a buff)
-**Coin Flip**: Heads or Tails? → [Heads]
-**Outcome**: Heads → 1d8 + CHA force damage to Goblin #1
-
-**Damage Roll**: 1d8 + 3 (CHA mod) → [6] + 3 = **9 damage**
-
-*You flip a golden coin. Heads. A bolt of luck-infused energy strikes the goblin. It crumples.*
-
-**Result**: Goblin #1 DEAD
-**Fortune Points Generated**: +1 FP (successful spell)
-**Fortune Points**: 5 + 1 = **6 FP**
-**Mana**: 5 - 3 = 2/50
-
-**Goblin #2's Turn**: Attacks you → [11] → Miss!
-
-**Current State**: FP: 6/13 | Mana: 2/50 | HP: 52/70
-
-**Turn 4 - The Ultimate Gamble (FP: 6 → 3)**
-
-*The ogre shakes off the stun. It's wounded (58 damage taken total) but still alive. One goblin remains. You have 6 Fortune Points and almost no mana. Time for the ultimate gamble: "Death Roll."*
-
-**Your Action**: Cast "Death Roll" on Ogre (24 mana... wait, you only have 2 mana.)
-
-*You check your mana. 2. You need 24 for Death Roll. That's not happening. Time to improvise.*
-
-**Your Action**: Attack with Duelist's Rapier (free action, 1d8+3 pierce)
-**Attack Roll**: d20+5 → [14] = 19 → Hit!
-**Damage**: 1d8+3 → [6]+3 = **9 damage**
-
-*The rapier flashes. Not your best work, but the ogre is hurting.*
-
-**Fortune Points Generated**: +1 FP (successful attack)
-**Fortune Points**: 6 + 1 = **7 FP**
-
-**Ogre's Turn**: Attacks you → [9] → Miss! (It's weakened from the stun.)
-
-**Current State**: FP: 7/13 | Mana: 2/50 | HP: 52/70 | Ogre: 67 damage taken
-
-**Turn 5 - The Comeback (FP: 7 → 3)**
-
-*Your party's Alchemist tosses you a Mana Potion. Mana restored to 30/50. Now you can finish this.*
-
-**Your Action**: Cast "Death Roll" on Ogre (24 mana, competitive d20 minigame)
-**How It Works**: Both you and the target roll a d20. The lower roll becomes the new maximum. Both roll again. First to roll over the current max loses.
-
-**Round 1**: You roll d20 → [15]. Ogre rolls d20 → [12]. Max becomes **12**.
-**Round 2**: You roll d20 (max 12) → [8]. Under! Safe. Ogre rolls d20 (max 12) → [11]. Under! Safe.
-**Round 3**: You roll d20 (max 11) → [9]. Under! Safe. Ogre rolls d20 (max 11) → [13]. OVER! **Ogre loses!**
-
-*The dice clatter. 13 — over the limit of 11. The ogre's eyes widen as cosmic forces drag it down.*
-
-**Result**: Ogre loses Death Roll. As the winner, you choose 5d10 psychic damage.
-**Damage Roll**: 5d10 → [9, 8, 10, 7, 6] = **40 psychic damage!**
-**Effect**: Ogre stunned for 1 round
-
-*The ogre EXPLODES in a burst of psychic energy. Dead. The remaining goblin flees.*
-
-**Fortune Points Generated**: +1 FP (successful spell) + 1 FP (won Death Roll) = +2 FP
-**Fortune Points**: 7 - 0 (no adjustment needed) + 2 = **7 FP**
-**Mana**: 30 - 24 = 6/50
-
-**Combat Over**
-
-*You stand among the corpses, breathing heavily. Your party stares at you.*
-
-**Your Party's Tank**: "Did you just... gamble the ogre to death?"
-**You**: "I didn't gamble. I CALCULATED. I used my FP to shift Jackpot from sum 38 to sum 41 — that moved me from Moderate Win to Big Win, adding 24 damage and an extra stun round. Then I played Death Roll clean — the ogre busted on round 3."
-**Your Party's Mage**: "But what if you'd rolled lower in Death Roll?"
-**You**: "Then I would have spent Fortune Points to adjust. That's the secret — build Fortune Points through successful actions, then spend them to turn near-losses into wins. The dice are random, but the strategy isn't."
-
-**Final State**: FP: 7/13 (banked for next fight) | Mana: 6/50 | HP: 52/70
-
-**The Lesson**: Gambler gameplay is about:
-1. **Fortune Point Generation**: Generated 10 FP total across the fight (from successful attacks, spells, and gamble bonuses)
-2. **Fortune Point Spending**: Spent 3 FP total (to shift Jackpot die from 12 to 15, moving up a tier)
-3. **Tier Manipulation**: The core Jackpot strategy is sum-based — spending FP to shift individual dice moves your total into higher payout tiers
-4. **Resource Awareness**: Low mana forced creative play in Turns 3-4 (cheap spells, weapon attacks)
-5. **Death Roll**: A competitive minigame where both sides roll d20s with a descending ceiling. FP can adjust rolls mid-game to stay under the limit or push the enemy over
-6. **Risk Management**: Used cheap spells (Lucky Toss at 3 mana) when mana was low, saved the big guns for when mana was restored
-7. **Total Damage**: Dealt 10 (Lucky Strike) + 48 (Jackpot) + 9 (Lucky Toss, killed goblin) + 9 (Rapier) + 40 (Death Roll) = **116 damage** across 5 turns
-
-You're not a consistent damage dealer. You're a GAMBLER who manipulates probability. You roll dice, flip coins, spin slot machines — but you're not leaving it to chance. You build Fortune Points through successful actions, then spend them to shift outcomes into your favor. When your Jackpot sum lands at 38, you don't accept "Moderate Win" — you spend 3 FP to push it to 41 and collect "Big Win." When Death Roll comes down to the wire, you spend FP to stay under the ceiling while your opponent busts. The randomness is real, but you control it. That's the Gambler's edge.`,
+    usage: {
+      nudging: "Modify any d20 roll (attack, save, ability check) by ±1 per Fortune Point spent. Must be declared AFTER the roll is seen, but BEFORE the outcome is narrated.",
+      wagers: "Spent as resource requirements for high-stakes Level 2-10 actions (e.g., Death Roll, High Roller, Jackpot).",
     },
   },
 
   characterCreation: {
     title: "Character Creation",
-    primaryStat: "Charisma",
-    secondaryStat: "Agility",
-    savingThrows: ["Charisma", "Agility"],
-    armorProficiency: ["Light"],
-    weaponProficiency: ["Simple", "Rapier", "Dagger", "Crossbow (Hand)"],
-    toolProficiency: ["Gaming Set (All)", "Disguise Kit"],
-    skillRecommendations: ["Deception", "Insight", "Perception", "Persuasion"],
-    guide: [
-      "Choose Charisma as your highest stat — it drives Fortune Point generation and your spell damage.",
-      "Agility keeps you alive in light armor. Constitution is your third priority.",
-      "Select the Duelist fighting style for the rapier — your weapon attacks generate Fortune Points.",
-      "Pick Deception and Insight as your first skills — they define the Gambler identity.",
+    subtitle: "Signing the Soul-Contract",
+    description: "Every Gambler begins their journey in a state of frantic, chattering desperation, their body acting as a living ledgers for cosmic probability.",
+    steps: [
+      {
+        title: "Acknowledge the Sovereign Debt",
+        content: "You begin play with exactly 1 Fortune Point and a trembling body. Your first action on Turn 1 must involve generating or spending luck.",
+      },
+      {
+        title: "Accept the Blood Collateral",
+        content: "Every point of luck you siphon from the cosmos will physically drain your flesh. You must be prepared to bleed to turn a failure into a success.",
+      },
+      {
+        title: "Choose Your Instrument of Debt",
+        content: "Select whether you siphon luck via a blood-slicked coin, a deck of flayed leather cards, or heavy bone dice.",
+      },
     ],
   },
 
   startingEquipment: {
-    title: "Starting Equipment",
     weapons: [
-      {
-        name: "Duelist's Rapier",
-        damage: "1d8+3 pierce",
-        properties: ["Finesse", "Versatile (1d10)"],
-        note: "Your Fortune Point generator",
-      },
-      {
-        name: "Dagger",
-        damage: "1d4+3 pierce",
-        properties: ["Finesse", "Light", "Thrown (20ft)"],
-        note: "Backup weapon",
-      },
+      { name: "Blood-Slick Dagger", damage: "1d4 piercing", description: "A simple blade used more for drawing your own blood than fighting." },
+      { name: "Serrated Cane-Sword", damage: "1d6 slashing", description: "A concealed blade to keep predators at bay while you chitter." },
     ],
-    armor: { name: "Leather Armor", ac: "11 + AGI modifier", type: "Light" },
-    items: [
-      {
-        name: "Lucky Coin",
-        description:
-          "Spell focus for coin-flip abilities. Glows faintly when Fortune favors you.",
-      },
-      {
-        name: "Set of Loaded Dice",
-        description:
-          "A pair of d20s that feel slightly heavier than normal. Spell focus for dice abilities.",
-      },
-      {
-        name: "Deck of Marked Cards",
-        description:
-          "A worn deck with subtle marks on each card. Spell focus for card abilities.",
-      },
-      {
-        name: "50ft Silk Rope",
-        description:
-          "Useful for escapes, distractions, and creative problem-solving.",
-      },
-      {
-        name: "Pouch of 15 Gold Pieces",
-        description: "Starting funds. The house always provides a stake.",
-      },
-      {
-        name: "Traveler's Clothes",
-        description: "Well-fitted but unremarkable. Perfect for blending in.",
-      },
+    armor: {
+      name: "Ripped Traveler's Cloak",
+      armorRating: 11,
+      type: "Light",
+      description: "Thin, blood-splattered fabric that offers little protection against physical steel, and none against the entities you owe.",
+    },
+    gear: [
+      "A set of heavy bone dice carved from a debtor's skull",
+      "A deck of leather cards stained with alchemical ink",
+      "10 steel fortune tokens (crimson and silver)",
+      "A vial of numbing salt to quiet the chattering of your teeth",
     ],
-    gold: 15,
+    startingGold: 10,
   },
 
-  // Resource System
-  resourceSystem: {
-    title: "Fortune Points (FP)",
-    subtitle: "The House Always Wins",
-
-    description: `The Gambler is a master of probability who views the battlefield as a high-stakes table. Your core resource is **Fortune Points** (FP). You build these points through successful plays and spend them to "cheat" fate—adjusting the results of your dice after they have already landed. While others rely on luck, you manipulate it.`,
-
-    cards: [
-      {
-        title: "Fortune Points (FP)",
-        stats: "Cap: 7 / 13 / 21",
-        details:
-          "Max points vary by spec (Favor / Sharp / Roller). Base FP spending adjusts YOUR OWN d20 attack rolls, damage rolls, saving throws, and ability checks by ±1 per point. Certain abilities (Cheat Fate, Death Roll) expand this scope to other rolls.",
-      },
-      {
-        title: "Probability Tweak",
-        stats: "Post-Roll Action",
-        details:
-          "Spend points AFTER the dice land and modifiers are applied, but BEFORE the DM determines success or failure. Turn a 19 into a 20 instantly.",
-      },
-      {
-        title: "The Payout",
-        stats: "Success Bonus",
-        details:
-          "Generating points through criticals or winning major gambles (Jackpots) rewards extra FP.",
-      },
-    ],
-
-    generationTable: {
-      headers: ["Action", "FP Gained", "Notes"],
-      rows: [
-        ["Successful Attack", "+1 FP", "Includes melee and ranged weapons"],
-        [
-          "Successful Spell",
-          "+1 FP",
-          "Must land on a target or resolve effect",
-        ],
-        ["Critical Success", "+2 FP", "Natural 20s are the ultimate fuel"],
-        ["Winning a Gamble", "+1 FP", "Successful coin flip or slot match"],
-        [
-          "Big Win (Jackpot)",
-          "+2 to +5 FP",
-          "Specific high-tier spell outcomes",
-        ],
-      ],
-    },
-
-    usage: {
-      momentum:
-        'Early rounds should be spent on low-risk attacks to build your chip stack. Once you hit 50% of your cap, you have enough "insurance" to start using high-risk abilities like Death Roll.',
-      flourish:
-        "⚠️ Near-Miss Fishing: Watch for rolls of 18 or 19. Spending just 1-2 FP to force a Critical Hit is the most efficient use of your resource.",
-    },
-
-    overheatRules: {
-      title: "Bankruptcy",
-      content: `Bankruptcy triggers in two specific situations:
-
-**Trigger A — All-In Death Window**: When you cast "All-In" and roll in the death window (91-100 adjusted for FP spent), you drop to 0 HP and suffer Bankruptcy.
-
-**Trigger B — Double or Nothing Self-Kill**: When "Double or Nothing" misses AND the self-damage reduces you to 0 HP, you suffer Bankruptcy.
-
-**The Effect**: Your Fortune Points drop to 0, and you cannot generate Fortune Points or cast Gambler spells for 2 rounds as the cosmic debt collectors take their due. You may still make basic weapon attacks.
-
-**Note**: Missing a gamble, rolling low on Jackpot, or running out of FP does NOT trigger Bankruptcy. Only the two specific triggers above can cause it.`,
-    },
-
-    strategicConsiderations: {
-      title: "Playing the Odds",
-      content: `**High Roller Spec**: With a cap of 21, you can turn a total failure (roll of 1) into a critical success (roll of 20) in a single turn—if you have the chips.
-
-**Persistence**: FP persists between combats. Start the "Boss Fight" by spending your banked points from the minions to ensure your opening ultimate lands.`,
-    },
-
-    playingInPerson: {
-      title: "Playing in Person",
-      subtitle: "The Chip Stack",
-      content: `The Gambler is the most tactile class in the game. Don't use a pencil—use components.
-
-**Required Materials**:
-- **Poker Chips**: (7 for Favor, 13 for Sharp, 21 for High Roller).
-- **A Thematic Coin**: (For flips).
-- **A Dice Tray**: (The "Table").
-
-**The Physical Hack (Friction Points)**:
-- **The Chip Stack**: Stack your FP chips in plain view. When you use an ability with a "cost," push those chips into the center of the table (The Pot). If the spell succeeds, pull them back with your "Generation" payout. If it fails, the DM takes them.
-- **The "Cheat" Flash**: When spending FP to adjust a die, physically tap the die with a chip before turning it to the new number. It makes the "cheat" feel intentional and cool.
-- **The Bankruptcy Marker**: If you go Bust, place a black cloth or card over your chips. It signals to the table that the house has closed your account for now.
-
-**Pro Tip**: For the High Roller spec, use actual casino-grade chips. The weight and sound of the chips moving across the table adds a layer of tension that a digital counter can't match.`,
-    },
-  },
-
-  // Specializations
   specializations: {
-    title: "Gambler Specializations",
-    subtitle: "Three Paths of Fortune",
-
-    description: `Every Gambler chooses one of three specializations that define their approach to luck manipulation and risk-taking. Each specialization has its own Fortune Point maximum, unique passive ability, and a dedicated talent tree that shares its name:
-
-- **Fortune's Favor** (Max 7 FP) — Coin flip specialist. Talent tree: Fortune's Favor (was Luck Manipulation)
-- **High Roller** (Max 21 FP) — Extreme risk/reward. Talent tree: High Roller (was Risk Management)
-- **Card Sharp** (Max 13 FP) — Strategic gambler. Talent tree: Card Sharp (was Fate Control)
-
-You may spend talent points in any tree, but your specialization's tree synergizes best with your passive ability.`,
-
-    // Shared passive for all Gambler specializations
-    sharedPassive: {
-      name: "Loaded Dice",
-      icon: "Social/Dice Roll",
-      description:
-        "Choose a number between 2 and 19 at the start of each day. Whenever you roll that number or within 1 of it on any d20 (for any purpose), you may spend 1 Fortune Point to reroll that die and use the new result. For example, if you choose 10, this triggers on rolls of 9, 10, or 11.",
-      mechanicsNote:
-        "15% trigger rate (3 numbers on a d20) makes this passive relevant most sessions. Choose your number based on common roll targets — 10 covers the widest tactical range, while 15 or 20 maximizes crit-fishing potential.",
+    title: "Contracts of Fate",
+    subtitle: "Three Paths of Probability Mutilation",
+    description: "Specializing allows you to alter how you siphon and wage your stolen fortune.",
+    passiveAbility: {
+      name: "The Debtor's Tax",
+      description: "Every single time you bank or gain a Fortune Point from a successful hit or winning gamble, you suffer 1 immediate HP damage as collateral for your borrowed luck.",
     },
-
     specs: [
       {
-        id: "fortunes-favor",
-        name: "Fortune's Favor",
-        icon: "Utility/Utility",
-        color: "#c9aa71",
-        theme: "Luck Manipulation",
-
-        description: `Masters of coin flips and probability. Fortune's Favor Gamblers bend luck to their will, granting rerolls and shaping chance-based outcomes in their favor.`,
-
-        playstyle:
-          "Probability control, reroll manipulation, consistent luck-based advantages",
-
-        strengths: [
-          "Most consistent Gambler specialization",
-          "Excellent support through reroll granting",
-          "Strong defensive options via luck manipulation",
-          "Can influence both ally and enemy rolls",
-          "Lower risk than other specializations",
-        ],
-
-        weaknesses: [
-          "Lower maximum damage potential than High Roller",
-          "Requires Fortune Points to be truly effective",
-          "Less spectacular results than other specs",
-          "Coin flip mechanics still have 50/50 variance",
-        ],
-
-        uniquePassive: {
-          name: "Lucky Streak",
-          icon: "Healing/Renewal",
-          description:
-            "After 3 consecutive successful attacks/spells, your next coin flip auto-succeeds on the favorable outcome. Resets after use or after missing.",
-          mechanicsNote:
-            "Rewards consistent play and reduces variance during hot streaks. Pairs well with low-risk attacks to build up guaranteed coin flip successes.",
-        },
-
+        name: "The Probability Savant",
+        icon: "fas fa-brain",
+        color: "#2980b9",
+        theme: "Mathematical Parasitism",
+        playstyle: "Strategic, consistent roll manipulation. You siphon small, steady streams of luck, minimizing high-risk drops and hoarding a small, perfect reserve of nudges.",
+        description: "Masters of incremental math. They treat fate as a ledger to be meticulously balanced.",
+        strengths: ["Maximum FP capacity set to 13", "Calculated Risk damage reduced to 1 per point spent", "Advantage on saving throws against mental effects"],
+        weaknesses: ["Lower single-target burst damage", "Vulnerable to heavy physical steel", "Slower maximum FP generation"],
         keyAbilities: [
-          "Fate's Coin - Flip a magical coin and choose one of six effects. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback. (5 mana, spend 1 Fortune Point to flip the result)",
-          "Fate's Blessing - Grant an ally advantage on their next roll or force an enemy to reroll a successful attack/save. (2 mana, spend additional Fortune Points for multiple rerolls)",
-          "Cheat Fate - As a reaction, adjust any visible roll within 30 feet by ±2 before the outcome is determined. (3 mana, costs 3 Fortune Points to activate)",
+          { name: "Balanced Ledger", type: "Passive", cost: "None", description: "Calculated Risk damage is fixed at 1 psychic damage per FP spent instead of 1d4." },
+          { name: "Savant's Nudge", type: "Reaction", cost: "1 FP", description: "Adjust an ally's saving throw by ±2 instead of ±1." },
         ],
-
-        recommendedFor:
-          "Players who want more control over randomness, enjoy supporting allies, and prefer consistent results over extreme variance.",
+        passiveAbility: {
+          name: "Balanced Ledger",
+          description: "Your calculated risk damage is fixed at 1 psychic damage per FP spent instead of 1d4. Your maximum Fortune Point capacity is set to 13.",
+        },
+        talentTreeSummary: [
+          { name: "Risk Mitigation", description: "Reduces damage taken from physical attacks while carrying 5+ FP." },
+          { name: "Precision Nudging", description: "Allows nudging rolls by ±2 per FP spent once per turn." },
+        ],
       },
-
       {
-        id: "high-roller",
-        name: "High Roller",
-        icon: "Utility/Glowing Shard",
-        color: "#7a3b2e",
-        theme: "High Stakes Betting",
-
-        description: `Extreme risk for extreme reward. High Rollers bet their own HP, mana, and resources on gambles that yield devastating results or catastrophic failures—all or nothing, every time.`,
-
-        playstyle:
-          "Extreme risk/reward, resource betting, all-or-nothing plays",
-
-        strengths: [
-          "Highest damage potential of all Gambler specs",
-          "Can turn near-death situations into victories",
-          "Spectacular comeback potential",
-          "Resource betting allows for massive burst damage",
-          "Thrilling, dramatic gameplay moments",
+        name: "The Flesh Wagerer",
+        icon: "fas fa-skull",
+        color: "#c0392b",
+        theme: "Apocalyptic High Rolling",
+        playstyle: "High stakes, devastating payloads. You wager entire pools of HP and mana for spectacular, bone-crushing force attacks, walking the absolute edge of death.",
+        description: "Hollowed-out addicts who gamble with their own vital organs for apocalyptic results.",
+        strengths: ["Maximum FP capacity set to 21", "Devastating force damage scaling with spent FP", "Generate FP on critical hits and self-damage"],
+        weaknesses: ["Extremely high self-damage", "Highest vulnerability to Cosmic Bankruptcy", "Zero defensive utility"],
+        keyAbilities: [
+          { name: "Double Down", type: "Passive", cost: "None", description: "When you suffer self-damage from a spell, you immediately gain 2 Fortune Points." },
+          { name: "Bone Shatter Wager", type: "Action", cost: "2 AP, 8 FP", description: "Deal 8d10 force damage to a target, but take 4d10 force damage yourself on a miss." },
         ],
-
-        weaknesses: [
-          "Extremely high risk of self-damage or death",
-          "Can deplete resources quickly on bad luck",
-          "Requires excellent Fortune Point management",
-          "Vulnerable when bets fail",
-          "Can accidentally kill themselves",
-        ],
-
-        uniquePassive: {
+        passiveAbility: {
           name: "Double Down",
-          icon: "Social/Dice Roll",
-          description:
-            'Whenever you successfully land a damaging ability, you may immediately spend 2 Fortune Points to "double down" and repeat the ability at half mana cost. If the second cast also succeeds, gain 1 Fortune Point. If it fails, lose 2 Fortune Points. Once per turn.',
-          mechanicsNote:
-            "High-risk passive that can chain successes into combos. Net FP per successful chain: -1 (spend 2, gain 1). Once per turn prevents infinite loops. Best used when you can afford the mana cost and need burst damage.",
+          description: "When you suffer self-damage from a spell or gamble, you immediately gain 2 Fortune Points (and suffer the 2 HP Debtor's Tax). Your maximum Fortune Point capacity is set to 21.",
         },
-
-        keyAbilities: [
-          "All-In - Bet your current hit points. Roll a d100. Each Fortune Point spent (up to 10) shrinks the death window by 1%. At 0 FP: 1-50 double HP, 51-90 full heal, 91-100 drop to 0 HP. At 10 FP: death window eliminated. (10 mana, spend Fortune Points to guarantee survival)",
-          "Double or Nothing - Make an attack roll. If it hits, it automatically becomes a critical hit dealing double damage. If it misses, you take the damage you would have dealt. (5 mana, spend Fortune Points to ensure hit)",
-          "Betting Blitz - Bet up to half your max HP. If your next attack deals damage equal to or greater than double the bet amount, regain the health. Otherwise, lose the health bet. (5 mana, spend Fortune Points to increase damage)",
+        talentTreeSummary: [
+          { name: "Marrow Betting", description: "Spend HP instead of mana to cast Gambler spells when out of mana." },
+          { name: "Catastrophic Payload", description: "Multiplies critical hit damage by 3x on all high-risk spells." },
         ],
-
-        recommendedFor:
-          "Players who love extreme risk/reward, enjoy dramatic moments, and don't mind occasional spectacular failures in pursuit of legendary victories.",
       },
-
       {
-        id: "card-sharp",
-        name: "Card Sharp",
-        icon: "Utility/Utility",
-        color: "#daa520",
-        theme: "Strategic Gambling",
-
-        description: `Strategic masterminds who treat combat like a high-stakes card game. Card Sharps specialize in prediction, pattern recognition, and calculated risks, turning randomness into advantage through analysis.`,
-
-        playstyle: "Calculated risks, prediction mechanics, strategic gambling",
-
-        strengths: [
-          "Most strategic Gambler specialization",
-          "Rewards skill and game knowledge",
-          "Strong competitive abilities (Death Roll, Taunt the Odds)",
-          "Excellent against intelligent enemies",
-          "Prediction mechanics can provide huge advantages",
-        ],
-
-        weaknesses: [
-          "Requires good game knowledge to maximize",
-          "Prediction abilities can fail completely",
-          "Less effective against mindless enemies",
-          "Competitive abilities require willing or forced participation",
-          "Moderate damage compared to High Roller",
-        ],
-
-        uniquePassive: {
-          name: "Card Counting",
-          icon: "Utility/Ornate Staff",
-          description:
-            "You mentally track d20 results during combat. Your prediction accuracy improves the more rolls you observe: 2 rolls observed → guess range expands from ±3 to ±4; 4 rolls → ±5; 5+ rolls → your next prediction-based ability (Taunt the Odds, or any ability requiring you to guess a d20 result) automatically treats your guess as if it were within the success threshold (guaranteed hit, no self-damage risk). Resets after use or at the end of combat.",
-          mechanicsNote:
-            'Track every d20 roll you see. At 2 rolls, your Taunt the Odds range expands to ±4. At 4 rolls, ±5. At 5+ rolls, your next Taunt the Odds auto-hits (target takes 3d10 damage with no risk of self-damage). This rewards attentiveness and makes Card Sharp the "counting cards" spec. Display your current observation count on the HUD.',
-        },
-
+        name: "The Thread Puller",
+        icon: "fas fa-spider",
+        color: "#8e44ad",
+        theme: "Fate Mutilation & Card Sharking",
+        playstyle: "Strategic deck siphoning and competitive death matches. You drag enemies into high-stakes games where you hold all the loaded cards.",
+        description: "Addicts who have flayed their fingertips raw to physically feel and grasp the vibrating strings of destiny.",
+        strengths: ["Maximum FP capacity set to 15", "Can choose between two drawn cards in Card Shark", "High crowd control and forced saving throws"],
+        weaknesses: ["Highly reliant on card-suit RNG", "Requires active targeting and setup", "Vulnerable to silence and spirit-shattering magic"],
         keyAbilities: [
-          "Jackpot - Roll 3d20 slot machine and sum the results for outcome tiers. Higher sums yield bigger payouts. Triples grant bonus effects. (8 mana, spend Fortune Points to adjust individual dice)",
-          "Death Roll - Challenge a creature to a descending d20 game. Both roll d20s with a shrinking ceiling — first to roll over the current max loses. (8 mana, spend Fortune Points to adjust rolls mid-game)",
-          "Taunt the Odds - Choose a target and guess the result of a d20 roll. If you guess within 3, the target takes 3d10 damage. If you're off by more than 3, you take 1d10 damage. (4 mana, Card Counting passive gives advantage)",
+          { name: "Loaded Deck", type: "Passive", cost: "None", description: "Whenever you draw from your magical deck, draw two cards and choose which suit to resolve." },
+          { name: "Fate's Noose", type: "Action", cost: "1 AP, 4 FP", description: "Bind an enemy in threads of probability, stunning them for 1 round (Spirit DC 16 save negates)." },
         ],
-
-        recommendedFor:
-          "Players who enjoy strategic gameplay, prediction mechanics, and using game knowledge to gain advantages.",
+        passiveAbility: {
+          name: "Loaded Deck",
+          description: "Whenever you draw from your magical deck, draw two cards and choose which suit to resolve. Your maximum Fortune Point capacity is set to 15.",
+        },
+        talentTreeSummary: [
+          { name: "Thread Weaving", description: "Siphon 1 FP whenever an enemy within 30ft fails a saving throw." },
+          { name: "Suit Manipulation", description: "Guarantees a Spades or Hearts suit once per long rest." },
+        ],
       },
     ],
   },
 
-  exampleSpells: [
+  spells: [
+    // ========================================
+    // LEVEL 1 SPELLS - The Blood-Luck Engine
+    // ========================================
     {
       id: "gambler_lucky_strike",
       name: "Lucky Strike",
-      icon: "Healing/Renewal",
+      description: "Roll 4d12 bone dice before striking. Matching values dictate your strike's catastrophic power: 4 matching dice deal 4x damage, 3 matching deal 3x, and 2 matching deal 2x. All unique dice deal normal damage. Matches siphon 1, 2, or 3 Fortune Points, but your veins rupture: suffer 1 immediate HP damage per Fortune Point gained.",
+      level: 1,
       spellType: "ACTION",
-      level: 2,
-
-      description:
-        "Roll 4d12 before attacking. Matching dice set your multiplier: 4-of-a-kind deals 4x, triple deals 3x, pair deals 2x. All different? Normal damage only, no Fortune Points generated.",
-
+      icon: "Slashing/Quick Slash",
       typeConfig: {
         school: "force",
-        icon: "Healing/Renewal",
+        icon: "Slashing/Quick Slash",
+        tags: ["melee", "damage", "fortune_generation", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: [
-          "damage",
-          "fortune generation",
-          "variable",
-          "rollable table",
-          "gambler",
-        ],
       },
-
       targetingConfig: {
         targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 50,
+        rangeType: "melee",
+        rangeDistance: 5,
         targetRestrictions: ["enemy"],
       },
-
       resourceCost: {
+        actionPoints: 1,
         resourceTypes: ["mana"],
         resourceValues: { mana: 7 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Fortuna!",
-        somaticText: "Roll dice in hand",
-        classResource: { type: "fortune_points", cost: 1 },
+        components: ["somatic"],
+        somaticText: "Throw bone dice onto the blade",
       },
-
       resolution: "DICE",
       effectTypes: ["damage"],
-
       damageConfig: {
-        formula: "2d6 + 2",
+        formula: "2d6 + charisma",
         damageTypes: ["force"],
-        scalingType: "multiplier",
+        canCrit: true,
+        critMultiplier: 2,
         resolution: "DICE",
       },
-
       specialMechanics: {
         fortunePoints: {
           generates: "variable",
-          description:
-            "4 match: +3, 3 match: +2, 2 match: +1, all different: +0",
-        },
-        diceMatching: {
-          dice: "4d12",
-          matchingRules: "Compare dice for matching numbers",
+          description: "Generates FP on matching dice. You suffer 1 HP damage per FP generated as blood collateral.",
         },
         gamblingGame: {
           gameType: "yahtzee",
-          description: "Roll 4d12 and match for multipliers",
+          description: "Roll 4d12 — pairs, triples, and quads multiply your damage and siphon Fortune Points.",
           resolution: "DICE",
-          rules: { diceCount: 4, dieType: 12, matchType: "value" },
+          rules: { diceCount: 4, dieType: 12 },
           outcomeTiers: [
-            { condition: "4_of_a_kind", name: "Quad", multiplier: 4, fpGain: 3 },
-            { condition: "3_of_a_kind", name: "Triple", multiplier: 3, fpGain: 2 },
-            { condition: "pair", name: "Pair", multiplier: 2, fpGain: 1 },
-            { condition: "all_different", name: "Miss", multiplier: 1, fpGain: 0 },
+            { condition: "4_match", name: "Four of a Kind", multiplier: 4, fpGain: 3, selfDamage: 3 },
+            { condition: "3_match", name: "Three of a Kind", multiplier: 3, fpGain: 2, selfDamage: 2 },
+            { condition: "2_match", name: "Pair", multiplier: 2, fpGain: 1, selfDamage: 1 },
+            { condition: "no_match", name: "No Match", multiplier: 1, fpGain: 0, selfDamage: 0 },
           ],
         },
       },
-
-      rollableTable: {
-        enabled: true,
-        name: "Lucky Strike Results",
-        description: "Roll 4d12 and check for matching numbers",
-        resolutionType: "DICE",
-        resolutionConfig: { diceType: "4d12" },
-        entries: [
-          {
-            range: "All 4 match",
-            result:
-              "Quadruple damage + 3 Fortune Points + Guaranteed critical hit",
-            description: "Example: 12-12-12-12",
-          },
-          {
-            range: "3 match",
-            result: "Triple damage + 2 Fortune Points",
-            description: "Example: 8-8-8-3",
-          },
-          {
-            range: "2 match",
-            result: "Double damage + 1 Fortune Point",
-            description: "Example: 5-5-9-2",
-          },
-          {
-            range: "All different",
-            result: "Normal damage only. No Fortune Points generated.",
-            description: "Example: 1-4-7-11",
-          },
-        ],
-      },
-
-      tags: [
-        "damage",
-        "fortune generation",
-        "variable",
-        "rollable table",
-        "gambler",
-      ],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-    },
-
-    {
-      id: "fates-coin",
-      name: "Fate's Coin",
-      icon: "Utility/Utility",
-      spellType: "ACTION",
-      level: 3,
-
-      description:
-        "Flip a magical coin and choose one of six effects. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback. Spend 1 Fortune Point to flip the result.",
-
-      typeConfig: {
-        school: "force",
-        icon: "Utility/Utility",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: [
-          "utility",
-          "buff",
-          "debuff",
-          "coin flip",
-          "rollable table",
-          "gambler",
-          "fortunes-favor",
-        ],
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["ally", "self"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 10 },
-        actionPoints: 1,
-        components: ["verbal", "material"],
-        verbalText: "Fatum Nummus!",
-        materialComponents: "A golden coin",
-        classResource: { type: "fortune_points", cost: 1 },
-      },
-
-      resolution: "COINS",
-      effectTypes: ["buff", "utility"],
-
-      buffConfig: {
-        buffType: "statusEffect",
-        effects: [
-          {
-            id: "fates_favor",
-            name: "Fate's Favor",
-            description:
-              "Choose one of six coin effects before flipping. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback.",
-            mechanicsText: "",
-          },
-        ],
-        durationValue: 1,
-        durationType: "minutes",
-        durationUnit: "minutes",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      utilityConfig: {
-        utilityType: "fate_manipulation",
-        selectedEffects: [
-          {
-            id: "flip_result",
-            name: "Flip Result",
-            description:
-              "Spend 1 Fortune Point to flip the coin result (Heads to Tails or vice versa)",
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
-        concentration: false,
-        power: "moderate",
-      },
-
-      specialMechanics: {
-        fortunePoints: {
-          cost: 1,
-          effect: "Flip the coin result (Heads to Tails or vice versa)",
-        },
-        coinFlip: {
-          type: "choice_based",
-          choices: 6,
-          description: "Choose one of six coin effects before flipping",
-        },
-        gamblingGame: {
-          gameType: "coin_flip",
-          description: "Choose one of six effects then flip a coin",
-          resolution: "COINS",
-          rules: { flipCount: 1, choiceCount: 6 },
-          outcomeTiers: [
-            { condition: "heads", name: "Powerful Benefit", fpGain: 1 },
-            { condition: "tails", name: "Lesser Benefit", fpGain: 0 },
-          ],
-        },
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: "Fate's Coin Effects",
-        description: "Choose one effect, then flip a coin",
-        resolutionType: "COINS",
-        resolutionConfig: { diceType: "coin" },
-        entries: [
-          {
-            range: "Coin of Fortune",
-            result:
-              "Heads: Advantage on next roll | Tails: Disadvantage on next roll",
-            description: "Affects your next attack roll or saving throw",
-          },
-          {
-            range: "Coin of Double or Nothing",
-            result:
-              "Heads: Double next attack damage | Tails: Halve next attack damage",
-            description: "Affects your next damaging attack",
-          },
-          {
-            range: "Coin of Heal or Harm",
-            result: "Heads: Heal 2d6 HP | Tails: Take 1d6 damage",
-            description: "Immediate healing or self-damage",
-          },
-          {
-            range: "Coin of Mana Surge",
-            result: "Heads: Regain one spell use | Tails: Lose one spell use",
-            description: "Affects your available spell slots",
-          },
-          {
-            range: "Coin of Teleport or Trap",
-            result: "Heads: Teleport 30 feet | Tails: Restrained for 1 round",
-            description: "Movement manipulation",
-          },
-          {
-            range: "Coin of Speed",
-            result:
-              "Heads: Double movement for 1 min | Tails: Halve movement for 1 min",
-            description: "Speed modification",
-          },
-        ],
-      },
-
-      tags: [
-        "utility",
-        "buff",
-        "debuff",
-        "coin flip",
-        "rollable table",
-        "gambler",
-        "fortunes-favor",
-      ],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-    },
-
-    {
-      id: "jackpot",
-      name: "Jackpot",
-      icon: "Utility/Utility",
-      spellType: "ACTION",
-      level: 8,
-
-      description:
-        "Roll 3d20 slot machine. Add all three dice — the total determines your outcome tier. Triples grant bonus effects on top of their tier. Spend Fortune Points to adjust individual dice by ±1 per point, moving results up or down tiers. NOTE: Jackpot draws from ALL elements (fire, lightning, radiant, necrotic) — it is the only Gambler ability that breaks the force/psychic convention, because it doesn't play by any rules.",
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Utility/Utility",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: [
-          "ultimate",
-          "random",
-          "high risk",
-          "high reward",
-          "rollable table",
-          "gambler",
-          "card-sharp",
-        ],
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
-        actionPoints: 2,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Fortuna Maxima!",
-        somaticText: "Pull imaginary slot machine lever",
-        materialComponents: "Three golden dice",
-        classResource: { type: "fortune_points", cost: 7 },
-      },
-
-      resolution: "DICE",
-      effectTypes: ["utility"],
-
-      utilityConfig: {
-        utilityType: "fate_manipulation",
-        selectedEffects: [
-          {
-            id: "slot_machine",
-            name: "Slot Machine",
-            description:
-              "Roll 3d20 and sum the results. Higher sums yield better outcomes. Triples grant bonus effects. Spend Fortune Points to adjust individual dice by ±1 per point.",
-          },
-        ],
-        duration: 1,
-        durationUnit: "hours",
-        concentration: false,
-        power: "major",
-      },
-
-      specialMechanics: {
-        fortunePoints: {
-          usage:
-            "Adjust individual dice by ±1 per point spent to move the total into a higher tier",
-          example:
-            "Roll [12, 7, 19] = sum 38 (Moderate Win). Spend 3 FP to shift 12→15: [15, 7, 19] = sum 41 (Big Win)",
-        },
-        usageLimit: {
-          type: "long_rest",
-          restriction:
-            "Each specific outcome tier can only produce its bonus effect once per long rest. Repeated tiers grant the base damage only.",
-        },
-        slotMachine: {
-          dice: "3d20",
-          mechanic: "sum_based",
-          sumRange: "3-60",
-          averageSum: "31.5",
-        },
-        gamblingGame: {
-          gameType: "slot_machine",
-          description: "Roll 3d20 slot machine and sum for outcome tiers",
-          resolution: "DICE",
-          rules: { diceCount: 3, dieType: 20, mechanic: "sum_based", tripleBonus: true },
-          outcomeTiers: [
-            { condition: "sum_3", name: "Critical Failure", fpChange: -5 },
-            { condition: "sum_4_12", name: "Bad Luck", fpGain: 1 },
-            { condition: "sum_13_25", name: "Small Win", fpGain: 1 },
-            { condition: "sum_26_38", name: "Moderate Win", fpGain: 1 },
-            { condition: "sum_39_48", name: "Big Win", fpGain: 2 },
-            { condition: "sum_49_55", name: "Massive Win", fpGain: 2 },
-            { condition: "sum_56_59", name: "Near Jackpot", fpGain: 3 },
-            { condition: "sum_60", name: "Perfect Jackpot", fpGain: 5 },
-          ],
-        },
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: "Jackpot Slot Machine",
-        description:
-          "Roll 3d20, add the results, and consult the table below. Triples grant bonus effects on top of their tier.",
-        resolutionType: "DICE",
-        resolutionConfig: { diceType: "3d20" },
-        entries: [
-          {
-            range: "Sum 3 (1-1-1 only)",
-            result:
-              "Take 5d10 damage + lose all spell uses for the day. Triple bonus: None — you wagered everything on the worst possible roll.",
-            description: "Critical failure",
-          },
-          {
-            range: "Sum 4-12",
-            result:
-              "Take 2d6 force damage. Gain 1 Fortune Point as consolation.",
-            description: "Bad Luck",
-          },
-          {
-            range: "Sum 13-25",
-            result:
-              "Deal 2d10 force damage to one enemy within 30ft. Gain 1 Fortune Point.",
-            description: "Small Win",
-          },
-          {
-            range: "Sum 26-38",
-            result:
-              "Deal 4d10 force damage to one enemy + stun for 1 round. Gain 1 Fortune Point.",
-            description: "Moderate Win",
-            example: "[12, 7, 19] = 38",
-          },
-          {
-            range: "Sum 39-48",
-            result:
-              "Deal 6d10 force damage to one enemy + stun for 2 rounds. Gain 2 Fortune Points.",
-            description: "Big Win",
-            example: "[15, 7, 19] = 41",
-          },
-          {
-            range: "Sum 49-55",
-            result:
-              "Deal 8d10 radiant damage to all enemies in 30ft. Gain 2 Fortune Points.",
-            description: "Massive Win",
-          },
-          {
-            range: "Sum 56-59",
-            result:
-              "Deal 10d10 radiant damage to all enemies in 30ft + heal 30 HP. Gain 3 Fortune Points.",
-            description: "Near Jackpot",
-          },
-          {
-            range: "Sum 60 (20-20-20 only)",
-            result:
-              "Deal 10d10 radiant damage to all enemies in 40ft + gain a rare magical item + max damage on all attacks for 1 hour. Gain 5 Fortune Points.",
-            description: "PERFECT JACKPOT",
-          },
-          {
-            range: "Triple 2s",
-            result: "Life drain 3d10 on one enemy within 30ft",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 3s",
-            result: "Heal 20 HP + gain all damage resistances for 1 hour",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 4s",
-            result:
-              "6d6 fire damage to all creatures in 20ft (including yourself)",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 5s",
-            result: "Gain a shield that absorbs 50 damage for 1 hour",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 6s",
-            result:
-              "Summon a celestial guardian with +5 AC and +5 saves for 1 minute",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 7s",
-            result: "Regain all spent spell uses + heal 50 HP",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 8s",
-            result: "Gain an extra turn immediately",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 9s",
-            result:
-              "Double spell damage for 1 minute, but take 2d10 psychic damage per spell cast",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 10s",
-            result: "Gain advantage on all attacks + heal 30 HP for 1 hour",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 11s",
-            result:
-              "Gain all damage resistance + 2d10 radiant bonus on your next attack for 1 hour",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 12s",
-            result: "Deal 8d10 lightning damage to all enemies in 40ft",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 13s",
-            result: "Deal 4d10 lightning damage to up to 3 enemies within 60ft",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 14s",
-            result:
-              "Become ethereal for 1 minute (can pass through walls and creatures)",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 15s",
-            result: "Gain +5 to attack rolls and AC for 10 minutes",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 16s",
-            result: "Heal 40 HP + gain all damage resistances for 1 hour",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 17s",
-            result: "Summon an ethereal dragon ally for 1 minute",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 18s",
-            result: "Gain advantage on all saving throws for 1 hour",
-            description: "Triple Bonus",
-          },
-          {
-            range: "Triple 19s",
-            result:
-              "Deal 5d10 radiant damage to all enemies in 30ft + gain 10 temporary HP",
-            description: "Triple Bonus",
-          },
-        ],
-      },
-
-      tags: [
-        "ultimate",
-        "random",
-        "high risk",
-        "high reward",
-        "rollable table",
-        "gambler",
-        "card-sharp",
-      ],
-
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-    },
-
-    {
-      id: "all-in",
-      name: "All-In",
-      icon: "Social/Dice Roll",
-      spellType: "ACTION",
-      level: 10,
-
-      description:
-        "Bet your current HP on d100 roll. Each Fortune Point spent (up to 10) shrinks the death window by 1%. At 0 FP spent: 1-50 double HP, 51-90 full heal, 91-100 DEATH. At 10 FP spent: death window eliminated, 51-100 always full heal.",
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Social/Dice Roll",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: [
-          "ultimate",
-          "life or death",
-          "extreme risk",
-          "healing",
-          "rollable table",
-          "gambler",
-          "high-roller",
-        ],
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 36 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "Omnia Aut Nihil!",
-        somaticText: "Push all chips forward",
-        classResource: { type: "fortune_points", cost: 10 },
-      },
-
-      resolution: "DICE",
-      effectTypes: ["healing", "utility"],
-
-      healingConfig: {
-        formula: "d100_result_dependent",
-        healingType: "direct",
-        resolution: "DICE",
-      },
-
-      utilityConfig: {
-        utilityType: "fate_manipulation",
-        selectedEffects: [
-          {
-            id: "life_gamble",
-            name: "Life or Death Gamble",
-            description:
-              "Bet your current HP on a d100 roll. Fortune Points can adjust the result.",
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
-        concentration: false,
-        power: "major",
-      },
-
-      specialMechanics: {
-        fortunePoints: {
-          critical: true,
-          recommendation: "5-10 points to shrink death window",
-          usage:
-            "Each FP spent (max 10) reduces death window by 1%. With 10 FP: death window shrinks from 91-100 to just 100, or is eliminated entirely if you spend all 10.",
-        },
-        lifeOrDeath: {
-          warning: "Can instantly kill you at 0 FP spent",
-          scalingDeathWindow: {
-            "0 FP spent": { safe: "1-90", death: "91-100" },
-            "5 FP spent": { safe: "1-95", death: "96-100" },
-            "10 FP spent": { safe: "1-100", death: "ELIMINATED" },
-          },
-        },
-        gamblingGame: {
-          gameType: "roulette",
-          description: "Roll d100 with a shrinking death window based on FP spent",
-          resolution: "DICE",
-          rules: { diceType: "d100", deathWindowBase: "91-100", fpShrinkPer: 1, maxFP: 10 },
-          outcomeTiers: [
-            { condition: "1-50", name: "Double HP", healing: "double_hp", fpGain: 2 },
-            { condition: "51-90", name: "Full Heal", healing: "full", fpGain: 2 },
-            { condition: "91+", name: "Death Window", damage: "drop_to_0", fpGain: 0 },
-          ],
-        },
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: "All-In Results",
-        description:
-          "Roll 1d100 - your life is on the line. Death window shrinks by 1% per Fortune Point spent (max 10).",
-        resolutionType: "DICE",
-        resolutionConfig: { diceType: "1d100" },
-        entries: [
-          {
-            range: { min: 1, max: 50 },
-            result: "Double your current hit points",
-            description: "Moderate success",
-          },
-          {
-            range: { min: 51, max: 90 },
-            result: "Heal to full health",
-            description: "Optimal result - aim for this",
-          },
-          {
-            range: { min: 91, max: 100 },
-            result: "Drop to 0 hit points (shrinks by 1% per FP spent)",
-            description: "DEATH window - spend FP to shrink or eliminate",
-          },
-        ],
-      },
-
-      tags: [
-        "ultimate",
-        "life or death",
-        "extreme risk",
-        "healing",
-        "rollable table",
-        "gambler",
-        "high-roller",
-      ],
-
-      cooldownConfig: {
-        cooldownType: "long_rest",
-        cooldownValue: 1,
-      },
-    },
-
-    {
-      id: "death-roll",
-      name: "Death Roll",
-      icon: "Necrotic/Demonic Empowerment",
-      spellType: "ACTION",
-      level: 7,
-
-      description:
-        "Challenge creature to Death Roll minigame. Both roll a d20 — the lower result becomes the new maximum ceiling. Both roll again, trying to stay under the ceiling. First to roll over it loses. Loser takes psychic damage (winner chooses 1-10d10) and is stunned for 1 round. Unwilling targets make Spirit save.",
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Necrotic/Demonic Empowerment",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: [
-          "competitive",
-          "minigame",
-          "damage",
-          "control",
-          "psychic",
-          "gambler",
-          "card-sharp",
-        ],
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 15,
-        targetRestrictions: ["enemy"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 24 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "Ludus Mortis!",
-        somaticText: "Challenge opponent with dice",
-        classResource: { type: "fortune_points", cost: 6 },
-      },
-
-      resolution: "DICE",
-      effectTypes: ["damage", "control"],
-
-      damageConfig: {
-        formula: "WINNER_CHOICE * d10",
-        damageTypes: ["psychic"],
-        description:
-          "Winner chooses how many d10s (1-10) the loser takes as psychic damage",
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 15,
-          saveOutcome: "negates",
-        },
-        resolution: "DICE",
-      },
-
-      controlConfig: {
-        controlType: "incapacitation",
-        strength: "moderate",
-        duration: 1,
-        durationUnit: "rounds",
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 15,
-          saveOutcome: "negates",
-        },
-        effects: [
-          {
-            id: "stun",
-            name: "Stunned",
-            description:
-              "Loser is stunned for 1 round, unable to take actions or reactions",
-            config: {
-              duration: 1,
-              durationUnit: "rounds",
-              durationType: "rounds",
-              recoveryMethod: "automatic",
-            },
-          },
-        ],
-      },
-
-      specialMechanics: {
-        fortunePoints: {
-          usage:
-            "Adjust your roll during any round of the game — decrease to stay under the ceiling, or adjust enemy roll to push them over",
-        },
-        minigame: {
-          type: "death_roll",
-          rules:
-            "Both roll d20. Lower result becomes the new ceiling max. Repeat — both must roll under the ceiling. First to roll over loses.",
-          example:
-            "R1: You 15, Enemy 12 (ceiling: 12). R2: You 8 (under!), Enemy 13 (OVER — enemy loses!)",
-        },
-        savingThrow: {
-          type: "spirit",
-          dc: "8 + proficiency + Charisma",
-          onFail: "Compelled to play",
-        },
-        gamblingGame: {
-          gameType: "death_roll",
-          description: "Descending d20 ceiling — first to roll over loses",
-          resolution: "DICE",
-          rules: { dieType: 20, mechanic: "descending_ceiling", rounds: "variable", loserDamage: "1-10d10 psychic" },
-          outcomeTiers: [
-            { condition: "caster_wins", name: "Victor", damage: "winner_chooses_1_to_10d10", fpGain: 2 },
-            { condition: "target_wins", name: "Defeated", selfDamage: "winner_chooses_1_to_10d10", fpGain: 0 },
-          ],
-        },
-      },
-
-      cooldownConfig: {
-        cooldownType: "short_rest",
-        cooldownValue: 1,
-      },
-
-      tags: [
-        "competitive",
-        "minigame",
-        "damage",
-        "control",
-        "psychic",
-        "gambler",
-        "card-sharp",
-      ],
-    },
-
-    {
-      id: "double-or-nothing",
-      name: "Double or Nothing",
-      icon: "Utility/Empowered Warrior",
-      spellType: "ACTION",
-      level: 4,
-
-      description:
-        "Make an attack roll. On hit: automatic critical hit with double damage. On miss: you take the damage instead. Spend 5-10 Fortune Points to guarantee hit.",
-
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Utility/Empowered Warrior",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: [
-          "damage",
-          "critical hit",
-          "self damage risk",
-          "gambler",
-          "high-roller",
-        ],
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "weapon_or_spell_range",
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 14 },
-        actionPoints: 1,
-        components: ["verbal"],
-        verbalText: "Duplica Aut Nihil!",
-        classResource: { type: "fortune_points", cost: 3 },
-      },
-
-      resolution: "DICE",
-
-      damageConfig: {
-        formula: "2d10 + charisma",
-        damageTypes: ["psychic"],
-        scalingType: "critical_on_hit",
-        resolution: "DICE",
-      },
-
-      specialMechanics: {
-        fortunePoints: {
-          recommendation: "5-10 points to guarantee hit",
-          usage: "Adjust attack roll to ensure success",
-          transforms: "From suicidal gamble to guaranteed crit",
-        },
-        criticalHit: {
-          automatic: true,
-          condition: "on_hit",
-        },
-        selfDamage: {
-          condition: "on_miss",
-          amount: "equal_to_would_be_damage",
-        },
-        gamblingGame: {
-          gameType: "double_or_nothing",
-          description: "Attack roll — hit doubles damage as crit, miss reflects damage to self",
-          resolution: "DICE",
-          rules: { hitEffect: "auto_crit_double", missEffect: "self_damage_equal" },
-          outcomeTiers: [
-            { condition: "hit", name: "Jackpot Crit", multiplier: 2, fpGain: 2 },
-            { condition: "miss", name: "Backlash", selfDamage: "2d10 + CHA", fpGain: 0 },
-          ],
-        },
-      },
-
-      tags: [
-        "damage",
-        "critical hit",
-        "self damage risk",
-        "gambler",
-        "high-roller",
-      ],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-    },
-
-    {
-      id: "taunt-the-odds",
-      name: "Taunt the Odds",
-      icon: "Radiant/Radiant Warrior",
-      spellType: "ACTION",
-      level: 3,
-
-      description:
-        "Guess a number 1-20, then roll d20. Guess within 3: target takes 3d10 damage. Off by 4+: you take 1d10 damage. Spend Fortune Points to adjust roll toward guess.",
-
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Radiant/Radiant Warrior",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: ["damage", "prediction", "skill based", "gambler", "card-sharp"],
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 60,
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 10 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Provoco Fortunam!",
-        somaticText: "Point at target and call out number",
-        classResource: { type: "fortune_points", cost: 1 },
-      },
-
-      resolution: "DICE",
-
-      damageConfig: {
-        formula: "3d10",
-        damageTypes: ["psychic"],
-        scalingType: "accuracy_based",
-        resolution: "DICE",
-      },
-
-      specialMechanics: {
-        fortunePoints: {
-          usage: "After seeing roll, adjust toward your guess",
-          example: "Guess 15, roll 11, spend 4 points to make it 15",
-        },
-        prediction: {
-          type: "number_guess",
-          range: "1-20",
-          successMargin: 3,
-          failureMargin: 4,
-          failureDamage: "1d10 to self",
-        },
-        synergy: {
-          cardCounting:
-            "Card Sharp passive: After observing 5 d20 rolls in combat, your next Taunt the Odds auto-hits (target takes 3d10 damage with no risk of self-damage). No guess needed — you already know the answer.",
-        },
-        gamblingGame: {
-          gameType: "over_under",
-          description: "Guess a d20 result — within 3 deals damage, off by 4+ hurts you",
-          resolution: "DICE",
-          rules: { guessRange: "1-20", successThreshold: 3, failureThreshold: 4 },
-          outcomeTiers: [
-            { condition: "within_3", name: "Called It", damage: "3d10", fpGain: 1 },
-            { condition: "off_by_4+", name: "Miss", selfDamage: "1d10", fpGain: 0 },
-          ],
-        },
-      },
-
-      tags: ["damage", "prediction", "skill based", "gambler", "card-sharp"],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 3,
-      },
-    },
-
-    {
-      id: "coin-toss",
-      name: "Coin Toss",
-      icon: "Utility/Utility",
-      spellType: "ACTION",
-      level: 2,
-
-      description:
-        "Flip a coin. Heads: gain bonus to all rolls. Tails: take penalty to all rolls. Spend Fortune Points to flip the result.",
-
-      typeConfig: {
-        school: "force",
-        icon: "Utility/Utility",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: [
-          "buff",
-          "debuff",
-          "coin flip",
-          "rollable table",
-          "duration",
-          "gambler",
-        ],
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      durationConfig: {
-        durationType: "hours",
-        duration: 1,
-        durationUnit: "hours",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 6 },
-        actionPoints: 1,
-        components: ["verbal", "material"],
-        verbalText: "Nummus Fortunae!",
-        materialText: "A coin",
-        classResource: { type: "fortune_points", cost: 1 },
-      },
-
-      resolution: "COINS",
-
-      effectTypes: ["buff", "debuff"],
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          {
-            id: "coin_toss_buff",
-            name: "Coin Toss Buff",
-            description:
-              "On heads: +2 to all rolls.",
-            mechanicsText: "",
-            statModifier: {
-              stat: "all_rolls",
-              magnitude: 2,
-              magnitudeType: "flat",
-              condition: "on_heads",
-            },
-          },
-        ],
-        durationValue: 1,
-        durationType: "hours",
-        durationUnit: "hours",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      debuffConfig: {
-        debuffType: "statPenalty",
-        effects: [
-          {
-            id: "coin_toss_debuff",
-            name: "Coin Toss Penalty",
-            description:
-              "On tails: -2 to all rolls.",
-            mechanicsText: "",
-            statPenalty: {
-              stat: "all_rolls",
-              magnitude: -2,
-              magnitudeType: "flat",
-              condition: "on_tails",
-            },
-          },
-        ],
-        durationValue: 1,
-        durationType: "hours",
-        durationUnit: "hours",
-        canBeDispelled: true,
-      },
-
-      specialMechanics: {
-        fortunePoints: {
-          cost: 1,
-          effect: "Flip the result (Heads to Tails or vice versa)",
-          guarantee: "With 1 point, always get +2 bonus",
-        },
-        coinFlip: {
-          type: "1d2",
-          heads: 2,
-          tails: 1,
-        },
-        gamblingGame: {
-          gameType: "wheel_of_fortune",
-          description: "Flip a coin for a lasting buff or debuff",
-          resolution: "COINS",
-          rules: { flipCount: 1, durationEffect: true },
-          outcomeTiers: [
-            { condition: "heads", name: "Fortune Smiles", buff: "+2 all rolls", fpGain: 1 },
-            { condition: "tails", name: "Fortune Frowns", debuff: "-2 all rolls", fpGain: 0 },
-          ],
-        },
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: "Coin Toss Results",
-        description: "Flip a coin",
-        resolutionType: "COINS",
-        resolutionConfig: { diceType: "coin" },
-        entries: [
-          {
-            range: "Heads",
-            result: "+2 bonus to all rolls for 1 hour",
-            description: "Positive outcome",
-          },
-          {
-            range: "Tails",
-            result: "-2 penalty to all rolls for 1 hour",
-            description: "Negative outcome",
-          },
-        ],
-      },
-
-      tags: [
-        "buff",
-        "debuff",
-        "coin flip",
-        "rollable table",
-        "duration",
-        "gambler",
-      ],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-    },
-
-    {
-      id: "gamblers-insight",
-      name: "Gambler's Insight",
-      icon: "Psychic/Focused Mind",
-      spellType: "ACTION",
-      level: 2,
-
-      description:
-        "Gain advantage on Insight and Perception checks against one creature for 10 minutes. Detect lies, read intentions, notice body language, predict moves.",
-
-      typeConfig: {
-        school: "force",
-        icon: "Psychic/Focused Mind",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: ["utility", "social", "detection", "gambler"],
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-      },
-
-      durationConfig: {
-        durationType: "minutes",
-        duration: 10,
-        durationUnit: "minutes",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 6 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "Perspicio Verum!",
-        somaticText: "Touch temple and point at target",
-        classResource: { type: "fortune_points", cost: 1 },
-      },
-
-      resolution: "AUTOMATIC",
-      effectTypes: ["buff"],
-
-      buffConfig: {
-        buffType: "combatAdvantage",
-        effects: [
-          {
-            id: "gamblers_insight",
-            name: "Gambler's Insight",
-            description:
-              "Gain advantage on Insight and Perception checks against target for 10 minutes",
-            mechanicsText: "",
-            skillModifier: {
-              skills: ["Insight", "Perception"],
-              magnitude: 1,
-              magnitudeType: "advantage",
-            },
-          },
-        ],
-        durationValue: 10,
-        durationType: "minutes",
-        durationUnit: "minutes",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      specialMechanics: {
-        utility: {
-          uses: [
-            "Detect lies",
-            "Read intentions",
-            "Notice body language",
-            "Predict moves",
-          ],
-          synergy: "Pairs with Gambler charisma and deception skills",
-        },
-        social: {
-          applications: [
-            "Negotiations",
-            "Detecting ambushes",
-            "Social encounters",
-          ],
-        },
-        gamblingGame: {
-          gameType: "three_card_monte",
-          description: "Find the truth among deception — read the target like a marked deck",
-          resolution: "AUTOMATIC",
-          rules: { detectionType: "insight_perception", duration: "10 minutes" },
-          outcomeTiers: [
-            { condition: "success", name: "Read", buff: "advantage Insight/Perception", fpGain: 1 },
-          ],
-        },
-      },
-
-      tags: ["utility", "social", "detection", "gambler"],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
-    },
-
-    {
-      id: "fools-gold",
-      name: "Fool's Gold",
-      icon: "Utility/Utility",
-      spellType: "ACTION",
-      level: 2,
-
-      description:
-        "Create illusory gold/treasure (up to 100gp value) that looks real but vanishes when touched. Lasts 1 hour. Perfect for bribes, distractions, escapes, cons, and traps.",
-
-      effectTypes: ["utility"],
-
-      typeConfig: {
-        school: "force",
-        icon: "Utility/Utility",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: ["utility", "illusion", "deception", "gambler"],
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "touch",
-      },
-
-      durationConfig: {
-        durationType: "hours",
-        duration: 1,
-        durationUnit: "hours",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 7 },
-        actionPoints: 1,
-        components: ["verbal", "somatic", "material"],
-        verbalText: "Aurum Falsum!",
-        somaticText: "Conjure illusory treasure",
-        materialText: "A copper piece",
-        classResource: { type: "fortune_points", cost: 1 },
-      },
-
-      resolution: "AUTOMATIC",
-
-      utilityConfig: {
-        utilityType: "illusion",
-        selectedEffects: [
-          {
-            id: "fools_gold",
-            name: "Fool's Gold",
-            description:
-              "Create illusory gold/treasure (up to 100gp value) that looks real but vanishes when touched",
-          },
-        ],
-        duration: 1,
-        durationUnit: "hours",
-        concentration: false,
-        power: "moderate",
-      },
-
-      specialMechanics: {
-        illusion: {
-          quality: "Perfect to visual inspection",
-          substance: "No physical substance",
-          detection: "Touch immediately reveals fake",
-        },
-        utility: {
-          uses: [
-            "Bribes",
-            "Distractions",
-            "Escape tactics",
-            "Deception",
-            "Cons",
-            "Baiting traps",
-          ],
-        },
-        gamblingGame: {
-          gameType: "scratch_ticket",
-          description: "Create illusory treasure that vanishes when touched",
-          resolution: "AUTOMATIC",
-          rules: { maxValue: "100gp", duration: "1 hour", detectionMethod: "touch" },
-          outcomeTiers: [
-            { condition: "cast", name: "Illusion Created", fpGain: 1 },
-          ],
-        },
-      },
-
-      tags: ["utility", "illusion", "deception", "gambler"],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 2,
-      },
+      tags: ["melee", "damage", "fortune_generation", "starter", "gambler"],
     },
 
     {
       id: "gambler_lucky_toss",
       name: "Lucky Toss",
-      description:
-        "Toss a coin and channel luck into a minor attack. Heads deals damage, tails provides a small buff.",
+      description: "Flick a blood-stained steel coin. Heads: target takes 1d10 + Charisma force damage. Tails: the coin floats, granting the target a shimmering barrier absorbing 10 damage for 1 round. Generates 1 Fortune Point, inflicting 1 immediate HP damage to you as your flesh pays the toll.",
       level: 1,
       spellType: "ACTION",
       icon: "Utility/Utility",
-
       typeConfig: {
         school: "force",
-        icon: "Social/Dice Roll",
+        icon: "Utility/Utility",
+        tags: ["ranged", "damage", "buff", "coin_flip", "starter"],
         castTime: 1,
-        castTimeType: "BONUS",
-        tags: ["buff", "reroll", "level 5", "gambler"],
+        castTimeType: "IMMEDIATE",
       },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["enemy", "ally"],
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 3 },
+        components: ["somatic"],
+        somaticText: "Flick a blood-slicked coin",
+      },
+      resolution: "COINS",
+      effectTypes: ["damage", "buff"],
+      damageConfig: {
+        formula: "1d10 + charisma",
+        damageTypes: ["force"],
+        resolution: "DICE",
+      },
+      buffConfig: {
+        buffType: "shield",
+        effects: [
+          {
+            id: "lucky_toss_shield",
+            name: "Floating Fortune",
+            description: "Absorbs 10 damage.",
+          },
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds",
+      },
+      specialMechanics: {
+        coinFlip: {
+          heads: { effect: "deal_damage", description: "Deals 1d10 + Charisma force damage." },
+          tails: { effect: "apply_shield", description: "Applies a shield absorbing 10 damage." },
+        },
+        fortunePoints: {
+          generates: 1,
+          description: "Generates 1 FP on cast, inflicting 1 HP damage to the caster.",
+        },
+        gamblingGame: {
+          gameType: "coin_flip",
+          description: "Flip 1 coin — heads hurts enemies, tails shields allies.",
+          resolution: "COINS",
+          rules: { flipCount: 1 },
+          outcomeTiers: [
+            { condition: "heads", name: "Heads", damage: "1d10 + CHA force", fpGain: 1, selfDamage: 1 },
+            { condition: "tails", name: "Tails", shield: 10, fpGain: 1, selfDamage: 1 },
+          ],
+        },
+      },
+      tags: ["ranged", "damage", "buff", "coin_flip", "starter", "gambler"],
+    },
 
+    {
+      id: "gambler_dice_dart",
+      name: "Dice Dart",
+      description: "Throw a magically loaded bone die at a creature's forehead. Deals 1d8 psychic damage. Generates 1 Fortune Point, inflicting 1 HP damage to you. You can spend up to 3 Fortune Points to add +1d6 psychic damage per point, taking 1d4 psychic damage per point spent.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Social/Dice Roll",
+      typeConfig: {
+        school: "psychic",
+        icon: "Social/Dice Roll",
+        tags: ["ranged", "damage", "fortune_generation", "starter"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["enemy"],
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 3 },
+        components: ["somatic"],
+        somaticText: "Throw bone die",
+      },
+      resolution: "DICE",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "1d8",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
+      },
+      specialMechanics: {
+        fortunePoints: {
+          generates: 1,
+          optionalCost: "1-3 FP",
+          description: "Generates 1 FP (1 HP cost). You can spend 1-3 FP to add +1d6 psychic damage per point (1d4 psychic damage per point spent).",
+        },
+        gamblingGame: {
+          gameType: "dice_throw",
+          description: "Throw a bone die — siphon minor luck or spend FP to load the throw.",
+          resolution: "DICE",
+          rules: { diceCount: 1, dieType: 6 },
+          outcomeTiers: [
+            { condition: "cast", name: "Standard Dart", damage: "1d8 psychic", fpGain: 1, selfDamage: 1 },
+            { condition: "fp_empowered", name: "Loaded Dart", damage: "1d8 + Nd6 psychic", fpCost: "1-3", selfDamage: "1 + Nd4 psychic" },
+          ],
+        },
+      },
+      tags: ["ranged", "damage", "fortune_generation", "starter", "gambler"],
+    },
+
+    {
+      id: "gambler_beginners_luck",
+      name: "Beginner's Luck",
+      description: "Whisper a desperate plea to the cosmic collector. Gain advantage on your next attack roll or saving throw within 1 round. Generates 1 Fortune Point, dealing 1 HP damage to you.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Psychic/Focused Mind",
+      typeConfig: {
+        school: "force",
+        icon: "Psychic/Focused Mind",
+        tags: ["buff", "luck", "starter"],
+        castTime: 0,
+        castTimeType: "FREE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self",
+      },
+      resourceCost: {
+        actionPoints: 0,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 3 },
+        components: ["verbal"],
+        verbalText: "Just this once...",
+      },
+      resolution: "NONE",
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "combatAdvantage",
+        effects: [
+          {
+            id: "beginners_luck_buff",
+            name: "Beginner's Advantage",
+            description: "Advantage on your next attack roll or saving throw.",
+          },
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds",
+      },
+      specialMechanics: {
+        fortunePoints: {
+          generates: 1,
+          description: "Generates 1 FP on cast, inflicting 1 HP damage to the caster.",
+        },
+        gamblingGame: {
+          gameType: "begging",
+          description: "Plead for luck — gain instant combat advantage at a biological cost.",
+          resolution: "AUTOMATIC",
+          rules: { duration: 1 },
+          outcomeTiers: [
+            { condition: "cast", name: "Beggar's Luck", buff: "advantage next roll", fpGain: 1, selfDamage: 1 },
+          ],
+        },
+      },
+      tags: ["buff", "luck", "starter", "gambler"],
+    },
+
+    {
+      id: "gambler_calculated_risk",
+      name: "Calculated Risk",
+      description: "Every twist of probability has a price. When you spend Fortune Points to modify an active d20 roll, your skull fractures from the mental strain. You suffer 1d4 psychic damage per Fortune Point spent. This damage cannot be reduced or prevented. Gambling is pain.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Slashing/Viking Axes",
+      typeConfig: {
+        school: "psychic",
+        icon: "Slashing/Viking Axes",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["debuff"],
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "calculated_risk_debuff",
+            name: "Calculated Risk",
+            description: "Suffer 1d4 psychic damage per Fortune Point spent to nudge rolls.",
+          },
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+      },
+      tags: ["passive", "weakness", "gambler"],
+    },
+
+    {
+      id: "gambler_house_edge",
+      name: "House Edge",
+      description: "The cosmic house always wins in the long run. When you roll a natural 1 on any gambling-based roll (dice rolls, coin flips, card draws used for spell effects), the collector immediately seizes your assets. You lose all unspent Fortune Points and cannot generate new points until the start of your next turn.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Utility/Target Crosshair",
+      typeConfig: {
+        school: "physical",
+        icon: "Utility/Target Crosshair",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["debuff"],
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "house_edge_debuff",
+            name: "House Edge",
+            description: "Rolling a natural 1 on gamble rolls drains all FP and locks generation for 1 round.",
+          },
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+      },
+      tags: ["passive", "weakness", "gambler"],
+    },
+
+    // ========================================
+    // LEVEL 2 SPELLS - Risk & Illusion
+    // ========================================
+    {
+      id: "gambler_coin_toss",
+      name: "Coin Toss",
+      description: "Flip a cursed iron coin wreathed in your own blood. Heads: gain a +2 bonus to all attack rolls and saving throws for 1 hour. Tails: suffer a -2 penalty to all attack rolls and saving throws for 1 hour. Generates 1 Fortune Point (inflicting 1 HP damage). You can spend 1 Fortune Point (taking 1d4 psychic damage) to force the coin to flip its result.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Utility/Utility",
+      typeConfig: {
+        school: "force",
+        icon: "Utility/Utility",
+        tags: ["buff", "debuff", "coin_flip"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self",
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 },
+        components: ["somatic"],
+        somaticText: "Flip blood-slicked coin",
+      },
+      resolution: "COINS",
+      effectTypes: ["buff", "debuff"],
+      buffConfig: {
+        buffType: "statusEffectBuff",
+        effects: [
+          {
+            id: "coin_toss_heads",
+            name: "Heads — Lady Luck's Smile",
+            description: "+2 to all attack rolls and saving throws.",
+            statPenalty: { stat: "attack_and_saves", magnitude: 2, magnitudeType: "flat" },
+          },
+        ],
+        durationValue: 1,
+        durationType: "hours",
+        durationUnit: "hours",
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "coin_toss_tails",
+            name: "Tails — Collector's Frown",
+            description: "-2 to all attack rolls and saving throws.",
+            statPenalty: { stat: "attack_and_saves", magnitude: -2, magnitudeType: "flat" },
+          },
+        ],
+        durationValue: 1,
+        durationType: "hours",
+        durationUnit: "hours",
+      },
+      specialMechanics: {
+        coinFlip: {
+          heads: { effect: "apply_buff", description: "+2 to all attack rolls and saves." },
+          tails: { effect: "apply_debuff", description: "-2 to all attack rolls and saves." },
+        },
+        fortunePoints: {
+          generates: 1,
+          optionalCost: "1 FP",
+          description: "Generates 1 FP on cast (1 HP damage). Spend 1 FP to flip the result (1d4 psychic damage spent).",
+        },
+        gamblingGame: {
+          gameType: "coin_flip",
+          description: "High-stakes coin toss — tilt your entire stats ledger.",
+          resolution: "COINS",
+          rules: { flipCount: 1, durationHours: 1 },
+          outcomeTiers: [
+            { condition: "heads", name: "Heads", buff: "+2 attacks/saves", fpGain: 1, selfDamage: 1 },
+            { condition: "tails", name: "Tails", debuff: "-2 attacks/saves", fpGain: 1, selfDamage: 1 },
+          ],
+        },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      tags: ["buff", "debuff", "coin_flip", "gambler"],
+    },
+
+    {
+      id: "gambler_insight",
+      name: "Gambler's Insight",
+      description: "Your chattering, twitching senses lock onto a target. Read their microscopically subtle tells, siphoning their luck. You gain advantage on all Insight and Perception checks against them for 10 minutes. Generates 1 Fortune Point, dealing 1 HP damage to you.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Psychic/Focused Mind",
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Focused Mind",
+        tags: ["utility", "social"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
         targetRestrictions: ["enemy", "ally"],
       },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
         actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 },
         components: ["verbal", "somatic"],
-        verbalText: "Luck be mine!",
-        somaticText: "Flip a coin",
-        classResource: { type: "fortune_points", gain: 1 },
+        verbalText: "I see your hand...",
       },
-
-      resolution: "COINS",
-      effectTypes: ["damage", "buff"],
-
-      damageConfig: {
-        formula: "1d10 + charisma",
-        damageTypes: ["force"],
-        resolution: "DICE",
-      },
-
+      resolution: "NONE",
+      effectTypes: ["buff"],
       buffConfig: {
-        buffType: "luck",
+        buffType: "statusEffectBuff",
         effects: [
           {
-            id: "minor_luck",
-            name: "Minor Luck",
-            description: "+1 to your next roll",
-            statModifier: {
-              stat: "all_rolls",
-              magnitude: 1,
-              magnitudeType: "flat",
-            },
-            mechanicsText: "+1 to next roll",
-            charges: 1,
+            id: "gamblers_insight_buff",
+            name: "Gambler's Insight",
+            description: "Advantage on Insight and Perception checks against target.",
           },
         ],
-        durationValue: 1,
-        durationType: "rounds",
-        durationUnit: "rounds",
+        durationValue: 10,
+        durationType: "minutes",
+        durationUnit: "minutes",
       },
-
       specialMechanics: {
-        coinFlip: {
-          heads: { effect: "damage", target: "enemy" },
-          tails: { effect: "buff", target: "self" },
-        },
-        gamblingGame: {
-          gameType: "coin_flip",
-          description: "Flip a coin — heads attacks, tails buffs",
-          resolution: "COINS",
-          rules: { flipCount: 1, dualOutcome: true },
-          outcomeTiers: [
-            { condition: "heads", name: "Lucky Hit", damage: "1d10 + CHA force", fpGain: 1 },
-            { condition: "tails", name: "Lucky Charm", buff: "+1 next roll", fpGain: 1 },
-          ],
+        fortunePoints: {
+          generates: 1,
+          description: "Generates 1 FP on cast, inflicting 1 HP damage.",
         },
       },
-
-      tags: ["damage", "buff", "coin flip", "level 1", "gambler"],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 1,
-      },
+      tags: ["utility", "social", "gambler"],
     },
 
     {
-      id: "gambler_beginners_luck",
-      name: "Beginner's Luck",
-      description:
-        "Channel the power of fortune to grant yourself advantage on your next ability check or attack roll.",
-      level: 1,
+      id: "gambler_fools_gold",
+      name: "Fool's Gold",
+      description: "Reach into the empty void of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by holy steel. Siphons 1 Fortune Point (inflicting 1 HP damage).",
+      level: 2,
       spellType: "ACTION",
-      icon: "Social/Dice Roll",
-
+      icon: "Utility/Utility",
       typeConfig: {
         school: "force",
-        icon: "Social/Dice Roll",
+        icon: "Utility/Utility",
+        tags: ["utility", "illusion"],
         castTime: 1,
-        castTimeType: "BONUS",
+        castTimeType: "IMMEDIATE",
       },
-
       targetingConfig: {
         targetingType: "self",
         rangeType: "self",
       },
-
       resourceCost: {
+        actionPoints: 1,
         resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
-        actionPoints: 0,
-        components: ["verbal"],
-        verbalText: "First timer!",
-        classResource: { type: "fortune_points", gain: 1 },
+        resourceValues: { mana: 7 },
+        components: ["somatic"],
+        somaticText: "Pull empty air from pockets",
       },
-
       resolution: "NONE",
-      effectTypes: ["buff"],
-
-      buffConfig: {
-        buffType: "combatAdvantage",
-        effects: [
+      effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "conjuration",
+        selectedEffects: [
           {
-            id: "beginners_advantage",
-            name: "Beginner's Advantage",
-            description:
-              "Gain advantage on your next ability check or attack roll",
-            mechanicsText: "",
-            charges: 1,
+            id: "fools_gold_wealth",
+            name: "Shifting Wealth",
+            description: "Conjure 100gp worth of illusory coins for 1 hour.",
           },
         ],
-        durationValue: 1,
-        durationType: "rounds",
-        durationUnit: "rounds",
+        duration: 1,
+        durationUnit: "hours",
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      tags: ["buff", "luck", "level 1", "gambler"],
-
       specialMechanics: {
         fortunePoints: {
-          gain: 1,
-          description: "Successful cast generates 1 FP",
-        },
-        gamblingGame: {
-          gameType: "lucky_draw",
-          description: "Draw on beginner's fortune for advantage",
-          resolution: "AUTOMATIC",
-          rules: { advantageType: "ability_check_or_attack", uses: 1 },
-          outcomeTiers: [
-            { condition: "cast", name: "Beginner's Fortune", buff: "advantage next check", fpGain: 1 },
-          ],
+          generates: 1,
+          description: "Generates 1 FP on cast, inflicting 1 HP damage.",
         },
       },
+      tags: ["utility", "illusion", "gambler"],
     },
 
+    // ========================================
+    // LEVEL 3 SPELLS - Prediction & Withdrawal
+    // ========================================
     {
-      id: "gambler_dice_dart",
-      name: "Dice Dart",
-      description:
-        "Throw a magically enchanted die that deals damage based on the roll. Spend 1 FP to add +1d6 damage.",
-      level: 1,
+      id: "gambler_taunt_the_odds",
+      name: "Taunt the Odds",
+      description: "Challenge the math of the universe. Predict a number between 1 and 20, then roll a d20. If your roll is within 3 of your guess, deal 3d10 psychic damage to a target. If you are off by 4 or more, the probability backfires, dealing 1d10 psychic damage to you. You can spend Fortune Points to nudge the d20 roll toward your guess (1d4 psychic damage per point). Gaining 1 FP on success (1 HP damage).",
+      level: 3,
       spellType: "ACTION",
-      icon: "Social/Dice Roll",
-
+      icon: "Radiant/Radiant Warrior",
       typeConfig: {
-        school: "force",
-        icon: "Social/Dice Roll",
+        school: "psychic",
+        icon: "Radiant/Radiant Warrior",
+        tags: ["ranged", "damage", "prediction"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
         targetRestrictions: ["enemy"],
       },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 3 },
         actionPoints: 1,
-        components: ["somatic"],
-        somaticText: "Throw enchanted die",
-        classResource: { type: "fortune_points", gain: 1 },
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
+        components: ["verbal", "somatic"],
+        verbalText: "The number is...",
       },
-
       resolution: "DICE",
       effectTypes: ["damage"],
-
       damageConfig: {
-        formula: "1d8",
-        damageTypes: ["force"],
+        formula: "3d10",
+        damageTypes: ["psychic"],
         resolution: "DICE",
       },
-
       specialMechanics: {
         fortunePoints: {
-          optionalCost: 1,
-          effect: "Spend 1 FP to add +1d6 damage to this attack",
-          bonusFormula: "+1d6",
+          generates: 1,
+          optionalCost: "1-5 FP",
+          description: "Generates 1 FP on success (1 HP cost). Spend Fortune Points to nudge your d20 roll toward your guess (1d4 psychic damage per point spent).",
         },
         gamblingGame: {
-          gameType: "craps",
-          description: "Throw an enchanted die — spend FP to load the outcome",
+          gameType: "number_guess",
+          description: "Guess a number, roll a d20 — close matches deal damage, misses hurt you.",
           resolution: "DICE",
-          rules: { baseDamage: "1d8", bonusDamage: "+1d6 per 1 FP spent" },
+          rules: { diceCount: 1, dieType: 20, successRange: 3 },
           outcomeTiers: [
-            { condition: "base", name: "Hit", damage: "1d8 force", fpGain: 1 },
-            { condition: "fp_boosted", name: "Loaded Die", damage: "1d8 + 1d6 force", fpCost: 1 },
+            { condition: "match_within_3", name: "Hit", damage: "3d10 psychic", fpGain: 1, selfDamage: 1 },
+            { condition: "miss_by_4+", name: "Backfire", selfDamage: "1d10 psychic", fpGain: 0 },
           ],
         },
       },
-
-      tags: ["damage", "ranged", "level 1", "gambler"],
-
-      cooldownConfig: {
-        cooldownType: "turn_based",
-        cooldownValue: 1,
-      },
+      tags: ["ranged", "damage", "prediction", "gambler"],
     },
 
     {
+      id: "gambler_busted",
+      name: "Busted",
+      description: "When you have 0 Fortune Points, you enter severe probability withdrawal. You are a marked soul, shivering under the collector's gaze. You have disadvantage on all gambling-based resolution rolls (dice rolls, coin flips, card draws used for spell effects) until you bank at least 1 Fortune Point.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "/Exhausted",
+      typeConfig: {
+        school: "physical",
+        icon: "/Exhausted",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      effectTypes: ["debuff"],
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "busted_withdrawal",
+            name: "Probability Withdrawal",
+            description: "Disadvantage on all gambling-based rolls.",
+          },
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+      },
+      tags: ["passive", "weakness", "gambler"],
+    },
+
+    // ========================================
+    // LEVEL 4 SPELLS - The Agonizing Double Down
+    // ========================================
+    {
+      id: "gambler_double_or_nothing",
+      name: "Double or Nothing",
+      description: "Make an agonizing gamble on your physical form. Make a d20 attack roll against an enemy. On a hit: it becomes an automatic critical hit dealing double damage (4d10 + Charisma force). On a miss: you take the damage yourself, and if this reduces you to 0 HP, you immediately plunge into Cosmic Bankruptcy. Spend Fortune Points to nudge the attack roll (1d4 psychic damage per point spent).",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Utility/Empowered Warrior",
+      typeConfig: {
+        school: "psychic",
+        secondaryElement: "force",
+        icon: "Utility/Empowered Warrior",
+        tags: ["melee", "damage", "critical_hit", "high_risk"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        rangeDistance: 5,
+        targetRestrictions: ["enemy"],
+      },
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 14 },
+        components: ["somatic"],
+        somaticText: "Hold blade to your own throat before swinging",
+      },
+      resolution: "DICE",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "2d10 + charisma",
+        damageTypes: ["psychic", "force"],
+        resolution: "DICE",
+      },
+      specialMechanics: {
+        fortunePoints: {
+          optionalCost: "1-10 FP",
+          description: "Spend Fortune Points to nudge the attack roll toward hitting (1d4 psychic damage per point spent).",
+        },
+        gamblingGame: {
+          gameType: "double_down",
+          description: "Make a high-stakes hit roll — critical damage on hit, suffer the damage yourself on miss.",
+          resolution: "DICE",
+          rules: { diceCount: 1, dieType: 20 },
+          outcomeTiers: [
+            { condition: "hit", name: "Double (Double Damage)", damage: "4d10 + CHA force", fpGain: 2, selfDamage: 2 },
+            { condition: "miss", name: "Nothing (Self-inflicted)", selfDamage: "2d10 + CHA force", fpGain: 0 },
+          ],
+        },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["melee", "damage", "critical_hit", "high_risk", "gambler"],
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS - Probability Acceleration
+    // ========================================
+    {
       id: "gambler_hot_streak",
       name: "Hot Streak",
-      description:
-        "When fortune favors you, ride the wave! Each successful attack this turn grants bonus damage on the next.",
+      description: "Let the fever take hold. Spend 4 Fortune Points (taking 4d4 psychic damage) to accelerate your stolen probability. For 1 round, each successful attack or spell cast grants a stacking +1d6 force damage to your next strike, up to a maximum of 4 stacks. Each stack siphoned generates 1 FP (and deals 1 HP damage).",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Enveloping Fire",
-
       typeConfig: {
         school: "psychic",
         icon: "Fire/Enveloping Fire",
-        castTime: 1,
-        castTimeType: "BONUS",
-        tags: ["buff", "damage", "level 5", "gambler"],
+        tags: ["buff", "damage"],
+        castTime: 0,
+        castTimeType: "FREE",
       },
-
       targetingConfig: {
         targetingType: "self",
         rangeType: "self",
       },
-
       resourceCost: {
+        actionPoints: 0,
         resourceTypes: ["mana"],
         resourceValues: { mana: 16 },
-        actionPoints: 0,
-        components: ["verbal"],
-        verbalText: "I'm on fire!",
         classResource: { type: "fortune_points", cost: 4 },
       },
-
       resolution: "NONE",
       effectTypes: ["buff"],
-
       buffConfig: {
-        buffType: "damageIncrease",
+        buffType: "statusEffectBuff",
         effects: [
           {
-            id: "hot_streak",
-            name: "Hot Streak",
-            description:
-              "Each hit this turn grants +1d6 damage on your next attack, stacking up to 4 times.",
-            mechanicsText: "",
-            charges: 4,
+            id: "hot_streak_buff",
+            name: "Hot Streak Acceleration",
+            description: "Each successful attack adds +1d6 force damage, stacking up to 4 times.",
           },
         ],
         durationValue: 1,
         durationType: "rounds",
         durationUnit: "rounds",
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      tags: ["buff", "damage", "level 5", "gambler"],
-
       specialMechanics: {
         fortunePoints: {
           cost: 4,
-          description: "Spend FP to ignite a damage-escalating streak",
-        },
-        gamblingGame: {
-          gameType: "farkle",
-          description: "Push your luck — each hit adds stacking bonus damage",
-          resolution: "AUTOMATIC",
-          rules: { stackPerHit: "+1d6", maxStacks: 4, duration: "this turn" },
-          outcomeTiers: [
-            { condition: "1_hit", name: "Hot", bonusDamage: "+1d6", fpGain: 1 },
-            { condition: "2_hits", name: "Hotter", bonusDamage: "+2d6", fpGain: 1 },
-            { condition: "3_hits", name: "Blazing", bonusDamage: "+3d6", fpGain: 2 },
-            { condition: "4_hits", name: "Inferno", bonusDamage: "+4d6", fpGain: 2 },
-          ],
+          generates: "up_to_4",
+          description: "Costs 4 FP to cast (4d4 psychic damage). Generates 1 FP (1 HP damage) per stack built during the duration.",
         },
       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["buff", "damage", "gambler"],
     },
 
     {
       id: "gambler_mirage_flip",
       name: "Mirage Flip",
-      description:
-        "Flip a coin to double or nullify your next spell or attack damage.",
+      description: "As a reaction when an attack lands on a target within 30ft, flip a blood-stained coin. Heads: double the damage dealt to the target. Tails: nullify the damage entirely, but suffer 2d6 psychic damage as the probability shockwave collapses inside your skull. Spend 1 FP (1d4 psychic damage) to force heads.",
       level: 5,
       spellType: "REACTION",
       icon: "Utility/Utility",
-
       typeConfig: {
         school: "psychic",
         icon: "Utility/Utility",
-        castTime: 1,
+        tags: ["reaction", "coin_flip", "high_risk"],
+        castTime: 0,
         castTimeType: "REACTION",
-        tags: ["buff", "coin flip", "high risk", "level 5", "gambler"],
       },
-
       targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["enemy", "ally"],
       },
-
       resourceCost: {
+        actionPoints: 0,
         resourceTypes: ["mana"],
         resourceValues: { mana: 17 },
-        actionPoints: 0,
-        components: ["verbal"],
-        verbalText: "Double or nothing!",
-        classResource: { type: "fortune_points", cost: 4 },
+        components: ["somatic"],
       },
-
       resolution: "COINS",
-      effectTypes: ["buff"],
-
-      buffConfig: {
-        buffType: "damage_modifier",
-        effects: [
-          {
-            id: "mirage_flip_double",
-            name: "Mirage Flip Double",
-            description: "On heads: double damage. On tails: zero damage.",
-            mechanicsText: "",
-          },
-        ],
-      },
-
+      effectTypes: ["buff", "debuff"],
       specialMechanics: {
         coinFlip: {
-          heads: { effect: "double_damage", multiplier: 2 },
-          tails: { effect: "no_damage", multiplier: 0 },
+          heads: { effect: "double_damage", description: "Doubles the damage of the triggering attack." },
+          tails: { effect: "nullify_damage", description: "Reduces triggering damage to 0, but inflicts 2d6 psychic damage to you." },
         },
-        trigger: "on_attack_hit",
-        gamblingGame: {
-          gameType: "blackjack",
-          description: "Double or nothing — flip a coin to double damage or nullify it",
-          resolution: "COINS",
-          rules: { flipCount: 1, triggerType: "reaction_on_attack" },
-          outcomeTiers: [
-            { condition: "heads", name: "Blackjack", multiplier: 2, fpGain: 1 },
-            { condition: "tails", name: "Bust", multiplier: 0, fpGain: 0 },
-          ],
+        fortunePoints: {
+          optionalCost: "1 FP",
+          description: "Spend 1 FP to force heads (1d4 psychic damage spent).",
         },
       },
-
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      tags: ["buff", "coin flip", "high risk", "level 5", "gambler"],
+      tags: ["reaction", "coin_flip", "high_risk", "gambler"],
     },
 
     {
       id: "gambler_fate_reroll",
       name: "Fate Reroll",
-      description:
-        "Reroll any dice you roll this turn and take the better result.",
+      description: "Tug the threads of probability until they bleed. Spend 4 Fortune Points (4d4 psychic damage) to force all your d20 rolls this turn to be rolled with advantage. Taking this loan of luck leaves your hands trembling; you have disadvantage on all saving throws until the start of your next turn.",
       level: 5,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
-
       typeConfig: {
         school: "force",
         icon: "Social/Dice Roll",
-        castTime: 1,
-        castTimeType: "BONUS",
+        tags: ["buff", "reroll"],
+        castTime: 0,
+        castTimeType: "FREE",
       },
-
       targetingConfig: {
         targetingType: "self",
         rangeType: "self",
       },
-
       resourceCost: {
+        actionPoints: 0,
         resourceTypes: ["mana"],
         resourceValues: { mana: 18 },
-        actionPoints: 0,
-        components: ["somatic"],
-        somaticText: "Sleight of hand",
         classResource: { type: "fortune_points", cost: 4 },
       },
-
       resolution: "NONE",
-      effectTypes: ["buff"],
-
+      effectTypes: ["buff", "debuff"],
       buffConfig: {
-        buffType: "custom",
+        buffType: "combatAdvantage",
         effects: [
           {
-            id: "fate_reroll",
-            name: "Fate Reroll",
-            description:
-              "Reroll any dice this turn and take the better result.",
-            mechanicsText: "",
+            id: "fate_reroll_advantage",
+            name: "Borrowed Advantage",
+            description: "Advantage on all d20 rolls this turn.",
           },
         ],
         durationValue: 1,
         durationType: "rounds",
         durationUnit: "rounds",
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      tags: ["buff", "reroll", "level 5", "gambler"],
-
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "fate_reroll_tremble",
+            name: "Trembling Loan",
+            description: "Disadvantage on all saving throws.",
+          },
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds",
+      },
       specialMechanics: {
         fortunePoints: {
           cost: 4,
-          description: "Spend FP to guarantee reroll advantage",
-        },
-        gamblingGame: {
-          gameType: "liar's_dice",
-          description: "Call bluff on fate itself — reroll and take the better result",
-          resolution: "AUTOMATIC",
-          rules: { rerollCount: "all", keepBest: true, duration: "this turn" },
-          outcomeTiers: [
-            { condition: "cast", name: "Fate Rewritten", buff: "reroll all dice take best", fpGain: 1 },
-          ],
+          description: "Costs 4 FP (4d4 psychic damage) to guarantee advantage on all d20 rolls for the turn.",
         },
       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["buff", "reroll", "gambler"],
     },
 
+    // ========================================
+    // LEVEL 6 SPELLS - Luck Siphoning
+    // ========================================
     {
       id: "gambler_house_advantage",
       name: "House Advantage",
-      description:
-        "The house always wins. Steal luck from enemies, imposing disadvantage on them while granting yourself advantage.",
+      description: "The cosmic house always wins. Siphon the luck of all nearby enemies. All enemies in a 20ft radius make a Spirit save (DC 16). On a fail, their probability is drained, giving them disadvantage on all attack rolls and saving throws for 3 rounds. Meanwhile, you gain advantage on all rolls for 3 rounds. Costs 5 Fortune Points (5d4 psychic damage) to activate.",
       level: 6,
       spellType: "ACTION",
       icon: "Psychic/Mind Roar",
-
       typeConfig: {
         school: "psychic",
         icon: "Psychic/Mind Roar",
+        tags: ["debuff", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["debuff", "buff", "luck", "level 6", "gambler"],
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
@@ -2421,34 +1058,26 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         aoeParameters: { radius: 20 },
         targetRestrictions: ["enemy"],
       },
-
       resourceCost: {
+        actionPoints: 2,
         resourceTypes: ["mana"],
         resourceValues: { mana: 20 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "The house always wins!",
-        somaticText: "Card dealer gesture",
         classResource: { type: "fortune_points", cost: 5 },
       },
-
       resolution: "NONE",
       effectTypes: ["debuff", "buff"],
-
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
           {
-            id: "stolen_luck",
+            id: "house_advantage_stolen_luck",
             name: "Stolen Luck",
-            description:
-              "Enemies have disadvantage on attack rolls and saving throws.",
+            description: "Disadvantage on attack rolls and saving throws.",
             statPenalty: {
               stat: "attack_and_saves",
               magnitude: -99,
               magnitudeType: "disadvantage",
             },
-            mechanicsText: "",
           },
         ],
         durationValue: 3,
@@ -2460,79 +1089,58 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           saveOutcome: "negates",
         },
       },
-
       buffConfig: {
         buffType: "combatAdvantage",
         effects: [
           {
-            id: "house_advantage",
+            id: "house_advantage_buff",
             name: "House Advantage",
-            description: "You have advantage on all rolls for the duration.",
-            mechanicsText: "",
+            description: "Advantage on all rolls for the duration.",
           },
         ],
         durationValue: 3,
         durationType: "rounds",
         durationUnit: "rounds",
       },
-
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      tags: ["debuff", "buff", "luck", "level 6", "gambler"],
-
       specialMechanics: {
         fortunePoints: {
           cost: 5,
-          description: "Spend FP to tilt the odds in your favor",
-        },
-        gamblingGame: {
-          gameType: "poker",
-          description: "Read the table and steal luck — disadvantage for enemies, advantage for you",
-          resolution: "AUTOMATIC",
-          rules: { range: "60ft", radius: 20, duration: 3 },
-          outcomeTiers: [
-            { condition: "cast", name: "House Wins", debuff: "disadvantage enemies", buff: "advantage self", fpGain: 2 },
-          ],
+          description: "Spend 5 FP (5d4 psychic damage) to steal luck from all nearby foes.",
         },
       },
+      tags: ["debuff", "buff", "luck", "gambler"],
     },
 
     {
       id: "gambler_card_shark",
       name: "Card Shark",
-      description:
-        "Draw from your magical deck to unleash one of four powerful effects based on the suit.",
+      description: "Draw a card from a deck of flayed leather. Resolve based on the suit: Spades (deal 6d8 force damage), Hearts (heal 5d8 HP), Diamonds (gain 30 damage shield for 1 minute), Clubs (target stunned for 2 rounds, Spirit DC 15 negates). Generates 1 Fortune Point, dealing 1 HP damage to you.",
       level: 6,
       spellType: "ACTION",
       icon: "Psychic/Mental Chaos",
-
       typeConfig: {
         school: "force",
         icon: "Psychic/Mental Chaos",
+        tags: ["rollable_table", "variable"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["rollable table", "variable", "level 6", "gambler"],
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
         targetRestrictions: ["enemy", "ally"],
       },
-
       resourceCost: {
+        actionPoints: 1,
         resourceTypes: ["mana"],
         resourceValues: { mana: 22 },
-        actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Draw a card",
-        classResource: { type: "fortune_points", cost: 5 },
+        somaticText: "Draw a flayed leather card",
       },
-
       resolution: "DICE",
       effectTypes: ["utility"],
-
       rollableTable: {
         enabled: true,
         name: "Card Shark Effects",
@@ -2540,51 +1148,16 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         resolutionType: "DICE",
         resolutionConfig: { diceType: "1d4" },
         entries: [
-          {
-            min: 1,
-            max: 1,
-            result: "Spades — Deal 6d8 force damage to target",
-            weight: 1,
-          },
-          {
-            min: 2,
-            max: 2,
-            result: "Hearts — Heal target for 5d8 HP",
-            weight: 1,
-          },
-          {
-            min: 3,
-            max: 3,
-            result:
-              "Diamonds — Target gains a shield absorbing 30 damage for 1 minute",
-            weight: 1,
-          },
-          {
-            min: 4,
-            max: 4,
-            result:
-              "Clubs — Target is stunned for 2 rounds (Spirit DC 15 save negates)",
-            weight: 1,
-          },
+          { min: 1, max: 1, result: "Spades — Deal 6d8 force damage to target", weight: 1 },
+          { min: 2, max: 2, result: "Hearts — Heal target for 5d8 HP", weight: 1 },
+          { min: 3, max: 3, result: "Diamonds — Target gains a shield absorbing 30 damage for 1 minute", weight: 1 },
+          { min: 4, max: 4, result: "Clubs — Target is stunned for 2 rounds (Spirit DC 15 save negates)", weight: 1 },
         ],
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      tags: [
-        "damage",
-        "healing",
-        "control",
-        "variable",
-        "rollable table",
-        "level 6",
-        "gambler",
-      ],
-
       specialMechanics: {
         fortunePoints: {
-          cost: 5,
-          description: "Spend FP to draw from the magical deck",
+          generates: 1,
+          description: "Generates 1 FP on draw, inflicting 1 HP damage.",
         },
         gamblingGame: {
           gameType: "poker",
@@ -2592,57 +1165,50 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           resolution: "CARDS",
           rules: { drawCount: 1, deckType: "standard_suits", suits: 4 },
           outcomeTiers: [
-            { condition: "spades", name: "Spades", damage: "6d8 force", fpGain: 1 },
-            { condition: "hearts", name: "Hearts", healing: "5d8 HP", fpGain: 1 },
-            { condition: "diamonds", name: "Diamonds", shield: "30 damage", fpGain: 1 },
-            { condition: "clubs", name: "Clubs", control: "stun 2 rounds", fpGain: 1 },
+            { condition: "spades", name: "Spades", damage: "6d8 force", fpGain: 1, selfDamage: 1 },
+            { condition: "hearts", name: "Hearts", healing: "5d8 HP", fpGain: 1, selfDamage: 1 },
+            { condition: "diamonds", name: "Diamonds", shield: "30 damage", fpGain: 1, selfDamage: 1 },
+            { condition: "clubs", name: "Clubs", control: "stun 2 rounds", fpGain: 1, selfDamage: 1 },
           ],
         },
       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      tags: ["damage", "healing", "control", "variable", "rollable_table", "gambler"],
     },
 
     {
       id: "gambler_poker_face",
       name: "Poker Face",
-      description:
-        "Project an aura of unreadability, becoming immune to charm, fear, and mind-reading effects.",
+      description: "Project an aura of complete, chattering void, becoming entirely immune to charm, fear, and mind-reading effects for 5 rounds. Costs 5 Fortune Points (5d4 psychic damage) to activate.",
       level: 6,
       spellType: "ACTION",
       icon: "General/Fiery Rage",
-
       typeConfig: {
         school: "force",
         icon: "General/Fiery Rage",
+        tags: ["buff", "immunity"],
         castTime: 1,
-        castTimeType: "BONUS",
-        tags: ["buff", "immunity", "mental", "level 6", "gambler"],
+        castTimeType: "FREE",
       },
-
       targetingConfig: {
         targetingType: "self",
         rangeType: "self",
       },
-
       resourceCost: {
+        actionPoints: 0,
         resourceTypes: ["mana"],
         resourceValues: { mana: 20 },
-        actionPoints: 0,
-        components: ["somatic"],
-        somaticText: "Assume poker face",
         classResource: { type: "fortune_points", cost: 5 },
       },
-
       resolution: "NONE",
       effectTypes: ["buff"],
-
       buffConfig: {
         buffType: "statusEffectBuff",
         effects: [
           {
-            id: "poker_face",
-            name: "Poker Face",
+            id: "poker_face_immunity",
+            name: "Poker Face Facade",
             description: "Immune to charm, fear, and mind-reading effects.",
-            mechanicsText: "",
             statusImmunities: ["charm", "fear", "mind_reading"],
           },
         ],
@@ -2650,276 +1216,95 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         durationType: "rounds",
         durationUnit: "rounds",
       },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      tags: ["buff", "immunity", "mental", "level 6", "gambler"],
-
       specialMechanics: {
         fortunePoints: {
           cost: 5,
-          description: "Spend FP to maintain an unreadable facade",
-        },
-        gamblingGame: {
-          gameType: "liar's_dice",
-          description: "The ultimate bluff — become unreadable to charm, fear, and mind-reading",
-          resolution: "AUTOMATIC",
-          rules: { immunityDuration: 5, immunityTypes: ["charm", "fear", "mind_reading"] },
-          outcomeTiers: [
-            { condition: "cast", name: "Stone Face", buff: "immune charm/fear/mind_reading 5 rounds", fpGain: 1 },
-          ],
+          description: "Spend 5 FP (5d4 psychic damage) to become mentally unreadable.",
         },
       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      tags: ["buff", "immunity", "mental", "gambler"],
     },
 
+    // ========================================
+    // LEVEL 7 SPELLS - Competitive Execution
+    // ========================================
     {
-      id: "gambler_high_roller",
-      name: "High Roller",
-      description:
-        "Make the ultimate gamble. Roll a d20 - on a 15+, deal devastating damage. On a 1-5, take that damage yourself.",
-      level: 9,
+      id: "gambler_death_roll",
+      name: "Death Roll",
+      description: "Force an enemy into a competitive match of Death Roll. Unwilling targets make a Spirit save (DC 15) to resist. You both take turns rolling a d20. The lower roll becomes the new ceiling. The first to roll over the current ceiling loses, taking 1-10d10 psychic damage (winner's choice) and becoming stunned for 1 round. You may spend Fortune Points mid-game to stay under the ceiling (1d4 psychic damage per FP spent).",
+      level: 7,
       spellType: "ACTION",
-      icon: "Social/Dice Roll",
-
+      icon: "Necrotic/Demonic Empowerment",
       typeConfig: {
-        school: "force",
-        icon: "Social/Dice Roll",
+        school: "psychic",
+        icon: "Necrotic/Demonic Empowerment",
+        tags: ["competitive", "damage", "control"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["damage", "high risk", "high reward", "level 9", "gambler"],
       },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 90,
-        targetRestrictions: ["enemy"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 32 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "High stakes!",
-        somaticText: "Roll the divine die",
-        classResource: { type: "fortune_points", cost: 8 },
-      },
-
-      resolution: "DICE",
-      effectTypes: ["damage"],
-
-      damageConfig: {
-        formula: "18d6 + charisma",
-        damageTypes: ["force"],
-        resolution: "DICE",
-      },
-
-      specialMechanics: {
-        highRoll: {
-          diceFormula: "1d20",
-          success: { min: 15, effect: "deal_damage_to_target" },
-          neutral: { min: 6, max: 14, effect: "deal_half_damage" },
-          failure: { max: 5, effect: "deal_damage_to_self" },
-        },
-        gamblingGame: {
-          gameType: "war",
-          description: "Roll d20 — high card deals devastating damage, low card hurts you",
-          resolution: "DICE",
-          rules: { diceType: "d20", successThreshold: 15, neutralRange: "6-14", failureThreshold: 5 },
-          outcomeTiers: [
-            { condition: "15+", name: "High Card", damage: "18d6 + CHA force", fpGain: 3 },
-            { condition: "6-14", name: "Push", damage: "9d6 + CHA/2 force (half)", fpGain: 1 },
-            { condition: "1-5", name: "Low Card", selfDamage: "18d6 + CHA force", fpGain: 0 },
-          ],
-        },
-      },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: ["damage", "high risk", "high reward", "level 9", "gambler"],
-    },
-
-    {
-      id: "gambler_jackpot_surge",
-      name: "Jackpot Surge",
-      description:
-        "Hit the ultimate jackpot! Roll multiple dice and if any match, multiply your damage exponentially.",
-      level: 9,
-      spellType: "ACTION",
-      icon: "Radiant/Radiant Glow",
-
-      typeConfig: {
-        school: "force",
-        icon: "Radiant/Radiant Glow",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: ["damage", "aoe", "high reward", "level 9", "gambler"],
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 25 },
-        targetRestrictions: ["enemy"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 34 },
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
-        verbalText: "JACKPOT!",
-        somaticText: "Pull the lever",
-        classResource: { type: "fortune_points", cost: 8 },
-      },
-
-      resolution: "DICE",
-      effectTypes: ["damage"],
-
-      damageConfig: {
-        formula: "16d6 + charisma",
-        damageTypes: ["force"],
-        savingThrow: {
-          ability: "agility",
-          difficultyClass: 19,
-          saveOutcome: "half_damage",
-        },
-        resolution: "DICE",
-      },
-
-      specialMechanics: {
-        jackpot: {
-          diceFormula: "3d6",
-          matching: {
-            twoMatch: { multiplier: 2, description: "Double damage!" },
-            threeMatch: {
-              multiplier: 4,
-              description: "JACKPOT! Quadruple damage!",
-            },
-          },
-        },
-        gamblingGame: {
-          gameType: "slot_machine",
-          description: "Roll 3d6 — matching dice multiply damage exponentially",
-          resolution: "DICE",
-          rules: { diceCount: 3, dieType: 6, matchType: "value", aoeRadius: 25 },
-          outcomeTiers: [
-            { condition: "3_match", name: "JACKPOT", multiplier: 4, fpGain: 5 },
-            { condition: "2_match", name: "Small Jackpot", multiplier: 2, fpGain: 3 },
-            { condition: "no_match", name: "No Match", multiplier: 1, fpGain: 1 },
-          ],
-        },
-      },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: ["damage", "aoe", "high reward", "level 9", "gambler"],
-    },
-
-    {
-      id: "gambler_fortune_reversal",
-      name: "Fortune Reversal",
-      description:
-        "Reverse the fortunes of battle. Swap your current HP percentage with a target enemy.",
-
-      level: 9,
-      spellType: "ACTION",
-      icon: "Arcane/Rewind Time",
-
-      typeConfig: {
-        school: "force",
-        icon: "Arcane/Rewind Time",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-        tags: ["utility", "coin flip", "high risk", "level 9", "gambler"],
-      },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
         targetRestrictions: ["enemy"],
       },
-
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 34 },
         actionPoints: 2,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 24 },
         components: ["verbal", "somatic"],
-        verbalText: "Fortune flip!",
-        somaticText: "Dramatic coin flip",
-        classResource: { type: "fortune_points", cost: 8 },
+        verbalText: "Let us roll for your soul...",
       },
-
-      resolution: "COINS",
-      effectTypes: ["utility"],
-
-      utilityConfig: {
-        utilityType: "fate_manipulation",
-        selectedEffects: [
+      resolution: "DICE",
+      effectTypes: ["damage", "control"],
+      damageConfig: {
+        formula: "10d10",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
+      },
+      controlConfig: {
+        controlType: "incapacitation",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
           {
-            id: "hp_swap",
-            name: "HP Swap",
-            description:
-              "Swap your current HP percentage with a target enemy on heads, or gain advantage on next attack on tails.",
+            id: "death_roll_stun",
+            name: "Death Roll Defeat",
+            description: "Stunned for 1 round on losing the Death Roll.",
           },
         ],
-        duration: 0,
-        durationUnit: "instant",
-        concentration: false,
-        power: "major",
       },
-
       specialMechanics: {
-        coinFlip: {
-          heads: {
-            effect: "swap_hp_percentage",
-            description: "Your HP% and target HP% are swapped",
-          },
-          tails: {
-            effect: "scry",
-            description:
-              "Swap fails. Instead, you learn the target's current and maximum HP, and gain advantage on your next attack against them.",
-          },
+        fortunePoints: {
+          optionalCost: "1-10 FP",
+          description: "Spend FP during the roll sequence to stay under the ceiling (1d4 psychic damage per point spent).",
         },
         gamblingGame: {
-          gameType: "arm_wrestling",
-          description: "Opposed fortune check — swap HP percentages or settle for intel",
-          resolution: "COINS",
-          rules: { flipCount: 1, highStakesHP: true },
-          outcomeTiers: [
-            { condition: "heads", name: "Fortune Flipped", effect: "swap HP% with target", fpGain: 3 },
-            { condition: "tails", name: "Consolation", effect: "learn target HP + advantage next attack", fpGain: 1 },
-          ],
+          gameType: "death_roll",
+          description: "A competitive d20 rolling match to establish a shrinking ceiling. The loser takes massive psychic damage.",
+          resolution: "DICE",
+          rules: { diceType: "d20", startCeiling: 20 },
         },
       },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      tags: ["utility", "coin flip", "high risk", "level 9", "gambler"],
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+      tags: ["competitive", "damage", "control", "gambler"],
     },
-
 
     {
       id: "gambler_all_or_nothing",
       name: "All or Nothing",
-      description:
-        "Flip a coin to unleash devastating force on all enemies or take damage yourself.",
+      description: "Flip a high-stakes coin wreathed in screaming cosmic force. Heads: deal 12d6 force damage to all enemies in a 30ft radius, and stun them for 1 round (Spirit DC 16 save negates). Tails: the spell backfires, dealing 6d6 force damage to you. You may spend 1 Fortune Point (1d4 psychic damage) to flip the result. Generates 3 FP on heads (inflicting 3 HP damage).",
       level: 7,
       spellType: "ACTION",
-      effectTypes: ["damage", "control"],
-
+      icon: "Utility/Utility",
       typeConfig: {
         school: "force",
         icon: "Utility/Utility",
-        tags: ["damage", "aoe", "coin flip", "ultimate", "universal"],
+        tags: ["damage", "aoe", "coin_flip", "ultimate"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
@@ -2928,13 +1313,19 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         aoeParameters: { radius: 30 },
         targetRestrictions: ["enemy"],
       },
-
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 25 },
+        classResource: { type: "fortune_points", cost: 6 },
+      },
+      resolution: "COINS",
+      effectTypes: ["damage", "control"],
       damageConfig: {
         formula: "12d6",
         damageTypes: ["force"],
         resolution: "DICE",
       },
-
       controlConfig: {
         controlType: "incapacitation",
         duration: 1,
@@ -2948,149 +1339,380 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           {
             id: "all_or_nothing_stun",
             name: "Stunned",
-            description:
-              "Enemies who fail the save are stunned for 1 round",
-            config: {
-              duration: 1,
-              durationUnit: "rounds",
-              recoveryMethod: "automatic",
-            },
+            description: "Enemies who fail the save are stunned for 1 round.",
           },
         ],
       },
-
       specialMechanics: {
         coinFlip: {
-          heads: {
-            effect: "deal_damage",
-            description:
-              "Deal 12d6 force damage to all enemies in 30ft radius. Enemies who fail a Spirit DC 16 save are stunned for 1 round.",
-          },
-          tails: {
-            effect: "self_damage",
-            description:
-              "Take 6d6 force damage yourself. No damage dealt to enemies.",
-          },
+          heads: { effect: "deal_damage", description: "Deal 12d6 force damage to enemies in 30ft radius, stunning those who fail a Spirit DC 16 save for 1 round." },
+          tails: { effect: "self_damage", description: "Take 6d6 force damage yourself." },
         },
         fortunePoints: {
-          optionalCost: 1,
-          effect: "Flip the coin result (Heads to Tails or vice versa)",
-          guarantee: "With 1 FP, guarantee the heads outcome",
+          cost: 6,
+          generates: 3,
+          optionalCost: "1 FP",
+          description: "Costs 6 FP to cast. Generates 3 FP on heads (3 HP damage). Spend 1 FP to flip the result (1d4 psychic damage).",
         },
         gamblingGame: {
-          gameType: "all_in",
-          description: "Flip a coin — heads devastates all enemies, tails hurts you instead",
+          gameType: "coin_flip",
+          description: "High-stakes coin toss — heads devastates enemies, tails wrecks you.",
           resolution: "COINS",
-          rules: { flipCount: 1, aoeRadius: 30, selfDamageOnTails: "6d6" },
+          rules: { flipCount: 1 },
           outcomeTiers: [
-            { condition: "heads", name: "All or Nothing", damage: "12d6 force AoE", fpGain: 3 },
-            { condition: "tails", name: "Nothing", selfDamage: "6d6 force", fpGain: 0 },
+            { condition: "heads", name: "Heads", damage: "12d6 force", fpGain: 3, selfDamage: 3 },
+            { condition: "tails", name: "Tails", selfDamage: "6d6 force", fpGain: 0 },
           ],
         },
       },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 25 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        classResource: { type: "fortune_points", cost: 6 },
-      },
-
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-
-      resolution: "COINS",
-      tags: ["damage", "aoe", "coin flip", "ultimate", "universal"],
+      tags: ["damage", "aoe", "coin_flip", "ultimate", "gambler"],
     },
 
+    // ========================================
+    // LEVEL 8 SPELLS - The Divine Slot Machine
+    // ========================================
+    {
+      id: "gambler_jackpot",
+      name: "Jackpot",
+      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 necrotic damage, go Bust), 4-12 (Bad Luck: take 2d6 force damage, gain 1 FP), 13-25 (Small Win: deal 2d10 force damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 force damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 force damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 radiant damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 radiant damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 radiant damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Suffer 1 HP damage per FP gained. Spend FP to adjust individual dice by ±1 per point (1d4 psychic damage per FP spent).",
+      level: 8,
+      spellType: "ACTION",
+      icon: "Utility/Utility",
+      typeConfig: {
+        school: "psychic",
+        icon: "Utility/Utility",
+        tags: ["ultimate", "random", "high_risk"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["enemy"],
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 28 },
+        components: ["verbal", "somatic"],
+        verbalText: "JACKPOT!",
+      },
+      resolution: "DICE",
+      effectTypes: ["utility"],
+      specialMechanics: {
+        fortunePoints: {
+          generates: "variable",
+          optionalCost: "1-10 FP",
+          description: "Siphons 1-5 FP depending on win tier (1 HP cost per FP gained). Spend FP to nudge individual dice results (1d4 psychic damage per point spent).",
+        },
+        gamblingGame: {
+          gameType: "slot_machine",
+          description: "Roll 3d20 — sum determines your payload tier.",
+          resolution: "DICE",
+          rules: { diceCount: 3, dieType: 20 },
+          outcomeTiers: [
+            { condition: "60", name: "Perfect Jackpot", damage: "10d10 radiant AoE + max damage 1hr", fpGain: 5, selfDamage: 5 },
+            { condition: "56-59", name: "Near Jackpot", damage: "10d10 radiant AoE + heal 30", fpGain: 3, selfDamage: 3 },
+            { condition: "49-55", name: "Massive Win", damage: "8d10 radiant AoE", fpGain: 2, selfDamage: 2 },
+            { condition: "39-48", name: "Big Win", damage: "6d10 force + stun 2 rounds", fpGain: 2, selfDamage: 2 },
+            { condition: "26-38", name: "Moderate Win", damage: "4d10 force + stun 1 round", fpGain: 1, selfDamage: 1 },
+            { condition: "13-25", name: "Small Win", damage: "2d10 force", fpGain: 1, selfDamage: 1 },
+            { condition: "4-12", name: "Bad Luck", selfDamage: "2d6 force", fpGain: 1 },
+            { condition: "3", name: "Catastrophic Failure", selfDamage: "5d10 necrotic + Bankruptcy", fpGain: 0 },
+          ],
+        },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
+      tags: ["ultimate", "random", "high_risk", "gambler"],
+    },
 
     {
       id: "gambler_weighted_dice",
       name: "Weighted Dice",
-      description:
-        "The house doesn't know the dice are loaded. Base: 14d6 force damage. Each Fortune Point spent treats one d6 as if it rolled 6 (max 7 dice weighted). No coin flip — this is pure cheating. Spend 7 FP and half your dice are guaranteed maximum.",
+      description: "Cheat the cosmos entirely. Deal 14d6 force damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chance—because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 psychic damage per point spent).",
       level: 8,
       spellType: "ACTION",
-      effectTypes: ["damage"],
-
+      icon: "Social/Dice Roll",
       typeConfig: {
         school: "force",
         icon: "Social/Dice Roll",
-        tags: ["damage", "guaranteed", "fortune point spending", "universal"],
+        tags: ["damage", "guaranteed"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
-
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 50,
         targetRestrictions: ["enemy"],
       },
-
+      resourceCost: {
+        actionPoints: 1,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 28 },
+        classResource: { type: "fortune_points", cost: 7 },
+      },
+      resolution: "DICE",
+      effectTypes: ["damage"],
       damageConfig: {
         formula: "14d6",
         damageTypes: ["force"],
-        criticalConfig: {
-          enabled: true,
-          critMultiplier: 2,
-          critDiceOnly: false,
-        },
+        canCrit: true,
+        critMultiplier: 2,
         resolution: "DICE",
       },
-
       specialMechanics: {
         fortunePoints: {
-          usage: "Each FP spent treats one d6 as if it rolled 6 (max 7 dice)",
-          example:
-            "Spend 5 FP: 5 of your 14d6 automatically count as 6. Roll the remaining 9d6 normally.",
-          guarantee:
-            "At 7 FP spent, half your dice are guaranteed maximum. The most reliable spell in the Gambler arsenal — because the best gamblers know when to cheat.",
+          cost: 7,
+          description: "Spend up to 7 FP (1d4 psychic damage per FP spent) to force d6s to roll 6.",
+        },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+      tags: ["damage", "guaranteed", "fortune_point_spending", "gambler"],
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS - High Wagers
+    // ========================================
+    {
+      id: "gambler_high_roller",
+      name: "High Roller",
+      description: "Wager everything on a single throw. Roll a d20. On a 15+, deal 18d6 + Charisma force damage to a single enemy. On a 6-14, deal half damage. On a 1-5, your body implodes, dealing the full 18d6 + Charisma force damage to yourself. Spend Fortune Points to adjust the roll (1d4 psychic damage per point spent).",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Social/Dice Roll",
+      typeConfig: {
+        school: "force",
+        icon: "Social/Dice Roll",
+        tags: ["damage", "high_risk"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 90,
+        targetRestrictions: ["enemy"],
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 32 },
+        classResource: { type: "fortune_points", cost: 8 },
+      },
+      resolution: "DICE",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "18d6 + charisma",
+        damageTypes: ["force"],
+        resolution: "DICE",
+      },
+      specialMechanics: {
+        highRoll: {
+          diceFormula: "1d20",
+          success: { min: 15, effect: "deal_damage_to_target" },
+          neutral: { min: 6, max: 14, effect: "deal_half_damage" },
+          failure: { max: 5, effect: "deal_damage_to_self" },
+        },
+        fortunePoints: {
+          cost: 8,
+          optionalCost: "1-10 FP",
+          description: "Costs 8 FP to cast. Spend FP to adjust your d20 roll (1d4 psychic damage per point spent).",
         },
         gamblingGame: {
-          gameType: "loaded_dice",
-          description: "Pure cheating — spend FP to treat d6s as if they rolled 6",
+          gameType: "high_card",
+          description: "Roll a d20 — high rolls incinerate targets, low rolls implode your body.",
           resolution: "DICE",
-          rules: { baseDamage: "14d6", maxWeightedDice: 7, fpPerWeightedDie: 1 },
+          rules: { diceType: "d20", successThreshold: 15, neutralRange: "6-14", failureThreshold: 5 },
           outcomeTiers: [
-            { condition: "base", name: "Honest Roll", damage: "14d6 force", fpGain: 1 },
-            { condition: "fp_boosted", name: "Loaded", damage: "14d6 (N dice auto-6)", fpCost: "1-7" },
+            { condition: "15+", name: "High Card Success", damage: "18d6 + CHA force", fpGain: 3, selfDamage: 3 },
+            { condition: "6-14", name: "Neutral Push", damage: "9d6 + CHA/2 force (half)", fpGain: 1, selfDamage: 1 },
+            { condition: "1-5", name: "Low Card Failure", selfDamage: "18d6 + CHA force", fpGain: 0 },
           ],
         },
       },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        classResource: { type: "fortune_points", cost: 7 },
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      resolution: "DICE",
-      tags: ["damage", "guaranteed", "fortune point spending", "universal"],
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["damage", "high_risk", "gambler"],
     },
 
+    {
+      id: "gambler_jackpot_surge",
+      name: "Jackpot Surge",
+      description: "Pull the lever of probability. Roll 3d6. Deal 16d6 + Charisma force damage to all enemies in a 25ft radius (Agility DC 19 save for half). If you roll a pair of matching numbers, the damage is doubled. If you roll three-of-a-kind, it is quadrupled. Generates 5 FP on a triple, 3 FP on a pair, and 1 FP on no match (suffering 1 HP damage per FP generated).",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Glow",
+      typeConfig: {
+        school: "force",
+        icon: "Radiant/Radiant Glow",
+        tags: ["damage", "aoe", "high_reward"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        aoeShape: "circle",
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ["enemy"],
+      },
+      resourceCost: {
+        actionPoints: 3,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 34 },
+        classResource: { type: "fortune_points", cost: 8 },
+      },
+      resolution: "DICE",
+      effectTypes: ["damage"],
+      damageConfig: {
+        formula: "16d6 + charisma",
+        damageTypes: ["force"],
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 19,
+          saveOutcome: "half_damage",
+        },
+        resolution: "DICE",
+      },
+      specialMechanics: {
+        fortunePoints: {
+          cost: 8,
+          generates: "variable",
+          description: "Costs 8 FP to cast. Generates 1, 3, or 5 FP (1 HP damage per FP gained).",
+        },
+        gamblingGame: {
+          gameType: "slot_machine",
+          description: "Roll 3d6 — matching dice multiply damage exponentially.",
+          resolution: "DICE",
+          rules: { diceCount: 3, dieType: 6 },
+          outcomeTiers: [
+            { condition: "3_match", name: "Three-of-a-kind (4x damage)", multiplier: 4, fpGain: 5, selfDamage: 5 },
+            { condition: "2_match", name: "Pair (2x damage)", multiplier: 2, fpGain: 3, selfDamage: 3 },
+            { condition: "no_match", name: "No Match (1x damage)", multiplier: 1, fpGain: 1, selfDamage: 1 },
+          ],
+        },
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["damage", "aoe", "high_reward", "gambler"],
+    },
+
+    {
+      id: "gambler_fortune_reversal",
+      name: "Fortune Reversal",
+      description: "A terrifying swap of life essence. Flip a coin. Heads: swap your current HP percentage with a target enemy's HP percentage. Tails: the swap fails, but you learn their current and max HP and gain advantage on your next attack against them. You can spend 1 Fortune Point (1d4 psychic damage) to force the coin to flip its result.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "Arcane/Rewind Time",
+      typeConfig: {
+        school: "force",
+        icon: "Arcane/Rewind Time",
+        tags: ["utility", "coin_flip", "high_risk"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["enemy"],
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 34 },
+        classResource: { type: "fortune_points", cost: 8 },
+      },
+      resolution: "COINS",
+      effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
+          {
+            id: "fortune_reversal_swap",
+            name: "Percentage Swap",
+            description: "Swap HP percentages on heads; learn stats and gain advantage on tails.",
+          },
+        ],
+        duration: 0,
+        durationUnit: "instant",
+      },
+      specialMechanics: {
+        coinFlip: {
+          heads: { effect: "swap_hp_percentage", description: "Your HP% and target HP% are swapped." },
+          tails: { effect: "intel_consolation", description: "Learn current/max HP and gain advantage on next attack against target." },
+        },
+        fortunePoints: {
+          cost: 8,
+          optionalCost: "1 FP",
+          description: "Costs 8 FP to cast. Spend 1 FP to force heads (1d4 psychic damage spent).",
+        },
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["utility", "coin_flip", "high_risk", "gambler"],
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS - Apocalyptic Endgames
+    // ========================================
+    {
+      id: "gambler_all_in",
+      name: "All-In",
+      description: "Wager your entire physical form on a single d100 roll. Each Fortune Point spent (up to 10) shrinks the death window by 1%. At 0 FP spent: 1-50 (double your current HP), 51-90 (heal to full HP), 91-100 (drop to 0 HP and immediately plunge into Cosmic Bankruptcy). At 10 FP spent, the death window is eliminated entirely. Suffer Calculated Risk psychic damage for each FP spent.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Social/Dice Roll",
+      typeConfig: {
+        school: "psychic",
+        icon: "Social/Dice Roll",
+        tags: ["ultimate", "life_or_death", "high_risk"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self",
+      },
+      resourceCost: {
+        actionPoints: 2,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 36 },
+        classResource: { type: "fortune_points", cost: 10 },
+      },
+      resolution: "DICE",
+      effectTypes: ["healing", "utility"],
+      specialMechanics: {
+        fortunePoints: {
+          cost: 10,
+          description: "Spend up to 10 FP (1d4 psychic damage per FP spent) to shrink the death window by 1% per point.",
+        },
+        gamblingGame: {
+          gameType: "d100_wager",
+          description: "Roll a d100 — double your health, heal to full, or suffer instant death and Bankruptcy.",
+          resolution: "DICE",
+          rules: { diceType: "d100" },
+        },
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      tags: ["ultimate", "life_or_death", "high_risk", "gambler"],
+    },
 
     {
       id: "gambler_divine_jackpot",
       name: "Divine Jackpot",
-      description:
-        "Flip a coin wreathed in divine fire. Heads: deal 20d6 force damage to all enemies in 60ft — enemies below 50% HP make a Spirit DC 20 save or are stunned for 2 rounds (instead of instantly defeated). Tails: take 20d6 force damage but survive at 1 HP with advantage on all rolls for 1 round.",
+      description: "Flip a coin wreathed in screaming cosmic fire. Heads: deal 20d6 force damage to all enemies in a 60ft radius. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Tails: your heart stops and you take 20d6 force damage, but you survive at 1 HP with advantage on all rolls for 1 round. You may spend 1 Fortune Point (1d4 psychic damage) to flip the coin result.",
       level: 10,
       spellType: "ACTION",
-      effectTypes: ["damage", "control"],
-
+      icon: "Utility/Utility",
       typeConfig: {
         school: "force",
         icon: "Utility/Utility",
-        tags: ["damage", "coin flip", "ultimate", "jackpot", "universal"],
+        tags: ["damage", "coin_flip", "ultimate"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
-
       targetingConfig: {
         targetingType: "area",
         rangeType: "sight",
@@ -3099,13 +1721,11 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         aoeParameters: { radius: 60 },
         targetRestrictions: ["enemy"],
       },
-
       damageConfig: {
         formula: "20d6",
         damageTypes: ["force"],
         resolution: "DICE",
       },
-
       controlConfig: {
         controlType: "incapacitation",
         duration: 2,
@@ -3117,116 +1737,32 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
         effects: [
           {
-            id: "divine_stun",
+            id: "divine_jackpot_stun",
             name: "Divine Stun",
-            description:
-              "Enemies below 50% HP stunned for 2 rounds on failed save, enemies above 50% HP stunned for 1 round on failed save",
-            config: {
-              duration: 2,
-              durationUnit: "rounds",
-              recoveryMethod: "automatic",
-            },
+            description: "Stunned for 2 rounds on a failed save.",
           },
         ],
       },
-
-      specialMechanics: {
-        coinFlip: {
-          heads: {
-            effect: "divine_judgment",
-            description:
-              "Deal 20d6 force damage to all enemies in range. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Enemies above 50% HP are stunned for 1 round on a failed save.",
-          },
-          tails: {
-            effect: "fortune_mercy",
-            description:
-              "Take 20d6 force damage. No safety net — if this reduces you to 0 HP, you die. Spend 1 Fortune Point to flip the coin result and get the heads outcome instead.",
-          },
-        },
-        loreNote:
-          "Fortune is a cruel mistress. She either destroys your enemies, or she teaches you why you should have folded.",
-        gamblingGame: {
-          gameType: "wheel_of_fortune",
-          description: "Divine coin flip — heads devastates enemies, tails wrecks you",
-          resolution: "COINS",
-          rules: { flipCount: 1, aoeRadius: 60, selfDamageOnTails: "20d6" },
-          outcomeTiers: [
-            { condition: "heads", name: "Divine Judgment", damage: "20d6 force AoE + stun", fpGain: 5 },
-            { condition: "tails", name: "Fortune's Mercy", selfDamage: "20d6 force", fpGain: 0 },
-          ],
-        },
-      },
-
       resourceCost: {
+        actionPoints: 3,
         resourceTypes: ["mana"],
         resourceValues: { mana: 38 },
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
         classResource: { type: "fortune_points", cost: 10 },
       },
-
+      specialMechanics: {
+        coinFlip: {
+          heads: { effect: "deal_damage", description: "Deal 20d6 force damage to all enemies in a 60ft radius." },
+          tails: { effect: "fortune_mercy", description: "Take 20d6 force damage, surviving at 1 HP with advantage on all rolls for 1 round." },
+        },
+        fortunePoints: {
+          cost: 10,
+          optionalCost: "1 FP",
+          description: "Costs 10 FP to cast. Spend 1 FP to flip the result (1d4 psychic damage spent).",
+        },
+      },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
       resolution: "COINS",
-      tags: ["damage", "coin flip", "ultimate", "jackpot", "universal"],
-    },
-    // ===== PASSIVE ABILITIES =====
-    {
-      id: "gambler_calculated_risk",
-      name: "Calculated Risk",
-      description:
-        "Every bet has a cost. When you spend Fortune Points to modify a roll or outcome, you take 1d4 psychic damage per Fortune Point spent. The universe demands payment for every twist of fate. This damage cannot be reduced or prevented. Gambling is pain.",
-      level: 1,
-      spellType: "PASSIVE",
-      icon: "General/Crossed Axes",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "physical",
-        icon: "General/Crossed Axes",
-        tags: ["passive", "gambler", "weakness"],
-      },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "gambler", "weakness"],
-    },
-    {
-      id: "gambler_house_edge",
-      name: "House Edge",
-      description:
-        "The house always wins in the long run. When you roll a natural 1 on any gambling roll (dice, coins, cards), you lose all unspent Fortune Points and cannot generate new Fortune Points until the start of your next turn. Lady Luck is fickle -- she giveth and she taketh away.",
-      level: 1,
-      spellType: "PASSIVE",
-      icon: "General/Target",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "physical",
-        icon: "General/Target",
-        tags: ["passive", "gambler", "weakness"],
-      },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "gambler", "weakness"],
-    },
-    {
-      id: "gambler_busted",
-      name: "Busted",
-      description:
-        "When you have 0 Fortune Points, you're not just unlucky -- you're marked. You have disadvantage on all gambling-based resolution rolls (dice rolls, coin flips, card draws used for spell effects) until you gain at least 1 Fortune Point. A gambler with no chips at the table is just a person making bad decisions.",
-      level: 3,
-      spellType: "PASSIVE",
-      icon: "General/Exhaustion",
-      effectTypes: ["passive"],
-      typeConfig: {
-        school: "physical",
-        icon: "General/Exhaustion",
-        tags: ["passive", "gambler", "weakness"],
-      },
-      targetingConfig: { targetingType: "self" },
-      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
-      tags: ["passive", "gambler", "weakness"],
+      tags: ["damage", "coin_flip", "ultimate", "gambler"],
     },
   ],
 };

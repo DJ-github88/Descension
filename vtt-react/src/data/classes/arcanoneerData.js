@@ -10,7 +10,7 @@ export const ARCANONEER_DATA = {
   name: "Arcanoneer",
   icon: "fas fa-atom",
   imageIcon: "/assets/icons/classes/arcanoneer.png",
-  role: "Damage/Utility (Pure Caster -- Zero Healing)",
+  role: "Magi-ballistic Mutilator (Damage/Utility -- Zero Healing)",
   damageTypes: [
     "arcane",
     "holy",
@@ -18,7 +18,7 @@ export const ARCANONEER_DATA = {
     "fire",
     "frost",
     "nature",
-    "healing",
+    "viscera",
     "chaos",
     "force",
     "lightning",
@@ -29,89 +29,83 @@ export const ARCANONEER_DATA = {
   // Overview section
   overview: {
     title: "The Arcanoneer",
-    subtitle: "Master of Elemental Sphere Combination",
+    subtitle: "The Magi-ballistic Mutilator",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: You are an arcane chemist. Every turn, you roll 4d8 to generate random elemental spheres — tiny orbs of raw magic in 8 flavors (Arcane, Holy, Shadow, Fire, Ice, Nature, Healing, Chaos). You combine two spheres to cast spells from a **Combination Matrix** that you always know. Think of it like mixing chemicals: Fire + Ice always produces Steam. Fire + Fire always produces Flame Burst. **You never memorize spells — you combine ingredients.**
+      content: `**What You Need to Know**: You are a Magi-ballistic Mutilator. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you gouge out your own crystallized blood and soul-shards — rolling 4d8 to generate volatile ballistic spheres (Arcane, Holy, Shadow, Fire, Ice, Nature, Viscera, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Ice shatters from the barrel as a flesh-scorching steam vent, while Fire + Fire kicks back with a rib-shattering inferno blast.
 
-**But here's the twist**: As you level up, you learn **Recipes** — enhanced versions of matrix combinations that add powerful effects. Anyone can combine Fire + Ice for basic Steam damage. But a Recipe like *Steam Burst* adds a blinding cone effect. The matrix is your floor. Recipes are your ceiling.
+**Recoil and Pain**: Firing this weapon shatters your own ribs and tears your flesh. You do not cast safe spells; you trigger explosive detonations that demand a toll in blood and bone. This constant self-mutilation is mechanically mandatory across all firing profiles.
 
-**Core Loop**: Roll 4d8 → Get spheres → Bank or spend → Choose an **Action** (Attack, Defend, Buff, Area, or Trap) → Pick 2 spheres to combine → If you've learned a **Recipe** for that combo, cast it instead for its mana cost and enhanced effects
+**The Recoil Anchor**: The sheer kinetic force of discharging your forearm sleeve reduces your movement speed to 0 for the turn whenever you fire a spell. You must anchor yourself to fire.
 
-**How Actions and Recipes Work Together**: When you combine spheres, you use the base **Action** system (pick a shape — Attack, Defend, Buff, Area, or Trap — and your spheres fill in the damage type and minor effect). If you've learned a **Recipe** that matches your sphere combination, you may cast the Recipe instead — it overrides the base action with a pre-defined, more powerful effect at its own mana cost. You choose: base action for flexibility, or recipe for raw power.
+**The Chamber Flush**: Should your forearm chambers jam with catastrophic elemental RNG, you can execute a "Chamber Flush" action, costing Mana and AP, to gouge out alternate crystallized blood-shards from your arm, discarding all rolled spheres and rerolling your 4d8 grid.
 
-**Resource**: Elemental Spheres (random each turn, bankable during combat, lost when combat ends) + Mana
+**Core Loop**: Roll 4d8 to forge crystallized blood-shards → Chamber spheres into your iron cylinder → Choose a firing profile Action (Mutilate, Shield, Infuse, Rupt, or Snare) → Combine two essences to chamber a shell → If you've learned a Recipe, fire it instead for devastating, rib-cracking power.
 
-**Three Power Tiers**:
-- **2-Sphere Combos** (always available): Your bread and butter. 36 possible combinations, all defined in the matrix. 5 mana base (varies by Action type: 4-7 mana).
-- **3-Sphere Recipes** (learned, Level 6+): First power spike. Scaling damage dice, persistent effects, unique mechanics. 20-25 mana.
-- **4-Sphere Recipes** (learned, Level 8+): Devastating ultimates. Require banking spheres across turns. 25-36 mana.
-
-**Best For**: Players who love improvisation, combo systems, and turning chaos into strategy`,
+**Resource**: Elemental Spheres (random each turn, forged from your own blood, bankable during combat, lost when combat ends) + Mana + Your Own Health (Recoil).`,
     },
 
-    description: `The Arcanoneer doesn't memorize spells. The Arcanoneer *mixes* them.
+    description: `The Arcanoneer doesn't cast elegant spells. They pull the trigger on a massive, skin-searing iron chassis bolted directly to their skeletal frame. Each shell is loaded with raw, crystallized blood and soul-shards. They chamber the volatile spheres and ignite them, shattering their own ribs with the recoil to mutilate their targets.
 
-Every Arcanoneer carries an instinctive knowledge of the **Combination Matrix** — the 36 fundamental reactions that occur when two elemental spheres collide. Fire + Ice = Steam. Shadow + Healing = Void Shield. Holy + Holy = Radiance. These combinations are as natural as chemistry: predictable, repeatable, and always available.
+Every Arcanoneer carries an instinctive knowledge of the **Combination Matrix** — the 36 fundamental ballistic reactions that occur when two elemental spheres are chambered together. Fire + Ice = Steam Vent. Shadow + Viscera = Grisly Veil. Holy + Holy = Radiance. These combinations are predictable, repeatable, and always available. The clinical "Healing" sphere is entirely gone; in its place is "Viscera" — raw compressed flesh, bone grafts, and blood sutures used to knit tissue at a painful biological tax.
 
-But raw combination is only the beginning. Through study and practice, Arcanoneers learn **Recipes** — refined formulas that supercharge specific combinations. A novice combining Fire + Ice gets basic Steam: some damage, some mist. A master who has learned the *Steam Burst* recipe gets a pressurized cone of superheated vapor that blinds and scorches everything in its path. Same ingredients. Dramatically different results.
+But raw combination is only the beginning. Through study and practice, Arcanoneers learn **Recipes** — refined formulas that supercharge specific combinations. A novice combining Fire + Ice gets basic Steam: some damage, some mist. A master who has learned the *Steam Burst* recipe gets a pressurized cone of superheated vapor that blinds and scorches everything in its path.
 
-The Arcanoneer's true power emerges at higher levels, when they unlock **3-sphere and 4-sphere Recipes** — complex combinations that produce effects no two-sphere reaction can match. These require patience, banking spheres across multiple turns, and careful planning. But when the moment arrives and you unleash *Elemental Maelstrom* with four banked spheres of Arcane, Fire, Ice, and Nature... the battlefield reshapes itself around your will.`,
+The Arcanoneer's true power emerges at higher levels, when they unlock **3-sphere and 4-sphere Recipes** — complex combinations that produce effects no two-sphere reaction can match. These require patience, banking spheres across multiple turns, and careful planning. But when the moment arrives and you unleash *Elemental Maelstrom* with four banked spheres... the battlefield reshapes itself around your will.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Arcanoneers are arcane chemists — part scientist, part artist, part pyromaniac with a clipboard. They see the eight fundamental elements as reagents in an infinite laboratory, and the Combination Matrix as their periodic table. Every roll of the dice is a new experiment. Every combat is a chance to discover something the textbooks missed.
+      content: `Arcanoneers are Magi-ballistic Mutilators — soot-stained, iron-grafted survivors who have surrendered their own bodies to the recoil of pure iron. They do not carry books; they carry heavy wrenches to tighten the iron straps on their shoulders, and their skin is covered in circular chemical burns where crystallized blood-shards have been gouged out to forge ammunition.
 
-In roleplay, Arcanoneers carry worn notebooks filled with combination formulas, scribble corrections in the margins of their Recipe cards, and argue with other spellcasters about whether Fire + Shadow should be called "Hellfire" or "Umbral Ignition" (it's Hellfire, and they will die on this hill).
+In roleplay, Arcanoneers carry heavy canisters filled with black powder and raw, blood-slicked crystal fragments, and they argue with other spellcasters about whether Fire + Shadow should be called "Hellfire" or "Umbral Ignition" (it's Hellfire, and they will die on this hill).
 
 Common Arcanoneer archetypes:
-- **The Arcane Chemist**: Treats magic like a lab experiment. Carries a notebook. Takes notes during combat.
-- **The Field Engineer**: Builds magical devices on the fly. Pragmatic, tactical, always has a backup plan.
-- **The Chaos Theorist**: Leans into the randomness. Treats bad rolls as "unexpected data." Terrifyingly cheerful.
-- **The Elemental Gourmand**: Obsessed with trying every combination. Has opinions about which 2-sphere combo is the most "elegant."`,
+- **The Pig-Iron Grafted**: Bolted directly to their massive cannon, their flesh is permanently scarred and scorched.
+- **The Blood-Shard Forger**: Gouges out their own crystallized blood to create highly volatile ammunition.
+- **The Bone-Shatterer**: Embraces the bone-cracking recoil of high-sphere recipes, considering the pain a fair price for ultimate power.
+- **The Ballistic Alchemist**: Obsessed with combining the most violent elements to see what kind of kinetic carnage they can unleash.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `**Primary Role**: Adaptive damage dealer and utility caster
+      content: `**Primary Role**: Visceral, high-recoil, adaptive damage dealer
 
-**The Arcanoneer's Promise**: You will always have an answer. Not necessarily the *best* answer — that depends on what the dice give you — but always *an* answer. 36 matrix combinations cover every damage type, every targeting pattern, and both damage and utility. You are never caught completely helpless.
+**Why Bring Me? (The Arcanoneer's Promise)**: You are the ultimate cover-shattering, screen-clearing siege master. Your pig-iron sleeve can fire any combination of raw elements, giving you unparalleled versatility to obliterate enemy defenses, destroy defensive cover, and clear groups from extreme range.
 
 **How You Fight**:
-1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers)
-2. **Read your hand** — What combos are available? Do you have a Recipe for any of them?
-3. **Decide**: Cast now with what you have, or bank spheres for a bigger play next turn?
-4. **Execute** — Select your spheres, choose your combo (or Recipe), pay the mana, watch the fireworks
+1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers) to extract volatile blood-shards.
+2. **Read your hand** — What ammo is loaded? What recipes can you chamber?
+3. **Decide**: Pull the trigger now with what you have, or bank spheres to chamber a larger shell?
+4. **Execute** — Fire the cannon, pay the mana, accept the mandatory recoil self-damage, and reduce your movement speed to 0.
 
 **Strengths**:
-- Can produce ANY damage type (8 elements = massive enemy weakness coverage)
-- Dual damage types on mixed combos (Fire+Ice hits both fire-weak AND ice-weak enemies)
-- Built-in defensive and utility options (Healing+Healing for barriers, Healing+Holy for purification, etc.)
-- Chaos combos provide wild swing potential (high risk, high reward)
-- Scales with game knowledge — the more combos and recipes you know, the deadlier you become
+- Unmatched versatility: can produce ANY damage type to exploit enemy weaknesses.
+- Dual damage types on mixed combos (Fire+Ice hits both fire-weak AND ice-weak enemies).
+- Powerful cover-shattering siege detonations.
+- Viscera combos provide defensive and support utility (Viscera+Viscera for gristle blockades, Viscera+Holy for slag-sutures).
+- Chaos combos provide wild swing potential (high risk, high reward).
 
 **Weaknesses**:
-- RNG-dependent — bad rolls mean suboptimal turns
-- 2-sphere base damage is modest (1d8 + INT/4) — you need Recipes or multi-sphere combos for big numbers. Recipes scale: 2d8 + INT/3 at level 3-4, 3d8 + INT/2 at level 5.
-- Zero self-healing -- you deal damage and provide utility, but you cannot heal yourself or allies. Entropy Drain grants TEMP HP only, not actual healing.
-- Complex decision-making every turn (analysis paralysis is real)
-- Sphere banking requires patience — turns spent saving are turns spent not casting`,
+- RNG-dependent — bad rolls mean suboptimal ammunition.
+- Recoil Anchor — firing any spell reduces your movement speed to 0 for the turn.
+- Mandatory Recoil Tax — standard firing profiles and recipes drain your own HP, while high-sphere recipes erode your max HP.
+- Zero clinical healing -- you manipulate flesh and gristle at a health cost, but you cannot restore HP without a dark biological toll.`,
     },
 
     playstyle: {
       title: "Playstyle",
       content: `**The Moment-to-Moment**:
 
-Every turn begins the same way: you roll 4d8 and watch your spheres appear. Then the puzzle begins.
+Every turn begins with the sound of bones grinding as you roll 4d8 and watch your crystallized blood-shards appear.
 
 **Turn 1 — The Hand You're Dealt**
 
-You roll: Fire, Fire, Ice, Healing. Your mind races through the matrix:
-- Fire + Fire = *Flame Burst* (single target fire damage)
-- Fire + Ice = *Steam* (cone of mixed damage + blind)
-- Fire + Healing = *Cauterize* (burn away one debuff, deals fire damage to ally)
-- Ice + Healing = *Frost Armor* (+3 Armor for 3 rounds)
+You roll: Fire, Fire, Ice, Viscera. Your mind races through the matrix:
+- Fire + Fire = *Combustion Shell* (single target fire damage)
+- Fire + Ice = *Steam Vent* (cone of mixed damage + blind)
+- Fire + Viscera = *Cauterizing Slag* (burn away one debuff, deals fire damage to ally)
+- Ice + Viscera = *Rime-Frozen Graft* (+3 Armor for 3 rounds)
 
 Do you have Recipes for any of these? If you've learned *Steam Burst*, then Fire + Ice suddenly adds a blinding cone effect. If you've learned *Firestorm*, then Fire + Fire adds a massive AoE burning vortex.
 
@@ -122,95 +116,85 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Shadow, Nature, Chaos
 - Start building toward a 3-sphere Recipe (need 1 more turn of banking)
 - Cast multiple 2-sphere combos if you have the action points
 
-**The Core Tension**: Spend now for immediate impact, or bank for devastating multi-sphere Recipes later? There is no wrong answer — only the answer that wins this particular fight.
+**The Core Tension**: Spend now for immediate impact and pay the immediate recoil tax, or bank for devastating multi-sphere Recipes later that will crack your bones and erode your max HP? There is no wrong answer — only the answer that wins this particular fight.
 
 **Where Mastery Lives**:
 - Knowing the 36 matrix combos by heart (or at least the ones relevant to your spec)
 - Recognizing when your rolled spheres match a Recipe you've learned
 - Managing your sphere bank like a hand of cards — planning two turns ahead
-- Understanding which Chaos combos are worth the gamble`,
+- Managing your remaining health pool against the devastating recoil of your own arm.`,
     },
 
     immersiveCombatExample: {
       title: "Combat Example: The Ambush at Grimhollow Bridge",
-      content: `**The Setup**: Your party is crossing a stone bridge over a ravine when three bandits drop from the trees above. A fourth — their leader — stands at the far end, chanting. Your fighter charges forward. Your cleric holds the line. You stand at the center, fingers already twitching toward the elemental currents.
+      content: `**The Setup**: Your party is crossing a stone bridge over a ravine when three bandits drop from the trees. A fourth — their leader — stands at the far end, chanting. Your fighter charges. Your cleric holds the line. You stand at the center, your pig-iron forearm grafting hissing with heat, ready to fire.
 
-**You are a Level 4 Arcanoneer** with 34 mana (10 + INT×2). You regenerate 4 mana per turn. You've learned Shadow Embrace (your one Level 4 Recipe) and carry three Level 1-2 Recipes: Spark Bolt, Spark Shield, and Steam Burst.
+**You are a Level 4 Arcanoneer** with 34 mana. You regenerate 4 mana per turn. You've learned Abyssal Maw and carry three Level 1-2 Recipes: Marrow-Piercing Slug, Rime-Iron Clasp, and Superheated Steam Vent.
 
-**Turn 1 — The Opening Reaction** *(2 AP available, 34 mana)*
+**Turn 1 — The Opening Discharge** *(2 AP available, 34 mana)*
 
-*You reach into the aether and pull. The dice tumble...*
+*You dig your fingers into your forearm, gouging out four crystallized blood-shards...*
 
-**Roll 4d8**: [4, 4, 5, 7] → Fire, Fire, Ice, Healing
+**Roll 4d8**: [4, 4, 5, 7] → Fire, Fire, Ice, Viscera
 
-*Two spheres of crackling flame materialize in your left hand, pale and hungry. A shard of enchanted ice forms in your right, humming with cold. A soft golden glow pulses at your sternum — healing energy, patient and warm.*
+*Two jagged, red-glowing shards of flame feed into the first chamber. A shard of freezing rime goes into the second, and a rusted crimson sphere of viscera waits in the reserve. The iron cylinder hums, its surface searing.*
 
-**Your Mind Races**: Three bandits, clustered together on the bridge. You don't have a Recipe for any of these sphere pairs — but the **Combination Matrix** has you covered.
+**Your Mind Races**: Three bandits, clustered together. You have the Recipe: **Superheated Steam Vent** (Fire + Ice). Using the **Area** action (7 mana + 1d6 HP recoil), you vent a 20ft cone of flesh-scorching steam.
 
-Fire + Ice = **Steam**. A cone of superheated vapor. Perfect for clustered enemies in a narrow space. Using the **Area** action (7 mana), this becomes a 10ft radius AoE instead of single-target.
+*You slam the fire and ice shards into the main chamber. The pig-iron cylinder roars as the opposing forces react. A pressurized column of superheated steam erupts from the barrel, boiling the bandits' skin. The kinetic back-blast punches your shoulder, cracking your ribs (1d6 recoil damage) and anchoring you to the stone bridge (movement speed reduced to 0).*
 
-*You smash the fire and ice spheres together. They don't combine so much as *argue* — the fire screams, the ice hisses, and between them a roaring column of pressurized steam erupts, scouring the three bandits with alternating waves of heat and cold.*
+**Result**: Cast **Superheated Steam Vent** via Area action. 1d8 + INT/4 fire+frost damage to all three bandits + Blinded. **Cost: 7 mana, 1d6 HP. Remaining: 27 mana, 1 AP. Movement: 0.** You bank the Fire and Viscera spheres.
 
-**Result**: Cast **Steam** via Area action (Fire + Ice). 1d6 + INT/4 fire+frost damage to all three bandits (10ft radius). **Cost: 7 mana. Remaining: 27 mana. AP: 1 remaining.** You bank the Fire and Healing spheres.
-
-**Turn 2 — Reading the Battlefield** *(2 AP available, 31 mana after regen)*
+**Turn 2 — Chambering the Shell** *(2 AP available, 31 mana after regen)*
 
 *The bandit leader finishes his chant. Dark energy swirls around his blade. The fighter is engaged — he can't reach the caster in time. It's down to you.*
 
 **Roll 4d8**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
 
-*New spheres blink into existence: a sphere of pure violet force, a writhing mass of shadow, crackling nature energy alive with lightning and thorn, and a chaos sphere that flickers through every color of the spectrum.*
+*Four more shards erupt: a violet sliver of force, a writhing shadow, a crackling nature spike, and a volatile chaos core.*
 
-**Your Banked Spheres**: Fire, Healing (from Turn 1)
-**Total Available**: Fire, Healing, Arcane, Shadow, Nature, Chaos — 6 spheres
+**Your Banked Spheres**: Fire, Viscera (from Turn 1)
+**Total Available**: Fire, Viscera, Arcane, Shadow, Nature, Chaos — 6 spheres
 
-**The Decision**: You could spend Arcane + Shadow for **Void Bolt** via Attack action (5 mana) — force + necrotic, barrier-piercing. But the bandit leader is *channeling something*, and you have Shadow Embrace ready...
+**The Decision**: You need to stop the leader, but your rolled elements are scattered and you want a massive payload. You bank all spheres into the reserve chambers, letting the iron cool slightly while preparing a massive blast. Since you didn't fire, you take no recoil damage and your movement is unaffected.
 
-Problem: you only have ONE Shadow sphere. You need another. And you don't want to waste AP on a weak base combo when you're one sphere away from a Recipe.
+**Result**: No cast. **Cost: 0 mana, 0 HP. Remaining: 31 mana. AP: 2 unused (wasted).**
 
-*You bank everything. Six spheres wait in your aura like loaded bullets. The bandit leader grins, dark energy building.*
+**Turn 3 — The Heavy Recipe Unleashed** *(2 AP available, 35 mana after regen)*
 
-**Result**: No cast. **Cost: 0 mana. Remaining: 31 mana. AP: 2 unused (wasted).**
-
-**Turn 3 — The Recipe Unleashed** *(2 AP available, 35 mana after regen)*
-
-*The dark energy crests. You feel it building — something nasty. No more waiting.*
+*The leader's blade glows with dark power. You raise your pig-iron arm, bracing your shoulder as the bones grind.*
 
 **Roll 4d8**: [3, 3, 5, 2] → Shadow, Shadow, Ice, Holy
 
-*Two shadow spheres materialize at once, dark and hungry. The dice have answered your prayer.*
+*Two dark shadow shards emerge. Perfect. You load them directly.*
 
-**Your Total Spheres**: Fire, Healing, Arcane, Shadow, Nature, Chaos, Shadow, Shadow, Ice, Holy — 10 spheres.
+**Your Total Spheres**: Fire, Viscera, Arcane, Shadow, Nature, Chaos, Shadow, Shadow, Ice, Holy — 10 spheres.
 
-*Your hand goes to the Shadow + Shadow combination. The matrix calls this **Dark Bolt**. But you don't stop at the matrix. You reach deeper — into the Recipe.*
+*You select Shadow + Shadow. You unleash the Recipe: **Abyssal Maw**.*
 
-*"Umbra Amplexus."*
+*"Umbra Clausura!"*
 
-*The two shadow spheres don't fly. They *unfold* — tendrils of living darkness that wrap around the bandit leader's arms, his blade, his throat. The necrotic energy drains the color from his skin. His dark chant chokes off into a gurgle. His muscles weaken as the shadow leeches his strength.*
+*The pig-iron chassis shudders violently. Firing it sends a sickening crack through your collarbone (1d6 HP recoil damage) and anchoring you (movement speed 0). Skeletal jaws of living shadow erupt from the barrel, chewing through the leader's flesh and draining his strength.*
 
-**Result**: Cast **Shadow Embrace** (Recipe-enhanced Shadow + Shadow). 2d8 + INT/3 necrotic + 1d6 necrotic DoT for 2 rounds + STR reduced by 2 for 2 rounds. **Cost: 14 mana. Remaining: 21 mana. AP: 1 remaining.** His spell is interrupted.
+**Result**: Cast **Abyssal Maw** (Recipe-enhanced Shadow + Shadow). 2d8 + INT/3 necrotic + 1d6 necrotic DoT + target STR reduced by 2. **Cost: 14 mana, 1d6 HP. Remaining: 21 mana, 1 AP. Movement: 0.**
 
-*The bandit leader staggers. His dark blade clatters to the stones. Your fighter finishes him with a clean strike.*
+*The bandit leader staggers. Your fighter finishes him with a clean strike.*
 
-With 1 AP remaining, you spend Arcane + Ice = **Crystal Shard** via Attack (5 mana) on a wounded bandit for extra damage.
+With 1 AP remaining, you fire Arcane + Ice = **Crystal Shard** on a wounded bandit for extra damage.
 
-**Result**: Cast **Crystal Shard** (1d8 + INT/4 force+frost, armor-piercing). **Cost: 5 mana. Remaining: 16 mana. AP: 0.**
+**Result**: Cast **Crystal Shard** (1d8 + INT/4 force+frost, armor-piercing). **Cost: 5 mana, 1d4 HP. Remaining: 16 mana. AP: 0. Movement: 0.**
 
-**Turn 4 — When the Dice Don't Cooperate** *(2 AP available, 20 mana after regen)*
+**Turn 4 — Back-Blast and Recovery** *(2 AP available, 20 mana after regen)*
 
-*Only one bandit remains, wounded and cornered. Time to finish this.*
+*Only one bandit remains, wounded and cornered. Time to finish this. But you roll all Viscera spheres!*
 
-**Roll 4d8**: [7, 7, 7, 7] → Healing, Healing, Healing, Healing
+**Roll 4d8**: [7, 7, 7, 7] → Viscera, Viscera, Viscera, Viscera
 
-*Four soft golden spheres materialize. No fire. No shadow. No arcane. Just healing — four times over. The aether has a sense of humor.*
+*Four soft crimson spheres of marrow energy emerge. You are not helpless, but you need to support your fighter. You cast Grissle Blockade (Viscera + Viscera) via Buff action on the fighter, stitching together their wounds with compressed tissue and bone plates.*
 
-You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy) from previous turns, so you're not helpless. But none of your banked spheres form a combo you haven't already used.
+**Result**: Fighter gained gristle armor. **Cost: 4 mana, 1d4 HP. Remaining: 12 mana.**
 
-**Smart Play**: Cast Healing Light (Healing + Healing) via Buff action on the fighter, who took hits from the bandits. **Cost: 4 mana.** Then use Arcane + Chaos = **Wild Magic** via Attack action (5 mana) on the last bandit and roll on the chaos table — fortune favors the bold.
-
-**Result**: Fighter healed. Wild Magic resolves (roll 1d4 — let's say result 2: Manaburst, 1d8+INT/4 chaos damage + recover 1d4 mana). **Cost: 9 mana. Remaining: 11 mana.**
-
-**The Lesson**: The Arcanoneer isn't about having the perfect spell. It's about reading what the dice give you, knowing your matrix, recognizing when your banked spheres match a Recipe, and having the patience to wait for the right moment. Bad rolls happen — that's when you heal, buff, or bank for next turn. Every turn is a hand of cards. The master knows which ones to hold and which ones to play.`,
+**The Lesson**: Being a Magi-ballistic Mutilator is not about having an elegant solution; it is about managing the kinetic chaos, bracing your bones against the recoil, knowing which volatile combinations to chamber, and paying the price in pain to erase your enemies. The master knows when to vent and when to discharge.`,
     },
   },
 
@@ -272,31 +256,29 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
   resourceSystem: {
     title: "Sphere Generation & Elemental Combination",
     subtitle: "Dynamic Spell Crafting System",
-
-    description: `The Arcanoneer's power comes from generating random elemental spheres each turn and combining them to create spells. This system is inspired by Magicka's element combination mechanics, where different element pairings create unique magical effects. Unlike traditional mana-based casters, your limiting factor isn't just mana—it's which spheres you have available and how creatively you can combine them.`,
-
-    resourceBarExplanation: {
-      title: "Understanding Your Resource Bar",
-      content: `**What You See**: Your Arcanoneer resource bar displays your currently banked elemental spheres as colored orbs. Unlike other classes with a single resource pool, you're managing up to 8 different "currencies" simultaneously.
+resourceSystem: {
+    title: "The Forearm Graft & Shard Chambers",
+    description: `The Arcanoneer uses a specialized resource system centered around a massive iron sleeve grafted directly to the arm, loaded with crystallized shards of the caster's own blood.
 
 **Visual Representation**:
-- **Arcane Spheres**: Purple orbs with swirling energy
-- **Holy Spheres**: Golden orbs radiating light
-- **Shadow Spheres**: Dark orbs with wisps of darkness
-- **Fire Spheres**: Red-orange orbs with flickering flames
-- **Ice Spheres**: Pale blue orbs with frost crystals
-- **Nature Spheres**: Green orbs crackling with storm energy
-- **Healing Spheres**: Soft yellow orbs with gentle glow
-- **Chaos Spheres**: Multicolored orbs that shift unpredictably
+- **Arcane Spheres**: Purple orbs of pure, humming force
+- **Holy Spheres**: Golden orbs of searing, white-hot light
+- **Shadow Spheres**: Pitch-black orbs of writhing, necrotic darkness
+- **Fire Spheres**: Red-orange orbs of sputtering, explosive heat
+- **Ice Spheres**: Pale blue orbs of jagged rime and frost crystals
+- **Nature Spheres**: Green orbs crackling with thunderous ozone static
+- **Viscera Spheres**: Rusted crimson orbs composed of crystallized marrow and compressed flesh
+- **Chaos Spheres**: Iridescent, shifting orbs of unstable, morphing energy
 
 **How It Changes Each Turn**:
 - **Turn Start**: 4 new spheres appear (from your 4d8 roll)
-- **When Casting**: Spent spheres disappear from the bar
+- **When Casting**: Spent spheres disappear from the cylinder
 - **When Banking**: Unused spheres remain visible, accumulating over turns (max **12 banked**)
 - **Overflow**: If rolling would exceed 12, you choose which new spheres to keep. Excess are lost.
-- **Combat End**: All spheres vanish — fresh start each fight
+- **Combat End**: All spheres vanish — the graft vents and cools down
+- **The Recoil Anchor**: Discharging the heavy cannon is so violent that your movement speed is reduced to 0 for the turn whenever you cast a spell.
 
-**Reading the Bar at a Glance**: The bar is your hand of cards. A bar full of Fire spheres means pure-element combos. A diverse mix means utility and versatility. The skill is in recognizing, at a glance, which matrix combos and Recipes your current bank supports. With 36 matrix combinations and your learned Recipes, this pattern recognition becomes second nature — and deeply satisfying when you spot a combo others would miss.`,
+**Reading the Bar at a Glance**: The cylinder bar represents your active ammunition. A cylinder full of Fire spheres indicates pure explosive potential. A diverse mix suggests high utility. You must constantly analyze what matrix combos and Recipes your current bank can feed. With 36 combinations and learned Recipes, managing your bank becomes a deadly calculus.`,
     },
 
     mechanics: {
@@ -307,7 +289,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
           stepNumber: 1,
           title: "Roll Spheres",
           subtitle: "Start of Turn",
-          content: `Roll **4d8** (5d8 for Entropy Weavers). Each die produces one elemental sphere.`,
+          content: `Roll **4d8** (5d8 for Entropy Weavers). Each die produces one elemental crystallized blood-shard.`,
         },
         {
           type: "step",
@@ -321,13 +303,13 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
           stepNumber: 3,
           title: "Pick Action + Elements",
           subtitle: "Combine & Cast",
-          content: `Choose an **action** (what shape) and your **spheres** (what element). Done.`,
+          content: `Choose an **action** (what shape) and your **spheres** (what elements). Cast and pay both mana and mandatory HP recoil. Firing anchors you, reducing movement speed to 0.`,
         },
       ],
       actionTable: {
-        title: "Your 5 Actions",
+        title: "Your 5 Firing Profiles",
         subtitle:
-          "Pick one. Your spheres fill in the damage types and effects.",
+          "Pick one. Firing standard profiles deals mandatory recoil damage to you. Firing reduces your movement speed to 0 for the turn. Defensive actions bypass recoil.",
         actions: [
           {
             name: "Attack",
@@ -337,7 +319,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
             range: "30ft",
             target: "One enemy",
             damage: "1d8 + INT/4",
-            note: "Your default. Cantrip-level damage + combo's minor effect.",
+            note: "Recoil: 1d4 HP. Standard single-target ballistic blast.",
           },
           {
             name: "Defend",
@@ -347,7 +329,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
             range: "Self/Ally 30ft",
             target: "One creature",
             damage: "Absorbs level HP",
-            note: "Barrier + resistance to combo's damage types for 1 round.",
+            note: "Recoil: 0 HP. The defensive shield absorbs the recoil shockwave completely.",
           },
           {
             name: "Buff",
@@ -357,7 +339,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
             range: "Touch",
             target: "One weapon",
             damage: "+1d6 next hit",
-            note: "Weapon gains combo's element. Works on allies too.",
+            note: "Recoil: 1d4 HP. Infuses a weapon with the combo's elements.",
           },
           {
             name: "Area",
@@ -367,7 +349,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
             range: "30ft center",
             target: "10ft radius",
             damage: "1d6 + INT/4 each",
-            note: "Spread thin — less damage but hits a group.",
+            note: "Recoil: 1d6 HP. Vents the explosion in a wider area, shaking your frame.",
           },
           {
             name: "Trap",
@@ -377,7 +359,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
             range: "30ft surface",
             target: "5ft zone",
             damage: "1d8 + INT/4",
-            note: "Hidden trigger. Lasts 1 minute.",
+            note: "Recoil: 1d6 HP. Seeds a mine of raw magical energy that lasts 1 minute.",
           },
         ],
       },
@@ -419,32 +401,38 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
         ],
       },
       singleSphereFallbacks: {
-        title: "Single-Sphere Fallbacks",
-        subtitle: "Leftover sphere? Do something small with it.",
+        title: "Single-Sphere Fallbacks & Emergency Venting",
+        subtitle: "Leftover spheres or catastrophic RNG? Gouge your flesh or vent your chambers.",
         abilities: [
           {
+            name: "Chamber Flush",
+            cost: "3 Mana + 1 AP + 1d4 HP",
+            type: "Utility / Emergency",
+            description: "Gouge out alternate crystallized blood-shards from your forearm to discard all currently rolled spheres and reroll your 4d8 grid (5d8 if Entropy Weaver).",
+          },
+          {
             name: "Fling",
-            cost: "1 Sphere + 2 Mana",
+            cost: "1 Sphere + 2 Mana + 1 HP",
             type: "Attack",
-            description: "1d4 damage of that element. 30ft. A poke.",
+            description: "1d4 damage of that element. 30ft. A minor shrapnel launch.",
           },
           {
             name: "Ward",
             cost: "1 Sphere + 3 Mana",
             type: "Reaction",
-            description: "Grant resistance to that element for 1 round.",
+            description: "Grant resistance to that element for 1 round. (Absorbs recoil completely).",
           },
           {
             name: "Siphon",
             cost: "1 Sphere",
             type: "Resource",
-            description: "Destroy sphere, recover 2 mana.",
+            description: "Destroy sphere, recover 2 mana. Siphons minor blood-heat.",
           },
           {
             name: "Purge",
-            cost: "2 Any + 4 Mana",
+            cost: "2 Any + 4 Mana + 1d4 HP",
             type: "Utility",
-            description: "Remove 1 debuff from self/ally. Touch range.",
+            description: "Remove 1 debuff from self/ally. Touch range. Burns away curses by searing tissue.",
           },
         ],
       },
@@ -464,30 +452,35 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
         ],
         recipeExamples: [
           {
+            level: "Lv 1",
+            name: "Chamber Flush",
+            upgrade: "Emergency venting → Discard and reroll all active spheres",
+          },
+          {
             level: "Lv 2",
-            name: "Steam Burst",
+            name: "Superheated Steam Vent",
             upgrade: "Fire+Ice → 20ft cone (base Attack is single-target)",
           },
           {
             level: "Lv 3",
-            name: "Arcane Detonation",
+            name: "Marrow-Shatter Concussion",
             upgrade: "Arcane+Arcane → 10ft AoE + disorient (2d8 + INT/3)",
           },
           {
             level: "Lv 4",
-            name: "Firestorm",
+            name: "Incinerating Slag-Shower",
             upgrade:
               "Fire+Fire → 15ft AoE + 1d6 fire DoT 2 rounds (2d8 + INT/3)",
           },
           {
             level: "Lv 5",
-            name: "Elemental Blast",
+            name: "Thermobaric Burst",
             upgrade: "Fire+Ice → 10ft AoE (3d8 + INT/2)",
           },
           {
             level: "Lv 6",
             name: "Glacial Blessing",
-            upgrade: "Ice+Healing+Holy → +4 Armor + fire resist (Glacial Blessing, no healing)",
+            upgrade: "Ice+Viscera+Holy → +4 Armor + fire resist (Rime-Frozen Graft / no clinical healing)",
           },
           {
             level: "Lv 9",
@@ -514,7 +507,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
             manaCost: "20-25",
             available: "Level 6+",
             description:
-              "Recipe-only. Real spells — scaling dice, persistent effects, unique mechanics.",
+              "Recipe-only. Heavy ordnance — scaling dice, persistent effects, unique mechanics. Deals severe self-damage and erodes max HP.",
           },
           {
             name: "4-Sphere Recipe",
@@ -522,7 +515,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
             manaCost: "25-36",
             available: "Level 8+",
             description:
-              "The big guns. Bank across turns. Battlefield-shaping power.",
+              "The big guns. Bank across turns. Battlefield-shaping power. Punishes your skeleton, dealing heavy self-damage and eroding max HP.",
           },
         ],
       },
@@ -551,6 +544,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
         ["Buff", "2", "4"],
         ["Area", "2", "7"],
         ["Trap", "2", "6"],
+        ["Chamber Flush", "0", "3 (costs 1d4 HP + 1 AP)"],
         ["Fling (1 sphere)", "1", "2"],
         ["Ward (1 sphere)", "1", "3"],
         ["Purge", "2 any", "4"],
@@ -579,7 +573,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
           "2",
           "Holy",
           "Divine Light",
-          "Holy damage, healing, stunning, protection",
+          "Holy damage, blinding, stunning, protection",
         ],
         [
           "3",
@@ -597,9 +591,9 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
         ],
         [
           "7",
-          "Healing",
-          "Life Energy",
-          "Healing, regeneration, buffs, cleansing",
+          "Viscera",
+          "Compressed Flesh",
+          "Suture flesh, create gristle barriers, cauterize, and manipulate biological tissue. Grimdark, visceral, and dark fantasy.",
         ],
         [
           "8",
@@ -617,20 +611,21 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
 - You're 1-2 turns away from a powerful 3-sphere or 4-sphere Recipe
 - Combat is stable enough to invest in a future power spike
 - You're fishing for specific elements to complete a combination
+- Overflow rule: If rolling would push you over your max, choose which new spheres to keep. Excess are lost.
 
 **When to Spend Immediately**:
 - Your rolled spheres match a Recipe you've learned — use the upgrade!
-- The tactical situation demands action NOW (enemy is casting, ally is dying)
+- The tactical situation demands action NOW (enemy is casting, group needs support)
 - You're low on mana and can only afford cheap matrix combos
 - You have more spheres than you need — spend the excess, bank the rest
 
 **Reading Your Options**:
 - **Pure combos** (Fire+Fire, Ice+Ice): Focused single-target damage. Reliable.
 - **Opposing combos** (Fire+Ice, Holy+Shadow): Unique mixed effects. Steam, Twilight — these are the "chemistry" combos.
-- **Healing combos** (Healing+Healing, Healing+X): Defensive and utility effects -- barriers, armor, teleports, purification. Never underestimate a well-timed Frost Armor or Thunder Step.
+- **Viscera combos** (Viscera+Viscera, Viscera+X): Defensive and utility effects -- gristle blockades, rime-frozen grafts, sinew-spark leaps, slag-sutures.
 - **Chaos combos** (Chaos+X): Wild swings. Use them when you're desperate or when the Entropy Weaver in you wants to gamble.
 
-**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Ice for Steam on the front line, then Healing+Healing for Rejuvenation on your tank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
+**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Ice for Steam on the front line, then Viscera+Viscera for a Grissle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
 
 **Advanced: The Banking Mathematics**:
 - You generate 4 spheres per turn (5 for Entropy Weavers)
@@ -645,13 +640,13 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
       title: "Practical Decision-Making Example",
       content: `**Scenario**: You're fighting a fire elemental (resistant to fire, weak to ice) and two goblin archers.
 
-**Turn 1 Roll**: [4, 4, 5, 7] → Fire, Fire, Ice, Healing
+**Turn 1 Roll**: [4, 4, 5, 7] → Fire, Fire, Ice, Viscera
 
 **Rookie Mistake**: "Fire + Fire = Flame Burst! Maximum fire damage!"
 - Result: Wasted spheres on a fire-resistant enemy. Your base matrix damage (1d8 + INT/4) barely tickles it.
 
-**Smart Play**: "Ice + Ice = **Frost Armor** on our tank. Give them +3 Armor for 3 rounds. Then bank the two Fire spheres — the goblins aren't fire-resistant."
-- Result: Tank gets healed + armor buff. Fire spheres banked for next turn.
+**Smart Play**: "Ice + Viscera = **Rime-Frozen Graft** on our tank. Give them +3 Armor for 3 rounds. Then bank the two Fire spheres — the goblins aren't fire-resistant."
+- Result: Tank gets a grotesque, protective gristle graft. Fire spheres banked for next turn.
 
 **Turn 2 Roll**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
 
@@ -686,31 +681,31 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
 - Fire (4): Red
 - Ice (5): Blue
 - Nature (6): Green
-- Healing (7): White
+- Viscera (7): Rusted Crimson (#8B0000)
 - Chaos (8): Rainbow/Iridescent
 
 **Turn-by-Turn Process**:
 1. Roll 4d8
 2. Take colored tokens matching each die result, place in your "Sphere Bank"
 3. Check: do your tokens match any matrix combo? Any learned Recipe?
-4. Remove spent tokens, pay mana, resolve the spell
+4. Remove spent tokens, pay mana and recoil, resolve the spell
 5. Unused tokens stay banked for next turn
 
 ---
 
 **THE COMBINATION MATRIX (Print This)**
 
-All 36 two-sphere base combos. Cost varies by Action type (4-7 mana; see Action Table). Fixed damage: 1d8 + INT/4.
+All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see Action Table). Fixed damage: 1d8 + INT/4. Firing standard profiles inflicts recoil damage. Firing reduces your movement speed to 0.
 
-| | Arcane | Holy | Shadow | Fire | Ice | Nature | Healing | Chaos |
+| | Arcane | Holy | Shadow | Fire | Ice | Nature | Viscera | Chaos |
 |---|---|---|---|---|---|---|---|---|
-| **Arcane** | Arcane Pulse | Divine Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Arcane Barrier | Wild Magic ★ |
-| **Holy** | u{2192} | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Purification | Chaos Light ★ |
-| **Shadow** | u{2192} | u{2192} | Dark Bolt | Hellfire | Frostbite | Blight | Void Shield | Entropy ★ |
-| **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterize | Chaos Flame ★ |
-| **Ice** | u{2192} | u{2192} | u{2192} | u{2192} | Frost Spike | Hailstorm | Frost Armor | Glitch Ice ★ |
-| **Nature** | u{2192} | u{2192} | u{2192} | u{2192} | u{2192} | Storm Surge | Thunder Step | Primal Chaos ★ |
-| **Healing** | u{2192} | u{2192} | u{2192} | u{2192} | u{2192} | u{2192} | Restoration Ward | Chaos Shield ★ |
+| **Arcane** | Arcane Pulse | Divine Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Visceral Cocoon | Wild Magic ★ |
+| **Holy** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Sinew | Chaos Light ★ |
+| **Shadow** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
+| **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterizing Slag | Chaos Flame ★ |
+| **Ice** | → | → | → | → | Frost Spike | Hailstorm | Rime-Frozen Graft | Glitch Ice ★ |
+| **Nature** | → | → | → | → | → | Storm Surge | Sinew-Spark Leap | Primal Chaos ★ |
+| **Viscera** | → | → | → | → | → | → | Grissle Blockade | Amorphous Gristle Ward ★ |
 | **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
 ★ = Chaos combo — each has its own specific random effect table. If no specific table applies, roll on the general Chaos Effects d20 table instead.
@@ -731,49 +726,52 @@ All 36 two-sphere base combos. Cost varies by Action type (4-7 mana; see Action 
 | Flame Burst | Fire | Single target damage |
 | Frost Spike | Frost | Single target + slow |
 | Storm Surge | Nature | Single target damage |
-| Restoration Ward | Arcane | Barrier, blocks movement 2 rounds |
+| Grissle Blockade | Force | Grotesque bone-gristle barrier, blocks movement 2 rounds |
 | Chaos Bolt | Chaos | ★ Random effect |
 | Divine Bolt | Force, Radiant | Cannot miss |
 | Void Bolt | Force, Necrotic | Barrier-piercing |
 | Arcane Flame | Force, Fire | Barrier-piercing fire |
 | Crystal Shard | Force, Frost | Armor-piercing |
 | Thunderstrike | Force, Nature | Lightning bolt |
-| Arcane Barrier | Force | Absorb shield (4d8) |
+| Visceral Cocoon | Force | Flesh-knit absorb shield (4d8) |
 | Wild Magic | Chaos | ★ Random effect |
 | Twilight | Radiant, Necrotic | Dual damage |
 | Solar Flare | Radiant, Fire | Heavy burn |
 | Aurora | Radiant, Frost | Damage + slow |
 | Verdant Light | Radiant, Nature | Burning vines |
-| Purification | Radiant | Remove all debuffs + 1d6 radiant/debuff |
+| Crucible of Sinew | Radiant | Remove all debuffs + 1d6 radiant/debuff |
 | Chaos Light | Chaos | ★ Random effect |
 | Hellfire | Necrotic, Fire | Shadow flames |
 | Frostbite | Necrotic, Frost | Rot + slow |
 | Blight | Necrotic, Nature | Poison thorns |
-| Void Shield | Necrotic | Absorb spell + reflect 50% |
+| Grisly Veil | Necrotic | Absorb spell + reflect 50% necrotic |
 | Entropy | Chaos | ★ Random effect |
 | Steam | Fire, Frost | 20ft cone + blind |
 | Wildfire | Fire, Nature | Burning vines |
-| Cauterize | Fire | Remove 1 debuff + 2d6 fire damage |
+| Cauterizing Slag | Fire | Remove 1 debuff + 2d6 fire damage to ally |
 | Chaos Flame | Chaos | ★ Random effect |
 | Hailstorm | Frost, Nature | 10ft AoE |
-| Frost Armor | Frost | +3 Armor for 3 rounds |
+| Rime-Frozen Graft | Frost | +3 Armor for 3 rounds |
 | Glitch Ice | Chaos | ★ Random effect |
-| Thunder Step | Nature | Teleport 15ft |
+| Sinew-Spark Leap | Nature | Teleport 15ft |
 | Primal Chaos | Chaos | ★ Random effect |
-| Chaos Shield | Chaos | ★ Roll 1d4 defensive effect |
+| Amorphous Gristle Ward | Chaos | ★ Roll 1d4 defensive flesh effect |
 
 ---
 
 **Quick Reference Card**:
 
 \`\`\`
-ARCANONEER — SPHERE GENERATION
+ARCANONEER — SPHERE GENERATION & RECOIL
 Roll 4d8 each turn:
 1 = Arcane (Purple)    5 = Ice (Blue)
 2 = Holy (Gold)        6 = Nature (Green)
-3 = Shadow (Black)     7 = Healing (White)
+3 = Shadow (Black)     7 = Viscera (Crimson)
 4 = Fire (Red)         8 = Chaos (Rainbow)
 
+CORE MECHANIC: Firing reduce movement speed to 0.
+RECOIL HP COST: Attack/Buff (1d4), Area/Trap (1d6).
+Defend has 0 Recoil.
 BASE COMBO COST: 5 mana
 BASE COMBO DAMAGE: 1d8 + INT/4
 RECIPE SCALING: Lv3-4 → 2d8+INT/3 | Lv5 → 3d8+INT/2
@@ -1044,9 +1042,9 @@ MAX BANKED SPHERES: 12
       },
       {
         id: "healing_healing",
-        name: "Restoration Ward",
+        name: "Grissle Blockade",
         elements: ["healing", "healing"],
-        damageTypes: ["arcane"],
+        damageTypes: ["force"],
         targetType: "area",
         range: 30,
         aoeShape: "circle",
@@ -1054,9 +1052,9 @@ MAX BANKED SPHERES: 12
         primaryEffect: "control",
         secondaryEffect: "barrier",
         effectDescription:
-          "Create a barrier of pure restorative energy that blocks movement. All creatures within 10 feet cannot move beyond the barrier for 2 rounds.",
+          "Create a barrier of knit compressed flesh and bone shards that blocks movement. All creatures within 10 feet cannot move beyond the barrier for 2 rounds.",
         flavorText:
-          "The two healing spheres do not mend wounds -- they crystallize into a shimmering dome of golden force. Nothing crosses the boundary. The warmth becomes a wall, and the wall does not yield.",
+          "The two viscera spheres fuse, knitting into a pulsating, grotesque wall of compressed flesh and jagged bone shards. Nothing crosses the boundary. The flesh holds, and the bone does not yield.",
       },
       {
         id: "chaos_chaos",
@@ -1177,9 +1175,9 @@ MAX BANKED SPHERES: 12
         flavorText:
           "The arcane sphere becomes a lightning rod, drawing the nature sphere's storm energy into a single crackling bolt. You point, thunder peals, and a fork of white-hot lightning arcs toward your target.",
       },
-{
+      {
         id: "arcane_healing",
-        name: "Arcane Barrier",
+        name: "Visceral Cocoon",
         elements: ["arcane", "healing"],
         damageTypes: ["force"],
         targetType: "single_ally",
@@ -1187,9 +1185,9 @@ MAX BANKED SPHERES: 12
         primaryEffect: "barrier",
         secondaryEffect: "shield",
         effectDescription:
-          "Conjure an arcane shield of pure magical force around your target. Absorbs damage equal to 4d8.",
+          "Conjure a protective cocoon of raw tissue and arcane force around your target. Absorbs damage equal to 4d8.",
         flavorText:
-          "Arcane energy wraps around the healing sphere, not to mend but to harden. The result is a shimmering cocoon of violet-gold force that hovers around the target, deflecting incoming harm.",
+          "Arcane energy wraps around the viscera sphere, causing raw sinew to stretch and harden into a violet-crimson cocoon. It hovers around the target, absorbing incoming harm.",
       },
       {
         id: "arcane_chaos",
@@ -1298,7 +1296,7 @@ MAX BANKED SPHERES: 12
       },
       {
         id: "holy_healing",
-        name: "Purification",
+        name: "Crucible of Sinew",
         elements: ["holy", "healing"],
         damageTypes: ["radiant"],
         targetType: "single_ally",
@@ -1306,9 +1304,9 @@ MAX BANKED SPHERES: 12
         primaryEffect: "cleanse",
         secondaryEffect: "damage",
         effectDescription:
-          "A burst of divine radiance that burns away corruption. Removes all debuffs from the target but deals 1d6 radiant damage per debuff removed.",
+          "A scourging burst of divine marrow-light. Removes all debuffs from the target but deals 1d6 radiant damage per debuff removed as tissue is forcefully cauterized.",
         flavorText:
-          "Holy fire meets healing light, and instead of soothing, it scourges. The golden radiance does not close wounds -- it burns the corruption out of them. Painful, but effective. Your ally screams, but stands cleansed.",
+          "Searing holy fire collides with the viscera sphere, causing a blinding, agonizing flash. The target's skin melts and knits together instantly, purging toxins and curses. Your ally screams in agony, but stands entirely cleansed.",
       },
       {
         id: "holy_chaos",
@@ -1404,9 +1402,9 @@ MAX BANKED SPHERES: 12
         flavorText:
           "Nature twisted by shadow — black thorns that grow from darkness itself, dripping with poison that rots from within. They wrap around the target and squeeze, each thorn injecting decay.",
       },
-{
+      {
         id: "shadow_healing",
-        name: "Void Shield",
+        name: "Grisly Veil",
         elements: ["shadow", "healing"],
         damageTypes: ["necrotic"],
         targetType: "self",
@@ -1414,9 +1412,9 @@ MAX BANKED SPHERES: 12
         primaryEffect: "barrier",
         secondaryEffect: "reflect",
         effectDescription:
-          "Encase yourself in shadow that absorbs the next incoming spell. Reflect 50% of the absorbed spell's damage back at the caster.",
+          "Encase yourself in a shifting barrier of flayed skin and shadow that absorbs the next incoming spell. Reflect 50% of the absorbed spell's damage back at the caster as necrotic feedback.",
         flavorText:
-          "Shadow wraps around the healing sphere, inverting its purpose. Where it once mended, it now devours -- forming a writhing cocoon of dark energy around you. The next spell that strikes does not hurt you. It hurts them.",
+          "Necrotic shadows wrap around the viscera sphere, weaving a grotesque shield of pulsating skin and absolute darkness around you. The next spell that strikes is absorbed by the fleshy matrix and violently deflected.",
       },
       {
         id: "shadow_chaos",
@@ -1501,9 +1499,9 @@ MAX BANKED SPHERES: 12
         flavorText:
           "Fire and nature have an ancient pact: nature provides the fuel, fire provides the transformation. Vines of living flame lash outward, burning as they bind.",
       },
-{
+      {
         id: "fire_healing",
-        name: "Cauterize",
+        name: "Cauterizing Slag",
         elements: ["fire", "healing"],
         damageTypes: ["fire"],
         targetType: "single_ally",
@@ -1511,9 +1509,9 @@ MAX BANKED SPHERES: 12
         primaryEffect: "cleanse",
         secondaryEffect: "damage",
         effectDescription:
-          "Burn away afflictions with searing flame. Deals 2d6 fire damage to the target and removes ONE debuff or condition.",
+          "Burn away afflictions with molten slag. Deals 2d6 fire damage to the ally and removes ONE debuff or condition by violently searing the tissue.",
         flavorText:
-          "Fire does not heal -- it purges. The arcane sphere focuses the flame into a precise burn that chars away disease, poison, and curse. Your ally gasps as the fire licks their skin, but when it fades, the affliction is gone. Scars remain. The alternative was worse.",
+          "Fire does not heal — it purges. The forearm graft vents a jet of boiling magma that is smeared directly onto the ally's wounds. They scream as their flesh melts, but the heat instantly burns away any poison, disease, or curse, leaving permanent molten scars.",
       },
       {
         id: "fire_chaos",
@@ -1583,9 +1581,9 @@ MAX BANKED SPHERES: 12
         flavorText:
           "Ice and nature conspire to create the worst weather imaginable — frozen thorns driven by howling wind, crackling with lightning. It's localized, at least. Small mercies.",
       },
-{
+      {
         id: "ice_healing",
-        name: "Frost Armor",
+        name: "Rime-Frozen Graft",
         elements: ["ice", "healing"],
         damageTypes: ["frost"],
         targetType: "single_ally",
@@ -1593,9 +1591,9 @@ MAX BANKED SPHERES: 12
         primaryEffect: "buff",
         secondaryEffect: "armor_buff",
         effectDescription:
-          "Encase the target in a shell of hardened ice, granting +3 Armor for 3 rounds.",
+          "Encase the target in a grotesque layer of frozen bone and gristle, granting +3 Armor for 3 rounds.",
         flavorText:
-          "The healing sphere does not mend -- it crystallizes. Ice snaps into place around your target like living armor, each plate locking with a satisfying click. Cold, yes. Protective, absolutely. The frost knows how to take a hit.",
+          "The viscera and ice elements lock in a grotesque reaction. Instead of smooth armor, jagged plates of frozen bone, sinew, and grey ice snap onto your ally's limbs. It is freezing and agonizing, but highly protective.",
       },
       {
         id: "ice_chaos",
@@ -1652,7 +1650,7 @@ MAX BANKED SPHERES: 12
       // ========================================
       {
         id: "nature_healing",
-        name: "Thunder Step",
+        name: "Sinew-Spark Leap",
         elements: ["nature", "healing"],
         damageTypes: ["nature"],
         targetType: "self",
@@ -1660,9 +1658,9 @@ MAX BANKED SPHERES: 12
         primaryEffect: "utility",
         secondaryEffect: "teleport",
         effectDescription:
-          "Transform nature energy into a crackling teleport. Teleport up to 15 feet to an unoccupied space you can see.",
+          "Rupture your own muscle fibers with a high-voltage lightning surge, teleporting up to 15 feet to an unoccupied space.",
         flavorText:
-          "Nature energy does not bloom -- it crackles. The healing sphere destabilizes the nature sphere, and suddenly you are somewhere else, trailing ozone and crackling with leftover static. The air where you stood pops with displaced thunder.",
+          "You detonate the nature and viscera spheres within your own muscle tissues. The shock of lightning contracts your leg muscles with bone-breaking force, launching you instantly into a teleportation arc. You trail ozone, smoke, and droplets of vaporized blood.",
       },
       {
         id: "nature_chaos",
@@ -1718,9 +1716,9 @@ MAX BANKED SPHERES: 12
       // HEALING MIXED (1 combo)
       // Life energy warped into defensive chaos
       // ========================================
-{
+      {
         id: "healing_chaos",
-        name: "Chaos Shield",
+        name: "Amorphous Gristle Ward",
         elements: ["healing", "chaos"],
         damageTypes: ["chaos"],
         targetType: "self",
@@ -1728,39 +1726,41 @@ MAX BANKED SPHERES: 12
         primaryEffect: "random",
         isChaosCombo: true,
         effectDescription:
-          "Unpredictable magical ward. Roll 1d4: 1=+2 Armor for 2 rounds, 2=absorb next spell, 3=reflect next attack, 4=nothing happens.",
+          "An unstable ward of shifting flesh and bone. Roll 1d4 on the random effects table: 1=+2 Armor for 2 rounds, 2=absorb next spell, 3=reflect next attack, 4=flesh collapses (no effect).",
         flavorText:
-          "You smash healing and chaos together and hope for a shield. You might get one. You might get nothing. That is the price of asking chaos to protect you.",
+          "You fuse viscera and chaos in your chambers. Grotesque limbs, teeth, and skin bubble around your forearm graft, ready to absorb incoming strikes. Will it hold, or will the tissue melt away into useless slurry?",
         randomEffects: [
           {
-            name: "Iron Ward",
+            name: "Gristle Shield",
             description:
-              "Gain +2 Armor for 2 rounds. The chaos solidifies into something useful for once.",
+              "The flesh solidifies into a wall of fused bone. Gain +2 Armor for 2 rounds.",
             damageTypes: [],
             targetType: "self",
             armorBuff: 2,
-            duration: 2,
+            durationValue: 2,
+            durationType: "rounds",
+            durationUnit: "rounds",
           },
           {
-            name: "Spell Sponge",
+            name: "Flesh Eater",
             description:
-              "Absorb the next spell cast at you. The chaos eats magic for breakfast.",
+              "A gaping mouth forms on the graft and devours the next spell cast at you.",
             damageTypes: [],
             targetType: "self",
             absorbSpell: true,
           },
           {
-            name: "Retaliation",
+            name: "Bone Retaliation",
             description:
-              "Reflect the next attack back at the attacker. The chaos decides you are not the target today.",
+              "Jagged bones erupt to deflect and reflect the next attack back at the attacker.",
             damageTypes: [],
             targetType: "self",
             reflectAttack: true,
           },
           {
-            name: "Dud",
+            name: "Flesh Slurry",
             description:
-              "Nothing happens. The chaos yawns and goes back to sleep.",
+              "The tissue fails to form and liquefies into a harmless mess. Nothing happens.",
             damageTypes: [],
             targetType: "self",
             noEffect: true,
@@ -1845,9 +1845,9 @@ MAX BANKED SPHERES: 12
     // ========================================
     {
       id: "arc_spark_bolt",
-      name: "Spark Bolt",
+      name: "Marrow-Piercing Slug",
       description:
-        "Fires a bolt of pure arcane force that pierces through barriers and armor. Ignores 2 points of enemy armor.",
+        "Chambers a crystallized soul-shard of pure force, discharging a bone-shattering slug that ignites as it exits the pig-iron barrel. Ignores 2 points of enemy armor.",
       level: 1,
       enhancesCombo: "arcane_arcane",
       spellType: "ACTION",
@@ -1874,9 +1874,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Arcanum Ignis!",
+        verbalText: "Marrow Ignis!",
         somaticText:
-          "Extend index finger, arcane energy crackling and coalescing at the tip before launching forward",
+          "Your pig-iron sleeve superheats as a violet blood-shard feeds into the chamber. Firing it sends a sharp vibration through your forearm bones.",
       },
 
       effectTypes: ["damage"],
@@ -1900,9 +1900,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_frost_touch",
-      name: "Frost Touch",
+      name: "Rime-Iron Clasp",
       description:
-        "Channels freezing energy through your palm, dealing frost damage and slowing the target. Frozen targets take +1d4 bonus damage from the next physical attack against them.",
+        "Grafts freezing rime directly onto your iron cylinder, gripping the target to flash-freeze tissue. Frozen targets take +1d4 bonus damage from the next physical attack against them.",
       level: 1,
       enhancesCombo: "ice_ice",
       spellType: "ACTION",
@@ -1928,9 +1928,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Glacies Contactus!",
+        verbalText: "Gelu Clavis!",
         somaticText:
-          "Palm glows with blue-white frost energy, rime spreading across your hand as you reach out to touch the target",
+          "Freezing rime spreads from the pig-iron chassis across your hand as you clasp the target's neck.",
       },
 
       effectTypes: ["damage", "debuff"],
@@ -1987,9 +1987,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_healing_light",
-      name: "Spark Shield",
+      name: "Back-Blast Spark Shield",
       description:
-        "Conjure a crackling shield of arcane sparks around an ally. Absorbs 2d8 damage.",
+        "Discharges a localized back-blast of arcane sparks that coalesce into a shimmering, crackling ward around an ally, absorbing 2d8 damage.",
       level: 1,
       enhancesCombo: "arcane_arcane",
       spellType: "ACTION",
@@ -2016,9 +2016,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Scutum Sparks!",
+        verbalText: "Retro Scutum!",
         somaticText:
-          "Arcs of violet energy crackle between your fingers as you project a shimmering shield around the target",
+          "Direct the cannon's exhaust vents toward an ally, showering them in protective, crackling violet sparks.",
       },
 
       effectTypes: ["defensive"],
@@ -2041,9 +2041,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_arcane_missile",
-      name: "Arcane Missile",
+      name: "Blood-Shard Barrage",
       description:
-        "Combines arcane and holy energy into a small, unerring bolt of force that cannot be dodged or blocked.",
+        "Loads holy and arcane blood-shards into the chamber, firing an unerring burst of pressurized force that cannot be dodged or blocked.",
       level: 1,
       enhancesCombo: "arcane_holy",
       spellType: "ACTION",
@@ -2069,8 +2069,10 @@ MAX BANKED SPHERES: 12
         resourceValues: { mana: 4, arcane_sphere: 1, holy_sphere: 1 },
         useFormulas: {},
         actionPoints: 1,
-        components: ["verbal"],
-        verbalText: "Missile Arcanum!",
+        components: ["verbal", "somatic"],
+        verbalText: "Sanguis Barrage!",
+        somaticText:
+          "Brace your arm as three crystallized marrow slugs feed into the breech, venting red and violet steam with each discharge",
       },
 
       effectTypes: ["damage"],
@@ -2094,9 +2096,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_nature_vine",
-      name: "Nature Vine",
+      name: "Barbed Overgrowth",
       description:
-        "Causes thorny vines to erupt from the ground, entangling a single target and dealing nature damage.",
+        "Fires a heavy green-flecked iron spike into the earth, causing thorny, blood-slicked vines to erupt from the ground and entangle the target.",
       level: 1,
       enhancesCombo: "nature_nature",
       spellType: "ACTION",
@@ -2123,9 +2125,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Vinea Crescere!",
+        verbalText: "Vinea Mutilatio!",
         somaticText:
-          "Point at the ground, causing the earth to crack as vines erupt upward",
+          "Slam the breech lever forward, venting hot gas as a heavy iron harpoon-spike plunges into the ground",
         spheres: ["Nature", "Nature"],
       },
 
@@ -2142,7 +2144,8 @@ MAX BANKED SPHERES: 12
       controlConfig: {
         controlType: "restraint",
         strength: "weak",
-        duration: 1,
+        durationValue: 1,
+        durationType: "rounds",
         durationUnit: "rounds",
         saveDC: 13,
         saveType: "strength",
@@ -2163,7 +2166,8 @@ MAX BANKED SPHERES: 12
               saveDC: 13,
               condition: "restrained",
               breakOnDamage: true,
-              duration: 1,
+              durationValue: 1,
+              durationType: "rounds",
               durationUnit: "rounds",
             },
           },
@@ -2183,9 +2187,9 @@ MAX BANKED SPHERES: 12
     // ========================================
     {
       id: "arc_steam_burst",
-      name: "Steam Burst",
+      name: "Superheated Steam Vent",
       description:
-        "Combines fire and ice spheres into a cone of superheated steam that burns and blinds enemies.",
+        "Vents the pig-iron cylinder's thermal chambers, unleashing a pressurized cone of blinding, flesh-scorching steam.",
       level: 2,
       enhancesCombo: "fire_ice",
       spellType: "ACTION",
@@ -2215,9 +2219,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Vapor Eruptio!",
+        verbalText: "Calidus Ventus!",
         somaticText:
-          "Hold fire sphere in one hand and ice shard in the other, then bring them together to create explosive steam",
+          "Force open the cooling bypass valves on the forearm sleeve, spraying superheated white mist in a wide arc",
         spheres: ["Fire", "Ice"],
       },
 
@@ -2265,9 +2269,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_shadow_bolt",
-      name: "Shadow Bolt",
+      name: "Vampiric Slug",
       description:
-        "Hurls a sphere of concentrated shadow energy that drains life force on impact. Heals you for 25% of the damage dealt.",
+        "Fires a heavy shell forged from crystallized necrotic marrow. The bullet drains the target's life force on impact, siphoning their vitality back into your own bloodstream.",
       level: 2,
       enhancesCombo: "shadow_shadow",
       spellType: "ACTION",
@@ -2294,9 +2298,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Umbra Vitae Draconis!",
+        verbalText: "Sanguis Haurire!",
         somaticText:
-          "Pull shadow energy from the void into your palm, forming a writhing sphere of darkness before hurling it forward",
+          "Chamber a black, pulsing blood-crystal slug, taking a small amount of skin-searing heat as it discharges",
         spheres: ["Shadow", "Shadow"],
       },
 
@@ -2314,6 +2318,7 @@ MAX BANKED SPHERES: 12
         debuffType: "statusEffect",
         durationValue: 2,
         durationType: "rounds",
+        durationUnit: "rounds",
         effects: [
           {
             id: "soul_drain",
@@ -2334,9 +2339,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_celestial_ray",
-      name: "Celestial Ray",
+      name: "Aetheric Lance",
       description:
-        "Weaves arcane and holy energy into a beam of celestial light that damages enemies and heals allies in its path.",
+        "Overcharges the cylinder with holy and arcane essences, projecting a continuous beam of blinding celestial energy that scorches enemies while sealing the wounds of allies in its path.",
       level: 2,
       enhancesCombo: "arcane_holy",
       spellType: "ACTION",
@@ -2384,9 +2389,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Lux Arcanum Divinus!",
+        verbalText: "Lux Lanceta!",
         somaticText:
-          "Extend arm forward, palm open, as a brilliant beam of celestial light erupts from your fingertips",
+          "Open all combustion chambers at once, letting a blinding white-hot beam of force erupt directly from the barrel",
         spheres: ["Arcane", "Holy"],
       },
 
@@ -2404,6 +2409,7 @@ MAX BANKED SPHERES: 12
         buffType: "statEnhancement",
         durationValue: 2,
         durationType: "rounds",
+        durationUnit: "rounds",
         effects: [
           {
             id: "radiant_exposure",
@@ -2432,9 +2438,9 @@ MAX BANKED SPHERES: 12
     // ========================================
     {
       id: "arc_fire_bolt",
-      name: "Fire Bolt",
+      name: "Flame Burst Shell",
       description:
-        "A concentrated bolt of fire that explodes on impact, dealing fire damage.",
+        "Chambers a high-grain fire core, detonating on impact to spray molten white slag over a 10-foot radius. The massive kickback rattles your forearm bones.",
       level: 3,
       enhancesCombo: "fire_fire",
       spellType: "ACTION",
@@ -2469,8 +2475,8 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Ignis Sagitta!",
-        somaticText: "Hurl fire bolt",
+        verbalText: "Ignis Eruptio!",
+        somaticText: "Chamber two searing fire-shards, locking the breech with a metallic clang before a deafening blast releases the shell",
         spheres: ["Fire", "Fire"],
       },
 
@@ -2492,9 +2498,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_ice_shard",
-      name: "Ice Shard",
+      name: "Shatter-Frost Dart",
       description:
-        "A sharp shard of ice that pierces your target, dealing frost damage and slowing them.",
+        "Launches a jagged shard of jagged, crystallized frost that tears through flesh and embeds deep into bone, freezing tissue and numbing limbs.",
       level: 3,
       enhancesCombo: "ice_ice",
       spellType: "ACTION",
@@ -2521,8 +2527,8 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Glacies Fragmentum!",
-        somaticText: "Hurl ice shard",
+        verbalText: "Glacies Lancet!",
+        somaticText: "Insert a dual rime-core into the barrel, firing a pressurized spike of solid ice that shatters on impact",
         spheres: ["Ice", "Ice"],
       },
 
@@ -2566,9 +2572,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_arcane_detonation",
-      name: "Arcane Detonation",
+      name: "Marrow-Shatter Concussion",
       description:
-        "Compresses pure arcane energy into an explosive burst that damages and disorients all targets in the area.",
+        "Forces volatile force-shards together in a closed chamber, releasing a concussive shockwave that shatters the ribs of enemies and leaves them bleeding from the ears.",
       level: 3,
       enhancesCombo: "arcane_arcane",
       spellType: "ACTION",
@@ -2597,9 +2603,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Arcanum Detonare!",
+        verbalText: "Detonare!",
         somaticText:
-          "Compress arcane energy between palms until it glows intensely, then clap hands together to release the explosive burst",
+          "Manually override the barrel exhaust vents, letting concussive force blast forward in a deafening shockwave that bruises your collarbone",
         spheres: ["Arcane", "Arcane"],
       },
 
@@ -2659,9 +2665,9 @@ MAX BANKED SPHERES: 12
     // ========================================
     {
       id: "arc_firestorm",
-      name: "Firestorm",
+      name: "Incinerating Slag-Shower",
       description:
-        "Summons a massive vortex of fire that engulfs a large area, dealing fire damage and leaving burning ground.",
+        "Superheats the cylinder until the iron drips molten slag, venting a spinning cyclone of hellfire that incinerates all flesh in a 15-foot radius.",
       level: 4,
       enhancesCombo: "fire_fire",
       spellType: "ACTION",
@@ -2690,9 +2696,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Ignis Tempestas Infernalis!",
+        verbalText: "Tempestas Ignis!",
         somaticText:
-          "Raise both hands high as flames spiral outward, building into a massive fire vortex that descends upon the target area",
+          "Brace your shoulder against a rock face as your graft glows white-hot, releasing a roaring torrent of fire that peels the skin from your arm",
         spheres: ["Fire", "Fire"],
       },
 
@@ -2705,7 +2711,7 @@ MAX BANKED SPHERES: 12
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageType: "fire",
+          damageTypes: ["fire"],
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -2731,9 +2737,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_frost_nova",
-      name: "Frost Nova",
+      name: "Bone-Chilling Vent",
       description:
-        "Releases a wave of freezing energy in all directions, dealing frost damage and slowing all nearby enemies.",
+        "Purges the cooling lines of your cylinder, unleashing a pressurized shockwave of absolute zero that flash-freezes joints and muscles in a 15-foot blast.",
       level: 4,
       enhancesCombo: "ice_ice",
       spellType: "ACTION",
@@ -2761,9 +2767,9 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Glacies Nova Absoluta!",
+        verbalText: "Nova Glacies!",
         somaticText:
-          "Spread arms wide as your body radiates freezing energy, unleashing a wave of ice crystals in all directions",
+          "Slam your iron graft into the soil, venting frost energy directly into the bedrock to freeze everything in a circle",
         spheres: ["Ice", "Ice"],
       },
 
@@ -2822,9 +2828,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_shadow_embrace",
-      name: "Shadow Embrace",
+      name: "Abyssal Maw",
       description:
-        "Dark tendrils of shadow wrap around your target, dealing necrotic damage and weakening them.",
+        "Discharges a shell of pure crystallized dark marrow that unfolds on impact into skeletal jaws of shadows, chewing through flesh and draining muscle strength.",
       level: 4,
       enhancesCombo: "shadow_shadow",
       spellType: "ACTION",
@@ -2851,8 +2857,8 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Umbra Amplexus!",
-        somaticText: "Reach out with shadow tendrils",
+        verbalText: "Umbra Clausura!",
+        somaticText: "Feed a dual-necrotic core into the breech, letting the shadows coil out of the barrel like writhing snakes",
         spheres: ["Shadow", "Shadow"],
       },
 
@@ -2865,7 +2871,7 @@ MAX BANKED SPHERES: 12
         dotConfig: {
           enabled: true,
           damagePerTick: "1d6",
-          damageType: "necrotic",
+          damageTypes: ["necrotic"],
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -2909,9 +2915,9 @@ MAX BANKED SPHERES: 12
     // ========================================
     {
       id: "arc_elemental_blast",
-      name: "Elemental Blast",
+      name: "Thermobaric Burst",
       description:
-        "Combine Fire and Ice to create a devastating blast of mixed elemental energy.",
+        "Ignites fire and ice blood-shards in rapid succession, venting a synchronized thermal shockwave that splits armor and boils blood.",
       level: 5,
       enhancesCombo: "fire_ice",
       spellType: "ACTION",
@@ -2941,8 +2947,8 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        verbalText: "Elementum Explosio!",
-        somaticText: "Combine fire and ice spheres",
+        verbalText: "Thermobarica!",
+        somaticText: "Hammer the dual combustion lever, forcing high-pressure elements into a thermal collapse at the muzzle",
         spheres: ["Fire", "Ice"],
       },
 
@@ -3432,7 +3438,8 @@ MAX BANKED SPHERES: 12
             needsLineOfSight: true,
           },
         ],
-        duration: 0,
+        durationValue: 0,
+        durationType: "instant",
         durationUnit: "instant",
         concentration: false,
         power: "moderate",
@@ -3619,6 +3626,7 @@ MAX BANKED SPHERES: 12
         debuffType: "statusEffect",
         durationValue: 2,
         durationType: "rounds",
+        durationUnit: "rounds",
         effects: [
           {
             id: "celestial_blinding",
@@ -3693,28 +3701,30 @@ MAX BANKED SPHERES: 12
       effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: "statEnhancement",
-        durationValue: 3,
-        durationType: "rounds",
-        effects: [
-          {
-            id: "harmonic_attunement",
-            name: "Harmonic Attunement",
-            description: "All allies within range gain +2 to all saving throws and +1d8 damage on their next spell or attack.",
-            mechanicsText: "+2 to saves, +1d8 damage on next attack/spell for 3 rounds",
-          },
-        ],
-      },
-
-      buffConfig: {
         buffType: "custom",
         effects: [
           {
-            id: "harmonic_attunement",
-            name: "Harmonic Attunement",
+            id: "harmonic_attunement_saves",
+            name: "Harmonic Attunement: Warded",
             description:
-              "All allies gain +2 to saving throws and resistance to all damage types (half damage) for 2 rounds.",
-            mechanicsText: "+2 saving throws, resistance to all damage for 2 rounds",
+              "All allies within range gain +2 to all saving throws and resistance to all damage types (half damage) for 2 rounds.",
+            mechanicsText: "+2 to saving throws and resistance to all damage for 2 rounds",
+            statModifier: {
+              stat: "saving_throws",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+          },
+          {
+            id: "harmonic_attunement_damage",
+            name: "Harmonic Attunement: Empowered",
+            description: "All allies within range gain +1d8 damage on their next spell or attack.",
+            mechanicsText: "+1d8 damage on next attack or spell",
+            statModifier: {
+              stat: "bonus_damage",
+              formula: "1d8",
+              triggers: 1,
+            },
           },
         ],
         durationValue: 2,
@@ -3802,7 +3812,8 @@ MAX BANKED SPHERES: 12
       controlConfig: {
         controlType: "incapacitation",
         strength: "moderate",
-        duration: 1,
+        durationValue: 1,
+        durationType: "rounds",
         durationUnit: "rounds",
         saveDC: 16,
         saveType: "constitution",
@@ -3822,7 +3833,7 @@ MAX BANKED SPHERES: 12
               recoveryMethod: "automatic",
               saveType: "constitution",
               saveDC: 17,
-              duration: 1,
+              durationValue: 1,
               durationUnit: "rounds",
               movementPenalty: -50,
               accuracyPenalty: -2,
@@ -4031,7 +4042,7 @@ MAX BANKED SPHERES: 12
 
       selfDamageConfig: {
         formula: "2d6",
-        damageType: "force",
+        damageTypes: ["force"],
         description: "Elemental backlash from combining opposing elements",
       },
 
@@ -4143,7 +4154,7 @@ MAX BANKED SPHERES: 12
 
       selfDamageConfig: {
         formula: "1d8",
-        damageType: "chaos",
+        damageTypes: ["chaos"],
         description: "Chaotic energy feedback from concentrated entropy",
       },
 
@@ -4217,26 +4228,18 @@ MAX BANKED SPHERES: 12
               "All allies gain +3 to attack rolls, +2 to spell damage, and regenerate 1d4 HP at the start of each turn for 3 rounds.",
             mechanicsText: "+3 attack, +2 spell damage, 1d4 regen/turn for 3 rounds",
           },
+          {
+            id: "synthesis_overflow",
+            name: "Synthesis Overflow",
+            description: "The elemental fusion instantly restores 4 random spheres to your bank.",
+            mechanicsText: "Restore 4 random spheres to your bank",
+          },
         ],
         durationValue: 3,
         durationType: "rounds",
         durationUnit: "rounds",
         concentrationRequired: true,
         canBeDispelled: true,
-      },
-
-      buffConfig: {
-        buffType: "custom",
-        durationValue: 0,
-        durationType: "instant",
-        effects: [
-          {
-            id: "synthesis_overflow",
-            name: "Synthesis Overflow",
-            description: "The elemental fusion restores 4 random spheres to your bank instead of healing.",
-            mechanicsText: "Restore 4 random spheres to your bank",
-          },
-        ],
       },
 
       debuffConfig: {
@@ -4365,7 +4368,7 @@ MAX BANKED SPHERES: 12
 
       selfDamageConfig: {
         formula: "3d6",
-        damageType: "force",
+        damageTypes: ["force"],
         description: "Severe elemental backlash from convergence strain",
       },
 
@@ -4410,12 +4413,12 @@ MAX BANKED SPHERES: 12
         "Tears open a rift between dimensions using arcane, shadow, and chaos spheres. Bombards nearby enemies with void energy and causes dimensional disorientation. Causes void feedback to the caster.",
       level: 10,
       spellType: "ACTION",
-      icon: "Void/Shadowy Blaze",
+      icon: "Fire/Shadowy Blaze",
 
       typeConfig: {
         school: "force",
         secondaryElement: "necrotic",
-        icon: "Void/Shadowy Blaze",
+        icon: "Fire/Shadowy Blaze",
         tags: ["ultimate", "damage", "control", "aoe", "void", "self damage"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -4471,7 +4474,8 @@ MAX BANKED SPHERES: 12
       controlConfig: {
         controlType: "incapacitation",
         strength: "strong",
-        duration: 1,
+        durationValue: 1,
+        durationType: "rounds",
         durationUnit: "rounds",
         saveDC: 18,
         saveType: "constitution",
@@ -4491,7 +4495,7 @@ MAX BANKED SPHERES: 12
               recoveryMethod: "automatic",
               saveType: "constitution",
               saveDC: 18,
-              duration: 1,
+              durationValue: 1,
               durationUnit: "rounds",
               movementPenalty: -50,
               accuracyPenalty: -99,
@@ -4503,7 +4507,7 @@ MAX BANKED SPHERES: 12
 
       selfDamageConfig: {
         formula: "2d6",
-        damageType: "necrotic",
+        damageTypes: ["necrotic"],
         description: "Void energy feedback from unstable rift",
       },
 

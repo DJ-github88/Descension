@@ -118,11 +118,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                 return;
             }
 
-            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                requestAnimationFrame(updatePosition);
-                return;
-            }
-
             const viewportHeight = window.innerHeight;
             const margin = 10;
 
@@ -134,21 +129,34 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                 hudBottom = hudRect.bottom;
             }
 
-            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
+            const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
+
+            let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
             let top = hudBottom + margin;
 
-            if (left < margin) left = margin;
-            if (left + tooltipRect.width > window.innerWidth - margin) {
-                left = window.innerWidth - tooltipRect.width - margin;
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                // Apply fallback positioning so it doesn't default to the top-left of the viewport,
+                // but keep it hidden (opacity 0) while waiting for layout dimensions to resolve.
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+                tooltip.style.opacity = '0';
+                requestAnimationFrame(updatePosition);
+                return;
             }
 
-            if (top + tooltipRect.height > viewportHeight - margin) {
+            if (left < margin) left = margin;
+            if (left + tooltipWidth > window.innerWidth - margin) {
+                left = window.innerWidth - tooltipWidth - margin;
+            }
+
+            if (top + tooltipHeight > viewportHeight - margin) {
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
-                    top = hudRect.top - tooltipRect.height - margin;
+                    top = hudRect.top - tooltipHeight - margin;
                     tooltip.classList.remove('below');
                 } else {
-                    top = barRect.top - tooltipRect.height - margin;
+                    top = barRect.top - tooltipHeight - margin;
                 }
                 if (top < margin) top = margin;
             } else {
@@ -166,7 +174,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
 
         return () => {
             clearTimeout(timeoutId);
-            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '0';
         };
     }, [showTooltip, localVirulence, localAfflictions, selectedSpec]);
 
@@ -225,7 +233,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             </div>
             
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <div className="tooltip-header">Plaguebringer</div>
 
                     <div className="tooltip-section">

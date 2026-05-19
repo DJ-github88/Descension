@@ -1,8 +1,26 @@
-/**
+﻿/**
  * False Prophet Class Data
  *
- * Complete class information for the False Prophet - a chaotic spellcaster
- * who channels eldritch energies and madness to warp reality and minds.
+ * ECOSYSTEM AUTOPSY — FALSE PROPHET MASTER OVERHAUL
+ *
+ * • Why Bring Me?: Empathetic Link — active from Level 1 via Stitch of Suffering.
+ *   The False Prophet stitches a parasitic bond between ally and enemy, redirecting a
+ *   percentage of incoming damage straight into the linked foe. No other class can
+ *   weaponize party suffering onto a target of their choosing from the very first turn.
+ *   This is now their singular, terrifying utility — immediate and undeniable.
+ *
+ * • Fatal Flaw: The Isolation Penalty — without a living congregation (allies or
+ *   enslaved entities) within a strict 30-foot radius, all mana costs inflate brutally.
+ *   They are mouths that cannot sing if there are no lambs close by to devour.
+ *   Extreme radiant vulnerability (+25% from all sources). Physically the frailest caster.
+ *
+ * • Level 1 Link Integration: Stitch of Suffering costs Mana, generates exactly 1
+ *   Madness point, and threads an empathetic bond that redirects 30% of an ally's
+ *   incoming damage to a linked enemy as psychic damage. The core utility loop is
+ *   now operational from Turn 1. All Madness generation uses normalized random dice
+ *   increments (1d4/1d6/1d8). Visual degradation tracker embedded in resourceSystem
+ *   at thresholds 5/10/15/19 for VTT tracking. Apocalyptic Revelation convulsion
+ *   backlash now scales catastrophically with accumulated Madness.
  */
 
 export const FALSE_PROPHET_DATA = {
@@ -15,64 +33,67 @@ export const FALSE_PROPHET_DATA = {
   // Overview section
   overview: {
     title: "The False Prophet",
-    subtitle: "Herald of Madness and Eldritch Truth",
+    subtitle: "The Lie That Devours the Living",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The False Prophet accumulates Madness Points (0-20) by preaching the void as divine truth, with each point granting +1 damage to all psychic, void, and necrotic spells. The temptation is relentless�push toward 20 for godlike power, but cross the threshold and an Insanity Convulsion erupts: catastrophic self-harm, teleportation, stunned turns, or worse. Your Madness resets to zero. You start again.
+      content: `**What You Need to Know**: The False Prophet harvests Madness Points (0-20) by preaching the void as divine truth, with each stolen point granting +1 damage to all psychic, void, and necrotic spells. The temptation is a noose — pull toward 20 for godlike power, but cross the threshold and an Insanity Convulsion tears through you: catastrophic self-harm, uncontrolled teleportation, stunned helplessness, or worse. Your Madness resets to zero. You begin the harvest again. You always begin again. Your empathetic link is active from Level 1 — Stitch of Suffering threads a parasitic bond between ally and enemy on your very first turn.
 
-**Core Mechanic**: Preach void sermons ? Roll dice for random Madness gains ? Damage scales with Madness (+1 per point to all spell damage types) ? Unlock Temptation thresholds at 6, 9, 12 Madness ? Reach 20 and trigger Insanity Convulsion ? Reset to 0
+**Core Mechanic**: Preach void sermons → Roll dice for random Madness gains → Damage scales with Madness (+1 per point to all spell damage types) → Stitch empathetic links from Level 1 to redirect ally suffering onto enemies → Unlock Temptation thresholds at 6, 9, 12 Madness → Reach 20 and trigger Insanity Convulsion → Reset to 0
 
 **Resource**: Madness Points (0-20 scale, random generation and spending)
 
-**Playstyle**: Chaotic caster dancing on the razor's edge of insanity
+**Playstyle**: Parasite caster hollowing themselves out on the altar of their own stolen power
 
-**Best For**: Players who relish randomness, embrace chaos, and love the thrill of pushing their luck one spell too far`,
+**Best For**: Players who understand that power is a disease and want to see how far the infection spreads before it kills the host`,
     },
 
-    description: `The False Prophet preaches the void as divine truth, accumulating Madness Points through sermons and rituals that warp reality. This madness empowers their spell damage but threatens to consume them entirely. Walking the razor's edge between prophetic power and insanity, False Prophets tempt fate with forbidden revelations and risk catastrophic consequences.`,
+    description: `The False Prophet does not worship — they hollow. They preach the void as divine truth, accumulating Madness Points through sermons and rituals that scalp reality from the bone. This madness is not inspiration; it is the calcified agony of every mind they have consumed, pressed into service as weaponized despair. Their spells grow monstrous with accumulated suffering, but the weight threatens to collapse the Prophet from within. They walk a corpse-bridge over an abyss, and every step forward is built from the bones of those who believed them.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `False Prophets are conduits for truths too terrible for mortal minds to comprehend. They have glimpsed the void beyond reality and returned changed�their sanity fractured, their perception warped, but their power undeniable. Whether they sought this knowledge willingly or were cursed with unwanted visions, they now walk between worlds.
+      content: `False Prophets are parasites in holy vestments. They do not serve a higher power—they hollow one. They siphon life and faith from those around them, twisting devotion into a blade they hide in the flock's own hands. Their "miracles" are blood magic dressed in candlelight: every healing hand hides a draining grip, every blessing carries a hidden cost paid in vitality, every sermon is a fishhook planted deep in the soft tissue of the listener's soul. They are not shepherds. They are mouths that learned to sing so the lambs would walk willingly into the teeth.
 
-Their madness manifests physically: eyes that see too much, whispers only they can hear, reality flickering at the edges of their vision. At high Madness levels, the void bleeds through�shadows writhe unnaturally, impossible geometries appear, and the air itself seems to scream.
+Their madness is not a curse—it is the weight of every mind they have devoured, stacked like cordwood behind their eyes. At low Madness, they appear composed, even beatific. Holy. At high Madness, the mask rots: veins darken to river-mud beneath translucent skin, eyes dilate until no white remains, and their voice fractures into a chorus of every soul they have swallowed. They are not vessels of the divine. They are mass graves that learned to speak.
 
 Common False Prophet archetypes include:
-- **The Cursed Oracle**: Burdened with visions they never wanted
-- **The Forbidden Scholar**: Sought knowledge mortals were meant to ignore
-- **The Void-Touched**: Survived contact with eldritch entities
-- **The Mad Preacher**: Spreads dark truths disguised as salvation
-- **The Reality Breaker**: Believes sanity is a cage to be shattered
+- **The Parasitic Shepherd**: Genuinely believes their parasitism is sacred communion—"I take your pain and make it holy." They are wrong. The pain is not holy. The pain is dinner.
+- **The False Messiah**: Exploits the desperate and dying, offering miracles harvested from the still-living. Every resurrection is a theft from someone else's grave
+- **The Devourer of Congregations**: Wanders from village to village, leaving congregations of smiling husks—alive, breathing, and utterly emptied of everything that made them human
+- **The Sympathetic Torturer**: Creates empathetic links to feel their victims' pain—and feeds on it the way the starving feed on bread. They are never full. They are never done.
+- **The Hollow Oracle**: Divines truth by eating the minds of others, leaving behind only shells. The shells keep breathing. The shells keep tithing. The shells do not know they are empty.
 
-False Prophets understand that madness and power are inseparable. Each spell brings them closer to the abyss, but also closer to godhood. The question is: will they master the madness, or will it master them?`,
+False Prophets understand that faith is a currency, and they are the only ones who know the coin is counterfeit. They trade in desperation, buying loyalty with forged miracles and paying in stolen life force. The question is never whether they will betray you—it is whether you will realize it before your veins run dry and your children kneel at their altar, mouthing prayers to a god that was never there.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `The False Prophet is a high-risk, high-reward caster/controller that excels at:
+      content: `The False Prophet is a parasite in the machinery of combat. They do not win fights—they redirect them, turning the battlefield's suffering into a weapon aimed at the enemy's throat. What they excel at is theft:
 
-**Psychic Damage**: Shattering minds with eldritch horrors and maddening visions
-**Mind Control**: Bending wills, causing confusion, and turning enemies against each other
-**Shadow Magic**: Dealing escalating damage as Madness Points accumulate
-**Reality Manipulation**: Creating chaotic zones and unpredictable effects
+**Empathetic Links**: Stitching wounds shut on your allies by carving them open on your enemies—blood-bound sympathetic connections that make suffering a transferrable wound
+**Blood Miracles**: "Healing" and buffing that is actually disguised necrotic siphoning—the patient improves, then worsens, then empties. Every cure is a slower disease.
+**Mind Domination**: Pupating inside the enemy's skull, forcing them to attack their allies, severing their connection to healing—a congregation is a congregation, even if it is screaming
+**Zealotry Fuel**: Accumulating Madness to scale damage, but every stolen point brings them closer to catastrophic Insanity Convulsion—the consumed minds are not quiet, and eventually they scream all at once
+
+**Why Bring Me? (Unique Utility)**: You are the ONLY class that can redirect suffering — and your empathetic link is active from Level 1. **Stitch of Suffering** threads a parasitic bond between ally and enemy on your very first turn, redirecting 30% of the ally's incoming damage straight into the linked foe as psychic damage. Later, Empathetic Transfer wrenches debuffs from allies onto enemies, Parasitic Link mirrors 50% of your own damage, and Empathetic Agony mirrors 100%. The 40-point blow meant for your tank does not vanish — it travels down the empathetic link and buries itself in the boss's skull. Other classes mitigate pain. You weaponize it. You are the only healer whose medicine is murder, and the prescription is filled on Turn 1.
 
 **Strengths**:
+- Unique damage/debuff transfer through Empathetic Links (no other class can do this)
 - Extremely high damage potential with accumulated Madness
-- Powerful crowd control and debuff capabilities
-- Can turn enemies into temporary allies
-- Unpredictable abilities that enemies can't plan for
-- Strong against single powerful enemies (mind control)
+- Can turn enemies into weapons against their own allies
+- Powerful debuff application and isolation mechanics
+- Scales dramatically as combat progresses (Madness ramp)
 
 **Weaknesses**:
 - Constant risk of Insanity Convulsion at 20 Madness
-- Randomness can backfire in critical moments
-- Fragile and vulnerable to burst damage
-- Requires careful Madness management
-- Less effective against mindless enemies
+- **Physically the frailest caster**—lowest base HP of any caster class. You are tissue paper wrapped around a screaming mouth
+- **Radiant Vulnerability**: Takes +25% damage from all radiant sources (holy classes hard-counter the False Prophet)
+- **Isolation Penalty**: Without a congregation within 30ft — no allies, no enslaved enemies — ALL spells cost +2 additional mana. Without others to feed on, you starve. The chorus of consumed minds fractures your focus without living anchors nearby
+- Requires careful Madness management—reckless casting is self-destruction, and the consumed minds do not die quietly
+- Less effective against mindless or undead enemies (immune to mind control)
 - Self-inflicting effects from Insanity Convulsions
 
-The False Prophet thrives on chaos and risk, rewarding players who can balance aggression with self-preservation.`,
+The False Prophet thrives when surrounded by a "congregation"—allies to siphon from, enemies to enslave. Without a flock, they are a priest with no god, a mouth with no meal, a parasite with no host. Alone, they are nothing. The isolation is not merely tactical—it is existential.`,
     },
 
     playstyle: {
@@ -244,9 +265,25 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
   // Resource System
   resourceSystem: {
     title: "Madness Points",
-    subtitle: "The Herald of the Void",
+    subtitle: "A Mind Is a Terrible Thing to Waste — on Someone Else",
 
-    description: `The False Prophet preaches truths too terrible for mortal minds. As you channel the void, your **Madness** accumulates�fracturing your sanity but exponentially increasing your damage. This is a resource of extreme risk and explosive reward; you dance on the edge of godhood, one bad roll away from a total mental collapse.`,
+    description: `Madness is not a curse the False Prophet bears — it is a collection. Every stolen mind, every fractured soul, every congregation member who knelt too long and left with empty eyes — their suffering accumulates inside the Prophet like sediment in a dead river. Your **Madness** grows as you harvest the sanity of others, their broken thoughts calcifying into power that amplifies your damage beyond what any sane caster could wield. This is borrowed anguish wearing the mask of divine authority. The higher it climbs, the louder the chorus of consumed minds becomes — until at 20, their screaming drowns your own thoughts entirely, and the Convulsion is not yours but theirs, erupting through you like blood from a wound that was never yours to begin with.
+
+---
+
+**VISUAL DEGRADATION TRACKER — THE CORPSE-BRIDGE DIARY**
+
+The VTT must track the Prophet's physical decay as Madness mounts. Below is the authoritative degradation map. Each threshold is irreversible — the body does not heal, only accumulates.
+
+| Madness Threshold | Physical Manifestation | Voice Alteration | Behavioral Sign |
+|---|---|---|---|
+| **0–4 (The Composed Mask)** | Skin is pale but intact. Veins faintly visible beneath translucent flesh. Eyes clear, pupils normal. The Prophet appears beatific — holy, even. The mask holds. | Normal speaking voice, measured and warm. Sermons sound genuine. Congregation members feel comforted. This is the lie at its most convincing. | Composed. Deliberate gestures. Eye contact is steady and warm. The parasite has not yet eaten through the disguise. |
+| **5 — THE DARKENING** | Veins along the forearms and throat darken to river-mud black, visible beneath skin that grows increasingly translucent. The Prophet's hands tremble faintly — not from fear, but from the weight of the first consumed minds pressing against the inside of the skull. | Voice acquires a faint harmonic — a second tone beneath the primary, like two people speaking in almost-unison. Listeners describe it as "singing from the throat of someone else." | Micro-expressions begin to fracture: a smile that doesn't reach the eyes, a blink that lasts a fraction too long. The mask slips at the edges. |
+| **10 — THE CHORUS BREACH** | Veins now blacken across the chest and face in branching, fractal patterns — like river tributaries drawn in ink beneath glass. Pupils dilate to twice normal size, dark enough that the iris barely registers. Skin takes on a waxy, necrotic pallor. Small objects near the Prophet may vibrate or shift — the psychic pressure is becoming physical. | The harmonic fractures into distinct voices — syllables arrive in staggered layers, as if three or four throats are speaking the same words at slightly different speeds. Each sermon now carries an undertone of someone else's scream, buried beneath the scripture. The congregation hears prayers in the voices of their dead. | The Prophet occasionally responds to questions no one asked, turning to address empty space with a patient expression. They blink in patterns that correspond to no visible stimulus. They are listening to the consumed. |
+| **15 — THE HOLLOW ASCENSION** | The fractal black veins now cover the entire body and begin to glow faintly with a sick violet luminescence — the stolen faith of every mind devoured, leaking through the skin. Pupils are fully dilated — no white remains, only bottomless black. The Prophet's shadow no longer matches their form; it moves independently, gesturing, preaching to shadows of its own. Blood, when drawn, is dark as pitch and smells of incense and grave soil. | The voice is no longer singular. It is a chorus — five, ten, twenty distinct voices speaking in unison, each one belonging to a consumed mind. Words are sometimes delivered in the victim's native language. The Prophet can no longer whisper; every utterance carries the weight of the congregation of the dead. Listeners who hear the voice for more than a few seconds report hearing their own name woven into the sermon. | The Prophet does not react to physical pain. Wounds close slowly, sealed by the psychic pressure of the accumulated minds. They stare through people rather than at them. When they smile, it is always someone else's smile. The body is becoming a vessel — the question is whether anything of the original Prophet remains. |
+| **19 — THE VERGE** | The Prophet is a walking mass grave given terrible animation. Black veins pulse with visible light beneath skin that is now almost entirely translucent — the skeleton is visible in places, wrapped in the luminescent circulatory system of stolen faith. The eyes are voids — not dark, but empty, as if the skull behind them opens into somewhere else entirely. The air within five feet of the Prophet warps: sounds distort, light bends, small objects drift. The congregation of the dead is so dense it has begun to manifest physically. | The voice is a catastrophe. Dozens of voices layer over each other in a rolling, discordant hymn — men, women, children, all speaking scripture in languages that may not exist. The Prophet's own voice is buried somewhere in the chorus, indistinguishable from the consumed. Speaking is no longer communication — it is exorcism. The walls bleed. The candles extinguish. The congregation kneels, and they do not know why. | The Prophet exists in two states simultaneously — their body moves with calm, deliberate purpose, while their shadow writhes and screams silently. They answer questions before they are asked. They weep black tears from eyes that no longer see the material world. One more mind, one more stolen point of Madness, and the dam breaks. The Convulsion is not a possibility at 19 — it is an inevitability delayed by seconds. |
+
+The degradation is cumulative. A Prophet at Madness 15 still carries the darkened veins from Threshold 5, the fractured voice from Threshold 10, and the pupil dilation from both. The body does not heal between thresholds — it only accumulates. This is the cost of being a mass grave that learned to speak.`,
 
     cards: [
       {
@@ -272,7 +309,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
     generationTable: {
       headers: ["Trigger", "Madness Change", "Notes"],
       rows: [
-        ["Void Scripture", "+1d4 Madness", "Basic psychic strike"],
+        ["Stitch of Suffering", "+1 Madness", "Level 1 empathetic link (ally→enemy damage redirect)"],
+        ["Blood Sermon", "+1d4 Madness", "Basic psychic strike"],
         ["Profane Bolt", "+1d6 Madness", "Higher power, higher risk"],
         ["Preacher's Grasp", "+1d8 Madness", "Maximum generation"],
         ["Veil of Shadows", "+1d4 Madness", "Temptation: Invisibility (Req 6)"],
@@ -302,7 +340,13 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
 3. **Dark Whispers**: Disadvantage on all rolls for 3 rounds.
 4. **Chaotic Pulse**: Teleport randomly (60ft), take 4d6 psychic damage.
 5. **Psychic Scream**: Everyone in 30ft makes a Save or is Frightened.
-6. **Nightmare Echoes**: Take 6d6 psychic damage + gain Long-Term Madness.`,
+6. **Nightmare Echoes**: Take 6d6 psychic damage + gain Long-Term Madness.
+
+**APOCALYPTIC CONVULSION (Triggered by Apocalyptic Revelation)**: If the Convulsion is triggered specifically by casting Apocalyptic Revelation, the standard table is overridden. Instead:
+- **Structural Spirit Drain**: -2 Spirit until long rest. The consumed minds have carved permanent channels through your psyche.
+- **Psychic Shockwave**: All allies within 30ft take 4d6 psychic damage. The congregation of the dead detonates outward.
+- **Extended Confusion**: You are Confused for 3 rounds. The chorus does not quiet — it riots.
+This is the catastrophic endpoint of recursive temptation. The Prophet who reaches for godhood via Apocalyptic Revelation and seizes too much does not simply break — they shatter everyone around them.`,
     },
 
     strategicConsiderations: {
@@ -336,7 +380,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
     title: "False Prophet Specializations",
     subtitle: "Three Sermons of the Void",
 
-    description: `Every False Prophet preaches the void as divine truth�but the style of their sermon defines their power. Some thunder hellfire from makeshift pulpits. Others whisper poison into willing ears. And some simply perform the old rites, patient and inevitable. Choose your sermon.`,
+    description: `Every False Prophet preaches the void as divine truth—but the style of their sermon defines the shape of the wound. Some thunder hellfire from makeshift pulpits until the congregation's ears bleed. Others whisper poison into willing ears and call it scripture. And some simply perform the old rites, patient and inevitable, burying the knife so slowly that the victim thanks them for it. Choose your sermon. Choose your sin.`,
 
     specs: [
       {
@@ -346,7 +390,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         color: "#9400D3",
         theme: "Fire-and-Brimstone Preaching",
 
-        description: `Voidcallers are the loudest voice in the room�literally. They channel the void god's wrath through fiery, destructive sermons that shake the battlefield. Their preaching generates Madness faster than any other specialization, pushing them toward godlike power and catastrophic Convulsion in equal measure. When a Voidcaller opens their mouth, something dies.`,
+        description: `Voidcallers are the loudest voice in the room—not because they have something to say, but because the silence is full of mouths that used to belong to other people. They channel stolen vitality through fiery, destructive sermons that crack the air like bone. Their preaching generates Madness faster than any other specialization, pushing them toward godlike power and catastrophic Convulsion in equal measure. They are the most aggressive False Prophets—they use empathetic links offensively, mirroring their own self-inflicted wounds onto enemies with devastating efficiency. When a Voidcaller bleeds, someone else's veins open. It is never their pain. It was never their pain.`,
 
         playstyle:
           "High-risk aggression, maximum damage output, rapid Madness generation through destructive sermons",
@@ -393,7 +437,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         color: "#8B008B",
         theme: "Whispered Corruption",
 
-        description: `Deceivers don't preach to crowds�they whisper. They specialize in corrupting the faithful, planting doubt in devoted minds, and turning allies against each other with lies dressed as divine revelation. Their Madness fuels manipulation rather than destruction, bending wills and fracturing loyalties until the enemy does the work for them.`,
+        description: `Deceivers don't preach to crowds—they lean in close and whisper. They specialize in corrupting the faithful, planting doubt in devoted minds, and turning allies against each other with lies dressed in sacred cloth. Their empathetic links are surgical—they transfer specific debuffs and curses onto enemies with the precision of a finger pressing into a bruise. Their Madness fuels manipulation rather than destruction, bending wills and fracturing loyalties until the enemy butchers its own and calls it divine justice. They do not need to kill you. They need you to kill each other.`,
 
         playstyle:
           "Control-focused, mind manipulation, strategic Madness spending to corrupt and convert",
@@ -440,7 +484,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         color: "#4B0082",
         theme: "Dark Ritual & Ceremony",
 
-        description: `Cultists are the patient shepherds of the void god's flock. They perform methodical dark rituals�curses, sacrifices, and ceremonies�that spread corruption slowly but inevitably. Their Madness is channeled into sustained destruction rather than burst, and their rites can empower allies as easily as they wither enemies. A Cultist's sermon is not loud; it is patient. And it always finishes.`,
+        description: `Cultists are the patient shepherds of a flock that does not know it is being led to slaughter. They perform methodical dark rituals—curses, sacrifices, ceremonies—that spread corruption the way rot spreads through a living tree: slowly, inevitably, until the trunk crumbles and the whole thing comes down. Their Madness is channeled into sustained destruction rather than burst, and their rites can empower allies through blood-siphoning as easily as they wither enemies into ash. Cultists are the masters of Empathetic Transfer—they move debuffs from allies to enemies with the calm precision of an undertaker arranging the dead, ensuring their congregation fights clean while the enemy rots from the inside. A Cultist's sermon is not loud. It is patient. And it always finishes. And when it does, the congregation applauds, because they do not yet understand that they are the sacrifice.`,
 
         playstyle:
           "Sustained damage through curses and DoT, balanced Madness management, ritual empowerment",
@@ -482,22 +526,22 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
     ],
   },
 
-  // Example Spells - showcasing the spell wizard system
   exampleSpells: [
     {
-      id: "fp_void_scripture",
-      name: "Void Scripture",
+      id: "fp_blood_sermon",
+      name: "Blood Sermon",
       description:
-        "Read from the void god's forbidden text, sending words that shatter a target's mind for 1d8 psychic damage. Generates 1d4 Madness Points.",
+        "Preach a sermon that rends the mind with stolen vitality. Deals 1d8 psychic damage and feeds on your own blood — sacrifice 3 HP to fuel the sermon. Generates 1d4 Madness Points as the congregation's anguish echoes in your skull.",
       level: 1,
       spellType: "ACTION",
       icon: "Arcane/Orb Manipulation",
       effectTypes: ["damage"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "psychic",
         icon: "Arcane/Orb Manipulation",
-        tags: ["damage", "psychic", "madness", "voidcaller"],
+        tags: ["damage", "psychic", "madness", "self-harm", "voidcaller"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -540,23 +584,30 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           formula: "1d4",
           description: "Generates 1d4 Madness Points when cast",
         },
+        selfHarm: {
+          enabled: true,
+          damage: 3,
+          description: "Sacrifice 3 HP to fuel the sermon. The blood cost is non-negotiable.",
+        },
       },
 
-      tags: ["damage", "psychic", "madness", "voidcaller"],
+      tags: ["damage", "psychic", "madness", "self-harm", "voidcaller"],
     },
     {
-      id: "fp_false_promise",
-      name: "False Promise",
+      id: "fp_hollow_blessing",
+      name: "Hollow Blessing",
       description:
-        "Make a false promise to an enemy, charming them for 2 rounds. Generates 1 Madness Point. DC 13 Spirit save.",
+        "Extend a hand wreathed in false golden light. The target feels warmth — but it is the warmth of something feeding on them from within. Deals 1d4 psychic damage immediately and 1d4 psychic damage per turn for 3 turns. Generates 1d4 Madness Points.",
       level: 1,
       spellType: "ACTION",
-      effectTypes: ["control"],
+      icon: "Healing/Golden Heart",
+      effectTypes: ["damage"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "psychic",
-        icon: "Healing/Prayer",
-        tags: ["control", "charm", "deception", "madness"],
+        icon: "Healing/Golden Heart",
+        tags: ["damage", "psychic", "dot", "deception", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -569,37 +620,32 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         maxTargets: 1,
       },
 
-      controlConfig: {
-        controlType: "mind_control",
-        duration: 2,
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "charmed",
-            name: "Charmed",
-            description:
-              "Charmed by false promises - cannot attack caster for 2 rounds. DC 13 Spirit save.",
-            config: {
-              charmType: "friendly",
-              saveType: "spirit",
-              saveDC: 13,
-              duration: 2,
-              durationUnit: "rounds",
-            },
-          },
-        ],
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 13,
-          saveOutcome: "negates",
+      damageConfig: {
+        formula: "1d4 + intelligence/2",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
+        dotConfig: {
+          enabled: true,
+          damagePerTick: "1d4",
+          damageTypes: ["psychic"],
+          tickFrequency: "turn",
+          duration: 3,
+          canStack: false,
+          maxStacks: 1,
         },
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 5 },
+        resourceValues: { mana: 6 },
         actionPoints: 1,
-        components: ["verbal"],
+        components: ["verbal", "somatic"],
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -608,8 +654,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         resources: [
           {
             type: "madness",
-            formula: "1",
-            description: "Generate 1 Madness Point",
+            formula: "1d4",
+            description: "Generate 1d4 Madness Points",
           },
         ],
       },
@@ -617,26 +663,28 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       specialMechanics: {
         madnessGeneration: {
           enabled: true,
-          formula: "1",
-          description: "Generates 1 Madness Point when cast",
+          formula: "1d4",
+          description: "Generates 1d4 Madness Points when cast",
         },
       },
 
-      tags: ["control", "charm", "deception", "madness"],
+      tags: ["damage", "psychic", "dot", "deception", "madness"],
     },
     {
-      id: "fp_whisper_lies",
-      name: "Whisper Lies",
+      id: "fp_whispered_doubt",
+      name: "Whispered Doubt",
       description:
-        "Whisper lies to an enemy, reducing their Spirit by 2 for 3 rounds. Generates 1 Madness Point. DC 12 Spirit save negates.",
+        "Lean close and whisper a single, perfect lie into the target's ear — a doubt that unravels their conviction. Reduces Spirit by 2 for 3 rounds. DC 12 Spirit save negates. Generates 1 Madness Point as their faith crumbles.",
       level: 1,
       spellType: "ACTION",
+      icon: "Psychic/Mind Control",
       effectTypes: ["debuff"],
+      resolution: "SAVE",
 
       typeConfig: {
         school: "psychic",
         icon: "Psychic/Mind Control",
-        tags: ["debuff", "lies", "spirit reduction", "madness"],
+        tags: ["debuff", "spirit reduction", "madness", "deceiver"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -653,8 +701,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         debuffType: "statPenalty",
         effects: [
           {
-            id: "lies_whispered",
-            name: "Lies Whispered",
+            id: "doubt_whispered",
+            name: "Doubt Whispered",
             description:
               "Spirit reduced by 2 from whispered lies for 3 rounds. DC 12 Spirit save negates.",
             mechanicsText: "",
@@ -673,6 +721,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           difficultyClass: 12,
           saveOutcome: "negates",
         },
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
       },
 
       resourceCost: {
@@ -702,21 +756,95 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         },
       },
 
-      tags: ["debuff", "lies", "spirit reduction", "madness"],
+      tags: ["debuff", "spirit reduction", "madness", "deceiver"],
     },
     {
-      id: "fp_illusion_bolt",
-      name: "Illusion Bolt",
+      id: "fp_siphon_devotion",
+      name: "Siphon Devotion",
       description:
-        "Fire a bolt of illusory energy that deals 1d8 psychic damage. Generates 1 Madness Point.",
+        "Reach across the void and hook your fingers into a target's life force. Drain 1d6 necrotic damage from them, healing yourself for the same amount. The stolen vitality tastes like copper and regret. Generates 1 Madness Point.",
       level: 1,
       spellType: "ACTION",
-      effectTypes: ["damage"],
+      icon: "Necrotic/Drain Soul",
+      effectTypes: ["damage", "healing"],
+      resolution: "DICE",
+
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Drain Soul",
+        tags: ["damage", "healing", "necrotic", "vampiric", "madness"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 35,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+      },
+
+      damageConfig: {
+        formula: "1d6 + intelligence/2",
+        damageTypes: ["necrotic"],
+        resolution: "DICE",
+      },
+
+      healingConfig: {
+        formula: "damage_dealt",
+        healingType: "vampiric",
+        resolution: "AUTOMATIC",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 6 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+
+      resourceGainConfig: {
+        resources: [
+          {
+            type: "madness",
+            formula: "1",
+            description: "Generate 1 Madness Point",
+          },
+        ],
+      },
+
+      specialMechanics: {
+        madnessGeneration: {
+          enabled: true,
+          formula: "1",
+          description: "Generates 1 Madness Point when cast",
+        },
+        vampiricHealing: {
+          enabled: true,
+          description: "Heals caster for damage dealt by this spell",
+        },
+      },
+
+      tags: ["damage", "healing", "necrotic", "vampiric", "madness"],
+    },
+    {
+      id: "fp_zealots_mark",
+      name: "Zealot's Mark",
+      description:
+        "Brand a target with a parasitic sigil that makes them vulnerable to your congregation's fervor. The next ally attack against the marked target deals +1d6 psychic damage. The mark burns like a confession they never made. Generates 1 Madness Point.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Psychic/Mind Strike",
+      effectTypes: ["debuff"],
+      resolution: "AUTOMATIC",
 
       typeConfig: {
         school: "psychic",
-        icon: "Psychic/Mind Control",
-        tags: ["damage", "psychic", "illusion", "madness"],
+        icon: "Psychic/Mind Strike",
+        tags: ["debuff", "mark", "vulnerability", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -729,10 +857,38 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         maxTargets: 1,
       },
 
-      damageConfig: {
-        formula: "1d8 + intelligence/2",
-        damageTypes: ["psychic"],
-        resolution: "DICE",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "zealot_mark",
+            name: "Zealot's Mark",
+            description:
+              "Marked for the congregation. Next ally attack against this target deals +1d6 psychic damage. Mark is consumed on hit.",
+            mechanicsText: "",
+            statusEffects: [
+              {
+                id: "vulnerable",
+                name: "Vulnerable to Congregation",
+                option: "vulnerability",
+                vulnerabilityType: "psychic",
+                vulnerabilityPercent: 0,
+                bonusDamage: "1d6",
+                triggersOn: "ally_attack",
+                consumed: true,
+              },
+            ],
+          },
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds",
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
       },
 
       resourceCost: {
@@ -762,16 +918,139 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         },
       },
 
-      tags: ["damage", "psychic", "illusion", "madness"],
+      tags: ["debuff", "mark", "vulnerability", "madness"],
+    },
+    {
+      id: "fp_stitch_of_suffering",
+      name: "Stitch of Suffering",
+      description:
+        "Thread a parasitic filament of stolen faith between an ally and an enemy — a suture made of screaming. For 3 rounds, 30% of all damage the linked ally receives is redirected to the bonded enemy as psychic damage. The enemy's veins bulge with anguish that was never theirs. The link feeds on proximity and misery. Generates exactly 1 Madness Point. This is why your congregation tolerates you: because you make their suffering someone else's problem.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Healing/Reaching Hand",
+      effectTypes: ["buff", "debuff"],
+      resolution: "AUTOMATIC",
+
+      typeConfig: {
+        school: "psychic",
+        icon: "Healing/Reaching Hand",
+        tags: ["buff", "debuff", "empathetic link", "damage redirect", "madness"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+      },
+
+      buffConfig: {
+        buffType: "triggeredEffect",
+        effects: [
+          {
+            id: "stitch_link_source",
+            name: "Stitch of Suffering (Ally)",
+            description:
+              "Linked ally redirects 30% of incoming damage to the bonded enemy as psychic damage for 3 rounds.",
+            mechanicsText: "",
+          },
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+        stackingRule: "replace",
+      },
+
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "stitch_link_target",
+            name: "Stitch of Suffering (Enemy)",
+            description:
+              "Parasitically bonded. Receives 30% of all damage dealt to the linked ally as psychic damage for 3 rounds.",
+            mechanicsText: "",
+            statusEffects: [
+              {
+                id: "empathetic_redirection",
+                name: "Suffering Redirect",
+                option: "vulnerability",
+                vulnerabilityType: "empathetic_link",
+                vulnerabilityPercent: 30,
+                redirectDamageType: "psychic",
+                redirectPercent: 30,
+                triggersOn: "ally_damage_taken",
+                consumed: false,
+              },
+            ],
+          },
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        canBeDispelled: true,
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 8 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      resourceGainConfig: {
+        resources: [
+          {
+            type: "madness",
+            formula: "1",
+            description: "Generate exactly 1 Madness Point",
+          },
+        ],
+      },
+
+      specialMechanics: {
+        madnessGeneration: {
+          enabled: true,
+          formula: "1",
+          description: "Generates exactly 1 Madness Point when cast",
+        },
+        empatheticLink: {
+          enabled: true,
+          linkType: "damage_redirect",
+          redirectPercent: 30,
+          redirectDamageType: "psychic",
+          requiresAllyProximity: true,
+          proximityRange: 40,
+          description:
+            "30% of damage to linked ally is redirected to enemy as psychic. The suture holds for 3 rounds.",
+        },
+      },
+
+      tags: ["buff", "debuff", "empathetic link", "damage redirect", "madness"],
     },
     {
       id: "fp_false_miracle",
       name: "False Miracle",
       description:
-        "Perform a false miracle that appears to heal but secretly deals 1d4 psychic damage and 1d4 psychic damage per turn for 3 turns. The target sees golden light but feels the void consuming them. Generates 1d4 Madness Points.",
+        "Perform a false miracle — the target sees golden light and feels warmth. But beneath the veneer, your blood-magic hooks into their flesh. Deals 1d4 psychic damage immediately and 1d4 psychic damage per turn for 3 turns. The miracle is a lie; the suffering is real. Generates 1d4 Madness Points.",
       level: 2,
       spellType: "ACTION",
+      icon: "Healing/Golden Heart",
       effectTypes: ["damage"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "psychic",
@@ -796,7 +1075,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageType: "psychic",
+          damageTypes: ["psychic"],
           tickFrequency: "turn",
           duration: 3,
           canStack: false,
@@ -840,18 +1119,20 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       tags: ["damage", "psychic", "dot", "deception", "madness"],
     },
     {
-      id: "fp_deceptive_strike",
-      name: "Deceptive Strike",
+      id: "fp_parasitic_link",
+      name: "Parasitic Link",
       description:
-        "Strike with deception, dealing 2d6 psychic damage and confusing the target for 1 round. DC 13 Intelligence save. Generates 1d4 Madness Points.",
+        "Thread an invisible blood-vessel between yourself and an enemy. For 2 rounds, 50% of all damage you receive is mirrored to the linked target as psychic damage. Their veins bulge with stolen anguish. Generates 1d4 Madness Points. The link feeds on suffering â€” yours and theirs.",
       level: 2,
       spellType: "ACTION",
-      effectTypes: ["damage", "control"],
+      icon: "Psychic/Psionic Strike",
+      effectTypes: ["buff"],
+      resolution: "AUTOMATIC",
 
       typeConfig: {
         school: "psychic",
-        icon: "Psychic/Mind Strike",
-        tags: ["damage", "psychic", "control", "confusion", "madness"],
+        icon: "Psychic/Psionic Strike",
+        tags: ["buff", "empathetic link", "damage mirror", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -864,36 +1145,121 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         maxTargets: 1,
       },
 
-      damageConfig: {
-        formula: "2d6 + intelligence/2",
-        damageTypes: ["psychic"],
-        resolution: "DICE",
-      },
-
-      controlConfig: {
-        controlType: "mind_control",
-        duration: 1,
-        durationUnit: "rounds",
+      buffConfig: {
+        buffType: "triggeredEffect",
         effects: [
           {
-            id: "confused",
-            name: "Confused",
+            id: "parasitic_link",
+            name: "Parasitic Link",
             description:
-              "Confused by deception - may attack random target for 1 round. DC 13 Intelligence save.",
-            config: {
-              confusionType: "random_target",
-              saveType: "intelligence",
-              saveDC: 13,
-              duration: 1,
-              durationUnit: "rounds",
+              "50% of damage taken by caster is mirrored to linked enemy as psychic damage for 2 rounds.",
+            mechanicsText: "",
+          },
+        ],
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+        stackingRule: "replace",
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+
+      resourceGainConfig: {
+        resources: [
+          {
+            type: "madness",
+            formula: "1d4",
+            description: "Generate 1d4 Madness Points",
+          },
+        ],
+      },
+
+      specialMechanics: {
+        madnessGeneration: {
+          enabled: true,
+          formula: "1d4",
+          description: "Generates 1d4 Madness Points when cast",
+        },
+        empatheticLink: {
+          enabled: true,
+          mirrorPercent: 50,
+          mirrorDamageType: "psychic",
+          description: "50% of caster damage taken mirrored to linked enemy as psychic",
+        },
+      },
+
+      tags: ["buff", "empathetic link", "damage mirror", "madness"],
+    },
+    {
+      id: "fp_blood_tithe",
+      name: "Blood Tithe",
+      description:
+        "Demand a blood tithe from your congregation. All allies within 15 feet sacrifice 1d4 HP, gaining +2 to attack rolls for 2 rounds as stolen vigor courses through their veins. You also pay the tithe â€” sacrifice 1d4 HP yourself. The blood feeds your power. Generates 1d4 Madness Points.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Necrotic/Necrotic Decay 1",
+      effectTypes: ["buff"],
+      resolution: "AUTOMATIC",
+
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Necrotic Decay 1",
+        tags: ["buff", "sacrifice", "aoe", "madness", "cultist"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ["ally"],
+      },
+
+      buffConfig: {
+        buffType: "combatAdvantage",
+        effects: [
+          {
+            id: "blood_tithe",
+            name: "Blood Tithe",
+            description:
+              "+2 to attack rolls for 2 rounds. Cost: 1d4 HP sacrificed.",
+            mechanicsText: "",
+            statModifier: {
+              stat: "attack",
+              magnitude: 2,
+              magnitudeType: "flat",
             },
           },
         ],
-        savingThrow: {
-          ability: "intelligence",
-          difficultyClass: 13,
-          saveOutcome: "negates",
-        },
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+        stackingRule: "replace",
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
       },
 
       resourceCost: {
@@ -921,110 +1287,25 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           formula: "1d4",
           description: "Generates 1d4 Madness Points when cast",
         },
-      },
-
-      tags: ["damage", "psychic", "control", "confusion", "madness"],
-    },
-    {
-      id: "fp_shattered_faith",
-      name: "Shattered Faith",
-      description:
-        "Shatter a target's beliefs with eldritch revelation, causing confusion for 3 rounds. DC 14 Spirit save. At 10+ Madness, duration increases to 4 rounds. Generates 1d4 Madness Points.",
-      level: 3,
-      spellType: "ACTION",
-      effectTypes: ["control"],
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Psychic/Mind Control",
-        tags: ["control", "confusion", "psychic", "madness"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["enemy"],
-      },
-
-      controlConfig: {
-        controlType: "mind_control",
-        duration: 3,
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "confused",
-            name: "Confused",
-            description:
-              "Cannot distinguish friend from foe, acts erratically for 3 rounds. DC 14 Intelligence save.",
-            config: {
-              confusionType: "complete",
-              saveType: "intelligence",
-              saveDC: 14,
-              duration: 3,
-              durationUnit: "rounds",
-            },
-          },
-        ],
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 14,
-          saveOutcome: "negates",
-        },
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 12 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
-      resourceGainConfig: {
-        resources: [
-          {
-            type: "madness",
-            formula: "1d4",
-            description: "Generate 1d4 Madness Points",
-          },
-        ],
-      },
-
-      triggerConfig: {
-        conditionalEffects: {
-          control: {
-            isConditional: true,
-            defaultEnabled: false,
-            conditionalFormulas: {
-              madness_10_plus: "Duration increases to 4 rounds",
-              default: "3 rounds confusion",
-            },
-          },
-        },
-      },
-
-      specialMechanics: {
-        madnessGeneration: {
+        selfHarm: {
           enabled: true,
-          formula: "1d4",
-          description: "Generates 1d4 Madness Points when cast",
+          damage: "1d4",
+          description: "Caster also sacrifices 1d4 HP. All affected allies sacrifice 1d4 HP.",
         },
       },
 
-      tags: ["control", "confusion", "psychic", "madness"],
+      tags: ["buff", "sacrifice", "aoe", "madness", "cultist"],
     },
     {
       id: "fp_dark_benediction",
       name: "Dark Benediction",
       description:
-        "Bestow the void god's blessing upon yourself, spending 1d6 Madness Points to gain +2 to attack and damage rolls per Madness Point spent for 1d4 rounds.",
+        "Bestow a benediction drawn from the blood-pool of your own Madness. Spend 1d6 Madness Points to gain +2 to attack and damage rolls per Madness Point spent for 1d4 rounds. The benediction is a gilded cage â€” the more you spend, the stronger you become, and the closer to Convulsion when the spending stops.",
       level: 3,
       spellType: "ACTION",
+      icon: "General/Increase Strength",
       effectTypes: ["buff"],
+      resolution: "AUTOMATIC",
 
       typeConfig: {
         school: "psychic",
@@ -1093,10 +1374,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_befoul",
       name: "Befoul",
       description:
-        "Befoul a 20-foot area with dark energy for 4 rounds. The area becomes difficult terrain and creatures starting their turn there take 1d6 necrotic damage. Generates 1d4 Madness Points.",
+        "Vomit a tide of corrupted blood that befouls a 20-foot area for 4 rounds. The ground becomes difficult terrain and creatures starting their turn there take 1d6 necrotic damage as the soil itself turns hostile. The land remembers what you did to it. Generates 1d4 Madness Points.",
       level: 3,
       spellType: "ACTION",
+      icon: "Poison/Poison Plague",
       effectTypes: ["damage", "control"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "necrotic",
@@ -1122,7 +1405,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         dotConfig: {
           enabled: true,
           damagePerTick: "1d6",
-          damageType: "necrotic",
+          damageTypes: ["necrotic"],
           tickFrequency: "round",
           duration: 4,
           canStack: false,
@@ -1184,13 +1467,15 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       tags: ["damage", "necrotic", "zone", "terrain", "madness", "cultist"],
     },
     {
-      id: "fp_isolate",
-      name: "Isolate",
+      id: "fp_sever_connections",
+      name: "Sever Connections",
       description:
-        "Sever a target's connections for 1d4 rounds, preventing them from receiving healing or buffs from allies. DC 14 Spirit save. Spends 1d4 Madness Points.",
+        "Cut the invisible threads that bind a target to their allies â€” their healer's touch slides off, their comrade's shield covers nothing. The target cannot receive healing or beneficial effects from allies for 1d4 rounds. They are alone, as you once were. DC 14 Spirit save. Spends 1d4 Madness Points.",
       level: 3,
       spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
       effectTypes: ["debuff"],
+      resolution: "SAVE",
 
       typeConfig: {
         school: "necrotic",
@@ -1254,13 +1539,178 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       tags: ["debuff", "isolation", "curse", "madness", "deceiver"],
     },
     {
+      id: "fp_empathetic_transfer",
+      name: "Empathetic Transfer",
+      description:
+        "Reach across the battlefield and wrench every curse, poison, and debuff from an ally's flesh, then hurl them into an enemy's body. The ally is cleansed; the enemy inherits their suffering. DC 14 Spirit save per debuff transferred. Spends 1d6 Madness Points. This is why your congregation tolerates you.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Healing/Reaching Hand",
+      effectTypes: ["utility"],
+      resolution: "SAVE",
+
+      typeConfig: {
+        school: "psychic",
+        icon: "Healing/Reaching Hand",
+        tags: ["utility", "empathetic link", "debuff transfer", "madness"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+      },
+
+      utilityConfig: {
+        utilityType: "protection",
+        selectedEffects: [
+          {
+            id: "debuff_transfer",
+            name: "Debuff Transfer",
+            description: "Transfer all debuffs from one ally to this enemy target",
+          },
+        ],
+        duration: 1,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+
+      specialMechanics: {
+        madnessSpending: {
+          enabled: true,
+          formula: "1d6",
+          description: "Spends 1d6 Madness Points when cast",
+        },
+        empatheticLink: {
+          enabled: true,
+          linkType: "debuff_transfer",
+          description: "Transfer all debuffs from one ally to the target enemy.",
+        },
+      },
+
+      tags: ["utility", "empathetic link", "debuff transfer", "madness"],
+    },
+    {
+      id: "fp_shattered_faith",
+      name: "Shattered Faith",
+      description:
+        "Condemn a target's deepest belief with a single, devastating revelation â€” spoken in a voice that is not your own. The target is confused for 3 rounds as everything they held true dissolves. DC 14 Spirit save. At 10+ Madness, confusion lasts 4 rounds. Generates 1d4 Madness Points.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Psychic/Mind Control",
+      effectTypes: ["control"],
+      resolution: "SAVE",
+
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Mind Control",
+        tags: ["control", "confusion", "psychic", "madness"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["enemy"],
+      },
+
+      controlConfig: {
+        controlType: "mind_control",
+        duration: 3,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "confused",
+            name: "Confused",
+            description:
+              "Cannot distinguish friend from foe, acts erratically for 3 rounds. DC 14 Spirit save.",
+            config: {
+              confusionType: "complete",
+              saveType: "spirit",
+              saveDC: 14,
+              duration: 3,
+              durationUnit: "rounds",
+            },
+          },
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 14,
+          saveOutcome: "negates",
+        },
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      resourceGainConfig: {
+        resources: [
+          {
+            type: "madness",
+            formula: "1d4",
+            description: "Generate 1d4 Madness Points",
+          },
+        ],
+      },
+
+      triggerConfig: {
+        conditionalEffects: {
+          control: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              madness_10_plus: "Duration increases to 4 rounds",
+              default: "3 rounds confusion",
+            },
+          },
+        },
+      },
+
+      specialMechanics: {
+        madnessGeneration: {
+          enabled: true,
+          formula: "1d4",
+          description: "Generates 1d4 Madness Points when cast",
+        },
+      },
+
+      tags: ["control", "confusion", "psychic", "madness"],
+    },
+    {
       id: "fp_visions_of_heresy",
       name: "Visions of Heresy",
       description:
-        "Condemn a target with visions of their own heresy, dealing 2d6 psychic damage and 2d6 psychic damage per turn for 4 turns. Generates 1d4 Madness Points. At 10+ Madness, DoT increases to 3d6 per turn.",
+        "Condemn a target to witness their own heresy â€” memories of every betrayal, broken oath, and lie they ever told. Deals 2d6 psychic damage and 2d6 psychic per turn for 4 turns as guilt eats them from within. At 10+ Madness, DoT increases to 3d6 per turn. Generates 1d4 Madness Points.",
       level: 4,
       spellType: "ACTION",
+      icon: "Psychic/Mind Strike",
       effectTypes: ["damage"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "psychic",
@@ -1284,7 +1734,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         dotConfig: {
           enabled: true,
           damagePerTick: "2d6",
-          damageType: "psychic",
+          damageTypes: ["psychic"],
           tickFrequency: "turn",
           duration: 4,
           canStack: false,
@@ -1345,10 +1795,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_maddening_sermon",
       name: "Maddening Sermon",
       description:
-        "Deliver an eldritch sermon that drives all enemies within 20 feet toward confusion for 2 rounds. DC 14 Spirit save. Generates 1d6 Madness Points.",
+        "Deliver a sermon carved directly into the minds of all enemies within 20 feet. Words that should not exist tear through their sanity. Confuses enemies for 2 rounds. DC 14 Spirit save. Generates 1d6 Madness Points.",
       level: 4,
       spellType: "ACTION",
+      icon: "General/Fiery Rage",
       effectTypes: ["control"],
+      resolution: "SAVE",
 
       typeConfig: {
         school: "psychic",
@@ -1375,7 +1827,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
             id: "confused",
             name: "Confused",
             description:
-              "Confused by maddening sermon - acts erratically for 2 rounds. DC 14 Spirit save.",
+              "Confused by maddening sermon â€” acts erratically for 2 rounds. DC 14 Spirit save.",
             config: {
               confusionType: "complete",
               saveType: "spirit",
@@ -1423,23 +1875,20 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           formula: "1d6",
           description: "Generates 1d6 Madness Points when cast",
         },
-        performanceBonus: {
-          enabled: true,
-          description:
-            "GM awards +3, 0, or -5 to Persuasion roll based on RP quality",
-        },
       },
 
       tags: ["control", "confusion", "aoe", "psychic", "madness"],
     },
     {
-      id: "fp_communion_of_void",
-      name: "Communion of the Void",
+      id: "fp_communion_of_blood",
+      name: "Communion of Blood",
       description:
-        "Partake in communion with the void god, spending Madness Points to heal yourself. ⚠️ COST: Minimum 5 Madness Points spent (up to 1d6). Healing is TEMPORARY HP that decays after 3 rounds — the void does not truly heal, it merely delays. At 15+ Madness Points, this ability BACKFIRES: you take 1d4 psychic damage per Madness Point spent instead of healing. The void is not your friend.",
+        "Partake in communion with the congregation's life force. Spend 1d6 Madness â€” gain temporary HP equal to 2 x Madness spent for 3 rounds. At 15+ Madness, the blood turns on you: take 1d4 psychic damage per Madness spent instead. The blood is not your friend.",
       level: 4,
       spellType: "ACTION",
+      icon: "Necrotic/Drain Soul",
       effectTypes: ["buff"],
+      resolution: "AUTOMATIC",
 
       typeConfig: {
         school: "necrotic",
@@ -1460,9 +1909,6 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         resolution: "AUTOMATIC",
         duration: 3,
         durationUnit: "rounds",
-        decayNote: "Temporary HP decays after 3 rounds. The void does not truly heal.",
-        backfireThreshold: 15,
-        backfireEffect: "At 15+ Madness, take 1d4 psychic damage per Madness spent instead of gaining temp HP"
       },
 
       resourceCost: {
@@ -1470,7 +1916,6 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         resourceValues: { mana: 14 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        minimumMadness: 5,
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -1480,20 +1925,370 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           enabled: true,
           formula: "1d6",
           description:
-            "Spends accumulated Madness Points. The void takes your madness and converts it into healing energy, restoring your vitality in proportion to the madness consumed.",
+            "Spends Madness Points for temporary HP. At 15+ Madness, backfires.",
+        },
+        backfire: {
+          enabled: true,
+          threshold: 15,
+          effect: "At 15+ Madness, take 1d4 psychic damage per Madness spent instead of temp HP",
         },
       },
 
-      tags: ["healing", "self", "madness", "voidcaller"],
+      tags: ["temp_hp", "self", "madness", "voidcaller", "dangerous"],
+    },
+    {
+      id: "fp_corrupt_the_faithful",
+      name: "Corrupt the Faithful",
+      description:
+        "Preach corruption into a target's soul, turning their devotion against their allies for 1d4 rounds. DC 15 Spirit save. At 10+ Madness, target also deals 1d6 psychic to allies it attacks. Generates 1d8 Madness Points.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Psychic/Mind Control",
+      effectTypes: ["control"],
+      resolution: "SAVE",
+
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Mind Control",
+        tags: ["control", "corruption", "madness", "deceiver"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+      },
+
+      controlConfig: {
+        controlType: "mind_control",
+        duration: 3,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "corrupted",
+            name: "Corrupted",
+            description:
+              "Target attacks its allies for the duration. DC 15 Spirit save.",
+            config: {
+              controlType: "hostile_to_allies",
+              saveType: "spirit",
+              saveDC: 15,
+              duration: 3,
+              durationUnit: "rounds",
+            },
+          },
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 15,
+          saveOutcome: "negates",
+        },
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 20 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+
+      resourceGainConfig: {
+        resources: [
+          {
+            type: "madness",
+            formula: "1d8",
+            description: "Generate 1d8 Madness Points",
+          },
+        ],
+      },
+
+      triggerConfig: {
+        conditionalEffects: {
+          control: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              madness_10_plus:
+                "Target also deals 1d6 psychic damage to allies it attacks",
+              default: "Target attacks allies",
+            },
+          },
+        },
+      },
+
+      specialMechanics: {
+        madnessGeneration: {
+          enabled: true,
+          formula: "1d8",
+          description: "Generates 1d8 Madness Points when cast",
+        },
+      },
+
+      tags: ["control", "corruption", "madness", "deceiver"],
+    },
+    {
+      id: "fp_twisted_sermon",
+      name: "Twisted Sermon",
+      description:
+        "Deliver a dark sermon in a 30-foot cone â€” words that peel back the skin of sanity. Deals 4d6 + Intelligence psychic damage and causes paranoia for 2 rounds. DC 15 Spirit save for half damage. Generates 1d6 Madness Points.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Psychic/Agonizing Scream",
+      effectTypes: ["damage", "control"],
+      resolution: "DICE",
+
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Agonizing Scream",
+        tags: ["damage", "psychic", "control", "paranoia", "madness", "deceiver"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "cone",
+        rangeType: "self",
+        aoeShape: "cone",
+        aoeParameters: { length: 30 },
+        targetRestrictions: ["enemy"],
+      },
+
+      damageConfig: {
+        formula: "4d6 + intelligence",
+        damageTypes: ["psychic"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 15,
+          saveOutcome: "half_damage",
+        },
+      },
+
+      controlConfig: {
+        controlType: "mind_control",
+        duration: 2,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "paranoid",
+            name: "Paranoid",
+            description: "Sees allies as enemies for 2 rounds on failed save.",
+            config: {
+              confusionType: "paranoia",
+              saveType: "spirit",
+              saveDC: 15,
+              duration: 2,
+              durationUnit: "rounds",
+            },
+          },
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 15,
+          saveOutcome: "negates",
+        },
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 20 },
+        actionPoints: 2,
+        components: ["verbal"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+
+      resourceGainConfig: {
+        resources: [
+          {
+            type: "madness",
+            formula: "1d6",
+            description: "Generate 1d6 Madness Points",
+          },
+        ],
+      },
+
+      specialMechanics: {
+        madnessGeneration: {
+          enabled: true,
+          formula: "1d6",
+          description: "Generates 1d6 Madness Points when cast",
+        },
+      },
+
+      tags: ["damage", "psychic", "control", "paranoia", "madness", "deceiver"],
+    },
+    {
+      id: "fp_wrath_of_void_god",
+      name: "Wrath of the Void God",
+      description:
+        "Channel the wrath of something that should not be named, dealing 4d8 + Intelligence necrotic damage plus 2 damage per Madness Point spent. Spends 1d6 Madness Points.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Void/Black Hole",
+      effectTypes: ["damage"],
+      resolution: "DICE",
+
+      typeConfig: {
+        school: "necrotic",
+        icon: "Void/Black Hole",
+        tags: ["damage", "necrotic", "madness", "voidcaller"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 50,
+        targetRestrictions: ["enemy"],
+      },
+
+      damageConfig: {
+        formula: "4d8 + intelligence + (2 * madness_spent)",
+        damageTypes: ["necrotic"],
+        resolution: "DICE",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 20 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+
+      specialMechanics: {
+        madnessSpending: {
+          enabled: true,
+          formula: "1d6",
+          description:
+            "Spends accumulated Madness Points. Each point adds +2 damage.",
+        },
+      },
+
+      tags: ["damage", "necrotic", "madness", "voidcaller"],
+    },
+    {
+      id: "fp_empathetic_agony",
+      name: "Empathetic Agony",
+      description:
+        "Fuse your nervous system with an enemy's through a bridge of blood and screaming. For 2 rounds, 100% of ALL damage you take is mirrored to this enemy as psychic damage. Generates 1d6 Madness Points. COST: Sacrifice 2d6 HP to forge the link.",
+      level: 5,
+      spellType: "ACTION",
+      icon: "Psychic/Psionic Strike",
+      effectTypes: ["buff"],
+      resolution: "AUTOMATIC",
+
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Psionic Strike",
+        tags: ["buff", "empathetic link", "damage mirror", "madness"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+      },
+
+      buffConfig: {
+        buffType: "triggeredEffect",
+        effects: [
+          {
+            id: "agony_link",
+            name: "Empathetic Agony",
+            description:
+              "100% of damage taken by caster is mirrored to linked enemy as psychic damage for 2 rounds.",
+            mechanicsText: "",
+          },
+        ],
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: true,
+        canBeDispelled: true,
+        stackingRule: "replace",
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 18 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+
+      resourceGainConfig: {
+        resources: [
+          {
+            type: "madness",
+            formula: "1d6",
+            description: "Generate 1d6 Madness Points",
+          },
+        ],
+      },
+
+      specialMechanics: {
+        madnessGeneration: {
+          enabled: true,
+          formula: "1d6",
+          description: "Generates 1d6 Madness Points when cast",
+        },
+        selfHarm: {
+          enabled: true,
+          damage: "2d6",
+          description: "Sacrifice 2d6 HP to forge the empathetic link",
+        },
+        empatheticLink: {
+          enabled: true,
+          mirrorPercent: 100,
+          mirrorDamageType: "psychic",
+          description: "100% of caster damage mirrored to enemy as psychic",
+        },
+      },
+
+      tags: ["buff", "empathetic link", "damage mirror", "madness"],
     },
     {
       id: "fp_veil_of_shadows",
       name: "Veil of Shadows",
       description:
-        "Cloak yourself in shadows, becoming invisible for 1d4 rounds. Requires 6 Madness Points. Adds 1d4 Madness. Temptation ability.",
-      level: 4,
+        "Wrap yourself in a cloak of stolen shadows, becoming invisible for 1d4 rounds. Requires 6 Madness Points. Adds 1d4 Madness. Temptation ability.",
+      level: 5,
       spellType: "ACTION",
+      icon: "Psychic/Mind Control",
       effectTypes: ["buff"],
+      resolution: "AUTOMATIC",
 
       typeConfig: {
         school: "shadow",
@@ -1592,10 +2387,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_heresy_of_flesh",
       name: "Heresy of the Flesh",
       description:
-        "Condemn a target's flesh as heretical, causing 2d6 necrotic damage per round for 1d4 rounds as their body decays. DC 14 Constitution save for half duration. Generates 1d6 Madness Points.",
-      level: 4,
+        "Condemn a target's flesh as heretical â€” their own body becomes an enemy. Deals 2d6 necrotic damage per round for 1d4 rounds. DC 14 Constitution save for half duration. Generates 1d6 Madness Points.",
+      level: 5,
       spellType: "ACTION",
+      icon: "Necrotic/Necrotic Skull",
       effectTypes: ["damage"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "necrotic",
@@ -1619,7 +2416,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         dotConfig: {
           enabled: true,
           damagePerTick: "2d6",
-          damageType: "necrotic",
+          damageTypes: ["necrotic"],
           tickFrequency: "round",
           duration: 4,
           canStack: false,
@@ -1671,10 +2468,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_black_oath",
       name: "Black Oath",
       description:
-        "Swear a black oath that curses an enemy for 1d4 rounds, giving them disadvantage on all attack rolls and saving throws. DC 14 Charisma save. Spends 1d4 Madness Points.",
-      level: 4,
+        "Swear a black oath that curses an enemy for 1d4 rounds, inflicting disadvantage on all attack rolls and saving throws. DC 14 Charisma save. Spends 1d4 Madness Points.",
+      level: 5,
       spellType: "ACTION",
+      icon: "Necrotic/Necrotic Decay 1",
       effectTypes: ["debuff"],
+      resolution: "SAVE",
 
       typeConfig: {
         school: "necrotic",
@@ -1743,18 +2542,20 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       tags: ["debuff", "curse", "madness", "cultist"],
     },
     {
-      id: "fp_corrupt_the_faithful",
-      name: "Corrupt the Faithful",
+      id: "fp_enslave",
+      name: "Enslave",
       description:
-        "Preach corruption into a target's soul for 1d4 rounds, turning their devotion against their allies. DC 15 Spirit save. Generates 1d8 Madness Points. At 10+ Madness, target also deals 1d6 psychic damage to allies it attacks.",
-      level: 5,
+        "Drive hooks of pure will into a target's mind. The target becomes your thrall for 1d4 rounds. DC 16 Spirit save negates. DC increases by +1 per Madness Point spent. Spends 1d8 Madness Points.",
+      level: 6,
       spellType: "ACTION",
+      icon: "Psychic/Psionic Strike",
       effectTypes: ["control"],
+      resolution: "SAVE",
 
       typeConfig: {
         school: "psychic",
-        icon: "Psychic/Mind Control",
-        tags: ["control", "charm", "corruption", "madness", "deceiver"],
+        icon: "Psychic/Psionic Strike",
+        tags: ["control", "domination", "madness", "deceiver"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1762,7 +2563,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       targetingConfig: {
         targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 40,
+        rangeDistance: 30,
         targetRestrictions: ["enemy"],
       },
 
@@ -1772,12 +2573,92 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         durationUnit: "rounds",
         effects: [
           {
-            id: "corrupted",
-            name: "Corrupted",
+            id: "dominated",
+            name: "Enslaved",
             description:
-              "Target attacks its allies for the duration. DC 15 Spirit save.",
+              "Target becomes your thrall for 1d4 rounds. DC 16 Spirit save.",
             config: {
-              controlType: "hostile_to_allies",
+              controlType: "full_control",
+              saveType: "spirit",
+              saveDC: 16,
+              duration: 3,
+              durationUnit: "rounds",
+            },
+          },
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "negates",
+        },
+      },
+
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+      },
+
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 24 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+      },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
+
+      specialMechanics: {
+        madnessSpending: {
+          enabled: true,
+          formula: "1d8",
+          description:
+            "Spends 1d8 Madness Points. DC increases by +1 per point spent.",
+        },
+      },
+
+      tags: ["control", "domination", "madness", "deceiver"],
+    },
+    {
+      id: "fp_devouring_omen",
+      name: "Devouring Omen",
+      description:
+        "Summon a terrifying apparition. All enemies within 15 feet are stricken with supernatural terror. Frightens enemies for 3 rounds. DC 15 Spirit save negates. Generates 1d8 Madness Points.",
+      level: 6,
+      spellType: "ACTION",
+      icon: "Void/Consumed by Void",
+      effectTypes: ["control"],
+      resolution: "SAVE",
+
+      typeConfig: {
+        school: "void",
+        icon: "Void/Consumed by Void",
+        tags: ["control", "fear", "void", "madness"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ["enemy"],
+      },
+
+      controlConfig: {
+        controlType: "fear",
+        duration: 3,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "frightened",
+            name: "Frightened",
+            description:
+              "Frightened â€” disadvantage on all rolls, must move away for 3 rounds. DC 15 Spirit save.",
+            config: {
+              fearType: "supernatural",
               saveType: "spirit",
               saveDC: 15,
               duration: 3,
@@ -1800,12 +2681,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
+        resourceValues: { mana: 24 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
       resourceGainConfig: {
         resources: [
@@ -1817,297 +2698,26 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         ],
       },
 
-      triggerConfig: {
-        conditionalEffects: {
-          control: {
-            isConditional: true,
-            defaultEnabled: false,
-            conditionalFormulas: {
-              madness_10_plus:
-                "Target also deals 1d6 psychic damage to allies it attacks",
-              default: "Target attacks allies",
-            },
-          },
-        },
-      },
-
       specialMechanics: {
         madnessGeneration: {
           enabled: true,
           formula: "1d8",
           description: "Generates 1d8 Madness Points when cast",
         },
-        mindControl: {
-          enabled: true,
-          controlType: "hostile_to_allies",
-          description: "Target becomes hostile to its allies and attacks them",
-        },
       },
 
-      tags: ["control", "charm", "corruption", "madness", "deceiver"],
-    },
-    {
-      id: "fp_twisted_sermon",
-      name: "Twisted Sermon",
-      description:
-        "Deliver a dark sermon in a 30-foot cone, dealing 4d6 psychic damage and causing paranoia for 2 rounds on failed save. DC 15 Spirit save for half damage. Generates 1d6 Madness Points.",
-      level: 5,
-      spellType: "ACTION",
-      effectTypes: ["damage", "control"],
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Psychic/Agonizing Scream",
-        tags: [
-          "damage",
-          "psychic",
-          "control",
-          "paranoia",
-          "madness",
-          "deceiver",
-        ],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "cone",
-        rangeType: "self",
-        aoeShape: "cone",
-        aoeParameters: { length: 30 },
-        targetRestrictions: ["enemy"],
-      },
-
-      damageConfig: {
-        formula: "4d6 + intelligence",
-        damageTypes: ["psychic"],
-        resolution: "DICE",
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 15,
-          saveOutcome: "half_damage",
-        },
-      },
-
-      controlConfig: {
-        controlType: "mind_control",
-        duration: 2,
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "paranoid",
-            name: "Paranoid",
-            description: "Sees allies as enemies for 2 rounds on failed save.",
-            config: {
-              confusionType: "paranoia",
-              saveType: "spirit",
-              saveDC: 15,
-              duration: 2,
-              durationUnit: "rounds",
-            },
-          },
-        ],
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 15,
-          saveOutcome: "negates",
-        },
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 2,
-        durationUnit: "rounds",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
-        actionPoints: 2,
-        components: ["verbal"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      resourceGainConfig: {
-        resources: [
-          {
-            type: "madness",
-            formula: "1d6",
-            description: "Generate 1d6 Madness Points",
-          },
-        ],
-      },
-
-      specialMechanics: {
-        madnessGeneration: {
-          enabled: true,
-          formula: "1d6",
-          description: "Generates 1d6 Madness Points when cast",
-        },
-      },
-
-      tags: ["damage", "psychic", "control", "paranoia", "madness", "deceiver"],
-    },
-    {
-      id: "fp_wrath_of_void_god",
-      name: "Wrath of the Void God",
-      description:
-        "Channel the void god's wrath, dealing 4d8 + Intelligence necrotic damage plus 2 damage per Madness Point spent. Spends 1d6 Madness Points.",
-      level: 5,
-      spellType: "ACTION",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "necrotic",
-        icon: "Void/Black Hole",
-        tags: ["damage", "necrotic", "madness", "voidcaller"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 50,
-        targetRestrictions: ["enemy"],
-      },
-
-      damageConfig: {
-        formula: "4d8 + intelligence + (2 � madness_spent)",
-        damageTypes: ["necrotic"],
-        resolution: "DICE",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 20 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      specialMechanics: {
-        madnessSpending: {
-          enabled: true,
-          formula: "1d6",
-          description:
-            "Spends accumulated Madness Points. Your madness becomes raw destructive power, amplifying your attack with chaotic energy. The more madness you channel, the more devastating the strike becomes.",
-        },
-      },
-
-      tags: ["damage", "necrotic", "madness", "voidcaller"],
-    },
-    {
-      id: "fp_eldritch_vision",
-      name: "Eldritch Vision",
-      description:
-        "See through walls and detect hidden enemies with void-touched sight for 1d4 rounds. Requires 9 Madness. Adds 1d6 Madness. Temptation ability.",
-      level: 5,
-      spellType: "ACTION",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "void",
-        icon: "Necrotic/Drain Soul",
-        tags: ["buff", "truesight", "temptation", "madness"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      buffConfig: {
-        buffType: "statusEffectBuff",
-        effects: [
-          {
-            id: "truesight",
-            name: "Eldritch Vision",
-            description:
-              "See through walls, detect invisible creatures, see in darkness for 1d4 rounds.",
-            mechanicsText: "",
-          },
-        ],
-        durationValue: 3,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 3,
-        durationUnit: "rounds",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 18 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      resourceGainConfig: {
-        resources: [
-          {
-            type: "madness",
-            formula: "1d6",
-            description: "Generate 1d6 Madness Points (risk of Convulsion)",
-          },
-        ],
-      },
-
-      triggerConfig: {
-        requiredConditions: {
-          enabled: true,
-          logicType: "AND",
-          conditions: [
-            {
-              id: "resource_threshold",
-              category: "health",
-              name: "Madness Threshold",
-              parameters: {
-                resource_type: "madness",
-                threshold_value: 9,
-                threshold_type: "above",
-                comparison: "greater_than",
-              },
-            },
-          ],
-        },
-      },
-
-      specialMechanics: {
-        madnessRequirement: {
-          enabled: true,
-          minimum: 9,
-          description: "Requires at least 9 Madness Points to cast",
-        },
-        madnessGeneration: {
-          enabled: true,
-          formula: "1d6",
-          description: "Adds 1d6 Madness Points after casting (higher risk)",
-        },
-        temptationAbility: true,
-      },
-
-      tags: ["buff", "truesight", "temptation", "madness"],
+      tags: ["control", "fear", "void", "madness"],
     },
     {
       id: "fp_summon_congregation",
       name: "Summon the Congregation",
       description:
-        "Call forth 1d4 abyssal servants to fight for you for 1d4 rounds. Generates 1d8 Madness Points.",
+        "Call forth 1d4 abyssal servants â€” fragments of your stolen congregation given hideous form. They fight for you for 1d4 rounds. Generates 1d8 Madness Points.",
       level: 6,
       spellType: "ACTION",
+      icon: "Necrotic/Demonic Empowerment",
       effectTypes: ["summoning"],
+      resolution: "AUTOMATIC",
 
       typeConfig: {
         school: "void",
@@ -2184,217 +2794,20 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       tags: ["summoning", "void", "madness", "cultist"],
     },
     {
-      id: "fp_enslave",
-      name: "Enslave",
-      description:
-        "Spend 1d8 Madness to completely enslave a target's mind for 1d4 rounds, making them your thrall. DC increases by +1 per Madness Point spent. DC 16 Spirit save negates.",
-      level: 6,
-      spellType: "ACTION",
-      effectTypes: ["control"],
-
-      typeConfig: {
-        school: "psychic",
-        icon: "Psychic/Psionic Strike",
-        tags: ["control", "domination", "madness", "deceiver"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        targetRestrictions: ["enemy"],
-      },
-
-      controlConfig: {
-        controlType: "mind_control",
-        duration: 3,
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "dominated",
-            name: "Enslaved",
-            description:
-              "Target becomes your thrall, obeying all commands for 1d4 rounds. DC 16 Spirit save.",
-            config: {
-              controlType: "full_control",
-              saveType: "spirit",
-              saveDC: 16,
-              duration: 3,
-              durationUnit: "rounds",
-            },
-          },
-        ],
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 16,
-          saveOutcome: "negates",
-        },
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 3,
-        durationUnit: "rounds",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 24 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      specialMechanics: {
-        madnessSpending: {
-          enabled: true,
-          formula: "1d8",
-          description:
-            "Spends 1d8 Madness Points. DC increases by +1 per point spent.",
-        },
-        mindControl: {
-          enabled: true,
-          controlType: "full_control",
-          description: "You control the target's actions completely",
-        },
-      },
-
-      tags: ["control", "domination", "madness", "deceiver"],
-    },
-    {
-      id: "fp_devouring_omen",
-      name: "Devouring Omen",
-      description:
-        "Summon a terrifying apparition in a 15-foot radius that frightens enemies for 3 rounds. DC 15 Spirit save. Generates 1d8 Madness Points.",
-      level: 6,
-      spellType: "ACTION",
-      effectTypes: ["control", "summoning"],
-
-      typeConfig: {
-        school: "void",
-        icon: "Utility/Resistance",
-        tags: ["control", "fear", "summoning", "madness"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 30,
-        aoeShape: "circle",
-        aoeParameters: { radius: 15 },
-        targetRestrictions: ["enemy"],
-      },
-
-      controlConfig: {
-        controlType: "incapacitation",
-        duration: 3,
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "frightened",
-            name: "Frightened",
-            description:
-              "Frightened by devouring omen - disadvantage on all rolls for 3 rounds. DC 15 Spirit save.",
-            config: {
-              fearType: "supernatural",
-              saveType: "spirit",
-              saveDC: 15,
-              duration: 3,
-              durationUnit: "rounds",
-            },
-          },
-        ],
-        savingThrow: {
-          ability: "spirit",
-          difficultyClass: 15,
-          saveOutcome: "negates",
-        },
-      },
-
-      summoningConfig: {
-        creatures: [
-          {
-            quantity: 1,
-            duration: 3,
-            durationUnit: "rounds",
-            hasDuration: true,
-            concentration: false,
-            controlType: "verbal",
-            controlRange: 15,
-            attachedEffects: {},
-          },
-        ],
-        duration: 3,
-        durationUnit: "rounds",
-        hasDuration: true,
-        concentration: false,
-        quantity: 1,
-        maxQuantity: 1,
-        controlRange: 15,
-        controlType: "verbal",
-        difficultyLevel: "moderate",
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 3,
-        durationUnit: "rounds",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 24 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      resourceGainConfig: {
-        resources: [
-          {
-            type: "madness",
-            formula: "1d8",
-            description: "Generate 1d8 Madness Points",
-          },
-        ],
-      },
-
-      specialMechanics: {
-        madnessGeneration: {
-          enabled: true,
-          formula: "1d8",
-          description: "Generates 1d8 Madness Points when cast",
-        },
-      },
-
-      tags: ["control", "fear", "summoning", "madness"],
-    },
-    {
       id: "fp_grand_deception",
       name: "Grand Deception",
       description:
-        "Create a grand deception in a 30-foot radius that confuses all enemies for 3 rounds. DC 16 Intelligence save. Generates 1d6 Madness Points. At 10+ Madness, confused enemies also attack allies.",
+        "Create a grand deception that confuses all enemies within 30 feet for 3 rounds. DC 16 Intelligence save. At 10+ Madness, confused enemies also attack allies. Generates 1d6 Madness Points.",
       level: 7,
       spellType: "ACTION",
+      icon: "Psychic/Mind Control",
       effectTypes: ["control"],
+      resolution: "SAVE",
 
       typeConfig: {
         school: "psychic",
         icon: "Psychic/Mind Control",
-        tags: [
-          "control",
-          "confusion",
-          "aoe",
-          "deception",
-          "madness",
-          "deceiver",
-        ],
+        tags: ["control", "confusion", "aoe", "deception", "madness", "deceiver"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2417,7 +2830,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
             id: "grand_confusion",
             name: "Grand Confusion",
             description:
-              "All enemies confused - may attack allies or do nothing for 3 rounds. DC 16 Intelligence save.",
+              "All enemies confused for 3 rounds. DC 16 Intelligence save.",
             config: {
               confusionType: "complete",
               saveType: "intelligence",
@@ -2486,10 +2899,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_reality_distortion",
       name: "Reality Distortion",
       description:
-        "Distort reality in a 25-foot radius, dealing 8d8 + Intelligence psychic damage and disorienting enemies for 2 rounds. DC 18 Spirit save for half damage. Spends 1d8 Madness Points.",
+        "Twist reality in a 25-foot radius. Deals 8d8 + Intelligence psychic damage and disorients enemies for 2 rounds. DC 18 Spirit save for half damage. Spends 1d8 Madness Points.",
       level: 7,
       spellType: "ACTION",
+      icon: "Void/Consumed by Void",
       effectTypes: ["damage", "debuff"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "psychic",
@@ -2572,107 +2987,45 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       tags: ["damage", "psychic", "debuff", "distortion", "madness"],
     },
     {
-      id: "fp_reality_twist",
-      name: "Reality Twist",
+      id: "fp_martyrs_shame",
+      name: "Martyr's Shame",
       description:
-        "Twist reality in a 20-foot radius for 1d4 rounds, creating a zone of chaotic effects. Each round roll 1d6: 1=teleport, 2=3d6 damage, 3=2d8 heal, 4=slow, 5=haste, 6=confusion. Spends 1d8 Madness Points.",
+        "Force an enemy to feel every wound your allies have suffered this combat â€” all at once. Deals psychic damage equal to half the total ally damage taken this encounter. Spends 1d8 Madness Points.",
       level: 7,
       spellType: "ACTION",
-      effectTypes: ["control"],
+      icon: "Psychic/Agonizing Scream",
+      effectTypes: ["damage"],
+      resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "void",
-        icon: "Void/Consumed by Void",
-        tags: ["control", "zone", "chaos", "madness"],
+        school: "psychic",
+        icon: "Psychic/Agonizing Scream",
+        tags: ["damage", "psychic", "empathetic link", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: "area",
+        targetingType: "single",
         rangeType: "ranged",
-        rangeDistance: 40,
-        aoeShape: "circle",
-        aoeParameters: { radius: 20 },
-        targetRestrictions: ["any"],
+        rangeDistance: 50,
+        targetRestrictions: ["enemy"],
       },
 
-      controlConfig: {
-        controlType: "zone",
-        duration: 3,
-        durationUnit: "rounds",
-        effects: [
-          {
-            id: "chaos_zone",
-            name: "Reality Twist",
-            description:
-              "All creatures in zone experience random effects each round (1d6 roll).",
-            config: {
-              zoneType: "chaos",
-              radius: 20,
-              duration: 3,
-              durationUnit: "rounds",
-            },
-          },
-        ],
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 3,
-        durationUnit: "rounds",
+      damageConfig: {
+        formula: "total_ally_damage_taken / 2",
+        damageTypes: ["psychic"],
+        resolution: "AUTOMATIC",
       },
 
       resourceCost: {
         resourceTypes: ["mana"],
-        resourceValues: { mana: 28 },
+        resourceValues: { mana: 26 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
-
-      rollableTable: {
-        enabled: true,
-        tableName: "Reality Twist Effects",
-        description:
-          "Roll 1d6 each round for random effect on all creatures in zone",
-        resolutionType: "DICE",
-        resolutionConfig: { diceType: "d6" },
-        entries: [
-          {
-            range: { min: 1, max: 1 },
-            customName: "Chaotic Teleport",
-            effect: "All creatures teleport to random positions within 30ft",
-          },
-          {
-            range: { min: 2, max: 2 },
-            customName: "Void Damage",
-            effect: "3d6 void damage to all creatures in zone",
-          },
-          {
-            range: { min: 3, max: 3 },
-            customName: "Twisted Healing",
-            effect: "2d8 healing to all creatures in zone",
-          },
-          {
-            range: { min: 4, max: 4 },
-            customName: "Time Slow",
-            effect: "All creatures in zone are slowed for 1 round",
-          },
-          {
-            range: { min: 5, max: 5 },
-            customName: "Chaotic Haste",
-            effect: "All creatures in zone gain haste for 1 round",
-          },
-          {
-            range: { min: 6, max: 6 },
-            customName: "Mass Confusion",
-            effect:
-              "All creatures in zone become confused for 1 round (DC 14 Spirit save)",
-          },
-        ],
-      },
 
       specialMechanics: {
         madnessSpending: {
@@ -2680,35 +3033,30 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           formula: "1d8",
           description: "Spends 1d8 Madness Points when cast",
         },
-        randomEffects: {
+        empatheticLink: {
           enabled: true,
-          description:
-            "Roll 1d6 each round for random effect: 1=teleport, 2=damage, 3=heal, 4=slow, 5=haste, 6=confusion",
+          linkType: "damage_echo",
+          description: "Deals psychic damage equal to half total ally damage taken this combat",
         },
       },
 
-      tags: ["control", "zone", "chaos", "madness"],
+      tags: ["damage", "psychic", "empathetic link", "madness"],
     },
     {
       id: "fp_apocalyptic_revelation",
       name: "Apocalyptic Revelation",
       description:
-        "Unleash a massive wave of 12d6 + Intelligence psychic energy in a 30-foot radius. DC 18 Spirit save for half damage. Requires 12 Madness. Adds 2d6 Madness (high Convulsion risk). Temptation ability.",
+        "Unleash 12d6 + Intelligence psychic energy in a 30-foot radius. DC 18 Spirit save for half damage. Requires 12 Madness. Adds 2d6 Madness (high Convulsion risk). Temptation ability. WARNING: If this spell triggers an Insanity Convulsion by pushing Madness to 20+, the backlash scales catastrophically — the Convulsion is no longer random. It becomes an Apocalyptic Convulsion: the Prophet suffers permanent Spirit drain (-2 Spirit until long rest), all allies within 30ft take 4d6 psychic damage from the psychic shockwave, and the Prophet is Confused for 3 rounds instead of the standard Convulsion duration. The consumed minds do not simply scream — they detonate.",
       level: 8,
       spellType: "ACTION",
+      icon: "Psychic/Mind Strike",
       effectTypes: ["damage"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "psychic",
         icon: "Psychic/Mind Strike",
-        tags: [
-          "damage",
-          "psychic",
-          "aoe",
-          "temptation",
-          "madness",
-          "voidcaller",
-        ],
+        tags: ["damage", "psychic", "aoe", "temptation", "madness", "voidcaller"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2792,6 +3140,36 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         },
         temptationAbility: true,
         warning: "Extremely likely to trigger Insanity Convulsion",
+        apocalypticConvulsion: {
+          enabled: true,
+          description:
+            "If this spell triggers an Insanity Convulsion (Madness reaches 20+), the backlash scales catastrophically: Prophet suffers -2 Spirit until long rest (structural stat drain), all allies within 30ft take 4d6 psychic damage (psychic shockwave), and Prophet is Confused for 3 rounds. The consumed minds detonate rather than scream.",
+          effects: [
+            {
+              id: "spirit_drain",
+              name: "Structural Spirit Drain",
+              description: "-2 Spirit until long rest",
+              magnitude: -2,
+              stat: "spirit",
+              duration: "until_long_rest",
+            },
+            {
+              id: "psychic_shockwave",
+              name: "Psychic Shockwave",
+              description: "4d6 psychic damage to all allies within 30ft",
+              damageFormula: "4d6",
+              damageType: "psychic",
+              radius: 30,
+            },
+            {
+              id: "apocalyptic_confusion",
+              name: "Apocalyptic Confusion",
+              description: "Confused for 3 rounds (extended from standard Convulsion)",
+              duration: 3,
+              durationUnit: "rounds",
+            },
+          ],
+        },
       },
 
       tags: ["damage", "psychic", "aoe", "temptation", "madness", "voidcaller"],
@@ -2800,22 +3178,17 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_mass_manipulation",
       name: "Mass Manipulation",
       description:
-        "Manipulate the minds of all enemies within 40 feet, dominating them for 2 rounds. DC 18 Spirit save negates. Spends 1d8 Madness Points. At 15+ Madness, dominated targets also attack each other.",
+        "Rewrite the loyalties of all enemies within 40 feet. Dominated enemies follow your commands for 2 rounds. DC 18 Spirit save negates. Spends 1d8 Madness Points. At 15+ Madness, dominated targets attack each other.",
       level: 8,
       spellType: "ACTION",
+      icon: "Psychic/Mind Control",
       effectTypes: ["control"],
+      resolution: "SAVE",
 
       typeConfig: {
         school: "psychic",
         icon: "Psychic/Mind Control",
-        tags: [
-          "control",
-          "manipulation",
-          "mind control",
-          "mass",
-          "madness",
-          "deceiver",
-        ],
+        tags: ["control", "manipulation", "mind control", "mass", "madness", "deceiver"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2838,7 +3211,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
             id: "mass_control",
             name: "Mass Manipulation",
             description:
-              "All enemies dominated - must follow your commands for 2 rounds. DC 18 Spirit save.",
+              "All enemies dominated for 2 rounds. DC 18 Spirit save.",
             config: {
               controlType: "full",
               saveType: "spirit",
@@ -2905,10 +3278,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_ultimate_deception",
       name: "Ultimate Deception",
       description:
-        "Create the ultimate deception that makes enemies believe they won, then devastates them with 12d10 + Intelligence psychic damage. DC 19 Spirit save for half damage. Spends 2d6 Madness Points.",
+        "Create the ultimate deception â€” enemies believe they have won. Then reality floods in: 12d10 + Intelligence psychic damage. DC 19 Spirit save for half. Spends 2d6 Madness Points. The cruelest lie is hope.",
       level: 9,
       spellType: "ACTION",
+      icon: "Psychic/Mind Control",
       effectTypes: ["damage"],
+      resolution: "DICE",
 
       typeConfig: {
         school: "psychic",
@@ -2967,10 +3342,12 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_prophet_of_lies",
       name: "Prophet of Lies",
       description:
-        "Ascend to become the ultimate Prophet of Lies for 5 rounds. Gain +6 Intelligence, Spirit, and Charisma. Charm or frighten all enemies within 30ft once per transformation. All illusion spells are automatically believed. Immune to charm, fear, and confusion. Gain 3d10 Madness when transformation ends. Spends all current Madness Points.",
+        "Ascend to become the Prophet of Lies for 5 rounds. +6 INT/SPI/CHA, immune to charm/fear/confusion, charm or frighten enemies 30ft once, all deception spells auto-believed. On end: gain 3d10 Madness. Spends all current Madness.",
       level: 10,
       spellType: "ACTION",
+      icon: "Psychic/Mind Control",
       effectTypes: ["transformation"],
+      resolution: "AUTOMATIC",
 
       typeConfig: {
         school: "psychic",
@@ -3007,7 +3384,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           {
             id: "illusion_mastery",
             name: "Illusion Mastery",
-            description: "All illusion spells are automatically believed",
+            description: "All deception spells are automatically believed",
           },
           {
             id: "mind_shield",
@@ -3046,58 +3423,108 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       },
 
       tags: ["transformation", "ultimate", "god form", "madness"],
-    },    {
+    },
+    {
       id: "fp_void_whisper",
       name: "Void Whisper",
       description:
-        "The void whispers secrets that erode your sanity. At the start of each turn, if you are not actively channeling a prophecy or maintaining an illusion, you take 1d4 psychic damage. The void demands to be heard. This damage stops only when you are actively using your powers.",
+        "The void whispers secrets that erode your sanity. At the start of each turn, if you are not actively channeling or maintaining an effect, you take 1d4 psychic damage.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Psychic/Psychic Scream",
-      effectTypes: ["passive"],
+      icon: "Psychic/Agonizing Scream",
+      effectTypes: ["debuff"],
+      resolution: "AUTOMATIC",
+
       typeConfig: {
         school: "psychic",
-        icon: "Psychic/Psychic Scream",
+        icon: "Psychic/Agonizing Scream",
         tags: ["passive", "debuff", "self-damage", "madness", "false prophet"],
         castTime: 0,
         castTimeType: "PASSIVE",
       },
+
       targetingConfig: {
         targetingType: "self",
       },
+
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "void_whisper",
+            name: "Void Whisper",
+            description:
+              "Take 1d4 psychic damage at the start of each turn if not actively channeling.",
+            mechanicsText: "",
+          },
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent",
+      },
+
       resourceCost: {
         resourceTypes: [],
         resourceValues: {},
         actionPoints: 0,
       },
-      resolution: "AUTOMATIC",
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+
       tags: ["passive", "debuff", "self-damage", "madness", "false prophet"],
     },
     {
       id: "fp_fractured_reality",
       name: "Fractured Reality",
       description:
-        "Your illusions bleed into your own perception. When an illusion or deception effect you created is dispelled or seen through, you are Confused for 1 round (DC 12 Wisdom save to resist). You cannot tell what is real and what you made.",
+        "When an illusion or deception effect you created is dispelled or seen through, you are Confused for 1 round. DC 12 Spirit save to resist.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "Psychic/Psychic Confusion",
-      effectTypes: ["passive"],
+      icon: "Psychic/Mental Dissaray",
+      effectTypes: ["debuff"],
+      resolution: "SAVE",
+
       typeConfig: {
         school: "psychic",
-        icon: "Psychic/Psychic Confusion",
+        icon: "Psychic/Mental Dissaray",
         tags: ["passive", "debuff", "confusion", "illusion", "false prophet"],
         castTime: 0,
         castTimeType: "PASSIVE",
       },
+
       targetingConfig: {
         targetingType: "self",
       },
+
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "fractured_confusion",
+            name: "Fractured Reality",
+            description:
+              "When your illusion/deception is dispelled, become Confused for 1 round. DC 12 Spirit save.",
+            mechanicsText: "",
+          },
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 12,
+          saveOutcome: "negates",
+        },
+      },
+
       resourceCost: {
         resourceTypes: [],
         resourceValues: {},
         actionPoints: 0,
       },
-      resolution: "AUTOMATIC",
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+
       tags: ["passive", "debuff", "confusion", "illusion", "false prophet"],
     },
   ],

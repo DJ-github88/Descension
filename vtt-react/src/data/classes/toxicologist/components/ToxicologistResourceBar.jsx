@@ -126,11 +126,6 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                 return;
             }
 
-            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                requestAnimationFrame(updatePosition);
-                return;
-            }
-
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
             const padding = 10;
@@ -143,21 +138,34 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                 hudBottom = hudRect.bottom;
             }
 
-            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
+            const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
+
+            let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
             let top = hudBottom + padding;
 
-            if (left < padding) left = padding;
-            if (left + tooltipRect.width > viewportWidth - padding) {
-                left = viewportWidth - tooltipRect.width - padding;
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                // Apply fallback positioning so it doesn't default to the top-left of the viewport,
+                // but keep it hidden (opacity 0) while waiting for layout dimensions to resolve.
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+                tooltip.style.opacity = '0';
+                requestAnimationFrame(updatePosition);
+                return;
             }
 
-            if (top + tooltipRect.height > viewportHeight - padding) {
+            if (left < padding) left = padding;
+            if (left + tooltipWidth > viewportWidth - padding) {
+                left = viewportWidth - tooltipWidth - padding;
+            }
+
+            if (top + tooltipHeight > viewportHeight - padding) {
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
-                    top = hudRect.top - tooltipRect.height - padding;
+                    top = hudRect.top - tooltipHeight - padding;
                     tooltip.classList.remove('below');
                 } else {
-                    top = viewportHeight - tooltipRect.height - padding;
+                    top = viewportHeight - tooltipHeight - padding;
                 }
                 if (top < padding) top = padding;
             } else {
@@ -175,7 +183,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
 
         return () => {
             clearTimeout(timeoutId);
-            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '0';
         };
     }, [showTooltip, localToxinVials, localContraptionParts, selectedSpec, hoverSection]);
 
@@ -378,7 +386,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
 
             {/* Tooltip */}
             {showTooltip && hoverSection && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     {hoverSection === 'toxins' && (
                         <>
                             <div className="tooltip-header">Toxin Vials</div>

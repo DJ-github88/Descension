@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Formbender Class Data
  *
  * Complete class information for the Formbender - a shapeshifter who harnesses
@@ -12,244 +12,222 @@ export const FORMBENDER_DATA = {
   role: "Hybrid (Tank/Damage/Support)",
   damageTypes: ["nature", "bludgeoning"],
 
-  // Overview section
   overview: {
     title: "The Formbender",
-    subtitle: "Master of Wild Instinct and Primal Transformation",
+    subtitle: "The Animal Behind the Mask",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**TL;DR**: The Formbender is a shapeshifting combatant who switches between four animal forms to adapt to any situation. Wild Instinct (0-15) fuels your transformations and abilities. First transform is free; every switch after costs 1 WI. Forms last until you switch, get knocked out, or choose to revert.
+      content: `**TL;DR**: You are not a person who turns into animals. You are an animal that learned to wear a human shape. Every transformation is a mutilation â€” bones snap, skin splits, and something *hungry* grins out from behind your eyes. Wild Instinct (0-15) fuels your forms. Humanity Erosion (0-10) tracks how much of *you* survives each shift.
 
-**What You Need to Know**: The Formbender channels primal energy through four distinct animal forms—Nightstalker (stealth/burst), Ironhide (tank/durability), Skyhunter (mobility/aerial), and Frostfang (pack tactics)—gathering Wild Instinct (0-15) through form-specific actions. Switch forms mid-combat to adapt to any situation, spending Wild Instinct on devastating abilities or transformation costs. Your first transformation is free; everything after has a price.
+**What You Need to Know**: The Formbender doesn't channel nature â€” they *violate* it. Your body is a lie you tell the world, and four stolen forms (Nightstalker, Ironhide, Skyhunter, Frostfang) are the truth bleeding through. Wild Instinct (0-15) grows through form-specific violence. Each transformation costs 1 WI and adds +1 Erosion to your Humanity tracker.
 
-**Core Mechanic**: Choose opening form (free) → Perform form-specific actions to generate Wild Instinct → Spend on abilities or form switches (1 WI each) → Chain forms together to adapt to the fight
+**Core Mechanic**: Choose opening form (free WI, but still +1 Erosion) â†’ Generate WI through form-aligned carnage â†’ Spend on abilities or form switches â†’ Watch your Humanity erode as the animal takes over
 
-**Resource**: Wild Instinct (0-15 scale, generated through form-aligned combat actions). Organized in three bands:
-- **Instinct (1-5 WI)**: Form abilities and basic spells
-- **Surge (6-10 WI)**: Powerful class spells
-- **Apex (11-15 WI)**: Ultimate spells
+**Resources**:
+- **Wild Instinct (0-15)**: Generated through form-specific combat actions. Halves between fights. Three bands: Instinct (1-5 WI), Surge (6-10 WI), Apex (11-15 WI).
+- **Humanity Erosion (0-10)**: Every form shift adds +1 Erosion. At 3+: lose speech. At 5+: can't use items. At 7+: attack allies. At 10: the GM plays your character.
 
-**Form-Matched Discount**: Casting a spell that matches your current form's theme reduces its Wild Instinct cost by 1 (min 1). This is your core efficiency loop—stay in the form that matches the spells you want to cast.
+**Fatal Flaw**: You permanently take +50% Psychic damage. The human mind is a wound that never closes.
 
-**Playstyle**: Adaptive shapeshifter with fluid role-switching mid-combat
+**Why Bring Me?**: You are the only class that can completely rewrite your physical stats, movement types, and damage resistances mid-combat. Need to fly? Grow wings. Need to breathe water? Grow gills. Need to be immune to fire? Steal a salamander's form. Infinite biological problem-solving.
 
-**Best For**: Players who enjoy tactical flexibility, mastering multiple combat styles, and the satisfaction of transforming to perfectly counter any battlefield situation`,
+**Playstyle**: High-risk adaptive horror â€” fluid role-switching that costs your humanity
+
+**Best For**: Players who want tactical omniplicity and are willing to pay for it in flesh, sanity, and the slow death of their human self`,
     },
 
-    description: `A versatile shapeshifter channeling primal energy through four wild forms—Nightstalker, Ironhide, Skyhunter, and Frostfang—gathering Wild Instinct to unleash devastating adaptive abilities.`,
+    description: `Something that was born in the dark places between flesh and fur, wearing a human face like a mask that doesn't quite fit. Four stolen shapes â€” Nightstalker, Ironhide, Skyhunter, Frostfang â€” tear free when the mask slips. Every transformation is a small death. Every reversion is a resurrection nobody asked for.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `**TL;DR**: You are not a person who turns into animals—you are an animal who learned to wear a human shape. Every transformation strips away another layer of civilization.
+      content: `**TL;DR**: You are not a person who turns into animals â€” you are an animal who learned to wear a human shape. Every transformation peels back the disguise. The question isn't whether you'll lose yourself. The question is whether there was ever a "you" to lose.
 
-**Primal Identity**: Formbenders don't just channel nature; they *become* it. The question every Formbender faces: when you run with the wolf pack, do you remember you were ever human? Your connection to the wild is not learned—it is remembered.
+**The Lie of Humanity**: Formbenders do not *become* animals. They *cease pretending* to be human. Your human body is a prison you built from meat and manners, and every transformation is a jailbreak written in blood and snapping cartilage. You don't commune with nature â€” you *are* the part of nature that civilization walled out and forgot to feed.
 
-**Adaptive Warriors**: Unlike traditional spellcasters, Formbenders are physical combatants who shift their form to match the needs of battle. They are scouts, guardians, hunters, and pack leaders—all in one.
+**The Erosion**: With every shift, the animal mind grows stronger. You lose the ability to speak. You forget your allies' names. You stop seeing friends and start seeing *pack* and *prey*. The human consciousness fights a losing war against instincts older than language. Psychic attacks don't just hurt you â€” they unmask you.
 
-**Nature's Champions**: Formbenders serve as protectors of the wild, defending natural places from corruption and civilization's encroachment. Their connection to primal forces makes them formidable allies and terrifying enemies.`,
+**The Horror**: Other shapeshifters talk about "harmony with the wild." You know the truth. There is no harmony. There is only the animal, wearing your skin, waiting for you to slip. The wolf doesn't serve you. *You serve the wolf.* And one day, you'll stop serving and start *being*.`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `**TL;DR**: Your role changes based on your form. Nightstalker = stealth/burst. Ironhide = tank. Skyhunter = mobile/aerial. Frostfang = pack tactics. Switch forms to match the fight.
+      content: `**TL;DR**: Your role is whatever the fight needs. Nightstalker = predator's ambush. Ironhide = meat shield built from rage and scar tissue. Skyhunter = aerial horror. Frostfang = pack mentality. Switch forms to match the threat â€” but every switch costs a piece of your humanity.
 
-**Adaptive Hybrid**: The Formbender's role changes based on their active form. Nightstalker excels at stealth and burst damage, Ironhide serves as a durable tank, Skyhunter provides mobility and aerial control, and Frostfang offers pack tactics and sustained damage.
+**Infinite Adaptation**: The Formbender's singular utility is total biological flexibility. No other class can rewrite their own physical stats, movement types, damage resistances, and sensory capabilities on the fly. You are the answer to every problem â€” but the answer always has teeth.
 
-**Resource Management**: Success as a Formbender requires careful Wild Instinct management—knowing when to gather, when to spend, and when to switch forms. Each form generates Wild Instinct differently, rewarding players who embrace each form's unique playstyle.
+**Resource Tension**: Wild Instinct fuels your transformations and abilities. Humanity Erosion is the toll. You must balance raw tactical power against the creeping loss of your human mind. A Formbender who shifts too freely becomes a liability â€” attacking allies, unable to speak, unable to stop.
 
-**Form Synergy**: Skilled Formbenders chain forms together, using one form to generate Wild Instinct and another to spend it. This creates dynamic combat patterns where no two fights play out the same way.`,
+**The Fatal Flaw**: You are permanently vulnerable to Psychic damage (+50%). Your human consciousness is a bleeding wound the animal keeps biting. Mind-affecting effects bypass your transformed resilience entirely â€” the armor protects the flesh, not the mind wearing it.`,
     },
 
     playstyle: {
       title: "Playstyle",
-      content: `**TL;DR**: Pick your opening form for free. Generate WI through form actions. Switch forms for 1 WI to adapt. All spells work in all forms, but matching your spell to your form saves 1 WI.
+      content: `**TL;DR**: Shift forms (free first, 1 WI after). Generate WI through form-specific violence. Watch Erosion climb. At 3 Erosion, you can't speak. At 5, you can't use items. At 7, you attack your friends. Choose wisely.
 
-**Fluid Transformation**: Combat begins with choosing your opening form for free, then adapting as the battle evolves. Switching forms costs 1 Wild Instinct, so planning your transformations is crucial.
+**The Transformation Economy**:
+- **Opening Shift**: Free WI cost (but +1 Erosion). Choose your predator.
+- **Standard Shift**: -1 WI, +1 Erosion. The bone-snap tax.
+- **Forced Reversion**: +2 Erosion. The body rejects the lie.
 
-**Form-Specific Actions**: Each form has unique ways to generate Wild Instinct:
-- **Nightstalker**: Stealth, ambushes, and precision strikes
-- **Ironhide**: Taunting, tanking damage, and protecting allies
-- **Skyhunter**: Scouting, aerial attacks, and enhanced perception
-- **Frostfang**: Tracking, pack tactics, and coordinated strikes
+**Form-Specific WI Generation**:
+- **Nightstalker**: Ambush from stealth â†’ +2 WI on hit
+- **Ironhide**: Each enemy that attacks you â†’ +1 WI (max 3/round)
+- **Skyhunter**: Dive attack from above â†’ +2 WI on hit
+- **Frostfang**: Attack same target as ally â†’ +2 WI on hit
 
-**Escalating Power**: Wild Instinct abilities scale across three bands—Instinct (1-5 WI), Surge (6-10 WI), and Apex (11-15 WI)—allowing you to choose between frequent small boosts or saving for devastating ultimate abilities.`,
+**Humanity Erosion Thresholds**:
+- **0-2 Erosion**: "The Mask Holds." You are functional. Barely.
+- **3-4 Erosion**: "Fading." Cannot speak or understand Common. Disadvantage on Intelligence checks.
+- **5-6 Erosion**: "Slipping." Cannot use items. Must pass Wisdom save DC 13 to revert voluntarily.
+- **7-9 Erosion**: "Feral." Each round, Wisdom save DC 14 or attack nearest creature (ally or enemy).
+- **10 Erosion**: "Lost." GM controls your character until combat ends. You are the animal now.
+
+**Recovery**: Erosion decreases by 3 after a Short Rest. Resets to 0 after a Long Rest.`,
     },
 
     immersiveCombatExample: {
-      title: "Combat Example: The Shapeshifter's Dance",
-      content: `**TL;DR**: Nightstalker ambush (free) → Ironhide tank (1 WI switch) → Roaring Assault (5 WI spend) → Skyhunter pursuit (1 WI switch). Generate WI in each form, spend on abilities. The lesson: switch forms to match the moment, and always bank WI for emergencies.
+      title: "Combat Example: The Mask Slips",
+      content: `**TL;DR**: Nightstalker ambush (free, Erosion +1) â†’ Ironhide tank (1 WI, Erosion 2) â†’ Skyhunter pursuit (1 WI, Erosion 3 â†’ CAN'T SPEAK) â†’ The party watches something wearing their friend's face try to remember how to be human. The lesson: every shift has a cost beyond WI.
 
-**The Setup**: You're a Formbender ambushing a group of bandits (3 bandits + 1 bandit leader) in a forest. Your party's fighter and mage are with you. Starting Wild Instinct: 4 (banked from a previous encounter, halved between fights). Your goal: Protect your mage, eliminate threats, and adapt to the changing battle.
+**The Setup**: You're a Formbender ambushing bandits in a forest clearing. 3 bandits + 1 bandit leader. Your party's fighter and mage are with you. Starting WI: 4 (halved from last fight). Erosion: 0.
 
-**Starting State**: Wild Instinct: 4/15 | HP: 75/75 | Form: Human (not transformed)
-
----
-
-**Turn 1 - Opening Ambush (WI: 4 → 6, Form: Human → Nightstalker)**
-
-*You crouch in the shadows, watching the bandits make camp. Time to strike.*
-
-**Free (0 AP)**: Transform into Nightstalker form (FREE - first transformation of combat)
-**Effect**: Your body shrinks, muscles coiling like a panther. Black fur ripples across your skin. Your eyes glow yellow. You gain advantage on stealth checks and ambush attacks.
-
-**Your Action**: Ambush Strike on Bandit #1 (spend 3 WI for Tier 3: 3d6 damage + Stun)
-**Attack Roll**: d20+6 (advantage from stealth) → [14] = Hit!
-**Damage**: 3d6 → [5, 4, 6] = 15 damage + target Stunned for 1 round
-**WI Spent**: 3 WI
-**Result**: Bandit #1 STUNNED at 0 HP (bandits have 15 HP each)
-
-*You leap from the shadows, claws extended. The bandit crumples, stunned. The primal energy surges through you.*
-
-**Wild Instinct**: 4 - 3 = **1 WI**
-**Current Form**: Nightstalker (stealth, burst damage)
-
-**Bandit #2's Turn**: Attacks your fighter → 8 damage
-**Bandit #3's Turn**: Attacks your fighter → 6 damage
-**Bandit Leader's Turn**: Attacks your fighter → 12 damage
+**Starting State**: WI: 4/15 | HP: 75/75 | Erosion: 0/10 | Form: Human
 
 ---
 
-**Turn 2 - Mistake & Recovery (WI: 1 → 1, Form: Nightstalker → Ironhide)**
+**Turn 1 - The First Mask (WI: 4 â†’ 2, Erosion: 0 â†’ 1, Form: Human â†’ Nightstalker)**
 
-*The bandits are focused on your fighter. Your mage is exposed. Time to tank—but you're almost out of WI. You'll need to generate more in Ironhide form.*
+*You crouch in the treeline. Your spine crackles as vertebrae rearrange. Fur erupts through splitting skin. Your jaw elongates with a wet crunch. Something that was purring replaces the thing that was breathing.*
 
-**Your Action**: Transform into Ironhide form (costs 1 WI)
-**Wild Instinct**: 1 - 1 = **0 WI** ⚠️
-**Ironhide Passive**: +20 max HP (75 → 95). Your current HP heals to 95.
+**Free Shift**: Transform into Nightstalker (0 WI, but +1 Erosion â†’ 1)
+*Effect*: Black fur, yellow eyes, advantage on stealth. The mask has slipped once.
 
-*Your body EXPLODES in size. Fur becomes thick hide. You're a BEAR now. You roar, positioning yourself between the bandits and your mage.*
+**Your Action**: Ambush Strike on Bandit #1 (spend 2 WI, Tier 2: 2d6 slashing + Bleeding)
+**Attack Roll**: d20+6 (advantage from stealth) â†’ [15] = Hit!
+**Damage**: 2d6 â†’ [5, 4] = 9 slashing. Bandit #1 crumples, bleeding.
+**WI Generated**: +2 WI (Ambush from Stealth)
 
-**WI at 0**: You're now at 0 WI in a transformed state. If you hit 0 WI again while transformed, you'll suffer Primal Exhaustion. You need to generate WI this turn.
+*You land on the bandit's chest. Your claws are inside his ribcage. The taste of iron floods your elongated snout. Something in the back of your skull â€” the human part â€” is screaming. The rest of you is purring.*
 
-**Your Action**: Taunt all enemies toward you (form-specific action)
-**Effect**: All bandits must attack you instead of allies
-**WI Generated**: +1 WI per enemy that attacks you this round
+**Wild Instinct**: 4 - 2 + 2 = **4 WI** | **Erosion: 1**
 
-**Bandit #1's Turn**: Still stunned—skips turn
-**Bandit #2's Turn**: Attacks you → Hit! 2d6+3 → 10 damage (reduced to 8 by 25% physical resistance). +1 WI from being attacked.
-**Bandit #3's Turn**: Attacks you → Hit! 2d6+3 → 8 damage (reduced to 6). +1 WI from being attacked.
-**Bandit Leader's Turn**: Attacks you → Hit! 3d6+4 → 16 damage (reduced to 12). +1 WI from being attacked.
-
-**Total Damage Taken**: 8 + 6 + 12 = 26 damage
-**Your HP**: 95 - 26 = **69/95**
-
-**Wild Instinct**: 0 + 3 = **3 WI** (generated from 3 enemies attacking you)
-
-*The bandits' weapons bounce off your thick hide. You barely feel it. This is what Ironhide form is FOR.*
-
-**Current State**: WI: 3/15 | HP: 69/95 | Form: Ironhide
+**Bandit #2's Turn**: Attacks your fighter â†’ 8 damage
+**Bandit #3's Turn**: Attacks your fighter â†’ 6 damage
+**Bandit Leader's Turn**: Sees you. Goes pale. Attacks your fighter â†’ 12 damage.
 
 ---
 
-**Turn 3 - Spending Wild Instinct (WI: 3 → 0, Form: Ironhide)**
+**Turn 2 - The Second Face (WI: 4 â†’ 3, Erosion: 1 â†’ 2, Form: Nightstalker â†’ Ironhide)**
 
-*You're at 3 WI—not enough for a Tier 5 Roaring Assault (5 WI). You need to spend a lower tier or wait. The bandit leader is still dangerous. You choose Tier 3.*
+*The bandits are swarming your fighter. Your mage is exposed. You need to be bigger. You need to be *more*. Your Nightstalker form convulses â€” the fur falls out in clumps as your skeleton detonates outward.*
 
-**Your Action**: Roaring Assault, Tier 3 (spend 3 WI: 3d8 force damage + knock back 10 ft)
-**Saving Throw**: Bandits make Con save DC 14
-- Bandit #1: Fails → takes full 3d8 = 16 damage. DEAD (was at 0 HP, stunned).
-- Bandit #2: Fails → takes 16 damage, knocked back 10 ft. DEAD (was at ~1 HP).
-- Bandit #3: Succeeds → takes half = 8 damage. Knocked back 10 ft. Surviving.
-- Bandit Leader: Succeeds → takes half = 8 damage. Knocked back 10 ft.
+**Shift**: Transform into Ironhide (-1 WI, +1 Erosion â†’ 2)
+**Ironhide Passive**: +20 max HP (75 â†’ 95). Current HP heals to 95.
 
-**Wild Instinct**: 3 - 3 = **0 WI** ⚠️ (again—but you generated 3 WI from attacks last turn, so no Exhaustion triggers from spending)
+*Your skin splits along the spine. Thick, calloused hide rolls out like a carpet of scar tissue. Your hands become something that shouldn't exist â€” heavy, splayed, built for crushing. A sound comes out of your throat that has no name in any human language.*
 
-*You rear up and SLAM the ground. The shockwave sends two bandits flying. The leader staggers but stays standing.*
+**Your Action**: Taunt all enemies toward you (Ironhide form action)
+**Effect**: All bandits must attack you. +1 WI per enemy that does.
 
-**Current State**: WI: 0/15 | HP: 69/95 | Form: Ironhide
+**Bandit #1's Turn**: Bleeding out. Skips turn.
+**Bandit #2's Turn**: Attacks you â†’ 10 damage (reduced to 8). +1 WI.
+**Bandit #3's Turn**: Attacks you â†’ 8 damage (reduced to 6). +1 WI.
+**Bandit Leader's Turn**: Attacks you â†’ 16 damage (reduced to 12). +1 WI.
 
-**Bandit #3's Turn**: Charges back → Attacks you → 7 damage (reduced to 5). +1 WI.
-**Bandit Leader's Turn**: Charges back → Attacks you → 14 damage (reduced to 11). +1 WI.
+**Wild Instinct**: 4 - 1 + 3 = **6 WI** | **Erosion: 2** | HP: 95 - 26 = **69/95**
 
-**End of Turn**: +2 WI from being attacked.
-**Wild Instinct**: 0 + 2 = **2 WI**
+*Three weapons bounce off your hide. You barely feel it. The human part of you is getting quieter. That's fine. You don't need it right now.*
 
 ---
 
-**Turn 4 - Aerial Pursuit (WI: 2 → 3, Form: Ironhide → Skyhunter)**
+**Turn 3 - The Breaking Point (WI: 6 â†’ 3, Erosion: 2 â†’ 3, Form: Ironhide â†’ Skyhunter)**
 
-*The leader is wounded and trying to flee. Bandit #3 is nearly dead. Time to finish this.*
+*The leader is wounded. Trying to run. You need to fly. Your massive form begins to collapse inward â€” ribs cracking, shoulders dislocating, wings tearing through shoulder blades in gouts of dark fluid.*
 
-**Your Action**: Transform into Skyhunter form (costs 1 WI)
-**Wild Instinct**: 2 - 1 = **1 WI**
-**Ironhide Exit**: Your max HP drops from 95 to 75. Your current HP is adjusted to 69 - 20 = 49/75.
+**Shift**: Transform into Skyhunter (-1 WI, +1 Erosion â†’ **3**)
+âš ï¸ **EROSION 3 â€” "FADING": You can no longer speak or understand Common.**
 
-*Your massive bear form SHRINKS. Wings erupt from your back. You're an EAGLE now—a massive raptor with razor talons. You take flight.*
+*Your beak opens and a word tries to come out. It doesn't. The sounds that emerge are clicks, shrieks, the language of things that nest in carrion trees. Your fighter is shouting something at you. You hear only noise.*
 
-**Your Action**: Talon Dive on Bandit Leader (spend 1 WI for Tier 1: 1d6 damage)
-**Attack Roll**: d20+6 (advantage from dive) → [17] = Hit!
-**Damage**: 1d6 → [5] = 5 slashing damage
-**WI Generated**: +2 WI (Dive Attack - form-specific action, generated on hit)
-**Wild Instinct**: 1 - 1 + 2 = **2 WI**
+**Wild Instinct**: 6 - 1 = **5 WI** | **Erosion: 3** | HP: 49/75
 
-*You dive from 50 feet up, talons extended. Your talons pierce his shoulder. He falls.*
+**Your Action**: Talon Dive on Bandit Leader (1 WI, Tier 1: 1d6 + grapple)
+**Attack Roll**: d20+6 â†’ [17] = Hit!
+**Damage**: 1d6 â†’ [5] = 5 slashing + Grappled
+**WI Generated**: +2 WI (Dive Attack on hit)
 
-**Bandit Leader**: ~30 HP - 5 damage = 25 HP remaining. Not dead—the Tier 1 Dive wasn't enough.
+**Wild Instinct**: 5 - 1 + 2 = **6 WI** | **Erosion: 3**
 
-*You curse yourself. You should have saved more WI for a bigger dive. But the form switch was the right call for mobility.*
-
-**Current State**: WI: 2/15 | HP: 49/75 | Form: Skyhunter
+*You plummet from fifty feet. Your talons â€” they're not talons, they're *your fingers*, you tell yourself, except they're not â€” pierce his shoulder. He screams. You don't understand screaming anymore.*
 
 ---
 
-**Turn 5 - The Finish (WI: 2 → 4, Form: Skyhunter)**
+**Turn 4 - The Kill (WI: 6 â†’ 4, Erosion: 3 â†’ 3, Form: Skyhunter)**
 
-*The leader is running. Bandit #3 is crawling away. Your fighter finishes off Bandit #3. You focus on the leader.*
+*The leader is grappled. Your fighter closes in.*
 
-**Your Action**: Talon Dive on Bandit Leader again (spend 2 WI for Tier 2: 2d6 damage + Grapple)
-**Attack Roll**: d20+6 → [13] = Hit!
-**Damage**: 2d6 → [4, 5] = 9 slashing damage + Grappled
-**WI Generated**: +2 WI (Dive Attack, generated on hit)
-**Wild Instinct**: 2 - 2 + 2 = **2 WI**
+**Your Action**: Talon Dive again (spend 2 WI, Tier 2: 2d6)
+**Attack Roll**: d20+6 â†’ [13] = Hit!
+**Damage**: 2d6 â†’ [4, 5] = 9 slashing.
+**WI Generated**: +2 WI (Dive Attack on hit)
 
-*You dive again, this time grabbing him with your talons. He's grappled—can't move, can't flee.*
-
-**Your fighter's Turn**: Attacks the grappled leader → 18 damage. DEAD.
+**Your fighter's Turn**: Attacks the grappled leader â†’ 18 damage. **DEAD.**
 
 **Combat Over**
 
-*You land gracefully, wings folding. Your party stares at you—you've been three different animals in five turns. You shift back to human form, breathing heavily.*
+---
 
-**Your Party's Fighter**: "That was... incredible. You were a panther, then a bear, then an eagle."
-**You**: "Formbender. I'm whatever the situation needs me to be."
-**Your Party's Mage**: "Thanks for tanking those hits. I would've died."
-**You**: "That's what Ironhide form is for. Nightstalker for ambush, Ironhide for tanking, Skyhunter for mobility. Each form has a purpose."
+**The Aftermath**
 
-**Final State**: WI: 2/15 (halves to 1 between fights) | HP: 49/75
+*You land in the clearing. Blood on your beak. Your wings fold â€” wrong, they fold wrong, joints bending in directions human arms shouldn't. Your party stares at you.*
+
+*Your fighter says your name. You tilt your head. The sound means nothing. You try to say his name back, but what comes out is a shriek that makes the mage flinch.*
+
+*You shift back to human form. The reversion is worse than the transformation â€” everything crams back into a shape that doesn't fit, bones grinding into sockets that are too small, organs settling into places they don't remember. You open your mouth to speak and for a long, terrible moment, nothing happens.*
+
+*Then, quietly: "...I'm fine."*
+
+*Nobody believes you.*
+
+**Final State**: WI: 6/15 (halves to 3 between fights) | HP: 49/75 | **Erosion: 3** (Fading â€” can't speak Common until Short Rest reduces Erosion by 3)
 
 ---
 
-**The Lesson**: Formbender gameplay is about:
-1. **Free First Transform**: Started combat with free Nightstalker transformation (no WI cost)
-2. **Resource Tension**: Dropped to 0 WI on Turn 2—a dangerous position. Had to rely on Ironhide's taunt generation to recover.
-3. **Form-Specific Generation**: Generated WI by being attacked in Ironhide (+1 per enemy), and by hitting Dive Attacks in Skyhunter (+2 per hit)
-4. **Mistakes Are Costly**: Spent too much WI on Turn 1 (3 WI on Ambush Strike Tier 3), leaving only 1 WI for the Ironhide switch. A Tier 1 or 2 Ambush (1-2 WI) would have left more cushion.
-5. **Adaptation Over Perfection**: The Skyhunter Dive on Turn 4 only dealt 5 damage because only 1 WI was available. But the mobility was worth it—staying in Ironhide would have let the leader escape.
-6. **WI Banking**: Start fights with as much WI as possible. Ended this fight with only 2 WI (1 after decay). The next fight will start with less resources.
-7. **The Golden Rule**: Generate WI in one form, spend it in another. Ironhide generates through tanking. Skyhunter generates through diving. Nightstalker generates through ambushing. Pick the form that matches what the fight needs.`,
+**The Lesson**:
+1. **Erosion Is The Real Cost**: You shifted 3 times. That's 3 Erosion. You lost the ability to speak to your own party. Next fight, if you shift 2 more times, you hit Erosion 5 and can't use items.
+2. **The Fatal Flaw Is Permanent**: If that bandit leader had dealt psychic damage instead of physical, you'd have taken +50%. Your human mind is always exposed.
+3. **Adaptation Has A Price**: The Skyhunter shift was tactically correct â€” you stopped the leader from escaping. But it cost you your voice. Your party had to watch something wearing your face forget how to speak.
+4. **Resource Tension**: WI is the *immediate* resource. Erosion is the *strategic* resource. Managing both is the core of the class.
+5. **The Horror Is The Point**: You are not a druid. You are not a guardian. You are the thing in the forest that the wolves are afraid of.`,
     },
   },
 
   // Resource System
   resourceSystem: {
-    title: "Wild Instinct (WI)",
-    subtitle: "The Rhythm of the Shapeshifter",
+    title: "Wild Instinct & Humanity Erosion",
+    subtitle: "The Fuel and the Toll",
 
-    description: `The Formbender is a master of adaptation, channeling primal energy through four animal forms. Your core resource is **Wild Instinct** (0-15), which fuels your transformations and form-specific maneuvers. Unlike static casters, you are a fluid duelist—generating energy in one form to spend it in another.`,
+    description: `The Formbender does not *cast* â€” they *rupture*. Wild Instinct (0-15) is the biological fury that powers your stolen forms, generated through form-specific violence. But every transformation is a tax on your human mind, tracked by **Humanity Erosion** (0-10). WI is the fuel. Erosion is the price. Manage both, or become the animal permanently.`,
 
     cards: [
       {
         title: "Wild Instinct (WI)",
         stats: "0-15 Capacity",
         details:
-          "Fuels transformations and abilities. Halves (rounded down) between combats as your bloodlust cools.",
+          "Biological fury that fuels transformations and abilities. Halves (rounded down) between combats as the bloodlust cools.",
+      },
+      {
+        title: "Humanity Erosion",
+        stats: "0-10 Tracker",
+        details:
+          "Every form shift adds +1 Erosion (+2 if forced reversion). At 3+: lose speech. At 5+: can't use items. At 7+: attack allies. At 10: GM controls your character.",
       },
       {
         title: "The Four Forms",
         stats: "Night, Iron, Sky, Frost",
         details:
-          "Each form has unique passives and generation methods. Your first transformation in combat is always free.",
+          "Each form has unique passives and generation methods. Your first transformation in combat is free (WI), but still costs +1 Erosion.",
       },
       {
         title: "Form-Matched Spells",
@@ -260,130 +238,163 @@ export const FORMBENDER_DATA = {
     ],
 
     generationTable: {
-      headers: ["Action", "Form Required", "WI Change", "Notes"],
+      headers: ["Action", "Form Required", "WI Change", "Erosion", "Notes"],
       rows: [
         [
           "Opening Shift",
           "Human",
           "FREE",
-          "First transform of combat only. If you start a fight already transformed, no free shift.",
+          "+1",
+          "First transform of combat. Free WI, but still erodes humanity.",
         ],
         [
           "Standard Shift",
           "Any",
           "-1 WI",
-          "Switching from one form to another",
+          "+1",
+          "Every bone-snap costs a piece of your soul.",
+        ],
+        [
+          "Forced Reversion",
+          "Any",
+          "WI â†’ 0",
+          "+2",
+          "Dispelled, knocked out, or forcibly ended. Double erosion.",
         ],
         [
           "Ambush from Stealth",
           "Nightstalker",
           "+2 WI",
-          "Must attack from stealth or surprise. Generates WI on hit.",
+          "â€”",
+          "Must attack from stealth. Generated on hit.",
         ],
         [
           "Taunt/Tanking",
           "Ironhide",
-          "+1 WI per enemy",
-          "Each enemy that attacks you this round generates +1 WI (max +3 per round).",
+          "+1 WI/enemy",
+          "â€”",
+          "Each enemy attacking you generates +1 WI (max +3/round).",
         ],
         [
           "Protecting an Ally",
           "Ironhide",
           "+2 WI",
+          "â€”",
           "Take an attack meant for an adjacent ally (reaction).",
         ],
         [
           "Dive Attack",
           "Skyhunter",
           "+2 WI",
-          "Attack from above while flying. Generates WI on hit.",
+          "â€”",
+          "Attack from above while flying. Generated on hit.",
         ],
         [
           "Scout/Recon",
           "Skyhunter",
           "+1 WI",
-          "Spend an action to survey the battlefield from above.",
+          "â€”",
+          "Spend an action to survey from above.",
         ],
         [
           "Pack Tactics Attack",
           "Frostfang",
           "+2 WI",
-          "Attack the same target as an ally. Generates WI on hit.",
+          "â€”",
+          "Attack the same target as an ally. Generated on hit.",
         ],
         [
           "Tracking",
           "Frostfang",
           "+1 WI",
-          "Spend an action to track a creature or detect hidden enemies.",
+          "â€”",
+          "Spend an action to track or detect hidden enemies.",
         ],
         [
           "Savage Rend",
           "Any Form",
           "+1 WI",
-          "Basic melee attack that tears with claws/fangs. Generates WI on hit.",
+          "â€”",
+          "Basic melee with claws/fangs. Generated on hit.",
         ],
       ],
     },
 
     usage: {
       momentum:
-        "Each form is a tool. Start in Nightstalker for an ambush (+2 WI), then switch to Ironhide (-1 WI) to tank the counter-attack, generating more WI as you are hit.",
+        "Each form is a weapon. Open in Nightstalker for an ambush (+2 WI), then switch to Ironhide (-1 WI, +1 Erosion) to absorb the counter-attack. The animal gives you power. The erosion takes your humanity.",
       flourish:
-        "⚠️ Revert Clause: If you are knocked to 0 HP, you auto-revert to human form and lose all current WI. Stay in Ironhide (+20 max HP) if you are close to death.",
+        "âš ï¸ Revert Clause: If knocked to 0 HP, you auto-revert to human form, lose all WI, and suffer +2 Erosion. The body rejects the lie violently.",
     },
 
     overheatRules: {
       title: "Primal Exhaustion",
       content: `Shapeshifting puts extreme strain on the mortal frame.
 
-**The Trigger**: If you hit 0 WI while in a transformation, OR if you are reduced to 0 HP (which auto-reverts you to Human form and empties your WI to 0).
+**The Trigger**: If you hit 0 WI while transformed, OR reduced to 0 HP (auto-revert, WI â†’ 0, +2 Erosion).
 
-**The Effect**: You suffer **Primal Exhaustion**. You are Stunned for 1 turn and cannot transform again until you spend a full Action "Centering" yourself.
+**The Effect**: **Primal Exhaustion**. Stunned for 1 turn. Cannot transform again until you spend a full Action "Centering" yourself (a painful process of shoving the animal back into its cage).
 
-**Stacking**: If you are reduced to 0 HP while already at 0 WI, you suffer Primal Exhaustion as normal—there is no double penalty, but the recovery requirements remain the same.
+**The Guardrail**: Always keep at least 1 WI banked. Not for efficiency â€” for survival.`,
+    },
 
-**The Guardrail**: Always keep at least 1 WI banked to ensure you can safely shift or revert without exhausting your spirit.`,
+    humanityErosionRules: {
+      title: "Humanity Erosion Tracker",
+      content: `The animal mind grows stronger with every transformation. Track your Erosion (0-10). Recovery: -3 after Short Rest, reset to 0 after Long Rest.
+
+**Erosion Thresholds**:
+- **0-2 ("The Mask Holds")**: You pass. Mostly. Disadvantage on Charisma (Persuasion) checks â€” something in your eyes isn't quite right.
+- **3-4 ("Fading")**: Cannot speak or understand Common. Disadvantage on Intelligence checks. You make sounds, but they're not words.
+- **5-6 ("Slipping")**: Cannot use items (weapons, potions, tools). Must pass Wisdom save DC 13 to revert voluntarily. Your hands don't work the way they used to.
+- **7-9 ("Feral")**: Each round, Wisdom save DC 14 or attack nearest creature (ally or enemy). You cannot tell friend from prey.
+- **10 ("Lost")**: GM controls your character until combat ends. You are the animal. There is no human left to argue.
+
+**The Permanent Wound**: You permanently take +50% Psychic damage. This is not tracked by Erosion â€” it is always active. The human consciousness is a wound that never closes, and every psychic attack tears it wider.`,
     },
 
     strategicConsiderations: {
-      title: "Chaining the Wild",
-      content: `**Metamorph Spec**: You can merge two forms (e.g., Nightstalker + Skyhunter). This costs 2 WI but allows you to generate WI from *both* forms simultaneously.
+      title: "The Cost of Adaptation",
+      content: `**Metamorph Spec**: Merging two forms costs 2 WI and +2 Erosion (both forms are breaking through at once). Devastating but accelerates your loss of humanity.
 
-**Persistence**: Since WI halves between fights, try to end a combat at 10-12 WI. This ensures you start the next fight with 5-6 WI, allowing for immediate high-tier maneuvers.`,
+**Erosion Management**: A typical combat involves 2-3 shifts (Erosion 2-3). You'll hit "Fading" most fights. If you push to 5+ shifts, you lose items. If you hit 7, you become a danger to your party. The optimal Formbender knows when to stop adapting and start surviving.
+
+**Form Thief Spec**: Stolen forms cost 0 WI to absorb on kill (instinctive). But they only last the current combat. To permanently learn a stolen form, you must rest for 10 minutes and pass a Constitution save (DC 10 + creature's CR). Failure: take 2d6 necrotic rejection damage and the form is lost.`,
     },
 
     playingInPerson: {
       title: "Playing in Person",
-      subtitle: "The Transformation Cards",
-      content: `Shapeshifting should feel physical. Use these hacks to track your forms:
+      subtitle: "The Erosion Tokens",
+      content: `Shapeshifting should feel like a loss of control. Use these hacks:
 
 **Required Materials**:
-- **15 Green Tokens**: (Representing Wild Instinct).
+- **15 Green Tokens**: Wild Instinct (the fuel).
+- **10 Red Tokens**: Erosion (the toll).
 - **4 Form Cards**: Large index cards with form art and stats.
-- **4 Distinct Minis**: (Cat, Bear, Bird, Wolf).
+- **4 Distinct Minis**: Cat, Bear, Bird, Wolf.
 
-**The Physical Hack (Friction Points)**:
-- **The Active Card**: Place your current Form Card on top of your character sheet. When you transform, physically swap the card and the miniature. This clarifies your active passives for the whole table.
-- **The Instinct Pile**: Use a small bowl for WI tokens. When you "Ambush" or "Taunt," pull the tokens from the bowl. The size of your "Primal Pile" shows everyone how much "Apex" power you are holding.
-- **The Decay Check**: At the end of combat, simply put half your tokens back in the bowl. No math needed—just grab half the pile and drop it.
+**The Physical Hack**:
+- **The Active Card**: Place your current Form Card on top of your character sheet. When you transform, physically swap the card and miniature.
+- **The Instinct Pile**: Green tokens in a bowl. The pile shows your available power.
+- **The Erosion Track**: Red tokens in a LINE on the table. Everyone can see how close you are to losing control. When you hit 3, the GM announces: "You can't speak." When you hit 7, the table goes quiet.
+- **The Decay Check**: End of combat â€” half the green tokens go back. The red tokens stay until you rest.
 
-**Pro Tip**: Use different colored dice for your attacks in each form. Brown dice for Ironhide, Purple for Nightstalker. It helps you remember which bonuses are currently active.`,
+**Pro Tip**: When you hit Erosion 3+, stop using your normal voice. Click, growl, or just point. Your party will understand what you've lost.`,
     },
   },
 
   // Specializations
   specializations: {
     title: "Formbender Specializations",
-    subtitle: "Three Paths of Transformation Mastery",
+    subtitle: "Three Paths of Biological Horror",
 
-    description: `**TL;DR**: Metamorph merges two forms into hybrids. Form Thief steals shapes from slain enemies. Primordial replaces animal forms with elemental ones. Each changes how you shapeshift entirely.
+    description: `**TL;DR**: Metamorph builds chimeric abominations from two forms at once. Form Thief steals the shapes of the dead â€” free on kill, but must pass a Constitution save during rest to keep them permanently. Primordial replaces animal flesh with elemental nightmare. Each path accelerates your erosion in different ways.
 
-Formbenders can specialize in radically different transformation philosophies. Metamorphs create chimeric hybrid forms, Form Thieves steal and mimic the forms of their enemies, and Primordials channel ancient elemental transformations. Each path offers a completely unique approach to shapeshifting.`,
+The Formbender's specializations are not schools of thought â€” they are different severities of the same disease. Metamorphs let too many animals in at once. Form Thieves steal what was never theirs. Primordials burn away the flesh entirely and replace it with something older. All three end in the same place: the human mind, devoured.`,
 
     passiveAbility: {
       name: "Primal Attunement",
       description:
-        "All Formbenders can transform into their four base forms (Nightstalker, Ironhide, Skyhunter, Frostfang) and generate Wild Instinct through form-specific actions. The first transformation each combat is free.",
+        "All Formbenders can transform into four base forms (Nightstalker, Ironhide, Skyhunter, Frostfang) and generate Wild Instinct through form-specific actions. First transformation each combat is free (WI). Every transformation adds +1 Humanity Erosion. You permanently take +50% Psychic damage.",
     },
 
     specs: [
@@ -392,41 +403,41 @@ Formbenders can specialize in radically different transformation philosophies. M
         name: "Metamorph",
         icon: "Nature/Ethereal Bird",
         color: "#9932CC",
-        theme: "Chimeric Hybrid Forms & Adaptive Evolution",
+        theme: "Chimeric Abominations & Flesh Fusion",
 
-        description: `Metamorphs transcend single forms, creating chimeric hybrids that merge traits from multiple creatures. Their mastery lies in boundless adaptation and versatility.`,
+        description: `Metamorphs don't just shift between forms â€” they merge them. Two animals clawing through the same skin at the same time, a screaming fusion of predator and prey built from refusal to choose. The result is an abomination that shouldn't exist. It's the most powerful path. It's also the fastest way to lose yourself.`,
 
         playstyle:
-          "Hybrid form creation, multi-trait combinations, adaptive combat",
+          "Hybrid abomination creation, multi-trait fusion, maximum versatility at maximum erosion cost",
 
         strengths: [
-          "Can combine two base forms simultaneously for hybrid abilities",
-          "Access to unique chimeric transformations unavailable to other specs",
+          "Combine two base forms simultaneously for chimeric abilities (costs 2 WI, +2 Erosion)",
+          "Access to unique chimeric transformations that no single form provides",
           "Hybrid forms inherit strengths from both parent forms",
-          "Unmatched versatility in adapting to any situation",
+          "Can manifest partial horrors (wings, claws, gills) without full transformation",
         ],
 
         weaknesses: [
-          "Hybrid forms cost more Wild Instinct to maintain",
+          "Merging forms costs +2 Erosion per merge (double the erosion of a standard shift)",
           "Cannot access pure form ultimate abilities",
-          "Transformation complexity requires careful planning",
-          "Jack-of-all-trades means less specialization",
+          "The chimera mind is louder â€” at Erosion 5+, Wisdom saves to revert increase to DC 16",
+          "Party members must pass Spirit saves to look at you without flinching",
         ],
 
         specPassive: {
           name: "Chimeric Fusion",
           description:
-            "Merge two base forms into a hybrid with combined traits (costs 2 WI). You can also manifest partial transformations (wings, claws, gills) without fully shapeshifting.",
+            "Merge two base forms into a hybrid abomination with combined traits (2 WI, +2 Erosion). You can also manifest partial horrors â€” wings erupting from shoulder blades, claws splitting through fingernails, gills carving open your neck â€” without full transformation (1 WI, +1 Erosion each).",
         },
 
         keyAbilities: [
-          "Chimeric Merge: Combine two forms (e.g., Nightstalker + Skyhunter = Shadow Raptor with stealth and flight)",
-          "Adaptive Evolution: Spend 3 WI to temporarily gain resistance to the last damage type you received",
-          "Partial Shift: Manifest specific traits (claws, wings, gills, enhanced senses) without full transformation (1 WI each)",
+          "Chimeric Merge: Combine two forms (e.g., Nightstalker + Skyhunter = Shadow Raptor with stealth and flight). Costs 2 WI and +2 Erosion.",
+          "Adaptive Mutation: Spend 3 WI to temporarily gain resistance to the last damage type that wounded you. Your flesh remembers what hurt it and grows armor accordingly.",
+          "Partial Horror: Manifest specific traits (wings, claws, gills, enhanced senses) without full transformation (1 WI, +1 Erosion each). The human body screams. The animal doesn't care.",
         ],
 
         recommendedFor:
-          "Players who love creative problem-solving and want maximum transformation flexibility",
+          "Players who want maximum creative flexibility and are willing to pay for it in humanity. The Metamorph erodes fastest but adapts to anything.",
       },
 
       {
@@ -434,41 +445,41 @@ Formbenders can specialize in radically different transformation philosophies. M
         name: "Form Thief",
         icon: "Psychic/Mind Control",
         color: "#8B0000",
-        theme: "Form Theft & Enemy Mimicry",
+        theme: "Stolen Shapes & Necrotic Rejection",
 
-        description: `Form Thieves steal the shapes of slain enemies, perfectly mimicking any creature they've killed. They build a growing repertoire of forms, becoming master infiltrators.`,
+        description: `Form Thieves don't just borrow nature's designs â€” they steal them. When something dies in front of you, its shape is absorbed instinctively, bone memory etched into your mutating DNA. But stolen biology is rejected tissue. To keep a form permanently, you must force your body to accept the foreign anatomy during rest â€” and the rejection damage when you fail is catastrophic.`,
 
         playstyle:
-          "Form collection, enemy mimicry, infiltration, stolen abilities",
+          "Form collection from the slain, enemy mimicry, biological theft with necrotic consequences",
 
         strengths: [
-          "Can steal and permanently learn forms from defeated enemies",
+          "Absorb forms from slain enemies at 0 WI cost (instinctive â€” the kill triggers absorption)",
           "Perfect mimicry allows infiltration and deception",
-          "Access to enemy racial abilities and traits",
-          "Form library grows stronger with each victory",
+          "Access to enemy racial abilities and traits from stolen forms",
+          "Form library grows stronger with each victory â€” up to 10 permanent stolen forms",
         ],
 
         weaknesses: [
-          "Must defeat enemies to gain their forms",
-          "Can only maintain 10 stolen forms at a time",
-          "Stolen forms may have unfamiliar abilities",
-          "Requires kills to expand transformation options",
+          "Stolen forms only last the current combat unless permanently learned",
+          "To permanently learn: rest 10 minutes + Constitution save DC 10 + creature's CR",
+          "Failed Constitution save: take 2d6 necrotic rejection damage + creature's CR, form is LOST",
+          "Can only store 10 permanent stolen forms â€” must choose which horrors to keep",
         ],
 
         specPassive: {
           name: "Harvest Form",
           description:
-            "When you reduce a creature to 0 HP, spend 3 WI to steal its form (stats, racial abilities, appearance). Store up to 10 stolen forms. Transforming into a stolen form costs 2 WI (vs. 1 WI for base forms).",
+            "When you reduce a creature to 0 HP, you may instinctively absorb its form at **0 WI cost**. The stolen form lasts only for the **current combat**. To permanently learn it, you must rest for 10 minutes and pass a **Constitution save (DC 10 + creature's CR)**. On failure, take **2d6 + creature's CR necrotic rejection damage** and the form is lost. You can retry on your next rest. Store up to 10 permanent stolen forms. Transforming into a stolen form costs 2 WI (vs. 1 WI for base forms).",
         },
 
         keyAbilities: [
-          "Perfect Mimicry: While in a stolen form, you are indistinguishable from the original creature (even to magic)",
-          "Stolen Power: Use one ability from your current stolen form (costs vary by ability power)",
-          "Form Vault: Spend 10 minutes to swap out stored forms, replacing old ones with new acquisitions",
+          "Perfect Mimicry: While in a stolen form, you are biologically indistinguishable from the original creature â€” even to magic. You wear their skin like a suit.",
+          "Stolen Power: Use one ability from your current stolen form. The cost varies by the ability's power â€” your body pays whatever the original creature's biology demands.",
+          "Necrotic Archive: Spend 10 minutes to swap stored forms, surgically excising old acquisitions and grafting new ones. Each swap deals 1d4 necrotic damage to you as tissue is rejected and regrown.",
         ],
 
         recommendedFor:
-          "Players who enjoy collecting abilities and using enemy powers against them",
+          "Players who want a growing collection of stolen abilities and enjoy the tension of rolling Constitution saves to keep their prizes. The Form Thief is a biological kleptomaniac paying for theft in flesh.",
       },
 
       {
@@ -476,42 +487,42 @@ Formbenders can specialize in radically different transformation philosophies. M
         name: "Primordial",
         icon: "Fire/Eruption",
         color: "#FF4500",
-        theme: "Ancient Elemental Transformations",
+        theme: "Elemental Excision & Flesh to Force",
 
-        description: `Primordials channel elemental planes, transforming into primal beings of fire, water, earth, and air. **This specialization replaces your four base animal forms with four elemental forms.** More powerful than standard forms but with elemental vulnerabilities.`,
+        description: `Primordials don't wear animal skins â€” they burn them away entirely. Your four animal forms are replaced by elemental catastrophes: living fire, crushing water, screaming stone, and hungry wind. **This specialization replaces your four base animal forms with four elemental forms.** More powerful than standard forms, but elemental biology rejects human consciousness even faster. The erosion is worse. The power is worse. Everything is worse, and that's the point.`,
 
         playstyle:
-          "Elemental transformations, environmental manipulation, high-risk high-reward",
+          "Elemental body horror, environmental manipulation, maximum power at maximum cost",
 
         strengths: [
-          "Elemental forms deal massive elemental damage",
-          "Can manipulate terrain and environment while transformed",
-          "Immunity to their element while in elemental form",
+          "Elemental forms deal massive elemental damage to everything around them",
+          "Complete immunity to your element while in elemental form",
+          "Can reshape terrain and environment while transformed",
           "Elemental forms have devastating ultimate abilities",
         ],
 
         weaknesses: [
-          "Vulnerable to opposing elements (Fire weak to Water, etc.)",
+          "Vulnerable to opposing elements (Fire â†” Frost, Lightning â†” Earth)",
           "Elemental forms cost 3 WI to activate (vs. 1 WI for base forms)",
-          "Replaces all four base animal forms—you cannot use Nightstalker, Ironhide, Skyhunter, or Frostfang",
-          "Environmental dependence (harder to use Fire form underwater)",
+          "Replaces ALL four base animal forms â€” you cannot use Nightstalker, Ironhide, Skyhunter, or Frostfang",
+          "Each elemental shift adds +2 Erosion instead of +1 â€” the elements burn away humanity faster",
         ],
 
         specPassive: {
-          name: "Elemental Ascension",
+          name: "Elemental Excision",
           description:
-            "**Replaces base forms.** Your four animal forms become elemental forms (Inferno, Tsunami, Avalanche, Tempest). Each grants its element's immunity, opposite vulnerability, and 30 ft element manipulation. Elemental forms cost 3 WI to activate instead of 1 WI.",
+            "**Replaces base forms.** Your four animal forms become elemental catastrophes (Inferno, Tsunami, Avalanche, Tempest). Each grants its element's immunity, opposing element vulnerability, and 30 ft environmental manipulation. Elemental forms cost 3 WI to activate and add +2 Erosion per shift (instead of +1). The human mind cannot process being made of fire.",
         },
 
         keyAbilities: [
-          "Inferno Form: Become living fire, dealing 1d6 fire damage to adjacent enemies each round, immune to fire, vulnerable to frost",
-          "Tsunami Form: Become living water, gain swim speed 60ft, breathe underwater, create water walls, vulnerable to lightning",
-          "Avalanche Form: Become living stone, gain +5 Armor, tremorsense 30ft, reshape earth, vulnerable to lightning",
-          "Tempest Form: Become living wind, gain fly speed 60ft, create wind barriers, vulnerable to being grounded",
+          "Inferno Form: Your flesh ignites. You are a screaming pillar of fire. Deal 1d6 fire damage to adjacent enemies each round. Immune to fire. Vulnerable to frost. You cannot scream because you have no throat â€” but the fire screams for you.",
+          "Tsunami Form: Your body dissolves into crushing water. Swim speed 60ft, breathe underwater, create water walls. Vulnerable to lightning. Drown your enemies in what used to be your circulatory system.",
+          "Avalanche Form: Your skeleton calcifies into living stone. +5 Armor, tremorsense 30ft, reshape earth. Vulnerable to lightning. Your heartbeat sounds like mountains grinding.",
+          "Tempest Form: Your lungs become wind chambers. Fly speed 60ft, create wind barriers. Vulnerable to being grounded. Your voice is the sound of a hurricane trying to remember words.",
         ],
 
         recommendedFor:
-          "Players who want powerful elemental magic and don't mind tactical vulnerabilities",
+          "Players who want the most destructive transformations and don't mind eroding twice as fast. The Primordial is the nuclear option â€” maximum devastation, minimum humanity.",
       },
     ],
   },
@@ -650,7 +661,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         "nightstalker",
         "feral shifter",
       ],
-      flavorText: "From the shadows, death strikes without warning.",
+      flavorText: "From the shadows, death strikes. Your fingernails were the warning. Nobody listened.",
     },
 
     {
@@ -769,7 +780,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
 
       tags: ["stealth", "invisibility", "illusion", "nightstalker", "utility"],
-      flavorText: "The shadows embrace those who walk in darkness.",
+      flavorText: "The shadows don't embrace you. You were always half-shadow to begin with.",
     },
 
     // ===== IRONHIDE FORM (BEAR) =====
@@ -844,6 +855,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       tags: ["aoe", "force", "crowd control", "ironhide", "feral shifter"],
+      flavorText: "Your throat tears wider than any human mouth should. The sound that comes out is not a roar — it is the death rattle of everything soft you ever were.",
     },
 
     {
@@ -920,6 +932,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         "ironhide",
         "restoration shifter",
       ],
+      flavorText: "They call it fur. It is not fur. It is hide grown thick enough to forget that beneath it, something still bleeds.",
     },
 
     // ===== SKYHUNTER FORM (HAWK) =====
@@ -989,6 +1002,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       tags: ["physical", "aerial", "grapple", "skyhunter", "feral shifter"],
+      flavorText: "Your arms fold backward at the elbow and your fingers stretch into something between wing and claw. Gravity stops being a law and becomes a suggestion you chose to ignore.",
     },
 
     {
@@ -1080,6 +1094,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         "skyhunter",
         "balance shifter",
       ],
+      flavorText: "The wind does not carry you. You swallowed the sky and it is trying to escape through your shoulder blades.",
     },
 
     // ===== FROSTFANG FORM (WOLF) =====
@@ -1158,6 +1173,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         "frostfang",
         "feral shifter",
       ],
+      flavorText: "Your jaw unhinges to accommodate fangs that should not fit. The cold is not magic — it is the absence of mercy, crystallized in enamel.",
     },
 
     {
@@ -1248,6 +1264,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         "frostfang",
         "restoration shifter",
       ],
+      flavorText: "You do not summon wolves. You scream until your hunger takes shape. What answers is not loyal — it is starving.",
     },
 
     // ===== UNIVERSAL SPELLS (ALL FORMS) =====
@@ -1323,6 +1340,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       tags: ["crowd control", "nature", "universal", "all specs"],
+      flavorText: "The vines grow from your open wounds, not from the earth. Your blood remembers what it was like to have roots.",
     },
 
     {
@@ -1377,6 +1395,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         "all specs",
         "restoration shifter",
       ],
+      flavorText: "You press your palm against their wound and your flesh flows — not gently, not kindly, but with the desperate urgency of a body that knows what it is to be broken.",
     },
 
     {
@@ -1456,23 +1475,24 @@ Formbenders can specialize in radically different transformation philosophies. M
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       tags: ["transformation", "utility", "universal", "all specs"],
+      flavorText: "You do not choose the animal. The animal chooses the part of you it wants. Your body complies. It always complies.",
     },
   ],
 
   // Comprehensive Spell List (Levels 1-10, 3 spells each, following template)
   spells: [
-    // ===== LEVEL 1 SPELLS (Already has 1, need 2 more) =====
+    // ===== LEVEL 1 SPELLS =====
     {
-      id: "formbender_primal_strike",
-      name: "Primal Strike",
+      id: "formbender_flesh_rip",
+      name: "Flesh Rip",
       description:
-        "Channel primal energy into a devastating melee attack dealing 2d8 + Strength bludgeoning damage. Critical hits generate +1 Wild Instinct.",
+        "Your fingernails split and elongate into hooked talons mid-swing, tearing through meat and sinew with the enthusiasm of something that forgot it used to have hands. Deal 2d8 + Strength slashing damage. Critical hits generate +1 Wild Instinct as the taste of blood triggers something old.",
       level: 1,
       form: null,
       spellType: "ACTION",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "slashing",
         icon: "Nature/Claw Marks",
         tags: ["attack", "damage", "physical", "formbender"],
         castTime: 1,
@@ -1480,7 +1500,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
       damageConfig: {
         formula: "2d8 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["slashing"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -1493,7 +1513,6 @@ Formbenders can specialize in radically different transformation philosophies. M
             amount: 1,
           },
         },
-        resolution: "DICE",
       },
       targetingConfig: {
         targetingType: "single",
@@ -1510,15 +1529,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 1,
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      resolution: "DICE",
       tags: ["attack", "damage", "physical", "formbender"],
     },
 
     {
-      id: "formbender_wild_regeneration",
-      name: "Form Regeneration",
+      id: "formbender_stolen_mending",
+      name: "Stolen Mending",
       description:
-        "Channel your animal form's natural healing. Restore 2d6 + Constitution HP instantly, plus 1d6 HP per round for 2 rounds. Only usable while transformed into an animal form. In human form, this spell has no effect.",
+        "Your stolen flesh knits itself with terrifying speed â€” organs repositioning, wounds suturing from the inside, bone fragments crawling back into alignment like insects returning to a nest. Restore 2d6 + Constitution HP instantly, plus 1d6 HP per round for 2 rounds. Only usable while transformed â€” your human body doesn't remember how to heal.",
       level: 1,
       form: null,
       spellType: "ACTION",
@@ -1550,22 +1568,91 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 1,
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      resolution: "DICE",
       tags: ["healing", "support", "nature", "formbender"],
     },
 
-    // ===== LEVEL 2 SPELLS (Already has 3, complete) =====
-
-    // ===== LEVEL 3 SPELLS (Already has 4, complete) =====
-
-    // ===== LEVEL 4 SPELLS (Already has 3, complete) =====
+    {
+      id: "formbender_scent_of_prey",
+      name: "Scent of Prey",
+      description:
+        "Your nasal cavity ruptures and fills with a second set of turbinal bones. The world becomes a tapestry of terror-sweat, adrenaline, and the copper sweetness of wounds yet to be opened. Mark a target within 30 feet â€” you generate +1 Wild Instinct immediately, and +1 WI each time you hit the marked target for 3 rounds.",
+      level: 1,
+      form: null,
+      spellType: "ACTION",
+      effectTypes: ["debuff", "utility"],
+      typeConfig: {
+        school: "nature",
+        icon: "Piercing/Backstab",
+        tags: ["debuff", "utility", "tracking", "formbender"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+        requiresLineOfSight: true,
+      },
+      resourceCost: {
+        resourceTypes: ["wild_instinct"],
+        resourceValues: { wild_instinct: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+      },
+      resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "marked_prey",
+            name: "Marked Prey",
+            description:
+              "Target is marked. Formbender generates +1 WI on each hit against this target for 3 rounds.",
+            mechanicsText: "",
+          },
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds",
+      },
+      utilityConfig: {
+        utilityType: "enhancement",
+        selectedEffects: [
+          {
+            id: "predator_scent",
+            name: "Predator's Scent",
+            description:
+              "Generate +1 WI immediately, and +1 WI each time you hit the marked target for 3 rounds.",
+          },
+        ],
+        duration: 3,
+        durationUnit: "rounds",
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        concentration: false,
+      },
+      specialMechanics: {
+        wildInstinctGeneration: {
+          immediateGain: 1,
+          onHitGain: 1,
+          duration: 3,
+        },
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["debuff", "utility", "tracking", "formbender"],
+    },
 
     // ===== LEVEL 2 SPELLS =====
     {
-      id: "formbender_beast_claws",
-      name: "Beast Claws",
+      id: "formbender_visceral_talons",
+      name: "Visceral Talons",
       description:
-        "Grow razor-sharp claws. Your unarmed attacks deal slashing damage and gain +2d6 damage for 1 minute.",
+        "Your fingers dislocate one by one, each joint popping as keratin claws erupt from the nail beds. Your unarmed attacks now deal slashing damage and gain +2d6 damage for 1 minute. The transformation is not gentle. The claws do not ask permission.",
       spellType: "ACTION",
       icon: "Nature/Claw Marks",
       level: 2,
@@ -1590,20 +1677,18 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Grow razor-sharp claws",
       },
 
-      resolution: "DICE",
       effectTypes: ["buff"],
 
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
           {
-            id: "beast_claws",
-            name: "Beast Claws",
+            id: "visceral_talons",
+            name: "Visceral Talons",
             description:
-              "Your unarmed attacks deal slashing damage and gain +2d6 damage for 1 minute",
+              "Unarmed attacks deal slashing damage and gain +2d6 damage for 1 minute",
             statModifier: {
               stat: "damage",
               magnitude: "2d6",
@@ -1619,15 +1704,14 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
       tags: ["physical", "buff", "damage", "formbender"],
     },
 
     {
-      id: "formbender_primal_senses",
-      name: "Primal Senses",
+      id: "formbender_predators_sight",
+      name: "Predator's Sight",
       description:
-        "Heighten your senses to detect hidden threats and track prey. Gain advantage on Perception checks and detect invisible creatures for 1 hour.",
+        "Something ancient stirs behind your eyes. Your pupils dilate until no color remains â€” twin voids that see in spectrums humans were never meant to perceive. Gain advantage on Perception checks and detect invisible creatures for 1 hour. The world becomes too sharp. You will never see it softly again.",
       spellType: "ACTION",
       icon: "Piercing/Backstab",
       level: 2,
@@ -1652,20 +1736,18 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Heighten your senses",
       },
 
-      resolution: "DICE",
       effectTypes: ["buff"],
 
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
           {
-            id: "primal_senses",
-            name: "Primal Senses",
+            id: "predators_sight",
+            name: "Predator's Sight",
             description:
-              "Gain advantage on Perception checks and can detect invisible creatures for 1 hour",
+              "Advantage on Perception checks, detect invisible creatures, for 1 hour",
             statModifier: {
               stat: "perception",
               magnitude: "advantage",
@@ -1681,15 +1763,14 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
       tags: ["buff", "senses", "utility", "formbender"],
     },
 
     {
-      id: "formbender_wild_leap",
-      name: "Wild Leap",
+      id: "formbender_feral_bound",
+      name: "Feral Bound",
       description:
-        "Leap incredible distances up to 60 feet, ignoring difficult terrain.",
+        "Your spine elongates with a wet crunch, coiling like a spring before launching your body through the air. Leap up to 60 feet, ignoring difficult terrain. Your bones will complain later. Right now, they're too busy being weapons.",
       spellType: "ACTION",
       icon: "Utility/Dash",
       level: 2,
@@ -1720,18 +1801,16 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Leap incredible distances",
       },
 
-      resolution: "DICE",
       effectTypes: ["utility"],
 
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
           {
-            id: "wild_leap",
-            name: "Wild Leap",
+            id: "feral_bound",
+            name: "Feral Bound",
             description:
               "Leap up to 60 feet in any direction, ignoring difficult terrain",
           },
@@ -1739,20 +1818,18 @@ Formbenders can specialize in radically different transformation philosophies. M
         duration: 1,
         durationUnit: "rounds",
         concentration: false,
-        power: "moderate",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
       tags: ["utility", "movement", "mobility", "formbender"],
     },
 
     // ===== LEVEL 3 SPELLS =====
     {
-      id: "formbender_feral_rage",
-      name: "Feral Rage",
+      id: "formbender_feral_fury",
+      name: "Feral Fury",
       description:
-        "Tap into primal fury, gaining +2 Strength and advantage on attack rolls for 1 minute.",
+        "Something inside your skull cracks open. Not bone â€” restraint. The human part of your brain that says 'wait' and 'think' goes dark. Gain +2 Strength and advantage on attack rolls for 1 minute. The fury is not yours. It was waiting for permission.",
       spellType: "ACTION",
       icon: "Nature/Roaring Bear",
       level: 3,
@@ -1777,20 +1854,18 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Tap into primal fury",
       },
 
-      resolution: "DICE",
       effectTypes: ["buff"],
 
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
           {
-            id: "feral_rage",
-            name: "Feral Rage",
+            id: "feral_fury",
+            name: "Feral Fury",
             description:
-              "Gain +2 Strength and advantage on attack rolls for 1 minute",
+              "+2 Strength and advantage on attack rolls for 1 minute. The animal is driving.",
             statModifier: {
               stat: "strength",
               magnitude: 2,
@@ -1806,15 +1881,14 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
       tags: ["buff", "damage", "rage", "formbender"],
     },
 
     {
-      id: "formbender_natures_armor",
-      name: "Nature's Armor",
+      id: "formbender_bone_carapace",
+      name: "Bone Carapace",
       description:
-        "Grow thick natural armor granting +3 Armor and 50% resistance to physical damage for 10 minutes.",
+        "Your ribs crack and spread, pushing through skin to form overlapping plates of calcified nightmare. The plates grow, fuse, and interlock until your torso is a cage of bone armor that shouldn't exist outside a charnel pit. Gain +3 Armor and 50% resistance to physical damage for 10 minutes.",
       spellType: "ACTION",
       icon: "Nature/Earth Shield",
       level: 3,
@@ -1839,20 +1913,18 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Grow thick natural armor",
       },
 
-      resolution: "DICE",
       effectTypes: ["buff"],
 
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
           {
-            id: "natures_armor",
-            name: "Nature's Armor",
+            id: "bone_carapace",
+            name: "Bone Carapace",
             description:
-              "Gain +3 armor and resistance to physical damage for 10 minutes",
+              "+3 Armor and 50% physical damage resistance for 10 minutes. Your ribs are on the outside now.",
             statModifier: {
               stat: "armor",
               magnitude: 3,
@@ -1868,15 +1940,14 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-
       tags: ["buff", "defense", "armor", "formbender"],
     },
 
     {
-      id: "formbender_hunt_call",
-      name: "Hunt Call",
+      id: "formbender_spectral_hunters",
+      name: "Spectral Hunters",
       description:
-        "Call forth 2 spectral hunters to aid you in tracking and pursuing prey for 1 hour.",
+        "You tear a piece of your hunger loose and give it legs. Two spectral wolves materialize from the space between your ribs â€” ghostly predators made of primal memory and stolen instinct. They exist to track. They exist to kill. They do not exist to come back.",
       spellType: "ACTION",
       icon: "Nature/Spawn",
       level: 3,
@@ -1907,10 +1978,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal"],
-        verbalText: "Call forth spectral hunters",
       },
 
-      resolution: "DICE",
       effectTypes: ["summoning"],
 
       summoningConfig: {
@@ -1918,7 +1987,8 @@ Formbenders can specialize in radically different transformation philosophies. M
           {
             id: "spectral_hunter",
             name: "Spectral Hunter",
-            description: "A ghostly wolf that aids in tracking and hunting",
+            description:
+              "A ghostly wolf born from the Formbender's hunger, not from nature",
             size: "Medium",
             type: "spirit",
             tokenIcon: "ability_hunter_pet_wolf",
@@ -1947,7 +2017,6 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
 
       cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-
       tags: ["summoning", "utility", "tracking", "formbender"],
     },
 
@@ -1956,7 +2025,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       id: "formbender_savage_charge",
       name: "Savage Charge",
       description:
-        "Charge forward with primal fury, dealing 5d6 + Strength bludgeoning damage. Targets must succeed on a Strength save or be knocked prone.",
+        "Your legs reconstruct themselves for a single devastating purpose â€” to close the distance between your teeth and their throat. Charge forward in a 40-foot line, dealing 5d6 + Strength bludgeoning damage. Targets must succeed on a Strength save or be knocked prone. You do not slow down. You do not apologize.",
       spellType: "ACTION",
       icon: "Utility/Dash",
       level: 4,
@@ -1989,10 +2058,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 2,
         components: ["somatic"],
-        somaticText: "Charge forward with primal fury",
       },
 
-      resolution: "DICE",
       effectTypes: ["damage", "control"],
 
       damageConfig: {
@@ -2033,15 +2100,14 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
       tags: ["attack", "damage", "control", "charge", "formbender"],
     },
 
     {
-      id: "formbender_primal_healing",
-      name: "Primal Healing",
+      id: "formbender_flesh_donation",
+      name: "Flesh Donation",
       description:
-        "Channel the restorative power of nature to heal an ally for 3d8 + Spirit damage and remove afflictions. You cannot heal yourself with this ability.",
+        "You reach into your own torso and pull out a piece of something that used to be an organ â€” it regrows as you offer it, bloodied and pulsing, knitting itself into your ally's wounds. Heal an ally for 3d8 + Spirit HP and remove one affliction. You cannot use this on yourself. The flesh only moves outward.",
       spellType: "ACTION",
       icon: "Healing/Heart Ripple",
       level: 4,
@@ -2072,10 +2138,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Channel restorative nature energy",
       },
 
-      resolution: "DICE",
       effectTypes: ["healing"],
 
       healingConfig: {
@@ -2087,11 +2151,9 @@ Formbenders can specialize in radically different transformation philosophies. M
         hotDuration: 3,
         hotTickType: "round",
         isProgressiveHot: false,
-        description: "Heal a target and remove one disease or poison effect",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-
       tags: ["healing", "support", "restoration", "formbender"],
     },
 
@@ -2099,7 +2161,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       id: "formbender_primal_surge",
       name: "Primal Surge",
       description:
-        "Channel a burst of primal energy that amplifies your current form. Gain double your form's passive bonus for 2 rounds and generate +2 Wild Instinct.",
+        "The animal inside you stops asking permission. Your current form is amplified â€” every passive doubled, every instinct sharpened â€” for 2 agonizing rounds. Generate +2 Wild Instinct as the surge feeds back into your biology. The power is borrowed. The pain is yours to keep.",
       spellType: "ACTION",
       icon: "Nature/Nature Primal",
       level: 4,
@@ -2124,10 +2186,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Channel a primal surge through your current form",
       },
 
-      resolution: "AUTOMATIC",
       effectTypes: ["buff", "utility"],
 
       buffConfig: {
@@ -2139,9 +2199,8 @@ Formbenders can specialize in radically different transformation philosophies. M
             description:
               "Double your current form's passive bonus for 2 rounds and generate +2 Wild Instinct",
             customDescription:
-              "Your current form is amplified. Nightstalker: double stealth bonus and sneak attack. Ironhide: +20 additional HP and double resistance. Skyhunter: +30ft fly speed. Frostfang: double pack tactics range.",
-            mechanicsText:
-              "Double form passive bonuses for 2 rounds, gain +2 WI",
+              "Your current form is violently amplified. Nightstalker: double stealth bonus and sneak attack. Ironhide: +20 additional HP and double resistance. Skyhunter: +30ft fly speed. Frostfang: double pack tactics range. The animal does not give back what it takes.",
+            mechanicsText: "Double form passive bonuses for 2 rounds, gain +2 WI",
             duration: 2,
             durationUnit: "rounds",
           },
@@ -2154,16 +2213,15 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
       tags: ["buff", "enhancement", "form-amp", "formbender"],
     },
 
     // ===== LEVEL 5 SPELLS =====
     {
-      id: "formbender_pack_leader",
-      name: "Pack Leader",
+      id: "formbender_pack_of_abominations",
+      name: "Pack of Abominations",
       description:
-        "Summon 3 spectral wolves to fight alongside you for 5 rounds, empowering your pack tactics. You and the wolves gain +2 to attack rolls when adjacent to each other.",
+        "You split your hunger three ways. Three spectral wolves tear themselves free from the space between your ribs â€” not animals, but fragments of predatory instinct given teeth and purpose. They and you gain +2 to attack rolls when adjacent to each other for 5 rounds. The pack does not protect. The pack hunts.",
       level: 5,
       form: null,
       spellType: "ACTION",
@@ -2180,7 +2238,7 @@ Formbenders can specialize in radically different transformation philosophies. M
           {
             id: "spectral_wolf",
             name: "Spectral Wolf",
-            description: "A ghostly wolf made of primal energy",
+            description: "A fragment of predatory instinct, not a creature of nature",
             size: "Medium",
             type: "spirit",
             tokenIcon: "ability_hunter_pet_wolf",
@@ -2245,21 +2303,20 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["verbal", "somatic"],
       },
       cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["summoning", "buff", "pack", "formbender"],
     },
 
     {
-      id: "formbender_primal_rage",
-      name: "Primal Rage",
+      id: "formbender_rending_frenzy",
+      name: "Rending Frenzy",
       description:
-        "Channel wild fury into 3 rapid claw attacks dealing 6d8 + Strength slashing damage.",
+        "Your arms multiply. Your jaw unhinges. What follows is not a technique â€” it is three seconds of concentrated violence that would make a wolverine look away. Deal 6d8 + Strength slashing damage in a blur of claws and teeth. The aftermath is not something your party should examine closely.",
       level: 5,
       form: null,
       spellType: "ACTION",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "nature",
+        school: "slashing",
         icon: "Nature/Claw Marks",
         tags: ["attack", "damage", "physical", "multi hit", "formbender"],
         castTime: 1,
@@ -2286,15 +2343,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["somatic"],
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      resolution: "DICE",
       tags: ["attack", "damage", "physical", "multi hit", "formbender"],
     },
 
     {
-      id: "formbender_adaptive_form",
-      name: "Adaptive Form",
+      id: "formbender_adaptive_horror",
+      name: "Adaptive Horror",
       description:
-        "Shift between forms instantly without Wild Instinct cost for 3 rounds.",
+        "For 3 rounds, the animal inside you stops asking and starts taking. Form transformations cost 0 Wild Instinct â€” the WI economy collapses as your body shifts freely between shapes, each one bleeding into the next. You adapt to everything. You remember nothing.",
       level: 5,
       form: null,
       spellType: "ACTION",
@@ -2310,14 +2366,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         buffType: "custom",
         effects: [
           {
-            id: "adaptive_form",
-            name: "Adaptive Form",
+            id: "adaptive_horror",
+            name: "Adaptive Horror",
             description:
-              "Form transformations are free (cost 0 Wild Instinct) for 3 rounds",
+              "Form transformations cost 0 Wild Instinct for 3 rounds. Erosion still accumulates normally.",
             customDescription:
-              "You can shift between all forms freely without paying the normal 1 Wild Instinct cost. This allows rapid adaptation to combat situations.",
+              "Your body shifts freely between forms without WI cost. But every shift still costs +1 Erosion. The animal is not being generous â€” it is consuming you faster.",
             mechanicsText:
-              "Form transformations cost 0 Wild Instinct for 3 rounds",
+              "Form transformations cost 0 WI for 3 rounds. Erosion unchanged.",
             duration: 3,
             durationUnit: "rounds",
           },
@@ -2339,16 +2395,15 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["somatic"],
       },
       cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["buff", "utility", "transformation", "formbender"],
     },
 
     // ===== LEVEL 6 SPELLS =====
     {
-      id: "formbender_titan_form",
-      name: "Titan Form",
+      id: "formbender_titan_abomination",
+      name: "Titan Abomination",
       description:
-        "Transform into a massive titan, gaining Huge size, +4 Strength, +3 Armor, and 50 temporary HP for 4 rounds.",
+        "Your skeleton detonates. Bones crack, multiply, and fuse into something Huge â€” a towering mass of calcified rage wrapped in hide thick enough to turn sword blows. Gain Huge size, +4 Strength, +3 Armor, and 50 temporary HP for 4 rounds. When it ends, you will remember what it felt like to be small. You will not forgive yourself for going back.",
       level: 6,
       form: null,
       spellType: "ACTION",
@@ -2366,8 +2421,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         duration: 4,
         durationUnit: "rounds",
         power: "major",
-        newForm: "Titan Form",
-        description: "Your body swells to massive proportions.",
+        newForm: "Titan Abomination",
+        description: "Your skeleton detonates outward into a towering horror of bone and rage.",
         concentration: true,
         grantedAbilities: [
           {
@@ -2383,12 +2438,12 @@ Formbenders can specialize in radically different transformation philosophies. M
           {
             id: "titan_armor",
             name: "+3 Armor",
-            description: "Gain +3 armor from thickened hide",
+            description: "Gain +3 armor from overlapping bone plates",
           },
           {
             id: "titan_hp",
             name: "+50 Temp HP",
-            description: "Gain 50 temporary hit points",
+            description: "Gain 50 temporary hit points from expanded mass",
           },
         ],
       },
@@ -2403,21 +2458,20 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["somatic"],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["transformation", "buff", "size", "formbender"],
     },
 
     {
-      id: "formbender_primal_fury_leap",
-      name: "Primal Fury Leap",
+      id: "formbender_crushing_descent",
+      name: "Crushing Descent",
       description:
-        "Leap high into the air and crash down, dealing 6d8 + Strength + Agility bludgeoning damage in a 20-foot radius. Agility save DC 16 for half damage.",
+        "You leap â€” not as a person, but as gravity's preferred weapon. Your body becomes a falling mass of meat and malice that hits the ground like a burial. Deal 6d8 + Strength + Agility bludgeoning damage in a 20-foot radius. Agility save DC 16 for half damage. Everything standing is knocked prone. The crater is yours to explain.",
       level: 6,
       form: null,
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
       typeConfig: {
-        school: "nature",
+        school: "bludgeoning",
         icon: "Nature/Cat Face",
         tags: ["attack", "damage", "control", "aoe", "formbender"],
         castTime: 1,
@@ -2447,11 +2501,10 @@ Formbenders can specialize in radically different transformation philosophies. M
           {
             id: "stagger",
             name: "Staggered",
-            description:
-              "Target is knocked prone and must use movement to stand",
+            description: "Target is knocked prone and must use movement to stand",
             config: {
-              saveType: "strength",
-              saveDC: 15,
+              saveType: "agility",
+              saveDC: 16,
               knockdown: true,
               duration: 1,
               durationUnit: "rounds",
@@ -2478,15 +2531,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["somatic"],
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      resolution: "DICE",
       tags: ["attack", "damage", "control", "aoe", "formbender"],
     },
 
     {
-      id: "formbender_natures_gift",
-      name: "Nature's Gift",
+      id: "formbender_parasitic_mending",
+      name: "Parasitic Mending",
       description:
-        "Heal yourself or an ally for 5d8 + Spirit HP, plus 2d6 HP per round for 3 rounds.",
+        "You vomit a stream of living tissue â€” half parasite, half prayer â€” that worms its way into your ally's wounds and sutures them from the inside. Heal an ally for 5d8 + Spirit HP, plus 2d6 HP per round for 3 rounds as the living bandage continues to work. You cannot use this on yourself. The gift only moves outward.",
       level: 6,
       form: null,
       spellType: "ACTION",
@@ -2525,16 +2577,15 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["somatic"],
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      resolution: "DICE",
       tags: ["healing", "support", "nature", "formbender"],
     },
 
     // ===== LEVEL 7 SPELLS =====
     {
-      id: "formbender_primal_avatar",
-      name: "Primal Avatar",
+      id: "formbender_chimera_ascendant",
+      name: "Chimera Ascendant",
       description:
-        "Transform into a primal avatar embodying all forms simultaneously. Gain +3 to all stats, all form passives, free form switching, and +2 Wild Instinct per round for 5 rounds.",
+        "All four forms tear through your skin at once. You are not one animal â€” you are every animal, a screaming fusion of predator and prey that has no name in any language. Gain +3 to all stats, all form passives simultaneously, free form switching, and +2 Wild Instinct per round for 5 rounds. The human part of you is not dead. It is simply... elsewhere.",
       level: 7,
       form: null,
       spellType: "STATE",
@@ -2554,24 +2605,24 @@ Formbenders can specialize in radically different transformation philosophies. M
         duration: 5,
         durationUnit: "rounds",
         power: "major",
-        newForm: "Primal Avatar",
-        description: "Channel the essence of all primal forms simultaneously.",
+        newForm: "Chimera Ascendant",
+        description: "All four forms erupt simultaneously. You are everything. You are nothing human.",
         grantedAbilities: [
           {
             id: "all_form_benefits",
             name: "All Form Benefits",
             description:
-              "Gain all four primal form passives at once: Feral Shifter stealth, Stormbringer elemental damage, Earthwarden defense, and Flamecaller fire. This ultimate form unites every primal aspect.",
+              "Gain all four form passives at once. The chimera does not choose. The chimera takes.",
           },
           {
             id: "free_switching",
             name: "Free Switching",
-            description: "Form transitions cost 0 Wild Instinct",
+            description: "Form transitions cost 0 Wild Instinct. Erosion still accumulates.",
           },
           {
             id: "avatar_instinct",
             name: "+2 Wild Instinct/Round",
-            description: "Generate +2 Wild Instinct each round",
+            description: "Generate +2 Wild Instinct each round from the chimeric feedback",
           },
           {
             id: "avatar_stats",
@@ -2584,8 +2635,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         buffType: "statEnhancement",
         effects: [
           {
-            id: "primal_avatar_power",
-            name: "Primal Avatar Stats",
+            id: "chimera_stats",
+            name: "Chimera Stats",
             description: "+3 to all stats",
             statModifier: {
               stat: "all_stats",
@@ -2611,15 +2662,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["verbal", "somatic"],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["transformation", "buff", "primal", "formbender"],
     },
 
     {
-      id: "formbender_savage_roar",
-      name: "Savage Roar",
+      id: "formbender_horror_shriek",
+      name: "Horror Shriek",
       description:
-        "Unleash a roar that terrifies all enemies within 30 feet (Spirit save DC 17) and empowers allies with +2 damage for 3 rounds.",
+        "The sound that comes out of your throat is not a roar. It is the collective death-rattle of everything you've ever killed, compressed into a single frequency that makes bones vibrate and minds fold. All enemies within 30 feet must make a Spirit save DC 17 or be Terrified for 3 rounds. Allies in range are empowered with +2 damage. The shriek does not discriminate. It just hurts.",
       level: 7,
       form: null,
       spellType: "ACTION",
@@ -2646,11 +2696,11 @@ Formbenders can specialize in radically different transformation philosophies. M
             id: "fear",
             name: "Terrified",
             description:
-              "Enemies are frightened and must move away from you for 3 rounds",
+              "Enemies are frozen in primal terror and must flee from you for 3 rounds",
             config: {
               fearStrength: "strong",
-              saveType: "charisma",
-              saveDC: 16,
+              saveType: "spirit",
+              saveDC: 17,
               duration: 3,
               durationUnit: "rounds",
             },
@@ -2661,8 +2711,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         buffType: "statEnhancement",
         effects: [
           {
-            id: "roar_empowerment",
-            name: "Empowered by Roar",
+            id: "shriek_empowerment",
+            name: "Empowered by Horror",
             description: "All allies gain +2 to damage rolls for 3 rounds",
             statModifier: {
               stat: "damage_rolls",
@@ -2711,15 +2761,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 2,
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      resolution: "DICE",
       tags: ["control", "buff", "fear", "aoe", "formbender"],
     },
 
     {
-      id: "formbender_apex_predator",
-      name: "Apex Predator",
+      id: "formbender_apex_horror",
+      name: "Apex Horror",
       description:
-        "Become the ultimate predator, gaining advantage on all attacks, +3d6 damage, and +10 movement speed for 4 rounds.",
+        "The food chain has a new top. For 4 rounds, you become the thing that everything else runs from â€” advantage on all attacks, +3d6 damage, and +10 movement speed. Your pupils are black holes. Your teeth are geometry problems. You are what happens when the predator stops pretending it has manners.",
       level: 7,
       form: null,
       spellType: "ACTION",
@@ -2735,10 +2784,10 @@ Formbenders can specialize in radically different transformation philosophies. M
         buffType: "statEnhancement",
         effects: [
           {
-            id: "apex_predator",
-            name: "Apex Predator",
+            id: "apex_horror",
+            name: "Apex Horror",
             description:
-              "Gain advantage on all attacks, +3d6 damage, and +10 movement speed for 4 rounds",
+              "Advantage on all attacks, +3d6 damage, +10 movement speed for 4 rounds. The predator has arrived.",
             statModifier: {
               stat: "damage",
               magnitude: 3,
@@ -2763,16 +2812,15 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["somatic"],
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      resolution: "DICE",
       tags: ["buff", "damage", "predator", "formbender"],
     },
 
     // ===== LEVEL 8 SPELLS =====
     {
-      id: "formbender_savage_maelstrom",
-      name: "Savage Maelstrom",
+      id: "formbender_flesh_maelstrom",
+      name: "Flesh Maelstrom",
       description:
-        "Transform through all forms rapidly, dealing 12d8 + Strength x2 + Agility x2 slashing and bludgeoning damage to all enemies within 25 feet.",
+        "You become a blender of screaming biology â€” cycling through all four forms in rapid succession, each one tearing free for a fraction of a second before the next erupts. Deal 12d8 + Strength x2 + Agility x2 slashing and bludgeoning damage to everything within 25 feet. There is no dodging. There is only being close enough to hear the wet sounds.",
       level: 8,
       form: null,
       spellType: "ACTION",
@@ -2781,14 +2829,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         school: "slashing",
         secondaryElement: "bludgeoning",
         icon: "Nature/Tornado Vortex",
-        tags: [
-          "attack",
-          "damage",
-          "aoe",
-          "transformation",
-          "epic",
-          "formbender",
-        ],
+        tags: ["attack", "damage", "aoe", "transformation", "epic", "formbender"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -2815,15 +2856,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["somatic"],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["attack", "damage", "aoe", "transformation", "epic", "formbender"],
     },
 
     {
-      id: "formbender_natures_champion",
-      name: "Nature's Champion",
+      id: "formbender_natures_terror",
+      name: "Nature's Terror",
       description:
-        "Become an avatar of nature for 5 rounds. Gain +4 to all stats, physical resistance, 3d10 HP regeneration per turn, and -1 Wild Instinct cost on all abilities.",
+        "For 5 rounds, you are not an animal wearing a human shape â€” you are the shape itself, and it has decided to be everything at once. Gain +4 to all stats, physical damage resistance, 3d10 HP regeneration per turn, and -1 WI cost on all abilities. The human part of you is gone. It will come back. It always comes back. It never forgives you.",
       level: 8,
       form: null,
       spellType: "ACTION",
@@ -2841,9 +2881,9 @@ Formbenders can specialize in radically different transformation philosophies. M
         duration: 5,
         durationUnit: "rounds",
         power: "major",
-        newForm: "Nature's Champion",
+        newForm: "Nature's Terror",
         description:
-          "Become one with primal nature, gaining its protection and power.",
+          "Become the shape itself â€” biology without a passenger.",
         grantedAbilities: [
           {
             id: "physical_resistance",
@@ -2853,16 +2893,16 @@ Formbenders can specialize in radically different transformation philosophies. M
           },
           {
             id: "nature_regen",
-            name: "Primal Regeneration",
+            name: "Biological Regeneration",
             description: "Regenerate 3d10 HP at the start of each turn",
           },
           {
             id: "reduced_costs",
-            name: "Primal Efficiency",
+            name: "Predatory Efficiency",
             description: "All Wild Instinct costs reduced by 1",
           },
           {
-            id: "champion_stats",
+            id: "terror_stats",
             name: "+4 All Stats",
             description: "Gain +4 to all attributes",
           },
@@ -2872,8 +2912,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         buffType: "statEnhancement",
         effects: [
           {
-            id: "natures_champion_power",
-            name: "Champion Stats",
+            id: "terror_stats",
+            name: "Terror Stats",
             description: "+4 to all stats",
             statModifier: {
               stat: "all_stats",
@@ -2882,9 +2922,9 @@ Formbenders can specialize in radically different transformation philosophies. M
             },
           },
           {
-            id: "natures_champion_defense",
-            name: "Champion Defense",
-            description: "Gain 50% damage reduction for 5 rounds",
+            id: "terror_defense",
+            name: "Terror Defense",
+            description: "50% damage reduction for 5 rounds",
             statModifier: {
               stat: "damage_reduction",
               magnitude: 50,
@@ -2909,15 +2949,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["verbal", "somatic"],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["buff", "transformation", "defense", "epic", "formbender"],
     },
 
     {
-      id: "formbender_wild_hunt",
-      name: "Wild Hunt",
+      id: "formbender_unending_hunt",
+      name: "Unending Hunt",
       description:
-        "Summon the spirits of the wild hunt — 5 spectral hunters that chase and destroy all enemies within 40 feet for 5 rounds, dealing 12d6 + Spirit nature damage.",
+        "You split your hunger five ways and give each piece legs. Five spectral hunters materialize â€” not wolves, not spirits, but the pure abstract concept of *chase* given fangs and malice. They pursue all enemies within 40 feet for 5 rounds, dealing 12d6 + Spirit nature damage. The hunt does not end until everything is dead or you run out of things to be hungry about.",
       level: 8,
       form: null,
       spellType: "ACTION",
@@ -2932,9 +2971,9 @@ Formbenders can specialize in radically different transformation philosophies. M
       summoningConfig: {
         creatures: [
           {
-            id: "wild_hunt_spirit",
-            name: "Wild Hunt Spirit",
-            description: "Spectral hunters that chase and destroy enemies",
+            id: "hunt_spirit",
+            name: "Hunt Spirit",
+            description: "The abstract concept of pursuit, weaponized",
             size: "Large",
             type: "spirit",
             tokenIcon: "ability_hunter_pet_dragonhawk",
@@ -2985,16 +3024,15 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["verbal", "somatic"],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["summoning", "damage", "spirit", "epic", "formbender"],
     },
 
     // ===== LEVEL 9 SPELLS =====
     {
-      id: "formbender_primordial_form",
-      name: "Primordial Form",
+      id: "formbender_primordial_abomination",
+      name: "Primordial Abomination",
       description:
-        "Transform into a primordial beast of legend for 4 rounds. Gain Gargantuan size, +5 all stats, resistance to all damage, -1 WI costs, and +3 WI per round.",
+        "You do not transform into a beast of legend. You *become* the legend â€” a Gargantuan horror that exists in the space between nightmare and biology. Gain Gargantuan size, +5 all stats, resistance to all damage, -1 WI costs, and +3 WI per round for 4 rounds. When it ends, you will need a moment to remember that you were ever small.",
       level: 9,
       form: null,
       spellType: "STATE",
@@ -3002,13 +3040,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       typeConfig: {
         school: "nature",
         icon: "Nature/Nature Wild 1",
-        tags: [
-          "transformation",
-          "buff",
-          "primordial",
-          "legendary",
-          "formbender",
-        ],
+        tags: ["transformation", "buff", "primordial", "legendary", "formbender"],
         stateVisibility: "visible",
         cooldownAfterTrigger: 0,
         cooldownUnit: "seconds",
@@ -3020,8 +3052,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         duration: 4,
         durationUnit: "rounds",
         power: "major",
-        newForm: "Primordial Form",
-        description: "Take the form of an ancient primordial beast.",
+        newForm: "Primordial Abomination",
+        description: "Become the nightmare that ancient things whisper about.",
         grantedAbilities: [
           {
             id: "gargantuan_size",
@@ -3081,15 +3113,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["verbal", "somatic"],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["transformation", "buff", "primordial", "legendary", "formbender"],
     },
 
     {
-      id: "formbender_natures_apocalypse",
-      name: "Nature's Apocalypse",
+      id: "formbender_apocalypse_of_flesh",
+      name: "Apocalypse of Flesh",
       description:
-        "Unleash the fury of nature itself, dealing 18d6 + Strength + Spirit nature damage to all enemies in sight (Con save DC 19 for half). Targets are knocked prone and stunned for 3 rounds.",
+        "Your body reaches critical mass and detonates â€” not into pieces, but into a 100-foot radius of biological catastrophe. Deal 18d6 + Strength + Spirit nature damage to all enemies in sight (Con save DC 19 for half). Targets are knocked prone and stunned for 3 rounds. Afterward, your body reconstitutes from the carnage. It takes a while. The screaming from your allies does not help.",
       level: 9,
       form: null,
       spellType: "ACTION",
@@ -3123,12 +3154,12 @@ Formbenders can specialize in radically different transformation philosophies. M
         },
         effects: [
           {
-            id: "stagger",
+            id: "devastated",
             name: "Devastated",
             description: "Target is knocked prone and stunned for 3 rounds",
             config: {
               saveType: "constitution",
-              saveDC: 18,
+              saveDC: 19,
               knockdown: true,
               stun: true,
               duration: 3,
@@ -3156,15 +3187,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         materialComponents: "The fang of a primordial beast, worth 50,000 gold",
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["attack", "damage", "control", "aoe", "legendary", "formbender"],
     },
 
     {
-      id: "formbender_eternal_wild",
-      name: "Eternal Wild",
+      id: "formbender_eternal_hunger",
+      name: "Eternal Hunger",
       description:
-        "Merge with the wild for 5 rounds. Wild Instinct maximum increases to 30. Form transitions are free. Regenerate 2d8 HP per round in any form.",
+        "For 5 rounds, you merge with the hunger itself. Wild Instinct maximum increases to 30. Form transitions are free. You regenerate 2d8 HP per round in any form. The hunger does not ask. The hunger does not stop. The hunger is all that is left of whoever you used to be.",
       level: 9,
       form: null,
       spellType: "STATE",
@@ -3184,12 +3214,12 @@ Formbenders can specialize in radically different transformation philosophies. M
         duration: 5,
         durationUnit: "rounds",
         power: "major",
-        newForm: "Eternal Wild",
-        description: "Become one with the wild for a brief time.",
+        newForm: "Eternal Hunger",
+        description: "Become the hunger. There is nothing left but appetite.",
         grantedAbilities: [
           {
             id: "wild_flow",
-            name: "Primal Flow",
+            name: "Hunger Unleashed",
             description: "Form transitions cost 0 Wild Instinct",
           },
           {
@@ -3199,7 +3229,7 @@ Formbenders can specialize in radically different transformation philosophies. M
           },
           {
             id: "wild_regen",
-            name: "Primal Regeneration",
+            name: "Biological Regeneration",
             description: "Regenerate 2d8 HP per round in any form",
           },
         ],
@@ -3208,16 +3238,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         buffType: "custom",
         effects: [
           {
-            id: "eternal_wild",
-            name: "Eternal Wild",
+            id: "eternal_hunger",
+            name: "Eternal Hunger",
             description:
-              "Wild Instinct maximum increased to 30 for the duration. Form transitions are free. Regenerate 2d8 HP per round.",
+              "WI cap increased to 30. Form transitions are free. Regenerate 2d8 HP per round.",
             customDescription:
-              "You have become one with the wild for a brief time. Your Wild Instinct maximum increases to 30. All form transformations are instant and free. You regenerate 2d8 HP per round in any form.",
+              "You have become the hunger. Your Wild Instinct maximum increases to 30. All form transformations are instant and free. You regenerate 2d8 HP per round. There is no human left to object.",
             mechanicsText:
               "WI cap 30, free transformations, regenerate 2d8 HP/round, duration 5 rounds",
-            dotFormula: "2d8",
-            dotDamageType: "healing",
           },
         ],
         durationValue: 5,
@@ -3237,16 +3265,15 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["verbal", "somatic"],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["buff", "transformation", "primal", "legendary", "formbender"],
     },
 
     // ===== LEVEL 10 SPELLS =====
     {
-      id: "formbender_world_beast",
-      name: "World Beast",
+      id: "formbender_world_devourer",
+      name: "World Devourer",
       description:
-        "Transform into a legendary World Beast for 3 rounds. Gain Colossal size, +6 all stats, resistance to all damage, +4d10 extra attack damage, and 3d10 HP regeneration per turn. Suffers 3 exhaustion levels when it ends.",
+        "You become a Colossal abomination â€” a biological catastrophe that exists at the scale of geography. +6 all stats. Resistance to all damage. +4d10 extra attack damage. 3d10 HP regeneration per turn. When it ends, you suffer 3 exhaustion levels as your body tries to remember what 'small' means. The world will remember what you looked like. It will not forgive you.",
       level: 10,
       form: null,
       spellType: "ACTION",
@@ -3264,8 +3291,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         duration: 3,
         durationUnit: "rounds",
         power: "major",
-        newForm: "World Beast",
-        description: "Become a colossal primal creature of legend.",
+        newForm: "World Devourer",
+        description: "Become a Colossal biological catastrophe. Geography recoils.",
         grantedAbilities: [
           {
             id: "colossal_size",
@@ -3273,7 +3300,7 @@ Formbenders can specialize in radically different transformation philosophies. M
             description: "Size becomes Colossal, reach 20 feet",
           },
           {
-            id: "world_beast_stats",
+            id: "devourer_stats",
             name: "+6 All Stats",
             description: "Gain +6 to all attributes",
           },
@@ -3283,17 +3310,17 @@ Formbenders can specialize in radically different transformation philosophies. M
             description: "Resistance to all damage types (half damage)",
           },
           {
-            id: "world_beast_attacks",
+            id: "devourer_attacks",
             name: "Devastating Attacks",
             description: "All attacks deal +4d10 extra damage",
           },
           {
-            id: "world_beast_regen",
-            name: "Primal Regeneration",
+            id: "devourer_regen",
+            name: "Biological Regeneration",
             description: "Regenerate 3d10 HP at start of each turn",
           },
           {
-            id: "world_beast_exhaustion",
+            id: "devourer_exhaustion",
             name: "Exhaustion (On End)",
             description: "Gain 3 levels of exhaustion when transformation ends",
           },
@@ -3311,15 +3338,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         materialComponents: "The heart of the World Beast, priceless artifact",
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["transformation", "buff", "legendary", "formbender"],
     },
 
     {
-      id: "formbender_genesis_storm",
-      name: "Genesis Storm",
+      id: "formbender_genesis_of_horror",
+      name: "Genesis of Horror",
       description:
-        "Summon a storm of creation that births 10 primal beasts and 5 elemental guardians to fight for you for 10 rounds.",
+        "You split your hunger fifteen ways. Ten primal beasts and five elemental guardians tear themselves free from your biomass â€” not summoned from elsewhere, but *born* from you, screaming and hungry. They fight for 10 rounds. The umbilical connection is visible. Your party will not look at you the same way.",
       level: 10,
       form: null,
       spellType: "ACTION",
@@ -3334,9 +3360,9 @@ Formbenders can specialize in radically different transformation philosophies. M
       summoningConfig: {
         creatures: [
           {
-            id: "primal_beast_pack",
-            name: "Primal Beast",
-            description: "Savage beasts of pure primal energy",
+            id: "horror_beast",
+            name: "Horror Beast",
+            description: "Savage beasts born from the Formbender's biomass",
             size: "Large",
             type: "beast",
             tokenIcon: "ability_druid_catform",
@@ -3352,9 +3378,9 @@ Formbenders can specialize in radically different transformation philosophies. M
             },
           },
           {
-            id: "elemental_guardians",
+            id: "elemental_guardian",
             name: "Elemental Guardian",
-            description: "Powerful elemental protectors",
+            description: "Elemental horrors torn from the Formbender's chemical makeup",
             size: "Huge",
             type: "elemental",
             tokenIcon: "spell_nature_strengthofearth",
@@ -3397,15 +3423,14 @@ Formbenders can specialize in radically different transformation philosophies. M
         materialComponents: "Seeds of creation, worth 80,000 gold",
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "DICE",
       tags: ["summoning", "legendary", "formbender"],
     },
 
     {
-      id: "formbender_perfect_evolution",
-      name: "Perfect Evolution",
+      id: "formbender_perfect_abomination",
+      name: "Perfect Abomination",
       description:
-        "Master the art of shapeshifting for 5 rounds. Maintain 2 forms simultaneously, form transitions are free, generate +2 WI per round, and all WI costs are reduced by 1.",
+        "For 5 rounds, you transcend the limits of biological horror. Maintain 2 forms simultaneously. Form transitions are free. Generate +2 WI per round. All WI costs reduced by 1. You are not one animal. You are not many animals. You are the *idea* of animal, and it has decided to wear your skin forever.",
       level: 10,
       form: null,
       spellType: "STATE",
@@ -3425,13 +3450,13 @@ Formbenders can specialize in radically different transformation philosophies. M
         duration: 5,
         durationUnit: "rounds",
         power: "major",
-        newForm: "Evolved Form",
+        newForm: "Perfect Abomination",
         description:
-          "Transcend normal shapeshifting limitations for a brief time.",
+          "Transcend biological limits. Become the idea of animal.",
         grantedAbilities: [
           {
             id: "hybrid_forms",
-            name: "Hybrid Forms",
+            name: "Hybrid Abominations",
             description: "Maintain benefits of 2 forms simultaneously",
           },
           {
@@ -3446,7 +3471,7 @@ Formbenders can specialize in radically different transformation philosophies. M
           },
           {
             id: "ability_discount",
-            name: "Primal Efficiency",
+            name: "Predatory Efficiency",
             description: "All Wild Instinct costs reduced by 1 (minimum 1)",
           },
         ],
@@ -3462,7 +3487,6 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ["verbal", "somatic"],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      resolution: "NONE",
       tags: ["transformation", "mastery", "formbender"],
     },
     // ===== PASSIVE ABILITIES =====
@@ -3470,45 +3494,95 @@ Formbenders can specialize in radically different transformation philosophies. M
       id: "formbender_human_fragility",
       name: "Human Fragility",
       description:
-        "Your body has adapted to shifting forms, making your human shape feel incomplete. While in human form (no active transformation), you have -2 to all saving throws. This penalty is removed the instant you assume any animal or elemental form.",
+        "Your body has adapted to stolen forms, making your human shape feel like a cage that doesn't fit. While in human form (no active transformation), you suffer -2 to all saving throws. This penalty vanishes the instant you assume any animal or elemental form â€” the mask is fragile, but the face behind it is not.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Nature/Wither",
+      icon: "Necrotic/Necrotic Wither",
       effectTypes: ["passive"],
       typeConfig: {
         school: "nature",
-        icon: "Nature/Wither",
+        icon: "Necrotic/Necrotic Wither",
         tags: ["passive", "formbender", "weakness"],
       },
       targetingConfig: { targetingType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
       tags: ["passive", "formbender", "weakness"],
     },
+
+    {
+      id: "formbender_humanity_erosion",
+      name: "Humanity Erosion",
+      description:
+        "Every transformation erodes your grip on the human mind. Track Erosion (0-10, starts at 0). Each standard form shift: +1 Erosion. Forced reversion (dispelled, KO'd): +2 Erosion. Thresholds: 3+ = Cannot speak Common, disadvantage on Intelligence checks. 5+ = Cannot use items, Wisdom save DC 13 to revert. 7+ = Each round, Wisdom save DC 14 or attack nearest creature. 10 = GM controls your character until combat ends. Recovery: -3 Erosion after Short Rest, reset to 0 after Long Rest.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Psychic/Mind Control",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Mind Control",
+        tags: ["passive", "formbender", "erosion", "humanity"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      tags: ["passive", "formbender", "erosion", "humanity"],
+    },
+
+    {
+      id: "formbender_psychic_vulnerability",
+      name: "Psychic Vulnerability",
+      description:
+        "The human consciousness inside you is a wound that never closes. You permanently take +50% Psychic damage from all sources. This is your Fatal Flaw â€” the animal body is resilient, but the mind wearing it is always bleeding. Mind-affecting effects bypass your transformed resilience entirely. The armor protects the flesh, not the passenger.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Psychic/Mind Control",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Mind Control",
+        tags: ["passive", "formbender", "weakness", "fatal flaw"],
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "psychic_vulnerability",
+            name: "Psychic Vulnerability",
+            description:
+              "Permanently take +50% damage from all Psychic sources. Mind-affecting effects bypass form resistance.",
+            mechanicsText: "",
+          },
+        ],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      tags: ["passive", "formbender", "weakness", "fatal flaw"],
+    },
+
     {
       id: "formbender_primal_collapse",
       name: "Primal Collapse",
       description:
-        "Reverting from a transformation to human form is traumatic for your body. When a form expires or you willingly revert, you take 1d4 psychic damage per round you spent in that form (maximum 5d4). If the form was dispelled or forcibly ended by an enemy, increase the damage to 1d6 per round instead. This represents the shock of your body re-adjusting to human physiology.",
+        "Reverting from a transformation to human form is traumatic â€” your body cramming back into a shape it has outgrown. When a form expires or you willingly revert, take 1d4 psychic damage per round spent in that form (maximum 5d4). If the form was dispelled or forcibly ended by an enemy, increase to 1d6 per round. The shock of re-adjustment is the human mind's punishment for leaving.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "Nature/Entangling Roots",
+      icon: "Nature/Thorny Entanglement",
       effectTypes: ["passive"],
       typeConfig: {
         school: "nature",
-        icon: "Nature/Entangling Roots",
+        icon: "Nature/Thorny Entanglement",
         tags: ["passive", "formbender", "weakness"],
       },
       targetingConfig: { targetingType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
       tags: ["passive", "formbender", "weakness"],
     },
+
     {
-      id: "formbender_no_human_healing",
+      id: "formbender_primal_metabolism",
       name: "Primal Metabolism",
       description:
-        "Your healing magic is tied to your transformed state. Healing Touch, Primal Healing, and Nature's Gift cannot target yourself. Form Regeneration only works while you are in an animal form. In human form, you have no access to self-healing through your class abilities. Your only regeneration comes from the resilience of your adopted forms.",
+        "Your healing magic is parasitic â€” it only works when something else is wearing your skin. Stolen Mending, Flesh Donation, and Parasitic Mending cannot target yourself. You have no access to self-healing through class abilities in human form. Your only regeneration comes from the resilience of your stolen shapes. The gift moves outward. It never comes back.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Nature/Nature Natural",
@@ -3520,58 +3594,58 @@ Formbenders can specialize in radically different transformation philosophies. M
       },
       targetingConfig: { targetingType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
       tags: ["passive", "formbender", "restriction"],
     },
   ],
 
   // Spell Pools by Level
   spellPools: {
-    1: ["formbender_primal_strike", "formbender_wild_regeneration"],
+    1: ["formbender_flesh_rip", "formbender_stolen_mending", "formbender_scent_of_prey"],
     2: [
-      "formbender_beast_claws",
-      "formbender_primal_senses",
-      "formbender_wild_leap",
+      "formbender_visceral_talons",
+      "formbender_predators_sight",
+      "formbender_feral_bound",
     ],
     3: [
-      "formbender_feral_rage",
-      "formbender_natures_armor",
-      "formbender_hunt_call",
+      "formbender_feral_fury",
+      "formbender_bone_carapace",
+      "formbender_spectral_hunters",
     ],
     4: [
       "formbender_savage_charge",
-      "formbender_primal_healing",
+      "formbender_flesh_donation",
       "formbender_primal_surge",
     ],
     5: [
-      "formbender_pack_leader",
-      "formbender_primal_rage",
-      "formbender_adaptive_form",
+      "formbender_pack_of_abominations",
+      "formbender_rending_frenzy",
+      "formbender_adaptive_horror",
     ],
     6: [
-      "formbender_titan_form",
-      "formbender_primal_fury_leap",
-      "formbender_natures_gift",
+      "formbender_titan_abomination",
+      "formbender_crushing_descent",
+      "formbender_parasitic_mending",
     ],
     7: [
-      "formbender_primal_avatar",
-      "formbender_savage_roar",
-      "formbender_apex_predator",
+      "formbender_chimera_ascendant",
+      "formbender_horror_shriek",
+      "formbender_apex_horror",
     ],
     8: [
-      "formbender_savage_maelstrom",
-      "formbender_natures_champion",
-      "formbender_wild_hunt",
+      "formbender_flesh_maelstrom",
+      "formbender_natures_terror",
+      "formbender_unending_hunt",
     ],
     9: [
-      "formbender_primordial_form",
-      "formbender_natures_apocalypse",
-      "formbender_eternal_wild",
+      "formbender_primordial_abomination",
+      "formbender_apocalypse_of_flesh",
+      "formbender_eternal_hunger",
     ],
     10: [
-      "formbender_world_beast",
-      "formbender_genesis_storm",
-      "formbender_perfect_evolution",
+      "formbender_world_devourer",
+      "formbender_genesis_of_horror",
+      "formbender_perfect_abomination",
     ],
   },
 };
+

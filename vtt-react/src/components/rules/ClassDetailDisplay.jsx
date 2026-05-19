@@ -586,6 +586,24 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             <div className="guide-subtitle">{resourceSystem.subtitle}</div>
           )}
 
+          {/* Interactive Resource Bar Showcase */}
+          <div className="resource-bar-showcase">
+            <h4>Interactive {resourceSystem.title} Tracker</h4>
+            <div className="rules-resource-bar-container">
+                <ClassResourceBar
+                  characterClass={classData.name}
+                  classResource={buildDemoClassResource(classData.name)}
+                  size="large"
+                  context="hud"
+                  isGMMode={false}
+                  isOwner={true}
+                />
+            </div>
+            <div className="resource-bar-hint">
+              <i className="fas fa-info-circle"></i> This is an interactive preview of the {classData.name} resource bar. Click or interact with elements to see how it functions in combat.
+            </div>
+          </div>
+
           <div className="guide-description">
             {renderContent(resourceSystem.description)}
           </div>
@@ -1625,15 +1643,6 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
               )}
             </div>
           </div>
-        </div>
-        <div className="class-header-resource">
-          <ClassResourceBar
-            characterClass={classData.name}
-            classResource={buildDemoClassResource(classData.name)}
-            size="large"
-            context="rules"
-            isGMMode={false}
-          />
         </div>
         <div className="class-header-right"></div>
       </div>

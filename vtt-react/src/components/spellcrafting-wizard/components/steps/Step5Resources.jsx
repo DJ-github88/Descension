@@ -109,7 +109,7 @@ const Step5Resources = () => {
         { id: 'fire_sphere', name: 'Fire Sphere', shortName: 'FS', icon: faFire, color: '#FF4500' },
         { id: 'ice_sphere', name: 'Ice Sphere', shortName: 'IS', icon: faSnowflake, color: '#4169E1' },
         { id: 'nature_sphere', name: 'Nature Sphere', shortName: 'NS', icon: faLeaf, color: '#32CD32' },
-        { id: 'healing_sphere', name: 'Healing Sphere', shortName: 'HES', icon: faHeart, color: '#FFFF00' },
+        { id: 'healing_sphere', name: 'Viscera Sphere', shortName: 'VIS', icon: faHeart, color: '#8B0000' },
         { id: 'chaos_sphere', name: 'Chaos Sphere', shortName: 'CS', icon: faRandom, color: '#FF00FF' },
       ]
     },

@@ -1,8 +1,8 @@
 /**
- * Titan Class Data
+ * Titan Class Data - The Ossified Juggernaut
  *
- * Complete class information for the Titan - a celestial warrior
- * who attunes to divine beings to gain their powers and restrictions.
+ * Visceral, tragic, and oppressive class design marrying 2004-era asymmetry
+ * with grimdark folklore. A lumbering anomaly weaponizing bone density and mass.
  */
 
 import { DEVOTIONS, SPECIALIZATIONS, TITAN_MANA } from "./titan/titanConstants";
@@ -11,281 +11,209 @@ import { TITAN_SPELLS } from "./titan/titanSpells";
 export const TITAN_DATA = {
   id: "titan",
   name: "Titan",
-  icon: "fas fa-sun",
-  role: "Melee/Tank",
-  damageTypes: ["bludgeoning", "radiant", "force"],
+  icon: "fas fa-skull",
+  role: "Gravitational Tank",
+  damageTypes: ["bludgeoning", "radiant", "force", "necrotic"],
 
   // Overview section
   overview: {
     title: "The Titan",
-    subtitle: "Celestial Warrior",
+    subtitle: "The Ossified Juggernaut",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: Titans attune each day to one of five celestial beings—Solara, Lunara, Astraeus, Terranox, or Zephyra—gaining their divine powers and a devastating once-per-day ability, but also inheriting their sacred restrictions that demand strategic adaptation.
+      content: `**What You Need to Know**: The Titan is a lumbering anatomical anomaly who weaponizes their own bone density and gravitational mass. They calcify their own flesh to protect their party at the absolute cost of their own mobility, acting as a massive, space-bending meat-shield.
 
-**Core Mechanic**: Choose Daily Celestial Devotion → Gain Divine Benefits + Once-Per-Day Ultimate → Play Around Meaningful Restrictions
+**Core Mechanic**: Manage Calcification Mass (0-100) → Attune to bone structures (Marrow-Burn, Pale Tomb, Crushing Core, Fossilized Tomb, Flayed Gale) → Hold choke points while managing the crushing penalties of Terminal Inertia.
 
-**Resource**: Celestial Devotion (5 beings, chosen at long rest, lasts until next rest)
+**Resource**: Calcification Mass (Visceral skeletal matter that builds via bone-strikes and damage absorption, and spends on devastating gravity-collapses).
 
-**Playstyle**: Adaptive devotion-based melee combat
+**Playstyle**: Extreme defensive body-blocking, crowd control, and damage redirection.
 
-**Best For**: Players who enjoy daily strategic planning, thematic roleplaying, and reshaping their combat role to meet each day's challenges`,
+**Best For**: Players who enjoy high-risk, zero-mobility protective roles, manipulating localized gravity fields, and managing self-inflicted anatomical curses.`,
     },
 
-    description: `The Titan class draws its power from attuning to celestial beings, harnessing their divine attributes and abilities. Each day, the Titan can choose to attune to a different celestial deity, gaining their powers and unique abilities while also adhering to their restrictions. This system brings a high level of flavor and depth, making the Titan a versatile and thematic melee warrior.`,
+    description: `The Titan is not a glorious celestial champion, but a horrifying anatomical anomaly. They channel raw gravitational force through the agonizing, hyper-accelerated calcification of their own skeleton and muscle. By forcing mineralized shell-growth over their skin and joints, they become a crushing, immovable meat-shield of petrified bone. Power demands an excruciating toll of blood and mobility, calcifying their very hearts to absorb the blows meant for their allies.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Titans are divine warriors who have forged connections with celestial beings, channeling their power through devotion and attunement. Unlike clerics who worship from afar, Titans embody the essence of their chosen deity, taking on both their strengths and weaknesses. In roleplay, Titans often reflect the personality and values of their current devotion.
+      content: `To be a Titan is to endure a tragic, slow petrification. The bone-stitch ritual binds your soul to the crushing gravity of the earth. Every time you channel your mass, your bones fracture, splinter, and heal at hyper-accelerated speeds, filling your ears with the sickening crunch of grinding calcium. In the towns and villages, you are viewed as a lumbering freak—a calcified golem of flesh whose joints bleed dust. You do not fight for glory, but for the desperate, tragic survival of those you body-block with your fossilized ribs.
 
-Their celestial connection manifests physically based on their chosen devotion: radiant auras for Solara, silvery moonlight for Lunara, starlit patterns for Astraeus, earthen resilience for Terranox, or crackling winds for Zephyra. Each morning, a Titan must meditate and choose which celestial being to attune to for the day.
-
-Common Titan archetypes include:
-- **The Devoted Champion**: Loyal to one celestial being, rarely changing devotion
-- **The Adaptive Warrior**: Switches devotions strategically based on challenges ahead
-- **The Celestial Seeker**: Explores each devotion to understand the divine
-- **The Balanced Guardian**: Rotates through devotions to maintain cosmic balance`,
+Their calcification attunements manifest visually as horrifying physical changes: blistering solar heat radiating from bleached marrow (Marrow-Burn), a cadaverous outer shell of dead bone-crust (Pale Tomb), a space-bending distortion field pulling dust into their heavy skeleton (Crushing Core), fossilized rock-muscle that splits skin to show stone-slate (Fossilized Tomb), or razor-sharp bone spurs tearing through flesh (Flayed Gale).`,
     },
 
     combatRole: {
       title: "Combat Role",
-      content: `The Titan is a versatile melee warrior whose role changes based on their chosen devotion. They excel at:
+      content: `The Titan is the ultimate gravitational meat-shield. They hold corridors, lock down massive threats, and intercept damage with absolute, dense mass. They excel at:
 
-**Adaptability**: Can switch between offensive, defensive, and mobile playstyles daily
-**Melee Combat**: All devotions enhance melee effectiveness in different ways
-**Tactical Flexibility**: Choose devotions based on anticipated challenges
-**Powerful Once-Per-Day Abilities**: Each devotion grants a devastating ability
+**Corridor Body-Blocking**: Creating impassable gravity-walls that physically block enemy movement.
+**Aggro & Crowd Control**: Pulling enemies closer, pinning them in stone, and forcing them to strike their stone shell.
+**AoE Damage Interception**: Drawing AoE blasts and ranged impacts directly into their own petrified skeleton.
 
-However, Titans must carefully manage their devotion restrictions. Each celestial being's power comes with meaningful drawbacks that require strategic play. The key is choosing the right devotion for the situation and playing around its restriction.`,
+Their devastating fatal flaw is **Terminal Inertia**. As their mass grows, their speed decays, their Dodge drops to zero, and they become highly vulnerable to Agility-based saves. Worst of all, they suffer a catastrophic vulnerability to Acid damage, which violently melts their calcified shell, dealing double damage and shattering their resource pool.`,
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `Playing a Titan is about strategic devotion selection and managing restrictions. Key considerations:
+      content: `Playing a Titan is a high-stakes balance between defense and absolute immobility. You build Calcification Mass by absorbing damage and striking with dense bone-weapons, then spend it to erect protective structures or trigger massive gravity collapses. 
 
-**Devotion Selection**: 
-- **Solara** (Radiant Sun): Offensive damage dealer, high visibility
-- **Lunara** (Moon Guardian): Defensive tank, self-reliant healing
-- **Astraeus** (Star Sage): Mobile striker, vulnerable to physical damage
-- **Terranox** (Earth Titan): Immovable tank, reduced mobility
-- **Zephyra** (Wind Spirit): Fast attacker, knockback risk
+**ATTUNEMENT MODES**:
+- **Marrow-Burn (Solara)**: Searing calcium heat, dealing bonus radiant damage but glowing blindingly and accepting total vulnerability.
+- **Pale Tomb (Lunara)**: Cadaverous defense shell, gaining Armor and self-healing at the cost of failing all Agility saves.
+- **Crushing Core (Astraeus)**: Gravitational field, dragging enemies close and dealing force damage while taking double damage from non-magical strikes.
+- **Fossilized Tomb (Terranox)**: Petrified muscle, giving massive HP and physical resistance at the cost of losing all movement speed.
+- **Flayed Gale (Zephyra)**: Splintered marrow spikes, dealing lightning damage and quick strikes with a constant risk of bone fracture knockbacks.
 
-**Daily Planning**: 
-- Consider the day's challenges when choosing devotion
-- Coordinate with party composition
-- Plan around your once-per-day ultimate ability
-
-**Managing Restrictions**: 
-- **Solara**: Position carefully in bright light to minimize advantage against you
-- **Lunara**: Don't rely on party healers, use self-sustain
-- **Astraeus**: Avoid prolonged melee against non-magical attackers
-- **Terranox**: Position early, don't expect to chase enemies
-- **Zephyra**: Manage positioning to avoid knockback into hazards
-
-**Specialization Synergies**:
-- **Celestial Champion**: Enhances devotion benefits
-- **Divine Conduit**: Reduces devotion restrictions
-- **Astral Warrior**: Allows mid-combat devotion switching`,
+**Terminal Inertia Management**: You must coordinate with your allies. Since you cannot move quickly, you must position yourself at chokepoints early. Let the party funnel enemies to you, then lock them in place with your gravity and stone skills.`,
     },
 
     immersiveCombatExample: {
-      title: "Combat Example: Radiant Devotion",
+      title: "Combat Example: Marrow-Burn & Mass",
       content: `**The Lesson — Read This First**:
-1. **Devotion Choice**: Solara grants +1d6 radiant damage on every melee attack — no resource cost, always active.
-2. **Ultimate Timing**: Solar Flare (3d8 radiant, 10 ft radius, blind 1 turn) is once per long rest. Save it for when enemies cluster.
-3. **Restriction Management**: You glow (30 ft bright light). Enemies have advantage on attacks against you. Accept the trade — your damage output is worth it.
+1. **Bone Attunement**: Marrow-Burn (Solara) provides +1d6 radiant calcium burn and generates +10 Calcification Mass on every melee strike.
+2. **Terminal Inertia Penalty**: High Calcification reduces Dodge to 0 and movement speed to a crawl. You accept hits to build Mass, then detonate it.
+3. **Mass Execution**: Spend Calcification on devastating ultimates like Bleached Flare (3d8 radiant, blind 1 turn) once you've gathered enemies.
 
 ---
 
-**The Setup**: You're a Level 4 Titan attuned to **Solara, the Radiant Sun**. Four shadow demons and a shadow lord emerge from the darkness. Your devotion is ideal here — shadow creatures are vulnerable to radiant damage.
+**The Setup**: You are a Level 4 Titan cornered in a narrow dungeon hallway by four feral ghouls. You are attuned to **Marrow-Burn (Solara)**. Your path is blocked; your job is to physically body-block the hallway so the ghouls cannot reach your spellcaster allies.
 
-**Starting State**: Devotion: Solara | HP: 75/75 | Mana: 50/60 | Solar Flare: **Available**
-
-**Solara Devotion**:
-- **Passive**: Melee attacks deal **+1d6 radiant damage** (always active, no resource cost)
-- **Ultimate**: **Solar Flare** — 3d8 radiant to all enemies within 10 ft, blind 1 turn (1/long rest)
-- **Restriction**: You emit bright light (30 ft radius). Enemies have **advantage on attacks against you** in bright light.
+**Starting State**: Calcification: 50/100 | HP: 85/85 | Mana: 40/60 | Bleached Flare: **Available**
 
 ---
 
-**Turn 1 — Engage with Passive Bonus**
+**Turn 1 — Building Mass via Marrow-Burn Strike**
 
-*You step forward, wreathed in solar light. The demons recoil.*
+*You step forward, your boots grinding bone dust into the stone floor. Your collarbones crackle with friction-heat.*
 
-**Action**: Melee attack Shadow Demon #1
-**Attack Roll**: d20+6 → [15] = Hit!
-**Base Damage**: 2d8+4 → [5, 6] + 4 = 13 damage
-**Solara Passive**: +1d6 radiant → [4] = **+4 radiant damage**
-**Total**: 13 + 4 = **17 damage**
+**Action**: Melee attack Ghoul #1
+**Attack Roll**: d20+6 → [14] = Hit!
+**Base Damage**: 2d8+4 → [5, 6] + 4 = 15 bludgeoning damage
+**Marrow-Burn Passive**: +1d6 radiant → [5] = **+5 radiant damage**
+**Resource Change**: +10 Calcification Mass
+**Total**: **20 damage dealt**
 
-*Your blade burns with solar fire. The shadow demon shrieks as radiant light sears its flesh.*
+*Your massive stone cleaver crushes the ghouls shoulder. Searing calcium sparks hiss from your joints, burning the beasts decaying flesh.*
 
-**Shadow Demon #1**: 17 damage → **Heavily Damaged**
-
-**Shadow Demon #2's Turn**: Attacks you with **advantage** (you're glowing)
-**Attack Roll**: d20+5 (advantage) → [16, 12] → 16 = Hit!
-**Damage**: 2d6+3 → [5, 4] + 3 = **12 damage**
-
-**HP**: 75 − 12 = 63/75
-
-> **Rules Note**: Solara's restriction gave the demon advantage — you took a hit you might have avoided. The trade: you deal bonus radiant damage on every swing.
+**Ghoul #1**: 20 damage → **Heavily Wounded**
+**Current Mass**: 50 + 10 = **60/100 Calcification**
 
 ---
 
-**Turn 2 — Celestial Strike (Spending Mana)**
+**Turn 2 — Agonizing Calcification & Terminal Inertia**
 
-*Two demons down, three remain. You channel Solara's power into a devastating strike.*
+*The ghouls swarm you, clawing at your neck. You force a rapid, agonizing calcification of your ribcage to form a protective shield.*
 
-**Action**: Cast **Celestial Strike** (15 mana, 1 AP) on Shadow Demon #2
-**Attack Roll**: d20+6 → [18] = Hit!
-**Base Damage**: 4d8+4 → [7, 5, 8, 6] + 4 = 30 damage
-**Solara Variant Bonus**: +2d6 fire → [5, 4] = **+9 fire damage**
-**Solara Passive**: +1d6 radiant → [5] = **+5 radiant damage**
-**Total**: 30 + 9 + 5 = **44 damage**
+**Action**: Cast **Agonizing Calcification** (16 mana, 0 AP)
+**Resource Change**: +25 Calcification Mass (Now 85/100)
+**Effect**: Gain +4 Armor for 5 rounds.
+**Terminal Inertia Trigger**: Because your Calcification is above 80, your movement speed is reduced by 10 ft, and your Dodge is locked at 0.
 
-*Your weapon ERUPTS with solar fire and celestial energy. The demon disintegrates.*
+*A sickening crunch echoes as a thick shell of calcified bone erupts through your chest. Your muscles petrify, locking your joints. You cannot evade.*
 
-**Shadow Demon #2**: 44 damage → **Dead**
-
-**Mana**: 50 − 15 = 35/60
-
-> **Rules Note**: Celestial Strike (Level 4) has a devotion-specific bonus. With Solara, it gains +2d6 fire damage. Each devotion changes the bonus — Lunara adds healing, Terranox adds knockback, etc.
+**Ghoul #2's Attack**: Attacks you. Hits automatically due to your locked Dodge.
+**Armor Reduction**: Your new +4 Armor reduces the claw swipe to a mere tickle.
+**Damage Taken**: 4 physical damage.
+**HP**: 85 − 4 = 81/85
 
 ---
 
-**Turn 3 — Solar Flare (Ultimate)**
+**Turn 3 — Bleached Flare (Spending Mass)**
 
-*Shadow Demons #3, #4 and the Shadow Lord close in. Three enemies within 10 feet. This is the moment.*
+*The ghouls are pressed against your chest, trying to push past. You have gathered enough mass. You detonate your calcified core.*
 
-**Action**: **Solar Flare** (0 mana, once per long rest)
-**Damage**: 3d8 radiant → [8, 7, 6] = **21 radiant damage to all enemies within 10 ft**
-**Debuff**: All hit enemies are **blinded** for 1 turn
+**Action**: Cast **Bleached Flare** (0 mana, 2 AP, spends 30 Calcification)
+**Resource Change**: −30 Calcification Mass (Now 55/100)
+**Damage**: 3d8 radiant → [6, 7, 8] = **21 radiant damage to all enemies within 10 ft**
+**Debuff**: Blinds all hit targets for 1 turn.
 
-*A miniature sun detonates outward from your body. The demons SCREAM.*
+*You unleash a blinding, radioactive white burst of heat from your chest. The ghouls squeal in agony, their eyes melting.*
 
-**Shadow Demon #3**: 21 radiant → **Dead**
-**Shadow Demon #4**: 21 radiant → **Dead**
-**Shadow Lord**: 21 radiant → Heavily Damaged, **Blinded** (disadvantage on attacks, advantage against him)
+**Ghoul #1**: 21 radiant → **Dead**
+**Ghoul #2**: 21 radiant → **Dead**
+**Ghoul #3**: 21 radiant → Blinds, **Heavily Wounded**
+**Ghoul #4**: 21 radiant → Blinds, **Heavily Wounded**
 
-> **Rules Note**: Solar Flare costs no mana but can only be used once per long rest. It's gone until tomorrow — use it when it matters.
+**Final State**: Calcification: 55/100 | HP: 81/85 | Mana: 24/60 | Bleached Flare: **Spent**
 
----
-
-**Turn 4 — Finish the Shadow Lord**
-
-*The shadow lord stands alone, blinded, wounded. You advance.*
-
-**Action**: Melee attack Shadow Lord (he has disadvantage on attacks due to blindness)
-**Attack Roll**: d20+6 → [17] = Hit!
-**Base Damage**: 2d8+4 → [6, 8] + 4 = 18 damage
-**Solara Passive**: +1d6 radiant → [3] = **+3 radiant damage**
-**Total**: 18 + 3 = **21 damage**
-
-*Your blade bites deep. The shadow lord collapses.*
-
-**Shadow Lord**: 21 damage → **Dead**
-
-**Combat Over**
-
----
-
-**Final State**: Devotion: Solara | HP: 63/75 | Mana: 35/60 | Solar Flare: **Spent**
-
-**Damage Breakdown**:
-- Turn 1: 17 (melee + passive)
-- Turn 2: 44 (Celestial Strike + variant + passive)
-- Turn 3: 63 (Solar Flare: 21 × 3 targets)
-- Turn 4: 21 (melee + passive)
-- **Grand Total**: 145 damage dealt, 12 damage taken (from advantage drawback)
-
-**Key Takeaways**:
-1. **Passive is always on** — +1d6 radiant on every melee attack, no mana, no action. This is your bread and butter.
-2. **Ultimate timing matters** — Solar Flare hit 3 targets because you waited for them to cluster. Using it on Turn 1 against one demon would have wasted it.
-3. **Restrictions are real** — You took 12 damage from a demon that had advantage because of your glow. Against non-shadow enemies, this drawback hurts even more.
-4. **Devotion choice is daily** — Tomorrow, you could attune to Lunara for tanking, Terranox for immovable defense, Astraeus for mobility, or Zephyra for attack speed. Each devotion completely changes your combat role.`,
+**Key Takeaway**: You absorbed the hits, used your mana to trigger rapid calcification, accepted absolute immobility, and then shattered the enemy pack with a massive explosion of spent skeletal mass. You saved your party from being overrun.`,
     },
   },
 
   characterCreation: {
     title: "Character Creation",
-    content: `**Step 1: Assign Stats**
-Prioritize **Strength** (improves melee damage and most Titan spell scaling) and **Vitality** (increases HP — you are a frontline warrior). **Spirit** is secondary — it improves your spell save DCs for devotion abilities. **Agility** helps if you plan to play Astraeus or Zephyra devotions.
+    content: `**Step 1: Allocate Stats**
+Prioritize **Strength** (increases your bludgeoning damage and heavy skeletal strikes) and **Vitality** (boosts your HP pool—you must endure relentless strikes). **Spirit** is secondary, raising the difficulty class (DC) of your spatial gravity saves. Ignore **Agility**—your weight locks your Dodge to 0 anyway.
 
-**Step 2: Choose Your First Devotion**
-Read all five celestial devotions below. Choose based on what your party needs most:
-- **Solara**: You want to deal damage. Good against undead, shadows, and enemies vulnerable to radiant.
-- **Lunara**: You want to tank and self-sustain. Good when your party lacks a healer.
-- **Astraeus**: You want speed and mobility. Good for flanking and hit-and-run tactics.
-- **Terranox**: You want to be an immovable wall. Good for holding chokepoints and tanking bosses.
-- **Zephyra**: You want fast, sustained attacks. Good for maximizing DPR with lightning damage.
+**Step 2: Choose Your Bone Attunement**
+Pick your initial daily calcification style based on your defensive tactical needs:
+- **Marrow-Burn (Solara)**: Searing calcium fire. Excellent against undead, shadow-beasts, and when dealing offensive radiant damage.
+- **Pale Tomb (Lunara)**: Silvery fossil-skin. Ideal for self-sustain and shielding vulnerable allies.
+- **Crushing Core (Astraeus)**: Gravitational field. Best for dragging elusive archers and wizards into your melee range.
+- **Fossilized Tomb (Terranox)**: Petrified rock-muscle. The ultimate choice for blocking chokepoints and absorbing heavy bosses.
+- **Flayed Gale (Zephyra)**: Splintered bone-spurs. Perfect for quick strikes and high damage-per-round.
 
-**Step 3: Choose a Specialization**
-- **Celestial Champion**: You want maximum devotion power. Accept bigger restrictions for bigger benefits.
-- **Divine Conduit**: You want a smoother, safer playstyle. Reduced restrictions, dual attunement.
-- **Astral Warrior**: You want to switch devotions mid-combat based on what the fight demands.
+**Step 3: Select a Specialization**
+- **Ossified Scion (Celestial Champion)**: Maximize bone density. Gain +50% attunement benefits, but take double damage from Acid.
+- **Vessel of Bone-Marrow (Divine Conduit)**: Halve your Terminal Inertia drawbacks and attune to a secondary bone structure.
+- **Gravitational Rupture (Astral Warrior)**: Instantly fracture and switch your bone attunements mid-combat for 1 AP.
 
 **Step 4: Select Starting Spells**
-You begin with your devotion's **passive ability** (automatic) and **ultimate ability** (once per long rest), plus:
-- **Celestial Strike** (Level 4 universal spell) — your first active-cost ability.
-- If your devotion is Solara, also learn **Radiant Strike** (passive, always active).
+You begin with your attunement's **passive ability** (active automatically) and **ultimate ability** (once per long rest), plus the level 4 universal spell **Ossified Cleave** (your primary active strike).
 
 **Step 5: Equip Starting Gear**
-- **Celestial Greataxe** (two-handed melee): 2d8 slashing. Your conduit for channeling divine power into strikes.
-- **Acolyte's Chainmail** (medium armor): 4 Armor. Functional but not flashy — you rely on devotion for defense.
-- **Devotion Medallion** (trinket): Displays your current celestial attunement. +1 Spirit.
-- **Celestial Prayer Book** (tome): Contains the morning ritual for each devotion. +1 Intelligence.
-- **Potion of Clarity** (consumable, ×2): Restore 20 mana. Use when you need one more spell in a fight.
+- **Jagged Bone-Cleaver** (two-handed bludgeoning): 2d8 damage. A rusted, jagged iron slab designed to fracture armor.
+- **Studded Acolyte's Shroud** (medium armor): +4 Armor. Made of thick leather and stitched bone plates.
+- **Cracked Medallion** (trinket): A heavy copper disc displaying your attunement. +1 Spirit.
+- **Fossilized Beast Skull** (offhand): A dense skull acting as a focal point for localized gravity. +1 Strength.
+- **Phial of Marrow-Grease** (consumable, ×2): Restore 20 Mana by applying numbing grease to your fractured joints.
 
-**Step 6: Understand Your First Turn**
-Your first combat is straightforward: walk into melee range and swing. Your devotion passive triggers automatically — Solara adds radiant damage, Lunara adds armor and regen, etc. Don't use your ultimate on Turn 1. Save it for when it can hit multiple enemies or turn the tide. You are not a burst class on Turn 1 — you are a sustained powerhouse who gets scarier as the fight goes on.`,
+**Step 6: Plan Your First Turn**
+Do not attempt to run. Stand your ground at a narrow chokepoint. Swing your Jagged Cleaver to trigger your attunement passive and generate Calcification. Once enemies swarm you, trigger your attunement's ultimate to sweep, crush, or blind them.`,
   },
 
   // Resource System
   resourceSystem: {
-    title: "Celestial Devotion System",
-    subtitle: "Attune to Divine Beings",
+    title: "Skeletal Calcification System",
+    subtitle: "Visceral Bone Density Management",
 
-    description: `Each long rest, choose one of five celestial beings to attune to. Gain their divine passive bonuses and a powerful once-per-long-rest ultimate — but also inherit their restriction. Your role changes daily based on your choice.
+    description: `Each morning, you undergo the agonizing ritual of bone-stitching to attune to a skeletal form. This grants a constant passive anatomical change and a devastating once-per-long-rest ultimate—but binds you to a crippling physical restriction.
 
-**Mana Economy**: Titans have a base mana pool of 60 (increases by 5 per level). You regenerate 5 mana at the start of each turn. A short rest restores 50% of your mana pool. Devotion passives and ultimates (Levels 1–3) cost **no mana** — they are always active or free to trigger. Level 4+ active spells cost mana as listed in their resource costs. This means your devotion abilities are always available regardless of mana state, while your learned spells require resource management.`,
+**Mana & Calcification Economy**: Titans have a base mana pool of 60 (+5 per level) and regenerate 5 mana at the start of each turn. Devotion passives and ultimates (Levels 1–3) cost **no mana**—they are fueled solely by building and spending Calcification Mass. Level 4+ active spells cost mana and interact directly with your skeletal mass, either generating Calcification on cast or spending it for spatial distortions.`,
 
     cards: [
       {
-        title: "Devotion Attunement",
-        stats: "1/Long Rest",
-        details:
-          "Choose one of five celestial beings at the end of each long rest. Gain their passive, their ultimate, and their restriction for the entire day.",
+        title: "Bone Attunement",
+        stats: "1/Long Rest choice",
+        details: "Agonizingly stitch your bones to attune to one of five skeletal forms. This grants a heavy passive benefit, an ultimate, and a crippling restriction.",
       },
       {
-        title: "Ultimate Ability",
-        stats: "1/Long Rest",
-        details:
-          "Each devotion grants a devastating once-per-rest ultimate. Using it is irreversible until your next long rest. Timing is everything. Celestial Champions can use their ultimate twice per long rest.",
+        title: "Calcification Mass",
+        stats: "0 to 100 Mass Pool",
+        details: "Your physical weight. Built via bone-strikes and damage absorption. High mass increases defense but triggers Terminal Inertia, locking your Dodge to 0.",
       },
       {
-        title: "Mana",
+        title: "Mana Pool",
         stats: `${TITAN_MANA.basePool} Base | +${TITAN_MANA.regenPerTurn}/Turn`,
-        details: `Mana pool: ${TITAN_MANA.basePool} + 5 per level. Regen ${TITAN_MANA.regenPerTurn} mana per turn. Short rest restores 50%. Devotion abilities (L1-3) are free. Learned spells (L4+) cost mana.`,
+        details: `Used to fuel advanced level 4+ spells. Regenerates 5 per turn. Devotion-specific abilities (L1-3) cost 0 mana, relying entirely on Calcification.`,
       },
       {
-        title: "Devotion Swap",
+        title: "Shatter-Shift",
         stats: "Special Action (Spec-Dependent)",
-        details:
-          "Astral Warriors can switch devotions mid-combat for 1 AP (3 uses per long rest). Divine Conduits can switch during one short rest per day. Celestial Champions cannot switch mid-combat.",
+        details: "Gravitational Ruptures can instantly fracture and switch bone attunements mid-combat for 1 AP (3 uses/rest). Divine Conduits switch during a short rest.",
       },
     ],
 
     celestialDevotionsTable: {
-      title: "Celestial Devotions",
+      title: "Skeletal Attunements",
       headers: [
-        "Devotion",
-        "Passive Benefits",
+        "Bone Attunement",
+        "Passive Benefits (Generates Mass)",
         "Ultimate Ability (1/Long Rest)",
-        "Restriction",
+        "Terminal Inertia Restriction",
       ],
       rows: Object.values(DEVOTIONS).map((d) => [
-        `${d.name} (${d.title.replace("The ", "")})`,
+        `${d.name} (${d.title})`,
         d.benefit,
         `${d.ultimateName}: ${d.ultimateShort}`,
         d.restriction,
@@ -294,65 +222,56 @@ Your first combat is straightforward: walk into melee range and swing. Your devo
 
     usage: {
       momentum:
-        "Your devotion choice determines your entire combat identity. Solara players are aggressive damage dealers; Lunara players are self-sufficient tanks. Lean into your devotion's strength and build your turn economy around it.",
+        "Your attunement shapes your physical reality. Marrow-Burn players are offensive radiators; Pale Tomb players are self-sustaining walls. Accept the agony of your anatomical cage.",
       flourish:
-        "Save your ultimate for the moment it matters most. A Solar Flare on three clustered enemies is worth far more than a single-target kill. Coordinate with your party — let them set up the positioning before you detonate.",
+        "Time your ultimates carefully. Erasing your bone-crust to cast a wall or collapse gravity drops your Mass and leaves you physically vulnerable until you strike again.",
     },
 
     overheatRules: {
-      title: "Devotion Fatigue",
-      content: `The celestial bond is powerful but finite. Each devotion comes with a built-in tension between power and restriction.
+      title: "The Fatal Flaw: Terminal Inertia",
+      content: `Power demands a toll of physical mobility. The greater your skeletal mass, the harder it is to move your limbs.
 
-**The Restriction Cost**:
-Every devotion carries a drawback that is always active. These are not optional — they are the price of divine favor. Understanding and playing around your restriction is what separates a good Titan from a great one.
+**The Crushing Penalties**:
+Every bone attunement carries a drawback that is always active. Because of your dense calcium shell, your joints grind and lock. 
+- **Solara**: Dodge is 0. All attacks against you have advantage. Suffer extreme Acid vulnerability.
+- **Lunara**: All external healing received is halved. Movement speed is reduced by 10 ft. Automatically fail all Agility saves.
+- **Astraeus**: Dodge is 0. Disadvantage on Agility saves. Suffer extreme Acid vulnerability.
+- **Terranox**: Dodge is 0. Movement speed is reduced by 15 ft. Suffer extreme Acid vulnerability.
+- **Zephyra**: Disadvantage on Agility saves. Suffer Acid vulnerability. 25% chance to be knocked back when hit as bones splinter.
 
-**Restriction Counters**:
-- **Solara**: Fight in dim light or darkness when possible. Use abilities that extinguish light sources.
-- **Lunara**: Don't rely on the healer. Position yourself where you can regenerate safely without external healing dependence.
-- **Astraeus**: Prioritize magical enemies. Mundane weapon users exploit your weakness — take them out quickly or avoid prolonged engagements.
-- **Terranox**: Accept that you cannot chase. Position at chokepoints and let enemies come to you.
-- **Zephyra**: Avoid edges, cliffs, and hazardous terrain. The 10% knockback risk compounds with environmental dangers.
-
-**Ultimate Exhaustion**:
-Once your ultimate is spent, you lose your biggest momentum swing for the rest of the day. This creates an interesting strategic arc: early fights have your ultimate available (play aggressively), later fights require you to win through passive bonuses and basic attacks alone (play conservatively).`,
+**Acid / Corrosive Vulnerability**:
+All Titans share a catastrophic vulnerability to Corrosive/Acid attacks. Acid melts petrified calcium skins, dealing double damage and instantly draining all your Calcification Mass. Always target acid-spitting monsters first.`,
     },
 
     strategicConsiderations: {
-      title: "Choosing & Playing Your Devotion",
-      content: `**Before Combat — The Morning Choice**:
-Study your anticipated enemies and choose the devotion that best counters them. Fighting undead? Solara's radiant damage is devastating. Facing a boss with big AoE? Lunara's regen and shield keep you alive. Speed-run a dungeon? Astraeus's movement advantage shaves turns off every fight.
+      title: "Managing the Anatomical Cage",
+      content: `**Before Combat — The Morning Attunement**:
+Analyze your enemies. Fighting undead or shadows? Solaris Marrow-Burn melts them. Facing a colossal boss? Terranox's physical resistance protects your organs. Slow, narrow dungeon crawls? Pale Tomb's wall holds corridors with absolute authority.
 
-**Solara (Offensive Devotion)**:
-Radiant damage powerhouse. Accept the advantage-on-you drawback in exchange for melting enemies. Best against undead, shadow creatures, and enemies in well-lit areas (where you'd have disadvantage anyway — might as well deal +1d6). Solar Flare is a clutch AoE finisher — save it for when 3+ enemies are clustered within 10 feet.
+**Marrow-Burn (Offensive)**:
+High radiant damage output. Use it when fighting in shadows or darkness to offset your sickening white glow. Save Bleached Flare for when ghouls or soldiers pack tightly—blinding them protects your squishy wizard allies.
 
-**Lunara (Defensive Devotion)**:
-Self-sufficient tank. Don't rely on the healer — you regen 5 HP per turn and have +2 Armor. Take aggro and hold the line. Lunar Shield is a massive team-save — 50 damage absorption for all nearby allies can prevent a party wipe from a boss AoE. Use it reactively, not proactively.
+**Pale Tomb (Sustain)**:
+Perfect for when your healer is down or busy. You regenerate HP constantly. Use Ossified Wall defensively when a boss channels a massive attack; absorbing 50 damage for your entire party can avert a catastrophic wipe.
 
-**Astraeus (Mobile Devotion)**:
-Hit-and-run striker. The +10 ft movement and Agility advantage make you elusive. Starfall's stun is single-target lockdown — use it on the biggest threat to remove them from the fight for a turn. Avoid sustained melee against mundane weapon users (your restriction makes you take +1d6 from non-magical attacks).
+**Crushing Core (Control)**:
+Pull archers and spellcasters off their high ledges and drag them into your massive cleaving range. Starfall's single-target stun is your primary shutdown tool for boss spells. Avoid martial duelists who can exploit your locked Dodge.
 
-**Terranox (Immovable Devotion)**:
-The wall. +20 HP and physical resistance make you nearly unkillable by martial enemies. Earthquake's 20-foot knockdown is incredible crowd control. Position at doorways and chokepoints where enemies must approach you. Your speed reduction means you cannot chase — let them come.
+**Fossilized Tomb (Immovable Tank)**:
+The ultimate physical wall. Gain 20 Max HP and flat physical damage reduction. Position yourself in doorways. You cannot chase, so carry throwable rocks or wait for the party to funnel enemies directly into your stone limbs.
 
-**Zephyra (Fast Striker Devotion)**:
-The highest sustained DPR devotion. +2 attack speed and +1d4 lightning on every melee hit adds up fast. Wind Dash's teleport + AoE makes you a living blitz. The 10% knockback restriction is manageable — just stay away from edges and hazards. In dangerous terrain, consider swapping to Terranox instead.
-
-**Worked Example — Boss Fight with Unknown Threat Type**:
-You chose Solara for the +1d6 radiant. The boss turns out to be a martial fighter with mundane weapons.
-- **Your radiant bonus is neutral** (not strong, not weak).
-- **Your restriction (advantage on you in bright light) is active** — but the boss uses mundane attacks, not light-dependent ones.
-- **Adapt**: Play around your restriction by fighting in shadows when possible. Save Solar Flare for when adds spawn — it shines against groups, not single targets.
-- **Lesson**: If you knew it was a martial boss, Astraeus or Terranox would have been the better pick. Information is your most valuable resource.`,
+**Flayed Gale (High DPR)**:
+Your highest damage potential. Razor-sharp spurs shred flesh. Splinter-Burst Dash provides highly-needed teleportation to bypass barriers. Watch your positioning—splintering bones can knock you backward into hazards.`,
     },
 
     playingInPerson: {
       title: "Playing Titan In Person",
       subtitle: "Physical Tracking for Tabletop Play",
-      content: `A set of devotion cards transforms each morning into a meaningful ritual. The physical act of choosing your celestial patron grounds the roleplay and keeps your mechanics visible to the whole table.
+      content: `A set of bone attunement cards transforms each morning into a meaningful ritual. The physical act of choosing your skeletal patron grounds the roleplay and keeps your mechanics visible to the whole table.
 
 **Required Materials**:
-- **5 Devotion Cards** — Index cards or printed cards, one per celestial being (Solara, Lunara, Astraeus, Terranox, Zephyra). Each card shows: passive benefits, ultimate ability, and restriction.
-- **Ultimate Token** — A coin or token (heads = available, tails = spent).
+- **5 Attunement Cards** — Index cards or printed cards, one per bone structure (Marrow-Burn, Pale Tomb, Crushing Core, Fossilized Tomb, Flayed Gale). Each card shows: passive benefits, ultimate ability, and restriction.
+- **Ultimate Token** — A heavy coin or token (heads = available, tails = spent).
 - **Restriction Sticky Note** — A small note with your current restriction written on it, placed visibly on the table.
 
 **The Morning Ritual**:
@@ -376,134 +295,127 @@ ULTIMATE: 1/Long Rest (irreversible until next rest)
 **The Physical Hacks**:
 - **The Devotion Deck**: Keep all 5 cards in a small deck box. Each morning, dramatically draw your choice. Other players will start anticipating which devotion you'll pick based on the encounter.
 - **Restriction Token on Mini**: Place a small colored token on your miniature to remind everyone (including yourself) of your active restriction. Red for Solara, blue for Lunara, purple for Astraeus, brown for Terranox, white for Zephyra.
-- **Ultimate Countdown**: When you use your ultimate, flip the token and place it on the devotion card. It serves as a visual reminder that your biggest swing is gone for the day.
-
-**Pro Tips**:
-- Discuss devotion choices with your party during rests. "I'm thinking Solara for the undead — anyone need me to go Lunara instead for the tanking?"
-- If your DM allows, keep a "Notes" section on each devotion card to track which encounters you've used that devotion for and how it performed.
-- The restriction sticky note isn't just for you — it lets the healer know not to waste heals on Lunara you, or lets the rogue know you can't chase with Terranox.`,
+- **Ultimate Countdown**: When you use your ultimate, flip the token and place it on the devotion card. It serves as a visual reminder that your biggest swing is gone for the day.`,
     },
   },
 
   // Specializations
   specializations: {
-    title: "Titan Specializations",
-    subtitle: "Three Paths of Divine Power",
+    title: "Ossified Specializations",
+    subtitle: "Three Paths of Skeletal Alteration",
 
-    description: `Every Titan chooses one of three specializations that define their approach to celestial devotion. Each specialization offers unique ways to enhance or modify the devotion system.`,
+    description: `Every Titan chooses one of three horrifying specializations that permanently alter their skeletal structure, changing how they manage mass and gravity.`,
 
     specs: [
       {
         id: "celestial-champion",
-        name: "Celestial Champion",
+        name: "Ossified Scion",
         icon: "Radiant/Radiant Bolt",
-        color: "#FFD700",
-        theme: "Enhanced Devotion Benefits",
+        color: "#EBE6DD",
+        theme: "Unrestrained Calcification",
 
-        description: `The Celestial Champion specialization focuses on maximizing the benefits of each devotion. Champions embrace their chosen deity fully, gaining enhanced passive bonuses and more powerful ultimate abilities.`,
+        description: `You embrace skeletal ossification fully. Your bones are a walking graveyard, swollen with immense calcium deposits and dense mineral growths.`,
 
-        playstyle:
-          "Maximize devotion benefits, powerful abilities, accept restrictions",
+        playstyle: "Aggressive mass building, extreme passive defense, total immobility",
 
         strengths: [
-          "Devotion passive benefits increased by 50%",
-          "Can use ultimate ability twice per long rest",
-          "Allies within 10 feet gain 25% of your devotion benefits",
-          "Higher risk, higher reward playstyle",
+          "Attunement passive benefits are increased by 50%.",
+          "Can use your bone ultimate twice per long rest.",
+          "Allies within 10 feet gain 25% of your bone density (Armor +1).",
+          "Unrivaled frontline defensive absorption.",
         ],
 
         weaknesses: [
-          "Devotion restrictions are enhanced (see each devotion for specifics)",
-          "Cannot switch devotions mid-combat",
-          "More committed to chosen devotion",
-          "Enhanced restrictions can be punishing against wrong enemy types",
+          "Attunement restrictions and mobility penalties are doubled.",
+          "Cannot switch bone attunements mid-combat.",
+          "Acid vulnerability increases to +100% damage taken.",
+          "Locked Dodge makes you a permanent punching bag.",
         ],
 
         keyAbilities: [
-          "Divine Amplification: Devotion benefits increased by 50%",
-          "Shared Blessing: Allies within 10 feet gain 25% of devotion benefits",
-          "Celestial Surge: Use ultimate ability twice per long rest",
+          "Bone-Grafted Ascendancy: Attunement benefits increased by 50%.",
+          "Shared Density: Allies within 10 ft gain Armor +1.",
+          "Calcium Surge: Channel your ultimate twice per long rest.",
         ],
 
         specPassive: {
-          name: "Champion's Devotion",
+          name: "Bone-Grafted Ascendancy",
           description:
-            "Devotion passive benefits increased by 50%. Ultimate abilities can be used twice per long rest. Allies within 10 feet gain 25% of your devotion benefits. Devotion restrictions are enhanced — each devotion specifies its Champion-tier restriction increase (e.g., Solara's bright light expands to 60 ft, Astraeus takes +2d6 from non-magical instead of +1d6). Cannot switch devotions mid-combat.",
+            "Attunement passive benefits increased by 50%. Ultimate abilities can be used twice per long rest. Allies within 10 feet gain +1 Armor. Attunement restrictions are doubled (Solara's glow expands to 60 ft, Terranox speed reduction is 25 ft). Acid vulnerability is doubled to +100% damage taken. Cannot switch devotions mid-combat.",
         },
       },
       {
         id: "divine-conduit",
-        name: "Divine Conduit",
+        name: "Vessel of Bone-Marrow",
         icon: "Radiant/Divine Radiance",
-        color: "#87CEEB",
-        theme: "Reduced Restrictions",
+        color: "#768A96",
+        theme: "Regulated Calcification",
 
-        description: `The Divine Conduit specialization focuses on minimizing the drawbacks of celestial devotion. Conduits have learned to channel divine power more efficiently, reducing the burden of restrictions while maintaining most benefits.`,
+        description: `You have carved intricate drainage channels into your own skeleton. By constantly venting friction-heat and mineral weight, you minimize the drawbacks of petrification.`,
 
-        playstyle:
-          "Balanced approach, reduced drawbacks, consistent performance",
+        playstyle: "Consistent mobility, flexible attunements, moderate defense",
 
         strengths: [
-          "Devotion restrictions reduced by 50%",
-          "Can partially benefit from two devotions simultaneously",
-          "Switching devotions during short rest (once per day)",
-          "More forgiving playstyle",
+          "Attunement restrictions and speed penalties are halved.",
+          "Can attune to a secondary bone structure at 50% effectiveness.",
+          "Switch attunements during one short rest per day.",
+          "More forgiving mobility and saving throws.",
         ],
 
         weaknesses: [
-          "Devotion benefits reduced by 25%",
-          "Ultimate abilities slightly weaker",
-          "Less specialized than other specs",
-          "Lower peak power",
+          "Attunement passive benefits are reduced by 25%.",
+          "Ultimate damage and shield values are reduced by 25%.",
+          "Lacks the extreme defensive peaks of the Scion.",
+          "Less specialized at locking down single lanes.",
         ],
 
         keyAbilities: [
-          "Efficient Channeling: Devotion restrictions reduced by 50%",
-          "Dual Attunement: Gain minor benefits from a second devotion",
-          "Flexible Devotion: Switch devotions during short rest (once per day)",
+          "Marrow-Flux Harmony: Attunement restrictions halved, benefits reduced by 25%.",
+          "Dual Marrow: Benefit from a secondary attunement at 50% strength.",
+          "Flexible Drainage: Switch bone attunements during a short rest.",
         ],
 
         specPassive: {
-          name: "Conduit's Balance",
+          name: "Marrow-Flux Harmony",
           description:
-            "Devotion restrictions reduced by 50%. Devotion benefits reduced by 25%. Can attune to a second devotion at 50% effectiveness. Can switch devotions during one short rest per day.",
+            "Attunement restrictions reduced by 50%. Attunement benefits reduced by 25%. Can attune to a second bone structure at 50% effectiveness. Can switch attunements during one short rest per day.",
         },
       },
       {
         id: "astral-warrior",
-        name: "Astral Warrior",
+        name: "Gravitational Rupture",
         icon: "Arcane/Missile",
-        color: "#9370DB",
-        theme: "Combat Flexibility",
+        color: "#583D70",
+        theme: "Combat Weight-Shift",
 
-        description: `The Astral Warrior specialization focuses on tactical devotion switching and combat adaptability. Warriors can change devotions mid-combat, allowing them to respond dynamically to changing battlefield conditions.`,
+        description: `You weaponize the kinetic shock of skeletal fracture. By violently shattering and rebuilding your bones mid-combat, you swap attunements on the fly.`,
 
-        playstyle: "Tactical switching, adaptability, resource management",
+        playstyle: "Tactical shape-shifting, mobile gravity wells, combo strikes",
 
         strengths: [
-          "Can switch devotions for 1 AP (costs 1 use)",
-          "Start combat with 3 devotion switches available",
-          "Switching devotions triggers a burst effect",
-          "Ultimate tactical flexibility",
+          "Switch attunements mid-combat for 1 AP (3 uses per long rest).",
+          "Switching triggers a bone-shattering shockwave matching your new attunement.",
+          "Starting combat with all 3 shift uses available.",
+          "Highly adaptive to changing enemy resistances.",
         ],
 
         weaknesses: [
-          "Limited switches per day (3 per long rest)",
-          "Each switch costs 1 AP — a significant action cost",
-          "Requires tactical knowledge of devotion matchups",
-          "Ultimate abilities do not carry over between devotion switches",
+          "Each shift deals 2d6 self-inflicted crushing damage.",
+          "Ultimate availability does not reset upon shifting attunements.",
+          "Requires deep knowledge of complex combat matchups.",
+          "Lower static defensive bonuses when not shifting.",
         ],
 
         keyAbilities: [
-          "Combat Attunement: Switch devotions for 1 AP (3 uses per long rest)",
-          "Devotion Burst: Switching triggers an effect based on new devotion",
-          "Astral Mastery: Gain expertise in all devotion mechanics",
+          "Terminal Weightless-Burst: Switch attunements mid-combat for 1 AP.",
+          "Shatter Pulse: Shifting triggers a unique burst based on the new attunement.",
+          "Friction Shrapnel: Gaining +20 Calcification instantly upon shifting.",
         ],
 
         specPassive: {
-          name: "Warrior's Versatility",
+          name: "Terminal Weightless-Burst",
           description:
-            "Can switch devotions for 1 AP (3 uses per long rest). Switching devotions triggers a burst effect based on the new devotion. When you switch, your ultimate availability does not reset — if you haven't used it yet, it transfers to the new devotion. Gain tactical insight into enemy weaknesses.",
+            "Can switch attunements mid-combat for 1 AP (3 uses per long rest). Shifting deals 2d6 crushing damage to yourself but triggers a unique burst shockwave and instantly generates +20 Calcification Mass.",
         },
       },
     ],
