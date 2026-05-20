@@ -1,0 +1,675 @@
+/* ===== RULES COMPONENTS - TTRPG SOURCEBOOK DESIGN SYSTEM ===== */
+
+:root {
+  --rules-theme-mechanic: #8a1a10; /* Dark rustic blood-red */
+  --rules-theme-mechanic-bg: rgba(138, 26, 16, 0.02);
+  --rules-theme-combat: #9c281a;
+  --rules-theme-combat-bg: rgba(156, 40, 26, 0.02);
+  --rules-theme-narrative: #6d4021; /* Rich leather brown */
+  --rules-theme-narrative-bg: rgba(109, 64, 33, 0.02);
+  --rules-theme-danger: #a62424;
+  --rules-theme-danger-bg: rgba(166, 36, 36, 0.02);
+  --rules-theme-nature: #2a5c2d; /* Forest moss green */
+  --rules-theme-nature-bg: rgba(42, 92, 45, 0.01);
+  --rules-theme-arcane: #5b2c80; /* Shadow violet */
+  --rules-theme-arcane-bg: rgba(91, 44, 128, 0.02);
+  --rules-theme-undead: #3d1c47;
+  --rules-theme-undead-bg: rgba(61, 28, 71, 0.02);
+  --rules-theme-trade: #997400; /* Antique gold */
+  --rules-theme-trade-bg: rgba(153, 116, 0, 0.02);
+  --rules-theme-social: #b25900;
+  --rules-theme-social-bg: rgba(178, 89, 0, 0.02);
+  
+  --rpg-gold: #c4a060;
+  --rpg-dark-gold: #8f6f35;
+  --rpg-ink: #2b1c11;
+  --rpg-paper-light: #fbf6eb;
+}
+
+@keyframes rulesFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rulesSlideDown {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 2000px; }
+}
+
+@keyframes rulesStaggerIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rules-content-area > .rules-section-card,
+.rules-content-area > .rules-collapsible,
+.rules-content-area > .rules-summary-box,
+.rules-content-area > .rules-quick-tiles,
+.rules-content-area > .rules-table-container {
+  animation: rulesStaggerIn 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+/* Staggered load effects */
+.rules-content-area > :nth-child(1) { animation-delay: 0.02s; }
+.rules-content-area > :nth-child(2) { animation-delay: 0.06s; }
+.rules-content-area > :nth-child(3) { animation-delay: 0.10s; }
+.rules-content-area > :nth-child(4) { animation-delay: 0.14s; }
+.rules-content-area > :nth-child(5) { animation-delay: 0.18s; }
+.rules-content-area > :nth-child(6) { animation-delay: 0.22s; }
+.rules-content-area > :nth-child(7) { animation-delay: 0.26s; }
+.rules-content-area > :nth-child(8) { animation-delay: 0.30s; }
+.rules-content-area > :nth-child(n+9) { animation-delay: 0.35s; }
+
+/* ===== GOTHIC HERO BANNER ===== */
+.rules-hero-banner {
+  padding: 36px 40px 30px;
+  margin: 0 25px 28px 25px;
+  background: linear-gradient(135deg, #2b1b11 0%, #150d08 100%);
+  border: 3px double var(--rpg-gold);
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), inset 0 0 40px rgba(0,0,0,0.6);
+  text-align: center;
+  animation: rulesFadeIn 0.4s ease;
+  overflow: hidden;
+}
+
+.rules-hero-banner::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid rgba(196, 160, 96, 0.25);
+  pointer-events: none;
+}
+
+.rules-hero-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--rpg-gold);
+  border: 1px solid rgba(196, 160, 96, 0.3);
+  padding: 4px 14px;
+  background: rgba(196, 160, 96, 0.05);
+  border-radius: 12px;
+}
+
+.rules-hero-badge i {
+  color: var(--rpg-gold);
+  font-size: 0.85rem;
+}
+
+.rules-hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #fffbf2;
+  margin: 0 0 10px 0;
+  line-height: 1.15;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+/* Medieval Divider flourish under Hero Title */
+.rules-hero-title::after {
+  content: '✥';
+  display: block;
+  font-size: 0.9rem;
+  color: var(--rpg-gold);
+  margin: 8px auto 0;
+  opacity: 0.8;
+  letter-spacing: 0;
+}
+
+.rules-hero-subtitle {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  color: #d4c4a8;
+  font-size: 1.15rem;
+  margin: 0;
+  line-height: 1.45;
+  max-width: 680px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+/* ===== TTRPG CLEAN SECTION (No Modern Container boxes!) ===== */
+.rules-section-card {
+  margin: 0 25px 24px 25px;
+  padding: 10px 10px;
+  background: transparent; /* No bulky box backgrounds! */
+  border: none; /* No rounded bounding box! */
+  animation: rulesFadeIn 0.35s ease both;
+  position: relative;
+}
+
+.rules-section-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  color: var(--section-theme-color, var(--rules-theme-mechanic));
+  margin: 0 0 16px 0;
+  border-bottom: 2px solid rgba(196, 160, 96, 0.3);
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.rules-section-card-title i {
+  color: var(--section-theme-color, var(--rules-theme-mechanic));
+  font-size: 1.1rem;
+}
+
+/* TTRPG Two-column balanced spread on desktop sizes */
+.rules-section-card-content {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--rpg-ink);
+  text-align: justify;
+}
+
+@media (min-width: 769px) {
+  .rules-section-card-content {
+    column-count: 2;
+    column-gap: 36px;
+    column-rule: 1px dashed rgba(196, 160, 96, 0.25);
+  }
+}
+
+/* Override: suppress 2-col layout for short sections that would leave an empty right column */
+.rules-section-card-content.no-columns {
+  column-count: 1 !important;
+}
+
+.rules-section-card-content p {
+  margin: 0 0 16px 0;
+  break-inside: avoid; /* Prevents paragraph breaking awkwardly across columns */
+}
+.rules-section-card-content p:last-child { margin-bottom: 0; }
+
+.rules-section-card-content strong {
+  color: var(--section-theme-color, var(--rules-theme-mechanic));
+  font-weight: 700;
+}
+.rules-section-card-content em { color: #805333; font-style: italic; }
+.rules-section-card-content ul { margin: 12px 0; padding-left: 20px; break-inside: avoid; }
+.rules-section-card-content li { margin: 6px 0; color: var(--rpg-ink); }
+
+/* Medieval Illuminated Drop Caps - first letter of section */
+.rules-section-card-content > p:first-of-type::first-letter,
+.rules-collapsible-body > p:first-of-type::first-letter {
+  font-family: 'Uncial Antiqua', 'Cinzel', serif;
+  font-size: 3.5rem;
+  float: left;
+  line-height: 0.85;
+  margin-top: 0.15em;
+  margin-right: 0.08em;
+  color: var(--section-theme-color, var(--rules-theme-mechanic));
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8), 3px 3px 0px rgba(196, 160, 96, 0.15);
+  font-weight: bold;
+}
+
+/* ===== RPG TOME COLLAPSIBLE ===== */
+.rules-collapsible {
+  margin: 0 25px 24px 25px;
+  border: none;
+  border-top: 1px solid rgba(196, 160, 96, 0.4);
+  border-bottom: 1px solid rgba(196, 160, 96, 0.4);
+  background: transparent;
+  overflow: hidden;
+  animation: rulesFadeIn 0.35s ease both;
+}
+
+.rules-collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.rules-collapsible-header:hover {
+  background: rgba(196, 160, 96, 0.06);
+}
+
+.rules-collapsible-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--section-theme-color, var(--rules-theme-mechanic));
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rules-collapsible-tag i {
+  color: var(--section-theme-color, var(--rules-theme-mechanic));
+  font-size: 1rem;
+}
+
+.rules-collapsible-toggle {
+  background: transparent;
+  border: none;
+  color: var(--section-theme-color, var(--rpg-dark-gold));
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.rules-collapsible-header:hover .rules-collapsible-toggle {
+  transform: scale(1.1);
+  color: var(--rpg-gold);
+}
+
+.rules-collapsible-body {
+  padding: 12px 10px 20px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--rpg-ink);
+  animation: rulesSlideDown 0.3s ease-out;
+  text-align: justify;
+}
+
+@media (min-width: 769px) {
+  .rules-collapsible-body {
+    column-count: 2;
+    column-gap: 36px;
+    column-rule: 1px dashed rgba(196, 160, 96, 0.25);
+  }
+}
+
+/* Override: suppress 2-col layout for short collapsibles */
+.rules-collapsible-body.no-columns {
+  column-count: 1 !important;
+}
+
+.rules-collapsible-body p { margin: 0 0 16px 0; break-inside: avoid; }
+.rules-collapsible-body p:last-child { margin-bottom: 0; }
+.rules-collapsible-body strong { color: var(--section-theme-color, var(--rules-theme-mechanic)); font-weight: 700; }
+.rules-collapsible-body em { color: #805333; font-style: italic; }
+.rules-collapsible-body ul { margin: 12px 0; padding-left: 20px; break-inside: avoid; }
+.rules-collapsible-body li { margin: 6px 0; }
+
+/* ===== PARCHMENT SUMMARY SCROLL (Sidebars/Callouts) ===== */
+.rules-summary-box {
+  margin: 0 25px 24px 25px;
+  padding: 22px 26px;
+  background: #fbf7ef;
+  border: 2px solid #d4c4a8;
+  border-radius: 2px;
+  position: relative;
+  box-shadow: inset 0 0 24px rgba(139, 69, 19, 0.05), 0 4px 15px rgba(0, 0, 0, 0.04);
+  animation: rulesFadeIn 0.35s ease both;
+  overflow: hidden;
+}
+
+/* Gold corner brackets for TTRPG hand-out vibe */
+.rules-summary-box::before {
+  content: '';
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 1px dashed rgba(196, 160, 96, 0.4);
+  pointer-events: none;
+}
+
+/* Ornamental corner accents */
+.rules-summary-box::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: 
+    linear-gradient(to right, var(--rpg-gold) 10px, transparent 10px) 0 0,
+    linear-gradient(to bottom, var(--rpg-gold) 10px, transparent 10px) 0 0,
+    linear-gradient(to left, var(--rpg-gold) 10px, transparent 10px) 100% 0,
+    linear-gradient(to bottom, var(--rpg-gold) 10px, transparent 10px) 100% 0,
+    linear-gradient(to right, var(--rpg-gold) 10px, transparent 10px) 0 100%,
+    linear-gradient(to top, var(--rpg-gold) 10px, transparent 10px) 0 100%,
+    linear-gradient(to left, var(--rpg-gold) 10px, transparent 10px) 100% 100%,
+    linear-gradient(to top, var(--rpg-gold) 10px, transparent 10px) 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 8px 8px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.rules-summary-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--rpg-dark-gold);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(196, 160, 96, 0.25);
+  padding-bottom: 6px;
+}
+
+.rules-summary-badge i { color: var(--rpg-gold); font-size: 0.9rem; }
+
+.rules-summary-list {
+  margin: 0; padding: 0;
+  list-style: none;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.rules-summary-item {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #4a3728;
+  padding-left: 20px;
+  position: relative;
+}
+
+.rules-summary-item::before {
+  content: '✦';
+  position: absolute;
+  left: 2px; top: 1px;
+  color: var(--rpg-gold);
+  font-size: 0.75rem;
+}
+
+.rules-summary-item strong { color: #8a1a10; font-weight: 600; }
+
+/* ===== QUICK REFERENCE TILES ===== */
+.rules-quick-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 25px 28px 25px;
+  animation: rulesFadeIn 0.35s ease both;
+}
+
+.rules-quick-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 18px;
+  background: rgba(251, 246, 235, 0.7);
+  border: 1px solid rgba(196, 160, 96, 0.3);
+  border-radius: 2px;
+  min-width: 130px;
+  flex: 1 1 auto;
+  transition: all 0.2s ease;
+  max-width: 220px;
+  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.04);
+}
+
+.rules-quick-tile:hover {
+  background: #fbf7ef;
+  border-color: var(--rpg-gold);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.08);
+  transform: translateY(-2px);
+}
+
+.rules-quick-tile-icon { font-size: 0.95rem; color: var(--rpg-dark-gold); margin-bottom: 2px; }
+
+.rules-quick-tile-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #8b6914;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rules-quick-tile-value {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #8a1a10;
+  line-height: 1.3;
+}
+
+/* ===== RPG MINIMALIST DOUBLE-BORDERED TABLES ===== */
+.rules-table-container {
+  margin: 0 25px 28px 25px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.rules-table-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  color: #8a1a10;
+  margin: 0 0 6px 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.rules-table-description {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  color: #6d4021;
+  font-size: 1rem;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.rules-table-wrapper {
+  display: flex;
+  overflow: visible;
+}
+
+.rules-table-page-left, .rules-table-page-right {
+  flex: 1;
+  min-width: 0;
+}
+
+.rules-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 10px 0;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+}
+
+/* Elegant TTRPG Double border on table top/bottom */
+.rules-table thead {
+  background: transparent;
+  border-top: 2px solid var(--rpg-gold);
+  border-bottom: 1px solid var(--rpg-gold);
+}
+
+.rules-table th {
+  padding: 10px 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--table-theme-color, #8a1a10) !important;
+  text-align: left;
+  border: none !important;
+}
+
+.rules-table tbody {
+  border-bottom: 2px solid var(--rpg-gold);
+}
+
+.rules-table tr {
+  border-bottom: 1px solid rgba(196, 160, 96, 0.15);
+}
+
+.rules-table tr:last-child {
+  border-bottom: none;
+}
+
+/* Vintage alternating parchment shading */
+.rules-table tbody tr:nth-child(even) {
+  background: rgba(196, 160, 96, 0.05);
+}
+
+.rules-table tbody tr:nth-child(odd) {
+  background: transparent;
+}
+
+.rules-table td {
+  padding: 8px 12px;
+  color: var(--rpg-ink);
+  line-height: 1.4;
+}
+
+/* Hover glow for interactive elements */
+.rules-table tbody tr:hover {
+  background: rgba(196, 160, 96, 0.12) !important;
+  transition: background 0.15s ease;
+}
+
+/* Clickable cells */
+.rules-table td.clickable-cell {
+  color: var(--rpg-dark-gold) !important;
+  font-weight: 600 !important;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.rules-table td.clickable-cell:hover {
+  color: #8a1a10 !important;
+  text-shadow: 0 0 8px rgba(196, 160, 96, 0.3);
+}
+
+/* Table Pagination controls */
+.rules-table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.rules-table-page-button {
+  background: transparent;
+  border: 1px solid rgba(196, 160, 96, 0.4);
+  border-radius: 2px;
+  color: var(--rpg-dark-gold);
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.rules-table-page-button:hover:not(:disabled) {
+  background: rgba(196, 160, 96, 0.1);
+  border-color: var(--rpg-gold);
+  color: #8a1a10;
+}
+
+.rules-table-page-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.rules-table-page-indicator {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: var(--rpg-dark-gold);
+}
+
+/* ===== INLINE WATERCOLOR ILLUSTRATIONS ===== */
+.rules-inline-art-container {
+  float: right;
+  width: 260px;
+  margin: 10px 0 20px 24px;
+  position: relative;
+  break-inside: avoid;
+  z-index: 2;
+}
+
+.rules-inline-art-container.left {
+  float: left;
+  margin: 10px 24px 20px 0;
+}
+
+.rules-inline-art {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  filter: drop-shadow(0 4px 10px rgba(139, 69, 19, 0.15));
+  mix-blend-mode: multiply; /* Extremely cool trick to blend white background images into paper! */
+  opacity: 0.95;
+  transition: transform 0.3s ease;
+}
+
+.rules-inline-art:hover {
+  transform: scale(1.03) rotate(1deg);
+}
+
+.rules-inline-art-caption {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #6d4021;
+  text-align: center;
+  margin-top: 6px;
+  display: block;
+}
+
+/* Beautiful gothic horizontal rule flourish */
+.rules-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 36px auto;
+  width: 80%;
+  opacity: 0.65;
+  pointer-events: none;
+  break-inside: avoid;
+}
+
+.rules-divider::before,
+.rules-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--rpg-gold) 50%, transparent);
+}
+
+.rules-divider-icon {
+  margin: 0 16px;
+  color: var(--rpg-dark-gold);
+  font-size: 0.75rem;
+  transform: rotate(45deg);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .rules-hero-banner { margin: 0 12px 20px 12px; padding: 24px 20px; }
+  .rules-hero-title { font-size: 1.5rem; }
+  .rules-hero-subtitle { font-size: 1rem; }
+  .rules-section-card, .rules-collapsible, .rules-summary-box { margin: 0 12px 18px 12px; padding: 14px 16px; }
+  .rules-quick-tiles { margin: 0 12px 20px 12px; gap: 8px; }
+  .rules-quick-tile { min-width: 100px; padding: 8px 12px; }
+  .rules-table-container { margin: 0 12px 20px 12px; }
+  .rules-inline-art-container {
+    float: none;
+    width: 100%;
+    margin: 15px 0;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
