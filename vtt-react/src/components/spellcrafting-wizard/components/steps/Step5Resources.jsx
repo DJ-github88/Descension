@@ -32,7 +32,9 @@ import {
   faShield,
   faPaw,
   faCrosshairs,
-  faBalanceScale
+  faBalanceScale,
+  faCircleDot,
+  faPlusCircle
 } from '@fortawesome/free-solid-svg-icons';
 import SimpleFormulaHelp from '../common/SimpleFormulaHelp';
 import { Form, Card, Alert, Row, Col, Button, Badge } from 'react-bootstrap';
@@ -85,7 +87,11 @@ const Step5Resources = () => {
   // Basic resource types (always visible)
   const basicResourceTypes = [
     { id: 'actionPoints', name: 'Action Points', description: 'Basic action economy', icon: faBolt },
+    { id: 'action', name: 'Action', description: 'Spends an action slot', icon: faCrosshairs },
+    { id: 'bonus_action', name: 'Bonus Action', description: 'Uses a bonus action', icon: faPlusCircle },
+    { id: 'reaction', name: 'Reaction', description: 'Uses your reaction', icon: faShield },
     { id: 'mana', name: 'Mana', description: 'Standard magical energy', icon: faGem },
+    { id: 'spell_slot', name: 'Spell Slot', description: 'Consumes a spell slot', icon: faCircleDot, hasLevel: true, levels: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
     { id: 'rage', name: 'Rage', description: 'Built through combat actions', icon: faFire },
     { id: 'energy', name: 'Energy', description: 'Regenerates quickly', icon: faBolt },
     { id: 'focus', name: 'Focus', description: 'Used for precise abilities', icon: faLeaf },
@@ -834,6 +840,33 @@ const Step5Resources = () => {
                               <option value="Cataclysm">Cataclysm (81-100 Rage)</option>
                               <option value="Obliteration">Obliteration (101+ Rage)</option>
                             </select>
+                          </div>
+                        ) : /* Spell slot level selector */
+                        resourceType === 'spell_slot' ? (
+                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <select
+                              className="resource-input"
+                              value={resourceValues['spell_slot_level'] || 1}
+                              onChange={(e) => {
+                                const newValues = { ...resourceValues };
+                                newValues['spell_slot_level'] = parseInt(e.target.value);
+                                setResourceValues(newValues);
+                              }}
+                              style={{ width: '120px' }}
+                            >
+                              {[1,2,3,4,5,6,7,8,9].map(lvl => (
+                                <option key={lvl} value={lvl}>Level {lvl}</option>
+                              ))}
+                            </select>
+                            <span style={{ color: '#8b6f47', fontSize: '13px' }}>x</span>
+                            <input
+                              type="number"
+                              min="1"
+                              className="resource-input"
+                              style={{ width: '70px' }}
+                              value={resourceValues[resourceType] || 1}
+                              onChange={(e) => handleResourceValueChange(resourceType, e.target.value)}
+                            />
                           </div>
                         ) : /* Musical notes use +/- toggle instead of number input */
                         resourceType.startsWith('note_') ? (

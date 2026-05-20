@@ -41,7 +41,7 @@ export const HARROW_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Utility/Steadfast Bulwark',
                 tags: ['passive', 'survival', 'resistance', 'endurance']
             },
@@ -99,7 +99,7 @@ export const HARROW_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Utility/Bound Warrior',
                 tags: ['reaction', 'defensive', 'survival', 'buff']
             },
@@ -182,7 +182,7 @@ export const HARROW_PATH = {
             damageTypes: ['psychic'],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Psychic/Hypnotic Eye',
                 tags: ['action', 'debuff', 'fear', 'aura', 'mental']
             },
@@ -541,7 +541,7 @@ export const HARROW_PATH = {
                     icon: 'Void/Corrupted Eye',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['damage', 'shadow', 'sacrifice', 'high damage'],
+                    tags: ['damage', 'necrotic', 'sacrifice', 'high damage'],
                     effectTypes: ['damage'],
                     damageTypes: ['necrotic'],
 

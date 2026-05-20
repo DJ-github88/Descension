@@ -13,17 +13,14 @@ export const ARCANONEER_DATA = {
   role: "Magi-ballistic Mutilator (Damage/Utility -- Zero Healing)",
   damageTypes: [
     "arcane",
-    "holy",
-    "shadow",
+    "radiant",
+    "necrotic",
     "fire",
     "frost",
     "nature",
-    "viscera",
     "chaos",
     "force",
     "lightning",
-    "radiant",
-    "necrotic",
   ],
 
   // Overview section
@@ -33,7 +30,7 @@ export const ARCANONEER_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: You are a Magi-ballistic Mutilator. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you gouge out your own crystallized blood and soul-shards — rolling 4d8 to generate volatile ballistic spheres (Arcane, Holy, Shadow, Fire, Ice, Nature, Viscera, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Ice shatters from the barrel as a flesh-scorching steam vent, while Fire + Fire kicks back with a rib-shattering inferno blast.
+      content: `**What You Need to Know**: You are a Magi-ballistic Mutilator. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you gouge out your own crystallized blood and soul-shards — rolling 4d8 to generate volatile ballistic spheres (Arcane, Radiant, Necrotic, Fire, Frost, Nature, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Frost shatters from the barrel as a flesh-scorching steam vent, while Fire + Fire kicks back with a rib-shattering inferno blast.
 
 **Recoil and Pain**: Firing this weapon shatters your own ribs and tears your flesh. You do not cast safe spells; you trigger explosive detonations that demand a toll in blood and bone. This constant self-mutilation is mechanically mandatory across all firing profiles.
 
@@ -48,9 +45,9 @@ export const ARCANONEER_DATA = {
 
     description: `The Arcanoneer doesn't cast elegant spells. They pull the trigger on a massive, skin-searing iron chassis bolted directly to their skeletal frame. Each shell is loaded with raw, crystallized blood and soul-shards. They chamber the volatile spheres and ignite them, shattering their own ribs with the recoil to mutilate their targets.
 
-Every Arcanoneer carries an instinctive knowledge of the **Combination Matrix** — the 36 fundamental ballistic reactions that occur when two elemental spheres are chambered together. Fire + Ice = Steam Vent. Shadow + Viscera = Grisly Veil. Holy + Holy = Radiance. These combinations are predictable, repeatable, and always available. The clinical "Healing" sphere is entirely gone; in its place is "Viscera" — raw compressed flesh, bone grafts, and blood sutures used to knit tissue at a painful biological tax.
+Every Arcanoneer carries an instinctive knowledge of the **Combination Matrix** — the 36 fundamental ballistic reactions that occur when two elemental spheres are chambered together. Fire + Frost = Steam Vent. Necrotic + Nature = Grisly Veil. Radiant + Radiant = Radiance. These combinations are predictable, repeatable, and always available. The clinical "Healing" sphere is entirely gone; in its place is "Nature" — raw compressed flesh, bone grafts, and blood sutures used to knit tissue at a painful biological tax.
 
-But raw combination is only the beginning. Through study and practice, Arcanoneers learn **Recipes** — refined formulas that supercharge specific combinations. A novice combining Fire + Ice gets basic Steam: some damage, some mist. A master who has learned the *Steam Burst* recipe gets a pressurized cone of superheated vapor that blinds and scorches everything in its path.
+But raw combination is only the beginning. Through study and practice, Arcanoneers learn **Recipes** — refined formulas that supercharge specific combinations. A novice combining Fire + Frost gets basic Steam: some damage, some mist. A master who has learned the *Steam Burst* recipe gets a pressurized cone of superheated vapor that blinds and scorches everything in its path.
 
 The Arcanoneer's true power emerges at higher levels, when they unlock **3-sphere and 4-sphere Recipes** — complex combinations that produce effects no two-sphere reaction can match. These require patience, banking spheres across multiple turns, and careful planning. But when the moment arrives and you unleash *Elemental Maelstrom* with four banked spheres... the battlefield reshapes itself around your will.`,
 
@@ -58,7 +55,7 @@ The Arcanoneer's true power emerges at higher levels, when they unlock **3-spher
       title: "Roleplay Identity",
       content: `Arcanoneers are Magi-ballistic Mutilators — soot-stained, iron-grafted survivors who have surrendered their own bodies to the recoil of pure iron. They do not carry books; they carry heavy wrenches to tighten the iron straps on their shoulders, and their skin is covered in circular chemical burns where crystallized blood-shards have been gouged out to forge ammunition.
 
-In roleplay, Arcanoneers carry heavy canisters filled with black powder and raw, blood-slicked crystal fragments, and they argue with other spellcasters about whether Fire + Shadow should be called "Hellfire" or "Umbral Ignition" (it's Hellfire, and they will die on this hill).
+In roleplay, Arcanoneers carry heavy canisters filled with black powder and raw, blood-slicked crystal fragments, and they argue with other spellcasters about whether Fire + Necrotic should be called "Hellfire" or "Umbral Ignition" (it's Hellfire, and they will die on this hill).
 
 Common Arcanoneer archetypes:
 - **The Pig-Iron Grafted**: Bolted directly to their massive cannon, their flesh is permanently scarred and scorched.
@@ -81,9 +78,9 @@ Common Arcanoneer archetypes:
 
 **Strengths**:
 - Unmatched versatility: can produce ANY damage type to exploit enemy weaknesses.
-- Dual damage types on mixed combos (Fire+Ice hits both fire-weak AND ice-weak enemies).
+- Dual damage types on mixed combos (Fire+Frost hits both fire-weak AND frost-weak enemies).
 - Powerful cover-shattering siege detonations.
-- Viscera combos provide defensive and support utility (Viscera+Viscera for gristle blockades, Viscera+Holy for slag-sutures).
+- Nature combos provide defensive and support utility (Nature+Nature for gristle blockades, Nature+Radiant for slag-sutures).
 - Chaos combos provide wild swing potential (high risk, high reward).
 
 **Weaknesses**:
@@ -101,17 +98,17 @@ Every turn begins with the sound of bones grinding as you roll 4d8 and watch you
 
 **Turn 1 — The Hand You're Dealt**
 
-You roll: Fire, Fire, Ice, Viscera. Your mind races through the matrix:
+You roll: Fire, Fire, Frost, Nature. Your mind races through the matrix:
 - Fire + Fire = *Combustion Shell* (single target fire damage)
-- Fire + Ice = *Steam Vent* (cone of mixed damage + blind)
-- Fire + Viscera = *Cauterizing Slag* (burn away one debuff, deals fire damage to ally)
-- Ice + Viscera = *Rime-Frozen Graft* (+3 Armor for 3 rounds)
+- Fire + Frost = *Steam Vent* (cone of mixed damage + blind)
+- Fire + Nature = *Cauterizing Slag* (burn away one debuff, deals fire damage to ally)
+- Frost + Nature = *Rime-Frozen Graft* (+3 Armor for 3 rounds)
 
-Do you have Recipes for any of these? If you've learned *Steam Burst*, then Fire + Ice suddenly adds a blinding cone effect. If you've learned *Firestorm*, then Fire + Fire adds a massive AoE burning vortex.
+Do you have Recipes for any of these? If you've learned *Steam Burst*, then Fire + Frost suddenly adds a blinding cone effect. If you've learned *Firestorm*, then Fire + Fire adds a massive AoE burning vortex.
 
 **Turn 2 — Banking for Power**
 
-You banked all 4 spheres from Turn 1. Now you roll Arcane, Shadow, Nature, Chaos. You have 8 spheres total. Suddenly you can:
+You banked all 4 spheres from Turn 1. Now you roll Arcane, Necrotic, Nature, Chaos. You have 8 spheres total. Suddenly you can:
 - Cast a 2-sphere combo AND still have 6 spheres left
 - Start building toward a 3-sphere Recipe (need 1 more turn of banking)
 - Cast multiple 2-sphere combos if you have the action points
@@ -135,26 +132,26 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Shadow, Nature, Chaos
 
 *You dig your fingers into your forearm, gouging out four crystallized blood-shards...*
 
-**Roll 4d8**: [4, 4, 5, 7] → Fire, Fire, Ice, Viscera
+**Roll 4d8**: [4, 4, 5, 7] → Fire, Fire, Frost, Nature
 
-*Two jagged, red-glowing shards of flame feed into the first chamber. A shard of freezing rime goes into the second, and a rusted crimson sphere of viscera waits in the reserve. The iron cylinder hums, its surface searing.*
+*Two jagged, red-glowing shards of flame feed into the first chamber. A shard of freezing rime goes into the second, and a rusted crimson sphere of nature waits in the reserve. The iron cylinder hums, its surface searing.*
 
-**Your Mind Races**: Three bandits, clustered together. You have the Recipe: **Superheated Steam Vent** (Fire + Ice). Using the **Area** action (7 mana + 1d6 HP recoil), you vent a 20ft cone of flesh-scorching steam.
+**Your Mind Races**: Three bandits, clustered together. You have the Recipe: **Superheated Steam Vent** (Fire + Frost). Using the **Area** action (7 mana + 1d6 HP recoil), you vent a 20ft cone of flesh-scorching steam.
 
 *You slam the fire and ice shards into the main chamber. The pig-iron cylinder roars as the opposing forces react. A pressurized column of superheated steam erupts from the barrel, boiling the bandits' skin. The kinetic back-blast punches your shoulder, cracking your ribs (1d6 recoil damage) and anchoring you to the stone bridge (movement speed reduced to 0).*
 
-**Result**: Cast **Superheated Steam Vent** via Area action. 1d8 + INT/4 fire+frost damage to all three bandits + Blinded. **Cost: 7 mana, 1d6 HP. Remaining: 27 mana, 1 AP. Movement: 0.** You bank the Fire and Viscera spheres.
+**Result**: Cast **Superheated Steam Vent** via Area action. 1d8 + INT/4 fire+frost damage to all three bandits + Blinded. **Cost: 7 mana, 1d6 HP. Remaining: 27 mana, 1 AP. Movement: 0.** You bank the Fire and Nature spheres.
 
 **Turn 2 — Chambering the Shell** *(2 AP available, 31 mana after regen)*
 
 *The bandit leader finishes his chant. Dark energy swirls around his blade. The fighter is engaged — he can't reach the caster in time. It's down to you.*
 
-**Roll 4d8**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
+**Roll 4d8**: [1, 3, 6, 8] → Arcane, Necrotic, Nature, Chaos
 
-*Four more shards erupt: a violet sliver of force, a writhing shadow, a crackling nature spike, and a volatile chaos core.*
+*Four more shards erupt: a violet sliver of force, a writhing necrotic shadow, a crackling nature spike, and a volatile chaos core.*
 
-**Your Banked Spheres**: Fire, Viscera (from Turn 1)
-**Total Available**: Fire, Viscera, Arcane, Shadow, Nature, Chaos — 6 spheres
+**Your Banked Spheres**: Fire, Nature (from Turn 1)
+**Total Available**: Fire, Nature, Arcane, Necrotic, Nature, Chaos — 6 spheres
 
 **The Decision**: You need to stop the leader, but your rolled elements are scattered and you want a massive payload. You bank all spheres into the reserve chambers, letting the iron cool slightly while preparing a massive blast. Since you didn't fire, you take no recoil damage and your movement is unaffected.
 
@@ -164,33 +161,33 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Shadow, Nature, Chaos
 
 *The leader's blade glows with dark power. You raise your pig-iron arm, bracing your shoulder as the bones grind.*
 
-**Roll 4d8**: [3, 3, 5, 2] → Shadow, Shadow, Ice, Holy
+**Roll 4d8**: [3, 3, 5, 2] → Necrotic, Necrotic, Frost, Radiant
 
-*Two dark shadow shards emerge. Perfect. You load them directly.*
+*Two dark necrotic shards emerge. Perfect. You load them directly.*
 
-**Your Total Spheres**: Fire, Viscera, Arcane, Shadow, Nature, Chaos, Shadow, Shadow, Ice, Holy — 10 spheres.
+**Your Total Spheres**: Fire, Nature, Arcane, Necrotic, Nature, Chaos, Necrotic, Necrotic, Frost, Radiant — 10 spheres.
 
-*You select Shadow + Shadow. You unleash the Recipe: **Abyssal Maw**.*
+*You select Necrotic + Necrotic. You unleash the Recipe: **Abyssal Maw**.*
 
 *"Umbra Clausura!"*
 
 *The pig-iron chassis shudders violently. Firing it sends a sickening crack through your collarbone (1d6 HP recoil damage) and anchoring you (movement speed 0). Skeletal jaws of living shadow erupt from the barrel, chewing through the leader's flesh and draining his strength.*
 
-**Result**: Cast **Abyssal Maw** (Recipe-enhanced Shadow + Shadow). 2d8 + INT/3 necrotic + 1d6 necrotic DoT + target STR reduced by 2. **Cost: 14 mana, 1d6 HP. Remaining: 21 mana, 1 AP. Movement: 0.**
+**Result**: Cast **Abyssal Maw** (Recipe-enhanced Necrotic + Necrotic). 2d8 + INT/3 necrotic + 1d6 necrotic DoT + target STR reduced by 2. **Cost: 14 mana, 1d6 HP. Remaining: 21 mana, 1 AP. Movement: 0.**
 
 *The bandit leader staggers. Your fighter finishes him with a clean strike.*
 
-With 1 AP remaining, you fire Arcane + Ice = **Crystal Shard** on a wounded bandit for extra damage.
+With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded bandit for extra damage.
 
 **Result**: Cast **Crystal Shard** (1d8 + INT/4 force+frost, armor-piercing). **Cost: 5 mana, 1d4 HP. Remaining: 16 mana. AP: 0. Movement: 0.**
 
 **Turn 4 — Back-Blast and Recovery** *(2 AP available, 20 mana after regen)*
 
-*Only one bandit remains, wounded and cornered. Time to finish this. But you roll all Viscera spheres!*
+*Only one bandit remains, wounded and cornered. Time to finish this. But you roll all Nature spheres!*
 
-**Roll 4d8**: [7, 7, 7, 7] → Viscera, Viscera, Viscera, Viscera
+**Roll 4d8**: [7, 7, 7, 7] → Nature, Nature, Nature, Nature
 
-*Four soft crimson spheres of marrow energy emerge. You are not helpless, but you need to support your fighter. You cast Grissle Blockade (Viscera + Viscera) via Buff action on the fighter, stitching together their wounds with compressed tissue and bone plates.*
+*Four soft crimson spheres of marrow energy emerge. You are not helpless, but you need to support your fighter. You cast Grissle Blockade (Nature + Nature) via Buff action on the fighter, stitching together their wounds with compressed tissue and bone plates.*
 
 **Result**: Fighter gained gristle armor. **Cost: 4 mana, 1d4 HP. Remaining: 12 mana.**
 
@@ -229,7 +226,7 @@ With 1 AP remaining, you fire Arcane + Ice = **Crystal Shard** on a wounded band
         step: 4,
         title: "Learn the d8 Element Table",
         content:
-          "You will roll 4d8 every single turn. Memorize or screenshot the sphere generation table (1=Arcane, 2=Holy, 3=Shadow, 4=Fire, 5=Ice, 6=Nature, 7=Healing, 8=Chaos). Speed of recognition is your most important skill.",
+          "You will roll 4d8 every single turn. Memorize or screenshot the sphere generation table (1=Arcane, 2=Radiant, 3=Necrotic, 4=Fire, 5=Frost, 6=Nature, 7=Healing, 8=Chaos). Speed of recognition is your most important skill.",
       },
       {
         step: 5,
@@ -262,12 +259,11 @@ resourceSystem: {
 
 **Visual Representation**:
 - **Arcane Spheres**: Purple orbs of pure, humming force
-- **Holy Spheres**: Golden orbs of searing, white-hot light
-- **Shadow Spheres**: Pitch-black orbs of writhing, necrotic darkness
+- **Radiant Spheres**: Golden orbs of searing, white-hot light
+- **Necrotic Spheres**: Pitch-black orbs of writhing, necrotic darkness
 - **Fire Spheres**: Red-orange orbs of sputtering, explosive heat
-- **Ice Spheres**: Pale blue orbs of jagged rime and frost crystals
+- **Frost Spheres**: Pale blue orbs of jagged rime and frost crystals
 - **Nature Spheres**: Green orbs crackling with thunderous ozone static
-- **Viscera Spheres**: Rusted crimson orbs composed of crystallized marrow and compressed flesh
 - **Chaos Spheres**: Iridescent, shifting orbs of unstable, morphing energy
 
 **How It Changes Each Turn**:
@@ -459,7 +455,7 @@ resourceSystem: {
           {
             level: "Lv 2",
             name: "Superheated Steam Vent",
-            upgrade: "Fire+Ice → 20ft cone (base Attack is single-target)",
+            upgrade: "Fire+Frost → 20ft cone (base Attack is single-target)",
           },
           {
             level: "Lv 3",
@@ -475,12 +471,12 @@ resourceSystem: {
           {
             level: "Lv 5",
             name: "Thermobaric Burst",
-            upgrade: "Fire+Ice → 10ft AoE (3d8 + INT/2)",
+            upgrade: "Fire+Frost → 10ft AoE (3d8 + INT/2)",
           },
           {
             level: "Lv 6",
             name: "Glacial Blessing",
-            upgrade: "Ice+Viscera+Holy → +4 Armor + fire resist (Rime-Frozen Graft / no clinical healing)",
+            upgrade: "Frost+Nature+Radiant → +4 Armor + fire resist (Rime-Frozen Graft / no clinical healing)",
           },
           {
             level: "Lv 9",
@@ -571,18 +567,18 @@ resourceSystem: {
         ],
         [
           "2",
-          "Holy",
+          "Radiant",
           "Divine Light",
-          "Holy damage, blinding, stunning, protection",
+          "Radiant damage, blinding, stunning, protection",
         ],
         [
           "3",
-          "Shadow",
+          "Necrotic",
           "Darkness/Necrotic",
-          "Shadow damage, curses, life drain, debuffs",
+          "Necrotic damage, curses, life drain, debuffs",
         ],
         ["4", "Fire", "Flames", "Fire damage, burning, ignition, explosions"],
-        ["5", "Ice", "Frost", "Ice damage, freezing, slowing, disorientation"],
+        ["5", "Frost", "Frost", "Frost damage, freezing, slowing, disorientation"],
         [
           "6",
           "Nature",
@@ -591,7 +587,7 @@ resourceSystem: {
         ],
         [
           "7",
-          "Viscera",
+          "Flesh",
           "Compressed Flesh",
           "Suture flesh, create gristle barriers, cauterize, and manipulate biological tissue. Grimdark, visceral, and dark fantasy.",
         ],
@@ -620,12 +616,12 @@ resourceSystem: {
 - You have more spheres than you need — spend the excess, bank the rest
 
 **Reading Your Options**:
-- **Pure combos** (Fire+Fire, Ice+Ice): Focused single-target damage. Reliable.
-- **Opposing combos** (Fire+Ice, Holy+Shadow): Unique mixed effects. Steam, Twilight — these are the "chemistry" combos.
-- **Viscera combos** (Viscera+Viscera, Viscera+X): Defensive and utility effects -- gristle blockades, rime-frozen grafts, sinew-spark leaps, slag-sutures.
+- **Pure combos** (Fire+Fire, Frost+Frost): Focused single-target damage. Reliable.
+- **Opposing combos** (Fire+Frost, Radiant+Necrotic): Unique mixed effects. Steam, Twilight — these are the "chemistry" combos.
+- **Nature combos** (Nature+Nature, Nature+X): Defensive and utility effects -- gristle blockades, rime-frozen grafts, sinew-spark leaps, slag-sutures.
 - **Chaos combos** (Chaos+X): Wild swings. Use them when you're desperate or when the Entropy Weaver in you wants to gamble.
 
-**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Ice for Steam on the front line, then Viscera+Viscera for a Grissle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
+**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Frost for Steam on the front line, then Nature+Nature for a Grissle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
 
 **Advanced: The Banking Mathematics**:
 - You generate 4 spheres per turn (5 for Entropy Weavers)
@@ -638,25 +634,25 @@ resourceSystem: {
 
     practicalExample: {
       title: "Practical Decision-Making Example",
-      content: `**Scenario**: You're fighting a fire elemental (resistant to fire, weak to ice) and two goblin archers.
+      content: `**Scenario**: You're fighting a fire elemental (resistant to fire, weak to frost) and two goblin archers.
 
-**Turn 1 Roll**: [4, 4, 5, 7] → Fire, Fire, Ice, Viscera
+**Turn 1 Roll**: [4, 4, 5, 7] → Fire, Fire, Frost, Nature
 
 **Rookie Mistake**: "Fire + Fire = Flame Burst! Maximum fire damage!"
 - Result: Wasted spheres on a fire-resistant enemy. Your base matrix damage (1d8 + INT/4) barely tickles it.
 
-**Smart Play**: "Ice + Viscera = **Rime-Frozen Graft** on our tank. Give them +3 Armor for 3 rounds. Then bank the two Fire spheres — the goblins aren't fire-resistant."
+**Smart Play**: "Frost + Nature = **Rime-Frozen Graft** on our tank. Give them +3 Armor for 3 rounds. Then bank the two Fire spheres — the goblins aren't fire-resistant."
 - Result: Tank gets a grotesque, protective gristle graft. Fire spheres banked for next turn.
 
-**Turn 2 Roll**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
+**Turn 2 Roll**: [1, 3, 6, 8] → Arcane, Necrotic, Nature, Chaos
 
 **Your Bank**: Fire, Fire (from Turn 1)
-**Total Available**: Fire, Fire, Arcane, Shadow, Nature, Chaos (6 spheres)
+**Total Available**: Fire, Fire, Arcane, Necrotic, Nature, Chaos (6 spheres)
 
 **Decision Point**:
 - **Option A**: Fire + Fire = **Flame Burst** on the goblins. Cheap (5 mana), decent damage, uses banked spheres effectively.
 - **Option B**: Bank everything. Next turn, you might have the spheres for a 3-sphere Recipe.
-- **Option C**: Arcane + Shadow = **Void Bolt** on the fire elemental. Force + necrotic bypasses fire resistance.
+- **Option C**: Arcane + Necrotic = **Void Bolt** on the fire elemental. Force + necrotic bypasses fire resistance.
 
 **The Right Call**: Option A on the goblins (they're the immediate threat), then Option C on the fire elemental if you have the AP and mana. You can multi-cast — spend 4 spheres, 2 spells, one turn.
 
@@ -676,12 +672,11 @@ resourceSystem: {
 
 **Recommended Token Colors**:
 - Arcane (1): Purple
-- Holy (2): Gold/Yellow
-- Shadow (3): Black
+- Radiant (2): Gold/Yellow
+- Necrotic (3): Black
 - Fire (4): Red
-- Ice (5): Blue
+- Frost (5): Blue
 - Nature (6): Green
-- Viscera (7): Rusted Crimson (#8B0000)
 - Chaos (8): Rainbow/Iridescent
 
 **Turn-by-Turn Process**:
@@ -697,15 +692,15 @@ resourceSystem: {
 
 All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see Action Table). Fixed damage: 1d8 + INT/4. Firing standard profiles inflicts recoil damage. Firing reduces your movement speed to 0.
 
-| | Arcane | Holy | Shadow | Fire | Ice | Nature | Viscera | Chaos |
+| | Arcane | Radiant | Necrotic | Fire | Frost | Nature | Flesh | Chaos |
 |---|---|---|---|---|---|---|---|---|
 | **Arcane** | Arcane Pulse | Divine Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Visceral Cocoon | Wild Magic ★ |
-| **Holy** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Sinew | Chaos Light ★ |
-| **Shadow** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
+| **Radiant** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Sinew | Chaos Light ★ |
+| **Necrotic** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
 | **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterizing Slag | Chaos Flame ★ |
-| **Ice** | → | → | → | → | Frost Spike | Hailstorm | Rime-Frozen Graft | Glitch Ice ★ |
+| **Frost** | → | → | → | → | Frost Spike | Hailstorm | Rime-Frozen Graft | Glitch Frost ★ |
 | **Nature** | → | → | → | → | → | Storm Surge | Sinew-Spark Leap | Primal Chaos ★ |
-| **Viscera** | → | → | → | → | → | → | Grissle Blockade | Amorphous Gristle Ward ★ |
+| **Flesh** | → | → | → | → | → | → | Grissle Blockade | Amorphous Gristle Ward ★ |
 | **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
 ★ = Chaos combo — each has its own specific random effect table. If no specific table applies, roll on the general Chaos Effects d20 table instead.
@@ -713,8 +708,8 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 
 **Matrix Reading Guide** (use the upper-right triangle):
 - Same row + column = pure pair (e.g., Fire row + Fire column = Flame Burst)
-- Mixed = cross-reference (e.g., Fire row + Ice column = Steam)
-- Arrow (→) = see the mirror entry (Fire+Ice and Ice+Fire are both Steam)
+- Mixed = cross-reference (e.g., Fire row + Frost column = Steam)
+- Arrow (→) = see the mirror entry (Fire+Frost and Frost+Fire are both Steam)
 
 **Quick Effect Reference**:
 
@@ -741,7 +736,7 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 | Verdant Light | Radiant, Nature | Burning vines |
 | Crucible of Sinew | Radiant | Remove all debuffs + 1d6 radiant/debuff |
 | Chaos Light | Chaos | ★ Random effect |
-| Hellfire | Necrotic, Fire | Shadow flames |
+| Hellfire | Necrotic, Fire | Necrotic flames |
 | Frostbite | Necrotic, Frost | Rot + slow |
 | Blight | Necrotic, Nature | Poison thorns |
 | Grisly Veil | Necrotic | Absorb spell + reflect 50% necrotic |
@@ -752,7 +747,7 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 | Chaos Flame | Chaos | ★ Random effect |
 | Hailstorm | Frost, Nature | 10ft AoE |
 | Rime-Frozen Graft | Frost | +3 Armor for 3 rounds |
-| Glitch Ice | Chaos | ★ Random effect |
+| Glitch Frost | Chaos | ★ Random effect |
 | Sinew-Spark Leap | Nature | Teleport 15ft |
 | Primal Chaos | Chaos | ★ Random effect |
 | Amorphous Gristle Ward | Chaos | ★ Roll 1d4 defensive flesh effect |
@@ -764,9 +759,9 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 \`\`\`
 ARCANONEER — SPHERE GENERATION & RECOIL
 Roll 4d8 each turn:
-1 = Arcane (Purple)    5 = Ice (Blue)
-2 = Holy (Gold)        6 = Nature (Green)
-3 = Shadow (Black)     7 = Viscera (Crimson)
+1 = Arcane (Purple)    5 = Frost (Blue)
+2 = Radiant (Gold)     6 = Nature (Green)
+3 = Necrotic (Black)   7 = Flesh (Crimson)
 4 = Fire (Red)         8 = Chaos (Rainbow)
 
 CORE MECHANIC: Firing reduce movement speed to 0.
@@ -803,14 +798,14 @@ MAX BANKED SPHERES: 12
         color: "#FF4500",
         theme: "Pure Element Mastery",
 
-        description: `Prism Mages obsess over elemental purity. While other Arcanoneers mix and match, Prism Mages perfect the art of the pure combo — Fire+Fire, Ice+Ice, Arcane+Arcane. They can reroll unwanted spheres to fish for their preferred element, and their pure-element matrix combos hit significantly harder. If you want consistency and the satisfaction of a perfectly focused build, this is your path.`,
+        description: `Prism Mages obsess over elemental purity. While other Arcanoneers mix and match, Prism Mages perfect the art of the pure combo — Fire+Fire, Frost+Frost, Arcane+Arcane. They can reroll unwanted spheres to fish for their preferred element, and their pure-element matrix combos hit significantly harder. If you want consistency and the satisfaction of a perfectly focused build, this is your path.`,
 
         playstyle:
           "Pure element focus, rerolling spheres, elemental specialization, consistent damage",
 
         strengths: [
           "Can reroll spheres to get desired elements",
-          "Pure element combos (Fire+Fire, Ice+Ice, etc.) deal +50% damage",
+          "Pure element combos (Fire+Fire, Frost+Frost, etc.) deal +50% damage",
           "Gain resistance to your most-used element type",
           "More consistent and predictable than other specs",
           "Excellent against enemies weak to specific elements",
@@ -976,7 +971,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_holy",
         name: "Radiance",
-        elements: ["holy", "holy"],
+        elements: ["radiant", "radiant"],
         damageTypes: ["radiant"],
         targetType: "single",
         range: 60,
@@ -990,7 +985,7 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_shadow",
         name: "Dark Bolt",
-        elements: ["shadow", "shadow"],
+        elements: ["necrotic", "necrotic"],
         damageTypes: ["necrotic"],
         targetType: "single",
         range: 60,
@@ -1016,7 +1011,7 @@ MAX BANKED SPHERES: 12
       {
         id: "ice_ice",
         name: "Frost Spike",
-        elements: ["ice", "ice"],
+        elements: ["frost", "frost"],
         damageTypes: ["frost"],
         targetType: "single",
         range: 60,
@@ -1113,7 +1108,7 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_holy",
         name: "Divine Bolt",
-        elements: ["arcane", "holy"],
+        elements: ["arcane", "radiant"],
         damageTypes: ["force", "radiant"],
         targetType: "single",
         range: 60,
@@ -1126,7 +1121,7 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_shadow",
         name: "Void Bolt",
-        elements: ["arcane", "shadow"],
+        elements: ["arcane", "necrotic"],
         damageTypes: ["force", "necrotic"],
         targetType: "single",
         range: 60,
@@ -1152,7 +1147,7 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_ice",
         name: "Crystal Shard",
-        elements: ["arcane", "ice"],
+        elements: ["arcane", "frost"],
         damageTypes: ["force", "frost"],
         targetType: "single",
         range: 60,
@@ -1244,7 +1239,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_shadow",
         name: "Twilight",
-        elements: ["holy", "shadow"],
+        elements: ["radiant", "necrotic"],
         damageTypes: ["radiant", "necrotic"],
         targetType: "single",
         range: 60,
@@ -1252,12 +1247,12 @@ MAX BANKED SPHERES: 12
         effectDescription:
           "Light and darkness collide, creating a bolt of twilight energy that burns with opposing forces.",
         flavorText:
-          "Holy gold meets shadow black, and where they clash, twilight is born — a strange, shimmering grey that burns and chills in equal measure. It should not exist. It does anyway.",
+          "Radiant gold meets necrotic black, and where they clash, twilight is born — a strange, shimmering grey that burns and chills in equal measure. It should not exist. It does anyway.",
       },
       {
         id: "holy_fire",
         name: "Solar Flare",
-        elements: ["holy", "fire"],
+        elements: ["radiant", "fire"],
         damageTypes: ["radiant", "fire"],
         targetType: "single",
         range: 60,
@@ -1270,7 +1265,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_ice",
         name: "Aurora",
-        elements: ["holy", "ice"],
+        elements: ["radiant", "frost"],
         damageTypes: ["radiant", "frost"],
         targetType: "single",
         range: 60,
@@ -1284,7 +1279,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_nature",
         name: "Verdant Light",
-        elements: ["holy", "nature"],
+        elements: ["radiant", "nature"],
         damageTypes: ["radiant", "nature"],
         targetType: "single",
         range: 60,
@@ -1297,7 +1292,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_healing",
         name: "Crucible of Sinew",
-        elements: ["holy", "healing"],
+        elements: ["radiant", "healing"],
         damageTypes: ["radiant"],
         targetType: "single_ally",
         range: 60,
@@ -1311,7 +1306,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_chaos",
         name: "Chaos Light",
-        elements: ["holy", "chaos"],
+        elements: ["radiant", "chaos"],
         damageTypes: ["chaos"],
         targetType: "random",
         range: 60,
@@ -1364,7 +1359,7 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_fire",
         name: "Hellfire",
-        elements: ["shadow", "fire"],
+        elements: ["necrotic", "fire"],
         damageTypes: ["necrotic", "fire"],
         targetType: "single",
         range: 60,
@@ -1372,12 +1367,12 @@ MAX BANKED SPHERES: 12
         effectDescription:
           "Dark flames that burn the flesh and consume the soul.",
         flavorText:
-          "Shadow feeds fire, and fire gives shadow form. The result is something that should not burn but does — black flames that cast no light and leave frost-bitten char wherever they touch.",
+          "Necrotic feeds fire, and fire gives necrotic form. The result is something that should not burn but does — black flames that cast no light and leave frost-bitten char wherever they touch.",
       },
       {
         id: "shadow_ice",
         name: "Frostbite",
-        elements: ["shadow", "ice"],
+        elements: ["necrotic", "frost"],
         damageTypes: ["necrotic", "frost"],
         targetType: "single",
         range: 60,
@@ -1391,7 +1386,7 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_nature",
         name: "Blight",
-        elements: ["shadow", "nature"],
+        elements: ["necrotic", "nature"],
         damageTypes: ["necrotic", "nature"],
         targetType: "single",
         range: 60,
@@ -1405,7 +1400,7 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_healing",
         name: "Grisly Veil",
-        elements: ["shadow", "healing"],
+        elements: ["necrotic", "healing"],
         damageTypes: ["necrotic"],
         targetType: "self",
         range: 0,
@@ -1419,14 +1414,14 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_chaos",
         name: "Entropy",
-        elements: ["shadow", "chaos"],
+        elements: ["necrotic", "chaos"],
         damageTypes: ["chaos"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
         isChaosCombo: true,
         effectDescription:
-          "Shadow and chaos combine into pure entropic force — decay made unpredictable.",
+          "Necrotic and chaos combine into pure entropic force — decay made unpredictable.",
         flavorText:
           "Entropy. The death of order. The spheres don't combine so much as unravel each other, producing a flickering mass of shadow and static that even you find unsettling.",
         randomEffects: [
@@ -1447,7 +1442,7 @@ MAX BANKED SPHERES: 12
             randomDebuff: true,
           },
           {
-            name: "Shadow Step",
+            name: "Necrotic Step",
             description:
               "You dissolve into shadow and reappear behind the target.",
             damageTypes: [],
@@ -1457,7 +1452,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Dark Nova",
             description:
-              "Shadow energy erupts from you in a 10-foot radius, dealing necrotic damage to all nearby creatures (including allies).",
+              "Necrotic energy erupts from you in a 10-foot radius, dealing necrotic damage to all nearby creatures (including allies).",
             damageTypes: ["necrotic"],
             targetType: "aoe",
             aoeRadius: 10,
@@ -1473,7 +1468,7 @@ MAX BANKED SPHERES: 12
       {
         id: "fire_ice",
         name: "Steam",
-        elements: ["fire", "ice"],
+        elements: ["fire", "frost"],
         damageTypes: ["fire", "frost"],
         targetType: "cone",
         range: 30,
@@ -1569,7 +1564,7 @@ MAX BANKED SPHERES: 12
       {
         id: "ice_nature",
         name: "Hailstorm",
-        elements: ["ice", "nature"],
+        elements: ["frost", "nature"],
         damageTypes: ["frost", "nature"],
         targetType: "aoe",
         range: 60,
@@ -1579,12 +1574,12 @@ MAX BANKED SPHERES: 12
         effectDescription:
           "A localized storm of ice, lightning, and thorny hailstones pummels a small area.",
         flavorText:
-          "Ice and nature conspire to create the worst weather imaginable — frozen thorns driven by howling wind, crackling with lightning. It's localized, at least. Small mercies.",
+          "Frost and nature conspire to create the worst weather imaginable — frozen thorns driven by howling wind, crackling with lightning. It's localized, at least. Small mercies.",
       },
       {
         id: "ice_healing",
         name: "Rime-Frozen Graft",
-        elements: ["ice", "healing"],
+        elements: ["frost", "healing"],
         damageTypes: ["frost"],
         targetType: "single_ally",
         range: 30,
@@ -1597,15 +1592,15 @@ MAX BANKED SPHERES: 12
       },
       {
         id: "ice_chaos",
-        name: "Glitch Ice",
-        elements: ["ice", "chaos"],
+        name: "Glitch Frost",
+        elements: ["frost", "chaos"],
         damageTypes: ["chaos"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
         isChaosCombo: true,
         effectDescription:
-          "Ice that doesn't obey the rules — it might freeze, shatter, spread, or do something physics never intended.",
+          "Frost that doesn't obey the rules — it might freeze, shatter, spread, or do something physics never intended.",
         flavorText:
           "Frost + chaos = the temperature equivalent of a rounding error. Reality's thermostat breaks.",
         randomEffects: [
@@ -1619,7 +1614,7 @@ MAX BANKED SPHERES: 12
             knockdown: true,
           },
           {
-            name: "Ice Lance",
+            name: "Frost Lance",
             description:
               "A single-target ice attack that deals double base damage and ignores armor.",
             damageTypes: ["frost"],
@@ -1636,7 +1631,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Shatterstorm",
             description:
-              "Ice shards explode outward in a 15-foot radius, dealing frost damage to all creatures.",
+              "Frost shards explode outward in a 15-foot radius, dealing frost damage to all creatures.",
             damageTypes: ["frost"],
             targetType: "aoe",
             aoeRadius: 15,
@@ -1911,7 +1906,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "frost",
         icon: "Frost/Frost Touch",
-        tags: ["ice", "damage", "debuff", "touch", "starter"],
+        tags: ["frost", "damage", "debuff", "touch", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1982,7 +1977,7 @@ MAX BANKED SPHERES: 12
         ],
       },
 
-      tags: ["ice", "damage", "debuff", "touch", "starter"],
+      tags: ["frost", "damage", "debuff", "touch", "starter"],
     },
 
     {
@@ -2199,7 +2194,7 @@ MAX BANKED SPHERES: 12
         school: "frost",
         secondaryElement: "fire",
         icon: "Frost/Frost Touch",
-        tags: ["fire", "ice", "damage", "debuff"],
+        tags: ["fire", "frost", "damage", "debuff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2222,7 +2217,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Calidus Ventus!",
         somaticText:
           "Force open the cooling bypass valves on the forearm sleeve, spraying superheated white mist in a wide arc",
-        spheres: ["Fire", "Ice"],
+        spheres: ["Fire", "Frost"],
       },
 
       effectTypes: ["damage", "debuff"],
@@ -2264,7 +2259,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["fire", "ice", "damage", "debuff"],
+      tags: ["fire", "frost", "damage", "debuff"],
     },
 
     {
@@ -2280,7 +2275,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "necrotic",
         icon: "Void/Red Energy Burst",
-        tags: ["shadow", "damage"],
+        tags: ["necrotic", "damage"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2301,7 +2296,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Sanguis Haurire!",
         somaticText:
           "Chamber a black, pulsing blood-crystal slug, taking a small amount of skin-searing heat as it discharges",
-        spheres: ["Shadow", "Shadow"],
+        spheres: ["Necrotic", "Necrotic"],
       },
 
       effectTypes: ["damage", "healing"],
@@ -2334,7 +2329,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["shadow", "damage", "healing"],
+      tags: ["necrotic", "damage", "healing"],
     },
 
     {
@@ -2350,7 +2345,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Bolt",
-        tags: ["holy", "arcane", "damage", "healing"],
+        tags: ["radiant", "arcane", "damage", "healing"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2392,7 +2387,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Lux Lanceta!",
         somaticText:
           "Open all combustion chambers at once, letting a blinding white-hot beam of force erupt directly from the barrel",
-        spheres: ["Arcane", "Holy"],
+        spheres: ["Arcane", "Radiant"],
       },
 
       effectTypes: ["damage", "healing"],
@@ -2430,7 +2425,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["holy", "arcane", "damage", "healing"],
+      tags: ["radiant", "arcane", "damage", "healing"],
     },
 
     // ========================================
@@ -2509,7 +2504,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "frost",
         icon: "Frost/Frost Touch",
-        tags: ["ice", "damage", "debuff"],
+        tags: ["frost", "damage", "debuff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2529,7 +2524,7 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Glacies Lancet!",
         somaticText: "Insert a dual rime-core into the barrel, firing a pressurized spike of solid ice that shatters on impact",
-        spheres: ["Ice", "Ice"],
+        spheres: ["Frost", "Frost"],
       },
 
       effectTypes: ["damage", "debuff"],
@@ -2567,7 +2562,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["ice", "damage", "debuff"],
+      tags: ["frost", "damage", "debuff"],
     },
 
     {
@@ -2748,7 +2743,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "frost",
         icon: "Frost/Ice Orb",
-        tags: ["ice", "damage", "debuff", "aoe"],
+        tags: ["frost", "damage", "debuff", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2770,7 +2765,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Nova Glacies!",
         somaticText:
           "Slam your iron graft into the soil, venting frost energy directly into the bedrock to freeze everything in a circle",
-        spheres: ["Ice", "Ice"],
+        spheres: ["Frost", "Frost"],
       },
 
       effectTypes: ["damage", "debuff"],
@@ -2823,7 +2818,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["ice", "damage", "debuff", "aoe"],
+      tags: ["frost", "damage", "debuff", "aoe"],
     },
 
     {
@@ -2839,7 +2834,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "necrotic",
         icon: "Void/Maw Gripping Fear",
-        tags: ["shadow", "damage", "debuff"],
+        tags: ["necrotic", "damage", "debuff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2859,7 +2854,7 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Umbra Clausura!",
         somaticText: "Feed a dual-necrotic core into the breech, letting the shadows coil out of the barrel like writhing snakes",
-        spheres: ["Shadow", "Shadow"],
+        spheres: ["Necrotic", "Necrotic"],
       },
 
       effectTypes: ["damage", "debuff"],
@@ -2907,7 +2902,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["shadow", "damage", "debuff"],
+      tags: ["necrotic", "damage", "debuff"],
     },
 
     // ========================================
@@ -2927,7 +2922,7 @@ MAX BANKED SPHERES: 12
         school: "fire",
         secondaryElement: "frost",
         icon: "Fire/Swirling Fireball",
-        tags: ["fire", "ice", "damage", "aoe"],
+        tags: ["fire", "frost", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2949,7 +2944,7 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Thermobarica!",
         somaticText: "Hammer the dual combustion lever, forcing high-pressure elements into a thermal collapse at the muzzle",
-        spheres: ["Fire", "Ice"],
+        spheres: ["Fire", "Frost"],
       },
 
       effectTypes: ["damage"],
@@ -2973,7 +2968,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["fire", "ice", "damage", "aoe"],
+      tags: ["fire", "frost", "damage", "aoe"],
     },
 
     {
@@ -2987,9 +2982,9 @@ MAX BANKED SPHERES: 12
       icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: "holy",
+        school: "radiant",
         icon: "Radiant/Radiant Divinity",
-        tags: ["holy", "defensive", "support"],
+        tags: ["radiant", "defensive", "support"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3010,7 +3005,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Sanctus Scutum!",
         somaticText:
           "Trace a radiant sigil in the air that settles over the target as a glowing ward",
-        spheres: ["Holy", "Healing"],
+        spheres: ["Radiant", "Healing"],
       },
 
       effectTypes: ["defensive"],
@@ -3030,7 +3025,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["holy", "defensive", "support"],
+      tags: ["radiant", "defensive", "support"],
     },
 
     {
@@ -3133,7 +3128,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "frost",
         icon: "Frost/Frozen in Ice",
-        tags: ["ice", "holy", "buff"],
+        tags: ["frost", "radiant", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3159,7 +3154,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Glacies Benedicere!",
         somaticText:
           "Weave the three spheres into a crystalline lattice and press it gently onto the target",
-        spheres: ["Ice", "Healing", "Holy"],
+        spheres: ["Frost", "Healing", "Radiant"],
       },
 
       effectTypes: ["buff"],
@@ -3192,7 +3187,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["ice", "holy", "buff"],
+      tags: ["frost", "radiant", "buff"],
     },
 
     {
@@ -3207,7 +3202,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "arcane",
         icon: "Radiant/Radiant Divinity",
-        tags: ["arcane", "holy", "nature", "buff", "purification"],
+        tags: ["arcane", "radiant", "nature", "buff", "purification"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3239,7 +3234,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Prisma Custodia!",
         somaticText:
           "Hold the three spheres above your head, letting them merge into a prismatic dome that expands outward",
-        spheres: ["Arcane", "Holy", "Nature"],
+        spheres: ["Arcane", "Radiant", "Nature"],
       },
 
       effectTypes: ["buff", "purification"],
@@ -3282,7 +3277,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 3,
       },
 
-      tags: ["arcane", "holy", "nature", "buff", "purification"],
+      tags: ["arcane", "radiant", "nature", "buff", "purification"],
     },
 
     {
@@ -3297,7 +3292,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "nature",
         icon: "Nature/Growth",
-        tags: ["nature", "holy", "buff"],
+        tags: ["nature", "radiant", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3328,7 +3323,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Floreo Bellum!",
         somaticText:
           "Shape the merged spheres into weapons of living wood and golden light, pressing them into the target's hands",
-        spheres: ["Nature", "Healing", "Holy"],
+        spheres: ["Nature", "Healing", "Radiant"],
       },
 
       effectTypes: ["buff"],
@@ -3373,7 +3368,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 2,
       },
 
-      tags: ["nature", "holy", "buff"],
+      tags: ["nature", "radiant", "buff"],
     },
 
     // ========================================
@@ -3391,7 +3386,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "arcane",
         icon: "Arcane/Quick Step",
-        tags: ["arcane", "shadow", "chaos", "utility", "teleport", "damage"],
+        tags: ["arcane", "necrotic", "chaos", "utility", "teleport", "damage"],
         castTime: 0,
         castTimeType: "IMMEDIATE",
       },
@@ -3420,7 +3415,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Transitum Umbrae!",
         somaticText:
           "Press the three spheres together and step through the dimensional tear they create",
-        spheres: ["Arcane", "Shadow", "Chaos"],
+        spheres: ["Arcane", "Necrotic", "Chaos"],
       },
 
       effectTypes: ["utility", "damage"],
@@ -3461,7 +3456,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 2,
       },
 
-      tags: ["arcane", "shadow", "chaos", "utility", "teleport", "damage"],
+      tags: ["arcane", "necrotic", "chaos", "utility", "teleport", "damage"],
     },
 
     {
@@ -3477,7 +3472,7 @@ MAX BANKED SPHERES: 12
         school: "fire",
         secondaryElement: "frost",
         icon: "Fire/Rapid Fire Projectiles",
-        tags: ["fire", "ice", "nature", "holy", "damage", "aoe"],
+        tags: ["fire", "frost", "nature", "radiant", "damage", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -3512,7 +3507,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Elementum Procella!",
         somaticText:
           "Launch all four elemental spheres simultaneously at the target area",
-        spheres: ["Fire", "Ice", "Nature", "Holy"],
+        spheres: ["Fire", "Frost", "Nature", "Radiant"],
       },
 
       effectTypes: ["damage"],
@@ -3536,7 +3531,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 1,
       },
 
-      tags: ["fire", "ice", "nature", "holy", "damage", "aoe"],
+      tags: ["fire", "frost", "nature", "radiant", "damage", "aoe"],
     },
 
     {
@@ -3551,7 +3546,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "radiant",
         icon: "Radiant/Radiant Divinity",
-        tags: ["holy", "healing", "arcane", "damage", "aoe"],
+        tags: ["radiant", "healing", "arcane", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3603,7 +3598,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Tempestas Caelestis!",
         somaticText:
           "Raise all three spheres skyward, causing a radiant storm to descend upon the area",
-        spheres: ["Holy", "Healing", "Arcane"],
+        spheres: ["Radiant", "Healing", "Arcane"],
       },
 
       effectTypes: ["damage", "healing"],
@@ -3642,7 +3637,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 1,
       },
 
-      tags: ["holy", "healing", "arcane", "damage", "aoe"],
+      tags: ["radiant", "healing", "arcane", "damage", "aoe"],
     },
 
     // ========================================
@@ -3658,9 +3653,9 @@ MAX BANKED SPHERES: 12
       icon: "Healing/Golden Heart",
 
       typeConfig: {
-        school: "holy",
+        school: "radiant",
         icon: "Healing/Golden Heart",
-        tags: ["holy", "shadow", "healing", "chaos", "buff", "aoe"],
+        tags: ["radiant", "necrotic", "healing", "chaos", "buff", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -3695,7 +3690,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Harmonia Convergentia!",
         somaticText:
           "Hold all four spheres at arm's length, letting them orbit and merge into a single chord of resonant energy",
-        spheres: ["Holy", "Shadow", "Healing", "Chaos"],
+        spheres: ["Radiant", "Necrotic", "Healing", "Chaos"],
       },
 
       effectTypes: ["buff"],
@@ -3739,7 +3734,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 4,
       },
 
-      tags: ["holy", "shadow", "healing", "chaos", "buff", "aoe"],
+      tags: ["radiant", "necrotic", "healing", "chaos", "buff", "aoe"],
     },
 
     {
@@ -3755,7 +3750,7 @@ MAX BANKED SPHERES: 12
         school: "force",
         secondaryElement: "fire",
         icon: "Fire/Rapid Fire Projectiles",
-        tags: ["arcane", "fire", "ice", "nature", "damage", "control", "aoe"],
+        tags: ["arcane", "fire", "frost", "nature", "damage", "control", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -3790,7 +3785,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Maelstrom Elementum!",
         somaticText:
           "Compress the four conflicting spheres into one unstable mass and hurl it at the target area",
-        spheres: ["Arcane", "Fire", "Ice", "Nature"],
+        spheres: ["Arcane", "Fire", "Frost", "Nature"],
       },
 
       effectTypes: ["damage", "control"],
@@ -3847,7 +3842,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 2,
       },
 
-      tags: ["arcane", "fire", "ice", "nature", "damage", "control", "aoe"],
+      tags: ["arcane", "fire", "frost", "nature", "damage", "control", "aoe"],
     },
 
     {
@@ -4006,10 +4001,10 @@ MAX BANKED SPHERES: 12
           "Force all eight spheres into a single volatile point of prismatic energy",
         spheres: [
           "Arcane",
-          "Holy",
-          "Shadow",
+          "Radiant",
+          "Necrotic",
           "Fire",
-          "Ice",
+          "Frost",
           "Nature",
           "Healing",
           "Chaos",
@@ -4179,7 +4174,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "arcane",
         icon: "Arcane/Missile",
-        tags: ["arcane", "holy", "shadow", "fire", "buff", "healing", "aoe"],
+        tags: ["arcane", "radiant", "necrotic", "fire", "buff", "healing", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -4213,7 +4208,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Synthesis Elementum!",
         somaticText:
           "Weave four opposing elements into a state of perfect harmony, releasing the balanced energy outward",
-        spheres: ["Arcane", "Holy", "Shadow", "Fire"],
+        spheres: ["Arcane", "Radiant", "Necrotic", "Fire"],
       },
 
       effectTypes: ["buff", "healing", "debuff"],
@@ -4265,7 +4260,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 5,
       },
 
-      tags: ["arcane", "holy", "shadow", "fire", "buff", "healing", "aoe"],
+      tags: ["arcane", "radiant", "necrotic", "fire", "buff", "healing", "aoe"],
     },
 
     // ========================================
@@ -4334,10 +4329,10 @@ MAX BANKED SPHERES: 12
           "Force all seven spheres into a single convergence point above your head, then release the cascading detonation",
         spheres: [
           "Arcane",
-          "Holy",
-          "Shadow",
+          "Radiant",
+          "Necrotic",
           "Fire",
-          "Ice",
+          "Frost",
           "Nature",
           "Healing",
         ],
@@ -4452,7 +4447,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Rima Dimensio!",
         somaticText:
           "Tear reality apart with a sharp pulling motion, opening a swirling void portal",
-        spheres: ["Arcane", "Shadow", "Chaos", "Chaos"],
+        spheres: ["Arcane", "Necrotic", "Chaos", "Chaos"],
       },
 
       effectTypes: ["damage", "control"],
@@ -4567,7 +4562,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Apotheosis Elementum!",
         somaticText:
           "Press all six spheres against your chest, absorbing them into your body in a prismatic flash",
-        spheres: ["Fire", "Ice", "Nature", "Holy", "Shadow", "Arcane"],
+        spheres: ["Fire", "Frost", "Nature", "Radiant", "Necrotic", "Arcane"],
       },
 
       effectTypes: ["buff"],

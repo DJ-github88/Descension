@@ -229,11 +229,11 @@ export const REAVER_PATH = {
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'aoe', 'physical'],
             effectTypes: ['damage'],
-            damageTypes: ['physical'],
+            damageTypes: ['slashing'],
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'physical',
+                elementType: 'slashing',
                 formula: '2d8 + STR',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -294,11 +294,11 @@ export const REAVER_PATH = {
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'finisher', 'physical'],
             effectTypes: ['damage'],
-            damageTypes: ['physical'],
+            damageTypes: ['slashing'],
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'physical',
+                elementType: 'slashing',
                 formula: '6d10 + STR',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -465,11 +465,11 @@ export const REAVER_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'physical', 'reckless', 'high risk'],
                     effectTypes: ['damage'],
-                    damageTypes: ['physical'],
+                    damageTypes: ['slashing'],
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'physical',
+                        elementType: 'slashing',
                         formula: '8d10 + STR',
                         resolution: 'DICE',
                         hasDotEffect: false,
@@ -543,11 +543,11 @@ export const REAVER_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'healing', 'lifesteal', 'blood'],
                     effectTypes: ['damage', 'healing'],
-                    damageTypes: ['physical'],
+                    damageTypes: ['slashing'],
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'physical',
+                        elementType: 'slashing',
                         formula: '3d8 + STR',
                         resolution: 'DICE',
                         hasDotEffect: false,

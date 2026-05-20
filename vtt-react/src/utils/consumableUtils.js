@@ -10,7 +10,7 @@
 
 import { getIconUrl } from './assetManager';
 
-const SPELL_DAMAGE_TYPES = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'acid', 'force', 'thunder', 'chaos', 'necrotic', 'radiant', 'poison', 'psychic'];
+const SPELL_DAMAGE_TYPES = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'force', 'chaos', 'necrotic', 'radiant', 'poison', 'psychic'];
 
 /**
  * Calculate resource adjustment and detect overheal

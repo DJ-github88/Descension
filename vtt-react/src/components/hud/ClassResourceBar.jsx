@@ -2601,10 +2601,8 @@ const ClassResourceBar = ({
             'Piercing': '#B87333',      // Copper
             'Bludgeoning': '#8B7355',   // Burlywood
             'Fire': '#FF4500',          // Orange-red
-            'Cold': '#00CED1',          // Dark turquoise
+            'Frost': '#00CED1',          // Dark turquoise
             'Lightning': '#FFD700',     // Gold
-            'Thunder': '#4169E1',       // Royal blue
-            'Acid': '#ADFF2F',          // Green-yellow
             'Poison': '#9ACD32',        // Yellow-green
             'Necrotic': '#8B008B',      // Dark magenta
             'Radiant': '#FFD700',       // Gold

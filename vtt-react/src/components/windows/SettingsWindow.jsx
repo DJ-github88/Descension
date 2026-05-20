@@ -11,6 +11,67 @@ import PlayerSelector from '../common/PlayerSelector';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/settings-window.css';
 
+const ResourceBarToggles = memo(function ResourceBarToggles() {
+    const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
+    const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
+    const showCreatureAPBar = useSettingsStore(state => state.showCreatureAPBar ?? true);
+    const showCreatureManaBar = useSettingsStore(state => state.showCreatureManaBar ?? true);
+    const setShowPartyAPBar = useSettingsStore(state => state.setShowPartyAPBar);
+    const setShowPartyManaBar = useSettingsStore(state => state.setShowPartyManaBar);
+    const setShowCreatureAPBar = useSettingsStore(state => state.setShowCreatureAPBar);
+    const setShowCreatureManaBar = useSettingsStore(state => state.setShowCreatureManaBar);
+
+    const toggleStyle = {
+        display: 'flex', alignItems: 'center', gap: '10px',
+        padding: '10px 14px', borderRadius: '6px', cursor: 'pointer',
+        background: 'rgba(255,255,255,0.4)',
+        border: '1px solid rgba(160,140,112,0.2)',
+        transition: 'all 0.15s ease'
+    };
+
+    return (
+        <div style={{ marginBottom: '24px', padding: '20px', background: 'linear-gradient(135deg, rgba(231,76,60,0.06), rgba(231,76,60,0.03))', border: '1px solid rgba(231,76,60,0.15)', borderRadius: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
+                <i className="fas fa-bars" style={{ fontSize: '20px', color: '#c0392b' }}></i>
+                <div>
+                    <h3 style={{ margin: '0 0 4px 0', color: '#c0392b', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>Resource Bar Visibility</h3>
+                    <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Toggle AP and Mana bars for third-party system compatibility</p>
+                </div>
+            </div>
+            <div className="settings-group" style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
+                <label style={toggleStyle}>
+                    <input type="checkbox" checked={showPartyAPBar} onChange={(e) => setShowPartyAPBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#FF9800' }} />
+                    <div>
+                        <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>AP bars on party frames</div>
+                        <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Show Action Points bars on party member HUD frames</div>
+                    </div>
+                </label>
+                <label style={toggleStyle}>
+                    <input type="checkbox" checked={showPartyManaBar} onChange={(e) => setShowPartyManaBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#2196F3' }} />
+                    <div>
+                        <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>Mana bars on party frames</div>
+                        <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Show Mana bars on party member HUD frames</div>
+                    </div>
+                </label>
+                <label style={toggleStyle}>
+                    <input type="checkbox" checked={showCreatureAPBar} onChange={(e) => setShowCreatureAPBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#FF9800' }} />
+                    <div>
+                        <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>AP bars on creature tooltips</div>
+                        <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Show Action Points bars on creature target HUD</div>
+                    </div>
+                </label>
+                <label style={toggleStyle}>
+                    <input type="checkbox" checked={showCreatureManaBar} onChange={(e) => setShowCreatureManaBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#2196F3' }} />
+                    <div>
+                        <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>Mana bars on creature tooltips</div>
+                        <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Show Mana bars on creature target HUD</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+    );
+});
+
 const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }) {
     const navigate = useNavigate();
 
@@ -573,6 +634,9 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                         </div>
                     </div>
                 )}
+
+                {/* Resource Bar Visibility */}
+                <ResourceBarToggles />
             </div>
         </div>
     );

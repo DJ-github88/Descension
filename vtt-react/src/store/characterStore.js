@@ -244,11 +244,6 @@ const useCharacterStore = create((set, get) => ({
             multiplier: 1.0,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg'
         },
-        acid: {
-            level: 100,
-            multiplier: 1.0,
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_creature_poison_02.jpg'
-        },
         force: {
             level: 100,
             multiplier: 1.0,
@@ -273,11 +268,6 @@ const useCharacterStore = create((set, get) => ({
             level: 100,
             multiplier: 1.0,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg'
-        },
-        thunder: {
-            level: 100,
-            multiplier: 1.0,
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_thunderclap.jpg'
         },
         // Add missing damage types to match creature system
         bludgeoning: {
@@ -303,17 +293,13 @@ const useCharacterStore = create((set, get) => ({
             value: 0,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg'
         },
-        cold: {
+        frost: {
             value: 0,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg'
         },
         lightning: {
             value: 0,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg'
-        },
-        acid: {
-            value: 0,
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_creature_poison_02.jpg'
         },
         force: {
             value: 0,
@@ -334,10 +320,6 @@ const useCharacterStore = create((set, get) => ({
         psychic: {
             value: 0,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg'
-        },
-        thunder: {
-            value: 0,
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_thunderclap.jpg'
         }
     },
 
@@ -1301,7 +1283,7 @@ const useCharacterStore = create((set, get) => ({
 
                 // Clear old passives and resistances when race changes
                 // Reset all resistances to normal
-                const damageTypes = ['fire', 'frost', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
+                const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
                 const resetResistances = {};
                 damageTypes.forEach(type => {
                     resetResistances[type] = { level: 100, multiplier: 1.0 };
@@ -1338,7 +1320,7 @@ const useCharacterStore = create((set, get) => ({
                     let updatedImmunities = [...(state.immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['fire', 'frost', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
+                    const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -1381,13 +1363,13 @@ const useCharacterStore = create((set, get) => ({
                                         'cold_resistance': 'frost', // Legacy support
                                         'fire_resistance': 'fire',
                                         'lightning_resistance': 'lightning',
-                                        'acid_resistance': 'acid',
+                                        'acid_resistance': 'poison',
                                         'force_resistance': 'force',
                                         'necrotic_resistance': 'necrotic',
                                         'radiant_resistance': 'radiant',
                                         'poison_resistance': 'poison',
                                         'psychic_resistance': 'psychic',
-                                        'thunder_resistance': 'thunder'
+                                        'thunder_resistance': 'force'
                                     };
 
                                     const resistanceType = resistanceMap[statName];
@@ -1443,12 +1425,12 @@ const useCharacterStore = create((set, get) => ({
                                             'cold': 'frost', // Legacy support
                                             'fire': 'fire',
                                             'lightning': 'lightning',
-                                            'acid': 'acid',
+                                            'acid': 'poison',
                                             'force': 'force',
                                             'necrotic': 'necrotic',
                                             'radiant': 'radiant',
                                             'psychic': 'psychic',
-                                            'thunder': 'thunder',
+                                            'thunder': 'force',
                                             'chaos': 'chaos',
                                             'void': 'void',
                                             'nature': 'nature',
@@ -1559,7 +1541,7 @@ const useCharacterStore = create((set, get) => ({
                 let updatedImmunities = [...(state.immunities || [])];
 
                 // Initialize all damage type resistances if they don't exist
-                const damageTypes = ['fire', 'frost', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
+                const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
                 damageTypes.forEach(type => {
                     if (!updatedResistances[type]) {
                         updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -1582,13 +1564,13 @@ const useCharacterStore = create((set, get) => ({
                                     'cold_resistance': 'frost', // Legacy support
                                     'fire_resistance': 'fire',
                                     'lightning_resistance': 'lightning',
-                                    'acid_resistance': 'acid',
+                                    'acid_resistance': 'poison',
                                     'force_resistance': 'force',
                                     'necrotic_resistance': 'necrotic',
                                     'radiant_resistance': 'radiant',
                                     'poison_resistance': 'poison',
                                     'psychic_resistance': 'psychic',
-                                    'thunder_resistance': 'thunder'
+                                    'thunder_resistance': 'force'
                                 };
 
                                 const resistanceType = resistanceMap[statName];
@@ -2156,7 +2138,7 @@ const useCharacterStore = create((set, get) => ({
         }
 
         // Initialize spell power types if they don't exist (needed for buff effects)
-        const spellDamageTypes = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'acid', 'force', 'thunder', 'chaos', 'necrotic', 'radiant'];
+        const spellDamageTypes = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'poison', 'force', 'chaos', 'necrotic', 'radiant'];
         spellDamageTypes.forEach(type => {
             const spellPowerKey = `${type}SpellPower`;
             if (!totalStats.hasOwnProperty(spellPowerKey)) {
@@ -2875,7 +2857,7 @@ const useCharacterStore = create((set, get) => ({
                     let updatedImmunities = [...(get().immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['fire', 'frost', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
+                    const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -2899,13 +2881,13 @@ const useCharacterStore = create((set, get) => ({
                                         'cold_resistance': 'frost', // Legacy support
                                         'fire_resistance': 'fire',
                                         'lightning_resistance': 'lightning',
-                                        'acid_resistance': 'acid',
+                                        'acid_resistance': 'poison',
                                         'force_resistance': 'force',
                                         'necrotic_resistance': 'necrotic',
                                         'radiant_resistance': 'radiant',
                                         'poison_resistance': 'poison',
                                         'psychic_resistance': 'psychic',
-                                        'thunder_resistance': 'thunder'
+                                        'thunder_resistance': 'force'
                                     };
 
                                     const resistanceType = resistanceMap[statName];
@@ -2961,12 +2943,12 @@ const useCharacterStore = create((set, get) => ({
                                             'cold': 'frost', // Legacy support
                                             'fire': 'fire',
                                             'lightning': 'lightning',
-                                            'acid': 'acid',
+                                            'acid': 'poison',
                                             'force': 'force',
                                             'necrotic': 'necrotic',
                                             'radiant': 'radiant',
                                             'psychic': 'psychic',
-                                            'thunder': 'thunder',
+                                            'thunder': 'force',
                                             'chaos': 'chaos',
                                             'void': 'void',
                                             'nature': 'nature',
@@ -3734,7 +3716,7 @@ const useCharacterStore = create((set, get) => ({
         let updatedImmunities = [...(state.immunities || [])];
 
         // Initialize all damage type resistances if they don't exist
-        const damageTypes = ['fire', 'frost', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
+        const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
         damageTypes.forEach(type => {
             if (!updatedResistances[type]) {
                 updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -3776,13 +3758,13 @@ const useCharacterStore = create((set, get) => ({
                                 'cold_resistance': 'frost',
                                 'fire_resistance': 'fire',
                                 'lightning_resistance': 'lightning',
-                                'acid_resistance': 'acid',
+                                'acid_resistance': 'poison',
                                 'force_resistance': 'force',
                                 'necrotic_resistance': 'necrotic',
                                 'radiant_resistance': 'radiant',
                                 'poison_resistance': 'poison',
                                 'psychic_resistance': 'psychic',
-                                'thunder_resistance': 'thunder'
+                                'thunder_resistance': 'force'
                             };
 
                             const resistanceType = resistanceMap[statName];

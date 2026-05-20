@@ -13,7 +13,7 @@ export const DREADNAUGHT_DATA = {
   name: "Dreadnaught",
   icon: "fas fa-shield-alt",
   role: "Tank",
-  damageTypes: ["fire", "necrotic", "physical"],
+  damageTypes: ["fire", "necrotic", "bludgeoning"],
 
   // Visceral dark folklore class overview
   overview: {
@@ -425,7 +425,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       effectTypes: ["damage", "utility"],
       damageConfig: {
         formula: "1d10 + strength",
-        damageTypes: ["physical"],
+        damageTypes: ["bludgeoning"],
         resolution: "DICE",
       },
       utilityConfig: {
@@ -662,7 +662,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       typeConfig: {
         school: "fire",
         icon: "Fire/Flame Burst",
-        tags: ["damage", "melee", "fire", "physical"],
+        tags: ["damage", "melee", "fire", "bludgeoning"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -683,7 +683,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       effectTypes: ["damage"],
       damageConfig: {
         formula: "2d8 + strength + (pressure / 10)d6",
-        damageTypes: ["physical", "fire"],
+        damageTypes: ["bludgeoning", "fire"],
         resolution: "DICE",
         criticalConfig: { enabled: true, critMultiplier: 2 },
       },
@@ -691,7 +691,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         cooldownType: "turn_based",
         cooldownValue: 0,
       },
-      tags: ["damage", "melee", "fire", "physical", "level 2", "dreadnaught"],
+      tags: ["damage", "melee", "fire", "bludgeoning", "level 2", "dreadnaught"],
     },
 
     {
@@ -1215,7 +1215,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       effectTypes: ["damage", "forced_movement"],
       damageConfig: {
         formula: "3d6 + strength",
-        damageTypes: ["physical"],
+        damageTypes: ["bludgeoning"],
         resolution: "DICE",
       },
       forcedMovementConfig: {
@@ -1660,7 +1660,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       effectTypes: ["damage", "debuff"],
       damageConfig: {
         formula: "12d6 + strength",
-        damageTypes: ["fire", "physical"],
+        damageTypes: ["fire", "bludgeoning"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1853,7 +1853,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       effectTypes: ["damage"],
       damageConfig: {
         formula: "15d10",
-        damageTypes: ["physical"],
+        damageTypes: ["bludgeoning"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",

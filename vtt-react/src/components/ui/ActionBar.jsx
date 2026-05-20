@@ -23,7 +23,7 @@ import { getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../utils/ass
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
-const SPELL_DAMAGE_TYPES = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'acid', 'force', 'thunder', 'chaos', 'necrotic', 'radiant'];
+const SPELL_DAMAGE_TYPES = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'force', 'chaos', 'necrotic', 'radiant', 'poison'];
 
 const ActionBar = () => {
     // Get current room context for persistence

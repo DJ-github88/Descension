@@ -12,32 +12,38 @@ export const RULES_CATEGORIES = [
         id: 'game-overview',
         name: 'Game Overview',
         icon: 'fas fa-info-circle',
+        theme: 'narrative',
+        summary: [
+          'The Sacred Difficulty-Dice Ladder replaces static DCs, chosen dynamically by the Game Master.',
+          'Combat is swift: weapon dice handle both the strike and the damage in a single, fluid roll.',
+          'Modular frameworks let GMs tailor settlement downtime, magic corruption, and exploration to their table.'
+        ],
         content: {
-          title: 'Game Overview',
-          description: 'Core principles, session structure, and collaborative storytelling',
+          title: 'Enter the Weave',
+          description: 'An entry into the modular rules of Mythrill, where stories are woven by hands of flesh and rolls of bone.',
           sections: [
             {
-              title: 'Core Principles',
-              content: `This game uses a difficulty-dice system rather than flat Difficulty Classes. The GM picks the die size that matches the task (from d4 for very easy to d20 for very difficult), you roll that die, and your skill rank plus situational modifiers determine the outcome. Combat stays fast with weapon dice that handle both the attack and the damage roll.`
+              title: 'Core Principles: The Tumble of Fate',
+              content: `Mythrill does not bind your heroic fate to static, lifeless numbers or flat, unyielding Difficulty Classes. Instead, the living world breathes through the **Ladder of Trials**—a dynamic difficulty-dice system where the Game Master selects a die size reflecting the task's complexity, from a swift, minor d4 to a grueling, legendary d20. You roll that die, pitting your raw skill ranks, attribute modifiers, and situational fortune against the hazard. In combat, the rhythm of battle accelerates: weapon dice govern both the strike and the damage in a single, fluid roll. A hero's journey is not calculated by cold math, but felt through the heavy tumble of physical dice against the parchment.`
             },
             {
-              title: 'Session Structure',
-              content: `Sessions typically last 2-4 hours and include a mix of combat encounters, social interactions, exploration, and downtime activities. The Game Master (GM) facilitates the game while players control their characters.`
+              title: 'Session Structure: Chapters of Legend',
+              content: `Our stories unfold in sessions of two to four hours—episodes where you will step into the boots of legendary adventurers. You will traverse dangerous frontiers, engage in high-stakes parleys in candlelit taverns, and survive lethal encounters in forgotten ruins. Under the guidance of the Game Master (GM), who acts as the supreme narrator and breathes life into the world, you and your companions will control your characters, make impactful choices, and forge a shared, lasting legacy.`
             },
             {
-              title: 'Collaborative Storytelling',
-              content: `Success in this game comes from working together with your party and GM to create memorable stories. Players are encouraged to develop their characters' personalities, backstories, and motivations.`
+              title: 'Collaborative Storytelling: A Shared Fire',
+              content: `In Mythrill, the greatest weapon is not the sword, but the shared imagination of the table. True legends arise when players collaborate with the GM to create rich, dramatic narratives. Build your characters with distinct motivations, deep-seated flaws, and tragic bonds; let every triumph be celebrated, let every failure lead to unexpected paths, and let the cooperative spirit guide every roll and roleplaying scene.`
             },
             {
-              title: 'Modular Rules System',
-              content: `This game features a modular rules system designed to accommodate different playstyles and campaign types. Core mechanics provide the foundation every table needs, while optional systems add complexity for specific campaign themes:
+              title: 'Modular Rules System: An Open Architecture',
+              content: `Mythrill is not a rigid cage of rules, but an open, modular framework. The core mechanics establish a robust foundation, while specialized modular systems allow each GM to customize the experience to match their table's specific desires:
 
-• **Settlement Activities** for social and downtime-focused campaigns
-• **Supernatural Systems** for high-stakes campaigns with dark themes
-• **Travel & Exploration** for journey-heavy adventures
-• **Point & Click Framework** for detailed exploration scenarios
+• **Settlement Activities** for high-downtime, community-focused campaigns where heroes build guilds and influence politics.
+• **Supernatural Systems** for dark, high-stakes games where magic carries corruption and dark deals.
+• **Travel & Exploration** for vast journeys across harsh, unforgiving wildernesses with survival mechanics.
+• **Point & Click Framework** for tactile, detailed structural exploration inside the virtual tabletop.
 
-GMs can mix and match these systems to create the perfect experience for their table.`
+Mix and match these systems to craft the exact tone of your campaign.`
             }
           ]
         }
@@ -46,35 +52,50 @@ GMs can mix and match these systems to create the perfect experience for their t
         id: 'dice-system',
         name: 'Dice System',
         icon: 'fas fa-dice-d20',
+        theme: 'mechanic',
+        quickFacts: [
+          { icon: 'fas fa-dice-d4', label: 'd4', value: 'Very Easy' },
+          { icon: 'fas fa-dice-d6', label: 'd6', value: 'Easy' },
+          { icon: 'fas fa-dice-d8', label: 'd8', value: 'Moderate' },
+          { icon: 'fas fa-dice-d10', label: 'd10', value: 'Challenging' },
+          { icon: 'fas fa-dice-d12', label: 'd12', value: 'Difficult' },
+          { icon: 'fas fa-dice-d20', label: 'd20', value: 'Very Difficult' }
+        ],
+        summary: [
+          'Roll the difficulty die selected by the GM, adding your Skill Rank.',
+          'Highest possible roll on the die yields Critical Success; a natural 1 is a Critical Failure.',
+          'Exceptional primary or secondary attributes (+5 or higher) step the difficulty die down by one size.'
+        ],
         content: {
-          title: 'Dice System',
-          description: 'Difficulty dice ladder, critical results, advantage/disadvantage',
+          title: 'The Sacred Dice System',
+          description: 'The Ladder of Trials, critical fortunes, and the shifting winds of advantage.',
           sections: [
             {
-              title: 'Difficulty Dice Core Mechanic',
-              content: `Checks use a selected difficulty die instead of a numeric DC. The GM sets the challenge by choosing the die size: d4 (very easy), d6 (easy), d8 (moderate), d10 (challenging), d12 (difficult), or d20 (very difficult). Roll that die, apply any bonuses from your skill rank, and factor in situational modifiers. Ability scores generally aren’t added directly—if your primary or secondary stat modifier is +5 or higher, you can ask to step the difficulty die down one size (see the Skills rules for details).`
+              title: 'The Ladder of Trials (Difficulty Dice)',
+              content: `At the heart of every trial lies the **Ladder of Trials**. Instead of comparing your roll to a static target number, the Game Master assigns a Difficulty Die that represents the obstacle's resistance. You must roll this die and add your Skill Rank plus situational modifiers to determine your success. While raw ability scores are rarely added directly, exceptional physical or mental power changes the odds: if your primary or secondary attribute modifier is **+5 or higher**, your absolute mastery allows you to step the difficulty die down by one size (e.g., from a d10 to a d8).`
             },
             {
-              title: 'Critical Hits & Misses',
-              content: `Rolling the highest value on your chosen difficulty die is a critical success; rolling the lowest value is a critical failure with complications. Weapon attacks and other d20-based rolls still treat natural 20s and 1s as extremes, with critical hits triggering weapon-specific effects and exploding dice where applicable.`
+              title: 'Critical Fortunes: The Fates Speak',
+              content: `Fortune is a fickle mistress. Rolling the highest possible number on your difficulty die triggers a **Critical Success**—a spectacular triumph that yields unexpected narrative benefits, additional momentum, or devastating side effects. Conversely, rolling a **1** triggers a **Critical Failure**, inviting dire complications and shifting the initiative to the opposition. For weapon strikes and direct d checks, natural maximums remain the ultimate arbiters, with critical hits unleashing devastating weapon-specific effects and exploding damage dice.`
             },
             {
               title: 'Advantage & Disadvantage',
-              content: `When you have advantage, roll two of the chosen difficulty die and use the higher result. With disadvantage, roll two and use the lower. If you have both, they cancel out.`
+              content: `When the fates smile upon you (Advantage), roll two of the chosen difficulty dice and keep the higher result. When the shadows lengthen or the footing is treacherous (Disadvantage), roll two and use the lower. If forces of light and dark clash equally, they cancel out, returning you to a standard roll. Advantage represent tactical position, spells, and preparation, making them crucial to seek out.`
             }
           ],
           tables: [
             {
               title: 'Difficulty Dice',
               description: 'The heart of our system: the GM selects a die size that matches the challenge. Roll that die, add your skill rank, and let fate decide.',
-              headers: ['Die', 'Difficulty', 'Use When'],
+              headers: ['Die', 'Difficulty', 'Sacred Application'],
+              rowsPerPage: 12,
               rows: [
-                ['d4', 'Very Easy', 'Trivial or well-prepared tasks'],
-                ['d6', 'Easy', 'Routine for trained characters'],
-                ['d8', 'Moderate', 'Standard challenge with some risk'],
-                ['d10', 'Challenging', 'Requires focus or good positioning'],
-                ['d12', 'Difficult', 'Demands expertise or strong leverage'],
-                ['d20', 'Very Difficult', 'High stakes, limited margin for error']
+                ['d4', 'Very Easy', 'Trivial or thoroughly prepared actions'],
+                ['d6', 'Easy', 'Routine actions for a trained adventurer'],
+                ['d8', 'Moderate', 'Standard challenges that bear minor risk'],
+                ['d10', 'Challenging', 'Requires focus, tactical position, or effort'],
+                ['d12', 'Difficult', 'Demands deep expertise or massive leverage'],
+                ['d20', 'Very Difficult', 'High-stakes trials with no margin for error']
               ]
             }
           ]
@@ -84,33 +105,57 @@ GMs can mix and match these systems to create the perfect experience for their t
         id: 'character-statistics',
         name: 'Character Statistics',
         icon: 'fas fa-chart-bar',
+        theme: 'mechanic',
+        quickFacts: [
+          { icon: 'fas fa-heart', label: 'CON', value: 'Health & Vigor' },
+          { icon: 'fas fa-fist-raised', label: 'STR', value: 'Physical Might' },
+          { icon: 'fas fa-running', label: 'AGI', value: 'Agility & Speed' },
+          { icon: 'fas fa-brain', label: 'INT', value: 'Acuity & Lore' },
+          { icon: 'fas fa-eye', label: 'SPI', value: 'Will & Insight' },
+          { icon: 'fas fa-comments', label: 'CHA', value: 'Personality' }
+        ],
+        summary: [
+          'Six core attributes measure your physical limits, mental acuity, and spiritual weight.',
+          'Attributes translate directly into modifiers, spanning from a weak -5 to a legendary +10.',
+          'Attributes of +5 or higher allow you to step down the difficulty die size on associated checks.'
+        ],
         content: {
-          title: 'Character Statistics',
-          description: 'Six primary attributes, modifiers, and derived stats',
+          title: 'Anchors of Flesh & Spirit',
+          description: 'The six primary attributes that define your mortal vessel and immortal soul.',
           sections: [
             {
-              title: 'The Six Attributes',
-              content: `Every character has six core attributes that define their capabilities:`
+              title: 'The Six Pillars of Mortality',
+              content: `Every hero, villain, and beast that walks the shattered lands of Mythrill is bound to six fundamental primary attributes. These six pillars represent the absolute limits of your physical vessel and the depths of your inner spirit. They define how you interact with the environment, endure hardship, wield ancient magic, and parley with kings or demons. Unlike modern systems that require complex calculations, Mythrill attributes translate directly into a clear modifier, scaling from a weak, fragile **-5** (representing severe impairment) to a legendary, godlike **+10** (representing the pinnacle of mortal capability).`
+            },
+            {
+              title: 'The Milestone of Mastery (+5 Modifier)',
+              content: `When an adventurer dedicatedly trains their body or mind to reach a modifier of **+5 or higher** in a primary attribute, they cross a threshold of supreme competence. This milestone of mastery forever alters how they face challenges. Whenever the GM calls for a skill check associated with that attribute, your legendary mastery allows you to step the GM's Difficulty Die down by one size (e.g., from a standard d10 down to a d8, or a grueling d12 down to a d10). This passive benefit represents a character whose movements have become instinctual, whose mind has attained perfect clarity, or whose spirit resonates with the raw elements.`
+            },
+            {
+              title: 'Interaction & Sheet Mechanics',
+              content: `On the virtual tabletop, your attribute scores are beautifully integrated into your character ledger. Clicking on any attribute modifier icon triggers an direct check, automatically rolling the corresponding difficulty die set by the GM and adding your modifier. If your character sheet detects an attribute score at 20 or higher (+5 modifier), it will automatically prompt you with the stepped-down difficulty option, streamlining gameplay and keeping the focus on the cinematic narrative.`
             }
           ],
           tables: [
             {
               title: 'Primary Attributes',
               description: 'Six pillars of capability that define every character. These attributes shape your strengths, weaknesses, and the paths available to you.',
-              headers: ['Attribute', 'Abbreviation', 'Represents', 'Used For'],
+              headers: ['Attribute', 'Abbr.', 'Flesh & Spirit Representative', 'Sovereign Applications'],
+              rowsPerPage: 12,
               rows: [
-                ['Constitution', 'CON', 'Health & Stamina', 'HP, Fortitude saves, Endurance'],
-                ['Strength', 'STR', 'Physical Power', 'Melee attacks, Athletics, Carrying capacity'],
-                ['Agility', 'AGI', 'Agility & Speed', 'Ranged attacks, Armor, Reflex saves, Stealth'],
-                ['Intelligence', 'INT', 'Reasoning & Memory', 'Arcane magic, Investigation, Knowledge'],
-                ['Spirit', 'SPI', 'Willpower & Insight', 'Divine magic, Perception, Will saves'],
-                ['Charisma', 'CHA', 'Force of Personality', 'Social skills, Leadership, Performance']
+                ['Constitution', 'CON', 'Vigor & Physical Fortitude', 'Hit Points, Fortitude Saves, Enduring Poison/Fatigue'],
+                ['Strength', 'STR', 'Muscular Power & Might', 'Melee Strikes, Athletics, Carriage Capacity'],
+                ['Agility', 'AGI', 'Dexterity & Swiftness', 'Ranged Strikes, Armor Class, Reflex Saves, Stealth'],
+                ['Intelligence', 'INT', 'Cognition & Memory', 'Arcane Spellcasting, Investigation, Ancient Lore'],
+                ['Spirit', 'SPI', 'Willpower & Intuition', 'Divine Spellcasting, Perception, Will Saves, Insight'],
+                ['Charisma', 'CHA', 'Force of Personality', 'Social Influence, Command, Performance, Deception']
               ]
             },
             {
               title: 'Attribute Modifiers',
               description: 'Your attribute scores translate into modifiers that affect rolls and calculations. Higher scores grant greater bonuses to your capabilities.',
               headers: ['Score', 'Modifier', 'Score', 'Modifier'],
+              rowsPerPage: 16,
               rows: [
                 ['1', '-5', '16-17', '+3'],
                 ['2-3', '-4', '18-19', '+4'],
@@ -129,42 +174,54 @@ GMs can mix and match these systems to create the perfect experience for their t
         id: 'inventory-encumbrance',
         name: 'Inventory & Encumbrance',
         icon: 'fas fa-weight-hanging',
+        theme: 'trade',
+        quickFacts: [
+          { icon: 'fas fa-th', label: 'Base Grid', value: '5×15 (75 slots)' },
+          { icon: 'fas fa-weight-hanging', label: 'STR Bonus', value: '+1 row per 2 STR above 10' },
+          { icon: 'fas fa-exclamation-triangle', label: 'Encumbered', value: 'Cols 5-9: -25% Speed' },
+          { icon: 'fas fa-skull-crossbones', label: 'Overburdened', value: 'Cols 10-14: -75% Speed' }
+        ],
+        summary: [
+          'Inventory is represented as a spatial grid; a base pack has 5 columns by 15 rows (75 slots).',
+          'Every 2 points of Strength above 10 grants one additional row (5 slots) of precious space.',
+          'Three vertical column zones govern encumbrance; packing too wide brings swift physical penalties.'
+        ],
         content: {
-          title: 'Inventory & Encumbrance',
-          description: 'Grid-based inventory system with strength-based capacity',
+          title: 'Tactile Pack & Steel Grid',
+          description: 'The spatial puzzle of survival, where every item takes physical space and bears real weight.',
           sections: [
             {
-              title: 'Grid Inventory System',
-              content: `Your inventory uses a Tetris-like grid system. The base grid is 5×15 (75 slots) at 10 Strength. Each 2 points of Strength above 10 adds one row (5 slots).`
+              title: 'The Spatial Grid',
+              content: `Survival in the untamed wilderness and deep, ruinous vaults of Mythrill demands more than steel and spells; it requires meticulous, physical organization. Carrying capacity in Mythrill is not represented by an abstract number or passive carrying weight limit, but rather by a physical, tactile Spatial Grid. Every item you scavenge, forge, or purchase occupies specific slots (defined by grid coordinates) within a three-dimensional container system. A starting adventurer with a baseline Strength score of 10 carries a standard military-grade pack featuring a base grid layout of **5 columns by 15 rows (75 slots)**. As your character builds physical power and musculature, your physical load capabilities expand: for every 2 points of Strength above 10, your packing ledger grows, adding **one additional row (5 slots)** to the bottom of your grid. The grid forces players to pack tactically, choosing whether to stow a heavy iron warhammer (requiring a 1x4 column layout) or stack smaller herbal reagents (1x1 items) side by side.`
             },
             {
               title: 'Encumbrance Zones',
-              content: `Your carrying capacity is divided into three zones based on grid columns. Items placed in different zones trigger different encumbrance effects:`
+              content: `The balance of your pack dictates the swiftness of your stride and the quickness of your parries. The Mythrill inventory grid is segregated into three distinct vertical column zones, each representing the physical weight distribution across your shoulders. Stowing bulky, heavy, or volatile equipment too far from your spine's vertical alignment shifts your center of gravity, resulting in immediate mechanical strain. Columns 0-4 represent your core balance, allowing standard movement. As your pack overflows into Columns 5-9, you enter the Encumbered zone, feeling your knees buckle under a **-25% reduction in movement speed** alongside fatigue penalties that tax your agility. Packing into Columns 10-14 pushes your vessel into the Overburdened zone, reducing your speed by a grueling **-75%** and turning you into a slow, lumbering target. Organizing your gear is a tactical puzzle—do you center your heaviest steel plate and weapons to run freely, or spread your loot wide and risk exhaustion?`
             }
           ],
           tables: [
             {
               title: 'Encumbrance Effects',
               description: 'How you pack your inventory matters. Items in different zones affect your mobility and capabilities—pack wisely, for every choice has weight.',
-              headers: ['Zone', 'Grid Columns', 'Effects'],
+              headers: ['Zone', 'Grid Columns', 'Physical Toll'],
               rows: [
-                ['Normal', 'Columns 0-4', 'No penalties'],
-                ['Encumbered', 'Columns 5-9', '-25% movement speed, +5% STR/CON, -5% all other stats'],
-                ['Overencumbered', 'Columns 10-14', '-75% movement speed, +15% STR/CON, -15% all other stats']
+                ['Normal', 'Columns 0-4', 'No penalties. The load is perfectly centered.'],
+                ['Encumbered', 'Columns 5-9', '-25% Movement Speed. +5% STR/CON checks, but -5% to all other attributes due to fatigue.'],
+                ['Overencumbered', 'Columns 10-14', '-75% Movement Speed. +15% STR/CON checks, but -15% to all other attributes. You are a lumbering wall.']
               ]
             },
             {
               title: 'Strength Bonus Rows',
               description: 'Greater strength means greater capacity. Each two points above 10 adds another row to your inventory grid, allowing you to carry more gear.',
-              headers: ['Strength Score', 'Grid Size', 'Total Slots'],
+              headers: ['Strength Score', 'Grid Dimensions', 'Total Pack Space'],
               rows: [
-                ['8-9', '4×15', '60'],
-                ['10-11', '5×15', '75'],
-                ['12-13', '6×15', '90'],
-                ['14-15', '7×15', '105'],
-                ['16-17', '8×15', '120'],
-                ['18-19', '9×15', '135'],
-                ['20+', '10×15', '150']
+                ['8-9', '4×15', '60 Slots'],
+                ['10-11', '5×15', '75 Slots'],
+                ['12-13', '6×15', '90 Slots'],
+                ['14-15', '7×15', '105 Slots'],
+                ['16-17', '8×15', '120 Slots'],
+                ['18-19', '9×15', '135 Slots'],
+                ['20+', '10×15', '150 Slots']
               ]
             }
           ]
@@ -174,78 +231,71 @@ GMs can mix and match these systems to create the perfect experience for their t
         id: 'durability-repair',
         name: 'Durability & Repair',
         icon: 'fas fa-shield-alt',
+        theme: 'trade',
+        summary: [
+          'Weapons, armor, and gear decay slowly in combat, tracked as a durability ratio.',
+          'Items hitting 0 durability shatter completely, automatically unequipping and nullifying bonuses.',
+          'Mending ruined gear is done during rests by rolling a d20 against a GM-set Difficulty Class.'
+        ],
         content: {
-          title: 'Durability & Repair',
-          description: 'How items degrade from combat and can be restored through repair',
+          title: 'Fraying Weaves & Shattered Iron',
+          description: 'The slow decay of arms and armor, and the craft of restoring them.',
           sections: [
             {
-              title: 'What Is Durability',
-              content: `All equippable items — weapons, armor, and accessories — possess a durability rating that represents their structural integrity. An item's durability is expressed as a ratio of current durability to maximum durability (e.g., **5/8 Durability**). A freshly crafted or acquired item begins at full durability. As an item takes wear from combat, environmental hazards, or narrative events, its durability decreases.`
+              title: 'Mortal Wear',
+              content: `No weapon remains eternally sharp, and no steel plate remains unbent in the crucible of battle. In Mythrill, every piece of equippable gear—from heavy steel cuirasses and runic shields to fine silken robes and magic rings—carries a physical Durability rating representing its structural integrity. Expressed as a tactile ratio (e.g., **5/8 Durability**), this metric marks the slow, inevitable decline of your gear under the grinding toll of combat. The finest masterwork weapons will chip, leather straps will fray under strain, and magical bindings will leak their residual energy as the item's structural cohesion decays.`
             },
             {
-              title: 'Durability Damage',
-              content: `When a character suffers a critical hit targeting a specific body area (such as chest, head, or arms), the Game Master may reduce the durability of the armor or item equipped in that slot. The amount of durability lost is at the GM's discretion — a glancing critical might cost 1-2 points, while a devastating blow could cost 5-10 or more.
-
-Durability loss is always handled manually by the GM or players via the item's context menu (right-click the item and select "Durability"). Both preset increments (-1, -5, -10) and custom amounts are available.`
+              title: 'The Toll of Combat (Durability Damage)',
+              content: `When an opponent lands a devastating critical strike or targets a specific Zone of Protection (such as your head, chest, or limbs), your protective gear or parrying weapon bears the brunt of the strike. Durability damage is not a passive calculation, but a visceral trauma to your equipment. A sudden clashing blow against a stone shield chips its edge for 1-2 points, while a direct, crushing strike from an ogre's spiked club might fracture steel plates, dealing 5-10 durability damage. Under the Virtual Tabletop system, players and GMs can easily inspect and manage these wear marks manually by opening the item's context menu (Right-Click -> Durability) to adjust current values, simulating the realistic wear and tear of a long dungeon crawl.`
             },
             {
-              title: 'Broken Items',
-              content: `When an item's durability reaches **0**, it is considered **broken**. A broken item has the following effects:
+              title: 'The Shattered State (Broken Items)',
+              content: `When an item is reduced to **0 Durability**, it shatters with a sickening crack. A shattered item is completely inert and structurally useless, failing to offer any protection or offensive power. Upon breaking, the item immediately triggers the following VTT mechanics:
 
-- The item is **automatically unequipped** from its slot
-- The item **cannot be re-equipped** until repaired
-- All stat bonuses and effects from the item are **nullified**
-- The item displays a **cracked icon overlay** and red durability bar
-- A notification alerts all players that the item has broken
-
-Broken items remain in the character's inventory and can be repaired through various means.`
+• **Automatic Unequip**: The ruined item is instantly stripped from your active combat slot and moved to your pack's deep storage.
+• **Strict Equilibrium**: You cannot re-equip, wield, or wear the item until a crafter mends it back to at least 1 durability.
+• **Snuffed Runes & Magic**: All magical enchantments, stat bonuses, and runic properties are instantly snuffed out and nullified.
+• **Visceral Fracture Visual**: The item's VTT entry is overlaid with a striking cracked crimson bar, rendering its ruined state clear.
+• **Table Notification**: A system-wide message is broadcast to the chat log, alerting the entire party that a vital piece of gear has fractured under pressure.`
             },
             {
-              title: 'Durability Visual Indicators',
-              content: `Items display a colored durability bar to indicate their condition at a glance:
+              title: 'Visual Condition Marks',
+              content: `The VTT color-codes durability status so you can track your gear at a glance:
 
-- **Green**: Durability above 50% — the item is in good condition
-- **Yellow**: Durability at or below 50% — the item is showing wear
-- **Red**: Durability at or below 25% — the item is in critical condition
-- **Broken Icon**: Durability at 0 — the item is broken and unusable
-
-Hovering over an item in the library or inventory shows the exact durability ratio in the tooltip.`
+• **Green**: Above 50% durability. Good, reliable condition.
+• **Yellow**: 50% or lower. Showing wear and tear; consider repairing soon.
+• **Red**: 25% or lower. Critical condition; one hard blow could break it.
+• **Broken Overlay**: 0 durability. Completely broken.`
             },
             {
-              title: 'Repair During Rests',
-              content: `Items can be repaired during short or long rests. The repair process is handled narratively between the GM and players:
+              title: 'The Art of Repair (Resting)',
+              content: `During short or long rests, a character can attempt to mend their broken gear. The player rolls a d20 against a **Difficulty Class set by the GM** (default DC 15). The GM sets the DC based on:
 
-**Repair Attempt**
-During a rest, a character may attempt to repair a damaged or broken item. The player rolls a d20 against a **Difficulty Class set by the GM** (default DC 15). The GM determines the DC based on:
+• The severity of the ruin (lower durability = harder repair DC)
+• The rarity and material of the artifact
+• Available tools (anvil, sewing kits, leather presses)
+• The character's background or trade skills
 
-- The severity of the damage (lower durability = higher DC)
-- The quality and rarity of the item
-- Available tools and materials
-- The character's relevant skills or background
+**A successful roll** restores a portion of the item's durability based on narrative agreement. **A failed roll** wastes precious time and may consume raw materials without restoring any integrity.
 
-**On a successful roll**, the GM and player determine how much durability is restored based on the narrative — a minor patch job, a full restoration, or anything in between. The GM adjusts the durability via the context menu.
-
-**On a failed roll**, no durability is restored. Materials may be consumed at the GM's discretion.
-
-**Materials & Resources**
-The GM may require specific materials for repairs — leather patches for leather armor, iron ingots for plate, rare herbs for magical accessories, and so on. This is purely at the GM's discretion and meant to enhance the roleplaying experience.`
+GMs may require scrap iron for plate, cured leather for jerkins, or residuum for magical items to perform repairs.`
             },
             {
-              title: 'Setting Durability on New Items',
-              content: `When creating items through the Item Wizard or Quick Create, the creator sets the maximum durability freely — there is no automatic scaling based on item quality. The GM decides what makes sense for the item and the narrative:
+              title: 'Forge Customization (Item Durability)',
+              content: `When forging a new item via the Item Wizard, creators are free to set the Maximum Durability. There is no automated formula—GMs and creators decide what makes sense for the narrative:
 
-- A rusty dagger found in a dungeon might have 10 max durability
-- A masterwork longsword could have 150 max durability
-- An ancient artifact might have 200 or more
-
-Items created through Quick Create receive a default durability based on their quality tier, but this can be adjusted at any time through the item editor.`
+• A rusted iron shiv might possess only **10 Durability**.
+• A standard military-grade broadsword holds **50 Durability**.
+• A masterwork heavy shield holds **150 Durability**.
+• A legendary relic of old may hold **200+ Durability**.`
             }
           ],
           tables: [
             {
-              title: 'Quick Create Default Durability by Quality',
+              title: 'Quick Create Default Durability',
               description: 'Default durability values assigned when quick-creating items. These are suggestions — the GM or creator can override them at any time.',
-              headers: ['Quality', 'Default Max Durability'],
+              headers: ['Quality Tier', 'Recommended Max Durability'],
               rows: [
                 ['Poor', '30'],
                 ['Common', '50'],
@@ -263,6 +313,8 @@ Items created through Quick Create receive a default durability based on their q
         id: 'game-sessions',
         name: 'Game Sessions',
         icon: 'fas fa-calendar-alt',
+        theme: 'narrative',
+        summary: ['Sessions run 2-4 hours with alternating energy levels', 'Session Zero sets expectations before the campaign begins', 'Good pacing alternates high-energy and low-energy scenes'],
         content: {
           title: 'Game Sessions',
           description: 'Comprehensive session management, preparation, and gameplay flow',
@@ -355,29 +407,43 @@ Items created through Quick Create receive a default durability based on their q
         id: 'creation-overview',
         name: 'Overview',
         icon: 'fas fa-list-check',
+        theme: 'narrative',
+        summary: ['30 unique classes with flexible character building', '11-step guided creation process', 'Independent choices for race, class, background, and discipline'],
         content: {
-          title: 'Character Creation Overview',
-          description: 'Introduction to the Mythrill character creation system',
+          title: 'Forging Your Legend',
+          description: 'An introductory guide to carving your path through the Mythrill character creation engine.',
           sections: [
             {
-              title: 'Introduction',
-              content: `Mythrill features a comprehensive character creation system with 27 unique character classes, 10 races with subraces, and flexible character building that allows for diverse and creative character concepts. The creation process is divided into 11 steps, guiding you through choosing your character's heritage, profession, abilities, and story.`
+              title: 'Introduction: The Call of Fate',
+              content: `Every hero who stands against the encroaching shadows is forged, not born. Mythrill presents a deeply flexible and comprehensive character creation system featuring **30 unique character classes**, 10 distinct ancestral races with diverse subraces, and independent background matrices. This open-ended architecture allows you to bring any concept to life, weaving a rich backstory directly into tactile mechanical assets. Your character's destiny unfolds across an 11-step journey, molding their physical lineage, occupational skills, philosophical disciplines, and personal lore.`
             },
             {
-              title: 'Creation Steps',
-              content: `Character creation follows these 11 steps in order:\n\n1. Basic Information - Set your character's name, gender, and appearance\n2. Race & Subrace - Choose your character's heritage and racial traits\n3. Class - Select your character's profession and combat role from 27 unique classes\n4. Starting Spells - Choose your initial spells (if applicable to your class)\n5. Background - Select your character's history and pre-adventuring life\n6. Discipline - Choose your character's philosophical approach and practice (Mystic, Zealot, Trickster, etc.)\n7. Ability Scores - Allocate your base stats using the point-buy system\n8. Skills & Languages - Select your skill proficiencies and known languages\n9. Lore & Details - Fill out your character's backstory, personality, and appearance details\n10. Starting Equipment - Purchase and select your initial gear with starting currency\n11. Character Summary - Review all your choices and finalize your character`
+              title: 'The 11 Steps of Creation',
+              content: `Your adventurer takes shape by traversing these eleven sequential layers:
+
+1. **Basic Information** - Ink your character's name, identify their lineage, and define their visual characteristics.
+2. **Race & Subrace** - Claim your ancestral heritage, inheriting ancestral traits, passive resistance, and physical capacities.
+3. **Class selection** - Select your combat role, mechanical specialization, and unique resource system from **30 distinct classes**.
+4. **Starting Spells** - Call upon initial spells, incantations, or combat maneuvers (if your chosen class manipulates these forces).
+5. **Background Scars** - Select your pre-adventuring genesis, representing your life before you picked up the sword or focus.
+6. **Philosophical Discipline** - Choose your approach to power, struggle, and survival (Mystic, Zealot, Trickster, Harrow, etc.).
+7. **Ability Scores** - Allocate base stats using a tactile point-buy system, representing raw talent and physical limits.
+8. **Skills & Languages** - Select your trained proficiencies, tool masteries, and dialects spoken across the fractured realms.
+9. **Lore & Personal Seals** - Fleshing out motivations, deep-seated flaws, tragic bonds, and appearance quirks.
+10. **Starting Arsenal** - Purchase initial weaponry, armaments, and traveling rations with your starting copper.
+11. **Final Summary** - Review your completed ledger, seal your character's sheet, and prepare to step into the virtual tabletop.`
             },
             {
-              title: 'Background and Class Independence',
-              content: `Backgrounds and classes are independent choices. Your background represents your character's life before becoming an adventurer and provides thematic abilities, skill proficiencies, and social capabilities. Your class determines your mechanical role, combat abilities, and resource system. Any background can pair with any class, allowing for diverse character concepts like a Soldier Wizard or a Noble Barbarian.`
+              title: 'Class and Background Sovereignty',
+              content: `In Mythrill, your past does not dictate your combat capabilities. Backgrounds and classes exist as independent choices. Your background represents the social scars, trained trades, and early life of your hero, granting passive benefits and unique utility. Your class, conversely, governs your tactical role, combat maneuvers, and class-specific resource systems. This means you are completely free to build a high-society Noble Berserker, a street-smart urchin Spellguard, or a battle-scarred Soldier Chronarch. Every combination is viable, encouraging rich storytelling.`
             },
             {
-              title: 'Disciplines',
-              content: `Disciplines represent your character's chosen philosophical approach and practice. The 9 disciplines (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel) provide stat modifiers, skill proficiencies, starting equipment, special features, and extra point-buy points. Unlike backgrounds (which represent your past) or classes (which determine your role), disciplines represent your character's approach to power, knowledge, and adventure. Each discipline also offers specializations (sub-paths) that further customize your character's capabilities.`
+              title: 'Disciplines: Approaches to Power',
+              content: `Disciplines represent the core philosophy and training method your hero employs to survive. The 9 central disciplines (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel) grant starting stat modifiers, additional point-buy capacity, and special class-agnostic abilities. While your background represents your origins and your class dictates your weapons, your discipline defines your mental approach to danger and mastery. Each discipline also offers legendary specializations to further refine your style.`
             },
             {
-              title: 'System Flexibility',
-              content: `The Mythrill character creation system encourages creative character concepts through its flexible combination system. With independent choices for race, class, background, and discipline, you can create unique characters like a Mystic Reaver, Arcanist Sentinel, or Trickster Zealot. All combinations are viable and can lead to interesting roleplaying opportunities.`
+              title: 'Sovereign Combinatorial Freedom',
+              content: `The beauty of the Mythrill system lies in its limitless custom combinations. By separating race, class, background, and discipline, you can combine elements to create completely unique characters, such as a Trickster Lichborne, a Mystic Titan, or an Arcanist Toxicologist. These combinations are designed to feel distinct and provide exciting tactical and roleplaying opportunities at the table.`
             }
           ]
         }
@@ -387,21 +453,28 @@ Items created through Quick Create receive a default durability based on their q
         name: 'Backgrounds',
         icon: 'fas fa-book',
         useCustomComponent: true, // Flag to use BackgroundsDisplay component
+        theme: 'narrative',
         content: {
           title: 'Character Backgrounds',
           description: '15 character backgrounds representing your history and origin (Sailor, Merchant, Soldier, etc.)',
           sections: [
             {
               title: 'What are Backgrounds?',
-              content: `Backgrounds represent your character's life before becoming an adventurer. They provide skill proficiencies, tool proficiencies, languages, starting equipment, and a unique feature that reflects your past experiences. Unlike paths (which determine your combat abilities), backgrounds shape your character's social interactions and non-combat capabilities.`
+              content: `Before you took up the sword or began tracing glowing glyphs in the dark, you had a life. In Mythrill, your Background represents your pre-adventuring genesis—the mundane or tragic history that forged your early years and left its mark on your soul. Whether you spent your youth sailing stormy seas, selling rare wares in crowded bazaars, or defending a remote border fort as a common soldier, your past defines your starting skills, linguistic repertoire, and starting gear. More importantly, backgrounds represent the formative trials and historical scars that guide how you interpret the dangerous world around you.`
             },
             {
               title: 'Background Benefits',
-              content: `Each background provides: 2 skill proficiencies, 0-2 tool proficiencies, 0-2 additional languages, starting equipment themed to your background, and a special feature that gives you unique advantages in specific situations.`
+              content: `Your background is the foundation of your non-combat capabilities, offering a wealth of tactile narrative and mechanical benefits:
+
+• **Two Skill Proficiencies**: Representing years of occupational focus and muscle memory.
+• **Trade Tools**: Proficiency with specialized equipment like alchemist's supplies, navigator's charts, or lockpicks.
+• **Linguistic Heritage**: Extra languages picked up during your travel or study.
+• **Genesis Gear**: Starting equipment themed specifically to your past life.
+• **Sovereign Background Feature**: A unique narrative ability reflecting your prior standing, contacts, or specialized lore.`
             },
             {
               title: 'Roleplaying Your Background',
-              content: `Your background is more than just mechanical benefits - it's a core part of your character's identity. Consider how your past experiences shape your personality, goals, and relationships. Use your background feature creatively in social encounters and exploration.`
+              content: `Your background is not merely a list of statistics—it is your character's anchor to the setting. When crafting your origin, consider what historical scars your character carries. Did a betrayal during your mercantile years leave you cynical? Does a lingering physical mark from a military siege affect your posture? Use your background feature creatively: call on old contacts in shady taverns, leverage your academic standing at grand libraries, or utilize your guild membership to secure safe passage through occupied lands. In Mythrill, your past is never truly behind you.`
             }
           ]
         }
@@ -411,6 +484,7 @@ Items created through Quick Create receive a default durability based on their q
         name: 'Disciplines',
         icon: 'fas fa-book',
         useCustomComponent: true, // Flag to use BackgroundSelector component (shows disciplines)
+        theme: 'arcane',
         content: {
           title: 'Character Disciplines & Sub-disciplines',
           description: '9 thematic disciplines (Mystic, Zealot, Trickster, etc.) with sub-disciplines, selectable abilities, and deep customization',
@@ -572,6 +646,7 @@ Items created through Quick Create receive a default durability based on their q
         name: 'Skills',
         icon: 'fas fa-cogs',
         useCustomComponent: true, // Flag to use SkillsDisplay component
+        theme: 'mechanic',
         content: {
           title: 'Skills',
           description: 'Character skills with rank progression and quest-based advancement',
@@ -610,6 +685,7 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
         name: 'Languages',
         icon: 'fas fa-language',
         useCustomComponent: true, // Flag to use LanguagesDisplay component
+        theme: 'social',
         content: {
           title: 'Languages',
           description: 'Standard, exotic, secret, and elemental languages',
@@ -635,6 +711,7 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
         icon: 'fas fa-hat-wizard',
         hasDetailPages: true,
         useCustomComponent: true,
+        theme: 'combat',
         content: {
           title: 'Classes',
           description: '30 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.',
@@ -651,7 +728,7 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
           tables: [
             {
               title: 'All Classes',
-              description: 'Twenty-seven unique classes, each with distinct roles, resource systems, and playstyles. Choose the path that calls to your character\'s soul.',
+              description: 'Thirty unique classes, each with distinct roles, resource systems, and playstyles. Choose the path that calls to your character\'s soul.',
               headers: ['Class', 'Role', 'Resource', 'Playstyle'],
               clickableColumn: 0, // Make the first column (Class) clickable
               rows: [
@@ -695,6 +772,7 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
         name: 'Races',
         icon: 'fas fa-users',
         useCustomComponent: true, // Flag to use RaceSelector component
+        theme: 'nature',
         content: {
           title: 'Races & Variants',
           description: 'Playable races with meaningful variants, cultural depth, and mechanical trade-offs',
@@ -955,21 +1033,24 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
         id: 'combat-basics',
         name: 'Combat Basics',
         icon: 'fas fa-shield-alt',
+        theme: 'combat',
+        quickFacts: [{icon:'fas fa-bolt',label:'AP Per Turn',value:'6 AP'},{icon:'fas fa-sort-numeric-down',label:'Initiative',value:'1d20 + AGI mod'},{icon:'fas fa-fist-raised',label:'Attack',value:'2 AP'},{icon:'fas fa-walking',label:'Move',value:'1 AP'}],
+        summary: ['6 AP per turn to spend on actions with ultimate strategic freedom', 'Initiative = 1d20 + Agility modifier to claim early position', 'No bonus actions: spend your AP pool exactly as you choose'],
         content: {
           title: 'Combat Basics',
           description: 'Rounds, turns, initiative, and Action Points',
           sections: [
             {
               title: 'Combat Structure',
-              content: `Combat is divided into rounds. Each round, every combatant takes one turn in initiative order. A turn consists of spending Action Points (AP) to perform actions.`
+              content: `Violent encounters in Mythrill are resolved through a dynamic, high-stakes combat structure. Combat is divided into rounds, each representing roughly six seconds of split-second decisions and clashing iron. Rather than using rigid movement or traditional 'bonus actions' that bog down tactical flow, every combatant operates within a fluid, singular action economy fueled by Action Points (AP). During your turn, you are free to spend your AP in any sequence—moving, striking, casting, or parrying—creating an incredibly dynamic and cinematic flow of battle where you are in complete control of your character's combat cadence.`
             },
             {
               title: 'Initiative',
-              content: `At the start of combat, all combatants roll initiative (1d20 + Agility modifier). Higher results act first. Ties are broken by higher Agility score.`
+              content: `When blood is spilled and blades are drawn, the order of battle is decided by split-second reflexes. Every participant rolls Initiative (1d20 + Agility modifier) to place themselves on the turn sequence. High results act first, seizing the tactical advantage, while ties are broken by looking at the highest absolute Agility score. A high initiative allows a combatant to position themselves, lock down choke points, or cast pre-emptive warding runes before the enemy can react.`
             },
             {
               title: 'Action Points (AP)',
-              content: `Each character has a pool of AP that refreshes at the start of their turn. Most characters have 6 AP per turn. Actions cost varying amounts of AP.`
+              content: `The cornerstone of Mythrill's tactical combat is the Action Point (AP) system. Every character has a pool of **6 AP** that completely refreshes at the start of their turn. There are no 'Bonus Actions' or separate movement pools; every action you take—from swinging a giant claymore to drinking a potion or stepping through a burning field—costs a specific amount of AP. This provides ultimate freedom: you can spend 2 AP to strike, 1 AP to disengage, 1 AP to drink a potion, and 2 AP to move again, or spend all 6 AP casting two heavy mystic spells. AP management is the difference between life and death in Mythrill.`
             }
           ],
           tables: [
@@ -994,28 +1075,28 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
         id: 'attacks-damage',
         name: 'Attacks & Damage',
         icon: 'fas fa-crosshairs',
+        theme: 'combat',
+        summary: ['Unified attack/damage roll using weapon die', 'Armor gives passive DR = Armor / 10', 'Defend action rolls a soak die for extra reduction'],
         content: {
           title: 'Attacks & Damage',
           description: 'Unified attack/damage rolls, armor absorption, critical system',
           sections: [
             {
               title: 'Attack Resolution',
-              content: `When you make an attack or cast a spell, the process follows these steps:
+              content: `Mythrill features a revolutionary **Unified Strike & Damage Roll** that completely removes the double-rolling slow-downs of traditional d20-based systems. When you spend AP to make a weapon strike (typically 2 AP), you roll the weapon's designated damage die (e.g., 1d8 for a longsword, 1d12 for a greataxe) exactly once to resolve both accuracy and damage:
 
-1. Spend AP: Spend the required Action Points (typically 1-2)
-2. Roll Attack: Roll your weapon die (e.g., 1d8 for longsword)
-3. Determine Outcome: 1 = miss (roll again to check for critical miss), maximum die value = critical hit, other rolls hit
-4. Calculate Damage: For weapon attacks: damage equals weapon die roll plus attribute modifier
-5. Apply Armor Reduction: Armor gives passive damage reduction equal to Armor ÷ 10 (rounded down). If the defender used Defend, roll their armor-based soak die and reduce damage by that result.
-6. Apply Damage: Remaining damage reduces target's hit points`
+1. **The Critical Miss (1)**: If the weapon die lands on a **1**, the attack is an outright miss. The player rolls a secondary die to check for severe fumbles, such as dropping their weapon or striking a nearby stone wall (damaging weapon durability).
+2. **The Decisive Hit (2 to Max-1)**: Any roll between 2 and one less than the die's maximum value represents a clean hit. The damage dealt is immediately equal to the value shown on the die plus your corresponding attribute modifier (e.g., Strength for melee, Agility for ranged). No secondary accuracy check is needed!
+3. **The Sovereign Critical Hit (Max Value)**: If the die lands on its **maximum value** (e.g., an 8 on a d8, or a 12 on a d12), the blow is a devastating critical strike, triggering massive extra damage and potential lingering injuries.
+
+This unified flow makes every single weapon swing incredibly tense and fast-paced, keeping combat lethal and fluid.`
             },
             {
               title: 'Armor & Defense',
-              content: `Armor now works in two simple layers with no bookkeeping:
+              content: `In Mythrill, defending yourself is not a static state. Armor protects you through two highly tactical layers:
 
-Armor Score = Base 10 + armor bonus + enchantment bonus
-Passive Damage Reduction: Reduce incoming damage by Armor ÷ 10 (rounded down).
-Defend Soak Die: If you take the Defend action, roll a soak die based on your Armor (see table) and reduce damage by the result.`
+• **Passive Damage Reduction (DR)**: Your armor constantly absorbs physical trauma without any manual bookkeeping. You receive passive damage reduction equal to your **Armor Score ÷ 10** (rounded down). For instance, a knight wearing thick plate with an Armor Score of 24 has a permanent Passive DR of 2, subtracting 2 damage from every single incoming attack.
+• **Active Soak Die (Defending)**: If you anticipate a devastating blow, you can spend AP to take the **Defend** action. When doing so, you roll an active **Soak Die** determined by your armor class (ranging from a d4 for light leather up to a d10 or d12 for masterwork heavy plate). The result rolled on the soak die is immediately subtracted from the incoming damage alongside your Passive DR, allowing you to shrug off even giant-sized strikes.`
             }
           ],
           tables: [
@@ -1055,6 +1136,8 @@ Defend Soak Die: If you take the Defend action, roll a soak die based on your Ar
         id: 'critical-hits',
         name: 'Critical Hits',
         icon: 'fas fa-burst',
+        theme: 'combat',
+        summary: ['Max die value = critical hit with weapon-specific effects', 'Rolling 1 then another 1 = critical miss', 'Slashing bleeds, Piercing pierces armor, Bludgeoning stuns'],
         content: {
           title: 'Critical Hits',
           description: 'Weapon-specific effects, exploding dice, and miss consequences',
@@ -1102,6 +1185,8 @@ Ranged: Pin: Target's movement reduced by half for 1d4 rounds`
         id: 'damage-modifiers',
         name: 'Damage Modifiers',
         icon: 'fas fa-fire',
+        theme: 'combat',
+        summary: ['Three tiers of increase: Susceptible, Exposed, Vulnerable', 'Three tiers of reduction: Guarded, Resistant, Immune', 'Three tiers of conversion: Leech, Absorb, Invert'],
         content: {
           title: 'Damage Modifiers',
           description: 'Standardized tiers for damage increase, reduction, and conversion',
@@ -1156,6 +1241,8 @@ Application Order:
         id: 'death-dying',
         name: 'Death & Dying',
         icon: 'fas fa-skull',
+        theme: 'danger',
+        summary: ['At 0 HP you enter the Dying state with a limited 1 AP pool', 'Dying characters can still make desperate crawling or potion actions', 'Three death save successes stabilize; three failures = death'],
         content: {
           title: 'Death & Dying',
           description: 'Dying condition with limited actions and exhaustion accumulation',
@@ -1166,7 +1253,7 @@ Application Order:
               sections: [
                 {
                   title: 'Dying Condition',
-                  content: `When you reach 0 HP, you fall unconscious and begin dying. While dying, you can still take 1 AP worth of actions per turn (crawling, drinking a potion, etc.). You make death saving throws at the start of each turn. When a character reaches 6 levels of exhaustion or is killed outright by massive damage, they die.`
+                  content: `Reaching 0 Hit Points in Mythrill does not immediately plunge your mind into absolute darkness. Instead, you enter a desperate, high-stakes struggle for survival known as the **Dying Condition**. While you are bleeding out and fighting to retain consciousness, you are brought to your knees, severely weakened but still possessing a spark of agency. During this state, your turn's Action Point pool is reduced to a singular **1 AP**. This precious point allows you to make desperate, conscious dying maneuvers—such as crawling 5 feet toward safety, trembling as you retrieve and swallow a healing potion, or gasping out final instructions to your allies. At the start of each of your turns, you must roll a Death Saving Throw to see if your flame of life flickers out. If you suffer further damage while dying, or accumulate 6 levels of exhaustion, your journey ends permanently.`
                 },
                 {
                   title: 'Death Saving Throws',
@@ -1195,6 +1282,7 @@ Application Order:
                 {
                   title: 'Injury Table',
                   headers: ['d20', 'Injury', 'Effect'],
+                  rowsPerPage: 18,
                   rows: [
                     ['1', 'Lose an Eye', 'Disadvantage on Perception checks and ranged attacks'],
                     ['2-3', 'Lose an Arm/Hand', 'Can only hold one item, disadvantage on two-handed activities'],
@@ -1288,6 +1376,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                     {
                       title: 'Soulmonger Services (1 Soul = 1,000 Withered Essence)',
                       headers: ['Service', 'Cost', 'Effect'],
+                      rowsPerPage: 12,
                       rows: [
                         ['Level Up', 'Level × 1 Soul', 'Character gains one level'],
                         ['Minor Healing', 'Level × 150 Essence', 'Remove 1 level of exhaustion (1/day)'],
@@ -1433,6 +1522,8 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
         id: 'reactions',
         name: 'Reactions',
         icon: 'fas fa-bolt',
+        theme: 'combat',
+        summary: ['Reactions are special actions outside your turn', 'Cost AP and respond to specific triggers', 'Include dodge, parry, shield block, and more'],
         content: {
           title: 'Reactions',
           description: 'Special actions taken outside your turn in response to triggers',
@@ -1498,6 +1589,8 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
         id: 'proficient-abilities',
         name: 'Proficient Abilities',
         icon: 'fas fa-star',
+        theme: 'combat',
+        summary: ['Only one proficient ability per turn regardless of AP', 'Powerful techniques tied to specific skill proficiencies', 'Range from grapples and counters to first aid and traps'],
         content: {
           title: 'Proficient Abilities',
           description: 'Special actions available to characters with specific skill proficiencies',
@@ -1542,6 +1635,8 @@ Proficient abilities are special actions that can be performed by characters who
         id: 'combat-conditions',
         name: 'Combat Conditions',
         icon: 'fas fa-exclamation-triangle',
+        theme: 'combat',
+        summary: ['Various states affecting characters in battle', 'Some conditions interact (e.g., Wet + Lightning)', 'Conditions can be inflicted by attacks, spells, or environment'],
         content: {
           title: 'Combat Conditions',
           description: 'Various states that can affect characters during battle',
@@ -1581,6 +1676,8 @@ Some conditions interact with each other or with the environment to create enhan
         id: 'resting',
         name: 'Resting',
         icon: 'fas fa-bed',
+        theme: 'narrative',
+        summary: ['Short Rest (1 hour): spend Hit Dice or heal 1/4 max HP', 'Long Rest (8 hours): full HP, recover abilities', 'Optional settlement activities add downtime flavor'],
         content: {
           title: 'Rest & Recovery',
           description: 'Pick the modules you want: start with Core, then layer extras that fit your campaign.',
@@ -1795,6 +1892,7 @@ These systems add cultural immersion and social interaction opportunities.`
         id: 'weapons',
         name: 'Weapons',
         icon: 'fas fa-axe',
+        theme: 'trade',
         content: {
           title: 'Weapons',
           description: 'Attacks combine your base attack with weapon damage dice and a weapon mastery roll.',
@@ -1883,6 +1981,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'armor',
         name: 'Armor',
         icon: 'fas fa-vest',
+        theme: 'trade',
         content: {
           title: 'Armor',
           description: 'Total Armor drives passive DR and the Defend soak die',
@@ -1952,6 +2051,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'magical-items',
         name: 'Magical Items',
         icon: 'fas fa-wand-sparkles',
+        theme: 'arcane',
         content: {
           title: 'Magical Items',
           description: 'Rarity tiers, attunement rules, categories',
@@ -1979,6 +2079,8 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'magic-overview',
         name: 'System Overview',
         icon: 'fas fa-book-sparkles',
+        theme: 'arcane',
+        summary: ['Spellcasting uses mana as the primary resource', 'Spells are crafted through the spellcrafting system', 'Each class has unique magical abilities and resource mechanics'],
         content: {
           title: 'Magic System Overview',
           description: 'Talent trees instead of spell levels',
@@ -2002,6 +2104,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'magic-resources',
         name: 'Resources',
         icon: 'fas fa-droplet',
+        theme: 'arcane',
         content: {
           title: 'Magic Resources',
           description: 'Action economy and class-specific resource systems used across all 30 classes',
@@ -2062,6 +2165,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'spellcasting',
         name: 'Spellcasting',
         icon: 'fas fa-hand-sparkles',
+        theme: 'arcane',
         content: {
           title: 'Spellcasting',
           description: 'Casting process, components, and disruption',
@@ -2085,6 +2189,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'talents',
         name: 'Talents',
         icon: 'fas fa-tree',
+        theme: 'arcane',
         content: {
           title: 'Talents',
           description: 'Ability types, synergies, and tier progression',
@@ -2116,6 +2221,8 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'social-basics',
         name: 'Social Basics',
         icon: 'fas fa-handshake',
+        theme: 'social',
+        summary: ['Social encounters use the same difficulty-dice system', 'NPC attitudes affect starting difficulty', 'Skills like Persuasion, Deception, and Intimidation drive interactions'],
         content: {
           title: 'Social Mechanics Basics',
           description: 'Comprehensive social interaction and influence systems',
@@ -2229,6 +2336,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'reputation',
         name: 'Reputation',
         icon: 'fas fa-star',
+        theme: 'social',
         content: {
           title: 'Reputation',
           description: 'Faction standing from -5 (Hated) to +5 (Revered)',
@@ -2262,6 +2370,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'travel-basics',
         name: 'Travel Basics',
         icon: 'fas fa-route',
+        theme: 'nature',
         content: {
           title: 'Travel Basics',
           description: 'Comprehensive travel mechanics, navigation, and journey structure',
@@ -2403,6 +2512,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'exploration',
         name: 'Exploration',
         icon: 'fas fa-compass',
+        theme: 'nature',
         content: {
           title: 'Exploration',
           description: 'Comprehensive exploration mechanics and discovery systems',
@@ -2581,6 +2691,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         id: 'environments',
         name: 'Environments',
         icon: 'fas fa-mountain',
+        theme: 'nature',
         content: {
           title: 'Environments',
           description: 'Terrain types, hazards, and weather effects',
@@ -2605,6 +2716,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         name: 'Advanced Travel System',
         icon: 'fas fa-compass',
         useCustomComponent: true,
+        theme: 'nature',
         content: {
           title: 'Advanced Travel System',
           description: 'Biome-based travel mechanics with weather, hourly checklists, encounters, and survival rules for immersive overland journeys',
@@ -3191,6 +3303,7 @@ Transport modes vary by biome — not all modes are available everywhere. Ocean 
         id: 'professions',
         name: 'Professions',
         icon: 'fas fa-hammer',
+        theme: 'trade',
         content: {
           title: 'Professions',
           description: 'Crafting and gathering skills with mastery levels',
@@ -3210,6 +3323,7 @@ Transport modes vary by biome — not all modes are available everywhere. Ocean 
         id: 'experience',
         name: 'Experience',
         icon: 'fas fa-trophy',
+        theme: 'mechanic',
         content: {
           title: 'Experience & Leveling',
           description: 'XP sources and leveling requirements',
@@ -3247,6 +3361,7 @@ Transport modes vary by biome — not all modes are available everywhere. Ocean 
         id: 'attributes-advancement',
         name: 'Attribute Improvements',
         icon: 'fas fa-arrow-up',
+        theme: 'mechanic',
         content: {
           title: 'Attribute Improvements',
           description: 'Improvement schedule and strategic choices',

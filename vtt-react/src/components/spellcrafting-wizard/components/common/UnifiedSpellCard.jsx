@@ -6,7 +6,8 @@ import {
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
   faBrain, faFistRaised, faSkull, faAtom, faHourglass,
   faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask,
-  faArrowUp, faLeaf, faExclamationTriangle, faShield, faRandom, faScroll, faDice, faPaw, faCrosshairs, faTint, faBalanceScale
+  faArrowUp, faLeaf, faExclamationTriangle, faShield, faRandom, faScroll, faDice, faPaw, faCrosshairs, faTint, faBalanceScale,
+  faCircleDot, faPlusCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
@@ -165,6 +166,10 @@ const UnifiedSpellCard = ({
     // Handle specific resource types with proper names
     const resourceNameMap = {
       'action_points': 'Action Points',
+      'action': 'Action',
+      'bonus_action': 'Bonus Action',
+      'reaction': 'Reaction',
+      'spell_slot': 'Spell Slot',
       'astral_power': 'Astral Power',
       'runic_power': 'Runic Power',
       'soul_power': 'Soul Power',
@@ -371,17 +376,12 @@ const UnifiedSpellCard = ({
     const schoolMap = {
       'fire': 'spell-fire',
       'frost': 'spell-frost',
-      'ice': 'spell-frost',
-      'cold': 'spell-frost',
       'arcane': 'spell-arcane',
       'force': 'spell-arcane',
       'nature': 'spell-nature',
       'necrotic': 'spell-shadow',
-      'shadow': 'spell-shadow',
-      'holy': 'spell-holy',
       'radiant': 'spell-holy',
       'lightning': 'spell-lightning',
-      'electric': 'spell-lightning',
       'poison': 'spell-nature',
       'psychic': 'spell-shadow',
       'chaos': 'spell-arcane',
@@ -389,9 +389,7 @@ const UnifiedSpellCard = ({
       'bludgeoning': 'spell-physical',
       'piercing': 'spell-physical',
       'slashing': 'spell-physical',
-      'physical': 'spell-physical',
-      'thunder': 'spell-lightning',
-      'acid': 'spell-nature'
+      'physical': 'spell-physical'
     };
     const school = spell?.typeConfig?.school || spell?.school || spell?.damageTypes?.[0] || spell?.elementType || 'arcane';
     return schoolMap[school.toLowerCase()] || 'spell-arcane';
@@ -1906,6 +1904,12 @@ const UnifiedSpellCard = ({
       'actionpoints': faBolt,
       'action_points': faBolt,
       'action-points': faBolt,
+      'action': faCrosshairs,
+      'bonus_action': faPlusCircle,
+      'bonus-action': faPlusCircle,
+      'reaction': faShield,
+      'spell_slot': faCircleDot,
+      'spell-slot': faCircleDot,
       'holypower': faSun,
       'holy-power': faSun,
       'astralpower': faMoon,
@@ -1941,6 +1945,12 @@ const UnifiedSpellCard = ({
       'actionpoints': '#E67E22',
       'action_points': '#E67E22',
       'action-points': '#E67E22',
+      'action': '#E67E22',
+      'bonus_action': '#60A5FA',
+      'bonus-action': '#60A5FA',
+      'reaction': '#FBBF24',
+      'spell_slot': '#C084FC',
+      'spell-slot': '#C084FC',
       'holypower': '#F1C40F',
       'holy-power': '#F1C40F',
       'astralpower': '#9B59B6',
@@ -2110,7 +2120,8 @@ const UnifiedSpellCard = ({
             name: formatResourceName(type),
             icon: getResourceIcon(type),
             color: getResourceColor(type),
-            isFormula: useFormula
+            isFormula: useFormula,
+            spellSlotLevel: type === 'spell_slot' ? (spell.resourceCost.resourceValues?.spell_slot_level || 1) : undefined
           });
         }
       });
@@ -2968,59 +2979,82 @@ const UnifiedSpellCard = ({
 
     if (resources.length === 0) return null;
 
+    const primaryTypes = ['action_points', 'action-points', 'actionpoints', 'mana', 'health', 'energy', 'rage', 'focus', 'action', 'bonus_action', 'bonus-action', 'reaction', 'spell_slot', 'spell-slot', 'soul_shards', 'soul-shards', 'holy_power', 'holy-power', 'astral_power', 'astral-power', 'combo_points', 'runic_power', 'arcane_energy_points', 'chi', 'ap'];
+    const primaryResources = resources.filter(r => primaryTypes.includes(r.type?.toLowerCase()?.replace(/\s+/g, '-')));
+    const classResources = resources.filter(r => !primaryTypes.includes(r.type?.toLowerCase()?.replace(/\s+/g, '-')));
+
+    const renderResourceBadge = (resource, index) => {
+      let displayName = resource.name;
+      if (resource.isSphere) {
+         displayName = resource.name ? resource.name.replace(/ Spheres?/g, '') : '';
+      } else if (resource.type === 'action-points' || resource.type === 'action_points' || resource.type === 'actionpoints') {
+         displayName = 'AP';
+      } else if (resource.type === 'bonus_action' || resource.type === 'bonus-action') {
+         displayName = 'Bonus Action';
+      } else if (resource.type === 'reaction') {
+         displayName = 'Reaction';
+      } else if (resource.type === 'spell_slot' || resource.type === 'spell-slot') {
+         displayName = resource.spellSlotLevel ? `Slot Lv${resource.spellSlotLevel}` : 'Spell Slot';
+      } else if (resource.type === 'action') {
+         displayName = 'Action';
+      } else if (resource.isInferno) {
+         displayName = resource.isRequired ? null : resource.name;
+      }
+
+      let displayAmount = resource.isFormula ? resource.amount : resource.amount;
+      
+      return (
+        <div
+          key={index}
+          className={`pf-resource-cost ${resource.type} ${resource.isFormula ? 'formula' : ''}`}
+          title={resource.fullText || `${resource.name || resource.type}: ${resource.isFormula ? `Formula: ${resource.amount}` : resource.amount}`}
+        >
+          {resource.isMusicalNote ? (
+            <span
+              className="pf-musical-clef-icon"
+              style={{ color: resource.color }}
+            >
+              {resource.clefSymbol}
+            </span>
+          ) : (
+            <FontAwesomeIcon
+              icon={resource.icon}
+              className="pf-resource-icon"
+              style={{ color: resource.color || '#ffffff' }}
+            />
+          )}
+          
+          <span 
+            className="pf-resource-amount"
+            style={{ 
+              fontWeight: resource.isRequired ? 'bold' : 'normal' 
+            }}
+          >
+            {displayAmount}
+          </span>
+          
+          {displayName && (
+            <span className="pf-resource-name">
+              {displayName}
+            </span>
+          )}
+        </div>
+      );
+    };
+
     return (
       <div className="pf-spell-resources">
-        {resources.map((resource, index) => {
-          // Process name for display
-          let displayName = resource.name;
-          if (resource.isSphere) {
-             displayName = resource.name ? resource.name.replace(/ Spheres?/g, '') : '';
-          } else if (resource.type === 'action-points' || resource.type === 'action_points' || resource.type === 'actionpoints') {
-             displayName = 'AP';
-          } else if (resource.isInferno) {
-             displayName = resource.isRequired ? null : resource.name;
-          }
-
-          let displayAmount = resource.isFormula ? resource.amount : resource.amount;
-          
-          return (
-            <div
-              key={index}
-              className={`pf-resource-cost ${resource.type} ${resource.isFormula ? 'formula' : ''}`}
-              title={resource.fullText || `${resource.name || resource.type}: ${resource.isFormula ? `Formula: ${resource.amount}` : resource.amount}`}
-            >
-              {resource.isMusicalNote ? (
-                <span
-                  className="pf-musical-clef-icon"
-                  style={{ color: resource.color }}
-                >
-                  {resource.clefSymbol}
-                </span>
-              ) : (
-                <FontAwesomeIcon
-                  icon={resource.icon}
-                  className="pf-resource-icon"
-                  style={{ color: resource.color || '#ffffff' }}
-                />
-              )}
-              
-              <span 
-                className="pf-resource-amount"
-                style={{ 
-                  fontWeight: resource.isRequired ? 'bold' : 'normal' 
-                }}
-              >
-                {displayAmount}
-              </span>
-              
-              {displayName && (
-                <span className="pf-resource-name">
-                  {displayName}
-                </span>
-              )}
+        <div className="pf-resource-group pf-resource-group-primary">
+          {primaryResources.map((resource, index) => renderResourceBadge(resource, `p-${index}`))}
+        </div>
+        {classResources.length > 0 && (
+          <>
+            {primaryResources.length > 0 && <span className="pf-resource-divider" />}
+            <div className="pf-resource-group pf-resource-group-secondary">
+              {classResources.map((resource, index) => renderResourceBadge(resource, `c-${index}`))}
             </div>
-          );
-        })}
+          </>
+        )}
       </div>
     );
   };
@@ -8751,8 +8785,7 @@ const UnifiedSpellCard = ({
                       // Format damage type name: capitalize first letter
                       const formattedType = damageType.charAt(0).toUpperCase() + damageType.slice(1);
                       return (
-                        <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`}>
-                          <div className="pf-damage-type-icon"></div>
+                        <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`} title={`${formattedType} damage`}>
                           <span className="pf-damage-type-text">{formattedType}</span>
                         </div>
                       );
@@ -8776,13 +8809,6 @@ const UnifiedSpellCard = ({
               <div className="pf-library-header-right">
                 {/* Damage Types - REMOVED: Already shown in combined box above to prevent duplication */}
                 {/* Resource Costs intentionally not duplicated here; shown under title */}
-              </div>
-            )}
-
-            {/* Resource Cost - Only show for spellbook variant */}
-            {variant === 'spellbook' && (
-              <div className="unified-spell-cost">
-                {formatResourceCosts()}
               </div>
             )}
           </div>

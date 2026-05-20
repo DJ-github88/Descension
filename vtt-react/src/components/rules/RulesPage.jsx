@@ -19,6 +19,12 @@ import ClassesDisplay from './ClassesDisplay';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './RulesPage.css';
+import './components/rules-components.css';
+import RulesHeroBanner from './components/RulesHeroBanner';
+import RulesSectionCard from './components/RulesSectionCard';
+import RulesCollapsible from './components/RulesCollapsible';
+import RulesSummaryBox from './components/RulesSummaryBox';
+import RulesQuickTiles from './components/RulesQuickTiles';
 
 // Lazy load RaceSelector for better performance
 const RaceSelector = React.lazy(() => import('./RaceSelector'));
@@ -227,7 +233,16 @@ const RulesPage = () => {
   }, [currentContent]);
 
   // Render a table
-  const renderTable = (table, tableIdx) => {
+  const getThemeColor = (theme) => {
+    const colors = {
+      mechanic: '#d4af37', combat: '#dc143c', narrative: '#8b4513',
+      danger: '#c0392b', nature: '#228b22', arcane: '#9b59b6',
+      undead: '#7d3c98', trade: '#c9a227', social: '#e67e22'
+    };
+    return colors[theme] || colors.narrative;
+  };
+
+  const renderTable = (table, tableIdx, sectionTheme = 'narrative') => {
     // Check if this is the Skill-Based Abilities table
     const isSkillAbilitiesTable = table.title === 'Skill-Based Abilities' || 
                                   (table.headers && table.headers.length > 0 && 
@@ -259,7 +274,7 @@ const RulesPage = () => {
     
     // Pagination: Show rows per page (split between left and right)
     // Default rows per page across the full spread; tables can override via rowsPerPage
-    const defaultRowsPerSide = 4;
+    const defaultRowsPerSide = 5;
     const requestedRowsPerPage = table.rowsPerPage || defaultRowsPerSide * 2;
     const rowsPerSide = Math.ceil(requestedRowsPerPage / 2);
     const rowsPerPage = rowsPerSide * 2; // normalize to even count for left/right split
@@ -272,10 +287,15 @@ const RulesPage = () => {
     const endIdx = startIdx + rowsPerPage;
     const pageRows = rows.slice(startIdx, endIdx);
     
-    // Split page rows evenly between left and right pages
-    const leftPageRows = pageRows.slice(0, rowsPerSide);
-    const rightPageRows = pageRows.slice(rowsPerSide, rowsPerSide * 2);
-    const hasRightPage = rightPageRows.length > 0;
+    // Only split into two pages when the right side would be at least 75% full.
+    // This prevents near-empty right columns (e.g. 8 rows → 5+3 at 60% looks wrong).
+    const minRowsForRightPage = Math.max(2, Math.ceil(rowsPerSide * 0.75));
+    const potentialRightRows = pageRows.slice(rowsPerSide);
+    const shouldSplit = potentialRightRows.length >= minRowsForRightPage;
+
+    const leftPageRows = shouldSplit ? pageRows.slice(0, rowsPerSide) : pageRows;
+    const rightPageRows = shouldSplit ? potentialRightRows : [];
+    const hasRightPage = shouldSplit && rightPageRows.length > 0;
 
     const renderTablePage = (rows, startRowIndex) => (
       <table className="rules-table">
@@ -345,11 +365,15 @@ const RulesPage = () => {
       }));
     };
 
+    const themeColor = getThemeColor(sectionTheme);
+    // has-two-pages enables the book-spine ::before pseudo-element only when genuinely split
+    const wrapperClass = `rules-table-wrapper ${!hasRightPage ? 'single-page' : 'has-two-pages'}`;
+
     return (
-      <div className="rules-table-container" key={table.title}>
+      <div className="rules-table-container rules-table-themed" key={table.title} style={{ '--table-theme-color': themeColor }}>
         {table.title && <h5 className="rules-table-title">{table.title}</h5>}
         {table.description && <p className="rules-table-description">{table.description}</p>}
-        <div className={`rules-table-wrapper ${!hasRightPage ? 'single-page' : ''}`}>
+        <div className={wrapperClass}>
           {/* Left Page */}
           <div className="rules-table-page-left">
             {renderTablePage(leftPageRows, startIdx)}
@@ -442,26 +466,154 @@ const RulesPage = () => {
     );
   };
 
-  const renderSections = (sections) => {
+  const renderSections = (sections, sectionTheme) => {
     if (!sections) return null;
+    const theme = sectionTheme || 'narrative';
 
-    return sections.map((section, idx) => (
-      <div className="rules-section" key={idx}>
-        {section.title && <h4 className="rules-section-title">{section.title}</h4>}
-        {section.type === 'rotating-tips' ? (
-          <RotatingTips tips={section.tips} />
-        ) : section.content ? (
-          <div
-            className="rules-section-content"
-            dangerouslySetInnerHTML={{ __html: processMarkdown(section.content) }}
-          />
-        ) : null}
-      </div>
-    ));
+    return sections.map((section, idx) => {
+      if (section.type === 'rotating-tips') {
+        const renderedElement = (
+          <div className="rules-section" key={idx}>
+            {section.title && <h4 className="rules-section-title">{section.title}</h4>}
+            <RotatingTips tips={section.tips} />
+          </div>
+        );
+        const showDivider = idx < sections.length - 1;
+        return (
+          <React.Fragment key={idx}>
+            {renderedElement}
+            {showDivider && (
+              <div className="rules-divider">
+                <span className="rules-divider-icon">✥</span>
+              </div>
+            )}
+          </React.Fragment>
+        );
+      }
+
+      let contentHtml = section.content
+        ? processMarkdown(section.content)
+        : null;
+
+      if (!contentHtml) return null;
+
+      // Inject transparent hand-drawn watercolor illustrations inline
+      let illustrationHtml = '';
+      const publicUrl = process.env.PUBLIC_URL || '';
+
+      if (selectedSubcategory === 'game-overview' && section.title && section.title.startsWith('Core Principles')) {
+        illustrationHtml = `
+          <div class="rules-inline-art-container">
+            <img 
+              src="${publicUrl}/assets/images/watercolor_dragon.png" 
+              alt="Ancient Dragon Sketch" 
+              class="rules-inline-art"
+            />
+            <span class="rules-inline-art-caption">Fig 1.1: The Wyrm of Mythrill</span>
+          </div>
+        `;
+      } else if (selectedSubcategory === 'dice-system' && section.title === 'The Ladder of Trials (Difficulty Dice)') {
+        illustrationHtml = `
+          <div class="rules-inline-art-container left">
+            <img 
+              src="${publicUrl}/assets/images/watercolor_tome.png" 
+              alt="Ancient Arcane Tome" 
+              class="rules-inline-art"
+            />
+            <span class="rules-inline-art-caption">Fig 1.2: The Codex of Trials</span>
+          </div>
+        `;
+      } else if (selectedSubcategory === 'character-statistics' && section.title === 'The Six Pillars of Mortality') {
+        illustrationHtml = `
+          <div class="rules-inline-art-container left">
+            <img 
+              src="${publicUrl}/assets/images/watercolor_hourglass.png" 
+              alt="Mystical Hourglass" 
+              class="rules-inline-art"
+            />
+            <span class="rules-inline-art-caption">Fig 1.3: The Sands of Capability</span>
+          </div>
+        `;
+      } else if (selectedSubcategory === 'inventory-encumbrance' && section.title === 'The Spatial Grid') {
+        illustrationHtml = `
+          <div class="rules-inline-art-container">
+            <img 
+              src="${publicUrl}/assets/images/watercolor_backpack.png" 
+              alt="Explorer's Pack" 
+              class="rules-inline-art"
+            />
+            <span class="rules-inline-art-caption">Fig 1.4: The Spatial Explorer's Ledger</span>
+          </div>
+        `;
+      } else if (selectedSubcategory === 'durability-repair' && section.title === 'Mortal Wear') {
+        illustrationHtml = `
+          <div class="rules-inline-art-container">
+            <img 
+              src="${publicUrl}/assets/images/watercolor_shield.png" 
+              alt="Shattered Shield" 
+              class="rules-inline-art"
+            />
+            <span class="rules-inline-art-caption">Fig 1.5: A Fraying Vanguard</span>
+          </div>
+        `;
+      } else if (selectedSubcategory === 'combat-basics' && section.title === 'Combat Structure') {
+        illustrationHtml = `
+          <div class="rules-inline-art-container left">
+            <img 
+              src="${publicUrl}/assets/images/watercolor_swords.png" 
+              alt="Crossed Runeswords" 
+              class="rules-inline-art"
+            />
+            <span class="rules-inline-art-caption">Fig 1.6: The Clash of Steel</span>
+          </div>
+        `;
+      }
+
+      if (illustrationHtml) {
+        contentHtml = illustrationHtml + contentHtml;
+      }
+
+      const contentLength = section.content ? section.content.length : 0;
+      // Only use collapsible for genuinely long sections (500+ chars)
+      // Short sections use compact card layout without 2-column spread
+      const isLong = contentLength > 500;
+      // Mark sections with less than 600 chars as 'short' to suppress 2-column CSS
+      const isShort = contentLength < 600;
+
+      const renderedElement = isLong ? (
+        <RulesCollapsible
+          key={idx}
+          title={section.title || 'DETAILS'}
+          icon="fas fa-scroll"
+          theme={theme}
+          defaultOpen={idx === 0}
+          contentLength={contentLength}
+        >
+          <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+        </RulesCollapsible>
+      ) : (
+        <RulesSectionCard key={idx} title={section.title} theme={theme} short={isShort}>
+          <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+        </RulesSectionCard>
+      );
+
+      const showDivider = idx < sections.length - 1;
+
+      return (
+        <React.Fragment key={idx}>
+          {renderedElement}
+          {showDivider && (
+            <div className="rules-divider">
+              <span className="rules-divider-icon">✥</span>
+            </div>
+          )}
+        </React.Fragment>
+      );
+    });
   };
 
   // Render tabbed content
-  const renderTabbedContent = (tabs) => {
+  const renderTabbedContent = (tabs, sectionTheme) => {
     const currentTab = activeTab || tabs[0].id;
     const currentTabData = tabs.find(t => t.id === currentTab);
 
@@ -479,8 +631,8 @@ const RulesPage = () => {
           ))}
         </div>
         <div className="rules-tab-content">
-          {currentTabData?.sections && renderSections(currentTabData.sections)}
-          {currentTabData?.tables && currentTabData.tables.map(renderTable)}
+          {currentTabData?.sections && renderSections(currentTabData.sections, sectionTheme)}
+          {currentTabData?.tables && currentTabData.tables.map((t, i) => renderTable(t, i, sectionTheme))}
         </div>
       </div>
     );
@@ -526,20 +678,33 @@ const RulesPage = () => {
 
     // Determine if using custom component
     const isUsingCustomComponent = currentSubcategory?.useCustomComponent;
+    const sectionTheme = currentSubcategory?.theme || 'narrative';
 
     return (
       <div className={`rules-content-area ${isUsingCustomComponent ? 'custom-component-view' : ''}`}>
         {!isUsingCustomComponent && (
-          <div className="rules-content-header">
-            <h2>{currentContent.title}</h2>
-            {currentContent.description && (
-              <p className="rules-content-description">{currentContent.description}</p>
-            )}
-          </div>
+          <RulesHeroBanner
+            title={currentContent.title}
+            subtitle={currentContent.description}
+            badge={breadcrumbs.category?.toUpperCase()}
+            badgeIcon="fas fa-book-open"
+            theme={sectionTheme}
+            quickTiles={currentSubcategory?.quickFacts}
+          />
+        )}
+
+        {/* Quick reference tiles */}
+        {!isUsingCustomComponent && currentSubcategory?.quickFacts && (
+          <RulesQuickTiles tiles={currentSubcategory.quickFacts} />
+        )}
+
+        {/* Summary box */}
+        {!isUsingCustomComponent && currentSubcategory?.summary && (
+          <RulesSummaryBox items={currentSubcategory.summary} />
         )}
 
         {/* Render sections */}
-        {!(isUsingCustomComponent && selectedSubcategory === 'classes') && currentContent.sections && renderSections(currentContent.sections)}
+        {!(isUsingCustomComponent && selectedSubcategory === 'classes') && currentContent.sections && renderSections(currentContent.sections, sectionTheme)}
 
         {/* Custom component: Classes grid replaces the old table */}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'classes' && !selectedClassDetail && (
@@ -572,10 +737,10 @@ const RulesPage = () => {
         )}
 
         {/* Render tables */}
-        {!(isUsingCustomComponent && selectedSubcategory === 'classes') && currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx))}
+        {!(isUsingCustomComponent && selectedSubcategory === 'classes') && currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx, sectionTheme))}
 
         {/* Render tabs if present (only if not using custom component) */}
-        {!currentSubcategory?.useCustomComponent && currentContent.tabs && renderTabbedContent(currentContent.tabs)}
+        {!currentSubcategory?.useCustomComponent && currentContent.tabs && renderTabbedContent(currentContent.tabs, sectionTheme)}
       </div>
     );
   };

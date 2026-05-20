@@ -173,7 +173,7 @@
                                 name: 'Void Toll',
                                 description: 'Take 1d4 irreducible cold damage — the void takes its toll in flesh. Fingertips split, frost blooms beneath your nails.',
                                 statusEffect: { level: 'minor', description: 'The void takes flesh as passage-fee' },
-                                selfDamage: { formula: '1d4', type: 'cold', irreducible: true }
+                                selfDamage: { formula: '1d4', type: 'frost', irreducible: true }
                             }],
                             targetRestriction: 'self'
                         },
@@ -474,7 +474,7 @@
                                     id: 'solar_collapse_cold_weak',
                                     name: 'Cold Vulnerability',
                                     description: 'Vulnerability to cold damage (100%) while collapsed — without your inner fire, you are merely flesh',
-                                    statusEffect: { vulnerabilityType: 'cold', vulnerabilityPercent: 100, duration: 'while_collapsed' }
+                                    statusEffect: { vulnerabilityType: 'frost', vulnerabilityPercent: 100, duration: 'while_collapsed' }
                                 },
                                 {
                                     id: 'solar_collapse_reignition',

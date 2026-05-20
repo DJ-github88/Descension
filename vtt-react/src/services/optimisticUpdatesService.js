@@ -1,3 +1,5 @@
+import useSyncStore from '../store/syncStore';
+
 // Optimistic Updates Service
 // Handles optimistic UI updates with conflict resolution to prevent lag and position jumps
 // CRITICAL: Prevents server echo from causing token jumps and ensures smooth multiplayer experience
@@ -34,7 +36,20 @@ class OptimisticUpdatesService {
   }
 
   optimisticTokenMove(tokenId, position, sendCallback, rollbackFn) {
+    const syncState = useSyncStore.getState();
     const actionId = this.registerUpdate('token_move', { tokenId, position }, rollbackFn);
+
+    if (syncState.networkFreeze) {
+      console.log(`❄️ Network frozen. Queuing token move: ${actionId}`);
+      syncState.queueOfflineAction({
+         type: 'token_move',
+         actionId,
+         tokenId,
+         position,
+         sendCallback
+      });
+      return actionId;
+    }
 
     if (typeof sendCallback === 'function') {
       sendCallback(actionId);

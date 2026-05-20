@@ -403,7 +403,7 @@ Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
       icon: "Slashing/Bloody Slash",
       typeConfig: { school: "necrotic", tags: ["cleanse", "self_damage", "friction"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, healthCost: "10% Max HP" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 3 } },
       resolution: "NONE",
       effectTypes: ["utility", "debuff"],
       utilityConfig: {
@@ -473,7 +473,7 @@ Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
       icon: "Utility/Speed Boot",
       typeConfig: { school: "physical", tags: ["mobility", "reposition", "self_damage"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, healthCost: "1d6 slashing" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 2 } },
       resolution: "NONE",
       effectTypes: ["utility"],
       utilityConfig: {
@@ -553,7 +553,7 @@ Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
       icon: "Slashing/Whirl",
       typeConfig: { school: "slashing", tags: ["aoe", "damage", "ultimate", "self_damage"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 15 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 2, resourceTypes: ["momentum", "flourish"], resourceValues: { momentum: "ALL", flourish: 2 }, healthCost: "1d8 necrotic" },
+      resourceCost: { actionPoints: 2, resourceTypes: ["momentum", "flourish"], resourceValues: { momentum: "ALL", flourish: 2 } },
       resolution: "DICE",
       effectTypes: ["damage"],
       damageConfig: {
@@ -604,7 +604,7 @@ Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
       icon: "Force/Explosion Burst",
       typeConfig: { school: "physical", tags: ["ultimate", "aoe", "armor_bypass", "self_damage"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 50 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 3, healthCost: "50% Max HP", resourceTypes: ["momentum", "flourish"], resourceValues: { momentum: 10, flourish: 5 } },
+      resourceCost: { actionPoints: 3, resourceTypes: ["momentum", "flourish"], resourceValues: { momentum: 10, flourish: 5 } },
       resolution: "DICE",
       effectTypes: ["damage", "debuff"],
       damageConfig: {

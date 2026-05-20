@@ -41,7 +41,7 @@ export const TRICKSTER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Psychic/Mind Radiance',
                 tags: ['passive', 'perception', 'initiative', 'deception']
             },
@@ -99,7 +99,7 @@ export const TRICKSTER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Utility/Ducking Figure',
                 tags: ['reaction', 'defensive', 'mobility', 'evasion']
             },
@@ -198,7 +198,7 @@ export const TRICKSTER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Utility/Hide',
                 tags: ['action', 'utility', 'teleport', 'shadow', 'mobility']
             },

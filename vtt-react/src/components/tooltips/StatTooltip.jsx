@@ -40,8 +40,8 @@ const getStatDescription = (stat, value) => {
                     { name: "Frost", color: "#3CE7FF" },
                     { name: "Fire", color: "#FF4400" },
                     { name: "Arcane", color: "#FF8AFF" },
-                    { name: "Shadow", color: "#8C48FF" },
-                    { name: "Holy", color: "#FFE680" },
+                    { name: "Necrotic", color: "#8C48FF" },
+                    { name: "Radiant", color: "#FFE680" },
                     { name: "Nature", color: "#A5FF91" }
                 ]}
             ]

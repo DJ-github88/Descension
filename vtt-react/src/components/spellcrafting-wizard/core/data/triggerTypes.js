@@ -567,7 +567,7 @@ const COMBAT_TRIGGERS = [
     name: 'Damage Taken',
     description: 'Triggers when damage is taken',
     parameters: [
-      { name: 'damage_type', type: 'select', options: ['any', 'physical', 'magical', 'fire', 'frost', 'arcane', 'nature', 'shadow', 'holy'], default: 'any' },
+      { name: 'damage_type', type: 'select', options: ['any', 'physical', 'magical', 'fire', 'frost', 'arcane', 'nature', 'necrotic', 'radiant'], default: 'any' },
       { name: 'min_damage', type: 'number', default: 0 },
       { name: 'target_entity', type: 'select', options: ['self', 'target', 'ally', 'any'], default: 'self', label: 'Entity Taking Damage' }
     ],
@@ -579,7 +579,7 @@ const COMBAT_TRIGGERS = [
     name: 'Damage Dealt',
     description: 'Triggers when dealing damage to a target',
     parameters: [
-      { name: 'damage_type', type: 'select', options: ['any', 'physical', 'magical', 'fire', 'frost', 'arcane', 'nature', 'shadow', 'holy'], default: 'any' },
+      { name: 'damage_type', type: 'select', options: ['any', 'physical', 'magical', 'fire', 'frost', 'arcane', 'nature', 'necrotic', 'radiant'], default: 'any' },
       { name: 'min_damage', type: 'number', default: 0 },
       { name: 'source_entity', type: 'select', options: ['self', 'ally', 'any'], default: 'self', label: 'Entity Dealing Damage' }
     ],

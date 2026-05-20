@@ -2291,7 +2291,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Psychic/Mind Control",
         tags: ["buff", "invisibility", "temptation", "madness"],
         castTime: 1,

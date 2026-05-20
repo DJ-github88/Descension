@@ -1169,7 +1169,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      tags: ["physical", "shadow", "damage", "stealth", "burst", "shadowblade"],
+      tags: ["bludgeoning", "necrotic", "damage", "stealth", "burst", "shadowblade"],
     },
 
     {
@@ -1249,7 +1249,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       cooldownConfig: { cooldownType: "encounter", cooldownValue: 1 },
-      tags: ["shadow", "damage", "multi target", "ultimate", "shadowblade"],
+      tags: ["necrotic", "damage", "multi target", "ultimate", "shadowblade"],
     },
 
     // UNIVERSAL ABILITIES - All Huntresses
@@ -2348,7 +2348,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       cooldownConfig: { cooldownType: "encounter", cooldownValue: 1 },
-      tags: ["shadow", "damage", "aoe", "dot", "zone", "universal"],
+      tags: ["necrotic", "damage", "aoe", "dot", "zone", "universal"],
     },
 
     {
@@ -2648,7 +2648,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       cooldownConfig: { cooldownType: "encounter", cooldownValue: 1 },
-      tags: ["shadow", "damage", "execute", "chain", "legendary", "universal"],
+      tags: ["necrotic", "damage", "execute", "chain", "legendary", "universal"],
     },
 
     {

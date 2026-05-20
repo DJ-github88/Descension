@@ -665,9 +665,8 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       },
       resourceCost: {
         actionPoints: 1,
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 8 },
-        healthCost: "2d6 slashing"
+        resourceTypes: ["mana", "threads"],
+        resourceValues: { mana: 8, threads: 2 },
       },
       resolution: "CARDS",
       effectTypes: ["healing"],

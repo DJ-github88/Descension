@@ -1,4 +1,4 @@
-ï»¿export const nordmark = {
+export const nordmark = {
         id: 'nordmark',
         name: 'Nordmark',
         description: 'We stand taller than other folk because the north demands it. Shoulders broad enough to carry what winter takes. Our skin bears the map of our lives-scars from blades, wind-burn from storms, pale mark of cold that never leaves. Frost falls from our lips even in the warmth of southern lands, a breath that crystallizes into ghosts of white we survived. We braid our hair with bone and iron because we are made of both. Our eyes hold the color of the winter sky: blue when storm breaks, gray when blizzard holds, pale green when aurora dances. We trace our blood to warrior-kings who carved their names into glacier ice with hammers stained red. But we remember them not as stories, but as debts. Every clan carries burdens from before common speech was born. Some carry ancient feuds, others sacred vows, still others the weight of kings who refused to die even when ice claimed their flesh. We are not merely human. The north remade us. Each winter hardened our flesh like steel. Each storm forged our will like weapons. We became something the cold recognizes as its own.',
@@ -34,7 +34,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
             {
                 id: 'blood_debt_nordmark',
                 name: 'Blood Debt',
-                description: 'At character creation, declare one Blood Debt: an unresolved feud, a sacred vow, or an unpaid favor. When facing a situation directly related to your debt, gain +2 to all rolls. When facing a situation that contradicts or dishonors the debt, suffer -2 to all rolls. This debt can never be fully resolved â€” only replaced by a new one of equal weight.',
+                description: 'At character creation, declare one Blood Debt: an unresolved feud, a sacred vow, or an unpaid favor. When facing a situation directly related to your debt, gain +2 to all rolls. When facing a situation that contradicts or dishonors the debt, suffer -2 to all rolls. This debt can never be fully resolved — only replaced by a new one of equal weight.',
                 level: 1,
                 icon: 'spell_shadow_deathcoil',
                 spellType: 'PASSIVE',
@@ -107,7 +107,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
             {
                 id: 'northern_pride_nordmark',
                 name: 'Northern Pride',
-                description: 'Your debt-based culture reads as transparent aggression to southerners. You do not lie â€” you owe. Disadvantage on Deception checks against non-Nordmark NPCs.',
+                description: 'Your debt-based culture reads as transparent aggression to southerners. You do not lie — you owe. Disadvantage on Deception checks against non-Nordmark NPCs.',
                 level: 1,
                 icon: 'spell_holy_auramastery',
                 spellType: 'PASSIVE',
@@ -205,9 +205,9 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
             }
         ],
         epicHistory: `
-The First Breaking came before memory was written. Ancient frost lords descended from the eternal ice, their hunger for warmth absolute and terrible. For three generations, the southern kingdoms fell one by oneâ€”castle walls shattered like glass, armies frozen in mid-charge, entire bloodlines extinguished in a single night of screaming winds. Only the forge-clans of the deep holds survived, hammering sacred wards into iron until their bones rattled with the rhythm of war.
+The First Breaking came before memory was written. Ancient frost lords descended from the eternal ice, their hunger for warmth absolute and terrible. For three generations, the southern kingdoms fell one by one—castle walls shattered like glass, armies frozen in mid-charge, entire bloodlines extinguished in a single night of screaming winds. Only the forge-clans of the deep holds survived, hammering sacred wards into iron until their bones rattled with the rhythm of war.
 
-During the War of Thousand Screams, my grandfather watched his father and three brothers die defending the Frostgate Pass. They fell not to steel, but to the cold that waited until they had killed every enemy before turning on them. The survivors returned changed. Their skin held the pale mark of frost that never faded. Their eyes saw things in the blizzard that were not snowâ€”shapes moving between the flakes, voices that weren't wind, memories that didn't belong to the living.
+During the War of Thousand Screams, my grandfather watched his father and three brothers die defending the Frostgate Pass. They fell not to steel, but to the cold that waited until they had killed every enemy before turning on them. The survivors returned changed. Their skin held the pale mark of frost that never faded. Their eyes saw things in the blizzard that were not snow—shapes moving between the flakes, voices that weren't wind, memories that didn't belong to the living.
 
 The northern clans united once, under the banner of the Last Alliance. Together they pushed the frost lords back, reclaiming territories lost for a century. But the victory came at a cost. The Rune-Keepers who led the alliance went mad from the rituals, their minds fractured by the whispers of the frozen dead. The Bloodhammers who fought beside them lost too many warriors, their bloodlines thinning with each campaign. The Frostbound scouts returned from the deepest wastes changed, their flesh now half-ice, their hearts beating with unnatural slowness. The alliance shattered. The feuds returned. The frost lords retreated to bide their time.
 
@@ -235,7 +235,7 @@ One of the greatest explorers to ever walk the frozen wastes, Bromar Frostfinder
 
 Then came the expedition north. Bromar sought the source of the frost lords' power, believing that understanding their origins might prevent their return. He took only a small company of trusted scouts, leaving a final message: "I return with answers or not at all." Three years passed. Then five. Then ten.
 
-The northern hunters speak of him sometimesâ€”sightings of a lone figure in armor too ancient to be modern, a campfire burning with impossible warmth in the depths of winter, footsteps that don't vanish in the snow. They say he found something beneath the ice. They say he learned why the frost lords hunger. They say he chose not to return, because what he learned would break the world's heart.
+The northern hunters speak of him sometimes—sightings of a lone figure in armor too ancient to be modern, a campfire burning with impossible warmth in the depths of winter, footsteps that don't vanish in the snow. They say he found something beneath the ice. They say he learned why the frost lords hunger. They say he chose not to return, because what he learned would break the world's heart.
                 `
             },
             {
@@ -265,7 +265,7 @@ Currently, Ironhold operates at half-capacity. The journeyman smiths marched eas
             {
                 name: 'Frostgate Pass',
                 description: `
-The narrowest crossing through the northern mountains, Frostgate Pass has been defended for three hundred years. Its walls are lined with the armor of those who died holding itâ€”plate rusted by centuries, shields shattered by countless blows, helmets dented by frost lord steel. The wind screams through the pass eternally, a voice that echoes the battle cries of all who've fallen.
+The narrowest crossing through the northern mountains, Frostgate Pass has been defended for three hundred years. Its walls are lined with the armor of those who died holding it—plate rusted by centuries, shields shattered by countless blows, helmets dented by frost lord steel. The wind screams through the pass eternally, a voice that echoes the battle cries of all who've fallen.
 
 During the War of Thousand Screams, King Magni's father and three brothers perished here. Their bodies were left where they fell, becoming the first line of defense against any who would attack from the north. Now their frozen remains serve as monument and warning, a reminder that the cost of holding the pass is measured in blood.
 
@@ -280,14 +280,14 @@ The frost lords stir again beneath the eternal ice. The northern scouts report s
 
 The forge-clans send their best warriors east, leaving the mountain holds populated by elders who can no longer fight and children who have not yet learned. The southern cities grow bold, their caravans probing the northern borders, their spies seeking weaknesses in the ancient defenses.
 
-Now is the time for heroes. The north stands at the edge of another breaking, and this time there may be no alliance to call upon. You must defend the ancestral lands. You must uncover the traitors who sell their own people. You must stand at Frostgate Pass and hold until your blood freezes upon the walls. Now the Nordmark's greatest chapter can be toldâ€”or its last.
+Now is the time for heroes. The north stands at the edge of another breaking, and this time there may be no alliance to call upon. You must defend the ancestral lands. You must uncover the traitors who sell their own people. You must stand at Frostgate Pass and hold until your blood freezes upon the walls. Now the Nordmark's greatest chapter can be told—or its last.
         `,
         culturalPractices: `
 Before your sixteenth winter, you forge your own weapon. The tradition is older than memory, born in the days when the first warrior-kings had no steel to spare and every warrior needed to fight with the same blade they would die with. The forging happens in silence under the aurora, with no fire but the heat of your own hands and the cold of the northern air. When the steel cools, you mark it with your own blood. Then it goes to battle. Only when it tastes an enemy's life does the ritual complete. The weapon becomes you. Every notch in the handle is a memory. Every chip is a story for the longhouse fire.
 
-Bloodhammer longhouses are armories. The walls are lined with hammers and axes from warriors long dead, each weapon telling the story of a life lived in the shadow of the eternal ice. Old warriors say these weapons still hungerâ€”that sometimes in deep winter you hear them whisper of battles yet to come. Or maybe that's just the wind through old steel.
+Bloodhammer longhouses are armories. The walls are lined with hammers and axes from warriors long dead, each weapon telling the story of a life lived in the shadow of the eternal ice. Old warriors say these weapons still hunger—that sometimes in deep winter you hear them whisper of battles yet to come. Or maybe that's just the wind through old steel.
 
-The berserker rituals are passed down through generations, secret rites that change you. Trance states where you enter a fury so complete that wounds that would kill others become nothing. Pain becomes fuel. When the rage takes hold, your muscles swell, your veins stand out like cords, your breathing turns to a growl. But when it breaks, you return to yourself hollowed out. Your humanity burned away, left pale and shaking. Many Bloodhammer die youngâ€”not from enemy steel, but from the rage itself.
+The berserker rituals are passed down through generations, secret rites that change you. Trance states where you enter a fury so complete that wounds that would kill others become nothing. Pain becomes fuel. When the rage takes hold, your muscles swell, your veins stand out like cords, your breathing turns to a growl. But when it breaks, you return to yourself hollowed out. Your humanity burned away, left pale and shaking. Many Bloodhammer die young—not from enemy steel, but from the rage itself.
 
 Honor is measured in kills counted, enemies crushed, songs sung about your deeds where the ancestors listen. Blood feuds are settled in dawn duels, fought with weapons that've never lost. Insults get answered with steel. Mercy is shown only to those who've earned it through their own strength.
 
@@ -642,7 +642,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                     {
                         id: 'feud_memory_nordmark',
                         name: 'Feud Memory',
-                        description: 'At character creation, choose one faction or family that your clan holds a blood feud against. NPCs of that faction start as Hostile and their disposition cannot be improved through Persuasion â€” only through duel resolution, completing a blood-debt quest, or direct intervention by a Nordmark elder.',
+                        description: 'At character creation, choose one faction or family that your clan holds a blood feud against. NPCs of that faction start as Hostile and their disposition cannot be improved through Persuasion — only through duel resolution, completing a blood-debt quest, or direct intervention by a Nordmark elder.',
                         level: 1,
                         icon: 'spell_shadow_unholystrength',
                         spellType: 'PASSIVE',
@@ -1010,7 +1010,7 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                     {
                         id: 'spirit_debt_nordmark',
                         name: 'Spirit Debt',
-                        description: 'After using Ancestral Echo, the ancestors demand tribute. If you do not perform a 10-minute ritual recounting a deed at a longhouse fire or runestone within 24 hours, your next Runic Inscription costs double mana. Each unpaid debt compounds. Three unpaid debts and the ancestors withhold guidance entirely â€” Ancestral Echo is disabled until debts are paid through a 1-hour Seance ritual.',
+                        description: 'After using Ancestral Echo, the ancestors demand tribute. If you do not perform a 10-minute ritual recounting a deed at a longhouse fire or runestone within 24 hours, your next Runic Inscription costs double mana. Each unpaid debt compounds. Three unpaid debts and the ancestors withhold guidance entirely — Ancestral Echo is disabled until debts are paid through a 1-hour Seance ritual.',
                         level: 1,
                         icon: 'spell_shadow_mindrot',
                         spellType: 'PASSIVE',
@@ -1077,7 +1077,7 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                     {
                         id: 'runescarred_nordmark',
                         name: 'Runescarred',
-                        description: 'The bone-needle scars covering your flesh are visible and unsettling. Non-Nordmark NPCs react with Suspicion â€” disadvantage on the first Persuasion or Deception check with any NPC who can see your scars. Nordmark NPCs are unaffected.',
+                        description: 'The bone-needle scars covering your flesh are visible and unsettling. Non-Nordmark NPCs react with Suspicion — disadvantage on the first Persuasion or Deception check with any NPC who can see your scars. Nordmark NPCs are unaffected.',
                         level: 1,
                         icon: 'spell_shadow_fumble',
                         spellType: 'PASSIVE',
@@ -1357,7 +1357,7 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                     {
                         id: 'frozen_heart_nordmark',
                         name: 'Frozen Heart',
-                        description: 'The cold has taken too much. Your heart beats once every ten seconds. You cannot benefit from morale effects â€” Bardic Inspiration, Paladin auras, Guidance, Bless, and any ability that provides a buff based on emotional or spiritual connection. The cold does not amplify. It only takes.',
+                        description: 'The cold has taken too much. Your heart beats once every ten seconds. You cannot benefit from morale effects — Bardic Inspiration, Paladin auras, Guidance, Bless, and any ability that provides a buff based on emotional or spiritual connection. The cold does not amplify. It only takes.',
                         level: 1,
                         icon: 'spell_frost_chainsofice',
                         spellType: 'PASSIVE',
@@ -1455,7 +1455,7 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                     {
                         id: 'edge_dweller_nordmark',
                         name: 'Edge-Dweller',
-                        description: 'Non-Nordmark NPCs who interact with a Frostbound for more than a few moments must make a WIS DC12 save or become Unsettled â€” treating the Frostbound with wariness and refusing voluntary help. The save is made once per NPC, ever. Other Nordmark are immune to this effect.',
+                        description: 'Non-Nordmark NPCs who interact with a Frostbound for more than a few moments must make a WIS DC12 save or become Unsettled — treating the Frostbound with wariness and refusing voluntary help. The save is made once per NPC, ever. Other Nordmark are immune to this effect.',
                         level: 1,
                         icon: 'spell_shadow_mindshear',
                         spellType: 'PASSIVE',
@@ -1584,21 +1584,21 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                 id: 'hollow_nordmark',
                 name: 'Duskborn',
                 description: 'Pale as cave fish. Eyes like wounds that never healed. They speak in whispers because in the deep, sound attracts. Their skin tears like wet parchment and sunlight burns them like confession burns a liar. The mountain took them generations ago and gave them back something that wears their shape but sees through stone.',
-                culturalBackground: `The sagas do not speak of the seventh clan. Not because the histories were lost â€” because they were carved away, chiseled from the runestones by elders who decided some debts were better forgotten. The seventh clan of Ironhold did not march to the passes during the First Breaking. They did not stand at Frostgate. They descended. Past the forges. Past the mines. Past the last pickaxe scar on the last tunnel wall, into the roots of the mountain where the stone is older than the sky and the silence has a weight you can feel pressing against your eardrums.
+                culturalBackground: `The sagas do not speak of the seventh clan. Not because the histories were lost — because they were carved away, chiseled from the runestones by elders who decided some debts were better forgotten. The seventh clan of Ironhold did not march to the passes during the First Breaking. They did not stand at Frostgate. They descended. Past the forges. Past the mines. Past the last pickaxe scar on the last tunnel wall, into the roots of the mountain where the stone is older than the sky and the silence has a weight you can feel pressing against your eardrums.
 
 Something spoke to them in that silence. Not the ancestors. Not the frost lords. Something older, something that had been waiting in the deep stone since before the first Nordmark drew breath in the northern wind. It didn't offer survival. It offered belonging. It said: "The mountain remembers you. Come home." And they went.
 
-Generations passed. The seventh clan forgot the sun. Their children were born in chambers where no light had ever reached, and their eyes changed â€” not blind, but wrong. They see things that surface folk cannot. Movement in total darkness. The tremor of a heartbeat through thirty feet of granite. The shape of a lie in the vibration of a voice. Their skin went pale as bone, thin as parchment, because in the deep there is nothing to grow hard against. Their bodies stretch long and lean, built for squeezing through cracks in the stone that no human should fit through.
+Generations passed. The seventh clan forgot the sun. Their children were born in chambers where no light had ever reached, and their eyes changed — not blind, but wrong. They see things that surface folk cannot. Movement in total darkness. The tremor of a heartbeat through thirty feet of granite. The shape of a lie in the vibration of a voice. Their skin went pale as bone, thin as parchment, because in the deep there is nothing to grow hard against. Their bodies stretch long and lean, built for squeezing through cracks in the stone that no human should fit through.
 
-They navigate by echo and by the whispers that come from beneath the stone. The whispers are not always helpful. Sometimes they show you where the water flows behind a wall, where a creature sleeps in the dark, where the tunnel opens into a chamber no one has entered in a thousand years. Sometimes they show you things that look back. The Duskborn call this "the mountain speaking" and they treat it the way surface folk treat weather â€” dangerous, uncontrollable, and simply part of existence.
+They navigate by echo and by the whispers that come from beneath the stone. The whispers are not always helpful. Sometimes they show you where the water flows behind a wall, where a creature sleeps in the dark, where the tunnel opens into a chamber no one has entered in a thousand years. Sometimes they show you things that look back. The Duskborn call this "the mountain speaking" and they treat it the way surface folk treat weather — dangerous, uncontrollable, and simply part of existence.
 
-When they emerge â€” and they do, rarely, driven by debts that still bind them to the surface clans â€” the sun is an open wound. Their skin blisters in direct light. Their eyes, adapted to absolute blackness, weep and burn. Warmth makes their thin flesh crack and split like old ice. They wrap themselves in heavy cloth and travel by night, moving through settlements like ghosts that the locals pretend not to see.
+When they emerge — and they do, rarely, driven by debts that still bind them to the surface clans — the sun is an open wound. Their skin blisters in direct light. Their eyes, adapted to absolute blackness, weep and burn. Warmth makes their thin flesh crack and split like old ice. They wrap themselves in heavy cloth and travel by night, moving through settlements like ghosts that the locals pretend not to see.
 
-The Bloodhammer call them "Stone-Grubbers" and refuse to acknowledge them at clan gatherings. The Rune Keepers are fascinated and horrified in equal measure â€” the things the Duskborn hear in the deep are not ancestors, and the Rune Keepers know enough about what dwells beyond the veil to find that deeply troubling. The Frostbound, alone among the clans, treat them with something approaching respect. The Frostbound understand what it means to be changed by the land. They look at the Duskborn's pale, hollow-eyed faces and see kin â€” not by blood, but by the shared experience of becoming something the north recognizes as its own.
+The Bloodhammer call them "Stone-Grubbers" and refuse to acknowledge them at clan gatherings. The Rune Keepers are fascinated and horrified in equal measure — the things the Duskborn hear in the deep are not ancestors, and the Rune Keepers know enough about what dwells beyond the veil to find that deeply troubling. The Frostbound, alone among the clans, treat them with something approaching respect. The Frostbound understand what it means to be changed by the land. They look at the Duskborn's pale, hollow-eyed faces and see kin — not by blood, but by the shared experience of becoming something the north recognizes as its own.
 
-The Duskborn view the Bloodhammer with a kind of patient pity. Hammers break stone. The deep stone does not break. The Bloodhammer's rage is a surface fire that will burn out. The mountain endures. The Rune Keepers they regard with caution â€” the spirits the Rune Keepers commune with are known quantities, bound by oath and ritual. What speaks to the Duskborn from beneath the stone is not bound by anything, and the Rune Keepers' attempts to categorize and name it are, in the Duskborn's view, profoundly dangerous. The Frostbound they treat as distant cousins â€” both are what the land made of them, rather than what they made of themselves.
+The Duskborn view the Bloodhammer with a kind of patient pity. Hammers break stone. The deep stone does not break. The Bloodhammer's rage is a surface fire that will burn out. The mountain endures. The Rune Keepers they regard with caution — the spirits the Rune Keepers commune with are known quantities, bound by oath and ritual. What speaks to the Duskborn from beneath the stone is not bound by anything, and the Rune Keepers' attempts to categorize and name it are, in the Duskborn's view, profoundly dangerous. The Frostbound they treat as distant cousins — both are what the land made of them, rather than what they made of themselves.
 
-Children born to the Duskborn undergo the Descending before their tenth year. They are taken to the deepest chamber the clan has found â€” always deeper, always darker â€” and left there for three days with no light, no sound but the stone, and no company but the whispers. When they emerge, their eyes have changed. The pupil widens. The color drains. They can see in the dark forever after, but they can no longer look at the surface world without pain. This is not considered a tragedy. This is considered waking up.
+Children born to the Duskborn undergo the Descending before their tenth year. They are taken to the deepest chamber the clan has found — always deeper, always darker — and left there for three days with no light, no sound but the stone, and no company but the whispers. When they emerge, their eyes have changed. The pupil widens. The color drains. They can see in the dark forever after, but they can no longer look at the surface world without pain. This is not considered a tragedy. This is considered waking up.
                 `,
                 statModifiers: {
                     agility: 3,
@@ -1615,7 +1615,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'utility'],
                         typeConfig: {
-                            school: 'shadow',
+                            school: 'necrotic',
                             secondaryElement: 'nature',
                             icon: 'spell_shadow_shadowgaze',
                             tags: ['darkvision', 'perception', 'tremorsense', 'passive']
@@ -1636,7 +1636,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                                 {
                                     id: 'tremorsense_duskborn',
                                     name: 'Stone Feeling',
-                                    description: 'In complete darkness or while blinded, you sense vibrations through solid stone within 30 feet. Creatures, moving water, collapsing tunnels â€” the mountain speaks through your bones.',
+                                    description: 'In complete darkness or while blinded, you sense vibrations through solid stone within 30 feet. Creatures, moving water, collapsing tunnels — the mountain speaks through your bones.',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Tremorsense 30ft in complete darkness or while blinded'
@@ -1695,7 +1695,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                         spellType: 'ACTION',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'shadow',
+                            school: 'necrotic',
                             icon: 'spell_shadow_stealth',
                             tags: ['stealth', 'shadow', 'repositioning', 'escape']
                         },
@@ -1714,7 +1714,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                                 {
                                     id: 'agility_surge',
                                     name: 'Depth Reflexes',
-                                    description: '+3 Agility for the duration. The darkness makes you faster â€” it always has.',
+                                    description: '+3 Agility for the duration. The darkness makes you faster — it always has.',
                                     statModifier: {
                                         stat: 'agility',
                                         magnitude: 3,
@@ -1733,7 +1733,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                                 {
                                     id: 'void_restraint',
                                     name: 'Void Binding',
-                                    description: 'You cannot attack while dissolved into shadow. Attacking breaks the meld immediately. The stone does not share â€” it swallows.',
+                                    description: 'You cannot attack while dissolved into shadow. Attacking breaks the meld immediately. The stone does not share — it swallows.',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Cannot attack while invisible. Attacking ends the effect.'
@@ -1792,7 +1792,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                                 {
                                     id: 'surface_blight',
                                     name: 'Surface Blight',
-                                    description: 'In warm or hot environments, your skin blisters and cracks like old paper held too close to flame. 1d4 radiant damage per hour of exposure. The damage is slow, patient, and inevitable â€” like the thing that waits beneath the mountain.',
+                                    description: 'In warm or hot environments, your skin blisters and cracks like old paper held too close to flame. 1d4 radiant damage per hour of exposure. The damage is slow, patient, and inevitable — like the thing that waits beneath the mountain.',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: '1d4 radiant damage per hour in warm/hot environments',
@@ -1840,7 +1840,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'shadow',
+                            school: 'necrotic',
                             secondaryElement: 'spirit',
                             icon: 'spell_shadow_mindshear',
                             tags: ['divination', 'madness', 'stacking', 'passive']
@@ -1870,7 +1870,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                                 {
                                     id: 'stone_whisper_madness',
                                     name: 'Stone Whispers',
-                                    description: 'At the start of each long rest, make a Spirit save DC 12. On failure, gain 1 Stone Whisper stack. Each stack: -1 to all Charisma checks as the whispers erode what remains of your surface self. At 5 stacks: also suffer disadvantage on your next saving throw â€” the whispers are too loud to hear anything else. Stacks never decrease. There is no cure. The mountain does not give back what it takes.',
+                                    description: 'At the start of each long rest, make a Spirit save DC 12. On failure, gain 1 Stone Whisper stack. Each stack: -1 to all Charisma checks as the whispers erode what remains of your surface self. At 5 stacks: also suffer disadvantage on your next saving throw — the whispers are too loud to hear anything else. Stacks never decrease. There is no cure. The mountain does not give back what it takes.',
                                     statusEffect: {
                                         level: 'severe',
                                         description: 'Creeping madness from the deep. SPI DC 12 save at each long rest or gain a permanent stack.',
@@ -1914,13 +1914,13 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                     {
                         id: 'hollow_gaze_duskborn',
                         name: 'Hollow Gaze',
-                        description: 'Your eyes are not windows to the soul. They are holes. Other folk look into them and see the depth that swallowed your ancestors whole â€” the weight of six generations of stone pressing down, the silence that learned to speak, the dark that learned to watch. They see all of it, for one terrible moment, and they know with animal certainty that the depth is still hungry and that it knows their name.',
+                        description: 'Your eyes are not windows to the soul. They are holes. Other folk look into them and see the depth that swallowed your ancestors whole — the weight of six generations of stone pressing down, the silence that learned to speak, the dark that learned to watch. They see all of it, for one terrible moment, and they know with animal certainty that the depth is still hungry and that it knows their name.',
                         level: 1,
                         icon: 'ability_rogue_shadowdancer',
                         spellType: 'PASSIVE',
                         effectTypes: ['debuff'],
                         typeConfig: {
-                            school: 'shadow',
+                            school: 'necrotic',
                             secondaryElement: 'spirit',
                             icon: 'ability_rogue_shadowdancer',
                             tags: ['social', 'fear', 'gaze', 'friction', 'passive']
@@ -1951,7 +1951,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                                 {
                                     id: 'kin_unsettled',
                                     name: 'Even Stone Remembers',
-                                    description: 'Even Nordmark NPCs must make a Spirit save DC 13 or become Unsettled â€” your own kin flinch from what stares out from behind your eyes. They will work with you. They will share your fire. But they will not meet your gaze, and they will not stay in a room alone with you. The save is once per NPC, ever.',
+                                    description: 'Even Nordmark NPCs must make a Spirit save DC 13 or become Unsettled — your own kin flinch from what stares out from behind your eyes. They will work with you. They will share your fire. But they will not meet your gaze, and they will not stay in a room alone with you. The save is once per NPC, ever.',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Nordmark NPCs become Unsettled on failed SPI DC 13 save',
@@ -1967,7 +1967,7 @@ Children born to the Duskborn undergo the Descending before their tenth year. Th
                                 {
                                     id: 'involuntary_gaze',
                                     name: 'The Eyes Do Not Close',
-                                    description: 'This effect cannot be suppressed, hidden, or controlled. It is involuntary and permanent. Sunglasses, blindfolds, or closed eyes negate it â€” but you cannot see, and the tremors of those around you will tell you exactly when they looked.',
+                                    description: 'This effect cannot be suppressed, hidden, or controlled. It is involuntary and permanent. Sunglasses, blindfolds, or closed eyes negate it — but you cannot see, and the tremors of those around you will tell you exactly when they looked.',
                                     statusEffect: {
                                         level: 'minor',
                                         description: 'Effect is always active during face-to-face interaction. Cannot be suppressed. Only negated by covering your eyes (which blinds you).'

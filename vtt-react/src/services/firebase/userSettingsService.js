@@ -113,6 +113,12 @@ export const DEFAULT_USER_SETTINGS = {
   allowDirectMessages: true,
   shareGameStats: false,
 
+  // Resource Bar Visibility Settings
+  showPartyAPBar: true,
+  showPartyManaBar: true,
+  showCreatureAPBar: true,
+  showCreatureManaBar: true,
+
   // Metadata
   version: 1,
   lastUpdated: new Date().toISOString()

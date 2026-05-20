@@ -776,9 +776,9 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         effectTypes: ['debuff'],
                         typeConfig: {
                             school: 'curse',
-                            secondaryElement: 'thunder',
+                            secondaryElement: 'force',
                             icon: 'spell_nature_lightning',
-                            tags: ['vulnerability', 'thunder', 'armor-loss', 'passive']
+                            tags: ['vulnerability', 'force', 'armor-loss', 'passive']
                         },
                         debuffConfig: {
                             debuffType: 'statusEffect',
@@ -788,7 +788,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                                     name: 'Thunder Vulnerability',
                                     description: '+50% thunder damage taken. Sonic force finds every fracture in your scar-tissue armor.',
                                     statusEffect: {
-                                        vulnerabilityType: 'thunder',
+                                        vulnerabilityType: 'force',
                                         vulnerabilityPercent: 50
                                     }
                                 },
@@ -831,7 +831,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
                             school: 'physical',
-                            secondaryElement: 'holy',
+                            secondaryElement: 'radiant',
                             icon: 'spell_holy_devotionaura',
                             tags: ['oath', 'protection', 'ward', 'save-bonus', 'curse', 'folklore', 'passive']
                         },
@@ -1113,9 +1113,9 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         effectTypes: ['debuff'],
                         typeConfig: {
                             school: 'curse',
-                            secondaryElement: 'acid',
+                            secondaryElement: 'poison',
                             icon: 'spell_nature_acid_01',
-                            tags: ['vulnerability', 'acid', 'passive']
+                            tags: ['vulnerability', 'poison', 'passive']
                         },
                         debuffConfig: {
                             debuffType: 'statusEffect',
@@ -1125,7 +1125,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                                     name: 'Acid Vulnerability',
                                     description: '+50% acid damage taken. Vitriol dissolves the forge-tempered mineral lattice of your flesh.',
                                     statusEffect: {
-                                        vulnerabilityType: 'acid',
+                                        vulnerabilityType: 'poison',
                                         vulnerabilityPercent: 50
                                     }
                                 },

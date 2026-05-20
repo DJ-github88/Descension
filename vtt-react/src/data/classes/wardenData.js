@@ -976,9 +976,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control", "debuff"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Necrotic/Crossed Bones",
-        tags: ["shadow", "control", "cage", "jailer"],
+        tags: ["necrotic", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1026,7 +1026,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      tags: ["shadow", "control", "cage", "jailer"]
+      tags: ["necrotic", "control", "cage", "jailer"]
     },
     {
       id: "warden_hunters_fury",
@@ -1269,7 +1269,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "5d6 + agility",
-        damageTypes: ["physical"],
+        damageTypes: ["bludgeoning"],
         resolution: "DICE"
       },
       utilityConfig: {
@@ -1295,9 +1295,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "shadowblade",
       effectTypes: ["damage", "buff"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Psychic/Mind Control",
-        tags: ["shadow", "damage", "stealth", "shadowblade"],
+        tags: ["necrotic", "damage", "stealth", "shadowblade"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1321,7 +1321,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "6d8 + agility",
-        damageTypes: ["shadow"],
+        damageTypes: ["necrotic"],
         resolution: "DICE"
       },
       buffConfig: {
@@ -1338,7 +1338,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-      tags: ["shadow", "damage", "stealth", "shadowblade"]
+      tags: ["necrotic", "damage", "stealth", "shadowblade"]
     },
     {
       id: "warden_prison_of_eternity",
@@ -1350,9 +1350,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["shadow", "control", "cage", "jailer"],
+        tags: ["necrotic", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1391,7 +1391,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-      tags: ["shadow", "control", "cage", "jailer"]
+      tags: ["necrotic", "control", "cage", "jailer"]
     },
     {
       id: "warden_avatar_of_vengeance",
@@ -1606,9 +1606,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["shadow", "control", "cage", "jailer"],
+        tags: ["necrotic", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1647,7 +1647,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
-      tags: ["shadow", "control", "cage", "jailer"]
+      tags: ["necrotic", "control", "cage", "jailer"]
     },
     {
       id: "warden_hunters_wrath",
@@ -1705,9 +1705,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "General/Fiery Rage",
-        tags: ["shadow", "buff", "transformation", "vengeance-seeker"],
+        tags: ["necrotic", "buff", "transformation", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1747,7 +1747,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-      tags: ["shadow", "buff", "transformation", "vengeance-seeker"]
+      tags: ["necrotic", "buff", "transformation", "vengeance-seeker"]
     },
     {
       id: "warden_eternal_cage",
@@ -1759,9 +1759,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["shadow", "control", "cage", "jailer"],
+        tags: ["necrotic", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1800,7 +1800,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
-      tags: ["shadow", "control", "cage", "jailer"]
+      tags: ["necrotic", "control", "cage", "jailer"]
     },
     {
       id: "warden_relentless_assault",
@@ -1900,9 +1900,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Necrotic/Crossed Bones",
-        tags: ["shadow", "control", "cage", "jailer"],
+        tags: ["necrotic", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1941,7 +1941,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
-      tags: ["shadow", "control", "cage", "jailer"]
+      tags: ["necrotic", "control", "cage", "jailer"]
     },
     {
       id: "warden_no_escape_strike",
@@ -1953,9 +1953,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "shadowblade",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Piercing/Night Dagger",
-        tags: ["shadow", "damage", "debuff", "shadowblade"],
+        tags: ["necrotic", "damage", "debuff", "shadowblade"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1979,7 +1979,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "16d6 + agility",
-        damageTypes: ["shadow"],
+        damageTypes: ["necrotic"],
         resolution: "DICE"
       },
       debuffConfig: {
@@ -1996,7 +1996,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      tags: ["shadow", "damage", "debuff", "shadowblade"]
+      tags: ["necrotic", "damage", "debuff", "shadowblade"]
     },
 
     // ==========================================
@@ -2054,9 +2054,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["shadow", "control", "cage", "ultimate", "jailer"],
+        tags: ["necrotic", "control", "cage", "ultimate", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -2095,7 +2095,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 20 },
-      tags: ["shadow", "control", "cage", "ultimate", "jailer"]
+      tags: ["necrotic", "control", "cage", "ultimate", "jailer"]
     },
     {
       id: "warden_avatar_perfected",
@@ -2107,9 +2107,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "General/Fiery Rage",
-        tags: ["shadow", "buff", "transformation", "ultimate", "vengeance-seeker"],
+        tags: ["necrotic", "buff", "transformation", "ultimate", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -2149,7 +2149,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 20 },
-      tags: ["shadow", "buff", "transformation", "ultimate", "vengeance-seeker"]
+      tags: ["necrotic", "buff", "transformation", "ultimate", "vengeance-seeker"]
     }
   ]
 };

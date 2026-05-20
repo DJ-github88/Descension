@@ -4464,7 +4464,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: "frost",
         icon: "Frost/Icy Shield",
-        tags: ["passive", "debuff", "cold", "fire weakness", "lichborne"],
+        tags: ["passive", "debuff", "frost", "fire weakness", "lichborne"],
         castTime: 0,
         castTimeType: "PASSIVE",
       },
@@ -4477,7 +4477,7 @@ Many players enhance the Lichborne experience with:
         actionPoints: 0,
       },
       resolution: "AUTOMATIC",
-      tags: ["passive", "debuff", "cold", "fire weakness", "lichborne"],
+      tags: ["passive", "debuff", "frost", "fire weakness", "lichborne"],
     },
     {
       id: "lich_resurrection_cost",

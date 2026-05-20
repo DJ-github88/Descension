@@ -183,7 +183,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                         icon: 'spell_shadow_shadetrueform',
                         spellType: 'ACTION',
                         effectTypes: ['buff', 'utility', 'control'],
-                        typeConfig: { school: 'psychic', secondaryElement: 'shadow', icon: 'spell_shadow_shadetrueform', tags: ['disguise', 'identity', 'active'] },
+                        typeConfig: { school: 'psychic', secondaryElement: 'necrotic', icon: 'spell_shadow_shadetrueform', tags: ['disguise', 'identity', 'active'] },
                         buffConfig: {
                             buffType: 'custom',
                             customDescription: 'Assume target identity for 1 hour (24 hours if dead). Undetectable by magic. Gain one observed ability/spell (use once). Duration 24h on dead targets.',
@@ -540,7 +540,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                                     id: 'resonant_vulnerability_thunder',
                                     name: 'Resonant Fragility',
                                     description: '+50% damage from thunder and bludgeoning. Impact resonates through your crystalline structure, splitting faults that were always there.',
-                                    statusEffect: { vulnerabilityType: 'thunder', vulnerabilityPercent: 50 }
+                                    statusEffect: { vulnerabilityType: 'force', vulnerabilityPercent: 50 }
                                 }
                             ],
                             durationType: 'permanent', durationValue: 0, durationUnit: 'permanent', canBeDispelled: false
@@ -699,9 +699,9 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                         effectTypes: ['debuff'],
                         typeConfig: {
                             school: 'curse',
-                            secondaryElement: 'thunder',
+                            secondaryElement: 'force',
                             icon: 'spell_shadow_psychichorrors',
-                            tags: ['vulnerability', 'silence', 'thunder', 'folklore', 'passive']
+                            tags: ['vulnerability', 'silence', 'force', 'folklore', 'passive']
                         },
                         debuffConfig: {
                             debuffType: 'statusEffect',
@@ -720,7 +720,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                                     name: 'Shatter Vulnerability',
                                     description: 'The Shatter spell deals maximum damage to you and stuns you for 1 round instead of its normal effect. The frequency was always inside you. It just needed permission.',
                                     statusEffect: {
-                                        vulnerabilityType: 'thunder',
+                                        vulnerabilityType: 'force',
                                         vulnerabilityPercent: 100,
                                         trigger: 'shatter_spell'
                                     }
@@ -748,7 +748,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                     initiative: -1
                 },
                 savingThrowModifiers: {
-                    disadvantage: ['thunder', 'bludgeoning'],
+                    disadvantage: ['force', 'bludgeoning'],
                     advantage: ['slashing', 'piercing']
                 }
             },
@@ -773,7 +773,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
                             school: 'void',
-                            secondaryElement: 'shadow',
+                            secondaryElement: 'necrotic',
                             icon: 'spell_shadow_shadesofdarkness',
                             tags: ['evasion', 'void', 'healing-lockout', 'passive']
                         },

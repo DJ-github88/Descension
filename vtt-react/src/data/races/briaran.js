@@ -1,4 +1,4 @@
-ï»¿export const briaran = {
+export const briaran = {
         id: 'briaran',
         name: 'Briaran',
         essence: 'Thorn-scarred outcasts',
@@ -153,14 +153,14 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
             courtly: {
                 id: 'courtly_briaran',
                 name: 'Oathbound',
-                description: 'Thorns bloom beautifully along their forearms and shoulders, often growing small flowers alongside the barbs â€” roses, nightshade, pale foxglove. Skin marked by elegant thorn patterns that shift and rearrange when contracts are made or broken. Hands precise and careful, many bear small puncture wounds from thorns testing their own honesty. Eyes carry the weight of unbreakable promises â€” pupils contract sharply when a lie is spoken nearby. Speech patterns formal, every word chosen with the care of someone who knows that a misplaced syllable can bind. Their thorns serve as living lie detectors, drawing blood from their own hands when they speak false.',
+                description: 'Thorns bloom beautifully along their forearms and shoulders, often growing small flowers alongside the barbs — roses, nightshade, pale foxglove. Skin marked by elegant thorn patterns that shift and rearrange when contracts are made or broken. Hands precise and careful, many bear small puncture wounds from thorns testing their own honesty. Eyes carry the weight of unbreakable promises — pupils contract sharply when a lie is spoken nearby. Speech patterns formal, every word chosen with the care of someone who knows that a misplaced syllable can bind. Their thorns serve as living lie detectors, drawing blood from their own hands when they speak false.',
                 culturalBackground: 'The Oathbound trace their lineage to the first Briaran who bound themselves to the noble fae courts. Bloodline marked by thorns that bloom with every promise made. Their tradition requires that every member learn the ancient art of contract-making. Apprenticeships spent studying the complex etiquette of fae courts. Oathbound courts are built around negotiation halls where bargains are made. Members serving as diplomats, mediators, deal-makers. Their thorns serve as living lie detectors. An Oathbound handshake can draw blood if intentions are false. But they pay dearly. Breaking their own promises causes their thorns to turn inward, tearing at their flesh from within.',
                 statModifiers: { charisma: 2, intelligence: 1 },
                 traits: [
                     {
                         id: 'thornmarked_oathbound',
-                        name: 'Thornmarked â€” Oathbloom',
-                        description: 'Living thorns cover your skin, blooming pale nightshade when you speak truth and bleeding black sap when you lie. Any who dare grapple or strike you with bare flesh find themselves impaled â€” but your thorns remember every bargain your bloodline ever sealed, and they punish your tongue as readily as your enemies\' hands.',
+                        name: 'Thornmarked — Oathbloom',
+                        description: 'Living thorns cover your skin, blooming pale nightshade when you speak truth and bleeding black sap when you lie. Any who dare grapple or strike you with bare flesh find themselves impaled — but your thorns remember every bargain your bloodline ever sealed, and they punish your tongue as readily as your enemies\' hands.',
                         level: 1,
                         icon: 'spell_nature_thorns',
                         spellType: 'PASSIVE',
@@ -191,7 +191,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                     id: 'truth_compulsion_oathbound',
                                     name: 'Truth Compulsion',
                                     description: 'Cannot speak deliberate lies. Attempted lies deal 1d4 psychic damage and the words emerge as truth regardless. The thorns in your throat will not permit falsehood.',
-                                    statusEffect: { level: 'moderate', description: 'Cannot lie. 1d4 psychic damage on attempted lie â€” words emerge as truth.' }
+                                    statusEffect: { level: 'moderate', description: 'Cannot lie. 1d4 psychic damage on attempted lie — words emerge as truth.' }
                                 }
                             ],
                             durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -203,7 +203,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'blood_pact_oathbound',
                         name: 'Blood Pact',
-                        description: 'Prick your palm and let your thorn-blood mix with another\'s. The pact writes itself in your veins â€” a promise so deep it punishes betrayal with agony no armor can stop. But the binding is not one-sided: you feel every wound your partner suffers as a sympathetic sting beneath your own thorns.',
+                        description: 'Prick your palm and let your thorn-blood mix with another\'s. The pact writes itself in your veins — a promise so deep it punishes betrayal with agony no armor can stop. But the binding is not one-sided: you feel every wound your partner suffers as a sympathetic sting beneath your own thorns.',
                         level: 1,
                         icon: 'spell_shadow_shadesofdarkness',
                         spellType: 'ACTION',
@@ -231,9 +231,9 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                             utilityType: 'custom',
                             selectedEffects: [
                                 { id: 'pact_location_sense', name: 'Pact Location Sense', description: 'Both members always know the direction and approximate distance to each other' },
-                                { id: 'oathbreaker_punishment', name: 'Oathbreaker\'s Agony', description: 'Breaking the pact: 4d6 psychic damage to the breaker (no save, irreducible). Marked as Oathbreaker for 7 days â€” all Briaran and fae creatures sense the mark. Disadvantage on all social interactions with fae-touched creatures.' },
+                                { id: 'oathbreaker_punishment', name: 'Oathbreaker\'s Agony', description: 'Breaking the pact: 4d6 psychic damage to the breaker (no save, irreducible). Marked as Oathbreaker for 7 days — all Briaran and fae creatures sense the mark. Disadvantage on all social interactions with fae-touched creatures.' },
                                 { id: 'sympathetic_pain', name: 'Sympathetic Pain', description: 'TRADE-OFF: When your pact-partner takes damage, you take 1 psychic damage as the thorns in your skin writhe in sympathetic agony.' },
-                                { id: 'pact_limit', name: 'Single Pact', description: 'Only one Blood Pact can be active at a time. Casting a new one dissolves the old â€” with consequences.' }
+                                { id: 'pact_limit', name: 'Single Pact', description: 'Only one Blood Pact can be active at a time. Casting a new one dissolves the old — with consequences.' }
                             ],
                             duration: 24, durationUnit: 'hours', power: 'major'
                         },
@@ -244,7 +244,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'verdict_of_thorns_oathbound',
                         name: 'Verdict of Thorns',
-                        description: 'Point your thorn-scarred hand at a creature and name your accusation â€” or demand a truth they\'ve buried. The thorns tear through your own forearm to extend as a living lash, tasting the air for deception. If they lie, the lash strikes. If they refuse, the thorns press the question into their mind like a splinter behind the eye.',
+                        description: 'Point your thorn-scarred hand at a creature and name your accusation — or demand a truth they\'ve buried. The thorns tear through your own forearm to extend as a living lash, tasting the air for deception. If they lie, the lash strikes. If they refuse, the thorns press the question into their mind like a splinter behind the eye.',
                         level: 1,
                         icon: 'spell_nature_thorns',
                         spellType: 'ACTION',
@@ -290,7 +290,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'bargain_weight_oathbound',
                         name: 'The Bargain\'s Weight',
-                        description: 'Every active pact and verdict you maintain hardens the thorns around your body into living armor â€” but the weight of unbreakable promises crushes the flesh beneath. More contracts mean more protection. More protection means less blood, slower steps, and the creeping realization that your bargains are burying you alive.',
+                        description: 'Every active pact and verdict you maintain hardens the thorns around your body into living armor — but the weight of unbreakable promises crushes the flesh beneath. More contracts mean more protection. More protection means less blood, slower steps, and the creeping realization that your bargains are burying you alive.',
                         level: 1,
                         icon: 'ability_warrior_defensivestance',
                         spellType: 'PASSIVE',
@@ -333,7 +333,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'iron_vulnerability_briaran_oathbound',
                         name: 'Iron Vulnerability',
-                        description: 'Cold iron severs the ancient bindings that give your fae blood its power â€” it burns through thorn and contract alike, leaving your magic hollowed out and your wounds torn wide. The one metal that can undo what your ancestors bargained for.',
+                        description: 'Cold iron severs the ancient bindings that give your fae blood its power — it burns through thorn and contract alike, leaving your magic hollowed out and your wounds torn wide. The one metal that can undo what your ancestors bargained for.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
@@ -367,8 +367,8 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                 traits: [
                     {
                         id: 'thornmarked_thornscar',
-                        name: 'Thornmarked â€” Scartide',
-                        description: 'Your thorns are not the cultivated blooms of the courts. They are broken, jagged, turned inward from the contracts you tore apart â€” fragments of old bargains still embedded in your flesh like shrapnel. They bite everyone, including you.',
+                        name: 'Thornmarked — Scartide',
+                        description: 'Your thorns are not the cultivated blooms of the courts. They are broken, jagged, turned inward from the contracts you tore apart — fragments of old bargains still embedded in your flesh like shrapnel. They bite everyone, including you.',
                         level: 1,
                         icon: 'spell_nature_thorns',
                         spellType: 'PASSIVE',
@@ -380,7 +380,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                 {
                                     id: 'scartide_thorns',
                                     name: 'Scartide Thorns',
-                                    description: 'Broken jagged thorns impale grapplers and unarmed melee attackers for 1d6 piercing â€” viciouser than cultivated court thorns',
+                                    description: 'Broken jagged thorns impale grapplers and unarmed melee attackers for 1d6 piercing — viciouser than cultivated court thorns',
                                     statModifier: { stat: 'thorns_damage', magnitude: '1d6', magnitudeType: 'dice' }
                                 }
                             ],
@@ -393,7 +393,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                     id: 'scartide_self_bleed',
                                     name: 'Self-Bleed',
                                     description: 'TRADE-OFF: Your broken thorns bite you too. Each time Scartide activates against an attacker, you take 1 piercing as the thorns shift and embed deeper in your own scarred flesh.',
-                                    statusEffect: { level: 'minor', description: '1 piercing to self when thorns activate â€” the scars never stop bleeding.' }
+                                    statusEffect: { level: 'minor', description: '1 piercing to self when thorns activate — the scars never stop bleeding.' }
                                 }
                             ],
                             durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -405,7 +405,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'briar_eruption_thornscar',
                         name: 'Briar Eruption',
-                        description: 'The broken thorns detonate outward from your body in a screaming vortex of jagged vine and old bargain-shrapnel, carving a killing ground where nothing moves without bleeding. Your kin pass freely â€” everyone else pays the toll.',
+                        description: 'The broken thorns detonate outward from your body in a screaming vortex of jagged vine and old bargain-shrapnel, carving a killing ground where nothing moves without bleeding. Your kin pass freely — everyone else pays the toll.',
                         level: 1,
                         icon: 'spell_nature_thorns',
                         spellType: 'ACTION',
@@ -432,7 +432,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                         utilityConfig: {
                             utilityType: 'custom',
                             selectedEffects: [
-                                { id: 'briaran_passage', name: 'Briaran Passage', description: 'Briaran allies are unaffected by the Briar Zone and gain +5ft speed while inside it â€” the broken thorns recognize their kin.' },
+                                { id: 'briaran_passage', name: 'Briaran Passage', description: 'Briaran allies are unaffected by the Briar Zone and gain +5ft speed while inside it — the broken thorns recognize their kin.' },
                                 { id: 'eruption_self_harm', name: 'Eruption Toll', description: 'TRADE-OFF: You take 2 piercing as the thorns tear free from your body to seed the ground. Your flesh is the ammunition.' }
                             ],
                             duration: 1, durationUnit: 'minutes', power: 'major'
@@ -444,7 +444,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'pain_focus_thornscar',
                         name: 'Pain Focus',
-                        description: 'Every wound is a lens. Pain focuses your shattered will into a single devastating strike â€” fury refined through suffering into something precise and terrible. But if you cannot release the pain, it turns inward and gnaws at your next breath.',
+                        description: 'Every wound is a lens. Pain focuses your shattered will into a single devastating strike — fury refined through suffering into something precise and terrible. But if you cannot release the pain, it turns inward and gnaws at your next breath.',
                         level: 1,
                         icon: 'ability_warrior_rampage',
                         spellType: 'ACTION',
@@ -462,7 +462,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                 {
                                     id: 'pain_bonus_damage',
                                     name: 'Agonizing Strike',
-                                    description: '+1d6 bonus damage on your next attack. If you have taken 10+ damage this turn, the bonus increases to +2d6 â€” the pain has become ecstatic.',
+                                    description: '+1d6 bonus damage on your next attack. If you have taken 10+ damage this turn, the bonus increases to +2d6 — the pain has become ecstatic.',
                                     statModifier: { stat: 'bonus_damage', magnitude: '1d6', magnitudeType: 'dice' }
                                 }
                             ],
@@ -495,7 +495,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'contract_breaker_constitution',
                         name: 'Contract-Breaker\'s Constitution',
-                        description: 'You have already broken the contracts that once bound you. No fae honey can sweeten your ear. No phantom terror can grip a heart already scarred. But the broken thorns still embedded in your flesh have learned to bite back at anyone foolish enough to strike you when you\'re wounded â€” they come away with blood that is not entirely yours.',
+                        description: 'You have already broken the contracts that once bound you. No fae honey can sweeten your ear. No phantom terror can grip a heart already scarred. But the broken thorns still embedded in your flesh have learned to bite back at anyone foolish enough to strike you when you\'re wounded — they come away with blood that is not entirely yours.',
                         level: 1,
                         icon: 'ability_warrior_defensivestance',
                         spellType: 'PASSIVE',
@@ -507,13 +507,13 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                 {
                                     id: 'fae_freedom',
                                     name: 'Unbound',
-                                    description: 'Immune to charm and fear effects from fae sources. You have already paid the price of freedom in blood â€” no honeyed promise can chain you again.',
+                                    description: 'Immune to charm and fear effects from fae sources. You have already paid the price of freedom in blood — no honeyed promise can chain you again.',
                                     statModifier: { stat: 'charm_immunity', magnitude: 100, magnitudeType: 'percentage' }
                                 },
                                 {
                                     id: 'psychic_scar_armor',
                                     name: 'Scar-Hardened Mind',
-                                    description: 'Resistance to psychic damage (50%). The inside of your skull is a thorn-choked wasteland â€” nothing else can take root.',
+                                    description: 'Resistance to psychic damage (50%). The inside of your skull is a thorn-choked wasteland — nothing else can take root.',
                                     statModifier: { stat: 'psychic_resistance', magnitude: 50, magnitudeType: 'percentage' }
                                 },
                                 {
@@ -532,7 +532,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'iron_vulnerability_briaran_wild',
                         name: 'Iron Vulnerability',
-                        description: 'Cold iron finds every old wound and torn contract still written in your flesh, the metal drinking deep of the fae blood that refuses to stop flowing. The contracts you broke still course through your veins â€” iron remembers what you owe.',
+                        description: 'Cold iron finds every old wound and torn contract still written in your flesh, the metal drinking deep of the fae blood that refuses to stop flowing. The contracts you broke still course through your veins — iron remembers what you owe.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
@@ -560,19 +560,19 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
             dusk: {
                 id: 'dusk_briaran',
                 name: 'Dusk Walker',
-                description: 'Thorns glow faintly in twilight, dimming in full daylight and darkness. Skin changes tone with time of day â€” warm bronze at noon, cool silver at midnight. Eyes reflect both day and night. They fade slightly in bright light and deep dark, most solid during dawn and dusk. Movement fluid, existing between moments.',
+                description: 'Thorns glow faintly in twilight, dimming in full daylight and darkness. Skin changes tone with time of day — warm bronze at noon, cool silver at midnight. Eyes reflect both day and night. They fade slightly in bright light and deep dark, most solid during dawn and dusk. Movement fluid, existing between moments.',
                 culturalBackground: 'The Dusk-Walkers trace their lineage to Briaran who made bargains during twilight hours, binding themselves to the boundary between day and night. They navigate liminal spaces. Communities built where day meets night. They are weakened by pure daylight and deepest night, thriving only in liminal hours.',
                 statModifiers: { dexterity: 1, charisma: 2 },
                 traits: [
                     {
                         id: 'thornmarked_dusk_walker',
-                        name: 'Thornmarked â€” Twilight Bloom',
-                        description: 'Your thorns glow faintly in twilight â€” pale luminescence that pulses at dawn and dusk like a heartbeat. In full daylight they wither to bone-dry husks. In absolute darkness they go cold and still. Only in the space between do they sing.',
+                        name: 'Thornmarked — Twilight Bloom',
+                        description: 'Your thorns glow faintly in twilight — pale luminescence that pulses at dawn and dusk like a heartbeat. In full daylight they wither to bone-dry husks. In absolute darkness they go cold and still. Only in the space between do they sing.',
                         level: 1,
                         icon: 'spell_nature_thorns',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
-                        typeConfig: { school: 'shadow', secondaryElement: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'defensive', 'passive', 'twilight'] },
+                        typeConfig: { school: 'necrotic', secondaryElement: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'defensive', 'passive', 'twilight'] },
                         buffConfig: {
                             buffType: 'custom',
                             effects: [
@@ -592,12 +592,12 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'dusk_rend_dusk_walker',
                         name: 'Dusk Rend',
-                        description: 'Tear a wound in the skin of reality where light meets shadow, and step through the screaming rift. The afterimage of your passage blinds those nearby â€” the world cannot look away from where you broke it. In twilight, the rift opens willingly. Outside of it, you must pry it apart with your own pain.',
+                        description: 'Tear a wound in the skin of reality where light meets shadow, and step through the screaming rift. The afterimage of your passage blinds those nearby — the world cannot look away from where you broke it. In twilight, the rift opens willingly. Outside of it, you must pry it apart with your own pain.',
                         level: 1,
                         icon: 'spell_shadow_shadowwordkill',
                         spellType: 'ACTION',
                         effectTypes: ['utility', 'debuff'],
-                        typeConfig: { school: 'shadow', secondaryElement: 'radiant', icon: 'spell_shadow_shadowwordkill', tags: ['teleport', 'shadow', 'light', 'twilight', 'active'] },
+                        typeConfig: { school: 'necrotic', secondaryElement: 'radiant', icon: 'spell_shadow_shadowwordkill', tags: ['teleport', 'shadow', 'light', 'twilight', 'active'] },
                         utilityConfig: {
                             utilityType: 'movement',
                             selectedEffects: [
@@ -614,7 +614,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                 {
                                     id: 'arrival_blind',
                                     name: 'Arrival Shock',
-                                    description: 'Enemies within 5ft of arrival point: CON save DC 14 or Blinded for 1 round. In twilight conditions: blinded for 1d4 rounds â€” the rift screams louder at the threshold.',
+                                    description: 'Enemies within 5ft of arrival point: CON save DC 14 or Blinded for 1 round. In twilight conditions: blinded for 1d4 rounds — the rift screams louder at the threshold.',
                                     statusEffect: { level: 'moderate', description: 'Blinded by violent light/shadow shift at rift point' }
                                 }
                             ],
@@ -628,7 +628,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'between_moments_dusk_walker',
                         name: 'Between Moments',
-                        description: 'You slip between heartbeats, existing in the space where time stutters. Once per combat, you act while the world holds its breath â€” but the world exacts a toll for your absence. You return to find yourself slower, left behind by the flow you escaped. Every borrowed heartbeat costs a piece of your rhythm.',
+                        description: 'You slip between heartbeats, existing in the space where time stutters. Once per combat, you act while the world holds its breath — but the world exacts a toll for your absence. You return to find yourself slower, left behind by the flow you escaped. Every borrowed heartbeat costs a piece of your rhythm.',
                         level: 1,
                         icon: 'ability_rogue_stealth',
                         spellType: 'PASSIVE',
@@ -652,7 +652,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                 {
                                     id: 'initiative_drain_dusk',
                                     name: 'Temporal Drag',
-                                    description: 'TRADE-OFF: After using your extra action, your initiative drops by -2 for the rest of combat. The world does not forgive those who step outside its rhythm â€” you return out of sync.',
+                                    description: 'TRADE-OFF: After using your extra action, your initiative drops by -2 for the rest of combat. The world does not forgive those who step outside its rhythm — you return out of sync.',
                                     statModifier: { stat: 'initiative', magnitude: -2, magnitudeType: 'flat' }
                                 }
                             ],
@@ -665,12 +665,12 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'liminal_being_dusk_walker',
                         name: 'Liminal Being',
-                        description: 'You are strongest at thresholds â€” the door between day and night, the edge of shadow and flame, the moment between life and death. Dawn and dusk sing in your blood. Crossroads and doorways hum with potential you can taste. But pure states â€” absolute light, total darkness â€” are anathema to your in-between nature. You wither at the extremes.',
+                        description: 'You are strongest at thresholds — the door between day and night, the edge of shadow and flame, the moment between life and death. Dawn and dusk sing in your blood. Crossroads and doorways hum with potential you can taste. But pure states — absolute light, total darkness — are anathema to your in-between nature. You wither at the extremes.',
                         level: 1,
                         icon: 'spell_shadow_twilight',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
-                        typeConfig: { school: 'shadow', secondaryElement: 'radiant', icon: 'spell_shadow_twilight', tags: ['passive', 'twilight', 'threshold', 'tradeoff'] },
+                        typeConfig: { school: 'necrotic', secondaryElement: 'radiant', icon: 'spell_shadow_twilight', tags: ['passive', 'twilight', 'threshold', 'tradeoff'] },
                         buffConfig: {
                             buffType: 'statEnhancement',
                             effects: [
@@ -701,7 +701,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                 {
                                     id: 'extreme_weakness',
                                     name: 'Extreme Aversion',
-                                    description: 'TRADE-OFF: -1 to all ability checks in bright daylight or complete darkness. Pure states are agony to your threshold nature â€” you literally wither at the extremes.',
+                                    description: 'TRADE-OFF: -1 to all ability checks in bright daylight or complete darkness. Pure states are agony to your threshold nature — you literally wither at the extremes.',
                                     statModifier: { stat: 'all_checks', magnitude: -1, magnitudeType: 'flat' }
                                 }
                             ],
@@ -714,7 +714,7 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                     {
                         id: 'radiant_necrotic_vulnerability_dusk_walker',
                         name: 'Radiant & Necrotic Vulnerability',
-                        description: 'Caught forever between light and shadow, your twilight nature makes you vulnerable to both extremes â€” the searing purity of radiance burns you like dawn burns the night, while the absolute void of necrotic entropy swallows the fragile half-light that sustains you. You exist in the grey. Purity and void will unmake you equally.',
+                        description: 'Caught forever between light and shadow, your twilight nature makes you vulnerable to both extremes — the searing purity of radiance burns you like dawn burns the night, while the absolute void of necrotic entropy swallows the fragile half-light that sustains you. You exist in the grey. Purity and void will unmake you equally.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
@@ -726,13 +726,13 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                                 {
                                     id: 'radiant_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'The searing purity of radiance burns you like dawn burns the night â€” your twilight nature cannot withstand absolute light',
+                                    description: 'The searing purity of radiance burns you like dawn burns the night — your twilight nature cannot withstand absolute light',
                                     statusEffect: { vulnerabilityType: 'radiant', vulnerabilityPercent: 100 }
                                 },
                                 {
                                     id: 'necrotic_vulnerability',
                                     name: 'Necrotic Vulnerability',
-                                    description: 'The absolute void of necrotic entropy swallows the fragile half-light that sustains you â€” darkness devours twilight',
+                                    description: 'The absolute void of necrotic entropy swallows the fragile half-light that sustains you — darkness devours twilight',
                                     statusEffect: { vulnerabilityType: 'necrotic', vulnerabilityPercent: 100 }
                                 }
                             ],

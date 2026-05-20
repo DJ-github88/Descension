@@ -141,8 +141,29 @@ const DAMAGE_TYPES = [
       commonResistance: 'void-touched creatures, shadow beings',
       commonVulnerability: 'light-aligned creatures, radiant beings'
     },
-    // End of standard D&D damage types
+    {
+      id: 'healing',
+      name: 'Healing',
+      description: 'Restorative energy that repairs damage and restores vitality',
+      icon: 'spell_holy_greaterheal',
+      category: 'otherworldly',
+      commonResistance: 'undead (reversed)',
+      commonVulnerability: 'living creatures'
+    },
 ];
+
+const LEGACY_TYPE_MAP = {
+    cold: 'frost',
+    ice: 'frost',
+    shadow: 'necrotic',
+    holy: 'radiant',
+    electric: 'lightning',
+    acid: 'poison',
+    thunder: 'force',
+    viscera: 'nature',
+};
+
+const PHYSICAL_TYPES = ['bludgeoning', 'piercing', 'slashing'];
 
 
 const getDamageTypeById = (id) => {
@@ -179,11 +200,20 @@ const calculateResistance = (damageTypeId, targetResistances = {}, spellPenetrat
     return Math.min(75, resistance);
 };
 
+const normalizeDamageType = (type) => {
+    if (!type) return type;
+    const lower = type.toLowerCase();
+    return LEGACY_TYPE_MAP[lower] || lower;
+};
+
 export {
     DAMAGE_TYPES,
+    LEGACY_TYPE_MAP,
+    PHYSICAL_TYPES,
     getDamageTypeById,
     getDamageTypesByCategory,
     getDamageTypesByIds,
     doesDamageBypassResistance,
-    calculateResistance
+    calculateResistance,
+    normalizeDamageType
 };

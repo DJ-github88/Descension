@@ -676,7 +676,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       specialization: null,
 
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Psychic/Mind Control",
         castTime: 1,
         castTimeType: "IMMEDIATE",

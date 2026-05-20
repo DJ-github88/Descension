@@ -2799,7 +2799,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Sacred Symbol",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "holy",
+        school: "radiant",
         icon: "Radiant/Sacred Symbol",
         tags: ["passive", "restriction", "no self-heal", "sacrifice", "martyr"],
         castTime: 0,

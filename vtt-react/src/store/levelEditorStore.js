@@ -480,7 +480,7 @@ export const TERRAIN_TYPES = {
         texture: 'acid',
         movementCost: 999,
         description: 'Corrosive acid that dissolves organic matter',
-        mechanics: 'Impassable. 2d6 acid damage per turn in contact.',
+        mechanics: 'Impassable. 2d6 poison damage per turn in contact.',
         tacticalNotes: 'Destroys equipment. Creates dangerous chokepoints.'
     },
 

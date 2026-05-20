@@ -41,7 +41,7 @@ export const HEXER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Necrotic/Horned Demon',
                 tags: ['passive', 'dark', 'resistance', 'detection']
             },
@@ -99,7 +99,7 @@ export const HEXER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Void/Maw Gripping Fear',
                 tags: ['reaction', 'defensive', 'curse', 'reflect']
             },
@@ -187,7 +187,7 @@ export const HEXER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'shadow',
+                school: 'necrotic',
                 icon: 'Necrotic/Cursed Entities',
                 tags: ['action', 'debuff', 'curse', 'hex', 'damage amplification']
             },
@@ -405,7 +405,7 @@ export const HEXER_PATH = {
                     damageTypes: [],
 
                     typeConfig: {
-                        school: 'shadow',
+                        school: 'necrotic',
                         icon: 'Necrotic/Cursed Entities',
                         tags: ['action', 'debuff', 'curse', 'hex', 'damage amplification']
                     },

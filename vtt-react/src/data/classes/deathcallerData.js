@@ -1548,7 +1548,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       icon: "Necrotic/Ghostly Menace",
       effectTypes: ["transformation", "buff", "debuff"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Necrotic/Ghostly Menace",
         tags: ["transformation", "stealth", "buff", "blood magic"],
         castTime: 1,
@@ -1689,7 +1689,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       icon: "Void/Consumed by Void",
       effectTypes: ["transformation", "buff", "utility", "debuff"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Void/Consumed by Void",
         tags: ["transformation", "defensive", "mobility", "curse"],
         castTime: 1,
@@ -1933,7 +1933,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       icon: "Void/Consumed by Void",
       effectTypes: ["transformation", "buff"],
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Void/Consumed by Void",
         tags: ["transformation", "mobility", "permanent_cost"],
         castTime: 1,

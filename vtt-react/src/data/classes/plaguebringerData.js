@@ -22,7 +22,7 @@ export const PLAGUEBRINGER_DATA = {
   name: "Plaguebringer",
   icon: "fas fa-biohazard",
   role: "Damage/Control",
-  damageTypes: ["poison", "necrotic", "psychic", "acid"],
+  damageTypes: ["poison", "necrotic", "psychic"],
 
   classIdentity: {
     title: "Class Identity",

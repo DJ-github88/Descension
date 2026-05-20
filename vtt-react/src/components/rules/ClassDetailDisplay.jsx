@@ -79,7 +79,7 @@ const buildDemoClassResource = (className) => {
     return {
       current: 4,
       max: 4,
-      spheres: ['fire', 'ice', 'arcane', 'nature']
+      spheres: ['fire', 'frost', 'arcane', 'nature']
     };
   }
 

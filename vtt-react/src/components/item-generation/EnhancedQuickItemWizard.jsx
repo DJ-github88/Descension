@@ -189,15 +189,13 @@ const DAMAGE_TYPES = {
     piercing: { name: 'Piercing', color: '#777777' },
     slashing: { name: 'Slashing', color: '#888888' },
     fire: { name: 'Fire', color: '#cc2200' },
-    cold: { name: 'Cold', color: '#0066cc' },
+    frost: { name: 'Frost', color: '#0066cc' },
     lightning: { name: 'Lightning', color: '#cc9900' },
-    acid: { name: 'Acid', color: '#00aa00' },
     force: { name: 'Force', color: '#cc00cc' },
     necrotic: { name: 'Necrotic', color: '#660066' },
     radiant: { name: 'Radiant', color: '#ccaa00' },
     poison: { name: 'Poison', color: '#00aa00' },
     psychic: { name: 'Psychic', color: '#cc00cc' },
-    thunder: { name: 'Thunder', color: '#0066cc' },
     chaos: { name: 'Chaos', color: '#cc0066' }
 };
 
@@ -675,7 +673,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                     // Add bonus damage type for higher quality items
                     let bonusDamageType = null;
                     if (containerOpts.itemQuality !== 'poor' && containerOpts.itemQuality !== 'common' && damageBonus > 0) {
-                        const bonusDamageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos'];
+                        const bonusDamageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos'];
                         bonusDamageType = bonusDamageTypes[getRandomInt(0, bonusDamageTypes.length - 1)];
                     }
 
@@ -2511,7 +2509,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                                             type="button"
                                             onClick={() => {
                                                 const reagentTypes = ['herb', 'mineral', 'crystal', 'essence', 'extract', 'powder', 'oil'];
-                                                const magicTypes = ['fire', 'cold', 'lightning', 'acid', 'poison', 'necrotic', 'radiant', 'psychic', 'thunder', 'force', 'chaos'];
+                                                const magicTypes = ['fire', 'frost', 'lightning', 'poison', 'necrotic', 'radiant', 'psychic', 'force', 'chaos'];
                                                 const states = ['raw', 'refined', 'processed', 'pure', 'distilled'];
                                                 const preservationMethods = ['fresh', 'dried', 'powdered', 'distilled', 'crystallized', 'preserved'];
 
@@ -2578,14 +2576,12 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                                             }}
                                         >
                                             <option value="fire">Fire</option>
-                                            <option value="cold">Cold</option>
+                                            <option value="frost">Frost</option>
                                             <option value="lightning">Lightning</option>
-                                            <option value="acid">Acid</option>
                                             <option value="poison">Poison</option>
                                             <option value="necrotic">Necrotic</option>
                                             <option value="radiant">Radiant</option>
                                             <option value="psychic">Psychic</option>
-                                            <option value="thunder">Thunder</option>
                                             <option value="force">Force</option>
                                         </select>
                                     </div>

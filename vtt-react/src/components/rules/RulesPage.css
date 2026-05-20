@@ -1,26 +1,54 @@
-/* ===== RULES PAGE - MAGICAL SPELLBOOK THEME ===== */
+/* ===== RULES PAGE - TTRPG TAVERN DESK THEME ===== */
 
 /* Import fonts - including decorative medieval fonts */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=MedievalSharp&family=Uncial+Antiqua&display=swap');
 
-/* Main Container */
+/* Main Container - High-fidelity Mahogany Wood Planks Desktop */
 .rules-page {
   display: flex;
   height: calc(100vh - 80px);
-  background: linear-gradient(145deg, #f5ead6 0%, #efe3cc 50%, #f5ead6 100%);
+  background-color: #120703;
+  background-image: 
+    /* Vignette shading */
+    radial-gradient(circle at 50% 50%, rgba(25, 12, 7, 0.4) 0%, rgba(5, 2, 1, 0.95) 100%),
+    /* Wood plank vertical cracks */
+    repeating-linear-gradient(90deg, 
+      transparent 0px, 
+      transparent 219px, 
+      rgba(0, 0, 0, 0.6) 220px, 
+      rgba(255, 255, 255, 0.04) 221px, 
+      transparent 222px, 
+      transparent 440px
+    ),
+    /* Soft vertical wood grain bands */
+    repeating-linear-gradient(90deg,
+      rgba(15, 6, 3, 0.15) 0px,
+      rgba(15, 6, 3, 0.15) 40px,
+      rgba(25, 11, 6, 0.15) 80px,
+      rgba(25, 11, 6, 0.15) 120px
+    ),
+    /* Wood grain fine fibers */
+    repeating-linear-gradient(0deg, 
+      rgba(28, 14, 8, 0.08) 0px, 
+      rgba(28, 14, 8, 0.08) 1px, 
+      transparent 2px, 
+      transparent 4px
+    ),
+    /* Rich red-brown wood base gradient */
+    linear-gradient(135deg, #2b160e 0%, #150904 100%);
   font-family: 'Crimson Text', 'Georgia', serif;
-  color: #4a3728;
+  color: #2b1c11;
   overflow: hidden;
 }
 
-/* ===== SIDEBAR ===== */
+/* ===== SIDEBAR - Dark Ironwood Cabinet style ===== */
 .rules-sidebar {
   width: 60px;
-  background: linear-gradient(180deg, #d4c4a8 0%, #c8b89a 50%, #d4c4a8 100%);
-  border-right: 3px solid #a08060;
+  background: linear-gradient(180deg, #180e09 0%, #100805 100%);
+  border-right: 2px solid #321c10;
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 0 8px rgba(100, 70, 40, 0.15);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.4);
   overflow: visible;
   min-height: 0;
   position: relative;
@@ -31,17 +59,16 @@
   width: 60px;
 }
 
-
-/* Search Bar */
+/* Search Bar - hidden when collapsed */
 .rules-search {
   padding: 16px 20px;
-  background: linear-gradient(135deg, #c4a373 0%, #a08c70 100%);
-  border-bottom: 2px solid #8b4513;
+  background: linear-gradient(135deg, #3a2215 0%, #24140c 100%);
+  border-bottom: 2px solid #1a0e07;
   display: flex;
   align-items: center;
   gap: 12px;
   position: relative;
-  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
+  box-shadow: inset 0 -1px 3px rgba(0,0,0,0.4);
   transition: opacity 0.2s ease, max-height 0.3s ease;
   overflow: hidden;
 }
@@ -54,7 +81,7 @@
 }
 
 .rules-search i.fa-search {
-  color: #f8f4e6;
+  color: #c4a060;
   font-size: 1.1rem;
   flex-shrink: 0;
 }
@@ -62,23 +89,23 @@
 .rules-search input {
   flex: 1;
   padding: 10px 36px 10px 14px;
-  background: #fff;
-  border: 2px solid #8b4513;
-  border-radius: 6px;
+  background: #2b1c11;
+  border: 1px solid #c4a060;
+  border-radius: 4px;
   font-family: 'Crimson Text', serif;
   font-size: 1rem;
-  color: #2d1810;
+  color: #fffbf2;
   transition: all 0.2s ease;
-  box-shadow: inset 0 1px 3px rgba(45, 24, 16, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .rules-search input:focus {
   outline: none;
-  border-color: #d4af37;
+  border-color: #fff;
   box-shadow:
-    inset 0 1px 3px rgba(45, 24, 16, 0.1),
-    0 0 0 3px rgba(212, 175, 55, 0.2);
-  background: #fff;
+    inset 0 1px 3px rgba(0,0,0,0.5),
+    0 0 8px rgba(196, 160, 96, 0.4);
+  background: #362417;
 }
 
 .rules-search input::placeholder {
@@ -92,7 +119,7 @@
   right: 28px;
   background: none;
   border: none;
-  color: #8b4513;
+  color: #c4a060;
   cursor: pointer;
   padding: 6px;
   font-size: 1rem;
@@ -101,8 +128,8 @@
 }
 
 .rules-search-clear:hover {
-  color: #d4af37;
-  background: rgba(139, 69, 19, 0.1);
+  color: #fff;
+  background: rgba(196, 160, 96, 0.1);
 }
 
 /* Navigation */
@@ -111,7 +138,7 @@
   overflow-y: auto;
   overflow-x: visible;
   padding: 15px 0;
-  min-height: 0; /* Allow flex item to shrink below content size */
+  min-height: 0;
   transition: padding 0.3s ease;
   position: relative;
 }
@@ -125,10 +152,10 @@
   width: 60px;
   height: calc(100vh - 90px - 20px);
   overflow-y: auto;
-  background: linear-gradient(180deg, #d4c4a8 0%, #c8b89a 50%, #d4c4a8 100%);
-  border-right: 3px solid #a08060;
+  background: linear-gradient(180deg, #180e09 0%, #100805 100%);
+  border-right: 2px solid #321c10;
   z-index: 1000;
-  box-shadow: 2px 0 8px rgba(100, 70, 40, 0.15);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.4);
 }
 
 /* Active indicator for collapsed state */
@@ -144,52 +171,60 @@
   transform: translateY(-50%);
   width: 3px;
   height: 0;
-  background: #d4af37;
+  background: #c4a060;
   border-radius: 0 2px 2px 0;
-  transition: height 0.2s ease;
+  transition: height 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.rules-sidebar.collapsed .rules-nav-category-btn:hover::after,
-.rules-sidebar.collapsed .rules-nav-category-btn.expanded::after {
+.rules-sidebar.collapsed .rules-nav-category-btn:hover::after {
   height: 60%;
 }
 
 /* Show active category indicator */
 .rules-sidebar.collapsed .rules-nav-category-btn[data-active="true"]::after {
   height: 80%;
-  background: #d4af37;
+  background: #c4a060;
 }
 
 .rules-sidebar.collapsed .rules-nav-category-btn.active-category {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(196, 163, 115, 0.1) 100%);
-  border-color: #d4af37;
+  background: linear-gradient(135deg, rgba(196, 160, 96, 0.2) 0%, rgba(196, 160, 96, 0.05) 100%);
+  border-color: #c4a060;
 }
 
 .rules-sidebar.collapsed .rules-nav-category-btn.active-category .rules-nav-icon {
-  color: #d4af37;
+  color: #fffbf2;
+  text-shadow: 0 0 8px rgba(196, 160, 96, 0.6);
 }
 
-/* Pop-out orb/bubble menu - Magical Scroll Style */
+/* Pop-out orb/bubble menu - Gilded Scroll Style */
 .rules-nav-popout {
   position: fixed;
   transform: translateY(-50%);
-  background: #f8f4ec;
-  border: 2px solid #c4a878;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(100, 70, 40, 0.25);
-  min-width: 220px;
-  max-width: 280px;
+  background: #fdfaf2;
+  border: 2px solid #c4a060;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  min-width: 230px;
+  max-width: 290px;
   z-index: 10001;
   padding: 8px;
-  animation: popIn 0.15s ease-out;
+  animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
   pointer-events: auto;
+}
+
+.rules-nav-popout::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px; right: 3px; bottom: 3px;
+  border: 1px dashed rgba(196, 160, 96, 0.35);
+  pointer-events: none;
 }
 
 @keyframes popIn {
   0% {
     opacity: 0;
-    transform: translateY(-50%) scale(0.95);
+    transform: translateY(-50%) scale(0.9);
   }
   100% {
     opacity: 1;
@@ -199,84 +234,85 @@
 
 .rules-nav-popout-header {
   padding: 10px 14px;
-  border-bottom: 1px solid #d4c4a8;
+  border-bottom: 1px solid rgba(196, 160, 96, 0.3);
   font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #4a3728;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #8a1a10;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
 }
 
 .rules-nav-popout-header i {
-  color: #a08050;
+  color: var(--rpg-dark-gold, #8f6f35);
   font-size: 1.1rem;
 }
 
 .rules-nav-popout-item {
   width: 100%;
-  margin: 2px 0;
+  margin: 3px 0;
   padding: 10px 14px;
   background: transparent;
   border: none;
-  border-radius: 6px;
-  color: #5a4738;
+  border-radius: 2px;
+  color: #4a3728;
   font-family: 'Crimson Text', serif;
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   text-align: left;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: background 0.15s ease;
+  transition: all 0.15s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .rules-nav-popout-item:hover {
-  background: rgba(200, 180, 140, 0.3);
+  background: rgba(196, 160, 96, 0.1);
+  color: #8a1a10;
 }
 
 .rules-nav-popout-item.active {
-  background: rgba(180, 150, 100, 0.3);
-  color: #3a2718;
+  background: rgba(196, 160, 96, 0.2);
+  color: #8a1a10;
   font-weight: 600;
 }
 
 .rules-nav-popout-item i {
   font-size: 0.95rem;
-  color: #8a7050;
+  color: var(--rpg-dark-gold, #8f6f35);
   width: 20px;
   text-align: center;
 }
 
-.rules-nav-popout-item:hover i {
-  color: #6a5030;
-}
-
+.rules-nav-popout-item:hover i,
 .rules-nav-popout-item.active i {
-  color: #6a5030;
+  color: #8a1a10;
 }
 
-/* Custom scrollbar for navigation */
+/* Custom scrollbar for dark sidebar */
 .rules-nav::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .rules-nav::-webkit-scrollbar-track {
-  background: rgba(139, 69, 19, 0.1);
+  background: rgba(0,0,0,0.2);
 }
 
 .rules-nav::-webkit-scrollbar-thumb {
-  background: #8b4513;
-  border-radius: 4px;
+  background: #3e2719;
+  border-radius: 3px;
 }
 
 .rules-nav::-webkit-scrollbar-thumb:hover {
-  background: #d4af37;
+  background: #c4a060;
 }
 
-/* Category Buttons */
+/* Category Buttons - Vintage Brass Drawer Handles Vibe */
 .rules-nav-category {
   margin-bottom: 6px;
 }
@@ -284,11 +320,11 @@
 .rules-nav-category-btn {
   width: 100%;
   padding: 14px 20px;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
-  border: 2px solid #a08060;
+  background: linear-gradient(145deg, #2b1b11 0%, #1a0e07 100%);
+  border: 1px solid #3c2415;
   border-left: none;
   border-right: none;
-  color: #5a4030;
+  color: #c4a060;
   font-family: 'Cinzel', serif;
   font-size: 1.05rem;
   font-weight: 600;
@@ -310,11 +346,11 @@
   min-height: 42px;
   height: 42px;
   width: 42px;
-  border-radius: 8px;
+  border-radius: 4px;
   margin: 0 auto 6px auto;
-  border: 2px solid #b89870;
-  background: linear-gradient(145deg, #f5ead6 0%, #e8dcc4 100%);
-  box-shadow: 0 2px 4px rgba(100, 70, 40, 0.15);
+  border: 1px solid #4a2e1c;
+  background: linear-gradient(145deg, #28180e 0%, #150b06 100%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
 }
 
 .rules-sidebar.collapsed .rules-nav-category {
@@ -324,33 +360,33 @@
 }
 
 .rules-sidebar:not(.collapsed) .rules-nav-category-btn:hover {
-  background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 100%);
+  background: linear-gradient(145deg, #362113 0%, #201107 100%);
   border-color: #c4a060;
 }
 
 .rules-sidebar.collapsed .rules-nav-category-btn:hover {
   padding: 0;
-  background: linear-gradient(145deg, #fff8ec 0%, #f5ead6 100%);
+  background: linear-gradient(145deg, #3d2616 0%, #28180e 100%);
   border-color: #c4a060;
-  box-shadow: 0 2px 8px rgba(180, 140, 80, 0.25);
+  box-shadow: 0 0 10px rgba(196, 160, 96, 0.35);
 }
 
 /* Expanded/Active state */
 .rules-sidebar:not(.collapsed) .rules-nav-category-btn.expanded {
-  background: linear-gradient(135deg, #c4a373 0%, #a08c70 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #3e2719 0%, #1d0f07 100%);
+  color: #fffbf2;
   border-color: #c4a060;
 }
 
 .rules-sidebar.collapsed .rules-nav-category-btn.expanded,
 .rules-sidebar.collapsed .rules-nav-category-btn.active-category {
-  background: linear-gradient(145deg, #c4a060 0%, #a08050 100%);
-  border-color: #a08050;
+  background: linear-gradient(145deg, #8f6f35 0%, #5d451a 100%);
+  border-color: #c4a060;
 }
 
 .rules-nav-icon {
   font-size: 1.2rem;
-  color: #a08050;
+  color: #c4a060;
   width: 24px;
   min-width: 24px;
   text-align: center;
@@ -365,24 +401,25 @@
 .rules-sidebar.collapsed .rules-nav-icon {
   width: auto;
   min-width: auto;
-  font-size: 1.2rem;
-  color: #8b7050;
+  font-size: 1.15rem;
+  color: #c4a060;
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
 
 .rules-sidebar.collapsed .rules-nav-category-btn:hover .rules-nav-icon {
-  color: #6b5030;
+  color: #fffbf2;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 .rules-sidebar.collapsed .rules-nav-category-btn.expanded .rules-nav-icon,
 .rules-sidebar.collapsed .rules-nav-category-btn.active-category .rules-nav-icon {
-  color: #fff;
+  color: #fffbf2;
 }
 
 .rules-sidebar:not(.collapsed) .rules-nav-category-btn.expanded .rules-nav-icon {
-  color: #fff;
+  color: #fffbf2;
 }
 
 .rules-nav-category-btn span {
@@ -401,7 +438,7 @@
 
 .rules-nav-chevron {
   margin-left: auto;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   transition: transform 0.2s ease, opacity 0.2s ease;
   flex-shrink: 0;
 }
@@ -413,6 +450,7 @@
 }
 
 /* Subcategories - Only used when sidebar is NOT collapsed (we use popout when collapsed) */
+
 .rules-sidebar:not(.collapsed) .rules-nav-subcategories {
   background: rgba(139, 69, 19, 0.05);
   border-left: 3px solid #d4af37;
@@ -582,14 +620,66 @@
   color: #8a7060;
 }
 
-/* Content Area */
+/* Content Area - Premium TTRPG Archival Codex Folio Page */
 .rules-content-area {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
-  padding-top: 20px;
-  padding-bottom: 60px;
-  background: linear-gradient(180deg, #f5ead6 0%, #f0e5d0 100%);
+  margin: 30px 40px 30px 30px;
+  background: radial-gradient(circle at 30% 30%, #fffbf2 0%, #f7edd8 70%, #ede0c4 100%);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+  box-shadow: 
+    /* Heavy realistic desk shadow */
+    0 15px 35px rgba(0, 0, 0, 0.55), 
+    /* Deep parchment aged inner shadow */
+    inset 0 0 80px rgba(139, 69, 19, 0.15),
+    /* 3D stacked pages sheet effect underneath (leather bound grimoire/ledger stack) */
+    2px 2px 0px #eddcb8,
+    3px 3px 0px rgba(100, 60, 30, 0.15),
+    4px 4px 0px #ebd9b0,
+    5px 5px 0px rgba(100, 60, 30, 0.18),
+    6px 6px 0px #e7d4a6,
+    7px 7px 0px rgba(100, 60, 30, 0.22),
+    8px 8px 16px rgba(0, 0, 0, 0.45);
+  padding: 50px 70px 80px 70px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Elegant hand-ruled inner dashed margin frame */
+.rules-content-area::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  border: 1px dashed rgba(196, 160, 96, 0.45);
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Ornate footer badge at bottom of parchment scroll */
+.rules-content-area::after {
+  content: '✦  Mythrill VTT Codex  •  Folio LXXVI  ✦';
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--rpg-dark-gold);
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(196, 160, 96, 0.25);
+  padding-top: 12px;
+  pointer-events: none;
+  opacity: 0.75;
+  z-index: 5;
 }
 
 /* Remove top padding when showing class detail to eliminate gap with breadcrumbs */
@@ -965,6 +1055,12 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 
 .rules-table-wrapper.single-page {
   grid-template-columns: 1fr;
+  max-width: 820px; /* Constrain wide single tables so they don't stretch too thin */
+  margin: 0 auto;
+}
+
+.rules-table-wrapper.has-two-pages {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 /* Armor layout helpers */
@@ -996,7 +1092,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   color: #3a3026;
 }
 
-/* Book spine - center binding */
+/* Book spine only shown when both pages have content — controlled by JS class */
 .rules-table-wrapper::before {
   content: '';
   position: absolute;
@@ -1014,6 +1110,12 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   );
   z-index: 10;
   box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.1), inset -1px 0 2px rgba(0, 0, 0, 0.1);
+  /* Hidden by default; only shown on two-page tables via .has-two-pages */
+  display: none;
+}
+
+.rules-table-wrapper.has-two-pages::before {
+  display: block;
 }
 
 .rules-table-wrapper.single-page::before {
@@ -1470,7 +1572,12 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   }
 
   .rules-content-area {
-    padding: 0;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #faf6ee !important;
+    padding: 20px var(--pf-space-mobile-4) 60px var(--pf-space-mobile-4) !important;
     flex: 1;
     overflow-y: auto !important;
     overflow-x: hidden !important;
@@ -1478,6 +1585,11 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     touch-action: pan-y;
+  }
+
+  .rules-content-area::before,
+  .rules-content-area::after {
+    display: none !important;
   }
 
   .rules-content-area.class-detail-view,

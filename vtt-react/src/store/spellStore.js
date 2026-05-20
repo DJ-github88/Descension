@@ -14,12 +14,10 @@ export const SPELL_TYPES = {
 
 // Damage types
 export const DAMAGE_TYPES = {
-  PHYSICAL: 'physical',
   FIRE: 'fire',
   FROST: 'frost',
   ARCANE: 'arcane',
   NATURE: 'nature',
-  HOLY: 'holy',
   POISON: 'poison',
   LIGHTNING: 'lightning',
   NECROTIC: 'necrotic',
@@ -30,7 +28,8 @@ export const DAMAGE_TYPES = {
   VOID: 'void',
   BLUDGEONING: 'bludgeoning',
   PIERCING: 'piercing',
-  SLASHING: 'slashing'
+  SLASHING: 'slashing',
+  HEALING: 'healing',
 };
 
 // Sample spells for testing

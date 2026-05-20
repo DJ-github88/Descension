@@ -76,7 +76,7 @@ const ZEALOT_PATH = {
                 damageTypes: [],
 
                 typeConfig: {
-                    school: 'holy',
+                    school: 'radiant',
                     icon: 'Radiant/Divine Blessing',
                     tags: ['passive', 'divine', 'resistance', 'detection']
                 },
@@ -144,7 +144,7 @@ const ZEALOT_PATH = {
                 damageTypes: [],
 
                 typeConfig: {
-                    school: 'holy',
+                    school: 'radiant',
                     icon: 'Healing/Heart Shield',
                     tags: ['reaction', 'healing', 'divine', 'sacrifice']
                 },
@@ -219,7 +219,7 @@ const ZEALOT_PATH = {
                 damageTypes: [],
 
                 typeConfig: {
-                    school: 'holy',
+                    school: 'radiant',
                     icon: 'Radiant/Radiant Divinity',
                     tags: ['action', 'buff', 'inspiration', 'divine', 'aura']
                 },

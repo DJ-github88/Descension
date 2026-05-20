@@ -800,14 +800,15 @@
   border-radius: var(--pf-border-radius-sm);
   font-size: var(--pf-text-xs);
   font-weight: var(--pf-font-semibold);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 0.15); /* Subtle lift from parchment */
+  background: rgba(255, 255, 255, 0.08);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: all var(--pf-transition-fast);
+  cursor: default;
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .pf-damage-type-icon {
@@ -829,187 +830,102 @@
 
 /* ===== DAMAGE TYPE COLORS (Dark Pathfinder RPG palette) ===== */
 
-/* Fire */
-.pf-damage-type-badge.fire {
-  background: transparent;
-  border-color: transparent;
-  color: var(--pf-fire);
+/* Individual damage type hover effect */
+.pf-damage-type-badge:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.pf-damage-type-badge.fire .pf-damage-type-icon::before {
-  content: "";
+/* Fire */
+.pf-damage-type-badge.fire {
+  color: var(--pf-fire);
 }
 
 /* Ice/Cold/Frost */
 .pf-damage-type-badge.ice,
 .pf-damage-type-badge.cold,
 .pf-damage-type-badge.frost {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-frost);
-}
-
-.pf-damage-type-badge.ice .pf-damage-type-icon::before,
-.pf-damage-type-badge.cold .pf-damage-type-icon::before,
-.pf-damage-type-badge.frost .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Lightning/Thunder/Electric */
 .pf-damage-type-badge.lightning,
 .pf-damage-type-badge.thunder,
 .pf-damage-type-badge.electric {
-  background: transparent;
-  border-color: transparent;
   color: #8B7328;
-}
-
-.pf-damage-type-badge.lightning .pf-damage-type-icon::before,
-.pf-damage-type-badge.thunder .pf-damage-type-icon::before,
-.pf-damage-type-badge.electric .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Poison */
 .pf-damage-type-badge.poison,
 .pf-damage-type-badge.acid {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-poison);
-}
-
-.pf-damage-type-badge.poison .pf-damage-type-icon::before,
-.pf-damage-type-badge.acid .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Necrotic/Shadow */
 .pf-damage-type-badge.necrotic,
 .pf-damage-type-badge.shadow {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-necrotic);
-}
-
-.pf-damage-type-badge.necrotic .pf-damage-type-icon::before,
-.pf-damage-type-badge.shadow .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Radiant/Holy */
 .pf-damage-type-badge.radiant,
 .pf-damage-type-badge.holy {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-holy);
-}
-
-.pf-damage-type-badge.radiant .pf-damage-type-icon::before,
-.pf-damage-type-badge.holy .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Arcane/Force */
 .pf-damage-type-badge.arcane,
 .pf-damage-type-badge.force {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-force);
-}
-
-.pf-damage-type-badge.arcane .pf-damage-type-icon::before,
-.pf-damage-type-badge.force .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Bludgeoning */
 .pf-damage-type-badge.bludgeoning {
-  background: transparent;
-  border-color: transparent;
   color: #5C4033;
-}
-
-.pf-damage-type-badge.bludgeoning .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Piercing */
 .pf-damage-type-badge.piercing {
-  background: transparent;
-  border-color: transparent;
   color: #5A6A72;
-}
-
-.pf-damage-type-badge.piercing .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Slashing */
 .pf-damage-type-badge.slashing {
-  background: transparent;
-  border-color: transparent;
   color: #6B2D2D;
-}
-
-.pf-damage-type-badge.slashing .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Nature */
 .pf-damage-type-badge.nature {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-nature);
-}
-
-.pf-damage-type-badge.nature .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Void */
 .pf-damage-type-badge.void {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-void);
-}
-
-.pf-damage-type-badge.void .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Psychic */
 .pf-damage-type-badge.psychic {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-psychic);
-}
-
-.pf-damage-type-badge.psychic .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* Chaos */
 .pf-damage-type-badge.chaos {
-  background: transparent;
-  border-color: transparent;
   color: var(--pf-chaos);
-}
-
-.pf-damage-type-badge.chaos .pf-damage-type-icon::before {
-  content: "";
 }
 
 /* More types indicator */
 .pf-damage-type-badge.more-types {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: var(--pf-text-secondary) !important;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--pf-text-secondary);
   font-style: italic;
 }
 
 .pf-damage-type-badge.more-types:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
-  color: var(--pf-text-primary) !important;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--pf-text-primary);
 }
 
 /* ===== TRIGGER BADGES ===== */
@@ -1152,6 +1068,28 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
+/* ===== RESOURCE GROUPING ===== */
+
+.pf-resource-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pf-resource-group-secondary {
+  opacity: 0.85;
+}
+
+.pf-resource-divider {
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 4px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 /* ===== RESOURCE TYPE STYLING ===== */
 
 /* Action Points */
@@ -1251,6 +1189,244 @@
 
 .pf-resource-cost.stamina .pf-resource-icon::before {
   content: "";
+}
+
+/* Action */
+.pf-resource-cost.action {
+  background: transparent;
+  border-color: transparent;
+  color: #E67E22;
+}
+
+/* Bonus Action */
+.pf-resource-cost.bonus_action,
+.pf-resource-cost.bonus-action {
+  background: transparent;
+  border-color: transparent;
+  color: #60A5FA;
+}
+
+/* Reaction */
+.pf-resource-cost.reaction {
+  background: transparent;
+  border-color: transparent;
+  color: #FBBF24;
+}
+
+/* Spell Slot */
+.pf-resource-cost.spell_slot,
+.pf-resource-cost.spell-slot {
+  background: transparent;
+  border-color: transparent;
+  color: #C084FC;
+}
+
+/* ===== CONSOLIDATED RESOURCE COLOR OVERRIDES (from spell-card-enhancements.css) ===== */
+
+.pf-resource-cost.action-points,
+.pf-resource-cost.actionpoints,
+.pf-resource-cost.action_points {
+  color: #fbbf24;
+}
+
+.pf-resource-cost.action-points .pf-resource-icon,
+.pf-resource-cost.actionpoints .pf-resource-icon,
+.pf-resource-cost.action_points .pf-resource-icon {
+  color: #fbbf24;
+}
+
+.pf-resource-cost.action-points .pf-resource-amount,
+.pf-resource-cost.actionpoints .pf-resource-amount,
+.pf-resource-cost.action_points .pf-resource-amount {
+  color: #fbbf24;
+}
+
+.pf-resource-cost.mana {
+  color: #ffffff;
+}
+
+.pf-resource-cost.mana .pf-resource-icon {
+  color: #ffffff;
+}
+
+.pf-resource-cost.mana .pf-resource-amount {
+  color: #ffffff;
+}
+
+.pf-resource-cost.mana .pf-resource-name {
+  color: #ffffff;
+}
+
+.pf-resource-cost.rage {
+  color: #f87171;
+}
+
+.pf-resource-cost.rage .pf-resource-icon {
+  color: #f87171;
+}
+
+.pf-resource-cost.rage .pf-resource-amount {
+  color: #f87171;
+}
+
+.pf-resource-cost.energy {
+  color: #fde047;
+}
+
+.pf-resource-cost.energy .pf-resource-icon {
+  color: #fde047;
+}
+
+.pf-resource-cost.energy .pf-resource-amount {
+  color: #fde047;
+}
+
+.pf-resource-cost.health {
+  color: #ffffff;
+}
+
+.pf-resource-cost.health .pf-resource-icon {
+  color: #ffffff;
+}
+
+.pf-resource-cost.health .pf-resource-amount {
+  color: #ffffff;
+}
+
+.pf-resource-cost.focus {
+  color: #34d399;
+}
+
+.pf-resource-cost.focus .pf-resource-icon {
+  color: #34d399;
+}
+
+.pf-resource-cost.focus .pf-resource-amount {
+  color: #34d399;
+}
+
+.pf-resource-cost.fortune {
+  color: #fbbf24;
+}
+
+.pf-resource-cost.fortune .pf-resource-icon {
+  color: #fbbf24;
+}
+
+.pf-resource-cost.fortune .pf-resource-amount {
+  color: #fbbf24;
+}
+
+.pf-resource-cost.soul-shards,
+.pf-resource-cost.soulshards {
+  color: #a78bfa;
+}
+
+.pf-resource-cost.soul-shards .pf-resource-icon,
+.pf-resource-cost.soulshards .pf-resource-icon {
+  color: #a78bfa;
+}
+
+.pf-resource-cost.soul-shards .pf-resource-amount,
+.pf-resource-cost.soulshards .pf-resource-amount {
+  color: #a78bfa;
+}
+
+.pf-resource-cost.stamina {
+  color: #fb923c;
+}
+
+.pf-resource-cost.stamina .pf-resource-icon {
+  color: #fb923c;
+}
+
+.pf-resource-cost.stamina .pf-resource-amount {
+  color: #fb923c;
+}
+
+/* ===== CONSOLIDATED BADGE BOX STYLING (from spell-card-enhancements.css) ===== */
+
+.pf-action-type-badge,
+.pf-targeting-badge,
+.pf-range-badge {
+  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: 1px solid var(--pf-brown-medium, #8B4513);
+  padding: 3px 8px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2);
+  color: #000000;
+}
+
+.pf-action-type-badge *,
+.pf-targeting-badge *,
+.pf-range-badge * {
+  color: #000000;
+}
+
+.pf-propagation-badge {
+  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: 1px solid var(--pf-brown-medium, #8B4513);
+  padding: 3px 8px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2);
+  color: #000000;
+}
+
+.pf-propagation-badge * {
+  color: #000000;
+}
+
+/* ===== CONSOLIDATED DAMAGE TYPE COLOR OVERRIDES (from spell-card-enhancements.css) ===== */
+
+.pf-damage-type-badge {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.pf-damage-type-badge.radiant {
+  color: #fbbf24;
+}
+
+.pf-damage-type-badge.fire {
+  color: #f87171;
+}
+
+.pf-damage-type-badge.cold,
+.pf-damage-type-badge.ice {
+  color: #60a5fa;
+}
+
+.pf-damage-type-badge.lightning,
+.pf-damage-type-badge.electric {
+  color: #fde047;
+}
+
+.pf-damage-type-badge.poison {
+  color: #34d399;
+}
+
+.pf-damage-type-badge.necrotic,
+.pf-damage-type-badge.shadow {
+  color: #a78bfa;
+}
+
+.pf-damage-type-badge.divine,
+.pf-damage-type-badge.holy {
+  color: #fbbf24;
+}
+
+.pf-damage-type-badge.arcane {
+  color: #60a5fa;
+}
+
+.pf-damage-type-badge.slashing,
+.pf-damage-type-badge.piercing,
+.pf-damage-type-badge.bludgeoning {
+  color: #9ca3af;
+}
+
+.pf-damage-type-badge.chaos {
+  color: #ec4899;
 }
 
 .pf-spell-icon img {
@@ -1858,17 +2034,16 @@
   gap: var(--pf-space-1);
   margin-left: auto;
   flex-shrink: 0;
-  max-width: 320px; /* Allow more space for the combined box */
+  max-width: 220px;
 }
 
 /* Combined damage types and spell components box */
 .pf-damage-spell-box {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align to left side of the box */
+  align-items: flex-start;
   gap: var(--pf-space-1);
-  max-width: 280px;
-  min-width: 200px;
+  max-width: 220px;
 }
 
 /* Damage types in header - spread out more to left and right */

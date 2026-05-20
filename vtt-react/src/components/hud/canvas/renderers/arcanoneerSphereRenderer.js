@@ -2,10 +2,10 @@
 
 const ELEMENT_DEFS = {
   arcane:  { color: '#9370DB', glow: '#BA9FE8', dark: '#5a3d8a', anim: 'arcane' },
-  holy:    { color: '#FFD700', glow: '#FFE55C', dark: '#b8990a', anim: 'holy' },
-  shadow:  { color: '#1C1C1C', glow: '#4A4A4A', dark: '#0a0a0a', anim: 'shadow' },
+  radiant: { color: '#FFD700', glow: '#FFE55C', dark: '#b8990a', anim: 'holy' },
+  necrotic: { color: '#1C1C1C', glow: '#4A4A4A', dark: '#0a0a0a', anim: 'shadow' },
   fire:    { color: '#FF4500', glow: '#FF6347', dark: '#aa2e00', anim: 'fire' },
-  ice:     { color: '#4169E1', glow: '#6495ED', dark: '#2a47a0', anim: 'ice' },
+  frost:   { color: '#4169E1', glow: '#6495ED', dark: '#2a47a0', anim: 'ice' },
   nature:  { color: '#32CD32', glow: '#90EE90', dark: '#1e8a1e', anim: 'nature' },
   healing: { color: '#FFFF00', glow: '#FFFFE0', dark: '#b0b000', anim: 'healing' },
   chaos:   { color: '#FF00FF', glow: '#FF77FF', dark: '#990099', anim: 'chaos', rainbow: true },

@@ -94,8 +94,37 @@ const DAMAGE_TYPES = {
       color: '#1A1A2E',
       icon: 'Void/Void Scream'
     },
+    healing: {
+      name: 'Healing',
+      description: 'Restorative energy that repairs damage and restores vitality.',
+      color: '#2E8B57',
+      icon: 'Healing/Golden Heart'
+    },
+  };
 
-    // End of standard D&D damage types
+  export const LEGACY_TYPE_MAP = {
+    cold: 'frost',
+    ice: 'frost',
+    shadow: 'necrotic',
+    holy: 'radiant',
+    electric: 'lightning',
+    acid: 'poison',
+    thunder: 'force',
+    viscera: 'nature',
+  };
+
+  export const ALL_DAMAGE_TYPE_IDS = Object.keys(DAMAGE_TYPES);
+
+  export const PHYSICAL_TYPES = ['bludgeoning', 'piercing', 'slashing'];
+
+  export const SPELL_DAMAGE_TYPES = ALL_DAMAGE_TYPE_IDS.filter(
+    t => !PHYSICAL_TYPES.includes(t) && t !== 'healing'
+  );
+
+  export const normalizeDamageType = (type) => {
+    if (!type) return type;
+    const lower = type.toLowerCase();
+    return LEGACY_TYPE_MAP[lower] || lower;
   };
 
   // Function to get damage type details by ID
@@ -117,4 +146,4 @@ const DAMAGE_TYPES = {
     }));
   };
 
-  export default DAMAGE_TYPES;
+  export { DAMAGE_TYPES as default };

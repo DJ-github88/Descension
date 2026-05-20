@@ -121,12 +121,13 @@ export function calculateEquipmentBonuses(equipment = {}) {
 
                 if (stat === 'resistances' && typeof statData === 'object') {
                     Object.entries(statData).forEach(([resType, resData]) => {
-                        // Normalize damage type names: shadow -> necrotic, holy -> radiant, cold -> frost
                         const normalizeDamageType = (type) => {
-                            if (type === 'shadow') return 'necrotic';
-                            if (type === 'holy') return 'radiant';
-                            if (type === 'cold') return 'frost';
-                            return type;
+                            const map = {
+                                shadow: 'necrotic', holy: 'radiant', cold: 'frost',
+                                ice: 'frost', acid: 'poison', thunder: 'force',
+                                viscera: 'nature', physical: 'bludgeoning', electric: 'lightning',
+                            };
+                            return map[type] || type;
                         };
                         const normalizedResType = normalizeDamageType(resType);
                         const physicalTypes = ['bludgeoning', 'piercing', 'slashing'];
@@ -285,7 +286,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
         }
 
         // Handle individual spell damage types (fire, frost, etc.)
-        const spellDamageTypes = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'acid', 'force', 'thunder', 'chaos', 'necrotic', 'radiant'];
+        const spellDamageTypes = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'force', 'chaos', 'necrotic', 'radiant', 'poison', 'psychic', 'void'];
         spellDamageTypes.forEach(type => {
             const typeKey = `${type}Damage`;
             const spellPowerKey = `${type}SpellPower`;

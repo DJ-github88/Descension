@@ -695,7 +695,7 @@
                         effectTypes: ['damage', 'healing'],
                         typeConfig: {
                             school: 'necrotic',
-                            secondaryElement: 'shadow',
+                            secondaryElement: 'necrotic',
                             icon: 'spell_deathknight_bloodtap',
                             tags: ['lifesteal', 'siphon', 'blood']
                         },
@@ -737,7 +737,7 @@
                         spellType: 'PASSIVE',
                         effectTypes: ['debuff'],
                         typeConfig: {
-                            school: 'shadow',
+                            school: 'necrotic',
                             secondaryElement: 'psychic',
                             icon: 'spell_shadow_shadetruesight',
                             tags: ['aura', 'debuff', 'passive']
@@ -890,7 +890,7 @@
                         spellType: 'PASSIVE',
                         effectTypes: ['debuff'],
                         typeConfig: {
-                            school: 'shadow',
+                            school: 'necrotic',
                             secondaryElement: 'psychic',
                             icon: 'spell_shadow_requiem',
                             tags: ['vulnerability', 'hunger', 'passive']

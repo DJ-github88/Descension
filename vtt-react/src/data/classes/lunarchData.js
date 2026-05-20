@@ -724,6 +724,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           waningMoon: "Heal for 25% of damage dealt. Costs 1 less mana (minimum 1).",
         },
         selfDamage: "Take 1d4 necrotic damage when you cast this spell",
+        phaseAdvancement: 1,
       },
 
       tags: ["radiant", "damage", "ranged", "phase dependent", "self damage"],
@@ -1218,6 +1219,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 1d6 necrotic when cast. During Waxing: take 1d4 extra but healing +50%.",
+        phaseAdvancement: 1,
         phaseInteraction: {
           waxingMoon: "Healing +50%. Take 1d4 extra necrotic. Target gains 1d6 temp HP.",
           fullMoon: "Also cleanses one poison or disease from target.",
@@ -1522,6 +1524,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             "Waning: Next spell costs 2 less mana",
           ],
           selfDamage: "Take 4d4 necrotic damage (cumulative tissue damage from four rapid shifts). Roll Transition Shock once.",
+          phaseAdvancement: 1,
         },
       },
 
@@ -1577,6 +1580,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 2d6 necrotic when cast. During Waxing: healing +50% but take 1d6 extra necrotic.",
+        phaseAdvancement: 1,
         phaseInteraction: {
           waxingMoon: "Healing increases to 4d8+spirit+2d6. Target gains 2d6 temp HP. Take 1d6 extra necrotic.",
           fullMoon: "Can cleanse two conditions (poison, disease, curse).",
@@ -1661,6 +1665,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       specialMechanics: {
         dualPhase: {
           selfDamage: "Take 3d6 necrotic when cast. Roll Transition Shock twice.",
+          phaseAdvancement: 1,
           phaseLock: "Phase does not cycle during Eclipse.",
           afterEffect: "After Eclipse ends, shift to Waning Moon (no additional cost).",
           delirium: "Still roll Delirium each turn (Full Moon drawback persists).",
@@ -1724,6 +1729,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 2d4 necrotic damage per target hit (parasite feeds on each bolt).",
+        phaseAdvancement: 1,
         phaseInteraction: {
           fullMoon: "Can target 6 enemies. Each bolt deals +1d8 radiant. Ignore 25% armor (Starlight Sockets).",
           waningMoon: "Heal 25% of total damage dealt. Mana cost reduced by 3.",
@@ -1803,6 +1809,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 3d6 necrotic (tearing the rift-core from your chest).",
+        phaseAdvancement: 1,
         phaseInteraction: {
           fullMoon: "Radius 30 ft. Delirium 3 rounds. +2d10 radiant.",
           waningMoon: "Heal 25% of damage. Delirium duration +1 round.",
@@ -1871,6 +1878,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 4d6 necrotic damage. This damage cannot reduce you below 1 HP (the parasite will not let you die before it finishes feeding).",
+        phaseAdvancement: 1,
         phaseInteraction: {
           waxingMoon: "Direct healing +2d6. HOT +1d6. Allies gain 2d6 temp HP.",
           newMoon: "All healed allies gain +2 Armor for 1 round.",
@@ -1934,6 +1942,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 4d6 necrotic damage. The bolt is forged from your own vital essence.",
+        phaseAdvancement: 1,
         phaseInteraction: {
           fullMoon: "Damage +3d8 radiant. Crit range 18-20. Ignore 50% armor.",
           waningMoon: "Heal 25% of total damage. Mana cost reduced by 5.",
@@ -2007,6 +2016,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 3d6 necrotic. Each rift-wound bleeds you as it fires.",
+        phaseAdvancement: 1,
         phaseInteraction: {
           fullMoon: "8 targets. +1d8 radiant each. Star-Sickness deals 1d6/turn.",
           waningMoon: "Heal 25% of total damage. Mana cost reduced by 4.",
@@ -2079,6 +2089,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 2d6 necrotic when cast (the tendrils erupt violently from your flesh).",
+        phaseAdvancement: 1,
         phaseInteraction: {
           newMoon: "Absorption increases to 75. Allies within gain +2 Armor.",
           fullMoon: "Reflected damage increases to 75%. Bulwark deals 1d6 radiant to attackers.",
@@ -2143,6 +2154,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 5d6 necrotic (the tear opens through your own body first).",
+        phaseAdvancement: 1,
         zoneConfig: {
           persistentDamage: "3d8 radiant per round for 3 rounds.",
           phaseInteraction: {
@@ -2387,6 +2399,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 6d6 necrotic damage. Your maximum HP is reduced by 10 until your next long rest (the parasite takes time to regenerate the portion of itself you fired).",
+        phaseAdvancement: 1,
         specialRules: "Ignores resistance to radiant damage. Destroys unattended objects in path.",
         phaseInteraction: {
           fullMoon: "Damage +4d6 radiant. Crit range 17-20.",
@@ -2479,6 +2492,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         selfDamage: "Take 5d6 necrotic when cast. At the start of each subsequent turn, take 1d6 necrotic while the zone persists (your body is the pump).",
+        phaseAdvancement: 1,
         zoneConfig: {
           duration: "rest of combat",
           movable: false,

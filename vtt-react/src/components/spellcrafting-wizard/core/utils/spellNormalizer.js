@@ -18,6 +18,16 @@
  * @param {Object} spell - Spell object from any source
  * @returns {Object} - Fully normalized spell object
  */
+
+const LEGACY_DAMAGE_TYPE_MAP = {
+  cold: 'frost', ice: 'frost', shadow: 'necrotic', holy: 'radiant',
+  acid: 'poison', thunder: 'force', viscera: 'nature', electric: 'lightning',
+};
+
+function _normalizeLegacyDamageType(type) {
+  if (!type || typeof type !== 'string') return type;
+  return LEGACY_DAMAGE_TYPE_MAP[type.toLowerCase()] || type;
+}
 export const normalizeSpell = (spell) => {
   if (!spell || typeof spell !== 'object') {
     return createEmptySpell();
@@ -75,16 +85,34 @@ export const normalizeSpell = (spell) => {
       && !Array.isArray(normalized.damageConfig.damageTypes)) {
     const val = normalized.damageConfig.damageType;
     if (val !== 'direct' && val !== 'dot' && val !== 'area' && val !== 'variable') {
-      normalized.damageConfig.damageTypes = [val];
+      normalized.damageConfig.damageTypes = [_normalizeLegacyDamageType(val)];
     }
   }
 
   // 6d. Normalize school from top-level into typeConfig
   if (normalized.school && !normalized.typeConfig?.school) {
     if (!normalized.typeConfig) normalized.typeConfig = {};
-    normalized.typeConfig.school = normalized.school;
+    normalized.typeConfig.school = _normalizeLegacyDamageType(normalized.school);
+  }
+  // 6d2. Normalize existing typeConfig.school and secondaryElement
+  if (normalized.typeConfig?.school) {
+    normalized.typeConfig.school = _normalizeLegacyDamageType(normalized.typeConfig.school);
+  }
+  if (normalized.typeConfig?.secondaryElement) {
+    normalized.typeConfig.secondaryElement = _normalizeLegacyDamageType(normalized.typeConfig.secondaryElement);
   }
   
+  // 6d3. Normalize damageTypes array if present
+  if (Array.isArray(normalized.damageTypes)) {
+    normalized.damageTypes = normalized.damageTypes.map(t => _normalizeLegacyDamageType(t));
+  }
+  if (normalized.damageConfig?.damageTypes && Array.isArray(normalized.damageConfig.damageTypes)) {
+    normalized.damageConfig.damageTypes = normalized.damageConfig.damageTypes.map(t => _normalizeLegacyDamageType(t));
+  }
+  if (normalized.typeConfig?.damageTypes && Array.isArray(normalized.typeConfig.damageTypes)) {
+    normalized.typeConfig.damageTypes = normalized.typeConfig.damageTypes.map(t => _normalizeLegacyDamageType(t));
+  }
+
   // 6e. Preserve original effects object for legacy format support
   // UnifiedSpellCard checks both buffConfig and effects.buff
   if (spell.effects && !normalized.effects) {

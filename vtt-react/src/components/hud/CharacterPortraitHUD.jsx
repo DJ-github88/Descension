@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
+import useSettingsStore from '../../store/settingsStore';
 import useTargetingStore from '../../store/targetingStore';
 import ClassResourceBar from './ClassResourceBar';
 import '../../styles/party-hud.css';
@@ -46,6 +47,9 @@ const CharacterPortraitHUD = ({
 
     // Get updateClassResource function from store
     const updateClassResource = useCharacterStore(state => state.updateClassResource);
+
+    const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
+    const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
 
     const characterData = isCurrentPlayer ? currentPlayerData : character;
 
@@ -237,6 +241,7 @@ const CharacterPortraitHUD = ({
                     </div>
 
                     {/* Mana Bar */}
+                    {showPartyManaBar && (
                     <div className="resource-bar mana-bar">
                         <div className="bar-background">
                             <div 
@@ -251,8 +256,10 @@ const CharacterPortraitHUD = ({
                             </div>
                         </div>
                     </div>
+                    )}
 
                     {/* Action Points Bar */}
+                    {showPartyAPBar && (
                     <div className="resource-bar ap-bar">
                         <div className="bar-background">
                             <div
@@ -267,6 +274,7 @@ const CharacterPortraitHUD = ({
                             </div>
                         </div>
                     </div>
+                    )}
 
                     {/* Class Resource Bar - Only show if character has a class and class resource */}
                     {characterData.class && characterData.classResource && (

@@ -415,7 +415,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["buff"],
       icon: "Piercing/Targeted Strike",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Piercing/Targeted Strike",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -618,7 +618,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["utility", "buff"],
       icon: "Utility/Speed Boot",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Utility/Speed Boot",
         castTime: 1,
         castTimeType: "ACTION",
@@ -915,7 +915,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["buff"],
       icon: "Utility/Hide",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Utility/Hide",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1157,7 +1157,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["control"],
       icon: "Necrotic/Corruption",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Necrotic/Corruption",
         castTime: 1,
         castTimeType: "ACTION",
@@ -1419,7 +1419,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["damage", "control"],
       icon: "Slashing/Execution",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Slashing/Execution",
         castTime: 1,
         castTimeType: "ACTION",
@@ -1761,7 +1761,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["damage", "debuff"],
       icon: "Void/Consumed by Void",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Void/Consumed by Void",
         castTime: 1,
         castTimeType: "ACTION",
@@ -2041,7 +2041,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["transformation"],
       icon: "Void/Shadowy Potion",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Void/Shadowy Potion",
         castTime: 1,
         castTimeType: "ACTION",
@@ -2278,7 +2278,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["transformation"],
       icon: "Void/Consumed by Void",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Void/Consumed by Void",
         castTime: 1,
         castTimeType: "ACTION",
@@ -2535,7 +2535,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["transformation"],
       icon: "Psychic/Psionic Boom",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Psychic/Psionic Boom",
         castTime: 1,
         castTimeType: "ACTION",
@@ -2783,7 +2783,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       effectTypes: ["transformation"],
       icon: "Utility/Summon Minion",
       typeConfig: {
-        school: "shadow",
+        school: "necrotic",
         icon: "Utility/Summon Minion",
         castTime: 1,
         castTimeType: "ACTION",
@@ -2978,7 +2978,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       icon: "Radiant/Radiant Golden Shield",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "holy",
+        school: "radiant",
         icon: "Radiant/Radiant Golden Shield",
         tags: ["passive", "restriction", "no friendly fire", "oath", "covenbane"],
         castTime: 0,

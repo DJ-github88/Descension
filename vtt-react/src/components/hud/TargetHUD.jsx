@@ -3,6 +3,7 @@ import Draggable from 'react-draggable';
 import { createPortal } from 'react-dom';
 import useTargetingStore from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import usePartyStore from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useCreatureStore from '../../store/creatureStore';
@@ -142,6 +143,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
     const { currentTarget, targetType, clearTarget, targetHUDPosition, setTargetHUDPosition, getTargetHUDPosition } = useTargetingStore();
     const { isGMMode } = useGameStore();
+    const showCreatureManaBar = useSettingsStore(state => state.showCreatureManaBar ?? true);
+    const showCreatureAPBar = useSettingsStore(state => state.showCreatureAPBar ?? true);
     const { updatePartyMember } = usePartyStore();
     const { updateResource, updateClassResource, activeCharacter, updateTempResource } = useCharacterStore();
     const { updateTokenState, getCreature, creatures } = useCreatureStore();
@@ -2185,7 +2188,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                     </div>
 
                                     {/* Mana Bar */}
-                                    {safeMana.max > 0 && (
+                                    {showCreatureManaBar && safeMana.max > 0 && (
                                         <div className="resource-bar mana-bar">
                                             <div
                                                 className="resource-fill"
@@ -2224,7 +2227,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                     )}
 
                                     {/* Action Points Bar */}
-                                    {safeActionPoints.max > 0 && (
+                                    {showCreatureAPBar && safeActionPoints.max > 0 && (
                                         <div className="resource-bar ap-bar">
                                             <div
                                                 className="resource-fill"

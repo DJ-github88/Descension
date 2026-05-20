@@ -276,7 +276,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       damageConfig: {
         formula: "1d8",
-        damageTypes: ["physical"],
+        damageTypes: ["bludgeoning"],
         resolution: "DICE"
       },
       utilityConfig: {
@@ -1075,7 +1075,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       damageConfig: {
         formula: "2d6",
-        damageTypes: ["physical"],
+        damageTypes: ["bludgeoning"],
         resolution: "DICE",
         conditionalDamage: {
           enabled: true,

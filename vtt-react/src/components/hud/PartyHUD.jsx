@@ -6,6 +6,7 @@ import usePartyStore from '../../store/partyStore';
 import useTargetingStore from '../../store/targetingStore';
 import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
@@ -65,6 +66,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const apBarRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const isGMMode = useGameStore(state => state.isGMMode);
+    const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
+    const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
 
     // Get current player data directly from character store (always call hook, but only use if isCurrentPlayer)
     const currentPlayerStoreData = useCharacterStore(state => ({
@@ -994,7 +997,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         </div>
 
                         {/* Mana Bar */}
-                        {(member.character?.mana?.max || 0) > 0 && (
+                        {showPartyManaBar && (member.character?.mana?.max || 0) > 0 && (
                             <div
                                 ref={manaBarRef}
                                 className="resource-bar mana-bar"
@@ -1020,7 +1023,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         )}
 
                         {/* Action Points Bar */}
-                        {(member.character?.actionPoints?.max || 0) > 0 && (
+                        {showPartyAPBar && (member.character?.actionPoints?.max || 0) > 0 && (
                             <div
                                 ref={apBarRef}
                                 className="resource-bar ap-bar"

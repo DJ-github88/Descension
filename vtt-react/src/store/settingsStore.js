@@ -368,6 +368,23 @@ const useSettingsStore = create(
 
       setShowVisionOutlines: (enabled) => {
         get().updateSettings({ showVisionOutlines: enabled });
+      },
+
+      // Resource Bar Visibility Settings
+      setShowPartyAPBar: (enabled) => {
+        get().updateSettings({ showPartyAPBar: enabled });
+      },
+
+      setShowPartyManaBar: (enabled) => {
+        get().updateSettings({ showPartyManaBar: enabled });
+      },
+
+      setShowCreatureAPBar: (enabled) => {
+        get().updateSettings({ showCreatureAPBar: enabled });
+      },
+
+      setShowCreatureManaBar: (enabled) => {
+        get().updateSettings({ showCreatureManaBar: enabled });
       }
     }),
     {
@@ -449,7 +466,13 @@ const useSettingsStore = create(
         visionRangeMode: state.visionRangeMode,
         visionOutlineColor: state.visionOutlineColor,
         controlledCreatureOutlineColor: state.controlledCreatureOutlineColor,
-        showVisionOutlines: state.showVisionOutlines
+        showVisionOutlines: state.showVisionOutlines,
+
+        // Resource Bar Visibility
+        showPartyAPBar: state.showPartyAPBar,
+        showPartyManaBar: state.showPartyManaBar,
+        showCreatureAPBar: state.showCreatureAPBar,
+        showCreatureManaBar: state.showCreatureManaBar
       })
     }
   )

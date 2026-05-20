@@ -10,7 +10,7 @@ export const PRIMALIST_DATA = {
   name: "Primalist",
   icon: "fas fa-leaf",
   role: "Support / Crowd Control / Defender (Atavistic Horror)",
-  damageTypes: ["nature", "bludgeoning", "lightning", "cold", "fire"],
+  damageTypes: ["nature", "bludgeoning", "lightning", "frost", "fire"],
 
   // ==========================================
   // 1. CLASS OVERVIEW (Lore & Identity)
@@ -248,10 +248,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -322,10 +322,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -396,10 +396,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -485,10 +485,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -574,10 +574,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -663,10 +663,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -752,10 +752,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -834,10 +834,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -922,10 +922,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice", "totemic_synergy"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 6,
-          health_sacrifice: 10,
+          totemic_synergy: 10,
           totemic_synergy: 12
         },
         actionPoints: 1
@@ -993,10 +993,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice", "totemic_synergy"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 8,
-          health_sacrifice: 15,
+          totemic_synergy: 15,
           totemic_synergy: 15
         },
         actionPoints: 1
@@ -1004,7 +1004,7 @@ export const PRIMALIST_DATA = {
       damageConfig: {
         formula: "8d6",
         elementType: "chaos",
-        damageTypes: ["fire", "lightning", "cold"],
+        damageTypes: ["fire", "lightning", "frost"],
         resolution: "DICE"
       },
       resolution: "DICE",
@@ -1042,10 +1042,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 10,
-          health_sacrifice: 20
+          totemic_synergy: 20
         },
         actionPoints: 2
       },
@@ -1110,10 +1110,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 4,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -1168,10 +1168,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 8,
-          health_sacrifice: 10
+          totemic_synergy: 10
         },
         actionPoints: 2
       },
@@ -1247,10 +1247,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 2,
-          health_sacrifice: 2
+          totemic_synergy: 2
         },
         actionPoints: 1
       },
@@ -1301,10 +1301,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 3,
-          health_sacrifice: 4
+          totemic_synergy: 4
         },
         actionPoints: 1
       },
@@ -1375,10 +1375,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 4,
-          health_sacrifice: 3
+          totemic_synergy: 3
         },
         actionPoints: 1
       },
@@ -1441,10 +1441,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 4,
-          health_sacrifice: 3
+          totemic_synergy: 3
         },
         actionPoints: 1
       },
@@ -1516,10 +1516,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 5,
-          health_sacrifice: 4
+          totemic_synergy: 4
         },
         actionPoints: 1
       },
@@ -1578,10 +1578,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 4,
-          health_sacrifice: 2
+          totemic_synergy: 2
         },
         actionPoints: 1
       },
@@ -1635,10 +1635,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 5,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -1710,10 +1710,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 6,
-          health_sacrifice: 6
+          totemic_synergy: 6
         },
         actionPoints: 1
       },
@@ -1778,10 +1778,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 6,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -1842,10 +1842,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 5,
-          health_sacrifice: 4
+          totemic_synergy: 4
         },
         actionPoints: 1
       },
@@ -1917,10 +1917,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 8,
-          health_sacrifice: 8
+          totemic_synergy: 8
         },
         actionPoints: 2
       },
@@ -1985,10 +1985,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 6,
-          health_sacrifice: 5
+          totemic_synergy: 5
         },
         actionPoints: 1
       },
@@ -2051,10 +2051,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 8,
-          health_sacrifice: 8
+          totemic_synergy: 8
         },
         actionPoints: 2
       },
@@ -2107,10 +2107,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 10,
-          health_sacrifice: 10
+          totemic_synergy: 10
         },
         actionPoints: 2
       },
@@ -2177,10 +2177,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 8,
-          health_sacrifice: 8
+          totemic_synergy: 8
         },
         actionPoints: 1
       },
@@ -2251,10 +2251,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 6,
-          health_sacrifice: 6
+          totemic_synergy: 6
         },
         actionPoints: 1
       },
@@ -2317,10 +2317,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 10,
-          health_sacrifice: 10
+          totemic_synergy: 10
         },
         actionPoints: 2
       },
@@ -2370,10 +2370,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice", "totemic_synergy"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 8,
-          health_sacrifice: 15,
+          totemic_synergy: 15,
           totemic_synergy: 10
         },
         actionPoints: 1
@@ -2436,10 +2436,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice", "totemic_synergy"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 12,
-          health_sacrifice: 20,
+          totemic_synergy: 20,
           totemic_synergy: 18
         },
         actionPoints: 3
@@ -2495,10 +2495,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 12,
-          health_sacrifice: 15
+          totemic_synergy: 15
         },
         actionPoints: 3
       },
@@ -2564,10 +2564,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 14,
-          health_sacrifice: 20
+          totemic_synergy: 20
         },
         actionPoints: 2
       },
@@ -2645,10 +2645,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 12,
-          health_sacrifice: 15
+          totemic_synergy: 15
         },
         actionPoints: 2
       },
@@ -2714,10 +2714,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice", "totemic_synergy"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 15,
-          health_sacrifice: 25,
+          totemic_synergy: 25,
           totemic_synergy: 15
         },
         actionPoints: 3
@@ -2875,10 +2875,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice", "totemic_synergy"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 18,
-          health_sacrifice: 20,
+          totemic_synergy: 20,
           totemic_synergy: 20
         },
         actionPoints: 3
@@ -2932,10 +2932,10 @@ export const PRIMALIST_DATA = {
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ["mana", "health_sacrifice", "totemic_synergy"],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: {
           mana: 20,
-          health_sacrifice: 30,
+          totemic_synergy: 30,
           totemic_synergy: 18
         },
         actionPoints: 3

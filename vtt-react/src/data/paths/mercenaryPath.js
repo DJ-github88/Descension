@@ -238,11 +238,11 @@ export const MERCENARY_PATH = {
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'precision', 'armor piercing'],
             effectTypes: ['damage'],
-            damageTypes: ['physical'],
+            damageTypes: ['piercing'],
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'physical',
+                elementType: 'piercing',
                 formula: '4d8 + DEX',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -537,11 +537,11 @@ export const MERCENARY_PATH = {
                     spellType: 'REACTION',
                     tags: ['damage', 'counter', 'physical', 'precision'],
                     effectTypes: ['damage'],
-                    damageTypes: ['physical'],
+                    damageTypes: ['piercing'],
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'physical',
+                        elementType: 'piercing',
                         formula: '4d6 + AGI',
                         resolution: 'DICE',
                         hasDotEffect: false,
@@ -744,11 +744,11 @@ export const MERCENARY_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'ranged', 'precision', 'critical'],
                     effectTypes: ['damage'],
-                    damageTypes: ['physical'],
+                    damageTypes: ['piercing'],
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'physical',
+                        elementType: 'piercing',
                         formula: '6d8 + AGI',
                         resolution: 'DICE',
                         hasDotEffect: false,

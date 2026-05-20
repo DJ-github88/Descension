@@ -53,19 +53,17 @@ export const DURATION_TYPES = [
 
 // Damage Types (D&D standard)
 export const DAMAGE_TYPES = [
-  'acid',
   'bludgeoning',
-  'cold',
   'fire',
   'force',
+  'frost',
   'lightning',
   'necrotic',
   'piercing',
   'poison',
   'psychic',
   'radiant',
-  'slashing',
-  'thunder'
+  'slashing'
 ];
 
 // AOE Shapes
@@ -154,19 +152,17 @@ export const SPELL_TEMPLATES = [
 // Enhanced Effect Types - a collection of all specific effect types
 export const ENHANCED_EFFECT_TYPES_DATA = [
   // Damage types (D&D standard)
-  { id: 'acid', name: 'Acid', category: 'damage', description: 'Corrosive damage that dissolves materials' },
+  { id: 'poison', name: 'Poison', category: 'damage', description: 'Corrosive and toxic damage from venom, toxins, and dissolving materials' },
   { id: 'bludgeoning', name: 'Bludgeoning', category: 'damage', description: 'Blunt force trauma damage' },
-  { id: 'cold', name: 'Cold', category: 'damage', description: 'Freezing damage from extreme low temperatures' },
+  { id: 'frost', name: 'Frost', category: 'damage', description: 'Freezing damage from extreme low temperatures' },
   { id: 'fire', name: 'Fire', category: 'damage', description: 'Burning damage from flames and heat' },
   { id: 'force', name: 'Force', category: 'damage', description: 'Pure magical energy damage' },
   { id: 'lightning', name: 'Lightning', category: 'damage', description: 'Electrical damage from lightning and electricity' },
   { id: 'necrotic', name: 'Necrotic', category: 'damage', description: 'Life-draining damage that withers matter' },
   { id: 'piercing', name: 'Piercing', category: 'damage', description: 'Damage from puncturing and impaling' },
-  { id: 'poison', name: 'Poison', category: 'damage', description: 'Toxic damage from venom and toxins' },
   { id: 'psychic', name: 'Psychic', category: 'damage', description: 'Mental damage that affects the mind' },
   { id: 'radiant', name: 'Radiant', category: 'damage', description: 'Divine energy that burns and purifies' },
   { id: 'slashing', name: 'Slashing', category: 'damage', description: 'Damage from cutting and tearing' },
-  { id: 'thunder', name: 'Thunder', category: 'damage', description: 'Concussive damage from sound waves' },
   // End of damage types
 
   // Area shapes

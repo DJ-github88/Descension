@@ -628,7 +628,7 @@ export const CLASS_RESOURCE_TYPES = {
                 name: 'Ascetic'
             },
             icon: 'fa-cross',
-            effects: ['holy', 'sacrifice', 'devotion', 'active-bleed']
+            effects: ['radiant', 'sacrifice', 'devotion', 'active-bleed']
         },
         mechanics: {
             max: 6, // Devotion Levels 0-6
@@ -1322,7 +1322,7 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
     mechanics: {
         max: 12, // Max banked spheres (prevents hoarding exploits)
         current: 0,
-        spheres: [], // Array of element names: ['fire', 'fire', 'ice', 'healing']
+        spheres: [], // Array of element names: ['fire', 'fire', 'frost', 'healing']
         generation: '4d8', // Roll 4d8 each turn
         regen: 0,
         consumeVerb: 'combine',
@@ -1347,8 +1347,8 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
             description: 'Raw magical force'
         },
         {
-            id: 'holy',
-            name: 'Holy',
+            id: 'radiant',
+            name: 'Radiant',
             color: '#FFD700',
             glowColor: '#FFE55C',
             d8Value: 2,
@@ -1356,8 +1356,8 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
             description: 'Divine radiance'
         },
         {
-            id: 'shadow',
-            name: 'Shadow',
+            id: 'necrotic',
+            name: 'Necrotic',
             color: '#1C1C1C',
             glowColor: '#4A4A4A',
             d8Value: 3,
@@ -1374,8 +1374,8 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
             description: 'Burning flames'
         },
         {
-            id: 'ice',
-            name: 'Ice',
+            id: 'frost',
+            name: 'Frost',
             color: '#4169E1',
             glowColor: '#6495ED',
             d8Value: 5,
@@ -1611,7 +1611,7 @@ CLASS_RESOURCE_TYPES['Primalist'] = {
     name: 'Totemic Synergy',
     shortName: 'TS',
     type: 'totemic',
-    description: 'Totemic energy and synergy activation',
+    description: 'Totemic energy used to cast Primalist spells. Built through totem placement and synergy activation. Now serves as the primary casting resource alongside mana.',
     visual: {
         type: 'totemic-synergy',
         baseColor: '#4A2C0A',
@@ -1655,8 +1655,9 @@ CLASS_RESOURCE_TYPES['Primalist'] = {
         },
         synergyThreshold: 4, // Default, Stormbringer uses 3
         regen: 0,
-        consumeVerb: 'activate',
-        gainVerb: 'harmonize'
+        consumeVerb: 'spend',
+        gainVerb: 'harmonize',
+        spellCost: 'Primalist spells spend Totemic Synergy (2-20) as a casting cost alongside mana'
     },
     tooltip: {
         title: 'Totemic Synergy',
@@ -1795,7 +1796,7 @@ CLASS_RESOURCE_TYPES['Dreadnaught'] = {
         activeColor: '#4B0082',
         glowColor: '#8B00FF',
         icon: '🛡️',
-        effects: ['shadow', 'resilience', 'absorption']
+        effects: ['necrotic', 'resilience', 'absorption']
     },
     mechanics: {
         max: 50,
@@ -2244,11 +2245,12 @@ CLASS_RESOURCE_TYPES['Lunarch'] = {
         roundsInPhase: 0,
         phaseDuration: 3, // Rounds per phase
         manualShiftCost: 8, // Mana cost to manually shift phases
-        naturalCycling: true
+        naturalCycling: true,
+        phaseAdvancement: 'Spells with selfDamage advance the phase timer by +1 round, accelerating the cycle'
     },
     tooltip: {
         title: 'Lunar Phases',
-        description: 'Cyclical moon phases that grant different bonuses. Phases naturally cycle every 3 rounds or can be manually shifted for 8 mana.'
+        description: 'Cyclical moon phases that grant different bonuses. Phases naturally cycle every 3 rounds or can be manually shifted for 8 mana. Spells with selfDamage advance the phase timer by +1 round.'
     }
 };
 
