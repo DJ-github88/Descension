@@ -212,6 +212,9 @@ const UnifiedSpellCard = ({
     if (formula === 'FULL_HEALTH' || formula === 'FULL_HP') {
       return 'Full Health';
     }
+    if (formula === 'POKER_HAND_DAMAGE') {
+      return 'Varies by Poker Hand';
+    }
 
     let cleanedFormula = formula
       .replace(/\s*\+\s*/g, ' + ')
@@ -14075,6 +14078,47 @@ const UnifiedSpellCard = ({
                             </div>
                           ))}
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Poker Hand Scaling Table (Fate Weaver) */}
+              {(() => {
+                const pokerHands = spell?.specialMechanics?.pokerHandScaling?.hands;
+                if (!pokerHands || !Array.isArray(pokerHands) || pokerHands.length === 0) return null;
+
+                return (
+                  <div className="healing-effects" style={{ marginTop: '6px' }}>
+                    <div className="healing-effects-section">
+                      <div className="healing-effect-item" style={{ borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '6px', marginBottom: '6px' }}>
+                        <div className="healing-effect" style={{ marginBottom: '4px' }}>
+                          <span className="healing-effect-name" style={{ fontSize: '0.85em', color: '#5a3a1a' }}>
+                            Poker Hand Scaling
+                          </span>
+                          <span className="healing-effect-description" style={{ fontSize: '0.75em', color: '#8b7355', marginLeft: '6px' }}>
+                            Higher hand = more damage + debt
+                          </span>
+                        </div>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.78em' }}>
+                          <thead>
+                            <tr style={{ borderBottom: '1px solid rgba(139, 115, 85, 0.4)' }}>
+                              <th style={{ textAlign: 'left', padding: '2px 6px', color: '#5a3a1a', fontWeight: '600' }}>Hand</th>
+                              <th style={{ textAlign: 'left', padding: '2px 6px', color: '#5a3a1a', fontWeight: '600' }}>Damage</th>
+                              <th style={{ textAlign: 'center', padding: '2px 6px', color: '#5a3a1a', fontWeight: '600' }}>Debt</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {pokerHands.map((hand, idx) => (
+                              <tr key={idx} style={{ borderBottom: '1px solid rgba(139, 115, 85, 0.15)' }}>
+                                <td style={{ padding: '2px 6px', color: idx < 3 ? '#8b4513' : idx < 7 ? '#4a3020' : '#6b5a4a', fontWeight: idx < 3 ? '600' : '400' }}>{hand.name}</td>
+                                <td style={{ padding: '2px 6px', color: '#3a2010' }}>{hand.damage}</td>
+                                <td style={{ padding: '2px 6px', textAlign: 'center', color: hand.debtGain >= 3 ? '#8b1a1a' : hand.debtGain >= 2 ? '#a0522d' : '#6b5a4a' }}>+{hand.debtGain}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>

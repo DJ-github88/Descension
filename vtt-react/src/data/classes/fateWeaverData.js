@@ -218,7 +218,7 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       {
         id: "card_master",
         name: "Sanguine Dealer",
-        icon: "Cards/Deck of Cards",
+        icon: "Necrotic/Bone Shards",
         color: "#e74c3c",
         theme: "Card Manipulation",
         playstyle: "Maintain a massive hand of flayed cards, flooding the battlefield with constant d20 overrides.",
@@ -300,12 +300,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "POKER_HAND_DAMAGE",
+        formula: "Varies by Poker Hand",
         damageTypes: ["necrotic"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 5,
-          formula: "POKER_HAND_DAMAGE"
+          formula: "Varies by Poker Hand"
         }
       },
       specialMechanics: {
@@ -365,12 +365,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "3d8 + intelligence/3",
+        formula: "Card Value × 2 + Intelligence",
         damageTypes: ["psychic"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 1,
-          formula: "3d8 + intelligence/3"
+          formula: "Card Value × 2 + Intelligence"
         }
       },
       specialMechanics: {
@@ -443,10 +443,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Slice your palm, painting flayed parchment with your blood. Peek at the top 3 cards of your deck. You may 'bank' one card into your Sanguine Reserve (max 4 capacity) and draw the other two. Each override reaction expends a card from this reserve. Bending the deck's anatomy generates 2 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
-      icon: "Cards/Card Draw",
+      icon: "Necrotic/Blood Scroll",
       typeConfig: {
         school: "necrotic",
-        icon: "Cards/Card Draw",
+        icon: "Necrotic/Blood Scroll",
         tags: ["draw", "utility", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -516,12 +516,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "2d8 + intelligence/3 (Face) / 1d8 (Number)",
+        formula: "Card Value + Intelligence (Face/Ace) / Card Value/2 (Number)",
         damageTypes: ["psychic"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 1,
-          formula: "2d8 + intelligence/3 / 1d8"
+          formula: "Card Value + Intelligence / Card Value/2"
         }
       },
       specialMechanics: {
@@ -671,7 +671,7 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["healing"],
       healingConfig: {
-        formula: "3d8 + spirit (Red) / 1d8 + spirit/2 (Black)",
+        formula: "Card Value + Spirit (Red) / Card Value/2 (Black)",
         healingType: "direct",
         resolution: "CARDS"
       },
@@ -774,12 +774,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "1d10 per card drawn (max 4)",
+        formula: "Card Value per card drawn (max 4)",
         damageTypes: ["necrotic"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 4,
-          formula: "1d10 per card drawn"
+          formula: "Card Value per card drawn"
         }
       },
       specialMechanics: {
@@ -1019,10 +1019,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Focus your mind and rearrange the top 5 cards of your deck in any order you choose. This absolute manipulation allows you to predict your next outcomes perfectly. You may also exchange 1 card from your Sanguine Reserve with a card from these 5. Manipulating the future order generates 2 Karmic Debt.",
       level: 5,
       spellType: "ACTION",
-      icon: "Cards/Deck Arrangement",
+      icon: "Psychic/Focused Mind",
       typeConfig: {
         school: "psychic",
-        icon: "Cards/Deck Arrangement",
+        icon: "Psychic/Focused Mind",
         tags: ["utility", "cards"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1121,10 +1121,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Choose 1 card from your Sanguine Reserve and consume it to unleash an effect. Hearts: heal yourself or an ally for 6d8 + Spirit. Diamonds: grant an ally +4 to all saving throws and 30 temporary HP for 3 rounds. Spades: deal 5d10 psychic damage to an enemy. Clubs: force an enemy to discard their next action. Generates 2 Karmic Debt.",
       level: 6,
       spellType: "ACTION",
-      icon: "Cards/Dealers Choice",
+      icon: "Necrotic/Devour",
       typeConfig: {
         school: "necrotic",
-        icon: "Cards/Dealers Choice",
+        icon: "Necrotic/Devour",
         tags: ["damage", "healing", "buff", "cards"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1143,12 +1143,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage", "healing", "buff"],
       damageConfig: {
-        formula: "5d10 + intelligence (Spades)",
+        formula: "Card Value × 2 + Intelligence (Spades)",
         damageTypes: ["psychic"],
         resolution: "CARDS"
       },
       healingConfig: {
-        formula: "6d8 + spirit (Hearts)",
+        formula: "Card Value × 2 + Spirit (Hearts)",
         healingType: "direct",
         resolution: "CARDS"
       },
@@ -1194,12 +1194,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "2d6 per card drawn",
+        formula: "Card Value per card drawn",
         damageTypes: ["necrotic"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 9,
-          formula: "2d6 per card drawn"
+          formula: "Card Value per card drawn"
         }
       },
       specialMechanics: {
@@ -1363,12 +1363,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "3d10 per card expended",
+        formula: "Card Value × 3 per expended card",
         damageTypes: ["necrotic"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 1,
-          formula: "3d10 per card expended"
+          formula: "Card Value × 3 per expended card"
         }
       },
       specialMechanics: {
@@ -1442,10 +1442,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Draw 3 cards from a deck containing two legendary Jokers. The Jokers represent pure, unmitigated chaos: if you draw a Red Joker, you heal all allies for 8d8 + Spirit and clear all active debuffs on them. If you draw a Black Joker, you take 5d10 psychic damage, and all enemies within 30 feet are struck for 8d10 necrotic damage. Standard cards deal 2d8 psychic damage. Generates 3 Karmic Debt.",
       level: 8,
       spellType: "ACTION",
-      icon: "Cards/Joker",
+      icon: "Chaos/Chaotic Shuffle",
       typeConfig: {
         school: "chaos",
-        icon: "Cards/Joker",
+        icon: "Chaos/Chaotic Shuffle",
         tags: ["damage", "healing", "cards"],
         castTime: 2,
         castTimeType: "IMMEDIATE"
@@ -1465,12 +1465,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage", "healing"],
       damageConfig: {
-        formula: "8d10 (Black Joker) / 2d8 (Standard)",
+        formula: "Card Value × 5 (Black Joker) / Card Value (Standard)",
         damageTypes: ["necrotic"],
         resolution: "CARDS"
       },
       healingConfig: {
-        formula: "8d8 + spirit (Red Joker)",
+        formula: "Card Value × 4 + Spirit (Red Joker)",
         healingType: "direct",
         resolution: "CARDS"
       },
@@ -1547,10 +1547,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Wager your own flesh for amplification. Draw 1 card. If it is a face card or Ace, your next spell within 1 round deals triple damage and costs 0 AP. If it is a numbered card, your next spell deals double damage, but you take the exact same damage yourself. Drawing this wager generates 2 Karmic Debt.",
       level: 8,
       spellType: "ACTION",
-      icon: "Cards/Card Wager",
+      icon: "Necrotic/Ritual",
       typeConfig: {
         school: "necrotic",
-        icon: "Cards/Card Wager",
+        icon: "Necrotic/Ritual",
         tags: ["buff", "cards", "risk_reward"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1603,10 +1603,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Initiate a competitive card draw with every enemy within 40 feet. Draw 1 card for each enemy, and 1 for yourself. If your card is higher than the enemy's, they are instantly reduced to 1 HP. If your card is lower, they are fully healed and gain +2 Armor for 1 minute. Ties inflict no effect but generate 1 debt. Generates 3 baseline debt.",
       level: 9,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Necrotic/Skull Explosion",
       typeConfig: {
         school: "necrotic",
-        icon: "Utility/Utility",
+        icon: "Necrotic/Skull Explosion",
         tags: ["damage", "healing", "cards"],
         castTime: 2,
         castTimeType: "IMMEDIATE"
@@ -1719,10 +1719,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Draw 3 flayed cards and shatter them. Ranks dictate necrotic damage in a 30-foot circle: One Pair multiplies a 10d10 base damage by 3. Three of a kind multiplies damage by 7 and targets suffer 'Hemorrhaging Destiny' (incapacitated and take 4d10 necrotic damage at start of turn for 1 round). No matches deal 10d10 base and inflict 3 debt.",
       level: 9,
       spellType: "ACTION",
-      icon: "Radiant/Radiant Glow",
+      icon: "Force/Explosion Burst",
       typeConfig: {
         school: "necrotic",
-        icon: "Radiant/Radiant Glow",
+        icon: "Force/Explosion Burst",
         tags: ["damage", "aoe", "cards"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1746,12 +1746,12 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "10d10 x Multiplier (Pair: x3, Triple: x7)",
+        formula: "Card Sum × Multiplier (Pair: ×3, Triple: ×7)",
         damageTypes: ["necrotic"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 3,
-          formula: "10d10 x Multiplier"
+          formula: "Card Sum × Multiplier"
         },
         savingThrow: {
           ability: "agility",
@@ -1864,20 +1864,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Summon a legendary flayed deck of horrors and draw 1-3 cards. Each card yields either a miraculous blessing or a catastrophic curse. Catastrophic cards immediately generate 3 Karmic Debt. You may spend 5 debt to redraw a curse.",
       level: 10,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Necrotic/Skull Tome Of Corruption",
       typeConfig: {
         school: "necrotic",
-        icon: "Utility/Utility",
-        tags: ["utility", "cards"],
-        castTime: 1,
-        castTimeType: "IMMEDIATE"
-      },
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self"
-      },
-      durationConfig: {
-        durationType: "instant",
+        icon: "Necrotic/Skull Tome Of Corruption",
         durationValue: 0,
         durationUnit: "instant"
       },
@@ -1932,10 +1922,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Transform the battlefield into a flayed theater of agony in a 100-foot radius. Draw a card for every creature within: their suit determines their forced game: Hearts (Exsanguination Wager), Spades (Duel of Wills), Diamonds (Blackjack), Clubs (Solitaire). You are the House, generating 2 Karmic Debt at the start of each of your turns.",
       level: 10,
       spellType: "ACTION",
-      icon: "Radiant/Divine Radiance",
+      icon: "Necrotic/Necrotic Death",
       typeConfig: {
         school: "necrotic",
-        icon: "Radiant/Divine Radiance",
+        icon: "Necrotic/Necrotic Death",
         tags: ["zone", "control", "cards"],
         castTime: 2,
         castTimeType: "IMMEDIATE"

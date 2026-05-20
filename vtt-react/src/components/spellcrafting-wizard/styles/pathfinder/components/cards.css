@@ -549,7 +549,6 @@
 
 /* Action Type Colors */
 .pf-action-type-badge.action {
-  background: transparent;
   border-color: transparent;
   color: #fca5a5;
 }
@@ -559,7 +558,6 @@
 }
 
 .pf-action-type-badge.instant {
-  background: transparent;
   border-color: transparent;
   color: #fde047;
 }
@@ -569,7 +567,6 @@
 }
 
 .pf-action-type-badge.channeled {
-  background: transparent;
   border-color: transparent;
   color: #d8b4fe;
 }
@@ -579,7 +576,6 @@
 }
 
 .pf-action-type-badge.passive {
-  background: transparent;
   border-color: transparent;
   color: #86efac;
 }
@@ -589,7 +585,6 @@
 }
 
 .pf-action-type-badge.reaction {
-  background: transparent;
   border-color: transparent;
   color: #93c5fd;
 }
@@ -2801,14 +2796,14 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
 }
 
-/* Explicitly restore black text for badges (Action, 60 ft, Targeting) to maintain clarity */
+/* Ensure badge text is dark on beige background for readability in wizard header */
 .pf-spell-card.wizard .pf-spell-card-header .pf-action-type-badge,
 .pf-spell-card.wizard .pf-spell-card-header .pf-range-badge,
 .pf-spell-card.wizard .pf-spell-card-header .pf-targeting-badge,
 .pf-spell-card.wizard .wow-spell-card-header .pf-action-type-badge,
 .pf-spell-card.wizard .wow-spell-card-header .pf-range-badge,
 .pf-spell-card.wizard .wow-spell-card-header .pf-targeting-badge {
-  color: #000000 !important;
+  color: #3a2010 !important;
   text-shadow: none !important;
 }
 
