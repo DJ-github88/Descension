@@ -1,0 +1,40 @@
+﻿.resource-canvas-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.resource-canvas-container.resource-canvas-embedded {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+
+.resource-canvas-container.resource-canvas-embedded.resource-canvas-grid {
+  width: fit-content;
+  height: fit-content;
+}
+
+.resource-canvas {
+  display: block;
+}
+
+.resource-canvas-container.resource-canvas-bar {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative;
+}
+
+.resource-canvas-container.resource-canvas-bar .resource-canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
