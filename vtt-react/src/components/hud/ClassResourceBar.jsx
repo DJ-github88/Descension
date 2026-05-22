@@ -1003,6 +1003,7 @@ const ClassResourceBar = ({
             case 'card-master':
                 return {
                     ...baseConfig,
+                    type: 'deck',
                     baseColor: '#1a1a0a', // Deep gold-black
                     threadColor: '#FFD700', // Gold
                     shimmerColor: '#F0E68C', // Pale goldenrod
@@ -3260,22 +3261,42 @@ const ClassResourceBar = ({
     };
 
     // Card deck display (Fate Weaver)
-    const renderCardDeck = () => (
-        <div className={`class-resource-bar card-deck ${size}`}>
-            <div className="deck-container">
-                <div className="deck-stack">
-                    <div className="deck-icon">{config.visual.icon}</div>
-                    <div className="deck-count">{classResource.max - classResource.current}</div>
+    const renderCardDeck = () => {
+        const suits = ['♠', '♥', '♦', '♣'];
+        const currentResource = finalClassResource.current ?? 0;
+        const maxResource = finalClassResource.max ?? 13;
+        const deckCount = Math.max(0, maxResource - currentResource);
+        const deckIconClass = finalConfig.visual?.icon || 'fas fa-scroll';
+
+        return (
+            <div className={`class-resource-bar card-deck ${size}`}>
+                <div className="deck-container">
+                    <div className="deck-stack" title={`Deck: ${deckCount} cards remaining`}>
+                        <div className="deck-icon">
+                            <i className={deckIconClass}></i>
+                        </div>
+                        <div className="deck-count">{deckCount}</div>
+                    </div>
+                    <div className="hand-display">
+                        {Array.from({ length: currentResource }, (_, i) => {
+                            const suit = suits[i % 4];
+                            const isRed = suit === '♥' || suit === '♦';
+                            return (
+                                <div 
+                                    key={i} 
+                                    className={`card-in-hand ${isRed ? 'red-suit' : 'black-suit'}`}
+                                    title={`Card ${i + 1} (${suit})`}
+                                >
+                                    <span className="card-suit">{suit}</span>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-                <div className="hand-display">
-                    {Array.from({ length: classResource.current }, (_, i) => (
-                        <div key={i} className="card-in-hand"><i className="fas fa-clone"></i></div>
-                    ))}
-                </div>
+                <div className="resource-label">Sanguine Reserve: {currentResource}/{modifiedConfig.mechanics?.handLimit ?? 7}</div>
             </div>
-            <div className="resource-label">Hand: {classResource.current}</div>
-        </div>
-    );
+        );
+    };
 
     // Casino display (Gambler)
     const renderCasino = () => (

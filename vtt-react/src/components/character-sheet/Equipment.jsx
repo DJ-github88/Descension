@@ -364,7 +364,7 @@ const ResourceBar = ({ current, max, temp = 0, className, label, resourceType, o
             case 'health':
                 return {
                     title: 'Health Points',
-                    description: 'Your life force. When reduced to 0, you fall unconscious and must make death saving throws. Click to adjust.'
+                    description: 'Your life force. When reduced to 0, you enter the Dying state — conscious but limited in action. Click to adjust.'
                 };
             case 'mana':
                 return {

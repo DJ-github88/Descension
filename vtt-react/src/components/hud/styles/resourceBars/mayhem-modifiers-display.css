@@ -815,50 +815,119 @@
     background: transparent;
     border: none;
     height: auto;
-    padding: 4px;
+    padding: 6px;
 }
 
 .deck-container {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 2px;
+    gap: 12px;
+    margin-bottom: 4px;
 }
 
 .deck-stack {
     position: relative;
-    width: 20px;
-    height: 16px;
-    background: rgba(47, 79, 79, 0.8);
-    border-radius: 2px;
+    width: 32px;
+    height: 42px;
+    background: linear-gradient(135deg, #2d1010 0%, #150505 100%);
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #d4af37;
+    box-shadow: 
+        1px 1px 0px #111,
+        2px 2px 0px #111,
+        3px 3px 0px #111,
+        4px 4px 6px rgba(0, 0, 0, 0.65);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deck-stack:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        1px 1px 0px #111,
+        2px 2px 0px #111,
+        3px 3px 0px #111,
+        4px 6px 12px rgba(212, 175, 55, 0.25);
+    border-color: rgba(212, 175, 55, 0.8);
 }
 
 .deck-icon {
-    font-size: 10px;
+    font-size: 14px;
+    text-shadow: 0 0 4px rgba(212, 175, 55, 0.3);
 }
 
 .deck-count {
     position: absolute;
-    bottom: -2px;
-    right: -2px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    font-size: 7px;
-    padding: 1px 2px;
+    bottom: -3px;
+    right: -3px;
+    background: #1e0505;
+    border: 1px solid #d4af37;
+    color: #ffffff;
+    font-size: 8px;
+    font-weight: bold;
+    padding: 1px 3px;
     border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    z-index: 5;
 }
 
 .hand-display {
     display: flex;
-    gap: 1px;
+    gap: -4px; /* overlap cards slightly for a physical hand look */
+    padding-left: 4px;
+}
+
+/* Adjust negative margin to properly overlap flex items in CSS */
+.hand-display .card-in-hand + .card-in-hand {
+    margin-left: -6px;
 }
 
 .card-in-hand {
-    font-size: 8px;
-    opacity: 0.9;
+    position: relative;
+    width: 24px;
+    height: 32px;
+    background: linear-gradient(to bottom, #f2e6d9 0%, #e6d0b3 100%);
+    border: 1px solid #5c4033;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 
+        inset 0 0 2px rgba(212, 175, 55, 0.8),
+        1px 2px 4px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease, z-index 0s;
+    z-index: 1;
+}
+
+.card-in-hand:hover {
+    transform: translateY(-8px) scale(1.15) rotate(-2deg);
+    box-shadow: 
+        inset 0 0 4px rgba(212, 175, 55, 1),
+        0 8px 16px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(212, 175, 55, 0.4);
+    border-color: #d4af37;
+    z-index: 100;
+}
+
+.card-suit {
+    font-size: 13px;
+    line-height: 1;
+    user-select: none;
+}
+
+.card-in-hand.black-suit {
+    color: #1a1a1a;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.card-in-hand.red-suit {
+    color: #b30000;
+    text-shadow: 0 0 1px rgba(179, 0, 0, 0.2);
 }
 
 /* Casino Display (Gambler) */

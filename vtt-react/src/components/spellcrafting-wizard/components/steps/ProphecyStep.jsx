@@ -9,12 +9,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const STAT_OPTIONS = [
-  'ALL ROLLS', 'Attack Rolls', 'Ability Checks', 'Saving Throws',
-  'Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma',
-  'Armor Class', 'Movement Speed', 'Damage', 'Healing'
+  'ALL ROLLS', 'Strike Rolls', 'Ability Checks', 'Saving Throws',
+  'Strength', 'Agility', 'Constitution', 'Intelligence', 'Spirit', 'Charisma',
+  'Armor', 'Movement Speed', 'Damage', 'Healing'
 ];
 
-const SAVE_TYPE_OPTIONS = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
+const SAVE_TYPE_OPTIONS = ['Strength', 'Agility', 'Constitution', 'Intelligence', 'Spirit', 'Charisma'];
 
 const emptyOutcome = (havocGain = 0) => ({
   damage: '',

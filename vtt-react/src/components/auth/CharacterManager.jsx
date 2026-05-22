@@ -21,33 +21,23 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
   // WoW-style class icons mapping
   const classIcons = {
-    'Fighter': '⚔️',
-    'Wizard': '🔮',
-    'Rogue': '🗡️',
-    'Cleric': '✨',
-    'Ranger': '🏹',
-    'Barbarian': '🪓',
-    'Bard': '🎵',
-    'Druid': '🌿',
-    'Monk': '👊',
-    'Paladin': '🛡️',
-    'Sorcerer': '⚡',
-    'Warlock': '👹'
+    'Arcanoneer': '🔮', 'Berserker': '🪓', 'Bladedancer': '🗡️', 'Chaos Weaver': '🌀',
+    'Chronarch': '⏳', 'Covenbane': '⚖️', 'Deathcaller': '💀', 'Dreadnaught': '⚔️',
+    'Exorcist': '✨', 'False Prophet': '👁️', 'Fate Weaver': '🧵', 'Formbender': '🐻',
+    'Gambler': '🎲', 'Huntress': '🏹', 'Inscriptor': '📜', 'Lichborne': '❄️',
+    'Lunarch': '🌙', 'Martyr': '🛡️', 'Minstrel': '🎵', 'Oracle': '🔮',
+    'Plaguebringer': '☠️', 'Primalist': '🐾', 'Pyrofiend': '🔥', 'Spellguard': '🛡️',
+    'Titan': '⛰️', 'Toxicologist': '🧪', 'Warden': '⚡', 'Witch Doctor': '🎭',
+    'Augur': '🔯', 'Doomsayer': '📣'
   };
 
-  // Race icons mapping
   const raceIcons = {
-    'Human': '👤',
-    'Elf': '🧝',
-    'Dwarf': '🧔',
-    'Halfling': '👶',
-    'Dragonborn': '🐲',
-    'Gnome': '🧙',
-    'Half-Elf': '🧝‍♂️',
-    'Half-Orc': '👹',
-    'Tiefling': '😈',
-    'Aasimar': '😇'
+    'Human': '👤', 'Astren': '🌿', 'Briaran': '🦊', 'Emberth': '🔥',
+    'Ferrick': '🦅', 'Grimheart': '⚙️', 'Groven': '🌳', 'Mimir': '🎭',
+    'Morthel': '👻', 'Nordmark': '❄️', 'Vreken': '🦎'
   };
+
+
 
   useEffect(() => {
     if (userData?.characters) {
@@ -407,15 +397,16 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                     onChange={(e) => setNewCharacter(prev => ({ ...prev, race: e.target.value }))}
                   >
                     <option value="Human">Human</option>
-                    <option value="Elf">Elf</option>
-                    <option value="Dwarf">Dwarf</option>
-                    <option value="Halfling">Halfling</option>
-                    <option value="Dragonborn">Dragonborn</option>
-                    <option value="Gnome">Gnome</option>
-                    <option value="Half-Elf">Half-Elf</option>
-                    <option value="Half-Orc">Half-Orc</option>
-                    <option value="Tiefling">Tiefling</option>
-                    <option value="Aasimar">Aasimar</option>
+                    <option value="Astren">Astren</option>
+                    <option value="Briaran">Briaran</option>
+                    <option value="Emberth">Emberth</option>
+                    <option value="Ferrick">Ferrick</option>
+                    <option value="Grimheart">Grimheart</option>
+                    <option value="Groven">Groven</option>
+                    <option value="Mimir">Mimir</option>
+                    <option value="Morthel">Morthel</option>
+                    <option value="Nordmark">Nordmark</option>
+                    <option value="Vreken">Vreken</option>
                   </select>
                 </div>
 
@@ -426,18 +417,36 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                     value={newCharacter.class}
                     onChange={(e) => setNewCharacter(prev => ({ ...prev, class: e.target.value }))}
                   >
-                    <option value="Fighter">Fighter</option>
-                    <option value="Wizard">Wizard</option>
-                    <option value="Rogue">Rogue</option>
-                    <option value="Cleric">Cleric</option>
-                    <option value="Ranger">Ranger</option>
-                    <option value="Barbarian">Barbarian</option>
-                    <option value="Bard">Bard</option>
-                    <option value="Druid">Druid</option>
-                    <option value="Monk">Monk</option>
-                    <option value="Paladin">Paladin</option>
-                    <option value="Sorcerer">Sorcerer</option>
-                    <option value="Warlock">Warlock</option>
+                    <option value="Arcanoneer">Arcanoneer</option>
+                    <option value="Berserker">Berserker</option>
+                    <option value="Bladedancer">Bladedancer</option>
+                    <option value="Chaos Weaver">Chaos Weaver</option>
+                    <option value="Chronarch">Chronarch</option>
+                    <option value="Covenbane">Covenbane</option>
+                    <option value="Deathcaller">Deathcaller</option>
+                    <option value="Dreadnaught">Dreadnaught</option>
+                    <option value="Exorcist">Exorcist</option>
+                    <option value="False Prophet">False Prophet</option>
+                    <option value="Fate Weaver">Fate Weaver</option>
+                    <option value="Formbender">Formbender</option>
+                    <option value="Gambler">Gambler</option>
+                    <option value="Huntress">Huntress</option>
+                    <option value="Inscriptor">Inscriptor</option>
+                    <option value="Lichborne">Lichborne</option>
+                    <option value="Lunarch">Lunarch</option>
+                    <option value="Martyr">Martyr</option>
+                    <option value="Minstrel">Minstrel</option>
+                    <option value="Oracle">Oracle</option>
+                    <option value="Plaguebringer">Plaguebringer</option>
+                    <option value="Primalist">Primalist</option>
+                    <option value="Pyrofiend">Pyrofiend</option>
+                    <option value="Spellguard">Spellguard</option>
+                    <option value="Titan">Titan</option>
+                    <option value="Toxicologist">Toxicologist</option>
+                    <option value="Warden">Warden</option>
+                    <option value="Witch Doctor">Witch Doctor</option>
+                    <option value="Augur">Augur</option>
+                    <option value="Doomsayer">Doomsayer</option>
                   </select>
                 </div>
               </div>

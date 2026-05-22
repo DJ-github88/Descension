@@ -12,7 +12,7 @@ export const MYSTIC_PATH = {
     integrationNotes: {
         actionPointSystem: 'Mystic abilities focus on energy manipulation and spiritual balance.',
         backgroundSynergy: 'Works well with Hermit or Sage backgrounds.',
-        classCompatibility: 'Strong with Monk, Cleric, or Druid classes.'
+        classCompatibility: 'Strong with Oracle, Martyr, or Primalist classes.'
     },
 
     roleplayingTips: [

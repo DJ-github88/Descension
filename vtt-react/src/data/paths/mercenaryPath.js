@@ -12,7 +12,7 @@ export const MERCENARY_PATH = {
     integrationNotes: {
         actionPointSystem: 'Mercenary abilities focus on versatility and tactical combat.',
         backgroundSynergy: 'Works well with Soldier or Mercenary Veteran backgrounds.',
-        classCompatibility: 'Strong with Fighter, Ranger, or Rogue classes.'
+        classCompatibility: 'Strong with Titan, Bladedancer, or Gambler classes.'
     },
 
     roleplayingTips: [

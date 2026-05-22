@@ -284,28 +284,39 @@ body.game-mode .account-dashboard .account-header-new * {
   box-sizing: border-box !important;
 }
 
+body.game-mode .account-dashboard .account-header-new {
+  background: rgba(244, 241, 232, 0.75) !important;
+  backdrop-filter: blur(20px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(120%) !important;
+  border-bottom: 2px solid rgba(139, 69, 19, 0.15) !important;
+  box-shadow: 
+    0 8px 32px rgba(139, 69, 19, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+
 /* Protect profile section styling */
 body.game-mode .account-dashboard .account-icon-section.clickable {
-  background: rgba(248, 245, 240, 0.8) !important;
-  border: 2px solid rgba(139, 69, 19, 0.2) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1) !important;
-  padding: 0.75rem 1rem !important;
+  background: rgba(248, 245, 240, 0.55) !important;
+  border: 1px solid rgba(139, 69, 19, 0.12) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.05) !important;
+  padding: 0.5rem 1rem !important;
 }
 
 body.game-mode .account-dashboard .account-icon-section.clickable:hover {
-  background: rgba(248, 245, 240, 0.95) !important;
-  border-color: rgba(139, 69, 19, 0.35) !important;
-  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.15) !important;
+  background: rgba(248, 245, 240, 0.9) !important;
+  border-color: rgba(139, 69, 19, 0.3) !important;
+  box-shadow: 
+    0 6px 20px rgba(139, 69, 19, 0.1),
+    0 0 12px rgba(212, 175, 55, 0.1) !important;
 }
 
 /* Protect avatar styling */
 body.game-mode .account-dashboard .account-avatar-large {
-  width: 50px !important;
-  height: 50px !important;
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 50% !important;
-  border: 3px solid #8b4513 !important;
-  overflow: hidden !important;
+  border: 2px solid #8b4513 !important;
 }
 
 /* Protect action buttons - pill style */

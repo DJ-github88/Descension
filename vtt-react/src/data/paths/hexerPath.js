@@ -12,7 +12,7 @@ export const HEXER_PATH = {
     integrationNotes: {
         actionPointSystem: 'Hexer abilities focus on curses, debuffs, and dark magic.',
         backgroundSynergy: 'Works well with Hermit or Outlander backgrounds.',
-        classCompatibility: 'Strong with Warlock, Druid, or Sorcerer classes.'
+        classCompatibility: 'Strong with Witch Doctor, Plaguebringer, or Covenbane classes.'
     },
 
     roleplayingTips: [

@@ -275,10 +275,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Draw 5 flayed skins to form a poker hand. You may discard and redraw up to twice. Hand strength determines damage dealt, but the violent warping of probability inflicts escalating Karmic Debt. You may spend 2 debt to call a specific card from your deck (once per turn).",
       level: 1,
       spellType: "ACTION",
-      icon: "Necrotic/Skull",
+      icon: "Necrotic/Necrotic Skull",
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Skull",
+        icon: "Necrotic/Necrotic Skull",
         tags: ["damage", "cards", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -341,10 +341,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Draw 1 flayed card, and force your target to draw 1 as well. If your card's value is higher, you inflict psychic torment on their nervous system. If your card's value is lower, you absorb their psychic agony, taking damage and gaining 1 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
-      icon: "Psychic/Brain Shield",
+      icon: "Psychic/Brain Psionics",
       typeConfig: {
         school: "psychic",
-        icon: "Psychic/Brain Shield",
+        icon: "Psychic/Brain Psionics",
         tags: ["damage", "cards", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -392,10 +392,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Draw the memories of a deceased soul from your flayed deck. You gain temporary proficiency in one skill or tool of your choice for 10 minutes. Bending timeline constraints to learn these forbidden memories inflicts 1 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
-      icon: "Utility/Scroll",
+      icon: "Necrotic/Blood Scroll",
       typeConfig: {
         school: "psychic",
-        icon: "Utility/Scroll",
+        icon: "Necrotic/Blood Scroll",
         tags: ["utility", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -492,10 +492,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Draw 1 flayed strip of bone-ink card. If it is a face card or an Ace, you strike with perfect timing, dealing 2d8 psychic damage and granting a critical threat range on your next offensive action. If it is a numbered card, it deals only 1d8 psychic and inflicts 1 Karmic Debt as the weak outcome bleeds your hands.",
       level: 1,
       spellType: "ACTION",
-      icon: "Slashing/Scythe",
+      icon: "Slashing/Curved Scythe",
       typeConfig: {
         school: "psychic",
-        icon: "Slashing/Scythe",
+        icon: "Slashing/Curved Scythe",
         tags: ["melee", "damage", "cards", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -542,10 +542,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "As a reaction to a creature within 30 feet rolling a saving throw, you snap your fingers and sever their threads. Expend a banked card from your Sanguine Reserve to override their result. Face cards force an absolute failure on the target's save; numbered cards force a standard roll with a -5 penalty. Inflicts 1 Karmic Debt.",
       level: 1,
       spellType: "REACTION",
-      icon: "Utility/Hand Snapping",
+      icon: "Necrotic/Severed Skeletal Hand",
       typeConfig: {
         school: "necrotic",
-        icon: "Utility/Hand Snapping",
+        icon: "Necrotic/Severed Skeletal Hand",
         tags: ["reaction", "debuff", "starter"],
         castTime: 1,
         castTimeType: "REACTION"
@@ -594,10 +594,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Mutilate the threads of time in response to an action. Consume an active card from your Sanguine Reserve to force an immediate d20 roll override on any creature within 60 feet. The target's active d20 roll is replaced by the banked card's hard-coded value: Aces count as 18, Kings as 17, Queens as 16, Jacks as 15, and numbered cards map to their exact face value. Inflicts 2 Karmic Debt as the timeline violently shifts.",
       level: 1,
       spellType: "REACTION",
-      icon: "Arcane/Rewind Time",
+      icon: "Utility/Rewind Time",
       typeConfig: {
         school: "psychic",
-        icon: "Arcane/Rewind Time",
+        icon: "Utility/Rewind Time",
         tags: ["reaction", "override", "utility"],
         castTime: 1,
         castTimeType: "REACTION"
@@ -649,10 +649,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Sacrifice a portion of your own life force to heal an ally, but draw 1 card. If the card is red (Hearts/Diamonds), your sacrifice succeeds, healing them for 3d8 + your Spirit score. If it is black (Spades/Clubs), the cosmic loom rejects it: you take 2d8 psychic damage, the healing is halved, and you gain 1 Karmic Debt.",
       level: 2,
       spellType: "ACTION",
-      icon: "Healing/Blood Transfer",
+      icon: "Healing/Stitched",
       typeConfig: {
         school: "necrotic",
-        icon: "Healing/Blood Transfer",
+        icon: "Healing/Stitched",
         tags: ["healing", "cards", "risk_reward"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -693,10 +693,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Draw 1 flayed card to grant an ally a protective ward. The suit of the drawn card dictates the blessing: Hearts grants 2d8 temporary HP, Diamonds grants +3 to all saving throws, Spades grants +15 ft movement speed, and Clubs grants +2 to physical attack rolls. Duration is 3 rounds. Inflicts 1 Karmic Debt.",
       level: 2,
       spellType: "ACTION",
-      icon: "Radiant/Divine Shield",
+      icon: "Radiant/Radiant Golden Shield",
       typeConfig: {
         school: "psychic",
-        icon: "Radiant/Divine Shield",
+        icon: "Radiant/Radiant Golden Shield",
         tags: ["buff", "cards"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -749,10 +749,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Force an enemy into an agonizing game. Draw cards trying to get as close to 21 as possible. Each drawn card deals 1d10 necrotic damage to the target. You may 'hit' up to 4 times. If your total exceeds 21, you bust: the target takes no further damage, you take 4d10 necrotic damage yourself, and you gain 3 Karmic Debt.",
       level: 3,
       spellType: "ACTION",
-      icon: "Necrotic/Claw Strike",
+      icon: "Bludgeoning/Cranium Crush",
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Claw Strike",
+        icon: "Bludgeoning/Cranium Crush",
         tags: ["damage", "cards", "risk_reward"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -803,10 +803,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Sever two timelines and stitch them together. Choose two creatures within 30 feet of each other. For the next 3 rounds, whenever the primary target takes damage, the bound target takes 50% of that damage as untreatable necrotic damage. Generating this link generates 2 Karmic Debt.",
       level: 3,
       spellType: "ACTION",
-      icon: "General/Chain Link",
+      icon: "Utility/Chained",
       typeConfig: {
         school: "necrotic",
-        icon: "General/Chain Link",
+        icon: "Utility/Chained",
         tags: ["debuff", "utility"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -860,10 +860,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Draw 4 cards and lay them in a defensive matrix around yourself. You gain temporary shield points equal to the total face value of the drawn cards (Kings/Queens/Jacks count as 10, Aces as 15, numbered as face value). If any card drawn is a Club, your Armor is increased by 2 for the duration. Lasts 3 rounds. Generates 1 Karmic Debt.",
       level: 4,
       spellType: "ACTION",
-      icon: "Utility/Shielding Aura",
+      icon: "Utility/Bound Shield",
       typeConfig: {
         school: "psychic",
-        icon: "Utility/Shielding Aura",
+        icon: "Utility/Bound Shield",
         tags: ["buff", "defense", "cards"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -911,10 +911,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Target two creatures within 60 feet. They must make a Spirit saving throw against your spell DC. On a failure, their physical positions are instantly swapped in space as you violently rip and cross their threads. Succeeding targets are unaffected. This reality warping generates 2 Karmic Debt.",
       level: 4,
       spellType: "ACTION",
-      icon: "Utility/Teleport Portal",
+      icon: "Arcane/Open Portal",
       typeConfig: {
         school: "force",
-        icon: "Utility/Teleport Portal",
+        icon: "Arcane/Open Portal",
         tags: ["utility", "mobility"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -961,10 +961,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Shoot a line of coagulated blood thread from your palm to bind an enemy within 30 feet. For the next 3 rounds, 50% of all damage you receive is redirected to the bound enemy as necrotic damage. If you take damage, they must make a Spirit save or be pulled 10 feet closer to you. Stitching this bond generates 2 Karmic Debt.",
       level: 4,
       spellType: "ACTION",
-      icon: "Necrotic/Blood Link",
+      icon: "Utility/Chained",
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Blood Link",
+        icon: "Utility/Chained",
         tags: ["debuff", "defense"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1068,10 +1068,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "As a reaction to a creature within 60 feet succeeding on an attack roll or saving throw, you violently twist their thread. Force them to reroll their action and take the worse result. This direct twisting generates 2 Karmic Debt as their success is physically torn from them.",
       level: 5,
       spellType: "REACTION",
-      icon: "Utility/Hand Twist",
+      icon: "Psychic/Puppet Control",
       typeConfig: {
         school: "psychic",
-        icon: "Utility/Hand Twist",
+        icon: "Psychic/Puppet Control",
         tags: ["reaction", "debuff"],
         castTime: 1,
         castTimeType: "REACTION"
@@ -1098,6 +1098,9 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
             description: "Target must reroll their action and take the worse result.",
             mechanicsText: ""
           }
+        ],
+        statPenalties: [
+          { stat: "all_rolls", magnitude: -99, magnitudeType: "disadvantage" }
         ]
       },
       specialMechanics: {
@@ -1171,10 +1174,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "An advanced, multi-target variant of Blackjack. Choose up to 3 enemies within a 30-foot radius. Deal cards to each of them. Each card dealt inflicts 2d6 necrotic damage. You may hit up to 3 times per enemy. If any enemy hits exactly 21, they take an additional 6d6 necrotic damage and begin bleeding. If you bust on an enemy, you take 3d6 necrotic damage and gain 2 debt. Generates 2 Karmic Debt baseline.",
       level: 6,
       spellType: "ACTION",
-      icon: "Necrotic/Blood Burst",
+      icon: "Necrotic/Blood Skull",
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Blood Burst",
+        icon: "Necrotic/Blood Skull",
         tags: ["damage", "aoe", "cards"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1226,10 +1229,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "As a reaction to taking physical damage, you violently fold reality, vanishing from your position and leaving behind a decoy of flayed skin. You teleport up to 30 feet to an unoccupied space. The decoy explodes, dealing 3d8 necrotic damage to all adjacent creatures. Generating this escape generates 2 Karmic Debt.",
       level: 6,
       spellType: "REACTION",
-      icon: "Utility/Flash Teleport",
+      icon: "Utility/Phantom Dash",
       typeConfig: {
         school: "necrotic",
-        icon: "Utility/Flash Teleport",
+        icon: "Utility/Phantom Dash",
         tags: ["reaction", "mobility", "damage"],
         castTime: 1,
         castTimeType: "REACTION"
@@ -1271,10 +1274,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "You stand as the House, dictating the physical laws of the battlefield. For 1 round, all d20 rolls made by allies within 30 feet of you automatically succeed if your banked card is higher than a 10. All d20 rolls made by enemies within 30 feet automatically fail if your banked card is lower than a 10. Imposing your absolute decrees generates 3 Karmic Debt.",
       level: 7,
       spellType: "ACTION",
-      icon: "Radiant/Divine Law",
+      icon: "Utility/Overlords Command",
       typeConfig: {
         school: "psychic",
-        icon: "Radiant/Divine Law",
+        icon: "Utility/Overlords Command",
         tags: ["buff", "debuff", "utility"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1299,7 +1302,8 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
             id: "house_rules_ally_buff",
             name: "Sovereign Decree (Ally)",
             description: "d20 rolls automatically succeed if banked card is > 10.",
-            mechanicsText: ""
+            mechanicsText: "",
+            statModifier: { stat: "all_rolls", magnitude: 99, magnitudeType: "advantage" }
           }
         ],
         durationValue: 1,
@@ -1315,6 +1319,9 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
             description: "d20 rolls automatically fail if banked card is < 10.",
             mechanicsText: ""
           }
+        ],
+        statPenalties: [
+          { stat: "all_rolls", magnitude: -99, magnitudeType: "disadvantage" }
         ],
         durationValue: 1,
         durationType: "rounds",
@@ -1338,10 +1345,10 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       description: "Expend all currently banked cards in your Sanguine Reserve (minimum 2 cards) and unleash them in a single, devastating beam of flayed crimson light. Deals 3d10 necrotic damage per expended card to a single target. If you expend 4 or more cards, the target must make a Spirit saving throw or be incapacitated for 1 round. Generates 3 Karmic Debt.",
       level: 7,
       spellType: "ACTION",
-      icon: "Necrotic/Blood Beam",
+      icon: "Necrotic/Corrosive Beam",
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Blood Beam",
+        icon: "Necrotic/Corrosive Beam",
         tags: ["damage", "cards"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -2071,7 +2078,7 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       level: 3,
       spellType: "PASSIVE",
       icon: "General/Broken Armor",
-      effectTypes: ["passive"],
+      effectTypes: ["passive", "debuff"],
       typeConfig: {
         school: "psychic",
         icon: "General/Broken Armor",
@@ -2082,6 +2089,20 @@ They are the ultimate double-edged sword: a class that can decide the outcome of
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "fleshless_void_unmoored",
+            name: "Unmoored Anchor",
+            description: "Disadvantage on all saving throws and Dodge/Armor checks.",
+            mechanicsText: ""
+          }
+        ],
+        statPenalties: [
+          { stat: "saves_and_dodge", magnitude: -99, magnitudeType: "disadvantage" }
+        ]
+      },
       tags: ["passive", "weakness"]
     }
   ]

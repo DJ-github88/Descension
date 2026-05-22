@@ -327,7 +327,7 @@ export const EXORCIST_POSSESSED = [
   {
     id: 'poss_t3_demon_form',
     name: 'Demon Form',
-    description: 'Activate as a bonus action: Enter demon form for 3 rounds. +2 armor, darkvision, immunity to poison. Internal DD degrades by 1 step per round while active.',
+    description: 'Activate for 1 AP: Enter demon form for 3 rounds. +2 armor, darkvision, immunity to poison. Internal DD degrades by 1 step per round while active.',
     icon: 'spell_shadow_demonform',
     maxRanks: 2,
     position: { x: 1, y: 3 },

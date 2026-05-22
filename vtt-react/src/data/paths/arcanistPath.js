@@ -12,7 +12,7 @@ export const ARCANIST_PATH = {
     integrationNotes: {
         actionPointSystem: 'Arcanist abilities focus on raw magical power and spell manipulation.',
         backgroundSynergy: 'Works well with Sage or Noble backgrounds.',
-        classCompatibility: 'Strong with Wizard, Sorcerer, or Warlock classes.'
+        classCompatibility: 'Strong with Arcanoneer, Chronarch, or Spellguard classes.'
     },
 
     roleplayingTips: [
@@ -33,7 +33,7 @@ export const ARCANIST_PATH = {
             id: 'arcane_mastery',
             name: 'Arcane Mastery',
             description: '"Magic flows through me like breath." Your deep understanding of arcane principles enhances your magical damage and defenses.',
-            icon: 'Arcane/Wizard Spell Casting',
+            icon: 'Arcane/Arcanist Spellcasting',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'arcane', 'efficiency', 'resistance'],
@@ -42,7 +42,7 @@ export const ARCANIST_PATH = {
 
             typeConfig: {
                 school: 'arcane',
-                icon: 'Arcane/Wizard Spell Casting',
+                icon: 'Arcane/Arcanist Spellcasting',
                 tags: ['passive', 'arcane', 'efficiency', 'resistance']
             },
 

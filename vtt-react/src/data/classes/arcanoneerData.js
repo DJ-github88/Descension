@@ -187,7 +187,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 
 **Roll 4d8**: [7, 7, 7, 7] → Nature, Nature, Nature, Nature
 
-*Four soft crimson spheres of marrow energy emerge. You are not helpless, but you need to support your fighter. You cast Grissle Blockade (Nature + Nature) via Buff action on the fighter, stitching together their wounds with compressed tissue and bone plates.*
+*Four soft crimson spheres of marrow energy emerge. You are not helpless, but you need to support your fighter. You cast Gristle Blockade (Nature + Nature) via Buff action on the fighter, stitching together their wounds with compressed tissue and bone plates.*
 
 **Result**: Fighter gained gristle armor. **Cost: 4 mana, 1d4 HP. Remaining: 12 mana.**
 
@@ -251,10 +251,8 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 
   // Resource System
   resourceSystem: {
-    title: "Sphere Generation & Elemental Combination",
-    subtitle: "Dynamic Spell Crafting System",
-resourceSystem: {
     title: "The Forearm Graft & Shard Chambers",
+    subtitle: "Sphere Generation & Elemental Combination (Dynamic Spell Crafting)",
     description: `The Arcanoneer uses a specialized resource system centered around a massive iron sleeve grafted directly to the arm, loaded with crystallized shards of the caster's own blood.
 
 **Visual Representation**:
@@ -275,7 +273,6 @@ resourceSystem: {
 - **The Recoil Anchor**: Discharging the heavy cannon is so violent that your movement speed is reduced to 0 for the turn whenever you cast a spell.
 
 **Reading the Bar at a Glance**: The cylinder bar represents your active ammunition. A cylinder full of Fire spheres indicates pure explosive potential. A diverse mix suggests high utility. You must constantly analyze what matrix combos and Recipes your current bank can feed. With 36 combinations and learned Recipes, managing your bank becomes a deadly calculus.`,
-    },
 
     mechanics: {
       title: "How It Works",
@@ -621,7 +618,7 @@ resourceSystem: {
 - **Nature combos** (Nature+Nature, Nature+X): Defensive and utility effects -- gristle blockades, rime-frozen grafts, sinew-spark leaps, slag-sutures.
 - **Chaos combos** (Chaos+X): Wild swings. Use them when you're desperate or when the Entropy Weaver in you wants to gamble.
 
-**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Frost for Steam on the front line, then Nature+Nature for a Grissle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
+**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Frost for Steam on the front line, then Nature+Nature for a Gristle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
 
 **Advanced: The Banking Mathematics**:
 - You generate 4 spheres per turn (5 for Entropy Weavers)
@@ -700,7 +697,7 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 | **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterizing Slag | Chaos Flame ★ |
 | **Frost** | → | → | → | → | Frost Spike | Hailstorm | Rime-Frozen Graft | Glitch Frost ★ |
 | **Nature** | → | → | → | → | → | Storm Surge | Sinew-Spark Leap | Primal Chaos ★ |
-| **Flesh** | → | → | → | → | → | → | Grissle Blockade | Amorphous Gristle Ward ★ |
+| **Flesh** | → | → | → | → | → | → | Gristle Blockade | Amorphous Gristle Ward ★ |
 | **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
 ★ = Chaos combo — each has its own specific random effect table. If no specific table applies, roll on the general Chaos Effects d20 table instead.
@@ -721,7 +718,7 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 | Flame Burst | Fire | Single target damage |
 | Frost Spike | Frost | Single target + slow |
 | Storm Surge | Nature | Single target damage |
-| Grissle Blockade | Force | Grotesque bone-gristle barrier, blocks movement 2 rounds |
+| Gristle Blockade | Force | Grotesque bone-gristle barrier, blocks movement 2 rounds |
 | Chaos Bolt | Chaos | ★ Random effect |
 | Divine Bolt | Force, Radiant | Cannot miss |
 | Void Bolt | Force, Necrotic | Barrier-piercing |
@@ -1037,7 +1034,7 @@ MAX BANKED SPHERES: 12
       },
       {
         id: "healing_healing",
-        name: "Grissle Blockade",
+        name: "Gristle Blockade",
         elements: ["healing", "healing"],
         damageTypes: ["force"],
         targetType: "area",
@@ -1872,6 +1869,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Marrow Ignis!",
         somaticText:
           "Your pig-iron sleeve superheats as a violet blood-shard feeds into the chamber. Firing it sends a sharp vibration through your forearm bones.",
+        spheres: ["Arcane", "Arcane"],
       },
 
       effectTypes: ["damage"],
@@ -1926,6 +1924,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Gelu Clavis!",
         somaticText:
           "Freezing rime spreads from the pig-iron chassis across your hand as you clasp the target's neck.",
+        spheres: ["Frost", "Frost"],
       },
 
       effectTypes: ["damage", "debuff"],
@@ -2014,6 +2013,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Retro Scutum!",
         somaticText:
           "Direct the cannon's exhaust vents toward an ally, showering them in protective, crackling violet sparks.",
+        spheres: ["Arcane", "Arcane"],
       },
 
       effectTypes: ["defensive"],
@@ -2068,6 +2068,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Sanguis Barrage!",
         somaticText:
           "Brace your arm as three crystallized marrow slugs feed into the breech, venting red and violet steam with each discharge",
+        spheres: ["Arcane", "Radiant"],
       },
 
       effectTypes: ["damage"],
@@ -4565,24 +4566,18 @@ MAX BANKED SPHERES: 12
         spheres: ["Fire", "Frost", "Nature", "Radiant", "Necrotic", "Arcane"],
       },
 
-      effectTypes: ["buff"],
+      effectTypes: ["transformation"],
 
-      buffConfig: {
-        buffType: "custom",
-        effects: [
-          {
-            id: "elemental_apotheosis",
-            name: "Elemental Apotheosis",
-            description:
-              "4 rounds: +4 spell damage, +3 armor, fire/frost/lightning resistance, 2-sphere spells cost half mana (rounded down). Your body radiates prismatic elemental energy as a living conduit of force.",
-            mechanicsText: "+4 spell damage, +3 armor, elemental resistance, half mana on 2-sphere spells for 4 rounds",
-          },
-        ],
-        durationValue: 4,
-        durationType: "rounds",
+      transformationConfig: {
+        transformationType: "elemental",
+        targetType: "self",
+        duration: 4,
         durationUnit: "rounds",
-        concentrationRequired: true,
-        canBeDispelled: false,
+        concentration: true,
+        newForm: "Living Conduit",
+        description: "Your body radiates prismatic elemental energy as a living conduit of force. You gain +4 spell damage, +3 armor, fire/frost/lightning resistance, and 2-sphere spells cost half mana (rounded down).",
+        power: "ultimate",
+        maintainEquipment: true
       },
 
       cooldownConfig: {
@@ -4601,7 +4596,7 @@ MAX BANKED SPHERES: 12
         "If you end your turn with 0 spheres banked, you take -1 to all spell damage on your next turn. Going all-out has a cost -- conserve or suffer.",
       level: 1,
       spellType: "PASSIVE",
-      effectTypes: ["debuff"],
+      effectTypes: ["passive"],
       typeConfig: {
         school: "arcane",
         castTime: 0,

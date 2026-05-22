@@ -46,7 +46,7 @@ const GamblerResourceBar = ({ classResource = {}, size = 'normal', config = {}, 
     const tooltipRef = useRef(null);
 
     const [localFortunePoints, setLocalFortunePoints] = useState(classResource.current || 5);
-    const [selectedSpec, setSelectedSpec] = useState(classResource.spec || 'high-roller');
+    const [selectedSpec, setSelectedSpec] = useState((classResource.spec || 'high-roller').replace(/_/g, '-'));
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -58,7 +58,7 @@ const GamblerResourceBar = ({ classResource = {}, size = 'normal', config = {}, 
     const [cardFlipIndices, setCardFlipIndices] = useState([]);
     const [lastValue, setLastValue] = useState(classResource.current || 5);
 
-    const spec = SPECS[selectedSpec] || SPECS['high-roller'];
+    const spec = SPECS[selectedSpec.replace(/_/g, '-')] || SPECS['high-roller'];
     const maxFP = spec.max;
     const fpValue = Math.min(localFortunePoints, maxFP);
 

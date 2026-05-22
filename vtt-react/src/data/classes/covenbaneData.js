@@ -2006,7 +2006,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
             id: "anti_magic_weakening",
             name: "Anti-Magic Weakening",
             description:
-              "Spellcasting at disadvantage. Cannot regain mana or spell slots. 3d8 radiant damage per round.",
+              "Spellcasting at disadvantage. Cannot regain mana or class resources. 3d8 radiant damage per round.",
             statPenalty: {
               stat: "spell_attack",
               value: -99,
@@ -2329,7 +2329,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
             id: "shadow_step",
             name: "Shadow Step",
             description:
-              "Swap positions with any creature within 60ft as a bonus action, becoming invisible until start of next turn",
+              "Swap positions with any creature within 60ft for 1 AP, becoming invisible until start of next turn",
           },
         ],
       },
@@ -2352,7 +2352,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       id: "cov_anti_magic_storm",
       name: "Anti-Magic Storm",
       description:
-        "Summon a storm of anti-magic negation in a 35-foot radius for 3 rounds. Deals 10d6 necrotic damage, spells cast inside require 2 extra spell slots or fail, and magic items lose their enchantments.",
+        "Summon a storm of anti-magic negation in a 35-foot radius for 3 rounds. Deals 10d6 necrotic damage, spells cast inside require 2 extra mana or fail, and magic items lose their enchantments.",
       level: 8,
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
@@ -2403,7 +2403,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
             id: "magic_suppression_field",
             name: "Magic Suppression",
             description:
-              "All spells cast in area require 2 additional spell slots or fail. Magic items lose all enchantment bonuses.",
+              "All spells cast in area require 2 additional mana or fail. Magic items lose all enchantment bonuses.",
             statPenalty: [
               {
                 stat: "spell_slots",
@@ -2411,7 +2411,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
                 magnitudeType: "additional_cost",
               },
             ],
-            mechanicsText: "+2 spell slot cost",
+            mechanicsText: "+2 mana cost",
           },
         ],
         durationType: "rounds",

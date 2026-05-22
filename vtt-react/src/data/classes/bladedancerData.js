@@ -1,5 +1,5 @@
 export const BLADEDANCER_DATA = {
-  id: "bladedancer",
+  id : "bladedancer",
   name: "Bladedancer",
   icon: "fas fa-biohazard",
   role: "Damage",
@@ -7,103 +7,100 @@ export const BLADEDANCER_DATA = {
 
   overview: {
     title: "The Bladedancer",
-    subtitle: "The Flayed Dervish",
+    subtitle: "The Kinetic Dervish",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Bladedancer flows between 6 agonizing Mutilation States (Ataxic Tremor, Arterial Focus, Centrifugal Flay, Deadened Nerve, Total Dislocation, Void Collapse), each offering horrifying physical alterations and mechanics. You build Momentum through frantic attacks and spend it to contort between states.
+      content: `**What You Need to Know**: The Bladedancer flows between 6 high-speed Kinetic States (Ataxic Tremor, Arterial Focus, Centrifugal Sweep, Deadened Nerve, Fluid Pivot, Void Collapse), each offering unique physical posture changes and custom mechanics. You build Momentum through rapid strikes and spend it to shift between states.
       
-**Core Mechanic**: Infinite, unmitigated combo chaining. You build Momentum to vibrate your blades at impossible speeds, bypassing heavy Armor entirely.
+**Core Mechanic**: Infinite, unmitigated combo chaining. You build Momentum to vibrate your blades at extreme speeds, bypassing heavy Armor.
 
-**Resources**: Momentum (0-20, builds/decays during combat) & Trauma Tokens (persistent physical tolls traded for ultimates).
+**Resources**: Momentum (0-20, builds/decays during combat) & Trauma Tokens (persistent kinetic energy tokens traded for powerful finishers).
 
-**Playstyle**: Relentless, terrifying striker. High risk, visceral momentum-based economy heavily reliant on positioning and absolute freedom of movement.
+**Playstyle**: Relentless, high-speed striker. High risk, high reward momentum-based economy heavily reliant on positioning and absolute freedom of movement.
 
-**Best For**: Players who enjoy razor's-edge resource management, stance-dancing, and dissecting heavily armored targets.`,
+**Best For**: Players who enjoy razor's-edge resource management, rapid stance-dancing, and dissecting heavily armored targets.`
     },
 
-    description: `A tragic dirge written in severed flesh and shattered bone. The Bladedancer is no elegant artist; they are an atrocity of alchemy and surgical mutilation. To achieve their hyper-accelerated momentum, they have flayed away their own limitations, destroying their joints to move at velocities the human body was never meant to withstand.`,
+    description: `A master of hyper-accelerated momentum, the Bladedancer is a swift tempest of steel. To achieve their incredible velocities, they undergo rigorous alchemical conditioning and joint flexibility training, allowing them to move at speeds that push the limits of mortal physiology in exchange for constant kinetic pressure.`,
 
     roleplayIdentity: {
-      title: "Roleplay Identity",
-      content: `In the grimdark reality of Mythrill, the "Flayed Dervishes" are pitied as much as they are feared. They are outcasts who traded their sanity, humanity, and physical wholeness for unparalleled, unstoppable speed. They feel no pain while moving—only the frantic, agonizing need to maintain their momentum.
+      title: "The Path of Velocity",
+      content: `In the world of Mythrill, the Kinetic Dervishes are feared for their absolute speed. They have pushed their physical bodies to the absolute limit, relying on special alchemical wraps to stabilize their joints during extreme movement. They live for the rush of battle, where their focus narrows entirely to the rhythm of combat.
 
-- **The Mutilated Survivor**: Someone who broke their own body to escape a greater horror.
-- **The Alchemic Test Subject**: A tragic figure pumped full of sensory-depriving venom by a mad apothecary.
-- **The Doomed Striker**: Knowing their heart will eventually rupture from the strain, they fight with nothing to lose.`,
+- **The Agile Outcast**: A free-spirited duelist who rejected traditional martial schools to forge their own high-speed path.
+- **The Alchemic Prodigy**: An initiate who utilizes stabilizing alchemical extracts to accelerate their nervous system.
+- **The Doomed Sentinel**: A high-risk fighter who pushes their speed to protect their allies, ignoring the personal strain.`
     },
 
     combatRole: {
       title: "Combat Role",
       content: `**Why Bring Me?**: Infinite, unmitigated combo chaining. The Bladedancer is the only class capable of stacking infinite momentum to completely bypass heavy Armor ratings without triggering damage reduction. Their blades seek the microscopic gaps in full plate, shredding impenetrable foes.
 
-**The Fatal Flaw (Momentum Dependency)**: They possess zero base Armor and suffer a catastrophic 100% vulnerability to guaranteed, unavoidable AoE damage. If their movement speed is ever reduced to 0 (by roots, grapples, or ice magic), their combo shatters. Their resource plummets to zero, and the hyper-accelerated strain on their heart causes severe internal necrotic and bleed damage. Rooting a Bladedancer is a death sentence.`,
+**The Fatal Flaw (Momentum Dependency)**: They possess zero base Armor and suffer a catastrophic 100% vulnerability to guaranteed, unavoidable AoE damage. If their movement speed is ever reduced to 0 (by roots, grapples, or ice magic), their combo shatters. Their resource plummets to zero, and the sudden cessation of their hyper-accelerated movement causes severe internal kinetic strain. Keeping a Bladedancer mobile is essential for their survival.`
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
-      content: `Playing a Bladedancer is about managing your own biological breakdown across 6 Mutilation States:
+      content: `Playing a Bladedancer is about navigating 6 distinct combat states to control the battlefield:
 
-**Mutilation Network Navigation**:
-- **Ataxic Tremor** (Start): Defensive spasms, transitions to Arterial Focus, Void Collapse, or Total Dislocation.
-- **Arterial Focus**: Precision vitals, transitions to Centrifugal Flay, Deadened Nerve, or Ataxic Tremor.
-- **Centrifugal Flay**: Torn-muscle AoE, transitions to Total Dislocation or Deadened Nerve.
-- **Deadened Nerve**: Pain-receptor shutdown (Counter), transitions to Arterial Focus or Ataxic Tremor.
-- **Total Dislocation** (Hub): Complete bodily breakdown, can transition to ANY state (costs 4 Momentum).
-- **Void Collapse**: Impossible velocity (Stealth), transitions to Arterial Focus or Total Dislocation.
+**Kinetic State Navigation**:
+- **Ataxic Tremor** (Start): Spasmodic defensive movement, transitions to Arterial Focus, Void Collapse, or Fluid Pivot.
+- **Arterial Focus**: High-precision critical strikes, transitions to Centrifugal Sweep, Deadened Nerve, or Ataxic Tremor.
+- **Centrifugal Sweep**: Whirling area attacks, transitions to Fluid Pivot or Deadened Nerve.
+- **Deadened Nerve**: Focused defensive parries, transitions to Arterial Focus or Ataxic Tremor.
+- **Fluid Pivot** (Hub): Complete posture fluidity, can transition to ANY state (costs 4 Momentum).
+- **Void Collapse**: Extreme speed stealth, transitions to Arterial Focus or Fluid Pivot.
 
 **Momentum Management**:
-- Build: +1 per hit, +2 per crit, +1 per dodge/parry
-- Decay: -1 per miss or taking damage
-- Spend: 2-4 for state changes, 3-6 for abilities
-- Strategy: Maintain 6+ Momentum or your heart will begin to fail.
+- Build: +1 per hit, +2 per crit, +1 per dodge/parry.
+- Decay: -1 per miss or taking damage.
+- Spend: 2-4 for stance shifts, 3-6 for abilities.
+- Strategy: Maintain 6+ Momentum or your kinetic engine will begin to stall.
 
-Never stop moving. Avoid crowd control at all costs. Operational friction requires you to sacrifice Max HP to cleanse roots.`,
+Always keep moving. Avoid crowd control at all costs. You can sacrifice some health to cleanse restrictive crowd control using alchemical agents.`
     },
 
     immersiveCombatExample: {
-      title: "Combat Example: The Slaughter at Crimson Bridge",
-      content: `**The Setup**: You face a rival duelist on a narrow bridge. He's a brute—all power, no finesse. You'll show him what true anatomical horror looks like.
+      title: "Combat Example: The Duel at the Razor's Edge",
+      content: `**The Setup**: You face a heavy vanguard in full plate. Traditional strikes will bounce off his shield. You need to build momentum and strike the gaps in his armor.
 
-**Turn 1 - Reading the Opponent (Momentum: 0 → 3)**
-*You force your body into Ataxic Tremor—muscles violently spasming, blade twitching. He charges.*
-Enemy attacks → You spasm out of the way (Ataxic Tremor passive: +2 Dodge) → You follow up with Frantic Laceration!
-**Momentum**: +2 (now at 2)
+**Turn 1 - Building Rhythm (Momentum: 0 → 3)**
+*You enter Ataxic Tremor stance, moving in unpredictable, rapid bursts to throw off his aim. The vanguard lunges with his spear.*
+- **Reaction**: You easily dodge the spear thrust (+1 Momentum).
+- **Action**: You follow up with **Frantic Laceration** (+2 Momentum).
+- **Momentum**: Now at 3. You feel the kinetic heat rising.
 
-*You snap your own shoulder out of its socket to swing again.*
-Attack → Hit! **Momentum**: +1 (now at 3)
+**Turn 2 - Precision Strike (State: Ataxic Tremor → Arterial Focus)**
+*With momentum established, you shift into Arterial Focus, narrowing your sight to the gaps in his plate armor.*
+- **Action**: Shift stance to **Arterial Focus** (costs 2 Momentum, down to 1).
+- **Action**: Swing with rapid twin cuts. Hits twice, including one critical strike!
+- **Momentum**: +1 on hit, +2 on crit. You are now at 4 Momentum.
 
-**Turn 2 - Shifting to Offense (State: Ataxic Tremor → Arterial Focus)**
-*Time to punish his recklessness.*
-**Transition**: Ataxic Tremor → Arterial Focus (costs 2 Momentum)
-**Momentum**: 3 - 2 = 1
-*You pump pure adrenaline into your veins. Your vision narrows to his exposed arteries.*
-Attack → Hit! **Momentum**: +1 (now at 2)
-Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
-
-**Turn 3 - The Dissection**
-*You vibrate your blade at a frequency that ignores his plate armor.*
-**Action**: Kinetic Dissection (costs 1 Momentum).
-**Momentum**: 4 - 1 = 3.
-*The blade slides into the microscopic gap at his neck. Armor is completely bypassed. He bleeds out, unable to comprehend the speed of his own death.*`,
-    },
+**Turn 3 - Bypassing the Shield**
+*With your blades vibrating at impossible frequencies, you deliver a devastating strike.*
+- **Action**: Cast **Kinetic Dissection** (costs 1 Momentum).
+- **Effect**: Bypasses 100% of his Armor. Your blade slips perfectly into the joint under his arm, ending the fight instantly.
+- **Momentum**: Remaining 3. You step back, breathing heavily, slowing down your internal clock.`
+    }
   },
 
   resourceSystem: {
     title: "Momentum & Trauma System",
-    description: "A dual-resource system tracking kinetic rhythm (Momentum) and permanent physical toll (Trauma Tokens).",
+    subtitle: "The Kinetic Engine",
+    description: "A dual-resource system tracking kinetic rhythm (Momentum) and physical toll (Trauma Tokens). Momentum builds through rapid strikes and successful dodges, while Trauma represents major kinetic discharges traded for powerful finishers.",
 
     cards: [
       {
         title: "Momentum (Primary)",
         stats: "0-20 Capacity",
-        details: "Tracks your immediate kinetic heartbeat. Generated by successful hits/defenses, lost via misses/damage/idle turns, and spent on mutilations/abilities. Plummets to 0 if Rooted.",
+        details: "Tracks your immediate combat rhythm. Generated by successful hits/defenses, lost via misses/damage/idle turns, and spent on stance shifts and special abilities. Plummets to 0 if your movement is restricted."
       },
       {
         title: "Trauma Tokens (Secondary)",
         stats: "0-5 Tokens",
-        details: "Represents permanent physical damage traded for ultimate power. Earned by performing State Signature Moves (★). Persists between combats.",
-      },
+        details: "Represents persistent kinetic energy discharges traded for ultimate finishers. Earned by performing State Signature Moves (★). Persists between combats."
+      }
     ],
 
     generationTable: {
@@ -114,227 +111,354 @@ Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
         ["Dodge/Parry", "+1", "0"],
         ["Miss Attack", "-1", "0"],
         ["Take Damage", "-1", "0"],
-        ["Movement Speed = 0 (Rooted)", "Drops to 0", "0"],
+        ["Rooted / Immobilized", "Drops to 0", "0"],
         ["Signature Move (★)", "-Cost", "+1"],
-        ["Extended Rest", "Reset to 0", "Reset to 0"],
-      ],
+        ["Extended Rest", "Reset to 0", "Reset to 0"]
+      ]
     },
 
     usage: {
-      momentum: "Used for Mutilation State transitions (2-4 cost) and active ability costs (3-6 cost).",
-      trauma: "Used exclusively for Ultimate Abilities (2-5 cost) to unleash peak anatomical destruction.",
+      momentum: "Used for Stance transitions (2-4 cost) and active ability costs (3-6 cost).",
+      flourish: "⚠️ Momentum Dependency: If your movement speed is ever reduced to 0, your Momentum immediately plummets to 0 and the sudden kinetic backlash deals internal strain damage."
     },
 
     stanceNetworkTable: {
-      title: "Mutilation State Network",
-      description: "You must violently contort your body to transition between these states.",
+      title: "Kinetic State Network",
+      description: "Shift your body's posture to transition between these specialized combat states.",
       headers: ["State", "Type", "Passive Effects", "Can Transition To", "Transition Cost"],
       rows: [
-        ["Ataxic Tremor", "Defensive/Spasmodic", "+2 dodge, +10 ft movement, advantage on Disengage", "Arterial Focus, Void Collapse, Total Dislocation", "2 Momentum"],
-        ["Arterial Focus", "Offensive/Precision", "+2 to attack rolls, increased crit chance", "Centrifugal Flay, Deadened Nerve, Ataxic Tremor", "2 Momentum"],
-        ["Centrifugal Flay", "AoE/Multi-target", "Attacks can cleave to adjacent enemies", "Total Dislocation, Deadened Nerve", "3 Momentum"],
-        ["Deadened Nerve", "Defensive/Counter", "Ignore non-lethal pain, can use reaction to parry", "Arterial Focus, Ataxic Tremor", "2 Momentum"],
-        ["Total Dislocation", "Balanced/Versatile", "Break all limiters. +1 to all rolls, can chain abilities", "ANY state (universal hub)", "4 Momentum"],
-        ["Void Collapse", "Stealth/Burst", "Impossible velocity. Advantage on first attack, +2d6 damage", "Arterial Focus, Total Dislocation", "3 Momentum"],
-      ],
-    },
+        ["Ataxic Tremor", "Defensive/Agile", "+2 dodge, +10 ft movement, advantage on Disengage", "Arterial Focus, Void Collapse, Fluid Pivot", "2 Momentum"],
+        ["Arterial Focus", "Offensive/Precision", "+2 to attack rolls, increased crit chance", "Centrifugal Sweep, Deadened Nerve, Ataxic Tremor", "2 Momentum"],
+        ["Centrifugal Sweep", "AoE/Multi-target", "Attacks can cleave to adjacent enemies", "Fluid Pivot, Deadened Nerve", "3 Momentum"],
+        ["Deadened Nerve", "Defensive/Counter", "High pain tolerance, can use reaction to parry", "Arterial Focus, Ataxic Tremor", "2 Momentum"],
+        ["Fluid Pivot", "Balanced/Universal", "+1 to all rolls, can easily shift to any other state", "ANY state (universal hub)", "4 Momentum"],
+        ["Void Collapse", "Stealth/Burst", "Advantage on first attack, +2d6 damage from stealth", "Arterial Focus, Fluid Pivot", "3 Momentum"]
+      ]
+    }
   },
 
-  characterCreation: {
-    title: "Character Creation",
-    subtitle: "Beginning Your Agony",
-    description: `Every Bladedancer begins their journey the same way — in Ataxic Tremor, blade twitching in hand, ready to sacrifice flesh for speed.`,
-    steps: [
+  equipment: {
+    title: "Starting Equipment",
+    choices: [
       {
-        title: "Choose Your Starting State",
-        content: "All Bladedancers begin combat in **Ataxic Tremor** — the spasmodic foundation from which all other mutilations flow.",
+        name: "Twin Kinetic Blades Path",
+        icon: "Slashing/Cross Slash",
+        items: [
+          "Twin Kinetic Blades (1d8 slashing each, balanced steel blades built for infinite combo chains)",
+          "Alchemical Wrap Bandages (Provides 0 Armor, lightweight linen that offers absolute freedom of movement)",
+          "Venom Vials (3 doses of sensory-accelerating oil)"
+        ],
+        description: "Focuses on rapid dual-wield cuts to build massive Momentum quickly."
       },
       {
-        title: "Understand Your Resources",
-        content: "**Momentum** builds during combat and resets each fight. **Trauma** persists between fights but resets after an extended rest. If your movement is ever reduced to 0, you will die.",
-      },
-      {
-        title: "Pick Your Equipment",
-        content: "Bladedancers favor light, agile weapons and minimal armor. Your speed IS your defense. You possess 0 base armor inherently.",
-      },
+        name: "Serrated Saber Path",
+        icon: "Slashing/Bloody Slash",
+        items: [
+          "Serrated Saber (1d10 slashing, heavy saber designed for deep cuts and critical strikes)",
+          "Alchemical Wrap Bandages (Provides 0 Armor, lightweight linen that offers absolute freedom of movement)",
+          "Stabilizing Salts (Reduces physical strain after rapid dashes)"
+        ],
+        description: "Focuses on larger, heavy cuts and high single-strike kinetic impact."
+      }
     ],
-    equipment: {
-      weapons: [
-        { name: "Twin Flaying Blades", damage: "1d8 slashing (each)", description: "Paired surgical blades designed for infinite combo cuts" },
-        { name: "Serrated Saber", damage: "1d8 slashing", description: "A blade meant to rip veins and tear muscle" },
-      ],
-      armor: { name: "Alchemical Bandages", description: "Provides 0 Armor. Bladedancers cannot wear armor due to their hyper-kinetic swelling and contortions." },
-      gear: [
-        "Apothecary's Venom Vials — sensory depriving agents",
-        "20 Momentum Trackers (blue) — for tracking heartbeat rhythm",
-        "5 Trauma Tokens (red) — for tracking permanent physical toll",
-      ],
-      startingGold: 15,
-    },
+    standardGear: [
+      "Agile Pack (backpack, rations x10, waterskin, alchemical wraps, 20 blue Momentum trackers, 5 red Trauma tokens)",
+      "Currency: 1d10 x 5 copper pieces"
+    ],
+    notes: "Your speed IS your armor, and heavy steel restricts your kinetic flow. You possess 0 base Armor inherently. Furthermore, you cannot wield ranged weapons; your kinetic acceleration requires direct, physical melee contact."
   },
 
   specializations: {
-    title: "Mutilation Paths",
-    subtitle: "Three Paths of Anatomical Destruction",
-    description: `Bladedancers can specialize in different forms of bodily destruction.`,
-    passiveAbility: {
-      name: "The Flayed Truth (Fatal Flaw)",
-      description: "You have 0 base Armor and suffer 100% vulnerability to unavoidable AoE damage. If your movement speed is ever reduced to 0 (Rooted/Grappled), your heart strains, resetting Momentum to 0 and causing 1d10 Necrotic damage per round.",
-    },
+    title: "Specializations",
+    subtitle: "Dervish Paths",
+    description: "Choose a specialization to define your primary combat style. Each specialization grants a single, high-impact signature passive or ability that anchors your playstyle.",
     specs: [
       {
-        name: "Flesh-Torn Dervish",
+        id : "spec_torn_dervish",
+        name: "Flowing Dervish",
         icon: "fas fa-wind",
         color: "#8B0000",
-        theme: "Alchemical Horror",
-        playstyle: "Chain rapid state transitions for devastating combo attacks. You are never locked into one form.",
-        description: "Masters of rapid joint dislocation and combo chains.",
-        strengths: ["Fastest transitions (-1 cost to all)", "Highest Trauma generation via frequent state changes", "Strongest sustained damage through combo chains"],
-        weaknesses: ["Reliant on Momentum economy", "Vulnerable during transition turns", "Highest self-inflicted damage"],
-        keyAbilities: [
-          { name: "Violent Contortions", type: "Passive", cost: "None", description: "All state transitions cost 1 less Momentum. Next attack gains +1d6 damage." },
-          { name: "Arterial Combo", type: "Action", cost: "2 AP, 6 Momentum", description: "4d6 + AGI×1.5, 3× crit multiplier" },
+        theme: "Kinetic Fluidity",
+        description: "Masters of high-speed fluid movement and effortless combo chains.",
+        playstyle: "Rapidly shift between kinetic states to maintain maximum combo momentum.",
+        strengths: [
+          "Reduced stance transition costs",
+          "High sustained combo damage"
         ],
-        passiveAbility: { name: "Violent Contortions", description: "All state transitions cost 1 less Momentum. When you change states, your next attack gains +1d6 damage." },
-        talentTreeSummary: [
-          { name: "Momentum Spasm", description: "Reduces transition costs, slows Momentum decay." },
-          { name: "Alchemic Current", description: "Swift transitions with bonus Momentum." },
+        weaknesses: [
+          "High resource expenditure",
+          "Vulnerable if combo is interrupted"
         ],
+        specPassive: {
+          name: "Fluid Pivot",
+          description: "All stance transitions cost 1 less Momentum. When you change stances, your next attack deals +1d6 bonus damage."
+        }
       },
       {
-        name: "Nerve-Dead Duelist",
+        id : "spec_dead_duelist",
+        name: "Steel-Nerved Duelist",
         icon: "fas fa-skull",
         color: "#27AE60",
-        theme: "Precision Butchery",
-        playstyle: "Dominate single targets through expanded critical ranges and devastating counter-attacks.",
-        description: "Masters of precision strikes and pain-ignoring counter-attacks.",
-        strengths: ["Expanded critical hit range", "Devastating counter-attacks", "Strongest single-target burst"],
-        weaknesses: ["Only buffs 2 of 6 states", "Weak against multiple enemies", "Requires enemy to attack you"],
-        keyAbilities: [
-          { name: "Surgical Precision", type: "Passive", cost: "None", description: "+2 attack rolls in Arterial/Deadened state. Reroll 1s." },
-          { name: "Unfeeling Riposte", type: "Reaction", cost: "4 Momentum", description: "3d8 + AGI counter-attack, ignoring pain." },
+        theme: "Precision Striking",
+        description: "Masters of extreme focus, precision strikes, and flawless counter-attacks.",
+        playstyle: "Defeat single targets through expanded critical ranges and swift ripostes.",
+        strengths: [
+          "Expanded critical hit range",
+          "Devastating counter-attacks"
         ],
-        passiveAbility: { name: "Surgical Precision", description: "While in Arterial Focus or Deadened Nerve state, gain +2 to attack rolls and increased critical hit chance. Reroll damage dice showing 1." },
-        talentTreeSummary: [
-          { name: "Precision Edge", description: "Expands critical hit range." },
-          { name: "Perfect Timing", description: "Reaction attacks triggered by enemy actions." },
+        weaknesses: [
+          "Weak against large groups",
+          "Relies on being attacked to trigger counters"
         ],
+        specPassive: {
+          name: "Steely Focus",
+          description: "While in Arterial Focus or Deadened Nerve stances, gain +2 to attack rolls, and reroll any damage dice showing a 1."
+        }
       },
       {
+        id : "spec_void_walker",
         name: "Void Walker",
         icon: "fas fa-user-ninja",
         color: "#2C3E50",
         theme: "Stealth & Burst",
-        playstyle: "Move so fast you become invisible, striking from nothingness.",
-        description: "Masters of stealth and burst damage, tearing reality with speed.",
-        strengths: ["Can enter Void Collapse from ANY state", "Highest single-strike burst damage", "Invisibility and teleportation"],
-        weaknesses: ["Relies on stealth", "Vulnerable when speed is broken", "Massive resource investment"],
-        keyAbilities: [
-          { name: "Void Affinity", type: "Passive", cost: "None", description: "Enter Void Collapse from any state for 3 Momentum. +1d6 damage from stealth." },
-          { name: "Velocity Strike", type: "Action", cost: "4 Momentum", description: "Teleport to target, attack with 1d8 + AGI + 3d6 damage" },
+        description: "Masters of sheer speed and surprise attacks from the shadows.",
+        playstyle: "Move so quickly you become a blur, striking from nothingness.",
+        strengths: [
+          "Easy access to Void Collapse stance",
+          "High stealth burst damage"
         ],
-        passiveAbility: { name: "Void Affinity", description: "You can enter Void Collapse state from any state for 3 Momentum. While in Void Collapse, you are lightly obscured and deal +1d6 damage." },
-        talentTreeSummary: [
-          { name: "Void Essence", description: "Generate bonus Trauma from stealth attacks." },
-          { name: "Velocity Cloak", description: "Enhanced stealth with massive burst damage." },
+        weaknesses: [
+          "Highly dependent on stealth",
+          "Low sustained defense"
         ],
-      },
-    ],
+        specPassive: {
+          name: "Void Affinity",
+          description: "You can enter Void Collapse from any stance for 3 Momentum. While in Void Collapse, you are lightly obscured and deal +1d6 bonus damage."
+        }
+      }
+    ]
   },
 
   spells: [
     // ========================================
     // LEVEL 1 SPELLS - The Core Engine
     // ========================================
-    {
-      id: "bladedancer_the_flayed_truth",
-      name: "The Flayed Truth (Fatal Flaw)",
-      description: "Your body is a broken machine forced to run at impossible speeds. You possess 0 base Armor and suffer catastrophic 100% vulnerability to unavoidable AoE damage. If your movement speed is ever reduced to 0 (Rooted/Grappled), your heart strains, resetting Momentum to 0 and causing severe internal damage.",
+    { id: "bladedancer_the_flayed_truth",
+      name: "The Kinetic Paradox (Fatal Flaw)",
+      description: "Your body moves at speeds that push mortal physiology to its limit. You have 0 base Armor and 100% vulnerability to unavoidable AoE. If Rooted or Grappled, Momentum drops to 0 and you take Necrotic Bleed.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Healing/Red Heart",
-      typeConfig: { school: "physical", icon: "Healing/Red Heart", tags: ["passive", "fatal-flaw", "vulnerability"], castTime: 0, castTimeType: "PASSIVE" },
-      targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 0 },
+      typeConfig: {
+        school: "physical",
+        icon: "Healing/Red Heart",
+        tags: ["passive", "fatal-flaw", "vulnerability"],
+        castTime: 0,
+        castTimeType: "PASSIVE"
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self"
+      },
+      resourceCost: {
+        actionPoints: 0,
+        mana: 0,
+        components: ["somatic"],
+        somaticText: "Constantly maintain rapid kinetic vibrations across all limbs."
+      },
       resolution: "NONE",
       effectTypes: ["debuff"],
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          { id: "aoe_vulnerability", name: "Hyper-Accelerated Metabolism", description: "Takes 100% extra damage from unavoidable AoE.", statusEffect: { type: "vulnerability", vulnerabilityType: "aoe", percentage: 100, trigger: "unavoidable_aoe" } },
-          { id: "momentum_withdrawal", name: "Momentum Withdrawal", description: "If Rooted or Grappled, Momentum drops to 0 and take 1d10 Necrotic Bleed per round.", statusEffect: { type: "condition_trigger", trigger: "movement_zero", resourceDrain: { momentum: "all" }, damage: "1d10 necrotic" } }
+          {
+            id : "aoe_vulnerability",
+            name: "Hyper-Accelerated Metabolism",
+            description: "Takes 100% extra damage from unavoidable AoE.",
+            mechanicsText: "100% vulnerability to unavoidable AoE",
+            statusEffect: {
+              type: "vulnerability",
+              vulnerabilityType: "aoe",
+              percentage: 100,
+              trigger: "unavoidable_aoe"
+            }
+          },
+          {
+            id : "momentum_withdrawal",
+            name: "Momentum Withdrawal",
+            description: "If Rooted or Grappled, Momentum drops to 0 and take 1d10 Necrotic Bleed per round.",
+            mechanicsText: "If Rooted/Grappled: Momentum drops to 0, take 1d10 Necrotic Bleed/round",
+            statusEffect: {
+              type: "condition_trigger",
+              trigger: "movement_zero",
+              resourceDrain: {
+                momentum: "all"
+              },
+              damage: "1d10 necrotic"
+            }
+          }
         ],
-        durationValue: 0, durationType: "permanent"
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent"
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
       },
       tags: ["passive", "fatal-flaw", "starter", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_kinetic_dissection",
-      name: "Kinetic Dissection (Unique Utility)",
+    { id: "bladedancer_kinetic_dissection",
+      name: "Kinetic Dissection",
       description: "By expending Momentum, you vibrate your blade at speeds that slide into the microscopic gaps of heavy Armor. You may attack endlessly as long as you have Momentum to burn.",
       level: 1,
       spellType: "ACTION",
       icon: "Slashing/Bloody Slash",
-      typeConfig: { school: "slashing", icon: "Slashing/Bloody Slash", tags: ["melee", "damage", "combo", "armor_bypass", "starter"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 1 }, components: ["somatic"], somaticText: "Vibrate blade past armor" },
+      typeConfig: {
+        school: "slashing",
+        icon: "Slashing/Bloody Slash",
+        tags: ["melee", "damage", "combo", "armor_bypass", "starter"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        rangeDistance: 5,
+        targetRestrictions: ["enemy"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 1
+        },
+        classResource: {
+          type: "momentum",
+          cost: 1
+        },
+        components: ["somatic"],
+        somaticText: "Vibrate blade at high frequency, seeking gaps in heavy plating."
+      },
       resolution: "DICE",
       effectTypes: ["damage"],
       damageConfig: {
         formula: "1d8 + agility",
-        elementType: "slashing",
         damageTypes: ["slashing"],
+        resolution: "DICE",
         canCrit: true,
         critMultiplier: 2,
         armorPenetration: "100%",
-        description: "Bypasses all Armor. If this attack lands, you may immediately cast Kinetic Dissection again for 0 Action Points by spending 1 additional Momentum.",
-        resolution: "DICE"
+        description: "Bypasses all Armor. If this attack lands, you may immediately cast Kinetic Dissection again for 0 Action Points by spending 1 additional Momentum."
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
       },
       tags: ["melee", "combo", "armor-bypass", "starter", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_frantic_laceration",
+    { id: "bladedancer_frantic_laceration",
       name: "Frantic Laceration",
-      description: "A hyper-kinetic, traumatic bodily slash that builds the necessary momentum to keep your heart from bursting.",
+      description: "A hyper-kinetic, rapid slash that builds momentum and establishes your combat rhythm.",
       level: 1,
       spellType: "ACTION",
       icon: "Slashing/Quick Slash",
-      typeConfig: { school: "slashing", icon: "Slashing/Quick Slash", tags: ["melee", "damage", "momentum_generation", "starter"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, components: ["somatic"] },
+      typeConfig: {
+        school: "slashing",
+        icon: "Slashing/Quick Slash",
+        tags: ["melee", "damage", "momentum_generation", "starter"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        rangeDistance: 5,
+        targetRestrictions: ["enemy"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumGain"],
+        resourceValues: {
+          momentumGain: 2
+        },
+        classResource: {
+          type: "momentum",
+          cost: -2
+        },
+        components: ["somatic"],
+        somaticText: "Execute a swift, sweeping slash in a continuous arc."
+      },
       resolution: "DICE",
       effectTypes: ["damage"],
       damageConfig: {
         formula: "1d6 + agility",
-        elementType: "slashing",
         damageTypes: ["slashing"],
+        resolution: "DICE",
         canCrit: true,
         critMultiplier: 2,
-        description: "Precise strike that builds combat rhythm and Momentum.",
-        resolution: "DICE"
+        description: "Precise strike that builds combat rhythm and Momentum."
       },
       momentumGain: 2,
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
       tags: ["melee", "damage", "momentum_generation", "starter", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_mutilation_shift",
-      name: "Mutilation Shift",
-      description: "Snap your own joints to violently shift your center of gravity, forcing your body into a new horrific posture (Mutilation State).",
+    { id: "bladedancer_mutilation_shift",
+      name: "Dervish Shift",
+      description: "Swiftly adjust your center of gravity, shifting your body into a new specialized posture (Kinetic State).",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Crossed Bones",
-      typeConfig: { school: "physical", icon: "Necrotic/Crossed Bones", tags: ["utility", "stance", "transition", "starter"], castTime: 0, castTimeType: "FREE" },
-      targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 0, resourceTypes: ["momentum"], resourceValues: { momentum: 2 } },
+      typeConfig: {
+        school: "physical",
+        icon: "Necrotic/Crossed Bones",
+        tags: ["utility", "stance", "transition", "starter"],
+        castTime: 0,
+        castTimeType: "FREE"
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self"
+      },
+      resourceCost: {
+        actionPoints: 0,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 2
+        },
+        classResource: {
+          type: "momentum",
+          cost: 2
+        },
+        components: ["somatic"],
+        somaticText: "Shift posture and weight dynamically to channel kinetic flow."
+      },
       resolution: "NONE",
       effectTypes: ["utility"],
       utilityConfig: {
         utilityType: "stance_change",
-        selectedEffects: [{ id: "stance_transition", name: "State Transition", description: "Change to a connected state in the network, gaining its passive effects" }],
-        duration: 0, durationUnit: "permanent"
+        selectedEffects: [
+          {
+            id : "stance_transition",
+            name: "State Transition",
+            description: "Change to a connected state in the network, gaining its passive effects"
+          }
+        ],
+        duration: 0,
+        durationUnit: "permanent"
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
       },
       tags: ["utility", "stance", "transition", "starter", "bladedancer"]
     },
@@ -342,78 +466,200 @@ Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
     // ========================================
     // LEVEL 2 SPELLS - State-Locked Abilities (Ataxic Tremor & Arterial Focus)
     // ========================================
-
-    {
-      id: "bladedancer_ataxic_spasm",
-      name: "Ataxic Spasm",
-      description: "Violently contort your spine to avoid a blow, turning near-death into kinetic fuel. Automatically dodge the next attack.",
+    { id: "bladedancer_ataxic_spasm",
+      name: "Ataxic Sway",
+      description: "Perform an unpredictable sway to avoid a blow, converting defense into immediate kinetic fuel.",
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Deflecting Shield",
-      typeConfig: { school: "physical", icon: "Utility/Deflecting Shield", tags: ["defense", "dodge", "momentum_generation", "stance_ataxic_tremor"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 3 } },
+      typeConfig: {
+        school: "physical",
+        icon: "Utility/Deflecting Shield",
+        tags: ["defense", "dodge", "momentum_generation", "stance_ataxic_tremor"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 3
+        },
+        classResource: {
+          type: "momentum",
+          cost: 3
+        },
+        components: ["somatic"],
+        somaticText: "Quickly lean back in an unexpected defensive sway."
+      },
       resolution: "NONE",
       effectTypes: ["buff"],
       buffConfig: {
         buffType: "statusEffect",
-        effects: [{ id: "ataxic_dodge", name: "Spasmodic Dodge", description: "Automatically dodge next attack. Gain +2 Momentum on success.", statusType: "dodge" }],
-        durationValue: 1, durationType: "rounds"
+        effects: [
+          {
+            id : "ataxic_dodge",
+            name: "Spasmodic Dodge",
+            description: "Automatically dodge next attack. Gain +2 Momentum on success.",
+            mechanicsText: "Automatically dodge next attack. Gain +2 Momentum on success.",
+            statusType: "dodge"
+          }
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
       stanceRequirement: "ataxic_tremor",
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 1
+      },
       tags: ["defense", "dodge", "stance_ataxic_tremor", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_arterial_puncture",
+    { id: "bladedancer_arterial_puncture",
       name: "Arterial Puncture",
-      description: "Thrust with bone-shattering speed, ignoring the agonizing recoil to sever a major artery.",
+      description: "Thrust forward with high speed, bypassing enemy shields to strike a vulnerable artery.",
       level: 2,
       spellType: "ACTION",
       icon: "Piercing/Piercing Thrust",
-      typeConfig: { school: "piercing", icon: "Piercing/Piercing Thrust", tags: ["melee", "damage", "precision", "bleed", "stance_arterial_focus"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 4 } },
+      typeConfig: {
+        school: "piercing",
+        icon: "Piercing/Piercing Thrust",
+        tags: ["melee", "damage", "precision", "bleed", "stance_arterial_focus"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        rangeDistance: 5,
+        targetRestrictions: ["enemy"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 4
+        },
+        classResource: {
+          type: "momentum",
+          cost: 4
+        },
+        components: ["somatic", "verbal"],
+        somaticText: "Lunge forward, driving blade into a precise armor gap.",
+        verbalText: "A short, sharp breath of deep concentration."
+      },
       resolution: "DICE",
       effectTypes: ["damage", "debuff"],
       damageConfig: {
         formula: "1d8 + agility + 1d8",
-        elementType: "piercing",
         damageTypes: ["piercing"],
-        canCrit: true, critMultiplier: 2,
-        resolution: "DICE"
+        resolution: "DICE",
+        canCrit: true,
+        critMultiplier: 2
       },
       debuffConfig: {
         debuffType: "statusEffect",
-        effects: [{ id: "arterial_bleed", name: "Arterial Bleed", description: "Target takes 1d6 Bleed damage per round.", statusType: "bleeding", damagePerTurn: "1d6" }],
-        durationValue: 3, durationType: "rounds",
-        savingThrow: { ability: "constitution", difficultyClass: 14, saveOutcome: "reduced_duration" }
+        effects: [
+          {
+            id : "arterial_bleed",
+            name: "Deep Bleed",
+            description: "Target takes 1d6 Bleed damage per round.",
+            mechanicsText: "Target takes 1d6 Bleed damage per round.",
+            statusType: "bleeding",
+            damagePerTurn: "1d6"
+          }
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 14,
+          saveOutcome: "reduced_duration"
+        }
       },
       stanceRequirement: "arterial_focus",
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
       tags: ["melee", "damage", "bleed", "stance_arterial_focus", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_alchemic_purge",
+    { id: "bladedancer_alchemic_purge",
       name: "Alchemic Purge",
-      description: "When the body is trapped, you snap your own joints and flood your veins with corrosive adrenaline to break free. The pain is unimaginable, but stopping is death.",
+      description: "Cleanse your system of immobilizing effects by administering a fast-acting alchemical stimulant.",
       level: 2,
       spellType: "ACTION",
       icon: "Slashing/Bloody Slash",
-      typeConfig: { school: "necrotic", tags: ["cleanse", "self_damage", "friction"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 3 } },
+      typeConfig: {
+        school: "necrotic",
+        icon: "Slashing/Bloody Slash",
+        tags: ["cleanse", "self_damage", "friction"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 3
+        },
+        classResource: {
+          type: "momentum",
+          cost: 3
+        },
+        components: ["somatic", "verbal"],
+        somaticText: "Crack knuckles and quickly inject alchemical stimulant.",
+        verbalText: "A low groan of sudden, freezing energy."
+      },
       resolution: "NONE",
       effectTypes: ["utility", "debuff"],
       utilityConfig: {
         utilityType: "cleanse",
-        selectedEffects: [{ id: "purge_root", name: "Purge Root", description: "Removes all Rooted and Grappled conditions." }]
+        selectedEffects: [
+          {
+            id : "purge_root",
+            name: "Purge Root",
+            description: "Removes all Rooted and Grappled conditions."
+          }
+        ]
       },
       debuffConfig: {
         debuffType: "statusEffect",
-        effects: [{ id: "shattered_joints", name: "Shattered Joints", description: "Agility is reduced by 2 for the rest of combat.", statusEffect: { type: "stat_reduction", stat: "agility", value: -2 } }],
-        durationValue: 0, durationType: "permanent"
+        effects: [
+          {
+            id : "joint_strain",
+            name: "Joint Strain",
+            description: "Agility is reduced by 2 for the rest of combat.",
+            mechanicsText: "Agility reduced by 2 for the rest of combat.",
+            statusEffect: {
+              type: "stat_reduction",
+              stat: "agility",
+              value: -2
+            }
+          }
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent"
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
       },
       tags: ["utility", "cleanse", "bladedancer"]
     },
@@ -421,200 +667,495 @@ Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
     // ========================================
     // LEVEL 3 SPELLS - Advanced Contortions
     // ========================================
-
-    {
-      id: "bladedancer_centrifugal_laceration",
-      name: "Centrifugal Laceration",
-      description: "Spin so fast your own skin tears, showering enemies in a razor-sharp cyclone of agony.",
+    { id: "bladedancer_centrifugal_sweep",
+      name: "Centrifugal Sweep",
+      description: "Spin rapidly with swept blades, catching all surrounding enemies in a cyclone of steel.",
       level: 3,
       spellType: "ACTION",
       icon: "Slashing/Cleave",
-      typeConfig: { school: "slashing", tags: ["melee", "damage", "aoe", "stance_centrifugal_flay"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 10 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 4 } },
+      typeConfig: {
+        school: "slashing",
+        icon: "Slashing/Cleave",
+        tags: ["melee", "damage", "aoe", "stance_centrifugal_sweep"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
+        areaSize: 10,
+        targetRestrictions: ["enemy"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 4
+        },
+        classResource: {
+          type: "momentum",
+          cost: 4
+        },
+        components: ["somatic"],
+        somaticText: "Spin swiftly on one heel, sweeping both blades outward."
+      },
       resolution: "DICE",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "1d8 + agility", elementType: "slashing", damageTypes: ["slashing"],
-        canCrit: true, critMultiplier: 2, resolution: "DICE"
+        formula: "1d8 + agility",
+        damageTypes: ["slashing"],
+        resolution: "DICE",
+        canCrit: true,
+        critMultiplier: 2
       },
-      stanceRequirement: "centrifugal_flay",
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-      momentumGain: 1, // Gains 1 per target hit implicitly by combat rules
-      tags: ["aoe", "damage", "stance_centrifugal_flay", "bladedancer"]
+      stanceRequirement: "centrifugal_sweep",
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 1
+      },
+      momentumGain: 1,
+      tags: ["aoe", "damage", "stance_centrifugal_sweep", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_unfeeling_riposte",
-      name: "Unfeeling Riposte",
-      description: "Lock your shattered joints in place, absorbing the blow through pure alchemic numbness before retaliating.",
+    { id: "bladedancer_steely_riposte",
+      name: "Steely Riposte",
+      description: "Absorb an incoming melee blow with a rigid parry, immediately turning the opponent's momentum into a counter-attack.",
       level: 3,
       spellType: "REACTION",
       icon: "Utility/Parry",
-      typeConfig: { school: "slashing", tags: ["reaction", "parry", "counter", "stance_deadened_nerve"], castTime: 0, castTimeType: "REACTION" },
-      targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 0, resourceTypes: ["momentum"], resourceValues: { momentum: 3 } },
+      typeConfig: {
+        school: "slashing",
+        icon: "Utility/Parry",
+        tags: ["reaction", "parry", "counter", "stance_deadened_nerve"],
+        castTime: 0,
+        castTimeType: "REACTION"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        rangeDistance: 5,
+        targetRestrictions: ["enemy"]
+      },
+      resourceCost: {
+        actionPoints: 0,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 3
+        },
+        classResource: {
+          type: "momentum",
+          cost: 3
+        },
+        components: ["somatic"],
+        somaticText: "Cross blades in a solid, kinetic parry to block and strike back."
+      },
       resolution: "DICE",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "2d6 + agility", elementType: "slashing", damageTypes: ["slashing"],
-        canCrit: true, critMultiplier: 2, resolution: "DICE"
+        formula: "2d6 + agility",
+        damageTypes: ["slashing"],
+        resolution: "DICE",
+        canCrit: true,
+        critMultiplier: 2
       },
       stanceRequirement: "deadened_nerve",
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
       tags: ["reaction", "parry", "stance_deadened_nerve", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_joint_snapping_dash",
-      name: "Joint-Snapping Dash",
-      description: "Dislocate your knee to pivot at an impossible angle, sacrificing flesh for pure velocity. Instantly reposition 30ft.",
+    { id: "bladedancer_kinetic_dash",
+      name: "Kinetic Dash",
+      description: "Execute a sudden, incredibly fast leap, repositioning yourself up to 30 feet in an instant.",
       level: 3,
       spellType: "ACTION",
       icon: "Utility/Speed Boot",
-      typeConfig: { school: "physical", tags: ["mobility", "reposition", "self_damage"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 2 } },
+      typeConfig: {
+        school: "physical",
+        icon: "Utility/Speed Boot",
+        tags: ["mobility", "reposition", "strain"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 2
+        },
+        classResource: {
+          type: "momentum",
+          cost: 2
+        },
+        components: ["somatic"],
+        somaticText: "Spring forward from a low, high-tension crouch."
+      },
       resolution: "NONE",
       effectTypes: ["utility"],
       utilityConfig: {
         utilityType: "reposition",
-        selectedEffects: [{ id: "flayed_dash", name: "Flayed Dash", description: "Move 30ft without provoking attacks." }]
+        selectedEffects: [
+          {
+            id : "kinetic_dash_effect",
+            name: "Kinetic Dash",
+            description: "Move 30ft without provoking attacks."
+          }
+        ]
       },
       momentumGain: 3,
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0
+      },
       tags: ["mobility", "reposition", "bladedancer"]
     },
 
     // ========================================
     // LEVEL 4 SPELLS - Signature Moves (Earn Trauma)
     // ========================================
-
-    {
-      id: "bladedancer_alchemic_overdose_star",
-      name: "Alchemic Overdose ★",
-      description: "Plunge your weapon into their vitals, flooding the wound with your own corrosive alchemic blood. Earning a Trauma Token.",
+    { id: "bladedancer_alchemic_overdrive_star",
+      name: "Alchemic Overdrive ★",
+      description: "Deliver a precise envenomed strike, earning a Trauma Token for your ultimate finishers.",
       level: 4,
       spellType: "ACTION",
       icon: "Poison/Envenom Dagger",
-      typeConfig: { school: "piercing", tags: ["melee", "damage", "poison", "signature", "stance_arterial_focus"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 6 } },
+      typeConfig: {
+        school: "piercing",
+        icon: "Poison/Envenom Dagger",
+        tags: ["melee", "damage", "poison", "signature", "stance_arterial_focus"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "melee",
+        rangeDistance: 5,
+        targetRestrictions: ["enemy"]
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost", "flourishGain"],
+        resourceValues: {
+          momentumCost: 6,
+          flourishGain: 1
+        },
+        classResource: {
+          type: "momentum",
+          cost: 6
+        },
+        components: ["somatic", "verbal"],
+        somaticText: "Thrust both blades deep, letting venom slide off the grooves.",
+        verbalText: "A short, focused shout of impact."
+      },
       resolution: "DICE",
       effectTypes: ["damage", "debuff"],
       damageConfig: {
-        formula: "2d8 + agility", elementType: "piercing", damageTypes: ["piercing"],
-        canCrit: true, critMultiplier: 2, isGuaranteedCrit: true, resolution: "DICE"
+        formula: "2d8 + agility",
+        damageTypes: ["piercing"],
+        canCrit: true,
+        critMultiplier: 2,
+        isGuaranteedCrit: true,
+        resolution: "DICE"
       },
       debuffConfig: {
         debuffType: "statusEffect",
-        effects: [{ id: "venomous_blood", name: "Venomous Blood", description: "Target takes 1d6 poison/round.", statusType: "poisoned", damagePerTurn: "1d6" }],
-        durationValue: 3, durationType: "rounds"
+        effects: [
+          {
+            id : "venomous_blood",
+            name: "Venomous Blood",
+            description: "Target takes 1d6 poison/round.",
+            mechanicsText: "Target takes 1d6 poison damage per round for 3 rounds.",
+            statusType: "poisoned",
+            damagePerTurn: "1d6"
+          }
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
       isSignatureMove: true,
-      flourishGenerated: 1, // Using Flourish internally but displayed as Trauma
+      flourishGenerated: 1,
       stanceRequirement: "arterial_focus",
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 2
+      },
       tags: ["signature", "trauma_generation", "stance_arterial_focus", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_void_collapse_star",
+    { id: "bladedancer_void_collapse_star",
       name: "Void Collapse ★",
-      description: "Your impossible velocity renders you invisible to the naked eye until you stop to eviscerate your target. Earns a Trauma Token.",
+      description: "Accelerate to such speed that you become a temporary blur, earning a Trauma Token.",
       level: 4,
       spellType: "ACTION",
       icon: "Utility/Hide",
-      typeConfig: { school: "physical", tags: ["invisibility", "burst", "signature", "stance_void_collapse"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 6 } },
+      typeConfig: {
+        school: "physical",
+        icon: "Utility/Hide",
+        tags: ["invisibility", "burst", "signature", "stance_void_collapse"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost", "flourishGain"],
+        resourceValues: {
+          momentumCost: 6,
+          flourishGain: 1
+        },
+        classResource: {
+          type: "momentum",
+          cost: 6
+        },
+        components: ["somatic"],
+        somaticText: "Vibrate your body into a high-speed optical blur."
+      },
       resolution: "NONE",
       effectTypes: ["buff"],
       buffConfig: {
         buffType: "statusEffect",
-        effects: [{ id: "velocity_cloak", name: "Velocity Cloak", description: "Invisible for 1 round. Next attack is an auto-crit.", statusType: "invisibility" }],
-        durationValue: 1, durationType: "rounds"
+        effects: [
+          {
+            id : "velocity_cloak",
+            name: "Velocity Cloak",
+            description: "Invisible for 1 round. Next attack is an auto-crit.",
+            mechanicsText: "Invisibility for 1 round. Next attack is an auto-crit.",
+            statusType: "invisibility"
+          }
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
       isSignatureMove: true,
       flourishGenerated: 1,
       stanceRequirement: "void_collapse",
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 2
+      },
       tags: ["signature", "trauma_generation", "stance_void_collapse", "bladedancer"]
     },
 
     // ========================================
     // LEVEL 5 SPELLS - Ultimates (Consume Trauma)
     // ========================================
-
-    {
-      id: "bladedancer_thousand_agonies",
-      name: "Thousand Agonies",
-      description: "You unleash all built momentum in a single devastating sphere of razor-sharp devastation. You spin so fast your skin tears, spraying your toxic blood in all directions.",
+    { id: "bladedancer_thousand_blades",
+      name: "Thousand Blades",
+      description: "Unleash all built momentum in a devastating, high-speed cyclone of steel surrounding you.",
       level: 5,
       spellType: "ACTION",
       icon: "Slashing/Whirl",
-      typeConfig: { school: "slashing", tags: ["aoe", "damage", "ultimate", "self_damage"], castTime: 2, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 15 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 2, resourceTypes: ["momentum", "flourish"], resourceValues: { momentum: "ALL", flourish: 2 } },
+      typeConfig: {
+        school: "slashing",
+        icon: "Slashing/Whirl",
+        tags: ["aoe", "damage", "ultimate", "strain"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
+        areaSize: 15,
+        targetRestrictions: ["enemy"]
+      },
+      resourceCost: {
+        actionPoints: 2,
+        mana: 0,
+        resourceTypes: ["momentumCost", "flourishRequired"],
+        resourceValues: {
+          momentumCost: "ALL",
+          flourishRequired: 2
+        },
+        classResource: {
+          type: "momentum",
+          cost: "ALL"
+        },
+        components: ["somatic", "verbal"],
+        somaticText: "Spin with ultimate force, discharging all stored kinetic energy.",
+        verbalText: "A loud, continuous shout of raw exertion."
+      },
       resolution: "DICE",
       effectTypes: ["damage"],
       damageConfig: {
         formula: "3d8 + (Momentum Expended * 1d4)",
-        elementType: "slashing", damageTypes: ["slashing", "necrotic"],
+        damageTypes: ["slashing", "necrotic"],
+        resolution: "DICE",
         armorPenetration: "50%",
-        description: "Deals massive damage scaling infinitely with Momentum expended. You take 1d8 necrotic damage.",
-        resolution: "DICE"
+        description: "Deals massive damage scaling infinitely with Momentum expended. You take 1d8 physical strain damage."
       },
-      tags: ["aoe", "ultimate", "self_damage", "bladedancer"]
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 3
+      },
+      tags: ["aoe", "ultimate", "strain", "bladedancer"]
     },
 
     // ========================================
     // LEVEL 6+ SPELLS - Escalating Horror
     // ========================================
-
-    {
-      id: "bladedancer_sensory_death",
-      name: "Sensory Death",
-      description: "Overdose on your alchemic venom. You go entirely numb, allowing for horrifying feats of momentum, but your mind begins to fray.",
+    { id: "bladedancer_sensory_numbing",
+      name: "Sensory Numbing",
+      description: "Administer an alchemical numbing compound, ignoring all minor pain to focus entirely on pure momentum.",
       level: 6,
       spellType: "ACTION",
       icon: "Poison/Poison Contagion",
-      typeConfig: { school: "necrotic", tags: ["buff", "friction", "combo"], castTime: 1, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["momentum"], resourceValues: { momentum: 5 } },
+      typeConfig: {
+        school: "necrotic",
+        icon: "Poison/Poison Contagion",
+        tags: ["buff", "friction", "combo"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self"
+      },
+      resourceCost: {
+        actionPoints: 1,
+        mana: 0,
+        resourceTypes: ["momentumCost"],
+        resourceValues: {
+          momentumCost: 5
+        },
+        classResource: {
+          type: "momentum",
+          cost: 5
+        },
+        components: ["somatic", "verbal"],
+        somaticText: "Inhale alchemical vapors to suppress nervous system pain.",
+        verbalText: "A heavy, cold gasp of air."
+      },
       resolution: "NONE",
       effectTypes: ["buff", "debuff"],
       buffConfig: {
         buffType: "statEnhancement",
-        effects: [{ id: "numb_to_pain", name: "Numb to Pain", description: "Ignore all non-lethal conditions for 3 rounds. Attacks cost 0 AP to chain if you have Momentum." }],
-        durationValue: 3, durationType: "rounds"
+        effects: [
+          {
+            id : "numb_to_pain",
+            name: "Numb to Pain",
+            description: "Ignore all non-lethal conditions for 3 rounds. Attacks cost 0 AP to chain if you have Momentum.",
+            mechanicsText: "Ignore non-lethal conditions. Melee attacks cost 0 AP as long as you have Momentum."
+          }
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
       debuffConfig: {
         debuffType: "statusEffect",
-        effects: [{ id: "frayed_mind", name: "Frayed Mind", description: "Self-debuff: -4 to Spirit saving throws. Take 2d6 Psychic damage when the effect ends.", statusEffect: { type: "stat_reduction", stat: "spirit", value: -4 } }],
-        durationValue: 3, durationType: "rounds"
+        effects: [
+          {
+            id : "frayed_mind",
+            name: "Frayed Mind",
+            description: "Self-debuff: -4 to Spirit saving throws. Take 2d6 Psychic damage when the effect ends.",
+            mechanicsText: "-4 to Spirit saving throws. Take 2d6 Psychic damage when the effect ends.",
+            statusEffect: {
+              type: "stat_reduction",
+              stat: "spirit",
+              value: -4
+            }
+          }
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds"
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 2
       },
       tags: ["buff", "friction", "bladedancer"]
     },
 
-    {
-      id: "bladedancer_terminal_velocity",
+    { id: "bladedancer_terminal_velocity",
       name: "Terminal Velocity",
-      description: "The ultimate, tragic pinnacle of the Flayed Dervish. You sacrifice the last of your humanity to move faster than time itself. Your heart will undoubtedly stop after this.",
+      description: "The absolute pinnacle of kinetic speed. Accelerate past temporal bounds to strike all surrounding targets in a flash.",
       level: 10,
       spellType: "ACTION",
       icon: "Force/Explosion Burst",
-      typeConfig: { school: "physical", tags: ["ultimate", "aoe", "armor_bypass", "self_damage"], castTime: 2, castTimeType: "IMMEDIATE" },
-      targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 50 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 3, resourceTypes: ["momentum", "flourish"], resourceValues: { momentum: 10, flourish: 5 } },
+      typeConfig: {
+        school: "physical",
+        icon: "Force/Explosion Burst",
+        tags: ["ultimate", "aoe", "armor_bypass", "strain"],
+        castTime: 2,
+        castTimeType: "IMMEDIATE"
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
+        areaSize: 50,
+        targetRestrictions: ["enemy"]
+      },
+      resourceCost: {
+        actionPoints: 3,
+        mana: 0,
+        resourceTypes: ["momentumCost", "flourishRequired"],
+        resourceValues: {
+          momentumCost: 10,
+          flourishRequired: 5
+        },
+        classResource: {
+          type: "momentum",
+          cost: 10
+        },
+        components: ["somatic", "verbal"],
+        somaticText: "Sprint at blinding, impossible velocities across a massive area.",
+        verbalText: "A powerful final shout of extreme physical release."
+      },
       resolution: "DICE",
       effectTypes: ["damage", "debuff"],
       damageConfig: {
-        formula: "10d10 + (agility * 3)", elementType: "slashing", damageTypes: ["slashing", "necrotic"],
-        armorPenetration: "100%", description: "Bypasses all Armor affecting everything in 50ft.", resolution: "DICE"
+        formula: "10d10 + (agility * 3)",
+        damageTypes: ["slashing", "necrotic"],
+        resolution: "DICE",
+        armorPenetration: "100%",
+        description: "Bypasses all Armor affecting everything in 50ft."
       },
       debuffConfig: {
         debuffType: "statusEffect",
-        effects: [{ id: "terminal_strain", name: "Terminal Strain", description: "After casting, Momentum drops to 0, movement speed = 0, take 2d10 necrotic damage.", statusEffect: { type: "condition_trigger", trigger: "immediate", resourceDrain: { momentum: "all" }, movementPenalty: "0 speed", damage: "2d10 necrotic" } }],
-        durationValue: 1, durationType: "rounds"
+        effects: [
+          {
+            id : "terminal_strain",
+            name: "Terminal Strain",
+            description: "After casting, Momentum drops to 0, movement speed = 0, take 2d10 physical strain damage.",
+            mechanicsText: "Momentum drops to 0, movement speed becomes 0, take 2d10 physical strain damage.",
+            statusEffect: {
+              type: "condition_trigger",
+              trigger: "immediate",
+              resourceDrain: {
+                momentum: "all"
+              },
+              movementPenalty: "0 speed",
+              damage: "2d10 necrotic"
+            }
+          }
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds"
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 4
       },
       tags: ["ultimate", "aoe", "bladedancer"]
     }

@@ -12,7 +12,7 @@ export const SENTINEL_PATH = {
     integrationNotes: {
         actionPointSystem: 'Sentinel abilities focus on protection, tanking, and battlefield control.',
         backgroundSynergy: 'Works well with Soldier or Noble backgrounds.',
-        classCompatibility: 'Strong with Paladin, Fighter, or Cleric classes.'
+        classCompatibility: 'Strong with Spellguard, Dreadnaught, or Warden classes.'
     },
 
     roleplayingTips: [

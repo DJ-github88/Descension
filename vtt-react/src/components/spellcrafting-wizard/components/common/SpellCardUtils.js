@@ -653,6 +653,8 @@ export const formatEffectComponent = (spell, effectType, subType = null) => {
 
   // Helper function to clean formulas (similar to UnifiedSpellCard)
   const cleanFormula = (formula) => {
+    if (formula === 0) return '0';
+    if (typeof formula === 'number') formula = String(formula);
     if (!formula || typeof formula !== 'string') return '';
     
     let cleanedFormula = formula

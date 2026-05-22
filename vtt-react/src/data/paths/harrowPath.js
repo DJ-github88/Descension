@@ -12,7 +12,7 @@ export const HARROW_PATH = {
     integrationNotes: {
         actionPointSystem: 'Harrow abilities focus on endurance, fear, and survival.',
         backgroundSynergy: 'Works well with Haunted One or Soldier backgrounds.',
-        classCompatibility: 'Strong with Fighter, Ranger, or Warlock classes.'
+        classCompatibility: 'Strong with Dreadnaught, Deathcaller, or Lichborne classes.'
     },
 
     roleplayingTips: [

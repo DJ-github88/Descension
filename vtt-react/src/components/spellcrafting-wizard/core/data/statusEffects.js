@@ -17,7 +17,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       category: 'mental',
       actionPointCost: 1,
       options: [
-        { id: 'bardic', name: 'Bardic Inspiration', description: 'Add a die to an ability check, attack roll, or saving throw' },
+        { id: 'bardic', name: 'Musical Inspiration', description: 'Add a die to an ability check, strike roll, or saving throw' },
         { id: 'guidance', name: 'Guidance', description: 'Add a d4 to an ability check' },
         { id: 'heroism', name: 'Heroism', description: 'Gain temporary hit points and immunity to fear' }
       ],

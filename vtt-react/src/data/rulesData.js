@@ -3,6 +3,270 @@
 
 export const RULES_CATEGORIES = [
   {
+    id: 'getting-started',
+    name: 'Getting Started',
+    icon: 'fas fa-door-open',
+    description: 'Your first steps into Mythrill VTT — from interface to first roll',
+    subcategories: [
+      {
+        id: 'welcome',
+        name: 'Welcome to Mythrill',
+        icon: 'fas fa-star',
+        theme: 'narrative',
+        summary: [
+          'Mythrill is a premium virtual tabletop platform built for immersive, tactile TTRPG play.',
+          'The system features 30 unique classes, 9 disciplines, 10+ races, and a custom spellcrafting wizard.',
+          'This rules guide walks you from first login to running your first encounter.'
+        ],
+        content: {
+          title: 'Welcome, Adventurer',
+          description: 'Your guide to Mythrill VTT — what it is, how it works, and how to get started.',
+          sections: [
+            {
+              title: 'What Is Mythrill?',
+              content: `Mythrill is a **premium Virtual Tabletop (VTT)** platform purpose-built for the Mythrill TTRPG system. It combines a rich, fully-featured tabletop rules system with a beautifully designed digital platform — allowing groups of 2-8 players to run immersive, narratively rich role-playing sessions together, whether in the same room or across the world.\n\nAt its core, Mythrill consists of two interlocking parts:\n\n• **Mythrill TTRPG**: The game rules — your character's stats, how rolls work, how combat flows, how spells are cast, and how the world responds to your choices. All of these rules are documented in this very guide.\n• **Mythrill VTT**: The digital platform — the visual interface, the character sheets, the map grid, the combat tracker, and the library of tools that automate and enhance the rules above.\n\nTogether, they create an experience where the lines between the physical joy of rolling dice and the digital power of automation blur into something genuinely cinematic.`
+            },
+            {
+              title: 'Transitioning from D&D (Key Differences)',
+              content: `If you are coming to Mythrill from **Dungeons & Dragons (D&D 5e)**, welcome! While the spirit of epic adventure remains identical, Mythrill completely reinvents the tactical rules engine to be faster, more strategic, and far more intuitive on the digital screen. Here are the four massive differences you should know immediately:\n\n• **The Ladder of Trials (No Static DCs)**: In D&D, the DM sets a static target number (like DC 15) and you roll a d20. In Mythrill, there are no static DCs. Instead, the GM dynamically assigns a **Difficulty Die** (ranging from a d4 for very easy to a d20 for legendary trials). You roll that difficulty die, and add your Skill Rank. The roll results are color-coded in chat for instant feedback. Learn more in [Dice System](core-rules/dice-system).\n• **Unified Strike & Damage (No Double Rolling)**: D&D combat requires rolling to hit, checking if it hits, and then rolling for damage. Mythrill collapses this into a single, high-stakes moment! When you strike, you roll your weapon's damage die exactly once (**Unified Strike & Damage**). A natural 1 is a catastrophic fumble. Rolling the maximum value triggers an exploding critical hit. Any other result hits and deals that exact damage plus your Strength or Agility modifier! Learn more in [Attacks & Damage](combat-system/attacks-damage).\n• **Action Points Economy (3 AP for Ultimate Freedom)**: Forget the rigid Action, Bonus Action, and Movement system of D&D. Mythrill grants you a pool of **3 Action Points (AP)** at the start of your turn. You can spend them in *any* combination you want. Moving 30 feet costs 1 AP, attacking costs 2 AP, and casting a spell costs a variable amount of AP. You have absolute tactical freedom to decide your turn's flow. Learn more in [Combat Basics](combat-system/combat-basics).\n• **Active Soak Die (Dynamic Defense)**: In D&D, armor is a static AC number that makes attacks miss. In Mythrill, armor absorbs damage. Your Armor Score gives you permanent **Passive Damage Reduction (DR)** (Armor Score ÷ 10, rounded down). If you see a heavy strike coming, you can spend AP to take the Defend action, letting you roll an **Active Soak Die** (up to a d10/d12 for heavy plate) to physically reduce incoming damage. Learn more in [Armor & Defense](combat-system/attacks-damage).`
+            },
+            {
+              title: 'Your Four-Step Journey',
+              content: `Getting started with Mythrill follows a natural four-step path:\n\n**Step 1 — Create Your Character**: Using the Character Creation Wizard, you will spend 11 steps forging your hero. See [Creating Your First Character](getting-started/your-first-character).\n\n**Step 2 — Understand the Interface**: Familiarize yourself with the layout of the VTT. Read: [The Interface at a Glance](getting-started/interface-overview).\n\n**Step 3 — Join a Session**: Your Game Master (GM) will create a session room. Read: [Joining a Session](getting-started/joining-a-session).\n\n**Step 4 — Learn the Rules**: The rest of this guide covers every rule of the Mythrill TTRPG in detail — from the [Dice System](core-rules/dice-system) and [Character Statistics](core-rules/character-statistics) to [Combat](combat-system/combat-basics), [Magic](magic-system/magic-overview), and [Exploration](travel-exploration/travel-basics).`
+            },
+            {
+              title: 'How to Use This Rulebook',
+              content: `This is a **living, interactive rulebook** built into the VTT itself:\n\n• **Clickable Cross-Links**: Blue underlined links throughout the rules jump you directly to related sections. Look for links like [Dice System](core-rules/dice-system) or [Attacks & Damage](combat-system/attacks-damage).\n• **Quick Summary Tiles**: At the top of most sections, three bullet points give you the most important takeaways at a glance.\n• **Tables with Pagination**: Large tables are paginated so you can browse without endless scrolling.\n\n**Recommended Reading Order for New Players**:\n1. [Welcome to Mythrill](getting-started/welcome) ← You are here\n2. [Transitioning from D&D 5e](getting-started/dnd-comparison)\n3. [The Interface at a Glance](getting-started/interface-overview)\n4. [Creating Your First Character](getting-started/your-first-character)\n5. [The Dice System](core-rules/dice-system)\n6. [Character Statistics](core-rules/character-statistics)\n7. [Combat Basics](combat-system/combat-basics)\n8. [Your Class](character-creation/classes)`
+            }
+          ]
+        }
+      },
+      {
+        id: 'dnd-comparison',
+        name: 'Transitioning from D&D 5e',
+        icon: 'fas fa-exchange-alt',
+        theme: 'narrative',
+        summary: [
+          'Mythrill completely reimagines tactical roleplay compared to D&D 5e.',
+          'Learn the 7 major mechanical shifts, from the Ladder of Trials to conscious dying.',
+          'Understand how the digital VTT automates and visualizes these tactile systems.'
+        ],
+        content: {
+          title: 'Transitioning from D&D 5e',
+          description: 'A comprehensive guide to understanding the mechanical shifts and mindset changes when moving from 5e to Mythrill.',
+          sections: [
+            {
+              title: 'The Great Mindset Shift',
+              content: `Coming from D&D 5e, you might expect to roll a d20 + flat modifiers against a static Armor Class (AC) or Difficulty Class (DC) set by the GM. In Mythrill, throw that expectation out! \n\nMythrill is built to be a highly tactile, dramatic, and visual system. The core philosophy is simple: **you do not roll a d20 against the world; you roll the difficulty of the challenge itself.**\n\nInstead of static numbers, obstacles in the world have physical weight represented by polyhedral dice on the **Ladder of Trials**. In combat, you do not roll to hit and then roll for damage—you roll your weapon's damage die exactly once in a **Unified Strike & Damage** roll. Armor doesn't make you hard to hit; it absorbs the blow. And if you fall to 0 HP, you do not lose consciousness; you stand your ground in a heroic final stand. \n\nThis guide breaks down these differences so you can transition seamlessly and master the VTT immediately.`
+            },
+            {
+              title: '1. The Ladder of Trials vs. Static DCs',
+              content: `In D&D 5e, when you attempt to pick a lock, the DM checks their notes, sets a static DC (like DC 15), and you roll a d20 + your Dexterity (Sleight of Hand) modifier. \n\nIn Mythrill, there are no static DCs. Instead, the GM dynamically assigns a **Difficulty Die** representing the complexity of the challenge. You roll *that difficulty die itself* and add your Skill Rank (Untrained, Novice, Trained, Apprentice, Adept, Expert, Master) plus situational modifiers. \n\n• **d4 (Very Easy)** to **d20 (Very Difficult)**: For an easy task, you roll a d4. For a near-impossible legendary trial, you roll a d20.\n• **Why a Smaller Die is Better**: Rolling the maximum face value on your Difficulty Die (e.g., a 4 on a d4, or an 8 on a d8) is a **Critical Success**. Rolling a 1 is always a **Critical Failure**. This means on a d4, you have a **25% chance** of a critical success, whereas on a d20, you have only a **5% chance**! \n• **Milestone of Mastery (+5 Modifier)**: While raw ability modifiers are rarely added directly to skill checks, if your primary or secondary attribute modifier reaches **+5 or higher**, your mastery is so profound that you **step down the Difficulty Die by one size** (e.g., from a challenging d10 to a moderate d8). This significantly boosts your chances of success and critical triumph!`
+            },
+            {
+              title: '2. Unified Strike & Damage vs. Hit & Damage Rolls',
+              content: `In D&D, combat can feel slow: you roll a d20 to hit, wait for the DM to confirm if it beats the target's AC, and then roll your damage dice. \n\nMythrill collapses this into a single, high-stakes moment: **Unified Strike & Damage**. When you attack, you roll your weapon's damage die exactly once:\n\n• **A Natural 1**: A catastrophic combat fumble. Your blade chips, your bowstring frays, or your rifle jams, dealing direct damage to your weapon's durability. See [Durability & Repair](core-rules/durability-repair).\n• **A Natural Maximum (Exploding Critical)**: Rolling the maximum value on your weapon die (e.g., an 8 on a d8 longsword) triggers an **exploding critical hit**. You deal maximum damage, roll the die *again* to add to the total (which can explode repeatedly!), and trigger a devastating weapon-specific condition (like Bleed for Slashing, or Stun for Bludgeoning).\n• **Any Other Roll**: You hit! The exact number you roll on the die is your raw damage. You add your Strength (for melee/heavy weapons) or Agility (for ranged/light weapons) modifier directly to this number, and that is the final damage dealt. No double rolling, no slow calculations!`
+            },
+            {
+              title: '3. 3 Action Points (AP) vs. Rigid Action Economy',
+              content: `D&D 5e restricts your turn to one Movement, one Action, one Bonus Action, and one Reaction. This can lead to frustrating turns where you have nothing to do with your Bonus Action, or cannot move after attacking. \n\nMythrill replaces this rigidity with ultimate tactical freedom: a **3 Action Points (AP)** economy. At the start of your turn, your Character HUD fills with 3 glowing AP orbs. You can spend them in *any* combination you see fit:\n\n• **Movement (1 AP)**: Move up to your speed (typically 30 feet).\n• **Strike (2 AP)**: Swing your sword or shoot your bow. A standard turn lets you strike once and still move, or use your remaining AP for another action.\n• **Cast a Spell (Variable AP)**: Spellcasting costs AP based on the power of the spell. Weak cantrips cost 1 AP, while standard spells cost 2-3 AP.\n• **Defend (1 AP)**: Raise your shield or steel yourself, preparing to roll your Active Soak Die when attacked. \n\nThis fluid economy lets you move across the battlefield and strike an enemy in one turn, or stand your ground and cast a powerful spell.`
+            },
+            {
+              title: '4. Active Soak Die vs. Static AC',
+              content: `In D&D, armor is a static number (AC) that determines whether an attack hits or misses. A plate-armored knight is hard to hit, and when an attack "misses," it is narratively described as bouncing off their plate. \n\nMythrill separates dodging from absorbing blows. Dodging is handled by your Agility and reflex skills, while armor physically reduces the impact of strikes:\n\n• **Passive Damage Reduction (DR)**: Your equipped armor grants a permanent Passive DR score (calculated as your Armor Score ÷ 10, rounded down). Whenever you take damage, this passive value is automatically subtracted from the incoming damage.\n• **Active Soak Die**: When you see a devastating blow coming, you can spend AP on your turn to take the **Defend Action**. This grants you an **Active Soak Die** (ranging from a d4 for light leather up to a d10 or d12 for heavy full-plate armor). When an enemy hits you, you roll your Soak Die and reduce the incoming damage by the rolled amount! Armor in Mythrill makes you feel like an absolute tank, physically absorbing heavy blows in real-time.`
+            },
+            {
+              title: '5. Conscious Dying vs. Unconscious Death Saves',
+              content: `In D&D 5e, hitting 0 HP instantly knocks you unconscious, removing you from the game until someone heals you. You spend your turns doing nothing but rolling death saves, hoping you don't roll a natural 1. \n\nMythrill keeps you in the fight with **Conscious Dying**. When you hit 0 HP, you do **not** fall unconscious. You remain awake, on your feet, and fully aware—but you are teetering on the edge of the grave:\n\n• **Dying State**: You still roll a Death Save at the start of your turn, tracking successes and failures. \n• **Heroic Actions**: On your turn, you can still spend your Action Points (AP) to move, speak, or even attack. However, pushing your body in this state is extremely dangerous: performing heavy actions (like striking or casting spells) forces you to make an immediate, difficult Death Save or suffer internal bleeding.\n• **Dramatic Final Stands**: This allows for epic roleplay moments. Will you crawl to safety while coughing blood, use your last breath to cast a healing spell on a fallen ally, or execute one final, desperate strike to slay the boss before you collapse? The choice—and the tragedy—is yours.`
+            },
+            {
+              title: '6. Classes & Disciplines vs. Single Class Archetypes',
+              content: `In D&D, your class (like Fighter or Wizard) determines both your combat style and your roleplay identity, often requiring complex multiclassing to achieve specific character concepts. \n\nMythrill uses a unique **Dual-Identity System** that splits your combat mechanics from your philosophical identity:\n\n• **Your Class (Combat Role)**: Mythrill features **30 unique classes** (such as the iron-clad Dreadnaught, the time-bending Chronarch, the beast-taming Huntress, or the chaotic Gambler). Your class dictates your health pool, weapon proficiencies, combat resource (Mana, Rage, Fortune, Necrotic Ascension), and active combat abilities.\n• **Your Discipline (Philosophical Focus)**: You also choose one of **9 Philosophical Disciplines** (Sentinel, Trickster, Arcanist, Mystic, Zealot, Harrow, Hexer, Reaver, Mercenary). Your Discipline represents your philosophy, granting passive auras, utility skills, and narrative traits.\n• **Complete Creative Freedom**: These choices are completely independent. You do not need to multiclass to play a "Holy Knight"—you can simply pair the *Warden* class with the *Zealot* discipline. Want to play a stealthy hunter? Pair the *Huntress* class with the *Arcanist* discipline. With 270 combinations, your character is unique from level 1.`
+            },
+            {
+              title: '7. Spatial Grid Inventory vs. Numeric Carrying Capacity',
+              content: `D&D uses a numeric weight system (carrying capacity in pounds) that is so tedious to track that most players and DMs ignore it entirely, leading to characters carrying multiple chests, weapons, and hundreds of items without issue. \n\nMythrill introduces a highly visual and tactile **Spatial Grid Inventory** (similar to Resident Evil or Diablo):\n\n• **Geometric Packing**: Your inventory is a physical grid of columns and rows. Items have actual sizes: a simple lockpick is 1x1, a potion is 1x1, an elegant longsword is 1x4, and a massive steel shield is 2x3. You must physically arrange your pack like a puzzle to make items fit!\n• **Strength-Scaled Grid**: Your physical power dictates your carrying capacity. A character with 10 Strength starts with a 5x15 grid. For every 2 points of Strength above 10, your pack grows wider by one column (adding 15 slots of space).\n• **Encumbrance Zones**: Where you pack your gear matters. Packing heavy items in the outer columns (Columns 5-9 or 10-14) destabilizes your center of gravity, triggering automatic speed and agility penalties. Keep your heavy gear centered to move at full speed! The VTT automates these calculations, instantly updating your sheet as you drag and drop items.`
+            }
+          ],
+          tables: [
+            {
+              title: 'Quick Comparison: Mythrill vs. D&D 5e',
+              description: 'A rapid reference comparison of the core rules and systems between D&D 5e and Mythrill.',
+              headers: ['System / Mechanic', 'D&D 5e Approach', 'Mythrill Approach', 'Why It Matters'],
+              rows: [
+                ['Dice Resolution', 'Player rolls d20 + modifiers vs. static DC set by DM.', 'GM sets Difficulty Die (d4 to d20). Player rolls that die + Skill Rank.', 'Dynamic checks; smaller difficulty dice make Critical Successes much more common (25% on d4).'],
+                ['Ability Bonuses', 'High attributes (+5) add flat bonuses to d20 rolls.', 'Milestone of Mastery (+5) steps down the Difficulty Die by one size.', 'Mastery physically changes the trial, making success highly thematic and satisfying.'],
+                ['Combat Rolls', 'Two rolls: Roll d20 to hit, then roll damage dice on success.', 'One roll: Roll weapon damage die once (Unified Strike & Damage).', 'Combat is lightning fast; natural maximums trigger exploding damage and weapon conditions.'],
+                ['Action Economy', 'Movement + Action + Bonus Action + Reaction.', '3 Action Points (AP) pool refreshed every turn.', 'Complete tactical freedom to move, strike, cast, or defend in any combination.'],
+                ['Armor & Defense', 'Static AC. Attacks below AC miss entirely; attacks equal or higher hit.', 'Passive DR absorbs damage. Active Soak Die (d4 to d12) rolled via Defend action.', 'Defenders feel physically tanky; armor behaves realistically by absorbing force.'],
+                ['Zero Hit Points', 'Unconscious. Incapacitated, rolling death saves in place.', 'Conscious Dying. Awake and able to act, but heavy actions risk immediate death saves.', 'Enables epic final stands, dramatic sacrifices, and high-tension roleplay.'],
+                ['Character Setup', 'Single Class choosing a subclass at level 1-3.', 'Class (30 Combat Roles) + Discipline (9 Philosophical Focuses).', '270 unique archetypes at level 1 with zero complex multiclassing required.'],
+                ['Inventory Track', 'Numeric weight in pounds (often ignored).', 'Tactile Spatial Grid (diablo-style) with center-of-gravity encumbrance.', 'Visual, interactive inventory puzzle that adds realistic, satisfying survival weight.']
+              ]
+            }
+          ]
+        }
+      },
+      {
+        id: 'interface-overview',
+        name: 'The Interface at a Glance',
+        icon: 'fas fa-desktop',
+        theme: 'mechanic',
+        summary: [
+          'The VTT is divided into a central grid (play area), sidebar panels, and a floating HUD.',
+          'Your character sheet is always accessible via your portrait icon in the top-left HUD.',
+          'The GM controls the session: maps, tokens, combat, music, weather, and atmosphere.'
+        ],
+        content: {
+          title: 'The Mythrill VTT Interface',
+          description: 'A complete guided tour of every major zone of the VTT screen.',
+          sections: [
+            {
+              title: 'The Main Play Area (The Grid)',
+              content: `The vast center of your screen is the **tactical play area** — a scrollable, zoomable map grid that the Game Master populates with terrain, lighting, and tokens. This is where movement, combat, exploration, and encounters play out.\n\n• **Your Token**: Your character is represented as a circular portrait token on the grid. Click your token to select it; drag to move it (a movement confirmation dialog will appear).\n• **Grid Squares**: Each square represents 5 feet of real distance. Your movement speed determines how many squares you can traverse per turn. See [Token Movement](combat-system/token-movement).\n• **Right-Click Menu**: Right-clicking any token opens a context menu with options to inspect, target, or roll skill checks against them.\n• **Zoom & Pan**: Scroll the mouse wheel to zoom; middle-click-drag to pan the view.`
+            },
+            {
+              title: 'The Character HUD (Top-Left)',
+              content: `Floating in the top-left is your **Character HUD** — a compact status display showing:\n\n• **Portrait & Name**: Your character portrait. Click it to open your full character sheet.\n• **Health Bar** (red): Current HP out of maximum. Turns orange as you take damage.\n• **Mana Bar** (blue): Current Mana out of maximum. Depletes as you cast spells.\n• **Class Resource Bar**: Each class has a unique resource. Your bar's color reflects your class — green Rage for Berserkers, purple Necrotic Ascension for Deathcallers, gold Fortune Points for Gamblers. See [Class Resources](magic-system/magic-resources).\n• **Action Points (AP)**: Glowing orbs track your current AP. You begin each turn with a full pool. See [Combat Basics](combat-system/combat-basics) for AP costs.`
+            },
+            {
+              title: 'The Sidebar Panels',
+              content: `The right side houses collapsible tool panels:\n\n• **Chat & Dice Log**: All dice rolls, skill checks, and system messages appear here. See [Rolling Dice in the VTT](getting-started/dice-rolling-basics).\n• **Combat Timeline**: When combat begins, the initiative tracker lists all combatants in turn order. See [The Combat Tracker](combat-system/combat-tracker).\n• **Quest Log**: Active quests, objectives, and rewards tracked here.\n• **Conditions Panel**: Active conditions (Blinded, Poisoned, Prone, etc.) shown with icons. See [Combat Conditions](combat-system/combat-conditions).\n• **Jukebox**: The GM uses the integrated audio player for immersive background music and ambient sounds.`
+            },
+            {
+              title: 'GM-Only Tools',
+              content: `Game Masters have access to additional panels:\n\n• **GM Tools Panel**: Encounter management, NPC tools, weather control, and the Social Encounter Generator.\n• **The Travel Tracker** (keyboard shortcut: **W**): Automated hour-by-hour travel for overland journeys across six biomes. See [Advanced Travel System](travel-exploration/advanced-travel).\n• **Creature Library**: Browse and manage creature stat blocks for encounters.\n• **Item Library**: Browse, create, and distribute items to players. See [Equipment System](equipment-system/weapons).`
+            }
+          ],
+          tables: [
+            {
+              title: 'VTT Interface Quick Reference',
+              description: 'A rapid-reference overview of every major UI zone and its primary use.',
+              headers: ['UI Zone', 'Location', 'Primary Use'],
+              rows: [
+                ['Tactical Grid', 'Center of screen', 'Movement, combat, exploration'],
+                ['Character HUD', 'Top-left overlay', 'Health, mana, AP, class resource'],
+                ['Character Sheet', 'Open via portrait click', 'Stats, equipment, skills, spells'],
+                ['Chat & Dice Log', 'Right sidebar', 'Communication and dice results'],
+                ['Combat Timeline', 'Right sidebar (in combat)', 'Initiative and turn order'],
+                ['Quest Log', 'Right sidebar', 'Active quests and objectives'],
+                ['Conditions Panel', 'Right sidebar', 'Active status effects'],
+                ['Jukebox', 'Right sidebar', 'Background audio (GM-controlled)'],
+                ['GM Tools Panel', 'Right sidebar (GM only)', 'Encounter and NPC management'],
+                ['Travel Tracker (W)', 'Keyboard shortcut (GM only)', 'Overland journey automation']
+              ]
+            }
+          ]
+        }
+      },
+      {
+        id: 'your-first-character',
+        name: 'Creating Your First Character',
+        icon: 'fas fa-user-plus',
+        theme: 'narrative',
+        summary: [
+          'The Character Creation Wizard guides you through 11 sequential steps.',
+          'Choose your Race, Class, Discipline, Ability Scores, Skills, and starting Equipment.',
+          'Your choices are independent — any Race can take any Class or Discipline.'
+        ],
+        content: {
+          title: 'Creating Your First Character',
+          description: 'A step-by-step walkthrough of the Character Creation Wizard.',
+          sections: [
+            {
+              title: 'Opening the Character Creation Wizard',
+              content: `To begin, open the **Character Creation Wizard** from the main navigation. The wizard is a guided 11-step process taking you from a blank slate to a fully realized hero, ready for adventure. Your progress is automatically saved — you can pause and return at any time.`
+            },
+            {
+              title: 'The 11 Steps at a Glance',
+              content: `**Step 1 — Basic Information**: Name your hero, describe their appearance, age, height, and weight.\n\n**Step 2 — Race & Subrace**: Choose from 10 ancestral races with 2-3 subraces each, offering distinct stat modifiers and racial abilities. See [Races & Variants](character-creation/races).\n\n**Step 3 — Class**: Select your combat role and resource system from **30 unique classes**. See all classes at [Classes](character-creation/classes).\n\n**Step 4 — Starting Spells**: If your class uses magic, select your initial spells or abilities here. Learn to craft custom spells later at [Spellcrafting Wizard](magic-system/spellcrafting-wizard).\n\n**Step 5 — Background**: Select your pre-adventuring origin from 15 backgrounds (Sailor, Merchant, Soldier, etc.). Backgrounds grant skill proficiencies, languages, tools, and a unique feature. See [Backgrounds](character-creation/character-backgrounds).\n\n**Step 6 — Discipline**: Choose one of 9 Philosophical Disciplines (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel). See [Disciplines](character-creation/disciplines).\n\n**Step 7 — Ability Scores**: Allocate points across the six core attributes using a point-buy system. See [Character Statistics](core-rules/character-statistics).\n\n**Step 8 — Skills & Languages**: Select trained skill proficiencies and languages. Skills advance through gameplay quests. See [Skills](character-creation/skills).\n\n**Step 9 — Lore & Personal Seals**: Write your backstory, personality traits, ideals, bonds, and flaws. Upload a portrait for your token.\n\n**Step 10 — Starting Arsenal**: Purchase initial weapons, armor, and supplies. See [Weapons](equipment-system/weapons) and [Armor](equipment-system/armor).\n\n**Step 11 — Review & Finalize**: Review your full character sheet, make adjustments, and confirm. Your character is now live.`
+            },
+            {
+              title: 'Complete Creative Freedom',
+              content: `Your Race, Class, Background, and Discipline are **entirely independent choices**. There are no restrictions. You can build:\n\n• A noble **Soldier** background with a **Witch Doctor** class and a **Harrow** Discipline.\n• A street-smart **Urchin** background with a **Chronarch** class and a **Mystic** Discipline.\n• A wandering **Sailor** background with a **Gambler** class and a **Trickster** Discipline.\n\nEvery combination is viable. Every combination tells a unique story.`
+            },
+            {
+              title: 'New Player Archetype Recommendations',
+              content: `With 30 unique classes and 9 disciplines, starting character creation can feel like standing at the edge of a massive, beautiful ocean. To hold your hand on your first journey, we recommend these three classic archetypes which represent the peak of fun and mechanical clarity for new players:\n\n• **The Stout Vanguard (Classic Warrior)**\n  - **Class**: *Dreadnaught* or *Warden* (Excellent high-durability defense)\n  - **Discipline**: *Sentinel* (Provides powerful defensive aura shields for your allies)\n  - **Ability Focus**: Constitution & Strength\n  - **Background**: *Soldier* or *Blacksmith*\n\n• **The Shadow Stalker (Classic Rogue/Scout)**\n  - **Class**: *Huntress* or *Bladedancer* (Incredible mobility, single-target strikes, and stealth tactics)\n  - **Discipline**: *Trickster* (Provides illusions, teleport triggers, and critical combat leverage)\n  - **Ability Focus**: Agility & Charisma\n  - **Background**: *Urchin* or *Hunter*\n\n• **The Arcane Weaver (Classic Mage/Spellcaster)**\n  - **Class**: *Chronarch* (Time manipulation, extra AP tricks) or *Pyrofiend* (Visceral, explosive fire magic)\n  - **Discipline**: *Arcanist* (Improves resource recovery, spell efficiency, and raw elemental potency)\n  - **Ability Focus**: Intelligence & Spirit\n  - **Background**: *Scholar* or *Hermit*\n\nSelect any of these configurations during the creation steps to begin with a clear, synergistic mechanical direction!`
+            }
+          ]
+        }
+      },
+      {
+        id: 'joining-a-session',
+        name: 'Joining a Session',
+        icon: 'fas fa-users',
+        theme: 'narrative',
+        summary: [
+          'Sessions are created and hosted by the Game Master.',
+          'Players join via a session link or room code shared by the GM.',
+          'Place your token on the map and check your character sheet before play begins.'
+        ],
+        content: {
+          title: 'Joining a Session',
+          description: 'How to connect to a session room, set up your token, and prepare for play.',
+          sections: [
+            {
+              title: 'Receiving the Session Link',
+              content: `The Game Master creates a session room and shares a **room link or invite code** with their players. Click the link or enter the code in the Join Session panel on the home screen. The platform will connect you to the GM's session in real time.\n\nOnce connected, you will see the tactical map the GM has prepared. Depending on the GM's settings, you may see fog of war (darkness masking unexplored areas) or the full map.`
+            },
+            {
+              title: 'Placing Your Token',
+              content: `When you first join, the GM will place your character token on the map. Your token represents your hero in the physical game world — its position matters for movement, range calculations, and area-of-effect spells.\n\nOnce your token is placed:\n• Click it to select it and see your stats highlighted in the HUD.\n• Verify your HP, Mana, and AP are correct in the top-left HUD.\n• Open your character sheet (click your portrait) and review your spells, equipment, and skills.`
+            },
+            {
+              title: 'Pre-Session Checklist',
+              content: `Before play begins, run through this quick checklist:\n\n• **Character Sheet**: Are your attributes assigned, class abilities added, and starting equipment equipped?\n• **Spells & Abilities**: Are your spells visible on your action bar? If not, visit [Spellcrafting Wizard](magic-system/spellcrafting-wizard) to add them.\n• **Skill Familiarity**: Know which skills you are trained in and which attribute they use. See [Skills](character-creation/skills).\n• **Resources**: Note your starting Mana, class resource, and AP pool to track them during combat.\n• **Ask the GM**: Which optional rule modules are in use — settlement activities, corruption, advanced travel? Ask before the first scene so you know what mechanics apply.`
+            }
+          ]
+        }
+      },
+      {
+        id: 'dice-rolling-basics',
+        name: 'Rolling Dice in the VTT',
+        icon: 'fas fa-dice',
+        theme: 'mechanic',
+        summary: [
+          'Skill checks trigger automatically when you click the relevant skill on your character sheet.',
+          'The GM sets the difficulty die size (d4 to d20) — the chat log tells you which die was rolled.',
+          'All roll results are broadcast to the chat log visible to the entire table.'
+        ],
+        content: {
+          title: 'Rolling Dice in the VTT',
+          description: 'How to trigger rolls, read results, and understand the Difficulty Die system in practice.',
+          sections: [
+            {
+              title: 'How Rolls Work on the VTT',
+              content: `Every dice roll flows through the **Chat & Dice Log**. When you trigger a roll:\n\n1. The system selects the correct die for the skill.\n2. The GM sets (or confirms) the Difficulty Die size — from **d4 (Very Easy)** to **d20 (Very Difficult)**.\n3. The VTT rolls your die, adds your Skill Rank modifier, and broadcasts the result to the full table.\n4. Results are color-coded for instant reading (see table below).\n\nFor the full difficulty die system, see [The Dice System](core-rules/dice-system).`
+            },
+            {
+              title: 'Triggering Skill Rolls from Your Sheet',
+              content: `The fastest way to roll is from your character sheet:\n\n• Open your character sheet (click your portrait).\n• Navigate to the **Skills** tab.\n• Click the die icon next to any skill to trigger that roll.\n• The system calculates Skill Rank + attribute modifier automatically.\n• The result appears in the Chat & Dice Log for everyone.\n\nFor combat rolls (weapon attacks), click the weapon on your **action bar** during your turn. This triggers the Unified Strike — handling both hit and damage in one roll. See [Attacks & Damage](combat-system/attacks-damage).`
+            },
+            {
+              title: 'Manual Dice Commands',
+              content: `You can roll manually by typing commands into the chat input:\n\n• \`/roll 1d20\` — rolls a single d20.\n• \`/roll 2d6+3\` — rolls 2d6 and adds 3.\n• \`/roll d8\` — rolls a single d8.\n\nManual rolls are useful for unusual GM-called checks or to record a physical die roll in the digital log.`
+            }
+          ],
+          tables: [
+            {
+              title: 'Roll Result Colors at a Glance',
+              description: 'Every roll is color-coded in the chat log for instant reading.',
+              headers: ['Color', 'Outcome', 'Meaning'],
+              rows: [
+                ['Dark Red', 'Total Failure', 'Catastrophic failure with severe consequences'],
+                ['Red-Orange', 'Failure', 'The attempt fails without major complications'],
+                ['Amber / Yellow', 'Partial Success', 'Mixed result — some success with drawbacks'],
+                ['Teal / Blue-Green', 'Success', 'The attempt succeeds as intended'],
+                ['Bright Blue (star)', 'Critical Success', 'Exceptional success with additional benefits']
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     id: 'core-rules',
     name: 'Core Rules',
     icon: 'fas fa-book',
@@ -22,6 +286,10 @@ export const RULES_CATEGORIES = [
           title: 'Enter the Weave',
           description: 'An entry into the modular rules of Mythrill, where stories are woven by hands of flesh and rolls of bone.',
           sections: [
+            {
+              title: 'How to Navigate This Rulebook',
+              content: `Welcome to the Mythrill rulebook. This interactive guide lives inside the VTT itself. If you are brand new, start at [Getting Started](getting-started/welcome) before reading the core rules.\n\nThroughout this guide:\n• **Blue Links** jump directly to related sections — click them freely.\n• **Quick Facts Tiles** at the top of each section give you the most important numbers at a glance.\n• **Tables** are paginated — use the arrows to browse large tables.\n\n**Recommended Reading Order**: [Welcome](getting-started/welcome) → [Dice System](core-rules/dice-system) → [Character Statistics](core-rules/character-statistics) → [Combat Basics](combat-system/combat-basics) → [Your Class](character-creation/classes).`
+            },
             {
               title: 'Core Principles: The Tumble of Fate',
               content: `Mythrill does not bind your heroic fate to static, lifeless numbers or flat, unyielding Difficulty Classes. Instead, the living world breathes through the **Ladder of Trials**—a dynamic difficulty-dice system where the Game Master selects a die size reflecting the task's complexity, from a swift, minor d4 to a grueling, legendary d20. You roll that die, pitting your raw skill ranks, attribute modifiers, and situational fortune against the hazard. In combat, the rhythm of battle accelerates: weapon dice govern both the strike and the damage in a single, fluid roll. A hero's journey is not calculated by cold math, but felt through the heavy tumble of physical dice against the parchment.`
@@ -72,11 +340,11 @@ Mix and match these systems to craft the exact tone of your campaign.`
           sections: [
             {
               title: 'The Ladder of Trials (Difficulty Dice)',
-              content: `At the heart of every trial lies the **Ladder of Trials**. Instead of comparing your roll to a static target number, the Game Master assigns a Difficulty Die that represents the obstacle's resistance. You must roll this die and add your Skill Rank plus situational modifiers to determine your success. While raw ability scores are rarely added directly, exceptional physical or mental power changes the odds: if your primary or secondary attribute modifier is **+5 or higher**, your absolute mastery allows you to step the difficulty die down by one size (e.g., from a d10 to a d8).`
+              content: `At the heart of every trial lies the **Ladder of Trials**. Instead of comparing your roll to a static, lifeless target number, the Game Master dynamically assigns a Difficulty Die that represents the obstacle's resistance. You must roll this die and add your Skill Rank plus situational modifiers to determine your success. While raw ability scores are rarely added directly to skill checks, exceptional physical or mental power changes your mathematical odds: if your primary or secondary attribute modifier reaches the Milestone of Mastery (**+5 or higher**), your absolute mastery allows you to step the difficulty die down by one size (e.g., from a d10 to a d8, or a d12 to a d10). To understand how these modifiers are calculated, see the [Six Pillars of Mortality](core-rules/character-statistics).`
             },
             {
               title: 'Critical Fortunes: The Fates Speak',
-              content: `Fortune is a fickle mistress. Rolling the highest possible number on your difficulty die triggers a **Critical Success**—a spectacular triumph that yields unexpected narrative benefits, additional momentum, or devastating side effects. Conversely, rolling a **1** triggers a **Critical Failure**, inviting dire complications and shifting the initiative to the opposition. For weapon strikes and direct d checks, natural maximums remain the ultimate arbiters, with critical hits unleashing devastating weapon-specific effects and exploding damage dice.`
+              content: `Fortune in Mythrill is a dynamic, living force. Rolling the highest possible number on your chosen difficulty die triggers a **Critical Success**—a spectacular triumph that yields unexpected narrative benefits, additional momentum, or devastating side effects. Conversely, rolling a **1** triggers a **Critical Failure**, inviting dire complications and shifting the initiative to the opposition. For weapon strikes and direct checks, natural maximums remain the ultimate arbiters, with critical hits unleashing devastating weapon-specific effects and exploding damage dice. On the other hand, critical fumbles can lead to direct gear wear, reducing its reliability. Learn more about weapon fumbles and repairs in [Durability & Repair](core-rules/durability-repair), and combat rules in [Attacks & Damage](combat-system/attacks-damage).`
             },
             {
               title: 'Advantage & Disadvantage',
@@ -145,7 +413,7 @@ Mix and match these systems to craft the exact tone of your campaign.`
               rows: [
                 ['Constitution', 'CON', 'Vigor & Physical Fortitude', 'Hit Points, Fortitude Saves, Enduring Poison/Fatigue'],
                 ['Strength', 'STR', 'Muscular Power & Might', 'Melee Strikes, Athletics, Carriage Capacity'],
-                ['Agility', 'AGI', 'Dexterity & Swiftness', 'Ranged Strikes, Armor Class, Reflex Saves, Stealth'],
+                ['Agility', 'AGI', 'Dexterity & Swiftness', 'Ranged Strikes, Dodge, Armor, Reflex Saves, Stealth'],
                 ['Intelligence', 'INT', 'Cognition & Memory', 'Arcane Spellcasting, Investigation, Ancient Lore'],
                 ['Spirit', 'SPI', 'Willpower & Intuition', 'Divine Spellcasting, Perception, Will Saves, Insight'],
                 ['Charisma', 'CHA', 'Force of Personality', 'Social Influence, Command, Performance, Deception']
@@ -192,11 +460,19 @@ Mix and match these systems to craft the exact tone of your campaign.`
           sections: [
             {
               title: 'The Spatial Grid',
-              content: `Survival in the untamed wilderness and deep, ruinous vaults of Mythrill demands more than steel and spells; it requires meticulous, physical organization. Carrying capacity in Mythrill is not represented by an abstract number or passive carrying weight limit, but rather by a physical, tactile Spatial Grid. Every item you scavenge, forge, or purchase occupies specific slots (defined by grid coordinates) within a three-dimensional container system. A starting adventurer with a baseline Strength score of 10 carries a standard military-grade pack featuring a base grid layout of **5 columns by 15 rows (75 slots)**. As your character builds physical power and musculature, your physical load capabilities expand: for every 2 points of Strength above 10, your packing ledger grows, adding **one additional row (5 slots)** to the bottom of your grid. The grid forces players to pack tactically, choosing whether to stow a heavy iron warhammer (requiring a 1x4 column layout) or stack smaller herbal reagents (1x1 items) side by side.`
+              content: `Survival in the untamed wilderness and deep, ruinous vaults of Mythrill demands more than steel and spells; it requires meticulous, physical organization. Carrying capacity in Mythrill is not represented by an abstract weight value or a passive numeric limit, but rather by a highly tactile and visual **Spatial Grid** within the player ledger. Every weapon, piece of armor, ration, and magical reagent occupies a specific geometric layout (e.g. 1x1 slots for iron spikes, 1x4 slots for an elegant longsword, or 2x3 slots for a heavy oak shield). 
+
+A starting adventurer with a baseline Strength score of 10 carries a standard adventurer's pack featuring a base grid layout of **5 columns by 15 rows (75 slots)**. Your pack scales dynamically with your physical power: for every 2 points of Strength above 10, your grid width increases, adding **one additional vertical column (15 slots)** of precious cargo space (e.g. expanding to 6 columns at Strength 12-13, and up to 10 columns at Strength 20+). For details on allocating Strength and tracking your ability modifiers, consult the [Six Pillars of Mortality](core-rules/character-statistics).`
             },
             {
               title: 'Encumbrance Zones',
-              content: `The balance of your pack dictates the swiftness of your stride and the quickness of your parries. The Mythrill inventory grid is segregated into three distinct vertical column zones, each representing the physical weight distribution across your shoulders. Stowing bulky, heavy, or volatile equipment too far from your spine's vertical alignment shifts your center of gravity, resulting in immediate mechanical strain. Columns 0-4 represent your core balance, allowing standard movement. As your pack overflows into Columns 5-9, you enter the Encumbered zone, feeling your knees buckle under a **-25% reduction in movement speed** alongside fatigue penalties that tax your agility. Packing into Columns 10-14 pushes your vessel into the Overburdened zone, reducing your speed by a grueling **-75%** and turning you into a slow, lumbering target. Organizing your gear is a tactical puzzle—do you center your heaviest steel plate and weapons to run freely, or spread your loot wide and risk exhaustion?`
+              content: `The physical balance of your pack dictates the swiftness of your stride, the height of your active defense, and the quickness of your actions. The Mythrill inventory grid is segregated into three distinct vertical column zones, representing how weight is distributed across your shoulders and center of gravity:
+
+• **Columns 0-4 (Core Balance)**: The perfectly centered load. Items stored entirely within these columns impose no mobility penalties, allowing you to move at your maximum movement rate.
+• **Columns 5-9 (Encumbered Zone)**: Storing any items in these columns causes your pack's balance to drift wide, resulting in an immediate **-25% reduction in movement speed** and a mild physical toll on agility.
+• **Columns 10-14 (Overburdened Zone)**: Packing heavy or bulky loot into these outer columns severely destabilizes your balance, inflicting a grueling **-75% movement speed penalty** and leaving you vulnerable as a slow, lumbering target.
+
+Tactical packing is a mini-game in itself: do you keep your heavy steel plate and weapons centered to sprint freely, or do you fill your outer columns with treasure and accept the exhausting fatigue? These zones are fully automated on your digital character sheet, updating your speed and modifiers instantly as you drag and drop items.`
             }
           ],
           tables: [
@@ -247,7 +523,9 @@ Mix and match these systems to craft the exact tone of your campaign.`
             },
             {
               title: 'The Toll of Combat (Durability Damage)',
-              content: `When an opponent lands a devastating critical strike or targets a specific Zone of Protection (such as your head, chest, or limbs), your protective gear or parrying weapon bears the brunt of the strike. Durability damage is not a passive calculation, but a visceral trauma to your equipment. A sudden clashing blow against a stone shield chips its edge for 1-2 points, while a direct, crushing strike from an ogre's spiked club might fracture steel plates, dealing 5-10 durability damage. Under the Virtual Tabletop system, players and GMs can easily inspect and manage these wear marks manually by opening the item's context menu (Right-Click -> Durability) to adjust current values, simulating the realistic wear and tear of a long dungeon crawl.`
+              content: `When an opponent lands a devastating critical strike or targets a specific Zone of Protection (such as your head, chest, or limbs), your protective gear or parrying weapon bears the brunt of the strike. Furthermore, when resolving a weapon swing via the [Unified Strike & Damage Combat Roll](combat-system/attacks-damage), rolling a Critical Fumble (natural 1) immediately risks chipping your blade or fracturing your shield, dealing direct durability damage. 
+
+Under the Virtual Tabletop system, players and GMs can easily inspect and manage these wear marks manually. Simply open the item's **Right-Click Context Menu** inside your spatial inventory grid and select the **Durability** slider to adjust current values, simulating the realistic wear and tear of a long, gritty crawl or direct maintenance.`
             },
             {
               title: 'The Shattered State (Broken Items)',
@@ -270,16 +548,14 @@ Mix and match these systems to craft the exact tone of your campaign.`
             },
             {
               title: 'The Art of Repair (Resting)',
-              content: `During short or long rests, a character can attempt to mend their broken gear. The player rolls a d20 against a **Difficulty Class set by the GM** (default DC 15). The GM sets the DC based on:
+              content: `During short or long rests, a character can attempt to mend their broken gear. The player rolls a d20 check against a difficulty set by the GM. This challenge is resolved against the [Ladder of Trials](core-rules/dice-system) (default DC 15). The GM sets the DC based on:
 
 • The severity of the ruin (lower durability = harder repair DC)
 • The rarity and material of the artifact
 • Available tools (anvil, sewing kits, leather presses)
 • The character's background or trade skills
 
-**A successful roll** restores a portion of the item's durability based on narrative agreement. **A failed roll** wastes precious time and may consume raw materials without restoring any integrity.
-
-GMs may require scrap iron for plate, cured leather for jerkins, or residuum for magical items to perform repairs.`
+**A successful roll** restores a portion of the item's durability based on narrative agreement. **A failed roll** wastes precious time and may consume raw materials without restoring any integrity. GMs may require scrap iron for plate, cured leather for jerkins, or residuum for magical items to perform repairs.`
             },
             {
               title: 'Forge Customization (Item Durability)',
@@ -314,22 +590,32 @@ GMs may require scrap iron for plate, cured leather for jerkins, or residuum for
         name: 'Game Sessions',
         icon: 'fas fa-calendar-alt',
         theme: 'narrative',
-        summary: ['Sessions run 2-4 hours with alternating energy levels', 'Session Zero sets expectations before the campaign begins', 'Good pacing alternates high-energy and low-energy scenes'],
+        summary: ['Sessions run 2-4 hours with organic narrative pacing', 'Session Zero forms the social and safety contract of play', 'Preparation checklists optimize player readiness and GM adaptability'],
         content: {
           title: 'Game Sessions',
-          description: 'Comprehensive session management, preparation, and gameplay flow',
+          description: 'Comprehensive guidelines for managing session structure, pacing mechanics, and pre-game preparation protocols.',
           tabs: [
             {
               id: 'session-structure',
               name: 'Session Structure',
               sections: [
                 {
-                  title: 'Session Zero',
-                  content: `Before starting a campaign, hold a Session Zero to discuss expectations, character concepts, house rules, and campaign themes. This ensures everyone is on the same page.`
+                  title: 'Session Zero: The Accord of Beginnings',
+                  content: `Before a single sword is drawn, a single spell chanted, or the first step taken into the dark wilderness, the fellowship must align their destinies. A **Session Zero** is not merely a technical meeting—it is a sacred contract between the Game Master (GM) and the players, defining the campaign's thematic bounds, moral colors, and mechanical laws to ensure a unified and enjoyable experience.
+
+• **Safety & Boundaries**: Establish clear social guidelines. Incorporate safety tools such as **Lines and Veils** (distinguishing between contents that can exist but off-screen, and those entirely forbidden) and active veto rights. Discuss trigger warnings and the tone of description (heroic versus grimdark) to ensure the table remains a welcoming sanctuary for all.
+• **Homebrew Constraints & Campaign Themes**: Align on the narrative tone of the campaign. Is this an epic fantasy high-magic odyssey across the gilded spires of Mythrill, or a gritty survival struggle through mud, iron, and scarce resources? Detail any homebrew rules, mechanical restrictions, or environmental modifiers that will affect travel and combat.
+• **Mechanical Onboarding**: Welcome players into the VTT ecosystem. Ensure all players understand the point-buy parameters, trained skills, and the unique resource management system associated with their selected paths from the **30 specialized classes**.
+• **Group Synergy**: Ensure character concepts hold logical and narrative ties. A cohesive band of adventurers is far superior to a disjointed collective of lone wolves. Discuss how characters met, why they trust one another, and how their tactical roles complement each other in battle.`
                 },
                 {
-                  title: 'Typical Session Flow',
-                  content: `Sessions usually follow this structure: 1) Recap previous session, 2) Resolve downtime activities, 3) Main adventure content (mix of combat, exploration, social), 4) End-of-session wrap-up and XP awards.`
+                  title: 'The Chronicle of Play (Typical Session Flow)',
+                  content: `A single session of play is a self-contained story—a chapter in an ongoing epic that typically spans between two and four hours. To maintain rhythm and ensure no narrative threads are lost to the sands of time, gameplay is structured into four distinct, organic phases:
+
+• **I. The Chronicle Recap**: The session begins with the opening chronicle. Players recall their recent exploits, successes, and scars. The GM provides context, sets the immediate scene, and resolves any lingering questions from the previous week's cliffhangers.
+• **II. Downtime Resolution**: Before plunging back into danger, characters catch their breath. Here, they resolve city-bound activities: repairing shattered armor, selling gathered artifacts, scribing arcane scrolls, or training in specialized guilds.
+• **III. The Crucible of Play**: The heart of the session. Players navigate the wilderness, interact with NPCs, solve puzzles, and engage in tactical, turn-based combat. Here, the rolls of the dice decide the rise and fall of nations.
+• **IV. The Ledger Alignment**: As the fires of adventure settle, the session closes. The GM awards Experience Points (XP) and distributes treasures. Players update their character ledgers, record session milestones, and vote on MVP commendations.`
                 }
               ],
               tables: [
@@ -351,8 +637,12 @@ GMs may require scrap iron for plate, cured leather for jerkins, or residuum for
               name: 'Pacing',
               sections: [
                 {
-                  title: 'Energy Management',
-                  content: `Good pacing alternates between high-energy scenes (combat, dramatic moments) and low-energy scenes (exploration, social interaction). Aim for variety within each session.`
+                  title: 'The Ebb and Flow of Drama (Energy Management)',
+                  content: `A masterfully paced session is like a symphony, rising to thunderous climaxes and falling into quiet, contemplative movements. The GM and players collaboratively manage the table's energy, alternating between periods of intense focus and lighthearted, character-driven breathers:
+
+• **Tactical Crucibles (High Energy)**: These are the moments of high stakes—such as a frantic sword fight atop a crumbling bridge, a tense negotiation with a paranoid king, or a narrow escape from a collapsing tomb. Keep descriptions punchy, action turn-counts swift, and high-stakes dice rolling active to sustain blood-pumping excitement.
+• **Narrative Voyages (Medium Energy)**: Rich roleplay encounters, investigative puzzle-solving, and localized exploration. Players banter with tavern keepers, piece together ancient inscriptions, or plot their next heist, allowing deep immersion and lore development.
+• **Restorative Breathers (Low Energy)**: Travel through calm countryside, camping under the stars, or simple downtime. These quiet scenes allow players to explore character bonds, share backstories, and process the emotional weight of their journeys.`
                 }
               ],
               tables: [
@@ -373,8 +663,18 @@ GMs may require scrap iron for plate, cured leather for jerkins, or residuum for
               name: 'Preparation',
               sections: [
                 {
-                  title: 'Session Preparation',
-                  content: `Players should know their character abilities and have dice ready. GMs should prepare encounters, NPCs, and maps. Both should be ready to improvise and adapt.`
+                  title: 'The Ritual of Preparation',
+                  content: `True legends are forged long before the dice are cast. Both GMs and players must undertake the sacred rituals of preparation to ensure the virtual tabletop operates like a well-oiled siege engine:
+
+• **For the Adventurer (Player Checklist)**:
+  - *Parchment & Dice*: Ensure your VTT character sheet is fully updated, and physical or virtual dice are ready for rolling.
+  - *Ability Memory*: Familiarize yourself with your active and passive class skills, spells, and custom resource points (e.g. Focus, Mana, Stamina) to ensure combat rounds flow seamlessly.
+  - *Lore Recalled*: Read the summary of the last session, and note your character's immediate personal goals for the upcoming hours.
+
+• **For the Weaver of Worlds (GM Checklist)**:
+  - *Environmental Spells (Visuals & Music)*: Pre-load the necessary maps, tokens, and thematic background audio.
+  - *NPC & Encounter Ledger*: Keep stats for key adversaries, local monster behaviors, and important NPC motivations at your fingertips.
+  - *Improvisational Adaptability*: Outline three potential paths forward, but remain fully prepared to toss the parchment aside when your players choose a completely unexpected fourth direction.`
                 }
               ],
               tables: [
@@ -722,7 +1022,7 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
             },
             {
               title: 'Resource Systems',
-              content: `Each class uses a unique resource system: Mana (casters), Rage (warriors), Focus (rogues), Energy (monks), Runic Power (death knights), and more. These resources fuel your class abilities.`
+              content: `Each class uses a unique resource system: Rage Points (Berserker), Fortune Points (Gambler), Temporal Energy (Chronarch), Quarry Marks (Huntress), and many more. These resources fuel your class abilities.`
             }
           ],
           tables: [
@@ -1034,8 +1334,8 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
         name: 'Combat Basics',
         icon: 'fas fa-shield-alt',
         theme: 'combat',
-        quickFacts: [{icon:'fas fa-bolt',label:'AP Per Turn',value:'6 AP'},{icon:'fas fa-sort-numeric-down',label:'Initiative',value:'1d20 + AGI mod'},{icon:'fas fa-fist-raised',label:'Attack',value:'2 AP'},{icon:'fas fa-walking',label:'Move',value:'1 AP'}],
-        summary: ['6 AP per turn to spend on actions with ultimate strategic freedom', 'Initiative = 1d20 + Agility modifier to claim early position', 'No bonus actions: spend your AP pool exactly as you choose'],
+        quickFacts: [{icon:'fas fa-bolt',label:'AP Per Turn',value:'3 AP'},{icon:'fas fa-sort-numeric-down',label:'Initiative',value:'1d20 + AGI mod'},{icon:'fas fa-fist-raised',label:'Attack',value:'2 AP'},{icon:'fas fa-walking',label:'Move',value:'1 AP'}],
+        summary: ['3 AP per turn to spend on actions with ultimate strategic freedom', 'Initiative = 1d20 + Agility modifier to claim early position', 'No bonus actions: spend your AP pool exactly as you choose'],
         content: {
           title: 'Combat Basics',
           description: 'Rounds, turns, initiative, and Action Points',
@@ -1050,7 +1350,7 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
             },
             {
               title: 'Action Points (AP)',
-              content: `The cornerstone of Mythrill's tactical combat is the Action Point (AP) system. Every character has a pool of **6 AP** that completely refreshes at the start of their turn. There are no 'Bonus Actions' or separate movement pools; every action you take—from swinging a giant claymore to drinking a potion or stepping through a burning field—costs a specific amount of AP. This provides ultimate freedom: you can spend 2 AP to strike, 1 AP to disengage, 1 AP to drink a potion, and 2 AP to move again, or spend all 6 AP casting two heavy mystic spells. AP management is the difference between life and death in Mythrill.`
+              content: `The cornerstone of Mythrill's tactical combat is the Action Point (AP) system. Every character has a pool of **3 AP** that completely refreshes at the start of their turn. There are no 'Bonus Actions' or separate movement pools; every action you take—from swinging a giant claymore to drinking a potion or stepping through a burning field—costs a specific amount of AP. This provides ultimate freedom: you can spend 2 AP to strike and 1 AP to move, or 1 AP to move, 1 AP to defend, and 1 AP to use an item. AP management is the difference between life and death in Mythrill.`
             }
           ],
           tables: [
@@ -1083,13 +1383,13 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
           sections: [
             {
               title: 'Attack Resolution',
-              content: `Mythrill features a revolutionary **Unified Strike & Damage Roll** that completely removes the double-rolling slow-downs of traditional d20-based systems. When you spend AP to make a weapon strike (typically 2 AP), you roll the weapon's designated damage die (e.g., 1d8 for a longsword, 1d12 for a greataxe) exactly once to resolve both accuracy and damage:
+              content: `Mythrill features a revolutionary **Unified Strike & Damage Roll** that completely removes the double-rolling slow-downs of traditional d20-based systems. In conventional systems, you must roll once to hit (often slowing down play with complex calculations against static AC targets) and then roll a second time to determine damage. Mythrill collapses this into a single, high-stakes moment: when you spend AP to make a weapon strike (typically 2 AP), you roll the weapon's designated damage die (e.g., 1d8 for a longsword, 1d12 for a brutal greataxe, or 1d6 for a swift dagger) exactly once to resolve both accuracy and raw force:
 
-1. **The Critical Miss (1)**: If the weapon die lands on a **1**, the attack is an outright miss. The player rolls a secondary die to check for severe fumbles, such as dropping their weapon or striking a nearby stone wall (damaging weapon durability).
-2. **The Decisive Hit (2 to Max-1)**: Any roll between 2 and one less than the die's maximum value represents a clean hit. The damage dealt is immediately equal to the value shown on the die plus your corresponding attribute modifier (e.g., Strength for melee, Agility for ranged). No secondary accuracy check is needed!
-3. **The Sovereign Critical Hit (Max Value)**: If the die lands on its **maximum value** (e.g., an 8 on a d8, or a 12 on a d12), the blow is a devastating critical strike, triggering massive extra damage and potential lingering injuries.
+1. **The Critical Fumble (1)**: If the weapon die lands on a **1**, the attack misses catastrophically. The GM will call for a secondary check on the [Difficulty Dice Ladder](core-rules/dice-system) to determine the severe consequences—such as overextending and exposing yourself, dropping the weapon, or striking a stone wall that deals direct structural damage to your gear. Details on how gear decays can be found in [Durability & Repair](core-rules/durability-repair).
+2. **The Decisive Hit (2 to Max-1)**: Any roll between 2 and one less than the die's maximum value represents a successful strike. The damage dealt is immediately equal to the value shown on the die plus your corresponding attribute modifier—specifically Strength (STR) for heavy melee blows, or Agility (AGI) for precise ranged shots. To learn how these modifiers are calculated from your core attributes, see the [Six Pillars of Mortality](core-rules/character-statistics).
+3. **The Sovereign Critical Hit (Max Value)**: If the die lands on its **maximum value** (e.g., an 8 on a d8, or a 12 on a d12), you unleash a critical hit. The die immediately "explodes," allowing you to roll another damage die of the same type and add it to the total, alongside triggering lethal weapon-specific properties (like bleeding, sundering, or stunning).
 
-This unified flow makes every single weapon swing incredibly tense and fast-paced, keeping combat lethal and fluid.`
+This unified flow makes every single weapon swing incredibly fast-paced, keeping combat visceral, lethal, and tactically fluid.`
             },
             {
               title: 'Armor & Defense',
@@ -1511,7 +1811,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'Becoming Stable',
-                  content: `You stabilize when you succeed on three death saves, receive healing, or an ally uses an action to stabilize you (Medicine check with an easy difficulty die—typically d6). Stable creatures remain unconscious at 0 HP but don't make death saves.`
+                  content: `You stabilize when you succeed on three death saves, receive healing, or an ally uses an action to stabilize you (Medicine check with an easy difficulty die—typically d6). Stable creatures remain conscious at 0 HP but don't make death saves.`
                 }
               ]
             }
@@ -1686,7 +1986,12 @@ Some conditions interact with each other or with the environment to create enhan
             {
               id: 'core-rest',
               name: 'Core Rest & Recovery',
-              sections: [],
+              sections: [
+                {
+                  title: 'The Solace of Rest',
+                  content: `In the dark and dangerous world of Mythrill, survival is not merely a matter of clashing steel and swift casting; it requires knowing when to sheath the blade and stoke the campfire. Recovery is divided into two distinct disciplines: the swift, tactical **Short Rest** of one hour to bind wounds and catch one's breath, and the deep, restorative **Long Rest** of eight hours to heal fully, replenish magical reservoirs, and soothe the weary spirit. Without regular rest, characters face the slow, creeping doom of exhaustion, which steadily degrades their capabilities until they can no longer stand.`
+                }
+              ],
               tables: [
                 {
                   title: 'Rest at a Glance',
@@ -1879,6 +2184,92 @@ These systems add cultural immersion and social interaction opportunities.`
             }
           ]
         }
+      },
+      {
+        id: 'combat-tracker',
+        name: 'The Combat Tracker (VTT)',
+        icon: 'fas fa-list-ol',
+        theme: 'combat',
+        summary: [
+          'The Combat Tracker automates turn order and initiative for players and creatures alike.',
+          'Initiative is rolled directly from the character sheet and broadcasted to the VTT sidebar.',
+          'Your Action Points (AP) and active status effects are tracked in real-time on your turn.'
+        ],
+        content: {
+          title: 'The Combat Tracker',
+          description: 'Understanding initiative, turn flow, and how the VTT sidebar manages active combat.',
+          sections: [
+            {
+              title: 'Automating the Turn Sequence',
+              content: `In the heat of battle, keeping track of who acts when, which spells are active, and how many rounds have passed can slow down the most exciting encounters. The **Combat Tracker** (located in the right-hand sidebar panel) completely automates this bookkeeping, letting the table focus on strategy and story.\n\nWhen a battle begins, the Game Master (GM) clicks the **Initiative Tracker** toggle to open the interface. The tracker displays a descending vertical list of all participants, clearly marking whose turn it is, who is next, and which round of combat is currently underway.`
+            },
+            {
+              title: 'Rolling Initiative in the VTT',
+              content: `To join the turn order, you must roll Initiative:\n\n• **Direct Sheet Integration**: Click the **Initiative** label or the d20 icon next to it in your Character HUD or full sheet. The VTT automatically rolls a d20, adds your Agility modifier, and sends the result to the chat log.\n• **Auto-Timeline Placement**: The VTT instantly adds your character token to the timeline in descending order of the roll. If there is a tie, the system automatically resolves it using your base Agility score.\n• **NPC Rolling**: The GM rolls initiative for all hostile and neutral creatures, adding them to the same tracker seamlessly.`
+            },
+            {
+              title: 'Managing Your Turn & Action Points',
+              content: `When the tracker reaches your name, several automated systems activate:\n\n• **Active Glow**: Your character portrait on the grid and in the sidebar glows, indicating it is your turn. The camera may automatically center on your token.\n• **AP Refreshes**: Your HUD shows your Action Point (AP) pool fully refreshed to **3 AP**.\n• **Condition Prompts**: Any ongoing effects (like Bleeding or Poisoned) will prompt a save or deal damage automatically at the start of your turn. See [Combat Conditions](combat-system/combat-conditions).\n• **Ending Your Turn**: Once you have spent your AP or choose to pass, click the **End Turn** button in the sidebar or HUD. The VTT shifts the active turn indicator to the next combatant, ensuring combat remains snappy.`
+            }
+          ],
+          tables: [
+            {
+              title: 'Combat Tracker Quick Reference',
+              description: 'VTT automation actions during combat.',
+              headers: ['Action', 'How to Trigger', 'VTT Result'],
+              rows: [
+                ['Roll Initiative', 'Click Initiative on HUD / Sheet', 'Rolls 1d20 + AGI mod, places token on timeline'],
+                ['Spend AP', 'Cast spell / Attack / Move token', 'HUD AP globes deplete in real time'],
+                ['Check Status Effects', 'Hover over icons in sidebar', 'Shows condition duration and mechanical penalties'],
+                ['End Turn', 'Click "End Turn" button in sidebar', 'Passes active turn to the next combatant on timeline'],
+                ['Inspect Combatant', 'Right-click token in tracker', 'Inspects basic info / health (if visible to players)']
+              ]
+            }
+          ]
+        }
+      },
+      {
+        id: 'token-movement',
+        name: 'Token Movement & Grid Tactics',
+        icon: 'fas fa-walking',
+        theme: 'combat',
+        summary: [
+          'Movement on the tactical grid costs 1 AP per speed increment (typically 30 feet).',
+          'Drag-and-drop movement includes an automated distance calculator and confirmation prompt.',
+          'Ranged attacks and spells use the VTT\'s built-in target measurement tool for precise ranges.'
+        ],
+        content: {
+          title: 'Grid Tactics & Token Movement',
+          description: 'How to move your token, calculate AP costs, handle difficult terrain, and measure attack ranges.',
+          sections: [
+            {
+              title: 'Tactical Movement on the Grid',
+              content: `The tactical map is divided into **5-foot grid squares**. Your token represents your exact physical position in the combat space, which is critical for determining line of sight, range, cover, and flanking opportunities.\n\nMoving your token is simple and fully handled by the VTT:\n\n• **AP Cost**: Moving up to your base movement speed (typically 30 feet, or 6 squares) costs **1 AP**. This action can be repeated as long as you have AP remaining.\n• **Tactical Splitting**: You can split your movement. For example, you can spend 1 AP to move 15 feet, spend 2 AP to strike an enemy, and then use the remaining 15 feet of your movement without spending additional AP. The system tracks your remaining feet for the current movement action automatically.`
+            },
+            {
+              title: 'Movement AP Cost & Drag Confirmation',
+              content: `To prevent accidental moves or miscalculations, Mythrill uses a **Movement Path & Confirm** system:\n\n1. **Drag and Trace**: Click and drag your token across the map. As you drag, a glowing path line traces your route, showing the exact distance in feet and squares.\n2. **AP Calculation**: The VTT calculates the total AP cost in real time, displaying it as a floating badge next to your token (e.g. "Move: 15ft [0/1 AP Used]" or "Move: 45ft [2 AP Required]").\n3. **Difficult Terrain**: Moving through rough terrain (mud, deep snow, narrow crevices) is marked on the path in red. Each square of difficult terrain costs double movement speed (10 feet instead of 5 feet).\n4. **Confirmation**: Release the drag. A checkmark and cross button will appear. Click the checkmark (or press Space) to execute the move and subtract the AP. Click the cross (or press Escape) to cancel and snap your token back.`
+            },
+            {
+              title: 'Measuring Range & Targeting',
+              content: `Determining whether an enemy is within range of your longbow or spell is fully automated:\n\n• **Targeting an Enemy**: Right-click any enemy token on the grid and select **Designate Target** (or click the target icon in the right-click context menu). A target reticle will appear on them.\n• **Range Measurement**: The VTT draws a faint indicator line between your token and the target, displaying the exact distance in feet. If you click a ranged weapon or spell on your action bar, the system checks this distance against the item's range limits and highlights the target in blue (within range), yellow (long range/disadvantage), or red (out of range).\n• **Line of Sight (Fog of War)**: If the GM has enabled dynamic lighting, your token's vision determines what you can see. Enemies standing behind thick pillars or walls are masked by shadows, preventing direct targeting.`
+            }
+          ],
+          tables: [
+            {
+              title: 'Movement and Terrain Costs',
+              description: 'AP and speed conversions for grid movement.',
+              headers: ['Terrain / Move Type', 'Speed Cost', 'AP Cost', 'Tactical Penalty'],
+              rows: [
+                ['Standard Movement', '5 feet per square', '1 AP per 30ft speed', 'None'],
+                ['Difficult Terrain', '10 feet per square', '1 AP per 15ft speed', 'Doubles distance cost'],
+                ['Squeezing through crevice', '20 feet per square', '1 AP per 5ft speed', 'Quadruples cost; disadvantage on physical checks'],
+                ['Climbing / Swimming', '10 feet per square', '1 AP per 15ft speed', 'Requires Athletics / Athletics check unless speed exists'],
+                ['Disengage Action', 'Up to full speed', '1 AP', 'Ignores opportunity attacks during move']
+              ]
+            }
+          ]
+        }
       }
     ]
   },
@@ -2052,17 +2443,131 @@ Both dice use the weapon type to pick the correct outcome text.`
         name: 'Magical Items',
         icon: 'fas fa-wand-sparkles',
         theme: 'arcane',
+        summary: [
+          'Magical items span 7 rarity tiers: Poor through Artifact, each with greater power and value.',
+          'Powerful items require attunement — you may be attuned to a maximum of 3 items at once.',
+          'Magical enchantments grant stat bonuses, damage type modifiers, special abilities, or unique passives.'
+        ],
         content: {
           title: 'Magical Items',
-          description: 'Rarity tiers, attunement rules, categories',
+          description: 'Rarity tiers, attunement rules, enchantment types, and item identification.',
           sections: [
             {
               title: 'Rarity Tiers',
-              content: `Magical items come in six rarity tiers: Common, Uncommon, Rare, Epic, Legendary, and Artifact. Higher rarity items are more powerful but also more expensive and harder to find.`
+              content: `Magical items exist across a spectrum of power, scarcity, and crafting complexity, organized into **seven rarity tiers**. Rarity determines not only the raw power of the item's enchantments, but also the difficulty of crafting, identifying, and repairing it.\n\nItems of higher rarity often require rare materials, extended crafting rituals, or the expertise of a master artisan. The GM controls which rarity tiers are available in their campaign, and discovery of a Legendary or Artifact item should feel like a momentous event.\n\nAll rarity tiers are fully supported by the VTT's Item Wizard — GMs and players can create items of any tier and assign custom enchantments. See the full Item Wizard guide at [Creating Items](equipment-system/item-wizard).`
             },
             {
               title: 'Attunement',
-              content: `Some powerful items require attunement. You can attune to up to 3 items at once. Attunement requires a short rest spent focusing on the item.`
+              content: `Some items of Uncommon rarity or higher require **attunement** — a ritual of bonding that awakens the item's magical properties to your specific essence. An unattuned attunement item still functions as a mundane item of its physical type (an unattuned +2 sword still cuts like a sword) but its magical bonuses, stat enhancements, and special abilities remain dormant.\n\nTo attune to an item:\n• **Short Rest Bonding**: Spend one short rest (at least 1 hour) in physical contact with the item, meditating on its history and focusing your spiritual energy into its enchantments.\n• **Character Limit**: You may be simultaneously attuned to a maximum of **3 magical items**. Attempting to attune to a fourth forces you to end attunement with one of the three current items first.\n• **Breaking Attunement**: Attunement ends when you die, when the item is destroyed (see [Durability & Repair](core-rules/durability-repair)), or when you voluntarily spend 1 minute of meditation to release the bond.\n• **VTT Tracking**: The VTT character sheet automatically tracks your attunement slots. Items marked as requiring attunement will display an attunement icon in your equipment panel, and an orange warning indicator appears if you have exceeded your slot limit.`
+            },
+            {
+              title: 'Enchantment Types',
+              content: `Magical items in Mythrill can carry a wide variety of enchantments, each representing a different category of magical infusion:\n\n• **Stat Enchantments**: Direct bonuses to attributes (e.g., +2 Strength, +1 Agility), derived stats (e.g., +5 Armor, +10 Max HP), or skill bonuses (e.g., +2 to Persuasion checks).\n• **Damage Enchantments**: Additional damage of a specific type on hit (e.g., +1d4 Fire damage, +1d6 Necrotic damage), or damage type conversion (converting Slashing to Radiant, for example).\n• **Resistance & Immunity Enchantments**: Granting Guarded, Resistant, or Immune status against one or more damage types. See [Damage Modifiers](combat-system/damage-modifiers) for the tier definitions.\n• **Special Ability Enchantments**: Unique active or passive abilities that function like class abilities. Examples include: once-per-rest flight, a chance-on-hit effect, a persistent aura, or a conditional proc (fires when you drop below 25% HP).\n• **Cosmetic Enchantments**: Visual effects (glowing runes, color-shifting materials, animated engravings) that have no mechanical effect but make the item more distinctive.`
+            },
+            {
+              title: 'Item Identification',
+              content: `When discovering a magical item in the field (looted from an enemy or found in a cache), its properties may initially be **unidentified** — known only to carry some magical essence. Characters with proficiency in Arcana can attempt to identify an item:\n\n• **Quick Identification**: Spend 1 minute examining the item and make an Arcana check against a difficulty die set by the GM (Uncommon items: d6-d8; Rare: d10; Epic: d12; Legendary/Artifact: d20). On a success, the item's properties are revealed.\n• **Extended Study**: If you fail the quick check, you can study the item during a long rest to guarantee identification regardless of result.\n• **Identify Spell**: If any character in the party has access to the Identify spell (available to most Intelligence-based casters), casting it reveals all properties of a touched item instantly.\n• **Town Sages**: In settlements, sages and artificers can identify items for a fee — typically proportional to the item's rarity tier.`
+            }
+          ],
+          tables: [
+            {
+              title: 'Item Rarity Tiers',
+              description: 'Seven tiers of magical power, from humble enchantments to artifacts of legend. Higher rarity means greater power, rarity, and crafting difficulty.',
+              headers: ['Rarity', 'Color', 'Typical Power', 'Attunement Required?', 'Default Max Durability'],
+              rows: [
+                ['Poor', 'Gray', 'Minor enchantments, slight bonuses', 'Never', '30'],
+                ['Common', 'White', 'Small stat bonuses or utility effects', 'Rarely', '50'],
+                ['Uncommon', 'Green', 'Meaningful combat bonuses or useful abilities', 'Sometimes', '70'],
+                ['Rare', 'Blue', 'Significant power, multiple enchantments', 'Usually', '90'],
+                ['Epic', 'Purple', 'Exceptional abilities, class-defining effects', 'Always', '120'],
+                ['Legendary', 'Orange', 'Reality-altering powers, unique effects', 'Always', '160'],
+                ['Artifact', 'Red/Gold', 'World-shaking relics of unspeakable power', 'Always', '200+']
+              ]
+            },
+            {
+              title: 'Attunement Rules Summary',
+              description: 'Quick reference for attunement mechanics.',
+              headers: ['Rule', 'Details'],
+              rows: [
+                ['Maximum attunement slots', '3 items simultaneously'],
+                ['Attunement ritual', 'Short rest (1 hour) in physical contact with the item'],
+                ['Breaking attunement', '1 minute meditation, or automatically on death or item destruction'],
+                ['Unattuned item behavior', 'Functions as a mundane item of its physical type (no magical bonuses)'],
+                ['VTT tracking', 'Auto-tracked in character sheet; warning shown if over limit']
+              ]
+            }
+          ]
+        }
+      },
+      {
+        id: 'item-wizard',
+        name: 'Creating Items (Item Wizard)',
+        icon: 'fas fa-hammer',
+        theme: 'trade',
+        summary: [
+          'The Item Wizard is a GM and player tool for creating custom weapons, armor, and magical items.',
+          'Items can be saved to the personal Item Library or shared with the Community Library.',
+          'Quick Create mode generates items instantly; the Full Wizard allows detailed customization.'
+        ],
+        content: {
+          title: 'Creating Items: The Item Wizard',
+          description: 'A complete guide to creating custom items using the VTT Item Wizard.',
+          sections: [
+            {
+              title: 'What Is the Item Wizard?',
+              content: `The **Item Wizard** is one of Mythrill's most powerful GM and player tools. It allows you to design fully custom weapons, armor, accessories, consumables, containers, and magical relics from scratch — specifying every detail from their physical dimensions on the inventory grid to their magical enchantments, lore description, and visual appearance.\n\nItems created through the wizard can be:\n• Saved to your **Personal Item Library** for use in any future session.\n• Shared to the **Community Library**, making them available to all Mythrill users worldwide.\n• Distributed directly to players during a session by the GM.\n• Placed in **Containers** (chests, bags, vaults) that players discover during exploration.\n\nAccess the Item Wizard through the main navigation menu. GMs can also access it directly from the GM Tools panel during a live session.`
+            },
+            {
+              title: 'Quick Create vs. Full Wizard',
+              content: `The Item Wizard offers two creation modes to suit different needs:\n\n**Quick Create Mode** generates an item instantly based on a small set of key parameters: name, item type, rarity, and a brief description. The system auto-fills sensible defaults for everything else (damage dice, armor values, durability, grid size). This mode is perfect for rapidly generating loot during a session or filling a dungeon chest.\n\n**Full Wizard Mode** is the complete multi-step process (see below) giving you total control over every parameter. Use the Full Wizard when creating signature weapons, named magic items, unique artifacts, or any item that needs precise mechanical tuning.`
+            },
+            {
+              title: 'The Item Wizard Steps',
+              content: `The Full Wizard guides you through these creation steps:\n\n**Step 1 — Basic Info**: Name the item, write its lore description, select its item type (Weapon, Armor, Accessory, Consumable, Container, Miscellaneous), set its rarity tier, and choose a visual icon from the library or upload a custom image.\n\n**Step 2 — Physical Stats**: Configure the item's core statistics based on its type. For weapons: damage die, weapon type (Sword, Axe, Bow, etc.), handedness, and range. For armor: armor bonus, armor type (Cloth, Leather, Mail, Plate).\n\n**Step 3 — Magical Effects**: Add enchantments. Select from stat bonuses, on-hit damage effects, resistances, active abilities, passive auras, or custom proc effects. Each effect can be finely tuned — set the magnitude, the damage type, the trigger condition, and the target. See [Magical Items](equipment-system/magical-items) for enchantment type details.\n\n**Step 4 — Durability**: Set the item's maximum durability. Leave at the default for the rarity tier, or set a custom value to represent exceptional craftsmanship or ancient decay. See [Durability & Repair](core-rules/durability-repair) for how durability works in play.\n\n**Step 5 — Inventory Grid Shape**: Configure the item's physical footprint in the inventory grid. Simple items are 1x1 slots; a two-handed greatsword might be 1x6. See [Your Inventory Grid](core-rules/inventory-encumbrance) for how grid slots work.\n\n**Step 6 — Lore & Flavor**: Add rich lore text, an item history, a creator's name, and any special notes for the GM. This text is visible when players inspect the item in their inventory.\n\n**Step 7 — Review & Save**: Preview the complete item card as players will see it. Save to your personal library, share to the community, or deploy directly into the current session.`
+            }
+          ],
+          tables: [
+            {
+              title: 'Item Types Supported',
+              description: 'The Item Wizard supports creating any of these item categories.',
+              headers: ['Item Type', 'Examples', 'Key Parameters'],
+              rows: [
+                ['Weapon', 'Swords, axes, bows, staves, wands', 'Damage die, weapon type, handedness, range'],
+                ['Armor', 'Leather, plate, robes, shields', 'Armor bonus, armor type, soak die effect'],
+                ['Accessory', 'Rings, amulets, cloaks, belts', 'Equipment slot, stat bonuses, attunement'],
+                ['Consumable', 'Potions, scrolls, food, poisons', 'Effect on use, charges, stack size'],
+                ['Container', 'Chests, bags, pouches, vaults', 'Internal grid dimensions, lock settings'],
+                ['Miscellaneous', 'Quest items, crafting materials, gems', 'Weight, lore, stack behavior']
+              ]
+            }
+          ]
+        }
+      },
+      {
+        id: 'item-library',
+        name: 'The Item Library & Economy',
+        icon: 'fas fa-book-bookmark',
+        theme: 'trade',
+        summary: [
+          'The Item Library houses thousands of pre-made and user-generated weapons, armor, and gear.',
+          'GMs can distribute items to players instantly, or place them in exploreable containers.',
+          'Players browse public items to request gear, or purchase them directly from the Shop System.'
+        ],
+        content: {
+          title: 'The Item Library & Session Economy',
+          description: 'How to browse libraries, distribute equipment, and manage the in-game shop and player trading.',
+          sections: [
+            {
+              title: 'Personal and Community Libraries',
+              content: `The **Item Library** (accessible from the VTT main menu) is divided into two distinct databases:\n\n• **Personal Library**: A private vault where all items you create using the [Item Wizard](equipment-system/item-wizard) are saved. These are persistent across all your campaigns.\n• **Community Library**: A global repository featuring public creations shared by other players and GMs. You can browse, filter by type or rarity, and copy these items directly into your personal collection or active sessions with a single click.`
+            },
+            {
+              title: 'GM Distribution & Containers',
+              content: `During play, GMs have several elegant methods to distribute loot:\n\n• **Direct Grant**: Drag any item from the Session Library and drop it directly onto a player\'s character portrait in the HUD or timeline. The item instantly pops up in their inventory.\n• **Encounter Rewards**: Linking items to NPC tokens in the Creature Library guarantees they appear as lootable items on the grid when the creature is defeated. See [Combat Basics](combat-system/combat-basics).\n• **Lootable Containers**: GMs can place interactive chest, bag, or urn tokens on the grid and pre-fill them with items from the library. When a player token moves adjacent to the container and right-clicks it, an inventory split-screen opens, allowing them to drag items into their pack.`
+            },
+            {
+              title: 'The Shop System & Trading',
+              content: `Economic transactions in Mythrill are clean and fully automated:\n\n• **In-Game Shops**: GMs can configure merchant NPCs with specific shop inventories. When players interact with these merchants, they open a shop interface. Buying items automatically deducts Gold from their character sheet and places the item in their inventory grid, subject to spacing rules. Selling items works the reverse, checking item value and mending state (damaged items sell for less).\n• **Player-to-Player Trading**: To trade items with a nearby ally, right-click their token and select **Offer Trade**. This opens a secure trade window where both players drag items and gold into their respective trade offers and click "Accept" to execute the swap instantly.`
             }
           ]
         }
@@ -2096,6 +2601,10 @@ Both dice use the weapon type to pick the correct outcome text.`
             {
               title: 'Universal Spells',
               content: `All spellcasters have access to a 'General' tab with universal baseline spells like Detect Magic, Dispel Magic, and Counterspell.`
+            },
+            {
+              title: 'The Void\'s Shadow (Arcane Corruption)',
+              content: `Manipulating the fundamental laws of reality carries severe spiritual risk. Channeling raw spellpower or drawing deep from void elements can cause magical corruption, tearing at a caster's mortal form and soul. Adventurers must manage their spellcasting stress, for overflowing energy manifests as devastating environmental fallout or lasting physical scars. This cosmic risk is particularly present when using high-level custom incantations, which require precise balance parameters. Learn more about crafting and balancing these incantations in the [Custom Spellcrafting Wizard](magic-system/spellcrafting-wizard).`
             }
           ]
         }
@@ -2205,6 +2714,50 @@ Both dice use the weapon type to pick the correct outcome text.`
             {
               title: 'Synergies',
               content: `Many talents synergize with each other. For example, a talent that increases fire damage will boost all your fire spells. Plan your build carefully!`
+            }
+          ]
+        }
+      },
+      {
+        id: 'spellcrafting-wizard',
+        name: 'Spellcrafting Wizard',
+        icon: 'fas fa-wand-magic-sparkles',
+        theme: 'arcane',
+        summary: [
+          'Craft personalized spells dynamically using the VTT’s 9-step Spellcrafting Wizard.',
+          'Balance spell tier limits, ranges, templates, and effects against resource budgets.',
+          'Save custom spells directly to your character ledger and place them on your active action bar.'
+        ],
+        content: {
+          title: 'Custom Spellcrafting Wizard',
+          description: 'The complete guide to weaving custom magic, balancing elemental forces, and saving custom spells directly to your sheet.',
+          sections: [
+            {
+              title: 'The Magic of Creation (Custom Spellcrafting)',
+              content: `Magic in Mythrill is not a static list of predefined incantations copied from dusty spellbooks. Instead, spellcasters manipulate raw magical forces directly through our state-of-the-art **Custom Spellcrafting Wizard**. This interactive VTT engine allows you to step into the role of an arcane pioneer, combining customizable damage, direct healing, protective wards, and tactical utilities into personalized spells. 
+
+Every custom spell you weave is calculated and budgeted according to its tier level and effect weight, ensuring that customized spells remain balanced. To learn more about how resources are drawn and spent by the 30 classes, see [Magic Resources](magic-system/magic-resources).`
+            },
+            {
+              title: 'The 9-Step Custom Spellcrafting Workflow',
+              content: `To weave a spell from raw elements, you progress through the nine sequential steps of the VTT Wizard:
+
+• **Step 1: Basic Info** - Record your spell's thematic name, select its magical class school (e.g. Pyromancer, Chronomancer), assign an elemental affinity, and pick a visual icon to represent it on your sheet.
+• **Step 2: Spell Type** - Declare the spell's core nature: an Active combat strike, a persistent Passive aura, a defensive Reaction, a Channeled concentration spell, or a hidden battlefield Trap.
+• **Step 3: Effects** - Add and customize one or more primary spell effects. Choose from Damage, Direct Healing, Warding Shields, Stat Buffs, debilitating Debuffs, spatial Control, or prophecy manipulation.
+• **Step 4: Targeting** - Configure the spell's range and spatial template. Choose between Self, Single Target (Ally or Enemy), spherical Area of Effect (AoE), cones, or long lines, setting precise feet boundaries.
+• **Step 5: Resources** - Select and tune your spell's casting cost, drawing from Action Points (AP), Mana/Stamina reservoirs, or direct Health sacrifice.
+• **Step 6: Cooldown & Charges** - Set the spell's recovery cycle. Balance powerful effects by adding round-based cooldowns or multiple casting charges.
+• **Step 7: Mechanics & Special Triggers** - Inject advanced scripting nodes, such as rollable outcome tables, trap placement coordinates, or prophecy low/high boundaries.
+• **Step 8: Sustained Channeling** - Establish any channeling costs and concentration requirements for sustained, round-over-round magic.
+• **Step 9: Balance & Review** - Run the spell through the built-in balance analyzer. Once verified, save the custom spell directly to your character ledger to have it instantly populate your active action bar.`
+            },
+            {
+              title: 'VTT Balance Thresholds & Action-Bar Integration',
+              content: `The ultimate step of spellcrafting is the **Balance Evaluation**. The VTT’s balance calculator measures your spell's total utility (damage, healing, templates, duration) against its tier limit and resource cost. 
+
+• **Balanced Spells**: If the spell is within the tier budget, it is approved. The wizard allows you to save the spell directly to your character ledger. The spell icon is placed on your **active action bar**, ready for tactile, point-and-click casting during encounters.
+• **Unbalanced Spells**: If the spell's power exceeds its budget, the system will highlight the imbalance in red. The wizard provides dynamic recommendations to bring it back in line (e.g., increasing Mana/AP cost, adding a cooldown, or scaling down the damage). This ensures fair play while leaving creative freedom in your hands.`
             }
           ]
         }
@@ -2378,7 +2931,12 @@ Both dice use the weapon type to pick the correct outcome text.`
             {
               id: 'travel-pace',
               name: 'Travel Pace',
-              sections: [],
+              sections: [
+                {
+                  title: 'The Open Road',
+                  content: `Overland travel across the untamed frontiers of Mythrill is a test of preparation and endurance. Every journey requires the party to select a **Travel Pace**—balancing the speed of their march against their awareness of danger and ability to move unseen. Traversing harsh biomes like choked forests or frozen mountains slows progress and strains navigators, who must roll their **Navigation Die** to prevent the party from becoming lost in the wilderness.`
+                }
+              ],
               tables: [
                 {
                   title: 'Travel Pace',
@@ -2676,7 +3234,7 @@ Both dice use the weapon type to pick the correct outcome text.`
                     ['2', 'Check for traps', 'Doors, floors, treasure chests'],
                     ['3', 'Listen at doors', 'Detect creatures or activity beyond'],
                     ['4', 'Map progress', 'Track rooms explored, note important features'],
-                    ['5', 'Manage resources', 'Light sources, spell slots, hit points'],
+                    ['5', 'Manage resources', 'Light sources, mana, hit points'],
                     ['6', 'Search thoroughly', 'Don\'t rush, check for secrets'],
                     ['7', 'Plan retreat route', 'Know how to escape if needed'],
                     ['8', 'Rest strategically', 'Find secure locations for short rests']
@@ -2985,7 +3543,7 @@ Overmarching exhaustion saves are in addition to any weather-related environment
                   content: `The travel day includes built-in rest points:
 
 - **Short Rest (1 hour):** Recommended at hours 4 and optionally hour 8. Characters can spend hit dice. No exhaustion recovery.
-- **Long Rest (8 hours):** Typically done at camp after the travel day. Requires warmth/shade + rations + water. Recovers full HP, spell slots, and removes 1 exhaustion level (if conditions met).
+- **Long Rest (8 hours):** Typically done at camp after the travel day. Requires warmth/shade + rations + water. Recovers full HP, mana, and class resources, and removes 1 exhaustion level (if conditions met).
 - **Shelter:** A Survival vs challenging die (d10) check, 1 hour. Grants advantage on overnight environmental saves. Essential in severity 3-4 weather.
 
 **Skipping Rest:** If the party skips the short rest at hour 4, all characters must make Constitution vs moderate die (d8) starting at hour 5, with the die stepping up once per additional hour without rest (d8 at hour 5, d10 at hour 6, etc.).`
@@ -3033,8 +3591,8 @@ Overmarching exhaustion saves are in addition to any weather-related environment
                   headers: ['Rest Type', 'Duration', 'Effect', 'Limitation'],
                   rows: [
                     ['Short Rest', '1 hour', 'Spend hit dice', 'No exhaustion recovery'],
-                    ['Long Rest (with provisions)', '8 hours', 'Full HP, spell slots, -1 exhaustion', 'Requires food, water, shelter'],
-                    ['Long Rest (without provisions)', '8 hours', 'Full HP, spell slots', 'No exhaustion recovery'],
+                    ['Long Rest (with provisions)', '8 hours', 'Full HP, mana & resources, -1 exhaustion', 'Requires food, water, shelter'],
+                    ['Long Rest (without provisions)', '8 hours', 'Full HP, mana & resources', 'No exhaustion recovery'],
                     ['Shelter Construction', '1 hour', 'Advantage on overnight env saves', 'Survival vs challenging die (d10)'],
                     ['Watch (overnight)', '2 hours each', 'Perception check to avoid surprise', 'No recovery for watcher']
                   ]
@@ -3304,17 +3862,43 @@ Transport modes vary by biome — not all modes are available everywhere. Ocean 
         name: 'Professions',
         icon: 'fas fa-hammer',
         theme: 'trade',
+        summary: [
+          'Master specialized professions to refine ores, brew potions, and craft legendary equipment.',
+          'Succeed in complex brewing or forging minigames in the VTT interfaces to earn masterworks.',
+          'Save fallen allies instantly in combat using First Aid and medical kits for 1 AP.'
+        ],
         content: {
           title: 'Professions',
           description: 'Crafting and gathering skills with mastery levels',
           sections: [
             {
               title: 'Profession System',
-              content: `Professions allow you to craft items, gather resources, or provide services. Each profession has mastery levels from Novice to Grandmaster.`
+              content: `Professions allow you to craft items, gather resources, or provide life-saving services. Every character can learn professions, advancing from Novice up to Grandmaster. As you perform crafting, gathering, or stabilization, you advance through five mastery ranks. Higher ranks lower the difficulty of your profession checks by shifting your Difficulty Die down, making critical success much more common. See the [Dice System](core-rules/dice-system) for details on Difficulty Die shifts.`
             },
             {
-              title: 'Crafting',
-              content: `To craft an item, you need the recipe, materials, tools, and sufficient profession skill. Make a crafting check using a difficulty die set by the item rarity (common d8, uncommon d10, rare d12, very rare d20). Success creates the item; failure wastes some materials.`
+              title: 'Blacksmithing (Forge Interface)',
+              content: `The **Blacksmithing Forge Interface** allows players to process raw ores harvested from the world and reshape them into martial gear.\n\n• **Refining Ore**: Harvested raw ore (such as Iron, Mithril, or Obsidian) must be smelted at a forge into ingots. Every 3 units of raw ore yields 1 ingot.\n• **Forging Gear**: Creating weapons or heavy armor requires a set number of ingots, a leather wrap, and an active heat source. Select the recipe and initiate the forging process.\n• **Masterwork Upgrades**: High-quality ingots (like Mithril) or a high crafting roll can trigger a **Masterwork Opportunity**. A Masterwork item gains +1 Durability tier or a special weapon/armor trait slot (e.g., +1 damage, reduced AP cost to wield, or weight reduction). See [Dynamic Weapon State](equipment-system/weapons) and [Armor Systems](equipment-system/armor).\n• **Equipment Repair**: Players can restore durability to metal weapons and armor using a smith's hammer at any forge interface, costing 1 scrap metal per 10 durability restored. See [Mortal Wear & The Art of Repair](equipment-system/durability-repair).`
+            },
+            {
+              title: 'Alchemy (Alchemist Interface)',
+              content: `The **Alchemist Brewing Interface** is used to combine organic reagents, magical extracts, and catalyst water into potent liquid concoctions.\n\n• **Organic Reagents**: Players gather flora (Sorrowbloom, Emberleaf, Sunbell) and monster organs during exploration.\n• **The Brewing Process**: Select a brewing formula in the VTT interface. Players must balance the temperature gauge within a specific range using heat controls while adding catalysts. Failing to manage temperature increases the risk of alchemical backfires (deals acid/fire damage and wastes ingredients).\n• **Potion Stacking Limits**: Due to volatile ingredients and magical residue, potions are subject to a **strict stacking limit of 10 maximum potions per inventory slot**. Trying to stack more destabilizes the container, rendering them inert. Stack potions carefully inside [Your Inventory Grid (Visual Pack System)](inventory-system/inventory-encumbrance).\n• **Elixirs vs. Potions**: Standard potions (Healing, Mana) trigger instantly, while Elixirs provide long-term buffs (e.g., Nightvision, Stoneskin) but prevent the consumption of other elixirs for 1 hour.`
+            },
+            {
+              title: 'First Aid (Medical Interface)',
+              content: `When traveling through deadly ruins, medical supplies are as valuable as gold. The **First Aid Interface** allows any character (regardless of magical ability) to treat wounds and save lives.\n\n• **Emergency Stabilization**: When an ally is in the [Dying Condition](combat-system/death-dying) (0 HP), you can spend **1 Action Point (AP)** and 1 charge of a Medical Kit to stabilize them. This stops their death saving throws instantly, returning them to 1 HP but leaving them with the [Prone](combat-system/combat-conditions) condition.\n• **Emergency Bandage Healing**: Out of combat, you can apply field dressings to heal a wounded target. This restores HP equal to 1d6 + your Wisdom modifier. Each target can only benefit from field dressings once per short rest.\n• **Medical Kits**: Basic Medical Kits contain 5 charges of bandages, splints, and salves. Advanced kits include smelling salts and anti-toxins, allowing you to cure the [Poisoned](combat-system/combat-conditions) condition with a successful First Aid check.`
+            }
+          ],
+          tables: [
+            {
+              title: 'Crafting Mastery Ranks',
+              headers: ['Rank', 'Difficulty Die Shift', 'Perk / Capability'],
+              rows: [
+                ['Novice', 'Standard Die (d8/d10/d12/d20)', 'Can craft common and uncommon recipes. Standard execution time.'],
+                ['Apprentice', 'Shift Down by 1 Tier (e.g., d10 -> d8)', 'Can craft rare recipes. Wasted materials reduced by 25% on failure.'],
+                ['Journeyman', 'Shift Down by 2 Tiers (e.g., d12 -> d8)', 'Unlock masterwork slot. Crafting speed increased by 50%.'],
+                ['Master', 'Shift Down by 3 Tiers (e.g., d20 -> d10)', 'Can craft very rare recipes. 10% chance to duplicate brewed potions.'],
+                ['Grandmaster', 'Minimum Die Cap (d4 / d6)', 'Unlock legendary recipes. Double masterwork slots. 25% chance to refund rarest reagent.']
+              ]
             }
           ]
         }

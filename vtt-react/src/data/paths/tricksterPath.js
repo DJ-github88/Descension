@@ -12,7 +12,7 @@ export const TRICKSTER_PATH = {
     integrationNotes: {
         actionPointSystem: 'Trickster abilities focus on mobility, stealth, and misdirection.',
         backgroundSynergy: 'Works well with Criminal or Charlatan backgrounds.',
-        classCompatibility: 'Strong with Rogue, Bard, or Ranger classes.'
+        classCompatibility: 'Strong with Bladedancer, Minstrel, or Huntress classes.'
     },
 
     roleplayingTips: [

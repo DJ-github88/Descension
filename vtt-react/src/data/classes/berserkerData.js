@@ -19,7 +19,7 @@ export const BERSERKER_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Berserker is not a noble hero; they are a tragic anomaly. Their "Rage" is a violent physiological meltdown—Blood-Heat (0-100)—where adrenaline boils their blood and snaps their tendons to force inhuman strikes. Pushing past 100 triggers **Metabolic Burnout (Overheat)**, causing their own internal organs to seize under the agonizing pressure.
+      content: `**What You Need to Know**: The Berserker is not a noble hero; they are a tragic anomaly. Their "Rage" is a violent physiological meltdown—Blood-Heat (0-100)—where adrenaline boils their blood and snaps their tendons to force inhuman strikes. The standard Blood-Heat gauge caps at 100, and exceeding it triggers **Metabolic Burnout (Overheat)**, causing internal organs to seize under the agonizing pressure. However, high-level overdrive masteries allow the player to enter temporary catastrophic states (101-150+) without instant burnout.
 
 **Core Mechanic**: Every strike feeds the boiling Blood-Heat. At higher heat, their raw damage output scales drastically, but they permanently damage themselves to maintain it. They possess **Pain Immunity**, making them completely immune to pain—but this horrific state blocks all incoming healing from allies while raging.
 
@@ -55,7 +55,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       
 **The Sweet Spot (41-80 Blood-Heat)**: You hit with terrifying force and gain massive combat bonuses, but the thermal pressure is mounting.
 
-**The Danger Zone (81-100 Blood-Heat)**: Your strikes tear your own bone structure. If your Rage exceeds 100, you have exactly one round to spend it below the threshold, or your heart suffers **Metabolic Burnout**, dealing 2d6 unresistable damage and dropping your Rage to 0.
+**The Danger Zone (81-100 Blood-Heat)**: Your strikes tear your own bone structure. If your Rage exceeds 100, you have exactly one round to spend it below the threshold, or your heart suffers **Metabolic Burnout**, dealing 2d6 unresistable damage and dropping your Rage to 0. Entering active masteries allows temporary overdrive states (101-150+) to unleash absolute catastrophe.
 
 **Agonizing Recoil**: Every level 1-10 ability requires a toll of flesh. Attacks generate Blood-Heat but inflict physical self-damage or agonizing self-debuffs. Violence is your only oxygen; if you go two full rounds without dealing melee damage, you enter **Pain Starvation**, causing your rage to turn inward and decay your mind.`,
     },
@@ -182,7 +182,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 **You have EXACTLY ONE ROUND** to spend your Blood-Heat below 101. If you fail:
 - Your heart seizes: take **2d6 unresistable damage** (ignores all shields and Armor).
 - Your Blood-Heat **resets to 0** (complete metabolic exhaustion).
-- You are **Stunned for 1 round** as your body suffers systemic shock.`,
+- You are **Stunned for 1 round** as your body suffers systemic shock.
+
+*Note: High-level overdrive masteries temporarily bypass instant burnout to allow access to higher thresholds.*`,
     },
 
     rageStatesTable: {
@@ -213,25 +215,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         icon: "Utility/Empowered Warrior",
         color: "#8B0000",
         theme: "Hemorrhagic Ruin",
-        description: "The Savage embraces pure, bone-shattering offense. They generate Blood-Heat at an alarming rate, rushing toward Death's Door to unleash apocalyptic strikes.",
-        playstyle: "High-heat offensive bursts, rapid self-mutilation, massive executes.",
+        description: "The Savage is a whirlwind of pure, self-destructive violence. They refuse to defend themselves, pushing their Blood-Heat to catastrophic levels to shatter enemy armor with raw, overwhelming impact.",
+        playstyle: "High-heat offensive fury, aggressive self-damage, and massive near-death executes.",
         strengths: [
-          "Generate +2 additional Blood-Heat from all sources",
-          "Critical strike chance increases by 10% when below 50% HP",
-          "Recoil damage dealt to yourself increases Blood-Heat by 1",
+          "Accelerated Blood-Heat generation from every wound you inflict or suffer.",
+          "Devastating damage scaling when fighting on the brink of death (below 30% HP).",
         ],
         weaknesses: [
-          "Highly prone to sudden Metabolic Burnout (Overheat)",
-          "Absolutely zero defensive options",
-          "Recoil damage taken from your own spells is doubled",
+          "Complete lack of defensive barriers or armor preservation.",
+          "Extremely susceptible to sudden Metabolic Burnout (Overheat).",
         ],
         keyAbilities: [
-          "Savage Strike: Spend heat to inflict massive bone splinters",
-          "Reckless Abandon: Trade remaining armor for instant Blood-Heat",
+          "Savage Strike: A devastating overhead blow that unleashes raw kinetic impact.",
+          "Reckless Abandon: Instantly trigger a surge of Blood-Heat by splitting your own flesh.",
         ],
         specPassive: {
           name: "Unbridled Adrenaline",
-          description: "Generate +2 Blood-Heat from all sources. When your HP is below 30%, your critical strikes deal 3x damage instead of 2x, completely sundering the target's armor.",
+          description: "You generate Blood-Heat 50% faster. When your Health drops below 30%, your strikes completely bypass enemy physical resistances, tearing through armor like paper.",
         },
       },
       {
@@ -240,25 +240,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         icon: "Utility/Shield",
         color: "#4169E1",
         theme: "Calloused Husk",
-        description: "The Juggernaut utilizes their pain to harden their remaining flesh. They build calluses over their open wounds, turning their agony into temporary structural defense.",
-        playstyle: "Defensive heat generation, converting Blood-Heat into temporary bone shields.",
+        description: "The Juggernaut turns physical trauma into a weapon. Instead of falling, they force their wounds to calcify into dense plates of grey scar tissue, turning enemy strikes into temporary layers of structural defense.",
+        playstyle: "Defensive rage scaling, converting raw damage taken into heavy temporary barriers.",
         strengths: [
-          "Gain temporary HP (not healing) equal to 50% of Blood-Heat spent",
-          "Rage decay is reduced by 50%",
-          "Armor penalties from high Blood-Heat states are halved",
+          "Converts high Blood-Heat into thick layers of temporary, protective scar tissue.",
+          "Halved armor penalties from high-heat states compared to other Berserkers.",
         ],
         weaknesses: [
-          "Melee damage output is moderately lower than Savage",
-          "Vulnerable to armor-bypassing attacks",
-          "Vulnerability to Bleed and Poison DoTs is increased by 25%",
+          "Lower immediate damage output in exchange for structural durability.",
+          "Slightly reduced movement speed due to rigid, calcified skin.",
         ],
         keyAbilities: [
-          "Calloused Barrier: Convert current Blood-Heat directly into a temporary shield",
-          "Bone Spines: Return damage to attackers when they hit your temp HP",
+          "Calloused Barrier: Instantly calcify your current Blood-Heat into a protective shield of bone and scar.",
+          "Bone Spines: Shatter your protective calluses outward to impale nearby attackers.",
         ],
         specPassive: {
           name: "Shattered Resilience",
-          description: "Rage decay is halved. Every time you take damage from an enemy, gain temporary HP equal to your Constitution modifier (lasts 1 round).",
+          description: "Your Blood-Heat decays half as fast. Every time you are struck by a physical attack, your skin calcifies, granting a layer of temporary Grit shields to absorb the next blow.",
         },
       },
       {
@@ -267,25 +265,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         icon: "Utility/Powerful Warrior",
         color: "#DAA520",
         theme: "Tyrannical Dirge",
-        description: "The Warlord directs their agonizing meltdown outward, terrorizing their foes and forcing their allies into a shared, desperate frenzy.",
-        playstyle: "Melee support, battlefield intimidation, coordinating low-HP executions.",
+        description: "The Warlord is a commanding terror on the battlefield. They direct their physical suffering outward, transforming their agonizing screams into thunderous bellows that demoralize foes and whip allies into a bloodthirsty frenzy.",
+        playstyle: "Tactical support, area-of-effect crowd control, and amplifying team-wide aggression.",
         strengths: [
-          "Howls and shouts affect all enemies within a 30 ft radius",
-          "Allies gain bonus attack damage when you take recoil damage",
-          "Can force enemies to target you, generating rapid heat",
+          "Amplified shout and roar radius, intimidating entire groups of enemies at once.",
+          "Inspires allies to strike harder whenever you suffer recoil damage.",
         ],
         weaknesses: [
-          "Requires allies to fully exploit battlefield openings",
-          "Longer cooldowns on support cries",
-          "Fails to generate personal shields or armor",
+          "Lacks personal shields, relying on allies to capitalize on your openings.",
+          "Longer breathing intervals required between high-exhaustion yells.",
         ],
         keyAbilities: [
-          "Tyrant's Command: Force an enemy to attack you, building Blood-Heat",
-          "Dirge of Battle: Buff allies' melee strikes at the cost of your own blood spray",
+          "Tyrant's Command: A deafening bellow that forces enemies to focus their attention on you.",
+          "Dirge of Battle: A blood-spraying roar that whips nearby allies into a temporary combat frenzy.",
         ],
         specPassive: {
           name: "Sanguine Dictator",
-          description: "Whenever you take recoil damage, all allies within 30 ft gain a +2 bonus to their next damage roll as they witness your agonizing dedication.",
+          description: "Your war cries affect all targets within 30 feet. Whenever you take self-damage from your abilities, your nearby allies are galvanized, gaining bonus damage on their next strike.",
         },
       },
     ],
@@ -326,6 +322,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_generation"],
         resourceValues: { mana: 0, rage_generation: 6 },
         classResource: { type: "rage", cost: -6 }, // Negative cost means generation
+        components: ["verbal", "somatic"],
+        verbalText: "A guttural, rattling gasp of raw exertion.",
+        somaticText: "Heave your weapon back with agonizing force, muscles visibly tearing as you force the blade forward."
       },
 
       resolution: "DICE",
@@ -344,11 +343,13 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "self_laceration",
             name: "Self-Laceration",
-            description: "Your tendons tear from the swing. You take 1d4 physical damage.",
+            description: "Your tendons tear from the swing.",
+            mechanicsText: "Take 1d4 physical damage to self",
             statModifier: {
               stat: "health",
-              magnitude: -2,
-              magnitudeType: "flat",
+              magnitude: "-1d4",
+              magnitudeType: "dice",
+              formula: "-1d4"
             },
           },
         ],
@@ -356,6 +357,17 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         durationValue: 0,
         durationUnit: "rounds",
         canBeDispelled: false,
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "self_laceration_trigger",
+            name: "Self-Laceration",
+            triggerType: "on_cast",
+            action: "Take 1d4 physical damage to self upon swinging."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -410,6 +422,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         mana: 0,
         resourceTypes: ["mana"],
         resourceValues: { mana: 0 },
+        components: ["somatic"],
+        somaticText: "Flex your muscles until the skin splits, forcing thick, grey scar tissue to encase your torso like overlapping plates."
       },
 
       resolution: "NONE",
@@ -431,7 +445,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "rigid_flesh_drawback",
             name: "Rigid Flesh",
-            description: "Your movement speed is reduced by 5 ft, and you take +2 extra damage from all Bleeding and Poison effects.",
+            description: "Your rigid flesh makes you slow and highly vulnerable to bleeding.",
+            mechanicsText: "-5 ft Movement Speed, +2 damage taken from Bleed and Poison",
             statModifier: {
               stat: "movement_speed",
               magnitude: -5,
@@ -444,6 +459,17 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         durationUnit: "permanent",
         concentrationRequired: false,
         canBeDispelled: false,
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "stance_on_hit",
+            name: "Pain-Driven Heat",
+            triggerType: "passive",
+            action: "When hit by an enemy melee attack, gain +1d4 Blood-Heat."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -481,6 +507,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         mana: 0,
         resourceTypes: ["mana"],
         resourceValues: { mana: 0 },
+        components: ["somatic"],
+        somaticText: "Pound your chest over your heart until your veins bulge black and steam rises from your breath."
       },
 
       resolution: "NONE",
@@ -493,6 +521,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "boiling_blood_strike",
             name: "Boiling Blood Strike",
             description: "Your melee attacks deal +1d4 bonus fire/slashing damage and generate +2 additional Blood-Heat on hit.",
+            mechanicsText: "+1d4 bonus fire/slashing damage, +2 Blood-Heat on hit",
             statModifier: {
               stat: "damage",
               magnitude: "1d4",
@@ -503,6 +532,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "vessel_rupture",
             name: "Vessel Rupture",
             description: "You lose 1 HP at the start of each of your turns as your boiling blood scorches your internal pathways.",
+            mechanicsText: "Lose 1 HP at start of your turn",
             statModifier: {
               stat: "health",
               magnitude: -1,
@@ -515,6 +545,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         durationUnit: "permanent",
         concentrationRequired: false,
         canBeDispelled: false,
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "boiling_veins_tick",
+            name: "Vessel Rupture",
+            triggerType: "start_of_turn",
+            action: "Lose 1 HP as boiling blood scorches internal pathways."
+          },
+          {
+            id: "boiling_veins_hit",
+            name: "Boiling Blood Strike",
+            triggerType: "on_hit",
+            action: "Add +1d4 bonus fire/slashing damage and generate +2 Blood-Heat."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -540,8 +587,29 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         tags: ["passive", "berserker", "class-passive", "restriction"],
       },
       targetingConfig: { targetingType: "self" },
-      resourceCost: { actionPoints: 0, mana: 0 },
+      resourceCost: {
+        actionPoints: 0,
+        mana: 0,
+        components: ["somatic"],
+        somaticText: "The black veins of your anatomical corruption swell and pulse beneath your skin, hard and cold as stone."
+      },
       resolution: "AUTOMATIC",
+      triggerConfig: {
+        triggers: [
+          {
+            id: "pain_numbed_frenzy",
+            name: "Pain-Numbed Frenzy",
+            triggerType: "passive",
+            action: "While Blood-Heat is 21 or higher, you cannot receive healing from allies."
+          },
+          {
+            id: "deaths_door",
+            name: "Death's Door",
+            triggerType: "passive",
+            action: "When HP falls below 30%, attacks completely bypass enemy physical resistances."
+          }
+        ]
+      },
       tags: ["passive", "berserker", "class-passive", "restriction"],
     },
 
@@ -578,6 +646,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 8 },
         classResource: { type: "rage", cost: 8 },
+        components: ["somatic"],
+        somaticText: "Twist your torso past normal alignment, snapping muscle binds to unleash a wider greataxe sweep."
       },
 
       resolution: "DICE",
@@ -595,11 +665,13 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "muscle_leak",
             name: "Muscle Leak",
-            description: "Take 1d4 physical damage from vascular pressure. Target is inflicted with Bleeding (1d6 damage/round for 2 rounds).",
+            description: "Your own muscle fibers leak from high pressure.",
+            mechanicsText: "Take 1d4 physical damage to self; target is inflicted with Bleeding (1d6/round for 2 rounds)",
             statModifier: {
               stat: "health",
-              magnitude: -2,
-              magnitudeType: "flat",
+              magnitude: "-1d4",
+              magnitudeType: "dice",
+              formula: "-1d4"
             },
           },
         ],
@@ -607,6 +679,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         durationValue: 2,
         durationUnit: "rounds",
         canBeDispelled: false,
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "frenzied_slash_recoil",
+            name: "Vascular Recoil",
+            triggerType: "on_cast",
+            action: "Take 1d4 physical damage to self as vascular pressure spikes."
+          },
+          {
+            id: "frenzied_slash_bleed",
+            name: "Arterial Shred",
+            triggerType: "on_hit",
+            action: "Target is inflicted with Bleeding, taking 1d6 damage per round for 2 rounds."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -648,6 +737,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 10 },
         classResource: { type: "rage", cost: 10 },
+        components: ["verbal", "somatic"],
+        verbalText: "A blood-choked, chest-vibrating roar of pure anatomical madness.",
+        somaticText: "Expand your ribcage past its capacity, spraying a fine crimson mist from your lungs as you bellow."
       },
 
       resolution: "SAVE",
@@ -660,6 +752,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "terrorized",
             name: "Terrorized",
             description: "Enemies within 30 ft are Frightened (disadvantage on attack rolls) for 2 rounds. DC 14 Spirit save negates.",
+            mechanicsText: "Enemies in 30 ft are Frightened (disadvantage on attack rolls) for 2 rounds"
           },
         ],
         savingThrow: {
@@ -679,11 +772,35 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "sanguine_ferocity",
             name: "Sanguine Ferocity",
             description: "Allies within 30 ft gain a +2 bonus to physical attack rolls for 2 rounds. You take 1d4 sonic damage from lung hemorrhaging.",
+            mechanicsText: "Allies within 30 ft gain a +2 bonus to physical attack rolls; you take 1d4 sonic damage to self"
           },
         ],
         durationType: "rounds",
         durationValue: 2,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "sanguine_howl_recoil",
+            name: "Lung Hemorrhage",
+            triggerType: "on_cast",
+            action: "Take 1d4 sonic self-damage from internal lung hemorrhaging."
+          },
+          {
+            id: "sanguine_howl_intimidate",
+            name: "Intimidating Shockwave",
+            triggerType: "on_cast",
+            action: "Enemies within 30 ft must make a DC 14 Spirit save or become Frightened for 2 rounds."
+          },
+          {
+            id: "sanguine_howl_ferocity",
+            name: "Inspirational Bloodspray",
+            triggerType: "on_cast",
+            action: "Allies within 30 ft gain +2 to physical attacks as they witness your struggle."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -729,6 +846,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_generation"],
         resourceValues: { mana: 0, rage_generation: 15 },
         classResource: { type: "rage", cost: -15 },
+        components: ["somatic"],
+        somaticText: "Push off with bone-splintering power, jumping up to 30 ft and crashing down feet-first into the earth."
       },
 
       resolution: "DICE",
@@ -763,7 +882,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "shattered_tibia",
             name: "Shattered Tibia",
-            description: "The violent landing crushes your own bone structure. Take 1d6 physical damage and your movement speed is halved for 1 round.",
+            description: "The violent landing crushes your own bone structure.",
+            mechanicsText: "Take 1d6 physical damage and -15 ft movement speed for 1 round",
             statModifier: {
               stat: "movement_speed",
               magnitude: -15,
@@ -774,6 +894,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         durationType: "rounds",
         durationValue: 1,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "ruptured_leap_recoil",
+            name: "Shattered Tibia",
+            triggerType: "on_cast",
+            action: "Take 1d6 physical self-damage upon landing."
+          },
+          {
+            id: "ruptured_leap_impact",
+            name: "Tectonic Crash",
+            triggerType: "on_cast",
+            action: "Enemies in landing zone are knocked prone unless they pass a DC 14 Agility save."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -799,8 +936,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         tags: ["passive", "weakness", "berserker"],
       },
       targetingConfig: { targetingType: "self" },
-      resourceCost: { actionPoints: 0, mana: 0 },
+      resourceCost: {
+        actionPoints: 0,
+        mana: 0,
+        components: ["somatic"],
+        somaticText: "Your limbs tremble and twitch uncontrollably as your metabolic rage freezes, starved of violence."
+      },
       resolution: "AUTOMATIC",
+      triggerConfig: {
+        triggers: [
+          {
+            id: "pain_starvation_decay",
+            name: "Adrenaline Withdrawal",
+            triggerType: "end_of_turn",
+            action: "If no melee damage was dealt to an enemy for 2 rounds, Blood-Heat decays by 10 per round and you suffer disadvantage on Dodge/Agility checks."
+          }
+        ]
+      },
       tags: ["passive", "weakness", "berserker"],
     },
 
@@ -837,6 +989,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 20 },
         classResource: { type: "rage", cost: 20 },
+        components: ["somatic"],
+        somaticText: "Raise your heavy weapon overhead with locking joints, bringing it down like a falling guillotine."
       },
 
       resolution: "DICE",
@@ -854,12 +1008,36 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "shoulder_dislocation",
             name: "Shoulder Dislocation",
-            description: "Your shoulder pops under the load. Take 1d8 physical damage and you cannot take Reactions for 1 round.",
+            description: "Your shoulder pops under the load.",
+            mechanicsText: "Take 1d8 physical damage and you cannot take Reactions for 1 round",
+            statModifier: {
+              stat: "health",
+              magnitude: "-1d8",
+              magnitudeType: "dice",
+              formula: "-1d8"
+            },
           },
         ],
         durationType: "rounds",
         durationValue: 1,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "carnage_strike_recoil",
+            name: "Shoulder Dislocation",
+            triggerType: "on_cast",
+            action: "Take 1d8 physical self-damage and lose your reaction for 1 round."
+          },
+          {
+            id: "carnage_strike_execute",
+            name: "Armor Shatter",
+            triggerType: "on_hit",
+            action: "If the target is wounded, completely ignore their physical resistances."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -898,6 +1076,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 25 },
         classResource: { type: "rage", cost: 25 },
+        components: ["somatic"],
+        somaticText: "Clench your fists until your fingernails cut your palms, ignoring the agony of current wounds."
       },
 
       resolution: "DICE",
@@ -910,6 +1090,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "rage_resilience",
             name: "Rage Resilience",
             description: "Gain 3d8 + Constitution modifier temporary HP (NOT healing). Lasts 3 rounds.",
+            mechanicsText: "Gain 3d8 + Constitution modifier temporary HP (Grit shield) for 3 rounds",
             statModifier: {
               stat: "temporary_hp",
               magnitude: "3d8",
@@ -929,6 +1110,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "resilience_exhaustion",
             name: "Exertion Fatigue",
             description: "Your Agility is reduced by 2 for 3 rounds due to muscular locking.",
+            mechanicsText: "-2 Agility for 3 rounds",
             statModifier: {
               stat: "agility",
               magnitude: -2,
@@ -939,6 +1121,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "raging_defense_shield",
+            name: "Endurance Lock",
+            triggerType: "on_cast",
+            action: "Gain 3d8 + Constitution modifier Grit temporary HP (does not count as healing)."
+          },
+          {
+            id: "raging_defense_exhaustion",
+            name: "Muscular Stiffness",
+            triggerType: "on_cast",
+            action: "Your joints lock, reducing Agility by 2 for 3 rounds."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -982,6 +1181,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 35 },
         classResource: { type: "rage", cost: 35 },
+        components: ["verbal", "somatic"],
+        verbalText: "A deafening, beast-like bellow that ruptures vocal cords.",
+        somaticText: "Slam your heavy weapon forward, letting the kinetic recoil sunder the flesh of your forearms."
       },
 
       resolution: "DICE",
@@ -994,7 +1196,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       },
 
       controlConfig: {
-        controlType: "knockback",
+        controlType: "knockdown",
         effects: [
           {
             id: "cataclysmic_shatter",
@@ -1017,7 +1219,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "forearm_splinters",
             name: "Forearm Splinters",
-            description: "The violent shockwave cracks your own radius. Take 2d6 physical damage and your attack rolls have -2 for 1 round.",
+            description: "The violent shockwave cracks your own radius.",
+            mechanicsText: "Take 2d6 physical damage and -2 on attack rolls for 1 round",
             statModifier: {
               stat: "attack_rolls",
               magnitude: -2,
@@ -1028,6 +1231,23 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         durationType: "rounds",
         durationValue: 1,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "cataclysmic_blow_recoil",
+            name: "Forearm Fracture",
+            triggerType: "on_cast",
+            action: "Take 2d6 physical self-damage and your attack rolls suffer a -2 penalty for 1 round."
+          },
+          {
+            id: "cataclysmic_blow_shatter",
+            name: "Concussive Impact",
+            triggerType: "on_hit",
+            action: "Target is knocked back 15 ft and Stunned for 1 round unless they pass a DC 16 Constitution save."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1066,6 +1286,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 20 },
         classResource: { type: "rage", cost: 20 },
+        components: ["somatic"],
+        somaticText: "Rip and tear off any physical restraints or bonds with raw, bloody muscular force."
       },
 
       resolution: "NONE",
@@ -1078,6 +1300,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "unrestrained",
             name: "Unrestrained Flow",
             description: "Immune to Slowed, Restrained, and Paralyzed. Movement speed is increased by 10 ft. Lasts 3 rounds.",
+            mechanicsText: "Immune to Slowed, Restrained, and Paralyzed; +10 ft movement speed for 3 rounds",
             statModifier: {
               stat: "movement_speed",
               magnitude: 10,
@@ -1096,12 +1319,36 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "vascular_leak",
             name: "Vascular Burst",
-            description: "Take 1d6 fire/physical damage at the start of each of your turns as your veins burst under the pressure.",
+            description: "Take 1d6 fire/physical damage at the start of each of your turns as your veins burst.",
+            mechanicsText: "Take 1d6 fire/physical damage to self at start of turn for 3 rounds",
+            statModifier: {
+              stat: "health",
+              magnitude: "-1d6",
+              magnitudeType: "dice",
+              formula: "-1d6"
+            },
           },
         ],
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "unstoppable_force_purge",
+            name: "Restraint Purge",
+            triggerType: "on_cast",
+            action: "Instantly clear all Slowed, Restrained, and Paralyzed conditions from yourself."
+          },
+          {
+            id: "unstoppable_force_leak",
+            name: "Vascular Recoil",
+            triggerType: "start_of_turn",
+            action: "Take 1d6 fire/physical damage to self at the start of each of your turns for 3 rounds."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1145,6 +1392,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 50 },
         classResource: { type: "rage", cost: 50 },
+        components: ["verbal", "somatic"],
+        verbalText: "An agonizing, hoarse scream of absolute finality that bursts capillaries in your eyes.",
+        somaticText: "Put every ounce of your structural momentum into a shattering, two-handed downward slash, ignoring the warning crunch of your shoulder joints."
       },
 
       resolution: "DICE",
@@ -1163,11 +1413,35 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "skeletal_fracture",
             name: "Skeletal Fracture",
             description: "Your own bones splinter from the strike. Take 3d6 physical damage. If you were below 30% HP, this attack deals double damage (10d12 + Strength) and completely annihilates non-boss enemies.",
+            mechanicsText: "Take 3d6 physical damage; deals 2x damage and pulverizes non-bosses if under 30% HP",
+            statModifier: {
+              stat: "health",
+              magnitude: "-3d6",
+              magnitudeType: "dice",
+              formula: "-3d6"
+            }
           },
         ],
         durationType: "instant",
         durationValue: 0,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "obliterating_recoil",
+            name: "Skeletal Recoil",
+            triggerType: "on_cast",
+            action: "Take 3d6 physical self-damage upon execution."
+          },
+          {
+            id: "obliterating_execute",
+            name: "Death's Door Pulverize",
+            triggerType: "on_hit",
+            action: "If you are below 30% HP, this attack deals double damage and completely pulverizes non-boss enemies."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1206,6 +1480,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 40 },
         classResource: { type: "rage", cost: 40 },
+        components: ["verbal", "somatic"],
+        verbalText: "A rapid, chest-vibrating hyperventilation that rises into an animalistic screech.",
+        somaticText: "Beat your chest rhythmically like a hammer, forcing your pulse to accelerate to terrifying, lethal speeds."
       },
 
       resolution: "NONE",
@@ -1218,6 +1495,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "heart_overdrive",
             name: "Heart Overdrive",
             description: "Gain +1 extra action point per turn. All attack rolls have advantage. Lasts 3 rounds.",
+            mechanicsText: "+1 extra action point per turn, advantage on all attack rolls for 3 rounds",
             statModifier: {
               stat: "action_points",
               magnitude: 1,
@@ -1237,11 +1515,35 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "cardiac_strain",
             name: "Cardiac Strain",
             description: "Take 1d8 physical damage at the start of your turn. You cannot be targeted by friendly healing spells.",
+            mechanicsText: "Take 1d8 physical damage to self at start of turn; cannot be healed by allies",
+            statModifier: {
+              stat: "health",
+              magnitude: "-1d8",
+              magnitudeType: "dice",
+              formula: "-1d8"
+            }
           },
         ],
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "wrath_cardiac_strain",
+            name: "Cardiac Recoil",
+            triggerType: "start_of_turn",
+            action: "Take 1d8 physical damage at the start of your turn for 3 rounds."
+          },
+          {
+            id: "wrath_healing_block",
+            name: "Sanguine Isolation",
+            triggerType: "passive",
+            action: "You cannot be targeted by friendly healing spells during this rage."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1285,6 +1587,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 30 },
         classResource: { type: "rage", cost: 30 },
+        components: ["somatic"],
+        somaticText: "Slash your own forearms before entering battle, letting your pressurized, boiling blood spray over your weapons."
       },
 
       resolution: "NONE",
@@ -1297,6 +1601,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "boiling_blood_spray",
             name: "Boiling Blood Spray",
             description: "All melee attacks deal +2d6 bonus fire/slashing damage. Bypasses 50% of enemy Armor.",
+            mechanicsText: "Melee attacks deal +2d6 bonus fire/slashing damage and bypass 50% Armor",
             statModifier: {
               stat: "damage",
               magnitude: "2d6",
@@ -1315,10 +1620,34 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "arterial_hemorrhage",
             name: "Arterial Hemorrhage",
             description: "You cannot receive healing from any source. You take 2 HP bleeding damage at the end of each round.",
+            mechanicsText: "Cannot receive healing from any source; take 2 physical damage at end of round",
+            statModifier: {
+              stat: "health",
+              magnitude: -2,
+              magnitudeType: "flat",
+              formula: "-2"
+            }
           },
         ],
         durationType: "permanent",
         durationUnit: "permanent",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "blood_frenzy_spray",
+            name: "Arterial Stance",
+            triggerType: "passive",
+            action: "melee attacks deal +2d6 bonus fire/slashing damage and bypass 50% of enemy Armor while active."
+          },
+          {
+            id: "blood_frenzy_leak",
+            name: "Slow Bleed",
+            triggerType: "end_of_round",
+            action: "Take 2 HP physical self-damage at the end of each round."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1360,6 +1689,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 60 },
         classResource: { type: "rage", cost: 60 },
+        components: ["verbal", "somatic"],
+        verbalText: "A continuous, furious, white-hot shriek of raw defiance.",
+        somaticText: "Lock your joints and bones completely, ignoring structural breaks to keep fighting."
       },
 
       resolution: "NONE",
@@ -1372,6 +1704,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "death_defied",
             name: "Death Defied",
             description: "Immune to death and lethal damage. HP cannot drop below 1. Lasts 3 rounds.",
+            mechanicsText: "Immune to death and lethal damage; HP cannot drop below 1 for 3 rounds"
           },
         ],
         durationValue: 3,
@@ -1386,11 +1719,35 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "lethal_exhaustion",
             name: "Lethal Exhaustion",
             description: "When this state ends, your body collapses: take 5d6 unresistable exhaustion damage and you are Stunned for 1 round.",
+            mechanicsText: "Take 5d6 unresistable damage and Stunned for 1 round when rage ends",
+            statModifier: {
+              stat: "health",
+              magnitude: "-5d6",
+              magnitudeType: "dice",
+              formula: "-5d6"
+            }
           },
         ],
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "immortal_rage_defy",
+            name: "Grave Defiance",
+            triggerType: "passive",
+            action: "You cannot die, fall unconscious, or drop below 1 HP for 3 rounds."
+          },
+          {
+            id: "immortal_rage_fallout",
+            name: "Lethal Backlash",
+            triggerType: "on_fade",
+            action: "When the effect ends, take 5d6 unresistable physical exhaustion damage and be Stunned for 1 round."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1432,6 +1789,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 50 },
         classResource: { type: "rage", cost: 50 },
+        components: ["verbal", "somatic"],
+        verbalText: "A chest-shaking, window-rattling roar of destruction.",
+        somaticText: "Leap slightly and slam both heavy weapons or fists straight into the ground with bone-shattering force."
       },
 
       resolution: "SAVE",
@@ -1472,11 +1832,35 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "fractured_wrists",
             name: "Fractured Wrists",
             description: "Your own wrists crack under the impact. Take 2d6 physical damage and your melee attacks have disadvantage next turn.",
+            mechanicsText: "Take 2d6 physical damage and disadvantage on melee attacks next turn",
+            statModifier: {
+              stat: "health",
+              magnitude: "-2d6",
+              magnitudeType: "dice",
+              formula: "-2d6"
+            }
           },
         ],
         durationType: "rounds",
         durationValue: 1,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "earthshaker_wrists",
+            name: "Wrist Fracture",
+            triggerType: "on_cast",
+            action: "Take 2d6 physical self-damage upon slam."
+          },
+          {
+            id: "earthshaker_pull",
+            name: "Seismic Pull",
+            triggerType: "on_hit",
+            action: "Drag all affected enemies 15 ft toward you."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1521,6 +1905,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 70 },
         classResource: { type: "rage", cost: 70 },
+        components: ["verbal", "somatic"],
+        verbalText: "A blood-spitting, guttural roar of explosive release.",
+        somaticText: "Force your adrenaline past its ceiling, driving your weapons into the earth with massive force."
       },
 
       resolution: "SAVE",
@@ -1544,6 +1931,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "systemic_muscle_tear",
             name: "Systemic Tear",
             description: "Your muscular system begins to fail. Take 4d6 physical damage and your Armor is reduced by 4 for 2 rounds.",
+            mechanicsText: "Take 4d6 physical damage and -4 Armor for 2 rounds",
             statModifier: {
               stat: "armor",
               magnitude: -4,
@@ -1554,6 +1942,17 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         durationType: "rounds",
         durationValue: 2,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "cataclysm_muscle_tear",
+            name: "Systemic Rip",
+            triggerType: "on_cast",
+            action: "Take 4d6 physical self-damage and suffer -4 Armor for 2 rounds."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1592,6 +1991,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 45 },
         classResource: { type: "rage", cost: 45 },
+        components: ["somatic"],
+        somaticText: "Close your eyes briefly in the blood spray, focusing every fiber of your muscle memory into pure murder."
       },
 
       resolution: "NONE",
@@ -1604,6 +2005,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "fatal_precision",
             name: "Fatal Precision",
             description: "Your melee attacks deal +10 flat physical damage. Lasts 3 rounds.",
+            mechanicsText: "Melee attacks deal +10 flat physical damage for 3 rounds",
             statModifier: {
               stat: "damage",
               magnitude: 10,
@@ -1623,11 +2025,35 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "precision_strain",
             name: "Precision Strain",
             description: "Take 1d10 physical damage at the end of each round. If you go a turn without attacking, this effect ends immediately.",
+            mechanicsText: "Take 1d10 physical damage at end of turn; buff ends early if no attacks are made",
+            statModifier: {
+              stat: "health",
+              magnitude: "-1d10",
+              magnitudeType: "dice",
+              formula: "-1d10"
+            }
           },
         ],
         durationValue: 3,
         durationType: "rounds",
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "precision_end_damage",
+            name: "Precision Backlash",
+            triggerType: "end_of_turn",
+            action: "Take 1d10 physical self-damage at the end of each turn for 3 rounds."
+          },
+          {
+            id: "precision_attack_check",
+            name: "Aggression Keep",
+            triggerType: "passive",
+            action: "If you do not make a melee attack on your turn, this stance ends instantly."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1672,6 +2098,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 90 },
         classResource: { type: "rage", cost: 90 },
+        components: ["verbal", "somatic"],
+        verbalText: "A world-ending, blood-choked screech of catastrophic fury.",
+        somaticText: "Force all Blood-Heat outward in a thermal, seismic blast that literally cracks your own breastbone."
       },
 
       resolution: "SAVE",
@@ -1695,11 +2124,29 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "cardiac_rupture",
             name: "Cardiac Rupture",
             description: "Your heart wall tears under the load. Take 5d8 unresistable physical damage.",
+            mechanicsText: "Take 5d8 unresistable physical damage to self",
+            statModifier: {
+              stat: "health",
+              magnitude: "-5d8",
+              magnitudeType: "dice",
+              formula: "-5d8"
+            }
           },
         ],
         durationType: "instant",
         durationValue: 0,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "cardiac_rupture_recoil",
+            name: "Aortic Rupture",
+            triggerType: "on_cast",
+            action: "Take 5d8 unresistable physical damage to self upon execution."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1754,6 +2201,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 80 },
         classResource: { type: "rage", cost: 80 },
+        components: ["verbal", "somatic"],
+        verbalText: "A booming, monotonous roar of singular, murderous focus.",
+        somaticText: "Tense your entire body, locking your arms and shoulders into heavy war-harness posture as grey scar-plates cement over your joints."
       },
 
       resolution: "NONE",
@@ -1788,11 +2238,35 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "no_retreat",
             name: "No Retreat",
             description: "You cannot take defensive actions, disengage, or move away from enemies. You take 2d8 physical damage when the transformation ends.",
+            mechanicsText: "No retreat/defensive actions allowed; take 2d8 physical damage when transformation ends",
+            statModifier: {
+              stat: "health",
+              magnitude: "-2d8",
+              magnitudeType: "dice",
+              formula: "-2d8"
+            }
           },
         ],
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "incarnate_no_retreat",
+            name: "Murder Stance",
+            triggerType: "passive",
+            action: "You are locked in place and cannot disengage, dodge, block, or retreat."
+          },
+          {
+            id: "incarnate_burnout",
+            name: "Transformation Fatigue",
+            triggerType: "on_fade",
+            action: "Take 2d8 physical self-damage when the form ends."
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -1831,6 +2305,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         resourceTypes: ["mana", "rage_cost"],
         resourceValues: { mana: 0, rage_cost: 100 },
         classResource: { type: "rage", cost: 100 },
+        components: ["verbal", "somatic"],
+        verbalText: "An ear-splitting, primal scream of unmatched predatory dominance.",
+        somaticText: "Rupture every capillary in your eyes and face, turning your vision blood-red as you force your body beyond its mechanical limits."
       },
 
       resolution: "NONE",
@@ -1865,11 +2342,29 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "predator_burnout",
             name: "Predator Burnout",
             description: "You take 4d8 unresistable physical exhaustion damage when the transformation ends, and you are Exhausted (disadvantage on all rolls) for 2 rounds.",
+            mechanicsText: "Take 4d8 unresistable damage and Exhausted (disadvantage on all rolls) for 2 rounds when form ends",
+            statModifier: {
+              stat: "health",
+              magnitude: "-4d8",
+              magnitudeType: "dice",
+              formula: "-4d8"
+            }
           },
         ],
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds",
+      },
+
+      triggerConfig: {
+        triggers: [
+          {
+            id: "predator_apex_burnout",
+            name: "Overheat Fallout",
+            triggerType: "on_fade",
+            action: "Take 4d8 unresistable physical damage and suffer the Exhausted condition for 2 rounds."
+          }
+        ]
       },
 
       cooldownConfig: {

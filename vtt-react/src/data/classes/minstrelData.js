@@ -55,7 +55,7 @@ Minstrels understand that every sound is a small death. They hear the world deco
 
 **Cadence Architect**: No other class offers the Minstrel's note-building strategic depth. Through builder spells, they harvest musical notes from collapsing planes, then resolve them into devastating cadences — Perfect Cadence guarantees critical hits, Deceptive Cadence stuns enemies, Authentic Cadence heals the entire party. This is the ONLY combo-building support with cadence mechanics in existence.
 
-**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal — all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 AC, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
+**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal — all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 Armor, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
 
 **Strengths**:
 - Unmatched combo-building support with cadence resolution
@@ -67,7 +67,7 @@ Minstrels understand that every sound is a small death. They hear the world deco
 **Weaknesses**:
 - Requires an instrument to cast (Instrument Dependency — disarmed = no spells, no hope)
 - Cannot self-heal — all healing targets allies only, leaving the Minstrel to rot
-- -2 AC while performing any active song — the music demands total vulnerability
+- -2 Armor while performing any active song — the music demands total vulnerability
 - Combo system requires planning and foresight across multiple turns
 - Vulnerable to silence and interruption effects — rendered completely useless
 - Fragile without armor, fragile with it, fragile always
@@ -4050,7 +4050,7 @@ Before combat, decide which cadences you want to prioritize:
       id: "minstrel_songbird_fragility",
       name: "Songbird Fragility",
       description:
-        "While you are playing an active song or maintaining a cadence, your guard is lowered. You suffer -2 AC for the duration of any actively maintained musical effect. This penalty stacks with other effects but cannot reduce AC below 10.",
+        "While you are playing an active song or maintaining a cadence, your guard is lowered. You suffer -2 Armor for the duration of any actively maintained musical effect. This penalty stacks with other effects but cannot reduce Passive DR below 0.",
       level: 1,
       spellType: "PASSIVE",
       icon: "General/Broken Armor",

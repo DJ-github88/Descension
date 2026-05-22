@@ -26,61 +26,69 @@
   font-size: 1.2rem;
 }
 
-/* New Header Layout */
+/* New Header Layout - Premium Glassmorphic Parchment Theme */
 .account-header-new {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   padding: 0.75rem 3rem;
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
-  border-bottom: 3px solid #8b4513;
-  box-shadow: 0 4px 20px rgba(139, 69, 19, 0.15);
-  backdrop-filter: blur(10px);
-  min-height: 80px;
-  gap: 2rem;
+  background: rgba(244, 241, 232, 0.75);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border-bottom: 2px solid rgba(139, 69, 19, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(139, 69, 19, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  min-height: 85px;
+  gap: 1.5rem;
   position: relative;
   z-index: 9999 !important;
   overflow: visible !important;
+  transition: all 0.3s ease;
 }
 
 /* Left: Account Icon Section */
 .account-icon-section.clickable {
   cursor: pointer;
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  background: rgba(248, 245, 240, 0.8);
-  border: 2px solid rgba(139, 69, 19, 0.2);
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
+  background: rgba(248, 245, 240, 0.55);
+  border: 1px solid rgba(139, 69, 19, 0.12);
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.05);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .account-icon-section.clickable:hover {
-  background: rgba(248, 245, 240, 0.95);
-  border-color: rgba(139, 69, 19, 0.35);
-  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.15);
+  background: rgba(248, 245, 240, 0.9);
+  border-color: rgba(139, 69, 19, 0.3);
+  box-shadow: 
+    0 6px 20px rgba(139, 69, 19, 0.1),
+    0 0 12px rgba(212, 175, 55, 0.1);
+  transform: translateY(-1px);
 }
 
 .account-icon-section.clickable:hover .account-avatar-large {
   border-color: #d4af37;
-  transform: scale(1.05);
+  transform: scale(1.04);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
 }
 
 .account-avatar-large {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #8b4513;
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+  border: 2px solid #8b4513;
+  box-shadow: 0 3px 10px rgba(139, 69, 19, 0.2);
   background: linear-gradient(135deg, #f4f1e8, #e8e0d0);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 
@@ -90,14 +98,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(218, 165, 32, 0.5);
+  background: rgba(218, 165, 32, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.25s ease;
   color: #ffffff;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
 }
 
 .account-icon-section.clickable:hover .avatar-edit-hint {
@@ -111,7 +119,7 @@
 }
 
 .account-avatar-large i {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #8b4513;
 }
 
@@ -123,36 +131,38 @@
 .account-welcome .user-display-name {
   margin: 0;
   color: #2d1810;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
   font-family: 'Cinzel', serif;
+  letter-spacing: 0.3px;
 }
 
 .user-name-wrapper {
   display: flex;
   align-items: baseline;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .user-account-id {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #8b4513;
-  opacity: 0.6;
+  opacity: 0.65;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   letter-spacing: 0.5px;
 }
 
 .account-welcome .edit-link {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #8b4513;
   opacity: 0.6;
   font-family: 'Inter', sans-serif;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .account-icon-section.clickable:hover .edit-link {
   opacity: 1;
+  color: #a0522d;
   text-decoration: underline;
 }
 
@@ -162,10 +172,10 @@
   gap: 0.4rem;
   margin-top: 0.3rem;
   padding: 0.3rem 0.7rem;
-  background: rgba(255, 152, 0, 0.15);
-  border: 1px solid #ff9800;
+  background: rgba(255, 152, 0, 0.12);
+  border: 1px solid rgba(255, 152, 0, 0.4);
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #8b4513;
   font-weight: 500;
 }
@@ -175,136 +185,152 @@
   font-size: 0.7rem;
 }
 
-/* Center: Fan-style Tab Navigation */
+/* Center: Fan-style Tab Navigation (Floating Modern Tabs) */
 .fan-tabs {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .fan-container {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.35rem;
   position: relative;
-  background: rgba(248, 245, 240, 0.8);
-  border-radius: 12px;
-  padding: 0.5rem;
-  border: 2px solid rgba(139, 69, 19, 0.2);
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
+  background: rgba(248, 245, 240, 0.55);
+  border-radius: 16px;
+  padding: 0.35rem;
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  box-shadow: 
+    0 4px 20px rgba(139, 69, 19, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
 }
 
 .fan-tab {
   background: transparent;
   border: none;
   color: #5d4e37;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
+  padding: 0.75rem 1.15rem;
+  font-size: 1rem;
   font-weight: 600;
   font-family: 'Cinzel', serif;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  border-radius: var(--pf-border-radius-lg);
-  min-width: 140px;
+  border-radius: 12px;
+  min-width: 110px;
   text-align: center;
+  overflow: hidden;
 }
 
 .fan-tab:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(212, 175, 55, 0.08);
   color: #2d1810;
-  transform: translateY(-2px);
+  transform: translateY(-1.5px);
 }
 
 .fan-tab.active {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(139, 69, 19, 0.1));
-  color: #2d1810;
-  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
-  border: 2px solid rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #f8f4e6;
+  box-shadow: 
+    0 4px 15px rgba(184, 134, 11, 0.35),
+    0 0 12px rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .fan-tab span {
   display: block;
-  text-shadow: none;
+  text-shadow: inherit;
 }
 
-/* Right: Action Buttons - Beautiful Design */
+/* Right: Action Buttons - Beautiful Modern Design */
 .header-actions-new {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: center;
   flex: 0 0 auto;
   overflow: visible !important;
+  transition: all 0.3s ease;
 }
 
 /* ===== RESPONSIVENESS MEDIA QUERIES ===== */
 
-/* Large Screens / Tablets (below 1400px) */
+/* High-resolution Laptops & Constrained Screens (below 1400px) */
 @media screen and (max-width: 1400px) {
   .account-header-new {
-    padding: 0.75rem 1.5rem;
-    gap: 1rem;
-  }
-
-  .fan-tab {
-    padding: 0.8rem 1.2rem;
-    min-width: 120px;
-    font-size: 1rem;
-  }
-
-  .fan-container {
-    gap: 0.5rem;
-  }
-}
-
-/* Medium Screens / Small Tablets (below 1100px) */
-@media screen and (max-width: 1100px) {
-  .account-header-new {
     flex-wrap: wrap;
-    justify-content: center;
-    padding: 1rem;
+    justify-content: space-between;
+    padding: 0.75rem 2rem;
     height: auto;
     min-height: auto;
     gap: 1rem;
   }
 
-  /* Profile section takes priority on left or full width */
+  /* Keep profile and actions in their rows side-by-side */
   .account-icon-section.clickable {
+    order: 1;
     flex: 0 1 auto;
   }
 
-  /* Navigation tabs wrap or scale down */
-  .fan-tabs {
-    order: 3;
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-
-  .fan-container {
-    width: 100%;
-    justify-content: space-around;
-    padding: 0.25rem;
-  }
-
-  .fan-tab {
-    padding: 0.6rem 0.8rem;
-    min-width: 100px;
-    font-size: 0.9rem;
-    flex: 1;
-  }
-
-  /* Header actions stay on right of top row */
   .header-actions-new {
     order: 2;
     margin-left: auto;
     gap: 0.75rem;
   }
 
+  /* Wrap navigation tabs beautifully to the second row */
+  .fan-tabs {
+    order: 3;
+    width: 100%;
+    margin-top: 0.25rem;
+    justify-content: center;
+  }
+
+  .fan-container {
+    width: 100%;
+    justify-content: space-around;
+    padding: 0.3rem;
+  }
+
+  .fan-tab {
+    padding: 0.65rem 1rem;
+    min-width: 100px;
+    font-size: 0.95rem;
+    flex: 1;
+  }
+}
+
+/* Medium Tablets & Medium Viewports (below 1100px) */
+@media screen and (max-width: 1100px) {
+  .account-header-new {
+    padding: 0.75rem 1.5rem;
+  }
+
+  .fan-tab {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.75rem;
+    min-width: 90px;
+  }
+  
+  .action-btn span {
+    display: none; /* Hide button text to save horizontal space on tablets */
+  }
+  
   .action-btn {
-    min-width: 80px;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
+    min-width: 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+  }
+  
+  .action-btn i {
+    font-size: 1.1rem;
+    margin: 0;
   }
 }
 

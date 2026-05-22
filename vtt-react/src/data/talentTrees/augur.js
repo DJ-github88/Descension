@@ -166,7 +166,7 @@ export const AUGUR_HARBINGER = [
   {
     id: 'harbinger_t1_sign_of_decay',
     name: 'Sign of Decay',
-    description: 'Spend 1 Malediction to deal 1d8 psychic damage to a target. Damage increases by 1d8 per rank. Can be used as a bonus action.',
+    description: 'Spend 1 Malediction to deal 1d8 psychic damage to a target. Damage increases by 1d8 per rank. Costs 0 AP.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 3,
     position: { x: 0, y: 1 },

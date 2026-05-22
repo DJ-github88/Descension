@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
+import React, { useState, useMemo, useEffect, useRef, Suspense, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSkull, faCrosshairs, faMagic, faAtom, faClock, faDice, faShield,
@@ -102,7 +102,7 @@ const CLASS_ICON_MAP = {
   'Doomsayer': faBolt,
 };
 
-// Simple markdown processor for basic formatting
+// Simple markdown processor for basic formatting with internal link support
 const processMarkdown = (text) => {
   if (!text) return text;
 
@@ -111,6 +111,15 @@ const processMarkdown = (text) => {
 
   // Process *italic* text
   processed = processed.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+  // Process [Link Text](category/subcategory) or [Link Text](url)
+  processed = processed.replace(/\[(.*?)\]\((.*?)\)/g, (match, linkText, url) => {
+    if (url.includes('/')) {
+      const [cat, sub] = url.split('/');
+      return `<a href="#${sub}" class="rules-link" data-category="${cat}" data-subcategory="${sub}">${linkText}</a>`;
+    }
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="rules-external-link">${linkText}</a>`;
+  });
 
   // Process bullet points (• at start of line)
   processed = processed.replace(/^• (.+)$/gm, '<li>$1</li>');
@@ -123,12 +132,640 @@ const processMarkdown = (text) => {
   processed = processed.replace(/\n/g, '<br>');
 
   // Wrap in paragraph if not already wrapped
-  if (!processed.startsWith('<')) {
+  if (!processed.startsWith('<') && !processed.startsWith('<ul>')) {
     processed = `<p>${processed}</p>`;
   }
 
   return processed;
 };
+
+const getThemeColor = (theme) => {
+  const colors = {
+    mechanic: '#d4af37', combat: '#dc143c', narrative: '#8b4513',
+    danger: '#c0392b', nature: '#228b22', arcane: '#9b59b6',
+    undead: '#7d3c98', trade: '#c9a227', social: '#e67e22'
+  };
+  return colors[theme] || colors.narrative;
+};
+
+// Rotating Tips Component
+const RotatingTips = React.memo(({ tips }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (!tips || tips.length === 0) return;
+
+    const showDuration = 4000; // Show each tip for 4 seconds
+    const fadeDuration = 500; // Fade transition takes 0.5 seconds
+
+    const cycle = () => {
+      // Fade out
+      setIsVisible(false);
+      
+      setTimeout(() => {
+        // Change tip
+        setCurrentIndex((prev) => (prev + 1) % tips.length);
+        // Fade in
+        setIsVisible(true);
+      }, fadeDuration);
+    };
+
+    const interval = setInterval(cycle, showDuration + fadeDuration);
+
+    return () => clearInterval(interval);
+  }, [tips]);
+
+  if (!tips || tips.length === 0) return null;
+
+  const currentTip = tips[currentIndex];
+
+  return (
+    <div className="rotating-tips-container">
+      <div className={`rotating-tip ${isVisible ? 'visible' : 'hidden'}`}>
+        <span className="rotating-tip-label">{currentTip.label}</span>
+        <span className="rotating-tip-description">{currentTip.description}</span>
+      </div>
+      <div className="rotating-tips-indicator">
+        {tips.map((_, idx) => (
+          <span
+            key={idx}
+            className={`tip-dot ${idx === currentIndex ? 'active' : ''}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+});
+
+// Rules Section Item Component
+const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory, isLast }) => {
+  const contentHtml = useMemo(() => {
+    if (!section.content) return null;
+    let processed = processMarkdown(section.content);
+
+    // Inject transparent hand-drawn watercolor illustrations inline
+    let illustrationHtml = '';
+    const publicUrl = process.env.PUBLIC_URL || '';
+
+    if (selectedSubcategory === 'game-overview' && section.title && section.title.startsWith('Core Principles')) {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_dragon.png" 
+            alt="Ancient Dragon Sketch" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.1: The Wyrm of Mythrill</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'dice-system' && section.title === 'The Ladder of Trials (Difficulty Dice)') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_tome.png" 
+            alt="Ancient Arcane Tome" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.2: The Codex of Trials</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'character-statistics' && section.title === 'The Six Pillars of Mortality') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_hourglass.png" 
+            alt="Mystical Hourglass" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.3: The Sands of Capability</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'inventory-encumbrance' && section.title === 'The Spatial Grid') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_backpack.png" 
+            alt="Explorer's Pack" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.4: The Spatial Explorer's Ledger</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'durability-repair' && section.title === 'Mortal Wear') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_shield.png" 
+            alt="Shattered Shield" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.5: A Fraying Vanguard</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'durability-repair' && section.title === 'The Art of Repair (Resting)') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_anvil.png" 
+            alt="Repairing on Anvil" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.6: The Reclamation of Iron</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'combat-basics' && section.title === 'Combat Structure') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_swords.png" 
+            alt="Crossed Runeswords" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.7: The Clash of Steel</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'game-sessions' && section.title === 'Session Zero: The Accord of Beginnings') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_scroll.png" 
+            alt="Covenant Scroll" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.8: The Covenant of Adventuring</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'game-sessions' && section.title === 'The Ebb and Flow of Drama (Energy Management)') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_compass.png" 
+            alt="Pacing Compass" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.9: The Celestial Pathfinder</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'spellcrafting-wizard' && section.title === 'The Magic of Creation (Custom Spellcrafting)') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_crystal.png" 
+            alt="Magical Spell Crystal" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.10: The Resonance of Creation</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'death-dying' && section.title === 'Dying Condition') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_skull.png" 
+            alt="Fading Soul Skull" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.11: The Crucible of Mortality</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'resting' && section.title === 'The Solace of Rest') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_campfire.png" 
+            alt="Rest Campfire" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.12: The Embers of Solace</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'weapons' && section.title === 'Dynamic Weapon State') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_axe.png" 
+            alt="Runic Battleaxe" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.13: The Cleaver of Runes</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'armor' && section.title === 'How Armor Works Now') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_breastplate.png" 
+            alt="Knight Breastplate" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.14: The Aegis of Iron</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'magical-items' && section.title === 'Rarity Tiers') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_staff.png" 
+            alt="Mystical Wizard Staff" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.15: The Rod of Leylines</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'talents' && section.title === 'Talent Trees') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_tree.png" 
+            alt="Mystical Talent Tree" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.16: The Canopy of Ascendancy</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'travel-basics' && section.title === 'The Open Road') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_map.png" 
+            alt="Explorer World Map" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.17: The Cartographer's Ledger</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'social-basics' && section.title === 'Core Social Skills') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_seal.png" 
+            alt="Noble Wax Seal" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.18: The Faction's Decree</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'creation-overview' && section.title && section.title.startsWith('Introduction')) {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_sigil.png" 
+            alt="Mystical Sigil" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.19: The Glyph of Identity</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'races' && section.title === 'Race System Overview') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_crown.png" 
+            alt="Ancestral Crown" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.20: The Crown of Heritage</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'magic-overview' && section.title === "The Void's Shadow (Arcane Corruption)") {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_void.png" 
+            alt="Arcane Void Swirl" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.21: The Corruption's Embrace</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'welcome' && section.title === 'What Is Mythrill?') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_map.png" 
+            alt="Explorer World Map" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.22: The Cartographer's Ledger</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'professions' && section.title === 'Blacksmithing (Forge Interface)') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_anvil.png" 
+            alt="Repairing on Anvil" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.23: The Reclamation of Iron</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'professions' && section.title === 'Alchemy (Alchemist Interface)') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_flask.png" 
+            alt="Alchemical Flask" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.24: The Alchemist's Crucible</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'dice-rolling-basics' && section.title === 'How Rolls Work on the VTT') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_d20.png" 
+            alt="Magical d20 Polyhedral Die" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.25: The Die of Destiny</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'your-first-character' && section.title === 'Opening the Character Creation Wizard') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_quill.png" 
+            alt="Quill and Inkwell" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.26: The Scribe's Ascent</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'token-movement' && section.title === 'Tactical Movement on the Grid') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_boots.png" 
+            alt="Medieval Travel Boots" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.27: The Stride of Battle</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'interface-overview' && section.title === 'The Main Play Area (The Grid)') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_candle.png" 
+            alt="Burning Wax Candle" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.28: The Hearth of the Table</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'combat-conditions' && section.title === 'Condition System') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container left">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_shackles.png" 
+            alt="Rusted Shackles" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.29: The Bonds of Battle</span>
+        </div>
+      `;
+    } else if (selectedSubcategory === 'dnd-comparison' && section.title === 'The Great Mindset Shift') {
+      illustrationHtml = `
+        <div class="rules-inline-art-container">
+          <img 
+            src="${publicUrl}/assets/images/watercolor_scales.png" 
+            alt="The Scales of Destiny" 
+            class="rules-inline-art"
+          />
+          <span class="rules-inline-art-caption">Fig 1.30: The Scales of Destiny</span>
+        </div>
+      `;
+    }
+
+    if (illustrationHtml) {
+      processed = illustrationHtml + processed;
+    }
+
+    return processed;
+  }, [section.content, section.title, selectedSubcategory]);
+
+  if (section.type === 'rotating-tips') {
+    return (
+      <>
+        <div className="rules-section">
+          {section.title && <h4 className="rules-section-title">{section.title}</h4>}
+          <RotatingTips tips={section.tips} />
+        </div>
+        {!isLast && (
+          <div className="rules-divider">
+            <span className="rules-divider-icon">✥</span>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  if (!contentHtml) return null;
+
+  const contentLength = section.content ? section.content.length : 0;
+  const isLong = contentLength > 500;
+  const isShort = contentLength < 600;
+
+  const renderedElement = isLong ? (
+    <RulesCollapsible
+      title={section.title || 'DETAILS'}
+      icon="fas fa-scroll"
+      theme={theme}
+      defaultOpen={idx === 0}
+      contentLength={contentLength}
+    >
+      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+    </RulesCollapsible>
+  ) : (
+    <RulesSectionCard title={section.title} theme={theme} short={isShort}>
+      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+    </RulesSectionCard>
+  );
+
+  return (
+    <>
+      {renderedElement}
+      {!isLast && (
+        <div className="rules-divider">
+          <span className="rules-divider-icon">✥</span>
+        </div>
+      )}
+    </>
+  );
+});
+
+// Rules Table Component
+const RulesTable = React.memo(({ table, tableIdx, sectionTheme, selectedSubcategory, handleClassClick, currentPage, onPageChange }) => {
+  // Check if this is the Skill-Based Abilities table
+  const isSkillAbilitiesTable = table.title === 'Skill-Based Abilities' || 
+                                (table.headers && table.headers.length > 0 && 
+                                 table.headers[0] === 'Skill' && 
+                                 table.headers.includes('Unlocks'));
+  
+  // Custom card layout for compact armor displays
+  if (table.layout === 'armor-grid') {
+    return (
+      <div className="rules-table-container" key={table.title}>
+        {table.title && <h5 className="rules-table-title">{table.title}</h5>}
+        <div className="armor-grid">
+          {table.rows.map((row, idx) => (
+            <div className="armor-card" key={idx}>
+              <h4>{row[0]}</h4>
+              {row[1] && table.headers[1] && <p><strong>{table.headers[1]}:</strong> {row[1]}</p>}
+              {row[2] && table.headers[2] && <p><strong>{table.headers[2]}:</strong> {row[2]}</p>}
+              {row[3] && table.headers[3] && <p><strong>{table.headers[3]}:</strong> {row[3]}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const rows = table?.rows || [];
+  const clickableColumn = table.clickableColumn !== undefined ? table.clickableColumn : -1;
+  
+  // Pagination: Show rows per page (split between left and right)
+  // Default rows per page across the full spread; tables can override via rowsPerPage
+  const defaultRowsPerSide = 5;
+  const requestedRowsPerPage = table.rowsPerPage || defaultRowsPerSide * 2;
+  const rowsPerSide = Math.ceil(requestedRowsPerPage / 2);
+  const rowsPerPage = rowsPerSide * 2; // normalize to even count for left/right split
+  const totalPages = Math.max(Math.ceil(rows.length / rowsPerPage), 1);
+  const maxPageIndex = Math.max(totalPages - 1, 0);
+  const tablePage = Math.min(currentPage || 0, maxPageIndex);
+  
+  // Get rows for current page
+  const startIdx = tablePage * rowsPerPage;
+  const endIdx = startIdx + rowsPerPage;
+  const pageRows = rows.slice(startIdx, endIdx);
+  
+  // Only split into two pages when the right side would be at least 75% full.
+  // This prevents near-empty right columns (e.g. 8 rows → 5+3 at 60% looks wrong).
+  const minRowsForRightPage = Math.max(2, Math.ceil(rowsPerSide * 0.75));
+  const potentialRightRows = pageRows.slice(rowsPerSide);
+  const shouldSplit = potentialRightRows.length >= minRowsForRightPage;
+
+  const leftPageRows = shouldSplit ? pageRows.slice(0, rowsPerSide) : pageRows;
+  const rightPageRows = shouldSplit ? potentialRightRows : [];
+  const hasRightPage = shouldSplit && rightPageRows.length > 0;
+
+  const renderTablePage = (rows, startRowIndex) => (
+    <table className="rules-table">
+      <thead>
+        <tr>
+          {table.headers.map((header, idx) => (
+            <th key={idx}>{header}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, rowIdx) => (
+          <tr key={rowIdx + startRowIndex}>
+            {row.map((cell, cellIdx) => {
+              // Check if this is a clickable cell (for class names)
+              const isClickable = cellIdx === clickableColumn && selectedSubcategory === 'classes';
+              
+              // Check if cell is a spell object
+              const isSpellObject = cell && typeof cell === 'object' && cell.spellId;
+              
+              // Get class icon for class names
+              const icon = !isSpellObject && CLASS_ICON_MAP[cell];
+              
+              return (
+                <td
+                  key={cellIdx}
+                  className={isClickable ? 'clickable-cell' : ''}
+                  onClick={isClickable ? () => handleClassClick(cell) : undefined}
+                  style={isClickable ? { cursor: 'pointer', color: '#d4af37', fontWeight: '600' } : {}}
+                >
+                  {isSpellObject ? (
+                    <>
+                      {cell.prefix && <span style={{ marginRight: '4px', whiteSpace: 'nowrap' }}>{cell.prefix}</span>}
+                      <SpellIconTooltip spellId={cell.spellId} />
+                    </>
+                  ) : (
+                    <>
+                      {isSkillAbilitiesTable && cellIdx === 0 && typeof cell === 'string' ? (
+                        <>
+                          <SkillAbilityIconTooltip skillName={cell} />
+                          <span>{cell}</span>
+                        </>
+                      ) : (
+                        <>
+                          {icon && (
+                            <FontAwesomeIcon icon={icon} className="class-cell-icon" aria-hidden="true" />
+                          )}
+                          {cell}
+                        </>
+                      )}
+                    </>
+                  )}
+                </td>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+
+  const changeTablePage = (nextPage) => {
+    const clamped = Math.min(Math.max(nextPage, 0), maxPageIndex);
+    onPageChange(clamped);
+  };
+
+  const themeColor = getThemeColor(sectionTheme);
+  // has-two-pages enables the book-spine ::before pseudo-element only when genuinely split
+  const wrapperClass = `rules-table-wrapper ${!hasRightPage ? 'single-page' : 'has-two-pages'}`;
+
+  return (
+    <div className="rules-table-container rules-table-themed" key={table.title} style={{ '--table-theme-color': themeColor }}>
+      {table.title && <h5 className="rules-table-title">{table.title}</h5>}
+      {table.description && <p className="rules-table-description">{table.description}</p>}
+      <div className={wrapperClass}>
+        {/* Left Page */}
+        <div className="rules-table-page-left">
+          {renderTablePage(leftPageRows, startIdx)}
+        </div>
+
+        {/* Right Page */}
+        {hasRightPage && (
+          <div className="rules-table-page-right">
+            {renderTablePage(rightPageRows, startIdx + rowsPerSide)}
+          </div>
+        )}
+      </div>
+
+      {/* Page Navigation */}
+      {totalPages > 1 && (
+        <div className="rules-table-pagination">
+          <button
+            className="rules-table-page-button"
+            onClick={() => changeTablePage(tablePage - 1)}
+            disabled={tablePage === 0}
+            aria-label="Previous page"
+          >
+            <i className="fas fa-chevron-left"></i>
+          </button>
+          <span className="rules-table-page-indicator">
+            Page {tablePage + 1} / {totalPages}
+          </span>
+          <button
+            className="rules-table-page-button"
+            onClick={() => changeTablePage(tablePage + 1)}
+            disabled={tablePage >= totalPages - 1}
+            aria-label="Next page"
+          >
+            <i className="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+});
 
 const RulesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('core-rules');
@@ -206,6 +843,23 @@ const RulesPage = () => {
     setSelectedClassDetail(null);
   };
 
+  // Handle internal rules link clicks for interactive navigation
+  const handleContentClick = useCallback((e) => {
+    const link = e.target.closest('.rules-link');
+    if (link) {
+      e.preventDefault();
+      const category = link.getAttribute('data-category');
+      const subcategory = link.getAttribute('data-subcategory');
+      if (category && subcategory) {
+        handleSubcategoryClick(category, subcategory);
+        const mainEl = document.querySelector('.rules-main');
+        if (mainEl) {
+          mainEl.scrollTop = 0;
+        }
+      }
+    }
+  }, []);
+
   // Get current content
   const currentContent = useMemo(() => {
     return getRuleContent(selectedCategory, selectedSubcategory);
@@ -233,383 +887,44 @@ const RulesPage = () => {
   }, [currentContent]);
 
   // Render a table
-  const getThemeColor = (theme) => {
-    const colors = {
-      mechanic: '#d4af37', combat: '#dc143c', narrative: '#8b4513',
-      danger: '#c0392b', nature: '#228b22', arcane: '#9b59b6',
-      undead: '#7d3c98', trade: '#c9a227', social: '#e67e22'
-    };
-    return colors[theme] || colors.narrative;
-  };
-
   const renderTable = (table, tableIdx, sectionTheme = 'narrative') => {
-    // Check if this is the Skill-Based Abilities table
-    const isSkillAbilitiesTable = table.title === 'Skill-Based Abilities' || 
-                                  (table.headers && table.headers.length > 0 && 
-                                   table.headers[0] === 'Skill' && 
-                                   table.headers.includes('Unlocks'));
-    
-    // Custom card layout for compact armor displays
-    if (table.layout === 'armor-grid') {
-      return (
-        <div className="rules-table-container" key={table.title}>
-          {table.title && <h5 className="rules-table-title">{table.title}</h5>}
-          <div className="armor-grid">
-            {table.rows.map((row, idx) => (
-              <div className="armor-card" key={idx}>
-                <h4>{row[0]}</h4>
-                {row[1] && table.headers[1] && <p><strong>{table.headers[1]}:</strong> {row[1]}</p>}
-                {row[2] && table.headers[2] && <p><strong>{table.headers[2]}:</strong> {row[2]}</p>}
-                {row[3] && table.headers[3] && <p><strong>{table.headers[3]}:</strong> {row[3]}</p>}
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    const rows = table?.rows || [];
-    const clickableColumn = table.clickableColumn !== undefined ? table.clickableColumn : -1;
     const tableKey = table.id || table.title || `table-${tableIdx}`;
+    const currentPage = tablePages[tableKey] || 0;
     
-    // Pagination: Show rows per page (split between left and right)
-    // Default rows per page across the full spread; tables can override via rowsPerPage
-    const defaultRowsPerSide = 5;
-    const requestedRowsPerPage = table.rowsPerPage || defaultRowsPerSide * 2;
-    const rowsPerSide = Math.ceil(requestedRowsPerPage / 2);
-    const rowsPerPage = rowsPerSide * 2; // normalize to even count for left/right split
-    const totalPages = Math.max(Math.ceil(rows.length / rowsPerPage), 1);
-    const maxPageIndex = Math.max(totalPages - 1, 0);
-    const tablePage = Math.min(tablePages[tableKey] || 0, maxPageIndex);
-    
-    // Get rows for current page
-    const startIdx = tablePage * rowsPerPage;
-    const endIdx = startIdx + rowsPerPage;
-    const pageRows = rows.slice(startIdx, endIdx);
-    
-    // Only split into two pages when the right side would be at least 75% full.
-    // This prevents near-empty right columns (e.g. 8 rows → 5+3 at 60% looks wrong).
-    const minRowsForRightPage = Math.max(2, Math.ceil(rowsPerSide * 0.75));
-    const potentialRightRows = pageRows.slice(rowsPerSide);
-    const shouldSplit = potentialRightRows.length >= minRowsForRightPage;
-
-    const leftPageRows = shouldSplit ? pageRows.slice(0, rowsPerSide) : pageRows;
-    const rightPageRows = shouldSplit ? potentialRightRows : [];
-    const hasRightPage = shouldSplit && rightPageRows.length > 0;
-
-    const renderTablePage = (rows, startRowIndex) => (
-      <table className="rules-table">
-        <thead>
-          <tr>
-            {table.headers.map((header, idx) => (
-              <th key={idx}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, rowIdx) => (
-            <tr key={rowIdx + startRowIndex}>
-              {row.map((cell, cellIdx) => {
-                // Check if this is a clickable cell (for class names)
-                const isClickable = cellIdx === clickableColumn && selectedSubcategory === 'classes';
-                
-                // Check if cell is a spell object
-                const isSpellObject = cell && typeof cell === 'object' && cell.spellId;
-                
-                // Get class icon for class names
-                const icon = !isSpellObject && CLASS_ICON_MAP[cell];
-                
-                return (
-                  <td
-                    key={cellIdx}
-                    className={isClickable ? 'clickable-cell' : ''}
-                    onClick={isClickable ? () => handleClassClick(cell) : undefined}
-                    style={isClickable ? { cursor: 'pointer', color: '#d4af37', fontWeight: '600' } : {}}
-                  >
-                    {isSpellObject ? (
-                      <>
-                        {cell.prefix && <span style={{ marginRight: '4px', whiteSpace: 'nowrap' }}>{cell.prefix}</span>}
-                        <SpellIconTooltip spellId={cell.spellId} />
-                      </>
-                    ) : (
-                      <>
-                        {isSkillAbilitiesTable && cellIdx === 0 && typeof cell === 'string' ? (
-                          <>
-                            <SkillAbilityIconTooltip skillName={cell} />
-                            <span>{cell}</span>
-                          </>
-                        ) : (
-                          <>
-                            {icon && (
-                              <FontAwesomeIcon icon={icon} className="class-cell-icon" aria-hidden="true" />
-                            )}
-                            {cell}
-                          </>
-                        )}
-                      </>
-                    )}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-
-    const changeTablePage = (nextPage) => {
-      const clamped = Math.min(Math.max(nextPage, 0), maxPageIndex);
-      setTablePages(prev => ({
-        ...prev,
-        [tableKey]: clamped
-      }));
-    };
-
-    const themeColor = getThemeColor(sectionTheme);
-    // has-two-pages enables the book-spine ::before pseudo-element only when genuinely split
-    const wrapperClass = `rules-table-wrapper ${!hasRightPage ? 'single-page' : 'has-two-pages'}`;
-
     return (
-      <div className="rules-table-container rules-table-themed" key={table.title} style={{ '--table-theme-color': themeColor }}>
-        {table.title && <h5 className="rules-table-title">{table.title}</h5>}
-        {table.description && <p className="rules-table-description">{table.description}</p>}
-        <div className={wrapperClass}>
-          {/* Left Page */}
-          <div className="rules-table-page-left">
-            {renderTablePage(leftPageRows, startIdx)}
-          </div>
-
-          {/* Right Page */}
-          {hasRightPage && (
-            <div className="rules-table-page-right">
-              {renderTablePage(rightPageRows, startIdx + rowsPerSide)}
-            </div>
-          )}
-        </div>
-
-        {/* Page Navigation */}
-        {totalPages > 1 && (
-          <div className="rules-table-pagination">
-            <button
-              className="rules-table-page-button"
-              onClick={() => changeTablePage(tablePage - 1)}
-              disabled={tablePage === 0}
-              aria-label="Previous page"
-            >
-              <i className="fas fa-chevron-left"></i>
-            </button>
-            <span className="rules-table-page-indicator">
-              Page {tablePage + 1} / {totalPages}
-            </span>
-            <button
-              className="rules-table-page-button"
-              onClick={() => changeTablePage(tablePage + 1)}
-              disabled={tablePage >= totalPages - 1}
-              aria-label="Next page"
-            >
-              <i className="fas fa-chevron-right"></i>
-            </button>
-          </div>
-        )}
-      </div>
+      <RulesTable
+        key={tableKey}
+        table={table}
+        tableIdx={tableIdx}
+        sectionTheme={sectionTheme}
+        selectedSubcategory={selectedSubcategory}
+        handleClassClick={handleClassClick}
+        currentPage={currentPage}
+        onPageChange={(nextPage) => {
+          setTablePages(prev => ({
+            ...prev,
+            [tableKey]: nextPage
+          }));
+        }}
+      />
     );
   };
 
   // Render content sections
-  // Rotating Tips Component
-  const RotatingTips = ({ tips }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isVisible, setIsVisible] = useState(true);
-
-    useEffect(() => {
-      if (!tips || tips.length === 0) return;
-
-      const showDuration = 4000; // Show each tip for 4 seconds
-      const fadeDuration = 500; // Fade transition takes 0.5 seconds
-
-      const cycle = () => {
-        // Fade out
-        setIsVisible(false);
-        
-        setTimeout(() => {
-          // Change tip
-          setCurrentIndex((prev) => (prev + 1) % tips.length);
-          // Fade in
-          setIsVisible(true);
-        }, fadeDuration);
-      };
-
-      const interval = setInterval(cycle, showDuration + fadeDuration);
-
-      return () => clearInterval(interval);
-    }, [tips]);
-
-    if (!tips || tips.length === 0) return null;
-
-    const currentTip = tips[currentIndex];
-
-    return (
-      <div className="rotating-tips-container">
-        <div className={`rotating-tip ${isVisible ? 'visible' : 'hidden'}`}>
-          <span className="rotating-tip-label">{currentTip.label}</span>
-          <span className="rotating-tip-description">{currentTip.description}</span>
-        </div>
-        <div className="rotating-tips-indicator">
-          {tips.map((_, idx) => (
-            <span
-              key={idx}
-              className={`tip-dot ${idx === currentIndex ? 'active' : ''}`}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   const renderSections = (sections, sectionTheme) => {
     if (!sections) return null;
     const theme = sectionTheme || 'narrative';
 
-    return sections.map((section, idx) => {
-      if (section.type === 'rotating-tips') {
-        const renderedElement = (
-          <div className="rules-section" key={idx}>
-            {section.title && <h4 className="rules-section-title">{section.title}</h4>}
-            <RotatingTips tips={section.tips} />
-          </div>
-        );
-        const showDivider = idx < sections.length - 1;
-        return (
-          <React.Fragment key={idx}>
-            {renderedElement}
-            {showDivider && (
-              <div className="rules-divider">
-                <span className="rules-divider-icon">✥</span>
-              </div>
-            )}
-          </React.Fragment>
-        );
-      }
-
-      let contentHtml = section.content
-        ? processMarkdown(section.content)
-        : null;
-
-      if (!contentHtml) return null;
-
-      // Inject transparent hand-drawn watercolor illustrations inline
-      let illustrationHtml = '';
-      const publicUrl = process.env.PUBLIC_URL || '';
-
-      if (selectedSubcategory === 'game-overview' && section.title && section.title.startsWith('Core Principles')) {
-        illustrationHtml = `
-          <div class="rules-inline-art-container">
-            <img 
-              src="${publicUrl}/assets/images/watercolor_dragon.png" 
-              alt="Ancient Dragon Sketch" 
-              class="rules-inline-art"
-            />
-            <span class="rules-inline-art-caption">Fig 1.1: The Wyrm of Mythrill</span>
-          </div>
-        `;
-      } else if (selectedSubcategory === 'dice-system' && section.title === 'The Ladder of Trials (Difficulty Dice)') {
-        illustrationHtml = `
-          <div class="rules-inline-art-container left">
-            <img 
-              src="${publicUrl}/assets/images/watercolor_tome.png" 
-              alt="Ancient Arcane Tome" 
-              class="rules-inline-art"
-            />
-            <span class="rules-inline-art-caption">Fig 1.2: The Codex of Trials</span>
-          </div>
-        `;
-      } else if (selectedSubcategory === 'character-statistics' && section.title === 'The Six Pillars of Mortality') {
-        illustrationHtml = `
-          <div class="rules-inline-art-container left">
-            <img 
-              src="${publicUrl}/assets/images/watercolor_hourglass.png" 
-              alt="Mystical Hourglass" 
-              class="rules-inline-art"
-            />
-            <span class="rules-inline-art-caption">Fig 1.3: The Sands of Capability</span>
-          </div>
-        `;
-      } else if (selectedSubcategory === 'inventory-encumbrance' && section.title === 'The Spatial Grid') {
-        illustrationHtml = `
-          <div class="rules-inline-art-container">
-            <img 
-              src="${publicUrl}/assets/images/watercolor_backpack.png" 
-              alt="Explorer's Pack" 
-              class="rules-inline-art"
-            />
-            <span class="rules-inline-art-caption">Fig 1.4: The Spatial Explorer's Ledger</span>
-          </div>
-        `;
-      } else if (selectedSubcategory === 'durability-repair' && section.title === 'Mortal Wear') {
-        illustrationHtml = `
-          <div class="rules-inline-art-container">
-            <img 
-              src="${publicUrl}/assets/images/watercolor_shield.png" 
-              alt="Shattered Shield" 
-              class="rules-inline-art"
-            />
-            <span class="rules-inline-art-caption">Fig 1.5: A Fraying Vanguard</span>
-          </div>
-        `;
-      } else if (selectedSubcategory === 'combat-basics' && section.title === 'Combat Structure') {
-        illustrationHtml = `
-          <div class="rules-inline-art-container left">
-            <img 
-              src="${publicUrl}/assets/images/watercolor_swords.png" 
-              alt="Crossed Runeswords" 
-              class="rules-inline-art"
-            />
-            <span class="rules-inline-art-caption">Fig 1.6: The Clash of Steel</span>
-          </div>
-        `;
-      }
-
-      if (illustrationHtml) {
-        contentHtml = illustrationHtml + contentHtml;
-      }
-
-      const contentLength = section.content ? section.content.length : 0;
-      // Only use collapsible for genuinely long sections (500+ chars)
-      // Short sections use compact card layout without 2-column spread
-      const isLong = contentLength > 500;
-      // Mark sections with less than 600 chars as 'short' to suppress 2-column CSS
-      const isShort = contentLength < 600;
-
-      const renderedElement = isLong ? (
-        <RulesCollapsible
-          key={idx}
-          title={section.title || 'DETAILS'}
-          icon="fas fa-scroll"
-          theme={theme}
-          defaultOpen={idx === 0}
-          contentLength={contentLength}
-        >
-          <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-        </RulesCollapsible>
-      ) : (
-        <RulesSectionCard key={idx} title={section.title} theme={theme} short={isShort}>
-          <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-        </RulesSectionCard>
-      );
-
-      const showDivider = idx < sections.length - 1;
-
-      return (
-        <React.Fragment key={idx}>
-          {renderedElement}
-          {showDivider && (
-            <div className="rules-divider">
-              <span className="rules-divider-icon">✥</span>
-            </div>
-          )}
-        </React.Fragment>
-      );
-    });
+    return sections.map((section, idx) => (
+      <RulesSectionItem
+        key={idx}
+        section={section}
+        idx={idx}
+        theme={theme}
+        selectedSubcategory={selectedSubcategory}
+        isLast={idx === sections.length - 1}
+      />
+    ));
   };
 
   // Render tabbed content
@@ -932,7 +1247,7 @@ const RulesPage = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="rules-main">
+      <main className="rules-main" onClick={handleContentClick}>
         {/* Breadcrumbs */}
         <div className="rules-breadcrumbs">
           <button

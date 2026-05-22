@@ -369,6 +369,118 @@ controlConfig: {
   duration: 1,
   durationUnit: 'rounds'
 }
+
+summoningConfig: {
+  creatures: [
+    {
+      quantity: 1,
+      duration: 10,
+      durationUnit: 'minutes',
+      hasDuration: true,
+      concentration: false,
+      controlType: 'verbal',            // verbal | mental | bound
+      controlRange: 60,
+      attachedEffects: {}               // optional effects on creature
+    }
+  ],
+  duration: 10,
+  durationUnit: 'minutes',
+  hasDuration: true,
+  concentration: true,
+  quantity: 1,
+  maxQuantity: 4,
+  controlRange: 60,
+  controlType: 'verbal',
+  difficultyLevel: 'easy',
+  waitForTrigger: false
+}
+
+transformationConfig: {
+  transformationType: 'elemental',      // elemental | beast | shadow | undead | custom
+  targetType: 'self',
+  newForm: 'Living Conduit',            // Name of the transformed state
+  description: 'Your body radiates prismatic elemental energy as a living conduit...',
+  duration: 4,
+  durationUnit: 'rounds',
+  concentration: true,
+  power: 'ultimate',                    // ultimate | signature | normal
+  maintainEquipment: true
+}
+
+purificationConfig: {
+  purificationType: 'cleanse',          // dispel | cleanse | resurrection
+  targetEffects: ['statusEffect', 'statPenalty'], // CamelCase keys are auto-spaced by the card renderer (e.g. statusEffect -> Status Effect)
+  effects: [                            // Custom cleanse details (UnifiedSpellCard falls back on effects if selectedEffects is not provided)
+    {
+      id: 'prismatic_cleanse',
+      name: 'Prismatic Cleanse',
+      description: 'Instantly removes all non-permanent status effects and negative modifiers.'
+    }
+  ],
+  difficultyClass: 15,
+  abilitySave: 'spirit'
+}
+
+restorationConfig: {
+  resourceType: 'mana',                 // mana | health | action_points | class resource types
+  resolution: 'DICE',                   // DICE | CARDS | COINS
+  formula: '2d8 + intelligence',        // standard recovery formula
+  duration: 'instant',
+  tickFrequency: 'round',
+  application: 'start',
+  scalingType: 'flat',
+  isOverTime: false,                    // true for recovery over time
+  overTimeFormula: '1d4 + intelligence/2',
+  overTimeDuration: 3,
+  overTimeTriggerType: 'periodic',      // periodic | trigger
+  isProgressiveOverTime: false,
+  overTimeProgressiveStages: []
+}
+```
+
+## Advantage and Disadvantage Conventions
+
+For spells that grant **Advantage** or impose **Disadvantage** on specific sets of rolls or saves:
+Use the standard numeric engine modifiers with a magnitude of `99` (for Advantage) or `-99` (for Disadvantage).
+
+### Modifiers Structure
+- **Disadvantage** is modeled as a stat penalty with `magnitude: -99` and `magnitudeType: "disadvantage"`.
+- **Advantage** is modeled as a stat modifier with `magnitude: 99` and `magnitudeType: "advantage"`.
+
+### Key Stats
+- `attack_and_saves`: Affects both attack rolls and saving throws.
+- `all_rolls`: Affects all d20 rolls (attacks, saves, checks).
+
+#### Debuff Disadvantage Example
+```javascript
+debuffConfig: {
+  debuffType: "statusEffect",
+  effects: [
+    {
+      id: "house_advantage_stolen_luck",
+      name: "Stolen Luck",
+      description: "Disadvantage on attack rolls and saving throws."
+    }
+  ],
+  statPenalties: [
+    { stat: "attack_and_saves", magnitude: -99, magnitudeType: "disadvantage" }
+  ]
+}
+```
+
+#### Buff Advantage Example
+```javascript
+buffConfig: {
+  buffType: "combatAdvantage",
+  effects: [
+    {
+      id: "house_advantage_buff",
+      name: "House Advantage",
+      description: "Advantage on all rolls for the duration.",
+      statModifier: { stat: "all_rolls", magnitude: 99, magnitudeType: "advantage" }
+    }
+  ]
+}
 ```
 
 ---
@@ -559,18 +671,142 @@ Run this against EVERY spell. Fix any violation.
 
 # Section 8: Class-Specific Resource Reference
 
-| Class | Resource | Where to Put It | Key Fields |
-|---|---|---|---|
-| **Pyrofiend** | Inferno Veil | `resourceCost.resourceValues` | `inferno_ascend`, `inferno_descend`, `inferno_required` |
-| **Chronarch** | Time Shards / Temporal Strain | `resourceCost.resourceValues` | `time_shards_generate`, `time_shards_cost`, `temporal_strain_gain`, `temporal_strain_reduce` |
-| **Martyr** | Devotion | Flat top-level props | `devotionRequired`, `devotionGain`, `devotionCost` |
-| **Doomsayer** | Havoc | `resourceCost.classResource` | `{ type: 'havoc', cost: 3 }` |
-| **Fate Weaver** | Threads of Destiny | `specialMechanics.threadsOfDestiny` | `threads_spend`, `threads_generate` |
-| **Gambler** | Fortune Points | `specialMechanics.fortunePoints` | Various gambling mechanics |
-| **Minstrel** | Musical Notes/Combos | `musicalCombo` or `specialMechanics.musicalCombo` | `notes`, `cadenceName`, `cadenceNotes` |
-| **Chaos Weaver** | Chaos Spheres | `resourceCost.resourceValues` | `chaos_sphere` |
-| **Arcanoneer** | Arcane Energy Points | `resourceCost.resourceValues` | `arcane_energy_points` |
-| **Alchemist/Toxicologist** | Toxic System | `effectMechanicsConfigs` | `toxicOptions`, `graduatedEffects` |
+In Mythrill VTT, each of the 30 classes utilizes its own unique thematic resource system. When creating or validating a spell, the class-specific resource must be configured in the spell data exactly as required by the card renderer and engine.
+
+## Master Class Resource Table
+
+The following table documents all 30 classes, their resource names, where to store them in the spell data, and the exact keys required:
+
+| # | Class | Resource System | Where in Spell Data | Required Fields & Schema |
+|---|---|---|---|---|
+| 1 | **Arcanoneer** | Elemental Spheres | `resourceCost.resourceValues` or flat `sphereCost` | `arcane_energy_points` (number) or sphere cost fields (e.g. `arcane_sphere`, `fire_sphere`, `ice_sphere`, `holy_sphere`, `nature_sphere`, `shadow_sphere`, `healing_sphere`, `chaos_sphere`) |
+| 2 | **Augur** | Benediction / Malediction | `resourceCost.resourceValues` or flat fields | `benedictionCost`, `benedictionGain`, `maledictionCost`, `maledictionGain` |
+| 3 | **Berserker** | Rage | `resourceCost.resourceValues` or flat fields | `rageCost`, `rageGain`, `rageRequired` |
+| 4 | **Bladedancer** | Momentum / Flourish | `resourceCost.resourceValues` or flat fields | `momentumCost`, `momentumGain`, `flourishRequired` |
+| 5 | **Chaos Weaver** | Mayhem / Chaos Spheres | `resourceCost.resourceValues` | `chaos_sphere` (number), `mayhemCost`, `mayhemGain` |
+| 6 | **Chronarch** | Time Shards / Temporal Strain | `resourceCost.resourceValues` or `specialMechanics.temporalFlux` | `timeShardGenerate` / `time_shard_generate`, `timeShardCost` / `time_shard_cost`, `temporalStrainGain` / `temporal_strain_gain`, `temporalStrainReduce` / `temporal_strain_reduce` |
+| 7 | **Covenbane** | Hexbreaker Charges | `resourceCost.resourceValues` or flat fields | `hexbreakerCharges` (number), `hexChargeCost`, `hexChargeGain` |
+| 8 | **Deathcaller** | Blood Tokens / HP Cost | `resourceCost.resourceValues` or flat fields | `bloodTokens` (number), `hp` (number - for direct HP cost) |
+| 9 | **Doomsayer** | Havoc | `resourceCost.classResource` | Shorthand object: `{ type: 'havoc', cost: N }` |
+| 10 | **Dreadnaught** | Dark Resilience Points | `resourceCost.resourceValues` or flat fields | `drpCost`, `drpGain`, `drpRequired` |
+| 11 | **Exorcist** | Dominance Dice | `resourceCost.resourceValues` or flat fields | `dominanceDiceCost`, `dominanceDiceGain` |
+| 12 | **False Prophet** | Madness Points | `resourceCost.resourceValues` or flat fields | `madnessCost`, `madnessGain` |
+| 13 | **Fate Weaver** | Threads of Destiny | `specialMechanics.threadsOfDestiny` or flat fields | `threads_spend` (number), `threads_generate` (number) |
+| 14 | **Formbender** | Wild Instinct | `resourceCost.resourceValues` or flat fields | `wildInstinctCost`, `wildInstinctGain`, `wildInstinctRequired` |
+| 15 | **Gambler** | Fortune Points | `specialMechanics.fortunePoints` or `resourceCost` | `fortunePointsCost`, `fortunePointsGain`, `fortune_points_cost` |
+| 16 | **Huntress** | Quarry Marks | `resourceCost.resourceValues` or flat fields | `quarryMarkCost`, `quarryMarkGain`, `quarryRequired` |
+| 17 | **Inscriptor** | Runic Resonance / Runes | `resourceCost.resourceValues` or flat fields | ` resonanceCost`, `resonanceGain`, `runesRequired` (array) |
+| 18 | **Lichborne** | HP (Aura Mode) / Phylactery | `resourceCost.resourceValues` | `hp` (number - for active Aura drains), `phylacteryCharges` |
+| 19 | **Lunarch** | Moon Phase | Flat fields or `resourceCost` | `phaseRequired` ('new_moon' \| 'waxing' \| 'full_moon' \| 'waning'), `manaToShift` |
+| 20 | **Martyr** | Devotion Gauge | Flat top-level props or `resourceValues` | `devotionRequired` (number), `devotionGain` (number), `devotionCost` (number) |
+| 21 | **Minstrel** | Musical Notes / Combos | `musicalCombo` or `specialMechanics.musicalCombo` | `notes` (array of notes, e.g. `['C', 'E', 'G']`), `cadenceName`, `cadenceNotes` |
+| 22 | **Oracle** | Prophetic Visions | `resourceCost.resourceValues` or flat fields | `visionCost`, `visionGain`, `visionRequired` |
+| 23 | **Plaguebringer** | Virulence / Afflictions | `effectMechanicsConfigs` or flat fields | `virulenceCost`, `virulenceGain`, `afflictionType` |
+| 24 | **Primalist** | Totemic Synergy | `resourceCost.resourceValues` or flat fields | `synergyCost`, `synergyGain`, `totemsRequired` |
+| 25 | **Pyrofiend** | Inferno Veil | `resourceCost.resourceValues` or flat fields | `inferno_ascend` / `infernoAscend`, `inferno_descend` / `infernoDescend`, `inferno_required` / `infernoRequired` |
+| 26 | **Spellguard** | Arcane Energy Points | `resourceCost.resourceValues` or flat fields | `aepCost`, `aepGain`, `aepRequired` |
+| 27 | **Titan** | Celestial Devotion | Flat top-level field | `devotionRequired` (string: `'Solara'` \| `'Lunara'` \| `'Astraeus'` \| `'Terranox'` \| `'Zephyra'`) |
+| 28 | **Toxicologist** | Toxin Vials / Contraptions | `resourceCost.resourceValues` or `effectMechanicsConfigs` | `toxinVialsCost`, `toxinVialsGain`, `contraptionParts` (number) |
+| 29 | **Warden** | Vengeance Points | `resourceCost.resourceValues` or flat fields | `vengeanceCost`, `vengeanceGain`, `vengeanceRequired` |
+| 30 | **Witch Doctor** | Voodoo Essence | `resourceCost.resourceValues` or flat fields | `voodooEssenceCost`, `voodooEssenceGain` |
+
+---
+
+## Class Resource Configurations & Code Examples
+
+### A. Sphere-Based Systems (Arcanoneer & Chaos Weaver)
+Uses specific keys inside `resourceCost.resourceValues` to render specialized sphere badges:
+```javascript
+resourceCost: {
+  resourceTypes: ['mana', 'arcane_sphere', 'fire_sphere'],
+  resourceValues: { 
+    mana: 4, 
+    arcane_sphere: 1, 
+    fire_sphere: 1 
+  },
+  actionPoints: 2,
+  components: ['verbal', 'somatic']
+}
+```
+
+### B. Gauge-Based Shorthands (Martyr & Pyrofiend)
+These can be stored either as flat, top-level properties or nested in `resourceCost.resourceValues` (the normalizer flattens them for card rendering):
+```javascript
+// Martyr Example (Flat Props)
+{
+  id: 'martyr_sacred_mend',
+  name: 'Sacred Mend',
+  // ...
+  resourceCost: {
+    mana: 8,
+    actionPoints: 1,
+    components: ['verbal']
+  },
+  devotionRequired: 2,
+  devotionGain: 1,
+  devotionCost: 0
+}
+
+// Pyrofiend Example (resourceValues Map)
+{
+  id: 'pyro_scorch_wave',
+  name: 'Scorch Wave',
+  // ...
+  resourceCost: {
+    resourceTypes: ['mana', 'inferno_ascend'],
+    resourceValues: { 
+      mana: 6, 
+      inferno_required: 2, 
+      inferno_ascend: 1 
+    },
+    actionPoints: 2,
+    components: ['verbal', 'somatic']
+  }
+}
+```
+
+### C. Shorthand ClassResource (Doomsayer)
+Doomsayer uses a specialized `classResource` object inside `resourceCost` to denote Havoc costs:
+```javascript
+resourceCost: {
+  actionPoints: 1,
+  mana: 6,
+  classResource: { 
+    type: 'havoc', 
+    cost: 3 
+  },
+  components: ['verbal']
+}
+```
+
+### D. Advanced Special Mechanics (Minstrel & Fate Weaver)
+Some classes store resource interactions inside a nested `specialMechanics` or specific custom structures:
+```javascript
+// Minstrel Musical Note Cadence
+{
+  id: 'minstrels_song_of_valor',
+  name: 'Song of Valor',
+  // ...
+  musicalCombo: {
+    notes: ['C', 'E', 'G'],             // Notes generated/played
+    cadenceName: 'Tonic Cadence',       // Name of combo
+    cadenceNotes: ['C', 'E', 'G']       // Pattern completed
+  }
+}
+
+// Fate Weaver Threads of Destiny
+{
+  id: 'fate_weaver_destiny_draw',
+  name: 'Destiny Draw',
+  // ...
+  specialMechanics: {
+    threadsOfDestiny: {
+      threads_spend: 2,
+      threads_generate: 1
+    }
+  }
+}
+```
 
 ---
 
@@ -591,6 +827,11 @@ Run this against EVERY spell. Fix any violation.
 | Missing `resolution: 'PROPHECY'` in damageConfig | Card shows as DICE instead | Add `resolution: 'PROPHECY'` to both top-level AND damageConfig |
 | `durationType: 'rounds'` but `durationUnit: 'turns'` | Wrong duration shown | Both MUST match |
 | Both `description` AND `mechanicsText` have info | Duplicate info on card | Put info in ONE place only |
+| `spellType: 'PASSIVE'` with active-only `effectTypes` like `['debuff']` or `['buff']` but no config | Empty `.pf-spell-stats` container box rendered below the description | Change `effectTypes` to `['passive']` (or remove `debuff`/`buff` from it) |
+| Missing `selectedEffects` in `purificationConfig` | Purification falls back to generic physical text instead of custom cleanse details | Custom cleanse details are now read from the fallback `purificationConfig.effects` array |
+| CamelCase target effects in purification (e.g. `statusEffect`) | Improper casing/spacing in list | Spaced and title-cased automatically (e.g. `statusEffect` -> `Status Effect`), but prefer standard spacing where possible |
+| Using standard `buff` type for full transformations | Cannot display duration, concentration, or form fields organically | Use `effectTypes: ['transformation']` with a standard `transformationConfig` object |
+| High sphere resource cost badges overlapping right elements | Badges collide with V/S component badges in the header | CSS now wraps the badges container (`flex-wrap: wrap`), but always ensure the `resourceCost.spheres` array is fully populated to render them |
 
 ---
 
@@ -956,25 +1197,94 @@ triggerConfig: {
 
 ---
 
-# Section 13: Critical Hit Config
+# Section 13: Critical Hit & Chance on Hit (Proc) Systems
 
-Each effect config (`damageConfig`, `healingConfig`) can include `criticalConfig`:
+Each effect config (`damageConfig`, `healingConfig`) can include detailed rules for critical hits and chance-on-hit triggers.
+
+## Critical Hit Config (`criticalConfig`)
+
+Advanced critical hit mechanics go beyond simple 2x multipliers. The card and engine support exploding dice, card-drawing bonuses, and even rollable table procs.
 
 ```javascript
 criticalConfig: {
   enabled: true,
-  critMultiplier: 2,            // damage/healing multiplier on crit (default 2)
-  critRange: [20],              // which natural rolls crit: [20] standard, [19, 20] expanded
-  critBonusDamage: '2d6',       // extra dice rolled on crit (damage only)
-  critBonusHealing: '2d8',      // extra dice rolled on crit (healing only)
+  critType: 'dice',                    // 'dice' | 'cards' | 'coins'
+  critMultiplier: 2,                   // multiplier applied (default 2)
+  critRange: [20],                     // array of integers. Standard: [20]. Expanded: [19, 20]
+  critDiceOnly: false,                 // true = multiply only dice, not flat modifiers
+  
+  // DICE-specific crit additions
+  critBonusDamage: '2d6',              // extra dice rolled on crit (damage only)
+  critBonusHealing: '2d8',             // extra dice rolled on crit (healing only)
+  explodingDice: true,                 // dice that roll maximum value roll again
+  explodingDiceType: 'reroll_add',     // 'reroll_add' (add together) | 'double_value' | 'add_max'
+
+  // CARDS-specific crit rules
+  cardCritRule: 'face_cards',          // 'face_cards' | 'aces' | 'specific_suit'
+  cardCritResolution: 'draw_add',      // 'draw_add' | 'multiply_value' | 'double_damage'
+  extraCardDraw: 2,                    // number of extra cards to draw on crit
+
+  // COINS-specific crit rules
+  coinCritRule: 'all_heads',           // 'all_heads' | 'sequence' | 'pattern'
+  coinCritResolution: 'flip_add',      // 'flip_add'
+  extraCoinFlips: 3,                   // number of extra coins to flip on crit
+
+  // Custom effects on crit
+  critEffects: ['stunned', 'knockback'], // array of effect IDs applied on crit
+  spellEffect: 'linked_spell_id',      // optional: spell cast automatically on crit
+  critOnlyEffect: false,               // true = spell only does something on crit
+  useRollableTable: true               // roll on the spell's rollableTable on crit
 }
 ```
 
-### Rules
-- `critMultiplier` defaults to 2 if not specified
-- `critRange` is always an array of integers. Standard: `[20]`. Expanded: `[19, 20]`. Wide: `[18, 19, 20]`
-- `critBonusDamage` / `critBonusHealing` are optional dice formula strings added on top of multiplied damage
-- Only set `criticalConfig` when crit behavior differs from default (natural 20 = 2x)
+### Critical Rules & Normalization
+- **DC/Save outcome crits**: Normalizer translates standard natural 20s as double damage. Set `criticalConfig` only to override default multipliers, expand ranges, or add special effects.
+- **Card-draw triggers**: Under CARDS resolution, drawing face cards or aces triggers critical card calculations based on `cardCritResolution`.
+
+---
+
+## Chance on Hit (Proc) Config (`chanceOnHitConfig` / `procConfig`)
+
+A "proc" triggers extra effects, heals, controls, or custom spells when an action hits. The engine parses this in `chanceOnHitConfig` (wizard data) and normalizes it to `procConfig` for rendering.
+
+```javascript
+chanceOnHitConfig: {
+  enabled: true,
+  procType: 'dice',                    // 'dice' | 'cards' | 'coins'
+  procChance: 15,                      // 1-100 percentage chance to trigger
+  diceThreshold: 18,                   // d20 threshold required (e.g. 18+ to proc)
+  
+  // Card/Coin procs
+  cardProcRule: 'face_cards',          // 'face_cards' | 'aces' | 'specific_suit' | 'pairs' | 'red_cards'
+  procSuit: 'hearts',                  // suit required if cardProcRule is specific_suit
+  coinProcRule: 'all_heads',           // 'all_heads' | 'sequence' | 'pattern'
+  coinCount: 3,                        // coins needed to trigger
+
+  // Proc outcome details
+  effectType: 'debuff',                // 'buff' | 'debuff' | 'damage' | 'healing' | 'control' | 'utility'
+  effectDetails: 'Burning: 1d6 fire',  // human-readable effect description
+  effectDuration: 2,                   // duration of applied proc effect
+  effectDurationUnit: 'rounds',        // rounds | turns | minutes
+  
+  // Specific flat values
+  damageAmount: '2d6',                 // if effectType is 'damage'
+  damageType: 'fire',
+  healAmount: '1d8',                   // if effectType is 'healing'
+  controlType: 'stun',                 // if effectType is 'control'
+
+  // Advanced outcomes
+  customEffects: ['burning_debuff'],   // list of custom effect IDs
+  spellEffect: 'spell_id_to_proc',     // casts another spell from library
+  useRollableTable: true               // rolls on rollable table when proc triggers
+}
+```
+
+### Card Rendering
+When a proc is enabled, the card displays a dedicated **"Chance on Hit"** description block, showing the trigger condition and the resulting effects:
+- *Example (Dice)*: `Chance on Hit: Roll 18+ on d20 (15%): Debuff - Burning: 1d6 fire`
+- *Example (Rollable Table)*: `Chance on Hit: Card draw (15%): Roll on Wild Surge table (d100)`
+
+---
 
 ---
 
@@ -1433,7 +1743,13 @@ Can appear inside `damageConfig`, `debuffConfig`, or `controlConfig`:
 savingThrow: {
   ability: 'agility',              // 'strength' | 'agility' | 'constitution' | 'intelligence' | 'spirit' | 'charisma'
   difficultyClass: 14,             // target DC number
-  saveOutcome: 'half_damage'       // what happens on successful save
+  saveOutcome: 'half_damage',      // what happens on successful save
+  
+  // Advanced Custom Outcome Overrides (Wizard & Card v2.1)
+  partialEffect: true,             // Enable custom partial scaling on successful save
+  partialEffectFormula: 'damage/2', // Fallback custom scaling formula (e.g. 'damage/2')
+  directDamageFormula: 'damage/2', // Custom scaling for direct damage component on save
+  dotDamageFormula: 'dot_damage/2' // Custom scaling for DoT damage component on save
 }
 ```
 
@@ -1446,11 +1762,34 @@ savingThrow: {
 | `damage_on_fail` | Takes full damage on failed save |
 | `reduced_duration` | Save reduces effect duration |
 
-### Shorthand
-You can also use just `difficultyClass: 14` as a direct property on the config (instead of the full `savingThrow` object). The normalizer handles both.
+### Structure & Formats
+
+The card renderer is extremely robust and supports three ways of defining saving throws:
+
+1. **Structured Object (Standard)**: Recommended. Allows specifying the ability, DC, and specific outcome.
+   ```javascript
+   savingThrow: {
+     ability: 'spirit',
+     difficultyClass: 16,
+     saveOutcome: 'negates'
+   }
+   ```
+2. **Shorthand DC & String**: You can define `difficultyClass: 16` directly on the config, along with a string `savingThrow: 'spirit'` or `savingThrowType: 'spirit'`.
+3. **Boolean Flag**: You can set `savingThrow: true` alongside separate DC and ability fields.
+
+The normalizer resolves objects and strings to avoid runtime `toLowerCase` crashes.
 
 ### Valid Abilities
 `strength`, `agility`, `constitution`, `intelligence`, `spirit`, `charisma`
+
+### Advanced Custom Scaling on Save
+For advanced spell components that require precise control over what happens on a successful save, the system provides standard fields to override the default half/negate logic:
+- **`partialEffect`** (`boolean`): When set to `true`, the card renderer will read custom formulas to compute what happens on a successful save rather than relying on default outcomes.
+- **`partialEffectFormula`** (`string`): Standard fallback formula applied on save (e.g., `'damage/2'`).
+- **`directDamageFormula`** (`string`): Specifies the custom formula specifically for the instant/direct damage component when saved (e.g., `'damage/2'`).
+- **`dotDamageFormula`** (`string`): Specifies the custom formula specifically for the Damage-over-Time component when saved (e.g., `'dot_damage/2'`).
+
+*Note:* These formulas are cleaned up by the card renderer and appended dynamically as parenthetical notes in the stats block, e.g., `(damage/2 on save)`.
 
 ---
 
@@ -1500,6 +1839,256 @@ These are wizard features that the spell card does NOT currently render:
   - `schoolMap` expanded from 13 → 23 damage type mappings; duplicate `frost` key removed; now reads `typeConfig.school` first
   - Debug `console.log` statements removed from `spellCardTransformer.js`
   - Hard-coded spell name/ID matching removed from formatting code — CARDS/COINS determined solely by `spell.resolution`
+
+---
+
+# Section 22: Description ↔ Data Alignment & Intended Effect Formatting Guide
+
+To ensure high data quality, consistent rendering, and deep player immersion, natural language spell descriptions must perfectly align with the underlying structural spell configurations. When generating or editing spells, follow these three design pillars of data-description consistency.
+
+## Pillar 1: The "No Raw Tokens in Play Text" Rule
+Under no circumstances should raw database tokens or code-centric variables be exposed directly to players in the `description` or `mechanicsText` fields. A common pipeline violation is inserting raw variables like `CARD_VALUE` or `HEADS_COUNT` directly into natural text. Instead, express these numbers clearly as natural, thematic English descriptions. The game engine's card transformer and normalizer process the raw mathematical formulas in their designated configuration blocks (e.g. `formula`, `cardConfig`, or `coinConfig`) to perform calculations under the hood.
+
+### Non-Compliant vs. Compliant Formatting Examples
+
+| Bad Description (Exposes Code Tokens) | Good Description (Thematic Natural English) | Required Backend Config |
+|---|---|---|
+| Deals `CARD_VALUE` + `FACE_CARD_COUNT` * 3 fire damage. | Draw cards; deal fire damage equal to the total value of the cards drawn plus 3 additional damage for each Face card drawn. | `resolution: 'CARDS'`, `damageConfig: { formula: 'CARD_VALUE + FACE_CARD_COUNT * 3' }` |
+| Heals the target for `HEADS_COUNT` * 7 health. | Flip coins; heal the target for 7 times the number of Heads flipped. | `resolution: 'COINS'`, `healingConfig: { formula: 'HEADS_COUNT * 7' }` |
+| Sacrifices `HEALTH_SACRIFICED` to deal double damage. | Sacrifice a portion of your health to deal double damage based on the amount sacrificed. | `specialMechanics: { type: 'blood_token', cost: 'HEALTH_SACRIFICED' }` |
+
+---
+
+## Pillar 2: Strict Core Attribute Correspondence
+Every structural limit or requirement in the spell data must correspond exactly to what is listed in the description. Avoid "phantom stats" (stats defined in the object but unmentioned in text) and "mystery requirements" (requirements described in text but absent from the JSON config).
+
+### Key Core Attribute Mappings
+
+1. **Action Points (`actionPoints`)**:
+   - If the description describes the speed or action economy, it must align. For example, *"As an instantaneous reaction..."* implies `spellType: 'REACTION'` and `actionPoints: 0` (or appropriate reaction trigger config).
+   - If the spell says *"Take a full turn to cast..."*, it must require the maximum action points (e.g., `actionPoints: 3` or similar).
+
+2. **Range and AoE Shape (`rangeConfig` & `aoeConfig`)**:
+   - If the text reads *"Strike a single foe within 30 feet..."*, the config must be:
+     ```javascript
+     rangeConfig: { value: 30, unit: 'feet', type: 'ranged' }
+     ```
+   - If the text reads *"Unleash a 15-foot cone of freezing wind..."*, the config must be:
+     ```javascript
+     aoeConfig: { type: 'cone', size: 15, unit: 'feet' }
+     ```
+
+3. **Duration and Persistence (`duration` & `cooldownConfig`)**:
+   - If the text reads *"The barrier persists for 3 rounds..."*, the config must reflect:
+     ```javascript
+     duration: 3,
+     durationUnit: 'rounds'
+     ```
+   - Cooldown text such as *"Can only be cast once every 2 rounds"* requires:
+     ```javascript
+     cooldownConfig: { cooldownType: 'rounds', cooldownValue: 2 }
+     ```
+
+---
+
+## Pillar 3: Formatting Custom Calculations Thematically
+When a spell uses dynamic, complex math scaling, do not use the uninformative `'SPECIAL'` string in the formula property. Instead, write clear, readable scaling formulas (e.g. `'2d8 × stacks'` or `'1.5 × intelligence'`). The card renderer is built to parse and display these expressions inside the interactive dice/healing badge beautifully, reinforcing the connection between mechanics and fantasy.
+
+> [!TIP]
+> **Pathfinder-Style Aesthetic Principle**
+> Always write descriptions with high-quality, professional, and immersive Pathfinder-style prose. Use clear headers, capitalized damage types (e.g. *Fire*, *Frost*, *Slashing*), and bold keywords when referencing game mechanics (e.g. **Stunned**, **Burning**, **Saving Throw**).
+
+### Before & After: Complete Spell Data Alignment Comparison
+
+#### ❌ BAD: Disaligned, Exposes Code, and Uses "SPECIAL" Formula
+```json
+{
+  "id": "pyro_combustion_blast",
+  "name": "Combustion Blast",
+  "spellType": "ACTION",
+  "level": 3,
+  "resourceCost": { "mana": 12, "actionPoints": 2 },
+  "damageConfig": {
+    "formula": "SPECIAL",
+    "damageTypes": ["fire"]
+  },
+  "description": "Deals 2d8 * INFERNO_STACKS fire damage in a 15-ft cone. Targets must make a DC 15 Save. Stunned for 1 round if they fail.",
+  "cooldownConfig": { "cooldownType": "rounds", "cooldownValue": 0 }
+}
+```
+*Why this fails:*
+- Description exposes `INFERNO_STACKS` (raw code-like token).
+- `damageConfig.formula` is set to `"SPECIAL"`, rendering a vague, non-interactive badge.
+- The description mentions a "15-ft cone" but `aoeConfig` is completely missing.
+- The description mentions a "DC 15 Save" and "Stunned for 1 round", but the `savingThrow` and `controlConfig` blocks are absent from the structured JSON data.
+
+####  GOOD: Perfectly Aligned, Thematic, and Fully Structured
+```json
+{
+  "id": "pyro_combustion_blast",
+  "name": "Combustion Blast",
+  "spellType": "ACTION",
+  "level": 3,
+  "school": "fire",
+  "damageTypes": ["fire"],
+  "resourceCost": { 
+    "mana": 12, 
+    "actionPoints": 2 
+  },
+  "rangeConfig": { "value": 15, "unit": "feet", "type": "cone" },
+  "aoeConfig": { "type": "cone", "size": 15, "unit": "feet" },
+  "cooldownConfig": { "cooldownType": "rounds", "cooldownValue": 2 },
+  "effectTypes": ["damage", "control"],
+  "damageConfig": {
+    "formula": "2d8 × stacks",
+    "damageTypes": ["fire"]
+  },
+  "controlConfig": {
+    "controlType": "incapacitation",
+    "effects": [
+      { "id": "stun", "name": "Stunned", "description": "Cannot act for 1 round." }
+    ],
+    "savingThrow": { "ability": "agility", "difficultyClass": 15 },
+    "duration": 1,
+    "durationUnit": "rounds"
+  },
+  "description": "Unleash a sweeping wave of flame in a 15-foot cone. Deal **Fire** damage equal to **2d8 per stack** of Inferno Veil. Enemies caught in the blast must succeed on a **DC 15 Agility Saving Throw** or become **Stunned** for 1 round.",
+  "resourceCost.resourceValues": {
+    "inferno_descend": 2
+  }
+}
+```
+
+---
+
+# Section 23: Advanced Formula Syntax & Parsing Internals
+
+To maximize the power of the Mythrill VTT rendering engine, authors should understand how mathematical formulas are processed by the system's core transformers (`spellCardTransformer.js`).
+
+## 1. Formula Token Extraction & Regex Internals
+When a spell card is loaded, the transformer automatically parses the `formula` property within `damageConfig` and `healingConfig` using the following exact regular expressions:
+
+- **Dice Matcher**: `/(\d+d\d+)/`
+  - Searches for standard dice notation (e.g. `1d4`, `2d6`, `3d12`).
+  - The first matching sequence is extracted and assigned to `primaryDamage.dice` or `primaryHealing.dice` for rendering inside the prominent dice badge.
+- **Flat Modifier Matcher**: `/\+\s*(\d+)/`
+  - Searches for a plus sign followed by any amount of whitespace and an integer (e.g. `+ 4`, `+7`, `+ 12`).
+  - The matched number is converted to a decimal integer and assigned to `primaryDamage.flat` or `primaryHealing.flat`.
+
+### How the Engine Resolves Common Formula String Structures
+
+| Input Formula | Extracted Dice | Extracted Flat | Resulting Card Rendering |
+|---|---|---|---|
+| `'2d6 + 4'` | `'2d6'` | `4` | Renders a primary badge displaying `2d6` and applies a `+4` flat modifier in calculations. |
+| `'3d10'` | `'3d10'` | `0` | Renders a primary badge displaying `3d10`. |
+| `'2d8 × stacks'` | `'2d8'` | `0` | Renders `2d8` in the dice badge. The multiplication is described thematically in the description text. |
+| `'1.5 × spirit'` | `'1.5 × spirit'` | `0` | Since no standard dice notation matches, the entire string `'1.5 × spirit'` is used as the dice badge label, creating a highly customized stat-scaling badge. |
+| `'SPECIAL'` | `'SPECIAL'` | `0` | Displays a vague `'SPECIAL'` label inside the badge. *Avoid using this.* |
+
+---
+
+## 2. Doomsayer Prophecy Outcome Builder Mappings
+The Doomsayer class utilizes a unique resolution system where the outcome is determined by predicting where a rolled value falls relative to a Prophecy. In the spell data, these choices are defined within the structured `prophecyOptions` object. The card transformer parses this object and deep-maps it into the final `prophecyConfig` used by `UnifiedSpellCard.jsx` to render the multi-pane Prophecy outcome cards.
+
+### prophecyOptions Schema Breakdown
+
+The top-level `prophecyOptions` object supports three core configuration fields:
+1. **`rangeDice`** (`string` \| `string[]` \| `number[]`): Defines the range of values that count as a successful prophecy. E.g., `[1, 2, 3]`, or `'1 + 2'` (automatically parsed by the transformer into an array).
+2. **`resolutionDie`** (`string` \| `number`): The type of die rolled to determine the outcome (e.g., `'1d10'`, `'1d6'`).
+3. **Outcome Sub-Objects**:
+   - **`prophesied`**: The outcome triggered when the roll matches the prophecy range.
+   - **`base`**: The standard outcome triggered when the roll is outside the prophecy but doesn't cause a backlash.
+   - **`outside`**: The backlash outcome triggered under negative conditions (e.g., critical failure or completely missing the mark).
+
+### Outcome Configuration Properties
+The `prophesied` and `base` sub-objects support the following rich properties, which are converted into structural components on the outcome cards:
+
+- **`damage`** (`string`): Direct damage formula for the outcome, e.g. `'3d10 + 6'`.
+- **`havocGain`** (`number`): The amount of Havoc class resource gained (defaults to `3` for *prophesied*, `1` for *base*).
+- **`description`** (`string`): Natural language description of this specific outcome's flavor and rules.
+- **`effectName`** (`string`): The name of any status effect or debuff applied by this outcome (e.g. `'Doom'`). Setting this builds a structured sub-effect object with additional scaling:
+  - `duration` (`number`): Duration in rounds (only included if > 0).
+  - `durationUnit` (`string`): The time unit of the duration. If not `'rounds'`, it is stored in the `unit` field of the effect.
+  - `damagePerRound` (`string`): Formula for Damage-over-Time inflicted by the effect.
+  - `damagePerRoundType` (`string`): Damage type of the DoT (e.g. `'shadow'`, `'necrotic'`).
+  - `statModifiers` (`array`): Custom stat reductions or boosts applied.
+  - `healingBlock` (`boolean`): If `true`, prevents the target from receiving any healing while active.
+  - `bonusDamageTaken` (`string` \| `number`): Multiplier or flat increase to damage taken.
+  - `bonusDamageType` (`string`): Damage type vulnerable to the bonus damage.
+  - `saveDC` (`number`) & `saveType` (`string`): Saving throw DC and attribute to resist or cure the effect.
+  - `instantKill` (`boolean`) & `instantKillThreshold` (`number`): Execution mechanics if the target falls below a certain HP threshold.
+  - `cascadeDamage` (`string`) & `cascadeRange` (`number`): Explosive trigger details that deal damage to nearby targets if this target dies.
+
+The `outside` sub-object represents the backlash outcome and supports:
+- **`backlash`** (`string`): Description or formula for damage or penalties inflicted upon the caster for a failed prophecy.
+- **`havocGain`** (`number`): Gained or lost Havoc resource.
+- **`description`** (`string`): Flavour and gameplay text explaining the failure's consequences.
+
+---
+
+### Copy-Pasteable Complete Prophecy Spell Example
+
+Use this complete, compliant Doomsayer spell definition as a template when creating prophecy-based spells:
+
+```javascript
+{
+  id: 'doom_whisper_prophecy',
+  name: 'Whisper of Prophecy',
+  spellType: 'ACTION',
+  level: 4,
+  school: 'void',
+  damageTypes: ['void', 'necrotic'],
+  resourceCost: {
+    mana: 15,
+    actionPoints: 2,
+    classResource: { type: 'havoc', cost: 1 }
+  },
+  rangeConfig: { value: 60, unit: 'feet', type: 'ranged' },
+  cooldownConfig: { cooldownType: 'rounds', cooldownValue: 3 },
+  effectTypes: ['damage', 'debuff'],
+  resolution: 'PROPHECY',
+  
+  prophecyOptions: {
+    rangeDice: [1, 2, 3],
+    resolutionDie: '1d10',
+    
+    prophesied: {
+      damage: '4d10 + 6',
+      havocGain: 4,
+      description: 'Your prediction manifests with absolute accuracy. The target is engulfed in crushing shadow and marked for doom.',
+      effectName: 'Unraveling Doom',
+      duration: 3,
+      durationUnit: 'rounds',
+      damagePerRound: '2d6',
+      damagePerRoundType: 'necrotic',
+      healingBlock: true,
+      saveDC: 16,
+      saveType: 'spirit',
+      cascadeDamage: '3d6',
+      cascadeRange: 15
+    },
+    
+    base: {
+      damage: '2d10 + 3',
+      havocGain: 1,
+      description: 'The prophecy misses its peak, but still strikes the enemy with a surge of void energy.',
+      effectName: 'Void Taint',
+      duration: 2,
+      durationUnit: 'rounds',
+      damagePerRound: '1d6',
+      damagePerRoundType: 'void'
+    },
+    
+    outside: {
+      backlash: '2d6 void damage to self',
+      havocGain: -1,
+      description: 'The prophecy is wildly inaccurate, tearing open a temporal rift that inflicts severe backlash upon the caster.'
+    }
+  },
+  
+  description: "Cast your sight into the near future, predicting the roll of fate. Deal massive **Void** damage and inflict **Unraveling Doom** on a correct prediction (1-3 on a 1d10). A standard roll deals minor damage, while rolling completely outside the prediction tears a rift, inflicting backlash damage upon yourself."
+}
+```
 
 ---
 

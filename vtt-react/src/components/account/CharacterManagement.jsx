@@ -29,9 +29,14 @@ const CharacterManagement = ({ user }) => {
 
   const getClassIcon = (characterClass) => {
     const classIcons = {
-      'Fighter': 'F', 'Wizard': 'W', 'Rogue': 'R', 'Cleric': 'C',
-      'Ranger': 'Ra', 'Paladin': 'P', 'Barbarian': 'B', 'Bard': 'Bd',
-      'Druid': 'Dr', 'Monk': 'M', 'Sorcerer': 'S', 'Warlock': 'Wl'
+      'Arcanoneer': 'Ar', 'Berserker': 'Be', 'Bladedancer': 'Bd', 'Chaos Weaver': 'CW',
+      'Chronarch': 'Ch', 'Covenbane': 'Cb', 'Deathcaller': 'Dc', 'Dreadnaught': 'Dr',
+      'Exorcist': 'Ex', 'False Prophet': 'FP', 'Fate Weaver': 'FW', 'Formbender': 'Fb',
+      'Gambler': 'Ga', 'Huntress': 'Hu', 'Inscriptor': 'In', 'Lichborne': 'Li',
+      'Lunarch': 'Lu', 'Martyr': 'Ma', 'Minstrel': 'Mi', 'Oracle': 'Or',
+      'Plaguebringer': 'Pl', 'Primalist': 'Pr', 'Pyrofiend': 'Py', 'Spellguard': 'Sg',
+      'Titan': 'Ti', 'Toxicologist': 'To', 'Warden': 'Wa', 'Witch Doctor': 'WD',
+      'Augur': 'Au', 'Doomsayer': 'DS'
     };
     return classIcons[characterClass] || 'F';
   };

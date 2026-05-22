@@ -1379,49 +1379,49 @@
 }
 
 .pf-damage-type-badge.radiant {
-  color: #fbbf24;
+  color: var(--pf-radiant, #8B7328);
 }
 
 .pf-damage-type-badge.fire {
-  color: #f87171;
+  color: var(--pf-fire, #8B1A1A);
 }
 
 .pf-damage-type-badge.cold,
 .pf-damage-type-badge.ice {
-  color: #60a5fa;
+  color: var(--pf-frost, #2C5F7C);
 }
 
 .pf-damage-type-badge.lightning,
 .pf-damage-type-badge.electric {
-  color: #fde047;
+  color: var(--pf-lightning, #8B7328);
 }
 
 .pf-damage-type-badge.poison {
-  color: #34d399;
+  color: var(--pf-poison, #2D6A3F);
 }
 
 .pf-damage-type-badge.necrotic,
 .pf-damage-type-badge.shadow {
-  color: #a78bfa;
+  color: var(--pf-necrotic, #6B2D8B);
 }
 
 .pf-damage-type-badge.divine,
 .pf-damage-type-badge.holy {
-  color: #fbbf24;
+  color: var(--pf-holy, #8B7328);
 }
 
 .pf-damage-type-badge.arcane {
-  color: #60a5fa;
+  color: var(--pf-arcane, #7B4FBF);
 }
 
 .pf-damage-type-badge.slashing,
 .pf-damage-type-badge.piercing,
 .pf-damage-type-badge.bludgeoning {
-  color: #9ca3af;
+  color: var(--pf-physical, #5A6A72);
 }
 
 .pf-damage-type-badge.chaos {
-  color: #ec4899;
+  color: var(--pf-chaos, #7A2040);
 }
 
 .pf-spell-icon img {
@@ -2227,7 +2227,7 @@
   justify-content: flex-start;
   margin-top: 6px; /* Added spacing from header */
   margin-bottom: var(--pf-space-1);
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   min-height: 20px;
   width: 100%;
   overflow: visible;

@@ -1368,12 +1368,12 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  padding: 8px 24px;
-  background: linear-gradient(160deg, #f5ead0 0%, #ede0c0 50%, #f5ead0 100%);
-  border-bottom: 2px solid #8b5e2a;
+  padding: 16px 24px;
+  background: transparent;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.12);
   margin-top: 0;
   margin-bottom: 0;
-  box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.5), 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: none;
   min-height: 104px;
   height: auto;
 }
@@ -1394,14 +1394,14 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent);
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
 }
 
 /* ===== Left column: icon + info ===== */
 .class-detail-display.premium-theme .class-header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   justify-content: flex-start;
   min-width: 0;
   position: relative;
@@ -1416,13 +1416,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
+  background: radial-gradient(circle, #fcf8ee 0%, #eadaa6 100%);
   border: 2px solid #c9a227;
-  border-radius: 12px;
+  border-radius: 50%;
   box-shadow:
-    0 0 0 4px rgba(212, 175, 55, 0.15),
-    0 4px 12px rgba(0,0,0,0.18),
-    inset 0 1px 3px rgba(0,0,0,0.1);
+    0 0 0 4px rgba(212, 175, 55, 0.12),
+    0 4px 12px rgba(139, 69, 19, 0.15),
+    inset 0 1px 3px rgba(0,0,0,0.08);
   position: relative;
   overflow: hidden;
   z-index: 2;
@@ -1435,7 +1435,7 @@
     object-fit: contain;
     image-rendering: auto;
     mix-blend-mode: multiply;
-    filter: brightness(1.05) contrast(1.1);
+    filter: brightness(1.02) contrast(1.15);
     -webkit-mask-image: radial-gradient(circle at center, black 40%, rgba(0,0,0,0.8) 55%, transparent 72%);
     mask-image: radial-gradient(circle at center, black 40%, rgba(0,0,0,0.8) 55%, transparent 72%);
 }
@@ -1552,45 +1552,66 @@
 /* ===== Premium Tabs ===== */
 .class-detail-display.premium-theme .class-detail-tabs {
   display: flex;
-  gap: 0;
-  border-bottom: 2px solid #5a1e12;
-  padding: 0;
-  background: linear-gradient(180deg, rgba(139, 69, 19, 0.08) 0%, rgba(139, 69, 19, 0.03) 100%);
-  margin-top: 0;
+  justify-content: center;
+  gap: 8px;
+  border-bottom: 2px solid rgba(139, 69, 19, 0.25);
+  padding: 0 24px;
+  background: transparent;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  position: relative;
 }
 
 .class-detail-display.premium-theme .class-tab {
-  flex: 1;
-  padding: 14px 20px;
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
+  flex: none;
+  padding: 10px 24px;
+  background: rgba(250, 245, 230, 0.55);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
   color: #5a1e12;
   font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: inset 0 -2px 4px rgba(139, 69, 19, 0.05);
+  position: relative;
+  top: 1px;
+  z-index: 1;
 }
 
 .class-detail-display.premium-theme .class-tab:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(90, 30, 18, 0.08);
   color: #3a0e08;
+  border-color: rgba(201, 162, 39, 0.4);
+  box-shadow: inset 0 -2px 4px rgba(139, 69, 19, 0.02), 0 -2px 8px rgba(212, 175, 55, 0.15);
 }
 
 .class-detail-display.premium-theme .class-tab.active {
-  background: rgba(212, 175, 55, 0.15);
-  border-bottom-color: #d4af37;
-  color: #3a0e08;
+  background: #5a1e12;
+  color: #f5edd0;
+  border-color: #c9a227;
+  border-bottom: 1px solid #5a1e12;
+  box-shadow: 
+    0 -4px 10px rgba(90, 30, 18, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  z-index: 2;
 }
 
 .class-detail-display.premium-theme .class-tab i {
-  color: #d4af37;
-  font-size: 1rem;
+  color: #c9a227;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.class-detail-display.premium-theme .class-tab.active i {
+  color: #eadaa6;
+  transform: scale(1.15) translateY(-1px);
 }
 
 /* ===== Premium Content Area ===== */
@@ -2507,6 +2528,8 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   }
 
   .class-detail-display.premium-theme .class-detail-tabs {
+    justify-content: flex-start;
+    padding: 0 16px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;

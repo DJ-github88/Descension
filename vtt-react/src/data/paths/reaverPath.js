@@ -12,7 +12,7 @@ export const REAVER_PATH = {
     integrationNotes: {
         actionPointSystem: 'Reaver abilities focus on raw damage and berserker rage.',
         backgroundSynergy: 'Works well with Soldier or Outlander backgrounds.',
-        classCompatibility: 'Strong with Barbarian, Fighter, or Ranger classes.'
+        classCompatibility: 'Strong with Berserker, Dreadnaught, or Huntress classes.'
     },
 
     roleplayingTips: [

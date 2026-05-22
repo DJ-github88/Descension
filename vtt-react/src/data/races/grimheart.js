@@ -1076,10 +1076,10 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                                 {
                                     id: 'slag_armor',
                                     name: 'Slag Armor',
-                                    description: 'If attacker wears metal armor, it loses 1 AC permanently until repaired at a forge. Molten blood welds the joints.',
+                                    description: 'If attacker wears metal armor, it loses 1 Armor permanently until repaired at a forge. Molten blood welds the joints.',
                                     statusEffect: {
                                         level: 'moderate',
-                                        description: 'Metal armor -1 AC permanently. Must be repaired at a forge.'
+                                        description: 'Metal armor -1 Armor permanently. Must be repaired at a forge.'
                                     }
                                 }
                             ],

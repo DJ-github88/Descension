@@ -216,7 +216,7 @@
                     {
                         id: 'rat_king_mobility',
                         name: 'Rat-King Mobility',
-                        description: 'SLIP THROUGH: Move through the space of any creature Medium or larger without provoking opportunity attacks — you are small enough to slip between legs, under carts, through gaps that larger creatures cannot even perceive. SCRAP-HIDE: In environments with machinery, scrap, ruins, or manufactured clutter, take the Hide action as a bonus action. Your small frame fits into gaps that do not exist for others. BARREN EXPOSURE: In open natural environments — fields, open water, clean forests with no ruins or wreckage — you suffer -2 Dodge and disadvantage on Stealth checks. Without scrap to hide behind, your small frame and reflective quicksilver blood catch every beam of light like a cursed mirror. In the open, you are not hidden. You are prey.',
+                        description: 'SLIP THROUGH: Move through the space of any creature Medium or larger without provoking opportunity attacks — you are small enough to slip between legs, under carts, through gaps that larger creatures cannot even perceive. SCRAP-HIDE: In environments with machinery, scrap, ruins, or manufactured clutter, take the Hide action for 0 AP. Your small frame fits into gaps that do not exist for others. BARREN EXPOSURE: In open natural environments — fields, open water, clean forests with no ruins or wreckage — you suffer -2 Dodge and disadvantage on Stealth checks. Without scrap to hide behind, your small frame and reflective quicksilver blood catch every beam of light like a cursed mirror. In the open, you are not hidden. You are prey.',
                         level: 1,
                         icon: 'ability_rogue_stealth',
                         spellType: 'PASSIVE',
@@ -228,7 +228,7 @@
                             buffType: 'movementBuff',
                             effects: [
                                 { id: 'slip_through', name: 'Slip Through', description: 'Move through the space of any creature Medium or larger without provoking opportunity attacks.', statusEffect: { level: 'minor', description: 'Movement through larger creatures\' spaces without OA' } },
-                                { id: 'scrap_hide', name: 'Scrap-Hide', description: 'In environments with machinery, scrap, ruins, or manufactured clutter, Hide as a bonus action.', statModifier: { stat: 'stealth', magnitude: 'bonus_action_hide', magnitudeType: 'action_economy', conditions: ['machinery', 'scrap', 'ruins', 'cluttered'] } }
+                                { id: 'scrap_hide', name: 'Scrap-Hide', description: 'In environments with machinery, scrap, ruins, or manufactured clutter, Hide for 0 AP.', statModifier: { stat: 'stealth', magnitude: 'free_action_hide', magnitudeType: 'action_economy', conditions: ['machinery', 'scrap', 'ruins', 'cluttered'] } }
                             ],
                             durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },

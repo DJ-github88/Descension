@@ -73,7 +73,7 @@ Dice roll matches! You deal 14 force damage.
 
 **Turn 3 - The Ultimate Wager (FP: 2 → 0, HP: 41 → Bankruptcy)**
 *Desperate, you cast Double or Nothing, putting your remaining life on the table.*
-You roll a d20 to hit... and fail. The weapon recoils violently, hitting your own chest.
+You roll your weapon die... and it's a natural 1. The weapon recoils violently, hitting your own chest.
 Your Fortune Points hit 0.
 **Cosmic Bankruptcy**: Your lungs fill with blood (2d10 necrotic damage). For the next 2 rounds, you are deaf to fate, unable to cast, and 100% vulnerable to his dark spells. The debt collectors have come to harvest.`,
     },
@@ -169,6 +169,7 @@ Your Fortune Points hit 0.
     },
     specs: [
       {
+        id: "fortunes_favor",
         name: "The Probability Savant",
         icon: "fas fa-brain",
         color: "#2980b9",
@@ -191,6 +192,7 @@ Your Fortune Points hit 0.
         ],
       },
       {
+        id: "high_roller",
         name: "The Flesh Wagerer",
         icon: "fas fa-skull",
         color: "#c0392b",
@@ -213,6 +215,7 @@ Your Fortune Points hit 0.
         ],
       },
       {
+        id: "card_sharp",
         name: "The Thread Puller",
         icon: "fas fa-spider",
         color: "#8e44ad",
@@ -295,6 +298,10 @@ Your Fortune Points hit 0.
           ],
         },
       },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
+      },
       tags: ["melee", "damage", "fortune_generation", "starter", "gambler"],
     },
 
@@ -339,6 +346,7 @@ Your Fortune Points hit 0.
             id: "lucky_toss_shield",
             name: "Floating Fortune",
             description: "Absorbs 10 damage.",
+            mechanicsText: "",
           },
         ],
         durationValue: 1,
@@ -364,6 +372,10 @@ Your Fortune Points hit 0.
             { condition: "tails", name: "Tails", shield: 10, fpGain: 1, fpCost: 1 },
           ],
         },
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
       tags: ["ranged", "damage", "buff", "coin_flip", "starter", "gambler"],
     },
@@ -419,6 +431,10 @@ Your Fortune Points hit 0.
           ],
         },
       },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
+      },
       tags: ["ranged", "damage", "fortune_generation", "starter", "gambler"],
     },
 
@@ -456,6 +472,7 @@ Your Fortune Points hit 0.
             id: "beginners_luck_buff",
             name: "Beginner's Advantage",
             description: "Advantage on your next attack roll or saving throw.",
+            mechanicsText: "",
           },
         ],
         durationValue: 1,
@@ -476,6 +493,10 @@ Your Fortune Points hit 0.
             { condition: "cast", name: "Beggar's Luck", buff: "advantage next roll", fpGain: 1, fpCost: 1 },
           ],
         },
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
       tags: ["buff", "luck", "starter", "gambler"],
     },
@@ -505,10 +526,15 @@ Your Fortune Points hit 0.
             id: "calculated_risk_debuff",
             name: "Calculated Risk",
             description: "Suffer 1d4 psychic damage per Fortune Point spent to nudge rolls.",
+            mechanicsText: "",
           },
         ],
         durationValue: 0,
         durationType: "permanent",
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
       tags: ["passive", "weakness", "gambler"],
     },
@@ -538,10 +564,15 @@ Your Fortune Points hit 0.
             id: "house_edge_debuff",
             name: "House Edge",
             description: "Rolling a natural 1 on gamble rolls drains all FP and locks generation for 1 round.",
+            mechanicsText: "",
           },
         ],
         durationValue: 0,
         durationType: "permanent",
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
       tags: ["passive", "weakness", "gambler"],
     },
@@ -583,7 +614,8 @@ Your Fortune Points hit 0.
             id: "coin_toss_heads",
             name: "Heads — Lady Luck's Smile",
             description: "+2 to all attack rolls and saving throws.",
-            statPenalty: { stat: "attack_and_saves", magnitude: 2, magnitudeType: "flat" },
+            mechanicsText: "",
+            statModifier: { stat: "attack_and_saves", magnitude: 2, magnitudeType: "flat" },
           },
         ],
         durationValue: 1,
@@ -597,8 +629,11 @@ Your Fortune Points hit 0.
             id: "coin_toss_tails",
             name: "Tails — Collector's Frown",
             description: "-2 to all attack rolls and saving throws.",
-            statPenalty: { stat: "attack_and_saves", magnitude: -2, magnitudeType: "flat" },
+            mechanicsText: "",
           },
+        ],
+        statPenalties: [
+          { stat: "attack_and_saves", magnitude: -2, magnitudeType: "flat" }
         ],
         durationValue: 1,
         durationType: "hours",
@@ -665,6 +700,7 @@ Your Fortune Points hit 0.
             id: "gamblers_insight_buff",
             name: "Gambler's Insight",
             description: "Advantage on Insight and Perception checks against target.",
+            mechanicsText: "",
           },
         ],
         durationValue: 10,
@@ -676,6 +712,10 @@ Your Fortune Points hit 0.
           generates: 1,
           description: "Generates 1 FP on cast, inflicting 1 HP damage.",
         },
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
       tags: ["utility", "social", "gambler"],
     },
@@ -724,6 +764,10 @@ Your Fortune Points hit 0.
           generates: 1,
           description: "Generates 1 FP on cast, inflicting 1 HP damage.",
         },
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
       tags: ["utility", "illusion", "gambler"],
     },
@@ -782,6 +826,10 @@ Your Fortune Points hit 0.
           ],
         },
       },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
+      },
       tags: ["ranged", "damage", "prediction", "gambler"],
     },
 
@@ -810,10 +858,15 @@ Your Fortune Points hit 0.
             id: "busted_withdrawal",
             name: "Probability Withdrawal",
             description: "Disadvantage on all gambling-based rolls.",
+            mechanicsText: "",
           },
         ],
         durationValue: 0,
         durationType: "permanent",
+      },
+      cooldownConfig: {
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
       tags: ["passive", "weakness", "gambler"],
     },
@@ -824,7 +877,7 @@ Your Fortune Points hit 0.
     {
       id: "gambler_double_or_nothing",
       name: "Double or Nothing",
-      description: "Make an agonizing gamble on your physical form. Make a d20 attack roll against an enemy. On a hit: it becomes an automatic critical hit dealing double damage (4d10 + Charisma force). On a miss: you take the damage yourself, and if this reduces you to 0 HP, you immediately plunge into Cosmic Bankruptcy. Spend Fortune Points to nudge the attack roll (1d4 psychic damage per point spent).",
+      description: "Make an agonizing gamble on your physical form. Make a Unified Strike roll against an enemy. On a hit: it becomes an automatic critical hit dealing double damage (4d10 + Charisma force). On a miss: you take the damage yourself, and if this reduces you to 0 HP, you immediately plunge into Cosmic Bankruptcy. Spend Fortune Points to nudge the strike roll (1d4 psychic damage per point spent).",
       level: 4,
       spellType: "ACTION",
       icon: "Utility/Empowered Warrior",
@@ -912,6 +965,7 @@ Your Fortune Points hit 0.
             id: "hot_streak_buff",
             name: "Hot Streak Acceleration",
             description: "Each successful attack adds +1d6 force damage, stacking up to 4 times.",
+            mechanicsText: "",
           },
         ],
         durationValue: 1,
@@ -957,6 +1011,34 @@ Your Fortune Points hit 0.
       },
       resolution: "COINS",
       effectTypes: ["buff", "debuff"],
+      buffConfig: {
+        buffType: "triggeredEffect",
+        effects: [
+          {
+            id: "mirage_flip_double",
+            name: "Mirage Flip — Double Damage",
+            description: "Doubles the damage of the triggering attack.",
+            mechanicsText: "",
+          },
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds",
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "mirage_flip_nullify",
+            name: "Mirage Flip — Nullified Damage",
+            description: "Triggering attack's damage is reduced to 0, but you suffer 2d6 psychic damage.",
+            mechanicsText: "",
+          },
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds",
+      },
       specialMechanics: {
         coinFlip: {
           heads: { effect: "double_damage", description: "Doubles the damage of the triggering attack." },
@@ -1004,6 +1086,7 @@ Your Fortune Points hit 0.
             id: "fate_reroll_advantage",
             name: "Borrowed Advantage",
             description: "Advantage on all d20 rolls this turn.",
+            mechanicsText: "",
           },
         ],
         durationValue: 1,
@@ -1017,6 +1100,7 @@ Your Fortune Points hit 0.
             id: "fate_reroll_tremble",
             name: "Trembling Loan",
             description: "Disadvantage on all saving throws.",
+            mechanicsText: "",
           },
         ],
         durationValue: 1,
@@ -1073,12 +1157,11 @@ Your Fortune Points hit 0.
             id: "house_advantage_stolen_luck",
             name: "Stolen Luck",
             description: "Disadvantage on attack rolls and saving throws.",
-            statPenalty: {
-              stat: "attack_and_saves",
-              magnitude: -99,
-              magnitudeType: "disadvantage",
-            },
+            mechanicsText: "",
           },
+        ],
+        statPenalties: [
+          { stat: "attack_and_saves", magnitude: -99, magnitudeType: "disadvantage" },
         ],
         durationValue: 3,
         durationType: "rounds",
@@ -1096,6 +1179,8 @@ Your Fortune Points hit 0.
             id: "house_advantage_buff",
             name: "House Advantage",
             description: "Advantage on all rolls for the duration.",
+            mechanicsText: "",
+            statModifier: { stat: "all_rolls", magnitude: 99, magnitudeType: "advantage" },
           },
         ],
         durationValue: 3,
@@ -1139,19 +1224,31 @@ Your Fortune Points hit 0.
         components: ["somatic"],
         somaticText: "Draw a flayed leather card",
       },
-      resolution: "DICE",
+      resolution: "CARDS",
       effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
+          {
+            id: "card_shark_draw",
+            name: "Draw Flayed Card",
+            description: "Draw a card and resolve its suit-specific effect: Spades (damage), Hearts (heal), Diamonds (shield), or Clubs (stun).",
+          },
+        ],
+        duration: 1,
+        durationUnit: "rounds",
+      },
       rollableTable: {
         enabled: true,
-        name: "Card Shark Effects",
-        description: "Draw 1d4 and consult the table",
-        resolutionType: "DICE",
-        resolutionConfig: { diceType: "1d4" },
+        tableName: "Card Shark Effects",
+        description: "Draw a card and consult the table",
+        resolutionType: "CARDS",
+        resolutionConfig: { cardCount: 1, deckType: "standard" },
         entries: [
-          { min: 1, max: 1, result: "Spades — Deal 6d8 force damage to target", weight: 1 },
-          { min: 2, max: 2, result: "Hearts — Heal target for 5d8 HP", weight: 1 },
-          { min: 3, max: 3, result: "Diamonds — Target gains a shield absorbing 30 damage for 1 minute", weight: 1 },
-          { min: 4, max: 4, result: "Clubs — Target is stunned for 2 rounds (Spirit DC 15 save negates)", weight: 1 },
+          { cardPattern: "Spades", effect: "Deal 6d8 force damage to target", result: "Deal 6d8 force damage to target", weight: 1 },
+          { cardPattern: "Hearts", effect: "Heal target for 5d8 HP", result: "Heal target for 5d8 HP", weight: 1 },
+          { cardPattern: "Diamonds", effect: "Target gains a shield absorbing 30 damage for 1 minute", result: "Target gains a shield absorbing 30 damage for 1 minute", weight: 1 },
+          { cardPattern: "Clubs", effect: "Target is stunned for 2 rounds (Spirit DC 15 save negates)", result: "Target is stunned for 2 rounds (Spirit DC 15 save negates)", weight: 1 },
         ],
       },
       specialMechanics: {
@@ -1209,6 +1306,7 @@ Your Fortune Points hit 0.
             id: "poker_face_immunity",
             name: "Poker Face Facade",
             description: "Immune to charm, fear, and mind-reading effects.",
+            mechanicsText: "",
             statusImmunities: ["charm", "fear", "mind_reading"],
           },
         ],
@@ -1262,16 +1360,27 @@ Your Fortune Points hit 0.
         formula: "10d10",
         damageTypes: ["psychic"],
         resolution: "DICE",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 15,
+          saveOutcome: "negates",
+        },
       },
       controlConfig: {
         controlType: "incapacitation",
         duration: 1,
         durationUnit: "rounds",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 15,
+          saveOutcome: "negates",
+        },
         effects: [
           {
             id: "death_roll_stun",
             name: "Death Roll Defeat",
             description: "Stunned for 1 round on losing the Death Roll.",
+            mechanicsText: "",
           },
         ],
       },
@@ -1340,6 +1449,7 @@ Your Fortune Points hit 0.
             id: "all_or_nothing_stun",
             name: "Stunned",
             description: "Enemies who fail the save are stunned for 1 round.",
+            mechanicsText: "",
           },
         ],
       },
@@ -1401,6 +1511,18 @@ Your Fortune Points hit 0.
       },
       resolution: "DICE",
       effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
+          {
+            id: "jackpot_pull",
+            name: "Pull the Slot",
+            description: "Roll 3d20 to determine your payoff tier, ranging from catastrophic failure to a perfect jackpot.",
+          },
+        ],
+        duration: 1,
+        durationUnit: "rounds",
+      },
       specialMechanics: {
         fortunePoints: {
           generates: "variable",
@@ -1683,6 +1805,23 @@ Your Fortune Points hit 0.
       },
       resolution: "DICE",
       effectTypes: ["healing", "utility"],
+      healingConfig: {
+        formula: "2 * current_hp",
+        healingType: "direct",
+        resolution: "DICE",
+      },
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
+          {
+            id: "all_in_wager",
+            name: "Life-or-Death Wager",
+            description: "Roll d100: double HP, heal to full, or plunge to 0 HP and Cosmic Bankruptcy.",
+          },
+        ],
+        duration: 1,
+        durationUnit: "rounds",
+      },
       specialMechanics: {
         fortunePoints: {
           cost: 10,
@@ -1706,6 +1845,7 @@ Your Fortune Points hit 0.
       level: 10,
       spellType: "ACTION",
       icon: "Utility/Utility",
+      effectTypes: ["damage", "control"],
       typeConfig: {
         school: "force",
         icon: "Utility/Utility",
@@ -1740,6 +1880,7 @@ Your Fortune Points hit 0.
             id: "divine_jackpot_stun",
             name: "Divine Stun",
             description: "Stunned for 2 rounds on a failed save.",
+            mechanicsText: "",
           },
         ],
       },

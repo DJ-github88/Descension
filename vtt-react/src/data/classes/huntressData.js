@@ -32,8 +32,8 @@ export const HUNTRESS_DATA = {
 ---
 
 **Your First Turn (Quickstart)**:
-1. **Command** your companion to Attack a priority target (Bonus Action)
-2. **Glaive Toss** at the same target (Action) â€” this is a Coordinated Strike
+1. **Command** your companion to Attack a priority target (1 AP)
+2. **Glaive Toss** at the same target (2 AP) â€” this is a Coordinated Strike
 3. **Watch your Quarry Marks fill** â€” coordinated attacks with your companion generate +2 QM
 4. **Spend marks** to extend chains, buff companion, or save for a devastating ultimate`,
     },
@@ -139,8 +139,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 **Your Turn** (initiative 12):
 - **Action**: Shadow Glaive Attack on Bandit #1 (melee attack, chains to nearby enemies)
-  - **Attack Roll**: d20+7 â†’ [16] vs AC 13 â†’ Hit!
-  - **Primary Target Damage**: 2d8+4 â†’ [7, 6] + 4 = **17 damage** to Bandit #1
+  - **Strike Roll**: 2d8 (glaive die) → [7, 6] + 4 (AGI) = **17 damage** to Bandit #1
 
 *Your glaive strikes Bandit #1, and the blade GLOWS. Shadow energy arcs from the impact point, seeking nearby targets.*
 
@@ -159,8 +158,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 - **QM Calculation**: 2 + 3 = **5 QM** (cap reached, 1 mark lost to overflow)
 
 - **Bonus Action**: Command Fang to Attack Bandit #1
-  - **Fang's Attack Roll**: d20+5 â†’ [14] vs AC 13 â†’ Hit!
-  - **Damage**: 1d8+3 â†’ [6] + 3 = **9 damage**
+  - **Fang Strike Roll**: 1d8 (companion die) → [6] + 3 = **9 damage**
   - **Result**: Bandit #1 takes 17 + 9 = 26 total damage â€” **DEAD**
 
 *Fang leaps forward, jaws clamping down on Bandit #1's throat. The bandit falls.*
@@ -174,18 +172,17 @@ Don't stand still. Use Shadowstep and Evasion to:
 *The bandits regroup. Bandit #5 closes the distance and swings at you.*
 
 **Bandit #5's Turn** (initiative 16):
-- **Attack**: +5 vs your AC 14 â†’ [17] â†’ Hit! â†’ 2d6+3 â†’ [5, 4] + 3 = 12 damage
+- **Strike Roll**: 2d6 (bandit weapon) → [5, 4] + 3 = **12 damage**
 - **Your HP**: 70 - 12 = **58/70**
 
 **Your Turn** (initiative 12):
-- **Free Action**: Spend 2 Quarry Marks to extend glaive chain by +1 target (can grab an enemy outside normal chain range)
+- **Quick Action** (0 AP): Spend 2 Quarry Marks to extend glaive chain by +1 target (can grab an enemy outside normal chain range)
   - **QM: 5 - 2 = 3**
 
 *You focus your will. The Shadow Glaive pulses with darker energy. This next strike will chain further.*
 
 - **Action**: Shadow Glaive Attack on Bandit #2
-  - **Attack Roll**: d20+7 â†’ [18] vs AC 13 â†’ Hit!
-  - **Primary Target Damage**: 2d8+4 â†’ [8, 7] + 4 = **19 damage** to Bandit #2
+  - **Strike Roll**: 2d8 (glaive die) → [8, 7] + 4 (AGI) = **19 damage** to Bandit #2
 
 - **Chain Mechanic**: Extended chain reaches Bandits #3, #4, and #5 (3 enemies within extended range)
   - **Chain Attack #1 (Bandit #3)**: 1d8+4 â†’ [6] + 4 = **10 damage** â†’ Bandit #3 **DEAD** (was already wounded)
@@ -209,22 +206,20 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 *Two bandits left. Bandit #2 is wounded (19 damage taken), Bandit #5 is wounded (9 damage taken). Time to finish this.*
 
-**Bandit #2's Turn** (initiative 16): Attacks Fang â†’ [11] vs Fang's AC 12 â†’ **Miss!**
+**Bandit #2 Strike Roll** vs Fang → 1d6 → [1] → **Fumble!**
 
 **Your Turn** (initiative 12):
-- **Free Action**: Spend 1 Quarry Mark to enhance Fang's next attack (+1d6 damage)
+- **Quick Action** (0 AP): Spend 1 Quarry Mark to enhance Fang's next attack (+1d6 damage)
   - **QM: 5 - 1 = 4**
 
 - **Bonus Action**: Command Fang to Attack Bandit #2
-  - **Fang's Attack Roll**: d20+5 â†’ [16] vs AC 13 â†’ Hit!
-  - **Damage**: 1d8+3 + 1d6 (QM bonus) â†’ [7] + 3 + [5] = **15 damage**
+  - **Fang Strike Roll**: 1d8 (companion die) → [7] + 3 = **10 damage**
   - **Result**: Bandit #2 **DEAD**
 
 *Fang's jaws glow with shadow energy as he tears into Bandit #2. The bandit falls.*
 
 - **Action**: Shadow Glaive Attack on Bandit #5 (last enemy)
-  - **Attack Roll**: d20+7 â†’ [19] vs AC 13 â†’ Hit!
-  - **Damage**: 2d8+4 â†’ [8, 6] + 4 = **18 damage**
+  - **Strike Roll**: 2d8 (glaive die) → [8, 6] + 4 (AGI) = **18 damage** to Bandit #5
   - **Result**: Bandit #5 **DEAD**
 
 *Your glaive sweeps through the last bandit. He falls. Combat over.*
@@ -249,11 +244,11 @@ Don't stand still. Use Shadowstep and Evasion to:
 1. **Glaive Chaining**: Hit 1 primary target, chain to 3 nearby enemies = 4 hits in one attack (47 damage total in Turn 1)
 2. **Quarry Mark Management**: +1 QM per enemy hit (including chains), capped at +3 per turn (+4 for Beastmaster). Overflow marks are lost.
 3. **Quarry Mark Spending**: Spent 2 QM to extend chain by +1 target (Turn 2), spent 1 QM to enhance Fang's attack (Turn 3)
-4. **Companion Commands**: Commanded Fang to Attack (Turn 1, 3) and Defend (Turn 2). Companion acts on a Bonus Action when commanded.
+4. **Companion Commands**: Commanded Fang to Attack (Turn 1, 3) and Defend (Turn 2). Companion commands cost 1 AP.
 5. **Positioning**: Enemies grouped together = maximum chain effectiveness
 6. **Burst Damage**: Turn 1 dealt 47 damage across 4 targets, Turn 2 dealt 50 damage across 4 targets (killed 2)
 7. **Resource Banking**: Ended with 5 QM banked. Marks decay by 1/minute after a 1-minute grace period â€” rush to the next fight!
-8. **Action Economy**: Each turn you have 1 Action (glaive attack) + 1 Bonus Action (companion command). Free Actions can spend QM for passive effects.
+8. **AP Economy**: Each turn you have 3 AP. Glaive attack costs 2 AP, companion command costs 1 AP. Quarry Mark effects are free to activate.
 
 You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies group up, your Shadow Glaive becomes a weapon of mass destruction. One swing, four hits. And with Quarry Marks, you can extend chains even further, empower your companion, or unleash ultimate abilities. The key is positioningâ€”get enemies close together, then watch the shadow energy arc between them. And Fang isn't just a petâ€”he's a tactical asset. Attack when you need damage, Defend when you need protection. Together, you're unstoppable.`,
     },
