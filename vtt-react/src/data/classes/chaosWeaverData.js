@@ -267,7 +267,8 @@ The Master Wild Surge table is structured across four absolute thematic categori
       "chaos_weaver-wild_magic-wild_surge",
       "chaos_weaver-chaos_dice-chaotic_bolt",
       "chaos_weaver-reality_bending-dimensional_rift",
-      "chaos_weaver-entropy_control-chaotic_decay"
+      "chaos_weaver-entropy_control-chaotic_decay",
+      "chaos-planar_phase_key"
     ],
     3: [
       "chaos_weaver-chaos_dice-prismatic_chaos",
@@ -2312,7 +2313,76 @@ The Master Wild Surge table is structured across four absolute thematic categori
       },
       resolution: "AUTOMATIC",
       tags: ["passive", "chaos-weaver", "weakness"]
-    }
+    },
+
+      {
+        "id": "chaos-planar_phase_key",
+        "name": "Planar Phase Key",
+        "description": "Focus your mind to temporarily shear the planar anchor of a small, hand-held non-living object. The object flickers into a semi-translucent purple hue, allowing you to slip it seamlessly through keyholes, barred gates, or solid stone walls.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Arcane/Phase Shift",
+        "typeConfig": {
+          "school": "arcane",
+          "icon": "Arcane/Phase Shift",
+          "tags": [
+            "utility",
+            "roleplay",
+            "chaos_weaver"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "touch",
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 5
+          },
+          "classResource": {
+            "type": "mayhem",
+            "cost": -2
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Hold the object with both hands, squeezing until local space visibly distorts and tears"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "teleportation",
+          "selectedEffects": [
+            {
+              "id": "planar_phase_active",
+              "name": "Planar Slip",
+              "description": "The touched object (up to 10 lbs) becomes ghostly and can pass through up to 5 feet of solid non-magical wood, iron, or stone."
+            }
+          ],
+          "duration": 1,
+          "durationUnit": "rounds",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "chaos_weaver"
+        ]
+      }
   ],
 
   // 5. Creation details

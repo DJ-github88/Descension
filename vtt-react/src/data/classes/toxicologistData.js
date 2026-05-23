@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Toxicologist Class Data
  *
  * Complete class information for the Toxicologist - a master of poisons, concoctions,
@@ -16,6 +16,8 @@ export const TOXICOLOGIST_DATA = {
   overview: {
     title: "The Toxicologist",
     subtitle: "The Self-Poisoned Surgeon -- Every Cure Is for Someone Else",
+    illustration: "/assets/images/classes/toxicologist_illustration.png",
+    illustrationCaption: "A Mimir Toxicologist, a mysterious alchemist wearing a flat reflective silver mask and a tattered bark-hide cloak.",
 
     quickOverview: {
       title: "Quick Overview",

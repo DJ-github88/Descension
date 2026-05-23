@@ -2246,6 +2246,72 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       },
       tags: ["transformation", "permanent", "buff", "curse"],
     },
+
+      {
+        "id": "dc_ethereal_gossip",
+        "name": "Ethereal Gossip",
+        "description": "Summon a tiny, harmless wisp of glowing green soulfire. The spirit cannot fight, but it whispers local rumors, the names of those buried nearby, or the lingering emotional residues left in the soil.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Necrotic/Spirit",
+        "typeConfig": {
+          "school": "shadow",
+          "icon": "Necrotic/Spirit",
+          "tags": [
+            "utility",
+            "roleplay",
+            "deathcaller"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 5
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Audite, umbrae locales...",
+          "somaticText": "Rub bone dust between your palms, letting the heat of your hands ignite a pale green spark"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "ethereal_gossip_effect",
+              "name": "Wisp Whispers",
+              "description": "A floating soulfire wisp reveals general historical facts, names, or rumors about the local graveyard or ruins."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "deathcaller"
+        ]
+      },
   ],
 };
 

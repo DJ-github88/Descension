@@ -1478,6 +1478,74 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resolution: "DICE",
       tags: ["possessed", "transformation", "ultimate", "Mortal Deficit"],
       flavorText: "I am become the cataclysm. Chained, yet absolute."
-    }
+    },
+
+      {
+        "id": "exo_salt_line_ward",
+        "name": "Salt Line Ward",
+        "description": "Pour a thin, glowing line of consecrated ash and white salt across a threshold. Your somatic focus binds the barrier, keeping out ordinary vermin and preventing minor spirits or specters from crossing.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Holy/Consecrated Ground",
+        "typeConfig": {
+          "school": "holy",
+          "icon": "Holy/Consecrated Ground",
+          "tags": [
+            "utility",
+            "roleplay",
+            "exorcist"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 10,
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Nulla iniquitas transeat.",
+          "somaticText": "Pour consecrated salt with absolute focus, tracing a glowing silver seam along the threshold"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "protection",
+          "selectedEffects": [
+            {
+              "id": "salt_line_ward_active",
+              "name": "Threshold Ward",
+              "description": "Creates a 10-foot-wide line that keeps out normal insects/vermin, and forces minor spirits to make a DC 14 Spirit save to cross."
+            }
+          ],
+          "duration": 8,
+          "durationUnit": "hours",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "exorcist"
+        ]
+      }
   ]
 };

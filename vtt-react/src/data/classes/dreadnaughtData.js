@@ -2021,5 +2021,69 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       },
       tags: ["damage", "aoe", "ultimate", "terrain_destroyer", "level 10", "dreadnaught"],
     },
+
+      {
+        "id": "dread_iron_resonance",
+        "name": "Iron Resonance",
+        "description": "Strike your shield or steel chest plate, sending a low, tactile hum through the solid earth. By feeling the vibration return through your boots, detect structural weaknesses, hollow walls, or tunnel directions.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Utility/Shield Bash",
+        "typeConfig": {
+          "school": "physical",
+          "icon": "Utility/Shield Bash",
+          "tags": [
+            "utility",
+            "roleplay",
+            "dreadnaught"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Slam a gauntleted fist directly into your breastplate, planting both boots deep in the dirt"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "iron_resonance_detect",
+              "name": "Subterranean Echo",
+              "description": "Reveals the presence of hollow voids, secret chambers, structural flaws, or underground passages within 30 feet."
+            }
+          ],
+          "duration": 0,
+          "durationUnit": "rounds",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "dreadnaught"
+        ]
+      },
   ],
 };

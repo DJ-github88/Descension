@@ -3006,5 +3006,71 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       resolution: "AUTOMATIC",
       tags: ["passive", "debuff", "companion dependency", "pack tactics", "huntress"],
     },
+
+      {
+        "id": "huntress_sentry_spirit",
+        "name": "Sentry Spirit",
+        "description": "Call upon the spectral memory of a hunting falcon. The bird sits quietly on a branch above your campsite, chirping softly to wake your party if any creature walks within its keen sight.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Nature/Ethereal Falcon",
+        "typeConfig": {
+          "school": "nature",
+          "icon": "Nature/Ethereal Falcon",
+          "tags": [
+            "utility",
+            "roleplay",
+            "huntress"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Custos silvae, vigila!",
+          "somaticText": "Whistle a sharp, high-pitched bird call while extending a leather-wrapped forearm"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "conjuration",
+          "selectedEffects": [
+            {
+              "id": "sentry_spirit_guard",
+              "name": "Vigilant Watch",
+              "description": "A spectral sentry guards a 40-foot radius. It alerts you if any creature larger than a rat enters the area, preventing surprise."
+            }
+          ],
+          "duration": 8,
+          "durationUnit": "hours",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "huntress"
+        ]
+      },
   ],
 };

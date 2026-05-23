@@ -2467,7 +2467,75 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       resolution: "AUTOMATIC",
       tags: ["passive", "weakness", "holy_vulnerability", "suppression", "plaguebringer"]
-    }
+    },
+
+      {
+        "id": "virulent-lavender_mask",
+        "name": "Lavender Mask",
+        "description": "Exhale a thick, heavy cloud of purple mist. While it appears toxic, it is completely harmless and fills the room with the sweet smell of lavender, completely blocking all tracking scents and scent-based tracking.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Necrotic/Miasma",
+        "typeConfig": {
+          "school": "shadow",
+          "icon": "Necrotic/Miasma",
+          "tags": [
+            "utility",
+            "roleplay",
+            "plaguebringer"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "area",
+          "rangeType": "self_centered",
+          "aoeShape": "circle",
+          "aoeParameters": {
+            "radius": 20
+          }
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Blow a long, slow breath through a copper pipe or closed fingers, a purple spark igniting"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "environment",
+          "selectedEffects": [
+            {
+              "id": "lavender_mask_scent_block",
+              "name": "Scent Siphon",
+              "description": "A 20-foot cloud blocks all scent-based tracking, scent perception, and covers the area in the scent of lavender for 10 minutes."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "plaguebringer"
+        ]
+      }
   ],
 
   // Spell Pools by Level
@@ -2476,7 +2544,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       "pb_curse_of_agony",
       "pb_venomous_touch",
       "pb_whisper_of_decay",
-      "plague_incubation_period"
+      "plague_incubation_period",
+      "virulent-lavender_mask"
     ],
     2: [
       "pb_fever_dream",

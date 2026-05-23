@@ -472,7 +472,75 @@ PHYLACTERY HARVESTER:
 3. Frost spells now cost HP instead of Mana
 
 **Turn 2 - Aura Drain + Cast Spell**:
-1. Start of turn: Roll aura drain → 1d6 → [4] = 4 HP lost
+1. Start of turn: Roll aura drain → 1d6 → [
+      {
+        "id": "frostbound_tomb_chill",
+        "name": "Tomb Chill",
+        "description": "As a chilling presence, cause the ambient temperature around you to plummet instantly. Frost crawls up windows, standing water freezes to ice, and campfire flames dim to pale blue embers as your voice echoes.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Ice/Frost Aura",
+        "typeConfig": {
+          "school": "water",
+          "icon": "Ice/Frost Aura",
+          "tags": [
+            "utility",
+            "roleplay",
+            "lichborne"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "area",
+          "rangeType": "self_centered",
+          "aoeShape": "circle",
+          "aoeParameters": {
+            "radius": 20
+          }
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "verbal"
+          ],
+          "verbalText": "Let the cold swallow you..."
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "environment",
+          "selectedEffects": [
+            {
+              "id": "tomb_chill_effect",
+              "name": "Grave Frost",
+              "description": "Freezes standing liquids, coats the ground in thin frost (making it slippery), and grants advantage on Intimidation checks."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "lichborne"
+        ]
+      }
+    ] = 4 HP lost
 2. Your HP: 80 - 4 = **76 HP**
 3. "I cast Ice Lance at the orc! Costs 12 HP in Aura Mode."
 4. Your HP: 76 - 12 = **64 HP**
@@ -4434,6 +4502,7 @@ Many players enhance the Lichborne experience with:
       "lichborne_frost_bolt",
       "lichborne_ice_armor",
       "lichborne_phylactery_store",
+      "frostbound_tomb_chill",
     ],
     2: [
       "lichborne_siphon_soul",

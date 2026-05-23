@@ -2187,6 +2187,71 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       },
       tags: ["buff", "trance", "inscriptor"],
     },
+
+      {
+        "id": "inscriptor_scribes_ink",
+        "name": "Scribe's Illumination",
+        "description": "Draw a rune of soft light on a surface or forehead. The ink projects a narrow beam of white light, revealing hidden magical inscriptions, blood traces, or invisible structural seams.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Arcane/Magical Rune",
+        "typeConfig": {
+          "school": "arcane",
+          "icon": "Arcane/Magical Rune",
+          "tags": [
+            "utility",
+            "roleplay",
+            "inscriptor"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "touch",
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 2
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Trace a highly complex geometric rune in the dirt or on a forehead with a finger, sweating from concentration"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "scribes_ink_active",
+              "name": "Runic Beacon",
+              "description": "Reveals hidden magical writing, bloodstains, or invisible seams within 10 feet of the glowing rune."
+            }
+          ],
+          "duration": 1,
+          "durationUnit": "hours",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "inscriptor"
+        ]
+      },
   ],
 
   // Spell Pools by Level
@@ -2195,6 +2260,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       "inscriptor_arcane_inscription",
       "inscriptor_minor_rune",
       "inscriptor_rune_of_shielding",
+      "inscriptor_scribes_ink",
     ],
     2: [
       "inscriptor_rune_of_speed",

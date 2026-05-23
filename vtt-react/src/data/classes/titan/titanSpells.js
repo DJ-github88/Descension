@@ -1611,5 +1611,70 @@ export const TITAN_SPELLS = [
       resolution: 'DICE'
     },
     tags: ['healing', 'damage', 'reaction', 'level 10', 'titan']
-  }
+  },
+
+      {
+        "id": "titan_stone_grasp",
+        "name": "Stone Grasp",
+        "description": "Slam both palms into a steep rock cliff or packed earth wall. By forcing a hyper-accelerated calcification growth, you cause solid rock to temporarily form crude, solid handholds and footholds, letting you climb easily.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Utility/Earth Smash",
+        "typeConfig": {
+          "school": "earth",
+          "icon": "Utility/Earth Smash",
+          "tags": [
+            "utility",
+            "roleplay",
+            "titan"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "touch",
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Slam both hands directly into the stone or earth, teeth grinding as the bones in your shoulders shift and crack"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "environment",
+          "selectedEffects": [
+            {
+              "id": "stone_grasp_holds",
+              "name": "Bone-Stitched Handholds",
+              "description": "Creates a 15-foot track of crude handholds on any stone or earth surface. Reduces the DC of all climbing checks in this track to 5."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "titan"
+        ]
+      }
 ];

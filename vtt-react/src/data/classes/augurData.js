@@ -2305,6 +2305,74 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       resolution: "AUTOMATIC",
       tags: ["ultimate", "transformation", "splinters", "buff", "omen"],
     },
+
+      {
+        "id": "augur_whisper_harvester",
+        "name": "Whisper of the Harvester",
+        "description": "Stare intensely at a recently deceased beast or humanoid, reading the fading thermal residues of their final steps. Through sheer mental focus, trace a glowing copper-colored line on the ground mapping where their companions fled.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Necrotic/Ritual",
+        "typeConfig": {
+          "school": "psychic",
+          "icon": "Necrotic/Ritual",
+          "tags": [
+            "utility",
+            "roleplay",
+            "augur"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 10,
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Sicut vestigium apparet...",
+          "somaticText": "Trace your finger through the damp soil near the target, ignoring the copper smell of rot"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "whisper_harvester_effect",
+              "name": "Thermal Trace",
+              "description": "Reveals a glowing trail showing the route taken by up to three of the deceased target's companions within the last hour."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "augur"
+        ]
+      },
   ],
 
   spellPools: {
@@ -2314,6 +2382,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       "augur_minor_portent",
       "augur_sign_of_clarity",
       "augur_omen_bolt",
+      "augur_whisper_harvester",
     ],
     2: [
       "augur_portent_of_weakness",

@@ -2097,6 +2097,72 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 20 },
       tags: ["necrotic", "buff", "transformation", "ultimate", "vengeance-seeker"]
-    }
+    },
+
+      {
+        "id": "vengeance-grove_golem",
+        "name": "Grove Golem",
+        "description": "Breathe life into a simple 1-foot-tall wooden golem grown from a fresh twig. The golem cannot fight, but it sweeps ash, holds a small torch, or taps its wooden feet to alert you when a door opens.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Nature/Nature Shield",
+        "typeConfig": {
+          "school": "nature",
+          "icon": "Nature/Nature Shield",
+          "tags": [
+            "utility",
+            "roleplay",
+            "warden"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Vita surgat in hoc ligno...",
+          "somaticText": "Whisper a breath of warm air onto a green twig, squeezing it between your thumbs"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "conjuration",
+          "selectedEffects": [
+            {
+              "id": "grove_golem_summon",
+              "name": "Twig Servant",
+              "description": "Summons a tiny twig servant that performs basic chores (holding light objects, cleaning, or tapping to wake you if an adjacent door opens)."
+            }
+          ],
+          "duration": 8,
+          "durationUnit": "hours",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "warden"
+        ]
+      }
   ]
 };

@@ -2376,11 +2376,77 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       tags: ["transformation", "buff", "rage cost", "self-damage", "berserker"],
     },
+
+      {
+        "id": "berserk_roar_unyielding",
+        "name": "Roar of the Unyielding",
+        "description": "Let loose a chest-rumbling, low-frequency battle growl. The sheer acoustic shockwave snuffs nearby torches, cracks brittle glassware, and asserts your absolute dominance over local beasts.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Utility/Shout",
+        "typeConfig": {
+          "school": "physical",
+          "icon": "Utility/Shout",
+          "tags": [
+            "utility",
+            "roleplay",
+            "berserker"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "area",
+          "rangeType": "self_centered",
+          "aoeShape": "circle",
+          "aoeParameters": {
+            "radius": 15
+          },
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [],
+          "resourceValues": {},
+          "components": [
+            "verbal"
+          ],
+          "verbalText": "A deep, guttural, earth-shaking growl of raw battle-fury."
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "buff"
+        ],
+        "buffConfig": {
+          "buffType": "custom",
+          "effects": [
+            {
+              "id": "roar_unyielding_intimidation",
+              "name": "Unyielding Presence",
+              "description": "Gain advantage on all Intimidation checks for 10 minutes. Weak wild animals are frightened and flee the area.",
+              "mechanicsText": "Advantage on Intimidation checks. Harmless wild beasts flee."
+            }
+          ],
+          "durationValue": 10,
+          "durationType": "minutes",
+          "durationUnit": "minutes"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "berserker"
+        ]
+      },
   ],
 
   // Spell pools for level-based spell selection
   spellPools: {
-    1: ["berserk_hemorrhagic_strike", "berserk_calloused_hide", "berserk_boiling_veins"],
+    1: ["berserk_hemorrhagic_strike", "berserk_calloused_hide", "berserk_boiling_veins",
+      "berserk_roar_unyielding"],
     2: ["berserk_frenzied_slash", "berserk_sanguine_howl"],
     3: ["berserk_ruptured_leap"],
     4: ["berserk_carnage_strike", "berserk_raging_defense"],

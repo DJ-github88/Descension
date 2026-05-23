@@ -581,10 +581,73 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       "martyr_devoted_strike",
     ],
     2: [
-      // Level 2 spells: Enhanced healing and utility (3 options, pick 1)
-      "martyr_divine_shield",
-      "martyr_sanctuary_aura",
-      "martyr_blessed_resilience",
+      {
+        "id": "martyr_empathic_transference",
+        "name": "Empathic Transference",
+        "description": "Reach out and touch a fatigued, aching ally. Siphon their physical exhaustion, aches, and metabolic strain directly into your own muscles. They are fully refreshed, while you take on their heavy weariness.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Holy/Divine Healing",
+        "typeConfig": {
+          "school": "holy",
+          "icon": "Holy/Divine Healing",
+          "tags": [
+            "utility",
+            "roleplay",
+            "martyr"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "touch",
+          "targetRestrictions": [
+            "ally"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 5
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Press your palm firmly against the ally's forehead, grimacing as their fatigue triggers a hot rush of strain in your arm"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "restoration",
+          "selectedEffects": [
+            {
+              "id": "empathic_transference_effect",
+              "name": "Endured Fatigue",
+              "description": "Clears the target ally's exhaustion conditions. The Martyr suffers disadvantage on Agility checks for 1 hour from the transferred muscle fatigue."
+            }
+          ],
+          "duration": 1,
+          "durationUnit": "hours",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "martyr",
+      "martyr_empathic_transference"
+        ]
+      }
     ],
     4: [
       // Level 4 spells: Powerful amplified abilities (3 options, pick 1)

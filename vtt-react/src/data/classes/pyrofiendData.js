@@ -33,6 +33,8 @@ export const PYROFIEND_DATA = {
   overview: {
     title: "The Pyrofiend",
     subtitle: "Demonic Fire Wielder",
+    illustration: "/assets/images/classes/pyrofiend_illustration.png",
+    illustrationCaption: "An Emberth Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning demon embers.",
 
     quickOverview: {
       title: "Quick Overview",

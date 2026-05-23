@@ -1149,6 +1149,70 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       },
 
       tags: ["ultimate", "dispel", "suicide", "spellguard"],
-    }
+    },
+
+      {
+        "id": "spellguard_aegis_beacon",
+        "name": "Aegis Beacon",
+        "description": "Tap your steel chest plate, causing your armor to gleam with a brilliant silver light. This projects a narrow beam of intense light that functions as a distress beacon or flashes to illuminate a dark cavern.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Radiant/Radiant Divinity",
+        "typeConfig": {
+          "school": "arcane",
+          "icon": "Radiant/Radiant Divinity",
+          "tags": [
+            "utility",
+            "roleplay",
+            "spellguard"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Tap your gauntlet firmly against your breastplate twice, a metallic chime ringing out"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "conjuration",
+          "selectedEffects": [
+            {
+              "id": "aegis_beacon_glow",
+              "name": "Aegis Illumination",
+              "description": "Your chest plate projects a 60-foot cone of bright silver light for 1 hour. It functions as a distress beacon visible up to 5 miles away in open air."
+            }
+          ],
+          "duration": 1,
+          "durationUnit": "hours",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "spellguard"
+        ]
+      }
   ],
 };

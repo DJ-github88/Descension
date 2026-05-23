@@ -2910,6 +2910,72 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       resolution: "AUTOMATIC",
       tags: ["passive", "restriction", "no friendly fire", "oath", "covenbane"],
     },
+
+      {
+        "id": "cov_inquisitors_flare",
+        "name": "Inquisitor's Flare",
+        "description": "Exert intense mental control over your senses. Your eyes ignite with a cold, pale ice-blue flame. You can instantly perceive the hum of active magical incantations, curses, or hidden sorcerous warded traps within your presence.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Utility/Glow",
+        "typeConfig": {
+          "school": "physical",
+          "icon": "Utility/Glow",
+          "tags": [
+            "utility",
+            "roleplay",
+            "covenbane"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Magica detexi!",
+          "somaticText": "Force a sharp breath, popping the joints in your neck to lock your concentration"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "inquisitors_flare_effect",
+              "name": "Witch-Scent Sight",
+              "description": "Detect the location and magical school of any active spell, curse, or enchanted object within 30 feet."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": true,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "covenbane"
+        ]
+      },
   ],
 
   // ═════════════════════════════════════════════════════════════════
@@ -2917,7 +2983,8 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
   // ═════════════════════════════════════════════════════════════════
   spellPools: {
     1: ["cov_shadow_hunt", "cov_hex_strike", "cov_silver_blade"],
-    2: ["cov_dark_pursuit", "cov_hex_weakness", "cov_silver_bolt"],
+    2: ["cov_dark_pursuit", "cov_hex_weakness", "cov_silver_bolt",
+      "cov_inquisitors_flare"],
     3: ["cov_curse_eater", "cov_shadow_ambush", "cov_anti_magic_barrier"],
     4: [
       "cov_spirit_shackle",

@@ -19,6 +19,8 @@ export const TITAN_DATA = {
   overview: {
     title: "The Titan",
     subtitle: "The Ossified Juggernaut",
+    illustration: "/assets/images/classes/titan_illustration.png",
+    illustrationCaption: "A Groven Titan, a Slender Stone-Troll of the High Peaks.",
 
     quickOverview: {
       title: "Quick Overview",

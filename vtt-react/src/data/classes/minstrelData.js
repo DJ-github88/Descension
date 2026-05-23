@@ -841,6 +841,7 @@ Before combat, decide which cadences you want to prioritize:
       "minstrel_harmonic_strike",
       "minstrel_inspiring_rhythm",
       "minstrel_uplifting_rhythm",
+      "minstrel_symphonic_echo",
     ],
     2: [
       "minstrel_healing_hymn",
@@ -4016,5 +4017,72 @@ Before combat, decide which cadences you want to prioritize:
       resolution: "AUTOMATIC",
       tags: ["passive", "minstrel", "weakness"],
     },
+
+      {
+        "id": "minstrel_symphonic_echo",
+        "name": "Symphonic Echo",
+        "description": "Imbue an instrument, door handle, or container with a short, beautiful musical chord. When touched by any creature, the chord plays automatically, echoing a pre-recorded memory or message.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Social/Music Note",
+        "typeConfig": {
+          "school": "arcane",
+          "icon": "Social/Music Note",
+          "tags": [
+            "utility",
+            "roleplay",
+            "minstrel"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "touch",
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 2
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Echo, resonate...",
+          "somaticText": "Lightly tap your instrument, whistling a short five-note melody"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "conjuration",
+          "selectedEffects": [
+            {
+              "id": "symphonic_echo_effect",
+              "name": "Musical Seal",
+              "description": "Stores a 10-second musical message or chord on the touched object. It plays at double your normal speaking volume when the object is next touched."
+            }
+          ],
+          "duration": 24,
+          "durationUnit": "hours",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "minstrel"
+        ]
+      },
   ],
 };

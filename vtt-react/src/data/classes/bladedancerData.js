@@ -1160,6 +1160,70 @@ Always keep moving. Avoid crowd control at all costs. You can sacrifice some hea
         cooldownValue: 4
       },
       tags: ["ultimate", "aoe", "bladedancer"]
-    }
+    },
+
+      {
+        "id": "bladedancer_dervish_balance",
+        "name": "Dervish Balance",
+        "description": "Force your muscles into a state of fluid, high-tension stasis. You can balance your body or your weapon perfectly on any edge—be it a single blade of grass, a taut thread, or a needle's point—defying standard gravity.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Utility/Acrobatic",
+        "typeConfig": {
+          "school": "physical",
+          "icon": "Utility/Acrobatic",
+          "tags": [
+            "utility",
+            "roleplay",
+            "bladedancer"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 2
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Shift your entire weight onto the ball of one foot, muscles vibrating under intense strain"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "buff"
+        ],
+        "buffConfig": {
+          "buffType": "custom",
+          "effects": [
+            {
+              "id": "dervish_balance_active",
+              "name": "Flawless Center",
+              "description": "Gain advantage on all Acrobatics checks and absolute balance on any solid surface, no matter how narrow.",
+              "mechanicsText": "Advantage on Acrobatics. Perfect balance on any edge."
+            }
+          ],
+          "durationValue": 10,
+          "durationType": "minutes",
+          "durationUnit": "minutes"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "bladedancer"
+        ]
+      }
   ]
 };

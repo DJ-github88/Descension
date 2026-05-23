@@ -2840,7 +2840,79 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
   spellSummary: [
     {
       level: 0,
-      spells: ["Fate's Whisper Strike"],
+      spells: [
+      {
+        "id": "oracle_gaze_beyond",
+        "name": "Gaze into the Beyond",
+        "description": "Stare deeply into standing water, swirling ash, or smoke. Force your third eye to focus, catching a fleeting, symbolic vision of a distant location or a clue about a targeted person's current emotional state.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Psychic/Focused Mind",
+        "typeConfig": {
+          "school": "psychic",
+          "icon": "Psychic/Focused Mind",
+          "tags": [
+            "utility",
+            "roleplay",
+            "oracle"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "selfHarm": {
+            "hpCost": "1d4",
+            "omenDebt": 1,
+            "type": "psychic",
+            "description": "Take 1d4 psychic damage and accumulate 1 Omen Debt"
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Visions, show me...",
+          "somaticText": "Plunge your hand into cold water or ash, holding your breath under intense strain"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "gaze_beyond_vision",
+              "name": "Symbolic Foresight",
+              "description": "Reveals a brief symbolic image or clue about a location or person you have previously met. Accumulates +1 Omen Debt."
+            }
+          ],
+          "duration": 1,
+          "durationUnit": "rounds",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "oracle"
+        ]
+      }
+    ],
       spec: "Universal (Fallback)",
     },
     {

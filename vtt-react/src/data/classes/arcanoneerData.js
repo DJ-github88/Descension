@@ -241,12 +241,72 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
       weapon: "Arcane Focus (dagger, orb, or staff — your choice)",
       armor: "Light armor (no spell failure chance)",
       items: [
-        "Spell notebook with Combination Matrix printed on the inside cover",
-        "Set of 4d8 dice (one set in each of 4 colors for easy reading)",
-        "8 colored glass tokens (one per element) for tracking banked spheres",
-        "Pencil and eraser for noting learned Recipes",
-        "Traveler's kit (bedroll, rations, rope, torches)",
-      ],
+      {
+        "id": "arc_aetheric_lantern",
+        "name": "Aetheric Projection Lantern",
+        "description": "You focus raw aetheric energy through your mechanical lens, projecting a highly detailed 3D holographic blueprint or map of an observed mechanical object, lock, or structural seam. Somatic strain causes sweat to bead on your forehead as you maintain the projection.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Arcane/Aura",
+        "typeConfig": {
+          "school": "arcane",
+          "icon": "Arcane/Aura",
+          "tags": [
+            "utility",
+            "roleplay",
+            "arcanoneer"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Adjust the focus dial on your mechanical lens with trembling, high-exertion precision"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "conjuration",
+          "selectedEffects": [
+            {
+              "id": "aetheric_lantern_effect",
+              "name": "Aetheric Blueprint",
+              "description": "Project a perfect, glowing 3D schematic of a lock or mechanical device, granting advantage on Investigation and Thieves Tools checks to disable it."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": true,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "arcanoneer"
+        ]
+      }
+    ],
       gold: 15,
     },
   },
@@ -1774,6 +1834,7 @@ MAX BANKED SPHERES: 12
       "arc_healing_light",
       "arc_arcane_missile",
       "arc_nature_vine",
+      "arc_aetheric_lantern",
     ],
     2: [
       // Level 2 spells

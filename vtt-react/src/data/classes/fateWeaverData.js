@@ -16,7 +16,8 @@ export const FATE_WEAVER_DATA = {
   damageTypes: ["psychic", "necrotic"],
 
   spellPools: {
-    1: ["hand-of-fate", "war-of-wills", "echoes-of-the-past", "marked-card", "fate_lucky_strike", "fate_twist_probability", "tapestry-shred"],
+    1: ["hand-of-fate", "war-of-wills", "echoes-of-the-past", "marked-card", "fate_lucky_strike", "fate_twist_probability", "tapestry-shred",
+      "fate-reading_loom"],
     2: ["hearts-gamble", "fate_fortune_favor"],
     3: ["draw-of-the-damned", "echo-of-fate"],
     4: ["solitaires-shield", "fates-exchange", "destiny-bond"],
@@ -2099,6 +2100,75 @@ Fate Weaver archetypes include:
         ]
       },
       tags: ["passive", "weakness"]
-    }
+    },
+
+      {
+        "id": "fate-reading_loom",
+        "name": "Reading of the Loom",
+        "description": "Weave thin, glowing ethereal threads between the fingers of two observed creatures. By observing the tension, colors, and vibrations of the threads, gain a deep insight into their relationship or trust.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Arcane/Tangled Threads",
+        "typeConfig": {
+          "school": "arcane",
+          "icon": "Arcane/Tangled Threads",
+          "tags": [
+            "utility",
+            "roleplay",
+            "fate_weaver"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "area",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "aoeShape": "circle",
+          "aoeParameters": {
+            "radius": 10
+          }
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Pluck the empty air, your fingers mimicking a weaver at a vertical loom"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "reading_loom_effect",
+              "name": "Fate-Thread Reading",
+              "description": "Reveals the immediate emotional alignment between two targets (e.g. mutual trust, hidden malice, fear, or absolute loyalty)."
+            }
+          ],
+          "duration": 1,
+          "durationUnit": "rounds",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "fate_weaver"
+        ]
+      }
   ]
 };

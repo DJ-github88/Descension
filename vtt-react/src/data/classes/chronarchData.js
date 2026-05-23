@@ -38,6 +38,8 @@ export const CHRONARCH_DATA = {
   overview: {
     title: "The Chronarch",
     subtitle: "The Accidental Anchor",
+    illustration: "/assets/images/classes/chronarch_illustration.png",
+    illustrationCaption: "An Astren Chronarch using starlight sand to stabilize a bleeding timeline.",
 
     quickOverview: {
       title: "Quick Overview",
@@ -2303,12 +2305,80 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
         description: "Lose 5 max HP until next Long Rest as your molecular layout unravels."
       },
       tags: ["flux", "damage", "control", "aoe", "stasis", "chronarch"]
-    }
+    },
+
+      {
+        "id": "chrono_temporal_rewind",
+        "name": "Temporal Rewind",
+        "description": "Focus your temporal anchor to reverse the immediate past for a tiny, unattended object. A spilled goblet of wine flows back upward to fill its cup, a shattered porcelain vase fuses back into pristine form, or a burned letter stitches itself back into unread ink.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Arcane/Time Warp",
+        "typeConfig": {
+          "school": "arcane",
+          "icon": "Arcane/Time Warp",
+          "tags": [
+            "utility",
+            "roleplay",
+            "chronarch"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "touch",
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Reductio ad originem!",
+          "somaticText": "Slightly twist your wrist backward, tracing a reverse-spiral in the air"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "restoration",
+          "selectedEffects": [
+            {
+              "id": "temporal_rewind_effect",
+              "name": "Object Restored",
+              "description": "Rewinds the physical state of a tiny object (up to 5 lbs) by up to 6 seconds, completely repairing any recent damage, spills, or breaks."
+            }
+          ],
+          "duration": 0,
+          "durationUnit": "rounds",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "chronarch"
+        ]
+      }
   ],
 
   // Spell Pools
   spellPools: {
-    1: ["chrono_bolt", "temporal_mend", "temporal_step"],
+    1: ["chrono_bolt", "temporal_mend", "temporal_step",
+      "chrono_temporal_rewind"],
     2: ["stasis_field", "temporal_rewind", "chrono_echo"],
     3: ["temporal_dilation", "time_crystal", "temporal_foresight"],
     4: ["temporal_vortex", "temporal_flux_rewind", "temporal_paradox"],

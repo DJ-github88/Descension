@@ -2981,7 +2981,71 @@ export const PRIMALIST_DATA = {
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       resolution: "AUTOMATIC",
       tags: ["passive", "primalist", "weakness"]
-    }
+    },
+
+      {
+        "id": "primalist_whisper_gaea",
+        "name": "Whisper of Gaea",
+        "description": "Place your hand upon bare earth, grass, or stone. Listen closely to the soft murmurs of plant roots and minerals to learn what large beasts or humanoids walked through this area within the last hour.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Nature/Nature Blessing",
+        "typeConfig": {
+          "school": "nature",
+          "icon": "Nature/Nature Blessing",
+          "tags": [
+            "utility",
+            "roleplay",
+            "primalist"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Plunge your fingers deep into the soil or press your palm firmly against solid granite, holding your breath"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "whisper_gaea_detect",
+              "name": "Earth Communion",
+              "description": "Reveals the general types, size, and direction of travel of any creature larger than a dog that passed by in the last hour."
+            }
+          ],
+          "duration": 1,
+          "durationUnit": "rounds",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "primalist"
+        ]
+      }
   ],
 
   // ==========================================
@@ -2993,7 +3057,8 @@ export const PRIMALIST_DATA = {
       "primalist_basic_healing_totem",
       "primalist_natures_blessing",
       "primalist_spirit_channel",
-      "primalist_totem_bond"
+      "primalist_totem_bond",
+      "primalist_whisper_gaea"
     ],
     2: [
       "primalist_storm_gale",

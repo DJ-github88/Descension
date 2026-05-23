@@ -3685,6 +3685,74 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     tags: ["passive", "psychic", "universal", "self_damage"],
   },
+
+      {
+        "id": "doomsayer_omen_raven",
+        "name": "Omen of the Raven",
+        "description": "Conjure a spectral raven from dark void energy. The raven flies to a targeted creature within 60 feet and whispers a creepy, prophetic riddle that leaves them unsettled, giving them disadvantage on their next Charisma check.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Necrotic/Miasma",
+        "typeConfig": {
+          "school": "shadow",
+          "icon": "Necrotic/Miasma",
+          "tags": [
+            "utility",
+            "roleplay",
+            "doomsayer"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 60,
+          "targetRestrictions": []
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Illa nox loquitur...",
+          "somaticText": "Reach out a flat hand, void energy condensing into a spectral crow that flies off"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "debuff"
+        ],
+        "debuffConfig": {
+          "debuffType": "statusEffect",
+          "effects": [
+            {
+              "id": "omen_raven_shiver",
+              "name": "Creeping Riddle",
+              "description": "Unsettled by a creepy omen. Disadvantage on your next Charisma check within 10 minutes.",
+              "mechanicsText": "Disadvantage on next Charisma check."
+            }
+          ],
+          "durationValue": 10,
+          "durationType": "minutes",
+          "durationUnit": "minutes"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "doomsayer"
+        ]
+      },
   ],
 
   spellPools: {
@@ -3694,6 +3762,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
       "doomsayer_omen_flame",
       "doomsayer_omen_of_ash",
       "doomsayer_havoc_blast",
+      "doomsayer_omen_raven",
     ],
     2: [
       "doomsayer_doom_countdown",

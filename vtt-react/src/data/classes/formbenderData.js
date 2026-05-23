@@ -3476,11 +3476,76 @@ The Formbender's specializations are not schools of thought â€” they are di
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
       tags: ["passive", "formbender", "restriction"],
     },
+
+      {
+        "id": "form-bestial_mimicry",
+        "name": "Bestial Mimicry",
+        "description": "Exert intense physical focus, forcing minor beast traits to temporarily grow on your body. Grow feline eyes for low-light vision, a wolf's nose to track scents, or vocal cords to mimic any animal cry perfectly.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Nature/Form Shift",
+        "typeConfig": {
+          "school": "nature",
+          "icon": "Nature/Form Shift",
+          "tags": [
+            "utility",
+            "roleplay",
+            "formbender"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Force a violent, bone-snapping stretch of your facial muscles or throat"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "buff"
+        ],
+        "buffConfig": {
+          "buffType": "custom",
+          "effects": [
+            {
+              "id": "bestial_mimicry_active",
+              "name": "Minor Shapeshift",
+              "description": "Choose low-light vision, scent tracking (advantage on tracking), or perfect animal cry mimicry.",
+              "mechanicsText": "Gain low-light vision, tracking advantage, or animal vocal mimicry."
+            }
+          ],
+          "durationValue": 1,
+          "durationType": "hours",
+          "durationUnit": "hours"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "formbender"
+        ]
+      },
   ],
 
   // Spell Pools by Level
   spellPools: {
-    1: ["formbender_flesh_rip", "formbender_stolen_mending", "formbender_scent_of_prey"],
+    1: ["formbender_flesh_rip", "formbender_stolen_mending", "formbender_scent_of_prey",
+      "form-bestial_mimicry"],
     2: [
       "formbender_visceral_talons",
       "formbender_predators_sight",

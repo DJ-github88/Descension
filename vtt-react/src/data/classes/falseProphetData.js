@@ -3508,5 +3508,71 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       tags: ["passive", "debuff", "confusion", "illusion", "false prophet"],
     },
+
+      {
+        "id": "fp_halo_sanctified",
+        "name": "Halo of the Sanctified",
+        "description": "Forge a gorgeous, shimmering golden halo of light above your head, accompanied by the faint, distant echo of a fake angelic choir. You look like a pure saint, easily swaying crowds and masking your true intentions.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Holy/Angelic Halo",
+        "typeConfig": {
+          "school": "holy",
+          "icon": "Holy/Angelic Halo",
+          "tags": [
+            "utility",
+            "roleplay",
+            "false_prophet"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Beati pacifici...",
+          "somaticText": "Gently clasp hands together in mock prayer, rolling your eyes upward to display piety"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "buff"
+        ],
+        "buffConfig": {
+          "buffType": "custom",
+          "effects": [
+            {
+              "id": "halo_sanctified_active",
+              "name": "Sanctified Aura",
+              "description": "Grants advantage on all Deception and Performance checks to convince others of your holy status.",
+              "mechanicsText": "Advantage on Deception and Performance checks."
+            }
+          ],
+          "durationValue": 10,
+          "durationType": "minutes",
+          "durationUnit": "minutes"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "false_prophet"
+        ]
+      },
   ],
 };

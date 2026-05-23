@@ -2451,5 +2451,71 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       tags: ["zone", "healing", "damage", "ultimate", "sanguine warden"],
     },
+
+      {
+        "id": "lunarch_moonlit_path",
+        "name": "Moonlit Path",
+        "description": "Call down a soft, narrow beam of pale starlight from the heavens. The light cuts through natural darkness, highlighting hidden beast tracks, secret compartments, and granting low-light vision to all allies.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Radiant/Moonlight Beam",
+        "typeConfig": {
+          "school": "radiant",
+          "icon": "Radiant/Moonlight Beam",
+          "tags": [
+            "utility",
+            "roleplay",
+            "lunarch"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 4
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Ondina, ostende viam.",
+          "somaticText": "Reach both hands high, tracing the silver crescent moon in the open sky"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "moonlit_path_effect",
+              "name": "Moonlit Trails",
+              "description": "Highlights all hidden tracks, secret doors, and traps within a 30-foot beam of moonlight. Grants allies low-light vision in the beam."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": true,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "lunarch"
+        ]
+      },
   ],
 };

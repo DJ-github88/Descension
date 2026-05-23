@@ -2924,6 +2924,72 @@ SPEC DISCOUNTS:
       resolution: "AUTOMATIC",
       tags: ["passive", "witch doctor", "restriction"],
     },
+
+      {
+        "id": "witch-mojo_whisper",
+        "name": "Mojo Whisper",
+        "description": "Shake a bone rattle filled with dried seeds. Call upon the minor, harmless spirits of the hearth, asking them for general rumors, local news, or historical secrets about the house or ruins you are currently in.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Necrotic/Voodoo Doll",
+        "typeConfig": {
+          "school": "shadow",
+          "icon": "Necrotic/Voodoo Doll",
+          "tags": [
+            "utility",
+            "roleplay",
+            "witch_doctor"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "verbal",
+            "somatic"
+          ],
+          "verbalText": "Mojo loquere...",
+          "somaticText": "Vigorously shake a bone rattle, executing a short rhythmic step"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "utility"
+        ],
+        "utilityConfig": {
+          "utilityType": "perception",
+          "selectedEffects": [
+            {
+              "id": "mojo_whisper_gossip",
+              "name": "Spiritual Gossip",
+              "description": "Hearth spirits reveal one rumor, gossip trail, or minor historical secret about the local room or building."
+            }
+          ],
+          "duration": 10,
+          "durationUnit": "minutes",
+          "concentration": false,
+          "power": "minor"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "witch_doctor"
+        ]
+      },
   ],
 
   // Spell Pools by Level (30 spells, 3 per level)
@@ -2932,6 +2998,7 @@ SPEC DISCOUNTS:
       "witch_doctor_withering_hex",
       "witch_doctor_venomous_sting",
       "witch_doctor_spirit_link",
+      "witch-mojo_whisper",
     ],
     2: [
       "witch_doctor_grave_bane",

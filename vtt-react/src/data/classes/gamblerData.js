@@ -1885,5 +1885,69 @@ Your Fortune Points hit 0.
       resolution: "COINS",
       tags: ["damage", "coin_flip", "ultimate", "gambler"],
     },
+
+      {
+        "id": "gambler_cheats_sleight",
+        "name": "Cheat's Sleight",
+        "description": "Every hand has an ace. Reach into your sleeve and discreetly nudge a physical card, die, or small game piece without being seen, bending local probability to mask your rapid fingers.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Social/Dice Roll",
+        "typeConfig": {
+          "school": "force",
+          "icon": "Social/Dice Roll",
+          "tags": [
+            "utility",
+            "roleplay",
+            "gambler"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Flick your wrist with hyper-fast, calculated muscle precision"
+        },
+        "resolution": "NONE",
+        "effectTypes": [
+          "buff"
+        ],
+        "buffConfig": {
+          "buffType": "custom",
+          "effects": [
+            {
+              "id": "cheats_sleight_active",
+              "name": "Loaded Fingers",
+              "description": "Gain advantage on Sleight of Hand checks to cheat at games of chance or palm small objects.",
+              "mechanicsText": "Advantage on Sleight of Hand when palming/cheating."
+            }
+          ],
+          "durationValue": 1,
+          "durationType": "minutes",
+          "durationUnit": "minutes"
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "utility",
+          "roleplay",
+          "gambler"
+        ]
+      },
   ],
 };
