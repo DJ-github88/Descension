@@ -81,7 +81,7 @@ const COMMON_LANGUAGES = [
     { name: 'Undercommon', icon: 'fa-dungeon', category: 'exotic', description: 'The trade language of the Underdark, spoken by drow, duergar, and other subterranean races.' },
 
     // Race-Specific Languages
-    { name: 'Old Nord', icon: 'fa-mountain', category: 'racial', description: 'The ancestral language of the Nordmark people, filled with tales of ice and honor.' },
+    { name: 'Old Nord', icon: 'fa-mountain', category: 'racial', description: 'The ancestral language of the Hrym people, filled with tales of ice and honor.' },
     { name: 'Corvid', icon: 'fa-crow', category: 'racial', description: 'The mysterious language of the Corvani, incorporating clicks and whistles like bird calls.' },
     { name: 'Terran', icon: 'fa-gem', category: 'racial', description: 'The language of earth elementals and stone-touched races, slow and grinding like shifting rock.' },
     { name: 'Ethereal', icon: 'fa-ghost', category: 'racial', description: 'The whispered language of spirits and the Veilborn, barely audible to mortal ears.' },

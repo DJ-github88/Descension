@@ -8,7 +8,7 @@ export const RACE_NAMES = {
         'Isobel', 'Caspian', 'Rowena', 'Eamon', 'Sylas', 'Aria', 'Dorian', 'Faelan', 'Gweneth', 'Malachi',
         'Basile', 'Caelum', 'Daenerys', 'Elowen', 'Freyja', 'Gavriel', 'Hestia', 'Icarus', 'Jezebel', 'Kael'
     ],
-    nordmark: [
+    hrym: [
         'Bjorn', 'Astrid', 'Erik', 'Sigrid', 'Olaf', 'Ingrid', 'Thorstein', 'Gudrun', 'Harald', 'Svea',
         'Ragnar', 'Freya', 'Leif', 'Brynhild', 'Gunnar', 'Helga', 'Ivar', 'Solveig', 'Ulf', 'Thyra'
     ],
@@ -16,9 +16,9 @@ export const RACE_NAMES = {
         'Corvus', 'Malakor', 'Nocturne', 'Vespera', 'Draven', 'Morwenna', 'Kaelum', 'Nyxia', 'Berylla', 'Thalric',
         'Valerius', 'Silvanus', 'Lysithea', 'Tartarus', 'Erebus', 'Nyx', 'Moros', 'Nemesis', 'Thanatos', 'Acheron'
     ],
-    grimheart: [
-        'Bram', 'Grita', 'Thorgar', 'Hilda', 'Durnin', 'Marnie', 'Durak', 'Vola', 'Borin', 'Krag',
-        'Gloin', 'Dwalin', 'Bofur', 'Bombur', 'Dori', 'Nori', 'Ori', 'Thrain', 'Thror', 'Dain'
+    myrathil: [
+        'Luneth', 'Brekka', 'Saelith', 'Ulvir', 'Venn', 'Coralli', 'Thalael', 'Myrith', 'Riveth', 'Saltis',
+        'Tideborn', 'Spindrift', 'Shellsong', 'Galechild', 'Foamrise', 'Deepwell', 'Stormeye', 'Current', 'Shorelight', 'Seamark'
     ],
     vheil: [
         'Valerius', 'Aetheris', 'Pharis', 'Lyris', 'Kaelis', 'Vheila', 'Zeryn', 'Elowen', 'Xylo', 'Venya',

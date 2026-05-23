@@ -1,7 +1,9 @@
-﻿export const ferrick = {
+export const ferrick = {
         id: 'ferrick',
         name: 'Ferrick',
         essence: 'Scrap-born tinkerers',
+        illustration: '/assets/images/races/ferrick_illustration.png',
+        illustrationCaption: 'A small Ferrick deep-gnome alchemist with a clockwork brass eye, holding an alchemical vial.',
         description: 'We are the forgotten children of progress, the ones who were deemed too small, too clever, too inconvenient for the empires that built and then discarded us. Born from the alchemical runoff of arcane forges, our blood runs with quicksilver and our bones are laced with the rust of a thousand broken machines. We are small — yes, smaller than you — but our minds are engines that never stop turning. Every scrap of metal is a puzzle waiting to be solved, every broken mechanism a patient that can be cured. Our fingers are stained with oil that will never wash out, our eyes reflect the blue-white flash of arc-light, and our hearts beat with the rhythm of clockwork that we did not choose but have learned to love. We build because we must. We tinker because the alternative is to be nothing more than the waste product of someone else\'s ambition. And from that waste, we have forged something entirely our own.',
         icon: 'fas fa-cog',
         overview: 'The Ferrick are small folk born from alchemical runoff near ancient arcane forges. Their blood carries quicksilver, their bones hold traces of forge-rust. Organized into workshop-clans built around scrap heaps and salvage yards. They are Small (3\'2\"-3\'10\"), the only Small race, making them uniquely nimble but vulnerable to larger creatures.',
@@ -118,7 +120,7 @@
                 description: 'Scrapwright Ferrick are builders whose very blood fuels their creations. Their fingers are permanently stained silver with quicksilver — not just oil, but the blood that has seeped through their skin from a thousand bleeding inventions. Their eyes carry a distant, haunted quality, the gaze of someone whose mind is always half-listening to the hum of a machine only they can hear. Old Scrapwrights are found hunched over workbenches, hands still moving, minds long dissolved into the mechanisms they served.',
                 culturalBackground: 'Scrapwrights build and create from salvage, turning trash into treasure. But every creation demands a blood price — their quicksilver blood is the fuel that makes their inventions work. Their workshop-clans are the architects of Ferrick society, responsible for turning scrap heaps into functioning communities. They value ingenuity above all and settle disputes through crafting competitions where the loser often leaves pale and anemic. The oldest Scrapwrights are revered and pitied in equal measure — brilliant, but hollowed out, their blood more quicksilver than life.',
                 statModifiers: { intelligence: 2, agility: 1 },
-                baseStats: { health: 8, mana: 4, actionPoints: 3, initiative: 1 },
+                baseStats: { hp: 8, mana: 4, ap: 3, initiative: 1 },
                 savingThrowModifiers: { advantage: ['investigation', 'crafting'], disadvantage: ['grapple_effects'] },
                 traits: [
                     {
@@ -151,6 +153,13 @@
                             resolution: 'DICE',
                             conditions: { hpCost: '2d4', target: 'construct_or_object' }
                         },
+                        healConfig: {
+                            healType: 'flat',
+                            formula: '1d8',
+                            resolution: 'DICE',
+                            target: 'construct_or_object',
+                            conditions: { hpCost: '2d4' }
+                        },
                         debuffConfig: {
                             debuffType: 'selfHarm',
                             effects: [
@@ -177,7 +186,7 @@
                         spellType: 'PASSIVE',
                         actionPoints: 0,
                         components: [],
-                        effectTypes: ['detection', 'utility', 'debuff'],
+                        effectTypes: ['detection', 'debuff'],
                         typeConfig: { category: 'racial' },
                         buffConfig: {
                             buffType: 'sensoryEnhancement',
@@ -338,6 +347,54 @@
                             mana: 0,
                             components: []
                         },
+                    },
+                    {
+                        id: 'volatile_overcharge_scrapwright',
+                        name: 'Volatile Overcharge',
+                        description: 'You can double the HP cost of your Haemoforge Crafting to overcharge the crafted device. Overcharged smoke bombs cover a 30-foot radius, and overcharged flash powder blinds targets for 2 rounds. However, overcharging is highly unstable; there is a 25% chance the quicksilver blowout stuns you for 1 round.',
+                        level: 1,
+                        icon: 'spell_nature_wispheal',
+                        spellType: 'ACTION',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'physical',
+                            tags: ['overcharge', 'self-harm', 'stun-risk']
+                        },
+                        debuffConfig: {
+                            debuffType: 'selfHarm',
+                            effects: [
+                                {
+                                    id: 'overcharge_stun_chance',
+                                    name: 'Blowout Risk',
+                                    description: '25% chance of quicksilver blowout, stunning you for 1 round.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Stunned 1 round on blowout'
+                                    }
+                                }
+                            ],
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            durationValue: 1,
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 1,
+                            mana: 0,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     }
                 ]
             },
@@ -347,7 +404,7 @@
                 description: 'Bonesmith Ferrick practice the forbidden art of bone-metal grafting — hammering salvaged metal plates directly into their own skeletons. But the metal they graft is not always mere salvage. The oldest Bonesmith workshops keep archives of their dead, and the most powerful grafts are made from the bones of deceased Ferrick ancestors, their quicksilver still faintly luminous in the marrow. Their movements carry a grinding rasp, their skin shows ridges where living flesh meets dead metal. They are heavier and sturdier than other Ferrick, and they hear things — whispers from the bones they carry that are not their own.',
                 culturalBackground: 'Bonesmiths practice the forbidden art of bone-metal grafting, reinforcing their own skeletons with salvaged metal and the bones of their dead. Their workshop-clans are the defenders of Ferrick society, using their enhanced bodies to protect scrapyards from threats. They value endurance above all and view the body as a machine that can be improved — but every improvement has a voice, and the voices belong to the dead. Young Bonesmiths undergo their first grafting in silence — those who scream are deemed unworthy of the ancestors\' bones.',
                 statModifiers: { constitution: 2, strength: 1 },
-                baseStats: { health: 10, mana: 2, actionPoints: 3, initiative: 0 },
+                baseStats: { hp: 10, mana: 2, ap: 3, initiative: 0 },
                 savingThrowModifiers: { advantage: ['poison', 'disease'], disadvantage: ['lightning_effects'] },
                 traits: [
                     {
@@ -401,6 +458,16 @@
                         typeConfig: { category: 'racial' },
                         targetingConfig: { range: 5, unit: 'ft' },
                         damageConfig: { damageTypes: ['bludgeoning'], formula: '1d8+STR', resolution: 'DICE' },
+                        controlConfig: {
+                            controlType: 'repositioning',
+                            effects: [{
+                                id: 'dead_bone_knockback',
+                                name: 'Dead-Bone Knockback',
+                                description: 'Strength save or knocked back 10 feet — the bones of the dead surge through your fist, sending the target flying.',
+                                mechanics: { saveType: 'strength', saveDC: 'spell', failureEffect: 'knockback', knockbackDistance: 10, knockbackUnit: 'ft' }
+                            }],
+                            durationValue: 0, durationType: 'instant', durationUnit: 'instant'
+                        },
                         debuffConfig: {
                             debuffType: 'statusEffect',
                             effects: [
@@ -568,6 +635,72 @@
                             mana: 0,
                             components: []
                         },
+                    },
+                    {
+                        id: 'ancestral_whispers_bonesmith',
+                        name: 'Ancestral Whispers',
+                        description: 'Once per long rest, you can intentionally open your mind to the murmuring dead whose bones are grafted to yours. Instead of distracting you, their ancient expertise guides your fingers. You gain expertise in one random tool or a History skill check for 1 hour. However, the mental strain leaves you with disadvantage on all other Charisma and Spirit saving throws for the duration.',
+                        level: 1,
+                        icon: 'spell_shadow_teleport',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'spirit',
+                            tags: ['expertise', 'ancestors', 'willpower-strain']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    id: 'ancestral_expertise',
+                                    name: 'Ancestral Expertise',
+                                    description: 'Expertise in one random tool or History checks for 1 hour.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Expertise in a tool or History skill'
+                                    }
+                                }
+                            ],
+                            durationType: 'hours',
+                            durationUnit: 'hours',
+                            durationValue: 1,
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'mental_echoes_strain',
+                                    name: 'Ancestral Echoes Strain',
+                                    description: 'Disadvantage on Charisma and Spirit saving throws due to ancestral mental echoes.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Disadvantage on Charisma and Spirit saves'
+                                    }
+                                }
+                            ],
+                            durationType: 'hours',
+                            durationUnit: 'hours',
+                            durationValue: 1,
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 1,
+                            mana: 0,
+                            components: ['verbal']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'long_rest',
+                            cooldownValue: 1
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     }
                 ]
             }

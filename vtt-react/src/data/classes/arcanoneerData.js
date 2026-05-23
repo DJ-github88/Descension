@@ -28,7 +28,7 @@ export const ARCANONEER_DATA = {
     title: "The Arcanoneer",
     subtitle: "The Magi-ballistic Mutilator",
     illustration: "/assets/images/classes/arcanoneer_illustration.png",
-    illustrationCaption: "A Morthel Vault Keeper Arcanoneer with a heavy pig-iron forearm graft.",
+    illustrationCaption: "A Neth Vault Keeper Arcanoneer with a heavy pig-iron forearm graft.",
 
     quickOverview: {
       title: "Quick Overview",

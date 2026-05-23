@@ -19,6 +19,8 @@ export const DREADNAUGHT_DATA = {
   overview: {
     title: "The Dreadnaught",
     subtitle: "The Ironclad Furnace",
+    illustration: "/assets/images/classes/dreadnaught_illustration.png",
+    illustrationCaption: "A Groven Dreadnaught stone-troll sentinel with a massive stone shield.",
 
     quickOverview: {
       title: "Quick Overview",

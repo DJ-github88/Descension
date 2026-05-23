@@ -152,7 +152,7 @@ const Step2RaceSelection = () => {
 
     const getRaceIcon = (raceName) => {
         const icons = {
-            'Nordmark': 'fas fa-mountain',
+            'Hrym': 'fas fa-mountain',
             'Corvani': 'fas fa-crow',
             'Grimheart': 'fas fa-hammer',
             'Voidtouched': 'fas fa-eye',
@@ -171,7 +171,7 @@ const Step2RaceSelection = () => {
 
     const getRaceColor = (raceName) => {
         const colors = {
-            'Nordmark': '#8B7355',
+            'Hrym': '#8B7355',
             'Corvani': '#6B5B95',
             'Grimheart': '#A0522D',
             'Voidtouched': '#4B0082',
@@ -344,7 +344,7 @@ const Step2RaceSelection = () => {
                     Choose Your Heritage
                 </h2>
                 <p className="step-description">
-                    Every hero is shaped by their bloodline. Will you be forged in the frozen peaks of the Nordmark,
+                    Every hero is shaped by their bloodline. Will you be forged in the frozen peaks of the Hrym,
                     rise from the shadowed depths as Corvani, or perhaps carry the ancient fire of the Emberth within your veins?
                     Your race grants unique abilities, traits, and a destiny written in your very soul.
                 </p>

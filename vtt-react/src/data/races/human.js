@@ -2,6 +2,8 @@ export const human = {
     id: 'human',
     name: 'Human',
     essence: 'The burning wick',
+    illustration: '/assets/images/races/human_illustration.png',
+    illustrationCaption: 'A Human Hearthorn survivor standing resiliently with a single steel shoulder guard.',
     description: 'We are the shortest-lived, most fragile sapient species on Mythrill — and we are the most dangerous thing on two legs. Not because we are strong. Not because we are fast. Not because the gods blessed us. Because we refuse. We refuse to break when every fiber screams surrender. We refuse to die when the blade is at our throat. We refuse to stop when our bodies are failing and our blood is on the stones. Sixty good years. That is all a Human gets. Sixty years to carve a name into a world that was ancient before our ancestors learned to walk upright. We burn brighter, push harder, and fight dirtier than anything else that breathes — because we have to. We have no claws, no fangs, no magic in our blood, no centuries to master a craft. We have spite, stubbornness, and the pathological certainty that tomorrow is worth bleeding for today.',
     icon: 'fas fa-user',
     overview: 'Humans are the burning wick — short-lived, biologically fragile, and pathologically determined. Every other race has evolutionary or magical advantages spanning millennia. Humans have sixty years and the spite to make them count. Their defense is not armor or regeneration; it is will. Their offense is not strength or magic; it is refusal to quit. Organized into three bloodlines: Imperial (conquerors and commanders), Hearthorn (commoners and survivors), and Pale-Born (arcane-touched outcasts).',
@@ -23,7 +25,7 @@ export const human = {
         weight: '130-200 lbs',
         build: 'Variable'
     },
-    epicHistory: `Humans are the oldest race — or at least the most stubborn. Every other race was shaped, transformed, cursed, or blessed by external forces. Humans refused. They watched the Nordmark freeze, the Grimheart petrify, the Vreken succumb to the beast. And they built walls.
+    epicHistory: `Humans are the oldest race — or at least the most stubborn. Every other race was shaped, transformed, cursed, or blessed by external forces. Humans refused. They watched the Hrym freeze, the Grimheart petrify, the Vreken succumb to the beast. And they built walls.
 
 When the magical cataclysms came, humans survived not through power but through preparation. Their merchant networks fed cities through famines. Their homesteads endured when empires fell. The greatest human empire lasted 800 years not because of magic, but because of roads, laws, and the stubborn insistence that tomorrow is worth planning for.
 
@@ -311,6 +313,31 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                         durationValue: 0,
                         durationType: 'instant',
                         durationUnit: 'instant',
+                        canBeDispelled: false
+                    },
+                    healConfig: {
+                        healType: 'percentage',
+                        effects: [
+                            {
+                                id: 'hp_recovery',
+                                name: 'Desperate Surge',
+                                description: 'Recover 15% of maximum HP',
+                                healing: {
+                                    type: 'percentage',
+                                    magnitude: 15,
+                                    target: 'self'
+                                }
+                            },
+                            {
+                                id: 'fear_cleanse',
+                                name: 'Shake It Off',
+                                description: 'Cleanse one Fear or Fear-adjacent debuff',
+                                cleanse: {
+                                    effectTypes: ['fear', 'fear_adjacent'],
+                                    count: 1
+                                }
+                            }
+                        ],
                         canBeDispelled: false
                     },
                     debuffConfig: {
@@ -690,6 +717,50 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                         targetingType: 'self',
                         rangeType: 'self_centered'
                     }
+                },
+                {
+                    id: 'sacrificial_rally_human',
+                    name: 'Sacrificial Rally',
+                    description: 'Command in death, as in life. When an Imperial is reduced to 0 HP, they can use their Reaction to issue one final, desperate command, granting all allies within 30 feet a free Action immediately before they slip into unconsciousness.',
+                    level: 1,
+                    icon: 'ability_warrior_battleshout',
+                    spellType: 'REACTION',
+                    effectTypes: ['buff'],
+                    typeConfig: {
+                        school: 'command',
+                        secondaryElement: 'willpower',
+                        icon: 'ability_warrior_battleshout',
+                        tags: ['reaction', 'buff', 'ally', 'action_grant', 'death_trigger']
+                    },
+                    buffConfig: {
+                        buffType: 'action_grant',
+                        effects: [
+                            {
+                                id: 'rally_action',
+                                name: 'Final Command',
+                                description: 'Gain 1 free Action immediately',
+                                actionGrant: {
+                                    actionCount: 1,
+                                    excludesSelf: true
+                                }
+                            }
+                        ],
+                        durationValue: 0,
+                        durationType: 'instant',
+                        durationUnit: 'instant',
+                        canBeDispelled: false
+                    },
+                    targetingConfig: {
+                        targetingType: 'area',
+                        rangeType: 'self_centered',
+                        rangeDistance: 0,
+                        aoeShape: 'sphere',
+                        aoeParameters: {
+                            radius: 30
+                        },
+                        targetRestrictions: ['ally']
+                    },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] }
                 }
             ]
         },
@@ -861,6 +932,20 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                             }
                         ],
                         durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+                    },
+                    healConfig: {
+                        healType: 'percentage',
+                        effects: [
+                            {
+                                id: 'hp_recovery', name: 'Desperate Surge', description: 'Recover 15% of maximum HP',
+                                healing: { type: 'percentage', magnitude: 15, target: 'self' }
+                            },
+                            {
+                                id: 'fear_cleanse', name: 'Shake It Off', description: 'Cleanse one Fear or Fear-adjacent debuff',
+                                cleanse: { effectTypes: ['fear', 'fear_adjacent'], count: 1 }
+                            }
+                        ],
+                        canBeDispelled: false
                     },
                     debuffConfig: {
                         debuffType: 'statusEffect',
@@ -1227,6 +1312,57 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                         targetingType: 'self',
                         rangeType: 'self_centered'
                     }
+                },
+                {
+                    id: 'commoners_grit_human',
+                    name: 'Commoner\'s Grit',
+                    description: 'A quiet, stubborn refusal to die. Once per long rest, when a Hearthorn\'s HP drops below 20%, they automatically cleanse all physical debuffs and gain a temporary shield equal to their missing HP.',
+                    level: 1,
+                    icon: 'spell_nature_resistnature',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff'],
+                    typeConfig: {
+                        school: 'willpower',
+                        secondaryElement: 'survival',
+                        icon: 'spell_nature_resistnature',
+                        tags: ['cleanse', 'shield', 'low_hp_trigger', 'survival', 'passive']
+                    },
+                    buffConfig: {
+                        buffType: 'shield',
+                        effects: [
+                            {
+                                id: 'grit_shield',
+                                name: 'Stubborn Shield',
+                                description: 'Gain a temporary shield equal to missing HP',
+                                shield: {
+                                    type: 'missing_hp_scaled',
+                                    scalingFactor: 1.0,
+                                    target: 'self'
+                                }
+                            },
+                            {
+                                id: 'grit_cleanse',
+                                name: 'Survival Purge',
+                                description: 'Cleanse all physical debuffs',
+                                cleanse: {
+                                    effectTypes: ['physical'],
+                                    count: 'all'
+                                }
+                            }
+                        ],
+                        durationValue: 0,
+                        durationType: 'instant',
+                        durationUnit: 'instant',
+                        canBeDispelled: false
+                    },
+                    targetingConfig: {
+                        targetingType: 'self',
+                        rangeType: 'self_centered'
+                    },
+                    cooldownConfig: {
+                        cooldownType: 'long_rest',
+                        cooldownValue: 1
+                    }
                 }
             ]
         },
@@ -1394,6 +1530,20 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                         ],
                         durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
                     },
+                    healConfig: {
+                        healType: 'percentage',
+                        effects: [
+                            {
+                                id: 'hp_recovery', name: 'Desperate Surge', description: 'Recover 15% of maximum HP',
+                                healing: { type: 'percentage', magnitude: 15, target: 'self' }
+                            },
+                            {
+                                id: 'fear_cleanse', name: 'Shake It Off', description: 'Cleanse one Fear or Fear-adjacent debuff',
+                                cleanse: { effectTypes: ['fear', 'fear_adjacent'], count: 1 }
+                            }
+                        ],
+                        canBeDispelled: false
+                    },
                     debuffConfig: {
                         debuffType: 'statusEffect',
                         effects: [
@@ -1463,7 +1613,7 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                                 description: '1d4 necrotic damage per round inside Anti-Magic Fields',
                                 statusEffect: {
                                     damagePerRound: '1d4',
-                                    damageType: 'necrotic',
+                                    damageTypes: ['necrotic'],
                                     condition: 'inside_anti_magic_field',
                                     description: 'Suppressed blood-magic decays living tissue — the blood does not stop being magical, it simply stops being contained'
                                 }
@@ -1557,6 +1707,34 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                         icon: 'spell_shadow_sacrificialshield',
                         tags: ['spell_replication', 'blood', 'sacrifice', 'cooldown']
                     },
+                    utilityConfig: {
+                        utilityType: 'spell_replication',
+                        effects: [
+                            {
+                                id: 'blood_sacrifice',
+                                name: 'Open the Vein',
+                                description: 'Self-inflict 5% max HP to catalyze spell replication',
+                                selfDamage: {
+                                    type: 'percentage',
+                                    magnitude: 5,
+                                    damageTypes: ['slashing'],
+                                    target: 'self'
+                                }
+                            },
+                            {
+                                id: 'spell_echo',
+                                name: 'Spell Echo',
+                                description: 'Replicate any spell of 2nd level or lower witnessed in last hour',
+                                spellReplication: {
+                                    maxSpellLevel: 2,
+                                    timeWindow: '1_hour',
+                                    bypassComponents: true,
+                                    bypassSpellSlots: true
+                                }
+                            }
+                        ],
+                        canBeDispelled: false
+                    },
                     buffConfig: {
                         buffType: 'spell_replication',
                         effects: [
@@ -1567,7 +1745,7 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                                 selfDamage: {
                                     type: 'percentage',
                                     magnitude: 5,
-                                    damageType: 'slashing',
+                                    damageTypes: ['slashing'],
                                     target: 'self'
                                 }
                             },
@@ -1599,7 +1777,7 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                                     level: 'severe',
                                     healingBlocked: true,
                                     damagePerRound: '1d6',
-                                    damageType: 'necrotic',
+                                    damageTypes: ['necrotic'],
                                     durationRounds: 2,
                                     description: 'Blood does not clot — it leaks metaphysically, carrying magic and life through a wound that remembers every spell it ever held'
                                 }
@@ -1661,7 +1839,7 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                                 description: '1 radiant damage per hour of unprotected sun exposure',
                                 statusEffect: {
                                     damagePerHour: 1,
-                                    damageType: 'radiant',
+                                    damageTypes: ['radiant'],
                                     condition: 'unprotected_sun_exposure',
                                     description: 'The skin blisters not from heat but from light itself — the flesh was never built to hold it'
                                 }
@@ -1755,6 +1933,49 @@ Pale-Born have no festivals. They have seances. Gatherings in the Ashring involv
                     targetingConfig: {
                         targetingType: 'self',
                         rangeType: 'self_centered'
+                    }
+                },
+                {
+                    id: 'ley_line_overload_human',
+                    name: 'Ley-Line Overload',
+                    description: 'Once per encounter, a Pale-Born can cast a spell without spending mana, but they take necrotic damage equal to double the spell\'s level and gain a stack of "Ley-Burn" (-5% max HP until long rest).',
+                    level: 1,
+                    icon: 'spell_arcane_manashield',
+                    spellType: 'ACTION',
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    effectTypes: ['debuff'],
+                    typeConfig: {
+                        school: 'arcane',
+                        secondaryElement: 'sacrifice',
+                        icon: 'spell_arcane_manashield',
+                        tags: ['free_cast', 'self_damage', 'ley_burn', 'cooldown']
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'ley_burn',
+                                name: 'Ley-Burn',
+                                description: '-5% maximum HP until long rest',
+                                statModifier: {
+                                    stat: 'hp',
+                                    magnitude: -5,
+                                    magnitudeType: 'percentage'
+                                }
+                            }
+                        ],
+                        durationValue: 0,
+                        durationType: 'until_long_rest',
+                        durationUnit: 'until_long_rest',
+                        canBeDispelled: false
+                    },
+                    targetingConfig: {
+                        targetingType: 'self',
+                        rangeType: 'self_centered'
+                    },
+                    cooldownConfig: {
+                        cooldownType: 'encounter',
+                        cooldownValue: 1
                     }
                 }
             ]

@@ -10,8 +10,8 @@
  */
 
 import { ABILITY_SCORES } from '../utils/pointBuySystem';
-import { nordmark } from './races/nordmark';
-import { grimheart } from './races/grimheart';
+import { hrym } from './races/hrym';
+import { myrathil } from './races/myrathil';
 import { mimir } from './races/mimir';
 import { briaran } from './races/briaran';
 import { groven } from './races/groven';
@@ -23,8 +23,8 @@ import { ferrick } from './races/ferrick';
 import { human } from './races/human';
 
 export const RACE_DATA = {
-    nordmark,
-    grimheart,
+    hrym,
+    myrathil,
     mimir,
     briaran,
     groven,

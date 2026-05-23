@@ -1,26 +1,28 @@
 export const morthel = {
         id: 'morthel',
-        name: 'Morthel',
-        essence: 'Shadow-bound revenants',
-        description: 'Our voices are the rustle of dead leaves in an empty hallway, thin and carrying the chill of the grave. We are the people of the long twilight, those whose shadows have grown longer than their bodies, reaching for the voids between the stars. Our skin is the color of bone beneath a clouded moon, and our touch is a promise of the stillness that awaits all things. We do not walk through the world so much as we haunt it, moving through the periphery of your vision like a half-remembered dream. The grief of a thousand years is etched into our features, a sorrow so deep it has become a kind of strength. We are the keepers of the forgotten names, the silent observers of the passing of ages. To look into our eyes is to see the end of the road, the final sunset that never quite fades into total night. We are not dead, but we have forgotten how to be truly alive.',
-        icon: 'fas fa-skull',
-        overview: 'The Neth are people whose ancestors swore impossible oaths. To guard treasures until mountains crumble. To protect secrets until stars fall. Through generations of these death-bound promises, their bloodlines have been marked by undeath. Bodies that refuse to decay. Minds that outlast centuries. Souls bound by vows that transcend death. They are organized into tomb-communities built around the graves they guard. Settlements clustered in mausoleums and necropolises. The Neth do not choose to be undead. It is their heritage, passed down through bloodlines that carry the weight of ancient oaths.',
-        culturalBackground: `Neth society is built on tomb-communities organized around the graves and treasures they guard. Settlements clustered in mausoleums and necropolises. Each community traces its founding to ancestors who swore impossible vows. To guard treasures until the mountains crumble. To protect secrets until the stars fall from the sky. Their tombs are silent libraries of the dead. Walls inscribed with oaths that bind souls long after bodies have failed. Community elders pass down the old ways. How to maintain undead bodies. How to fulfill oaths that span centuries. How to guard what was sworn to protect. Death was supposed to release them. But their promises held tighter than any grave. Now they shuffle through eternal night. Flesh rotting but never failing. Minds sharp as the day they died. Community disputes settle through oath-readings and the testimony of those who have guarded longest. They speak of the living with distant pity. Remembering warmth and emotion like half-forgotten dreams. Some Neth embrace their immortality. Becoming patient strategists who outlast any enemy. Others claw at their own tombs. Desperate to complete their duties and finally rest. They are a people bound by oath and undeath. Their guardianship unmatched but their souls forever trapped by promises that cannot be broken.`,
-        variantDiversity: 'The Neth are divided into three cursed bloodlines, each paying for their ancestors\' oaths in different coin: the Vault Keepers, whose gold has replaced their blood; the Lore Keepers, whose minds have become overcrowded mausoleums of memory; and the Wraiths, whose oaths were so absolute they dissolved their own flesh into shadow.',
+        name: 'Neth',
+        essence: 'Grave scholar-sentinels',
+        illustration: '/assets/images/races/neth_illustration.png',
+        illustrationCaption: 'A Neth grave scholar-sentinel with waxy-gold skin.',
+        description: 'Our voices are the rustle of turning parchment in an ancient crypt, carrying the heavy weight of forgotten covenants. We are the people of the silent vaults, those whose physical bodies deterioration runs slower than normal humans, stretching our lifespans across centuries. Our skin is a waxy, pallid grey-gold, like preserved gold-gilt parchment beneath a faded lamp, and our veins run with faint lines of dark gilt gold thread that replaced our warm blood long ago. Serene, fading glowing gold and ember eyes peer from hollow-cheeked, highly dignified countenances. We do not walk through the world so much as we preserve it, moving through the halls of history like a half-remembered twilight. The grief and solemn duty of five hundred years are etched into our features, a sorrow so deep it has become a kind of quiet strength. We are the keepers of the forgotten names, the silent observers of the passing of ages. To look into our eyes is to see the end of the road, the final sunset that never quite fades into total night. We are not dead, but we have forgotten how to be truly alive.',
+        icon: 'fas fa-book-dead',
+        overview: 'The Neth are a grave, highly intelligent people whose ancestors swore impossible, blood-bound covenants. Through generations of these solemn, death-bound promises, their bodies have been marked by a slow-aging undeath—deteriorating like normal humans but at a vastly slower rate, living for centuries in solemn preservation. They are organized into tomb-communities and library-necropolises built around the archives, vaults, and covenants they guard.',
+        culturalBackground: `Neth society is built on tomb-communities organized around the archives, vaults, and ancient relics they guard. Settlements are clustered in grand mausoleums, silent necropolises, and ancient stone libraries. Each community traces its founding to ancestors who swore impossible, centuries-spanning vows. Their halls are quiet crypts of memory, walls inscribed with covenants that bind their souls long after their physical forms have withered. Elders pass down the ancient preservation rituals—how to slow physical decay, how to fulfill memory covenants, and how to guard what was sworn to protect. Death was supposed to release them, but their promises held tighter than any grave. Now they shuffle through the long twilight, waxy flesh and gilt veins dry but never failing, minds sharp as the day they swore their oaths. They speak of the living with distant pity, remembering warmth and emotion like half-forgotten dreams. Some Neth fully embrace their longevity, becoming patient, formal strategists who outlast any kingdom. Others claw at their own sarcophagi, desperate to complete their tasks and finally rest. They are a people bound by oath and undeath, their guardianship unmatched but their souls forever bound by promises that cannot be broken.`,
+        variantDiversity: 'The Neth are divided into three cursed bloodlines: the Vault Keepers, whose gold-covenants have replaced their blood with literal gilt-gold thread; the Lore Keepers, whose minds have become overcrowded libraries of centuries-old memories; and the Wraiths, whose absolute vows dissolved their physical waxy flesh into shadows.',
         integrationNotes: {
-            actionPointSystem: 'Morthel abilities are fueled by undeath itself � each power extracts a physical, mental, or existential toll. Their traits are designed around the principle that immortality is not a gift but a sentence.',
-            backgroundSynergy: 'Morthel excel in backgrounds tied to guardianship, scholarship, or servitude. Their curses create deep roleplay hooks: compulsions, forbidden knowledge, and the slow dissolution of self.',
+            actionPointSystem: 'Neth abilities are fueled by undeath itself — each power extracts a physical, mental, or existential toll. Their traits are designed around the principle that longevity is not a gift but a sentence.',
+            backgroundSynergy: 'Neth excel in backgrounds tied to guardianship, scholarship, or servitude. Their curses create deep roleplay hooks: compulsions, forbidden knowledge, and the slow dissolution of self.',
             classCompatibility: 'Vault Keepers suit tank and martial classes. Lore Keepers suit caster and support classes. Wraiths suit scout, assassin, and mobile classes. All suffer from radiant vulnerability that punishes positioning.'
         },
-        meaningfulTradeoffs: 'Every Morthel power is paid for in flesh, memory, or existence. Vault Keepers are poisoned by the gold that empowers them. Lore Keepers cannot stop remembering � trauma accumulates into permanent Spirit loss. Wraiths dissolve further with each power used, losing the ability to interact with the physical world.',
+        meaningfulTradeoffs: 'Every Neth power is paid for in flesh, memory, or existence. Vault Keepers are poisoned by the gold that empowers them. Lore Keepers cannot stop remembering — trauma accumulates into permanent Spirit loss. Wraiths dissolve further with each power used, losing the ability to interact with the physical world.',
         baseTraits: {
             languages: ['Common', 'Necril'],
             lifespan: 'Immortal (cursed)',
             baseSpeed: 25,
             size: 'Medium',
-            height: '5\'6" - 6\'2"',
+            height: '5\'8" - 6\'6"',
             weight: '120-180 lbs',
-            build: 'Gaunt and preserved'
+            build: 'Tall, gaunt, and waxy-pallid'
         },
         subraces: {
             hoarder: {
@@ -29,7 +31,7 @@ export const morthel = {
                 description: 'Their blood runs thick and golden in the veins � not metaphorically. Centuries of handling treasure, of sleeping on hoards, of pressing gold against preserved skin, and the metal found a way in. Dark veins of gilt thread beneath parchment-dry flesh, visible when the light catches them wrong. Eyes like polished coins that reflect lamplight in colors no living pupil produces. Hands stiff from centuries of counting � the knuckles swollen, the tendons calcified into shapes that favor gripping but resist releasing. They do not blink when they stare at something valuable. They cannot. The compulsive tally runs behind their eyes at all times: how much, where, who touched it last. Their breath carries the faint metallic taste of old copper. When they speak of treasure, their voices drop to a reverent whisper that is somehow more alive than anything else they say.',
                 culturalBackground: 'The Vault-Keepers trace their lineage to Morthel who swore oaths to guard treasures until the mountains crumble. The gold seeped in through the skin over generations � first as a sheen, then as a stain, then as something that ran in the blood like a second pulse. Bloodline marked by eternal guardianship of hoards and vaults. Their tradition requires that every member learn to appraise and protect treasures. Apprenticeships spent mastering the art of guarding what was sworn to protect � and learning the terrible cost of the gold that now lives in their veins. Vault-Keeper tombs are built around the treasures they guard, members serving as eternal sentinels in forgotten vaults. They practice ancient guardianship techniques passed down through generations. How to ward against thieves. How to sense the worth of treasures. How to maintain vigilance for centuries without rest. But the gold is not passive. It demands to be near them. Vault-Keepers separated from treasure for too long begin to sicken, the gilt in their blood turning rancid. Many become paranoid, seeing thieves in the faces of their own children. The oldest Vault-Keepers are more metal than flesh � their joints lock into place like rusted mechanisms, their skin flakes in metallic scales, and they cannot stop counting. The gold counts them back.',
                 statModifiers: { constitution: 2, strength: 1 },
-                baseStats: { health: 14, mana: 2, actionPoints: 3, initiative: -1 },
+                baseStats: { hp: 14, mana: 2, ap: 3, initiative: -1 },
                 savingThrowModifiers: { advantage: ['fear', 'poison'], disadvantage: ['radiant_effects'] },
                 traits: [
                     {
@@ -233,16 +235,64 @@ export const morthel = {
                         targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
                         resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
                         cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'misers_sentry_neth',
+                        name: 'Miser\'s Sentry',
+                        description: 'While standing directly on a designated treasure hoard, Vault Keepers are immune to surprise attacks, and their Blood-Gilt armor duration increases to 5 rounds.',
+                        level: 1,
+                        icon: 'inv_misc_coin_01',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'willpower',
+                            secondaryElement: 'treasure',
+                            icon: 'inv_misc_coin_01',
+                            tags: ['passive', 'vigil', 'immunity_surprise', 'armor_buff']
+                        },
+                        buffConfig: {
+                            buffType: 'passive_enhancement',
+                            effects: [
+                                {
+                                    id: 'vigil_surprise_immunity',
+                                    name: 'Hoard Vigil',
+                                    description: 'Immune to surprise attacks while on your designated treasure hoard',
+                                    statusEffect: {
+                                        type: 'surprise_immunity',
+                                        condition: 'standing_on_hoard'
+                                    }
+                                },
+                                {
+                                    id: 'blood_gilt_extension',
+                                    name: 'Blood-Gilt Extension',
+                                    description: 'Blood-Gilt armor duration increases to 5 rounds while standing on your designated hoard',
+                                    statusEffect: {
+                                        type: 'duration_extension',
+                                        ability: 'blood_gilt',
+                                        newDurationRounds: 5,
+                                        condition: 'standing_on_hoard'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ]
             },
             scholar: {
                 id: 'scholar_neth',
                 name: 'Lore Keeper',
-                description: 'Their fingers are permanently stained � ink that shifts between black, silver, and deep violet, soaked so deep into the flesh over centuries that it has become part of the dermis. They write by reflex, filling any blank surface with text in languages that no living scholar can read. Eyes glow faintly with accumulated knowledge, irises like pages of dense script that rearrange when they focus on a new thought. They move through the world as if it were a library � carefully, reverently, terrified of damaging something fragile. When they speak, the voices of dead authors layer beneath their words like harmonic undertones, and sometimes they quote texts they have never physically encountered, drawing from the accumulated memory of their entire bloodline.',
-                culturalBackground: 'The Lore Keepers trace their lineage to Morthel who swore oaths to protect scrolls and secrets until the end of time. The ink was the first thing to change � it stopped washing off, then it started spreading, then it began to write itself on their skin during sleep. Bloodline marked by eternal preservation of knowledge. Their tradition requires that every member learn to preserve and archive knowledge, and the cost of this duty is the gradual loss of the self beneath the accumulated weight of memory. Apprenticeships spent mastering the art of maintaining perfect memory across centuries, though "mastering" is a generous term � no Lore Keeper has ever learned to stop remembering. Lore Keeper tombs are built around libraries and archives, members serving as eternal scholars in forgotten repositories. They practice ancient preservation techniques passed down through generations. How to maintain perfect memory. How to preserve texts through undeath. How to guard secrets that must never be lost. Their minds are vast repositories of forgotten lore, capable of recalling any text they have ever read. They are patient researchers, capable of spending centuries deciphering ancient mysteries. But the texts do not remain silent. The dead authors whose works they carry speak through them, demand attention, refuse to be ignored. Every piece of knowledge they absorb adds another voice to the chorus, and the chorus never stops singing. The oldest Lore Keepers no longer know which thoughts are their own.',
+                description: 'Their fingers are permanently stained  ink that shifts between black, silver, and deep violet, soaked so deep into the flesh over centuries that it has become part of the dermis. They write by reflex, filling any blank surface with text in languages that no living scholar can read. Eyes glow faintly with accumulated knowledge, irises like pages of dense script that rearrange when they focus on a new thought. They move through the world as if it were a library  carefully, reverently, terrified of damaging something fragile. When they speak, the voices of dead authors layer beneath their words like harmonic undertones, and sometimes they quote texts they have never physically encountered, drawing from the accumulated memory of their entire bloodline.',
+                culturalBackground: 'The Lore Keepers trace their lineage to Neth who swore oaths to protect scrolls and secrets until the end of time. The ink was the first thing to change  it stopped washing off, then it started spreading, then it began to write itself on their skin during sleep. Bloodline marked by eternal preservation of knowledge. Their tradition requires that every member learn to preserve and archive knowledge, and the cost of this duty is the gradual loss of the self beneath the accumulated weight of memory. Apprenticeships spent mastering the art of maintaining perfect memory across centuries, though "mastering" is a generous term  no Lore Keeper has ever learned to stop remembering. Lore Keeper tombs are built around libraries and archives, members serving as eternal scholars in forgotten repositories. They practice ancient preservation techniques passed down through generations. How to maintain perfect memory. How to preserve texts through undeath. How to guard secrets that must never be lost. Their minds are vast repositories of forgotten lore, capable of recalling any text they have ever read. They are patient researchers, capable of spending centuries deciphering ancient mysteries. But the texts do not remain silent. The dead authors whose works they carry speak through them, demand attention, refuse to be ignored. Every piece of knowledge they absorb adds another voice to the chorus, and the chorus never stops singing. The oldest Lore Keepers no longer know which thoughts are their own.',
                 statModifiers: { intelligence: 2, wisdom: 1 },
-                baseStats: { health: 10, mana: 5, actionPoints: 3, initiative: -1 },
+                baseStats: { hp: 10, mana: 5, ap: 3, initiative: -1 },
                 savingThrowModifiers: { advantage: ['charmed', 'stun'], disadvantage: ['radiant_effects'] },
                 traits: [
                     {
@@ -285,13 +335,13 @@ export const morthel = {
                         resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
                         cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
                         specialMechanics: {
-                            archiveCost: 'The dead authors in your skull extract a secret from YOUR past and speak it through your mouth. The GM reveals one piece of your backstory (or invents one) to all players. You cannot control what is spoken � the archive takes what it wants.'
+                            archiveCost: 'The dead authors in your skull extract a secret from YOUR past and speak it through your mouth. The GM reveals one piece of your backstory (or invents one) to all players. You cannot control what is spoken � the archive takes what it wants'
                         }
                     },
                     {
                         id: 'tomerot_word',
                         name: 'Tome-Rot Word',
-                        description: 'Shape a syllable that should never have been written � a sound harvested from forbidden texts, older than language, that was meant to remain ink on crumbling pages. When you speak it, the word tears through the air like a page being ripped from reality. The voices of dead scholars pour through the wound, filling the minds of all who hear with a thousand years of whispered commentary. The word is not selective. It tears at your own throat on the way out, and the ink bleeds from your tear ducts in thin black rivulets.',
+                        description: 'Shape a syllable that should never have been written  a sound harvested from forbidden texts, older than language, that was meant to remain ink on crumbling pages. When you speak it, the word tears through the air like a page being ripped from reality. The voices of dead scholars pour through the wound, filling the minds of all who hear with a thousand years of whispered commentary. The word is not selective. It tears at your own throat on the way out, and the ink bleeds from your tear ducts in thin black rivulets.',
                         level: 1,
                         icon: 'spell_shadow_curse',
                         spellType: 'ACTION',
@@ -313,8 +363,18 @@ export const morthel = {
                                 {
                                     id: 'scholars_silence',
                                     name: "Scholar's Silence",
-                                    description: 'Target cannot speak or cast verbal spells for 1 minute � the dead fill their mouth with whispers',
+                                    description: 'Target cannot speak or cast verbal spells for 1 minute  the dead fill their mouth with whispers',
                                     mechanicsText: ''
+                                },
+                                {
+                                    id: 'ink_blind',
+                                    name: 'Ink-Blind',
+                                    description: 'Blinded for 1 round as phantom ink spills into eyes (triggered by failing save by 5 or more)',
+                                    statusEffect: {
+                                        type: 'blinded',
+                                        durationRounds: 1,
+                                        condition: 'fail_save_by_5_plus'
+                                    }
                                 }
                             ],
                             durationValue: 1,
@@ -330,8 +390,8 @@ export const morthel = {
                         resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 2, components: ['verbal'] },
                         cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
                         specialMechanics: {
-                            selfDamage: 'You take 1d4 psychic damage as the forbidden word tears at your own throat. Ink visibly bleeds from your tear ducts for 1 round � no mechanical effect, but the horror is real.',
-                            failBy5: 'Targets that fail the Spirit save by 5 or more take 2d6 psychic damage in addition to being silenced.'
+                            selfDamage: 'You take 1d4 psychic damage as the forbidden word tears at your own throat. Ink visibly bleeds from your tear ducts for 1 round  no mechanical effect, but the horror is real.',
+                            failBy5: 'Targets that fail the Spirit save by 5 or more take 2d6 psychic damage and gain the "Ink-Blind" debuff for 1 round (fully blinded as phantom ink spills onto their eyes) in addition to being silenced.'
                         }
                     },
                     {
@@ -459,16 +519,16 @@ export const morthel = {
             wraith: {
                 id: 'wraith_morthel',
                 name: 'Wraith',
-                description: 'The boundary between flesh and shadow blurred past recognition three generations ago. Their forms flicker at the edges like candle flames in a draft � sometimes translucent enough to see the wall through their ribs, sometimes solid enough to cast a shadow that is somehow darker than the absence of light should allow. Eyes burn with cold pale fire in a face that might have been handsome centuries ago, before the cheekbones cut through the skin like blade edges and the lips receded to colorless lines. Dark veins trace fractal patterns beneath translucent skin, pulsing with something blacker than blood � the visual residue of oaths so heavy they crushed bone into vapor. Ravens gather. They always gather. Three to twelve at any given moment, perched on shoulders, circling overhead, watching from fence-posts with eyes that reflect something other than the sky. The oldest Wraiths are barely visible in daylight � more memory than person, more promise than flesh.',
-                culturalBackground: 'The Wraiths are the most cursed of all Morthel bloodlines, and they know it. Their ancestors swore oaths so binding, so absolute, so fundamentally incompatible with physical existence, that the weight of those promises began to literally unmake their bodies. Generation by generation, flesh gave way to shadow. Bone dissolved into something that was neither material nor immaterial � a substance that existed only because the oath demanded that someone exist to fulfill it. They are the inheritors of the Corvani tradition � the raven-speakers who once served as psychopomps, guiding souls between life and death. When the Corvani were folded into the Morthel, the raven-spirits followed, and now every Wraith carries a murder of phantom ravens in their shadow. The ravens are not pets. They are creditors. Each raven holds a fragment of the Wraith\'s soul as collateral against the ancestral oath, and the oldest Wraiths � those who have lost too many ravens, used too much of their fading substance � are barely more than the promise itself, a shape held together by nothing but obligation and a few remaining feathers. They practice the ancient arts of the between-places. How to fade through walls. How to speak with the recently dead. How to ride the shadows like roads. But the between-places take their toll. Each crossing leaves something behind � a fingernail that never grows back, the memory of a taste, the ability to feel warmth. The bloodline values restraint above all else, because the alternative is dissolution into something that was never meant to exist in the first place.',
+                description: 'The boundary between flesh and shadow blurred past recognition three generations ago. Their forms flicker at the edges like candle flames in a draft  sometimes translucent enough to see the wall through their ribs, sometimes solid enough to cast a shadow that is somehow darker than the absence of light should allow. Eyes burn with cold pale fire in a face that might have been handsome centuries ago, before the cheekbones cut through the skin like blade edges and the lips receded to colorless lines. Dark veins trace fractal patterns beneath translucent skin, pulsing with something blacker than blood  the visual residue of oaths so heavy they crushed bone into vapor. Ravens gather. They always gather. Three to twelve at any given moment, perched on shoulders, circling overhead, watching from fence-posts with eyes that reflect something other than the sky. The oldest Wraiths are barely visible in daylight  more memory than person, more promise than flesh.',
+                culturalBackground: 'The Wraiths are the most cursed of all Neth bloodlines, and they know it. Their ancestors swore oaths so binding, so absolute, so fundamentally incompatible with physical existence, that the weight of those promises began to literally unmake their bodies. Generation by generation, flesh gave way to shadow. Bone dissolved into something that was neither material nor immaterial  a substance that existed only because the oath demanded that someone exist to fulfill it. They are the inheritors of the Corvani tradition  the raven-speakers who once served as psychopomps, guiding souls between life and death. When the Corvani were folded into the Neth, the raven-spirits followed, and now every Wraith carries a murder of phantom ravens in their shadow. The ravens are not pets. They are creditors. Each raven holds a fragment of the Wraith\'s soul as collateral against the ancestral oath, and the oldest Wraiths  those who have lost too many ravens, used too much of their fading substance  are barely more than the promise itself, a shape held together by nothing but obligation and a few remaining feathers. They practice the ancient arts of the between-places. How to fade through walls. How to speak with the recently dead. How to ride the shadows like roads. But the between-places take their toll. Each crossing leaves something behind  a fingernail that never grows back, the memory of a taste, the ability to feel warmth. The bloodline values restraint above all else, because the alternative is dissolution into something that was never meant to exist in the first place.',
                 statModifiers: { agility: 2, charisma: 1 },
-                baseStats: { health: 9, mana: 4, actionPoints: 3, initiative: 1 },
+                baseStats: { hp: 9, mana: 4, ap: 3, initiative: 1 },
                 savingThrowModifiers: { advantage: ['grappled', 'restrained'], disadvantage: ['radiant_effects'] },
                 traits: [
                     {
                         id: 'between_the_places',
                         name: 'Between-the-Places',
-                        description: "Reach into the space between heartbeats and pull yourself through it. Your form loses cohesion � flesh becomes suggestion, bone becomes memory, and you slide through solid matter like smoke through a keyhole. The world becomes translucent, its rules becoming suggestions you can choose to ignore. But the between-places are hungry. Each time you pass through, a little more of you stays behind. Your hands become lighter. Your footprints fade faster. Eventually, you will not be heavy enough to hold a sword, to lift a coin, to feel the weight of another person's hand.",
+                        description: "Reach into the space between heartbeats and pull yourself through it. Your form loses cohesion  flesh becomes suggestion, bone becomes memory, and you slide through solid matter like smoke through a keyhole leaving a trail of cold shadow that slows any creature passing through it for 1 round. The world becomes translucent, its rules becoming suggestions you can choose to ignore. But the between-places are hungry. Each time you pass through, a little more of you stays behind. Your hands become lighter. Your footprints fade faster. Eventually, you will not be heavy enough to hold a sword, to lift a coin, to feel the weight of another person's hand.",
                         level: 1,
                         icon: 'spell_shadow_invisibility',
                         spellType: 'ACTION',
@@ -486,8 +546,18 @@ export const morthel = {
                                 {
                                     id: 'partial_resistance',
                                     name: 'Shadow Diffusion',
-                                    description: 'Half damage from all non-magical, non-radiant sources � attacks pass through where flesh used to be',
+                                    description: 'Half damage from all non-magical, non-radiant sources  attacks pass through where flesh used to be',
                                     mechanicsText: ''
+                                },
+                                {
+                                    id: 'cold_shadow_trail',
+                                    name: 'Cold Shadow Trail',
+                                    description: 'Phasing through walls leaves a trail of cold shadow that slows any creature passing through it by 50% for 1 round',
+                                    statusEffect: {
+                                        type: 'shadow_trail',
+                                        slowPercent: 50,
+                                        durationRounds: 1
+                                    }
                                 }
                             ],
                             durationType: 'rounds',
@@ -501,7 +571,7 @@ export const morthel = {
                                 {
                                     id: 'no_physical_interaction',
                                     name: 'Displaced from Matter',
-                                    description: 'Cannot interact with physical objects or make physical attacks while faded � your hands pass through what you try to hold'
+                                    description: 'Cannot interact with physical objects or make physical attacks while faded  your hands pass through what you try to hold'
                                 },
                                 {
                                     id: 'ejection_damage',
@@ -517,13 +587,13 @@ export const morthel = {
                         resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 2, components: ['verbal', 'somatic'] },
                         cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
                         specialMechanics: {
-                            dissolutionCost: 'Each use permanently reduces carrying capacity by 5 lbs. Your form holds less of the world each time you pass through the between-places. This is cumulative and irreversible � you are literally becoming less real.'
+                            dissolutionCost: 'Each use permanently reduces carrying capacity by 5 lbs. Your form holds less of the world each time you pass through the between-places. This is cumulative and irreversible  you are literally becoming less real.'
                         }
                     },
                     {
                         id: 'corvani_ear',
                         name: 'Corvani Ear',
-                        description: "Reach into your own shadow and pull forth a raven � not a living bird, but a fragment of your soul shaped into feathers and malice. The raven carries your eyes and ears to places your dissolving body cannot safely go. It sees what you cannot. It hears what you would rather not. And when it dies � when something destroys the soul-shard you sent into the world � you feel every feather separate from every bone, and the voice of whatever killed it whispers in your ear for hours afterward. The ravens remember. They always remember. And losing one costs more than pain.",
+                        description: "Reach into your own shadow and pull forth a raven  not a living bird, but a fragment of your soul shaped into feathers and malice. The raven carries your eyes and ears to places your dissolving body cannot safely go. It sees what you cannot. It hears what you would rather not. And when it dies  when something destroys the soul-shard you sent into the world  you feel every feather separate from every bone, and the voice of whatever killed it whispers in your ear for hours afterward. The ravens remember. They always remember. And losing one costs more than pain.",
                         level: 1,
                         icon: 'inv_raven_hold',
                         spellType: 'ACTION',

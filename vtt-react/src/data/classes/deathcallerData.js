@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Deathcaller Class Data
  *
  * Complete class information for the Deathcaller - a dark necromancer
@@ -16,6 +16,8 @@ export const DEATHCALLER_DATA = {
   overview: {
     title: "The Deathcaller",
     subtitle: "The Price Was Always Your Blood",
+    illustration: "/assets/images/classes/deathcaller_illustration.png",
+    illustrationCaption: "A Briaran Deathcaller commanding the natural cycle of decay with delicate leaves in their hair.",
 
     quickOverview: {
       title: "Quick Overview",

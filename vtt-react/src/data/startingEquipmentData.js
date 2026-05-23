@@ -1383,7 +1383,7 @@ export const getItemsByCategory = (characterData) => {
  * Get equipment preview for a specific selection
  * Shows what items will be unlocked by choosing a particular option
  * @param {string} selectionType - Type of selection ('class', 'race', 'subrace', 'path', 'background')
- * @param {string} selectionValue - The specific value (e.g., 'Pyrofiend', 'nordmark', etc.)
+ * @param {string} selectionValue - The specific value (e.g., 'Pyrofiend', 'hrym', etc.)
  * @returns {Object} Preview data with count, categories, and examples
  */
 export const getEquipmentPreview = (selectionType, selectionValue) => {

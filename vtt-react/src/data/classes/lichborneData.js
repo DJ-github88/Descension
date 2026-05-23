@@ -16,6 +16,8 @@ export const LICHBORNE_DATA = {
   overview: {
     title: "The Lichborne",
     subtitle: "Eternal Frost and Undying Will",
+    illustration: "/assets/images/classes/lichborne_illustration.png",
+    illustrationCaption: "A Ferrick Lichborne deep-gnome tinkerer with alchemical clockwork grafts.",
 
     quickOverview: {
       title: "Quick Overview",

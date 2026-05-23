@@ -84,7 +84,7 @@ export function isPassiveStatModifier(trait) {
     // Explicit check for known passive traits by ID or name
     const traitId = (trait.id || '').toLowerCase();
     const traitName = (trait.name || '').toLowerCase();
-    if (traitId === 'deep_frost_nordmark' || traitName === 'deep frost') {
+    if (traitId === 'deep_frost_hrym' || traitName === 'deep frost') {
         return true; // Deep Frost is always a passive
     }
 

@@ -1086,24 +1086,38 @@ const RaceSelector = () => {
                 </div>
               </div>
 
-              {/* Race Overview */}
-              {raceData.overview && (
-                <div className="race-overview-section">
-                  <div
-                    className={`race-overview-text ${raceOverviewExpanded ? 'expanded' : ''}`}
-                  >
-                    {raceData.overview}
+              {/* Race Overview Container with floated illustration */}
+              <div className="race-overview-container">
+                {raceData.illustration && (
+                  <div className="race-overview-illustration-wrapper">
+                    <div className="guide-illustration-frame">
+                      <img
+                        src={raceData.illustration}
+                        alt={raceData.illustrationCaption || raceData.name}
+                        className="guide-illustration-image"
+                      />
+                    </div>
                   </div>
-                  {raceData.overview.length > 300 && (
-                    <button
-                      className="overview-toggle"
-                      onClick={() => setRaceOverviewExpanded(prev => !prev)}
+                )}
+
+                {raceData.overview && (
+                  <div className="race-overview-section">
+                    <div
+                      className={`race-overview-text ${raceOverviewExpanded ? 'expanded' : ''}`}
                     >
-                      {raceOverviewExpanded ? 'Show Less' : 'Read More'}
-                    </button>
-                  )}
-                </div>
-              )}
+                      {raceData.overview}
+                    </div>
+                    {raceData.overview.length > 300 && (
+                      <button
+                        className="overview-toggle"
+                        onClick={() => setRaceOverviewExpanded(prev => !prev)}
+                      >
+                        {raceOverviewExpanded ? 'Show Less' : 'Read More'}
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Shared Base Traits */}
               <div className="race-base-traits-compact">
@@ -1176,6 +1190,24 @@ const RaceSelector = () => {
           <div className="details-layout">
             {/* Left Column: Stats & Basic Info */}
             <div className="details-left">
+              {/* Race Illustration in Guidebook Frame */}
+              {raceData.illustration && (
+                <div className="guide-illustration-wrapper race-illustration-wrapper">
+                  <div className="guide-illustration-frame">
+                    <img
+                      src={raceData.illustration}
+                      alt={raceData.illustrationCaption || raceData.name}
+                      className="guide-illustration-image"
+                    />
+                    {raceData.illustrationCaption && (
+                      <div className="guide-illustration-caption">
+                        {raceData.illustrationCaption}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Stat Block */}
               <StatModifiersFull statModifiers={variantData.statModifiers} />
 

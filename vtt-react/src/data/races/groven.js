@@ -1,26 +1,28 @@
-﻿export const groven = {
+export const groven = {
         id: 'groven',
         name: 'Groven',
-        essence: 'Antlered forest-guardians',
-        description: 'We are the slow pulse of the forest made flesh, the silent watchers who remember the first seeds. Our skin is the texture of weathered bark, and our bones are as sturdy as ancient oak. We do not walk through the woods; we are a part of them, our footsteps echoing the heartbeat of the land. The antlers that crown our brows are not mere bone, but conduits for the whispers of the groves, reaching for the sunlight and the secrets of the rain. We move with the patience of seasons, for we have seen empires fall like autumn leaves while we remained rooted. Our eyes hold the mossy green of the deep shade, seeing not just the creature, but the life-force that sustains it. We are the stewards of the wild places, the keepers of the old growth that the cities have forgotten. We do not seek your stone walls, for our home is the cathedral of the trees, and we are its living gargoyles.',
-        icon: 'fas fa-tree',
-        overview: 'The Groven are people whose ancestors made bonds with the primal forces of nature. Their bloodlines marked by the wild through generations. They are organized into groves and tribes bound to ancient forests. Settlements grown from living trees that remember every promise made. The Groven do not choose to be guardians. It is their heritage, passed down through bloodlines that hear the forest call.',
-        culturalBackground: `Groven society is built on bonds with ancient groves and the primal forces of nature. Communities organized into tribes bound to specific forests. Each grove traces its founding to legendary guardians who first made pacts with the old spirits. Traditions enforcing the bonds given centuries ago. Groven settlements are grown from living trees. Bark-homes connected to the grove roots. Antlers sprouting from the same primal energy that feeds the forest. Children are taught from birth to hear the forest voice. Not in words, but in the rustle of leaves and the creak of branches. Grove elders pass down the old ways. How to speak with trees. How to call upon primal spirits. How to become one with the wild. Their courts are held in sacred circles where the boundary between flesh and bark blurs. Warriors becoming weapons. Bodies twisting into living wood and thorn. Grove disputes settle through trials of nature and the testimony of ancient trees that remember every bond made. They are a people bound by grove and spirit. Their connection to nature unmatched but their souls forever tied to the wild places they protect.`,
-        variantDiversity: 'The Groven are divided into three major grove bloodlines: The Grove-Guardians dedicate themselves to protecting ancient forests, the Trail-Walkers follow seasonal migrations as nomadic wanderers, and the Spirit-Speakers commune with primal spirits and channel ancient nature magic.',
+        essence: 'Slender stone-trolls',
+        illustration: '/assets/images/races/groven_illustration.png',
+        illustrationCaption: 'A slender, long-armed Groven stone-troll sentinel holding a wooden shield in a mossy forest ruins.',
+        description: 'We are the children of the mountain shadows, shaped by the ancient rock and the cold northern winds. Tall, slender, and long-armed, we carry the tail of the wild beast and the stone-bones of the deep earth. Our skin is rough and moss-grown like weathered granite or volcanic basalt, our long limbs tipped with stone-hardened knuckles. Our eyes are small, dark, and filled with the secrets of the cavernous holds, and a long, tufted, cow-like tail trails behind us, a physical marker of our folklore heritage. We do not walk through the mountains; we belong to them, standing as silent and grey as boulders under the twilight. When we stand still, the eyes of the living pass over us as if we were nothing but stone; when we speak, our voices echo with the hollow wind of the deep crevices. We are a patient, ancient people, combining the limber, predatory grace of the troll-kin with the unyielding strength of the deep rock.',
+        icon: 'fas fa-gem',
+        overview: 'The Groven are tall, slender, and long-armed humanoid troll-kin of Norse mythology lore. Fused to the bedrock of the world, their bloodlines are marked by stone-like bones covered in rough, mossy, rock-like skin, and a long tufted tail that trails behind them. Highly agile yet unbreakably sturdy, they move with a limber grace and serve as patient protectors, blending humanoid elegance with ancient geomantic ties to stone and mountain gates.',
+        culturalBackground: `Groven society is built on deep bonds with the cold roots of the mountains and the earth-currents. Communities are organized into rock-hold enclaves hidden under giant boulders, behind waterfalls, or in high mountain passes. Each clan traces its origin to ancient stone-trolls who swore bonds to protect the earthen foundations. Their moots are held under the grey twilight, where their slender frames blend with the rocks and their long tails twitch to the rhythm of tectonic shifts. Elders pass down the ancient stone-lore—how to listen to the whispers of bedrock, how to navigate precipitous crags with their long, wiry arms, and how to meld their mossy skin with granite to hide in plain sight. Disputes are settled through tests of balance and endurance under the cold northern skies.`,
+        variantDiversity: 'The Groven are divided into three major earth-troll bloodlines: The Slate-Guardians, who grow protective slabs of slate-armor along their slender limbs and spines; the Trail-Crushers, wiry nomads with bones of obsidian who bound across alpine passes; and the Earth-Callers, shamans whose basalt horns are rich with ley-crystals that thrum with raw geomatic magic.',
         integrationNotes: {
-            actionPointSystem: 'Groven abilities focus on nature magic, physical prowess, and environmental manipulation. Their connection to nature provides unique tactical options in natural settings.',
-            backgroundSynergy: 'Groven excel in backgrounds emphasizing nature, protection, and primal power. Their grove bonds create strong territorial motivations.',
-            classCompatibility: 'Groven make excellent druids, rangers, and nature warriors. Their physical bonuses and nature magic enhance classes that operate in wilderness settings.'
+            actionPointSystem: 'Groven abilities focus on earth magic, long-armed reach, agile climbing, and stone barrier manipulation. Their troll-kin tails and limber frames offer versatile movements.',
+            backgroundSynergy: 'Groven excel in backgrounds emphasizing high mountain survival, scouts, stonecraft, and ancient folklore. Their troll heritage creates fascinating narrative interactions.',
+            classCompatibility: 'Groven make highly versatile frontliners, agile skirmishers, and powerful geomantic casters. Their physical reach and stone armor traits enhance classes that excel in control and zone defense.'
         },
-        meaningfulTradeoffs: 'Groven gain powerful nature abilities and physical prowess but are bound to their groves and suffer when separated from nature. Their wild nature makes urban environments uncomfortable.',
+        meaningfulTradeoffs: 'Groven possess high physical resilience and superior climbing reach, but their stone-infused frames make them vulnerable to lightning, heavy enough to sink in deep water, and socially feared by civilized folk who mistake them for monsters.',
         baseTraits: {
-            languages: ['Common', 'Druidic'],
-            lifespan: '180-220 years',
-            baseSpeed: 35,
+            languages: ['Common', 'Terran'],
+            lifespan: '250-350 years',
+            baseSpeed: 25,
             size: 'Medium',
-            height: '6\'2" - 7\'2"',
-            weight: '200-350 lbs',
-            build: 'Tall and sturdy'
+            height: '6\'6" - 7\'6"',
+            weight: '180-240 lbs',
+            build: 'Tall, slender, and long-armed with a tufted tail'
         },
         epicHistory: `
 The First Binding came when primal energy that shaped wild first spoke to humans. Some folk listened and heard voice that spoke in rustle of leaves and creak of branches, understanding that the forest offered connection in exchange for guardians. Those first listeners became the first Groven, their bloodlines marked by primal energy that flowed through sacred trees.
@@ -158,9 +160,9 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
         subraces: {
             guardian: {
                 id: 'guardian_groven',
-                name: 'Grove Guardian',
-                description: 'Bark grows in thick patches across their skin, heaviest on arms, chest, and back — natural plate armor that creaks when they move. Antlers largest of all Groven, branching like ancient oaks, sometimes heavy enough to require bowing through doorways. Skin shows deep grain patterns like old growth wood, with rings visible on close inspection. Roots sometimes visible beneath their feet when they stand still for too long, anchoring them to the earth. Many have moss growing in the crevices of their bark — soft green contrast to the hardness underneath. They move slowly but with absolute purpose, each step settling like roots finding purchase in soil.',
-                culturalBackground: `The Grove-Guardians trace their lineage to the first Groven who swore to protect ancient forests. Bloodline marked by deep bonds with specific groves. Their tradition requires that every member bond with a sacred grove during their sixteenth year, flesh slowly growing bark as the bond deepens. Grove-Guardian settlements are built within the heart of ancient forests, members serving as protectors, sentinels, living fortresses. They practice ancient guardian techniques passed down through generations. How to call roots from the earth. How to grow thorns as weapons. How to hear the forest warnings days before threats arrive. But this connection demands sacrifice. They cannot abide the cutting of living wood. Proximity to dead forests causes them physical pain. Many Grove-Guardians become hermits in their bonded groves, bodies slowly becoming indistinguishable from the trees they protect.`,
+                name: 'Stone-Slab Guardian',
+                description: 'Thick plates of slate grow in jagged layers along their slender, long-armed limbs and spine, forming a natural stone armor. A long, mossy, cow-like tail trails behind them. Their brow-horns are blocky, basalt ridges, and their skin is rough like weathered shale. Tectonic tremors are felt directly in their granite knuckles. They move with absolute purpose, each step carrying the deliberate, silent grace of a mountain predator.',
+                culturalBackground: `The Stone-Slab Guardians trace their lineage to the first Groven who swore blood-pacts with deep mountain monoliths. Their bloodline is marked by thick slate-armor plates and heavy granite bones along their slender frames. Their tradition requires that every member bond with a volcanic or mountain gate during their sixteenth year, their skin calcifying into stone slabs as the bond deepens. Stone-Slab Guardian settlements are built directly into the heart of mountain crevices and active passes, serving as protectors, sentinels, and moving barricades. They practice ancient bastion techniques passed down through generations. How to call stone-spikes from the earth. How to grow basalt plates as weapons. How to hear tremors in the stone days before invaders arrive. But this weight demands sacrifice. They cannot abide the destruction of natural mountains. Proximity to collapsing mines causes them intense physical pain. Many become immovable hermits in their bonded passes, their bodies slowly turning entirely to stone.`,
                 statModifiers: {
                     constitution: 2,
                     strength: 1
@@ -168,8 +170,8 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                 traits: [
                     {
                         id: 'heartwood_guardian',
-                        name: 'Heartwood',
-                        description: 'Bark-plate calcifies across ribs, spine, and skull — living timber fused to bone. You gain +2 Armor permanently. But the timber does not forget it was once a tree — your joints creak and resist, and every blade that finds the gaps between bark-plates cuts deep into the soft wood beneath.',
+                        name: 'Granite Core',
+                        description: 'Granite-plates calcify across ribs, spine, and skull—literal stone bones fused to your organic skeleton. You gain +2 Armor permanently. But the stone does not yield easily—your joints resist and grind, and every blade that finds the gaps between slate-plates cuts deep into the soft, unplated flesh beneath.',
                         level: 1,
                         icon: 'ability_warrior_shieldmastery',
                         spellType: 'PASSIVE',
@@ -177,14 +179,14 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                         typeConfig: {
                             category: 'racial',
                             school: 'nature',
-                            tags: ['armor', 'bark', 'passive']
+                            tags: ['armor', 'stone', 'passive']
                         },
                         buffConfig: {
                             buffType: 'permanent',
                             effects: [{
                                 id: 'bark_plate_armor',
-                                name: 'Bark-Plate Armor',
-                                description: '+2 Armor from calcified bark-plate fused to bone.',
+                                name: 'Granite Core Plates',
+                                description: '+2 Armor from granite core plates fused to bone.',
                                 statModifier: {
                                     stat: 'armor',
                                     magnitude: 2,
@@ -200,8 +202,8 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             debuffType: 'vulnerability',
                             effects: [{
                                 id: 'soft_wood_gaps',
-                                name: 'Soft Wood Gaps',
-                                description: 'Blades find the tender gaps between bark-plates. +25% vulnerability to slashing damage.',
+                                name: 'Plating Gaps',
+                                description: 'Blades find the tender gaps between slate-plates. +25% vulnerability to slashing damage.',
                                 statusEffect: {
                                     vulnerabilityType: 'slashing',
                                     vulnerabilityPercent: 25
@@ -230,7 +232,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     {
                         id: 'living_fortress',
                         name: 'Living Fortress',
-                        description: 'Drive your antlers and hands deep into the earth. Roots erupt in a 20ft line, forming a living wall with 40 HP that provides Full Cover and lasts 1 minute. The wall is covered in Thorns — any enemy that attacks it in melee takes 1d6 piercing damage. When the wall is destroyed (HP reaches 0), you are Rooted for 1 round — the pain of your living creation dying paralyzes you momentarily. You can still attack but cannot move.',
+                        description: 'Drive your basalt horns and granite hands deep into the earth. Stone pillars erupt in a 20ft line, forming a rocky wall with 40 HP that provides Full Cover and lasts 1 minute. The wall is covered in sharp crystal shards—any enemy that attacks it in melee takes 1d6 piercing damage. When the wall is destroyed (HP reaches 0), you are Rooted for 1 round—the shock of your tectonic creation crumbling paralyzes you momentarily. You can still attack but cannot move.',
                         level: 1,
                         icon: 'spell_nature_natureguard',
                         spellType: 'ACTION',
@@ -299,8 +301,8 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     },
                     {
                         id: 'antler_breach',
-                        name: 'Antler Breach',
-                        description: 'Lower your massive antlers and charge in a straight line up to 30ft. All creatures in your path must make a Strength save or take 2d8 piercing damage and be knocked prone. You ignore difficult terrain during the charge. If you hit a solid wall, you take 1d6 bludgeoning damage — the antlers do not care what they break, including your neck.',
+                        name: 'Basalt Horn Breach',
+                        description: 'Lower your massive basalt-horned brow and charge in a straight line up to 30ft. All creatures in your path must make a Strength save or take 2d8 piercing damage and be knocked prone. You ignore difficult terrain during the charge. If you hit a solid wall, you take 1d6 bludgeoning damage — the stony horns do not care what they break, including your neck.',
                         level: 1,
                         icon: 'ability_druid_ferociousbite',
                         spellType: 'ACTION',
@@ -331,6 +333,23 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             durationType: 'rounds',
                             durationUnit: 'rounds'
                         },
+                        controlConfig: {
+                            controlType: 'knockdown',
+                            effects: [{
+                                id: 'charge_knockdown',
+                                name: 'Charging Knockdown',
+                                description: 'Targets in the charge path are knocked prone on failed Strength save.',
+                                savingThrow: {
+                                    ability: 'strength',
+                                    difficultyClass: 14,
+                                    saveOutcome: 'negates'
+                                }
+                            }],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
                         utilityConfig: {
                             utilityType: 'movement',
                             selectedEffects: [
@@ -358,8 +377,8 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     },
                     {
                         id: 'grove_whisper',
-                        name: 'Grove Whisper',
-                        description: 'Trees within 1 mile speak warnings. Always know if any plant life within 300ft is diseased, corrupted, or poisoned. Sense threats hours before they arrive. But in dead forests, burned lands, or places where no living root remains — the silence is maddening. The absence of the green voice is a deafening roar.',
+                        name: 'Earth Resonance',
+                        description: 'Deep bedrock vibrates, carrying secrets through your stone skeleton. Always know if any natural cavern, tremor, or metal ore lies within 300ft. Sense seismic shifts hours before they happen. But in ungrounded spaces (like floating ships or high towers) where no solid bedrock connection exists—the lack of grounding is maddening. The absence of the earth voice causes spatial disorientation.',
                         level: 1,
                         icon: 'spell_nature_natureguard',
                         spellType: 'PASSIVE',
@@ -367,14 +386,14 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                         typeConfig: {
                             category: 'racial',
                             school: 'nature',
-                            tags: ['detection', 'forest', 'passive']
+                            tags: ['detection', 'earth', 'passive']
                         },
                         utilityConfig: {
                             utilityType: 'detection',
                             selectedEffects: [
-                                { id: 'threat_detection', name: 'Threat Detection', description: 'Sense threats to natural areas within 1 mile.' },
-                                { id: 'plant_health_sense', name: 'Plant Health Sense', description: 'Know the health of all plant life within 300ft.' },
-                                { id: 'tree_whispers', name: 'Tree Whispers', description: 'Trees warn of approaching creatures, fires, and disease hours in advance.' }
+                                { id: 'threat_detection', name: 'Seismic Detection', description: 'Sense seismic shifts and tremors within 1 mile.' },
+                                { id: 'plant_health_sense', name: 'Mineral Sense', description: 'Know the composition of all rock and metal within 300ft.' },
+                                { id: 'tree_whispers', name: 'Earth Whispers', description: 'Bedrock warns of approaching creatures, collapses, and hollow spaces hours in advance.' }
                             ],
                             duration: 0,
                             durationUnit: 'permanent'
@@ -383,12 +402,12 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             debuffType: 'mentalEffect',
                             effects: [{
                                 id: 'silence_madness',
-                                name: 'Silence Madness',
-                                description: 'In dead forests or burned lands with no living plants, the silence causes madness. Disadvantage on all Spirit and Intelligence saves.',
+                                name: 'Ungrounded Disorientation',
+                                description: 'In ungrounded spaces, the lack of bedrock connection causes disorientation. Disadvantage on all Spirit and Dexterity saves.',
                                 statusEffect: {
-                                    type: 'madness',
-                                    triggerCondition: 'dead_forest',
-                                    penalties: ['disadvantage_spirit_saves', 'disadvantage_intelligence_saves']
+                                    type: 'disorientation',
+                                    triggerCondition: 'ungrounded',
+                                    penalties: ['disadvantage_spirit_saves', 'disadvantage_dexterity_saves']
                                 }
                             }],
                             durationValue: 0,
@@ -413,8 +432,8 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     },
                     {
                         id: 'kindling_flesh_guardian',
-                        name: 'Kindling Flesh',
-                        description: 'Your bark-like flesh is kindling to open flame. Fire damage is doubled against you. Additionally, each time you take fire damage, your bark-plate cracks and peels, permanently reducing your Armor by 1 (stacks to -3) until you spend 1 hour in direct contact with living soil and let the bark regrow. The grove gave you armor. The grove cannot protect you from what burns it.',
+                        name: 'Cracking Slate',
+                        description: 'Your thick flesh is easily charred, and intense fire heat causes your slate plating to crack and flake. Fire damage is doubled against you. Additionally, each time you take fire damage, the slate plating on your limbs detonates: adjacent enemies take 1d6 piercing damage from rock shrapnel, but your Armor is reduced by 1 (stacks to -3) until you spend 1 hour in direct contact with living soil or rock to regrow it. The earth gave you armor. The forge can peel it away.',
                         level: 1,
                         icon: 'spell_fire_flamestrike',
                         spellType: 'PASSIVE',
@@ -429,7 +448,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                                 {
                                     id: 'fire_vulnerability',
                                     name: 'Fire Vulnerability',
-                                    description: 'Living wood burns with terrifying intensity. 100% fire vulnerability.',
+                                    description: 'Organic skin burns while slate cracks under rapid heating. 100% fire vulnerability.',
                                     statusEffect: {
                                         vulnerabilityType: 'fire',
                                         vulnerabilityPercent: 100
@@ -437,14 +456,26 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                                 },
                                 {
                                     id: 'bark_degradation',
-                                    name: 'Bark Degradation',
-                                    description: 'Each fire hit cracks bark-plate: -1 Armor per hit (stacks to -3). Requires 1 hour in living soil to regrow.',
+                                    name: 'Slate Degradation',
+                                    description: 'Each fire hit cracks slate-plate: -1 Armor per hit (stacks to -3). Requires 1 hour in living soil or rock to regrow.',
                                     statusEffect: {
                                         type: 'armor_degradation',
                                         triggerCondition: 'fire_damage_taken',
                                         armorLossPerHit: 1,
                                         maxStacks: 3,
-                                        recoveryCondition: '1 hour contact with living soil'
+                                        recoveryCondition: '1 hour contact with living soil or rock'
+                                    }
+                                },
+                                {
+                                    id: 'slate_shrapnel',
+                                    name: 'Slate Shrapnel',
+                                    description: 'When hit by fire damage, adjacent enemies take 1d6 piercing damage from rock shrapnel.',
+                                    statusEffect: {
+                                        type: 'retaliation_damage',
+                                        triggerCondition: 'fire_damage_taken',
+                                        damageFormula: '1d6',
+                                        damageTypes: ['piercing'],
+                                        aoeRadius: 5
                                     }
                                 }
                             ],
@@ -470,9 +501,9 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     }
                 ],
                 baseStats: {
-                    health: 15,
+                    hp: 15,
                     mana: 2,
-                    actionPoints: 3,
+                    ap: 3,
                     initiative: -1
                 },
                 savingThrowModifiers: {
@@ -482,9 +513,9 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
             },
             wanderer: {
                 id: 'wanderer_groven',
-                name: 'Trail Walker',
-                description: 'Lean and wiry from constant movement, their bark thinner and more flexible than other Groven. Antlers smaller, often broken and regrown from travel through tight passages. Feet heavily calloused, able to walk over sharp stone and frozen ground without slowing. Eyes constantly scanning the horizon, reading weather patterns and animal movements. Skin weathered by sun and wind, grain patterns smoothed by exposure. They carry the smell of distant places — pine resin, ocean salt, mountain stone. Many have small scars from thorns and rocks. They seem to fade slightly when standing still, restless energy barely contained.',
-                culturalBackground: `The Trail-Walkers trace their lineage to Groven who rejected grove bonds for the freedom of endless wandering. Bloodline marked by the call of the horizon. Their tradition requires that every member learn the ancient migration routes. Apprenticeships spent following seasonal paths that their ancestors walked. Trail-Walker communities are nomadic, following herds and seasons across vast territories. Members serving as guides, scouts, messengers between distant groves. They practice ancient pathfinding techniques passed down through generations. How to read ley lines. How to find water in deserts. How to navigate by the stars and the earth energy. Their bodies adapt to long travel, feet becoming calloused and sure, senses sharpening to detect threats miles away. But the call to wander never stops. They become restless in settlements, dreaming of open skies and untamed lands.`,
+                name: 'Trail Crusher',
+                description: 'Wiry, exceptionally slender, and agile nomads with long, limber arms and a quick, tufted tail. Their stone-bones are composed of dark obsidian or volcanic basalt, leaving their knuckles sharp and glass-edged. They have smaller rocky horns and a light-stepping, predatory gait. Their feet are heavily calloused and stone-soled, able to bound over jagged volcanic glass and frozen crags without slowing. Eyes constantly scanning the horizon, reading dust storms and cavern currents. Their thick mossy skin is weathered by sun, wind, and ash. They carry the smell of distant passes—sulfur, basalt dust, and pine. Restless tectonic energy is barely contained in their silent, loping steps.',
+                culturalBackground: `The Trail-Crushers trace their lineage to Groven who rejected cavern-bonds for the freedom of endless wandering. Bloodline marked by the call of the horizon. Their tradition requires that every member learn the ancient mountain passages and rocky ridges. Apprenticeships are spent following seasonal migration paths that their ancestors ground to dust. Trail-Crusher communities are nomadic, following game and seasonal mineral veins across vast alpine and volcanic territories. Members serve as scouts, guides, and heralds. They practice ancient pathfinding techniques passed down through generations. How to read tectonic lines. How to find deep springs. How to navigate by the stars and thermal vents. Their bodies adapt to long travel, their stone bones becoming dense and sure, senses sharpening to detect rockfalls miles away. But the call of the horizon never stops. They become extremely restless in settlements, dreaming of open skies and barren ranges.`,
                 statModifiers: {
                     dexterity: 2,
                     wisdom: 1
@@ -492,8 +523,8 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                 traits: [
                     {
                         id: 'restless_blood',
-                        name: 'Restless Blood',
-                        description: 'The path-curse does not permit rest. Your movement speed increases by +10ft (total 40ft) and you ignore all natural difficult terrain — mud, snow, undergrowth, thorn walls part for you. But for every full round you remain stationary, bark begins to calcify over your joints. After 1 round stationary: 1 necrotic damage. After 2 rounds: 1d4 necrotic and -5ft speed. After 3 rounds: Restrained as roots erupt from your feet. You must spend 1 action to tear free. The forest does not let its children idle.',
+                        name: 'Restless Kinetic',
+                        description: 'The tectonic-curse does not permit rest. Your movement speed increases by +10ft (total 35ft) and you ignore all natural difficult terrain—scree, mud, cracked earth, and undergrowth. But for every full round you remain stationary, heavy stone calcifies over your joints. After 1 round stationary: 1 necrotic damage. After 2 rounds: 1d4 necrotic and -5ft speed. After 3 rounds: Calcified as solid stone, gaining +4 Armor Score, but you are fully paralyzed and cannot take any physical actions until you spend 1 Action to shatter the stone. The earth does not let its children idle.',
                         level: 1,
                         icon: 'ability_druid_dash',
                         spellType: 'PASSIVE',
@@ -508,7 +539,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             effects: [{
                                 id: 'path_speed',
                                 name: 'Path-Speed',
-                                description: '+10ft movement speed permanently (40ft total).',
+                                description: '+10ft movement speed permanently (35ft total).',
                                 statModifier: {
                                     stat: 'movement_speed',
                                     magnitude: 10,
@@ -533,14 +564,14 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             effects: [{
                                 id: 'stillness_calcification',
                                 name: 'Stillness Calcification',
-                                description: '1 round stationary: 1 necrotic. 2 rounds: 1d4 necrotic + -5ft speed. 3 rounds: Restrained (roots from feet). Action to break free.',
+                                description: '1 round stationary: 1 necrotic. 2 rounds: 1d4 necrotic + -5ft speed. 3 rounds: Paralyzed, +4 Armor. Action to break free.',
                                 statusEffect: {
                                     type: 'calcification',
                                     triggerCondition: 'stationary',
                                     stages: [
-                                        { rounds: 1, damage: 1, damageType: 'necrotic' },
-                                        { rounds: 2, damage: '1d4', damageType: 'necrotic', speedPenalty: -5 },
-                                        { rounds: 3, status: 'restrained', escapeAction: 1 }
+                                        { rounds: 1, damage: 1, damageTypes: ['necrotic'] },
+                                        { rounds: 2, damage: '1d4', damageTypes: ['necrotic'], speedPenalty: -5 },
+                                        { rounds: 3, status: 'paralyzed', armorBonus: 4, escapeAction: 1 }
                                     ]
                                 }
                             }],
@@ -656,6 +687,13 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             healingType: 'conditional',
                             resolution: 'DICE'
                         },
+                        healConfig: {
+                            healType: 'flat',
+                            formula: '1d8 + spirit',
+                            resolution: 'DICE',
+                            target: 'self',
+                            conditions: { landingSurface: 'natural' }
+                        },
                         debuffConfig: {
                             debuffType: 'conditional',
                             effects: [{
@@ -666,7 +704,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                                     type: 'ley_recoil',
                                     triggerCondition: 'teleport_to_non_natural',
                                     damage: '1d6',
-                                    damageType: 'psychic'
+                                    damageTypes: ['psychic']
                                 }
                             }],
                             durationValue: 0,
@@ -805,9 +843,9 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     }
                 ],
                 baseStats: {
-                    health: 12,
+                    hp: 12,
                     mana: 3,
-                    actionPoints: 3,
+                    ap: 3,
                     initiative: 2
                 },
                 savingThrowModifiers: {
@@ -817,9 +855,9 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
             },
             shaman: {
                 id: 'shaman_groven',
-                name: 'Spirit Speaker',
-                description: 'Antlers decorated with bones, feathers, and small carved totems that rattle softly when they turn their head. Eyes shift between normal and animal-like, pupils dilating unnaturally when spirits speak through them. Necklaces of animal teeth and bones clatter when they move. Skin marked with ritual scars from spirit-binding ceremonies — pale lines that form patterns of claws, wings, and eyes. Many have animalistic mannerisms: a twitch of the ear, a tilt of the head, a growl that slips out unbidden. Their voices sometimes carry animal sounds, growls or bird calls bleeding through human speech like watercolors running together.',
-                culturalBackground: `The Spirit-Speakers trace their lineage to the first Groven shamans who learned to commune with the spirits of beasts and ancestors. Bloodline marked by deep spiritual connections. Their tradition requires that every member undergo vision quests during their eighteenth year, learning to hear the voices of every animal that ever died. Spirit-Speaker communities are built around sacred circles where the boundary between worlds grows thin. Members serving as shamans, mediators, spirit-callers. They practice ancient rituals passed down through generations. How to summon spirit beasts. How to divine from animal bones. How to channel primal energies through their antlers. But this communion comes at a cost. They share the beasts primal instincts, sometimes losing themselves to animal rage or cunning. Many Spirit-Speakers live in isolation, minds filled with too many voices.`,
+                name: 'Earth Caller',
+                description: 'Crystalline lines map across their slender, mossy skin, thrumming with ley-line energy. Their basalt brow-horns are shot through with raw geodes and shimmering quartz crystals that thrum softly with ley-line energy. Their eyes glow with the pale, steady fire of crystalline deposits, shifting color based on the ley-currents. When they channel magic, these lines pulse with soft elemental light, and their tufted tail twitches in tune with tectonic currents. When they speak, the resonant vibration of subterranean vaults echoes beneath their words.',
+                culturalBackground: `The Earth-Callers trace their lineage to the first Groven shamans who swore blood-bonds with the living crystals of the deep caverns. Bloodline marked by deep connections with the earth-soul. Their tradition requires that every member undergo deep cavern vigils during their eighteenth year, learning to hear the resonance of the crystalline veins. Earth-Caller communities are built around deep ley-gateways where the boundary between flesh and crystal blurs, members serving as shamans, mediators, and earth-callers. They practice ancient geomancy techniques passed down through generations. How to summon earth elementals. How to read mineral lines. How to channel ley energies through their crystal horns. But this communion comes at a cost. They share the earth's heavy, grinding silence, sometimes losing themselves to a catatonic trance or stubborn crystalline stubbornness. Many Earth-Callers live in deep cavern isolation, their minds filled with the slow hum of the world.`,
                 statModifiers: {
                     wisdom: 2,
                     intelligence: 1
@@ -827,8 +865,8 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                 traits: [
                     {
                         id: 'hollow_bones',
-                        name: 'Hollow Bones',
-                        description: 'Antlers act as spirit conduits — you see what others cannot. Spirits, ghosts, and invisible creatures within 60ft are visible to you. Advantage on checks to detect illusions. Animals are naturally calm in your presence and will not attack unless provoked. But the spirits never stop whispering. In areas of mass death — battlefields, graveyards, execution grounds — the whispers become screams. All checks at disadvantage until you leave the dead place.',
+                        name: 'Crystalline Conduits',
+                        description: 'Your crystal-infused horns act as spiritual and elemental conduits—you see what others cannot. Earth spirits, ghosts, and invisible creatures within 60ft are visible to you. Advantage on checks to detect illusions. Burrowing creatures are naturally calm in your presence and will not attack unless provoked. But the tectonic whispers never stop. In areas of mass death—battlefields, collapsed mines—the whispers become screaming echoes. All checks at disadvantage until you leave the dead place.',
                         level: 1,
                         icon: 'spell_holy_mindvision',
                         spellType: 'PASSIVE',
@@ -954,7 +992,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                                         type: 'psychic_severance',
                                         triggerCondition: 'buff_expired_or_dispelled',
                                         damage: '1d6',
-                                        damageType: 'psychic'
+                                        damageTypes: ['psychic']
                                     }
                                 },
                                 {
@@ -1028,7 +1066,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                                     statusEffect: {
                                         type: 'self_damage',
                                         damage: 1,
-                                        damageType: 'necrotic'
+                                        damageTypes: ['necrotic']
                                     }
                                 },
                                 {
@@ -1187,12 +1225,72 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             cooldownType: 'none',
                             cooldownValue: 0
                         }
+                    },
+                    {
+                        id: 'ley_line_resonance_groven',
+                        name: 'Ley-Line Resonance',
+                        description: 'Attune to local geological ley-lines. Spend 1 AP to restore 10 mana. However, taking lightning damage while attuned causes a chaotic magical backlash, dealing 1d10 psychic damage to all adjacent units.',
+                        level: 1,
+                        icon: 'spell_nature_elementalshields',
+                        spellType: 'ACTION',
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: ['somatic'] },
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'geomancy',
+                            secondaryElement: 'mana',
+                            icon: 'spell_nature_elementalshields',
+                            tags: ['mana_regen', 'attunement', 'lightning_backlash', 'cooldown']
+                        },
+                        buffConfig: {
+                            buffType: 'mana_regen',
+                            effects: [
+                                {
+                                    id: 'ley_mana_restore',
+                                    name: 'Ley Mana Restore',
+                                    description: 'Restore 10 mana immediately',
+                                    manaRestore: 10
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'instant',
+                            durationUnit: 'instant',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'ley_attuned',
+                                    name: 'Ley Attuned',
+                                    description: 'Attuned to geological ley-lines. Taking lightning damage causes 1d10 psychic backlash to adjacent units.',
+                                    statusEffect: {
+                                        type: 'attunement',
+                                        vulnerabilityTrigger: 'lightning_damage_taken',
+                                        backlashDamageFormula: '1d10',
+                                        backlashDamageType: 'psychic',
+                                        backlashRadius: 5
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
                     }
                 ],
                 baseStats: {
-                    health: 11,
+                    hp: 11,
                     mana: 5,
-                    actionPoints: 3,
+                    ap: 3,
                     initiative: 0
                 },
                 savingThrowModifiers: {

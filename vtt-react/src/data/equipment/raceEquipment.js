@@ -56,10 +56,10 @@ export const HUMAN_BASE_ITEMS = [
     }
 ];
 
-// Nordmark base items
-export const NORDMARK_BASE_ITEMS = [
+// Hrym base items
+export const HRYM_BASE_ITEMS = [
     {
-        id: 'nordmark-frost-gloves',
+        id: 'hrym-frost-gloves',
         name: 'Frostbite Gloves',
         type: 'armor',
         subtype: 'CLOTH',
@@ -79,12 +79,12 @@ export const NORDMARK_BASE_ITEMS = [
             strength: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['nordmark']
+            races: ['hrym']
         }
     },
 
     {
-        id: 'nordmark-winter-boots',
+        id: 'hrym-winter-boots',
         name: 'Snowtread Boots',
         type: 'armor',
         subtype: 'LEATHER',
@@ -101,56 +101,57 @@ export const NORDMARK_BASE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['nordmark']
+            races: ['hrym']
         }
     }
 ];
 
-// Grimheart base items
-export const GRIMHEART_BASE_ITEMS = [
+// Myrathil base items
+export const MYRATHIL_BASE_ITEMS = [
     {
-        id: 'grimheart-stone-bracers',
-        name: 'Stoneforged Bracers',
+        id: 'myrathil-kelp-weave',
+        name: 'Kelp-Weave Body Wrap',
         type: 'armor',
-        subtype: 'PLATE',
+        subtype: 'CLOTH',
         quality: 'common',
-        description: 'Bracers reinforced with stone that provide protection and enhanced strength.',
-        iconId: 'inv_bracer_04',
-        value: { platinum: 0, gold: 7, silver: 50, copper: 75 },
-        weight: 3,
-        width: 1,
+        description: 'Living kelp-fiber fabric cultivated in submerged gardens. Tightens when wet and breathes when dry.',
+        iconId: 'inv_chest_cloth_03',
+        value: { platinum: 0, gold: 5, silver: 50, copper: 75 },
+        weight: 1,
+        width: 2,
         height: 1,
-        slots: ['wrists'],
+        slots: ['chest'],
         combatStats: {
             armor: { value: 1, isPercentage: false }
         },
         baseStats: {
-            strength: { value: 1, isPercentage: false },
+            agility: { value: 1, isPercentage: false },
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['grimheart']
+            races: ['myrathil']
         }
     },
 
     {
-        id: 'grimheart-caver-belt',
-        name: 'Deepdelver Belt',
-        type: 'armor',
-        subtype: 'LEATHER',
+        id: 'myrathil-tide-charm',
+        name: 'Tide-Charm Necklace',
+        type: 'accessory',
+        subtype: 'NECKLACE',
         quality: 'common',
-        description: 'A sturdy belt with pouches for tools and enhanced carrying capacity.',
-        iconId: 'inv_belt_02',
-        value: { platinum: 0, gold: 5, silver: 85, copper: 25 },
-        weight: 2,
-        width: 2,
+        description: 'Braided kelp-rope and sea-glass polished by the same shore that spawned its wearer. A Myrathil can always feel which direction the nearest coast lies while wearing their charm.',
+        iconId: 'inv_jewelry_necklace_11',
+        value: { platinum: 0, gold: 3, silver: 85, copper: 25 },
+        weight: 0.2,
+        width: 1,
         height: 1,
-        slots: ['waist'],
+        slots: ['neck'],
         baseStats: {
-            constitution: { value: 1, isPercentage: false }
+            spirit: { value: 1, isPercentage: false },
+            charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['grimheart']
+            races: ['myrathil']
         }
     }
 ];
@@ -543,8 +544,8 @@ export const FERRICK_BASE_ITEMS = [
 
 // ===== SUBRACE ITEMS (1 extra per subrace) =====
 
-// Nordmark subrace items
-export const NORDMARK_SUBRACE_ITEMS = [
+// Hrym subrace items
+export const HRYM_SUBRACE_ITEMS = [
     {
         id: 'bloodhammer-war-horn',
         name: 'Bloodhammer War Horn',
@@ -563,7 +564,7 @@ export const NORDMARK_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['bloodhammer_nordmark']
+            subraces: ['bloodhammer_hrym']
         }
     },
 
@@ -588,7 +589,7 @@ export const NORDMARK_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['frostbound_nordmark']
+            subraces: ['frostbound_hrym']
         }
     },
 
@@ -618,89 +619,76 @@ export const NORDMARK_SUBRACE_ITEMS = [
             wisdom: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['runekeeper_nordmark']
+            subraces: ['runekeeper_hrym']
         }
     }
 ];
 
-// Grimheart subrace items
-export const GRIMHEART_SUBRACE_ITEMS = [
+// Myrathil subrace items
+export const MYRATHIL_SUBRACE_ITEMS = [
     {
-        id: 'delver-stone-armor',
-        name: 'Stone-Reinforced Armor',
-        type: 'armor',
-        subtype: 'PLATE',
+        id: 'breakers-sea-glass-torc',
+        name: 'Breakers\' Sea-Glass Torc',
+        type: 'accessory',
+        subtype: 'NECKLACE',
         quality: 'uncommon',
-        description: 'Heavy armor reinforced with stone plates from the deep earth.',
-        iconId: 'inv_chest_plate_06',
-        value: { platinum: 0, gold: 14, silver: 75, copper: 50 },
-        weight: 25,
-        width: 2,
-        height: 2,
-        slots: ['chest'],
-        combatStats: {
-            armor: { value: 4, isPercentage: false }
-        },
+        description: 'A torc of woven salvage-silk set with sea-glass that shifts color with atmospheric pressure — a Breakers-Born trader\'s most trusted negotiation tool.',
+        iconId: 'inv_jewelry_necklace_18',
+        value: { platinum: 0, gold: 8, silver: 75, copper: 50 },
+        weight: 0.3,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
         baseStats: {
-            constitution: { value: 2, isPercentage: false }
+            charisma: { value: 2, isPercentage: false },
+            agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['delver_grimheart']
+            subraces: ['breaker_myrathil']
         }
     },
 
     {
-        id: 'warden-stone-shield',
-        name: 'Stone Guardian Shield',
-        type: 'armor',
-        subtype: 'SHIELD',
+        id: 'deepborn-abyss-pearl',
+        name: 'Deep-Born Abyss Pearl',
+        type: 'accessory',
+        subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A heavy shield carved from a single piece of stone.',
-        iconId: 'inv_shield_06',
-        value: { platinum: 0, gold: 10, silver: 60, copper: 50 },
-        weight: 10,
-        width: 2,
-        height: 2,
-        slots: ['offHand'],
-        combatStats: {
-            armor: { value: 2, isPercentage: false }
-        },
+        description: 'A pearl harvested from the deepest trench-gardens, cold to the touch even on land. Deep-Born mystics use it as a focus for the low hum — it resonates faintly when the abyss is listening.',
+        iconId: 'inv_misc_gem_pearl_05',
+        value: { platinum: 0, gold: 10, silver: 50, copper: 75 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
         baseStats: {
+            spirit: { value: 2, isPercentage: false },
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['warden_grimheart']
+            subraces: ['deep_myrathil']
         }
     },
 
     {
-        id: 'forgemaster-forge-hammer',
-        name: 'Forge Master\'s Hammer',
-        type: 'weapon',
-        subtype: 'MACE',
+        id: 'riverfed-cartographer-kit',
+        name: 'River-Fed Cartographer\'s Kit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A heavy hammer used by master smiths, equally effective in combat.',
-        iconId: 'inv_hammer_20',
-        value: { platinum: 0, gold: 9, silver: 75, copper: 25 },
-        weight: 4,
-        width: 2,
+        description: 'A waterproofed leather case containing parchment, ink pressed from coastal minerals, and a compass that points toward the nearest river-mouth rather than north. Carried by every River-Fed who walks inland.',
+        iconId: 'inv_misc_enggizmos_27',
+        value: { platinum: 0, gold: 7, silver: 50, copper: 75 },
+        weight: 2,
+        width: 1,
         height: 2,
-        slots: ['mainHand'],
-        weaponSlot: 'ONE_HANDED',
-        hand: 'ONE_HAND',
-        weaponStats: {
-            baseDamage: {
-                diceCount: 1,
-                diceType: 8,
-                damageType: 'bludgeoning'
-            }
-        },
+        rotation: 0,
+        stackable: false,
         baseStats: {
-            intelligence: { value: 1, isPercentage: false },
-            strength: { value: 1, isPercentage: false }
+            intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['forgemaster_grimheart']
+            subraces: ['river_myrathil']
         }
     }
 ];
@@ -1384,8 +1372,8 @@ export const HUMAN_SUBRACE_ITEMS = [
 
 export const ALL_RACE_EQUIPMENT = [
     ...HUMAN_BASE_ITEMS,
-    ...NORDMARK_BASE_ITEMS,
-    ...GRIMHEART_BASE_ITEMS,
+    ...HRYM_BASE_ITEMS,
+    ...MYRATHIL_BASE_ITEMS,
     ...MIMIR_BASE_ITEMS,
     ...BRIARAN_BASE_ITEMS,
     ...GROVEN_BASE_ITEMS,
@@ -1394,8 +1382,8 @@ export const ALL_RACE_EQUIPMENT = [
     ...MORTHEL_BASE_ITEMS,
     ...ASTREN_BASE_ITEMS,
     ...FERRICK_BASE_ITEMS,
-    ...NORDMARK_SUBRACE_ITEMS,
-    ...GRIMHEART_SUBRACE_ITEMS,
+    ...HRYM_SUBRACE_ITEMS,
+    ...MYRATHIL_SUBRACE_ITEMS,
     ...MIMIR_SUBRACE_ITEMS,
     ...BRIARAN_SUBRACE_ITEMS,
     ...GROVEN_SUBRACE_ITEMS,

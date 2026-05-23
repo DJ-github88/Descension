@@ -1,7 +1,9 @@
-﻿export const emberth = {
+export const emberth = {
         id: 'emberth',
         name: 'Emberth',
         essence: 'Slag-skinned forgers',
+        illustration: '/assets/images/races/emberth_illustration.png',
+        illustrationCaption: 'An Emberth forger with cooled volcanic charcoal skin and dreadlocks, holding a bright, hot ember in their hand.',
         description: 'We carry the mountain’s heartbeat in our marrow—a slow, molten fire that refuses to be extinguished. Our skin is the color of cooling slag, rough and heat-scarred, smelling of sulfur and the Great Forges where our ancestors first woke. We do not breathe the thin air of the surface; we inhale the soot and the steam of the deep vents. Every movement we make is a strike of the hammer, heavy and deliberate, for we are made of the very metal we shape. Our eyes glow with the ember-light of a banked fire, seeing the potential in every raw ore and the weakness in every steel blade. We are the architects of the inner heat, the survivors of the volcanic deep who brought the secret of the flame to the world. We are not merely forgers; we are the forge itself, and our blood is the liquid iron that brands the soul of the Earth.',
         icon: 'fas fa-fire',
         overview: 'The Emberth are people whose ancestors settled in volcanic wastelands. Their bloodlines marked by fire through generations of living among lava flows and forges. They are organized into forge-clans bound to volcanic calderas. Settlements built around ancient forges that have burned for centuries. The Emberth do not choose to burn. It is their heritage, passed down through bloodlines that carry the earth inner fire.',
@@ -436,6 +438,73 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             cooldownType: 'none',
                             cooldownValue: 0
                         }
+                    },
+                    {
+                        id: 'consume_scrap_forgeborn',
+                        name: 'Consume Scrap',
+                        description: 'Once per short rest, you can grab an enemy\'s metal shield or weapon, or an equivalent pile of metal scrap. Your hands, burning with volcanic heat, melt the metal down in a contested Strength check. This reduces the target\'s weapon damage or armor score by 1, and heals you for 10 HP as you assimilate the molten scrap into your own slag-skin.',
+                        level: 1,
+                        icon: 'ability_racial_cannibalize',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'crafting',
+                            icon: 'ability_racial_cannibalize',
+                            tags: ['heal', 'debuff', 'melee', 'metal-melt']
+                        },
+                        buffConfig: {
+                            buffType: 'heal',
+                            effects: [
+                                {
+                                    id: 'scrap_assimilation',
+                                    name: 'Scrap Assimilation',
+                                    description: 'Heal 10 HP from consuming molten metal.',
+                                    healing: {
+                                        flatValue: 10
+                                    }
+                                }
+                            ],
+                            durationType: 'instant',
+                            durationUnit: 'instant',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'melted_equipment',
+                                    name: 'Melted Equipment',
+                                    description: '-1 Armor or -1 Weapon Damage from melted metal.',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: -1,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'melee',
+                            targetRestrictions: ['enemy', 'object']
+                        },
+                        resourceCost: {
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 4 },
+                            actionPoints: 2,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Terran'],
@@ -781,6 +850,58 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             cooldownType: 'none',
                             cooldownValue: 0
                         }
+                    },
+                    {
+                        id: 'thermal_lift_cinderborn',
+                        name: 'Thermal Leap',
+                        description: 'When standing directly on a fire source, lava, or your own Ember Trail, you can consume the rising heat to perform a thermal leap, flying up to 20 feet to an unoccupied space. This movement does not provoke opportunity attacks. However, the sudden rapid cooling of your ash-skin deals 1d4 cold damage to you.',
+                        level: 1,
+                        icon: 'ability_hunter_displacement',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility', 'damage'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'movement',
+                            icon: 'ability_hunter_displacement',
+                            tags: ['movement', 'leap', 'fire-source', 'self-harm']
+                        },
+                        damageConfig: {
+                            formula: '1d4',
+                            damageTypes: ['cold'],
+                            resolution: 'DICE',
+                            targetSelf: true,
+                            isIrreducible: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [
+                                {
+                                    id: 'thermal_flight',
+                                    name: 'Thermal Flight',
+                                    description: 'Leap 20 feet through the air without provoking opportunity attacks.'
+                                }
+                            ],
+                            duration: 0,
+                            durationUnit: 'instant'
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            rangeDistance: 20
+                        },
+                        resourceCost: {
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 4 },
+                            actionPoints: 1,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Auran'],
@@ -1140,6 +1261,68 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             rangeType: 'self_centered',
                             aoeSize: 10,
                             targetRestrictions: ['any']
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'fused_arsenal_warborn',
+                        name: 'Fused Arsenal',
+                        description: 'Your primary weapon is physically fused to your skeletal structure and cannot be disarmed. However, your hand has lost the anatomical structure for separate grips; wielding any other weapon or item in that hand causes you to roll all attacks with disadvantage.',
+                        level: 1,
+                        icon: 'inv_sword_27',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'combat',
+                            secondaryElement: 'willpower',
+                            icon: 'inv_sword_27',
+                            tags: ['disarm-immune', 'weapon-restriction', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffectBuff',
+                            effects: [
+                                {
+                                    id: 'fused_weapon_imm',
+                                    name: 'Fused Weapon',
+                                    description: 'Immune to disarm effects on your primary weapon.',
+                                    statusEffect: {
+                                        level: 'permanent',
+                                        description: 'Cannot be disarmed of primary weapon'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'fused_grip_penalty',
+                                    name: 'Deformed Grip',
+                                    description: 'Disadvantage on attacks when wielding secondary or non-fused weapons.',
+                                    statusEffect: {
+                                        level: 'permanent',
+                                        description: 'Disadvantage when using other weapons'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
                         },
                         resourceCost: {
                             actionPoints: 0,

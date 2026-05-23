@@ -1,8 +1,10 @@
-﻿export const astren = {
+export const astren = {
         id: 'astren',
         name: 'Astren',
         essence: 'Stellar exiles',
-        description: 'Our ancestors did not walk across the land to find this place; they fell from the velvet dark between the stars, bringing the cold of the void with them. We are the children of the meteors, our skin mapped with the silver geometry of constellations that no longer exist in the sky. Our thoughts are not linear, but fractured by the cosmic truths that we carry in our marrow—truths that make the stone walls of your cities feel as thin as wet parchment. When we touch you, you feel the chill of a dying sun; when we speak, we echo the mathematics of the infinite. We move with a grace that is not entirely anchored to the ground, as if we are still waiting for the gravity of our home to reclaim us. We are the heralds of the outside, the witnesses to the vast, uncaring silence of the cosmos, forever seeking a way back to the light we once knew.',
+        illustration: '/assets/images/races/astren_illustration.png',
+        illustrationCaption: 'A cosmic Astren stellar voyager with deep twilight-indigo skin and constellation maps glowing across their flesh.',
+        description: 'Our ancestors did not walk across the land to find this place; they fell from the velvet dark between the stars, bringing the cold of the void with them. We are the children of the meteors, our skin mapped with the silver geometry of constellations that no longer exist in the sky. Our thoughts are not linear, but fractured by the cosmic truths that we carry in our marrow-truths that make the stone walls of your cities feel as thin as wet parchment. When we touch you, you feel the chill of a dying sun; when we speak, we echo the mathematics of the infinite. We move with a grace that is not entirely anchored to the ground, as if we are still waiting for the gravity of our home to reclaim us. We are the heralds of the outside, the witnesses to the vast, uncaring silence of the cosmos, forever seeking a way back to the light we once knew.',
         icon: 'fas fa-star',
         overview: 'The Astren are people whose ancestors literally fell from the stars. Crashing to earth in meteors and comets. Through generations of carrying cosmic energy, their bloodlines have been marked by alien origins. Eyes that reflect unfamiliar constellations. Minds that fracture under cosmic truths. Bodies scarred by the fall. They are organized into crater-communities built around the impact sites where their ancestors landed. Settlements clustered where the void touches earth. The Astren do not choose to be alien. It is their heritage, passed down through bloodlines that remember the great fall.',
         culturalBackground: `Astren society is built on crater-communities organized around the impact sites where their ancestors fell. Settlements clustered where meteors scarred the earth. Each community traces its founding to ancestors who crashed to earth in comets and meteors. Traditions preserving the memory of the great fall. Their craters scar the wilderness like divine wounds. Occupants emerging from the smoke with eyes that reflect constellations never seen from this world. Community elders pass down the old ways. How to channel cosmic energy. How to read star patterns. How to navigate the alien knowledge that fractures mortal minds. They speak of the great fall. Of being cast out from realms where mathematics paint reality and time flows backward. Their minds fracture under the weight of cosmic truths. Seeing futures that have not happened. Remembering lives never lived. Community disputes settle through star-readings and the testimony of those who remember the void best. They bear the cold of the void in their bones. Touch leaving frost patterns that linger for days. Some Astren become wandering prophets. Speaking truths that sound like madness to those who hear them. Others hoard their cosmic knowledge. Becoming enigmatic advisors to kings and warlords. They are a people bound by star and void. Their cosmic knowledge unmatched but their minds forever fractured by truths that break mortal understanding.`,
@@ -136,7 +138,7 @@
                 description: 'Coldest touch of all Astren — fingertips leave frost on warm surfaces. Skin pale as starlight, nearly translucent at the wrists and neck where constellations map their bloodlines in faint silver lines. Eyes are dark like the void between stars, no whites visible, just depth that swallows light. Their presence makes air feel thin, as if reality itself recoils. They seem to fade slightly at the edges, outlines blurring. Movements sometimes leave trails of shadow that dissipate slowly. Animals panic in their presence. Innkeepers refuse them. Children cry when they pass.',
                 culturalBackground: 'The Void-Walkers trace their lineage to Astren who fell from the empty spaces between stars. Bloodline marked by the cold void that birthed them. They learn to navigate spaces between reality, walking paths others cannot see. Void-Walker craters are built where the void touches earth. Members serving as navigators and seekers of hidden knowledge. They claim the void speaks in silence between heartbeats, showing paths through reality others cannot see. But the void hungers — prolonged use of gifts leaves them feeling empty and disconnected.',
                 statModifiers: { spirit: 3, intelligence: 2, agility: 1, constitution: -2 },
-                baseStats: { health: 5, mana: 6, actionPoints: 3, initiative: 0 },
+                baseStats: { hp: 5, mana: 6, ap: 3, initiative: 0 },
                 savingThrowModifiers: { advantage: ['charmed'], disadvantage: ['radiant'] },
                 traits: [
                     {
@@ -246,13 +248,14 @@
                             effects: [{
                                 id: 'void_keeps_pieces',
                                 name: 'The Void Keeps Pieces',
-                                description: 'Permanently lose 2 maximum HP each time this triggers. Cumulative. Only restored by performing the Rite of Return at your ancestral crater. If maximum HP would reach 0, you do not phase — the void takes you entirely. No resurrection possible.',
+                                description: 'Permanently lose 5% of your maximum HP each time this triggers. Cumulative. Only restored by performing the Rite of Return at your ancestral crater. If maximum HP would reach 0, you do not phase — the void takes you entirely. No resurrection possible.',
                                 statusEffect: {
                                     level: 'extreme',
                                     description: 'The void thins you with each visitation',
                                     penaltyType: 'permanent',
                                     effect: 'reduce_max_hp',
-                                    magnitude: 2,
+                                    magnitude: 5,
+                                    magnitudeType: 'percentage',
                                     stacking: 'cumulative',
                                     restoreCondition: 'ancestral_crater_rite_of_return',
                                     deathCondition: 'max_hp_0_permadeath'
@@ -371,7 +374,7 @@
                 description: 'Warm where other Astren are cold, skin faintly luminous like embers buried in ash. Eyes burn with inner fire — gold and orange, pupils like tiny suns that leave afterimages when they blink. Hair moves as if in solar wind even indoors. Touch radiates gentle warmth. When emotional, their skin crackles with faint coronas. They smell of ozone and distant fire. The constellations on their skin glow warmer — silver lines that pulse with heat rather than cold. Impossible to fully conceal. They glow. Sun-worshipping cults hunt them. Shadow-worshipping cults fear them.',
                 culturalBackground: 'The Sunbound trace their lineage to Astren who carried the fire of dying suns within their fall to earth. Bloodline marked by the stellar flame that burns in their veins. They learn to channel solar energy, to wield the fire that once lit a star. Their warmth makes them the most approachable of the Astren, but their emotions burn hotter — anger can ignite, grief can scorch. But the stellar fire consumes them — they must rest in darkness to avoid burning out completely.',
                 statModifiers: { charisma: 3, spirit: 2, strength: 1, constitution: -1 },
-                baseStats: { health: 8, mana: 4, actionPoints: 3, initiative: 1 },
+                baseStats: { hp: 8, mana: 4, ap: 3, initiative: 1 },
                 savingThrowModifiers: { advantage: ['stun', 'fear'], disadvantage: ['necrotic'] },
                 traits: [
                     {
@@ -415,6 +418,16 @@
                             hpThreshold: { percent: 50, behavior: 'ceases_below' },
                             environmentalCondition: 'direct_sunlight',
                             failsConditions: ['overcast', 'underground', 'indoors', 'night']
+                        },
+                        healConfig: {
+                            healType: 'hot',
+                            formula: '1d4',
+                            tickInterval: 1,
+                            target: 'self',
+                            conditions: {
+                                environment: 'direct_sunlight',
+                                hpThreshold: { percent: 50, behavior: 'ceases_below' }
+                            }
                         },
                         buffConfig: {
                             buffType: 'damageMitigation',
@@ -564,8 +577,76 @@
                         },
                         cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                         resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] }
+                    },
+                    {
+                        id: 'stellar_overload_astren',
+                        name: 'Stellar Overload',
+                        description: 'In high-temperature zones or when exposed to fire sources, you gain +1 AP and deal +1d6 fire damage on attacks, but take 1d4 fire damage at the start of your turn as your solar heart boils your blood.',
+                        level: 1,
+                        icon: 'spell_fire_incinerate',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'radiant',
+                            secondaryElement: 'fire',
+                            icon: 'spell_fire_incinerate',
+                            tags: ['stellar_overload', 'ap_buff', 'fire_damage_bonus', 'self_damage', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'stellar_overload',
+                            effects: [
+                                {
+                                    id: 'overload_ap',
+                                    name: 'Overloaded Adrenaline',
+                                    description: '+1 Action Point',
+                                    statModifier: {
+                                        stat: 'ap',
+                                        magnitude: 1,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'overload_fire_damage',
+                                    name: 'Solar Edge',
+                                    description: 'Attacks deal +1d6 fire damage',
+                                    damageModifier: {
+                                        formula: '1d6',
+                                        type: 'fire'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'conditional',
+                            durationUnit: 'while_overloaded',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'boiling_blood',
+                                    name: 'Boiling Blood',
+                                    description: 'Take 1d4 fire damage at start of turn',
+                                    statusEffect: {
+                                        damagePerRound: '1d4',
+                                        damageTypes: ['fire'],
+                                        trigger: 'turn_start'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'conditional',
+                            durationUnit: 'while_overloaded',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     }
-                ]
+                ],
             },
             starmapped: {
                 id: 'starmapped_astren',
@@ -573,7 +654,7 @@
                 description: 'The silver constellation lines on their skin are the most pronounced — bright, shifting patterns that rearrange nightly to match the sky above. Eyes reflect whatever constellations are currently visible, even indoors. They mutter constantly — readings, prophecies, star-signs that make no sense. They move with purpose driven by unseen forces. Their presence makes you feel watched by distant stars. Town guards detain them as madmen. Their bodies are frail vessels for cosmic maps.',
                 culturalBackground: 'The Constellations trace their lineage to Astren who mapped the patterns written in stars during their fall. Bloodline marked by the ability to read fate in the arrangement of celestial bodies. They learn to interpret the patterns — in skin, in stars, in the geometry of events. Their minds fracture under cosmic truths, seeing futures that have not happened, remembering lives never lived. They serve as seers, astrologers, and fate-readers. But the patterns are not always clear, and sometimes the reading drives the reader mad.',
                 statModifiers: { intelligence: 3, spirit: 3, wisdom: 1, constitution: -1, strength: -1 },
-                baseStats: { health: 3, mana: 6, actionPoints: 2, initiative: -2 },
+                baseStats: { hp: 3, mana: 6, ap: 2, initiative: -2 },
                 savingThrowModifiers: { advantage: ['charm'], disadvantage: ['psychic'] },
                 traits: [
                     {
@@ -754,8 +835,70 @@
                         },
                         cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                         resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] }
+                    },
+                    {
+                        id: 'constellation_attunement_astren',
+                        name: 'Constellation Attunement',
+                        description: 'Spend 1 AP to attune to the active VTT time of day. Night grants +2 Spirit and mana regeneration; Day grants +10ft speed and advantage on initiative checks.',
+                        level: 1,
+                        icon: 'spell_holy_prophecy',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'cosmic',
+                            secondaryElement: 'time',
+                            icon: 'spell_holy_prophecy',
+                            tags: ['attunement', 'time_of_day', 'stat_buff', 'mana_regen', 'cooldown']
+                        },
+                        buffConfig: {
+                            buffType: 'attunement_time',
+                            effects: [
+                                {
+                                    id: 'attuned_night',
+                                    name: 'Night Attunement',
+                                    description: '+2 Spirit and mana regeneration',
+                                    statModifier: {
+                                        stat: 'spirit',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat',
+                                        condition: 'nighttime'
+                                    }
+                                },
+                                {
+                                    id: 'attuned_day',
+                                    name: 'Day Attunement',
+                                    description: '+10ft speed and advantage on initiative checks',
+                                    statModifier: {
+                                        stat: 'speed',
+                                        magnitude: 10,
+                                        magnitudeType: 'flat',
+                                        condition: 'daytime'
+                                    }
+                                }
+                            ],
+                            durationValue: 24,
+                            durationType: 'hours',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
                     }
-                ]
+                ],
             }
         }
     };

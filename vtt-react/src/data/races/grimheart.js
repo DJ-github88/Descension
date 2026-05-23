@@ -1,7 +1,9 @@
-﻿export const grimheart = {
+export const grimheart = {
         id: 'grimheart',
         name: 'Grimheart',
         essence: 'Stone-hardened delvers',
+        illustration: '/assets/images/races/grimheart_illustration.png',
+        illustrationCaption: 'A stocky Grimheart stone-smith wearing a leather apron and holding a heavy blacksmith hammer.',
         description: 'We are the children of the deep Earth, forged in the crushing weight of the world. Our skin is the grey of mountain granite, our bones heavy with the minerals we have spent lifetimes prying from the dark. We do not just mine the stone; we speak to it, and it answers in the low groan of shifting plates. Every callus on our hands is a testament to the iron we have tamed, every scar a map of a tunnel we survived. Our eyes are wide, hunger-bright for the glint of silver in the absolute black where surface lights cannot reach. We do not fear the crushing dark, for we are of the same marrow. We are the architects of the roots of the world, the keepers of the deep-veins that bleed the wealth of kings. We are slow to move and hard to break, as unyielding as the mountains that raised us.',
         icon: 'fas fa-hammer',
         overview: 'The Grimheart are stout folk whose ancestors founded the mining guilds that carved wealth from the deep earth. Through generations of working beneath the mountains, their bloodlines have been marked by the stone. Their flesh hardening. Their bones growing dense. Their very nature shaped by the deep places. They are organized into powerful guilds, each with its own traditions, techniques, ancestral secrets. The Grimheart don\'t just mine. They serve the earth, their craft a calling passed down through bloodlines. But the deep earth whispers to those who work it too long. Many Grimheart find themselves drawn back to the mines, unable to resist the call of what lies beneath.',
@@ -487,6 +489,54 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             cooldownType: 'none',
                             cooldownValue: 0
                         }
+                    },
+                    {
+                        id: 'mineral_consumption_delver',
+                        name: 'Mineral Consumption',
+                        description: 'Your petrified, calcified biology cannot process the herbal concoctions of standard healing potions. Instead, you recover by swallowing raw, precious minerals. Swallowing a gold coin heals you for 1d4 HP. Swallowing a precious gemstone (sapphire, ruby, or emerald) heals you for 2d8 HP, as your stone-hardened flesh assimilates the pure earth-essence.',
+                        level: 1,
+                        icon: 'ability_racial_cannibalize',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'physical',
+                            secondaryElement: 'earth',
+                            icon: 'ability_racial_cannibalize',
+                            tags: ['heal', 'mineral-eat', 'racial-consumption']
+                        },
+                        buffConfig: {
+                            buffType: 'heal',
+                            effects: [
+                                {
+                                    id: 'mineral_heal',
+                                    name: 'Mineral Assimilation',
+                                    description: 'Heal HP by consuming raw metals or gemstones.',
+                                    healing: {
+                                        formula: '1d4',
+                                        resolution: 'DICE'
+                                    }
+                                }
+                            ],
+                            durationType: 'instant',
+                            durationUnit: 'instant',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 2,
+                            mana: 0,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     }
                 ],
                 languages: ['Common', 'Terran', 'Undercommon'],
@@ -884,6 +934,74 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             cooldownType: 'none',
                             cooldownValue: 0
                         }
+                    },
+                    {
+                        id: 'tectonic_anchor_warden',
+                        name: 'Tectonic Anchor',
+                        description: 'You can spend 1 AP to lock your granite bones directly into the bedrock. While anchored, you are completely immune to all knockbacks, teleports, and forced movement effects. However, your speed becomes 0 and you cannot reposition until you spend another 1 AP to unlock your bones.',
+                        level: 1,
+                        icon: 'ability_warrior_stancestance',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'physical',
+                            secondaryElement: 'earth',
+                            icon: 'ability_warrior_stancestance',
+                            tags: ['root', 'forced-movement-immune', 'anchor']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffectBuff',
+                            effects: [
+                                {
+                                    id: 'bedrock_root_imm',
+                                    name: 'Bedrock Immobility',
+                                    description: 'Immune to all knockbacks, teleports, and forced movement.',
+                                    statusEffect: {
+                                        level: 'major',
+                                        description: 'Immune to forced movement'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            durationValue: 0,
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'rooted_speed',
+                                    name: 'Anchored Root',
+                                    description: 'Your speed is 0 and you cannot move.',
+                                    statModifier: {
+                                        stat: 'speed',
+                                        magnitude: -999,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            durationValue: 0,
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 1,
+                            mana: 0,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
@@ -1221,6 +1339,51 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             cooldownType: 'short_rest',
                             cooldownValue: 1
                         }
+                    },
+                    {
+                        id: 'reshape_earth_smith',
+                        name: 'Reshape Earth',
+                        description: 'You can spend 2 AP to touch a stone wall or floor and sculpt it with your bare hands as if it were clay. You can create an instant stone half-cover barrier for allies, or open a 5-foot breach in a stone wall.',
+                        level: 1,
+                        icon: 'spell_nature_rockportal',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'physical',
+                            secondaryElement: 'earth',
+                            icon: 'spell_nature_rockportal',
+                            tags: ['geomancy', 'cover', 'breach', 'sculpt']
+                        },
+                        utilityConfig: {
+                            utilityType: 'environment',
+                            selectedEffects: [
+                                {
+                                    id: 'stone_sculpt',
+                                    name: 'Stone Sculpting',
+                                    description: 'Create a stone half-cover barrier or breach a 5ft stone wall.'
+                                }
+                            ],
+                            duration: 0,
+                            durationUnit: 'instant'
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'touch',
+                            targetRestrictions: ['object', 'terrain']
+                        },
+                        resourceCost: {
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 },
+                            actionPoints: 2,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],

@@ -935,40 +935,60 @@
     font-size: 1.1rem;
 }
 
-/* ===== EPIC LORE OVERLAY ===== */
-
+/* ─── EPIC LORE OVERLAY ─── */
 .epic-lore-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(5, 3, 1, 0.9);
+    background:
+        radial-gradient(ellipse at 50% 50%, rgba(20, 10, 4, 0.5) 0%, rgba(3, 2, 0, 0.95) 70%),
+        rgba(3, 2, 0, 0.92);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
     padding: 2rem;
-    backdrop-filter: blur(8px);
-    animation: loreFadeIn 0.4s ease;
+    backdrop-filter: blur(12px) brightness(0.4);
+    animation: loreFadeIn 0.5s ease;
     overflow: hidden;
+}
+
+/* Ember / dust mote particles */
+.epic-lore-overlay::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+        radial-gradient(1px 1px at 15% 25%, rgba(232, 200, 64, 0.3), transparent),
+        radial-gradient(1.5px 1.5px at 75% 60%, rgba(201, 168, 53, 0.2), transparent),
+        radial-gradient(1px 1px at 40% 80%, rgba(232, 200, 64, 0.25), transparent),
+        radial-gradient(1.5px 1.5px at 85% 30%, rgba(201, 168, 53, 0.15), transparent),
+        radial-gradient(2px 2px at 10% 70%, rgba(201, 168, 53, 0.18), transparent),
+        radial-gradient(1px 1px at 60% 15%, rgba(232, 200, 64, 0.2), transparent);
+    pointer-events: none;
+    animation: dustDrift 12s ease-in-out infinite;
+}
+@keyframes dustDrift {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
 }
 
 @keyframes loreFadeIn {
     from {
         opacity: 0;
-        backdrop-filter: blur(0px);
+        backdrop-filter: blur(0px) brightness(1);
     }
-
     to {
         opacity: 1;
-        backdrop-filter: blur(8px);
+        backdrop-filter: blur(12px) brightness(0.4);
     }
 }
 
 .epic-lore-overlay .race-epic-lore-container {
-    animation: loreSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    max-width: 960px;
+    animation: loreSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 900px;
     width: 100%;
     min-width: 340px;
 }
@@ -976,9 +996,8 @@
 @keyframes loreSlideUp {
     from {
         opacity: 0;
-        transform: translateY(40px) scale(0.97);
+        transform: translateY(50px) scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -1005,5 +1024,86 @@
 
     .race-base-traits-compact {
         justify-content: center;
+    }
+}
+
+/* ===== Retro-Guidebook Race Illustrations ===== */
+
+.race-illustration-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 1.25rem 0 !important;
+}
+
+.guide-illustration-frame {
+    background: #fcf8ee;
+    border: 1px solid #c8b99d;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+/* Woodcut double border */
+.guide-illustration-frame::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border: 1px dashed rgba(139, 69, 19, 0.3);
+    pointer-events: none;
+}
+
+.guide-illustration-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    border-radius: 2px;
+    /* Multiply blend mode to blend watercolor with the parchment card */
+    mix-blend-mode: multiply;
+    filter: contrast(1.05) saturate(0.95);
+    transition: transform 0.3s ease;
+}
+
+.guide-illustration-frame:hover .guide-illustration-image {
+    transform: scale(1.02);
+}
+
+.guide-illustration-caption {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #5a1e12;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(139, 69, 19, 0.15);
+}
+
+/* ===== Race Overview Floated Illustration ===== */
+
+.race-overview-container {
+    overflow: hidden; /* Clear floats */
+    margin-bottom: 1rem;
+}
+
+.race-overview-illustration-wrapper {
+    float: right;
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    max-width: 240px;
+    width: 35%;
+}
+
+@media (max-width: 768px) {
+    .race-overview-illustration-wrapper {
+        float: none;
+        margin: 0 auto 1.5rem auto;
+        max-width: 100%;
+        width: 80%;
     }
 }

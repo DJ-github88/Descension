@@ -1,8 +1,10 @@
-﻿export const vreken = {
+export const vreken = {
         id: 'vreken',
         name: 'Vreken',
         essence: 'Predatory beast-kin',
-        description: 'There is a second heartbeat beneath our ribs, a frantic, wild rhythm that answers only to the moon and the scent of blood. We are the inheritors of the animal’s grace and its hunger, our bodies caught in a permanent tension between the man and the wolf. Our eyes gleam with a yellow, predatory light that sees the world not as cities and roads, but as territories and trails. When we run, the forest floor speaks to us in a language of crushed moss and distant movement; when we hunt, the silence is our closest ally. We do not just wear the beast; we are the beast, forever fighting to keep the human mind from drowning in the primal sea of instinct. Our hands are calloused by the wild, our teeth sharp enough to tear through the thin veil of civilization. We are the watchers at the edge of the firelight, the ones who know that the dark is not empty, but full of eyes that look exactly like ours.',
+        illustration: '/assets/images/races/vreken_illustration.png',
+        illustrationCaption: 'A rugged Vreken beast-touched hunter with wild ears and slitted amber eyes, wielding a stone spear.',
+        description: 'There is a second heartbeat beneath our ribs, a frantic, wild rhythm that answers only to the moon and the scent of blood. We are the inheritors of the animal\'s grace and its hunger, our bodies caught in a permanent tension between the man and the wolf. Our eyes gleam with a yellow, predatory light that sees the world not as cities and roads, but as territories and trails. When we run, the forest floor speaks to us in a language of crushed moss and distant movement; when we hunt, the silence is our closest ally. We do not just wear the beast; we are the beast, forever fighting to keep the human mind from drowning in the primal sea of instinct. Our hands are calloused by the wild, our teeth sharp enough to tear through the thin veil of civilization. We are the watchers at the edge of the firelight, the ones who know that the dark is not empty, but full of eyes that look exactly like ours.',
         icon: 'fas fa-paw',
         overview: 'The Vreken are people whose ancestors broke the old taboos. Drank from forbidden springs. Bound their bloodlines to beast-transformation through cursed rituals. Through generations of carrying the beast within, their bloodlines have been marked by the transformation curse. Eyes that gleam with animal cunning. Bodies that shift between human and beast. They are organized into packs that roam the wild borders between civilization and savagery. Settlements hidden in caves and ruined towers. The Vreken do not choose to transform. It is their heritage, passed down through bloodlines that carry the curse of the beast.',
         culturalBackground: `Vreken society is built on packs that roam the wild borders between civilization and savagery. Communities organized around managing the curse that binds them. Each pack traces its founding to ancestors who broke the old taboos. Drank from forbidden springs. Bound their bloodlines to beast-transformation. Their camps are hidden in caves or ruined towers. Places where the boundary between man and animal frays. Pack elders pass down the old ways. How to control the transformation. How to master the beast. How to survive the curse that claims so many. Children are taught from birth to recognize the signs. The yellow gleam in the eyes. The sudden hunger for raw meat. The dreams of running on four legs through endless forests. A Vreken first change is agony. Bones cracking. Flesh tearing. The human mind drowning in animal instinct. Some learn to master the beast. Using its strength while keeping their humanity intact. Others lose themselves entirely. Becoming monsters that hunt their own kind. Pack disputes settle through hunts and the testimony of those who have mastered the curse. Many Vreken end their days in self-imposed exile. Chaining themselves during full moons to prevent the change that would claim them forever. They are a people bound by curse and beast. Their transformation unmatched but their humanity forever threatened by the animal within.`,
@@ -203,6 +205,70 @@
                             cooldownType: 'none',
                             cooldownValue: 0
                         },
+                    },
+                    {
+                        id: 'blood_hunger_vreken',
+                        name: 'Blood Hunger',
+                        description: 'Lose yourself to the scent of the kill. When an enemy within 40ft is bleeding or below 30% HP, you gain a free movement action towards them, but you MUST attack that target on your turn, losing tactical choice to the beast\'s primal instinct.',
+                        level: 1,
+                        icon: 'ability_hunter_hunted',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'beast',
+                            icon: 'ability_hunter_hunted',
+                            tags: ['free_movement', 'compelled_attack', 'low_hp_trigger', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'movementBuff',
+                            effects: [
+                                {
+                                    id: 'blood_charge',
+                                    name: 'Predator\'s Charge',
+                                    description: 'Free movement action towards a target below 30% HP or bleeding within 40ft',
+                                    movementGrant: {
+                                        actionPoints: 0,
+                                        requiresTargetHPBelowPercent: 30
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'instant',
+                            durationUnit: 'instant',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'blood_frenzy_compulsion',
+                                    name: 'Blood Frenzy Compulsion',
+                                    description: 'Compelled to attack the bleeding/low HP target on your turn, losing alternative tactical choices',
+                                    statusEffect: {
+                                        type: 'compulsion',
+                                        forcedTarget: 'bleeding_or_low_hp_creature'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
                     }
                 ],
                 languages: ['Common', 'Beast Speech', 'Primal'],
@@ -409,6 +475,64 @@
                             cooldownType: 'none',
                             cooldownValue: 0
                         },
+                    },
+                    {
+                        id: 'chains_of_restraint_vreken',
+                        name: 'Chains of Restraint',
+                        description: 'Wrap your cold-iron bindings around an adjacent enemy, forcing a contested Strength check to grapple them. While grappled, the target takes 1d6 frost damage per turn from the iron\'s bite.',
+                        level: 1,
+                        icon: 'inv_ingot_iron',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        effectTypes: ['debuff', 'damage'],
+                        typeConfig: {
+                            school: 'physical',
+                            secondaryElement: 'frost',
+                            icon: 'inv_ingot_iron',
+                            tags: ['grapple', 'cold_iron', 'damage_over_time', 'cooldown']
+                        },
+                        damageConfig: {
+                            formula: '1d6',
+                            damageTypes: ['frost'],
+                            resolution: 'DICE',
+                            damageOverTime: {
+                                trigger: 'turn_start',
+                                durationRounds: 99,
+                                condition: 'target_grappled'
+                            }
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'iron_grappled',
+                                    name: 'Iron Grappled',
+                                    description: 'Grappled by cold-iron chains. Speed 0.',
+                                    statusEffect: {
+                                        type: 'grappled',
+                                        speedValue: 0
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'until_grapple_ends',
+                            durationUnit: 'until_grapple_ends',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'melee',
+                            targetRestrictions: ['enemy']
+                        },
+                        resourceCost: {
+                            actionPoints: 1,
+                            mana: 0,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
                     }
                 ],
                 languages: ['Common', 'Beast Speech', 'Celestial'],
@@ -564,6 +688,16 @@
                                 comparison: 'less_than'
                             }
                         },
+                        healConfig: {
+                            healType: 'regeneration',
+                            formula: '1d6',
+                            target: 'self',
+                            triggerType: 'turn_start',
+                            conditions: {
+                                healthPercentage: 100,
+                                comparison: 'less_than'
+                            }
+                        },
                         targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
                         triggerConfig: {
                             global: {
@@ -688,7 +822,7 @@
                     {
                         id: 'blood_tithing_bloodgiven_vreken',
                         name: 'Blood Tithing',
-                        description: 'You extend the curse outward like a hook threaded through the victim\'s veins — and PULL. Their warmth floods into you. Their pulse stutters. The beast feeds, and for one terrible, beautiful moment, the hunger is silent.',
+                        description: 'You extend the curse outward like a hook threaded through the victim\'s veins — and PULL. Their warmth floods into you, siphoning blood (deals 2d8 + spirit/3 necrotic, healing you). Each cast increases your Grave Hunger meter; if it fills completely, you must succeed on a DC 15 Spirit save or go Berserk for 1 round, attacking the nearest living creature.',
                         level: 1,
                         icon: 'spell_deathknight_bloodtap',
                         spellType: 'ACTION',
@@ -709,6 +843,11 @@
                             healingType: 'lifesteal',
                             description: 'Heals for the full amount of necrotic damage dealt'
                         },
+                        healConfig: {
+                            healType: 'lifesteal',
+                            value: 'damage_dealt',
+                            target: 'self'
+                        },
                         targetingConfig: {
                             targetingType: 'single',
                             rangeType: 'ranged',
@@ -723,6 +862,10 @@
                         cooldownConfig: {
                             cooldownType: 'turn_based',
                             cooldownValue: 2
+                        },
+                        specialMechanics: {
+                            graveHunger: 'Each use siphons 1 blood stack. Filling the meter triggers a DC 15 Spirit save to avoid Berserk.',
+                            onFailure: 'Go berserk for 1 round, attacking the nearest living creature.'
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),

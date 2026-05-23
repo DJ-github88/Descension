@@ -1086,14 +1086,14 @@ Under the Virtual Tabletop system, players and GMs can easily inspect and manage
           ],
           tabs: [
             {
-              id: 'nordmark',
-              name: 'Nordmark',
+              id: 'hrym',
+              name: 'Hrym',
               sections: [
                 {
                   title: 'Overview',
                   content: `**Iron-willed descendants of the frozen northlands where winter never dies**
 
-The Nordmark are the hardy folk of the eternal winter lands, where the sun barely rises and survival depends on strength of arm and will. They are descended from ancient warrior-kings who carved kingdoms from ice and stone.
+The Hrym are the hardy folk of the eternal winter lands, where the sun barely rises and survival depends on strength of arm and will. They are descended from ancient warrior-kings who carved kingdoms from ice and stone.
 
 **Basic Information:**
 - **Size:** Medium
@@ -1104,7 +1104,7 @@ The Nordmark are the hardy folk of the eternal winter lands, where the sun barel
                 },
                 {
                   title: 'Cultural Background',
-                  content: `The Nordmark culture revolves around honor, strength, and the belief that a glorious death in battle ensures a place in the halls of their ancestors. They are natural warriors and leaders, though their pride and quick tempers often lead them into conflict with more diplomatic peoples.
+                  content: `The Hrym culture revolves around honor, strength, and the belief that a glorious death in battle ensures a place in the halls of their ancestors. They are natural warriors and leaders, though their pride and quick tempers often lead them into conflict with more diplomatic peoples.
 
 Their society values:
 - **Honor and Glory:** A warrior's reputation is everything
@@ -1114,21 +1114,21 @@ Their society values:
                 },
                 {
                   title: 'Variant Comparison',
-                  content: `**Berserker Nordmark** - Fierce warriors who embrace the fury of battle above all else
+                  content: `**Berserker Hrym** - Fierce warriors who embrace the fury of battle above all else
 - Constitution +2, Strength +2, Agility -1, Intelligence -2, Spirit +1, Charisma -1
 - Focus: Aggressive combat, rage mechanics, fearless warrior
 
-**Skald Nordmark** - Warrior-poets who preserve the ancient sagas and inspire others
+**Skald Hrym** - Warrior-poets who preserve the ancient sagas and inspire others
 - Constitution +1, Agility -1, Intelligence +1, Spirit +2, Charisma +1
 - Focus: Support, inspiration, knowledge, balanced combat
 
-**Icewalker Nordmark** - Hardy survivors who have adapted to the harshest frozen wastes
+**Icewalker Hrym** - Hardy survivors who have adapted to the harshest frozen wastes
 - Constitution +3, Intelligence -1, Spirit +1, Charisma -2
 - Focus: Extreme durability, cold mastery, environmental adaptation`
                 },
                 {
                   title: 'Integration with Game Systems',
-                  content: `**Action Point System:** Many Nordmark racial traits interact with the AP system, providing unique tactical options during combat and exploration. Berserker rage costs 1 AP, Skald inspiration costs 2 AP.
+                  content: `**Action Point System:** Many Hrym racial traits interact with the AP system, providing unique tactical options during combat and exploration. Berserker rage costs 1 AP, Skald inspiration costs 2 AP.
 
 **Background Synergy:** Consider how your chosen variant's traits complement your background path. Berserkers pair well with Reaver backgrounds, Skalds with Mystic or Sentinel paths, and Icewalkers with survival-focused backgrounds.
 
@@ -1139,7 +1139,7 @@ Their society values:
               ],
               tables: [
                 {
-                  title: 'Berserker Nordmark Traits',
+                  title: 'Berserker Hrym Traits',
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
                     ['Frostborn', 'Environmental', 'Resistance to cold damage and advantage on saves against exhaustion from harsh weather. Can survive in arctic conditions without shelter, but breath creates visible frost making stealth difficult.'],
@@ -1148,7 +1148,7 @@ Their society values:
                   ]
                 },
                 {
-                  title: 'Skald Nordmark Traits',
+                  title: 'Skald Hrym Traits',
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
                     ['Frostborn', 'Environmental', 'Resistance to cold damage and advantage on saves against exhaustion from harsh weather. Can survive in arctic conditions without shelter, but breath creates visible frost making stealth difficult.'],
@@ -1157,7 +1157,7 @@ Their society values:
                   ]
                 },
                 {
-                  title: 'Icewalker Nordmark Traits',
+                  title: 'Icewalker Hrym Traits',
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
                     ['Deep Frost', 'Environmental', 'Immunity to cold damage and exhaustion from harsh weather. Can survive in arctic conditions indefinitely, but take vulnerability to fire damage and disadvantage on saves against heat effects.'],
@@ -1221,67 +1221,72 @@ The Corvani are a mysterious people marked by the raven, dwelling in the mist-sh
               ]
             },
             {
-              id: 'grimheart',
-              name: 'Grimheart',
+              id: 'myrathil',
+              name: 'Myrathil',
               sections: [
                 {
                   title: 'Overview',
-                  content: `**Stone-souled miners who delved too deep and were forever changed**
-
-The Grimheart are a cursed people who delved too deep into the earth and awakened something ancient. Their bodies have become partially stone, and they hear the whispers of the deep earth calling them ever downward.
+                  content: `**Free-born children of the sea who spawn from storm-foam**
+              
+The Myrathil are a rare amphibious people spawned from sea foam during three-day gales. They have no parents, no bloodline — the sea mother is their sole origin. Their bodies are built for the intertidal zone: lean frames, enormous ocean-blue eyes, translucent webbing between fingers that retracts on land, and vein-colors that shift with mood and weather.
 
 **Basic Information:**
 - **Size:** Medium
-- **Speed:** 25 feet
-- **Lifespan:** 180-220 years
-- **Languages:** Common, Terran
-- **Variants:** Multiple available (Delver, Forgemaster, Stoneward)`
+- **Speed:** 30 feet (Swim 30 feet)
+- **Lifespan:** 140-200 years
+- **Languages:** Common, Aquan
+- **Variants:** Breakers-Born (shore), Deep-Born (open ocean), River-Fed (estuary)`
                 },
                 {
                   title: 'Cultural Background',
-                  content: `The Grimheart were once master miners and craftsmen, but their insatiable greed and curiosity led them to dig too deep. They breached ancient chambers and were cursed by what they found. Now their skin is hard as stone, their hearts beat slowly, and they hear constant whispers from the depths. Their culture is one of obsession and compulsion - they cannot stop digging, cannot stop seeking what lies beneath. Some embrace this curse as a gift, while others struggle against it. They are master craftsmen and engineers, but their obsessive nature makes them difficult companions.`
+                  content: `The Myrathil are shaped by the water that births them. The Breakers-Born spawn where waves meet shore — mediators, traders, the face the world sees. The Deep-Born spawn in open ocean — mystics and sea-herders who speak less and feel more. The River-Fed spawn in brackish estuaries — explorers who follow rivers inland and return with maps no other Myrathil could draw.
+
+The Myrathil cannot truly rest without submersion in water. Their vein-colors betray their emotions, making them terrible liars but exceptional mediators. Land-folk romanticize them as exotic drifters and collect their sea-glass trinkets — the Myrathil tolerate this with the patience of a people who have watched civilizations rise and fall on shorelines they once called home.`
                 },
                 {
                   title: 'Variant Comparison',
-                  content: `**Earthscar Grimheart** - Obsessive miners driven by deep earth whispers
-- Constitution +4, Strength +3, Agility -2, Intelligence +1, Spirit -2, Charisma -3
-- Focus: Durability, tunneling, mineral detection, obsessive digging
+                  content: `**Breakers-Born** — Shore-spawned diplomats and traders
+- Charisma +2, Agility +1, Constitution -1
+- Focus: Social, negotiation, weather-sensing, emotional insight
 
-**Forgeborn Grimheart** - Master craftsmen channeling obsession into creation
-- Constitution +3, Strength +2, Agility -2, Intelligence +2, Spirit +2, Charisma -1
-- Focus: Crafting, smithing, item creation, durability
+**Deep-Born** — Open-ocean mystics and guardians
+- Spirit +3, Constitution +1, Charisma -2
+- Focus: Deep submersion, low-frequency communication, abyssal perception
 
-**Stoneblood Grimheart** - Guardians resisting the whispers to protect others
-- Constitution +3, Strength +1, Agility -2, Intelligence +0, Spirit +3, Charisma +1
-- Focus: Defense, protection, resistance to compulsion, tanking`
+**River-Fed** — Estuary explorers and inland scouts
+- Agility +2, Intelligence +2, Spirit -1
+- Focus: Freshwater adaptation, disguise, navigation, exploration`
                 }
               ],
               tables: [
                 {
-                  title: 'Earthscar Grimheart Traits',
+                  title: 'Breakers-Born Traits',
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
-                    ['Earth Whispers', 'Detection', 'Can sense valuable minerals and hidden passages within 60 feet, but hear constant whispers that impose disadvantage on Spirit saves.'],
-                    ['Stone Skin', 'Defense', 'Natural armor provides +2 Armor, but movement speed reduced by 5 feet.'],
-                    ['Deep Delving', 'Utility', 'Can tunnel through stone at half movement speed, but become obsessed with digging and must make Wisdom saves to stop.']
+                    ['Born of Spindrift', 'Amphibious', 'Breathe air and water. Requires salt-water submersion for true rest. Swim 30ft.'],
+                    ['Wake-Drawn', 'Utility', 'Advantage on Animal Handling with coastal/marine creatures. Shore animals are non-hostile.'],
+                    ['Storm-Blooded', 'Detection', '+2 Initiative in storms. Sense weather 72 hours out. Always know direction to nearest major water.'],
+                    ['Tide-Tongue', 'Social', '+1 Insight and Persuasion. Disadvantage on Deception — vein-colors betray emotion.']
                   ]
                 },
                 {
-                  title: 'Forgeborn Grimheart Traits',
+                  title: 'Deep-Born Traits',
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
-                    ['Earth\'s Forge', 'Crafting', 'Can shape metal and stone with bare hands, creating masterwork items with half the normal time and cost. However, you are COMPELLED to craft - must spend at least 4 hours per day creating items or suffer -2 to all rolls from restlessness.'],
-                    ['Stone Resilience', 'Defense', 'Resistant to fire and poison damage. Your stone-hardened flesh provides +1 Armor. However, you are vulnerable to acid damage.'],
-                    ['Master\'s Touch', 'Crafting', 'Items you craft gain +1 to attack rolls or armor bonus, but you feel their use and destruction. When an item you created is destroyed, you take 1d6 psychic damage.']
+                    ['Born of Spindrift', 'Amphibious', 'Breathe air and water. Requires salt-water submersion for true rest. Swim 30ft.'],
+                    ['Wake-Drawn', 'Utility', 'Advantage on Animal Handling with coastal/marine creatures. Shore animals are non-hostile.'],
+                    ['Abyssal Adaptation', 'Defense', 'Darkvision 60ft underwater. 25% cold resistance submerged. Hold breath 30 minutes. -1 to checks per 12hrs on land.'],
+                    ['The Deep Hum', 'Communication', 'Silent concept communication 120ft underwater. Active hum: allies +1 WIS/INT saves within 30ft.']
                   ]
                 },
                 {
-                  title: 'Stoneblood Grimheart Traits',
+                  title: 'River-Fed Traits',
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
-                    ['Guardian\'s Resolve', 'Protection', 'Can absorb damage intended for allies within 10 feet, but take +50% of the absorbed damage.'],
-                    ['Deep Sight', 'Perception', 'Darkvision 120 feet and can see through magical darkness, but bright light causes disadvantage on attack rolls.'],
-                    ['Stone Ward', 'Utility', 'Can create protective stone barriers, but each use drains 1 point of Constitution until long rest.']
+                    ['Born of Spindrift', 'Amphibious', 'Breathe air and water. Rest in fresh OR salt water (unique among Myrathil). Swim 30ft.'],
+                    ['Wake-Drawn', 'Utility', 'Advantage on Animal Handling with coastal/marine creatures. Shore animals are non-hostile.'],
+                    ['Brackish Heritage', 'Adaptation', '25% poison resistance. +5ft movement along rivers. -1 Spirit when >50 miles from natural water.'],
+                    ['Mask of the Estuary', 'Disguise', 'Suppress Myrathil features for 1hr (+2 Deception/Stealth to pass as non-Myrathil). Lose swim/water-breathing while active.']
                   ]
                 }
               ]
@@ -1294,9 +1299,9 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
                   title: 'Complete Race List',
                   headers: ['Race', 'Description', 'Variants', 'Key Themes'],
                   rows: [
-                    ['Nordmark', 'Iron-willed descendants of frozen northlands', '3', 'Cold resistance, battle fury, honor'],
+                    ['Hrym', 'Iron-willed descendants of frozen northlands', '3', 'Cold resistance, battle fury, honor'],
                     ['Corvani', 'Raven-marked people from mist-shrouded highlands', '2', 'Prophecy, perception, fate manipulation'],
-                    ['Grimheart', 'Stone-souled miners who delved too deep', '3', 'Durability, crafting, earth magic, obsession'],
+                    ['Myrathil', 'Free-born sea children spawned from storm-foam', '3', 'Amphibious, weather-sensing, exploration, diplomacy'],
                     ['Veilborn', 'Pale folk from borderlands where reality grows thin', '2', 'Ethereal sight, spirit communication, planar travel'],
                     ['Mirrorkin', 'Shapeshifters who lost their original forms', '2', 'Shapeshifting, deception, identity crisis'],
                     ['Thornkin', 'Fae-touched beings bound by ancient pacts', '1', 'Fae bargains, nature magic, supernatural rules'],

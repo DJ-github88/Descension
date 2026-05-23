@@ -34,7 +34,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
   const raceIcons = {
     'Human': '👤', 'Astren': '🌿', 'Briaran': '🦊', 'Emberth': '🔥',
     'Ferrick': '🦅', 'Grimheart': '⚙️', 'Groven': '🌳', 'Mimir': '🎭',
-    'Morthel': '👻', 'Nordmark': '❄️', 'Vreken': '🦎'
+    'Morthel': '👻', 'Hrym': '❄️', 'Vreken': '🦎'
   };
 
 
@@ -405,7 +405,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                     <option value="Groven">Groven</option>
                     <option value="Mimir">Mimir</option>
                     <option value="Morthel">Morthel</option>
-                    <option value="Nordmark">Nordmark</option>
+                    <option value="Hrym">Hrym</option>
                     <option value="Vreken">Vreken</option>
                   </select>
                 </div>
