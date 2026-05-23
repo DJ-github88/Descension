@@ -6,7 +6,7 @@
  */
 
 export const PRIMALIST_DATA = {
-  id: "primalist",
+  id : "primalist",
   name: "Primalist",
   icon: "fas fa-leaf",
   role: "Support / Crowd Control / Defender (Atavistic Horror)",
@@ -122,8 +122,7 @@ export const PRIMALIST_DATA = {
       description: "You possess a catastrophic 100% vulnerability to Fire damage (take double damage). Furthermore, you cannot benefit from the healing effects of your own totems."
     },
     specs: [
-      {
-        id: "earthwarden",
+      { id : "earthwarden",
         name: "Root-Weaver (Earthwarden)",
         icon: "Nature/Earth Shield",
         color: "#8B4513",
@@ -151,8 +150,7 @@ export const PRIMALIST_DATA = {
         ],
         recommendedFor: "Players who want to act as an unyielding wall of wood and bone, locking down the strongest enemies."
       },
-      {
-        id: "stormbringer",
+      { id : "stormbringer",
         name: "Sky-Thresher (Stormbringer)",
         icon: "Lightning/Thunder",
         color: "#4682B4",
@@ -180,8 +178,7 @@ export const PRIMALIST_DATA = {
         ],
         recommendedFor: "Players who want to play a high-risk glass cannon channeling the devastating fury of a blackened storm."
       },
-      {
-        id: "spiritcaller",
+      { id : "spiritcaller",
         name: "Bone-Stalker (Spiritcaller)",
         icon: "Nature/Nature Primal",
         color: "#556B2F",
@@ -216,8 +213,7 @@ export const PRIMALIST_DATA = {
   // 4. EXAMPLE SPELLS (13 Spells)
   // ==========================================
   exampleSpells: [
-    {
-      id: "prim_healing_totem",
+    { id : "prim_healing_totem",
       name: "Grave-Root Healing Totem",
       description: "Slam a splinter of your own femur into the soil. Roots burst from the bone, drinking 5 of your HP to knit the wounds of your allies for 1d6 healing at the start of their turn. You cannot receive this healing.",
       level: 2,
@@ -262,8 +258,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "healing_totem_summon",
+          { id : "healing_totem_summon",
             name: "Healing Totem",
             description: "A splintered bone structure pulsing with raw, vegetative sap.",
             size: "Small",
@@ -290,8 +285,7 @@ export const PRIMALIST_DATA = {
       tags: ["healing", "totem", "nature"]
     },
 
-    {
-      id: "prim_rejuvenation_totem",
+    { id : "prim_rejuvenation_totem",
       name: "Blood-Sap Totem",
       description: "A totem of living bark that weeps thick sap, drinking 5 of your HP to grant allies 1d4 healing at the start of their turns. You cannot receive this healing.",
       level: 2,
@@ -336,8 +330,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "rejuvenation_totem_summon",
+          { id : "rejuvenation_totem_summon",
             name: "Rejuvenation Totem",
             description: "Thick bark weeps dark crimson sap.",
             size: "Small",
@@ -364,8 +357,7 @@ export const PRIMALIST_DATA = {
       tags: ["healing", "totem", "nature"]
     },
 
-    {
-      id: "prim_guardian_totem",
+    { id : "prim_guardian_totem",
       name: "Ribcage Guardian Totem",
       description: "Erupt a cage of calcified ribs from the earth, sacrificing 5 HP. The ribs shield nearby allies, absorbing 5 damage per attack. You cannot benefit from this shielding.",
       level: 3,
@@ -406,8 +398,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "guardian_shield_effect",
+          { id : "guardian_shield_effect",
             name: "Ribcage Ward",
             description: "Absorbs 5 damage from any hostile attack.",
             statModifier: {
@@ -425,8 +416,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "guardian_totem_summon",
+          { id : "guardian_totem_summon",
             name: "Guardian Totem",
             description: "A hollow cage of bone that intercepts flying projectiles.",
             size: "Small",
@@ -453,8 +443,7 @@ export const PRIMALIST_DATA = {
       tags: ["buff", "totem", "protection"]
     },
 
-    {
-      id: "prim_earth_totem",
+    { id : "prim_earth_totem",
       name: "Lithic Spine Totem",
       description: "Shatter your knuckles to grow a pillar of jagged granite. Sacrificing 5 HP, it grants allies +2 Armor and resistance to non-magical bludgeoning damage.",
       level: 3,
@@ -495,8 +484,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "earth_totem_buff",
+          { id : "earth_totem_buff",
             name: "Lithic Stature",
             description: "Grants +2 Armor.",
             statModifier: {
@@ -514,8 +502,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "earth_totem_summon",
+          { id : "earth_totem_summon",
             name: "Earth Totem",
             description: "A heavy, jagged granite pillar weeping grey sand.",
             size: "Small",
@@ -542,8 +529,7 @@ export const PRIMALIST_DATA = {
       tags: ["buff", "totem", "earth"]
     },
 
-    {
-      id: "prim_flamecaller_totem",
+    { id : "prim_flamecaller_totem",
       name: "Ashen Hearth Totem",
       description: "Exude scorching embers from your pores, sacrificing 5 HP to raise a totem of charred pine. Allies' weapon attacks deal +1d6 fire damage. Remember your Fire vulnerability.",
       level: 3,
@@ -584,8 +570,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "flamecaller_totem_buff",
+          { id : "flamecaller_totem_buff",
             name: "Ashen Embers",
             description: "Weapon attacks deal +1d6 fire damage.",
             statModifier: {
@@ -603,8 +588,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "flamecaller_totem_summon",
+          { id : "flamecaller_totem_summon",
             name: "Flamecaller Totem",
             description: "A charred pine trunk glowing internally with fire.",
             size: "Small",
@@ -631,8 +615,7 @@ export const PRIMALIST_DATA = {
       tags: ["buff", "totem", "fire"]
     },
 
-    {
-      id: "prim_storm_totem",
+    { id : "prim_storm_totem",
       name: "Galvanic Antler Totem",
       description: "Plant a lightning-scarred antler wreathed in static electricity. Sacrificing 5 HP, it grants allies +1 to spell attack rolls and spell save DCs.",
       level: 3,
@@ -673,8 +656,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "storm_totem_buff_effect",
+          { id : "storm_totem_buff_effect",
             name: "Galvanic Focus",
             description: "Adds +1 to all spell attack rolls and spell save DCs.",
             statModifier: {
@@ -692,8 +674,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "storm_totem_summon",
+          { id : "storm_totem_summon",
             name: "Storm Totem",
             description: "A huge, conductive antler wreathed in blue sparks.",
             size: "Small",
@@ -720,8 +701,7 @@ export const PRIMALIST_DATA = {
       tags: ["buff", "totem", "storm"]
     },
 
-    {
-      id: "prim_frost_totem",
+    { id : "prim_frost_totem",
       name: "Chill-Vein Totem",
       description: "Sow a fragment of frozen bone that leaks glacial frost. Sacrificing 5 HP, it slows enemies' movement speed by 10 feet and reduces their attack speed by 25%.",
       level: 3,
@@ -762,8 +742,7 @@ export const PRIMALIST_DATA = {
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "frost_slow_effect",
+          { id : "frost_slow_effect",
             name: "Chill-Vein Frost",
             description: "Shatters movement speed and slows reflexes."
           }
@@ -774,8 +753,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "frost_totem_summon",
+          { id : "frost_totem_summon",
             name: "Frost Totem",
             description: "A frozen bone chunk that radiates blinding cold.",
             size: "Small",
@@ -802,8 +780,7 @@ export const PRIMALIST_DATA = {
       tags: ["debuff", "totem", "frost"]
     },
 
-    {
-      id: "prim_wind_totem",
+    { id : "prim_wind_totem",
       name: "Gale-Howl Totem",
       description: "Uproot a hollow branch that whistles with ancient storm winds. Sacrificing 5 HP, it increases allies' movement speed by 10 feet and grants them advantage on Dodge (Agility) saves.",
       level: 2,
@@ -844,8 +821,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "wind_totem_buff_effect",
+          { id : "wind_totem_buff_effect",
             name: "Gale Swiftness",
             description: "Increases movement speed by 10 feet.",
             statModifier: {
@@ -863,8 +839,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "wind_totem_summon",
+          { id : "wind_totem_summon",
             name: "Wind Totem",
             description: "A hollow birch limb screaming with tempestuous wind.",
             size: "Small",
@@ -891,8 +866,7 @@ export const PRIMALIST_DATA = {
       tags: ["buff", "totem", "wind"]
     },
 
-    {
-      id: "prim_healing_sanctuary",
+    { id : "prim_healing_sanctuary",
       name: "Tragic Sanctuary",
       description: "When Grave-Root, Blood-Sap, Ribcage, and Lithic totems resonate, channel a tragic dome of protection. Sacrificing 10 HP, heals allies for 3d6, grants +3 Armor, and reduces damage taken by 25% for 2 rounds. You cannot receive this healing.",
       level: 5,
@@ -938,8 +912,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "tragic_sanctuary_armor_buff",
+          { id : "tragic_sanctuary_armor_buff",
             name: "Tragic Sanctuary Wards",
             description: "+3 Armor and 25% damage reduction.",
             statModifier: {
@@ -959,8 +932,7 @@ export const PRIMALIST_DATA = {
       tags: ["healing", "buff", "synergy"]
     },
 
-    {
-      id: "prim_elemental_fury",
+    { id : "prim_elemental_fury",
       name: "Atavistic Clashing",
       description: "When Flamecaller, Storm, Frost, and Wind totems resonate, invoke a gruesome elemental surge. Deals 8d6 damage to targets within a 30-foot radius. Deals 15 fire damage to yourself as your body combusts.",
       level: 6,
@@ -1011,8 +983,7 @@ export const PRIMALIST_DATA = {
       tags: ["damage", "synergy"]
     },
 
-    {
-      id: "prim_totemic_call",
+    { id : "prim_totemic_call",
       name: "Eruption of the Circle",
       description: "Undergo a horrifying physical convulsion, sacrificing 20 HP to grow all 8 totems simultaneously in a circle around you for 10 rounds. The sudden surge grants 8 Synergy immediately.",
       level: 7,
@@ -1051,8 +1022,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "all_eight_totems_summon",
+          { id : "all_eight_totems_summon",
             name: "All 8 Totems",
             description: "A massive, dense circle of 8 bone and root structures.",
             size: "Medium",
@@ -1079,8 +1049,7 @@ export const PRIMALIST_DATA = {
       tags: ["summoning", "ultimate"]
     },
 
-    {
-      id: "prim_totemic_recall",
+    { id : "prim_totemic_recall",
       name: "Agonizing Pull",
       description: "Violently drag the roots of your totems through the dirt back to your feet. Repositions all active totems to your current location. You take 5 physical damage from the violent snapping of wood and bone.",
       level: 3,
@@ -1120,8 +1089,7 @@ export const PRIMALIST_DATA = {
       utilityConfig: {
         utilityType: "custom",
         selectedEffects: [
-          {
-            id: "totemic_recall_active_effect",
+          { id : "totemic_recall_active_effect",
             name: "Agonizing Relocation",
             description: "Pulls all active totems to your current cell instantly."
           }
@@ -1134,8 +1102,7 @@ export const PRIMALIST_DATA = {
       tags: ["utility"]
     },
 
-    {
-      id: "prim_earthquake",
+    { id : "prim_earthquake",
       name: "Spine-Shatter Tremor",
       description: "Slam your own spine into the earth, sending a devastating tremor through the dirt. Deals 4d6 bludgeoning damage to all creatures in a 50-foot radius. Enemies who fail a Dodge save are knocked prone.",
       level: 8,
@@ -1192,8 +1159,7 @@ export const PRIMALIST_DATA = {
         duration: 1,
         durationUnit: "rounds",
         effects: [
-          {
-            id: "earthquake_prone_effect",
+          { id : "earthquake_prone_effect",
             name: "Prone",
             description: "Knocked flat on the vibrating ground.",
             config: {
@@ -1215,8 +1181,7 @@ export const PRIMALIST_DATA = {
   // ==========================================
   spells: [
     // ===== LEVEL 1 SPELLS =====
-    {
-      id: "primalist_earth_bolt",
+    { id: "primalist_earth_bolt",
       name: "Spine-Shard Bolt",
       description: "Shoot a calcified splinter of your own bone, sacrificing 2 HP. Deals 2d6 piercing and nature damage. Target must make a Dodge save or take full damage.",
       level: 1,
@@ -1269,8 +1234,7 @@ export const PRIMALIST_DATA = {
       tags: ["attack", "damage", "ranged"]
     },
 
-    {
-      id: "primalist_basic_healing_totem",
+    { id: "primalist_basic_healing_totem",
       name: "Rot-Sap Spindle",
       description: "Erupt a bone totem, sacrificing 4 HP. Pulses for 1d6 healing at the start of allies' turns for 3 rounds. You cannot receive this healing.",
       level: 1,
@@ -1315,8 +1279,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "rot_sap_spindle_summon",
+          { id : "rot_sap_spindle_summon",
             name: "Rot-Sap Spindle",
             description: "A small totem pulsing with dark green life.",
             size: "Small",
@@ -1343,8 +1306,7 @@ export const PRIMALIST_DATA = {
       tags: ["healing", "totem", "nature"]
     },
 
-    {
-      id: "primalist_natures_blessing",
+    { id: "primalist_natures_blessing",
       name: "Flayed Blessing",
       description: "Sacrifice 3 HP to weave a bloody web around an ally. Target receives +2 to all rolls and regenerates 1d4 HP per round for 2 rounds.",
       level: 1,
@@ -1385,8 +1347,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "flayed_blessing_buff",
+          { id : "flayed_blessing_buff",
             name: "Flayed Vigor",
             description: "+2 to all rolls and 1d4 healing per round.",
             statModifier: {
@@ -1407,8 +1368,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 2 SPELLS =====
-    {
-      id: "primalist_storm_gale",
+    { id: "primalist_storm_gale",
       name: "Choking Gales",
       description: "Sacrifice 3 HP to summon a black, howling storm. Silences all enemies and reduces their speed by 15 feet inside the gale for 1 round.",
       level: 2,
@@ -1451,8 +1411,7 @@ export const PRIMALIST_DATA = {
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "choking_silence_effect",
+          { id : "choking_silence_effect",
             name: "Silence",
             description: "Unable to speak or cast vocal spells."
           }
@@ -1467,8 +1426,7 @@ export const PRIMALIST_DATA = {
         duration: 1,
         durationUnit: "rounds",
         effects: [
-          {
-            id: "choking_slow",
+          { id : "choking_slow",
             name: "Slowed",
             description: "Movement speed reduced by 15 feet.",
             config: {
@@ -1484,8 +1442,7 @@ export const PRIMALIST_DATA = {
       tags: ["control", "debuff", "wind"]
     },
 
-    {
-      id: "primalist_earthen_shield",
+    { id: "primalist_earthen_shield",
       name: "Calcified Rib-Plate",
       description: "Graft calcified spurs onto an ally, sacrificing 4 HP. Grants +4 Armor and physical resistance for 3 rounds. You cannot receive this ward.",
       level: 2,
@@ -1526,8 +1483,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "calcified_ribs_buff",
+          { id : "calcified_ribs_buff",
             name: "Rib-Plate Wards",
             description: "+4 Armor and resistance to physical attacks.",
             statModifier: {
@@ -1547,8 +1503,7 @@ export const PRIMALIST_DATA = {
       tags: ["buff", "protection", "earth"]
     },
 
-    {
-      id: "primalist_spirit_sight",
+    { id: "primalist_spirit_sight",
       name: "Soul-Dredge Vision",
       description: "Rip open your third eye, sacrificing 2 HP. Gain sight of spirits, invisible stalkers, and hidden traps within 60 feet for 3 rounds.",
       level: 2,
@@ -1588,8 +1543,7 @@ export const PRIMALIST_DATA = {
       utilityConfig: {
         utilityType: "perception",
         selectedEffects: [
-          {
-            id: "soul_sight_active",
+          { id : "soul_sight_active",
             name: "Soul Sight",
             description: "Can see invisible creatures and spiritual traces."
           }
@@ -1603,8 +1557,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 3 SPELLS =====
-    {
-      id: "primalist_venomous_totem",
+    { id: "primalist_venomous_totem",
       name: "Sepulcher Rot Totem",
       description: "Erupt a totem of toxic ash, sacrificing 5 HP. Fires toxic spit dealing 1d8 nature and poison damage to all enemies within 30 feet for 4 rounds.",
       level: 3,
@@ -1650,8 +1603,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "sepulcher_totem_summon",
+          { id : "sepulcher_totem_summon",
             name: "Sepulcher Totem",
             description: "A totem of charred ash weeping thick acid.",
             size: "Small",
@@ -1678,8 +1630,7 @@ export const PRIMALIST_DATA = {
       tags: ["damage", "totem", "poison"]
     },
 
-    {
-      id: "primalist_natures_grasp",
+    { id: "primalist_natures_grasp",
       name: "Bramble-Grip Lockdown",
       description: "Shoot thorny roots from your wrists, sacrificing 6 HP. The target is grappled, immobilized, and takes 1d6 piercing damage per round for 2 rounds.",
       level: 3,
@@ -1729,8 +1680,7 @@ export const PRIMALIST_DATA = {
         duration: 2,
         durationUnit: "rounds",
         effects: [
-          {
-            id: "bramble_lockdown_grappled",
+          { id : "bramble_lockdown_grappled",
             name: "Grappled",
             description: "Immobilized by strangling roots.",
             config: {
@@ -1746,8 +1696,7 @@ export const PRIMALIST_DATA = {
       tags: ["control", "damage", "nature"]
     },
 
-    {
-      id: "primalist_ancestral_bond",
+    { id: "primalist_ancestral_bond",
       name: "Sanguine Ancestral Pact",
       description: "Gouge your palm, sacrificing 5 HP to bind your heart to an ally. Increases target's maximum HP by 20 and grants resistance to shadow damage for 3 rounds.",
       level: 3,
@@ -1788,8 +1737,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "sanguine_ancestral_vigor",
+          { id : "sanguine_ancestral_vigor",
             name: "Ancestral Vigor",
             description: "+20 Max HP and Shadow resistance.",
             statModifier: {
@@ -1810,8 +1758,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 4 SPELLS =====
-    {
-      id: "primalist_earthquake_strike",
+    { id: "primalist_earthquake_strike",
       name: "Skull-Cracking Shockwave",
       description: "Stomp violently, sacrificing 4 HP. Deals 3d6 bludgeoning damage to a target and stuns them for 1 round. Constitution save DC 14.",
       level: 4,
@@ -1866,8 +1813,7 @@ export const PRIMALIST_DATA = {
         duration: 1,
         durationUnit: "rounds",
         effects: [
-          {
-            id: "skull_crack_stun",
+          { id : "skull_crack_stun",
             name: "Stunned",
             description: "Stunned by heavy shockwave.",
             config: {
@@ -1883,8 +1829,7 @@ export const PRIMALIST_DATA = {
       tags: ["attack", "damage", "stun"]
     },
 
-    {
-      id: "primalist_spirit_wolves",
+    { id: "primalist_spirit_wolves",
       name: "Wendigo Specters",
       description: "Erupt two starving wolves of bone and shadow from your torso, sacrificing 8 HP. The specters hunt targets and inflict bleeding. Lasts 5 rounds.",
       level: 4,
@@ -1926,8 +1871,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "wendigo_specter_summon",
+          { id : "wendigo_specter_summon",
             name: "Wendigo Specter",
             description: "A starved wolf of jagged bone and freezing fog.",
             size: "Medium",
@@ -1954,8 +1898,7 @@ export const PRIMALIST_DATA = {
       tags: ["summoning", "nature", "spirit"]
     },
 
-    {
-      id: "primalist_primal_fury",
+    { id: "primalist_primal_fury",
       name: "Atavistic Bloodlust",
       description: "Surrender your mind, sacrificing 5 HP. Grants +2 to attack rolls and physical damage, but suffer -2 to Willpower saves for 3 rounds.",
       level: 4,
@@ -1995,8 +1938,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "atavistic_rage_buff",
+          { id : "atavistic_rage_buff",
             name: "Atavistic Rage",
             description: "+2 to attack rolls and damage, -2 to Willpower.",
             statModifier: {
@@ -2017,8 +1959,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 5 SPELLS =====
-    {
-      id: "primalist_thorn_barrier",
+    { id: "primalist_thorn_barrier",
       name: "Rot-Thorn Wall",
       description: "Grow a massive barrier of toxic brambles, sacrificing 8 HP. Blocks line of sight and movement. Enemies passing through take 2d8 nature damage. Lasts 5 rounds.",
       level: 5,
@@ -2061,8 +2002,7 @@ export const PRIMALIST_DATA = {
       utilityConfig: {
         utilityType: "custom",
         selectedEffects: [
-          {
-            id: "thorn_wall_active_effect",
+          { id : "thorn_wall_active_effect",
             name: "Rot-Thorns",
             description: "Impenetrable wall of wood and thorns that blocks visibility and burns flesh."
           }
@@ -2075,8 +2015,7 @@ export const PRIMALIST_DATA = {
       tags: ["utility", "barrier", "nature"]
     },
 
-    {
-      id: "primalist_ancestral_guardian",
+    { id: "primalist_ancestral_guardian",
       name: "Great Annihilation Beast",
       description: "Summon the calcified skull of an extinct behemoth, sacrificing 10 HP. Attacks enemies, intercepts damage, and lasts 4 rounds.",
       level: 5,
@@ -2116,8 +2055,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "annihilation_beast_summon",
+          { id : "annihilation_beast_summon",
             name: "Annihilation Beast",
             description: "A huge, atavistic behemoth composed of skulls and dead birch.",
             size: "Huge",
@@ -2145,8 +2083,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 6 SPELLS =====
-    {
-      id: "primalist_elemental_fury_totem",
+    { id: "primalist_elemental_fury_totem",
       name: "Cataclysmic Pyre Totem",
       description: "Raise a totem of volcanic slag, sacrificing 8 HP. Spits ash dealing 3d8 fire damage to all nearby enemies for 4 rounds. Beware Fire vulnerability.",
       level: 6,
@@ -2192,8 +2129,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "cataclysmic_pyre_summon",
+          { id : "cataclysmic_pyre_summon",
             name: "Cataclysmic Pyre Totem",
             description: "A totem constructed of burning coal and dry skull shards.",
             size: "Small",
@@ -2220,8 +2156,7 @@ export const PRIMALIST_DATA = {
       tags: ["damage", "totem", "fire"]
     },
 
-    {
-      id: "primalist_stone_skin",
+    { id: "primalist_stone_skin",
       name: "Petrified Flesh",
       description: "Sacrifice 6 HP to coat your skin in thick, petrified clay. Grants resistance to all physical damage, but reduces movement speed by 10 feet for 3 rounds.",
       level: 6,
@@ -2261,8 +2196,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "petrified_hide_buff_active",
+          { id : "petrified_hide_buff_active",
             name: "Petrified Hide",
             description: "Physical damage resistance, -10 ft speed.",
             statModifier: {
@@ -2283,8 +2217,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 7 SPELLS =====
-    {
-      id: "primalist_meteor_storm",
+    { id: "primalist_meteor_storm",
       name: "Sky-Tear Avalanche",
       description: "Call down jagged shards of lightning-scarred stone. Deals 10d6 fire and bludgeoning damage to all creatures in a 40-foot radius. Agility save DC 16 for half.",
       level: 7,
@@ -2339,8 +2272,7 @@ export const PRIMALIST_DATA = {
       tags: ["attack", "damage", "aoe"]
     },
 
-    {
-      id: "primalist_natures_wrath",
+    { id: "primalist_natures_wrath",
       name: "Mother's Fury",
       description: "Spends 10 Totemic Synergy and 15 HP. Your melee attacks deal +2d8 additional nature damage and knock enemies back 10 feet for 4 rounds.",
       level: 7,
@@ -2381,8 +2313,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "mothers_fury_buff_effect",
+          { id : "mothers_fury_buff_effect",
             name: "Earth-Mother Wrath",
             description: "+2d8 melee damage and 10 ft knockback.",
             statModifier: {
@@ -2403,8 +2334,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 8 SPELLS =====
-    {
-      id: "primalist_primal_apocalypse",
+    { id: "primalist_primal_apocalypse",
       name: "The Great Annihilation",
       description: "Spends 18 Totemic Synergy and 20 HP. Decimate the field, causing the soil within 100 feet to become a toxic wasteland of rot. Enemies take 2d6 acid damage per round.",
       level: 8,
@@ -2447,8 +2377,7 @@ export const PRIMALIST_DATA = {
       utilityConfig: {
         utilityType: "custom",
         selectedEffects: [
-          {
-            id: "great_annihilation_ wasteland",
+          { id : "great_annihilation_ wasteland",
             name: "Decay Zone",
             description: "Continuous acid damage to all targets within 100 feet."
           }
@@ -2461,8 +2390,7 @@ export const PRIMALIST_DATA = {
       tags: ["damage", "synergy", "ultimate"]
     },
 
-    {
-      id: "primalist_grand_totem_circle",
+    { id: "primalist_grand_totem_circle",
       name: "Black Totemic Chime",
       description: "Grow a circular wall of 4 Lesser Bone Totems in a 20-foot radius, sacrificing 15 HP. Totems block sight and speed. Lasts 5 rounds.",
       level: 8,
@@ -2504,8 +2432,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "lesser_bone_totem_summon",
+          { id : "lesser_bone_totem_summon",
             name: "Lesser Bone Totem",
             description: "Splintered bone structures forming an enclosure.",
             size: "Medium",
@@ -2533,8 +2460,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 9 SPELLS =====
-    {
-      id: "primalist_world_tree_avatar",
+    { id: "primalist_world_tree_avatar",
       name: "Heart-Tree Possession",
       description: "Sacrifice 20 HP to become possessed by the World Tree. Grow towering branches from your flesh, granting allies +4 to all rolls and massive regeneration. Lasts 5 rounds (concentration).",
       level: 9,
@@ -2580,8 +2506,7 @@ export const PRIMALIST_DATA = {
         newForm: "Heart-Tree Avatar",
         description: "You mutate into a towering structure of petrified wood and bone.",
         grantedAbilities: [
-          {
-            id: "heart_tree_regrowth",
+          { id : "heart_tree_regrowth",
             name: "Heart-Tree Regrowth",
             description: "Pulse 2d10 healing to all allies per round (excluding self)."
           }
@@ -2590,8 +2515,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "heart_tree_poss_buff_effect",
+          { id : "heart_tree_poss_buff_effect",
             name: "Avatar Strength",
             description: "+4 to all rolls and massive regeneration.",
             statModifier: {
@@ -2611,8 +2535,7 @@ export const PRIMALIST_DATA = {
       tags: ["buff", "transformation", "ultimate"]
     },
 
-    {
-      id: "primalist_cataclysm",
+    { id: "primalist_cataclysm",
       name: "Primal Ruin",
       description: "Sacrifice 15 HP to trigger a crushing earthquake. Deals 6d8 bludgeoning and nature damage to all enemies in a 60-foot radius. DC 16 Fortitude save for half.",
       level: 9,
@@ -2669,8 +2592,7 @@ export const PRIMALIST_DATA = {
         duration: 2,
         durationUnit: "rounds",
         effects: [
-          {
-            id: "cataclysm_silence",
+          { id : "cataclysm_silence",
             name: "Silence",
             description: "Deafened and silenced by the roar of the earth."
           }
@@ -2680,8 +2602,7 @@ export const PRIMALIST_DATA = {
       tags: ["attack", "damage", "control"]
     },
 
-    {
-      id: "primalist_eternal_totem",
+    { id: "primalist_eternal_totem",
       name: "Unbreakable Bone-Shard Totem",
       description: "Spends 15 Totemic Synergy and 25 HP. Raise an indestructible totem of legendary bone. Allies gain +2 to all stats and regenerate HP. Lasts 10 rounds.",
       level: 9,
@@ -2725,8 +2646,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "eternal_empowerment_active",
+          { id : "eternal_empowerment_active",
             name: "Eternal Empowerment",
             description: "Allies gain +2 to all stats and regenerate per round.",
             statModifier: {
@@ -2744,8 +2664,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "unbreakable_totem_summon",
+          { id : "unbreakable_totem_summon",
             name: "Unbreakable Totem",
             description: "An indestructible skull totem glowing with ancient power.",
             size: "Large",
@@ -2773,8 +2692,7 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== LEVEL 10 SPELLS =====
-    {
-      id: "primalist_primal_ascension",
+    { id: "primalist_primal_ascension",
       name: "Atavistic Singularity",
       description: "Achieve perfect harmony with nature by spending 20 Totemic Synergy. Your durations are doubled, you gain damage resistance while at least one totem is active, and you are immune to fear.",
       level: 10,
@@ -2801,8 +2719,7 @@ export const PRIMALIST_DATA = {
         newForm: "Primal Ascendant",
         description: "Achieve perfect harmony with atavistic decay, enhancing totemic mastery.",
         grantedAbilities: [
-          {
-            id: "totem_link_active",
+          { id : "totem_link_active",
             name: "Totem Link",
             description: "Damage resistance while totems are active."
           }
@@ -2811,8 +2728,7 @@ export const PRIMALIST_DATA = {
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "primal_ascension_active_buff",
+          { id : "primal_ascension_active_buff",
             name: "Primal Ascension",
             description: "Enhanced totem durations and immunity to fear.",
             customDescription: "You have achieved primal ascension. Damage resistance while totems are active, and durations doubled."
@@ -2842,8 +2758,7 @@ export const PRIMALIST_DATA = {
       tags: ["buff", "transformation", "passive", "legendary", "toggleable"]
     },
 
-    {
-      id: "primalist_gaia_wrath",
+    { id: "primalist_gaia_wrath",
       name: "Soil-Drowned Oblivion",
       description: "Spends 20 Synergy and 20 HP. Obliterate all enemies on the battlefield with bludgeoning nature damage. Constitution save DC 20 for half.",
       level: 10,
@@ -2898,8 +2813,7 @@ export const PRIMALIST_DATA = {
       tags: ["attack", "damage", "aoe", "legendary"]
     },
 
-    {
-      id: "primalist_genesis",
+    { id: "primalist_genesis",
       name: "Forest-Sprouting Gore",
       description: "Spends 18 Synergy and 30 HP. Erupt an army of Treants, Earth Elementals, and Primal Beasts from your flesh. Lasts 10 rounds.",
       level: 10,
@@ -2942,8 +2856,7 @@ export const PRIMALIST_DATA = {
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "nature_army_treants_active",
+          { id : "nature_army_treants_active",
             name: "Treant",
             description: "A colossal moving deadwood tree.",
             size: "Huge",
@@ -2960,8 +2873,7 @@ export const PRIMALIST_DATA = {
               controlRange: 120
             }
           },
-          {
-            id: "nature_army_elementals_active",
+          { id : "nature_army_elementals_active",
             name: "Earth Elemental",
             description: "A crushing walking shard of the bedrock.",
             size: "Large",
@@ -2978,8 +2890,7 @@ export const PRIMALIST_DATA = {
               controlRange: 120
             }
           },
-          {
-            id: "nature_army_beasts_active",
+          { id : "nature_army_beasts_active",
             name: "Primal Beast",
             description: "A terrifying predator wreathed in antlers.",
             size: "Large",
@@ -3003,10 +2914,9 @@ export const PRIMALIST_DATA = {
     },
 
     // ===== PASSIVE ABILITIES =====
-    {
-      id: "primalist_spirit_channel",
+    { id: "primalist_spirit_channel",
       name: "Spirit Channel",
-      description: "You channel primal power through your totems, acting as a conduit for the spirits. This bond is one-way -- you pour your life force into the totems but cannot receive their healing in return. You are never affected by the healing effect of your own totems (Healing Totem, Rejuvenation Totem, Healing Sanctuary, Vital Grove). Other totem effects (armor, damage, speed) still apply to you normally.",
+      description: "One-way conduit: pour life force into totems but cannot receive their healing. Never affected by your own totem healing. Other totem effects (armor, damage, speed) apply normally.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Nature/Nature Primal",
@@ -3027,10 +2937,9 @@ export const PRIMALIST_DATA = {
       tags: ["passive", "primalist", "restriction"]
     },
 
-    {
-      id: "primalist_totem_bond",
+    { id: "primalist_totem_bond",
       name: "Totem Bond",
-      description: "Your power flows through your totems. When you have 0 active totems, your connection to the primal spirits weakens: all your spell damage is reduced by 2 and all spell mana costs increase by 2. This penalty is removed the moment you place your first totem.",
+      description: "With 0 active totems, spell damage is reduced by 2 and mana costs increase by 2. Penalty removed when you place your first totem.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Necrotic/Necrotic Wither",
@@ -3051,10 +2960,9 @@ export const PRIMALIST_DATA = {
       tags: ["passive", "primalist", "weakness"]
     },
 
-    {
-      id: "primalist_shattered_conduit",
+    { id: "primalist_shattered_conduit",
       name: "Shattered Conduit",
-      description: "When one of your totems is destroyed by enemy action (attacked, dispelled, or targeted by a hostile ability), the spiritual backlash tears through you. You take 1d6 psychic damage and lose 3 Totemic Synergy (minimum 0). Totems that expire naturally or are dismissed by you do not trigger this effect.",
+      description: "When a totem is destroyed by enemy action, take 1d6 psychic damage and lose 3 Totemic Synergy (min 0). Natural expiration or voluntary dismissal does not trigger this.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Nature/Thorny Entanglement",

@@ -7,7 +7,7 @@
  */
 
 export const DOOMSAYER_DATA = {
-  id: "doomsayer",
+  id : "doomsayer",
   name: "Doomsayer",
   icon: "fas fa-bolt",
   role: "Damage/Control (Chaotic Prophecy & Living Bombs)",
@@ -373,8 +373,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
 
     specs: [
-      {
-        id: "requiem",
+      { id : "requiem",
         name: "Requiem",
         icon: "Necrotic/Necrotic Skull",
         color: "#4B0082",
@@ -415,8 +414,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           "Players who want to be the ultimate single-target burst damage dealer with a unique prophecy mechanic",
       },
 
-      {
-        id: "endbringer",
+      { id : "endbringer",
         name: "Endbringer",
         icon: "Void/Black Hole",
         color: "#FF4500",
@@ -457,8 +455,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           "Players who enjoy delayed gratification and increasingly devastating power over time",
       },
 
-      {
-        id: "cataclysm",
+      { id : "cataclysm",
         name: "Cataclysm",
         icon: "Fire/Fire Storm",
         color: "#FF6347",
@@ -515,8 +512,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 1 SPELLS (4)
   // ============================================================
 
-  {
-    id: "doomsayer_doom_bolt",
+  { id : "doomsayer_doom_bolt",
     name: "Doom Bolt",
     description:
       "Your throat tears open as you speak the first syllable of ending. A bolt of pure necrotic certainty lances toward the target, branding their flesh with a doom that whispers of inevitable ruin. Every word costs blood — your vocal cords shred, your eyes well with crimson, and the taste of copper fills your mouth.",
@@ -556,7 +552,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophesied: {
             damage: "4d8",
             effect: {
-              id: "doom_i",
+              id : "doom_i",
               name: "Doom I",
               duration: 2,
               unit: "rounds",
@@ -602,8 +598,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["damage", "debuff", "necrotic", "prophecy", "universal", "doom"],
   },
 
-  {
-    id: "doomsayer_doom_whisper",
+  { id : "doomsayer_doom_whisper",
     name: "Doom Whisper",
     description:
       "You lean close to the fabric of fate and whisper a name that should never be spoken. The syllables shred your vocal cords like broken glass and your throat fills with hot copper, but the whisper reaches the target's mind — a dirge of inevitable failure that splinters thought and drowns hope in black water.",
@@ -643,7 +638,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophesied: {
             damage: "2d6",
             effect: {
-              id: "doom_ii",
+              id : "doom_ii",
               name: "Doom II",
               duration: 2,
               unit: "rounds",
@@ -666,7 +661,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           base: {
             damage: "1d6",
             effect: {
-              id: "doom_i",
+              id : "doom_i",
               name: "Doom I",
               duration: 1,
               unit: "rounds",
@@ -698,8 +693,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     debuffConfig: {
       debuffType: "statusEffect",
       effects: [
-        {
-          id: "doom_whisper_debuff",
+        { id : "doom_whisper_debuff",
           name: "Whisper of Doom",
           description: "Doom stacking: -1 to -2 Spirit saves per stack",
           statusType: "doom",
@@ -725,8 +719,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["debuff", "damage", "psychic", "prophecy", "requiem", "doom"],
   },
 
-  {
-    id: "doomsayer_omen_flame",
+  { id : "doomsayer_omen_flame",
     name: "Omen Flame",
     description:
       "You speak the word that burns and your palms blister as prophetic fire takes shape — a flame that burns with the heat of a thousand dying suns, each tongue of fire a premonition of something that has not yet ended but already smells of ash. The flesh on your hands cracks and weeps as you release it.",
@@ -813,8 +806,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["damage", "fire", "force", "prophecy", "cataclysm", "dot"],
   },
 
-  {
-    id: "doomsayer_omen_of_ash",
+  { id : "doomsayer_omen_of_ash",
     name: "Omen of Ash",
     description:
       "A creeping doom seeps from your fingertips — a withering prophecy that turns living flesh to ash, cell by cell. The target's skin grays and cracks as the doom burrows in, and you feel your own flesh trying to slough off your bones in sympathy. Some truths should not be spoken aloud.",
@@ -854,7 +846,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophesied: {
             damage: "2d6",
             effect: {
-              id: "creeping_doom",
+              id : "creeping_doom",
               name: "Creeping Doom",
               duration: 3,
               unit: "rounds",
@@ -896,8 +888,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     debuffConfig: {
       debuffType: "statusEffect",
       effects: [
-        {
-          id: "creeping_doom",
+        { id : "creeping_doom",
           name: "Creeping Doom",
           description: "1d4 necrotic/round + -1 to all rolls for 3 rounds",
           statusType: "dot_penalty",
@@ -927,8 +918,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 2 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_doom_countdown",
+  { id : "doomsayer_doom_countdown",
     name: "Doom Countdown",
     description:
       "You press your bloodied palm against the air and speak a number — and doom burrows into the target's flesh like a second heartbeat. Each round it ticks, a slow drumbeat of necrotic certainty building toward detonation. Your eyes bleed black as you set the countdown. The target will know exactly when the end comes. They just will not be able to stop it.",
@@ -970,7 +960,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophesied: {
             damage: "4d8",
             effect: {
-              id: "doom_i",
+              id : "doom_i",
               name: "Doom I",
               duration: 2,
               unit: "rounds",
@@ -1031,8 +1021,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_calamity_zone",
+  { id : "doomsayer_calamity_zone",
     name: "Calamity Zone",
     description:
       "The ground ruptures in prophetic fire as you speak the zone into existence. The word tastes like copper and ash on your tongue — every syllable a small sacrifice. Flames erupt in a ring of devastation, and the earth itself remembers what you said and refuses to forget. The zone burns with the memory of every ending you have ever witnessed.",
@@ -1112,8 +1101,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["damage", "fire", "force", "prophecy", "cataclysm", "area"],
   },
 
-  {
-    id: "doomsayer_death_mark",
+  { id : "doomsayer_death_mark",
     name: "Death Mark",
     description:
       "Your throat constricts painfully as the death brand burns itself into existence — a sigil of absolute ending that sears into the target's very soul. The brand pulses with the rhythm of their heartbeat, counting down to a close they cannot escape. You cannot speak for a moment after casting this; the word of death always takes something from the speaker.",
@@ -1153,7 +1141,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophesied: {
             damage: "6d8",
             effect: {
-              id: "marked_for_death",
+              id : "marked_for_death",
               name: "Marked for Death",
               duration: 5,
               unit: "rounds",
@@ -1176,7 +1164,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
             backlash: "2d8 necrotic to self + Doom I",
             havocGain: 0,
             effect: {
-              id: "doom_i",
+              id : "doom_i",
               name: "Doom I",
               duration: 2,
               unit: "rounds",
@@ -1206,8 +1194,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     debuffConfig: {
       debuffType: "statusEffect",
       effects: [
-        {
-          id: "marked_for_death",
+        { id : "marked_for_death",
           name: "Marked for Death",
           description: "No healing + +1d8 necrotic from all damage sources, 5 rounds",
           statusType: "death_mark",
@@ -1230,8 +1217,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 3 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_havoc_blast",
+  { id : "doomsayer_havoc_blast",
     name: "Havoc Blast",
     description:
       "You tear open a wound in fate itself and convert raw Havoc into a devastating blast of pure force. The energy rips through your arms before launching — muscles tearing, veins bulging black — and erupts toward the target in a shrieking column of devastation. Your limbs shake for a long moment after. The price of weaponizing chaos is always paid in flesh.",
@@ -1300,8 +1286,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["damage", "force", "prophecy", "universal", "havoc"],
   },
 
-  {
-    id: "doomsayer_escalating_doom",
+  { id : "doomsayer_escalating_doom",
     name: "Escalating Doom",
     description:
       "A doom that grows more devastating with each passing moment. You plant the seed of ending in the target's flesh and with every round that passes it swells — a tumor of pure destructive force that feeds on time itself. Your sanity frays at the edges as the prophecy accumulates power; you can feel the weight of accumulated doom pressing against the inside of your skull. When it finally detonates, the world holds its breath.",
@@ -1347,7 +1332,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophesied: {
             damage: "4d10",
             effect: {
-              id: "doom_ii",
+              id : "doom_ii",
               name: "Doom II",
               duration: 2,
               unit: "rounds",
@@ -1397,8 +1382,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     triggerConfig: {
       triggers: [
-        {
-          id: "escalation_tick",
+        { id : "escalation_tick",
           name: "Doom Escalation",
           triggerType: "start_of_turn",
           action:
@@ -1449,8 +1433,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_rain_of_doom",
+  { id : "doomsayer_rain_of_doom",
     name: "Rain of Doom",
     description:
       "You scream the zone into being and your voice cracks — a wet, broken sound that tastes of iron. Above the targeted area, the sky bruises and prophetic effects begin to rain down, each one a different flavor of catastrophe visited upon every enemy within. The rain does not discriminate. It simply ends.",
@@ -1582,8 +1565,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 4 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_requiem_of_death",
+  { id : "doomsayer_requiem_of_death",
     name: "Requiem of Death",
     description:
       "A focused death prophecy of devastating precision. You speak the target's ending in a voice that is not your own — something older speaks through you, something that remembers every death that has ever occurred and catalogs them like music. Your eyes weep black ichor as the requiem builds. The target's flesh splits along invisible seams as the prophecy carves itself into their very being.",
@@ -1624,7 +1606,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophesied: {
             damage: "8d10",
             effect: {
-              id: "soul_wound",
+              id : "soul_wound",
               name: "Soul Wound",
               duration: 5,
               unit: "rounds",
@@ -1647,7 +1629,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
             backlash: "3d10 necrotic to self + Doom II",
             havocGain: 0,
             effect: {
-              id: "doom_ii",
+              id : "doom_ii",
               name: "Doom II",
               duration: 2,
               unit: "rounds",
@@ -1681,8 +1663,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["damage", "debuff", "necrotic", "prophecy", "requiem"],
   },
 
-  {
-    id: "doomsayer_doom_aura",
+  { id : "doomsayer_doom_aura",
     name: "Doom Aura",
     description:
       "Your mere presence becomes a weapon. An aura of escalating doom radiates outward — a crushing weight that makes the air thick with the stench of endings. Nearby enemies feel their will to fight drain away as the certainty of their defeat settles into their bones like lead. You do not speak this power into being. You simply ARE, and that is enough to break them.",
@@ -1716,8 +1697,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     debuffConfig: {
       debuffType: "aura",
       effects: [
-        {
-          id: "doom_aura_debuff",
+        { id : "doom_aura_debuff",
           name: "Doom Aura",
           description: "-2 to all rolls, increasing by -1 per round (max -5)",
           statusType: "doom_aura",
@@ -1753,15 +1733,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
     triggerConfig: {
       triggers: [
-        {
-          id: "aura_debuff",
+        { id : "aura_debuff",
           name: "Doom Presence",
           triggerType: "passive_aura",
           action:
             "Enemies take -2 to all rolls, increasing by -1 per round (max -5)",
         },
-        {
-          id: "aura_havoc",
+        { id : "aura_havoc",
           name: "Havoc Siphon",
           triggerType: "end_of_turn",
           action: "Gain 1 Havoc per enemy within the aura",
@@ -1775,8 +1753,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["debuff", "aura", "endbringer", "concentration"],
   },
 
-  {
-    id: "doomsayer_cataclysm_blast",
+  { id : "doomsayer_cataclysm_blast",
     name: "Cataclysm Blast",
     description:
       "A massive area prophecy detonation that tears open a wound in the world. Fire and necrotic energy cascade outward in a ring of annihilation, and your chest constricts as though your heart is being crushed in a fist of pure malice. The ground itself cracks and groans under the weight of what you have spoken. Nothing grows here again. Nothing ever will.",
@@ -1839,7 +1816,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
             backlash: "2d8 to self + Doom I",
             havocGain: 0,
             effect: {
-              id: "doom_i",
+              id : "doom_i",
               name: "Doom I",
               duration: 2,
               unit: "rounds",
@@ -1877,8 +1854,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 5 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_prophecy_of_ruin",
+  { id : "doomsayer_prophecy_of_ruin",
     name: "Prophecy of Ruin",
     description:
       "Reality itself ruptures. You speak a word that should not exist — a word that IS ending, that MEANS ending, that MAKES ending — and it tears through you like shrapnel. Your nose bleeds profusely, your eyes roll back, and for one terrible moment you see exactly how everything dies. Fire, necrotic rot, psychic dissolution, and the raw force of oblivion cascade across the battlefield. The word echoes long after you stop speaking. It will never fully stop.",
@@ -1922,7 +1898,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophesied: {
             damage: "8d8",
             effect: {
-              id: "doom_iii",
+              id : "doom_iii",
               name: "Doom III",
               duration: 2,
               unit: "rounds",
@@ -1951,7 +1927,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
             backlash: "3d8 to self + Doom II",
             havocGain: 0,
             effect: {
-              id: "doom_ii",
+              id : "doom_ii",
               name: "Doom II",
               duration: 2,
               unit: "rounds",
@@ -1992,8 +1968,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_stacked_doom",
+  { id : "doomsayer_stacked_doom",
     name: "Stacked Doom",
     description:
       "You SCREAM and blood pours from your mouth. Every active prophecy on the target detonates simultaneously — a cascade of fulfilled doom that rips through the victim in a single, devastating convulsion. Each prophecy resolves as its Prophesied outcome, no mercy, no second chances. If three or more prophecies tear open at once, the accumulated catastrophe is so total that the victim's spirit simply breaks. The scream never leaves your lips. It stays inside, where it has always been.",
@@ -2035,8 +2010,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     controlConfig: {
       controlType: "incapacitation",
       effects: [
-        {
-          id: "doom_iv",
+        { id : "doom_iv",
           controlType: "incapacitation",
           name: "Doom IV",
           description:
@@ -2060,8 +2034,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     triggerConfig: {
       triggers: [
-        {
-          id: "mass_detonation",
+        { id : "mass_detonation",
           name: "Chain Detonation",
           triggerType: "on_cast",
           action:
@@ -2087,8 +2060,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["damage", "control", "prophecy", "requiem", "detonate", "doom"],
   },
 
-  {
-    id: "doomsayer_doom_nova",
+  { id : "doomsayer_doom_nova",
     name: "Doom Nova",
     description:
       "An expanding wave of prophetic doom that rips outward from the impact point like the death scream of a dying star. Your entire body trembles as the nova launches — bones rattling, teeth cracking, blood vessels bursting behind your eyes. Fire and necrotic energy roll outward in a devastating ring, igniting everything they touch with prophetic flame. The battlefield will bear the scars of this word for generations. If there are generations left to count.",
@@ -2204,8 +2176,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 6 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_cascade_doom",
+  { id : "doomsayer_cascade_doom",
     name: "Cascade Doom",
     description:
       "Chain reaction detonation. You speak the word that multiplies — each syllable splitting into a hundred prophetic embers that seek out every enemy in range. When the first target ignites, they BECOME the prophecy, detonating outward in a secondary explosion that engulfs everything nearby. The caster's veins bulge black as the cascade rips through their arms. Each link in the chain costs more blood than the last.",
@@ -2292,8 +2263,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_endbringer_finale",
+  { id : "doomsayer_endbringer_finale",
     name: "Endbringer Finale",
     description:
       "The final bell tolls. The caster has bled enough. This spell can only be unleashed after 5 rounds of combat — the caster has paid in blood for every round, and now the debt comes due. ALL active prophecies resolve as Prophesied automatically, reality surrendering to the accumulated weight of so much doom. Havoc generation doubles. Fire and necrotic energy erupt across the battlefield in a cataclysm that reshapes the terrain itself. When the dust settles, nothing remains unchanged.",
@@ -2334,8 +2304,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     triggerConfig: {
       triggers: [
-        {
-          id: "ultimate_detonation",
+        { id : "ultimate_detonation",
           name: "Ultimate Detonation",
           triggerType: "on_cast",
           action:
@@ -2368,8 +2337,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_execution_prophecy",
+  { id : "doomsayer_execution_prophecy",
     name: "Execution Prophecy",
     description:
       "A lethal prophecy of absolute death. The caster's voice becomes something OTHER — hollow, resonant, inhuman — as they speak a word that exists outside the boundaries of mortal language. The word carves through reality like a blade through silk, seeking the target's thread in the tapestry of fate and CUTTING it. The caster's throat bleeds from the effort of channeling something that was never meant to pass through human lips.",
@@ -2437,7 +2405,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           outside: {
             backlash: "8d10 necrotic to self",
             effect: {
-              id: "doom_iii",
+              id : "doom_iii",
               name: "Doom III",
               duration: 2,
               unit: "rounds",
@@ -2494,8 +2462,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 7 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_armageddon_herald",
+  { id : "doomsayer_armageddon_herald",
     name: "Armageddon Herald",
     description:
       "The caster becomes a conduit of the apocalypse. Their eyes go entirely black — not the whites, not the iris, ALL of it — and their voice echoes with something ancient that has been waiting for this moment since before the world was made. In Herald form, prophecies bend toward fulfillment, Havoc generation doubles, and a Doom Aura radiates outward, breaking the spirit of everything nearby. The transformation is not painless. The caster's humanity frays with each passing second.",
@@ -2529,8 +2496,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     buffConfig: {
       buffType: "transformation",
       effects: [
-        {
-          id: "herald_prophecy_bonus",
+        { id : "herald_prophecy_bonus",
           name: "Prophetic Authority",
           description:
             "+2 to all Prophecy resolution rolls. The Herald's words carry the weight of inevitability.",
@@ -2542,15 +2508,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
             },
           ],
         },
-        {
-          id: "herald_double_havoc",
+        { id : "herald_double_havoc",
           name: "Double Havoc",
           description:
             "All Havoc generation is doubled while in Herald form. The apocalypse feeds itself.",
           havocMultiplier: 2,
         },
-        {
-          id: "herald_doom_aura",
+        { id : "herald_doom_aura",
           name: "Doom Aura",
           description:
             "30ft aura: All enemies within suffer -3 penalty to Spirit saves and all rolls. The Herald's mere presence breaks resolve.",
@@ -2591,8 +2555,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_apocalypse_zone",
+  { id : "doomsayer_apocalypse_zone",
     name: "Apocalypse Zone",
     description:
       "Fate itself is rewritten within this zone. The caster speaks a boundary into existence and the air within SHATTERS — reality becoming a fractured mirror where even d20 rolls are subject to prophecy (even results grant bonuses, odd results inflict penalties). Enemies standing in the zone at the start of their turn burn with prophetic fire and wither under necrotic decay simultaneously. The caster's skin cracks with prophetic energy, thin lines of light tracing across their body like a map of every possible future.",
@@ -2633,15 +2596,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     triggerConfig: {
       triggers: [
-        {
-          id: "zone_fate",
+        { id : "zone_fate",
           name: "Prophetic Fate Zone",
           triggerType: "passive_zone",
           action:
             "All d20 rolls made within the zone use prophecy range: even results grant a bonus, odd results inflict a penalty. Fate itself is rewritten.",
         },
-        {
-          id: "zone_damage",
+        { id : "zone_damage",
           name: "Prophetic Burn",
           triggerType: "start_of_turn",
           action:
@@ -2671,8 +2632,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_prophecy_of_annihilation",
+  { id : "doomsayer_prophecy_of_annihilation",
     name: "Prophecy of Annihilation",
     description:
       "The ultimate single-target prophecy. The caster speaks a word that should not exist — a word that is the ANNIHILATION of something, not the description of it — and their throat BLEEDS. The word tears through the target's existence like a blade through smoke. If the target is weakened enough, they are not merely killed but ERASED — no resurrection, no return, no hope. The caster's voice may never fully recover from channeling something this absolute.",
@@ -2734,7 +2694,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           outside: {
             backlash: "6d12 necrotic to self",
             effect: {
-              id: "doom_iii",
+              id : "doom_iii",
               name: "Doom III",
               duration: 2,
               unit: "rounds",
@@ -2782,8 +2742,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 8 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_twist_of_doom",
+  { id : "doomsayer_twist_of_doom",
     name: "Twist of Doom",
     description:
       "You twist fate through sheer force of will. Blood trickles from your ear — the mental cost of reshaping prophecy — as you reach into the fabric of an active prophecy and FORCE it to reroll. The new result must be accepted, for better or worse. If the twist results in a Prophesied outcome, the surge of vindicated doom grants +3 Havoc. Fate does not appreciate being corrected, and the headache will last for days.",
@@ -2817,16 +2776,14 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     utilityConfig: {
       utilityType: "reroll",
       effects: [
-        {
-          id: "fate_reroll",
+        { id : "fate_reroll",
           name: "Fate Reroll",
           description:
             "Reroll any prophecy resolution die. The new result must be accepted. Cannot reroll the same prophecy twice.",
           rerollTarget: "prophecy_resolution",
           mustAccept: true,
         },
-        {
-          id: "twist_havoc",
+        { id : "twist_havoc",
           name: "Twist Reward",
           description:
             "+3 Havoc if the new result is Prophesied. The universe rewards audacity, grudgingly.",
@@ -2837,8 +2794,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     triggerConfig: {
       triggers: [
-        {
-          id: "fate_twist",
+        { id : "fate_twist",
           name: "Fate Twist",
           triggerType: "on_prophecy_resolution",
           action:
@@ -2860,8 +2816,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_doom_legion",
+  { id : "doomsayer_doom_legion",
     name: "Doom Legion",
     description:
       "A prophecy placed on EVERY enemy simultaneously. The caster SCREAMS until their voice gives out — a single sustained note that fractures into a thousand prophetic echoes, each one finding a different target. Every enemy the caster can see receives the doom. The sound is not human. It is not meant for human ears. The caster's throat tears, their eyes burst blood vessels, and for a moment they see every enemy's ending laid out like cards on a table.",
@@ -2960,8 +2915,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_death_sentence",
+  { id : "doomsayer_death_sentence",
     name: "Death Sentence",
     description:
       "An inescapable doom brand. The caster carves the sentence into the air with a finger that leaves a trail of blood — not from a wound, but from the sheer act of writing fate itself. The brand sears into the target's essence: they cannot resolve prophecies as Outside (minimum Base outcome), every Prophesied result generates +3 Havoc, and their body refuses to heal above half health. The sentence is absolute. It can only be endured.",
@@ -2995,8 +2949,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     debuffConfig: {
       debuffType: "brand",
       effects: [
-        {
-          id: "death_sentence_brand",
+        { id : "death_sentence_brand",
           name: "Death Sentence",
           description:
             "Cannot resolve prophecies as Outside — minimum Base outcome is enforced. All Prophesied results generate +3 additional Havoc.",
@@ -3004,8 +2957,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           prophecyFloor: "base",
           bonusHavoc: 3,
         },
-        {
-          id: "death_sentence_heal_cap",
+        { id : "death_sentence_heal_cap",
           name: "Sentenced Flesh",
           description:
             "Cannot be healed above 50% HP while branded. The body refuses to recover fully under the weight of the sentence.",
@@ -3037,8 +2989,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 9 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_the_end",
+  { id : "doomsayer_the_end",
     name: "The End",
     description:
       "The Word of Ending. The caster speaks it and reality RECOILS — the air itself flinches, the ground shudders, and for one terrible moment everything within range sees their own ending reflected in the blast. Necrotic, fire, psychic, and raw force cascade outward in equal measure, and nothing is spared. Allies may be caught — the End does not discriminate. The caster's eyes turn entirely black for a full minute after casting, and the taste of ash never leaves their mouth.",
@@ -3102,7 +3053,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           outside: {
             backlash: "4d10 to self",
             effect: {
-              id: "doom_iii",
+              id : "doom_iii",
               name: "Doom III",
               duration: 2,
               unit: "rounds",
@@ -3147,8 +3098,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_cataclysm_incarnate",
+  { id : "doomsayer_cataclysm_incarnate",
     name: "Cataclysm Incarnate",
     description:
       "The caster becomes a walking cataclysm. Their skin cracks with prophetic fire — not burning, but ILLUMINATING from within, thin lines of molten gold tracing across their body like fault lines. Everything near them BURNS. Each turn, the Cataclysm Table rolls against every enemy within 40ft, auto-resolving as Prophesied. The caster does not choose what burns. The cataclysm decides. Their voice becomes the sound of cities falling.",
@@ -3183,8 +3133,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     buffConfig: {
       buffType: "ultimate_transformation",
       effects: [
-        {
-          id: "cataclysm_aura",
+        { id : "cataclysm_aura",
           name: "Cataclysm Aura",
           description:
             "Auto-Prophesied damage to all enemies within 40ft each turn via Cataclysm Table. The walking end does not negotiate.",
@@ -3195,8 +3144,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     triggerConfig: {
       triggers: [
-        {
-          id: "turn_cataclysm",
+        { id : "turn_cataclysm",
           name: "Cataclysm Turn",
           triggerType: "start_of_turn",
           action:
@@ -3249,8 +3197,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_requiem_absolute",
+  { id : "doomsayer_requiem_absolute",
     name: "Requiem Absolute",
     description:
       "The final requiem. Fate itself cannot deny this doom. The caster's voice becomes something beyond human — something that should not exist, something that predates language and will outlast it. A single syllable carries the weight of absolute ending: the target is reduced to 0 HP. No save. No immunity. ALL creature types. No entity in existence can resist a song this final. The caster's nose bleeds black ichor and their eyes weep crimson. The word has been spoken. It cannot be unspoken.",
@@ -3311,7 +3258,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           outside: {
             backlash: "15d12 necrotic to self",
             effect: {
-              id: "doom_iv",
+              id : "doom_iv",
               name: "Doom IV",
               duration: 2,
               unit: "rounds",
@@ -3357,8 +3304,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // LEVEL 10 SPELLS (3)
   // ============================================================
 
-  {
-    id: "doomsayer_herald_of_the_end",
+  { id : "doomsayer_herald_of_the_end",
     name: "Herald of the End",
     description:
       "For one minute, you ARE the apocalypse. Fate bows. The caster's humanity burns away — eyes black, voice resonant with the End itself — and in its place stands something that prophecies obey. ALL prophecies auto-resolve as Prophesied. Havoc generation TRIPLES. The Herald is immune to fire, necrotic, and psychic damage. Backlash that would damage the Herald instead deals DOUBLE damage to enemies within range. The transformation is total. The person who was here before is gone. Whether they come back is uncertain.",
@@ -3392,29 +3338,25 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     buffConfig: {
       buffType: "ultimate_transformation",
       effects: [
-        {
-          id: "herald_auto_prophesied",
+        { id : "herald_auto_prophesied",
           name: "Fate's Submission",
           description:
             "All prophecies cast by or against the Herald auto-resolve as Prophesied. Fate has surrendered.",
           autoProphesied: true,
         },
-        {
-          id: "herald_triple_havoc",
+        { id : "herald_triple_havoc",
           name: "Apocalypse Engine",
           description:
             "Havoc generation tripled. The Herald does not merely channel doom — they ARE doom, and doom generates itself.",
           havocMultiplier: 3,
         },
-        {
-          id: "herald_immunity",
+        { id : "herald_immunity",
           name: "End Made Flesh",
           description:
             "Immune to fire, necrotic, and psychic damage. The Herald cannot be harmed by the very forces they embody.",
           immunities: ["fire", "necrotic", "psychic"],
         },
-        {
-          id: "herald_backlash_redirect",
+        { id : "herald_backlash_redirect",
           name: "Deflected Apocalypse",
           description:
             "Backlash damage that would affect the Herald instead deals double damage to the nearest enemy within 30ft. The End does not harm its Herald.",
@@ -3444,8 +3386,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_end_of_all_things",
+  { id : "doomsayer_end_of_all_things",
     name: "End of All Things",
     description:
       "Every prophecy detonates. EVERY. SINGLE. ONE. The caster reaches out with both hands and TEARS — ripping every active prophecy off the battlefield within 120ft and forcing them to resolve as Prophesied simultaneously. The combined detonation creates a Scorched Earth zone that continues to burn for 5 rounds afterward. The battlefield becomes a hellscape of fire, necrotic rot, and raw force. The caster may not survive the backlash. There is a very real chance they die casting this spell. The End does not care who it takes.",
@@ -3498,8 +3439,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     triggerConfig: {
       triggers: [
-        {
-          id: "final_detonation",
+        { id : "final_detonation",
           name: "Final Detonation",
           triggerType: "on_cast",
           action:
@@ -3525,8 +3465,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     ],
   },
 
-  {
-    id: "doomsayer_final_requiem",
+  { id : "doomsayer_final_requiem",
     name: "Final Requiem",
     description:
       "The last song of doom. Cannot be denied, survived, escaped, or forgiven. The caster's voice GIVES OUT permanently — they may never speak again — as the final requiem pours out of them in a sound that is not a scream, not a whisper, not a word. It is simply END. 20d12 necrotic damage with no save. If the target dies, they cannot be resurrected by any means. If they somehow survive, every future prophecy cast against them resolves as Prophesied permanently — their doom is no longer a possibility, it is a certainty awaiting its moment. The caster slumps, silent. Some words cost everything.",
@@ -3564,8 +3503,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     triggerConfig: {
       triggers: [
-        {
-          id: "absolute_execution",
+        { id : "absolute_execution",
           name: "Absolute Execution",
           triggerType: "on_cast",
           action:
@@ -3603,8 +3541,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
   // PASSIVE ABILITIES (3)
   // ============================================================
 
-  {
-    id: "doomsayer_doom_fatigue",
+  { id : "doomsayer_doom_fatigue",
     name: "Doom Fatigue",
     description:
       "Each doom and prophecy beyond the first drains you. Spreading doom exhausts the prophet — you feel each prophecy like a weight on your soul, a slow accumulation of endings that your body was never meant to carry. At the start of each turn, you take 1d4 necrotic damage per active doom beyond the first. The more doom you spread, the more it consumes you from within. Your veins darken with each prophecy, and your coughs bring up something that is not entirely blood.",
@@ -3649,8 +3586,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["passive", "necrotic", "universal", "self_damage"],
   },
 
-  {
-    id: "doomsayer_inevitable_isolation",
+  { id : "doomsayer_inevitable_isolation",
     name: "Inevitable Isolation",
     description:
       "Your visions isolate you from hope. While you have active doom prophecies, you cannot benefit from ally healing or positive buffs — their healing simply fails to take hold on a soul so saturated with doom, their buffs sliding off you like water off a gravestone. The isolation is absolute. You also take 50% increased psychic damage from all sources — your mind, stretched thin by the constant flood of prophetic visions, has become catastrophically vulnerable to anything that targets the psyche.",
@@ -3704,8 +3640,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     tags: ["passive", "psychic", "universal", "self_debuff"],
   },
 
-  {
-    id: "doomsayer_prophets_burden",
+  { id : "doomsayer_prophets_burden",
     name: "Prophet's Burden",
     description:
       "Failed prophecies hurt the prophet. When a doom prophecy is cleansed or dispelled before its natural resolution, the accumulated prophetic energy has nowhere to go but back into the one who spoke it. You take psychic damage equal to the doom's remaining potential damage (minimum 1d6). Your visions demand to be fulfilled — denied prophecy does not simply vanish. It returns to its source, and you ARE the source. Each undone prophecy is a psychic wound that reopens every time someone cheats fate.",

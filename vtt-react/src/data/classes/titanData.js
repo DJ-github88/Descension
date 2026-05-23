@@ -9,7 +9,7 @@ import { DEVOTIONS, SPECIALIZATIONS, TITAN_MANA } from "./titan/titanConstants";
 import { TITAN_SPELLS } from "./titan/titanSpells";
 
 export const TITAN_DATA = {
-  id: "titan",
+  id : "titan",
   name: "Titan",
   icon: "fas fa-skull",
   role: "Gravitational Tank",
@@ -307,8 +307,7 @@ ULTIMATE: 1/Long Rest (irreversible until next rest)
     description: `Every Titan chooses one of three horrifying specializations that permanently alter their skeletal structure, changing how they manage mass and gravity.`,
 
     specs: [
-      {
-        id: "celestial-champion",
+      { id : "celestial-champion",
         name: "Ossified Scion",
         icon: "Radiant/Radiant Bolt",
         color: "#EBE6DD",
@@ -344,8 +343,7 @@ ULTIMATE: 1/Long Rest (irreversible until next rest)
             "Attunement passive benefits increased by 50%. Ultimate abilities can be used twice per long rest. Allies within 10 feet gain +1 Armor. Attunement restrictions are doubled (Solara's glow expands to 60 ft, Terranox speed reduction is 25 ft). Acid vulnerability is doubled to +100% damage taken. Cannot switch devotions mid-combat.",
         },
       },
-      {
-        id: "divine-conduit",
+      { id : "divine-conduit",
         name: "Vessel of Bone-Marrow",
         icon: "Radiant/Divine Radiance",
         color: "#768A96",
@@ -381,8 +379,7 @@ ULTIMATE: 1/Long Rest (irreversible until next rest)
             "Attunement restrictions reduced by 50%. Attunement benefits reduced by 25%. Can attune to a second bone structure at 50% effectiveness. Can switch attunements during one short rest per day.",
         },
       },
-      {
-        id: "astral-warrior",
+      { id : "astral-warrior",
         name: "Gravitational Rupture",
         icon: "Arcane/Missile",
         color: "#583D70",

@@ -9,7 +9,7 @@
  */
 
 export const DREADNAUGHT_DATA = {
-  id: "dreadnaught",
+  id : "dreadnaught",
   name: "Dreadnaught",
   icon: "fas fa-shield-alt",
   role: "Tank",
@@ -242,8 +242,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     description: `Choose the mechanical configuration of your iron tomb. Your choice alters your core boiler dynamics, pressure thresholds, and combat specialization.`,
 
     specs: [
-      {
-        id: "forge_core",
+      { id : "forge_core",
         name: "Forge-Core",
         icon: "Fire/Flame Shield",
         color: "#d35400",
@@ -272,8 +271,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
           "Thermal Cloak: Allies standing within 5 feet gain +2 to armor from defensive steam.",
         ],
       },
-      {
-        id: "soul_stoker",
+      { id : "soul_stoker",
         name: "Soul-Stoker",
         icon: "Necrotic/Blood Skull",
         color: "#c0392b",
@@ -302,8 +300,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
           "Reaper's Draft: When a nearby creature dies, your furnace gains 15 pressure automatically.",
         ],
       },
-      {
-        id: "juggernaut",
+      { id : "juggernaut",
         name: "Juggernaut",
         icon: "Bludgeoning/Hammer Crush",
         color: "#2c3e50",
@@ -335,14 +332,50 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     ],
   },
 
+  equipment: {
+    title: "Starting Equipment",
+    choices: [
+      {
+        name: "Siege Breaker Loadout",
+        icon: "Bludgeoning/Hammer Crush",
+        items: [
+          "Heavy Iron Maul (2d8 bludgeoning, requires two hands, crushes light barriers on hit)",
+          "Full Boiler Plate (Armor 16, -15 ft movement speed, conductive: +100% Lightning/Cold vulnerability)",
+          "Coal Satchel (10 lbs of refined furnace coal, used for emergency stoking)",
+        ],
+        description:
+          "Maximum impact and barrier destruction. The Heavy Iron Maul synergizes with Iron Trample and Combustion Strike for devastating melee output.",
+      },
+      {
+        name: "Furnace Guardian Loadout",
+        icon: "Fire/Flame Shield",
+        items: [
+          "Superheated War Shield (1d8 bludgeoning + 1d6 fire, +2 Armor when blocking, heats on contact)",
+          "Reinforced Boiler Plate (Armor 17, -20 ft movement speed, conductive: +100% Lightning/Cold vulnerability)",
+          "Pressure Gauge (tracks current Furnace Pressure, audible hiss warns allies when nearing Meltdown)",
+        ],
+        description:
+          "Defensive frontline build. The War Shield pairs with Steam Vent and Superheated Shell for sustained pressure management and ally protection.",
+      },
+    ],
+    standardGear: [
+      "Iron Tomb Maintenance Kit (wrenches, grease, replacement rivets)",
+      "Coal Bag (20 lbs standard fuel)",
+      "Water Flask (2 gallons, doubles as emergency coolant)",
+      "Soot-Stained Bedroll",
+      "1d10 x 5 tarnished iron coins",
+    ],
+    notes:
+      "You cannot wield bows, crossbows, or finesse weapons. Your sealed iron plating prevents swimming, stealth, and squeezing through narrow passages. All armor you wear is automatically converted to Boiler Plate due to your permanently sealed chassis.",
+  },
+
   // Fully rewritten, meticulously normalized Level 1-10 spells
   spells: [
     // ========================================
     // LEVEL 1 SPELLS - Core Mechanical Bedrock
     // ========================================
 
-    {
-      id: "dread_furnace_reignition",
+    { id: "dread_furnace_reignition",
       name: "Furnace Reignition",
       description:
         "The ultimate fail-safe of the iron tomb. When your health is reduced to 0 HP, your boiler catastrophically dumps all remaining Furnace Pressure in a violent, high-pressure blast. You return to life, regaining HP equal to twice the Furnace Pressure consumed, and unleash superheated steam that burns nearby enemies. Once per long rest.",
@@ -389,11 +422,19 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         cooldownType: "long_rest",
         cooldownValue: 1,
       },
+      triggerConfig: {
+        triggers: [
+          { id : "reignition_revival",
+            name: "Boiler Emergency Dump",
+            triggerType: "passive",
+            action: "When reduced to 0 HP, automatically consume all Furnace Pressure to revive with HP equal to 2x pressure consumed and deal 1d8 + spirit fire damage to all within 5 feet.",
+          },
+        ],
+      },
       tags: ["passive", "revival", "fire", "starter", "level 1", "dreadnaught"],
     },
 
-    {
-      id: "dread_iron_trample",
+    { id: "dread_iron_trample",
       name: "Iron Trample",
       description:
         "You fire your internal combustion cylinders, driving your massive iron plates forward with terrifying weight. You charge up to 20 feet in a straight line. During this movement, you instantly trample and permanently destroy all physical terrain, barriers, and deployables in your path. You ignore all physical crowd control (roots, grapples) simply by crushing them. Generates Furnace Pressure.",
@@ -431,8 +472,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "unstoppable_momentum",
+          { id : "unstoppable_momentum",
             name: "Unstoppable Momentum",
             description: "Crush barriers, destroy physical terrain, and ignore all physical crowd control during movement.",
           },
@@ -445,8 +485,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["movement", "terrain_destroyer", "starter", "pressure_gain", "level 1", "dreadnaught"],
     },
 
-    {
-      id: "dread_steam_vent",
+    { id: "dread_steam_vent",
       name: "Steam Vent",
       description:
         "Release a sudden, high-pressure hiss of scalding water and ash from your exhaust ports when struck. The blinding plume burns your attacker and creates a dense screen of ash around you. Consumes Furnace Pressure.",
@@ -489,8 +528,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "blinded_ash",
+          { id : "blinded_ash",
             name: "Blinded by Ash",
             description: "Scalding soot blinds the target's vision. Disadvantage on all attacks for 1 round.",
             statusType: "blinded",
@@ -507,8 +545,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["reaction", "debuff", "fire", "starter", "level 1", "dreadnaught"],
     },
 
-    {
-      id: "dread_stoke_coals",
+    { id: "dread_stoke_coals",
       name: "Stoke Coals",
       description:
         "You pull the red-hot stoking bars, crushing your own blood and fuel directly into the combustion chamber. An agonizing screech of metal and burning meat echoes as you sacrifice health to rapidly stoke your internal boiler, generating massive pressure.",
@@ -545,11 +582,19 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         cooldownType: "turn_based",
         cooldownValue: 0,
       },
+      triggerConfig: {
+        triggers: [
+          { id : "stoke_self_harm",
+            name: "Blood-Stoked Furnace",
+            triggerType: "on_cast",
+            action: "Sacrifice 10 HP to instantly generate 35 Furnace Pressure.",
+          },
+        ],
+      },
       tags: ["resource_gain", "self_harm", "starter", "level 1", "dreadnaught"],
     },
 
-    {
-      id: "dread_engine_starvation",
+    { id: "dread_engine_starvation",
       name: "Engine Starvation",
       description:
         "The superheated fire in your chest is a ravenous parasite. If you take 0 damage and do not move for 2 consecutive rounds, the engine cools rapidly, causing your gears to lock. You lose 10 Furnace Pressure per round and your movement speed is reduced by 10 feet. The engine demands action.",
@@ -575,8 +620,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "movementImpairment",
         effects: [
-          {
-            id: "engine_starved",
+          { id : "engine_starved",
             name: "Engine Starvation",
             description: "Internal gears cool and seize. Speed reduced by 10 feet.",
             statusType: "slowed",
@@ -592,8 +636,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["passive", "debuff", "flaw", "decay", "level 1", "dreadnaught"],
     },
 
-    {
-      id: "dread_agonizing_servitude",
+    { id: "dread_agonizing_servitude",
       name: "Agonizing Servitude",
       description:
         "You are permanently bolted into an agonizing, oversized steam-prison. You gain a massive Armor stat and complete immunity to physical crowd control (roots, grapples, slows) while walking. However, your conductive plating makes you highly vulnerable to elemental forces, giving you 100% vulnerability to Lightning (bypasses Armor) and Cold (roots pistons). You are the slowest class in the game, completely incapable of stealth, swimming, or fitting through narrow spaces.",
@@ -619,8 +662,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       buffConfig: {
         buffType: "combatAdvantage",
         effects: [
-          {
-            id: "iron_tomb_plates",
+          { id : "iron_tomb_plates",
             name: "Conductive Iron Tomb",
             description: "+4 Armor, permanent immunity to physical roots, grapples, and slows while moving.",
             statModifier: {
@@ -634,8 +676,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "curse",
         effects: [
-          {
-            id: "conductive_vulnerability",
+          { id : "conductive_vulnerability",
             name: "Agonizing Tomb Flaws",
             description: "100% vulnerability to Lightning and Cold damage. Banned from stealth, swimming, and crawling.",
           },
@@ -651,8 +692,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 2 SPELLS - Combustion & Siphoning
     // ========================================
 
-    {
-      id: "dread_combustion_strike",
+    { id: "dread_combustion_strike",
       name: "Combustion Strike",
       description:
         "You stoke your cylinders, channeling a burst of high-pressure combustion directly into your heavy weapon. Your melee slam explodes with steam and physical force, crushing the target and dealing bonus fire damage. Consumes Furnace Pressure.",
@@ -662,6 +702,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       typeConfig: {
         school: "fire",
         icon: "Fire/Flame Burst",
+        secondaryElement: "bludgeoning",
         tags: ["damage", "melee", "fire", "bludgeoning"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -694,8 +735,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["damage", "melee", "fire", "bludgeoning", "level 2", "dreadnaught"],
     },
 
-    {
-      id: "dread_soul_feed",
+    { id: "dread_soul_feed",
       name: "Soul-Feed",
       description:
         "Plunge your superheated iron gauntlet directly into an enemy's torso. Instead of burning them, your cold internal chambers desperately siphon their bodily heat and soul energy, cooling your boiler and direct-healing your battered flesh. Consumes Furnace Pressure to initiate, but vents pressure on hit.",
@@ -740,8 +780,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["damage", "healing", "cooling", "vampiric", "level 2", "dreadnaught"],
     },
 
-    {
-      id: "dread_superheated_shell",
+    { id: "dread_superheated_shell",
       name: "Superheated Shell",
       description:
         "You close all boiler vents and stoke the engines, intentionally heating your outer iron plating until it glows cherry red. Your armor increases significantly, and any creature that strikes you in melee takes automatic fire damage. However, the heat leaks inward, dealing minor fire damage to you every round. Generates Furnace Pressure.",
@@ -771,8 +810,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       buffConfig: {
         buffType: "auraEffect",
         effects: [
-          {
-            id: "superheated_plates",
+          { id : "superheated_plates",
             name: "Superheated Plating",
             description: "Gain +3 Armor. Attackers in melee take 1d6 fire damage. You take 2 fire damage at start of turn.",
             statModifier: {
@@ -790,6 +828,20 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         cooldownType: "turn_based",
         cooldownValue: 3,
       },
+      triggerConfig: {
+        triggers: [
+          { id : "shell_self_damage",
+            name: "Heat Leak",
+            triggerType: "start_of_turn",
+            action: "Take 2 fire damage at the start of each turn while Superheated Shell is active.",
+          },
+          { id : "shell_retaliation",
+            name: "Scorching Plating",
+            triggerType: "passive",
+            action: "Any creature that strikes you in melee while active takes 1d6 fire damage.",
+          },
+        ],
+      },
       tags: ["buff", "armor", "retaliation", "pressure_gain", "level 2", "dreadnaught"],
     },
 
@@ -797,8 +849,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 3 SPELLS - Auras & Molten Ash
     // ========================================
 
-    {
-      id: "dread_furnace_aura",
+    { id: "dread_furnace_aura",
       name: "Furnace Aura",
       description:
         "Your boiler runs constantly, radiating thick heat haze and burning coal cinders. All enemies standing within 10 feet of your metal bulk take continuous fire damage. However, the high-friction pistons generate a steady trickle of Furnace Pressure every turn. Passive.",
@@ -831,10 +882,18 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         description: "Deals 1d6 + pressure/20 fire damage to all adjacent enemies at start of turn, and generates 5 pressure.",
       },
       tags: ["passive", "aura", "damage", "pressure_gain", "level 3", "dreadnaught"],
+      triggerConfig: {
+        triggers: [
+          { id : "furnace_aura_tick",
+            name: "Burning Cinders",
+            triggerType: "start_of_turn",
+            action: "Deal 1d6 + pressure/20 fire damage to all enemies within 10 feet and generate 5 Furnace Pressure.",
+          },
+        ],
+      },
     },
 
-    {
-      id: "dread_slag_spew",
+    { id: "dread_slag_spew",
       name: "Slag Spew",
       description:
         "You unlock your waste ports and eject a thick, boiling spray of liquefied iron and sulfur across the ground. Enemies caught in the molten cone are severely burned and slowed as the slag cools and hardens on their limbs. Generates Furnace Pressure.",
@@ -877,8 +936,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "movementImpairment",
         effects: [
-          {
-            id: "molten_slag_slow",
+          { id : "molten_slag_slow",
             name: "Molten Slag",
             description: "Liquid iron cools on limbs, reducing movement speed by 15 feet for 2 rounds.",
             statusType: "slowed",
@@ -902,8 +960,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 4 SPELLS - Searing Strikes & Vents
     // ========================================
 
-    {
-      id: "dread_searing_impalement",
+    { id: "dread_searing_impalement",
       name: "Searing Impalement",
       description:
         "You drive a thick, hollow iron spike from your arm-chassis directly into a foe. Once embedded, you pump superheated furnace slag into their body, dealing massive fire damage and siphoning their boiling blood to refuel your own vitality. Consumes Furnace Pressure.",
@@ -948,8 +1005,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["damage", "healing", "melee", "combustion", "level 4", "dreadnaught"],
     },
 
-    {
-      id: "dread_condensation_draw",
+    { id: "dread_condensation_draw",
       name: "Condensation Draw",
       description:
         "You draw cold moisture and atmospheric energy through your external condensation tanks to cool down your boiler rapidly. This siphons the warmth directly out of a distant enemy's body, dealing agonizing necrotic damage and freezing their muscles. Vents Furnace Pressure.",
@@ -986,8 +1042,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "heat_depleted",
+          { id : "heat_depleted",
             name: "Heat Depleted",
             description: "Core heat siphoned. Targets are slowed by 10 feet and suffer disadvantage on physical rolls for 2 rounds.",
             statusType: "weakened",
@@ -1007,8 +1062,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["damage", "cooling", "ranged", "debuff", "level 4", "dreadnaught"],
     },
 
-    {
-      id: "dread_overdrive_combustion",
+    { id: "dread_overdrive_combustion",
       name: "Overdrive Combustion",
       description:
         "You bypass all internal safety limiters, throwing the boiler into a wild overdrive. For 1 minute, your movement generates double the Furnace Pressure, your melee attacks deal significant additional fire damage, and you gain 1 extra Action Point at the start of your turn. However, you take fire damage if you end your turn at >80 pressure. Consumes Furnace Pressure.",
@@ -1038,8 +1092,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       buffConfig: {
         buffType: "triggeredEffect",
         effects: [
-          {
-            id: "overdrive_combat_mode",
+          { id : "overdrive_combat_mode",
             name: "Overdrive Combustion",
             description: "Gain +1 AP at turn start. Melee attacks deal +2d6 fire damage. FP gain from movement doubled.",
             statModifier: {
@@ -1057,6 +1110,15 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         cooldownType: "turn_based",
         cooldownValue: 5,
       },
+      triggerConfig: {
+        triggers: [
+          { id : "overdrive_heat_penalty",
+            name: "Overdrive Heat Surge",
+            triggerType: "end_of_turn",
+            action: "If you end your turn with >80 Furnace Pressure, take 2 fire damage.",
+          },
+        ],
+      },
       tags: ["buff", "combustion", "overdrive", "level 4", "dreadnaught"],
     },
 
@@ -1064,8 +1126,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 5 SPELLS - Slag Waves & Crucibles
     // ========================================
 
-    {
-      id: "dread_molten_crucible",
+    { id: "dread_molten_crucible",
       name: "Molten Crucible",
       description:
         "You seal your combustion vents entirely, trapping all superheated steam and molten metal inside your shell. You encase yourself in a glowing, molten shield, becoming immune to all physical crowd control and gaining massive resistance to all damage types except lightning. However, you generate 15 pressure per turn automatically as your chassis begins to white-heat. Consumes Furnace Pressure.",
@@ -1095,8 +1156,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "crucible_absorption",
+          { id : "crucible_absorption",
             name: "Molten Shield",
             description: "Gain 50% resistance to all physical, fire, and necrotic damage. Permanent CC immunity. FP gains +15/turn.",
             statModifier: {
@@ -1114,11 +1174,19 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         cooldownType: "turn_based",
         cooldownValue: 4,
       },
+      triggerConfig: {
+        triggers: [
+          { id : "crucible_pressure_build",
+            name: "Crucible Pressure Surge",
+            triggerType: "start_of_turn",
+            action: "Automatically generate +15 Furnace Pressure at the start of each turn while Molten Crucible is active.",
+          },
+        ],
+      },
       tags: ["buff", "resistance", "heavy_defense", "level 5", "dreadnaught"],
     },
 
-    {
-      id: "dread_slag_wave",
+    { id: "dread_slag_wave",
       name: "Slag Wave",
       description:
         "You blow the primary furnace waste hatch, releasing a 60-foot line of highly pressurized, molten waste. The torrent of boiling metal dissolves stone, vaporizes deployable barriers, and melts enemy armor on impact, inflicting massive fire damage and permanent physical vulnerability. Consumes Furnace Pressure.",
@@ -1161,8 +1229,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "curse",
         effects: [
-          {
-            id: "melted_armor",
+          { id : "melted_armor",
             name: "Corroded Defenses",
             description: "Enemy armor melted. Vulnerability to physical damage (+50% damage taken) for 3 rounds.",
             statusType: "weakened",
@@ -1183,8 +1250,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 6 SPELLS - Harpoons & Exhausts
     // ========================================
 
-    {
-      id: "dread_magnetic_harpoon",
+    { id: "dread_magnetic_harpoon",
       name: "Magnetic Harpoon",
       description:
         "You launch a massive, heavy iron harpoon chained directly to your internal winch. Upon striking a foe, you fire your primary combustion pistons, dragging them up to 30 feet directly into your superheated melee reach. You do NOT move—the battlefield comes to you. Generates Furnace Pressure.",
@@ -1237,8 +1303,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["forced_pull", "damage", "pressure_gain", "control", "level 6", "dreadnaught"],
     },
 
-    {
-      id: "dread_exhaust_laceration",
+    { id: "dread_exhaust_laceration",
       name: "Exhaust Laceration",
       description:
         "You direct your primary boiler exhaust pipes directly at a target's face, venting superheated soot and bone-drying heat. This deals severe fire and slashing damage, and completely cauterizes their spirit, preventing them from receiving any form of healing. Consumes Furnace Pressure.",
@@ -1275,8 +1340,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "curse",
         effects: [
-          {
-            id: "cauterized_spirit",
+          { id : "cauterized_spirit",
             name: "Cauterized Vitality",
             description: "Healing is completely blocked. Target cannot regain HP from any magical or physical source for 2 rounds.",
             statusType: "curse",
@@ -1293,8 +1357,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["damage", "debuff", "healing_prevention", "level 6", "dreadnaught"],
     },
 
-    {
-      id: "dread_hellfire_engine",
+    { id: "dread_hellfire_engine",
       name: "Hellfire Engine",
       description:
         "You let the combustion engine run completely wild, forcing massive combustion cycles that erupt in a 20-foot radius of black-necrotic fire around your iron tomb. Living creatures are incinerated, while you generate massive core pressure. Generates Furnace Pressure.",
@@ -1304,6 +1367,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       typeConfig: {
         school: "fire",
         icon: "Fire/Flame Wave",
+        secondaryElement: "necrotic",
         tags: ["damage", "aoe", "necrotic", "pressure_gain"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1345,8 +1409,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 7 SPELLS - Smog & Cylinder Blowouts
     // ========================================
 
-    {
-      id: "dread_black_ashen_smog",
+    { id: "dread_black_ashen_smog",
       name: "Black Ashen Smog",
       description:
         "You eject a massive, choking cloud of coal soot, ash, and burning sulfur in a 30-foot sphere. The smog blocks all normal vision, blinding creatures within the area and dealing ongoing necrotic fire damage to their lungs. Consumes Furnace Pressure.",
@@ -1356,6 +1419,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       typeConfig: {
         school: "necrotic",
         icon: "Void/Black Hole",
+        secondaryElement: "fire",
         tags: ["terrain", "damage", "debuff", "blindness"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -1389,8 +1453,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "combined",
         effects: [
-          {
-            id: "smog_blind",
+          { id : "smog_blind",
             name: "Choked by Smog",
             description: "Creatures are blinded and have their maximum health reduced by damage taken while inside the ash cloud.",
             statusType: "blinded",
@@ -1407,8 +1470,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["terrain", "damage", "debuff", "blindness", "level 7", "dreadnaught"],
     },
 
-    {
-      id: "dread_stoke_on_pain",
+    { id: "dread_stoke_on_pain",
       name: "Stoke-on-Pain",
       description:
         "You hammer a glowing branding-mark into an enemy's forehead. For the next minute, their core is synchronized with your boiler; every time they strike you, your furnace roars, generating pressure and heating your armor plates. Consumes Furnace Pressure.",
@@ -1440,8 +1502,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "curse",
         effects: [
-          {
-            id: "boiler_link",
+          { id : "boiler_link",
             name: "Pain-Stoked Link",
             description: "Whenever marked target deals damage to you, you instantly generate +15 Furnace Pressure and they take 1d6 fire damage.",
             statusType: "marked",
@@ -1458,8 +1519,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["debuff", "mark", "pressure_gain", "level 7", "dreadnaught"],
     },
 
-    {
-      id: "dread_chamber_blast",
+    { id: "dread_chamber_blast",
       name: "Chamber Blast",
       description:
         "You deliberately crack the cylinder locks, letting the entire stored volume of Furnace Pressure explode forward in a colossal, white-hot cone of fire and metal shards. All creatures in the cone are thrown backward and severely burned. Consumes all Furnace Pressure.",
@@ -1522,8 +1582,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 8 SPELLS - Bastions & Core Meltdowns
     // ========================================
 
-    {
-      id: "dread_iron_bastion",
+    { id: "dread_iron_bastion",
       name: "Iron Bastion",
       description:
         "You lock all chassis hydraulics and bolt your boots directly into the bedrock. For 1 minute, you become an immovable iron fortress. Your movement speed is reduced to 0, but you gain complete immunity to all physical, magical, and psychic displacement, and your Armor is increased by 10. However, the locked engine rapidly generates 15 pressure per turn. Passive heat leaks out.",
@@ -1553,8 +1612,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "bastion_mode",
+          { id : "bastion_mode",
             name: "Immovable Iron Bastion",
             description: "Armor increased by 10. Complete displacement immunity. Speed is 0. FP builds by +15/turn.",
             statModifier: {
@@ -1575,8 +1633,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["buff", "bastion", "heavy_defense", "level 8", "dreadnaught"],
     },
 
-    {
-      id: "dread_stoked_firestorm",
+    { id: "dread_stoked_firestorm",
       name: "Soul-Stoked Firestorm",
       description:
         "You funnel the souls burning in your engine through your primary steam stack, creating a raging storm of molten ash and screaming spirits in a 30-foot sphere. Enemies trapped inside are scorched and torn by spectral screams, while you siphon their life to heal. Consumes Furnace Pressure.",
@@ -1586,6 +1643,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       typeConfig: {
         school: "fire",
         icon: "Fire/Flame Circle",
+        secondaryElement: "necrotic",
         tags: ["damage", "aoe", "necrotic", "healing"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1627,8 +1685,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["damage", "aoe", "necrotic", "healing", "level 8", "dreadnaught"],
     },
 
-    {
-      id: "dread_cylinder_meltdown",
+    { id: "dread_cylinder_meltdown",
       name: "Cylinder Meltdown",
       description:
         "You deliberately ignite a core cylinder malfunction. The resulting seismic compression wave radiates outward, dealing colossal fire and bludgeoning damage to all creatures within 40 feet and knocking them prone. The horrific screeching of metal strikes terror into their hearts. Consumes Furnace Pressure.",
@@ -1638,6 +1695,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       typeConfig: {
         school: "fire",
         icon: "Fire/Flame Burst",
+        secondaryElement: "bludgeoning",
         tags: ["damage", "aoe", "debuff", "seismic"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -1671,8 +1729,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "catastrophic_terror",
+          { id : "catastrophic_terror",
             name: "Core Dread",
             description: "Creatures are frightened by the horrific boiler shriek for 1 minute.",
             statusType: "frightened",
@@ -1693,8 +1750,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 9 SPELLS - Colossus & Annihilators
     // ========================================
 
-    {
-      id: "dread_the_great_blackout",
+    { id: "dread_the_great_blackout",
       name: "The Great Blackout",
       description:
         "You dump the entire soot-scrubber reserves, plunging a massive 300-foot area into pitch-black coal smog for 24 hours. All creatures inside are blinded and take ongoing necrotic suffocation damage. Consumes Furnace Pressure.",
@@ -1737,8 +1793,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       debuffConfig: {
         debuffType: "combined",
         effects: [
-          {
-            id: "smog_eclipse",
+          { id : "smog_eclipse",
             name: "Ashen Eclipse",
             description: "Ongoing coal suffocation. Blinded permanently while within the smog.",
             statusType: "blinded",
@@ -1751,8 +1806,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["terrain", "damage", "debuff", "blindness", "level 9", "dreadnaught"],
     },
 
-    {
-      id: "dread_furnace_colossus",
+    { id: "dread_furnace_colossus",
       name: "Furnace Colossus",
       description:
         "You overload all fuel intakes, dumping molten coal and boiling grease into your primary piston tracks. You transform into a towering Engine Colossus for 3 rounds. Your size becomes Huge, you gain +100 Temporary HP, gain steam jets providing a 60ft Flying speed, and all your physical strikes deal massive bonus fire damage while siphoning life. When this state ends, you suffer 2 levels of exhaustion. Consumes Furnace Pressure.",
@@ -1788,18 +1842,15 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         newForm: "Furnace Colossus",
         description: "Transform into a towering engine of combustion and iron.",
         grantedAbilities: [
-          {
-            id: "huge_engine",
+          { id : "huge_engine",
             name: "Huge Size",
             description: "Size becomes Huge, gain +100 temporary HP.",
           },
-          {
-            id: "steam_jets",
+          { id : "steam_jets",
             name: "Steam Jet Flight",
             description: "Gain 60ft flying speed via exhaust jets.",
           },
-          {
-            id: "engine_exhaustion",
+          { id : "engine_exhaustion",
             name: "Engine Exhaustion",
             description: "Suffer 2 levels of exhaustion when colossus mode ends.",
           },
@@ -1821,8 +1872,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["transformation", "damage", "healing", "colossus", "level 9", "dreadnaught"],
     },
 
-    {
-      id: "dread_annihilation_hammer",
+    { id: "dread_annihilation_hammer",
       name: "Annihilation Hammer",
       description:
         "You channel the entire kinetic pressure of the boiler pistons into a single, earth-shattering melee slam. This strike vaporizes stone walls, permanently destroys all physical barriers, and vaporizes the target if they are at low health. Consumes Furnace Pressure.",
@@ -1872,8 +1922,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     // LEVEL 10 SPELLS - Ultimate Supernovas
     // ========================================
 
-    {
-      id: "dread_thermal_backlash",
+    { id: "dread_thermal_backlash",
       name: "Thermal Backlash",
       description:
         "You prime your primary vents to violently eject scale-hot steam jets at anyone who dares strike you. For 1 hour, whenever you take damage, you retaliate with automatic fire damage directed back at the attacker, venting a tiny portion of your boiler. Consumes Furnace Pressure.",
@@ -1903,8 +1952,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       buffConfig: {
         buffType: "retaliation",
         effects: [
-          {
-            id: "steam_backlash",
+          { id : "steam_backlash",
             name: "Thermal Steam Backlash",
             description: "Whenever hit, release steam dealing fire damage equal to half the damage taken back at attacker.",
             retaliationDamage: {
@@ -1925,8 +1973,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       tags: ["buff", "retaliation", "fire", "level 10", "dreadnaught"],
     },
 
-    {
-      id: "dread_catastrophic_supernova",
+    { id: "dread_catastrophic_supernova",
       name: "Catastrophic Supernova",
       description:
         "The absolute ultimate core blowout. You force a complete, total engine meltdown, detonating your entire boiler in a massive 100-foot sphere around you. The explosion deals catastrophic fire and force damage, instantly and permanently vaporizing all physical terrain, walls, and structures in the area. Slashes your armor in half permanently until your next long rest. Requires maximum pressure. Consumes all Furnace Pressure.",
@@ -1936,6 +1983,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
       typeConfig: {
         school: "fire",
         icon: "Fire/Flame Wave",
+        secondaryElement: "force",
         tags: ["damage", "aoe", "ultimate", "terrain_destroyer"],
         castTime: 2,
         castTimeType: "IMMEDIATE",

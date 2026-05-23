@@ -6,7 +6,7 @@
  */
 
 export const INSCRIPTOR_DATA = {
-  id: "inscriptor",
+  id : "inscriptor",
   name: "Inscriptor",
   icon: "fas fa-scroll",
   role: "Control/Support",
@@ -287,8 +287,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     description: "Three distinct, painful paths of the chisel and the bone stylus.",
 
     specs: [
-      {
-        id: "runebinder",
+      { id : "runebinder",
         name: "Runebinder",
         icon: "Force/Force Shield",
         color: "#8B0000",
@@ -330,8 +329,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
         ],
       },
 
-      {
-        id: "enchanter",
+      { id : "enchanter",
         name: "Enchanter",
         icon: "Arcane/Magical Cross Emblem 2",
         color: "#4B0082",
@@ -373,8 +371,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
         ],
       },
 
-      {
-        id: "glyphweaver",
+      { id : "glyphweaver",
         name: "Glyphweaver",
         icon: "Arcane/Orb Manipulation",
         color: "#FF4500",
@@ -421,10 +418,9 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
   // Spells - Meticulously normalized Level 1-10 spells
   spells: [
     // ─── PASSIVES ───
-    {
-      id: "inscriptor_shackled_to_stone",
+    { id: "inscriptor_shackled_to_stone",
       name: "Trance: Shackled to Stone",
-      description: "Your blood is bound to the earth where you carve. If you are forcibly moved, pushed, or grappled, your entire active runic network is violently shattered. You take 1d10 force damage per active rune on the field, and you become vulnerable to all damage types (+50% damage taken) until the end of your next turn. Additionally, you take +50% increased damage from bludgeoning attacks as your stationary stance shatters your bones.",
+      description: "If forcibly moved, your runic network shatters. Take 1d10 force damage per active rune. Vulnerable to all damage (+50%) until end of next turn. +50% bludgeoning vulnerability.",
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
       level: 1,
@@ -442,8 +438,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["passive", "restriction", "fatal flaw", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_runic_backlash",
+    { id: "inscriptor_runic_backlash",
       name: "Trance: Runic Backlash",
       description: "When one of your placed runes is dispelled, destroyed, or triggered by an enemy's dispel effect, the runic energy feeds back through you. You take 1d6 force damage per rune level that was disrupted, and you lose 1 Runic Resonance per disrupted rune. Runes that expire naturally or are consumed by their own effects do not trigger backlash.",
       spellType: "PASSIVE",
@@ -463,10 +458,9 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["passive", "restriction", "runic interference", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_no_self_heal",
+    { id: "inscriptor_no_self_heal",
       name: "Trance: The Blood Oath",
-      description: "Your magic is inscribed in runes, not flesh. You cannot heal yourself through any Inscriptor ability. All healing effects from your runes, sigils, and glyphs target allies only. Your only defense is preparation—shields, barriers, and protective inscriptions. You have zero self-sustain.",
+      description: "Cannot heal yourself with Inscriptor abilities. All rune/sigil/glyph healing targets allies only. Your defense is shields, barriers, and protective inscriptions. Zero self-sustain.",
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
       level: 1,
@@ -484,10 +478,9 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["passive", "restriction", "no self heal", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_no_hard_cc",
+    { id: "inscriptor_no_hard_cc",
       name: "Trance: Runic Interference",
-      description: "Your runes interfere with and slow reality, but they cannot lock it down completely. You cannot stun, freeze, or paralyze enemies. Instead, your abilities focus on massive speed reduction, silence, and stat penalties. Any hard crowd control must be provided by your allies.",
+      description: "Cannot stun, freeze, or paralyze enemies. Abilities focus on speed reduction, silence, and stat penalties instead. Hard CC must come from allies.",
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
       level: 1,
@@ -506,8 +499,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 1 ───
-    {
-      id: "inscriptor_arcane_inscription",
+    { id: "inscriptor_arcane_inscription",
       name: "Scribe: The Crimson Rite",
       description: "Peeling back your own flesh with a bone stylus, you fling your blood onto an ally's weapon or armor. Weapon attacks deal +1d6 force damage, or armor grants +2 Armor. You take 1d6 self-inflicted slashing damage to carve this mark. Lasts for 5 rounds.",
       spellType: "ACTION",
@@ -551,8 +543,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "crimson_rite_weapon",
+          { id : "crimson_rite_weapon",
             name: "Crimson Rite",
             description: "Deals +1d6 force damage on hit.",
           },
@@ -565,8 +556,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "inscription", "slashing", "utility", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_minor_rune",
+    { id: "inscriptor_minor_rune",
       name: "Rune of the Withered Chisel",
       description: "You carve a jagged boundary line into the stone floor. Enemies stepping onto the line have their speed reduced by 10 ft. You take 1d4 self-inflicted slashing damage during the carving. Lasts permanently until triggered or shattered.",
       spellType: "ACTION",
@@ -610,8 +600,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "withered_chisel_slow",
+          { id : "withered_chisel_slow",
             name: "Withered Chisel Slow",
             description: "Speed reduced by 10 ft.",
             statModifier: {
@@ -627,8 +616,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["control", "rune", "zone", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_rune_of_shielding",
+    { id: "inscriptor_rune_of_shielding",
       name: "Rune of Flayed Wards",
       description: "You carve a defensive ward into your own skin or an ally's. Grants a shield that absorbs 2d8 + Intelligence modifier damage. Carving this rune costs you 1d6 self-inflicted slashing damage. Lasts for 1 minute.",
       spellType: "ACTION",
@@ -684,8 +672,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 2 ───
-    {
-      id: "inscriptor_rune_of_speed",
+    { id: "inscriptor_rune_of_speed",
       name: "Rune of Tearing Adrenaline",
       description: "You carve a jagged sigil into an ally's calves or boots. They gain +10 ft movement speed, but take 1d4 physical slashing damage at the start of each of their turns as their flesh tears. You take 1d4 self-inflicted slashing damage to carve it. Lasts for 5 rounds.",
       spellType: "ACTION",
@@ -729,8 +716,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "tearing_adrenaline_speed",
+          { id : "tearing_adrenaline_speed",
             name: "Tearing Adrenaline",
             description: "+10 ft movement speed. Take 1d4 slashing damage at start of turn.",
             statModifier: {
@@ -746,8 +732,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "speed", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_rune_of_warding",
+    { id: "inscriptor_rune_of_warding",
       name: "Rune of Blood-Woven Barriers",
       description: "You carve a crimson barrier rune on the floor. All allies within 5ft of the rune have all incoming magical and elemental damage reduced by 5. If 3 or more barriers are active, all magic damage is reduced by 30% instead. You take 1d6 self-inflicted slashing damage to carve it. Lasts permanently.",
       spellType: "ACTION",
@@ -791,8 +776,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "blood_woven_barrier_buff",
+          { id : "blood_woven_barrier_buff",
             name: "Blood-Woven Barrier",
             description: "Magical/elemental damage reduced by 5 (or 30% if 3+ active).",
           },
@@ -801,8 +785,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "zone", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_flame_inscription",
+    { id: "inscriptor_flame_inscription",
       name: "Scribe: Searing Flesh-Brand",
       description: "You sear a blazing mark onto an ally's weapon. Their attacks deal +1d6 fire damage, but they take 1d4 fire damage on every strike as the heat boils their blood. You take 1d6 self-inflicted slashing damage to carve this mark. Lasts for 5 rounds.",
       spellType: "ACTION",
@@ -846,8 +829,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "searing_flesh_brand_weapon",
+          { id : "searing_flesh_brand_weapon",
             name: "Searing Flesh-Brand",
             description: "Weapon attacks deal +1d6 fire damage, but wielder takes 1d4 fire damage per strike.",
           },
@@ -858,8 +840,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "inscription", "fire", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_rune_of_slowing",
+    { id: "inscriptor_rune_of_slowing",
       name: "Rune of Congealed Soil",
       description: "You carve a thick, mud-stained rune into the ground. Enemies entering the 10ft radius have their movement speed halved. You take 1d6 self-inflicted slashing damage during carving. Lasts permanently.",
       spellType: "ACTION",
@@ -903,8 +884,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "congealed_soil_slow",
+          { id : "congealed_soil_slow",
             name: "Congealed Soil Slow",
             description: "Speed halved.",
           },
@@ -914,10 +894,9 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 3 ───
-    {
-      id: "inscriptor_rune_of_destruction",
+    { id: "inscriptor_rune_of_destruction",
       name: "Rune of Ravaging Embers",
-      description: "You carve a fire rune that burns any enemy within 5ft for 1d6 fire damage per turn. If 3 or more fire runes are active, all fire damage dealt and taken in their zones is doubled. You take 2d6 self-inflicted slashing damage to carve it. Lasts permanently.",
+      description: "Fire rune: enemies within 5ft take 1d6 fire/turn. 3+ active fire runes doubles fire damage in zones. 2d6 self-inflicted slashing to carve. Permanent.",
       spellType: "ACTION",
       icon: "Fire/Flame Wave",
       level: 3,
@@ -960,10 +939,9 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["damage", "rune", "zone", "fire", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_rune_of_vitality",
+    { id: "inscriptor_rune_of_vitality",
       name: "Rune of Agonizing Transfusion",
-      description: "You carve a transfusion pool into the stone. Allies within 5ft heal for 1d6 hit points per turn, but the placement costs you 2d6 self-inflicted slashing damage. Lasts permanently. You cannot heal yourself from this rune.",
+      description: "Transfusion rune: allies within 5ft heal 1d6 HP/turn. Costs 2d6 self-inflicted slashing. Permanent. Cannot heal yourself.",
       spellType: "ACTION",
       icon: "Healing/Renewal",
       level: 3,
@@ -1010,8 +988,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["healing", "rune", "zone", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_thorn_inscription",
+    { id: "inscriptor_thorn_inscription",
       name: "Scribe: Jagged Splinters",
       description: "You carve splintered bone-brands onto an ally's armor. Melee attackers take 1d6 piercing damage on hit. You take 2d6 self-inflicted slashing damage to carve it. Lasts for 5 rounds.",
       spellType: "ACTION",
@@ -1055,8 +1032,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "jagged_splinters_buff",
+          { id : "jagged_splinters_buff",
             name: "Jagged Splinters",
             description: "Melee attackers take 1d6 piercing damage on hit.",
           },
@@ -1067,8 +1043,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "inscription", "retaliation", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_rune_of_earth",
+    { id: "inscriptor_rune_of_earth",
       name: "Rune of Calcified Soil",
       description: "You carve a rune that conjures a heavy stone pillar (30 HP) that blocks paths. If 3 or more earth runes are active, they form a solid stone wall between them. You take 2d6 self-inflicted slashing damage to carve it. Lasts permanently.",
       spellType: "ACTION",
@@ -1112,8 +1087,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       utilityConfig: {
         utilityType: "creation",
         selectedEffects: [
-          {
-            id: "calcified_pillar",
+          { id : "calcified_pillar",
             name: "Stone Pillar",
             description: "Conjures a stone pillar with 30 HP.",
           },
@@ -1123,8 +1097,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 4 ───
-    {
-      id: "inscriptor_glyph_of_binding",
+    { id: "inscriptor_glyph_of_binding",
       name: "Glyph of Shackled Blood",
       description: "You spend Runic Resonance to project blood chains from your active runes. All enemies in your active zones have their speed halved and take 2d6 force damage per round. Consumes 3 Runic Resonance. Lasts for 3 rounds.",
       spellType: "ACTION",
@@ -1168,8 +1141,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "shackled_blood_slow",
+          { id : "shackled_blood_slow",
             name: "Shackled Blood Slow",
             description: "Speed halved and takes 2d6 force damage per turn.",
           },
@@ -1180,8 +1152,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["control", "damage", "glyph", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_runic_shield",
+    { id: "inscriptor_runic_shield",
       name: "Rune of Iron Epidermis",
       description: "You spend Runic Resonance to calcify the skin of an ally or yourself. Grants a massive shield that absorbs 3d8 + Intelligence modifier damage and provides +3 Armor. Consumes 3 Runic Resonance. Lasts for 1 minute.",
       spellType: "ACTION",
@@ -1229,8 +1200,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "iron_epidermis_buff",
+          { id : "iron_epidermis_buff",
             name: "Iron Epidermis",
             description: "+3 Armor and 3d8+INT shield.",
             statModifier: {
@@ -1246,8 +1216,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "shield", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_sigil_of_power",
+    { id: "inscriptor_sigil_of_power",
       name: "Sigil of Vital Drain",
       description: "You spend Runic Resonance to carve a large glowing circle on the ground. Allies standing inside gain +2 to all damage rolls, but take 1d4 necrotic damage at the start of each of their turns as the sigil drains their blood to maintain power. Consumes 3 Runic Resonance. Lasts for 5 rounds.",
       spellType: "ACTION",
@@ -1286,8 +1255,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "vital_drain_buff",
+          { id : "vital_drain_buff",
             name: "Vital Drain Sigil",
             description: "+2 to damage rolls, take 1d4 necrotic damage at start of turn.",
           },
@@ -1299,10 +1267,9 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 5 ───
-    {
-      id: "inscriptor_rune_of_devastation",
+    { id: "inscriptor_rune_of_devastation",
       name: "Rune of Whispering Landmines",
-      description: "You spend Runic Resonance to carve a hidden blood-seal (trap) in a 5ft radius. When an enemy steps on it, the mine explodes, dealing 6d8 + Intelligence modifier force damage to all creatures within 10ft (Agility save for half). Consumes 3 Runic Resonance. Lasts permanently until triggered.",
+      description: "Hidden blood-seal trap (5ft). Enemy triggers: 6d8+INT force damage in 10ft (Agility save for half). Costs 3 Runic Resonance. Permanent until triggered.",
       spellType: "TRAP",
       icon: "Fire/Fiery Symbol",
       level: 5,
@@ -1354,8 +1321,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["damage", "trap", "force", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_glyph_mastery",
+    { id: "inscriptor_glyph_mastery",
       name: "Agonizing Overcharge",
       description: "You spend Runic Resonance to enter an agonizing trance where your runes bleed furiously. For 4 rounds, all your active runes and glyphs deal +50% damage and their spell save DC is increased by 2. Casting this costs you 2d6 self-inflicted slashing damage. Consumes 3 Runic Resonance.",
       spellType: "ACTION",
@@ -1394,8 +1360,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "agonizing_overcharge_buff",
+          { id : "agonizing_overcharge_buff",
             name: "Agonizing Overcharge",
             description: "+50% rune damage and +2 to save DCs.",
           },
@@ -1406,8 +1371,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "trance", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_inscription_of_warding",
+    { id: "inscriptor_inscription_of_warding",
       name: "Scribe: Wards of Flayed Bone",
       description: "You spend Runic Resonance to carve matching protective sutured markings onto up to 4 allies. Grants +3 Armor and +20% to all elemental resistances. Consumes 3 Runic Resonance. Lasts for 5 rounds.",
       spellType: "ACTION",
@@ -1446,8 +1410,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "wards_of_flayed_bone_buff",
+          { id : "wards_of_flayed_bone_buff",
             name: "Wards of Flayed Bone",
             description: "+3 Armor and +20% elemental resistances.",
             statModifier: {
@@ -1464,8 +1427,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 6 ───
-    {
-      id: "inscriptor_runic_array",
+    { id: "inscriptor_runic_array",
       name: "Network: Agonizing Mesh",
       description: "You spend Runic Resonance to link all placed runes in a complex mesh. All enemies caught in the connecting lines take 8d6 + Intelligence modifier force damage and have their movement speed reduced by 20 ft. Consumes 3 Runic Resonance. Lasts for 3 rounds.",
       spellType: "ACTION",
@@ -1509,8 +1471,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "agonizing_mesh_slow",
+          { id : "agonizing_mesh_slow",
             name: "Agonizing Mesh Slow",
             description: "Speed reduced by 20 ft.",
             statModifier: {
@@ -1526,8 +1487,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["damage", "control", "network", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_sigil_of_power_major",
+    { id: "inscriptor_sigil_of_power_major",
       name: "Sigil of Greater Blood-Siphon",
       description: "You spend Runic Resonance to carve a massive sigil. Allies standing inside gain +3 to all damage rolls and +2 Armor, but take 1d6 necrotic damage at the start of each of their turns. Consumes 3 Runic Resonance. Lasts for 5 rounds.",
       spellType: "ACTION",
@@ -1566,8 +1526,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "greater_blood_siphon_buff",
+          { id : "greater_blood_siphon_buff",
             name: "Greater Blood-Siphon Sigil",
             description: "+3 to damage rolls, +2 Armor, take 1d6 necrotic damage at start of turn.",
             statModifier: {
@@ -1583,8 +1542,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "zone", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_glyph_nexus",
+    { id: "inscriptor_glyph_nexus",
       name: "Network: Vessel Nexus",
       description: "You spend Runic Resonance to connect all placed runes. When any single rune is triggered, it triggers a chain reaction, activating all other runes within 30 ft automatically. Consumes 3 Runic Resonance. Lasts for 5 rounds.",
       spellType: "ACTION",
@@ -1616,8 +1574,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "vessel_nexus_active",
+          { id : "vessel_nexus_active",
             name: "Vessel Nexus Active",
             description: "Runes within 30 ft trigger automatically in chain reactions.",
           },
@@ -1627,10 +1584,9 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 7 ───
-    {
-      id: "inscriptor_ancient_rune",
+    { id: "inscriptor_ancient_rune",
       name: "Rune of Shattered Flesh and Soil",
-      description: "You spend Runic Resonance to carve a massive, ancient rune that tears reality. Deals 12d6 + double Intelligence modifier force damage to all enemies in a 35ft circle (Constitution save for half). Consumes 5 Runic Resonance. Lasts permanently.",
+      description: "Massive ancient rune: 12d6+double INT force to enemies in 35ft circle (Con save for half). Costs 5 Runic Resonance. Permanent.",
       spellType: "ACTION",
       icon: "Fire/Flame Wave",
       level: 7,
@@ -1671,8 +1627,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["damage", "rune", "zone", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_inscribed_fortress",
+    { id: "inscriptor_inscribed_fortress",
       name: "Network: Fortress of Flayed Stone",
       description: "You spend Runic Resonance to build a massive square barrier network on the floor. All allies inside gain +4 Armor, +50% damage reduction, and a 3d8 shield that refreshes at the start of each round. Consumes 5 Runic Resonance. Lasts for 3 rounds.",
       spellType: "ACTION",
@@ -1721,8 +1676,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "flayed_stone_fortress_buff",
+          { id : "flayed_stone_fortress_buff",
             name: "Fortress of Flayed Stone",
             description: "+4 Armor, +50% damage reduction, and 3d8 shield refreshing each turn.",
             statModifier: {
@@ -1738,8 +1692,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "shield", "network", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_master_inscriber",
+    { id: "inscriptor_master_inscriber",
       name: "Agonizing Scribe-Ascent",
       description: "You spend Runic Resonance to push your body to the absolute limit. For 3 rounds, all spells cost 50% less mana, have +2 DC, and deal +50% damage. You take 3d6 necrotic damage when you cast this. Consumes 5 Runic Resonance.",
       spellType: "ACTION",
@@ -1778,8 +1731,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "scribe_ascent_buff",
+          { id : "scribe_ascent_buff",
             name: "Scribe-Ascent",
             description: "-50% mana cost, +2 DC, +50% damage.",
           },
@@ -1791,8 +1743,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 8 ───
-    {
-      id: "inscriptor_primordial_glyph",
+    { id: "inscriptor_primordial_glyph",
       name: "Glyph of Eldritch Silence",
       description: "You spend Runic Resonance to project a massive glyph that strips magical energy. All enemies in a 30ft radius take 8d8 + Intelligence modifier force damage and are Silenced (cannot cast magic) for 2 rounds. Consumes 5 Runic Resonance.",
       spellType: "ACTION",
@@ -1837,8 +1788,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "eldritch_silence_debuff",
+          { id : "eldritch_silence_debuff",
             name: "Eldritch Silence",
             description: "Silenced. Cannot cast magic.",
           },
@@ -1849,10 +1799,9 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["damage", "control", "glyph", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_runic_apocalypse",
+    { id: "inscriptor_runic_apocalypse",
       name: "Network: Runic Rupture",
-      description: "You spend Runic Resonance to detonate your entire active network. All placed runes explode simultaneously, dealing 6d6 force damage per rune level to all creatures within 15ft of each rune. You gain +2 Runic Resonance per rune detonated. Consumes 5 Runic Resonance.",
+      description: "Detonate entire runic network. Each rune explodes for 6d6 force/rune level in 15ft radius. Gain +2 Resonance per detonated rune. Costs 5 Resonance.",
       spellType: "ACTION",
       icon: "Fire/Flame Wave",
       level: 8,
@@ -1892,8 +1841,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["damage", "network", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_eternal_inscription",
+    { id: "inscriptor_eternal_inscription",
       name: "Scribe: Permanent Stitches",
       description: "You spend Runic Resonance to sew permanent wards into the muscle tissue of an ally. They gain +3 Armor and +20% to all resistances. You take 3d8 slashing damage. This buff is permanent and cannot be dispelled. Consumes 7 Runic Resonance.",
       spellType: "ACTION",
@@ -1935,8 +1883,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "permanent_stitches_buff",
+          { id : "permanent_stitches_buff",
             name: "Permanent Stitches",
             description: "+3 Armor, +20% all resistances. Permanent.",
             statModifier: {
@@ -1951,8 +1898,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 9 ───
-    {
-      id: "inscriptor_worldscript",
+    { id: "inscriptor_worldscript",
       name: "Network: Reality Carver",
       description: "You spend Runic Resonance to carve massive incisions into reality. Creates a 40ft zone where all allies gain +3 to all rolls (attacks, saves, skills) and enemies take 5d10 force damage at the start of each of their turns. Consumes 5 Runic Resonance. Lasts for 3 rounds.",
       spellType: "ACTION",
@@ -1997,8 +1943,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "reality_carver_buff",
+          { id : "reality_carver_buff",
             name: "Reality Carver Aura",
             description: "+3 to all rolls.",
           },
@@ -2009,8 +1954,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["damage", "buff", "network", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_master_of_runes",
+    { id: "inscriptor_master_of_runes",
       name: "Trance: Scribe of the Great Dirge",
       description: "You spend Runic Resonance to channel the ancient, crushing songs of scarred soil. For 5 rounds, placing runes costs 0 mana, rune effects are doubled, and rune detonations automatically deal maximum damage. Consumes 5 Runic Resonance.",
       spellType: "ACTION",
@@ -2042,8 +1986,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "great_dirge_trance",
+          { id : "great_dirge_trance",
             name: "Scribe of the Great Dirge",
             description: "Rune placement costs 0 mana, rune effects doubled, detonations deal max damage.",
           },
@@ -2054,8 +1997,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["buff", "trance", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_inscription_of_eternity",
+    { id: "inscriptor_inscription_of_eternity",
       name: "Scribe: Ward of Death",
       description: "You spend Runic Resonance to carve final, massive runic sutures along your own chest. For 5 rounds, your hit points cannot be reduced below 1, all incoming damage is halved, and you generate +1 Runic Resonance per turn. When this trance ends, you suffer 3d6 force damage backlash. Consumes 5 Runic Resonance.",
       spellType: "ACTION",
@@ -2087,8 +2029,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "ward_of_death_active",
+          { id : "ward_of_death_active",
             name: "Ward of Death Active",
             description: "Cannot be reduced below 1 HP, all damage halved, +1 Resonance/turn. 3d6 backlash at end.",
           },
@@ -2100,8 +2041,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
     },
 
     // ─── LEVEL 10 ───
-    {
-      id: "inscriptor_omniscript",
+    { id: "inscriptor_omniscript",
       name: "Network: The Great Mutilation",
       description: "You spend Runic Resonance to rewrite the rules of combat. Create a 50ft permanent network. Choose: Path of Ruin (enemies take 4d10 force and are slowed by 25 ft), Path of Glory (allies gain +4 to all damage and saves), or Path of Mastery (your inscriptions deal double damage). Consumes 7 Runic Resonance.",
       spellType: "ACTION",
@@ -2143,8 +2083,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "great_mutilation_slow",
+          { id : "great_mutilation_slow",
             name: "Great Mutilation Slow",
             description: "Speed reduced by 25 ft.",
             statModifier: {
@@ -2158,8 +2097,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["damage", "buff", "control", "network", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_rune_of_creation",
+    { id: "inscriptor_rune_of_creation",
       name: "Rune: The Scarred Colossus",
       description: "You spend Runic Resonance to carve life into stone. Conjure an Inscribed Titan (200 HP construct of living scars) that defends allies and locks down enemies in melee. Consumes 7 Runic Resonance. Lasts for 10 minutes.",
       spellType: "ACTION",
@@ -2198,8 +2136,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       utilityConfig: {
         utilityType: "summon",
         selectedEffects: [
-          {
-            id: "scarred_colossus_summon",
+          { id : "scarred_colossus_summon",
             name: "Inscribed Titan",
             description: "Conjures a construct with 200 HP.",
           },
@@ -2208,8 +2145,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       tags: ["summon", "rune", "inscriptor"],
     },
 
-    {
-      id: "inscriptor_runic_ascension",
+    { id: "inscriptor_runic_ascension",
       name: "Trance: Flesh-Rune Apotheosis",
       description: "You spend Runic Resonance to dissolve your body into pure, bleeding runic energy. For 5 rounds: your rune effects are doubled, you can place runes as an immediate reaction, you gain +3 Runic Resonance per turn, and you are immune to forced movement. When it ends, all your active runes detonate automatically. Consumes 7 Runic Resonance.",
       spellType: "ACTION",
@@ -2241,8 +2177,7 @@ When you are forcibly moved, your network shatters. Roll 1d8 on the Backlash Tab
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "runic_ascension_active",
+          { id : "runic_ascension_active",
             name: "Flesh-Rune Apotheosis",
             description: "Rune effects doubled, place runes as immediate reactions, +3 Resonance/turn, immune to displacement.",
           },

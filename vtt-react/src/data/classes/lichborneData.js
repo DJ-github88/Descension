@@ -6,7 +6,7 @@
  */
 
 export const LICHBORNE_DATA = {
-  id: "lichborne",
+  id : "lichborne",
   name: "Lichborne",
   icon: "fas fa-skull",
   role: "Damage/Control",
@@ -658,8 +658,7 @@ Many players enhance the Lichborne experience with:
     },
 
     specs: [
-      {
-        id: "frostbound_tyrant",
+      { id : "frostbound_tyrant",
         name: "Frostbound Tyrant",
         icon: "Frost/Frozen in Ice",
         color: "#4A90E2",
@@ -714,8 +713,7 @@ Many players enhance the Lichborne experience with:
           },
         ],
       },
-      {
-        id: "spectral_reaper",
+      { id : "spectral_reaper",
         name: "Spectral Reaper",
         icon: "Necrotic/Drain Soul",
         color: "#9370DB",
@@ -770,8 +768,7 @@ Many players enhance the Lichborne experience with:
           },
         ],
       },
-      {
-        id: "phylactery_guardian",
+      { id : "phylactery_guardian",
         name: "Phylactery Guardian",
         icon: "Frost/Frost Manipulation",
         color: "#2D1B69",
@@ -831,8 +828,7 @@ Many players enhance the Lichborne experience with:
   // Example Spells - showcasing frost magic and phylactery mechanics
   exampleSpells: [
     // BASIC FROST SPELLS
-    {
-      id: "lb_grave_chill",
+    { id : "lb_grave_chill",
       name: "Grave Chill",
       level: 1,
       description:
@@ -890,8 +886,7 @@ Many players enhance the Lichborne experience with:
         durationType: "turns",
         durationUnit: "turns",
         effects: [
-          {
-            id: "chilled",
+          { id : "chilled",
             name: "Chilled",
             description: "Movement speed reduced by 10 feet",
             mechanicsText: "Movement speed reduced by 10 feet for 1 turn",
@@ -929,8 +924,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // FREEZE & CONTROL SPELLS
-    {
-      id: "lb_wraith_spear",
+    { id : "lb_wraith_spear",
       name: "Wraith Spear",
       level: 1,
       description:
@@ -988,8 +982,7 @@ Many players enhance the Lichborne experience with:
         durationType: "turns",
         durationUnit: "turns",
         effects: [
-          {
-            id: "frozen",
+          { id : "frozen",
             name: "Frozen",
             description:
               "Target is frozen solid and cannot take actions or reactions for 1 turn",
@@ -1036,8 +1029,7 @@ Many players enhance the Lichborne experience with:
       tags: ["frost", "damage", "freeze", "control", "lichborne"],
     },
 
-    {
-      id: "lb_deathly_frost",
+    { id : "lb_deathly_frost",
       name: "Deathly Frost",
       level: 2,
       description:
@@ -1095,8 +1087,7 @@ Many players enhance the Lichborne experience with:
         durationType: "turns",
         durationUnit: "turns",
         effects: [
-          {
-            id: "frozen",
+          { id : "frozen",
             name: "Frozen",
             description:
               "Target is frozen solid and cannot take actions or reactions for 1 turn",
@@ -1144,8 +1135,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // UTILITY & SUPPORT SPELLS
-    {
-      id: "lb_glacial_shroud",
+    { id : "lb_glacial_shroud",
       name: "Glacial Shroud",
       level: 1,
       description:
@@ -1181,8 +1171,7 @@ Many players enhance the Lichborne experience with:
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "damage_reduction",
+          { id : "damage_reduction",
             name: "Glacial Shroud",
             description:
               "Reduce damage taken by 3 for 1 minute. Enemies that hit you must save or be Chilled.",
@@ -1229,8 +1218,7 @@ Many players enhance the Lichborne experience with:
       tags: ["frost", "buff", "defense", "utility", "lichborne"],
     },
 
-    {
-      id: "lb_frozen_bastion",
+    { id : "lb_frozen_bastion",
       name: "Frozen Bastion",
       level: 2,
       description: "Create a wall of ice that blocks movement and projectiles.",
@@ -1307,8 +1295,7 @@ Many players enhance the Lichborne experience with:
       tags: ["frost", "summon", "terrain", "utility", "control", "lichborne"],
     },
 
-    {
-      id: "lb_siphon_soul",
+    { id : "lb_siphon_soul",
       name: "Siphon Soul",
       level: 2,
       description:
@@ -1395,8 +1382,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // HYBRID FROST/NECROTIC SPELLS
-    {
-      id: "lb_necrotic_blizzard",
+    { id : "lb_necrotic_blizzard",
       name: "Necrotic Blizzard",
       level: 4,
       description:
@@ -1464,8 +1450,7 @@ Many players enhance the Lichborne experience with:
         durationType: "turns",
         durationUnit: "turns",
         effects: [
-          {
-            id: "frozen",
+          { id : "frozen",
             name: "Frozen",
             description:
               "Target is frozen solid and cannot take actions or reactions for 1 turn",
@@ -1527,8 +1512,7 @@ Many players enhance the Lichborne experience with:
       ],
     },
 
-    {
-      id: "lb_frostbite_curse",
+    { id : "lb_frostbite_curse",
       name: "Frostbite Curse",
       level: 1,
       description:
@@ -1586,8 +1570,7 @@ Many players enhance the Lichborne experience with:
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "frostbite_slowed",
+          { id : "frostbite_slowed",
             name: "Frostbite Curse",
             description:
               "Movement speed reduced by 10 feet. Can only spend half max action points. Takes 1d4 frost damage per 5 feet moved.",
@@ -1642,8 +1625,7 @@ Many players enhance the Lichborne experience with:
       tags: ["frost", "damage", "debuff", "slow", "dot", "lichborne"],
     },
 
-    {
-      id: "lb_deathly_spikes",
+    { id : "lb_deathly_spikes",
       name: "Deathly Spikes",
       level: 3,
       description:
@@ -1770,8 +1752,7 @@ Many players enhance the Lichborne experience with:
       ],
     },
 
-    {
-      id: "lb_banshees_breath",
+    { id : "lb_banshees_breath",
       name: "Banshee's Breath",
       level: 3,
       description:
@@ -1877,8 +1858,7 @@ Many players enhance the Lichborne experience with:
       tags: ["frost", "damage", "aoe", "push", "cone", "lichborne"],
     },
 
-    {
-      id: "lb_frost_fever",
+    { id : "lb_frost_fever",
       name: "Frost Fever",
       level: 3,
       description:
@@ -1933,8 +1913,7 @@ Many players enhance the Lichborne experience with:
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "frost_fever_slowed",
+          { id : "frost_fever_slowed",
             name: "Frost Fever",
             description:
               "Movement speed reduced by 10 feet. Takes 1d4 frost damage per 5 feet moved.",
@@ -1996,8 +1975,7 @@ Many players enhance the Lichborne experience with:
   // Comprehensive Spell List (Levels 1-10, 3 spells each)
   spells: [
     // ===== LEVEL 1 SPELLS =====
-    {
-      id: "lichborne_frost_bolt",
+    { id: "lichborne_frost_bolt",
       name: "Frost Bolt",
       description:
         "Launch a bolt of frost energy at your target, dealing frost damage and potentially slowing their movement.",
@@ -2033,8 +2011,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         saveOutcome: "negates",
         effects: [
-          {
-            id: "slow",
+          { id : "slow",
             name: "Chilled",
             description: "Movement speed reduced by 10 feet for 1 round",
             statPenalty: { stat: "movement_speed", value: -10 },
@@ -2073,8 +2050,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_ice_armor",
+    { id: "lichborne_ice_armor",
       name: "Ice Armor",
       description:
         "Encase yourself in protective frost, gaining temporary armor and resistance.",
@@ -2091,8 +2067,7 @@ Many players enhance the Lichborne experience with:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "armor_boost",
+          { id : "armor_boost",
             name: "Ice Armor",
             description: "Gain +2 armor for 3 rounds",
             statModifier: {
@@ -2130,8 +2105,7 @@ Many players enhance the Lichborne experience with:
       tags: ["buff", "defense", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_phylactery_store",
+    { id: "lichborne_phylactery_store",
       name: "Phylactery Store",
       description:
         "Channel your life force into your phylactery, storing HP for emergency resurrection.",
@@ -2148,8 +2122,7 @@ Many players enhance the Lichborne experience with:
       utilityConfig: {
         utilityType: "special",
         selectedEffects: [
-          {
-            id: "phylactery_store",
+          { id : "phylactery_store",
             name: "Store Life Force",
             description:
               "Store up to 20 HP in phylactery. Lose that HP now but can resurrect with it later.",
@@ -2183,8 +2156,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 2 SPELLS =====
-    {
-      id: "lichborne_siphon_soul",
+    { id: "lichborne_siphon_soul",
       name: "Siphon Soul",
       description:
         "Drain the life force from a target, dealing frost damage and healing yourself for half. If target dies, gain bonus Phylactery HP.",
@@ -2265,8 +2237,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "healing", "drain", "phylactery", "lichborne"],
     },
 
-    {
-      id: "lichborne_freezing_touch",
+    { id: "lichborne_freezing_touch",
       name: "Freezing Touch",
       description:
         "Touch your enemy with frost-laden hands, freezing them in place briefly.",
@@ -2289,8 +2260,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "paralyze",
+          { id : "paralyze",
             name: "Frozen",
             description:
               "Target is frozen solid and cannot move or take actions for 1 round",
@@ -2335,8 +2305,7 @@ Many players enhance the Lichborne experience with:
       tags: ["control", "frost", "stun", "lichborne"],
     },
 
-    {
-      id: "lichborne_frost_ward",
+    { id: "lichborne_frost_ward",
       name: "Frost Ward",
       description:
         "Create a protective ward of frost around yourself or an ally.",
@@ -2353,8 +2322,7 @@ Many players enhance the Lichborne experience with:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "damage_reduction",
+          { id : "damage_reduction",
             name: "Frost Ward",
             description:
               "Reduces incoming damage by 3 (flat reduction per hit) for 2 rounds",
@@ -2400,8 +2368,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 3 SPELLS =====
-    {
-      id: "lichborne_frozen_orb",
+    { id: "lichborne_frozen_orb",
       name: "Frozen Orb",
       description:
         "Conjure a sphere of absolute zero that explodes in a burst of frost, damaging all enemies in the area.",
@@ -2430,8 +2397,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         saveOutcome: "negates",
         effects: [
-          {
-            id: "slow",
+          { id : "slow",
             name: "Chilled",
             description: "Movement speed reduced by 15 feet for 1 round",
             statPenalty: { stat: "movement_speed", value: -15 },
@@ -2474,8 +2440,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "aoe", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_ice_lance",
+    { id: "lichborne_ice_lance",
       name: "Ice Lance",
       description:
         "Hurl a massive lance of ice that deals devastating damage to a single target.",
@@ -2536,8 +2501,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_ice_step",
+    { id: "lichborne_ice_step",
       name: "Ice Step",
       description:
         "Teleport to a frozen or chilled enemy, dealing frost damage to them and any enemies you pass through.",
@@ -2606,8 +2570,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "movement", "teleport", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_frost_fever",
+    { id: "lichborne_frost_fever",
       name: "Frost Fever",
       description:
         "Afflict a target with supernatural frostbite. Deals damage that increases the lower your HP is — the closer to death, the more devastating.",
@@ -2645,8 +2608,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         saveOutcome: "negates",
         effects: [
-          {
-            id: "frostbite",
+          { id : "frostbite",
             name: "Frost Fever",
             description:
               "Movement speed reduced by 10 feet. Takes 1d4 frost damage per 5 feet moved.",
@@ -2699,8 +2661,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 4 SPELLS =====
-    {
-      id: "lichborne_glacial_spike",
+    { id: "lichborne_glacial_spike",
       name: "Glacial Spike",
       description:
         "Summon a massive spike of ancient ice that impales your target.",
@@ -2763,8 +2724,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_frost_nova",
+    { id: "lichborne_frost_nova",
       name: "Frost Nova",
       description:
         "Release a burst of frost energy that freezes all enemies around you.",
@@ -2793,8 +2753,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "bind",
+          { id : "bind",
             name: "Frozen in Place",
             description: "Target is rooted and cannot move for 2 rounds",
             config: {
@@ -2841,8 +2800,7 @@ Many players enhance the Lichborne experience with:
       tags: ["control", "damage", "aoe", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_phylactery_shield",
+    { id: "lichborne_phylactery_shield",
       name: "Phylactery Shield",
       description:
         "Channel power from your phylactery to create a protective barrier.",
@@ -2859,8 +2817,7 @@ Many players enhance the Lichborne experience with:
       buffConfig: {
         buffType: "temporaryHP",
         effects: [
-          {
-            id: "temp_hp",
+          { id : "temp_hp",
             name: "Phylactery Shield",
             description:
               "Grants temporary shield equal to stored phylactery HP",
@@ -2899,8 +2856,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 5 SPELLS =====
-    {
-      id: "lichborne_blizzard",
+    { id: "lichborne_blizzard",
       name: "Blizzard",
       description:
         "Summon a devastating blizzard that damages and slows all enemies in a large area.",
@@ -2942,8 +2898,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         saveOutcome: "halves_effects",
         effects: [
-          {
-            id: "slow",
+          { id : "slow",
             name: "Chilled by Blizzard",
             description: "Movement speed reduced by 20 feet while in blizzard",
             statPenalty: { stat: "movement_speed", value: -20 },
@@ -2992,8 +2947,7 @@ Many players enhance the Lichborne experience with:
       tags: ["channeled", "damage", "control", "aoe", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_deaths_return",
+    { id: "lichborne_deaths_return",
       name: "Death's Return",
       description:
         "When you resurrect via Phylactery, the cold of your return freezes all nearby enemies. This passive enhances your Death Trigger: increased freeze radius and duration.",
@@ -3009,8 +2963,7 @@ Many players enhance the Lichborne experience with:
       utilityConfig: {
         utilityType: "special",
         selectedEffects: [
-          {
-            id: "death_trigger_enhanced",
+          { id : "death_trigger_enhanced",
             name: "Death's Return",
             description:
               "Death Trigger freeze radius increased to 20ft (from 15ft). Freeze duration increased to 2 rounds (from 1). Enemies frozen by Death Trigger take +1d6 frost damage.",
@@ -3024,8 +2977,7 @@ Many players enhance the Lichborne experience with:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "death_trigger_enhancement",
+          { id : "death_trigger_enhancement",
             name: "Death's Return",
             description: "Enhanced Death Trigger on Phylactery resurrection",
             customDescription:
@@ -3061,8 +3013,7 @@ Many players enhance the Lichborne experience with:
       tags: ["control", "passive", "phylactery", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_cryonic_preservation",
+    { id: "lichborne_cryonic_preservation",
       name: "Cryonic Preservation",
       description:
         "Freeze yourself or an ally in ice, becoming invulnerable but unable to act.",
@@ -3079,8 +3030,7 @@ Many players enhance the Lichborne experience with:
       utilityConfig: {
         utilityType: "special",
         selectedEffects: [
-          {
-            id: "ice_block",
+          { id : "ice_block",
             name: "Cryonic Preservation",
             description:
               "Target is frozen in unbreakable ice. Immune to all damage. Cannot move or act. Lasts 2 rounds.",
@@ -3120,8 +3070,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 6 SPELLS =====
-    {
-      id: "lichborne_glacial_cascade",
+    { id: "lichborne_glacial_cascade",
       name: "Glacial Cascade",
       description:
         "Unleash a cascade of ice shards that strike multiple enemies in sequence.",
@@ -3184,8 +3133,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "chain", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_absolute_zero",
+    { id: "lichborne_absolute_zero",
       name: "Absolute Zero",
       description:
         "Create a zone of absolute zero temperature that instantly freezes everything within.",
@@ -3222,8 +3170,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "paralyze",
+          { id : "paralyze",
             name: "Frozen Solid",
             description:
               "Target is frozen solid and cannot take actions or reactions for 2 rounds",
@@ -3274,8 +3221,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "control", "aoe", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_phylactery_burst",
+    { id: "lichborne_phylactery_burst",
       name: "Phylactery Burst",
       description:
         "Release all stored Phylactery HP as a devastating explosion of necrotic frost. Empties Phylactery completely.",
@@ -3353,8 +3299,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 7 SPELLS =====
-    {
-      id: "lichborne_eternal_winter",
+    { id: "lichborne_eternal_winter",
       name: "Eternal Winter",
       description:
         "Summon an eternal winter storm that engulfs the battlefield.",
@@ -3413,8 +3358,7 @@ Many players enhance the Lichborne experience with:
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "slow",
+          { id : "slow",
             name: "Winter Storm",
             description:
               "Movement speed reduced by 50% and visibility heavily obscured",
@@ -3463,8 +3407,7 @@ Many players enhance the Lichborne experience with:
       tags: ["damage", "control", "aoe", "zone", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_frost_chains",
+    { id: "lichborne_frost_chains",
       name: "Frost Chains",
       description: "Bind multiple enemies with chains of magical ice.",
       level: 7,
@@ -3486,8 +3429,7 @@ Many players enhance the Lichborne experience with:
         saveType: "strength",
         savingThrow: true,
         effects: [
-          {
-            id: "bind",
+          { id : "bind",
             name: "Frost Chains",
             description:
               "Target is bound by frost chains and cannot move or take actions for 3 rounds. Can attempt DC 17 Strength save at end of each turn to break free.",
@@ -3533,8 +3475,7 @@ Many players enhance the Lichborne experience with:
       tags: ["control", "multi target", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_soul_frost",
+    { id: "lichborne_soul_frost",
       name: "Soul Frost",
       description:
         "Corrupt a target with hybrid necrotic frost, draining their life force to heal yourself and chilling nearby enemies. Deals frost and necrotic damage split between the target and enemies in a 10ft radius around them.",
@@ -3629,8 +3570,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 8 SPELLS =====
-    {
-      id: "lichborne_glacier_formation",
+    { id: "lichborne_glacier_formation",
       name: "Glacier Formation",
       description:
         "Create a massive glacier that crushes and freezes all enemies in a huge area.",
@@ -3667,8 +3607,7 @@ Many players enhance the Lichborne experience with:
         saveType: "strength",
         savingThrow: true,
         effects: [
-          {
-            id: "bind",
+          { id : "bind",
             name: "Trapped in Glacier",
             description:
               "Target is trapped within the glacier and restrained for 3 rounds. Requires DC 18 Strength check to break free.",
@@ -3719,8 +3658,7 @@ Many players enhance the Lichborne experience with:
       tags: ["attack", "damage", "control", "aoe", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_frozen_tomb",
+    { id: "lichborne_frozen_tomb",
       name: "Frozen Tomb",
       description: "Encase a powerful enemy in an unbreakable tomb of ice.",
       level: 8,
@@ -3742,8 +3680,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "paralyze",
+          { id : "paralyze",
             name: "Frozen Tomb",
             description:
               "Target is encased in magical ice and completely incapacitated for 5 rounds. Cannot take any actions. Ice has 150 HP. Target can attempt DC 18 Constitution save at end of each turn.",
@@ -3793,8 +3730,7 @@ Many players enhance the Lichborne experience with:
       tags: ["control", "single target", "frost", "lichborne"],
     },
 
-    {
-      id: "lichborne_deathfrost_aura",
+    { id: "lichborne_deathfrost_aura",
       name: "Deathfrost Aura",
       description:
         "Amplify your Eternal Frost Aura to lethal levels, dealing damage to nearby enemies.",
@@ -3823,8 +3759,7 @@ Many players enhance the Lichborne experience with:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "frost_amplification",
+          { id : "frost_amplification",
             name: "Amplified Eternal Frost",
             description:
               "Eternal Frost Aura bonus increased to +2d6 for 4 rounds",
@@ -3877,8 +3812,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 9 SPELLS =====
-    {
-      id: "lichborne_ice_age",
+    { id: "lichborne_ice_age",
       name: "Ice Age",
       description:
         "Bring forth a new ice age, freezing the entire battlefield.",
@@ -3923,8 +3857,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "paralyze",
+          { id : "paralyze",
             name: "Frozen by Ice Age",
             description:
               "Target is completely frozen solid for 4 rounds. Cannot take any actions or reactions. Requires DC 19 Constitution save at end of each turn to break free.",
@@ -3983,8 +3916,7 @@ Many players enhance the Lichborne experience with:
       ],
     },
 
-    {
-      id: "lichborne_lich_ascension",
+    { id: "lichborne_lich_ascension",
       name: "Lich Ascension",
       description:
         "Temporarily ascend to true lichdom, gaining immense power and near invulnerability.",
@@ -4004,8 +3936,7 @@ Many players enhance the Lichborne experience with:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "lich_power",
+          { id : "lich_power",
             name: "Lich Power",
             description:
               "All frost spells deal +3d6 damage, gain +5 armor, and reduce all incoming damage by 3 for 5 rounds",
@@ -4015,8 +3946,7 @@ Many players enhance the Lichborne experience with:
               magnitudeType: "flat",
             },
           },
-          {
-            id: "lich_reduction",
+          { id : "lich_reduction",
             name: "Undead Resilience",
             description:
               "Reduce all incoming damage by 3 (flat reduction per hit) for 5 rounds",
@@ -4043,13 +3973,11 @@ Many players enhance the Lichborne experience with:
         description:
           "Become one with the endless cold, transcending the limitations of undeath.",
         grantedAbilities: [
-          {
-            id: "frost_control",
+          { id : "frost_control",
             name: "Frost Aura Mastery",
             description: "Eternal Frost Aura no longer drains your HP",
           },
-          {
-            id: "frost_immunity",
+          { id : "frost_immunity",
             name: "Frost Immunity",
             description: "Immune to frost damage",
           },
@@ -4084,8 +4012,7 @@ Many players enhance the Lichborne experience with:
       tags: ["buff", "transformation", "phylactery", "epic", "lichborne"],
     },
 
-    {
-      id: "lichborne_phylactery_nova",
+    { id: "lichborne_phylactery_nova",
       name: "Phylactery Nova",
       description:
         "Release all stored phylactery power in a devastating explosion.",
@@ -4168,8 +4095,7 @@ Many players enhance the Lichborne experience with:
     },
 
     // ===== LEVEL 10 SPELLS =====
-    {
-      id: "lichborne_apocalyptic_freeze",
+    { id: "lichborne_apocalyptic_freeze",
       name: "Apocalyptic Freeze",
       description:
         "Freeze time itself, stopping all enemies in their tracks while you move freely.",
@@ -4192,8 +4118,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "stun",
+          { id : "stun",
             name: "Time Frozen",
             description:
               "All enemies are frozen in time for 3 rounds. Cannot move, act, or react. You can act normally. Requires DC 20 Constitution save to negate.",
@@ -4243,8 +4168,7 @@ Many players enhance the Lichborne experience with:
       tags: ["control", "aoe", "frost", "time", "legendary", "lichborne"],
     },
 
-    {
-      id: "lichborne_eternal_phylactery",
+    { id: "lichborne_eternal_phylactery",
       name: "Eternal Phylactery",
       description:
         "Bind your soul permanently to your phylactery, ensuring infinite resurrections.",
@@ -4268,8 +4192,7 @@ Many players enhance the Lichborne experience with:
       utilityConfig: {
         utilityType: "special",
         selectedEffects: [
-          {
-            id: "eternal_phylactery",
+          { id : "eternal_phylactery",
             name: "Eternal Phylactery",
             description:
               "Resurrection limit increased to 3 per combat. After each resurrection, phylactery auto-refills to 30 HP. Resurrection still spends all stored Phylactery HP. Can only be permanently destroyed by a legendary ritual.",
@@ -4283,8 +4206,7 @@ Many players enhance the Lichborne experience with:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "phylactery_eternal",
+          { id : "phylactery_eternal",
             name: "Eternal Phylactery",
             description:
               "Enhanced phylactery with increased resurrection charges and auto-refill",
@@ -4334,8 +4256,7 @@ Many players enhance the Lichborne experience with:
       ],
     },
 
-    {
-      id: "lichborne_world_freeze",
+    { id: "lichborne_world_freeze",
       name: "World Freeze",
       description:
         "Freeze the entire world in ice, creating a permanent winter apocalypse.",
@@ -4380,8 +4301,7 @@ Many players enhance the Lichborne experience with:
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "paralyze",
+          { id : "paralyze",
             name: "World Freeze",
             description:
               "All enemies are frozen solid for 10 rounds. Cannot take any actions. The terrain becomes permanently frozen.",
@@ -4399,8 +4319,7 @@ Many players enhance the Lichborne experience with:
       utilityConfig: {
         utilityType: "environment",
         selectedEffects: [
-          {
-            id: "permanent_winter",
+          { id : "permanent_winter",
             name: "Permanent Winter",
             description:
               "The entire battlefield becomes permanently frozen terrain. Difficult terrain for enemies, normal for you.",
@@ -4453,7 +4372,7 @@ Many players enhance the Lichborne experience with:
         "lichborne",
       ],
     },    {
-      id: "lich_frostbite_soul",
+      id : "lich_frostbite_soul",
       name: "Frostbite Soul",
       description:
         "Your undead body is eternally cold. You take +3 damage from all fire and radiant attacks. Additionally, any ally who ends their turn adjacent to you takes 1d4 cold damage (they feel the death radiating from you). Your presence is harmful to the living.",
@@ -4479,8 +4398,7 @@ Many players enhance the Lichborne experience with:
       resolution: "AUTOMATIC",
       tags: ["passive", "debuff", "frost", "fire weakness", "lichborne"],
     },
-    {
-      id: "lich_resurrection_cost",
+    { id: "lich_resurrection_cost",
       name: "Resurrection Cost",
       description:
         "Each time you are reduced to 0 HP and revive through Lichborne abilities, your maximum HP permanently decreases by 5 until your next long rest. This stacks. A Lichborne who dies 10 times in a day finds themselves with 50 less maximum HP. Death is not free.",

@@ -8,7 +8,7 @@
  */
 
 export const LUNARCH_DATA = {
-  id: "lunarch",
+  id : "lunarch",
   name: "Lunarch",
   icon: "fas fa-moon",
   role: "Control/Support",
@@ -486,8 +486,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     },
 
     specs: [
-      {
-        id: "hollow-sentinel",
+      { id : "hollow-sentinel",
         name: "Hollow Sentinel",
         icon: "Nature/Owl",
         color: "#A0A0A0",
@@ -545,8 +544,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           "Phase Tear - Force-shift to Full Moon when a target must die NOW",
         ],
       },
-      {
-        id: "void-caller",
+      { id : "void-caller",
         name: "Void Caller",
         icon: "Arcane/Missile",
         color: "#2A0040",
@@ -604,8 +602,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           "Total Eclipse - Ultimate reality distortion, gain two phases at double the cost",
         ],
       },
-      {
-        id: "sanguine-warden",
+      { id : "sanguine-warden",
         name: "Sanguine Warden",
         icon: "Nature/Ethereal Bird",
         color: "#8B0000",
@@ -669,8 +666,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
   // Example Spells - showcasing Phase Shift mechanics
   exampleSpells: [
     // MOONLIGHT SENTINEL - Precision Archery → HOLLOW SENTINEL - Precision Killer
-    {
-      id: "lunarch_parasitic_bolt",
+    { id : "lunarch_parasitic_bolt",
       name: "Parasitic Bolt",
       description:
         "Channel a sliver of the parasite's hunger into a bolt of condensed starlight that burrows into the target. The casting tears a seam in your palm -- you bleed, they bleed, the parasite feeds on both.",
@@ -730,8 +726,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["radiant", "damage", "ranged", "phase dependent", "self damage"],
     },
 
-    {
-      id: "lunarch_phase_tear",
+    { id : "lunarch_phase_tear",
       name: "Phase Tear",
       description:
         "Gouge your own flesh to fuel a violent phase shift, releasing a shockwave of stellar energy that damages nearby enemies based on which horror you drag yourself into.",
@@ -793,8 +788,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["utility", "phase shift", "damage", "universal", "self damage"],
     },
 
-    {
-      id: "lunarch_moon_touched_wound",
+    { id : "lunarch_moon_touched_wound",
       name: "Moon-Touched Wound",
       description:
         "Strike a target in melee with a hand seething with parasitic starlight. The wound glows with cold light and inflicts a phase-dependent affliction.",
@@ -848,8 +842,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "star_sickness_minor",
+          { id : "star_sickness_minor",
             name: "Star-Sick Wound",
             description: "Wound glows with cold starlight. Phase-dependent debuff.",
             statusType: "weakened",
@@ -871,8 +864,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["radiant", "damage", "debuff", "melee", "phase dependent", "universal"],
     },
 
-    {
-      id: "lunarch_crescent_blade",
+    { id : "lunarch_crescent_blade",
       name: "Crescent Blade",
       description:
         "Sweep a blade of crystallized parasite-secretion in a horizontal arc. It cuts cleanly but feeds on your nerve endings with each swing.",
@@ -934,8 +926,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["radiant", "damage", "cone", "phase dependent", "universal"],
     },
 
-    {
-      id: "lunarch_parasitic_stride",
+    { id : "lunarch_parasitic_stride",
       name: "Parasitic Stride",
       description:
         "The parasite partially phases your body, allowing you to glide through space trailing starlight contamination. You do not run -- you are pulled by the parasite's gravitational will.",
@@ -974,8 +965,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "parasitic_stride",
+          { id : "parasitic_stride",
             name: "Parasitic Stride",
             distance: 30,
             needsLineOfSight: false,
@@ -1002,8 +992,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["utility", "movement", "trail damage", "phase dependent", "universal"],
     },
 
-    {
-      id: "lunarch_celestial_rejection",
+    { id : "lunarch_celestial_rejection",
       name: "Celestial Rejection",
       description:
         "PASSIVE: +25% Bludgeoning vulnerability (starlight-infused organs rupture under blunt trauma). Immune to standard magical healing -- the parasite devours foreign magic, dealing psychic damage equal to 50% of heal amount instead. Only your own phase-specific restoration works.",
@@ -1025,16 +1014,14 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         durationType: "permanent",
         durationUnit: "permanent",
         effects: [
-          {
-            id: "bludgeoning_vulnerability",
+          { id : "bludgeoning_vulnerability",
             name: "Organ Rupture",
             description: "+25% Bludgeoning damage taken. Starlight-infused organs rupture under blunt force.",
             statusType: "vulnerability",
             level: "major",
             mechanicsText: "+25% Bludgeoning damage taken",
           },
-          {
-            id: "healing_rejection",
+          { id : "healing_rejection",
             name: "Magic Devourer",
             description: "Magical healing deals psychic damage equal to 50% of heal amount. The parasite devours foreign magic.",
             statusType: "cursed",
@@ -1046,8 +1033,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["passive", "lunarch", "fatal flaw", "vulnerability"],
     },
 
-    {
-      id: "lunarch_phase_lock",
+    { id : "lunarch_phase_lock",
       name: "Phase Lock",
       description:
         "PASSIVE: Taking damage during a manual phase shift interrupts it. Mana and necrotic cost are still paid but the shift fails.",
@@ -1066,8 +1052,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["passive", "lunarch", "weakness"],
     },
 
-    {
-      id: "lunarch_transition_shock",
+    { id : "lunarch_transition_shock",
       name: "Transition Shock",
       description:
         "PASSIVE: Every phase shift forces a 1d6 Transition Shock roll. 1=Tissue Rupture (2d6 necrotic), 2=Synaptic Flash (blinded 1 rnd), 3=Mana Hemorrhage (lose 2d4 mana), 4=Temporal Dissonance (lose 1 AP next turn), 5=Psychic Whiplash (1d6 psychic + disadv next save), 6=Parasitic Mercy (1 necrotic only).",
@@ -1087,8 +1072,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     },
 
     // STARFALL INVOKER → VOID CALLER
-    {
-      id: "lunarch_void_rend",
+    { id : "lunarch_void_rend",
       name: "Void Rend",
       description:
         "Tear a hole in reality. Cold, hateful starlight bleeds through the rift, scorching enemies and contaminating them with cosmic sickness.",
@@ -1148,8 +1132,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "star_sickness",
+          { id : "star_sickness",
             name: "Star-Sickness",
             description: "Contaminated by cosmic rift-energy. Disadvantage on next attack, 1d4 radiant at start of turn.",
             statusType: "sickened",
@@ -1170,8 +1153,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["radiant", "damage", "aoe", "debuff", "star-sickness", "void caller"],
     },
 
-    {
-      id: "lunarch_sanguine_transfer",
+    { id : "lunarch_sanguine_transfer",
       name: "Sanguine Transfer",
       description:
         "Tear open a seam in your flesh and channel stolen life force through the wound into an ally. Blood-tinged moonlight seals their wounds. You lose HP. They gain HP.",
@@ -1231,8 +1213,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["healing", "self damage", "sanguine warden"],
     },
 
-    {
-      id: "lunarch_hollow_sight",
+    { id : "lunarch_hollow_sight",
       name: "Hollow Sight",
       description:
         "Focus the parasite's alien perception through your starlight sockets, searing a sigil into a target that only you can see. The sigil burns through armor, through walls, through flesh.",
@@ -1286,8 +1267,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "hollow_mark",
+          { id : "hollow_mark",
             name: "Hollow Mark",
             description: "Marked by the parasite. Ignore 25% armor. +1d6 from next spell.",
             statusType: "marked",
@@ -1308,8 +1288,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["radiant", "damage", "debuff", "mark", "hollow sentinel"],
     },
 
-    {
-      id: "lunarch_void_beam",
+    { id : "lunarch_void_beam",
       name: "Void Beam",
       description:
         "Open a rift along a line and pour the void's hatred through it. Enemies are scorched by cold starlight and contaminated with cosmic sickness.",
@@ -1369,8 +1348,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "star_sickness_beam",
+          { id : "star_sickness_beam",
             name: "Star-Sickness",
             description: "Contaminated by void beam. Disadvantage on next attack, 1d4 radiant at start of turn.",
             statusType: "sickened",
@@ -1391,8 +1369,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["radiant", "damage", "line", "debuff", "star-sickness", "void caller"],
     },
 
-    {
-      id: "lunarch_binding_horror",
+    { id : "lunarch_binding_horror",
       name: "Binding Horror",
       description:
         "Project parasitic tendrils from the seams in your arms that wrap around a target, constricting and feeding. The tendrils are alive -- extensions of the parasite.",
@@ -1443,8 +1420,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "parasitic_bind",
+          { id : "parasitic_bind",
             name: "Parasitic Bind",
             description: "Restrained by living tendrils. Cannot move. 1d4 necrotic/turn as tendrils feed.",
             config: {
@@ -1474,8 +1450,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     },
 
     // MOONWELL GUARDIAN → SANGUINE WARDEN
-    {
-      id: "lunarch_fractured_timeline",
+    { id : "lunarch_fractured_timeline",
       name: "Fractured Timeline",
       description:
         "Violently cycle through all four phases in rapid succession, each shift tearing a different piece of your physiology. You gain one brief benefit from each horror but pay in cumulative flesh damage.",
@@ -1531,8 +1506,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["utility", "buff", "multi phase", "universal", "self damage"],
     },
 
-    {
-      id: "lunarch_sanguine_rites",
+    { id : "lunarch_sanguine_rites",
       name: "Sanguine Rites",
       description:
         "Open every seam in your arms simultaneously, flooding an ally with concentrated stolen life force. The price is written in your own blood.",
@@ -1591,8 +1565,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["healing", "cleanse", "self damage", "sanguine warden"],
     },
 
-    {
-      id: "lunarch_total_eclipse",
+    { id : "lunarch_total_eclipse",
       name: "Total Eclipse",
       description:
         "Force the parasite into a catastrophic overfeed, simultaneously drawing from New Moon and Full Moon. Your body becomes a warzone of competing cosmic energies at double the flesh cost. Roll Transition Shock twice.",
@@ -1634,20 +1607,17 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       buffConfig: {
         buffType: "dual_phase",
         effects: [
-          {
-            id: "new_moon_eclipse",
+          { id : "new_moon_eclipse",
             name: "Memory Eater Eclipse",
             description: "+2 Armor. Immune to charm and fear. -1 to attack rolls.",
             mechanicsText: "+2 Armor, charm/fear immune, -1 attacks",
           },
-          {
-            id: "full_moon_eclipse",
+          { id : "full_moon_eclipse",
             name: "Sanity Erosion Eclipse",
             description: "+1d8 radiant on all attacks. Crit range +2. Roll Delirium each turn.",
             mechanicsText: "+1d8 radiant, +2 crit range, Delirium each turn",
           },
-          {
-            id: "stellar_aura",
+          { id : "stellar_aura",
             name: "Contagion Aura",
             description: "1d6 radiant to enemies within 10 ft each turn. Applies Star-Sickness.",
             mechanicsText: "1d6 radiant to enemies within 10 ft/turn, applies Star-Sickness",
@@ -1678,8 +1648,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     // LEVEL 7-10 SPELLS
 
     // LEVEL 7 SPELLS
-    {
-      id: "lunarch_hollow_volley",
+    { id : "lunarch_hollow_volley",
       name: "Hollow Volley",
       description:
         "Loose a volley of parasitic bolts that seek out multiple targets. Each bolt carries a sliver of the parasite's hunger, and each one tears a seam in your flesh as it leaves.",
@@ -1739,8 +1708,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["damage", "multi target", "radiant", "hollow sentinel"],
     },
 
-    {
-      id: "lunarch_void_supernova",
+    { id : "lunarch_void_supernova",
       name: "Void Supernova",
       description:
         "Detonate a rift-core above your enemies. The explosion is not fire -- it is the void remembering what light used to be, and hating it. Enemies are scorched and contaminated with mass delirium.",
@@ -1796,8 +1764,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "mass_delirium",
+          { id : "mass_delirium",
             name: "Cosmic Delirium",
             description: "Mind shattered by void supernova. Disadvantage on all rolls for 2 rounds.",
             statusType: "confused",
@@ -1819,8 +1786,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["damage", "control", "debuff", "radiant", "void caller"],
     },
 
-    {
-      id: "lunarch_sanguine_deluge",
+    { id : "lunarch_sanguine_deluge",
       name: "Sanguine Deluge",
       description:
         "Burst every seam in your body simultaneously. A deluge of blood-tinged moonlight erupts outward, healing allies caught in the flood while you collapse from catastrophic blood loss. This is the Sanguine Warden's final gift -- you give everything.",
@@ -1890,8 +1856,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     },
 
     // LEVEL 8 SPELLS
-    {
-      id: "lunarch_hollow_annihilation",
+    { id : "lunarch_hollow_annihilation",
       name: "Hollow Annihilation",
       description:
         "Focus the entirety of the parasite's hunger into a single bolt that phases through all obstacles. It ignores armor, ignores cover, ignores the boundaries between spaces. Everything in its path ceases to exist as a concept.",
@@ -1952,8 +1917,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["damage", "line", "force", "hollow sentinel"],
     },
 
-    {
-      id: "lunarch_void_constellation",
+    { id : "lunarch_void_constellation",
       name: "Void Constellation",
       description:
         "Summon a constellation of rift-wounds across the battlefield, each one firing a beam of cold void-light at a different enemy. The constellation persists for moments -- long enough to scar reality and everything caught in its geometry.",
@@ -2003,8 +1967,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "star_sickness_constellation",
+          { id : "star_sickness_constellation",
             name: "Star-Sickness",
             description: "Contaminated by void constellation. Disadvantage on attacks, 1d4 radiant/turn.",
             statusType: "sickened",
@@ -2026,8 +1989,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["damage", "multi target", "debuff", "radiant", "void caller"],
     },
 
-    {
-      id: "lunarch_parasitic_bulwark",
+    { id : "lunarch_parasitic_bulwark",
       name: "Parasitic Bulwark",
       description:
         "The parasite erupts from your body in a defensive web of crystallized tendrils, forming a living barrier that absorbs attacks and reflects the damage through the starlight seams. Allies behind the bulwark are shielded. Enemies who strike it are burned.",
@@ -2071,8 +2033,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "parasitic_bulwark",
+          { id : "parasitic_bulwark",
             name: "Parasitic Bulwark",
             description: "Absorbs 50 damage. Reflects 50% of absorbed damage to attackers. Take 2d6 necrotic when cast.",
             mechanicsText: "Absorbs 50 damage, reflects 50% to attackers, 2 round duration",
@@ -2101,8 +2062,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     },
 
     // LEVEL 9 SPELLS
-    {
-      id: "lunarch_skyhole",
+    { id : "lunarch_skyhole",
       name: "Skyhole",
       description:
         "Tear open the sky above a battlefield. Raw, predatory starlight pours through the wound in reality, scorching everything below. The tear persists -- a gaping hole where the sky used to be, raining cosmic radiation each round.",
@@ -2167,8 +2127,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["damage", "aoe", "zone", "radiant", "void caller"],
     },
 
-    {
-      id: "lunarch_host_ascension",
+    { id : "lunarch_host_ascension",
       name: "Host Ascension",
       description:
         "Surrender completely to the parasite. For 3 rounds, you are not the pilot -- you are the vehicle. The parasite takes full control, turning your body into a weapon of cosmic horror. Your mind watches from behind starlight-barred windows, screaming.",
@@ -2209,33 +2168,27 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         newForm: "Ascended Host",
         description: "The parasite assumes direct control. Your body moves with alien precision.",
         grantedAbilities: [
-          {
-            id: "parasitic_stats",
+          { id : "parasitic_stats",
             name: "Alien Physiology",
             description: "+4 to all attributes, +5 Armor, immune to charm/fear/stun",
           },
-          {
-            id: "parasitic_damage",
+          { id : "parasitic_damage",
             name: "Cosmic Weapon",
             description: "+3d8 radiant on all attacks. Attacks ignore 50% armor.",
           },
-          {
-            id: "parasitic_immunity",
+          { id : "parasitic_immunity",
             name: "Starlight Form",
             description: "Immune to radiant and necrotic damage. Half damage from all other sources.",
           },
-          {
-            id: "parasitic_flight",
+          { id : "parasitic_flight",
             name: "Void Step",
             description: "60 ft fly speed. Can phase through solid objects.",
           },
-          {
-            id: "parasitic_contagion",
+          { id : "parasitic_contagion",
             name: "Passive Contagion",
             description: "All enemies within 15 ft have disadvantage on attack rolls (cosmic aura).",
           },
-          {
-            id: "parasitic_toll",
+          { id : "parasitic_toll",
             name: "The Price of Surrender",
             description: "When transformation ends: take 4d10 necrotic, gain 2 exhaustion, shift to New Moon. No saving throw.",
           },
@@ -2255,8 +2208,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     },
 
     // LEVEL 10 SPELLS
-    {
-      id: "lunarch_vessel_of_the_parasite",
+    { id : "lunarch_vessel_of_the_parasite",
       name: "Vessel of the Parasite",
       description:
         "Become the moon. Not a vessel -- the moon itself, made flesh. Your body dissolves into condensed starlight and reforms as a walking eclipse. The parasite does not ride you anymore. You ARE the parasite. For 4 rounds, you are a cosmic horror walking among mortals. When it ends, you will not remember being human.",
@@ -2297,33 +2249,27 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         newForm: "The Lunar Horror",
         description: "Your body dissolves into living starlight. You are no longer entirely mortal.",
         grantedAbilities: [
-          {
-            id: "lunar_stats",
+          { id : "lunar_stats",
             name: "Cosmic Form",
             description: "+6 to all attributes, +8 Armor",
           },
-          {
-            id: "lunar_damage",
+          { id : "lunar_damage",
             name: "Moonlight Incarnate",
             description: "+5d8 radiant on all attacks. Critical hits on 18-20.",
           },
-          {
-            id: "lunar_immunity",
+          { id : "lunar_immunity",
             name: "Eclipse Body",
             description: "Immune to radiant, necrotic, and psychic damage. Half damage from all other sources.",
           },
-          {
-            id: "lunar_phasing",
+          { id : "lunar_phasing",
             name: "Phase Walk",
             description: "Phase through solid objects. Immune to opportunity attacks. 60 ft fly speed.",
           },
-          {
-            id: "lunar_aura",
+          { id : "lunar_aura",
             name: "The Feeding Zone",
             description: "All enemies within 30 ft take 2d6 radiant damage at start of each turn. You heal for 100% of this damage (the parasite feeds on a cosmic scale).",
           },
-          {
-            id: "lunar_exhaustion",
+          { id : "lunar_exhaustion",
             name: "The Reversion (On End)",
             description: "When transformation ends: take 6d10 necrotic, gain 3 exhaustion, forget the last hour (narrative). Shift to New Moon. No save.",
           },
@@ -2342,8 +2288,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["transformation", "ultimate", "level 10", "cosmic horror"],
     },
 
-    {
-      id: "lunarch_hollowpoint",
+    { id : "lunarch_hollowpoint",
       name: "Hollowpoint",
       description:
         "Forge a single bolt from the concentrated essence of the parasite itself -- a projectile of pure cosmic hunger that annihilates everything in its path. The bolt is forged by reaching into your own chest and pulling out the part of the parasite that screams the loudest.",
@@ -2410,8 +2355,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["damage", "line", "radiant", "ultimate", "hollow sentinel"],
     },
 
-    {
-      id: "lunarch_sanguine_eternity",
+    { id : "lunarch_sanguine_eternity",
       name: "Sanguine Eternity",
       description:
         "Burst every seam in your body and create a permanent zone of blood-tinged moonlight that persists for the rest of combat. The zone is fed by your agony -- allies within are continuously healed, enemies are continuously drained. You become the living heart of a parasitic ecosystem.",

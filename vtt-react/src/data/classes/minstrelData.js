@@ -7,7 +7,7 @@
  */
 
 export const MINSTREL_DATA = {
-  id: "minstrel",
+  id : "minstrel",
   name: "Minstrel",
   icon: "fas fa-music",
   role: "Support",
@@ -694,8 +694,7 @@ Before combat, decide which cadences you want to prioritize:
     description: `Every Minstrel chooses how they will suffer. The music demands a specialty — a particular brand of torment through which they channel their stolen frequencies. Each path offers unique passive abilities and shapes both the spells they learn and the manner in which the magic consumes them.`,
 
     specs: [
-      {
-        id: "battlechoir",
+      { id : "battlechoir",
         name: "Battlechoir",
         icon: "Radiant/Divine Downward Sword",
         color: "#DC143C",
@@ -740,8 +739,7 @@ Before combat, decide which cadences you want to prioritize:
           "Players who enjoy empowering their team, coordinated tactics, and aggressive playstyles",
       },
 
-      {
-        id: "soulsinger",
+      { id : "soulsinger",
         name: "Soulsinger",
         icon: "Healing/Prayer",
         color: "#4169E1",
@@ -787,8 +785,7 @@ Before combat, decide which cadences you want to prioritize:
           "Players who enjoy healing, supporting their team, and emotional roleplay",
       },
 
-      {
-        id: "dissonance",
+      { id : "dissonance",
         name: "Dissonance",
         icon: "Psychic/Agonizing Scream",
         color: "#8B008B",
@@ -903,8 +900,7 @@ Before combat, decide which cadences you want to prioritize:
     // ========================================
     // LEVEL 1 STARTING SPELLS (5 options, pick 3)
     // ========================================
-    {
-      id: "minstrel_opening_chord",
+    { id: "minstrel_opening_chord",
       name: "Opening Chord",
       description:
         "Strike a resonant chord that generates foundational notes and deals minor sonic damage.",
@@ -960,8 +956,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["builder", "basic", "sonic", "tonic generator", "level 1"],
     },
 
-    {
-      id: "minstrel_harmonic_strike",
+    { id: "minstrel_harmonic_strike",
       name: "Harmonic Strike",
       description:
         "Strike your foe with a resonant blow, dealing damage and generating mediant notes.",
@@ -1016,8 +1011,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["builder", "melee", "basic", "mediant generator", "level 1"],
     },
 
-    {
-      id: "minstrel_inspiring_rhythm",
+    { id: "minstrel_inspiring_rhythm",
       name: "Inspiring Rhythm",
       description:
         "Play an inspiring rhythm that grants all nearby allies +1 to attack rolls for 1 round. Generates dominant notes.",
@@ -1054,8 +1048,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "inspiring_rhythm",
+          { id : "inspiring_rhythm",
             name: "Inspiring Rhythm",
             description:
               "Allies within 15ft gain +1 to attack rolls for 1 round.",
@@ -1089,8 +1082,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["builder", "support", "dominant generator", "level 1"],
     },
 
-    {
-      id: "minstrel_minor_cadence",
+    { id: "minstrel_minor_cadence",
       name: "Minor Cadence",
       description:
         "Play a simple cadence that heals nearby allies by consuming subdominant and tonic notes.",
@@ -1146,8 +1138,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["resolver", "healing", "subdominant generator", "level 1"],
     },
 
-    {
-      id: "minstrel_soothing_melody",
+    { id: "minstrel_soothing_melody",
       name: "Soothing Melody",
       description:
         "Play a calming melody that removes minor debuffs and generates leading tone notes.",
@@ -1186,8 +1177,7 @@ Before combat, decide which cadences you want to prioritize:
       utilityConfig: {
         utilityType: "restoration",
         selectedEffects: [
-          {
-            id: "remove_debuff",
+          { id : "remove_debuff",
             name: "Remove Debuff",
             description: "Removes one minor debuff from the target",
           },
@@ -1211,8 +1201,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["resolver", "utility", "leading generator", "level 3"],
     },
 
-    {
-      id: "minstrel_uplifting_rhythm",
+    { id: "minstrel_uplifting_rhythm",
       name: "Uplifting Rhythm",
       description:
         "Play an uplifting rhythm that bolsters an ally and generates supertonic notes.",
@@ -1263,8 +1252,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "armor_boost",
+          { id : "armor_boost",
             name: "Armor Boost",
             description: "+2 Armor for 2 turns",
             statModifier: {
@@ -1301,8 +1289,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_resolving_strike",
+    { id: "minstrel_resolving_strike",
       name: "Resolving Strike",
       description:
         "Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.",
@@ -1360,8 +1347,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["resolver", "cadence", "damage", "simple", "level 3"],
     },
 
-    {
-      id: "minstrel_mending_cadence",
+    { id: "minstrel_mending_cadence",
       name: "Mending Cadence",
       description:
         "Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.",
@@ -1452,8 +1438,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_healing_hymn",
+    { id: "minstrel_healing_hymn",
       name: "Healing Hymn",
       description: "Sing a soothing melody that heals an ally.",
       spellType: "ACTION",
@@ -1546,8 +1531,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_war_drum",
+    { id: "minstrel_war_drum",
       name: "War Drum Beat",
       description: "Beat a powerful rhythm that damages enemies in an area.",
       spellType: "ACTION",
@@ -1630,8 +1614,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_dissonant_shriek",
+    { id: "minstrel_dissonant_shriek",
       name: "Dissonant Shriek",
       description:
         "Unleash a discordant scream that generates tension notes and frightens enemies.",
@@ -1688,8 +1671,7 @@ Before combat, decide which cadences you want to prioritize:
       controlConfig: {
         controlType: "fear",
         effects: [
-          {
-            id: "frightened",
+          { id : "frightened",
             controlType: "frightened",
             name: "Frightened",
             description: "Target is frightened",
@@ -1730,8 +1712,7 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     // Resolving Spells - Consume Notes for Powerful Cadences
-    {
-      id: "minstrel_perfect_cadence",
+    { id: "minstrel_perfect_cadence",
       name: "Perfect Cadence",
       description:
         "Complete a perfect harmonic progression (I→IV→V→I) that guarantees an ally's next attack will critically strike.",
@@ -1780,8 +1761,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "guaranteed_crit",
+          { id : "guaranteed_crit",
             name: "Guaranteed Critical Hit",
             description: "Next attack is guaranteed critical hit",
             mechanicsText: "Next attack is guaranteed critical hit",
@@ -1818,8 +1798,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_circle_of_fifths",
+    { id: "minstrel_circle_of_fifths",
       name: "Circle of Fifths",
       description:
         "Weave an eternal loop of torment (V→I→VI→V) that traps enemies in relentless agony.",
@@ -1884,8 +1863,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["resolver", "cadence", "dot", "aoe", "battlechoir", "level 5"],
     },
 
-    {
-      id: "minstrel_authentic_cadence",
+    { id: "minstrel_authentic_cadence",
       name: "Authentic Cadence",
       description:
         "Perform a grand finale (I→VI→III→I) that fortifies and heals all nearby allies.",
@@ -1963,8 +1941,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "damage_reduction",
         effects: [
-          {
-            id: "authentic_protection",
+          { id : "authentic_protection",
             name: "Authentic Protection",
             description: "Reduce incoming damage by 4",
             mechanicsText: "-4 damage taken for 1 round",
@@ -2005,8 +1982,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_tritone_substitution",
+    { id: "minstrel_tritone_substitution",
       name: "Tritone Substitution",
       description:
         "Unleash powerful dissonance (IV→I→V→VI) that binds and paralyzes a foe.",
@@ -2055,8 +2031,7 @@ Before combat, decide which cadences you want to prioritize:
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "paralyzed",
+          { id : "paralyzed",
             controlType: "paralyze",
             name: "Paralyzed",
             description: "Target is paralyzed",
@@ -2099,8 +2074,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_picardy_third",
+    { id: "minstrel_picardy_third",
       name: "Picardy Third",
       description:
         "Shift from darkness to light (I→VII→V→III), filling allies with renewed hope and resilience.",
@@ -2176,8 +2150,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "picardy_saves",
+          { id : "picardy_saves",
             name: "Picardy Resolve",
             description: "+2 to all saving throws for 3 rounds",
             statModifier: {
@@ -2218,8 +2191,7 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     // Utility Spell
-    {
-      id: "minstrel_song_of_rest",
+    { id: "minstrel_song_of_rest",
       name: "Song of Rest",
       description:
         "Perform a calming melody that allows allies to recover during a short rest.",
@@ -2302,8 +2274,7 @@ Before combat, decide which cadences you want to prioritize:
     // ========================================
     // NEW BUILDER SPELLS — VI & VII Generation
     // ========================================
-    {
-      id: "minstrel_melancholy_melody",
+    { id: "minstrel_melancholy_melody",
       name: "Melancholy Melody",
       description:
         "Play a haunting melody that generates submediant and subdominant notes, weakening nearby enemies with sorrow.",
@@ -2357,8 +2328,7 @@ Before combat, decide which cadences you want to prioritize:
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "melancholy",
+          { id : "melancholy",
             name: "Melancholy",
             description: "Enemy has -1 to attack rolls for 2 rounds.",
             statPenalty: [{ stat: "attack", value: -1 }],
@@ -2390,8 +2360,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_climactic_crescendo",
+    { id: "minstrel_climactic_crescendo",
       name: "Climactic Crescendo",
       description:
         "Build to a thrilling crescendo that generates leading tone and dominant notes while buffing ally attack power.",
@@ -2435,8 +2404,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "crescendo_power",
+          { id : "crescendo_power",
             name: "Crescendo Power",
             description:
               "Allies within 20 feet gain +2 to damage rolls for 2 rounds.",
@@ -2478,8 +2446,7 @@ Before combat, decide which cadences you want to prioritize:
     // ========================================
     // NEW CADENCE SPELLS — Missing 5 Cadences
     // ========================================
-    {
-      id: "minstrel_deceptive_cadence",
+    { id: "minstrel_deceptive_cadence",
       name: "Deceptive Cadence",
       description:
         "Play a deceptive progression (IV→VII→V→IV) that disorients an enemy, imposing -2 to attacks and saves for 1 round (DC 15 Spirit save to resist).",
@@ -2530,8 +2497,7 @@ Before combat, decide which cadences you want to prioritize:
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "disoriented",
+          { id : "disoriented",
             controlType: "disoriented",
             name: "Disoriented",
             description: "Target is disoriented (-2 attacks/saves)",
@@ -2566,8 +2532,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["resolver", "cadence", "control", "disoriented", "dissonance", "level 4"],
     },
 
-    {
-      id: "minstrel_plagal_cadence",
+    { id: "minstrel_plagal_cadence",
       name: "Plagal Cadence",
       description:
         "Perform a sacred ascent (VI→V→I→III) that grants allies swiftness and agility, enhancing their movement and reflexes.",
@@ -2612,8 +2577,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "plagal_swiftness",
+          { id : "plagal_swiftness",
             name: "Plagal Swiftness",
             description:
               "Allies gain +20 ft movement speed and +2 Dexterity for 2 rounds.",
@@ -2645,8 +2609,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["resolver", "cadence", "buff", "speed", "soulsinger", "level 4"],
     },
 
-    {
-      id: "minstrel_half_cadence",
+    { id: "minstrel_half_cadence",
       name: "Half Cadence",
       description:
         "An unresolved progression (VII→V→IV→VI) that creates protective harmonic barriers around your allies, absorbing incoming damage.",
@@ -2655,7 +2618,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Force/Force Field",
 
       typeConfig: {
-        school: "abjuration",
+        school: "force",
         icon: "Force/Force Field",
         tags: [
           "resolver",
@@ -2698,7 +2661,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "2d6 + spirit",
         elementType: "force",
-        damageTypes: ["shield"],
+        damageTypes: ["force"],
         shieldConfig: {
           shieldType: "absorption",
           shieldValueFormula: "2d6 + spirit",
@@ -2731,8 +2694,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_phrygian_cadence",
+    { id: "minstrel_phrygian_cadence",
       name: "Phrygian Cadence",
       description:
         "An ancient progression (V→IV→I→VII) that channels the resolve of warriors past, granting allies advantage on all attacks.",
@@ -2784,8 +2746,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "phrygian_resolve",
+          { id : "phrygian_resolve",
             name: "Phrygian Resolve",
             description:
               "Allies gain advantage on all attack rolls for 2 rounds.",
@@ -2825,8 +2786,7 @@ Before combat, decide which cadences you want to prioritize:
       ],
     },
 
-    {
-      id: "minstrel_neapolitan_sixth",
+    { id: "minstrel_neapolitan_sixth",
       name: "Neapolitan Sixth",
       description:
         "A precise and unexpected progression (III→I→IV→V) that sharpens ally precision, increasing critical hit chance.",
@@ -2878,8 +2838,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "neapolitan_precision",
+          { id : "neapolitan_precision",
             name: "Neapolitan Precision",
             description: "Allies gain +2 to critical hit chance for 2 rounds.",
             statModifier: {
@@ -2921,8 +2880,7 @@ Before combat, decide which cadences you want to prioritize:
     // ========================================
     // LEVEL 7 SPELLS
     // ========================================
-    {
-      id: "minstrel_symphony_of_destruction",
+    { id: "minstrel_symphony_of_destruction",
       name: "Symphony of Destruction",
       description:
         "Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive lightning damage to all enemies in a large area.",
@@ -3005,8 +2963,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["damage", "aoe", "lightning", "resolver", "level 7"],
     },
 
-    {
-      id: "minstrel_song_of_heroes",
+    { id: "minstrel_song_of_heroes",
       name: "Song of Heroes",
       description:
         "Perform an inspiring ballad that empowers all allies with legendary might, granting significant bonuses to attack and damage.",
@@ -3045,8 +3002,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "heroic_might",
+          { id : "heroic_might",
             name: "Heroic Might",
             description:
               "Allies gain +2 to attack rolls and +1d6 damage on all attacks for 3 rounds.",
@@ -3078,8 +3034,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["buff", "aoe", "support", "builder", "level 7"],
     },
 
-    {
-      id: "minstrel_cacophonous_blast",
+    { id: "minstrel_cacophonous_blast",
       name: "Cacophonous Blast",
       description:
         "Unleash a devastating blast of pure discordance that disrupts enemy spellcasting and causes psychic damage to all who hear it.",
@@ -3130,8 +3085,7 @@ Before combat, decide which cadences you want to prioritize:
         saveType: "spirit",
         savingThrow: true,
         effects: [
-          {
-            id: "disrupted",
+          { id : "disrupted",
             name: "Disrupted",
             description:
               "Enemies cannot cast spells until the end of their next turn",
@@ -3164,8 +3118,7 @@ Before combat, decide which cadences you want to prioritize:
     // ========================================
     // LEVEL 8 SPELLS
     // ========================================
-    {
-      id: "minstrel_magnum_opus",
+    { id: "minstrel_magnum_opus",
       name: "Magnum Opus",
       description:
         "Perform your greatest masterpiece, dealing devastating damage while simultaneously healing all allies.",
@@ -3253,8 +3206,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["damage", "healing", "aoe", "resolver", "level 8"],
     },
 
-    {
-      id: "minstrel_serenade_of_shadows",
+    { id: "minstrel_serenade_of_shadows",
       name: "Serenade of Shadows",
       description:
         "A haunting melody that causes enemies to become entranced and vulnerable, reducing their defenses and causing fear.",
@@ -3294,8 +3246,7 @@ Before combat, decide which cadences you want to prioritize:
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "entranced",
+          { id : "entranced",
             name: "Entranced",
             description:
               "Enemies have -4 Armor and disadvantage on saving throws for 4 rounds.",
@@ -3328,8 +3279,7 @@ Before combat, decide which cadences you want to prioritize:
         saveType: "spirit",
         savingThrow: true,
         effects: [
-          {
-            id: "fear",
+          { id : "fear",
             name: "Frightened",
             description: "Enemies are frightened and must move away from you",
             config: {
@@ -3356,8 +3306,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["debuff", "control", "aoe", "level 8"],
     },
 
-    {
-      id: "minstrel_harmony_of_renewal",
+    { id: "minstrel_harmony_of_renewal",
       name: "Harmony of Renewal",
       description:
         "A powerful healing melody that restores allies to full fighting capacity, removing negative effects and providing regeneration.",
@@ -3425,8 +3374,7 @@ Before combat, decide which cadences you want to prioritize:
     // ========================================
     // LEVEL 9 SPELLS
     // ========================================
-    {
-      id: "minstrel_crescendo_of_power",
+    { id: "minstrel_crescendo_of_power",
       name: "Crescendo of Power",
       description:
         "Build to an overwhelming crescendo that empowers all your subsequent spells for the rest of combat.",
@@ -3462,8 +3410,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "empowered_performance",
+          { id : "empowered_performance",
             name: "Empowered Performance",
             description:
               "All your spells deal 25% more damage and healing for 5 rounds. Concentration required.",
@@ -3495,8 +3442,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["buff", "self", "empowerment", "level 9"],
     },
 
-    {
-      id: "minstrel_requiem_of_the_fallen",
+    { id: "minstrel_requiem_of_the_fallen",
       name: "Requiem of the Fallen",
       description:
         "A mournful yet powerful requiem that damages enemies while granting allies the spirits of fallen heroes.",
@@ -3548,8 +3494,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statusEffect",
         effects: [
-          {
-            id: "spirit_of_heroes",
+          { id : "spirit_of_heroes",
             name: "Spirit of Heroes",
             description:
               "Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds.",
@@ -3582,8 +3527,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["damage", "buff", "aoe", "resolver", "level 9"],
     },
 
-    {
-      id: "minstrel_tempo_mastery",
+    { id: "minstrel_tempo_mastery",
       name: "Tempo Mastery",
       description:
         "Gain complete control over the tempo of battle, granting allies extra actions while slowing enemies.",
@@ -3622,8 +3566,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statusEffect",
         effects: [
-          {
-            id: "accelerated_tempo",
+          { id : "accelerated_tempo",
             name: "Accelerated Tempo",
             description:
               "Allies gain an extra 1 AP on their next turn for 2 rounds.",
@@ -3640,8 +3583,7 @@ Before combat, decide which cadences you want to prioritize:
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "slowed_tempo",
+          { id : "slowed_tempo",
             name: "Slowed Tempo",
             description:
               "Enemies lose their reaction and have their speed halved for 3 rounds.",
@@ -3681,8 +3623,7 @@ Before combat, decide which cadences you want to prioritize:
     // ========================================
     // LEVEL 10 SPELLS
     // ========================================
-    {
-      id: "minstrel_legendary_performance",
+    { id: "minstrel_legendary_performance",
       name: "Legendary Performance",
       description:
         "The pinnacle of musical mastery - a performance so profound it reshapes reality itself, dealing massive damage to enemies and granting allies legendary power.",
@@ -3765,8 +3706,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "legendary_inspiration",
+          { id : "legendary_inspiration",
             name: "Legendary Inspiration",
             description:
               "Allies gain +3 to attack rolls, +2 Armor, and immunity to fear and charm for 5 rounds.",
@@ -3799,8 +3739,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["damage", "buff", "aoe", "ultimate", "level 10"],
     },
 
-    {
-      id: "minstrel_song_of_creation",
+    { id: "minstrel_song_of_creation",
       name: "Song of Creation",
       description:
         "Sing the primal song of creation, summoning a powerful ally from pure musical energy and enhancing all allies with creative power.",
@@ -3837,8 +3776,7 @@ Before combat, decide which cadences you want to prioritize:
 
       summonConfig: {
         creatures: [
-          {
-            id: "musical_avatar",
+          { id : "musical_avatar",
             name: "Avatar of Music",
             description:
               "A being of pure musical energy that fights alongside you",
@@ -3872,8 +3810,7 @@ Before combat, decide which cadences you want to prioritize:
       buffConfig: {
         buffType: "statusEffect",
         effects: [
-          {
-            id: "creative_energy",
+          { id : "creative_energy",
             name: "Creative Energy",
             description:
               "Allies gain +1 to all ability scores for the duration of the summon",
@@ -3906,8 +3843,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["summoning", "buff", "ultimate", "level 10"],
     },
 
-    {
-      id: "minstrel_final_cadence",
+    { id: "minstrel_final_cadence",
       name: "Final Cadence",
       description:
         "The ultimate cadence that consumes all accumulated musical energy to deliver a finishing blow that can end any battle.",
@@ -3971,8 +3907,7 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     // ADDITIONAL LEVEL 4 SPELL
-    {
-      id: "minstrel_harmony_strike",
+    { id: "minstrel_harmony_strike",
       name: "Harmony Strike",
       description:
         "Strike with harmonic resonance, dealing force damage and generating musical notes.",
@@ -4027,8 +3962,7 @@ Before combat, decide which cadences you want to prioritize:
       tags: ["damage", "force", "note generation", "universal"],
     },
     // ===== PASSIVE ABILITIES =====
-    {
-      id: "minstrel_instrument_dependency",
+    { id: "minstrel_instrument_dependency",
       name: "Instrument Dependency",
       description:
         "Your magic flows through your instrument. You must have a musical instrument equipped to cast any spell. If you are disarmed, silenced, or your instrument is destroyed, you cannot cast spells or maintain active songs. A replacement instrument costs 50 gold and requires a short rest to attune.",
@@ -4046,8 +3980,7 @@ Before combat, decide which cadences you want to prioritize:
       resolution: "AUTOMATIC",
       tags: ["passive", "minstrel", "restriction"],
     },
-    {
-      id: "minstrel_songbird_fragility",
+    { id: "minstrel_songbird_fragility",
       name: "Songbird Fragility",
       description:
         "While you are playing an active song or maintaining a cadence, your guard is lowered. You suffer -2 Armor for the duration of any actively maintained musical effect. This penalty stacks with other effects but cannot reduce Passive DR below 0.",
@@ -4065,8 +3998,7 @@ Before combat, decide which cadences you want to prioritize:
       resolution: "AUTOMATIC",
       tags: ["passive", "minstrel", "weakness"],
     },
-    {
-      id: "minstrel_dissonant_feedback",
+    { id: "minstrel_dissonant_feedback",
       name: "Dissonant Feedback",
       description:
         "When a musical combo fails (wrong notes played, interrupted, or target resists your cadence), the discordant energy feeds back through your instrument. You take 1d4 psychic damage per note level of the failed combo. This damage cannot be reduced or prevented.",

@@ -1,5 +1,5 @@
 export const COVENBANE_DATA = {
-  id: "covenbane",
+  id : "covenbane",
   name: "Covenbane",
   icon: "fas fa-crosshairs",
   color: "#8B4513",
@@ -333,32 +333,28 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
   // Class Features
   features: [
-    {
-      id: "witch_hunter_training",
+    { id : "witch_hunter_training",
       name: "Witch Hunter Training",
       description:
         "You gain proficiency with light armor, medium armor, shields, simple weapons, martial weapons, and alchemist's supplies.",
       level: 1,
     },
     
-    {
-      id: "hexbreaker_charges",
+    { id : "hexbreaker_charges",
       name: "Hexbreaker Charges",
       description:
         "You build Hexbreaker charges exclusively through anti-magic events — being targeted by spells, dispelling enchantments, witnessing spell failure, and destroying evil magic users. Mundane combat generates no charges. Charges decay -1/round without magical opposition.",
       level: 1,
     },
     
-    {
-      id: "covenbane_magic",
+    { id : "covenbane_magic",
       name: "Covenbane Magic",
       description:
         "You know the cantrips Light and Sacred Flame. At 2nd level you learn the spell Detect Magic.",
       level: 1,
     },
     
-    {
-      id: "witch_hunters_precision",
+    { id : "witch_hunters_precision",
       name: "Witch Hunter's Precision",
       description:
         "Every 3rd weapon attack against an evil magic user deals 1d6 radiant damage that bypasses resistance and immunity. This damage cannot be reduced by any means.",
@@ -368,8 +364,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
   // Talent Trees
   talentTrees: [
-    {
-      id: "shadowbane",
+    { id : "shadowbane",
       name: "Shadowbane - Stealth & Assassination",
       description:
         "Masters of darkness and surprise, striking from the shadows to eliminate evil magic users.",
@@ -378,8 +373,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       talents: [],
     },
     
-    {
-      id: "spellbreaker",
+    { id : "spellbreaker",
       name: "Spellbreaker - Anti-Magic Mastery",
       description:
         "Specialists in disrupting and destroying magical effects and spellcasters.",
@@ -388,8 +382,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       talents: [],
     },
     
-    {
-      id: "demonhunter",
+    { id : "demonhunter",
       name: "Demonhunter - Relentless Pursuit",
       description:
         "Fanatical hunters who mark and relentlessly pursue evil creatures across any distance.",
@@ -405,8 +398,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
   exampleSpells: [
     // ===== LEVEL 1 SPELLS — Fundamentals (0 charges) =====
 
-    {
-      id: "cov_shadow_hunt",
+    { id : "cov_shadow_hunt",
       name: "Scent of Ash",
       description:
         "Mark a creature within 60 feet with a spectral brand of ash, sensing its presence and direction. Attacks against the marked target gain advantage and deal +1d4 radiant damage for 10 minutes.",
@@ -456,8 +448,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
               magnitudeType: "special",
             },
           },
-          {
-            id: "mark_radiant_bonus",
+          { id : "mark_radiant_bonus",
             name: "Mark Weakness",
             description:
               "+1d4 radiant damage on weapon attacks against the marked target",
@@ -474,8 +465,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["tracking", "marking", "utility", "shadowbane"],
     },
 
-    {
-      id: "cov_hex_strike",
+    { id : "cov_hex_strike",
       name: "Null-Salts Strike",
       description:
         "Imbue your weapon with flesh-burning null-salts. Your next melee attack deals +1d6 necrotic damage and generates 1 Hexbreaker Charge on hit. Against evil magic users, the damage increases to +1d8.",
@@ -541,8 +531,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["damage", "weapon", "charge generation"],
     },
 
-    {
-      id: "cov_silver_blade",
+    { id : "cov_silver_blade",
       name: "Agonizing Silver Binding",
       description:
         "Coat your blade in liquid silver for 1 minute. Each attack deals +1d4 radiant damage. Against evil creatures, attacks also bypass magical resistance.",
@@ -608,8 +597,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["weapon", "anti magic", "resistance piercing", "demonhunter"],
     },
 
-    {
-      id: "cov_dark_pursuit",
+    { id : "cov_dark_pursuit",
       name: "Ash Step",
       description:
         "Dash 30 feet on a wave of living ash, ignoring difficult terrain and opportunity attacks. Gain advantage on your next melee attack.",
@@ -647,8 +635,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
         utilityType: "movement",
         utilitySubtype: "speed",
         selectedEffects: [
-          {
-            id: "shadow_dash",
+          { id : "shadow_dash",
             name: "Shadow Dash",
             description:
               "Dash 30 feet without provoking opportunity attacks. Ignore difficult terrain until end of turn.",
@@ -663,8 +650,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       buffConfig: {
         buffType: "combatAdvantage",
         effects: [
-          {
-            id: "pursuit_advantage",
+          { id : "pursuit_advantage",
             name: "Relentless Strike",
             description: "Advantage on next melee attack this turn",
             mechanicsText: "",
@@ -692,8 +678,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["mobility", "speed", "utility", "shadowbane"],
     },
 
-    {
-      id: "cov_hex_weakness",
+    { id : "cov_hex_weakness",
       name: "Sigil of Rotting Mana",
       description:
         "Afflict a target with a sigil unraveling their magic for 1 minute. Spell attacks suffer -2 penalty and spell save DC drops by 1. Evil casters have disadvantage on concentration checks when taking damage.",
@@ -733,8 +718,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "weakened_magic",
+          { id : "weakened_magic",
             name: "Weakened Magic",
             description:
               "Spell attack rolls reduced by 2, spell save DC reduced by 1",
@@ -744,8 +728,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
             ],
             mechanicsText: "-2 Spell Attack, -1 Spell DC",
           },
-          {
-            id: "concentration_disruption",
+          { id : "concentration_disruption",
             name: "Concentration Disruption",
             description:
               "Evil magic users have disadvantage on concentration checks when taking damage",
@@ -784,8 +767,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["debuff", "curse", "anti magic", "spellbreaker"],
     },
 
-    {
-      id: "cov_silver_bolt",
+    { id : "cov_silver_bolt",
       name: "Silver Bolt",
       description:
         "Launch a guided bolt of hardened silver light at a target within 60 feet. Deals 2d8 radiant damage. Against evil creatures, the bolt curves around cover and cannot be intercepted.",
@@ -850,8 +832,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
     // ===== LEVEL 3 SPELLS — Mid-Tier Tools (1-2 charges) =====
 
-    {
-      id: "cov_curse_eater",
+    { id : "cov_curse_eater",
       name: "Curse Eater",
       description:
         "Tear a curse, hex, or magical affliction from a creature you touch, healing them for 2d8 and gaining 1 Hexbreaker Charge if the affliction was evil magic.",
@@ -905,8 +886,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["dispel", "anti magic", "healing", "spellbreaker"],
     },
 
-    {
-      id: "cov_shadow_ambush",
+    { id : "cov_shadow_ambush",
       name: "Shadow Ambush",
       description:
         "Dissolve into living shadow, becoming invisible for up to 1 minute. Your first melee attack from this state deals +2d6 necrotic damage with advantage and frightens evil magic users.",
@@ -944,15 +924,14 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       buffConfig: {
         buffType: "statusEffectBuff",
         effects: [
-          {
-            id: "shadow_veil",
+          { id : "shadow_veil",
             name: "Shadow Veil",
             description:
               "Invisible to all creatures. Next melee attack deals +2d6 necrotic with advantage. Frightens evil magic users on hit.",
             mechanicsText: "2d6 necrotic",
           },
         ],
-        statusEffects: [{ id: "invisible", level: 1 }],
+        statusEffects: [{ id : "invisible", level: 1 }],
         durationType: "minutes",
         durationValue: 1,
         durationUnit: "minutes",
@@ -975,8 +954,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["stealth", "utility", "shadowbane"],
     },
 
-    {
-      id: "cov_anti_magic_barrier",
+    { id : "cov_anti_magic_barrier",
       name: "Anti-Magic Barrier",
       description:
         "Project a 10-foot dome of anti-magic light for 3 rounds. Enemy spellcasters inside must Con save DC 14 or their spells fail. Allies inside gain +2 to saves against magic.",
@@ -1017,8 +995,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       utilityConfig: {
         utilityType: "environment",
         selectedEffects: [
-          {
-            id: "spell_disruption_zone",
+          { id : "spell_disruption_zone",
             name: "Spell Disruption Zone",
             description:
               "Enemy spellcasters in zone must Con save DC 14 or spell fails. Allies gain +2 to saves vs magic.",
@@ -1034,8 +1011,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "magic_resistance_aura",
+          { id : "magic_resistance_aura",
             name: "Magic Resistance Aura",
             description:
               "+2 to all saving throws against spells and magical effects while inside the barrier",
@@ -1054,8 +1030,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
     // ===== LEVEL 4 SPELLS — Strong Effects (2-3 charges) =====
 
-    {
-      id: "cov_silver_hex",
+    { id : "cov_silver_hex",
       name: "Silver Hex",
       description:
         "Brand a creature with a silver sigil that makes them vulnerable to radiant damage — all radiant damage from all sources is doubled. Evil magic users also suffer disadvantage on concentration checks when taking damage.",
@@ -1095,8 +1070,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "radiant_vulnerability",
+          { id : "radiant_vulnerability",
             name: "Radiant Vulnerability",
             description:
               "Vulnerable to radiant damage from all sources — radiant damage taken is doubled",
@@ -1107,8 +1081,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
             },
             mechanicsText: "Radiant damage doubled",
           },
-          {
-            id: "silver_concentration_break",
+          { id : "silver_concentration_break",
             name: "Silver Disruption",
             description:
               "Evil magic users have disadvantage on concentration checks when taking damage",
@@ -1147,8 +1120,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["debuff", "curse", "anti magic", "demonhunter"],
     },
 
-    {
-      id: "cov_spirit_shackle",
+    { id : "cov_spirit_shackle",
       name: "Spirit Shackle",
       description:
         "Pin a target's shadow to the ground with anti-magic chains. ⚠️ REQUIRES 3+ HEXBREAKER CHARGES. The target is restrained for up to 1 minute (Spirit save DC 15 at end of each turn ends the effect). Attacks against the restrained target have advantage. Against evil magic users, the target is also silenced. This is the Covenbane's ONLY hard CC — it demands heavy resource investment and is useless without charges built up from absorbing enemy magic.",
@@ -1199,8 +1171,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "spirit_bind",
+          { id : "spirit_bind",
             name: "Spirit Bind",
             description:
               "Restrained. Speed reduced to 0. Attacks against target have advantage. Spirit save at end of each turn to break free. Silenced against evil magic users.",
@@ -1232,8 +1203,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["crowd control", "root", "silence", "control", "shadowbane"],
     },
 
-    {
-      id: "cov_hexbreaker_precision",
+    { id : "cov_hexbreaker_precision",
       name: "Hexbreaker Precision",
       description:
         "Enter a state of magical perception for 1 minute. Gain +3 to attack rolls and +1d6 radiant damage on weapon attacks. Against evil magic users, your critical hit range expands to 19-20.",
@@ -1271,8 +1241,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "precision_focus",
+          { id : "precision_focus",
             name: "Hexbreaker Precision",
             description:
               "+3 to attack rolls, +1d6 radiant damage on weapon attacks. Expanded crit range vs evil magic users (19-20).",
@@ -1283,14 +1252,12 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
               magnitudeType: "flat",
             },
           },
-          {
-            id: "precision_damage",
+          { id : "precision_damage",
             name: "Radiant Strikes",
             description: "+1d6 radiant damage on all weapon attacks",
             mechanicsText: "1d6 radiant",
           },
-          {
-            id: "precision_crit",
+          { id : "precision_crit",
             name: "Weakness Sight",
             description:
               "Critical hit range expanded by 1 against evil magic users",
@@ -1320,8 +1287,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["buff", "accuracy", "anti magic", "demonhunter"],
     },
 
-    {
-      id: "cov_silver_storm",
+    { id : "cov_silver_storm",
       name: "Silver Storm",
       description:
         "Fill a 20ft radius with whirling silver shards. Deals 5d6 radiant (Agility save DC 15 halves). Marks survivors — attacks vs marked creatures have advantage until your next turn.",
@@ -1376,8 +1342,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "storm_mark",
+          { id : "storm_mark",
             name: "Silver Mark",
             description:
               "Attacks against this creature have advantage until end of caster's next turn",
@@ -1409,8 +1374,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["damage", "aoe", "radiant", "demonhunter"],
     },
 
-    {
-      id: "cov_hexbreaker_execution",
+    { id : "cov_hexbreaker_execution",
       name: "Hexbreaker Execution",
       description:
         "Channel Hexbreaker energy into a devastating melee strike. Deals 6d10 radiant damage to any target. Against evil magic users at 25 HP or lower, the target is instantly killed (Con save DC 16 negates). On kill, gain 2 charges.",
@@ -1469,8 +1433,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "divine_execution",
+          { id : "divine_execution",
             name: "Divine Execution",
             description:
               "Instantly kill evil magic users at 25 HP or lower. On kill: gain 2 Hexbreaker Charges. Non-evil targets take damage only.",
@@ -1499,8 +1462,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["execute", "control", "melee", "shadowbane"],
     },
 
-    {
-      id: "cov_anti_magic_field",
+    { id : "cov_anti_magic_field",
       name: "Anti-Magic Field",
       description:
         "Speak a word of absolute negation, creating a 15ft anti-magic sphere for 1 minute. No spells can be cast, summons vanish, magic items are suppressed, and concentration ends on entry.",
@@ -1540,8 +1502,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       utilityConfig: {
         utilityType: "environment",
         selectedEffects: [
-          {
-            id: "anti_magic_zone",
+          { id : "anti_magic_zone",
             name: "Anti-Magic Zone",
             description:
               "15ft sphere. No spells cast, summoned creatures vanish, magic items suppressed, concentration ends on entry. Moves with caster. Caster unaffected.",
@@ -1556,8 +1517,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["aoe", "anti magic", "suppression", "spellbreaker"],
     },
 
-    {
-      id: "cov_hunters_net",
+    { id : "cov_hunters_net",
       name: "Hunter's Net",
       description:
         "Hurl a net of silver chains filling a 20ft radius. Targets are restrained and take 6d8 radiant damage (Strength save DC 16 negates). Against evil magic users, targets are also silenced and take 2d6 additional radiant each turn.",
@@ -1621,8 +1581,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "silver_net",
+          { id : "silver_net",
             name: "Silver Chains",
             description:
               "Restrained, silenced, speed reduced to 5ft. Takes 2d6 radiant damage at start of each turn. Str save at end of each turn to break free.",
@@ -1657,8 +1616,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
     // ===== LEVEL 6 SPELLS — Devastating (4-5 charges) =====
 
-    {
-      id: "cov_hexbreaker_fury",
+    { id : "cov_hexbreaker_fury",
       name: "Hexbreaker Fury",
       description:
         "Unleash a devastating shockwave of shadow and light in a 25-foot radius. Deals 8d6 necrotic damage (Con save DC 17 halves) and stuns targets for 1 round.",
@@ -1721,8 +1679,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "anti_magic_burst",
+          { id : "anti_magic_burst",
             name: "Anti-Magic Burst",
             description:
               "Stunned for 1 round on failed save. Half damage on successful save.",
@@ -1751,8 +1708,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["aoe", "damage", "stun", "ultimate", "spellbreaker"],
     },
 
-    {
-      id: "cov_shadow_eruption",
+    { id : "cov_shadow_eruption",
       name: "Shadow Eruption",
       description:
         "Erupt shadows upward in a 15-foot cone. Deals 8d6 necrotic damage (Agility save DC 17 halves) and blinds targets for 2 rounds, causing them to move randomly.",
@@ -1806,8 +1762,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "shadow_blindness",
+          { id : "shadow_blindness",
             name: "Shadow Blindness",
             description:
               "Blinded for 2 rounds. Cannot see, automatically fails sight-based checks, disadvantage on attack rolls. Moves in a random direction at start of each turn.",
@@ -1847,8 +1802,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["aoe", "damage", "debuff", "vision", "shadowbane"],
     },
 
-    {
-      id: "cov_spell_nullification",
+    { id : "cov_spell_nullification",
       name: "Spell Nullification",
       description:
         "Seal one of the target's known spells for 1 hour, making it completely inaccessible. Deals 3d8 psychic damage to evil magic users (Spirit save DC 17 negates).",
@@ -1910,8 +1864,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "spell_seal",
+          { id : "spell_seal",
             name: "Spell Seal",
             description:
               "One known spell becomes completely inaccessible for 1 hour. The sealed spell cannot be cast, prepared, or recalled. 3d8 psychic damage to evil magic users.",
@@ -1943,8 +1896,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
     // ===== LEVEL 7 SPELLS — Near-Ultimate (5-6 charges) =====
 
-    {
-      id: "cov_hexbreaker_storm",
+    { id : "cov_hexbreaker_storm",
       name: "Hexbreaker Storm",
       description:
         "Summon a persistent anti-magic storm in a 30-foot radius for 1 minute. Deals 3d8 radiant damage per round, imposes disadvantage on spellcasting, and prevents mana recovery.",
@@ -2002,8 +1954,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       debuffConfig: {
         debuffType: "abilityDisable",
         effects: [
-          {
-            id: "anti_magic_weakening",
+          { id : "anti_magic_weakening",
             name: "Anti-Magic Weakening",
             description:
               "Spellcasting at disadvantage. Cannot regain mana or class resources. 3d8 radiant damage per round.",
@@ -2031,8 +1982,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       ],
     },
 
-    {
-      id: "cov_apex_predator",
+    { id : "cov_apex_predator",
       name: "Apex Predator",
       description:
         "Transform into a Void Hunter for 5 rounds, existing partially in the void. Immune to non-magical damage, teleport to attack visible creatures for free, and ignore Armor from physical armor and magic shields.",
@@ -2077,19 +2027,16 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
         description:
           "Exist partially in the void, striking from impossible angles for 5 rounds.",
         grantedAbilities: [
-          {
-            id: "void_existence",
+          { id : "void_existence",
             name: "Void Existence",
             description: "Immune to all non-magical damage",
           },
-          {
-            id: "teleport_strike",
+          { id : "teleport_strike",
             name: "Teleport Strike",
             description:
               "Teleport to any visible creature as part of a melee attack (no action cost)",
           },
-          {
-            id: "ignore_defenses",
+          { id : "ignore_defenses",
             name: "Ignore Defenses",
             description:
               "Attacks ignore Armor bonuses from physical armor and magical shields",
@@ -2111,8 +2058,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["transformation", "mobility", "damage", "shadowbane"],
     },
 
-    {
-      id: "cov_final_hour",
+    { id : "cov_final_hour",
       name: "Final Hour",
       description:
         "When death nears, righteous fury takes hold for 3 rounds. Regain 50% HP, deal +3d8 radiant damage per attack, become immune to fear and charm, and cannot drop below 1 HP.",
@@ -2150,8 +2096,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       buffConfig: {
         buffType: "statusEffectBuff",
         effects: [
-          {
-            id: "dying_fury",
+          { id : "dying_fury",
             name: "Dying Fury",
             description:
               "Regain 50% of max HP. Attacks deal +3d8 radiant damage. Immune to fear and charm. Cannot be reduced below 1 HP by damage.",
@@ -2164,8 +2109,8 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
           },
         ],
         statusEffects: [
-          { id: "fear_immune", level: 1 },
-          { id: "charm_immune", level: 1 },
+          { id : "fear_immune", level: 1 },
+          { id : "charm_immune", level: 1 },
         ],
         durationType: "rounds",
         durationValue: 3,
@@ -2196,8 +2141,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
     // ===== LEVEL 8 SPELLS — Ultimate-Tier (6 charges) =====
 
-    {
-      id: "cov_judgment_day",
+    { id : "cov_judgment_day",
       name: "Judgment Day",
       description:
         "Call down pillars of divine fire in a 40-foot radius. Deals 10d10 radiant damage (Charisma save DC 19 halves) against evil creatures.",
@@ -2268,8 +2212,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["aoe", "damage", "judgment", "demonhunter"],
     },
 
-    {
-      id: "cov_shadow_ascendant",
+    { id : "cov_shadow_ascendant",
       name: "Shadow Ascendant",
       description:
         "Ascend to shadow form for 4 rounds. Melee reaches 30ft, bonus 2d6 necrotic strike vs different target, swap positions with any creature within 60ft.",
@@ -2313,20 +2256,17 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
         newForm: "Shadow Ascendant",
         description: "Ascend to pure shadow form for 4 rounds.",
         grantedAbilities: [
-          {
-            id: "shadow_reach",
+          { id : "shadow_reach",
             name: "Shadow Reach",
             description: "Melee attack range extends to 30ft",
           },
-          {
-            id: "shadow_echo",
+          { id : "shadow_echo",
             name: "Shadow Echo",
             description:
               "After each attack, make a second attack dealing 2d6 necrotic damage against a different target within 15ft",
             damageFormula: "2d6",
           },
-          {
-            id: "shadow_step",
+          { id : "shadow_step",
             name: "Shadow Step",
             description:
               "Swap positions with any creature within 60ft for 1 AP, becoming invisible until start of next turn",
@@ -2348,8 +2288,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["transformation", "stealth", "damage", "shadowbane"],
     },
 
-    {
-      id: "cov_anti_magic_storm",
+    { id : "cov_anti_magic_storm",
       name: "Anti-Magic Storm",
       description:
         "Summon a storm of anti-magic negation in a 35-foot radius for 3 rounds. Deals 10d6 necrotic damage, spells cast inside require 2 extra mana or fail, and magic items lose their enchantments.",
@@ -2399,8 +2338,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       debuffConfig: {
         debuffType: "abilityDisable",
         effects: [
-          {
-            id: "magic_suppression_field",
+          { id : "magic_suppression_field",
             name: "Magic Suppression",
             description:
               "All spells cast in area require 2 additional mana or fail. Magic items lose all enchantment bonuses.",
@@ -2438,8 +2376,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
     // ===== LEVEL 9 SPELLS — Near-Pinnacle (6 charges) =====
 
-    {
-      id: "cov_hexbreaker_apocalypse",
+    { id : "cov_hexbreaker_apocalypse",
       name: "Hexbreaker Apocalypse",
       description:
         "Unleash absolute negation in a 60-foot radius. Deals 12d10 necrotic damage (Charisma save DC 20 halves), destroys all magical effects and summons, and renders magic items inert for 1 hour.",
@@ -2497,8 +2434,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       utilityConfig: {
         utilityType: "environment",
         selectedEffects: [
-          {
-            id: "apocalypse_field",
+          { id : "apocalypse_field",
             name: "Apocalypse Field",
             description:
               "60ft sphere. All magical effects, enchantments, and summons destroyed. Magic items rendered inert for 1 hour. Spellcasters silenced for 1d4 rounds. The area counts as difficult terrain for 10 minutes.",
@@ -2525,8 +2461,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["aoe", "damage", "permanent", "spellbreaker"],
     },
 
-    {
-      id: "cov_void_hunter",
+    { id : "cov_void_hunter",
       name: "Void Hunter",
       description:
         "Phase into the void between worlds for 3 rounds. Become intangible and undetectable, deal 4d10 necrotic damage per melee attack bypassing all defenses, and teleport up to 120ft as a free action.",
@@ -2582,21 +2517,18 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
         newForm: "Void Hunter",
         description: "Phase into the void between worlds for 3 rounds.",
         grantedAbilities: [
-          {
-            id: "void_phase",
+          { id : "void_phase",
             name: "Void Phase",
             description:
               "Intangible — immune to all damage and effects. Cannot be detected by any means.",
           },
-          {
-            id: "void_strike",
+          { id : "void_strike",
             name: "Void Strike",
             description:
               "Melee attacks from the void deal 4d10 necrotic damage and bypass all armor and resistances",
             damageFormula: "4d10",
           },
-          {
-            id: "void_teleport",
+          { id : "void_teleport",
             name: "Void Teleport",
             description:
               "Teleport to any unoccupied space within 120ft as a free action",
@@ -2606,8 +2538,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["transformation", "stealth", "assassination", "shadowbane"],
     },
 
-    {
-      id: "cov_divine_executioner",
+    { id : "cov_divine_executioner",
       name: "Divine Executioner",
       description:
         "Become an instrument of divine justice for 5 rounds. Instantly read all creatures' alignments, deal +4d10 radiant damage against evil with weapon attacks, and gain complete immunity to evil-sourced damage and effects.",
@@ -2651,21 +2582,18 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
         newForm: "Divine Executioner",
         description: "Become an instrument of divine justice for 5 rounds.",
         grantedAbilities: [
-          {
-            id: "divine_judge",
+          { id : "divine_judge",
             name: "Divine Judge",
             description:
               "Instantly know the true alignment of every creature you can see",
           },
-          {
-            id: "execution_strike",
+          { id : "execution_strike",
             name: "Execution Strike",
             description:
               "Weapon attacks deal +4d10 radiant damage against evil creatures",
             damageFormula: "4d10",
           },
-          {
-            id: "evil_immunity",
+          { id : "evil_immunity",
             name: "Evil Immunity",
             description:
               "Immune to all damage and effects from evil-aligned creatures and sources",
@@ -2689,8 +2617,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
 
     // ===== LEVEL 10 SPELLS — Ultimate (6 charges) =====
 
-    {
-      id: "cov_hexbreaker_armageddon",
+    { id : "cov_hexbreaker_armageddon",
       name: "Hexbreaker Armageddon",
       description:
         "Erase all magic in a 100ft radius permanently. Deals 18d6 necrotic damage (Cha save DC 20 negates), all spells and enchantments destroyed, and evil casters who fail lose spellcasting permanently.",
@@ -2747,8 +2674,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       utilityConfig: {
         utilityType: "environment",
         selectedEffects: [
-          {
-            id: "permanent_magic_ending",
+          { id : "permanent_magic_ending",
             name: "Permanent Magic Death",
             description:
               "100ft sphere. All magic permanently destroyed. Spells fail, enchantments end, magic items become inert. Magic cannot function here again. Cha save or permanently lose spellcasting.",
@@ -2773,8 +2699,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["aoe", "damage", "permanent", "anti magic", "spellbreaker"],
     },
 
-    {
-      id: "cov_shadow_god",
+    { id : "cov_shadow_god",
       name: "Shadow God",
       description:
         "Ascend to shadow godhood for 3 rounds. Immune to all damage except radiant, teleport freely within 120ft, and attacks against evil auto-crit. Gain 2 exhaustion levels when it ends.",
@@ -2830,25 +2755,21 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
         newForm: "Shadow God",
         description: "Ascend to the pinnacle of shadow mastery for 3 rounds.",
         grantedAbilities: [
-          {
-            id: "shadow_immunity",
+          { id : "shadow_immunity",
             name: "Shadow Immunity",
             description: "Immune to all damage except radiant",
           },
-          {
-            id: "instant_teleport",
+          { id : "instant_teleport",
             name: "Instant Teleport",
             description:
               "Teleport anywhere within 120ft as a free action (no action points)",
           },
-          {
-            id: "auto_crit_evil",
+          { id : "auto_crit_evil",
             name: "Auto-Crit Evil",
             description:
               "All attacks against evil creatures automatically critical hit",
           },
-          {
-            id: "shadow_exhaustion",
+          { id : "shadow_exhaustion",
             name: "Shadow Exhaustion",
             description: "Gain 2 levels of exhaustion when transformation ends",
           },
@@ -2857,8 +2778,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       tags: ["transformation", "ultimate", "shadowbane"],
     },
 
-    {
-      id: "cov_divine_incarnation",
+    { id : "cov_divine_incarnation",
       name: "Divine Incarnation",
       description:
         "Become an avatar of divine judgment for 3 rounds. Evil creatures within 30ft take 3d8 radiant damage per round, you're immune to evil-sourced damage, and once per round instantly kill an evil creature at 50 HP or below. Gain 2 exhaustion levels when it ends.",
@@ -2914,27 +2834,23 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
         newForm: "Divine Incarnation",
         description: "Become an avatar of divine justice for 3 rounds.",
         grantedAbilities: [
-          {
-            id: "divine_aura",
+          { id : "divine_aura",
             name: "Divine Aura",
             description:
               "Evil creatures within 30ft take 3d8 radiant damage per round and are frightened",
             damageFormula: "3d8",
           },
-          {
-            id: "evil_immunity_full",
+          { id : "evil_immunity_full",
             name: "Complete Evil Immunity",
             description:
               "Immune to all damage and effects from evil creatures and sources",
           },
-          {
-            id: "execution_blow",
+          { id : "execution_blow",
             name: "Execution Blow",
             description:
               "Once per round, instantly kill any evil creature within 30ft that has 50 HP or fewer",
           },
-          {
-            id: "divine_exhaustion",
+          { id : "divine_exhaustion",
             name: "Divine Exhaustion",
             description: "Gain 2 levels of exhaustion when transformation ends",
           },
@@ -2942,7 +2858,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       },
       tags: ["transformation", "ultimate", "demonhunter"],
     },    {
-      id: "cov_silver_dependency",
+      id : "cov_silver_dependency",
       name: "Silver Dependency",
       description:
         "Your anti-magic weapons must be coated in silver. You begin each encounter with 5 Silver Coatings. Each anti-magic or anti-spell ability costs 1 Silver Coating. At 0 coatings, anti-magic abilities have their duration halved and their save DC reduced by 2.",
@@ -2968,8 +2884,7 @@ Covenbanes know that power demands an agonizing toll. They do not save lives; th
       resolution: "AUTOMATIC",
       tags: ["passive", "resource", "silver", "anti-magic dependency", "covenbane"],
     },
-    {
-      id: "cov_righteous_fury",
+    { id : "cov_righteous_fury",
       name: "Righteous Fury",
       description:
         "You cannot attack allies, even if they are mind-controlled, charmed, or possessed. You must find another way to break the effect. Your oath forbids harming the innocent -- even when they wear an enemy's face.",

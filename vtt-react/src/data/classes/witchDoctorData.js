@@ -15,7 +15,7 @@
  */
 
 export const WITCH_DOCTOR_DATA = {
-  id: "witch-doctor",
+  id : "witch-doctor",
   name: "Witch Doctor",
   icon: "fas fa-skull",
   role: "Support/Control",
@@ -495,8 +495,7 @@ SPEC DISCOUNTS:
     },
 
     specs: [
-      {
-        id: "bokor",
+      { id : "bokor",
         name: "Bokor",
         icon: "Necrotic/Arise",
         color: "#8B008B",
@@ -532,8 +531,7 @@ SPEC DISCOUNTS:
         ],
       },
 
-      {
-        id: "mambo",
+      { id : "mambo",
         name: "Mambo",
         icon: "Healing/Heal Wound",
         color: "#20B2AA",
@@ -570,8 +568,7 @@ SPEC DISCOUNTS:
         ],
       },
 
-      {
-        id: "houngan",
+      { id : "houngan",
         name: "Houngan",
         icon: "General/Rage",
         color: "#DC143C",
@@ -614,8 +611,7 @@ SPEC DISCOUNTS:
   // =============================================
   spells: [
     // ===== LEVEL 1 SPELLS =====
-    {
-      id: "witch_doctor_withering_hex",
+    { id: "witch_doctor_withering_hex",
       name: "Withering Hex",
       description:
         "Afflict an enemy with a necrotic hex that deals 1d6 + spirit necrotic damage immediately, then withers them for 1d6 + spirit necrotic damage per round for 3 rounds. Counts as a curse toward Baron Samedi's precursor.",
@@ -671,8 +667,7 @@ SPEC DISCOUNTS:
       tags: ["attack", "damage", "curse", "necrotic", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_venomous_sting",
+    { id: "witch_doctor_venomous_sting",
       name: "Venomous Sting",
       description:
         "Coat your weapon with a mild voodoo toxin. Your next attack deals additional poison damage and weakens the target.",
@@ -689,8 +684,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "venomous_sting",
+          { id : "venomous_sting",
             name: "Venomous Sting",
             description:
               "Next weapon attack deals +1d4 poison damage and reduces target Strength by 1 for 2 rounds",
@@ -739,8 +733,7 @@ SPEC DISCOUNTS:
       tags: ["buff", "poison", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_spirit_link",
+    { id: "witch_doctor_spirit_link",
       name: "Spirit Link",
       description:
         "Link yourself to an ally, sharing damage 50/50 between you for 3 rounds.",
@@ -757,8 +750,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "spirit_link",
+          { id : "spirit_link",
             name: "Spirit Link",
             description:
               "Damage taken is split 50/50 between linked allies for 3 rounds",
@@ -802,8 +794,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 2 SPELLS =====
-    {
-      id: "witch_doctor_grave_bane",
+    { id: "witch_doctor_grave_bane",
       name: "Grave Bane",
       description:
         "Hurl a fistful of grave dirt that clings to your enemy, sapping their vitality and dulling their reflexes.",
@@ -833,8 +824,7 @@ SPEC DISCOUNTS:
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "grave_bane_slow",
+          { id : "grave_bane_slow",
             name: "Grave Bane",
             description: "Agility reduced by 2 for 3 rounds",
             statModifier: {
@@ -879,8 +869,7 @@ SPEC DISCOUNTS:
       tags: ["attack", "damage", "debuff", "necrotic", "curse", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_totem_of_warding",
+    { id: "witch_doctor_totem_of_warding",
       name: "Totem of Warding",
       description: "Place a small totem that shields nearby allies from harm.",
       level: 2,
@@ -896,8 +885,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "totem_warding",
+          { id : "totem_warding",
             name: "Totem of Warding",
             description:
               "Allies within 10 ft gain +1 to saving throws for 5 rounds",
@@ -916,8 +904,7 @@ SPEC DISCOUNTS:
       summoningConfig: {
         creatureType: "totem",
         creatures: [
-          {
-            id: "warding_totem",
+          { id : "warding_totem",
             name: "Warding Totem",
             description:
               "A small totem that grants +1 to saving throws for allies within 10 ft. Can be destroyed (8 HP, 8 Armor).",
@@ -962,8 +949,7 @@ SPEC DISCOUNTS:
       tags: ["buff", "totem", "support", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_mending_wax",
+    { id: "witch_doctor_mending_wax",
       name: "Mending Wax",
       description:
         "Apply a mystical wax salve to an ally, restoring 2d8 + spirit HP with the help of ancestral spirits.",
@@ -1010,8 +996,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 3 SPELLS =====
-    {
-      id: "witch_doctor_bone_shrapnel",
+    { id: "witch_doctor_bone_shrapnel",
       name: "Bone Shrapnel",
       description:
         "Conjure a burst of sharpened bone fragments that explode outward, dealing 3d6 + spirit necrotic damage to all enemies within 15 feet.",
@@ -1060,8 +1045,7 @@ SPEC DISCOUNTS:
       tags: ["attack", "damage", "aoe", "necrotic", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_witch_brew",
+    { id: "witch_doctor_witch_brew",
       name: "Witch Brew",
       description:
         "Rapidly distill a volatile elixir from bone dust and herbs. The brew grants +3 Agility and +2 Initiative for 3 rounds.",
@@ -1078,8 +1062,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "witch_brew_agility",
+          { id : "witch_brew_agility",
             name: "Witch Brew",
             description: "Gain +3 to Agility for 3 rounds",
             statModifier: {
@@ -1088,8 +1071,7 @@ SPEC DISCOUNTS:
               magnitudeType: "flat",
             },
           },
-          {
-            id: "witch_brew_initiative",
+          { id : "witch_brew_initiative",
             name: "Witch Brew",
             description: "Gain +2 to Initiative for 3 rounds",
             statModifier: {
@@ -1132,8 +1114,7 @@ SPEC DISCOUNTS:
       tags: ["buff", "support", "potion", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_soul_siphon",
+    { id: "witch_doctor_soul_siphon",
       name: "Soul Siphon",
       description:
         "Reach into the spirit of a wounded enemy and drain their life force, transferring it to yourself or an ally.",
@@ -1214,8 +1195,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 4 SPELLS =====
-    {
-      id: "witch_doctor_mass_curse",
+    { id: "witch_doctor_mass_curse",
       name: "Mass Curse",
       description:
         "Curse multiple enemies at once, dealing 2d6 + spirit necrotic damage immediately and 2d6 + spirit necrotic damage per round for 4 rounds to all targets. Each target counts as a cursed enemy toward Baron Samedi's precursor.",
@@ -1275,8 +1255,7 @@ SPEC DISCOUNTS:
       tags: ["attack", "damage", "curse", "aoe", "necrotic", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_voodoo_doll",
+    { id: "witch_doctor_voodoo_doll",
       name: "Voodoo Doll",
       description:
         "Create a voodoo doll of your enemy and deal 4d6 + spirit necrotic damage. For 3 rounds (concentration), damaging the doll deals the same damage to the linked enemy.",
@@ -1299,8 +1278,7 @@ SPEC DISCOUNTS:
       utilityConfig: {
         utilityType: "special",
         selectedEffects: [
-          {
-            id: "voodoo_doll",
+          { id : "voodoo_doll",
             name: "Voodoo Doll",
             description:
               "Creates a voodoo doll linked to target for 3 rounds (requires concentration). Damage the doll to hurt the target.",
@@ -1340,8 +1318,7 @@ SPEC DISCOUNTS:
       tags: ["damage", "utility", "voodoo", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_invoke_simbi",
+    { id: "witch_doctor_invoke_simbi",
       name: "Invoke Simbi",
       description:
         "Invoke Simbi, the loa of water and magic. Heals 4d8 + spirit HP instantly, then 1d8 + spirit/2 HP per round for 3 rounds. Target also gains +2 to spirit-based saves for 3 rounds. Costs 5 Voodoo Essence (3 for Mambo). Requires 1 ally below half HP.",
@@ -1368,8 +1345,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "simbi_blessing",
+          { id : "simbi_blessing",
             name: "Simbi's Blessing",
             description: "Gain +2 to spirit-based saves for 3 rounds",
             statModifier: {
@@ -1424,8 +1400,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 5 SPELLS =====
-    {
-      id: "witch_doctor_hex",
+    { id: "witch_doctor_hex",
       name: "Hex",
       description:
         "Place a powerful hex on your enemy that amplifies all damage they take by 25% for 4 rounds. Spirit save DC 15 negates. Counts as a curse toward Baron Samedi's precursor.",
@@ -1442,8 +1417,7 @@ SPEC DISCOUNTS:
       debuffConfig: {
         debuffType: "custom",
         effects: [
-          {
-            id: "hex",
+          { id : "hex",
             name: "Hex",
             description:
               "Target takes 25% more damage from all sources for 4 rounds",
@@ -1496,8 +1470,7 @@ SPEC DISCOUNTS:
       tags: ["debuff", "curse", "hex", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_zombie_swarm",
+    { id: "witch_doctor_zombie_swarm",
       name: "Zombie Swarm",
       description:
         "Summon 4 zombies to fight for you for 5 rounds. The zombies follow your mental commands within 60 feet.",
@@ -1513,8 +1486,7 @@ SPEC DISCOUNTS:
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "zombie",
+          { id : "zombie",
             name: "Zombie",
             description: "Shambling undead minion",
             size: "Medium",
@@ -1572,8 +1544,7 @@ SPEC DISCOUNTS:
       tags: ["summoning", "undead", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_venomous_weapon",
+    { id: "witch_doctor_venomous_weapon",
       name: "Venomous Weapon",
       description:
         "Apply a potent poison to your weapon, adding 2d4 poison damage to your attacks for 1 hour. Satisfies Ogoun's precursor condition.",
@@ -1590,8 +1561,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "venomous_weapon",
+          { id : "venomous_weapon",
             name: "Venomous Weapon",
             description: "Weapon deals additional 2d4 poison damage for 1 hour",
             customDescription:
@@ -1638,8 +1608,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 6 SPELLS =====
-    {
-      id: "witch_doctor_death_ward",
+    { id: "witch_doctor_death_ward",
       name: "Death Ward",
       description:
         "Protect an ally from death. When they would be reduced to 0 HP within 5 rounds, they are instead reduced to 1 HP. Triggers once.",
@@ -1656,8 +1625,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "death_ward",
+          { id : "death_ward",
             name: "Death Ward",
             description:
               "When you would be reduced to 0 HP, instead be reduced to 1 HP. Triggers once, lasts 5 rounds.",
@@ -1703,8 +1671,7 @@ SPEC DISCOUNTS:
       tags: ["buff", "defense", "protection", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_invoke_papa_legba",
+    { id: "witch_doctor_invoke_papa_legba",
       name: "Invoke Papa Legba",
       description:
         "Invoke Papa Legba, the loa of crossroads and gateways. Grant telepathy to all allies and teleport up to 5 allies within 1 mile.",
@@ -1721,13 +1688,11 @@ SPEC DISCOUNTS:
       utilityConfig: {
         utilityType: "special",
         selectedEffects: [
-          {
-            id: "papa_legba_telepathy",
+          { id : "papa_legba_telepathy",
             name: "Papa Legba's Telepathy",
             description: "All allies can communicate telepathically for 1 hour",
           },
-          {
-            id: "papa_legba_teleport",
+          { id : "papa_legba_teleport",
             name: "Crossroads Passage",
             description:
               "Teleport up to 5 allies to any previously seen location within 1 mile",
@@ -1772,8 +1737,7 @@ SPEC DISCOUNTS:
       tags: ["utility", "loa", "teleport", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_totem_of_healing",
+    { id: "witch_doctor_totem_of_healing",
       name: "Totem of Healing",
       description:
         "Place a healing totem that restores hit points to all allies within 10 feet each turn for 10 rounds.",
@@ -1800,8 +1764,7 @@ SPEC DISCOUNTS:
       summoningConfig: {
         creatureType: "totem",
         creatures: [
-          {
-            id: "healing_totem",
+          { id : "healing_totem",
             name: "Healing Totem",
             description:
               "Totem that heals allies within 10 feet each turn. Can be destroyed (10 HP, 10 Armor).",
@@ -1843,8 +1806,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 7 SPELLS =====
-    {
-      id: "witch_doctor_invoke_ogoun",
+    { id: "witch_doctor_invoke_ogoun",
       name: "Invoke Ogoun",
       description:
         "Invoke Ogoun, the loa of war and iron. Deals 8d8 + spirit×2 slashing damage to all enemies within 20 feet. All allies gain +3 to attack rolls and +2d6 fire damage on attacks for 4 rounds. Costs 8 Voodoo Essence (6 for Houngan). Requires poison active on any target.",
@@ -1872,8 +1834,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "ogoun_fury",
+          { id : "ogoun_fury",
             name: "Ogoun's Fury",
             description:
               "All allies gain +3 to attack rolls and +2d6 fire damage on attacks for 4 rounds",
@@ -1883,8 +1844,7 @@ SPEC DISCOUNTS:
               magnitudeType: "flat",
             },
           },
-          {
-            id: "ogoun_fire",
+          { id : "ogoun_fire",
             name: "Ogoun's Fire",
             description: "+2d6 fire damage on all attacks for 4 rounds",
             mechanicsText: "+2d6 fire damage on attacks for 4 rounds",
@@ -1951,8 +1911,7 @@ SPEC DISCOUNTS:
       tags: ["damage", "buff", "loa", "war", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_invoke_erzulie",
+    { id: "witch_doctor_invoke_erzulie",
       name: "Invoke Erzulie",
       description:
         "Invoke Erzulie, the loa of love and beauty. Heals all allies within 30 feet for 3d8 + spirit HP instantly and 3d8 + spirit HP per round for 5 rounds. All allies gain +2 armor and fear immunity for 5 rounds. Costs 7 Voodoo Essence (5 for Mambo). Requires 2+ allies within 15 feet.",
@@ -1979,8 +1938,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "erzulie_blessing",
+          { id : "erzulie_blessing",
             name: "Erzulie's Protection",
             description:
               "Protected by Erzulie. +2 armor and immune to fear for 5 rounds.",
@@ -2038,8 +1996,7 @@ SPEC DISCOUNTS:
       tags: ["buff", "healing", "loa", "support", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_ritual_of_death",
+    { id: "witch_doctor_ritual_of_death",
       name: "Ritual of Death",
       description:
         "Perform a dark ritual that deals 3d6 + spirit necrotic damage to all enemies in a 15-foot area, plus 3d6 necrotic damage per round for 3 rounds. Enemies must make a Spirit save DC 15 or become frightened for 3 rounds. Generates 2 Voodoo Essence.",
@@ -2081,8 +2038,7 @@ SPEC DISCOUNTS:
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "frightened",
+          { id : "frightened",
             name: "Frightened",
             description:
               "Frightened by dark ritual. Disadvantage on ability checks and attack rolls.",
@@ -2121,8 +2077,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 8 SPELLS =====
-    {
-      id: "witch_doctor_invoke_baron_samedi",
+    { id: "witch_doctor_invoke_baron_samedi",
       name: "Invoke Baron Samedi",
       description:
         "Invoke Baron Samedi, the loa of death. Deals 14d6 + spirit×3 necrotic damage to all enemies within 40 feet. Cursed enemies take TRIPLE damage. Costs 10 Voodoo Essence (8 for Bokor). Requires 3+ cursed enemies on the field (2 for Bokor).",
@@ -2195,8 +2150,7 @@ SPEC DISCOUNTS:
       tags: ["damage", "loa", "death", "epic", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_mass_resurrection",
+    { id: "witch_doctor_mass_resurrection",
       name: "Mass Resurrection",
       description:
         "Invoke the spirits to resurrect all dead allies within 30 feet at half HP (6d8 + spirit healing). Casting time: 3 actions.",
@@ -2260,8 +2214,7 @@ SPEC DISCOUNTS:
       tags: ["healing", "resurrection", "spirit", "epic", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_plague_storm",
+    { id: "witch_doctor_plague_storm",
       name: "Plague Storm",
       description:
         "Summon a storm of disease and decay that deals 12d6 + spirit necrotic damage to all enemies in a 35-foot area. Affected enemies have movement speed reduced by 20 feet and healing received reduced by 50% for 5 rounds.",
@@ -2296,8 +2249,7 @@ SPEC DISCOUNTS:
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "diseased_speed",
+          { id : "diseased_speed",
             name: "Plague Slowed",
             description: "Movement speed reduced by 20 feet for 5 rounds",
             mechanicsText: "-20 ft movement speed for 5 rounds",
@@ -2307,8 +2259,7 @@ SPEC DISCOUNTS:
               magnitudeType: "flat",
             },
           },
-          {
-            id: "diseased_healing",
+          { id : "diseased_healing",
             name: "Plague Weakened",
             description: "Healing received reduced by 50% for 5 rounds",
             mechanicsText: "-50% healing received for 5 rounds",
@@ -2360,8 +2311,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 9 SPELLS =====
-    {
-      id: "witch_doctor_voodoo_apocalypse",
+    { id: "witch_doctor_voodoo_apocalypse",
       name: "Voodoo Apocalypse",
       description:
         "Unleash a devastating voodoo apocalypse that deals 18d6 + spirit×3 necrotic damage to all enemies in sight. Constitution save DC 19 for half damage. Affected enemies suffer 3d8 necrotic damage per round and disadvantage on all rolls for 5 rounds.",
@@ -2397,14 +2347,12 @@ SPEC DISCOUNTS:
           saveOutcome: "reduced_duration",
         },
         effects: [
-          {
-            id: "voodoo_curse_dot",
+          { id : "voodoo_curse_dot",
             name: "Voodoo Curse",
             description: "3d8 necrotic damage per round for 5 rounds",
             mechanicsText: "3d8 necrotic/round for 5 rounds",
           },
-          {
-            id: "voodoo_curse_disadvantage",
+          { id : "voodoo_curse_disadvantage",
             name: "Voodoo Curse",
             description: "Disadvantage on all rolls for 5 rounds",
             mechanicsText: "Disadvantage on all rolls for 5 rounds",
@@ -2446,8 +2394,7 @@ SPEC DISCOUNTS:
       tags: ["damage", "debuff", "curse", "aoe", "legendary", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_spirit_ascension",
+    { id: "witch_doctor_spirit_ascension",
       name: "Spirit Ascension",
       description:
         "Ascend to become a pure spirit for 5 rounds. Gain +5 to all stats, physical damage resistance, 50% magic damage reduction, and generate +3 Voodoo Essence per round. All voodoo spells cost 50% less mana.",
@@ -2473,23 +2420,19 @@ SPEC DISCOUNTS:
         description:
           "Become one with the spirit world, transcending physical limitations.",
         grantedAbilities: [
-          {
-            id: "spirit_resistance",
+          { id : "spirit_resistance",
             name: "Spirit Resistance",
             description: "Resistance to physical damage",
           },
-          {
-            id: "voodoo_discount",
+          { id : "voodoo_discount",
             name: "Voodoo Efficiency",
             description: "All voodoo spells cost 50% less mana",
           },
-          {
-            id: "essence_gen",
+          { id : "essence_gen",
             name: "Essence Generation",
             description: "Generate +3 Voodoo Essence per round",
           },
-          {
-            id: "spirit_stats",
+          { id : "spirit_stats",
             name: "+5 All Stats",
             description: "+5 to all attributes",
           },
@@ -2498,8 +2441,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "spirit_form_power",
+          { id : "spirit_form_power",
             name: "Spirit Stats",
             description: "+5 to all stats",
             statModifier: {
@@ -2508,8 +2450,7 @@ SPEC DISCOUNTS:
               magnitudeType: "flat",
             },
           },
-          {
-            id: "spirit_form_defense",
+          { id : "spirit_form_defense",
             name: "Spirit Form Defense",
             description:
               "Gain resistance to physical damage and 50% magical damage reduction for 5 rounds",
@@ -2548,8 +2489,7 @@ SPEC DISCOUNTS:
       tags: ["transformation", "buff", "spirit", "legendary", "witch doctor"],
     },
 
-    {
-      id: "witch_doctor_invoke_erzulie_legendary",
+    { id: "witch_doctor_invoke_erzulie_legendary",
       name: "Invoke Erzulie (Supreme)",
       description:
         "Invoke Erzulie in her supreme aspect. Heals all allies within 60 feet for 10d8 + spirit×2 HP instantly and 3d8 + spirit HP per round for 5 rounds. All allies gain +4 to all stats for 5 rounds. Costs 7 Voodoo Essence (5 for Mambo). Requires 2+ allies within 15 feet.",
@@ -2583,8 +2523,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "erzulie_blessing_legendary",
+          { id : "erzulie_blessing_legendary",
             name: "Erzulie's Supreme Blessing",
             description:
               "All allies gain +4 to all stats and +50% healing received for 5 rounds",
@@ -2643,8 +2582,7 @@ SPEC DISCOUNTS:
     },
 
     // ===== LEVEL 10 SPELLS =====
-    {
-      id: "witch_doctor_eternal_voodoo",
+    { id: "witch_doctor_eternal_voodoo",
       name: "Eternal Voodoo",
       description: "Become one with the loa, gaining permanent voodoo mastery.",
       level: 10,
@@ -2666,8 +2604,7 @@ SPEC DISCOUNTS:
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "eternal_voodoo",
+          { id : "eternal_voodoo",
             name: "Eternal Voodoo",
             description:
               "Generate 3 Voodoo Essence per round automatically. All loa invocations cost 3 less essence (minimum 4). Immune to curses.",
@@ -2714,8 +2651,7 @@ SPEC DISCOUNTS:
       ],
     },
 
-    {
-      id: "witch_doctor_invoke_papa_legba_supreme",
+    { id: "witch_doctor_invoke_papa_legba_supreme",
       name: "Invoke Papa Legba (Supreme)",
       description:
         "Invoke Papa Legba in his supreme aspect. Opens crossroads portals across the entire battlefield — allies can teleport freely between them for 10 rounds. Enemies who enter portals are trapped for 1 round and take 6d10 necrotic damage (Dexterity save DC 17 negates). Costs 6 Voodoo Essence (4 for Houngan). Requires 5+ Essence generated this combat.",
@@ -2751,8 +2687,7 @@ SPEC DISCOUNTS:
       utilityConfig: {
         utilityType: "special",
         selectedEffects: [
-          {
-            id: "papa_legba_supreme",
+          { id : "papa_legba_supreme",
             name: "Crossroads Portal Network",
             description:
               "Opens portals across the battlefield. Allies can teleport freely between them for 10 rounds.",
@@ -2774,8 +2709,7 @@ SPEC DISCOUNTS:
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "portal_trap",
+          { id : "portal_trap",
             name: "Portal Trap",
             description:
               "Enemies who enter portals are trapped for 1 round and take 6d10 necrotic damage",
@@ -2853,8 +2787,7 @@ SPEC DISCOUNTS:
       ],
     },
 
-    {
-      id: "witch_doctor_ultimate_curse",
+    { id: "witch_doctor_ultimate_curse",
       name: "Ultimate Curse",
       description:
         "Place the ultimate voodoo curse on an enemy. Deals 22d6 + spirit×4 necrotic damage. If they survive, they are doomed to die in 3 rounds unless the curse is removed by legendary magic. Constitution save DC 20 reduces the curse level. Counts as a curse toward Baron Samedi's precursor.",
@@ -2884,8 +2817,7 @@ SPEC DISCOUNTS:
       debuffConfig: {
         debuffType: "custom",
         effects: [
-          {
-            id: "doom_curse",
+          { id : "doom_curse",
             name: "Doom Curse",
             description:
               "Doomed to die in 3 rounds unless removed by powerful magic",
@@ -2938,8 +2870,7 @@ SPEC DISCOUNTS:
       tags: ["damage", "debuff", "curse", "death", "legendary", "witch doctor"],
     },
     // ===== PASSIVE ABILITIES =====
-    {
-      id: "witch_doctor_loa_disfavor",
+    { id: "witch_doctor_loa_disfavor",
       name: "Loa Disfavor",
       description:
         "The loa are fickle spirits. If you invoke a loa without meeting their precursor condition, the loa is offended and you enter Loa Disfavor for 2 rounds. During Disfavor: all loa invocations are blocked, you generate 0 Voodoo Essence, and your curses deal half damage. You must re-establish proper worship to regain favor.",
@@ -2957,8 +2888,7 @@ SPEC DISCOUNTS:
       resolution: "AUTOMATIC",
       tags: ["passive", "witch doctor", "weakness"],
     },
-    {
-      id: "witch_doctor_grave_reagent",
+    { id: "witch_doctor_grave_reagent",
       name: "Grave Reagent Dependency",
       description:
         "Your voodoo magic requires grave dust, bone fragments, and other morbid reagents. You begin each encounter with 5 Grave Reagents. Each spell cast consumes 1 Grave Reagent. If you have 0 Grave Reagents, all spells cost +3 mana. You gain 1 Grave Reagent per enemy killed within 30 feet. Without your reagents, your magic is weakened but not broken.",
@@ -2976,8 +2906,7 @@ SPEC DISCOUNTS:
       resolution: "AUTOMATIC",
       tags: ["passive", "witch doctor", "restriction"],
     },
-    {
-      id: "witch_doctor_restricted_healing",
+    { id: "witch_doctor_restricted_healing",
       name: "Blood Price",
       description:
         "The only healing you can perform on yourself comes through violence or sacrifice. You cannot use Mending Wax, Invoke Simbi, or Totem of Healing to heal yourself. Your self-healing is limited to Soul Siphon (lifesteal) and Invoke Erzulie (mass healing that incidentally includes you). The spirits demand a price for every drop of life restored.",

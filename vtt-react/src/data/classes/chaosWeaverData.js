@@ -5,7 +5,7 @@
  * Adheres strictly to the Mythrill VTT SPELL_DATA_REFERENCE.md.
  *
  * Establishes a dark, oppressive, blackened thall / symphonic deathcore folklore aesthetic.
- * Magic here is not a clean academic tool; it is a violent, marrow-warping fracture of reality.
+ * Magic here is not a clean academic tool; it is a violent, dimension-bending shear of reality.
  *
  * Mechanically:
  * 1. Fully maps the non-spendable passive Mayhem gauge (0-100) across 4 strict tiers.
@@ -17,7 +17,7 @@
  */
 
 export const CHAOS_WEAVER_DATA = {
-  id: "chaos-weaver",
+  id : "chaos-weaver",
   name: "Chaos Weaver",
   icon: "fas fa-dice",
   role: "Entropic Vector / Timeline Fracturer",
@@ -36,7 +36,7 @@ export const CHAOS_WEAVER_DATA = {
   // 1. Lore & Systems Header
   overview: {
     title: "The Chaos Weaver",
-    subtitle: "A Walking Fracture in the Tapestry of Time and Bone",
+    subtitle: "A Walking Fracture in the Tapestry of Time and Space",
 
     quickOverview: {
       title: "Quick Overview",
@@ -51,7 +51,7 @@ export const CHAOS_WEAVER_DATA = {
 **Best For**: Players who want to play a ticking time bomb, balancing catastrophic spell amplification against their own physical annihilation.`
     },
 
-    description: `To look upon a Chaos Weaver is to watch reality struggle to maintain its grip. Shadows around them rip free and tear in the wind; their skin occasionally flickers out of phase, weeping the echoes of dead and deleted timelines. They do not cast spells so much as they invite local molecular collapse. This power is a parasite that feasts on the caster's bones. Every time they channel the entropic wind, their bones fracture, and their blood hums with the high-pitched shriek of folding dimensions.`,
+    description: `To look upon a Chaos Weaver is to watch reality struggle to maintain its grip. Shadows around them rip free and tear in the wind; their skin occasionally flickers out of phase, weeping the echoes of dead and deleted timelines. They do not cast spells so much as they invite local molecular collapse. This power is a turbulent stream that strains the caster's dimensional anchor. Every time they channel the entropic wind, their molecular coherence wavers, and their body resonates with the high-pitched shriek of folding dimensions.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -72,7 +72,7 @@ They carry a deep, copper-smelling atmospheric weight. To allies, they are a ter
 
 **The Unstable Catalyst ('Why Bring Me?')**: You offer unmatched, non-linear timeline acceleration and catastrophic area-of-effect amplification that scales automatically the longer combat drags out. As your Mayhem climbs, your spells swell with massive bonus damage dice, expanded radii, and multi-targeting capabilities.
 
-**The Fatal Flaw ('Anomalous Dissociation')**: At 100 Mayhem pressure, your physical form undergoes traumatic displacement. Your molecular density drops to zero, triggering a Wild Surge and leaving you 100% vulnerable to raw kinetic Bludgeoning and martial Slashing force. If a martial enemy catches you in this high-pressure state, your bones will shatter like brittle glass.`
+**The Fatal Flaw ('Anomalous Dissociation')**: At 100 Mayhem pressure, your physical form undergoes traumatic displacement. Your molecular density drops to zero, triggering a Wild Surge and leaving you 100% vulnerable to raw kinetic Bludgeoning and martial Slashing force. If a martial enemy catches you in this high-pressure state, your fragile molecular form will fail to resist their momentum.`
     },
 
     playstyle: {
@@ -89,7 +89,7 @@ They carry a deep, copper-smelling atmospheric weight. To allies, they are a ter
       content: `**The Setup**: You are locked in a stone crypt against a towering Death Knight and three skeletal archers. Your Mayhem is at 78 (Volatile Zone). You are weeping starlight, your left arm flickering out of phase.
 
 **Turn 1 - High-Pressure Casting (Mayhem: 78 -> 84)**
-*You raise your hands, your skin splitting with micro-fractures as you draw on the timeline's decay. You cast chaotic force at the archers.*
+*You raise your hands, your form flickering with spatial micro-fractures as you draw on the timeline's decay. You cast chaotic force at the archers.*
 * **Your Action**: Cast "Chaotic Bolt" (1 AP, 6 mana).
 * **The Amplification**: Because you are at 78 Mayhem, the spell gains +2 bonus damage dice and +5ft blast radius.
 * **The Misfire Check**: You roll a d100 for operational friction (25% chance to misfire). You roll a 42. You bypass the misfire!
@@ -100,7 +100,7 @@ They carry a deep, copper-smelling atmospheric weight. To allies, they are a ter
 *The Death Knight charges, claymore raised. You panic and channel raw timeline recursion to warp the earth beneath him.*
 * **Your Action**: Cast "Fractured Realms" (1 AP, 8 mana).
 * **The Misfire Check**: You roll a 14 (misfire!). The spell backfires.
-* **The Body Horror**: Your own spell collapses inward. You take 2d6 force damage (7 damage) as your collarbones fracture, but the magic still tears the earth around the Death Knight, dealing 5d8 force damage.
+* **The Body Horror**: Your own spell collapses inward. You take 2d6 force damage (7 damage) as intense dimensional friction strains your frame, but the magic still tears the earth around the Death Knight, dealing 5d8 force damage.
 * **The Surge**: The cast pushes your Mayhem to 100. Reality snaps.
 * **The d100 Surge**: You roll a 88 on the d100 Master Wild Surge Table: *Molecular Dissociation*.
 * **The Backlash**: You take 2d10 necrotic damage (12 damage) and gain **Anomalous Dissociation** for 2 rounds—reducing your molecular weight to zero, rendering you 100% vulnerable to bludgeoning and slashing damage.
@@ -125,12 +125,12 @@ They carry a deep, copper-smelling atmospheric weight. To allies, they are a ter
       {
         title: "Escalating Zone (41–60 Mayhem)",
         stats: "Tier II: Incipient Friction",
-        details: "All spells gain **+1 bonus damage/healing die** of the spell's damage type. Magic begins to tear your flesh: all casts have a **10% chance to misfire**, dealing 2d6 force damage directly to your HP."
+        details: "All spells gain **+1 bonus damage/healing die** of the spell's damage type. Magic begins to shear your physical matrix: all casts have a **10% chance to misfire**, dealing 2d6 force damage directly to your HP."
       },
       {
         title: "Volatile Zone (61–80 Mayhem)",
         stats: "Tier III: Planar Thinning",
-        details: "All spells gain **+2 bonus damage/healing dice**, and area-of-effect spells have their **radii expanded by +5 feet**. Casts have a **25% chance to misfire** (2d6 force damage), and your thinning flesh gains **25% physical bludgeoning/slashing vulnerability**."
+        details: "All spells gain **+2 bonus damage/healing dice**, and area-of-effect spells have their **radii expanded by +5 feet**. Casts have a **25% chance to misfire** (2d6 force damage), and your unstable molecular density gains **25% physical bludgeoning/slashing vulnerability**."
       },
       {
         title: "Maximum Zone (81–99 Mayhem)",
@@ -154,7 +154,7 @@ They carry a deep, copper-smelling atmospheric weight. To allies, they are a ter
 
     usage: {
       momentum: "Ride the redline. Your spells are at their absolute most devastating when you are between 81 and 99 Mayhem, but a single cast will push you over the edge into a Surge, resetting your power and leaving you fragile. Learn to hover in the high 80s to maximize your area devastation.",
-      flourish: "⚠️ Operational Warning: Misfires bypass all Armor and resistances. They represent your own spell structure collapsing within your bone marrow. Heal frequently or pay the price."
+      flourish: "⚠️ Operational Warning: Misfires bypass all Armor and resistances. They represent your own spell structure collapsing inward and shearing your molecular bonds. Heal frequently or pay the price."
     },
 
     overheatRules: {
@@ -165,7 +165,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
 1. **Unstable Miracles (30% Chance, Rolls 1–30)**: Time loops, localized gravity shields, and beneficial reality warping that repairs and protects allies.
 2. **Radical Area Ruin (30% Chance, Rolls 31–60)**: Atmospheric rifts, gravitational collapses, and explosive spatial distortions that devastate the environment.
 3. **Reality Reversals (20% Chance, Rolls 61–80)**: Probability inversions (hits become misses, misses become crits) and chaotic spatial swaps that scramble combatants' positions.
-4. **Devastating Physical Backlashes (20% Chance, Rolls 81–100)**: Direct tissue dissociation, temporal hemorrhages, and permanent mana capacity depletion as the Weaver's flesh dissolves into the void.`
+4. **Devastating Physical Backlashes (20% Chance, Rolls 81–100)**: Direct tissue dissociation, temporal hemorrhages, and permanent mana capacity depletion as the Weaver's physical form dissolves into the void.`
     }
   },
 
@@ -176,8 +176,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     description: "Every Chaos Weaver aligns their collapsing vessel with one of four paths, altering how they weld the entropic wind and steer their inevitable surge.",
     
     specs: [
-      {
-        id: "reality_bending",
+      { id : "reality_bending",
         name: "Reality Bending",
         icon: "Arcane/Conjure Elements",
         color: "#9B59B6",
@@ -195,8 +194,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
           "Ineffective in empty, open fields"
         ]
       },
-      {
-        id: "wild_magic",
+      { id : "wild_magic",
         name: "Wild Magic",
         icon: "Nature/Nature Wild 1",
         color: "#E74C3C",
@@ -214,13 +212,12 @@ The Master Wild Surge table is structured across four absolute thematic categori
           "Extremely short life expectancy"
         ]
       },
-      {
-        id: "entropy_control",
+      { id : "entropy_control",
         name: "Entropy Control",
         icon: "Utility/All Seeing Eye",
         color: "#2C3E50",
         theme: "Decay and Dissolution",
-        description: "Entropy Controllers weld the force of raw decay. They dissolve armor, crack bones, and cause their targets' molecular bonds to rot away. Their chaos is focused and highly destructive.",
+        description: "Entropy Controllers weld the force of raw decay. They dissolve armor, shear kinetic structures, and cause their targets' molecular bonds to dissolve. Their chaos is focused and highly destructive.",
         playstyle: "Sustained damage, armor shredding, damage-over-time debuffs.",
         strengths: [
           "Chaos damage ignores 25% of enemy Armor",
@@ -233,8 +230,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
           "Requires multiple turns to ramp up damage"
         ]
       },
-      {
-        id: "chaos_dice",
+      { id : "chaos_dice",
         name: "Chaos Dice",
         icon: "fas fa-dice",
         color: "#F39C12",
@@ -320,8 +316,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 1 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-chaos_dice-chaos_bolt",
+    { id : "chaos_weaver-chaos_dice-chaos_bolt",
       name: "Chaos Bolt",
       description: "A bolt of pure chaotic force — each cast is different. Roll on the Chaos Bolt table to see what happens: the bolt might bounce, phase through armor, reverse gravity, or trigger a reality glitch.",
       level: 1,
@@ -439,17 +434,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["force", "damage", "rollable table", "chaos dice"],
       specialization: "chaos_dice"
     },
-    {
-      id: "chaos_weaver-reality_bending-reality_flicker",
+    { id : "chaos_weaver-reality_bending-reality_flicker",
       name: "Reality Flicker",
       description: "Slip between dimensions for a heartbeat — become ghostly, pass through walls, and ignore non-magical attacks for 1 round. Roll on the Flicker Table to see what dimensional side effect tags along.",
       level: 1,
-      icon: "Arcane/Blink",
+      icon: "Arcane/Quick Step",
       spellType: "ACTION",
       effectTypes: ["buff"],
       typeConfig: {
         school: "arcane",
-        icon: "Arcane/Blink",
+        icon: "Arcane/Quick Step",
         tags: ["utility", "buff", "teleport", "reality bending"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -466,8 +460,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       buffConfig: {
         buffType: "statusEffectBuff",
         effects: [
-          {
-            id: "ghostly_state",
+          { id : "ghostly_state",
             name: "Flickering Form",
             description: "Gain 50% resistance to physical damage and can move through solid objects/creatures for 1 round.",
             statusEffect: {
@@ -528,17 +521,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["utility", "buff", "teleport", "reality bending"],
       specialization: "reality_bending"
     },
-    {
-      id: "chaos_weaver-entropy_control-entropic_touch",
+    { id : "chaos_weaver-entropy_control-entropic_touch",
       name: "Entropic Touch",
       description: "Touch a target to introduce molecular decay. The target takes necrotic damage, and their physical bonds begin to break down, shredding their Armor over time.",
       level: 1,
-      icon: "Necrotic/Dark Radiance",
+      icon: "Necrotic/Necrotic Hand Rising",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Dark Radiance",
+        icon: "Necrotic/Necrotic Hand Rising",
         tags: ["necrotic", "damage", "debuff", "entropy control"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -565,8 +557,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "entropic_decay_debuff",
+          { id : "entropic_decay_debuff",
             name: "Entropic Rot",
             description: "Target's Armor is reduced by 2 for 3 rounds. This rot stacks up to 5 times.",
             statModifier: {
@@ -587,17 +578,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["necrotic", "damage", "debuff", "entropy control"],
       specialization: "entropy_control"
     },
-    {
-      id: "chaos_weaver-shared-chaotic_infusion",
+    { id : "chaos_weaver-shared-chaotic_infusion",
       name: "Chaotic Infusion",
-      description: "Force raw timeline friction directly into your own marrow. This dangerous acceleration generates massive Mayhem instantly, but triggers a minor entropic side effect.",
+      description: "Force raw timeline friction directly through your own planar anchor. This dangerous acceleration generates massive Mayhem instantly, but triggers a minor entropic side effect.",
       level: 1,
-      icon: "Force/Mana Puddle",
+      icon: "Force/Swirling Energy",
       spellType: "ACTION",
       effectTypes: ["utility"],
       typeConfig: {
         school: "chaos",
-        icon: "Force/Mana Puddle",
+        icon: "Force/Swirling Energy",
         tags: ["chaos", "utility", "mayhem", "resource", "rollable table"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -615,13 +605,13 @@ The Master Wild Surge table is structured across four absolute thematic categori
         rollableTable: {
           enabled: true,
           tableName: "Infusion Side Effects",
-          description: "Entropic symptoms of forcing timeline friction through bone",
+          description: "Entropic symptoms of forcing timeline friction through your planar anchor",
           diceFormula: "1d6",
           entries: [
             {
               range: { min: 1, max: 1 },
               customName: "Nerve Flare",
-              effect: "Your nervous system screams. Take 1d6 force damage.",
+              effect: "Your physical matrix is strained by sudden acceleration. Take 1d6 force damage.",
               effectConfig: { selfDamage: "1d6" }
             },
             {
@@ -639,7 +629,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
             {
               range: { min: 4, max: 4 },
               customName: "Void Seep",
-              effect: "The void seeps through your skin. All creatures within 5 feet take 2d4 psychic damage, and you trail weeping timeline echoes that make stealth impossible for 1 hour.",
+              effect: "The void shears your physical interface. All creatures within 5 feet take 2d4 psychic damage, and you trail flickering timeline echoes that make stealth impossible for 1 hour.",
               effectConfig: { damageFormula: "2d4", damageType: "psychic", radius: 5 }
             },
             {
@@ -660,8 +650,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["chaos", "utility", "mayhem", "resource", "rollable table"],
       specialization: "chaos_dice"
     },
-    {
-      id: "chaos_weaver-wild_magic-wild_surge",
+    { id : "chaos_weaver-wild_magic-wild_surge",
       name: "Wild Surge",
       description: "Pierce the veil of order and let raw magic bleed through. This vents your pressure gauge, forcing an immediate roll on the d100 Master Wild Surge Table and resetting your Mayhem to 0.",
       level: 1,
@@ -735,7 +724,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
             {
               range: { min: 91, max: 100 },
               customName: "Physical Backlash: Entropic Hemorrhage",
-              effect: "D100: 91-100. Localized gravity anomalies tear your flesh. You take 5d8 force damage, and your maximum mana is reduced by 10 until your next long rest.",
+              effect: "D100: 91-100. Localized gravity anomalies shear your molecular structure. You take 5d8 force damage, and your maximum mana is reduced by 10 until your next long rest.",
               effectConfig: { damageFormula: "5d8", damageType: "force", manaReduction: 10 }
             }
           ]
@@ -748,8 +737,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 2 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-chaos_dice-chaotic_bolt",
+    { id : "chaos_weaver-chaos_dice-chaotic_bolt",
       name: "Chaotic Bolt",
       description: "A bolt that refuses to behave — each cast rolls a d20 to determine if it forks, explodes, warps reality, or triggers a chaotic anomaly.",
       level: 2,
@@ -867,8 +855,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["force", "damage", "rollable table", "chaos dice"],
       specialization: "chaos_dice"
     },
-    {
-      id: "chaos_weaver-reality_bending-dimensional_rift",
+    { id : "chaos_weaver-reality_bending-dimensional_rift",
       name: "Dimensional Rift",
       description: "Force a localized collapse in space, tearing a rift that deals force damage and violently drags the target through the planar fabric, or swaps them with another creature.",
       level: 2,
@@ -904,8 +891,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "rift_teleport",
+          { id : "rift_teleport",
             name: "Rift Relocation",
             description: "Teleport the target 20 feet in a direction of your choice (Spirit save DC 14 negates if hostile)."
           }
@@ -914,17 +900,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["force", "damage", "teleport", "reality bending"],
       specialization: "reality_bending"
     },
-    {
-      id: "chaos_weaver-entropy_control-chaotic_decay",
+    { id : "chaos_weaver-entropy_control-chaotic_decay",
       name: "Chaotic Decay",
       description: "Saturate a 15ft area with an entropic mist that rapidly breaks down matter. All creatures in the zone take necrotic damage, and their Armor is heavily corroded.",
       level: 2,
-      icon: "Necrotic/Dark Poison Pool",
+      icon: "Necrotic/Necrotic Decay 1",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Dark Poison Pool",
+        icon: "Necrotic/Necrotic Decay 1",
         tags: ["necrotic", "damage", "debuff", "area", "entropy control"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -958,8 +943,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "decay_acid_debuff",
+          { id : "decay_acid_debuff",
             name: "Rotting Mist",
             description: "Corrodes Armor, reducing it by 3 for 2 rounds.",
             statModifier: {
@@ -979,8 +963,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 3 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-chaos_dice-prismatic_chaos",
+    { id : "chaos_weaver-chaos_dice-prismatic_chaos",
       name: "Prismatic Chaos",
       description: "Release a kaleidoscope of unstable elements at your target. Roll a d8 on the Prismatic Table to see which damage type and severe elemental secondary effect is inflicted.",
       level: 3,
@@ -1074,8 +1057,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["damage", "rollable table", "chaos dice"],
       specialization: "chaos_dice"
     },
-    {
-      id: "chaos_weaver-reality_bending-fractured_realms",
+    { id : "chaos_weaver-reality_bending-fractured_realms",
       name: "Fractured Realms",
       description: "Strike the ground to create a localized spatial rupture in a 20ft area. Space shatters like glass, dealing force damage to all creatures and turning the soil into difficult, reality-glitched terrain.",
       level: 3,
@@ -1118,8 +1100,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "fractured_space_terrain",
+          { id : "fractured_space_terrain",
             name: "Fractured Space",
             description: "Movement speed in this zone is quartered. Any creature ending their turn in the zone takes 1d8 force damage.",
             mechanicsText: "Quartered speed, 1d8 force damage per round."
@@ -1131,8 +1112,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["force", "damage", "area", "terrain", "reality bending"],
       specialization: "reality_bending"
     },
-    {
-      id: "chaos_weaver-entropy_control-chaos_burst",
+    { id : "chaos_weaver-entropy_control-chaos_burst",
       name: "Chaos Burst",
       description: "Condense a sphere of compressed necrotic embers and launch it at a target. On impact, the sphere explodes, dealing necrotic and fire damage to the target and adjacent creatures.",
       level: 3,
@@ -1177,8 +1157,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 4 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-reality_bending-reality_swap",
+    { id : "chaos_weaver-reality_bending-reality_swap",
       name: "Reality Swap",
       description: "A spatial distortion that instantly swaps the physical coordinates of up to four creatures in a 30ft zone. Hostile targets must save (Spirit DC 15) to resist the displacement.",
       level: 4,
@@ -1211,8 +1190,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "reality_swap_displacement",
+          { id : "reality_swap_displacement",
             name: "Planar Transposition",
             description: "Up to four creatures in the targeted zone swap positions randomly. Those whose limbs stretch in the phase lag suffer -2 to Agility rolls for 1 round."
           }
@@ -1221,17 +1199,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["teleport", "utility", "area", "reality bending"],
       specialization: "reality_bending"
     },
-    {
-      id: "chaos_weaver-entropy_control-chaos_wave",
+    { id : "chaos_weaver-entropy_control-chaos_wave",
       name: "Chaos Wave",
       description: "Unleash a wide, crashing wave of entropic force in a 30ft cone. All creatures caught in the wave suffer necrotic damage, and their physical attributes (Strength and Armor) are drained.",
       level: 4,
-      icon: "Necrotic/Dark Radiance",
+      icon: "Necrotic/Necrotic Decay 1",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Dark Radiance",
+        icon: "Necrotic/Necrotic Decay 1",
         tags: ["necrotic", "damage", "cone", "debuff", "entropy control"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1264,8 +1241,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "entropy_wave_debuff",
+          { id : "entropy_wave_debuff",
             name: "Entropic Depletion",
             description: "Reduces physical damage rolls by 3 and Armor by 4 for 2 rounds.",
             statModifier: {
@@ -1281,8 +1257,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["necrotic", "damage", "cone", "debuff", "entropy control"],
       specialization: "entropy_control"
     },
-    {
-      id: "chaos_weaver-chaos_dice-chaos_storm",
+    { id : "chaos_weaver-chaos_dice-chaos_storm",
       name: "Chaos Storm",
       description: "Summon a raging vortex of reality-tearing energy in a 25ft area. Roll a d20 on the Chaos Storm table at the start of each turn to see what chaotic anomaly strikes the occupants.",
       level: 4,
@@ -1370,8 +1345,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 5 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-entropy_control-discordant_strike",
+    { id : "chaos_weaver-entropy_control-discordant_strike",
       name: "Discordant Strike",
       description: "Strike an enemy's mind with high-pitched, harmonic timeline feedback. Deals massive psychic damage and severely disorient the target, causing them to attack their own allies next round.",
       level: 5,
@@ -1417,8 +1391,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["psychic", "damage", "control", "entropy control"],
       specialization: "entropy_control"
     },
-    {
-      id: "chaos_weaver-wild_magic-pandemonic_pulse",
+    { id : "chaos_weaver-wild_magic-pandemonic_pulse",
       name: "Pandemonic Pulse",
       description: "Release a deafening, reality-warping soundwave in a 25ft area. All creatures take fire and chaos damage, and are struck with interdimensional terror, fleeing in panic.",
       level: 5,
@@ -1460,8 +1433,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "pandemonic_fear",
+          { id : "pandemonic_fear",
             name: "Planar Dread",
             description: "Target is feared, forced to flee from the caster, and has disadvantage on all rolls for 1 round."
           }
@@ -1472,8 +1444,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["fire", "chaos", "damage", "area", "debuff", "wild magic"],
       specialization: "wild_magic"
     },
-    {
-      id: "chaos_weaver-reality_bending-chaotic_reflection",
+    { id : "chaos_weaver-reality_bending-chaotic_reflection",
       name: "Chaotic Reflection",
       description: "As a reaction to taking damage, create a flickering, interdimensional bubble shield. The shield reduces incoming damage by 50% and reflects the absorbed energy back at the attacker as force damage.",
       level: 5,
@@ -1499,8 +1470,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "reflection_bubble",
+          { id : "reflection_bubble",
             name: "Planar Deflector",
             description: "Reduces all incoming damage by 50% for the next 2 attacks, reflecting that absorbed amount back at the source as force damage."
           }
@@ -1509,8 +1479,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["force", "defensive", "reaction", "reality bending"],
       specialization: "reality_bending"
     },
-    {
-      id: "chaos_weaver-wild_magic-chaos_engine",
+    { id : "chaos_weaver-wild_magic-chaos_engine",
       name: "Chaos Engine",
       description: "Intentionally overload your own physical anchor. By sacrificing 15% of your maximum health, you supercharge your core, causing all spells cast within the next 3 rounds to generate double Mayhem and deal double critical damage.",
       level: 5,
@@ -1539,8 +1508,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "engine_overload",
+          { id : "engine_overload",
             name: "Overloaded Engine",
             description: "Spells generate double Mayhem and deal double critical damage for 3 rounds.",
             statusEffect: {
@@ -1558,8 +1526,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 6 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-reality_bending-reality_storm",
+    { id : "chaos_weaver-reality_bending-reality_storm",
       name: "Reality Storm",
       description: "Summon a massive, 35ft spatial vortex that twists and folds space. All creatures inside take force damage, are pulled randomly, and their armor collapses from the pressure.",
       level: 6,
@@ -1602,8 +1569,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "reality_storm_crush",
+          { id : "reality_storm_crush",
             name: "Spatial Crushing",
             description: "Reduces Armor by 5 and halves movement speed while in the storm.",
             statModifier: {
@@ -1619,8 +1585,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["force", "damage", "area", "pull", "reality bending"],
       specialization: "reality_bending"
     },
-    {
-      id: "chaos_weaver-wild_magic-chaotic_eruption",
+    { id : "chaos_weaver-wild_magic-chaotic_eruption",
       name: "Chaotic Eruption",
       description: "Force an immediate dimensional blowout directly beneath a point on the ground. A towering plume of burning, entropic plasma erupts in a 25ft area, incinerating all targets.",
       level: 6,
@@ -1663,17 +1628,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["fire", "force", "damage", "area", "wild magic"],
       specialization: "wild_magic"
     },
-    {
-      id: "chaos_weaver-entropy_control-decay_cascade",
+    { id : "chaos_weaver-entropy_control-decay_cascade",
       name: "Decay Cascade",
       description: "Touch a target to inject rapidly multiplying entropic decay. The decay deals necrotic damage, then leaps like dark electrical chains to strike up to five adjacent targets within 15 feet.",
       level: 6,
-      icon: "Necrotic/Dark Radiance",
+      icon: "Necrotic/Necrotic Decay 1",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Dark Radiance",
+        icon: "Necrotic/Necrotic Decay 1",
         tags: ["necrotic", "damage", "chain", "debuff", "entropy control"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -1700,8 +1664,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "cascade_rot_stack",
+          { id : "cascade_rot_stack",
             name: "Entropic Cascade",
             description: "Spreads rot to all chain targets, reducing Armor by 2 (stacks up to 5 times) for 3 rounds."
           }
@@ -1712,8 +1675,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["necrotic", "damage", "chain", "debuff", "entropy control"],
       specialization: "entropy_control"
     },
-    {
-      id: "chaos_weaver-reality_bending-chaos_gate",
+    { id : "chaos_weaver-reality_bending-chaos_gate",
       name: "Chaos Gate",
       description: "Weld a temporal gateway linking two positions up to 100 feet apart. The portal allows instant movement for allies, but spatial instability blocks physical weapons or projectiles from crossing.",
       level: 6,
@@ -1745,8 +1707,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "portal_gate_movement",
+          { id : "portal_gate_movement",
             name: "Spliced Gateway",
             description: "Create two spatial gates for 3 rounds. Any creature stepping into one instantly emerges from the other, consuming 0 feet of movement."
           }
@@ -1759,8 +1720,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 7 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-wild_magic-chaos_nova",
+    { id : "chaos_weaver-wild_magic-chaos_nova",
       name: "Chaos Nova",
       description: "Release a blinding stellar core of pure interdimensional decay in a massive 40ft area. All enemies take severe force and radiant damage, and are permanently thinned, losing Armor and sight.",
       level: 7,
@@ -1802,8 +1762,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "nova_blindness",
+          { id : "nova_blindness",
             name: "Stellar Blindness",
             description: "Blinds targets for 2 rounds and shreds their Armor by 6.",
             statModifier: {
@@ -1819,8 +1778,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["force", "radiant", "damage", "area", "blind", "wild magic"],
       specialization: "wild_magic"
     },
-    {
-      id: "chaos_weaver-chaos_dice-ultimate_chaos",
+    { id : "chaos_weaver-chaos_dice-ultimate_chaos",
       name: "Ultimate Chaos",
       description: "The absolute pinnacle of table mastery. Roll a d100 on the Master Chaos Table. This spell bypasses normal spell limits, unleashing one of eight apocalyptic planar catastrophes.",
       level: 7,
@@ -1914,8 +1872,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 8 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-entropy_control-entropy_plague",
+    { id : "chaos_weaver-entropy_control-entropy_plague",
       name: "Entropy Plague",
       description: "Inflict an intensely infectious molecular decay on a target. Deals necrotic damage over time, and spreads to adjacent targets whenever the infected target acts or suffers damage.",
       level: 8,
@@ -1951,8 +1908,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "plague_decay_dot",
+          { id : "plague_decay_dot",
             name: "Entropic Plague",
             description: "Deals 2d8 necrotic damage per turn, and shreds Armor by 2 per tick. Lasts 4 rounds. Spreads to anyone within 10 feet on tick.",
             statusEffect: {
@@ -1969,8 +1925,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["necrotic", "damage", "dot", "spread", "entropy control"],
       specialization: "entropy_control"
     },
-    {
-      id: "chaos_weaver-wild_magic-chaos_cascade",
+    { id : "chaos_weaver-wild_magic-chaos_cascade",
       name: "Chaos Cascade",
       description: "Force three simultaneous spatial tears. You cast three random Level 1-3 Chaos Weaver spells in rapid succession at random targets within 60 feet. This accelerates your pressure gauge by +18 Mayhem.",
       level: 8,
@@ -2002,17 +1957,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["chaos", "damage", "cascade", "multi-cast", "wild magic"],
       specialization: "wild_magic"
     },
-    {
-      id: "chaos_weaver-reality_bending-chaos_conduit",
+    { id : "chaos_weaver-reality_bending-chaos_conduit",
       name: "Chaos Conduit",
       description: "Channel a massive, reality-bending beam of raw force in a 100ft line. The beam's elemental properties shift randomly at the start of each turn. Requires constant concentration.",
       level: 8,
-      icon: "Force/Orb Cluster",
+      icon: "Force/Energy Core",
       spellType: "CHANNELED",
       effectTypes: ["damage"],
       typeConfig: {
         school: "chaos",
-        icon: "Force/Orb Cluster",
+        icon: "Force/Energy Core",
         tags: ["beam", "channeled", "damage", "reality bending"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -2063,8 +2017,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 9 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-reality_bending-chaos_avatar",
+    { id : "chaos_weaver-reality_bending-chaos_avatar",
       name: "Chaos Avatar",
       description: "Temporarily dissolve your physical anchor to become an Avatar of Living Chaos for 3 rounds. Gain flight, complete immunity to negative status effects, and automatically double all passive Mayhem spell amplification tiers.",
       level: 9,
@@ -2090,8 +2043,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "avatar_chaos_form",
+          { id : "avatar_chaos_form",
             name: "Chaos Avatar",
             description: "Gain flight (speed 50), immune to all CC (stun, fear, silence, freeze), and spell damage is increased by +4d8.",
             statusEffect: {
@@ -2105,17 +2057,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["transformation", "buff", "flight", "reality bending"],
       specialization: "reality_bending"
     },
-    {
-      id: "chaos_weaver-entropy_control-entropy_wave",
+    { id : "chaos_weaver-entropy_control-entropy_wave",
       name: "Entropy Wave",
       description: "Release a crushing ripple of molecular dissolution in a massive 50ft area. All structures and targets suffer immense necrotic and force damage, instantly crumbling their Armor to zero.",
       level: 9,
-      icon: "Necrotic/Dark Radiance",
+      icon: "Necrotic/Corrosive Beam",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Dark Radiance",
+        icon: "Necrotic/Corrosive Beam",
         tags: ["necrotic", "force", "damage", "area", "armor-erase", "entropy control"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -2148,8 +2099,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "armor_shatter_erase",
+          { id : "armor_shatter_erase",
             name: "Molecular Collapse",
             description: "Sets target Armor to 0 and reduces all damage resistances by 50% for 3 rounds.",
             statModifier: {
@@ -2169,17 +2119,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // ============================================================
     // LEVEL 10 SPELLS
     // ============================================================
-    {
-      id: "chaos_weaver-chaos_dice-table_mastery",
+    { id : "chaos_weaver-chaos_dice-table_mastery",
       name: "Table Mastery",
       description: "Passive capstone of Chaos Dice. Your command of probability becomes absolute. Whenever you roll on any rollable table, you can freely alter the final dice outcome up or down by up to 5 points to choose your result.",
       level: 10,
-      icon: "fas fa-dice",
+      icon: "Social/Dice Roll",
       spellType: "PASSIVE",
       effectTypes: ["passive"],
       typeConfig: {
         school: "chaos",
-        icon: "fas fa-dice",
+        icon: "Social/Dice Roll",
         tags: ["passive", "table-control", "chaos dice"],
         castTime: 0,
         castTimeType: "PASSIVE"
@@ -2195,8 +2144,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["passive", "table-control", "chaos dice"],
       specialization: "chaos_dice"
     },
-    {
-      id: "chaos_weaver-wild_magic-chaos_storm_ultimate",
+    { id : "chaos_weaver-wild_magic-chaos_storm_ultimate",
       name: "Apocalypse Storm",
       description: "Forces absolute timeline compression in a 60ft area. Reality permanently shatters in the targeted sector, inflicting maximum apocalyptic chaos damage to all creatures and terrain. This generates a direct, immediate Wild Surge cascade.",
       level: 10,
@@ -2239,17 +2187,16 @@ The Master Wild Surge table is structured across four absolute thematic categori
       tags: ["chaos", "damage", "area", "apocalypse", "wild magic"],
       specialization: "wild_magic"
     },
-    {
-      id: "chaos_weaver-entropy_control-entropy_master",
+    { id : "chaos_weaver-entropy_control-entropy_master",
       name: "Decay Singularity",
       description: "The absolute zenith of entropic rot. Any enemy targeted by this spell who has less than 20% health is instantly disintegrated, their molecular bonds decaying to zero. If the target has more than 20% health, they take severe necrotic damage and Armor loss.",
       level: 10,
-      icon: "Necrotic/Dark Radiance",
+      icon: "Necrotic/Necrotic Hand Rising",
       spellType: "ACTION",
       effectTypes: ["damage"],
       typeConfig: {
         school: "necrotic",
-        icon: "Necrotic/Dark Radiance",
+        icon: "Necrotic/Necrotic Hand Rising",
         tags: ["necrotic", "damage", "execute", "entropy control"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -2283,10 +2230,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
 
     // ===== PASSIVE ABILITIES =====
-    {
-      id: "chaos_weaver_entropic_feedback",
+    { id : "chaos_weaver_entropic_feedback",
       name: "Entropic Feedback",
-      description: "When your Mayhem is above 50 (Tier II+), the magic burns you internally. All casts impose an operational friction check: a 10% fixed chance (rising to 25% at 80+ Mayhem) for the spell structure to collapse within your bones, dealing 2d6 force damage directly to your HP. This damage is physical structural collapse and cannot be mitigated.",
+      description: "When your Mayhem is above 50 (Tier II+), the magic burns you internally. All casts impose an operational friction check: a 10% fixed chance (rising to 25% at 80+ Mayhem) for the spell structure to collapse within your molecular matrix, dealing 2d6 force damage directly to your HP. This damage is a result of sheer temporal backlash and cannot be mitigated.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
@@ -2303,8 +2249,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       resolution: "AUTOMATIC",
       tags: ["passive", "chaos-weaver", "weakness"]
     },
-    {
-      id: "chaos_weaver_chaos_anchor",
+    { id : "chaos_weaver_chaos_anchor",
       name: "Chaos Anchor",
       description: "The interdimensional friction of your thinned vessel leaves your physical frame extremely brittle. At 61+ Mayhem, you suffer 25% physical bludgeoning and slashing vulnerability. At 81-99 Mayhem, this physical vulnerability rises to 50% as your molecular density drops.",
       level: 1,
@@ -2323,8 +2268,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "molecular_decay_debuff",
+          { id : "molecular_decay_debuff",
             name: "Anomalous Dissociation",
             description: "At high pressure, your molecular density drops, leaving you highly vulnerable to physical strikes.",
             statusEffect: {
@@ -2337,10 +2281,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
       resolution: "AUTOMATIC",
       tags: ["passive", "chaos-weaver", "weakness"]
     },
-    {
-      id: "chaos_weaver_reality_fracture",
+    { id : "chaos_weaver_reality_fracture",
       name: "Reality Fracture",
-      description: "Each time you trigger a d100 Master Wild Surge (Mayhem reaches 100), the massive spatial displacement shatters your physical anchor. You take 2d10 necrotic damage, suffer Anomalous Dissociation (100% bludgeoning/slashing vulnerability) for 2 rounds, and permanently reduce your maximum mana by 2 until your next long rest.",
+      description: "Each time you trigger a d100 Master Wild Surge (Mayhem reaches 100), the massive spatial displacement shears your physical anchor. You take 2d10 necrotic damage, suffer Anomalous Dissociation (100% bludgeoning/slashing vulnerability) for 2 rounds, and permanently reduce your maximum mana by 2 until your next long rest.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Void/Black Hole",
@@ -2357,8 +2300,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "planar_displacement_vulnerability",
+          { id : "planar_displacement_vulnerability",
             name: "Anomalous Dissociation",
             description: "Total structural collapse: caster takes 100% increased bludgeoning and slashing damage.",
             statusEffect: {

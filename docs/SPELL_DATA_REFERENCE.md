@@ -319,6 +319,75 @@ buffConfig: {
 }
 ```
 
+
+### buffType Values (46 observed)
+
+| buffType | Description |
+|---|---|
+| `"statEnhancement"` | Flat/dice stat increase |
+| `"statusEffectBuff"` | Grants a status effect (resistance, immunity) |
+| `"triggeredEffect"` | Buff that triggers on events (damage redirect, retaliation) |
+| `"combatAdvantage"` | Grants advantage or bonus to attack/damage |
+| `"damageMitigation"` | Reduces incoming damage |
+| `"damageIncrease"` | Increases outgoing damage |
+| `"movementBuff"` | Increases movement speed or grants movement immunity |
+| `"auraEffect"` | Radiates an effect to nearby units |
+| `"shield"` | Grants a shield or temp HP |
+| `"temporaryHP"` | Grants temporary hit points |
+| `"cheat_death"` | Prevents death once |
+| `"immunity"` | Grants condition immunity |
+| `"link"` | Links targets (damage sharing) |
+| `"retaliation"` | Reflects damage to attackers |
+| `"proficiency"` | Grants temporary proficiency |
+| `"damage_reduction"` | Reduces damage by percent or flat amount |
+| `"empowerment"` | Empowers abilities |
+| `"invulnerability"` | Complete damage immunity |
+| `"immortality"` | Cannot die |
+| `"protection"` | General protection |
+| `"transformation"` | Transformation-related buff |
+
+### Example: triggeredEffect (damage redirect / empathetic link)
+
+```javascript
+buffConfig: {
+  buffType: 'triggeredEffect',
+  effects: [
+    {
+      id: 'stitch_link_source',
+      name: 'Stitch of Suffering (Ally)',
+      description: '30% of incoming damage redirected to linked enemy.',
+      mechanicsText: 'Linked ally redirects 30% of incoming damage to bonded enemy as psychic for 3 rounds.',
+    },
+  ],
+  durationValue: 3,
+  durationType: 'rounds',
+  durationUnit: 'rounds',
+  concentrationRequired: false,
+  canBeDispelled: true,
+  stackingRule: 'replace',
+}
+```
+
+### Example: retaliation (reflect damage)
+
+```javascript
+buffConfig: {
+  buffType: 'retaliation',
+  effects: [
+    {
+      id: 'steam_backlash',
+      name: 'Thermal Backlash',
+      description: 'Release steam dealing fire damage equal to half damage taken back at attacker.',
+      retaliationDamage: { formula: 'damage_taken / 2', damageType: 'fire' },
+      mechanicsText: 'Reflect 50% of damage taken as fire damage to attacker.',
+    },
+  ],
+  durationValue: 2,
+  durationType: 'rounds',
+  durationUnit: 'rounds',
+}
+```
+
 ## debuffConfig
 
 ```javascript
@@ -348,91 +417,398 @@ debuffConfig: {
 }
 ```
 
-## utilityConfig / controlConfig / summoningConfig / transformationConfig / purificationConfig / restorationConfig
+
+### debuffType Values (18 observed)
+
+| debuffType | Description |
+|---|---|
+| `"statusEffect"` | Generic status effect (most common) |
+| `"statPenalty"` | Reduces stats |
+| `"curse"` | Curse-style debuff |
+| `"combined"` | Multiple debuff effects combined |
+| `"movementImpairment"` | Slows or restricts movement |
+| `"abilityDisable"` | Disables abilities |
+| `"link"` | Links damage or effects |
+| `"statReduction"` | Reduces a stat |
+| `"mark"` | Marks target for effects |
+| `"brand"` | Brands target |
+| `"aura"` | Aura debuff |
+| `"damageOverTime"` | DoT debuff |
+| `"disease"` | Disease debuff |
+| `"plague"` | Plague debuff |
+| `"sabotage"` | Sabotage debuff |
+| `"system_failure"` | System failure |
+
+### debuffConfig effects[] nested patterns
+
+Effects inside `debuffConfig.effects[]` can contain one of several nested mechanic objects:
+
+| Pattern | Fields | Use When |
+|---|---|---|
+| `statModifier` | `{ stat, magnitude, magnitudeType }` | Direct stat modification |
+| `statPenalty` (array) | `[{ stat, value, magnitudeType }]` | Multiple stat penalties |
+| `statPenalty` (object) | `{ stat, value, magnitudeType }` | Single stat penalty |
+| `statusEffects` (array) | `[{ id, name, option, vulnerabilityType, vulnerabilityPercent }]` | Complex status like vulnerability |
+| `statusEffect` (object) | `{ type, vulnerabilityType, percentage }` | Simple status effect |
+| `statusType` | `"blinded"\|"marked"\|...` | Simple string condition |
+
+## utilityConfig
 
 ```javascript
 utilityConfig: {
-  utilityType: 'movement',              // movement | protection | fate_manipulation | ...
+  utilityType: 'movement',              // See table below for ALL valid values
   selectedEffects: [
     { id: 'teleport', name: 'Teleport', description: 'Teleport up to 30 feet' }
   ],
   duration: 1,
-  durationUnit: 'rounds'
+  durationUnit: 'rounds',
+  concentration: false,
+  power: 'minor'                        // minor | major
 }
+```
 
+### utilityType Values (22 observed)
+
+| utilityType | Description |
+|---|---|
+| `"movement"` | Movement / teleport / reposition |
+| `"protection"` | Protect / intercept damage for ally |
+| `"fate_manipulation"` | Manipulate dice / fate outcomes |
+| `"teleportation"` | Teleport self or others |
+| `"reposition"` | Reposition on battlefield |
+| `"trap"` | Place a trap |
+| `"restoration"` | Restore resources or conditions |
+| `"enhancement"` | Enhance abilities |
+| `"environment"` | Environmental effect (darkness, silence zone) |
+| `"special"` | Class-specific special utility |
+| `"custom"` | Custom behavior |
+| `"perception"` | Vision / detection / true sight |
+| `"card_draw"` | Draw cards (Fate Weaver) |
+| `"conjuration"` | Conjure objects |
+| `"creation"` | Create something |
+| `"summon"` | Summon utility items |
+| `"cure"` | Cure conditions |
+| `"cleanse"` | Cleanse debuffs |
+| `"stance_change"` | Change combat stance |
+| `"resource_drain"` | Drain resources from target |
+| `"disruption"` | Disrupt enemies |
+| `"reroll"` | Reroll dice |
+
+---
+
+## controlConfig
+
+```javascript
 controlConfig: {
-  controlType: 'incapacitation',        // forcedMovement | illusion | mind_control | zone | incapacitation
-  effects: [
-    { id: 'stun', name: 'Stunned', description: 'Cannot act for 1 round. DC 15 Con.', config: { duration: 1 } }
-  ],
-  savingThrow: { ability: 'constitution', difficultyClass: 15 },
+  controlType: 'incapacitation',        // See table below for ALL valid values
   duration: 1,
-  durationUnit: 'rounds'
+  durationUnit: 'rounds',               // rounds | instant | minutes
+  effects: [
+    {
+      id: 'stun',
+      name: 'Stunned',
+      description: 'Cannot act for 1 round. DC 15 Constitution save.',
+      config: {                          // nested config varies by controlType
+        saveType: 'constitution',
+        saveDC: 15,
+        duration: 1,
+        durationUnit: 'rounds',
+        // forcedMovement: distance: 15, movementType: 'pull' | 'push'
+        // mind_control: confusionType: 'complete', controlType: 'full_control'
+        // restraint: restraintType: 'physical', breakOnDamage: true, condition: 'restrained'
+        // zone: zoneType: 'difficult_terrain'
+        // incapacitation: executeThreshold: 30, executeThresholdType: 'percentage', instantKill: true
+      },
+    },
+  ],
+  savingThrow: {
+    ability: 'constitution',             // constitution | spirit | strength | agility | intelligence | charisma
+    difficultyClass: 15,
+    saveOutcome: 'negates',              // negates | half_damage | reduced_duration
+  },
 }
+```
 
+### controlType Values (25 observed)
+
+| controlType | Description | Key config Fields |
+|---|---|---|
+| `"knockdown"` | Knock target prone | `saveType, saveDC` |
+| `"forcedMovement"` | Push / pull / drag target | `distance, movementType: 'pull'\|'push'` |
+| `"incapacitation"` | Incapacitate / stun / kill | `executeThreshold, instantKill` |
+| `"mind_control"` | Control target actions | `confusionType: 'complete', controlType: 'full'\|'full_control'\|'hostile_to_allies'` |
+| `"zone"` | Create a control zone | `zoneType: 'difficult_terrain'` |
+| `"restraint"` | Restrain target physically | `restraintType: 'physical', breakOnDamage: true, condition: 'restrained'` |
+| `"fear"` | Cause fear | Standard save config |
+| `"charm"` | Charm target | Standard save config |
+| `"restrained"` | Restrained condition | Standard save config |
+| `"incapacitated"` | Incapacitated condition | Standard save config |
+| `"stunned"` | Stunned condition | Standard save config |
+| `"silenced"` / `"silence"` | Silenced condition | Standard save config |
+| `"lockdown"` | Lock target in place | Standard save config |
+| `"mental"` | Mental control | Standard save config |
+| `"frightened"` | Frightened condition | Standard save config |
+| `"paralyze"` | Paralyze target | Standard save config |
+| `"disoriented"` | Disoriented condition | Standard save config |
+
+### Example: forcedMovement (pull enemies toward you)
+
+```javascript
+controlConfig: {
+  controlType: 'forcedMovement',
+  effects: [
+    {
+      id: 'seismic_drag',
+      name: 'Seismic Drag',
+      description: 'Enemies dragged 15 ft toward you.',
+      config: { distance: 15, movementType: 'pull' },
+    },
+  ],
+  duration: 0,
+  durationUnit: 'instant',
+}
+```
+
+### Example: mind_control (confuse enemies)
+
+```javascript
+controlConfig: {
+  controlType: 'mind_control',
+  duration: 2,
+  durationUnit: 'rounds',
+  effects: [
+    {
+      id: 'confused',
+      name: 'Confused',
+      description: 'Cannot distinguish friend from foe for 2 rounds.',
+      config: { confusionType: 'complete', saveType: 'spirit', saveDC: 14 },
+    },
+  ],
+  savingThrow: { ability: 'spirit', difficultyClass: 14, saveOutcome: 'negates' },
+}
+```
+
+### Example: zone (difficult terrain)
+
+```javascript
+controlConfig: {
+  controlType: 'zone',
+  duration: 4,
+  durationUnit: 'rounds',
+  effects: [
+    {
+      id: 'difficult_terrain',
+      name: 'Corrupted Ground',
+      description: 'Area becomes difficult terrain.',
+      config: { zoneType: 'difficult_terrain', duration: 4, durationUnit: 'rounds' },
+    },
+  ],
+}
+```
+
+---
+
+## summoningConfig
+
+### Two valid patterns exist:
+
+#### Pattern A: Flat config (simple creatures -- exorcist, falseProphet)
+
+```javascript
+summoningConfig: {
+  summonType: 'temporary',               // 'temporary' | 'permanent'
+  creatureName: 'Abyssal Servant',       // REQUIRED -- display name shown on card
+  creatureType: 'Construct',             // Capitalized! 'Fiend' | 'Construct' | 'Undead' | 'Elemental' | 'Beast'
+  quantity: 1,
+  maxQuantity: 4,
+  quantityFormula: '1d4',               // dice formula for random quantity
+  statsFormula: '2d6 + 3',              // HP formula for summoned creature
+  attackFormula: '1d6 + 2',             // attack damage formula
+  duration: 4,
+  durationUnit: 'rounds',               // 'rounds' | 'permanent'
+  commandable: true,
+  actionsPerTurn: 1,
+  abilities: ['Abyssal Strike', 'Void Shield'],  // ability names
+  difficultyLevel: 'moderate',           // 'easy' | 'moderate' | 'hard'
+}
+```
+
+**IMPORTANT**: Pattern A requires `creatureName` (string, shown on card). Without it, the card renders "summoned creature" or "undefined". `creatureType` must be Capitalized (e.g., `"Construct"` not `"construct"`).
+
+#### Pattern B: Creatures array (detailed creatures -- primalist, deathcaller)
+
+```javascript
 summoningConfig: {
   creatures: [
     {
-      quantity: 1,
-      duration: 10,
-      durationUnit: 'minutes',
-      hasDuration: true,
-      concentration: false,
-      controlType: 'verbal',            // verbal | mental | bound
-      controlRange: 60,
-      attachedEffects: {}               // optional effects on creature
-    }
+      id: 'healing_totem_summon',
+      name: 'Healing Totem',             // REQUIRED for Pattern B
+      description: 'A splintered bone structure pulsing with raw sap.',
+      size: 'Small',                      // 'Small' | 'Medium' | 'Large'
+      type: 'construct',                  // creature type
+      tokenIcon: 'spell_nature_healingtouch',
+      stats: {
+        maxHp: 10,
+        armor: 12,
+        maxMana: 0,
+      },
+      config: {
+        quantity: 1,
+        duration: 5,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlType: 'autonomous',        // 'autonomous' | 'verbal' | 'mental' | 'bound'
+        controlRange: 0,
+      },
+    },
+  ],
+}
+```
+
+#### Pattern B variant: deathcaller (simpler creature array)
+
+```javascript
+summoningConfig: {
+  creatures: [
+    {
+      quantity: 2,
+      hp: 15,
+      damagePerTurn: '1d6',
+      damageType: 'necrotic',
+      specialRules: ['Each wraith drains 1d4 HP from the caster at start of turn.'],
+    },
   ],
   duration: 10,
-  durationUnit: 'minutes',
+  durationUnit: 'rounds',
   hasDuration: true,
-  concentration: true,
-  quantity: 1,
-  maxQuantity: 4,
+  concentration: false,
+  quantity: 2,
+  maxQuantity: 2,
   controlRange: 60,
   controlType: 'verbal',
   difficultyLevel: 'easy',
-  waitForTrigger: false
 }
+```
 
+---
+
+## transformationConfig
+
+### Two naming conventions exist:
+
+#### Convention A: transformationType + newForm + grantedAbilities (berserker, deathcaller, dreadnaught, arcanoneer)
+
+```javascript
 transformationConfig: {
-  transformationType: 'elemental',      // elemental | beast | shadow | undead | custom
+  transformationType: 'physical',        // See table below
   targetType: 'self',
-  newForm: 'Living Conduit',            // Name of the transformed state
-  description: 'Your body radiates prismatic elemental energy as a living conduit...',
-  duration: 4,
+  duration: 3,
+  durationUnit: 'rounds',
+  power: 'major',                        // 'major' | 'ultimate'
+  newForm: 'Battle Incarnate',           // display name of form
+  description: 'Transform into war itself...',
+  concentration: true,
+  maintainEquipment: true,
+  grantedAbilities: [                    // abilities gained during transformation
+    {
+      id: 'incarnate_strike_bonus',
+      name: 'Incarnate Fury',
+      description: '+10 flat damage on all physical attacks.',
+    },
+    {
+      id: 'incarnate_resilience',
+      name: 'Unyielding Husk',
+      description: '+6 flat Armor. Complete immunity to all conditions.',
+    },
+  ],
+}
+```
+
+#### Convention B: transformType + statModifiers + specialAbilities (falseProphet, martyr)
+
+```javascript
+transformationConfig: {
+  transformType: 'divine',               // See table below
+  targetType: 'self',
+  formName: 'Avatar of Sacrifice',       // display name (Convention B uses formName instead of newForm)
+  formDescription: 'A glowing divine form...', // optional description
+  duration: 5,
   durationUnit: 'rounds',
   concentration: true,
-  power: 'ultimate',                    // ultimate | signature | normal
-  maintainEquipment: true
+  maintainEquipment: true,
+  statModifiers: [                       // actual stat changes during transformation
+    { stat: 'intelligence', magnitude: 6, magnitudeType: 'flat' },
+    { stat: 'spirit', magnitude: 6, magnitudeType: 'flat' },
+    { stat: 'armor', magnitude: 5, magnitudeType: 'flat' },
+    { stat: 'maxHp', magnitude: 50, magnitudeType: 'temporary' },
+  ],
+  specialAbilities: [                    // ability descriptions
+    {
+      name: 'Mind Shield',
+      description: 'Immune to charm, fear, and confusion while transformed.',
+    },
+  ],
+  grantedAbilities: [                    // can coexist with specialAbilities
+    {
+      id: 'mass_manipulation',
+      name: 'Mass Manipulation',
+      description: 'Charm or frighten all enemies within 30ft once.',
+    },
+  ],
 }
+```
 
+**IMPORTANT**: Transformation spells that change stats MUST include `statModifiers` with actual magnitude values. Without it, the card says "enhances your physical form" with no details. If the transformation grants combat benefits (immunity, advantage, etc.), add `specialAbilities` to describe them. The spell's `effectTypes` should include `"buff"` if the transformation changes stats.
+
+### transformationType / transformType Values (12 observed)
+
+| Value | Convention | Description |
+|---|---|---|
+| `"physical"` | A | Physical transformation (berserker, deathcaller) |
+| `"elemental"` | A/B | Elemental form (arcanoneer, deathcaller) |
+| `"divine"` | A/B | Divine / holy form (covenbane, falseProphet, martyr) |
+| `"shadow"` | A | Shadow form (dreadnaught, covenbane) |
+| `"spectral"` | A | Spectral / ghost form (covenbane) |
+| `"phaseshift"` | A | Phase shift form (deathcaller) |
+| `"primal"` | A | Primal / beast form (formbender) |
+| `"nature"` | A | Nature form (primalist) |
+| `"parasitic"` | A | Parasitic form (lunarch) |
+| `"celestial"` | A | Celestial form (lunarch) |
+
+---
+
+## purificationConfig
+
+```javascript
 purificationConfig: {
   purificationType: 'cleanse',          // dispel | cleanse | resurrection
-  targetEffects: ['statusEffect', 'statPenalty'], // CamelCase keys are auto-spaced by the card renderer (e.g. statusEffect -> Status Effect)
-  effects: [                            // Custom cleanse details (UnifiedSpellCard falls back on effects if selectedEffects is not provided)
-    {
-      id: 'prismatic_cleanse',
-      name: 'Prismatic Cleanse',
-      description: 'Instantly removes all non-permanent status effects and negative modifiers.'
-    }
+  targetEffects: ['statusEffect', 'statPenalty'],
+  effects: [
+    { id: 'prismatic_cleanse', name: 'Prismatic Cleanse', description: 'Removes all non-permanent status effects.' }
   ],
   difficultyClass: 15,
   abilitySave: 'spirit'
 }
+```
 
+---
+
+## restorationConfig
+
+```javascript
 restorationConfig: {
   resourceType: 'mana',                 // mana | health | action_points | class resource types
-  resolution: 'DICE',                   // DICE | CARDS | COINS
-  formula: '2d8 + intelligence',        // standard recovery formula
+  resolution: 'DICE',
+  formula: '2d8 + intelligence',
   duration: 'instant',
   tickFrequency: 'round',
   application: 'start',
   scalingType: 'flat',
-  isOverTime: false,                    // true for recovery over time
+  isOverTime: false,
   overTimeFormula: '1d4 + intelligence/2',
   overTimeDuration: 3,
-  overTimeTriggerType: 'periodic',      // periodic | trigger
+  overTimeTriggerType: 'periodic',
   isProgressiveOverTime: false,
   overTimeProgressiveStages: []
 }
@@ -677,18 +1053,24 @@ In Mythrill VTT, each of the 30 classes utilizes its own unique thematic resourc
 
 The following table documents all 30 classes, their resource names, where to store them in the spell data, and the exact keys required:
 
+````carousel
+##### Page 1: Classes 1–10
 | # | Class | Resource System | Where in Spell Data | Required Fields & Schema |
 |---|---|---|---|---|
 | 1 | **Arcanoneer** | Elemental Spheres | `resourceCost.resourceValues` or flat `sphereCost` | `arcane_energy_points` (number) or sphere cost fields (e.g. `arcane_sphere`, `fire_sphere`, `ice_sphere`, `holy_sphere`, `nature_sphere`, `shadow_sphere`, `healing_sphere`, `chaos_sphere`) |
 | 2 | **Augur** | Benediction / Malediction | `resourceCost.resourceValues` or flat fields | `benedictionCost`, `benedictionGain`, `maledictionCost`, `maledictionGain` |
 | 3 | **Berserker** | Rage | `resourceCost.resourceValues` or flat fields | `rageCost`, `rageGain`, `rageRequired` |
 | 4 | **Bladedancer** | Momentum / Flourish | `resourceCost.resourceValues` or flat fields | `momentumCost`, `momentumGain`, `flourishRequired` |
-| 5 | **Chaos Weaver** | Mayhem / Chaos Spheres | `resourceCost.resourceValues` | `chaos_sphere` (number), `mayhemCost`, `mayhemGain` |
+| 5 | **Chaos Weaver** | Mayhem | `resourceCost.classResource` | Shorthand object: `{ type: 'mayhem', cost: N }` (Negative = generate, Positive = cost) |
 | 6 | **Chronarch** | Time Shards / Temporal Strain | `resourceCost.resourceValues` or `specialMechanics.temporalFlux` | `timeShardGenerate` / `time_shard_generate`, `timeShardCost` / `time_shard_cost`, `temporalStrainGain` / `temporal_strain_gain`, `temporalStrainReduce` / `temporal_strain_reduce` |
 | 7 | **Covenbane** | Hexbreaker Charges | `resourceCost.resourceValues` or flat fields | `hexbreakerCharges` (number), `hexChargeCost`, `hexChargeGain` |
 | 8 | **Deathcaller** | Blood Tokens / HP Cost | `resourceCost.resourceValues` or flat fields | `bloodTokens` (number), `hp` (number - for direct HP cost) |
 | 9 | **Doomsayer** | Havoc | `resourceCost.classResource` | Shorthand object: `{ type: 'havoc', cost: N }` |
-| 10 | **Dreadnaught** | Dark Resilience Points | `resourceCost.resourceValues` or flat fields | `drpCost`, `drpGain`, `drpRequired` |
+| 10 | **Dreadnaught** | Furnace Pressure | `resourceCost.classResource` or `resourceCost.resourceValues` | `classResource: { type: 'furnace_pressure', cost: N }` (Positive = spend, Negative = generate). Also via `resourceValues: { furnace_pressure: N }` |
+<!-- slide -->
+##### Page 2: Classes 11–20
+| # | Class | Resource System | Where in Spell Data | Required Fields & Schema |
+|---|---|---|---|---|
 | 11 | **Exorcist** | Dominance Dice | `resourceCost.resourceValues` or flat fields | `dominanceDiceCost`, `dominanceDiceGain` |
 | 12 | **False Prophet** | Madness Points | `resourceCost.resourceValues` or flat fields | `madnessCost`, `madnessGain` |
 | 13 | **Fate Weaver** | Threads of Destiny | `specialMechanics.threadsOfDestiny` or flat fields | `threads_spend` (number), `threads_generate` (number) |
@@ -699,6 +1081,10 @@ The following table documents all 30 classes, their resource names, where to sto
 | 18 | **Lichborne** | HP (Aura Mode) / Phylactery | `resourceCost.resourceValues` | `hp` (number - for active Aura drains), `phylacteryCharges` |
 | 19 | **Lunarch** | Moon Phase | Flat fields or `resourceCost` | `phaseRequired` ('new_moon' \| 'waxing' \| 'full_moon' \| 'waning'), `manaToShift` |
 | 20 | **Martyr** | Devotion Gauge | Flat top-level props or `resourceValues` | `devotionRequired` (number), `devotionGain` (number), `devotionCost` (number) |
+<!-- slide -->
+##### Page 3: Classes 21–30
+| # | Class | Resource System | Where in Spell Data | Required Fields & Schema |
+|---|---|---|---|---|
 | 21 | **Minstrel** | Musical Notes / Combos | `musicalCombo` or `specialMechanics.musicalCombo` | `notes` (array of notes, e.g. `['C', 'E', 'G']`), `cadenceName`, `cadenceNotes` |
 | 22 | **Oracle** | Prophetic Visions | `resourceCost.resourceValues` or flat fields | `visionCost`, `visionGain`, `visionRequired` |
 | 23 | **Plaguebringer** | Virulence / Afflictions | `effectMechanicsConfigs` or flat fields | `virulenceCost`, `virulenceGain`, `afflictionType` |
@@ -709,12 +1095,13 @@ The following table documents all 30 classes, their resource names, where to sto
 | 28 | **Toxicologist** | Toxin Vials / Contraptions | `resourceCost.resourceValues` or `effectMechanicsConfigs` | `toxinVialsCost`, `toxinVialsGain`, `contraptionParts` (number) |
 | 29 | **Warden** | Vengeance Points | `resourceCost.resourceValues` or flat fields | `vengeanceCost`, `vengeanceGain`, `vengeanceRequired` |
 | 30 | **Witch Doctor** | Voodoo Essence | `resourceCost.resourceValues` or flat fields | `voodooEssenceCost`, `voodooEssenceGain` |
+````
 
 ---
 
 ## Class Resource Configurations & Code Examples
 
-### A. Sphere-Based Systems (Arcanoneer & Chaos Weaver)
+### A. Sphere-Based Systems (Arcanoneer)
 Uses specific keys inside `resourceCost.resourceValues` to render specialized sphere badges:
 ```javascript
 resourceCost: {
@@ -765,9 +1152,11 @@ These can be stored either as flat, top-level properties or nested in `resourceC
 }
 ```
 
-### C. Shorthand ClassResource (Doomsayer)
-Doomsayer uses a specialized `classResource` object inside `resourceCost` to denote Havoc costs:
+### C. Shorthand ClassResource (Doomsayer & Chaos Weaver)
+These classes use a specialized `classResource` object inside `resourceCost` to denote dynamic resource interactions.
+* **Doomsayer** specifies cost (positive) for spending Havoc:
 ```javascript
+// Doomsayer Havoc Cost Example
 resourceCost: {
   actionPoints: 1,
   mana: 6,
@@ -776,6 +1165,30 @@ resourceCost: {
     cost: 3 
   },
   components: ['verbal']
+}
+```
+* **Chaos Weaver** uses negative values to generate Mayhem and positive values to consume/require Mayhem:
+```javascript
+// Chaos Weaver Mayhem Generation Example
+resourceCost: {
+  actionPoints: 1,
+  mana: 4,
+  classResource: {
+    type: 'mayhem',
+    cost: -2
+  },
+  components: ['verbal', 'somatic']
+}
+
+// Chaos Weaver Mayhem Spending Example
+resourceCost: {
+  actionPoints: 2,
+  mana: 8,
+  classResource: {
+    type: 'mayhem',
+    cost: 4
+  },
+  components: ['verbal', 'somatic']
 }
 ```
 
@@ -1091,7 +1504,10 @@ triggerConfig: {
 
 ## All Valid Trigger Type IDs
 
-### Combat Triggers
+````carousel
+##### Page 1: Combat & Movement Triggers
+
+###### Combat Triggers
 | ID | Name | Key Parameters |
 |---|---|---|
 | `damage_taken` | Damage Taken | amount, damage_type, perspective |
@@ -1110,7 +1526,7 @@ triggerConfig: {
 | `first_strike` | First Strike | perspective |
 | `last_stand` | Last Stand | (none) |
 
-### Movement Triggers
+###### Movement Triggers
 | ID | Name | Key Parameters |
 |---|---|---|
 | `movement_start` | Movement Start | perspective |
@@ -1123,7 +1539,10 @@ triggerConfig: {
 | `high_ground` | High Ground | perspective |
 | `falling` | Falling | perspective |
 
-### Health Triggers
+<!-- slide -->
+##### Page 2: Health & Status Triggers
+
+###### Health Triggers
 | ID | Name | Key Parameters |
 |---|---|---|
 | `health_threshold` | Health Threshold | percentage, comparison, perspective |
@@ -1138,7 +1557,7 @@ triggerConfig: {
 | `full_health` | Full Health | perspective |
 | `overhealing` | Overhealing | perspective |
 
-### Status Triggers
+###### Status Triggers
 | ID | Name | Key Parameters |
 |---|---|---|
 | `effect_applied` | Effect Applied | effect_type, perspective |
@@ -1149,7 +1568,10 @@ triggerConfig: {
 | `cleanse` | Cleanse | effect_type, perspective |
 | `immunity` | Immunity | effect_type, perspective |
 
-### Trap Triggers
+<!-- slide -->
+##### Page 3: Trap, Environment & Time Triggers
+
+###### Trap Triggers
 | ID | Name | Key Parameters |
 |---|---|---|
 | `stepped_on` | Stepped On | creature_type |
@@ -1162,7 +1584,7 @@ triggerConfig: {
 | `magical_trigger` | Magical Trigger | magic_type |
 | `trap_chain` | Trap Chain | (none) |
 
-### Environment Triggers
+###### Environment Triggers
 | ID | Name | Key Parameters |
 |---|---|---|
 | `weather_change` | Weather Change | weather_type |
@@ -1174,7 +1596,7 @@ triggerConfig: {
 | `in_darkness` | In Darkness | (none) |
 | `in_bright_light` | In Bright Light | (none) |
 
-### Time Triggers
+###### Time Triggers
 | ID | Name | Key Parameters |
 |---|---|---|
 | `turn_start` | Turn Start | whose_turn |
@@ -1183,6 +1605,7 @@ triggerConfig: {
 | `round_end` | Round End | (none) |
 | `cooldown_ready` | Cooldown Ready | ability_id |
 | `duration_threshold` | Duration Threshold | duration, comparison |
+````
 
 ### Card Rendering Summary
 
@@ -1585,23 +2008,30 @@ statusEffects: [
 
 ## Known Status Effect IDs & Their Fields
 
+````carousel
+##### Page 1: Defensive & Utility Status Effects
 | Effect ID | Key Fields |
 |---|---|
 | `luck` | `luckType` ('bonus'/'reroll'/'minimum'/'choose'), `luckBonus`, `appliesTo`, `rerollCount` |
 | `haste` | `speedMultiplier`, `extraActions`, `extraAttacks`, `hasLethargy` |
 | `regeneration` | `calculationType` ('fixed'/'percentage'/'dice'), `healAmount`, `healPercentage`, `diceCount`, `diceType` |
 | `shielded` / `shield` | `shieldAmount`, `shieldType` ('absorb'/'reflect'/'thorns') |
-| `burning` | `diceCount`, `diceType`, `damageType`, `canSpread`, `extinguishDC` |
-| `stunned` / `stun` | `stunLevel` ('full'/'partial'/'dazed') |
-| `charmed` / `charm` | `charmLevel` ('dominated'/'friendly'/'suggestion'), `saveTrigger`, `canAttackCharmer` |
 | `invisibility` / `invisible` | `invisibilityType` ('standard'/'greater'/'improved'/'partial'/'full'/'selective'), `breaksOnAttack` |
 | `flight` / `flying` | `flySpeed`/`flightSpeed`, `maneuverability` |
-| `combat_advantage` | `advantageType` ('attack'/'damage'/'healing'/'saving'/'initiative'/'super') |
 | `resistance` | `resistanceType`, `resistanceAmount`/`magnitude` |
 | `inspired` | `inspirationType`, `inspirationDie` |
 | `blessed` | `blessType` ('protection'/'fortune'/'life') |
 | `temporary_hp` | `temporaryHitPoints`/`amount` |
 | `truesight` | `truesightRange` |
+| `skill_mastery` | `skillType` ('physical'/'mental'/'social') |
+<!-- slide -->
+##### Page 2: Offensive, Control & Combat Status Effects
+| Effect ID | Key Fields |
+|---|---|
+| `burning` | `diceCount`, `diceType`, `damageType`, `canSpread`, `extinguishDC` |
+| `stunned` / `stun` | `stunLevel` ('full'/'partial'/'dazed') |
+| `charmed` / `charm` | `charmLevel` ('dominated'/'friendly'/'suggestion'), `saveTrigger`, `canAttackCharmer` |
+| `combat_advantage` | `advantageType` ('attack'/'damage'/'healing'/'saving'/'initiative'/'super') |
 | `energized` | `bonusActionPoints` |
 | `empowered` | `powerIncrease` |
 | `lifelink` | `linkType`, `percentage`, `direction`, `sourceResource`, `targetResource`, `calculationType`, `maxTransfer` |
@@ -1609,7 +2039,7 @@ statusEffects: [
 | `elemental_infusion` | `element`, `bonusDamage` |
 | `empower_next` | `empowerType` ('spell'/'heal'/'weapon'), `uses` |
 | `attackers_disadvantage` | `attackType` |
-| `skill_mastery` | `skillType` ('physical'/'mental'/'social') |
+````
 
 ---
 

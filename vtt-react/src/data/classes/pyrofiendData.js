@@ -8,7 +8,7 @@
  */
 
 export const PYROFIEND_DATA = {
-  id: "pyrofiend",
+  id : "pyrofiend",
   name: "Pyrofiend",
   icon: "fas fa-fire",
   role: "Damage",
@@ -555,8 +555,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
     },
 
     specs: [
-      {
-        id: "inferno",
+      { id : "inferno",
         name: "Inferno",
         icon: "Fire/Swirling Fireball",
         color: "#FF4500",
@@ -595,8 +594,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
           "Players who enjoy high-risk gameplay, burst damage, and aggressive tactics",
       },
 
-      {
-        id: "wildfire",
+      { id : "wildfire",
         name: "Wildfire",
         icon: "Fire/Scorching Rune",
         color: "#FF8C00",
@@ -634,8 +632,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
           "Players who enjoy area control, damage-over-time builds, and tactical positioning",
       },
 
-      {
-        id: "apostate",
+      { id : "apostate",
         name: "The Apostate's Path",
         icon: "Fire/Burning Ember",
         color: "#6B2020",
@@ -752,8 +749,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // LEVEL 1 STARTING SPELLS (5 options, pick 3)
     // Weak starter spells - intentionally low power
     // ========================================
-    {
-      id: "pyro_ember_spark",
+    { id: "pyro_ember_spark",
       name: "Ember Spark",
       description:
         "Scathrach gifts you a malevolent spark — a fragment of its own hatred, compressed into a projectile. It burrows into flesh, igniting a smolder that no mortal can extinguish. Deals initial fire damage and leaves a persistent burn that consumes the target over 2 rounds. The ember is the demon's way of saying: burn everything.",
@@ -818,8 +814,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "dot", "starter"],
     },
 
-    {
-      id: "pyro_smoldering_touch",
+    { id: "pyro_smoldering_touch",
       name: "Smoldering Touch",
       description:
         "Your hand glows with the heat of Scathrach's contempt. You press it into an enemy's flesh — not gently — searing through armor and leaving a smolder that burns for 1d4 fire damage per round for 2 rounds. The touch is not a spell. It is an imposition. You are sharing what lives inside you.",
@@ -882,8 +877,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "touch", "dot", "starter"],
     },
 
-    {
-      id: "pyro_flicker",
+    { id: "pyro_flicker",
       name: "Flicker",
       description:
         "A quick flash of Scathrach's spite streaks toward your target. Small but precise, the flame ignites instantly and leaves a trail of heat in its wake. This is the demon flicking a match — dismissive, casual, and still enough to set the world alight.",
@@ -931,8 +925,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "starter"],
     },
 
-    {
-      id: "pyro_cooling_ember",
+    { id: "pyro_cooling_ember",
       name: "Cooling Ember",
       description:
         "You press your hand to your own chest and will the furnace to dim. Scathrach screams inside your skull — it hates this. Cooling Ember draws the infernal heat back into the demon's prison, soothing your corrupted flesh and restoring a fraction of your health. Essential for survival. Every cast costs mana you cannot afford. This is the Mana Tax — the price of not dying.",
@@ -979,8 +972,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "healing", "utility", "starter"],
     },
 
-    {
-      id: "pyro_heat_shield",
+    { id: "pyro_heat_shield",
       name: "Heat Shield",
       description:
         "You pull Scathrach's heat outward, wrapping yourself in a shimmering barrier of superheated air. Attacks that pass through it are warped and dissipated by the thermal distortion. The shield is a fragment of the demon's own defenses — borrowed, not earned.",
@@ -1016,8 +1008,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "heat_shield_damage_reduction",
+          { id : "heat_shield_damage_reduction",
             name: "Heat Shield",
             description:
               "+2 Damage Reduction for 2 rounds. The heat shield absorbs and disperses incoming attacks, reducing the damage that reaches you.",
@@ -1047,8 +1038,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 2 SPELLS
     // ========================================
-    {
-      id: "pyro_scorching_grasp",
+    { id: "pyro_scorching_grasp",
       name: "Scorching Grasp",
       description:
         "Flames engulf your hand — not the warm orange of a hearth, but the sickly black-red of Scathrach's ire. You seize the enemy and the fire clings, searing through armor and flesh for 2d8 + INT/2 fire damage, then burning for 1d4 fire damage per round for 2 rounds. Your touch is a branding iron. The mark says: property of the Ashen Sovereign.",
@@ -1111,8 +1101,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "touch"],
     },
 
-    {
-      id: "pyro_flame_lash",
+    { id: "pyro_flame_lash",
       name: "Flame Lash",
       description:
         "A whip of condensed fire lashes out from your palm, coiling around an enemy and dragging them toward you through sheer infernal fury. The flames sear as they grip, and the target feels Scathrach's hunger pulling them closer to the furnace.",
@@ -1164,8 +1153,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "pull",
+          { id : "pull",
             name: "Pull",
             description:
               "Pulls the target 15 feet toward the caster. DC 14 Strength save negates.",
@@ -1185,8 +1173,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "control"],
     },
 
-    {
-      id: "pyro_cinder_bolt",
+    { id: "pyro_cinder_bolt",
       name: "Cinder Bolt",
       description:
         "You compress Scathrach's hatred into a bolt of cinders and hurl it. On impact, the bolt detonates — showering the area in sparks and slag. A small explosion by Pyrofiend standards. A catastrophic one by anyone else's.",
@@ -1240,8 +1227,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 3 SPELLS
     // ========================================
-    {
-      id: "pyro_fireball",
+    { id: "pyro_fireball",
       name: "Fireball",
       description:
         "The classic instrument of Scathrach's wrath. A sphere of condensed demonic fire streaks to a point you choose and detonates, engulfing everything within range in a roaring inferno. This is the spell that earned the Pyrofiend its reputation — and its body count.",
@@ -1306,8 +1292,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_burning_hands",
+    { id: "pyro_burning_hands",
       name: "Burning Hands",
       description:
         "You spread your fingers wide and Scathrach exhales through your palms. A cone of demonic fire erupts, scorching everything in a 20-foot arc. Close-range devastation for when the enemy is too close — which is exactly when Scathrach is happiest.",
@@ -1371,8 +1356,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_flame_step",
+    { id: "pyro_flame_step",
       name: "Flame Step",
       description:
         "You step through a tear in reality — a wound carved by Scathrach's fire. You vanish in a burst of flame and reappear nearby, leaving fire at both points of departure and arrival. The teleport is not graceful. It is violent, disorienting, and leaves the smell of burnt air.",
@@ -1407,8 +1391,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "teleport",
+          { id : "teleport",
             name: "Teleport",
             distance: 30,
             needsLineOfSight: true,
@@ -1449,8 +1432,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 4 SPELLS
     // ========================================
-    {
-      id: "pyro_infernal_blast",
+    { id: "pyro_infernal_blast",
       name: "Infernal Blast",
       description:
         "A concentrated blast of Scathrach's purest hatred erupts from your hands, searing through defenses and leaving nothing but ash. 5d6 + INT fire damage. At Inferno Level 4+, the corruption surges — dealing an additional 2d6 fire damage. The blast is not fire. It is annihilation wearing fire as a mask.",
@@ -1507,8 +1489,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
           damage: {
             logicType: "OR",
             compoundTriggers: [
-              {
-                id: "resource_threshold",
+              { id : "resource_threshold",
                 category: "health",
                 name: "Inferno Level 4+",
                 parameters: {
@@ -1532,8 +1513,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage"],
     },
 
-    {
-      id: "pyro_searing_chains",
+    { id: "pyro_searing_chains",
       name: "Searing Chains",
       description:
         "Conjure burning chains of Scathrach's binding — links of condensed hatred that lash between enemies, dealing 3d6 + INT fire damage and tethering them together. Each chain jump deals 75% damage but ignites all targets struck for 1d6 fire damage per round for 2 rounds. Chains leap to up to 3 additional targets within 15 feet. The chains do not merely burn — they bind. Scathrach was a warden before it was a flame.",
@@ -1606,8 +1586,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "chain"],
     },
 
-    {
-      id: "pyro_fiery_aura",
+    { id: "pyro_fiery_aura",
       name: "Fiery Aura",
       description:
         "You open the furnace door. An aura of Scathrach's contempt radiates outward, dealing 2d6 fire damage to any enemy foolish enough to stand within 5 feet. The aura persists for up to 3 rounds while you concentrate — a constant, pulsing reminder that you are not safe to be near.",
@@ -1679,8 +1658,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 5 SPELLS
     // ========================================
-    {
-      id: "pyro_hellfire_wave",
+    { id: "pyro_hellfire_wave",
       name: "Hellfire Wave",
       description:
         "Scathrach opens its mouth through yours. A wave of hellish fire sweeps over everything in a 30-foot cone — 8d6 + INT fire damage. The wave is not a spell. It is the demon vomiting its rage through your body. Anything caught in the cone does not burn. It ceases.",
@@ -1730,8 +1708,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_immolation",
+    { id: "pyro_immolation",
       name: "Immolation",
       description:
         "You designate a target for Scathrach's obsession. Flames engulf them — 6d8 + INT/2 fire damage immediately — and then the real cruelty begins. The fire does not stop. 1d6 + INT/4 fire damage per round for 3 rounds. The target screams. Scathrach hums contentedly. You try not to think about what that says about you.",
@@ -1795,8 +1772,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "dot"],
     },
 
-    {
-      id: "pyro_fire_whip",
+    { id: "pyro_fire_whip",
       name: "Fire Whip",
       description:
         "A whip of condensed infernal fury — not fire, but the idea of fire made violent. It lashes out, dealing 7d6 + INT fire damage and potentially stunning the target as Scathrach's malice briefly overwhelms their nervous system. The whip is the demon's tongue. It tastes what it strikes.",
@@ -1866,8 +1842,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 6 SPELLS
     // ========================================
-    {
-      id: "pyro_lava_burst",
+    { id: "pyro_lava_burst",
       name: "Lava Burst",
       description:
         "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT fire damage. The ground does not simply burn — it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT×2.",
@@ -1933,8 +1908,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_flame_storm",
+    { id: "pyro_flame_storm",
       name: "Flame Storm",
       description:
         "You raise your arms and Scathrach screams into the sky. A swirling storm of fire descends on a 20-foot radius, dealing 8d6 + INT fire damage immediately and 2d6 + INT/2 fire damage per round for 3 rounds. The storm is not natural. It is the demon's rage made manifest — a localized apocalypse that turns earth to ash and air to agony.",
@@ -2000,8 +1974,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe", "dot"],
     },
 
-    {
-      id: "pyro_infernal_brand_advanced",
+    { id: "pyro_infernal_brand_advanced",
       name: "Infernal Brand (Advanced)",
       description:
         "You carve Scathrach's sigil into an enemy's flesh with a gesture. The brand sears into them — 4d6 + INT/3 fire damage immediately, then 2d6 + INT/2 fire per round for 4 rounds. The sigil does more than burn: it weakens, sapping the target's strength as Scathrach feeds on their vitality through the mark. They are branded. They are marked for the furnace.",
@@ -2054,8 +2027,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "weakened",
+          { id : "weakened",
             name: "Weakened",
             description:
               "The target's physical power is diminished by the searing heat, making them weaker and less effective in combat. The infernal brand saps their strength as it burns.",
@@ -2090,8 +2062,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 7 SPELLS
     // ========================================
-    {
-      id: "pyro_volcanic_eruption",
+    { id: "pyro_volcanic_eruption",
       name: "Volcanic Eruption",
       description:
         "You command the earth to open and Scathrach obliges with volcanic fury. A 25-foot radius eruption of magma and ash deals 12d6 + INT×2 fire damage (DC 16 Agility save for half). At Inferno Level 7+, the corruption deepens the caldera — 16d6 + INT×2. The ground becomes a crematorium. Bodies are not found. Only shapes in the slag.",
@@ -2163,8 +2134,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
           damage: {
             logicType: "OR",
             compoundTriggers: [
-              {
-                id: "resource_threshold",
+              { id : "resource_threshold",
                 category: "health",
                 name: "High Inferno Level",
                 parameters: {
@@ -2198,8 +2168,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_hellfire_breath",
+    { id: "pyro_hellfire_breath",
       name: "Hellfire Breath",
       description:
         "You inhale and Scathrach exhales through you. A 40-foot cone of hellfire pours from your throat — 10d6 + INT×2 fire damage. This is not a spell. This is regurgitation. The demon has been living in your chest and now it breathes. Anything caught in the cone does not catch fire. It was always on fire. It simply didn't know it until now.",
@@ -2264,8 +2233,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_demonic_empowerment",
+    { id: "pyro_demonic_empowerment",
       name: "Demonic Empowerment",
       description:
         "You open yourself fully to Scathrach's influence, allowing the demon to amplify your fire for 5 rounds. +5 fire damage on all fire-based attacks. As the channel deepens: enemies within 5 feet begin taking 1d6 fire (round 3), and your fire resistance doubles (round 5). This is borrowing power from the thing that is killing you. The interest rate is your soul.",
@@ -2301,8 +2269,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "fireDamageBoost",
+          { id : "fireDamageBoost",
             name: "Fire Damage Boost",
             description:
               "Fire damage increased by +5 for 5 rounds. All fire-based attacks deal additional damage as demonic power flows through your spells and abilities.",
@@ -2359,8 +2326,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 8 SPELLS
     // ========================================
-    {
-      id: "pyro_meteor_shower",
+    { id: "pyro_meteor_shower",
       name: "Meteor Shower",
       description:
         "You reach into Scathrach's furnace and pull down the sky. A shower of flaming meteors descends on a 30-foot radius, dealing 14d6 + INT×2 fire damage with explosive force. The ground craters. The air ignites. This is not a spell — it is a natural disaster with your body as the epicenter.",
@@ -2429,8 +2395,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_infernal_nova",
+    { id: "pyro_infernal_nova",
       name: "Infernal Nova",
       description:
         "You detonate. Not metaphorically — you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT×2 fire damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you.",
@@ -2480,8 +2445,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_phoenix_flame",
+    { id: "pyro_phoenix_flame",
       name: "Phoenix Flame",
       description:
         "You summon the ghost of a phoenix — or perhaps Scathrach merely allows you to believe that. A 25-foot radius detonation deals 12d6 + INT×2 fire damage, then the ground itself catches fire: 3d6 + INT/2 fire damage per round for 4 rounds. The flames do not die. They persist, feeding on the corruption you've seeded into the earth. This is a funeral pyre. The question is whose.",
@@ -2550,8 +2514,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 9 SPELLS
     // ========================================
-    {
-      id: "pyro_infernal_avatar",
+    { id: "pyro_infernal_avatar",
       name: "Infernal Avatar",
       description:
         "You stop being human and start being a furnace. For 10 rounds, you become an Infernal Avatar — a being of pure demonic fire, wreathed in Scathrach's essence. +5 fire spell power, +3 Armor, fire immunity, and a burning aura (2d6 fire to enemies within 10 feet). Your skin is gone. Your voice is gone. Only the fire remains. When it ends, you will feel every second of what you've become.",
@@ -2626,8 +2589,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "transformation"],
     },
 
-    {
-      id: "pyro_apocalypse",
+    { id: "pyro_apocalypse",
       name: "Apocalypse",
       description:
         "Scathrach's grandest gift and cruelest joke. A cataclysmic explosion deals 16d10 + INT×2 fire damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls — the demon's fury is infinite, and it chooses to share. This is the end of something. Possibly the enemy. Possibly you. The blast radius is a grave. The silence afterward is Scathrach's applause.",
@@ -2686,8 +2648,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
 
-    {
-      id: "pyro_hellfire_ritual",
+    { id: "pyro_hellfire_ritual",
       name: "Hellfire Ritual",
       description:
         "You perform a ritual of invocation — not to summon Scathrach, but to open the floodgates wider. For 3 rounds, your fire damage surges by +10. The demon does not grant this power freely; it uses the ritual to deepen its hold. By round 3, your Inferno Level bonuses are doubled. This is borrowing against your own annihilation.",
@@ -2724,8 +2685,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "massiveFireBoost",
+          { id : "massiveFireBoost",
             name: "Massive Fire Boost",
             description:
               "+10 Fire Spell Power for 3 rounds. A ritual of infernal power dramatically surges through your fire magic.",
@@ -2783,8 +2743,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     // ========================================
     // LEVEL 10 SPELLS
     // ========================================
-    {
-      id: "pyro_brimstone_teleport",
+    { id: "pyro_brimstone_teleport",
       name: "Brimstone Teleport",
       description:
         "You tear a wound in reality and step through Scathrach's furnace, reappearing up to 60 feet away in a burst of hellfire that deals 6d6 + INT×2 fire damage to everything within 10 feet of your arrival. The teleport is not travel — it is passing through the demon's maw. You are digested and reborn in fire. The destination does not thank you.",
@@ -2819,8 +2778,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "brimstone_teleport",
+          { id : "brimstone_teleport",
             name: "Brimstone Teleport",
             description:
               "Teleport up to 60 feet through hellfire, appearing in a burst of flames.",
@@ -2853,8 +2811,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "utility", "teleport", "damage"],
     },
 
-    {
-      id: "pyro_demonic_ascension",
+    { id: "pyro_demonic_ascension",
       name: "Demonic Ascension",
       description:
         "You surrender completely. Demonic Ascension is the final act of the Damned Conduit — transforming into a true demon of fire with overwhelming power. +15 fire damage to all spells, +5 Armor, fire immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire at the start of their turn. **WARNING:** This spell requires Inferno Level 9. The death clock does NOT pause while transformed — you must still descend below Level 9 within 3 of your turns or Scathrach claims you. Permanently. This is not a power-up. It is a eulogy you perform while still alive.",
@@ -2890,15 +2847,13 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "demonicAscension_power",
+          { id : "demonicAscension_power",
             name: "Demonic Ascension",
             description:
               "+15 fire damage to all spells, +5 Armor, fire damage immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn. Requires Inferno Level 9. Death clock still ticks.",
             mechanicsText: "",
           },
-          {
-            id: "demonicAscension_armor",
+          { id : "demonicAscension_armor",
             name: "Demonic Armor",
             description: "+5 Armor from demonic carapace",
             mechanicsText: "",
@@ -2908,8 +2863,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
               magnitudeType: "flat",
             },
           },
-          {
-            id: "demonicAscension_fire",
+          { id : "demonicAscension_fire",
             name: "Fire Mastery",
             description: "+15 fire spell power",
             mechanicsText: "",
@@ -2947,8 +2901,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "buff", "transformation"],
     },
 
-    {
-      id: "pyro_inferno_mastery",
+    { id: "pyro_inferno_mastery",
       name: "Inferno Mastery",
       description:
         "The ultimate expression of Scathrach's hunger made manifest through your ruined body. A cataclysmic inferno consumes a 50-foot radius, dealing 20d10 + INT×2 fire damage. At Inferno Level 7+, it deepens to 22d10. At Level 9, 25d10 + INT×3. This is not a spell. This is what happens when the demon stops pretending you're in control. The world burns. You burn. The distinction is meaningless.",
@@ -3017,8 +2970,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
           damage: {
             logicType: "OR",
             compoundTriggers: [
-              {
-                id: "resource_threshold",
+              { id : "resource_threshold",
                 category: "health",
                 name: "High Inferno Level",
                 parameters: {
@@ -3042,8 +2994,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       tags: ["fire", "damage", "aoe"],
     },
     // ===== PASSIVE ABILITIES =====
-    {
-      id: "pyrofiend_burnout",
+    { id: "pyrofiend_burnout",
       name: "Burnout",
       description:
         "When no fire burns — no ignited targets, no active Inferno Level, no fire auras — Scathrach's furnace sputters. You suffer -2 to all spell attack rolls and your fire spells deal -1d6 damage. The demon's contempt for inaction is physical: your power dims, your flames weaken. Cast something. Set something ablaze. The fire must burn or you burn out. This penalty lifts the moment any fire spell deals damage.",
@@ -3061,8 +3012,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       resolution: "AUTOMATIC",
       tags: ["passive", "pyrofiend", "weakness"],
     },
-    {
-      id: "pyrofiend_fire_dependency",
+    { id: "pyrofiend_fire_dependency",
       name: "Fire Dependency",
       description:
         "Your body runs at a temperature that makes cold damage catastrophically lethal. You take +50% damage from all cold and frost attacks (rounded up). Additionally, any cold damage received forces your Inferno Veil to ascend by +1 — Scathrach's furnace burns hotter to compensate for internal crystallization, turning frost into fuel for your corruption. If submerged in water or affected by a cold environment, your Inferno Level decreases by 2 per round instead of the normal descent rate. Water is not uncomfortable. It is antithetical to your existence. Frost does not soothe the furnace — it enrages the demon.",
@@ -3080,8 +3030,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       resolution: "AUTOMATIC",
       tags: ["passive", "pyrofiend", "weakness"],
     },
-    {
-      id: "pyrofiend_heat_signature",
+    { id: "pyrofiend_heat_signature",
       name: "Heat Signature",
       description:
         "Your body radiates Scathrach's heat at all times. You cannot benefit from Stealth or invisibility — the thermal glow gives you away like a bonfire in a dark room. Enemies have advantage on Perception checks to detect you within 60 feet. Ice-based terrain melts within 10 feet of you. Water terrain deals you 1d6 damage per round of immersion. You are never hidden. You are never cold. You are never safe.",

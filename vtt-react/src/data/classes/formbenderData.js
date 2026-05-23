@@ -6,7 +6,7 @@
  */
 
 export const FORMBENDER_DATA = {
-  id: "formbender",
+  id : "formbender",
   name: "Formbender",
   icon: "fas fa-paw",
   role: "Hybrid (Tank/Damage/Support)",
@@ -18,23 +18,23 @@ export const FORMBENDER_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**TL;DR**: You are not a person who turns into animals. You are an animal that learned to wear a human shape. Every transformation is a mutilation â€” bones snap, skin splits, and something *hungry* grins out from behind your eyes. Wild Instinct (0-15) fuels your forms. Humanity Erosion (0-10) tracks how much of *you* survives each shift.
+      content: `**TL;DR**: You are a living crucible of primal evolution. Every transformation pushes your body through intense kinetic strain — joints realign, muscles surge with adaptive force, and something *predatory* takes the reins. Wild Instinct (0-15) fuels your forms. Humanity Erosion (0-10) tracks how much of *you* survives each shift.
 
-**What You Need to Know**: The Formbender doesn't channel nature â€” they *violate* it. Your body is a lie you tell the world, and four stolen forms (Nightstalker, Ironhide, Skyhunter, Frostfang) are the truth bleeding through. Wild Instinct (0-15) grows through form-specific violence. Each transformation costs 1 WI and adds +1 Erosion to your Humanity tracker.
+**What You Need to Know**: The Formbender channels raw primal energy through four stolen forms (Nightstalker, Ironhide, Skyhunter, Frostfang). Your body is an engine of adaptation, and every transformation costs 1 WI and adds +1 Erosion to your Humanity tracker. Wild Instinct (0-15) grows through form-specific combat actions.
 
-**Core Mechanic**: Choose opening form (free WI, but still +1 Erosion) â†’ Generate WI through form-aligned carnage â†’ Spend on abilities or form switches â†’ Watch your Humanity erode as the animal takes over
+**Core Mechanic**: Choose opening form (free WI, but still +1 Erosion) → Generate WI through form-aligned combat → Spend on abilities or form switches → Watch your Humanity erode as the primal instincts take over
 
 **Resources**:
 - **Wild Instinct (0-15)**: Generated through form-specific combat actions. Halves between fights. Three bands: Instinct (1-5 WI), Surge (6-10 WI), Apex (11-15 WI).
 - **Humanity Erosion (0-10)**: Every form shift adds +1 Erosion. At 3+: lose speech. At 5+: can't use items. At 7+: attack allies. At 10: the GM plays your character.
 
-**Fatal Flaw**: You permanently take +50% Psychic damage. The human mind is a wound that never closes.
+**Fatal Flaw**: You permanently take +50% Psychic damage. The human mind struggles to keep pace with the primal transformation.
 
-**Why Bring Me?**: You are the only class that can completely rewrite your physical stats, movement types, and damage resistances mid-combat. Need to fly? Grow wings. Need to breathe water? Grow gills. Need to be immune to fire? Steal a salamander's form. Infinite biological problem-solving.
+**Why Bring Me?**: You are the only class that can completely rewrite your physical stats, movement types, and damage resistances mid-combat. Need to fly? Grow wings. Need to breathe water? Grow gills. Need to be immune to fire? Steal a salamander's form. Infinite adaptive problem-solving.
 
-**Playstyle**: High-risk adaptive horror â€” fluid role-switching that costs your humanity
+**Playstyle**: High-risk adaptive combatant — fluid role-switching that costs your mental clarity
 
-**Best For**: Players who want tactical omniplicity and are willing to pay for it in flesh, sanity, and the slow death of their human self`,
+**Best For**: Players who want tactical omniplicity and are willing to pay for it in mental strain, concentration, and the slow erosion of their human identity`,
     },
 
     description: `Something that was born in the dark places between flesh and fur, wearing a human face like a mask that doesn't quite fit. Four stolen shapes â€” Nightstalker, Ironhide, Skyhunter, Frostfang â€” tear free when the mask slips. Every transformation is a small death. Every reversion is a resurrection nobody asked for.`,
@@ -398,8 +398,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     specs: [
-      {
-        id: "metamorph",
+      { id : "metamorph",
         name: "Metamorph",
         icon: "Nature/Ethereal Bird",
         color: "#9932CC",
@@ -440,8 +439,7 @@ The Formbender's specializations are not schools of thought â€” they are di
           "Players who want maximum creative flexibility and are willing to pay for it in humanity. The Metamorph erodes fastest but adapts to anything.",
       },
 
-      {
-        id: "form-thief",
+      { id : "form-thief",
         name: "Form Thief",
         icon: "Psychic/Mind Control",
         color: "#8B0000",
@@ -482,8 +480,7 @@ The Formbender's specializations are not schools of thought â€” they are di
           "Players who want a growing collection of stolen abilities and enjoy the tension of rolling Constitution saves to keep their prizes. The Form Thief is a biological kleptomaniac paying for theft in flesh.",
       },
 
-      {
-        id: "primordial",
+      { id : "primordial",
         name: "Primordial",
         icon: "Fire/Eruption",
         color: "#FF4500",
@@ -530,8 +527,7 @@ The Formbender's specializations are not schools of thought â€” they are di
   // Example Spells - organized by form and specialization
   exampleSpells: [
     // ===== NIGHTSTALKER FORM (CAT) =====
-    {
-      id: "fb_ambush_strike",
+    { id : "fb_ambush_strike",
       name: "Ambush Strike",
       description:
         "Strike from the shadows with devastating precision, dealing 1d6 slashing damage per Wild Instinct spent (1-5 WI). Tier 2+ applies Bleeding. Tier 3+ stuns. Must be used from stealth for full effect.",
@@ -592,8 +588,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "bleeding",
+          { id : "bleeding",
             name: "Bleeding",
             description: "1d4 slashing damage per round for 3 rounds (Tier 2+)",
             mechanicsText: "",
@@ -610,8 +605,7 @@ The Formbender's specializations are not schools of thought â€” they are di
         duration: 1,
         durationUnit: "rounds",
         effects: [
-          {
-            id: "stun",
+          { id : "stun",
             name: "Stun",
             description:
               "Target is stunned for 1 round (Tier 3: Stun, Tier 5: Paralyze)",
@@ -664,8 +658,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       flavorText: "From the shadows, death strikes. Your fingernails were the warning. Nobody listened.",
     },
 
-    {
-      id: "fb_shadowmeld",
+    { id : "fb_shadowmeld",
       name: "Shadowmeld",
       description:
         "Blend into the shadows, becoming invisible for 1 minute. Broken by attacking or taking damage. Higher Wild Instinct tiers grant teleportation and illusionary duplicates.",
@@ -707,8 +700,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statusEffect",
         effects: [
-          {
-            id: "invisibility",
+          { id : "invisibility",
             name: "Shadow Invisibility",
             description:
               "Become invisible for 1 minute or until you attack or take damage",
@@ -725,8 +717,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       utilityConfig: {
         utilityType: "enhancement",
         selectedEffects: [
-          {
-            id: "illusionary_duplicates",
+          { id : "illusionary_duplicates",
             name: "Illusionary Duplicates",
             description:
               "At higher Wild Instinct tiers, create 1-2 illusionary duplicates that confuse enemies",
@@ -784,8 +775,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== IRONHIDE FORM (BEAR) =====
-    {
-      id: "fb_roaring_assault",
+    { id : "fb_roaring_assault",
       name: "Roaring Assault",
       description:
         "Unleash a devastating roar dealing 1d8 force damage per Wild Instinct spent in a 10-foot radius. Constitution save DC 14. Tier 2+ causes fear, Tier 3+ knocks back 10 ft, Tier 4+ stuns, Tier 5+ knocks prone.",
@@ -840,8 +830,7 @@ The Formbender's specializations are not schools of thought â€” they are di
         duration: 1,
         durationUnit: "rounds",
         effects: [
-          {
-            id: "knockback",
+          { id : "knockback",
             name: "Knocked Back",
             description: "Enemies are pushed 10 feet away (Tier 3+)",
             config: {
@@ -858,8 +847,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       flavorText: "Your throat tears wider than any human mouth should. The sound that comes out is not a roar — it is the death rattle of everything soft you ever were.",
     },
 
-    {
-      id: "fb_fortress_of_fur",
+    { id : "fb_fortress_of_fur",
       name: "Fortress of Fur",
       description:
         "Harden your hide to absorb damage. Gain temporary HP and defensive bonuses scaling with Wild Instinct spent (1-5 WI). Tier 2+: physical resistance. Tier 4+: reflect 25% melee damage. Tier 5: resistance to all damage.",
@@ -908,8 +896,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "fortress_hp",
+          { id : "fortress_hp",
             name: "Fortress Temporary HP",
             description:
               "Gain 1d6 temporary HP per Wild Instinct spent (Tier 1: 1d6, Tier 5: 5d6)",
@@ -936,8 +923,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== SKYHUNTER FORM (HAWK) =====
-    {
-      id: "fb_talon_dive",
+    { id : "fb_talon_dive",
       name: "Talon Dive",
       description:
         "Dive from above with razor-sharp talons, dealing 1d6 slashing damage per Wild Instinct spent (1-5 WI). Tier 2+: grapple target. Tier 3+: stun for 1 round. Advantage if you have flight active.",
@@ -985,8 +971,7 @@ The Formbender's specializations are not schools of thought â€” they are di
         duration: 1,
         durationUnit: "rounds",
         effects: [
-          {
-            id: "grapple",
+          { id : "grapple",
             name: "Grappled",
             description:
               "Target is grappled (Tier 2+). Cannot move. Escape with Athletics/Acrobatics check.",
@@ -1005,8 +990,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       flavorText: "Your arms fold backward at the elbow and your fingers stretch into something between wing and claw. Gravity stops being a law and becomes a suggestion you chose to ignore.",
     },
 
-    {
-      id: "fb_winds_grace",
+    { id : "fb_winds_grace",
       name: "Wind's Grace",
       description:
         "Harness the power of wind for enhanced perception, flight, and devastating wind attacks. Effects scale with Wild Instinct spent (1-5 WI). Tier 2: flight. Tier 3: wind gust push. Tier 5: 3d6 tornado.",
@@ -1055,8 +1039,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "movementBuff",
         effects: [
-          {
-            id: "wind_flight",
+          { id : "wind_flight",
             name: "Wind Flight",
             description:
               "Gain flight speed equal to walking speed for 1 minute (Tier 2+)",
@@ -1073,8 +1056,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       utilityConfig: {
         utilityType: "enhancement",
         selectedEffects: [
-          {
-            id: "wind_control",
+          { id : "wind_control",
             name: "Wind Control",
             description: "Summon gusts and tornadoes at higher tiers",
           },
@@ -1098,8 +1080,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== FROSTFANG FORM (WOLF) =====
-    {
-      id: "fb_frostbite_strike",
+    { id : "fb_frostbite_strike",
       name: "Frostbite Strike",
       description:
         "Bite with frost-infused fangs, dealing 1d6 frost damage per Wild Instinct spent (1-5 WI). Tier 2+: Slowed 50%. Tier 3+: Freeze 1 round. Tier 5: Paralyze 1 round.",
@@ -1150,8 +1131,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       debuffConfig: {
         debuffType: "movementImpairment",
         effects: [
-          {
-            id: "frostbite_slow",
+          { id : "frostbite_slow",
             name: "Frostbitten",
             description:
               "Movement speed reduced by 50% for 2 rounds (Tier 2+). Frozen at Tier 3.",
@@ -1176,8 +1156,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       flavorText: "Your jaw unhinges to accommodate fangs that should not fit. The cold is not magic — it is the absence of mercy, crystallized in enamel.",
     },
 
-    {
-      id: "fb_pack_leaders_call",
+    { id : "fb_pack_leaders_call",
       name: "Pack Leader's Call",
       description:
         "Summon spectral wolves to fight alongside you. Tier 2: 1 wolf (15 HP, 1d6+2 dmg). Tier 3: 2 wolves. Tier 4: pack buff for allies. Tier 5: alpha wolf (30 HP, 2d8+3 dmg). Lasts 1 minute.",
@@ -1230,8 +1209,7 @@ The Formbender's specializations are not schools of thought â€” they are di
 
       summoningConfig: {
         creatures: [
-          {
-            id: "spectral_wolf",
+          { id : "spectral_wolf",
             name: "Spectral Wolf",
             description: "A ghostly wolf made of primal energy",
             size: "Medium",
@@ -1268,8 +1246,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== UNIVERSAL SPELLS (ALL FORMS) =====
-    {
-      id: "fb_natures_grasp",
+    { id : "fb_natures_grasp",
       name: "Nature's Grasp",
       description:
         "Vines erupt from the ground to restrain a target within 30 feet. Strength save DC 13. Restrained creatures have speed 0 and disadvantage on Dex saves. Escape with Strength or Acrobatics DC 13.",
@@ -1323,8 +1300,7 @@ The Formbender's specializations are not schools of thought â€” they are di
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "restrained",
+          { id : "restrained",
             name: "Restrained",
             description:
               "Speed 0, disadvantage on Dex saves. Escape with Str/Acrobatics DC 13.",
@@ -1343,8 +1319,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       flavorText: "The vines grow from your open wounds, not from the earth. Your blood remembers what it was like to have roots.",
     },
 
-    {
-      id: "fb_healing_touch",
+    { id : "fb_healing_touch",
       name: "Healing Touch",
       description:
         "Channel nature's healing energy to restore 1d6 + Spirit HP to an ally within 30 feet. You cannot use this on yourself -- the power flows outward only.",
@@ -1398,8 +1373,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       flavorText: "You press your palm against their wound and your flesh flows — not gently, not kindly, but with the desperate urgency of a body that knows what it is to be broken.",
     },
 
-    {
-      id: "fb_beast_aspect",
+    { id : "fb_beast_aspect",
       name: "Beast Aspect",
       description:
         "Transform part of your body into an animal feature for 1 minute. Choose: claws (climbing speed), wings (glide 60ft), gills (breathe underwater), or enhanced senses (advantage on Perception). Higher WI: manifest multiple traits.",
@@ -1443,8 +1417,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "beast_aspect",
+          { id : "beast_aspect",
             name: "Beast Aspect",
             description:
               "Choose one: claws (climbing speed), wings (glide 60ft), gills (water breathing), or enhanced senses (Perception advantage)",
@@ -1461,8 +1434,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       utilityConfig: {
         utilityType: "enhancement",
         selectedEffects: [
-          {
-            id: "partial_transform",
+          { id : "partial_transform",
             name: "Partial Transformation",
             description:
               "Manifest specific animal traits without full shapeshift",
@@ -1482,8 +1454,7 @@ The Formbender's specializations are not schools of thought â€” they are di
   // Comprehensive Spell List (Levels 1-10, 3 spells each, following template)
   spells: [
     // ===== LEVEL 1 SPELLS =====
-    {
-      id: "formbender_flesh_rip",
+    { id: "formbender_flesh_rip",
       name: "Flesh Rip",
       description:
         "Your fingernails split and elongate into hooked talons mid-swing, tearing through meat and sinew with the enthusiasm of something that forgot it used to have hands. Deal 2d8 + Strength slashing damage. Critical hits generate +1 Wild Instinct as the taste of blood triggers something old.",
@@ -1532,8 +1503,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["attack", "damage", "physical", "formbender"],
     },
 
-    {
-      id: "formbender_stolen_mending",
+    { id: "formbender_stolen_mending",
       name: "Stolen Mending",
       description:
         "Your stolen flesh knits itself with terrifying speed â€” organs repositioning, wounds suturing from the inside, bone fragments crawling back into alignment like insects returning to a nest. Restore 2d6 + Constitution HP instantly, plus 1d6 HP per round for 2 rounds. Only usable while transformed â€” your human body doesn't remember how to heal.",
@@ -1571,8 +1541,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["healing", "support", "nature", "formbender"],
     },
 
-    {
-      id: "formbender_scent_of_prey",
+    { id: "formbender_scent_of_prey",
       name: "Scent of Prey",
       description:
         "Your nasal cavity ruptures and fills with a second set of turbinal bones. The world becomes a tapestry of terror-sweat, adrenaline, and the copper sweetness of wounds yet to be opened. Mark a target within 30 feet â€” you generate +1 Wild Instinct immediately, and +1 WI each time you hit the marked target for 3 rounds.",
@@ -1605,8 +1574,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "marked_prey",
+          { id : "marked_prey",
             name: "Marked Prey",
             description:
               "Target is marked. Formbender generates +1 WI on each hit against this target for 3 rounds.",
@@ -1620,8 +1588,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       utilityConfig: {
         utilityType: "enhancement",
         selectedEffects: [
-          {
-            id: "predator_scent",
+          { id : "predator_scent",
             name: "Predator's Scent",
             description:
               "Generate +1 WI immediately, and +1 WI each time you hit the marked target for 3 rounds.",
@@ -1648,8 +1615,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 2 SPELLS =====
-    {
-      id: "formbender_visceral_talons",
+    { id: "formbender_visceral_talons",
       name: "Visceral Talons",
       description:
         "Your fingers dislocate one by one, each joint popping as keratin claws erupt from the nail beds. Your unarmed attacks now deal slashing damage and gain +2d6 damage for 1 minute. The transformation is not gentle. The claws do not ask permission.",
@@ -1684,8 +1650,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "visceral_talons",
+          { id : "visceral_talons",
             name: "Visceral Talons",
             description:
               "Unarmed attacks deal slashing damage and gain +2d6 damage for 1 minute",
@@ -1707,8 +1672,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["physical", "buff", "damage", "formbender"],
     },
 
-    {
-      id: "formbender_predators_sight",
+    { id: "formbender_predators_sight",
       name: "Predator's Sight",
       description:
         "Something ancient stirs behind your eyes. Your pupils dilate until no color remains â€” twin voids that see in spectrums humans were never meant to perceive. Gain advantage on Perception checks and detect invisible creatures for 1 hour. The world becomes too sharp. You will never see it softly again.",
@@ -1743,8 +1707,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "predators_sight",
+          { id : "predators_sight",
             name: "Predator's Sight",
             description:
               "Advantage on Perception checks, detect invisible creatures, for 1 hour",
@@ -1766,8 +1729,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["buff", "senses", "utility", "formbender"],
     },
 
-    {
-      id: "formbender_feral_bound",
+    { id: "formbender_feral_bound",
       name: "Feral Bound",
       description:
         "Your spine elongates with a wet crunch, coiling like a spring before launching your body through the air. Leap up to 60 feet, ignoring difficult terrain. Your bones will complain later. Right now, they're too busy being weapons.",
@@ -1808,8 +1770,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "feral_bound",
+          { id : "feral_bound",
             name: "Feral Bound",
             description:
               "Leap up to 60 feet in any direction, ignoring difficult terrain",
@@ -1825,8 +1786,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 3 SPELLS =====
-    {
-      id: "formbender_feral_fury",
+    { id: "formbender_feral_fury",
       name: "Feral Fury",
       description:
         "Something inside your skull cracks open. Not bone â€” restraint. The human part of your brain that says 'wait' and 'think' goes dark. Gain +2 Strength and advantage on attack rolls for 1 minute. The fury is not yours. It was waiting for permission.",
@@ -1861,8 +1821,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "feral_fury",
+          { id : "feral_fury",
             name: "Feral Fury",
             description:
               "+2 Strength and advantage on attack rolls for 1 minute. The animal is driving.",
@@ -1884,8 +1843,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["buff", "damage", "rage", "formbender"],
     },
 
-    {
-      id: "formbender_bone_carapace",
+    { id: "formbender_bone_carapace",
       name: "Bone Carapace",
       description:
         "Your ribs crack and spread, pushing through skin to form overlapping plates of calcified nightmare. The plates grow, fuse, and interlock until your torso is a cage of bone armor that shouldn't exist outside a charnel pit. Gain +3 Armor and 50% resistance to physical damage for 10 minutes.",
@@ -1920,8 +1878,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "bone_carapace",
+          { id : "bone_carapace",
             name: "Bone Carapace",
             description:
               "+3 Armor and 50% physical damage resistance for 10 minutes. Your ribs are on the outside now.",
@@ -1943,8 +1900,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["buff", "defense", "armor", "formbender"],
     },
 
-    {
-      id: "formbender_spectral_hunters",
+    { id: "formbender_spectral_hunters",
       name: "Spectral Hunters",
       description:
         "You tear a piece of your hunger loose and give it legs. Two spectral wolves materialize from the space between your ribs â€” ghostly predators made of primal memory and stolen instinct. They exist to track. They exist to kill. They do not exist to come back.",
@@ -1984,8 +1940,7 @@ The Formbender's specializations are not schools of thought â€” they are di
 
       summoningConfig: {
         creatures: [
-          {
-            id: "spectral_hunter",
+          { id : "spectral_hunter",
             name: "Spectral Hunter",
             description:
               "A ghostly wolf born from the Formbender's hunger, not from nature",
@@ -2021,8 +1976,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 4 SPELLS =====
-    {
-      id: "formbender_savage_charge",
+    { id: "formbender_savage_charge",
       name: "Savage Charge",
       description:
         "Your legs reconstruct themselves for a single devastating purpose â€” to close the distance between your teeth and their throat. Charge forward in a 40-foot line, dealing 5d6 + Strength bludgeoning damage. Targets must succeed on a Strength save or be knocked prone. You do not slow down. You do not apologize.",
@@ -2084,8 +2038,7 @@ The Formbender's specializations are not schools of thought â€” they are di
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "knockdown",
+          { id : "knockdown",
             name: "Knocked Down",
             description: "Target is knocked prone for 1 round",
             config: {
@@ -2103,8 +2056,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["attack", "damage", "control", "charge", "formbender"],
     },
 
-    {
-      id: "formbender_flesh_donation",
+    { id: "formbender_flesh_donation",
       name: "Flesh Donation",
       description:
         "You reach into your own torso and pull out a piece of something that used to be an organ â€” it regrows as you offer it, bloodied and pulsing, knitting itself into your ally's wounds. Heal an ally for 3d8 + Spirit HP and remove one affliction. You cannot use this on yourself. The flesh only moves outward.",
@@ -2157,8 +2109,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["healing", "support", "restoration", "formbender"],
     },
 
-    {
-      id: "formbender_primal_surge",
+    { id: "formbender_primal_surge",
       name: "Primal Surge",
       description:
         "The animal inside you stops asking permission. Your current form is amplified â€” every passive doubled, every instinct sharpened â€” for 2 agonizing rounds. Generate +2 Wild Instinct as the surge feeds back into your biology. The power is borrowed. The pain is yours to keep.",
@@ -2193,8 +2144,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "primal_surge",
+          { id : "primal_surge",
             name: "Primal Surge",
             description:
               "Double your current form's passive bonus for 2 rounds and generate +2 Wild Instinct",
@@ -2217,8 +2167,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 5 SPELLS =====
-    {
-      id: "formbender_pack_of_abominations",
+    { id: "formbender_pack_of_abominations",
       name: "Pack of Abominations",
       description:
         "You split your hunger three ways. Three spectral wolves tear themselves free from the space between your ribs â€” not animals, but fragments of predatory instinct given teeth and purpose. They and you gain +2 to attack rolls when adjacent to each other for 5 rounds. The pack does not protect. The pack hunts.",
@@ -2235,8 +2184,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "spectral_wolf",
+          { id : "spectral_wolf",
             name: "Spectral Wolf",
             description: "A fragment of predatory instinct, not a creature of nature",
             size: "Medium",
@@ -2268,8 +2216,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "pack_tactics",
+          { id : "pack_tactics",
             name: "Pack Tactics",
             description:
               "You and summoned wolves gain +2 to attack rolls when adjacent to each other for 5 rounds",
@@ -2306,8 +2253,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["summoning", "buff", "pack", "formbender"],
     },
 
-    {
-      id: "formbender_rending_frenzy",
+    { id: "formbender_rending_frenzy",
       name: "Rending Frenzy",
       description:
         "Your arms multiply. Your jaw unhinges. What follows is not a technique â€” it is three seconds of concentrated violence that would make a wolverine look away. Deal 6d8 + Strength slashing damage in a blur of claws and teeth. The aftermath is not something your party should examine closely.",
@@ -2346,8 +2292,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["attack", "damage", "physical", "multi hit", "formbender"],
     },
 
-    {
-      id: "formbender_adaptive_horror",
+    { id: "formbender_adaptive_horror",
       name: "Adaptive Horror",
       description:
         "For 3 rounds, the animal inside you stops asking and starts taking. Form transformations cost 0 Wild Instinct â€” the WI economy collapses as your body shifts freely between shapes, each one bleeding into the next. You adapt to everything. You remember nothing.",
@@ -2365,8 +2310,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "adaptive_horror",
+          { id : "adaptive_horror",
             name: "Adaptive Horror",
             description:
               "Form transformations cost 0 Wild Instinct for 3 rounds. Erosion still accumulates normally.",
@@ -2399,8 +2343,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 6 SPELLS =====
-    {
-      id: "formbender_titan_abomination",
+    { id: "formbender_titan_abomination",
       name: "Titan Abomination",
       description:
         "Your skeleton detonates. Bones crack, multiply, and fuse into something Huge â€” a towering mass of calcified rage wrapped in hide thick enough to turn sword blows. Gain Huge size, +4 Strength, +3 Armor, and 50 temporary HP for 4 rounds. When it ends, you will remember what it felt like to be small. You will not forgive yourself for going back.",
@@ -2425,23 +2368,19 @@ The Formbender's specializations are not schools of thought â€” they are di
         description: "Your skeleton detonates outward into a towering horror of bone and rage.",
         concentration: true,
         grantedAbilities: [
-          {
-            id: "huge_size",
+          { id : "huge_size",
             name: "Huge Size",
             description: "Size becomes Huge, reach increases to 15 feet",
           },
-          {
-            id: "titan_strength",
+          { id : "titan_strength",
             name: "+4 Strength",
             description: "Gain +4 to Strength attribute",
           },
-          {
-            id: "titan_armor",
+          { id : "titan_armor",
             name: "+3 Armor",
             description: "Gain +3 armor from overlapping bone plates",
           },
-          {
-            id: "titan_hp",
+          { id : "titan_hp",
             name: "+50 Temp HP",
             description: "Gain 50 temporary hit points from expanded mass",
           },
@@ -2461,8 +2400,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["transformation", "buff", "size", "formbender"],
     },
 
-    {
-      id: "formbender_crushing_descent",
+    { id: "formbender_crushing_descent",
       name: "Crushing Descent",
       description:
         "You leap â€” not as a person, but as gravity's preferred weapon. Your body becomes a falling mass of meat and malice that hits the ground like a burial. Deal 6d8 + Strength + Agility bludgeoning damage in a 20-foot radius. Agility save DC 16 for half damage. Everything standing is knocked prone. The crater is yours to explain.",
@@ -2498,8 +2436,7 @@ The Formbender's specializations are not schools of thought â€” they are di
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "stagger",
+          { id : "stagger",
             name: "Staggered",
             description: "Target is knocked prone and must use movement to stand",
             config: {
@@ -2534,8 +2471,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["attack", "damage", "control", "aoe", "formbender"],
     },
 
-    {
-      id: "formbender_parasitic_mending",
+    { id: "formbender_parasitic_mending",
       name: "Parasitic Mending",
       description:
         "You vomit a stream of living tissue â€” half parasite, half prayer â€” that worms its way into your ally's wounds and sutures them from the inside. Heal an ally for 5d8 + Spirit HP, plus 2d6 HP per round for 3 rounds as the living bandage continues to work. You cannot use this on yourself. The gift only moves outward.",
@@ -2581,8 +2517,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 7 SPELLS =====
-    {
-      id: "formbender_chimera_ascendant",
+    { id: "formbender_chimera_ascendant",
       name: "Chimera Ascendant",
       description:
         "All four forms tear through your skin at once. You are not one animal â€” you are every animal, a screaming fusion of predator and prey that has no name in any language. Gain +3 to all stats, all form passives simultaneously, free form switching, and +2 Wild Instinct per round for 5 rounds. The human part of you is not dead. It is simply... elsewhere.",
@@ -2608,24 +2543,20 @@ The Formbender's specializations are not schools of thought â€” they are di
         newForm: "Chimera Ascendant",
         description: "All four forms erupt simultaneously. You are everything. You are nothing human.",
         grantedAbilities: [
-          {
-            id: "all_form_benefits",
+          { id : "all_form_benefits",
             name: "All Form Benefits",
             description:
               "Gain all four form passives at once. The chimera does not choose. The chimera takes.",
           },
-          {
-            id: "free_switching",
+          { id : "free_switching",
             name: "Free Switching",
             description: "Form transitions cost 0 Wild Instinct. Erosion still accumulates.",
           },
-          {
-            id: "avatar_instinct",
+          { id : "avatar_instinct",
             name: "+2 Wild Instinct/Round",
             description: "Generate +2 Wild Instinct each round from the chimeric feedback",
           },
-          {
-            id: "avatar_stats",
+          { id : "avatar_stats",
             name: "+3 All Stats",
             description: "Gain +3 to all attributes",
           },
@@ -2634,8 +2565,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "chimera_stats",
+          { id : "chimera_stats",
             name: "Chimera Stats",
             description: "+3 to all stats",
             statModifier: {
@@ -2665,8 +2595,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["transformation", "buff", "primal", "formbender"],
     },
 
-    {
-      id: "formbender_horror_shriek",
+    { id: "formbender_horror_shriek",
       name: "Horror Shriek",
       description:
         "The sound that comes out of your throat is not a roar. It is the collective death-rattle of everything you've ever killed, compressed into a single frequency that makes bones vibrate and minds fold. All enemies within 30 feet must make a Spirit save DC 17 or be Terrified for 3 rounds. Allies in range are empowered with +2 damage. The shriek does not discriminate. It just hurts.",
@@ -2692,8 +2621,7 @@ The Formbender's specializations are not schools of thought â€” they are di
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "fear",
+          { id : "fear",
             name: "Terrified",
             description:
               "Enemies are frozen in primal terror and must flee from you for 3 rounds",
@@ -2710,8 +2638,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "shriek_empowerment",
+          { id : "shriek_empowerment",
             name: "Empowered by Horror",
             description: "All allies gain +2 to damage rolls for 3 rounds",
             statModifier: {
@@ -2764,8 +2691,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["control", "buff", "fear", "aoe", "formbender"],
     },
 
-    {
-      id: "formbender_apex_horror",
+    { id: "formbender_apex_horror",
       name: "Apex Horror",
       description:
         "The food chain has a new top. For 4 rounds, you become the thing that everything else runs from â€” advantage on all attacks, +3d6 damage, and +10 movement speed. Your pupils are black holes. Your teeth are geometry problems. You are what happens when the predator stops pretending it has manners.",
@@ -2783,8 +2709,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "apex_horror",
+          { id : "apex_horror",
             name: "Apex Horror",
             description:
               "Advantage on all attacks, +3d6 damage, +10 movement speed for 4 rounds. The predator has arrived.",
@@ -2816,8 +2741,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 8 SPELLS =====
-    {
-      id: "formbender_flesh_maelstrom",
+    { id: "formbender_flesh_maelstrom",
       name: "Flesh Maelstrom",
       description:
         "You become a blender of screaming biology â€” cycling through all four forms in rapid succession, each one tearing free for a fraction of a second before the next erupts. Deal 12d8 + Strength x2 + Agility x2 slashing and bludgeoning damage to everything within 25 feet. There is no dodging. There is only being close enough to hear the wet sounds.",
@@ -2859,8 +2783,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["attack", "damage", "aoe", "transformation", "epic", "formbender"],
     },
 
-    {
-      id: "formbender_natures_terror",
+    { id: "formbender_natures_terror",
       name: "Nature's Terror",
       description:
         "For 5 rounds, you are not an animal wearing a human shape â€” you are the shape itself, and it has decided to be everything at once. Gain +4 to all stats, physical damage resistance, 3d10 HP regeneration per turn, and -1 WI cost on all abilities. The human part of you is gone. It will come back. It always comes back. It never forgives you.",
@@ -2885,24 +2808,20 @@ The Formbender's specializations are not schools of thought â€” they are di
         description:
           "Become the shape itself â€” biology without a passenger.",
         grantedAbilities: [
-          {
-            id: "physical_resistance",
+          { id : "physical_resistance",
             name: "Physical Resistance",
             description:
               "Resistance to bludgeoning, slashing, and piercing damage",
           },
-          {
-            id: "nature_regen",
+          { id : "nature_regen",
             name: "Biological Regeneration",
             description: "Regenerate 3d10 HP at the start of each turn",
           },
-          {
-            id: "reduced_costs",
+          { id : "reduced_costs",
             name: "Predatory Efficiency",
             description: "All Wild Instinct costs reduced by 1",
           },
-          {
-            id: "terror_stats",
+          { id : "terror_stats",
             name: "+4 All Stats",
             description: "Gain +4 to all attributes",
           },
@@ -2911,8 +2830,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "terror_stats",
+          { id : "terror_stats",
             name: "Terror Stats",
             description: "+4 to all stats",
             statModifier: {
@@ -2921,8 +2839,7 @@ The Formbender's specializations are not schools of thought â€” they are di
               magnitudeType: "flat",
             },
           },
-          {
-            id: "terror_defense",
+          { id : "terror_defense",
             name: "Terror Defense",
             description: "50% damage reduction for 5 rounds",
             statModifier: {
@@ -2952,8 +2869,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["buff", "transformation", "defense", "epic", "formbender"],
     },
 
-    {
-      id: "formbender_unending_hunt",
+    { id: "formbender_unending_hunt",
       name: "Unending Hunt",
       description:
         "You split your hunger five ways and give each piece legs. Five spectral hunters materialize â€” not wolves, not spirits, but the pure abstract concept of *chase* given fangs and malice. They pursue all enemies within 40 feet for 5 rounds, dealing 12d6 + Spirit nature damage. The hunt does not end until everything is dead or you run out of things to be hungry about.",
@@ -2970,8 +2886,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "hunt_spirit",
+          { id : "hunt_spirit",
             name: "Hunt Spirit",
             description: "The abstract concept of pursuit, weaponized",
             size: "Large",
@@ -3028,8 +2943,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 9 SPELLS =====
-    {
-      id: "formbender_primordial_abomination",
+    { id: "formbender_primordial_abomination",
       name: "Primordial Abomination",
       description:
         "You do not transform into a beast of legend. You *become* the legend â€” a Gargantuan horror that exists in the space between nightmare and biology. Gain Gargantuan size, +5 all stats, resistance to all damage, -1 WI costs, and +3 WI per round for 4 rounds. When it ends, you will need a moment to remember that you were ever small.",
@@ -3055,28 +2969,23 @@ The Formbender's specializations are not schools of thought â€” they are di
         newForm: "Primordial Abomination",
         description: "Become the nightmare that ancient things whisper about.",
         grantedAbilities: [
-          {
-            id: "gargantuan_size",
+          { id : "gargantuan_size",
             name: "Gargantuan Size",
             description: "Size becomes Gargantuan, reach 15 feet",
           },
-          {
-            id: "primordial_resistance",
+          { id : "primordial_resistance",
             name: "Primordial Resistance",
             description: "Resistance to all damage types",
           },
-          {
-            id: "free_instinct",
+          { id : "free_instinct",
             name: "Primal Flow",
             description: "All Wild Instinct abilities cost 1 less",
           },
-          {
-            id: "instinct_gen",
+          { id : "instinct_gen",
             name: "+3 Wild Instinct/Round",
             description: "Generate +3 Wild Instinct per round",
           },
-          {
-            id: "primordial_stats",
+          { id : "primordial_stats",
             name: "+5 All Stats",
             description: "Gain +5 to all attributes",
           },
@@ -3085,8 +2994,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "primordial_power",
+          { id : "primordial_power",
             name: "Primordial Stats",
             description: "+5 to all stats",
             statModifier: {
@@ -3116,8 +3024,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["transformation", "buff", "primordial", "legendary", "formbender"],
     },
 
-    {
-      id: "formbender_apocalypse_of_flesh",
+    { id: "formbender_apocalypse_of_flesh",
       name: "Apocalypse of Flesh",
       description:
         "Your body reaches critical mass and detonates â€” not into pieces, but into a 100-foot radius of biological catastrophe. Deal 18d6 + Strength + Spirit nature damage to all enemies in sight (Con save DC 19 for half). Targets are knocked prone and stunned for 3 rounds. Afterward, your body reconstitutes from the carnage. It takes a while. The screaming from your allies does not help.",
@@ -3153,8 +3060,7 @@ The Formbender's specializations are not schools of thought â€” they are di
           saveOutcome: "negates",
         },
         effects: [
-          {
-            id: "devastated",
+          { id : "devastated",
             name: "Devastated",
             description: "Target is knocked prone and stunned for 3 rounds",
             config: {
@@ -3190,8 +3096,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["attack", "damage", "control", "aoe", "legendary", "formbender"],
     },
 
-    {
-      id: "formbender_eternal_hunger",
+    { id: "formbender_eternal_hunger",
       name: "Eternal Hunger",
       description:
         "For 5 rounds, you merge with the hunger itself. Wild Instinct maximum increases to 30. Form transitions are free. You regenerate 2d8 HP per round in any form. The hunger does not ask. The hunger does not stop. The hunger is all that is left of whoever you used to be.",
@@ -3217,18 +3122,15 @@ The Formbender's specializations are not schools of thought â€” they are di
         newForm: "Eternal Hunger",
         description: "Become the hunger. There is nothing left but appetite.",
         grantedAbilities: [
-          {
-            id: "wild_flow",
+          { id : "wild_flow",
             name: "Hunger Unleashed",
             description: "Form transitions cost 0 Wild Instinct",
           },
-          {
-            id: "wild_instinct_gen",
+          { id : "wild_instinct_gen",
             name: "+3 Wild Instinct/Round",
             description: "Generate +3 Wild Instinct each round",
           },
-          {
-            id: "wild_regen",
+          { id : "wild_regen",
             name: "Biological Regeneration",
             description: "Regenerate 2d8 HP per round in any form",
           },
@@ -3237,8 +3139,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       buffConfig: {
         buffType: "custom",
         effects: [
-          {
-            id: "eternal_hunger",
+          { id : "eternal_hunger",
             name: "Eternal Hunger",
             description:
               "WI cap increased to 30. Form transitions are free. Regenerate 2d8 HP per round.",
@@ -3269,8 +3170,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     },
 
     // ===== LEVEL 10 SPELLS =====
-    {
-      id: "formbender_world_devourer",
+    { id: "formbender_world_devourer",
       name: "World Devourer",
       description:
         "You become a Colossal abomination â€” a biological catastrophe that exists at the scale of geography. +6 all stats. Resistance to all damage. +4d10 extra attack damage. 3d10 HP regeneration per turn. When it ends, you suffer 3 exhaustion levels as your body tries to remember what 'small' means. The world will remember what you looked like. It will not forgive you.",
@@ -3294,33 +3194,27 @@ The Formbender's specializations are not schools of thought â€” they are di
         newForm: "World Devourer",
         description: "Become a Colossal biological catastrophe. Geography recoils.",
         grantedAbilities: [
-          {
-            id: "colossal_size",
+          { id : "colossal_size",
             name: "Colossal Size",
             description: "Size becomes Colossal, reach 20 feet",
           },
-          {
-            id: "devourer_stats",
+          { id : "devourer_stats",
             name: "+6 All Stats",
             description: "Gain +6 to all attributes",
           },
-          {
-            id: "damage_resistance",
+          { id : "damage_resistance",
             name: "Damage Resistance",
             description: "Resistance to all damage types (half damage)",
           },
-          {
-            id: "devourer_attacks",
+          { id : "devourer_attacks",
             name: "Devastating Attacks",
             description: "All attacks deal +4d10 extra damage",
           },
-          {
-            id: "devourer_regen",
+          { id : "devourer_regen",
             name: "Biological Regeneration",
             description: "Regenerate 3d10 HP at start of each turn",
           },
-          {
-            id: "devourer_exhaustion",
+          { id : "devourer_exhaustion",
             name: "Exhaustion (On End)",
             description: "Gain 3 levels of exhaustion when transformation ends",
           },
@@ -3341,8 +3235,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["transformation", "buff", "legendary", "formbender"],
     },
 
-    {
-      id: "formbender_genesis_of_horror",
+    { id: "formbender_genesis_of_horror",
       name: "Genesis of Horror",
       description:
         "You split your hunger fifteen ways. Ten primal beasts and five elemental guardians tear themselves free from your biomass â€” not summoned from elsewhere, but *born* from you, screaming and hungry. They fight for 10 rounds. The umbilical connection is visible. Your party will not look at you the same way.",
@@ -3359,8 +3252,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       },
       summoningConfig: {
         creatures: [
-          {
-            id: "horror_beast",
+          { id : "horror_beast",
             name: "Horror Beast",
             description: "Savage beasts born from the Formbender's biomass",
             size: "Large",
@@ -3377,8 +3269,7 @@ The Formbender's specializations are not schools of thought â€” they are di
               controlRange: 100,
             },
           },
-          {
-            id: "elemental_guardian",
+          { id : "elemental_guardian",
             name: "Elemental Guardian",
             description: "Elemental horrors torn from the Formbender's chemical makeup",
             size: "Huge",
@@ -3426,8 +3317,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["summoning", "legendary", "formbender"],
     },
 
-    {
-      id: "formbender_perfect_abomination",
+    { id: "formbender_perfect_abomination",
       name: "Perfect Abomination",
       description:
         "For 5 rounds, you transcend the limits of biological horror. Maintain 2 forms simultaneously. Form transitions are free. Generate +2 WI per round. All WI costs reduced by 1. You are not one animal. You are not many animals. You are the *idea* of animal, and it has decided to wear your skin forever.",
@@ -3454,23 +3344,19 @@ The Formbender's specializations are not schools of thought â€” they are di
         description:
           "Transcend biological limits. Become the idea of animal.",
         grantedAbilities: [
-          {
-            id: "hybrid_forms",
+          { id : "hybrid_forms",
             name: "Hybrid Abominations",
             description: "Maintain benefits of 2 forms simultaneously",
           },
-          {
-            id: "instant_shift",
+          { id : "instant_shift",
             name: "Instant Shift",
             description: "Form transitions cost 0 Wild Instinct",
           },
-          {
-            id: "evolved_instinct",
+          { id : "evolved_instinct",
             name: "Evolved Instinct",
             description: "Generate +2 Wild Instinct per round",
           },
-          {
-            id: "ability_discount",
+          { id : "ability_discount",
             name: "Predatory Efficiency",
             description: "All Wild Instinct costs reduced by 1 (minimum 1)",
           },
@@ -3490,8 +3376,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["transformation", "mastery", "formbender"],
     },
     // ===== PASSIVE ABILITIES =====
-    {
-      id: "formbender_human_fragility",
+    { id: "formbender_human_fragility",
       name: "Human Fragility",
       description:
         "Your body has adapted to stolen forms, making your human shape feel like a cage that doesn't fit. While in human form (no active transformation), you suffer -2 to all saving throws. This penalty vanishes the instant you assume any animal or elemental form â€” the mask is fragile, but the face behind it is not.",
@@ -3509,8 +3394,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["passive", "formbender", "weakness"],
     },
 
-    {
-      id: "formbender_humanity_erosion",
+    { id: "formbender_humanity_erosion",
       name: "Humanity Erosion",
       description:
         "Every transformation erodes your grip on the human mind. Track Erosion (0-10, starts at 0). Each standard form shift: +1 Erosion. Forced reversion (dispelled, KO'd): +2 Erosion. Thresholds: 3+ = Cannot speak Common, disadvantage on Intelligence checks. 5+ = Cannot use items, Wisdom save DC 13 to revert. 7+ = Each round, Wisdom save DC 14 or attack nearest creature. 10 = GM controls your character until combat ends. Recovery: -3 Erosion after Short Rest, reset to 0 after Long Rest.",
@@ -3528,8 +3412,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["passive", "formbender", "erosion", "humanity"],
     },
 
-    {
-      id: "formbender_psychic_vulnerability",
+    { id: "formbender_psychic_vulnerability",
       name: "Psychic Vulnerability",
       description:
         "The human consciousness inside you is a wound that never closes. You permanently take +50% Psychic damage from all sources. This is your Fatal Flaw â€” the animal body is resilient, but the mind wearing it is always bleeding. Mind-affecting effects bypass your transformed resilience entirely. The armor protects the flesh, not the passenger.",
@@ -3545,8 +3428,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "psychic_vulnerability",
+          { id : "psychic_vulnerability",
             name: "Psychic Vulnerability",
             description:
               "Permanently take +50% damage from all Psychic sources. Mind-affecting effects bypass form resistance.",
@@ -3559,8 +3441,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["passive", "formbender", "weakness", "fatal flaw"],
     },
 
-    {
-      id: "formbender_primal_collapse",
+    { id: "formbender_primal_collapse",
       name: "Primal Collapse",
       description:
         "Reverting from a transformation to human form is traumatic â€” your body cramming back into a shape it has outgrown. When a form expires or you willingly revert, take 1d4 psychic damage per round spent in that form (maximum 5d4). If the form was dispelled or forcibly ended by an enemy, increase to 1d6 per round. The shock of re-adjustment is the human mind's punishment for leaving.",
@@ -3578,8 +3459,7 @@ The Formbender's specializations are not schools of thought â€” they are di
       tags: ["passive", "formbender", "weakness"],
     },
 
-    {
-      id: "formbender_primal_metabolism",
+    { id: "formbender_primal_metabolism",
       name: "Primal Metabolism",
       description:
         "Your healing magic is parasitic â€” it only works when something else is wearing your skin. Stolen Mending, Flesh Donation, and Parasitic Mending cannot target yourself. You have no access to self-healing through class abilities in human form. Your only regeneration comes from the resilience of your stolen shapes. The gift moves outward. It never comes back.",

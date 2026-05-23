@@ -13,7 +13,7 @@
  */
 
 export const SPELLGUARD_DATA = {
-  id: "spellguard",
+  id : "spellguard",
   name: "Spellguard",
   icon: "fas fa-shield-alt",
   role: "Void-Scarred Aegis",
@@ -200,8 +200,7 @@ The pain is unbearable. You step forward, grabbing the pyromancer by the throat.
     },
 
     specs: [
-      {
-        id: "arcane_warden",
+      { id : "arcane_warden",
         name: "Void-Scarred Bastion",
         icon: "Force/Force Field",
         color: "#1E3A8A",
@@ -242,8 +241,7 @@ Bastions focus entirely on intercepting damage meant for their allies, convertin
           "Players who want to play the ultimate sacrificial protector, literally jumping on magical grenades.",
       },
 
-      {
-        id: "spell_breaker",
+      { id : "spell_breaker",
         name: "Entropic Eraser",
         icon: "Arcane/Magical Cross Emblem 2",
         color: "#4C1D95",
@@ -284,8 +282,7 @@ Erasers specialize in bouncing magic back before it can fully settle in their lu
           "Players who want to punish enemy casters by turning their own apocalyptic spells against them.",
       },
 
-      {
-        id: "mana_reaver",
+      { id : "mana_reaver",
         name: "Leyline Devourer",
         icon: "Necrotic/Drain Soul",
         color: "#581C87",
@@ -335,8 +332,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     // ========================================
     // PASSIVES (LEVEL 1)
     // ========================================
-    {
-      id: "spellguard_arcane_radiation",
+    { id : "spellguard_arcane_radiation",
       name: "Arcane Radiation",
       description:
         "The magic you absorb is radioactive poison. At the end of your round, if you hold unspent Void Resonance, you take necrotic damage equal to (Resonance / 10), rounded down. Your maximum HP is permanently reduced by this same amount until you complete a long rest.",
@@ -354,8 +350,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       resolution: "AUTOMATIC",
       tags: ["passive", "spellguard", "weakness"],
     },
-    {
-      id: "spellguard_kinetic_fragility",
+    { id : "spellguard_kinetic_fragility",
       name: "Brittle Kinetic Shell",
       description:
         "Your void-glass plating and flesh are hyper-specialized to absorb energy, rendering you catastrophically vulnerable to physical trauma. You suffer a permanent +50% vulnerability to all Bludgeoning and Slashing damage.",
@@ -377,8 +372,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     // ========================================
     // LEVEL 1 SPELLS
     // ========================================
-    {
-      id: "sg_void_siphon",
+    { id : "sg_void_siphon",
       name: "Void Siphon",
       description:
         "A brutal melee strike that physically rips raw magic out of the target. Deals 1d8 bludgeoning and 1d8 force damage. If the target is a spellcaster, they lose 2d4 mana. Generates +15 Void Resonance as the raw magic enters your bloodstream.",
@@ -424,8 +418,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       utilityConfig: {
         utilityType: "resource_drain",
         selectedEffects: [
-          {
-            id: "mana_tear",
+          { id : "mana_tear",
             name: "Mana Tear",
             description: "Target loses 2d4 mana. You generate 15 Void Resonance.",
           },
@@ -435,8 +428,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       tags: ["melee", "drain", "resonance generation", "spellguard"],
     },
 
-    {
-      id: "sg_entropic_aegis",
+    { id : "sg_entropic_aegis",
       name: "Entropic Aegis",
       description:
         "Shards of volatile void crystal erupt from your skin, forming a barrier that absorbs 4d8 damage for 1 minute. Every time the shield absorbs damage, it generates 2 Void Resonance as the magic leaks into you. If shattered by a kinetic attack, it detonates inwardly, dealing 2d6 slashing damage to you.",
@@ -474,8 +466,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "void_barrier",
+          { id : "void_barrier",
             name: "Void Barrier",
             description:
               "Absorbs 4d8 damage. Generates 2 Resonance per hit absorbed. Self-inflicts 2d6 slashing if broken by physical attacks.",
@@ -490,8 +481,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       tags: ["shield", "defense", "spellguard"],
     },
 
-    {
-      id: "sg_refract_kinetic",
+    { id : "sg_refract_kinetic",
       name: "Refract Kinetic",
       description:
         "A desperate survival technique. You harden your physical shell by channeling radiation into your bones. For 1 round, your +50% physical vulnerability is suppressed, and you gain +2 Armor. However, the internal friction deals 1d4 necrotic damage to you instantly.",
@@ -529,8 +519,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       buffConfig: {
         buffType: "statModifier",
         effects: [
-          {
-            id: "kinetic_hardening",
+          { id : "kinetic_hardening",
             name: "Kinetic Hardening",
             description: "Suppresses physical vulnerability and grants +2 Armor.",
             mechanicsText: "+2 Armor",
@@ -555,8 +544,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       tags: ["defense", "survival", "self damage", "spellguard"],
     },
 
-    {
-      id: "sg_leyline_rift",
+    { id : "sg_leyline_rift",
       name: "Leyline Rift",
       description:
         "Tear through the spatial leylines to instantly teleport up to 30 feet to an enemy caster. The violent transition generates +10 Void Resonance, but the friction rips your flesh, dealing 1d6 necrotic damage to yourself.",
@@ -596,8 +584,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "spatial_tear",
+          { id : "spatial_tear",
             name: "Spatial Tear",
             description: "Teleport adjacent to target enemy.",
           },
@@ -616,8 +603,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     // ========================================
     // LEVEL 2 SPELLS
     // ========================================
-    {
-      id: "sg_agonizing_intercept",
+    { id : "sg_agonizing_intercept",
       name: "Agonizing Intercept",
       description:
         "When an ally within 15 feet is targeted by a spell, you instantly leap into its path, becoming the new target. The magical impact is fully absorbed into your body, generating Void Resonance equal to the damage it would have dealt. The horrific strain causes your eyes to bleed, blinding you until the end of your next turn.",
@@ -657,8 +643,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "spell_magnet",
+          { id : "spell_magnet",
             name: "Spell Magnet",
             description: "Intercept spell targeting ally. Absorb its damage as Void Resonance.",
           },
@@ -668,14 +653,13 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "strain_blindness",
+          { id : "strain_blindness",
             name: "Strain Blindness",
             description: "You are blinded by the radiation feedback.",
             mechanicsText: "Blinded",
           },
         ],
-        statusEffects: [{ id: "blinded", level: 1 }],
+        statusEffects: [{ id : "blinded", level: 1 }],
         durationValue: 1,
         durationType: "rounds",
         durationUnit: "rounds",
@@ -684,8 +668,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       tags: ["reaction", "interception", "spellguard"],
     },
 
-    {
-      id: "sg_shattered_mirror_ward",
+    { id : "sg_shattered_mirror_ward",
       name: "Shattered Mirror Ward",
       description:
         "Raise an agonizing barrier of spatial refraction. When targeted by a spell, reflect it back at the caster for 100% damage. The violent refraction inflicts internal burns, dealing 1d8 necrotic damage to your own organs.",
@@ -723,8 +706,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "mirror_refract",
+          { id : "mirror_refract",
             name: "Mirror Refraction",
             description: "Reflect incoming spell back at the caster (100% damage).",
           },
@@ -743,8 +725,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     // ========================================
     // LEVEL 3 SPELLS
     // ========================================
-    {
-      id: "sg_warding_ribcage",
+    { id : "sg_warding_ribcage",
       name: "Warding Ribcage",
       description:
         "Call forth spectral, radioactive rib-like structures to encase allies within 15 feet. Grants a shield absorbing 4d6 damage. Every time an ally's shield absorbs damage, you take 2 necrotic damage from the feedback link, but gain 2 Void Resonance.",
@@ -785,8 +766,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "ribcage_shield",
+          { id : "ribcage_shield",
             name: "Ribcage Shield",
             description: "Absorbs 4d6 damage. Spellguard takes 2 necrotic damage and gains 2 Resonance per hit.",
             mechanicsText: "Absorb 4d6",
@@ -800,8 +780,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       tags: ["aoe", "shield", "feedback", "spellguard"],
     },
 
-    {
-      id: "sg_void_suppression",
+    { id : "sg_void_suppression",
       name: "Void Suppression",
       description:
         "Instantly crush a spell in the target's throat by flooding their lungs with void ash. Force an Intelligence save. On fail, their spell is countered, and you absorb Resonance equal to the spell's level × 10.",
@@ -841,8 +820,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       utilityConfig: {
         utilityType: "disruption",
         selectedEffects: [
-          {
-            id: "counter_spell",
+          { id : "counter_spell",
             name: "Counter Spell",
             description: "Interrupt target's spell casting.",
           },
@@ -852,8 +830,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       controlConfig: {
         controlType: "silence",
         effects: [
-          {
-            id: "lung_ash",
+          { id : "lung_ash",
             name: "Ash in Lungs",
             description: "Spell countered on failed save.",
           },
@@ -873,8 +850,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     // ========================================
     // LEVEL 4 SPELLS
     // ========================================
-    {
-      id: "sg_entropic_supernova",
+    { id : "sg_entropic_supernova",
       name: "Entropic Supernova",
       description:
         "A devastating purge of radiation. Unleash a blinding eruption of stored energy, dealing 6d8 force damage to all enemies in a 20-foot radius (Agility save for half). Enemies who fail their save are blinded by void radiation for 1 round.",
@@ -926,14 +902,13 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "supernova_blind",
+          { id : "supernova_blind",
             name: "Radiation Blindness",
             description: "Blinded by the violent purge.",
             mechanicsText: "Blinded",
           },
         ],
-        statusEffects: [{ id: "blinded", level: 1 }],
+        statusEffects: [{ id : "blinded", level: 1 }],
         durationValue: 1,
         durationType: "rounds",
         durationUnit: "rounds",
@@ -945,8 +920,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     // ========================================
     // LEVEL 5 SPELLS
     // ========================================
-    {
-      id: "sg_tomb_of_the_aegis",
+    { id : "sg_tomb_of_the_aegis",
       name: "Tomb of the Aegis",
       description:
         "Encase yourself in a solid tomb of blackened void crystal. You gain complete immunity to all damage and effects for 1 round, but cannot act. At the start of your next turn, the tomb violently shatters, dealing 4d6 slashing damage to you and all adjacent creatures.",
@@ -984,8 +958,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       buffConfig: {
         buffType: "invulnerability",
         effects: [
-          {
-            id: "void_tomb",
+          { id : "void_tomb",
             name: "Void Tomb",
             description: "Immune to all damage and effects. Cannot take actions.",
             mechanicsText: "Invulnerability",
@@ -1005,8 +978,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       tags: ["defense", "immunity", "self damage", "spellguard"],
     },
     
-    {
-      id: "sg_violent_purge",
+    { id : "sg_violent_purge",
       name: "Violent Purge",
       description:
         "A cataclysmic blast of arcane radiation to save your own life from a meltdown. Expel ALL your Void Resonance (minimum 30 required). Deals force damage equal to (Void Resonance × 1.5) to all creatures within 20 feet, including your allies.",
@@ -1056,8 +1028,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     // ========================================
     // LEVEL 6-10 SPELLS (Selected High-Tier Purges)
     // ========================================
-    {
-      id: "sg_leyline_blackout",
+    { id : "sg_leyline_blackout",
       name: "Leyline Blackout",
       description:
         "Absolute suppression of the dimensional leylines. Creates a 60-foot zone of oppressive gravity that suppresses all spells, magic items, and magical effects for 5 rounds. Casting this tears your vocal cords, silencing you for 1 minute.",
@@ -1098,8 +1069,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       utilityConfig: {
         utilityType: "environment",
         selectedEffects: [
-          {
-            id: "anti_magic_field",
+          { id : "anti_magic_field",
             name: "Anti-Magic Field",
             description: "Suppresses all magic in the area.",
           },
@@ -1109,14 +1079,13 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "torn_vocal_cords",
+          { id : "torn_vocal_cords",
             name: "Torn Vocal Cords",
             description: "You are silenced by the immense physical strain.",
             mechanicsText: "Silenced",
           },
         ],
-        statusEffects: [{ id: "silenced", level: 1 }],
+        statusEffects: [{ id : "silenced", level: 1 }],
         durationValue: 1,
         durationType: "minutes",
         durationUnit: "minutes",
@@ -1125,8 +1094,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       tags: ["zone", "anti magic", "ultimate", "spellguard"],
     },
 
-    {
-      id: "sg_cosmic_unraveling",
+    { id : "sg_cosmic_unraveling",
       name: "Cosmic Unraveling",
       description:
         "Instantly end all magical phenomena on the battlefield, regardless of power level or origin. The sheer volume of magic consumed instantly puts you into Critical Meltdown, reducing you to 1 HP and shattering your armor.",
@@ -1167,8 +1135,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       utilityConfig: {
         utilityType: "disruption",
         selectedEffects: [
-          {
-            id: "absolute_dispel",
+          { id : "absolute_dispel",
             name: "Absolute Dispel",
             description: "Dispels EVERYTHING. No saves. No exceptions.",
           },

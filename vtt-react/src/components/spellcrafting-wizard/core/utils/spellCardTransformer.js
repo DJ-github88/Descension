@@ -510,13 +510,24 @@ export const getSpellRollableTable = (spell) => {
 
   // If we found a rollable table, ensure it has the proper structure
   if (rollableTable && typeof rollableTable === 'object') {
+    const entries = Array.isArray(rollableTable.entries) ? rollableTable.entries : [];
+    const entryCount = entries.length;
+    const defaultDice = entryCount ? `d${entryCount}` : 'd100';
+    const diceType = rollableTable.resolutionConfig?.diceType || 
+                     rollableTable.diceFormula || 
+                     rollableTable.diceType || 
+                     defaultDice;
+
     return {
       enabled: rollableTable.enabled !== false, // Default to enabled if not specified
-      name: rollableTable.name || 'Random Effects',
+      name: rollableTable.name || rollableTable.tableName || 'Random Effects',
       description: rollableTable.description || '',
       resolutionType: rollableTable.resolutionType || 'DICE',
-      resolutionConfig: rollableTable.resolutionConfig || { diceType: 'd100' },
-      entries: Array.isArray(rollableTable.entries) ? rollableTable.entries : []
+      resolutionConfig: {
+        ...(rollableTable.resolutionConfig || {}),
+        diceType
+      },
+      entries: entries
     };
   }
 
@@ -540,7 +551,7 @@ export const formatRollableTableForCard = (rollableTableData) => {
   let resolutionText = '';
   switch (resolutionType) {
     case 'DICE':
-      resolutionText = resolutionConfig.diceType || 'd100';
+      resolutionText = resolutionConfig.diceType || rollableTableData.diceFormula || (entryCount ? `d${entryCount}` : 'd100');
       break;
     case 'CARDS':
       resolutionText = `${resolutionConfig.cardCount || 3} cards`;

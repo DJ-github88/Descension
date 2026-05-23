@@ -6,7 +6,7 @@
  */
 
 export const DEATHCALLER_DATA = {
-  id: "deathcaller",
+  id : "deathcaller",
   name: "Deathcaller",
   icon: "Necrotic/Necrotic Skull",
   role: "Damage/Support",
@@ -21,7 +21,7 @@ export const DEATHCALLER_DATA = {
       title: "Quick Overview",
       content: `*You cut your palm and the blood ignites. Your vision darkens, your veins turn black, and the air fills with the stench of copper and burning meat. There is no going back. There never was.*
 
-**The Deathcaller** does not cast spells. They mutilate themselves for power. Every spell costs mana AND health — you quite literally pay for magic in flesh. That sacrifice generates **Blood Tokens**: globules of your own boiling blood that orbit your body like vultures. They supercharge your next spell... but they are not safe. They were never safe. If you don't spend them within 10 minutes, they detonate inside you.
+**The Deathcaller** does not cast spells. They sacrifice their own life force for power. Every spell costs mana AND health — you quite literally pay for magic in vitality. That sacrifice generates **Blood Tokens**: condensed necrotic energy that orbits your body like vultures. They supercharge your next spell... but they are not safe. They were never safe. If you don't spend them within 10 minutes, they detonate inside you.
 
 **Core Loop**: Sacrifice HP → Cast Spell → Generate Blood Tokens → Spend tokens for devastation (or let them burst and eat you alive)
 
@@ -219,12 +219,51 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
     },
   },
 
+  // Equipment
+  equipment: {
+    title: "Starting Equipment",
+    choices: [
+      {
+        name: "Crimson Blade Path",
+        icon: "Slashing/Bloody Slash",
+        items: [
+          "Ritual Dagger (1d6 slashing, necrotic resonance — HP sacrificed with this weapon generates +1 Blood Token per strike)",
+          "Bloodstained Leather Armor (AC 12, no agility penalty)",
+          "Copper Chalice (ritual focus — reduces HP cost of first spell each combat by 1)",
+        ],
+        description:
+          "The close-quarters path. Your dagger is both weapon and conduit — every cut feeds the Blood Bank. Best for Blood Reavers who plan to drain at melee range.",
+      },
+      {
+        name: "Obsidian Staff Path",
+        icon: "Necrotic/Necrotic Skull",
+        items: [
+          "Obsidian Staff (1d8 bludgeoning, +5 ft reach on necrotic spells)",
+          "Tattered Robes (AC 10, +1 necrotic damage to all spells)",
+          "Vial of Congealed Blood (consumable — restore 2d6 HP, once per long rest)",
+        ],
+        description:
+          "The ranged caster path. The staff extends your reach and amplifies spell potency. Best for Void Callers and Spectral Masters who prefer to keep distance while sacrificing health.",
+      },
+    ],
+    standardGear: [
+      "Backpack, 5 days iron rations (taste of copper is free)",
+      "Waterskin filled with brackish water",
+      "Flint and steel",
+      "Length of black silk cord (10 ft)",
+      "Iron pendant etched with a closed eye (focus for Ascension rites)",
+      "1d6 × 4 tarnished silver pieces",
+    ],
+    notes:
+      "Deathcallers cannot wield holy symbols or consecrated weapons — the necrotic resonance in their blood causes such items to crack and dull. You may use any melee weapon, but daggers and staves benefit most from your blood magic conduits.",
+  },
+
   // Resource System
   resourceSystem: {
     title: "Necrotic Ascension",
     subtitle: "Seven Paths of Dark Power",
 
-    description: `You are the fuel and the fire. Every spell you cast is an act of self-mutilation dressed in the language of sorcery -- your health bar is a ledger of debts that compound with every cast. The Blood Tokens that result are not a resource to be managed. They are globules of your own boiling blood, orbiting your body like carrion flies around a corpse that hasn't stopped breathing yet. They sear. They hiss. They want to burst.
+    description: `You are the fuel and the fire. Every spell you cast is an act of metabolic sacrifice dressed in the language of sorcery -- your health bar is a ledger of debts that compound with every cast. The Blood Tokens that result are not a resource to be managed. They are concentrated necrotic energy, orbiting your body like carrion flies around a dying star. They sear. They hiss. They want to burst.
 
 **Blood Token Volatility**: Tokens are NOT safe storage. They are LITERALLY boiling blood orbiting your body.
 - **1-5 Tokens**: Stable. No side effects. The blood simmers but does not boil over.
@@ -418,14 +457,13 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
     subtitle: "Three Paths of Necromantic Mastery",
 
     specs: [
-      {
-        id: "blood-reaver",
+      { id : "blood-reaver",
         name: "Blood Reaver",
         icon: "Necrotic/Drain Soul",
         color: "#8B0000",
         theme: "Aggressive Life Drain",
 
-        description: `Blood Reavers stopped running from the hunger and let it eat them from the inside out. They wade into melee range with their veins slit open, draining the life from everything they touch to fill the void that their own sacrifice carved. The Crimson Pact and Life Leech paths are their preferred scars -- permanent mutilations that turn every enemy into a transfusion. They do not heal. They take. And what they take is never enough to fill what they've lost.`,
+        description: `Blood Reavers stopped running from the hunger and let it consume them from within. They wade into melee range with their life essence pouring freely, draining the vitality from everything they touch to fill the void that their own sacrifice carved. The Crimson Pact and Life Leech paths are their preferred scars -- permanent concessions that turn every enemy into a transfusion. They do not heal. They take. And what they take is never enough to fill what they've lost.`,
 
         playstyle:
           "Melee-range life drain, aggressive health sacrifice, high sustain through draining",
@@ -444,7 +482,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
           "Struggles against undead/constructs",
         ],
 
-        passiveAbility: {
+        specPassive: {
           name: "Sanguine Hunger",
           icon: "Necrotic/Drain Soul",
           description:
@@ -458,8 +496,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         ],
       },
 
-      {
-        id: "spectral-master",
+      { id : "spectral-master",
         name: "Spectral Master",
         icon: "Necrotic/Arise",
         color: "#4B0082",
@@ -484,7 +521,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
           "Weak in clean environments (no corpses)",
         ],
 
-        passiveAbility: {
+        specPassive: {
           name: "Spectral Dominion",
           icon: "Necrotic/Arise",
           description:
@@ -499,8 +536,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         ],
       },
 
-      {
-        id: "void-caller",
+      { id : "void-caller",
         name: "Void Caller",
         icon: "Psychic/Mind Strike",
         color: "#1C1C1C",
@@ -525,7 +561,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
           "Psychic damage can be resisted by some enemies",
         ],
 
-        passiveAbility: {
+        specPassive: {
           name: "Void Touched",
           icon: "Psychic/Mind Strike",
           description:
@@ -550,11 +586,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
   exampleSpells: [
     // LEVEL 1 SPELLS (3)
 
-    {
-      id: "dc_necrotic_bolt",
+    { id : "dc_necrotic_bolt",
       name: "Necrotic Bolt",
       description:
-        "You carve open your palm. The wound vomits a lance of blackened blood that burrows into living flesh and gnaws. The target's own vitality turns traitor - every swing of their weapon carries the memory of your rot.",
+        "You channel your life force into a lance of blackened energy that burrows into the target's vitality and gnaws. Their own life force turns traitor - every swing of their weapon carries the memory of your rot.",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Skull",
@@ -579,28 +614,28 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "A low, rattling hiss — like air escaping a collapsed lung.",
+        somaticText: "Press your palm outward, dark veins flaring as necrotic energy condenses into a bolt.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      damageConfig: {
-        formula: "3d8",
-        damageTypes: ["necrotic"],
-        resolution: "DICE",
-        savingThrow: {
-          ability: "constitution",
-          difficultyClass: 13,
-          saveOutcome: "half_damage",
-        },
+      triggerConfig: {
+        triggers: [
+          { id : "blood_sacrifice_bolt",
+            name: "Blood Sacrifice",
+            triggerType: "on_cast",
+            action: "Sacrifice 1d6 HP. Generate Blood Tokens equal to HP lost.",
+          },
+        ],
       },
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "necrotic_weakness",
+          { id : "necrotic_weakness",
             name: "Necrotic Weakness",
             description: "Damage dealt reduced by 3 for 1 round.",
-            mechanicsText: "",
+            mechanicsText: "Target deals -3 damage for 1 round",
           },
         ],
         statPenalties: [
@@ -614,8 +649,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["damage", "debuff", "ranged", "blood magic"],
     },
 
-    {
-      id: "dc_corpse_walk",
+    { id : "dc_corpse_walk",
       name: "Corpse Walk",
       description:
         "The Deathcaller does not flee. They follow the corpses. You dissolve into a cloud of necrotic ash and reform where death has already walked. If nothing has died here, this spell is a closed door - there is nowhere to walk.",
@@ -645,6 +679,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "A whispered name — the last word spoken by the dead.",
+        somaticText: "Drag your fingers through the air as if parting a curtain of ash, then step through.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
       },
@@ -652,8 +688,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "corpse_teleport",
+          { id : "corpse_teleport",
             name: "Corpse Walk",
             description:
               "Teleport to a location where a creature died this combat. Leaves a trail of necrotic residue.",
@@ -667,8 +702,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["teleport", "mobility", "necrotic", "blood magic", "corpse_dependent"],
     },
 
-    {
-      id: "dc_crimson_aegis",
+    { id : "dc_crimson_aegis",
       name: "Crimson Aegis",
       description:
         "Your blood hardens into a carapace of scab and shadow. It will hold. It will hurt. The wound you inflict on yourself becomes armor - every drop shed buys a wall of congealed agony.",
@@ -687,24 +721,33 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         targetingType: "self",
         rangeType: "self",
       },
-      resourceCost: {
+        resourceCost: {
         resourceTypes: ["mana", "health"],
         resourceValues: { mana: 4 },
         actionPoints: 0,
         components: ["verbal", "somatic"],
+        verbalText: "A sharp gasp of exertion, teeth clenched against the strain.",
+        somaticText: "Clench your fist and pull — your life force crystallizes into a shimmering crimson shell.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d8" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      triggerConfig: {
+        triggers: [
+          { id : "aegis_absorption",
+            name: "Crimson Absorption",
+            triggerType: "on_hit",
+            action: "When struck, absorb damage up to 2× HP sacrificed. Ward crumbles when depleted.",
+          },
+        ],
+      },
       buffConfig: {
-        buffType: "damageMitigation",
         effects: [
-          {
-            id: "crimson_ward",
+          { id : "crimson_ward",
             name: "Crimson Aegis",
             description:
               "Absorbs damage equal to 2x HP sacrificed (1d8). The ward crumbles as it drinks the blows meant for you.",
-            mechanicsText: "",
+            mechanicsText: "Absorb 2× HP sacrificed as a damage ward (lasts 3 rounds)",
             statModifier: {
               stat: "damage_absorption",
               magnitude: "2x_health_sacrificed",
@@ -722,8 +765,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
 
     // LEVEL 2 SPELLS (2)
 
-    {
-      id: "dc_blood_leech",
+    { id : "dc_blood_leech",
       name: "Blood Leech",
       description:
         "You extend a tendril of coagulated hate. Their life becomes yours - a crude, screaming transfusion. The stolen warmth is never enough. It never will be.",
@@ -764,10 +806,21 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 7 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "A guttural growl — hunger given voice.",
+        somaticText: "Extend your arm, fingers splayed, as a tendril of dark energy arcs toward the target.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d4" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      triggerConfig: {
+        triggers: [
+          { id : "vampiric_leech",
+            name: "Vampiric Drain",
+            triggerType: "on_hit",
+            action: "On hit, drain HP equal to damage dealt. Restore that amount to caster.",
+          },
+        ],
+      },
       damageConfig: {
         formula: "2d6",
         damageTypes: ["necrotic"],
@@ -781,8 +834,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["damage", "healing", "life drain", "blood magic"],
     },
 
-    {
-      id: "dc_grave_whisper",
+    { id : "dc_grave_whisper",
       name: "Grave Whisper",
       description:
         "You speak the name of a thing that should not be remembered. The target's flesh remembers how to rot. Their skin forgets it was ever alive.",
@@ -810,6 +862,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 8 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "A single word — the syllable of decay. It tastes of copper and grave soil.",
+        somaticText: "Draw a slow circle in the air with one finger, leaving a trail of dark mist.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
       },
@@ -817,11 +871,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "necrotic_vulnerability",
+          { id : "necrotic_vulnerability",
             name: "Grave Whisper",
             description: "+50% necrotic damage taken for 3 rounds. The flesh remembers how to rot.",
-            mechanicsText: "",
+            mechanicsText: "+50% necrotic vulnerability for 3 rounds (Con save negates)",
             statusEffect: {
               vulnerabilityType: "necrotic",
               vulnerabilityPercent: 50,
@@ -843,8 +896,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
 
     // LEVEL 3 SPELLS (2)
 
-    {
-      id: "dc_blood_pact",
+    { id : "dc_blood_pact",
       name: "Blood Pact",
       description:
         "You press your bleeding palm against theirs. The pact is sealed in agony. Your heartbeats synchronize. Their pain is yours. Your ruin is theirs. When one of you breaks, the other bleeds to keep them standing.",
@@ -867,23 +919,23 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         maxTargets: 1,
       },
       resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 10 },
+        resourceTypes: ["mana", "bloodTokens"],
+        resourceValues: { mana: 10, bloodTokens: 2 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        classResource: { type: "blood_tokens", cost: 2 },
+        verbalText: "A binding oath — two names spoken as one, sealed in blood.",
+        somaticText: "Press your bleeding palm against theirs, crimson threads weaving between you.",
       },
       cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
       resolution: "DICE",
       buffConfig: {
         buffType: "statusEffectBuff",
         effects: [
-          {
-            id: "blood_pact_link",
+          { id : "blood_pact_link",
             name: "Blood Pact",
             description:
               "When either linked creature drops below 25% HP, the other takes 2d6 necrotic and the wounded party heals for the same. Triggers once.",
-            mechanicsText: "",
+            mechanicsText: "On trigger: partner takes 2d6 necrotic, wounded heals 2d6 (once per pact)",
           },
         ],
         durationType: "rounds",
@@ -894,8 +946,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "blood_pact_trigger",
+          { id : "blood_pact_trigger",
             name: "Symbiotic Wound",
             description:
               "On trigger: 2d6 necrotic to partner, 2d6 healing to wounded. Max 1 trigger.",
@@ -906,11 +957,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["support", "protection", "pact", "blood"],
     },
 
-    {
-      id: "dc_soul_rend",
+    { id : "dc_soul_rend",
       name: "Soul Rend",
       description:
-        "You drive your hand into their chest - not metaphorically. Your fingers close around something that screams. You pull. If they are already dying, you pull harder. There is always more to take.",
+        "You reach across the void and close your grip around their life essence. Something screams. You pull. If they are already dying, you pull harder. There is always more to take.",
       level: 3,
       spellType: "ACTION",
       icon: "Necrotic/Ebon Death",
@@ -935,6 +985,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 12 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A ragged scream — effort torn from the throat.",
+        somaticText: "Lunge forward and close your grip, tearing at the target's life force with invisible claws.",
         useFormulas: { health: true },
         resourceFormulas: { health: "2d8" },
       },
@@ -964,8 +1016,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
           damage: {
             logicType: "AND",
             compoundTriggers: [
-              {
-                id: "health_threshold",
+              { id : "health_threshold",
                 category: "health",
                 name: "Target Below 25% HP",
                 parameters: {
@@ -983,8 +1034,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
 
     // LEVEL 4 SPELLS (2)
 
-    {
-      id: "dc_crimson_tether",
+    { id : "dc_crimson_tether",
       name: "Crimson Tether",
       description:
         "A whip of coagulated malice lashes out and embeds itself in living meat. You are bound now. Neither of you leaves until one of you stops screaming. They can run - but every step costs them, and you can always drag them back.",
@@ -1011,6 +1061,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 12 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "A sharp chant — binding syllables that lock two fates together.",
+        somaticText: "Whip your arm forward, a lash of crimson energy coiling around the target.",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: {
@@ -1030,8 +1082,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       controlConfig: {
         controlType: "forcedMovement",
         effects: [
-          {
-            id: "crimson_tether_slow",
+          { id : "crimson_tether_slow",
             name: "Crimson Tether",
             description:
               "Movement speed reduced by 15 feet. Tethered to Deathcaller. Caster may spend 1 Blood Token to pull target 15 feet closer.",
@@ -1060,8 +1111,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["damage", "control", "tether", "dot"],
     },
 
-    {
-      id: "dc_spectral_horde",
+    { id : "dc_spectral_horde",
       name: "Spectral Horde",
       description:
         "You tear the veil. The dead do not rest - they serve. Two wraiths claw their way into existence, bound to your will and your heartbeat. They feed on you. This is the arrangement. If corpses litter the ground, the cost is lighter. If not, you pay in full.",
@@ -1088,32 +1138,41 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 14 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A rising invocation — names of the dead, spoken in sequence.",
+        somaticText: "Spread both arms wide, tearing the veil as wraiths claw into existence at your command.",
         useFormulas: { health: true },
         resourceFormulas: { health: "3d6" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       summoningConfig: {
-        creatureType: "spectral_wraith",
-        count: 2,
+        creatures: [
+          {
+            quantity: 2,
+            hp: 15,
+            damagePerTurn: "1d6",
+            damageType: "necrotic",
+            specialRules: [
+              "Each wraith drains 1d4 HP from the caster at the start of each turn.",
+              "If a corpse exists within 10ft at time of casting, reduce HP cost by 1d6 per corpse (max 2 corpses).",
+            ],
+          },
+        ],
         duration: 10,
         durationUnit: "rounds",
-        stats: {
-          hp: 15,
-          damagePerTurn: "1d6",
-          damageType: "necrotic",
-        },
-        specialRules: [
-          "Each wraith drains 1d4 HP from the caster at the start of each turn.",
-          "If a corpse exists within 10ft at time of casting, reduce HP cost by 1d6 per corpse (max 2 corpses).",
-        ],
+        hasDuration: true,
+        concentration: false,
+        quantity: 2,
+        maxQuantity: 2,
+        controlRange: 60,
+        controlType: "verbal",
+        difficultyLevel: "easy",
       },
       tags: ["summoning", "spectral", "minions", "blood magic"],
     },
 
     // LEVEL 5 SPELLS (2)
 
-    {
-      id: "dc_deaths_sentence",
+    { id : "dc_deaths_sentence",
       name: "Death's Sentence",
       description:
         "You lean in close. You whisper the hour of their death. You have seen it in the marrow of their bones. The sentence is already written in blood. Some organisms are too broken to argue with the verdict.",
@@ -1135,11 +1194,13 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         targetRestrictions: ["enemy"],
         maxTargets: 1,
       },
-      resourceCost: {
+        resourceCost: {
         resourceTypes: ["mana", "health"],
         resourceValues: { mana: 18 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A cold declaration — the sentence read aloud from a ledger only you can see.",
+        somaticText: "Reach forward and press two fingers to the target's forehead, marking them for death.",
         useFormulas: { health: true },
         resourceFormulas: { health: "3d6" },
       },
@@ -1152,8 +1213,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "instant_death",
+          { id : "instant_death",
             name: "Death's Sentence",
             description:
               "If target is below 30% HP: Constitution save DC 16 or die instantly. On successful save, take 6d6 necrotic damage instead.",
@@ -1175,8 +1235,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["execute", "control", "melee", "blood magic"],
     },
 
-    {
-      id: "dc_life_link",
+    { id : "dc_life_link",
       name: "Life Link",
       description:
         "You weave your veins into theirs. A bridge of blood. When the blade finds them, it finds you first. This is the gift. This is the wound. Every point of their suffering that you absorb becomes fuel for the fire you carry inside.",
@@ -1203,16 +1262,17 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 18 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A solemn oath — your heartbeat and theirs synchronized in a single rhythm.",
+        somaticText: "Extend your bloodied palm toward an ally, threads of crimson light bridging the gap.",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "life_link_armor",
+          { id : "life_link_armor",
             name: "Linked Resolve",
             description: "+2 Armor to both linked creatures while the link persists.",
-            mechanicsText: "",
+            mechanicsText: "+2 Armor to both linked creatures (10 rounds)",
             statModifier: {
               stat: "armor",
               magnitude: 2,
@@ -1228,8 +1288,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "life_link_redirect",
+          { id : "life_link_redirect",
             name: "Life Link",
             description:
               "50% of damage the ally takes is redirected to you. Redirected damage generates Blood Tokens equal to damage absorbed.",
@@ -1244,8 +1303,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
 
     // LEVEL 6 SPELLS (3)
 
-    {
-      id: "dc_blood_cataclysm",
+    { id : "dc_blood_cataclysm",
       name: "Blood Cataclysm",
       description:
         "Every drop of hoarded agony detonates at once. The air becomes red glass. The screaming is not metaphorical. You are the bomb. You always were. Spend everything. Leave nothing. This is what they brought you for.",
@@ -1267,11 +1325,13 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         aoeParameters: { radius: 25 },
         targetRestrictions: ["enemy"],
       },
-      resourceCost: {
+        resourceCost: {
         resourceTypes: ["mana", "health", "bloodTokens"],
         resourceValues: { mana: 22, bloodTokens: 6 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A roar of release — every held-back scream let loose at once.",
+        somaticText: "Throw both arms wide and detonate — the Blood Tokens shatter outward in a crimson shockwave.",
         useFormulas: { health: true },
         resourceFormulas: { health: "4d6" },
       },
@@ -1289,8 +1349,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "cataclysm_stun",
+          { id : "cataclysm_stun",
             name: "Cataclysm Shockwave",
             description:
               "If 10+ Blood Tokens were spent, all enemies in area are Stunned for 1 round.",
@@ -1311,8 +1370,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["aoe", "damage", "blood_tokens", "ultimate"],
     },
 
-    {
-      id: "dc_agony",
+    { id : "dc_agony",
       name: "Agony",
       description:
         "You open a wound in the world. Not a portal - a wound. Everything within it feels what you feel. Every heartbeat is a hammer. Every breath is a razor. Move if you want. Act if you dare. The choice is theirs. The consequence is not.",
@@ -1340,6 +1398,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 22 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A keening wail — the sound of nerves pushed past their limit.",
+        somaticText: "Claw at the air as if ripping open reality, dark energy pulsing outward from the wound.",
         useFormulas: { health: true },
         resourceFormulas: { health: "3d6" },
       },
@@ -1352,12 +1412,11 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "agony_penalty",
+          { id : "agony_penalty",
             name: "Agony",
             description:
               "Each time the target moves, attacks, or casts a spell, they take 2d6 additional necrotic damage. They may do nothing to avoid extra damage. Choice-based penalty - not binary lockdown.",
-            mechanicsText: "",
+            mechanicsText: "2d6 necrotic damage each time target moves, attacks, or casts (3 rounds)",
           },
         ],
         savingThrow: {
@@ -1373,8 +1432,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["aoe", "choice_based", "control", "necrotic"],
     },
 
-    {
-      id: "dc_eternal_agony",
+    { id : "dc_eternal_agony",
       name: "Eternal Agony",
       description:
         "You plant a seed of psychic ruin behind their eyes. It germinates. It blooms. It rots. By the third dawn they will beg for the silence that comes after. Your own nose bleeds from the effort of holding their skull open.",
@@ -1402,6 +1460,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 22 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A whispered countdown — three, two, one — each number heavier than the last.",
+        somaticText: "Press your thumb to the target's brow, planting the seed of psychic ruin.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d10" },
       },
@@ -1449,8 +1509,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
 
     // LEVEL 7 SPELLS (2)
 
-    {
-      id: "dc_necrotic_storm",
+    { id : "dc_necrotic_storm",
       name: "Necrotic Storm",
       description:
         "You become the eye of a hurricane of rot. The storm does not ask permission. It does not negotiate. It consumes, and you are its gateway. The longer you hold it open, the more of you it eats. This is a door that only closes from the outside.",
@@ -1477,6 +1536,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 25 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A sustained, shuddering moan — the sound of a body pushed past endurance.",
+        somaticText: "Raise both arms overhead, dark energy spiraling outward as a hurricane of rot.",
         useFormulas: { health: true },
         resourceFormulas: { health: "5d6" },
       },
@@ -1515,11 +1576,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "storm_weakening",
+          { id : "storm_weakening",
             name: "Necrotic Storm",
             description: "-2 to all saving throws while within the storm area.",
-            mechanicsText: "",
+            mechanicsText: "-2 to all saving throws while in the storm area (3 rounds)",
           },
         ],
         statPenalties: [
@@ -1538,8 +1598,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["aoe", "channeled", "dot", "debuff"],
     },
 
-    {
-      id: "dc_apex_predator",
+    { id : "dc_apex_predator",
       name: "Apex Predator",
       description:
         "You shed your skin and wear the darkness instead. Something ancient and hungry moves through your limbs. You can see in the dark because the dark is inside you now. The predator does not serve you. You are its host. It feeds on your blood even as it hunts through your hands.",
@@ -1564,10 +1623,26 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 25, bloodTokens: 6 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A predator's hiss — inhuman, instinctive, hungry.",
+        somaticText: "Draw your arms across your body, shedding your form as darkness pours in to replace it.",
         useFormulas: { health: true },
         resourceFormulas: { health: "4d8" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      triggerConfig: {
+        triggers: [
+          { id : "predator_drain",
+            name: "Predator's Toll",
+            triggerType: "start_of_turn",
+            action: "Lose 5 HP at the start of each turn. The form feeds on your life force.",
+          },
+          { id : "predator_blood_sacrifice",
+            name: "Blood Sacrifice",
+            triggerType: "on_cast",
+            action: "Sacrifice 4d8 HP and 6 Blood Tokens. Generate Blood Tokens equal to HP lost.",
+          },
+        ],
+      },
       transformationConfig: {
         transformationType: "physical",
         targetType: "self",
@@ -1580,11 +1655,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "predator_stealth",
+          { id : "predator_stealth",
             name: "Shadow Mantle",
             description: "+3 Stealth, +10 Movement Speed, Invisibility to enemies.",
-            mechanicsText: "",
+            mechanicsText: "+3 Stealth, +10 ft speed, invisible to enemies (10 minutes)",
             statModifier: {
               stat: "movement_speed",
               magnitude: 10,
@@ -1600,11 +1674,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "predator_hunger",
+          { id : "predator_hunger",
             name: "Predator's Hunger",
             description: "Lose 5 HP at the start of each turn. The form feeds on you.",
-            mechanicsText: "",
+            mechanicsText: "Lose 5 HP at the start of each turn (10 minutes)",
           },
         ],
         durationType: "minutes",
@@ -1617,8 +1690,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
 
     // LEVEL 8 SPELLS (3)
 
-    {
-      id: "dc_judgment_day",
+    { id : "dc_judgment_day",
       name: "Judgment Day",
       description:
         "The sky cracks open like a scab. A rain of black fire descends on everything within reach. Their life force boils upward and funnels into your open mouth. You drink the battlefield dry and still you are thirsty. This is not a spell. It is a verdict.",
@@ -1657,6 +1729,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 28, bloodTokens: 6 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A verdict spoken in a voice not your own — ancient, hollow, absolute.",
+        somaticText: "Throw your head back and spread your arms as black fire rains from above, life force streaming into you.",
         useFormulas: { health: true },
         resourceFormulas: { health: "6d6" },
       },
@@ -1679,8 +1753,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["aoe", "damage", "vampiric", "blood magic"],
     },
 
-    {
-      id: "dc_shadow_ascendant",
+    { id : "dc_shadow_ascendant",
       name: "Shadow Ascendant",
       description:
         "You dissolve. Not into mist - into absence. Your body becomes a wound in reality. You are less than a ghost. You are the shadow that the ghost casts. Nothing can reach you because nothing wants to. Nothing can heal you because there is nothing left to mend.",
@@ -1704,10 +1777,26 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 28, bloodTokens: 6 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "Nothing — complete silence. Your voice has left the air.",
+        somaticText: "Fold inward, your form dissolving into absence, leaving only a dark stain where you stood.",
         useFormulas: { health: true },
         resourceFormulas: { health: "6d8" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      triggerConfig: {
+        triggers: [
+          { id : "shadow_healing_block",
+            name: "Shadow Isolation",
+            triggerType: "passive",
+            action: "Cannot be healed by any source while transformed. You exist beyond flesh.",
+          },
+          { id : "shadow_blood_sacrifice",
+            name: "Blood Sacrifice",
+            triggerType: "on_cast",
+            action: "Sacrifice 6d8 HP and 6 Blood Tokens. Generate Blood Tokens equal to HP lost.",
+          },
+        ],
+      },
       transformationConfig: {
         transformationType: "elemental",
         targetType: "self",
@@ -1720,11 +1809,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "shadow_reduction",
+          { id : "shadow_reduction",
             name: "Shadow Form",
             description: "Physical damage taken reduced by 50%. Gain 30ft Shadow Step (no line of sight required).",
-            mechanicsText: "",
+            mechanicsText: "50% physical damage reduction + 30 ft Shadow Step (no LoS)",
             statModifier: {
               stat: "physical_damage_taken",
               magnitude: -50,
@@ -1740,15 +1828,13 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          {
-            id: "shadow_step",
+          { id : "shadow_step",
             name: "Shadow Step",
             distance: 30,
             needsLineOfSight: false,
             description: "Teleport up to 30 feet through shadows.",
           },
-          {
-            id: "wall_phasing",
+          { id : "wall_phasing",
             name: "Wall Phasing",
             description: "Pass through non-magical barriers.",
           },
@@ -1760,11 +1846,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       debuffConfig: {
         debuffType: "curse",
         effects: [
-          {
-            id: "shadow_curse",
+          { id : "shadow_curse",
             name: "Shadow Curse",
             description: "Cannot be healed by any source while transformed. You are beyond flesh.",
-            mechanicsText: "",
+            mechanicsText: "Cannot be healed by any source while transformed (1 minute)",
           },
         ],
         durationType: "minutes",
@@ -1775,8 +1860,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["transformation", "defensive", "mobility", "curse"],
     },
 
-    {
-      id: "dc_blood_frenzy",
+    { id : "dc_blood_frenzy",
       name: "Blood Frenzy",
       description:
         "You stop feeling pain because pain has become the point. Your blood sings. Every nerve is a furnace. You are not berserk - you are precisely, surgically insane. The frenzy does not end because you want it to. It ends when your body gives out. There is no off switch. There is only the next heartbeat and the one after that.",
@@ -1800,19 +1884,34 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 28, bloodTokens: 6 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "A howl of abandon — reason burned away, only hunger remains.",
+        somaticText: "Clutch your chest and tear outward, the frenzy igniting like a furnace in your veins.",
         useFormulas: { health: true },
         resourceFormulas: { health: "7d6" },
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      triggerConfig: {
+        triggers: [
+          { id : "frenzy_hp_drain",
+            name: "Frenzy Drain",
+            triggerType: "start_of_turn",
+            action: "Lose 2d6 HP at the start of each turn. Cannot end voluntarily.",
+          },
+          { id : "frenzy_blood_sacrifice",
+            name: "Blood Sacrifice",
+            triggerType: "on_cast",
+            action: "Sacrifice 7d6 HP and 6 Blood Tokens. Generate double Blood Tokens while Frenzy is active.",
+          },
+        ],
+      },
       buffConfig: {
         buffType: "damageIncrease",
         effects: [
-          {
-            id: "frenzy_damage",
+          { id : "frenzy_damage",
             name: "Blood Frenzy",
             description:
               "+3d6 necrotic damage to all spells. Double Blood Token generation rate. You are a furnace that burns its own walls.",
-            mechanicsText: "",
+            mechanicsText: "+3d6 necrotic to all spells, double Blood Token generation",
             statModifier: {
               stat: "bonus_damage",
               magnitude: "3d6",
@@ -1828,12 +1927,11 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "frenzy_drain",
+          { id : "frenzy_drain",
             name: "Frenzy Drain",
             description:
               "Lose 2d6 HP at the start of each turn. Cannot end voluntarily - only ends when combat ends or you reach 0 HP.",
-            mechanicsText: "",
+            mechanicsText: "2d6 HP drain per turn; cannot end until combat ends or HP reaches 0",
           },
         ],
         durationType: "rounds",
@@ -1846,8 +1944,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
 
     // LEVEL 9 SPELLS (2)
 
-    {
-      id: "dc_necrotic_apocalypse",
+    { id : "dc_necrotic_apocalypse",
       name: "Necrotic Apocalypse",
       description:
         "You crack the world open like an egg. What pours out is not magic - it is the opposite of magic. It is the memory of death before life existed. Everything it touches remembers how to stop. The land will not recover. Neither will you.",
@@ -1874,10 +1971,26 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 32, bloodTokens: 6 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "The end spoken as a fact — not a threat, not a promise, a certainty.",
+        somaticText: "Drive both fists into the ground, necrotic energy erupting outward in a widening cataclysm.",
         useFormulas: { health: true },
         resourceFormulas: { health: "8d6" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      triggerConfig: {
+        triggers: [
+          { id : "apocalypse_dot",
+            name: "Necrotic Fallout",
+            triggerType: "start_of_turn",
+            action: "All enemies in area take 6d6 necrotic damage per round for 3 rounds.",
+          },
+          { id : "apocalypse_blood_sacrifice",
+            name: "Blood Sacrifice",
+            triggerType: "on_cast",
+            action: "Sacrifice 8d6 HP and 6 Blood Tokens. Generate Blood Tokens equal to HP lost.",
+          },
+        ],
+      },
       damageConfig: {
         formula: "15d6",
         damageTypes: ["necrotic"],
@@ -1900,11 +2013,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          {
-            id: "apocalyptic_weakening",
+          { id : "apocalyptic_weakening",
             name: "Apocalyptic Weakening",
             description: "-5 to all resistances for 1 minute. The rot is thorough.",
-            mechanicsText: "",
+            mechanicsText: "-5 to all resistances for 10 rounds (Con save negates)",
           },
         ],
         statPenalties: [
@@ -1923,8 +2035,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["aoe", "damage", "dot", "debuff"],
     },
 
-    {
-      id: "dc_void_hunter",
+    { id : "dc_void_hunter",
       name: "Void Hunter",
       description:
         "You offer the void a piece of yourself - not temporarily. Forever. The void accepts. It always accepts. You move through the world like a blade through silk. The walls do not stop you because you are no longer entirely real. The HP you lost is the price. The void does not give change.",
@@ -1948,6 +2059,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 32, bloodTokens: 6 },
         actionPoints: 3,
         components: ["verbal", "somatic"],
+        verbalText: "A syllable that does not belong to any language — the void's true name.",
+        somaticText: "Step sideways through nothing, reality peeling away as you pass through it.",
         useFormulas: { health: true, permanentHealth: true },
         resourceFormulas: { health: "8d8", permanentHealth: "2d10" },
       },
@@ -1965,22 +2078,20 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "void_speed",
+          { id : "void_speed",
             name: "Void Speed",
             description: "+20 Movement Speed. Phase through non-magical walls.",
-            mechanicsText: "",
+            mechanicsText: "+20 ft movement, phase through non-magical walls (10 minutes)",
             statModifier: {
               stat: "movement_speed",
               magnitude: 20,
               magnitudeType: "flat",
             },
           },
-          {
-            id: "void_precision",
+          { id : "void_precision",
             name: "Void Precision",
             description: "+5 to all attack rolls.",
-            mechanicsText: "",
+            mechanicsText: "+5 to all attack rolls (10 minutes)",
             statModifier: {
               stat: "attack",
               magnitude: 5,
@@ -1998,8 +2109,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
 
     // LEVEL 10 SPELLS (2)
 
-    {
-      id: "dc_necrotic_armageddon",
+    { id : "dc_necrotic_armageddon",
       name: "Necrotic Armageddon",
       description:
         "This is not a spell. This is an amputation. You cut the world's connection to magic itself. The wound is permanent. Everything within a hundred feet - allies, enemies, the ground beneath your feet - feels the severance. Reality screams. You scream louder. Some doors only open outward.",
@@ -2026,6 +2136,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 36, bloodTokens: 6 },
         actionPoints: 3,
         components: ["verbal", "somatic"],
+        verbalText: "The last word ever spoken — final, absolute, severing.",
+        somaticText: "Bring your palms together and crack them apart, splitting the air like a fractured mirror.",
         useFormulas: { health: true, permanentHealth: true },
         resourceFormulas: { health: "10d6", permanentHealth: "2d10" },
       },
@@ -2043,11 +2155,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       utilityConfig: {
         utilityType: "environment",
         selectedEffects: [
-          {
-            id: "magic_severance",
+          { id : "magic_severance",
             name: "Magic Severance",
             description:
-              "All magic permanently ends in the area for 1 hour. Reality rejects the arcane. Spells cannot be cast. Enchantments dissolve.",
+              "All magic is suppressed in the area for 1 hour. Reality rejects the arcane. Spells cannot be cast. Enchantments wane.",
             duration: 1,
             durationUnit: "hours",
           },
@@ -2057,13 +2168,12 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       tags: ["aoe", "damage", "anti_magic", "permanent_cost"],
     },
 
-    {
-      id: "dc_blood_god_incarnate",
+    { id : "dc_blood_god_incarnate",
       name: "Blood God Incarnate",
       description:
-        "You stop being a person who uses blood magic and become blood magic itself. Your veins are necrotic rivers. Your heartbeat is a curse. Your allies cannot heal you because there is nothing left to heal - you are a wound that learned to walk. This is not transformation. This is autopsy. The max HP you sacrifice is gone forever. You will not get it back. What you gain in return is the ability to make everything else in the room share your condition.",
+        "You stop being a person who uses blood magic and become blood magic itself. Your veins are necrotic rivers. Your heartbeat is a curse. Your allies cannot heal you because there is nothing left to heal - you are a force of nature given form. This is not transformation. This is apotheosis. The max HP you sacrifice is gone forever. You will not get it back. What you gain in return is the ability to make everything else in the room share your condition.",
       level: 10,
-      spellType: "PASSIVE",
+      spellType: "ACTION",
       icon: "Void/Consumed by Void",
       effectTypes: ["transformation", "buff", "debuff"],
       typeConfig: {
@@ -2082,6 +2192,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         resourceValues: { mana: 36, bloodTokens: 6 },
         actionPoints: 3,
         components: ["verbal", "somatic"],
+        verbalText: "No words — just a pulse. A heartbeat that the room feels.",
+        somaticText: "Open your arms and let the transformation consume you, blood magic replacing flesh with purpose.",
         useFormulas: { health: true, permanentHealth: true },
         resourceFormulas: { health: "10d10", permanentHealth: "3d8" },
       },
@@ -2099,11 +2211,10 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       buffConfig: {
         buffType: "damageIncrease",
         effects: [
-          {
-            id: "blood_god_power",
+          { id : "blood_god_power",
             name: "Blood God's Wrath",
             description: "+3d6 necrotic damage to all spells. Double Blood Token generation. Immune to necrotic damage.",
-            mechanicsText: "",
+            mechanicsText: "+3d6 necrotic to all spells, 2× Blood Token generation, necrotic immunity (permanent)",
             statModifier: {
               stat: "bonus_damage",
               magnitude: "3d6",
@@ -2119,12 +2230,11 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
       debuffConfig: {
         debuffType: "curse",
         effects: [
-          {
-            id: "blood_god_curse",
+          { id : "blood_god_curse",
             name: "Blood God's Isolation",
             description:
               "Cannot be healed by any source other than your own life drain effects. You are beyond the reach of clerics, potions, and mercy. This is permanent.",
-            mechanicsText: "",
+            mechanicsText: "Cannot be healed except by own life drain (permanent)",
           },
         ],
         durationType: "permanent",

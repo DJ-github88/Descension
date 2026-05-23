@@ -6,7 +6,7 @@
  */
 
 export const TOXICOLOGIST_DATA = {
-  id: "toxicologist",
+  id : "toxicologist",
   name: "Toxicologist",
   icon: "fas fa-flask",
   role: "Damage/Support",
@@ -733,8 +733,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
   // Example Spells - organized by specialization
   exampleSpells: [
     // ===== VENOMANCER SPECIALIZATION =====
-    {
-      id: "tox_venom_strike",
+    { id : "tox_venom_strike",
       name: "Venom Strike",
       description:
         "Strike with a poisoned weapon, injecting deadly toxin that deals immediate and ongoing damage.",
@@ -792,8 +791,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "poisoned",
+          { id : "poisoned",
             name: "Poisoned",
             description:
               "Disadvantage on attack rolls and ability checks for 4 rounds",
@@ -833,8 +831,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["melee", "poison", "damage", "dot", "venomancer"],
     },
 
-    {
-      id: "tox_toxic_cloud",
+    { id : "tox_toxic_cloud",
       name: "Toxic Cloud",
       description:
         "Hurl a vial that shatters into a poisonous cloud, damaging and debuffing all enemies in the area.",
@@ -908,8 +905,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statReduction",
         effects: [
-          {
-            id: "weakened",
+          { id : "weakened",
             name: "Weakened",
             description:
               "-2 to attack rolls, saves, and ability checks for 4 rounds",
@@ -948,8 +944,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ===== GADGETEER SPECIALIZATION =====
-    {
-      id: "tox_poison_trap",
+    { id : "tox_poison_trap",
       name: "Poison Gas Trap",
       description:
         "Deploy a contraption that releases poison gas when enemies approach, damaging and slowing them.",
@@ -997,8 +992,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "slowed",
+          { id : "slowed",
             name: "Slowed",
             description: "Movement speed reduced by 10 feet for 2 rounds",
             mechanicsText: "Movement speed reduced by 10 feet for 2 rounds",
@@ -1029,8 +1023,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["trap", "poison", "damage", "debuff", "gadgeteer"],
     },
 
-    {
-      id: "tox_contraption_network",
+    { id : "tox_contraption_network",
       name: "Contraption Network",
       description:
         "Link all your active contraptions. When one triggers, all activate simultaneously for devastating combos.",
@@ -1098,8 +1091,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["utility", "contraption", "combo", "gadgeteer"],
     },
 
-    {
-      id: "tox_overcharged_trap",
+    { id : "tox_overcharged_trap",
       name: "Overcharged Trap",
       description:
         "Deploy a supercharged contraption that explodes in a 15ft radius, dealing fire damage, reducing armor, and leaving a burning DoT.",
@@ -1173,8 +1165,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statReduction",
         effects: [
-          {
-            id: "burned",
+          { id : "burned",
             name: "Burned",
             description:
               "Armor reduced by 3 and takes 1d6 fire damage per round for 3 rounds.",
@@ -1208,8 +1199,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ===== SABOTEUR SPECIALIZATION =====
-    {
-      id: "tox_crippling_toxin",
+    { id : "tox_crippling_toxin",
       name: "Crippling Toxin",
       description:
         "Apply a debilitating poison that severely weakens the target, reducing their combat effectiveness.",
@@ -1263,8 +1253,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statReduction",
         effects: [
-          {
-            id: "crippled",
+          { id : "crippled",
             name: "Crippled",
             description:
               "-4 attack rolls, -2 armor, -10ft movement, disadvantage on saves for 5 rounds.",
@@ -1301,8 +1290,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["melee", "poison", "debuff", "saboteur"],
     },
 
-    {
-      id: "tox_chaos_grenade",
+    { id : "tox_chaos_grenade",
       name: "Chaos Grenade",
       description:
         "Throw a grenade combining poison and explosives, dealing damage and causing confusion.",
@@ -1378,8 +1366,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "confused",
+          { id : "confused",
             name: "Confused",
             description: "Attack random target (ally or enemy) for 2 rounds",
             mechanicsText:
@@ -1411,8 +1398,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["aoe", "poison", "fire", "damage", "confusion", "saboteur"],
     },
 
-    {
-      id: "tox_total_shutdown",
+    { id : "tox_total_shutdown",
       name: "Total Shutdown",
       description:
         "Completely debilitate a target, rendering them helpless for a short duration.",
@@ -1468,8 +1454,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "total_shutdown",
+          { id : "total_shutdown",
             name: "Total Shutdown",
             description:
               "Severely poisoned: -3 armor, disadvantage on all saves and attack rolls, halved movement for 1 round. Target can still act but is greatly impaired.",
@@ -1502,8 +1487,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ===== UNIVERSAL ABILITIES =====
-    {
-      id: "tox_apply_poison",
+    { id : "tox_apply_poison",
       name: "Apply Weapon Poison",
       description:
         "Apply a poison to your weapon for 1 AP. The poison lasts for 3 attacks or until end of combat.",
@@ -1568,8 +1552,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["utility", "poison", "weapon enhancement", "universal"],
     },
 
-    {
-      id: "tox_antidote",
+    { id : "tox_antidote",
       name: "Antidote",
       description:
         "Quickly craft and administer an antidote to cure poison or disease.",
@@ -1615,8 +1598,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "poison_resistance",
+          { id : "poison_resistance",
             name: "Poison Resistance",
             description: "+2 to Constitution saves vs poison for 1 hour",
             statModifier: {
@@ -1648,8 +1630,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["utility", "healing", "cure", "universal"],
     },
 
-    {
-      id: "tox_explosive_concoction",
+    { id : "tox_explosive_concoction",
       name: "Explosive Concoction",
       description:
         "Throw an explosive concoction that deals fire damage in an area.",
@@ -1723,8 +1704,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["aoe", "fire", "damage", "explosive", "universal"],
     },
 
-    {
-      id: "tox_smoke_bomb",
+    { id : "tox_smoke_bomb",
       name: "Smoke Bomb",
       description:
         "Deploy a smoke bomb that obscures vision and provides cover.",
@@ -1771,20 +1751,17 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         tactical: {
           effects: [
-            {
-              id: "smoke_disadvantage",
+            { id : "smoke_disadvantage",
               name: "Smoke Disadvantage",
               description: "Attacks through smoke have disadvantage",
               mechanicsText: "Attacks through smoke have disadvantage",
             },
-            {
-              id: "smoke_cover",
+            { id : "smoke_cover",
               name: "Smoke Cover",
               description: "Can use to escape or reposition",
               mechanicsText: "Provides cover for escape and repositioning",
             },
-            {
-              id: "smoke_ally_cover",
+            { id : "smoke_ally_cover",
               name: "Ally Cover",
               description: "Provides cover for allies",
               mechanicsText: "Allies in smoke area have cover",
@@ -1813,8 +1790,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     // ========================================
     // LEVEL 8 SPELLS
     // ========================================
-    {
-      id: "tox_pandemic",
+    { id : "tox_pandemic",
       name: "Pandemic",
       description:
         "Release a devastating plague that spreads between enemies, dealing damage and applying debilitating effects.",
@@ -1870,8 +1846,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "disease",
         effects: [
-          {
-            id: "pandemic_plague",
+          { id : "pandemic_plague",
             name: "Pandemic Plague",
             description:
               "Takes poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.",
@@ -1904,8 +1879,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       ],
     },
 
-    {
-      id: "tox_mechanical_monstrosity",
+    { id : "tox_mechanical_monstrosity",
       name: "Mechanical Monstrosity",
       description:
         "Deploy a massive mechanical construct that fights alongside you.",
@@ -1946,8 +1920,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       summonConfig: {
         creatures: [
-          {
-            id: "mechanical_monstrosity",
+          { id : "mechanical_monstrosity",
             name: "Mechanical Monstrosity",
             description: "A large mechanical construct armed with weapons",
             size: "Large",
@@ -1978,8 +1951,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["summoning", "construct", "level 8", "toxicologist"],
     },
 
-    {
-      id: "tox_sabotage_supreme",
+    { id : "tox_sabotage_supreme",
       name: "Sabotage Supreme",
       description:
         "Apply devastating sabotage to multiple enemies, reducing their effectiveness dramatically.",
@@ -2024,8 +1996,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "sabotage",
         effects: [
-          {
-            id: "supreme_sabotage",
+          { id : "supreme_sabotage",
             name: "Supreme Sabotage",
             description:
               "Enemies deal half damage, have -5 to hit, and all their gear malfunctions",
@@ -2052,8 +2023,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     // ========================================
     // LEVEL 9 SPELLS
     // ========================================
-    {
-      id: "tox_extinction_toxin",
+    { id : "tox_extinction_toxin",
       name: "Extinction Toxin",
       description:
         "Deploy the ultimate poison that can kill even the most resilient creatures.",
@@ -2115,8 +2085,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["damage", "poison", "ultimate", "level 9", "toxicologist"],
     },
 
-    {
-      id: "tox_war_machine",
+    { id : "tox_war_machine",
       name: "War Machine",
       description:
         "Deploy a devastating war machine that dominates the battlefield.",
@@ -2157,8 +2126,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       summonConfig: {
         creatures: [
-          {
-            id: "war_machine",
+          { id : "war_machine",
             name: "War Machine",
             description: "A massive war machine bristling with weapons",
             size: "Huge",
@@ -2189,8 +2157,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["summoning", "construct", "ultimate", "level 9", "toxicologist"],
     },
 
-    {
-      id: "tox_total_system_failure",
+    { id : "tox_total_system_failure",
       name: "Total System Failure",
       description:
         "Cause catastrophic failure in all enemy defenses and abilities.",
@@ -2235,8 +2202,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "system_failure",
         effects: [
-          {
-            id: "total_system_failure",
+          { id : "total_system_failure",
             name: "Total System Failure",
             description:
               "All enemy magical items stop working. All buffs are removed. Cannot cast spells for 1 round. -10 Armor.",
@@ -2264,8 +2230,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     // ========================================
     // LEVEL 10 SPELLS
     // ========================================
-    {
-      id: "tox_apocalypse_plague",
+    { id : "tox_apocalypse_plague",
       name: "Apocalypse Plague",
       description:
         "Unleash a plague of biblical proportions that devastates everything it touches.",
@@ -2326,8 +2291,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "plague",
         effects: [
-          {
-            id: "apocalypse_plague",
+          { id : "apocalypse_plague",
             name: "Apocalypse Plague",
             description:
               "All enemies are poisoned, weakened, and take ongoing damage. Spreads infinitely between enemies.",
@@ -2349,8 +2313,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["damage", "debuff", "aoe", "ultimate", "level 10", "toxicologist"],
     },
 
-    {
-      id: "tox_mechanical_army",
+    { id : "tox_mechanical_army",
       name: "Mechanical Army",
       description:
         "Deploy an entire army of mechanical constructs to overwhelm the battlefield.",
@@ -2393,8 +2356,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       summonConfig: {
         creatures: [
-          {
-            id: "mechanical_soldier",
+          { id : "mechanical_soldier",
             name: "Mechanical Soldier",
             description: "A combat-ready mechanical soldier",
             size: "Medium",
@@ -2431,8 +2393,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       ],
     },
 
-    {
-      id: "tox_reality_bomb",
+    { id : "tox_reality_bomb",
       name: "Reality Bomb",
       description:
         "Deploy the ultimate sabotage device - a bomb that disrupts the fabric of reality itself.",
@@ -2506,8 +2467,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ADDITIONAL LEVEL 1 SPELLS
-    {
-      id: "tox_poison_dart",
+    { id : "tox_poison_dart",
       name: "Poison Dart",
       description:
         "Fire a poison dart that deals 1d6 poison damage and applies a weakening effect.",
@@ -2547,8 +2507,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statReduction",
         effects: [
-          {
-            id: "weakened_dart",
+          { id : "weakened_dart",
             name: "Weakened",
             description: "-1 to attack rolls for 1 round",
             mechanicsText: "-1 to attack rolls for 1 round",
@@ -2580,8 +2539,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["damage", "poison", "dart", "universal"],
     },
 
-    {
-      id: "tox_noxious_fumes",
+    { id : "tox_noxious_fumes",
       name: "Noxious Fumes",
       description:
         "Create a small toxic cloud that deals 1d6 poison damage to enemies in a 10-foot radius and leaves a lingering hazard for 2 rounds.",
@@ -2643,8 +2601,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["damage", "poison", "zone", "universal"],
     },
 
-    {
-      id: "tox_purifying_antidote",
+    { id : "tox_purifying_antidote",
       name: "Purifying Antidote",
       description:
         "Create an antidote that removes all poison effects from an ally.",
@@ -2697,8 +2654,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ADDITIONAL LEVEL 3 SPELLS
-    {
-      id: "tox_venom_blast",
+    { id : "tox_venom_blast",
       name: "Venom Blast",
       description:
         "Strike with concentrated venom that deals poison damage and reduces the target's armor.",
@@ -2738,8 +2694,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statReduction",
         effects: [
-          {
-            id: "venom_blast_armor",
+          { id : "venom_blast_armor",
             name: "Armor Corrosion",
             description: "-2 armor for 2 rounds",
             mechanicsText: "-2 armor for 2 rounds",
@@ -2772,8 +2727,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       tags: ["damage", "poison", "venom", "universal"],
     },
 
-    {
-      id: "tox_toxic_shock",
+    { id : "tox_toxic_shock",
       name: "Toxic Shock",
       description:
         "Shock an enemy with concentrated toxins, stunning them and dealing poison damage.",
@@ -2820,8 +2774,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         saveType: "constitution",
         savingThrow: true,
         effects: [
-          {
-            id: "toxic_shock",
+          { id : "toxic_shock",
             name: "Toxic Shock",
             name: "Toxic Shock",
             mechanicsText: "Nauseated for 1 round (disadvantage on attacks/checks, halved movement), CON save DC 16 to resist",
@@ -2852,8 +2805,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ADDITIONAL LEVEL 4 SPELL
-    {
-      id: "tox_poison_bomb",
+    { id : "tox_poison_bomb",
       name: "Poison Bomb",
       description:
         "Throw a poison bomb that explodes, dealing poison damage and reducing armor for all enemies in a radius.",
@@ -2902,8 +2854,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statReduction",
         effects: [
-          {
-            id: "poison_bomb_corrosion",
+          { id : "poison_bomb_corrosion",
             name: "Corroded",
             description: "-1 armor for 2 rounds",
             mechanicsText: "-1 armor for 2 rounds",
@@ -2937,8 +2888,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ADDITIONAL LEVEL 5 SPELL
-    {
-      id: "tox_deadly_toxin",
+    { id : "tox_deadly_toxin",
       name: "Deadly Toxin",
       description: "Apply a deadly toxin that deals poison damage over time.",
       level: 5,
@@ -3000,8 +2950,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ADDITIONAL LEVEL 6 SPELL
-    {
-      id: "tox_toxic_wave",
+    { id : "tox_toxic_wave",
       name: "Toxic Wave",
       description:
         "Send a wave of toxic energy that deals poison damage and slows all enemies in a line.",
@@ -3046,8 +2995,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "toxic_wave_slow",
+          { id : "toxic_wave_slow",
             name: "Slowed",
             description: "Movement speed reduced by 10 feet for 2 rounds",
             mechanicsText: "Movement speed reduced by 10 feet for 2 rounds",
@@ -3080,8 +3028,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
 
     // ADDITIONAL LEVEL 7 SPELL
-    {
-      id: "tox_virulent_plague",
+    { id : "tox_virulent_plague",
       name: "Virulent Plague",
       description:
         "Release a virulent plague that spreads between enemies, dealing poison damage.",
@@ -3138,7 +3085,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       resolution: "DICE",
       tags: ["damage", "poison", "spreading", "plague", "universal"],
     },    {
-      id: "tox_vial_dependency",
+      id : "tox_vial_dependency",
       name: "Vial Dependency",
       description:
         "Your poisons require physical reagents. You begin each encounter with 5 Vials. Each poison spell costs 1 Vial. At 0 Vials, poison spells have a 50% chance to fail (the poison is too diluted). You regain 1 Vial per enemy killed within 30 feet.",
@@ -3164,8 +3111,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       resolution: "AUTOMATIC",
       tags: ["passive", "resource", "vials", "poison dependency", "toxicologist"],
     },
-    {
-      id: "tox_concoction_instability",
+    { id : "tox_concoction_instability",
       name: "Concoction Instability",
       description:
         "When you take fire or radiant damage, one random poison effect you have active on an enemy prematurely detonates -- dealing its remaining damage to YOU instead of the target. Your concoctions are volatile and react poorly to heat and light.",
@@ -3191,8 +3137,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       resolution: "AUTOMATIC",
       tags: ["passive", "weakness", "fire vulnerability", "backlash", "toxicologist"],
     },
-    {
-      id: "tox_no_hard_cc",
+    { id : "tox_no_hard_cc",
       name: "Poison, Not Paralysis",
       description: "The Toxicologist does not Stun, Paralyze, or Freeze. Your poisons NAUSEATE: disadvantage on attack rolls and ability checks, halved movement speed. Targets can still move, act, and react - they just do it badly. Hard CC belongs to the Lichborne (freeze), Warden (cage), and Chronarch (time-stop). You weaken. You do not lock down.",
       level: 1,

@@ -18,7 +18,7 @@
  */
 
 export const PLAGUEBRINGER_DATA = {
-  id: "plaguebringer",
+  id : "plaguebringer",
   name: "Plaguebringer",
   icon: "fas fa-biohazard",
   role: "Damage/Control",
@@ -254,8 +254,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     specs: [
-      {
-        id: "virulent-spreader",
+      { id : "virulent-spreader",
         name: "Virulent Spreader",
         icon: "Poison/Poison Contagion",
         color: "#556B2F",
@@ -283,8 +282,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
           "Plague Burst: Detonate all active plagues in a 15ft radius."
         ]
       },
-      {
-        id: "torment-weaver",
+      { id : "torment-weaver",
         name: "Torment Weaver",
         icon: "Psychic/Mind Roar",
         color: "#4B0082",
@@ -312,8 +310,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
           "Mind Fracture: Force saving throws against stunning mental shocks."
         ]
       },
-      {
-        id: "decay-harbinger",
+      { id : "decay-harbinger",
         name: "Decay Harbinger",
         icon: "Necrotic/Necrotic Death",
         color: "#2F4F2F",
@@ -349,8 +346,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   // =============================================
   spells: [
     // ===== LEVEL 1 SPELLS =====
-    {
-      id: "pb_curse_of_agony",
+    { id: "pb_curse_of_agony",
       effectTypes: ["damage"],
       name: "Curse of Agony",
       description: "Plant a seed of decay in your target's veins, dealing 1d6 + intelligence necrotic damage immediately, and 1d6 necrotic damage at the start of their turn for 4 rounds. Advances the target's affliction stage by 1. Cultivates as a Decay category spell.",
@@ -417,8 +413,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "necrotic", "dot", "decay", "plaguebringer"],
       flavorText: "A seed of decay planted in the warm meat of the living. It grows, and they weep."
     },
-    {
-      id: "pb_venomous_touch",
+    { id: "pb_venomous_touch",
       effectTypes: ["damage"],
       name: "Venomous Touch",
       description: "Strike a target with rotting fluid, dealing 1d8 + intelligence poison damage and applying a Stage 0 Seed. Cultivates as a Fester category spell.",
@@ -478,8 +473,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "poison", "seed", "fester", "plaguebringer"],
       flavorText: "A touch that rots the skin like overripe fruit, leaving weeping sores."
     },
-    {
-      id: "pb_whisper_of_decay",
+    { id: "pb_whisper_of_decay",
       effectTypes: ["damage"],
       name: "Whisper of Decay",
       description: "Whisper a tragic dirge into the victim's mind, dealing 1d6 + intelligence psychic damage. If the target has an active Seed, advance it to Stage 1. Cultivates as a Torment category spell.",
@@ -541,8 +535,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 2 SPELLS =====
-    {
-      id: "pb_fever_dream",
+    { id: "pb_fever_dream",
       effectTypes: ["damage", "debuff"],
       name: "Fever Dream",
       description: "Plunge an infected target into a sweating delirium, dealing 2d6 psychic damage and reducing Agility by 3 for 3 rounds. Requires an active affliction. Cultivates as a Torment category spell.",
@@ -591,8 +584,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "delirium",
+          { id : "delirium",
             name: "Delirium",
             description: "Agility reduced by 3 due to severe sweating and hallucination."
           }
@@ -624,8 +616,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "psychic", "debuff", "torment", "plaguebringer"],
       flavorText: "Their eyes roll back, witnessing the dark garden blooming behind their eyelids."
     },
-    {
-      id: "pb_mark_of_the_pestilent",
+    { id: "pb_mark_of_the_pestilent",
       effectTypes: ["damage", "debuff"],
       name: "Mark of the Pestilent",
       description: "Brand a target with an agonizing sigil of rot, dealing 2d8 necrotic damage and reducing Armor by 5 for 3 rounds. Cultivates as a Weaken category spell.",
@@ -674,8 +665,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "marked_pestilent",
+          { id : "marked_pestilent",
             name: "Pestilent Brand",
             description: "Flesh softens under the mark, reducing Armor by 5."
           }
@@ -706,8 +696,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "debuff", "weaken", "plaguebringer"],
       flavorText: "The brand of the gardener. You are marked for the sickle, and your shell begins to crack."
     },
-    {
-      id: "pb_enfeebling_fog",
+    { id: "pb_enfeebling_fog",
       effectTypes: ["debuff"],
       name: "Enfeebling Fog",
       description: "Exhale a thick, greenish cloud of rot in a 20ft radius. Enemies inside are enfeebled, suffering -4 Strength and -4 Agility. Cultivates active afflictions as Weaken.",
@@ -745,8 +734,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "enfeebled",
+          { id : "enfeebled",
             name: "Enfeebled",
             description: "Muscles liquefy and joints stiffen, reducing Strength and Agility by 4."
           }
@@ -780,8 +768,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 3 SPELLS =====
-    {
-      id: "pb_drain_vitality",
+    { id: "pb_drain_vitality",
       effectTypes: ["damage", "healing"],
       name: "Drain Vitality",
       description: "Siphon the life force of a diseased enemy, dealing 3d6 necrotic damage and healing the caster for 50% of the damage dealt. Requires active affliction. Cultivates as a Decay category spell.",
@@ -847,8 +834,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "healing", "lifesteal", "decay", "plaguebringer"],
       flavorText: "Your lungs expand as their chest collapses. A sweet, warm thieving of breath."
     },
-    {
-      id: "pb_hallucinogenic_spores",
+    { id: "pb_hallucinogenic_spores",
       effectTypes: ["control"],
       name: "Hallucinogenic Spores",
       description: "Throw a handful of fungal dust in a 15ft radius. Enemies failing a Spirit save are confused for 2 rounds. Cultivates as a Torment category spell.",
@@ -886,8 +872,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       controlConfig: {
         controlType: "mind_control",
         effects: [
-          {
-            id: "confused_spores",
+          { id : "confused_spores",
             name: "Spore Confused",
             description: "Spore inhalation causes target to wander aimlessly or attack nearest ally (50% chance)."
           }
@@ -914,8 +899,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["control", "psychic", "torment", "plaguebringer"],
       flavorText: "A burst of blue, glowing spores. The dust enters their nostrils, and they begin to weep, clawing at invisible bugs."
     },
-    {
-      id: "pb_agonizing_wail",
+    { id: "pb_agonizing_wail",
       effectTypes: ["damage", "control"],
       name: "Agonizing Wail",
       description: "Let loose a tragic scream of pure despair, dealing 3d8 psychic damage to all enemies in a 15ft cone. Targets with 2+ active afflictions lose their reaction next round. Cultivates as a Torment category spell.",
@@ -964,8 +948,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "reaction_lost",
+          { id : "reaction_lost",
             name: "Reaction Lost",
             description: "The overwhelming mental scream deprives the target of their reaction next turn."
           }
@@ -994,8 +977,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 4 SPELLS =====
-    {
-      id: "pb_infectious_sores",
+    { id: "pb_infectious_sores",
       effectTypes: ["damage"],
       name: "Infectious Sores",
       description: "Cause existing infections to blister and burst, dealing 2d6 poison damage. If the target is Stage 1+, the sores rupture, applying Stage 0 Seeds to 2 enemies within 10ft. Cultivates as a Fester category spell.",
@@ -1058,8 +1040,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "poison", "contagion", "fester", "plaguebringer"],
       flavorText: "Yellow blisters swell rapidly and pop with a wet hiss, spraying infectious rot on bystanders."
     },
-    {
-      id: "pb_plague_of_flies",
+    { id: "pb_plague_of_flies",
       effectTypes: ["damage", "debuff"],
       name: "Plague of Flies",
       description: "Summon a biting, black cloud of insects centered on a target, dealing 2d4 poison damage per round for 3 rounds. Enemies in the swarm have disadvantage on physical attacks. Cultivates as a Fester category spell.",
@@ -1115,8 +1096,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "blinded_flies",
+          { id : "blinded_flies",
             name: "Biting Swarm",
             description: "Disadvantage on all physical attacks due to blinding insects."
           }
@@ -1144,8 +1124,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "debuff", "poison", "fester", "plaguebringer"],
       flavorText: "A deafening buzz. A million tiny, black bodies swarm the eyes and open sores of the living."
     },
-    {
-      id: "pb_necrotic_burst",
+    { id: "pb_necrotic_burst",
       effectTypes: ["damage"],
       name: "Necrotic Burst",
       description: "Detonate the necrotic decay in a host, dealing 4d6 necrotic damage to all enemies in a 15ft radius. Requires a Stage 1+ affliction on the primary host. Cultivates as a Decay category spell.",
@@ -1208,8 +1187,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 5 SPELLS =====
-    {
-      id: "pb_wither_touch",
+    { id: "pb_wither_touch",
       effectTypes: ["damage", "debuff"],
       name: "Wither Touch",
       description: "Touch a target to wither their physical strength, dealing 4d8 necrotic damage and imposing disadvantage on Strength checks for 2 rounds. Cultivates as a Decay category spell.",
@@ -1258,8 +1236,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "withered_muscles",
+          { id : "withered_muscles",
             name: "Withered Muscles",
             description: "Target's tendons rot, giving disadvantage on Strength checks."
           }
@@ -1287,8 +1264,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "debuff", "necrotic", "weaken", "plaguebringer"],
       flavorText: "Flesh falls away under your grasp, revealing gray, crumbling bone."
     },
-    {
-      id: "pb_dark_rejuvenation",
+    { id: "pb_dark_rejuvenation",
       effectTypes: ["healing", "debuff"],
       name: "Dark Rejuvenation",
       description: "Drain 2d10 HP from your active afflictions to heal yourself. Triggers a self-debuff reducing all stats by 2 for 2 rounds. Cultivates as a Torment category spell.",
@@ -1327,8 +1303,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "rejuvenation_rot",
+          { id : "rejuvenation_rot",
             name: "Rejuvenation Rot",
             description: "Caster's body is poisoned by the harvested rot, reducing all stats by 2."
           }
@@ -1354,8 +1329,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["healing", "debuff", "torment", "plaguebringer"],
       flavorText: "You swallow their sickness to mend your bones, but their fever now burns inside your own heart."
     },
-    {
-      id: "pb_sufferings_echo",
+    { id: "pb_sufferings_echo",
       effectTypes: ["damage"],
       name: "Suffering's Echo",
       description: "Cause a target's active affliction to echo in an adjacent healthy enemy. Deals 4d6 psychic damage to the second target and copies the first target's active Seed. Cultivates as a Fester category spell.",
@@ -1418,8 +1392,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 6 SPELLS =====
-    {
-      id: "pb_pain_magnification",
+    { id: "pb_pain_magnification",
       effectTypes: ["damage"],
       name: "Pain Magnification",
       description: "Magnify the pain of all active afflictions, forcing every infected enemy to immediately take 1 tick of all their active DoT damages. Cultivates as an Amplify category spell.",
@@ -1474,8 +1447,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "dot", "burst", "amplify", "plaguebringer"],
       flavorText: "Every seed blooms in one terrifying, agonizing instant."
     },
-    {
-      id: "pb_essence_corruption",
+    { id: "pb_essence_corruption",
       effectTypes: ["damage", "debuff"],
       name: "Essence Corruption",
       description: "Corrupt the mana pool of an enemy spellcaster, dealing 5d8 psychic damage and locking their mana regeneration for 1 round. Cultivates as a Torment category spell.",
@@ -1524,8 +1496,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "mana_locked",
+          { id : "mana_locked",
             name: "Mana Lock",
             description: "Mana pool is corrupted and cannot regenerate mana or spend spell resources."
           }
@@ -1553,8 +1524,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "debuff", "psychic", "torment", "plaguebringer"],
       flavorText: "Your thoughts rot their wellspring. They reach for power, and find only ashes."
     },
-    {
-      id: "pb_affliction_mark",
+    { id: "pb_affliction_mark",
       effectTypes: ["debuff"],
       name: "Affliction Mark",
       description: "Mark an enemy with a highly volatile contagion. Reduces their Dodge by 6 and Agility by 4. If they die, their corpse bursts, applying Stage 0 Seeds to all enemies in 15ft. Cultivates as a Fester category spell.",
@@ -1592,8 +1562,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "volatile_mark",
+          { id : "volatile_mark",
             name: "Volatile Mark",
             description: "Dodge reduced by 6 and Agility by 4. Corpse will burst into seeds upon death."
           }
@@ -1628,8 +1597,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 7 SPELLS =====
-    {
-      id: "pb_plague_burst",
+    { id: "pb_plague_burst",
       effectTypes: ["damage"],
       name: "Plague Burst",
       description: "Harvest all active afflictions in a 20ft radius (max 6). Each active affliction is immediately consumed to deal 5d6 necrotic damage to the host and all adjacent targets. Cultivates as a Weaken category spell.",
@@ -1690,8 +1658,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "aoe", "necrotic", "weaken", "plaguebringer"],
       flavorText: "Their flesh splits like rotten skin. The harvest is messy."
     },
-    {
-      id: "pb_mass_affliction",
+    { id: "pb_mass_affliction",
       effectTypes: ["debuff"],
       name: "Mass Affliction",
       description: "Unleash a wave of contagion that applies a Stage 0 Seed to all enemies within 30ft. Cultivates as a Fester category spell.",
@@ -1728,8 +1695,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "mass_seeded",
+          { id : "mass_seeded",
             name: "Rot Seeded",
             description: "Host carries a dormant plague seed."
           }
@@ -1757,8 +1723,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["debuff", "aoe", "poison", "fester", "plaguebringer"],
       flavorText: "The gardener sows the seeds broadly. The soil is rich."
     },
-    {
-      id: "pb_pandemic",
+    { id: "pb_pandemic",
       effectTypes: ["damage"],
       name: "Pandemic",
       description: "Force all active afflictions to immediately spread to up to 3 adjacent enemies in 15ft. Deals 4d8 poison damage to all targets in the cascade. Cultivates as a Fester category spell.",
@@ -1818,8 +1783,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "contagion", "fester", "plaguebringer"],
       flavorText: "One cough. Two stagger. Ten rot. The battlefield belongs to the garden."
     },
-    {
-      id: "pb_decay_field",
+    { id: "pb_decay_field",
       effectTypes: ["damage"],
       name: "Decay Field",
       description: "Saturate a 30ft radius circle in creeping rot, dealing 5d8 necrotic damage per round for 4 rounds. Enemies inside have Dodge reduced by 5. Cultivates active afflictions as Decay.",
@@ -1875,8 +1839,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "rotted_ground",
+          { id : "rotted_ground",
             name: "Rotted Ground",
             description: "Slippery decay reduces Dodge by 5."
           }
@@ -1907,8 +1870,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "zone", "necrotic", "decay", "plaguebringer"],
       flavorText: "The earth rots beneath their feet. Nothing grows here anymore."
     },
-    {
-      id: "pb_gardens_wrath",
+    { id: "pb_gardens_wrath",
       effectTypes: ["damage"],
       name: "Garden's Wrath",
       description: "Trigger every active affliction across all targets to deal its full DoT damage simultaneously in one devastating tick. Requires 3+ active afflictions. Cultivates as Amplify.",
@@ -1944,7 +1906,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "All affliction DoT sums × virulence multiplier",
-        elementType: "varies",
+        elementType: "poison",
         damageTypes: ["necrotic", "poison", "psychic"],
         resolution: "AUTOMATIC"
       },
@@ -1965,8 +1927,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "ultimate", "amplify", "plaguebringer"],
       flavorText: "The garden blooms all at once. Every flower is a grave."
     },
-    {
-      id: "pb_mind_plague",
+    { id: "pb_mind_plague",
       effectTypes: ["damage", "control"],
       name: "Mind Plague",
       description: "Infect the minds of all enemies in a 25ft radius, dealing 8d8 psychic damage. Enemies take +2d8 psychic damage per active affliction stage on them. Targets failing a Spirit save are confused for 2 rounds. Cultivates as a Torment category spell.",
@@ -2015,8 +1976,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       controlConfig: {
         controlType: "mind_control",
         effects: [
-          {
-            id: "confused_mind",
+          { id : "confused_mind",
             name: "Confused Mind",
             description: "Psychic rot induces severe disorientation, leading targets to attack allies or drop weapons."
           }
@@ -2045,8 +2005,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 8 SPELLS =====
-    {
-      id: "pb_plague_incarnate",
+    { id: "pb_plague_incarnate",
       effectTypes: ["transformation"],
       name: "Plague Incarnate",
       description: "Become a living vessel of disease and decay for 5 rounds. Your weapon attacks apply random Stage 0 Seeds. Enemies starting their turn within 15ft must make a Constitution save (DC 16) or contract a Seed. Cultivates as Torment.",
@@ -2086,18 +2045,15 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         newForm: "Plague Incarnate",
         description: "Your flesh liquefies into a heavy, green-black fog, and insects hover inside your hollow chest cavity.",
         grantedAbilities: [
-          {
-            id: "plague_stats",
+          { id : "plague_stats",
             name: "Plague Form",
             description: "+5 Intelligence and +5 Constitution."
           },
-          {
-            id: "plague_touch",
+          { id : "plague_touch",
             name: "Plague Touch",
             description: "Weapon attacks apply a random Stage 0 Seed."
           },
-          {
-            id: "contagion_aura",
+          { id : "contagion_aura",
             name: "Contagion Aura",
             description: "Enemies within 15ft save (DC 16 Con) or contract Seed."
           }
@@ -2116,8 +2072,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["transformation", "buff", "ultimate", "torment", "plaguebringer"],
       flavorText: "You are no longer merely a gardener tending the garden. You ARE the rot."
     },
-    {
-      id: "pb_epidemic",
+    { id: "pb_epidemic",
       effectTypes: ["damage"],
       name: "Epidemic",
       description: "Start an epidemic chain. Deals 8d6 poison damage to a primary target, then chains to up to 8 enemies within 20ft, dealing +2d6 damage per active affliction already on each chain target. Cultivates as a Fester category spell.",
@@ -2184,8 +2139,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 9 SPELLS =====
-    {
-      id: "pb_black_death",
+    { id: "pb_black_death",
       effectTypes: ["damage"],
       name: "Black Death",
       description: "The ultimate plague. Targets below 30% HP with an active Stage 2+ affliction die instantly. Other targets with active afflictions take 12d10 poison damage. Cultivates as a Torment category spell.",
@@ -2246,8 +2200,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["damage", "execute", "ultimate", "torment", "plaguebringer"],
       flavorText: "The Black Death does not negotiate. It does not hesitate. It simply is the end of the garden."
     },
-    {
-      id: "pb_necrotic_eruption",
+    { id: "pb_necrotic_eruption",
       effectTypes: ["damage"],
       name: "Necrotic Eruption",
       description: "Consume all active afflictions across all targets (max 8). Each consumed affliction explodes in a 30ft radius, dealing 4d8 necrotic damage (Stage 3 afflictions deal 6d8 instead). Cultivates as Decay.",
@@ -2302,8 +2255,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== LEVEL 10 SPELLS =====
-    {
-      id: "pb_plague_god",
+    { id: "pb_plague_god",
       effectTypes: ["transformation"],
       name: "Plague God",
       description: "Ascend to become the Plague God for 4 rounds. All your afflictions deal +50% damage. Your weapon attacks apply random Stage 2 afflictions. You gain immunity to poison and necrotic. Cultivates as Decay.",
@@ -2343,23 +2295,19 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         newForm: "Plague Lord",
         description: "You grow to double your height, your flesh becomes a weeping cloud of flies and decay-essence, and your eyes shine like dead stars.",
         grantedAbilities: [
-          {
-            id: "lord_stats",
+          { id : "lord_stats",
             name: "Pestilence Enhancement",
             description: "+8 Intelligence, +8 Constitution, and +6 Spirit."
           },
-          {
-            id: "divine_plague",
+          { id : "divine_plague",
             name: "Divine Plague",
             description: "All active afflictions deal +50% damage."
           },
-          {
-            id: "death_touch",
+          { id : "death_touch",
             name: "Death Touch",
             description: "Weapon attacks apply a random Stage 2 affliction."
           },
-          {
-            id: "virulence_lock",
+          { id : "virulence_lock",
             name: "Virulence Lock",
             description: "Virulence is locked at 100 for the duration."
           }
@@ -2378,8 +2326,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       tags: ["transformation", "ultimate", "god_form", "decay", "plaguebringer"],
       flavorText: "Mortal gardeners tend their plots. You tend the entire world, and the harvest is ripe."
     },
-    {
-      id: "pb_ultimate_affliction",
+    { id: "pb_ultimate_affliction",
       effectTypes: ["damage", "debuff"],
       name: "Ultimate Affliction",
       description: "Apply the ultimate plague, dealing 15d10 poison damage immediately and 5d10 poison damage per round for 6 rounds. Reduces target's healing received by 50% and all attributes by 4. Requires 5+ active afflictions on the field to cast. Cultivates as Amplify.",
@@ -2435,8 +2382,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "ultimate_decay",
+          { id : "ultimate_decay",
             name: "Ultimate Decay",
             description: "Healing received reduced by 50% and all attributes reduced by 4."
           }
@@ -2472,10 +2418,9 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
 
     // ===== PASSIVE SPELLS =====
-    {
-      id: "plague_incubation_period",
+    { id: "plague_incubation_period",
       name: "Incubation Period",
-      description: "Your diseases do not take effect immediately. All disease effects you apply have a 1-round delay before they begin dealing damage or applying debuffs. This gives enemies time to seek cures or kill you before the plague takes hold.",
+      description: "All diseases have a 1-round delay before dealing damage or applying debuffs. Enemies can seek cures or kill you before the plague takes hold.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Poison/Poison Blight",
@@ -2498,10 +2443,9 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       resolution: "AUTOMATIC",
       tags: ["passive", "restriction", "delayed_effect", "disease", "plaguebringer"]
     },
-    {
-      id: "plague_sterile_environment",
+    { id: "plague_sterile_environment",
       name: "Sterile Environment",
-      description: "In areas cleansed by holy magic, healing spells, or alchemical purification, your disease effects are suppressed entirely. You cannot apply new diseases and existing diseases you applied stop dealing damage for as long as you remain in the cleansed area. Purity is your weakness.",
+      description: "In cleansed areas (holy magic, healing, alchemical purification), diseases are suppressed. Cannot apply new diseases; existing ones stop dealing damage. Purity is your weakness.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Healing/Cure Within",

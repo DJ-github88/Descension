@@ -14,12 +14,47 @@
  */
 
 export const EXORCIST_DATA = {
-  id: "exorcist",
+  id : "exorcist",
   name: "Exorcist",
   icon: "fas fa-cross",
   role: "Iron Inquisitor / Sin-Eater",
   damageTypes: ["radiant", "force", "necrotic"],
 
+  equipment: {
+    title: "Starting Equipment",
+    choices: [
+      {
+        name: "Iron Inquisitor's Rig",
+        icon: "Radiant/Radiant Divinity",
+        items: [
+          "Rusted Iron Brand (1d8 radiant, melee touch, ignites salt on supernatural targets)",
+          "Chainmail of Salted Links (Armor 3, imposes disadvantage on supernatural fear effects)",
+          "Pouch of Coarse Rock Salt (10 applications for purification rituals)",
+          "Iron Stakes (4, for ward circles and binding anchors)"
+        ],
+        description: "Maximum frontline dominance and direct physical confrontation with the supernatural. The iron brand deals devastating radiant damage in melee while the salted links provide passive resistance."
+      },
+      {
+        name: "Sin-Eater's Binding Kit",
+        icon: "Necrotic/Spectral Summoning",
+        items: [
+          "Spectral Chain Whip (1d6 radiant, reach 15 ft, applies Dominance pressure on hit)",
+          "Reinforced Leather Vest (Armor 1, no agility penalty, allows full range of motion for rituals)",
+          "Vial of Purified Brine (3 applications for enhanced binding rituals)",
+          "Chalk & Iron Dust (for rapid ritual circles in the field)"
+        ],
+        description: "Optimized for ranged command and rapid ritual deployment. The chain whip maintains Dominance from a safe distance while the binding kit reduces ritual setup time, favoring a summoner-heavy playstyle."
+      }
+    ],
+    standardGear: [
+      "Traveler's backpack with sulfur-blackened wraps",
+      "Rations (7 days, salt-cured)",
+      "Ritual components pouch (iron filings, bone ash, blessed charcoal)",
+      "Lantern with black iron cage",
+      "1d10 x 5 tarnished copper pieces"
+    ],
+    notes: "Exorcists cannot wield enchanted or arcane weapons. Their iron and salt nullifies foreign enchantments on contact. All weapons must be mundane materials (iron, steel, salt crystal). Bows and crossbows are forbidden; the Exorcist's work requires the press of iron against flesh or the projection of pure will through chains."
+  },
   overview: {
     title: "The Exorcist",
     subtitle: "Rusted Iron, Agonizing Salt, and the Barbed Leash of Demons",
@@ -156,6 +191,17 @@ Every ritual is a mutilation, and every victory is paid for in salt, iron, and b
 Never leave a demon at 0 DD at the end of your turn unless you are prepared to fight it next.`,
     },
 
+    rageStatesTable: {
+      title: "Dominance Thresholds",
+      headers: ["State / Phase", "Die Size", "Unlocked Mechanics", "Risk / Penalty"],
+      rows: [
+        ["Absolute Submission", "d12", "Full obedience. All demon abilities available. Maximum control range.", "None. The leash is iron."],
+        ["Guarded Obedience", "d10", "Standard commands. Minor strain on the spectral chains.", "Slight degradation on demon accuracy (-1 to hit)."],
+        ["Restless Defiance", "d8", "Demon resists non-essential commands. Special abilities cost double AP.", "Demon attacks deal -2 damage. Chains audibly strain."],
+        ["Hair-Trigger Rebellion", "d6", "Only basic attacks obeyed. Demon snarls and snaps at allies within reach.", "Each command has a 25% chance to fail outright. Demon deals 1d4 radiant backlash to caster."],
+        ["The Breaking Point", "0", "No commands accepted. Rebellion Save triggered immediately.", "Demon escapes, attacks caster, or flees (1d6 roll)."]
+      ]
+    },
     strategicConsiderations: {
       title: "The Mortal Deficit & The Occult Trade",
       content: `**The Supernatural Specialization**: Your radiant salt and rusted iron deal massive damage to Undead, Spirits, and Aberrations, but against normal mortals, your magic suffers a massive damage penalty. You must rely on your summons' physical claws or support your allies.
@@ -181,8 +227,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     description: `Every Exorcist binds demons through divine authority — but how they weld that authority defines their path. Three specializations offer radically different relationships with the darkness they command.`,
 
     specs: [
-      {
-        id: "demonologist",
+      { id : "demonologist",
         name: "Demonologist",
         icon: "Necrotic/Demonic Empowerment",
         color: "#8B0000",
@@ -199,9 +244,12 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           "Cannot bind Tier 4 (Greater) demons",
           "Managing 4 Dominance Dice simultaneously is demanding",
         ],
+        specPassive: {
+          name: "Legion's Toll",
+          description: "All Dominance restoration spells cost 2 less mana (minimum 0). When 3 or more bound demons are active simultaneously, each demon's attacks deal +1d4 radiant damage. Binding rituals for Tier 1 and Tier 2 demons have their cast time reduced by 1 minute (minimum 1)."
+        }
       },
-      {
-        id: "demon_lord",
+      { id : "demon_lord",
         name: "Demon Lord",
         icon: "Utility/Resistance",
         color: "#4B0082",
@@ -218,9 +266,12 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           "All eggs in one basket — no backup if the demon escapes or dies",
           "Greater Demons start at d6 DD (hardest to control)",
         ],
+        specPassive: {
+          name: "Covenant of Ruin",
+          description: "Your bound demon's Dominance Die only degrades every 2 actions instead of every action. Your demon gains +2 to all stats (Strength, Agility, Constitution). When your demon is at d6 DD or lower, it enters a Frenzied state and deals +2d8 bonus radiant damage on all attacks, but its Rebellion Save DC increases by 2."
+        }
       },
-      {
-        id: "possessed",
+      { id : "possessed",
         name: "Possessed",
         icon: "Psychic/Mind Control",
         color: "#9400D3",
@@ -237,6 +288,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           "Internal DD failure = demon takes control of your body for 1 turn",
           "Self-harm risk: 3d6 psychic damage when Internal DD hits 0",
         ],
+        specPassive: {
+          name: "Internal Forge",
+          description: "Gain +2 Strength, +2 Constitution, and +10 movement speed permanently. All melee attacks deal +1d8 necrotic damage. You track an Internal Dominance Die (starts at d10) that degrades when you cast spells or take damage. If it reaches 0, the demon seizes control for 1 turn and you take 3d6 psychic damage."
+        }
       },
     ],
   },
@@ -245,8 +300,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 1 SPELLS
     // ============================================================
-    {
-      id: "exo_purge_the_defiled",
+    { id : "exo_purge_the_defiled",
       name: "Purge the Defiled",
       description: "You grab your ally and scream a tragic dirge, pressing raw rock salt directly into their flesh. The agony is immediate and severe, but the foreign magic is violently ripped from their nervous system, leaving them clean but scarred.",
       level: 1,
@@ -282,8 +336,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "purge_debuffs",
+          { id : "purge_debuffs",
             name: "Violent Purge",
             description: "Instantly removes all Curses, Possessions, and mental Crowd Control (paralyzed, stunned, feared) from the target ally."
           }
@@ -293,8 +346,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["purification", "dispel", "utility", "Why Bring Me?"],
       flavorText: "The salt does not soothe; it burns until the heresy is purged."
     },
-    {
-      id: "exo_salt_brand",
+    { id : "exo_salt_brand",
       name: "Brand of Burning Salt",
       description: "You press a red-hot iron brand of coarse salt into the enemy's skin. The radiant heat burns deep into their spirit. Against supernatural horrors, it hollows out their defenses, leaving them intensely vulnerable. Against normal mortals, the brand fails to find purchase, leaving only a superficial scrape.",
       level: 1,
@@ -330,17 +382,13 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "radiant_vulnerability",
+          { id : "radiant_vulnerability",
             name: "Salt Withered",
             description: "If target is Undead, Spirit, or Aberration, they gain +50% damage vulnerability to all damage for 2 rounds. Against Mortals, this spell deals 1/4 damage.",
-            mechanicsText: "Precise vulnerability modifier applied to supernatural types.",
-            statusEffect: {
-              vulnerabilityType: "radiant",
-              vulnerabilityPercent: 50
-            }
+            mechanicsText: "+50% damage vulnerability to supernatural targets. 1/4 damage to Mortals."
           }
         ],
+        statusEffects: ["vulnerability"],
         savingThrow: {
           ability: "spirit",
           difficultyClass: 13,
@@ -354,8 +402,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["damage", "debuff", "brand", "Mortal Deficit"],
       flavorText: "Agony is a universal key, but some locks are made of mundane meat."
     },
-    {
-      id: "exo_scourge_of_submission",
+    { id : "exo_scourge_of_submission",
       name: "Scourge of Submission",
       description: "You whip your bound demon with spectral, radiant barbed wire, or slice your own palm open to reinforce your authority. It flinches, its rebellious will broken, restoring its Dominance Die by 1 step.",
       level: 1,
@@ -378,10 +425,9 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resourceCost: {
         actionPoints: 1,
         mana: 3,
-        resourceTypes: ["health"],
-        resourceValues: {},
-        useFormulas: { health: true },
-        resourceFormulas: { health: "1d4" }
+        resourceTypes: ["mana", "health"],
+        resourceValues: { mana: 3, hp: "1d4" },
+        dominanceDiceGain: 1
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -395,8 +441,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "restore_dd_1",
+          { id : "restore_dd_1",
             name: "Dominance Restored",
             description: "Restores the target demon's Dominance Die by 1 step (e.g. d6 -> d8, 0 -> d6)."
           }
@@ -406,8 +451,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["dominance", "restoration", "discipline"],
       flavorText: "A crack of radiant metal. The fiend whines. The leash holds."
     },
-    {
-      id: "exo_cinder_leash",
+    { id : "exo_cinder_leash",
       name: "Command: Cinder Leash",
       description: "You yank the leash, sending a pulse of searing radiant energy through the chains. Your bound demon lunges forward, executing a basic attack wreathed in ash and flame.",
       level: 1,
@@ -429,7 +473,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       resourceCost: {
         actionPoints: 1,
-        mana: 2
+        mana: 2,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 2 },
+        dominanceDiceCost: 1
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -444,8 +491,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["command", "damage"],
       flavorText: "Bite when I command, or burn when I pull."
     },
-    {
-      id: "exo_iron_barrier",
+    { id : "exo_iron_barrier",
       name: "Zone of Rusted Nails",
       description: "You drive four rusted iron nails blessed in salt water into the soil around you. A cold, protective circle forms, repelling the supernatural and reinforcing the physical resolve of all allies within the zone.",
       level: 1,
@@ -477,8 +523,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "iron_protection",
+          { id : "iron_protection",
             name: "Rusted Resolve",
             description: "Grants +2 Armor and halves any psychic damage taken while standing in the circle.",
             mechanicsText: "+2 Armor, 50% psychic resistance.",
@@ -497,8 +542,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["buff", "zone", "protection"],
       flavorText: "Cold iron and bitter salt. A boundary the unholy cannot breathe within."
     },
-    {
-      id: "exo_spectral_dread",
+    { id : "exo_spectral_dread",
       name: "Passive: Spectral Dread",
       description: "Your flesh is permanently thinned by the spirits tearing at your collar. While you devastate the supernatural, the mundane blade cuts deep. Any kinetic or martial weapon attack from normal mortal enemies deals double damage to you.",
       level: 1,
@@ -526,16 +570,15 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "mortal_deficit_vulnerabilitiy",
+          { id : "mortal_deficit_vulnerability",
             name: "Mortal Deficit",
             description: "Caster takes 100% increased damage from non-magical, mundane physical and martial attacks.",
-            mechanicsText: "Double physical damage from mundane sources.",
-            statusEffect: {
-              vulnerabilityType: "physical",
-              vulnerabilityPercent: 100
-            }
+            mechanicsText: "Double physical damage from mundane sources."
           }
+        ],
+        statusEffects: ["vulnerability"],
+        statPenalties: [
+          { stat: "physical_resistance", magnitude: -100, magnitudeType: "percentage" }
         ]
       },
       resolution: "AUTOMATIC",
@@ -546,8 +589,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 2 SPELLS
     // ============================================================
-    {
-      id: "exo_bind_imp",
+    { id : "exo_bind_imp",
       name: "Ritual: Bind Imp",
       description: "A grueling ritual binding a minor, cowering fire-imp to your service. Requires purified lava, ash from a burnt holy text, and a gemstone. The Imp starts with a d12 Dominance Die.",
       level: 2,
@@ -569,7 +611,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       resourceCost: {
         actionPoints: 2,
-        mana: 15
+        mana: 15,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 15 },
+        dominanceDiceGain: 12
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -592,8 +637,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["summoning", "binding", "imp"],
       flavorText: "It whimpers and spits sparks, but the iron collar locks tight."
     },
-    {
-      id: "exo_shackles_of_searing_iron",
+    { id : "exo_shackles_of_searing_iron",
       name: "Shackles of Searing Iron",
       description: "You pull an agonizing chain of rusted iron and salt out of your own open veins, wrapping it around a bound demon. Restores its Dominance Die by 2 steps, but the backlash cuts deep into your own chest.",
       level: 2,
@@ -616,10 +660,9 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resourceCost: {
         actionPoints: 1,
         mana: 5,
-        resourceTypes: ["health"],
-        resourceValues: {},
-        useFormulas: { health: true },
-        resourceFormulas: { health: "1d6" }
+        resourceTypes: ["mana", "health"],
+        resourceValues: { mana: 5, hp: "1d6" },
+        dominanceDiceGain: 2
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -633,8 +676,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "restore_dd_2",
+          { id : "restore_dd_2",
             name: "Dominance Restored",
             description: "Restores target demon's Dominance Die by 2 steps (e.g. d6 -> d10)."
           }
@@ -644,8 +686,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["dominance", "restoration", "shackles"],
       flavorText: "Golden, brine-soaked chains drag the demon down. It screams; you bleed."
     },
-    {
-      id: "exo_agonizing_possession",
+    { id : "exo_agonizing_possession",
       name: "Agonizing Possession",
       description: "For the Possessed: Invite the fire-imp into your own marrow. Your skin blackens and cracks as embers glow beneath your veins, turning your hands into molten talons. Your melee attacks deal bonus fire and radiant damage, but you burn from within.",
       level: 2,
@@ -665,10 +706,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resourceCost: {
         actionPoints: 1,
         mana: 6,
-        resourceTypes: ["health"],
-        resourceValues: {},
-        useFormulas: { health: true },
-        resourceFormulas: { health: "1d6" }
+        resourceTypes: ["mana", "health"],
+        resourceValues: { mana: 6, hp: "1d6" }
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -677,8 +716,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "molten_claws",
+          { id : "molten_claws",
             name: "Cinder Talons",
             description: "Melee attacks deal +1d6 fire and +1d6 radiant damage. Agility is increased by 2. Lasts 3 rounds.",
             mechanicsText: "+1d6 fire/radiant, +2 Agility.",
@@ -706,8 +744,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 3 SPELLS
     // ============================================================
-    {
-      id: "exo_iron_nail_smite",
+    { id : "exo_iron_nail_smite",
       name: "Smite of Rusted Iron",
       description: "You launch three rusted, salt-crusted iron nails from your hand. They drive deep into the target's spirit. Against supernatural horrors (Undead/Spirits/Aberrations), the cold iron shatters their essence, dealing triple damage. Against mortal enemies, the nails deal only a fraction of their force.",
       level: 3,
@@ -744,24 +781,25 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           difficultyClass: 14,
           saveOutcome: "half_damage"
         },
-        conditionalDamage: {
-          enabled: true,
-          conditions: [
-            {
-              targetType: "creature_type",
-              creatureTypes: ["fiend", "undead", "spirit", "aberration"],
-              bonusFormula: "6d8",
-              description: "Deals triple damage (additional +6d8) to supernatural threats. Against Mortals, damage is reduced by 75%."
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              "supernatural_target": "9d8",
+              "mortal_target": "1d8",
+              "default": "3d8"
             }
-          ]
+          }
         }
+      }
       },
       resolution: "DICE",
       tags: ["damage", "smite", "Mortal Deficit"],
       flavorText: "Cold iron splits the ghost. Mortals only feel the scratch of rust."
     },
-    {
-      id: "exo_iron_yoke_of_calamity",
+    { id : "exo_iron_yoke_of_calamity",
       name: "Iron Yoke of Calamity",
       description: "An absolute, terrifying assertion of your authority. You force a massive, crushing collar of cold iron onto your demon's neck. Instantly resets its Dominance Die to maximum size. The extreme effort permanently drains your vitality until you next rest.",
       level: 3,
@@ -784,10 +822,9 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resourceCost: {
         actionPoints: 2,
         mana: 10,
-        resourceTypes: ["health"],
-        resourceValues: {},
-        useFormulas: { health: true },
-        resourceFormulas: { health: "2d8" }
+
+        resourceValues: { mana: 10, hp: "2d8" },
+        dominanceDiceGain: "max"
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -801,8 +838,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       utilityConfig: {
         utilityType: "restoration",
         selectedEffects: [
-          {
-            id: "absolute_dominance_reset",
+          { id : "absolute_dominance_reset",
             name: "Absolute Dominion",
             description: "Resets the target's Dominance Die to its absolute maximum size. Reduces the caster's Max HP by 3 until their next long rest."
           }
@@ -812,8 +848,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["dominance", "ultimate_restoration", "mutilation"],
       flavorText: "Kneel. Suffer. Obey. There is no other path for either of us."
     },
-    {
-      id: "exo_empower_covenant",
+    { id : "exo_empower_covenant",
       name: "Empower Covenant",
       description: "You cut your forearm, spraying hot blood onto your bound demon. It drinks the offering, growing larger and more savage. The demon gains massive combat bonuses, but your vitality is depleted.",
       level: 3,
@@ -836,10 +871,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resourceCost: {
         actionPoints: 1,
         mana: 6,
-        resourceTypes: ["health"],
-        resourceValues: {},
-        useFormulas: { health: true },
-        resourceFormulas: { health: "2d6" }
+
+        resourceValues: { mana: 6, hp: "2d6" }
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -853,8 +886,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "demonic_ferocity",
+          { id : "demonic_ferocity",
             name: "Blooded Ferocity",
             description: "Demon gains +3 to all attack rolls and its Agility is increased by 3 for 3 rounds.",
             mechanicsText: "+3 attacks, +3 Agility.",
@@ -877,8 +909,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 4 SPELLS
     // ============================================================
-    {
-      id: "exo_bind_shadow_hound",
+    { id : "exo_bind_shadow_hound",
       name: "Ritual: Bind Shadow Hound",
       description: "A dark ceremony to bind a feral Shadow Hound. Requires nightshade essence, a shadowy cloak, and a mirror. The hound starts with a d10 Dominance Die and attacks with shadow and bite.",
       level: 4,
@@ -901,7 +932,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       resourceCost: {
         actionPoints: 2,
-        mana: 25
+        mana: 25,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 25 },
+        dominanceDiceGain: 10
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -924,8 +958,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["summoning", "binding", "hound"],
       flavorText: "Out of the darkness, a snarling jaw. The leash snaps tight."
     },
-    {
-      id: "exo_severe_chains",
+    { id : "exo_severe_chains",
       name: "Severe Chains",
       description: "You summon agonizing spectral chains that wrap around a target, binding them to the spot. If the target is a fiend, spirit, or undead, the radiant salt on the chains eats into their marrow, dealing radiant damage over time.",
       level: 4,
@@ -956,8 +989,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "paralyzed_chains",
+          { id : "paralyzed_chains",
             name: "Severely Chained",
             description: "Target is Paralyzed for 2 rounds. Constitution save DC 15 to negate."
           }
@@ -996,8 +1028,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 5 SPELLS
     // ============================================================
-    {
-      id: "exo_bind_wraith",
+    { id : "exo_bind_wraith",
       name: "Ritual: Bind Wraith",
       description: "A horrifying ritual to bind a weeping Wraith of grief. Requires ectoplasm and moonstone shard. The Wraith starts with a d10 Dominance Die and attacks with psychic screams.",
       level: 5,
@@ -1020,7 +1051,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       resourceCost: {
         actionPoints: 2,
-        mana: 30
+        mana: 30,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 30 },
+        dominanceDiceGain: 10
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -1043,8 +1077,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["summoning", "binding", "wraith"],
       flavorText: "It weeps. It screams. It obeys, for the moment."
     },
-    {
-      id: "exo_cinder_purge",
+    { id : "exo_cinder_purge",
       name: "AoE: Cinder Purge",
       description: "You shatter an entire vial of purified brine and salt over a wide area, sending a wave of burning salt across the battlefield. Purges all curses and crowd control from all allies within 20 feet, but deals physical damage to each of them. Devastates supernatural entities caught in the ash.",
       level: 5,
@@ -1077,23 +1110,23 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         formula: "2d6",
         damageTypes: ["bludgeoning"],
         resolution: "DICE",
-        conditionalDamage: {
-          enabled: true,
-          conditions: [
-            {
-              targetType: "creature_type",
-              creatureTypes: ["fiend", "undead", "spirit"],
-              bonusFormula: "4d6",
-              description: "Deals additional 4d6 radiant damage to supernatural enemies caught in the area."
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              "supernatural_target": "6d6",
+              "default": "2d6"
             }
-          ]
+          }
         }
+      }
       },
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "mass_purge_effects",
+          { id : "mass_purge_effects",
             name: "Cinder Cleansing",
             description: "Instantly removes all Curses, Possessions, and mental CC from all allies in the 20ft area."
           }
@@ -1107,8 +1140,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 6 SPELLS
     // ============================================================
-    {
-      id: "exo_bind_abyssal_brute",
+    { id : "exo_bind_abyssal_brute",
       name: "Ritual: Bind Abyssal Brute",
       description: "A grueling, life-threatening ritual to bind a hulking Abyssal Brute. Requires giant's blood, Dragonfire chains, and deep earth stone. The Brute starts with a d8 Dominance Die and executes crushing strikes.",
       level: 6,
@@ -1131,7 +1163,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       resourceCost: {
         actionPoints: 2,
-        mana: 40
+        mana: 40,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 40 },
+        dominanceDiceGain: 8
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -1154,8 +1189,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       tags: ["summoning", "binding", "brute"],
       flavorText: "A mountain of muscle and fire. You hold the leash, but it shakes the earth."
     },
-    {
-      id: "exo_mass_discipline",
+    { id : "exo_mass_discipline",
       name: "Mass Discipline",
       description: "You crack a massive spectral whip made of radiant barbed wire, lashing all active bound demons simultaneously. Restores the Dominance Die of all active demons by 2 steps, but the severe blood cost splits your own flesh.",
       level: 6,
@@ -1179,10 +1213,9 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resourceCost: {
         actionPoints: 2,
         mana: 15,
-        resourceTypes: ["health"],
-        resourceValues: {},
-        useFormulas: { health: true },
-        resourceFormulas: { health: "3d6" }
+
+        resourceValues: { mana: 15, hp: "3d6" },
+        dominanceDiceGain: 2
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -1196,8 +1229,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "restore_all_dd",
+          { id : "restore_all_dd",
             name: "Legion Obedience",
             description: "Restores the Dominance Die of all active summons by 2 steps."
           }
@@ -1211,8 +1243,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 7 SPELLS
     // ============================================================
-    {
-      id: "exo_bind_balor",
+    { id : "exo_bind_balor",
       name: "Ritual: Bind Balor",
       description: "An incredibly dangerous ritual to bind a towering flame-fiend of ruin. Requires active magma, blood of a dragon, and a blackened holy relic. The Balor starts with a d6 Dominance Die and sweeps the area with molten iron.",
       level: 7,
@@ -1235,7 +1266,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       resourceCost: {
         actionPoints: 3,
-        mana: 50
+        mana: 50,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 50 },
+        dominanceDiceGain: 6
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -1262,8 +1296,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 8 SPELLS
     // ============================================================
-    {
-      id: "exo_divine_crucifixion",
+    { id : "exo_divine_crucifixion",
       name: "Ultimate: Divine Crucifixion",
       description: "You drive a colossal spectral stake of salt and cold iron directly through the target's spirit, pinning them to the fabric of reality. Deals colossal radiant damage to Undead, Fiends, and Spirits, paralyzing them instantly. Against mortals, the stake shatters on their mundane meat, dealing negligible damage.",
       level: 8,
@@ -1300,30 +1333,19 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           difficultyClass: 18,
           saveOutcome: "half_damage"
         },
-        conditionalDamage: {
-          enabled: true,
-          conditions: [
-            {
-              targetType: "creature_type",
-              creatureTypes: ["fiend", "undead", "spirit", "aberration"],
-              bonusFormula: "12d10",
-              description: "Deals massive bonus damage (additional +12d10) to supernatural targets. Deals only 1/4 damage to Mortals."
-            }
-          ]
-        }
       },
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "crucifixion_paralysis",
+          { id : "crucifixion_paralysis",
             name: "Spirit Crucified",
             description: "Target is Paralyzed for 3 rounds. Spirit save DC 18 to negate."
           }
         ],
         savingThrow: {
           ability: "spirit",
-          difficultyClass: 18
+          difficultyClass: 18,
+          saveOutcome: "negates"
         },
         duration: 3,
         durationUnit: "rounds"
@@ -1333,6 +1355,19 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         durationValue: 3,
         durationUnit: "rounds"
       },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              "supernatural_target": "20d10",
+              "mortal_target": "2d10",
+              "default": "8d10"
+            }
+          }
+        }
+      },
       resolution: "DICE",
       tags: ["damage", "execute", "paralyze", "Mortal Deficit"],
       flavorText: "A scream that shakes the veil. The iron stake remains, smoking with sulfur."
@@ -1341,8 +1376,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 9 SPELLS
     // ============================================================
-    {
-      id: "exo_bind_demon_prince",
+    { id : "exo_bind_demon_prince",
       name: "Ritual: Bind Demon Prince",
       description: "The absolute pinnacle of binding rituals. You chain an Arch-Demon of the pit to your very heartbeat. Requires a dark ritual circle and three rare materials. The Prince starts with a d6 Dominance Die and has extreme maintenance.",
       level: 9,
@@ -1365,7 +1399,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       },
       resourceCost: {
         actionPoints: 3,
-        mana: 80
+        mana: 80,
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 80 },
+        dominanceDiceGain: 6
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -1392,8 +1429,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
     // ============================================================
     // LEVEL 10 SPELLS
     // ============================================================
-    {
-      id: "exo_calamitous_ascension",
+    { id : "exo_calamitous_ascension",
       name: "Ultimate: Calamitous Ascension",
       description: "For the Possessed: Invite the demon prince into your soul. You undergo a terrifying, tragic transformation into a towering beacon of blackened ash and searing radiant light. You gain absolute invulnerability to all supernatural and magical damage, but your Mortal Deficit is magnified: normal, mundane kinetic attacks deal quadruple damage.",
       level: 10,
@@ -1413,10 +1449,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resourceCost: {
         actionPoints: 3,
         mana: 50,
-        resourceTypes: ["health"],
-        resourceValues: {},
-        useFormulas: { health: true },
-        resourceFormulas: { health: "5d6" }
+
+        resourceValues: { mana: 50, hp: "5d6" }
       },
       cooldownConfig: {
         cooldownType: "turn_based",
@@ -1425,17 +1459,13 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       buffConfig: {
         buffType: "statusEffectBuff",
         effects: [
-          {
-            id: "demon_god_ascension",
+          { id : "demon_god_ascension",
             name: "Ash and Light",
             description: "Caster gains absolute invulnerability to all magical and elemental damage. Caster deals +3d10 radiant damage on all attacks. However, any mundane physical attacks deal 300% increased damage (quadruple damage). Lasts 3 rounds.",
-            mechanicsText: "Invulnerability to magic, +3d10 radiant damage, 300% vulnerability to mundane physical attacks.",
-            statusEffect: {
-              vulnerabilityType: "physical",
-              vulnerabilityPercent: 300
-            }
+            mechanicsText: "Invulnerability to magic, +3d10 radiant damage, 300% vulnerability to mundane physical attacks."
           }
         ],
+        statusEffects: ["invulnerability", "vulnerability"],
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds"

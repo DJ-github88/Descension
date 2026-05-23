@@ -8,6 +8,8 @@ export const BLADEDANCER_DATA = {
   overview: {
     title: "The Bladedancer",
     subtitle: "The Kinetic Dervish",
+    illustration: "/assets/images/classes/bladedancer_illustration.png",
+    illustrationCaption: "An Emberth Ash-Born Bladedancer wielding dual curved swords trailing kinetic sparks.",
 
     quickOverview: {
       title: "Quick Overview",

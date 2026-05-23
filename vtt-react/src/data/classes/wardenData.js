@@ -6,7 +6,7 @@
  */
 
 export const WARDEN_DATA = {
-  id: "warden",
+  id : "warden",
   name: "Warden",
   icon: "fas fa-link",
   role: "Melee Lockdown / Heavy Sentinel",
@@ -337,8 +337,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
 
     specs: [
-      {
-        id: "shadowblade",
+      { id : "shadowblade",
         name: "Flayed Stalker",
         icon: "Piercing/Night Dagger",
         color: "#2E0854",
@@ -376,8 +375,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           "Flesh Tether - Crucial to anchor targets before they run"
         ]
       },
-      {
-        id: "jailer",
+      { id : "jailer",
         name: "Iron Gaoler",
         icon: "Necrotic/Crossed Bones",
         color: "#4A5568",
@@ -415,8 +413,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           "Sweeping Chains - Cone bludgeoning to herd enemies into cages"
         ]
       },
-      {
-        id: "vengeance-seeker",
+      { id : "vengeance-seeker",
         name: "Relentless Tormentor",
         icon: "Slashing/Cross Slash",
         color: "#8B0000",
@@ -462,8 +459,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 1 SPELLS
     // ==========================================
-    {
-      id: "warden_shadow_strike_ability",
+    { id : "warden_shadow_strike_ability",
       name: "Pain-Fueled Flail",
       description: "Lash out with your rusted iron chains. The agony of the hooks driven through your own flesh fuels the strike, generating Tether Tension on hit.",
       spellType: "ACTION",
@@ -510,8 +506,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["necrotic", "damage", "stealth", "shadowblade"]
     },
-    {
-      id: "warden_mark_of_the_hunt",
+    { id : "warden_mark_of_the_hunt",
       name: "Flesh Tether",
       description: "Drive rusted iron hooks directly through your own forearms and bone into a single target within 15 feet. Creates an unbreakable physical bond. The tethered enemy cannot move beyond 15 feet of you, cannot target your allies, and you absorb 50% of all AoE or environmental damage they suffer.",
       spellType: "ACTION",
@@ -551,8 +546,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "flesh_tethered",
+          { id : "flesh_tethered",
             name: "Flesh Tethered",
             description: "Tethered to the Warden. Cannot target the Warden's allies, cannot move beyond 15 feet, and the Warden absorbs 50% of your AoE damage.",
             statusType: "restrained",
@@ -580,8 +574,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["necrotic", "debuff", "tether", "universal"]
     },
-    {
-      id: "warden_vengeful_strike",
+    { id : "warden_vengeful_strike",
       name: "Barbed Lash",
       description: "Empower your next chain strike by manually pulling the hooks back through your forearms. Rips the target's flesh, dealing bonus damage and inducing bleeding.",
       spellType: "ACTION",
@@ -635,8 +628,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "barbed_bleed",
+          { id : "barbed_bleed",
             name: "Lacerating Bleed",
             description: "Taking 1d4 necrotic damage at the start of each turn from ripped flesh."
           }
@@ -645,8 +637,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["slashing", "damage", "bleed", "universal"]
     },
-    {
-      id: "warden_evasive_maneuvers",
+    { id : "warden_evasive_maneuvers",
       name: "Iron Brace",
       description: "When targeted by an attack, brace your armor and brace the chains. Gain an Armor bonus. Whether the attack lands or misses, you gain 1 Tether Tension by reeling in.",
       spellType: "REACTION",
@@ -685,8 +676,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "braced_defense",
+          { id : "braced_defense",
             name: "Braced",
             description: "Armor increased by +2 against the triggering attack.",
             statModifier: {
@@ -700,8 +690,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["buff", "defense", "reaction", "universal"]
     },
-    {
-      id: "warden_glaive_mastery",
+    { id : "warden_glaive_mastery",
       name: "Chain Graft",
       description: "Your arms are grafted to heavy iron chains. Your melee reach is permanently increased to 15 feet and your chain attacks have +1 to hit. However, you are strictly forbidden from wielding or using ranged weapons.",
       spellType: "PASSIVE",
@@ -735,8 +724,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "chain_reach",
+          { id : "chain_reach",
             name: "Chain Reach",
             description: "Melee reach is 15 feet. Cannot use ranged weapons.",
             statModifier: {
@@ -754,8 +742,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 2 SPELLS
     // ==========================================
-    {
-      id: "warden_shadow_ambush",
+    { id : "warden_shadow_ambush",
       name: "Flayed Leap",
       description: "Leap from stealth, throwing rusted chains directly into the target. You cannot teleport -- you must physically travel through the air, risking opportunity attacks.",
       spellType: "ACTION",
@@ -802,8 +789,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["necrotic", "damage", "mobility", "shadowblade"]
     },
-    {
-      id: "warden_relentless_pursuit",
+    { id : "warden_relentless_pursuit",
       name: "Cruel Drag",
       description: "Manually lock your gears and reel in. Dash directly to your tethered target, slamming into them with a colossal shield/body check. If they are lighter than you, they are dragged 10 feet toward you instead.",
       spellType: "ACTION",
@@ -844,14 +830,13 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          { id: "chain_drag", name: "Chain Reel", description: "Dash directly to the tethered target." }
+          { id : "chain_drag", name: "Chain Reel", description: "Dash directly to the tethered target." }
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["bludgeoning", "damage", "drag", "vengeance-seeker"]
     },
-    {
-      id: "warden_whirling_glaive",
+    { id : "warden_whirling_glaive",
       name: "Sweeping Chains",
       description: "Whirl your heavy chains in a sweeping 15-foot cone, crushing bone and slowing all targets caught in the metal tempest.",
       spellType: "ACTION",
@@ -895,8 +880,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "slowed_chains",
+          { id : "slowed_chains",
             name: "Entangled Slow",
             description: "Movement speed reduced by 15 feet by wrapping chains."
           }
@@ -908,8 +892,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["bludgeoning", "damage", "aoe", "slow", "universal"]
     },
-    {
-      id: "warden_hunters_resolve",
+    { id : "warden_hunters_resolve",
       name: "Penitent Resolve",
       description: "Dig the grafted spine hooks deeper, welcoming the pain to brace your armor. Gain 50% damage resistance and Armor. The benefits are doubled if the tethered target is within 15 feet, anchoring you completely.",
       spellType: "ACTION",
@@ -947,8 +930,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "penitent_resist",
+          { id : "penitent_resist",
             name: "Enduring Meat",
             description: "Gain 50% damage resistance and +4 Armor against all incoming physical damage.",
             statModifier: {
@@ -966,8 +948,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 3 SPELLS
     // ==========================================
-    {
-      id: "warden_cage_of_vengeance",
+    { id : "warden_cage_of_vengeance",
       name: "Iron Gaol",
       description: "Spend Tension to erupt spectral iron bars around your target, trapping them in a brutal cage. They physically cannot move out of the cage or benefit from teleportation. Caged targets take additional damage.",
       spellType: "ACTION",
@@ -1011,8 +992,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           saveOutcome: "reduced_duration"
         },
         effects: [
-          {
-            id: "iron_caged",
+          { id : "iron_caged",
             name: "Imprisoned in Steel",
             description: "Caged in rusted iron. Speed is 0, cannot teleport, and takes +1d6 damage from all sources.",
             statusType: "restrained",
@@ -1028,8 +1008,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["necrotic", "control", "cage", "jailer"]
     },
-    {
-      id: "warden_hunters_fury",
+    { id : "warden_hunters_fury",
       name: "Spined Torment",
       description: "A brutal, agonizing downward smash with your chains. If the target is tethered to you, the strike rips their joints, dealing devastating bludgeoning damage and tearing their muscles.",
       spellType: "ACTION",
@@ -1075,8 +1054,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       tags: ["bludgeoning", "damage", "tether-synergy", "vengeance-seeker"]
     },
-    {
-      id: "warden_spectral_strike",
+    { id : "warden_spectral_strike",
       name: "Necrotic Piercing",
       description: "Phase your chains slightly into the shadow realm, driving them through armor and bone to deal direct necrotic damage to the target's internal organs.",
       spellType: "ACTION",
@@ -1122,8 +1100,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["necrotic", "damage", "armor-piercing", "universal"]
     },
-    {
-      id: "warden_cage_trap",
+    { id : "warden_cage_trap",
       name: "Spiked Chain Trap",
       description: "Lay a coiled, heavy chain trap in a small area. When an enemy steps into it, the trap springs violently, driving hooks into their legs and caging them.",
       spellType: "ACTION",
@@ -1165,8 +1142,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           difficultyClass: 14
         },
         effects: [
-          {
-            id: "trapped_cage",
+          { id : "trapped_cage",
             name: "Spike-Bound",
             description: "Restrained by coiled spikes. Speed is 0."
           }
@@ -1179,8 +1155,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 4 SPELLS
     // ==========================================
-    {
-      id: "warden_chain_lightning",
+    { id : "warden_chain_lightning",
       name: "Conductive Torment",
       description: "Send a massive kinetic shockwave through your chains, jumping to all caged or linked targets and shattering their bones.",
       spellType: "ACTION",
@@ -1233,8 +1208,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       tags: ["necrotic", "damage", "chain", "jailer"]
     },
-    {
-      id: "warden_vengeful_leap",
+    { id : "warden_vengeful_leap",
       name: "Vicious Reel",
       description: "Manually winch your arm-grafted spool. Launch yourself directly toward your tethered prey. This is a heavy, physical reel; you provoke opportunity attacks along the path.",
       spellType: "ACTION",
@@ -1275,7 +1249,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       utilityConfig: {
         utilityType: "movement",
         selectedEffects: [
-          { id: "chain_reel", name: "Chain Winch", description: "Leap directly to your tethered prey." }
+          { id : "chain_reel", name: "Chain Winch", description: "Leap directly to your tethered prey." }
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1285,8 +1259,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 5 SPELLS
     // ==========================================
-    {
-      id: "warden_umbral_assault",
+    { id : "warden_umbral_assault",
       name: "Flayed Shadow Assault",
       description: "Dissolve your physical form into a mist of blood and shadow, strike three separate targets with crushing lashings, and disappear back into silence.",
       spellType: "ACTION",
@@ -1330,8 +1303,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "shadow_invis",
+          { id : "shadow_invis",
             name: "Umbral Veil",
             description: "Become completely invisible for 1 round."
           }
@@ -1340,8 +1312,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
       tags: ["necrotic", "damage", "stealth", "shadowblade"]
     },
-    {
-      id: "warden_prison_of_eternity",
+    { id : "warden_prison_of_eternity",
       name: "Coliseum of Iron",
       description: "Erupt a massive circular arena of heavy iron pillars in a 20-foot area, caging all enemies inside. Teleportation is blocked completely.",
       spellType: "ACTION",
@@ -1383,8 +1354,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           difficultyClass: 16
         },
         effects: [
-          {
-            id: "coliseum_imprisoned",
+          { id : "coliseum_imprisoned",
             name: "Bound in Coliseum",
             description: "Trapped in the iron zone. Cannot escape."
           }
@@ -1393,8 +1363,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
       tags: ["necrotic", "control", "cage", "jailer"]
     },
-    {
-      id: "warden_avatar_of_vengeance",
+    { id : "warden_avatar_of_vengeance",
       name: "Flayed Ascendancy",
       description: "Unleash all tension to fuse your flesh with your rusted iron grafts. Your chains burst outward, forming a cage of spikes around your bones. For 6 rounds, gain Armor, massive damage, and reel in all tethered targets helplessly.",
       spellType: "ACTION",
@@ -1432,8 +1401,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "flayed_transformation",
+          { id : "flayed_transformation",
             name: "Ascendant Flesh",
             description: "Gain +4 Armor, +2d6 bludgeoning damage, and generate +1 Tension on hit.",
             statModifier: {
@@ -1451,8 +1419,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 6 SPELLS
     // ==========================================
-    {
-      id: "warden_glaive_storm",
+    { id : "warden_glaive_storm",
       name: "Iron Storm",
       description: "Whirl your heavy chains in a furious tempest, hitting all enemies in a 20-foot cone multiple times with bone-shattering force.",
       spellType: "ACTION",
@@ -1493,8 +1460,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       tags: ["bludgeoning", "damage", "aoe", "universal"]
     },
-    {
-      id: "warden_cage_slam",
+    { id : "warden_cage_slam",
       name: "Gaol Shatter",
       description: "Slam a caged target with your heavy steel chain-spool, dealing immense bludgeoning damage and shattering their resolve, which extends the cage's duration by 1 round.",
       spellType: "ACTION",
@@ -1544,8 +1510,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 7 SPELLS
     // ==========================================
-    {
-      id: "warden_mark_execution",
+    { id : "warden_mark_execution",
       name: "Reel and Execute",
       description: "Winch the gears to drag a heavily wounded tethered target (below 30% health) directly into your blade. Delivers a guaranteed critical strike.",
       spellType: "ACTION",
@@ -1596,8 +1561,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
       tags: ["slashing", "damage", "execute", "vengeance-seeker"]
     },
-    {
-      id: "warden_shadow_cage",
+    { id : "warden_shadow_cage",
       name: "Grave-Iron Cage",
       description: "Summon a dense cage of shadow-infused graveyard iron. Restrains all targets in a 15-foot radius and blocks all forms of dimensional escape.",
       spellType: "ACTION",
@@ -1639,8 +1603,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           difficultyClass: 16
         },
         effects: [
-          {
-            id: "grave_caged",
+          { id : "grave_caged",
             name: "Grave Caged",
             description: "Restrained. Speed is 0 and teleportation blocked."
           }
@@ -1649,8 +1612,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
       tags: ["necrotic", "control", "cage", "jailer"]
     },
-    {
-      id: "warden_hunters_wrath",
+    { id : "warden_hunters_wrath",
       name: "Torturer's Wrath",
       description: "Deliver a devastating series of flailing attacks against a single tethered target, grinding the rusted chains back and forth through their flesh.",
       spellType: "ACTION",
@@ -1695,8 +1657,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 8 SPELLS
     // ==========================================
-    {
-      id: "warden_vengeance_incarnate",
+    { id : "warden_vengeance_incarnate",
       name: "Ascendant Jailer",
       description: "Harness all pain. Gain colossal speed toward your tethered target, +3d8 damage, and automatically generate Tension whenever you are struck.",
       spellType: "ACTION",
@@ -1734,8 +1695,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "ascendant_jailer_buff",
+          { id : "ascendant_jailer_buff",
             name: "Unstoppable Will",
             description: "+3d8 damage and massive armor.",
             statModifier: {
@@ -1749,8 +1709,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
       tags: ["necrotic", "buff", "transformation", "vengeance-seeker"]
     },
-    {
-      id: "warden_eternal_cage",
+    { id : "warden_eternal_cage",
       name: "Eternal Iron Tomb",
       description: "Summon a permanent prison of cursed dungeon iron. The target is locked in place indefinitely until the Warden chooses to dispel it or dies.",
       spellType: "ACTION",
@@ -1792,8 +1751,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           difficultyClass: 18
         },
         effects: [
-          {
-            id: "eternal_imprisoned",
+          { id : "eternal_imprisoned",
             name: "Eternal Tomb",
             description: "Restrained indefinitely. Speed is 0."
           }
@@ -1802,8 +1760,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
       tags: ["necrotic", "control", "cage", "jailer"]
     },
-    {
-      id: "warden_relentless_assault",
+    { id : "warden_relentless_assault",
       name: "Brutal Whipping",
       description: "Lash out repeatedly with heavy chains, building 1 Tether Tension with each hit as you tear your own flesh to pieces.",
       spellType: "ACTION",
@@ -1848,8 +1805,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 9 SPELLS
     // ==========================================
-    {
-      id: "warden_justice_strikes",
+    { id : "warden_justice_strikes",
       name: "Penitent Judgment",
       description: "Deliver a crushing chain slam to your tethered prey, shattering their armor and causing massive internal bleeding.",
       spellType: "ACTION",
@@ -1890,8 +1846,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
       tags: ["bludgeoning", "damage", "tether-synergy", "vengeance-seeker"]
     },
-    {
-      id: "warden_cage_mastery",
+    { id : "warden_cage_mastery",
       name: "Mass Imprisonment",
       description: "Erupt individual spectral iron cages around all enemies within 30 feet, shutting down the entire battlefield.",
       spellType: "ACTION",
@@ -1933,8 +1888,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           difficultyClass: 18
         },
         effects: [
-          {
-            id: "mass_caged",
+          { id : "mass_caged",
             name: "Caged Individually",
             description: "Restrained inside an iron cage. Speed is 0."
           }
@@ -1943,8 +1897,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
       tags: ["necrotic", "control", "cage", "jailer"]
     },
-    {
-      id: "warden_no_escape_strike",
+    { id : "warden_no_escape_strike",
       name: "Inescapable Shackle",
       description: "Lash the chains around the target's throat, severing their connection to dimensions. They cannot teleport, blink, or turn invisible.",
       spellType: "ACTION",
@@ -1988,8 +1941,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "shackle_blocked",
+          { id : "shackle_blocked",
             name: "Dimension Shackled",
             description: "Teleportation and invisibility suppressed."
           }
@@ -2002,8 +1954,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     // LEVEL 10 SPELLS
     // ==========================================
-    {
-      id: "warden_ultimate_vengeance",
+    { id : "warden_ultimate_vengeance",
       name: "Cataclysm of Iron",
       description: "Release all Tether Tension in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal bludgeoning damage to all tethered and nearby enemies.",
       spellType: "ACTION",
@@ -2044,8 +1995,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 15 },
       tags: ["bludgeoning", "damage", "ultimate", "universal"]
     },
-    {
-      id: "warden_prison_realm",
+    { id : "warden_prison_realm",
       name: "Iron Prison Realm",
       description: "Banish all nearby enemies to a massive, spectral iron prison realm. Trapped targets are completely helpless and vulnerable to all forms of harm.",
       spellType: "ACTION",
@@ -2087,8 +2037,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           difficultyClass: 20
         },
         effects: [
-          {
-            id: "realm_imprisoned",
+          { id : "realm_imprisoned",
             name: "Prison Realm Bound",
             description: "Completely restrained and vulnerable to 2d10 additional damage."
           }
@@ -2097,8 +2046,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 20 },
       tags: ["necrotic", "control", "cage", "ultimate", "jailer"]
     },
-    {
-      id: "warden_avatar_perfected",
+    { id : "warden_avatar_perfected",
       name: "Flayed Ascendancy Perfected",
       description: "Transform into a god-like engine of rusted steel. Your chains expand to cover the sky. Gain Armor, absolute CC immunity, and automatically shred all tethered targets.",
       spellType: "ACTION",
@@ -2136,8 +2084,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          {
-            id: "perfected_jailer_buff",
+          { id : "perfected_jailer_buff",
             name: "Iron God",
             description: "Gain +6 Armor, CC immunity, 50% physical resistance, and shred all tethered targets.",
             statModifier: {

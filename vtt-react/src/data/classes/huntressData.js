@@ -6,7 +6,7 @@
  */
 
 export const HUNTRESS_DATA = {
-  id: "huntress",
+  id : "huntress",
   name: "Huntress",
   icon: "fas fa-moon",
   role: "Damage",
@@ -379,8 +379,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     sharedPassive: null,
 
     specs: [
-      {
-        id: "bladestorm",
+      { id : "bladestorm",
         name: "Bladestorm",
         icon: "Piercing/Dagger Rain",
         color: "#DC143C",
@@ -427,8 +426,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           "Swift Assault - Rapid strikes to build Momentum",
         ],
       },
-      {
-        id: "beastmaster",
+      { id : "beastmaster",
         name: "Beastmaster",
         icon: "Nature/Spawn",
         color: "#228B22",
@@ -475,8 +473,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           "Mark Quarry - Build marks for companion empowerment",
         ],
       },
-      {
-        id: "shadowblade",
+      { id : "shadowblade",
         name: "Shadowblade",
         icon: "Utility/Phantom Dash",
         color: "#4B0082",
@@ -531,7 +528,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // BLADESTORM - Multi-Target Glaive Attacks
     {
       effectTypes: ["damage"],
-      id: "huntress_glaive_toss",
+      id : "huntress_glaive_toss",
       name: "Glaive Toss",
       description:
         "Throw your Shadow Glaive at a target, chaining to additional enemies within 5 feet of each other.",
@@ -623,7 +620,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_whirling_death",
+      id : "huntress_whirling_death",
       name: "Whirling Death",
       description:
         "Spin your Shadow Glaive in a deadly circle, striking all enemies within 10 feet.",
@@ -688,7 +685,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_blade_fury",
+      id : "huntress_blade_fury",
       name: "Blade Fury",
       description:
         "Unleash a devastating flurry of glaive strikes, hitting multiple targets in rapid succession.",
@@ -767,7 +764,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // BEASTMASTER - Companion Synergy
     {
       effectTypes: ["damage"],
-      id: "huntress_companion_strike",
+      id : "huntress_companion_strike",
       name: "Companion Strike",
       description:
         "Command your companion to attack a target with enhanced ferocity.",
@@ -842,7 +839,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_coordinated_assault",
+      id : "huntress_coordinated_assault",
       name: "Coordinated Assault",
       description:
         "You and your companion attack the same target simultaneously, overwhelming them with coordinated strikes.",
@@ -920,7 +917,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["buff"],
-      id: "huntress_primal_rage",
+      id : "huntress_primal_rage",
       name: "Primal Rage",
       description:
         "Your companion enters a primal rage, gaining enhanced stats and attacking with savage fury.",
@@ -959,32 +956,27 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       buffConfig: {
         effects: [
-          {
-            id: "companion_gains_2_to_attack_rolls",
+          { id : "companion_gains_2_to_attack_rolls",
             name: "Companion gains +2 to attack rolls",
             description: "Companion gains +2 to attack rolls",
             mechanicsText: "Companion gains +2 to attack rolls",
           },
-          {
-            id: "companion_deals_2d6_damage_on_all_a",
+          { id : "companion_deals_2d6_damage_on_all_a",
             name: "Companion deals +2d6 damage on all attacks",
             description: "Companion deals +2d6 damage on all attacks",
             mechanicsText: "Companion deals +2d6 damage on all attacks",
           },
-          {
-            id: "companion_gains_4_armor",
+          { id : "companion_gains_4_armor",
             name: "Companion gains +4 Armor",
             description: "Companion gains +4 Armor",
             mechanicsText: "Companion gains +4 Armor",
           },
-          {
-            id: "companion_has_advantage_on_all_atta",
+          { id : "companion_has_advantage_on_all_atta",
             name: "Companion has advantage on all attacks",
             description: "Companion has advantage on all attacks",
             mechanicsText: "Companion has advantage on all attacks",
           },
-          {
-            id: "duration_3_rounds",
+          { id : "duration_3_rounds",
             name: "Duration: 3 rounds",
             description: "Duration: 3 rounds",
             mechanicsText: "Duration: 3 rounds",
@@ -1021,7 +1013,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // SHADOWDANCER - Stealth & Mobility
     {
       effectTypes: ["utility", "buff"],
-      id: "huntress_shadowstep",
+      id : "huntress_shadowstep",
       name: "Shadowstep",
       description:
         "Teleport through shadows to a nearby location, gaining advantage on your next attack.",
@@ -1089,7 +1081,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_shadow_strike",
+      id : "huntress_shadow_strike",
       name: "Shadow Strike",
       description:
         "Strike from the shadows with devastating force, dealing massive damage to an unsuspecting target.",
@@ -1169,7 +1161,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_phantom_blades",
+      id : "huntress_phantom_blades",
       name: "Phantom Blades",
       description:
         "Create shadow copies of your glaive that strike multiple targets simultaneously.",
@@ -1250,7 +1242,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // UNIVERSAL ABILITIES - All Huntresses
     {
       effectTypes: ["damage", "debuff"],
-      id: "huntress_moonlit_strike",
+      id : "huntress_moonlit_strike",
       name: "Moonlit Strike",
       description:
         "Empower your Shadow Glaive with lunar energy, dealing enhanced damage and potentially blinding your target.",
@@ -1310,8 +1302,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         saveType: "constitution",
         saveOutcome: "negates",
         effects: [
-          {
-            id: "blinded",
+          { id : "blinded",
             name: "Blinded",
             description:
               "Blinded creatures have disadvantage on attack rolls - cannot see, automatically fails sight-based checks",
@@ -1359,7 +1350,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["buff"],
-      id: "huntress_evasion",
+      id : "huntress_evasion",
       name: "Evasion",
       description:
         "Use your agility to avoid incoming attacks, increasing your defenses.",
@@ -1398,20 +1389,17 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       buffConfig: {
         effects: [
-          {
-            id: "gain_advantage_on_dexterity_saving_",
+          { id : "gain_advantage_on_dexterity_saving_",
             name: "Gain advantage on Dexterity saving throws",
             description: "Gain advantage on Dexterity saving throws",
             mechanicsText: "Gain advantage on Dexterity saving throws",
           },
-          {
-            id: "gain_2_armor",
+          { id : "gain_2_armor",
             name: "Gain +2 Armor",
             description: "Gain +2 Armor",
             mechanicsText: "Gain +2 Armor",
           },
-          {
-            id: "duration_until_start_of_your_next_t",
+          { id : "duration_until_start_of_your_next_t",
             name: "Duration: Until start of your next turn",
             description: "Duration: Until start of your next turn",
             mechanicsText: "Duration: Until start of your next turn",
@@ -1440,7 +1428,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["utility"],
-      id: "huntress_mark_quarry",
+      id : "huntress_mark_quarry",
       name: "Mark Quarry",
       description:
         "Focus your hunter's instinct on a target, marking them as your quarry.",
@@ -1506,7 +1494,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_swift_assault",
+      id : "huntress_swift_assault",
       name: "Swift Assault",
       description:
         "Perform a rapid series of glaive strikes against multiple nearby enemies.",
@@ -1586,7 +1574,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // LEVEL 2 (needs 1 more)
     {
       effectTypes: ["buff"],
-      id: "huntress_hunters_mark",
+      id : "huntress_hunters_mark",
       name: "Hunter's Mark",
       description:
         "Mark a target, making it easier for you and your companion to hunt.",
@@ -1659,7 +1647,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // LEVEL 4 (needs 3)
     {
       effectTypes: ["damage"],
-      id: "huntress_shadow_assault",
+      id : "huntress_shadow_assault",
       name: "Shadow Assault",
       description: "Dash to a target and strike with overwhelming force.",
       spellType: "ACTION",
@@ -1727,7 +1715,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["buff"],
-      id: "huntress_feral_bond",
+      id : "huntress_feral_bond",
       name: "Feral Bond",
       description:
         "Strengthen your bond with your companion, enhancing both of your combat abilities.",
@@ -1795,7 +1783,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_glaive_dance",
+      id : "huntress_glaive_dance",
       name: "Glaive Dance",
       description:
         "Spin through enemies in a deadly dance, striking all in your path.",
@@ -1865,7 +1853,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // LEVEL 6 (needs 3)
     {
       effectTypes: ["buff"],
-      id: "huntress_apex_predator",
+      id : "huntress_apex_predator",
       name: "Apex Predator",
       description:
         "Transform into the ultimate hunter, enhancing all your abilities.",
@@ -1924,7 +1912,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_death_from_above",
+      id : "huntress_death_from_above",
       name: "Death From Above",
       description:
         "Leap high into the air and crash down on enemies with devastating force.",
@@ -1993,7 +1981,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_pack_assault",
+      id : "huntress_pack_assault",
       name: "Pack Assault",
       description: "Coordinate a devastating assault with your companion.",
       spellType: "ACTION",
@@ -2072,7 +2060,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // LEVEL 7 (needs 3)
     {
       effectTypes: ["buff"],
-      id: "huntress_shadow_glaive_mastery",
+      id : "huntress_shadow_glaive_mastery",
       name: "Shadow Glaive Mastery",
       description:
         "Master the Shadow Glaive, unlocking its full devastating potential.",
@@ -2131,7 +2119,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["control", "damage"],
-      id: "huntress_savage_roar",
+      id : "huntress_savage_roar",
       name: "Savage Roar",
       description:
         "Your companion unleashes a terrifying roar that frightens all enemies.",
@@ -2203,7 +2191,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_hunters_fury",
+      id : "huntress_hunters_fury",
       name: "Hunter's Fury",
       description:
         "Channel all your fury into a devastating flurry of glaive strikes.",
@@ -2267,7 +2255,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // LEVEL 8 (needs 3)
     {
       effectTypes: ["damage"],
-      id: "huntress_shadow_storm",
+      id : "huntress_shadow_storm",
       name: "Shadow Storm",
       description:
         "Create a storm of shadow energy that devastates all enemies.",
@@ -2348,7 +2336,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["buff", "transformation"],
-      id: "huntress_primal_fusion",
+      id : "huntress_primal_fusion",
       name: "Primal Fusion",
       description:
         "Merge your essence with your companion, becoming one unstoppable force.",
@@ -2418,7 +2406,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_glaive_storm",
+      id : "huntress_glaive_storm",
       name: "Glaive Storm",
       description:
         "Summon a storm of shadow glaives that strike all enemies repeatedly.",
@@ -2498,7 +2486,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // LEVEL 9 (needs 3)
     {
       effectTypes: ["buff", "transformation"],
-      id: "huntress_ultimate_hunter",
+      id : "huntress_ultimate_hunter",
       name: "Ultimate Hunter",
       description:
         "Become the ultimate hunter, transcending mortal limitations.",
@@ -2566,7 +2554,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage"],
-      id: "huntress_deaths_embrace",
+      id : "huntress_deaths_embrace",
       name: "Death's Embrace",
       description:
         "Channel the essence of death through your glaive, instantly killing weak enemies.",
@@ -2648,7 +2636,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["buff", "passive"],
-      id: "huntress_eternal_hunt",
+      id : "huntress_eternal_hunt",
       name: "Eternal Hunt",
       description:
         "Begin an eternal hunt that never ends until your quarry falls.",
@@ -2718,7 +2706,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     // LEVEL 10 (needs 3)
     {
       effectTypes: ["damage"],
-      id: "huntress_godslayer",
+      id : "huntress_godslayer",
       name: "Godslayer",
       description: "Strike with enough force to slay even gods.",
       spellType: "ACTION",
@@ -2801,7 +2789,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["damage", "summon"],
-      id: "huntress_primal_apocalypse",
+      id : "huntress_primal_apocalypse",
       name: "Primal Apocalypse",
       description:
         "Summon the primal fury of nature itself to devastate the battlefield.",
@@ -2902,7 +2890,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     {
       effectTypes: ["buff", "passive"],
-      id: "huntress_perfect_hunt",
+      id : "huntress_perfect_hunt",
       name: "Perfect Hunt",
       description: "Achieve the perfect hunt â€” mastery beyond mortal limits.",
       spellType: "PASSIVE",
@@ -2966,7 +2954,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         "toggleable",
       ],
     },    {
-      id: "hunt_bond_sickness",
+      id : "hunt_bond_sickness",
       name: "Bond Sickness",
       description:
         "When your animal companion drops to 0 HP or is dismissed, you suffer Bond Sickness for 2 rounds: -2 to all attack rolls and -10 ft movement speed. The psychic link severing is physically painful. You cannot summon a new companion until Bond Sickness ends.",
@@ -2992,8 +2980,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       resolution: "AUTOMATIC",
       tags: ["passive", "debuff", "companion", "bond sickness", "huntress"],
     },
-    {
-      id: "hunt_pack_dependency",
+    { id : "hunt_pack_dependency",
       name: "Pack Dependency",
       description:
         "When you have no active animal companion, you lose access to all Pack Tactics abilities and your melee attacks deal -1d6 damage. You and your companion are one hunting unit -- without them, you are incomplete.",

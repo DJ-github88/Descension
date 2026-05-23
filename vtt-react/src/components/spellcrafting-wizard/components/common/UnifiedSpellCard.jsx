@@ -263,7 +263,10 @@ const UnifiedSpellCard = ({
 
   // Enhanced formula cleaning function that properly formats resource names
   const cleanFormula = (formula) => {
-    if (!formula || typeof formula !== 'string') return '';
+    if (formula === 0) return '0';
+    if (!formula) return '';
+    if (typeof formula === 'number') return String(formula);
+    if (typeof formula !== 'string') return '';
 
     // Handle special formula keywords first
     if (formula === 'HALF_DAMAGE_DEALT') {
@@ -12026,13 +12029,17 @@ const UnifiedSpellCard = ({
                               const descriptionLower = effectDescription.toLowerCase();
                               const statNameLower = statName.toLowerCase();
                               
-                              // Check if description already contains the stat reduction info
-                              // If description has both the magnitude and stat name, suppress mechanicsText to avoid duplication
-                              // This prevents double dashes like "--1 Armor" when description is "-1 Armor for 3 Rounds"
+                              const absMagnitude = Math.abs(magnitude);
                               const hasMagnitude = descriptionLower.includes(`${magnitude}`) || 
                                                    descriptionLower.includes(`${magnitude} `) ||
                                                    descriptionLower.includes(`-${magnitude}`) ||
-                                                   descriptionLower.includes(`- ${magnitude}`);
+                                                   descriptionLower.includes(`- ${magnitude}`) ||
+                                                   descriptionLower.includes(`${absMagnitude}`) ||
+                                                   descriptionLower.includes(`-${absMagnitude}`) ||
+                                                   descriptionLower.includes(`reduced by ${absMagnitude}`) ||
+                                                   descriptionLower.includes(`decreased by ${absMagnitude}`) ||
+                                                   descriptionLower.includes(`loses ${absMagnitude}`) ||
+                                                   descriptionLower.includes(`lose ${absMagnitude}`);
                               
                               const hasStatName = descriptionLower.includes(statNameLower);
                               

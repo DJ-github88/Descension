@@ -7,7 +7,7 @@
  */
 
 export const ORACLE_DATA = {
-  id: "oracle",
+  id : "oracle",
   name: "Oracle",
   icon: "fas fa-eye",
   role: "Support/Utility (Foresight & Fate Manipulation)",
@@ -474,8 +474,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     specs: [
-      {
-        id: "seer",
+      { id : "seer",
         name: "Seer",
         icon: "Utility/Watchful Eye",
         color: "#9370DB",
@@ -517,8 +516,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
           "Players who enjoy tactical planning and making accurate predictions",
       },
 
-      {
-        id: "truthseeker",
+      { id : "truthseeker",
         name: "Truthseeker",
         icon: "Radiant/Radiant Beam",
         color: "#FFD700",
@@ -566,8 +564,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
           "Players who love turning knowledge into power, dismantling enemy strategies, and making allies devastating",
       },
 
-      {
-        id: "fateseer",
+      { id : "fateseer",
         name: "Fateseer",
         icon: "Arcane/Ebon Blaze",
         color: "#FF1493",
@@ -625,8 +622,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
   // Spells - normalized Level 1-10 JSON spell list
   exampleSpells: [
     // ===== SEER SPECIALIZATION =====
-    {
-      id: "oracle_foresight",
+    { id : "oracle_foresight",
       name: "Foresight",
       description: "Peer 6 seconds into the future to see the outcome of your next action, granting you perfect clarity.",
       spellType: "ACTION",
@@ -672,8 +668,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       buffConfig: {
         buffType: "combatAdvantage",
         effects: [
-          {
-            id: "prophetic_foresight",
+          { id : "prophetic_foresight",
             name: "Foresight Clarity",
             description: "Gain advantage on your next attack roll, saving throw, or ability check within 1 round.",
             mechanicsText: "Gain advantage on next attack, save, or check within 1 round."
@@ -692,8 +687,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["seer", "advantage", "self_buff", "omen"],
     },
 
-    {
-      id: "oracle_shared_vision",
+    { id : "oracle_shared_vision",
       name: "Shared Vision",
       description: "Show an ally a glimpse of the future, guiding their actions toward success.",
       spellType: "ACTION",
@@ -736,8 +730,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       buffConfig: {
         buffType: "combatAdvantage",
         effects: [
-          {
-            id: "guided_future",
+          { id : "guided_future",
             name: "Guided Future",
             description: "Target ally gains advantage on their next d20 roll.",
             mechanicsText: "Ally gains advantage on next d20 roll."
@@ -756,8 +749,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["seer", "ally_buff", "reaction", "omen"],
     },
 
-    {
-      id: "oracle_prophecy_of_doom",
+    { id : "oracle_prophecy_of_doom",
       name: "Prophecy of Doom",
       description: "Declare a prophecy of ruin on an enemy. They must resist the terrifying vision or be cursed with impending catastrophe.",
       spellType: "ACTION",
@@ -817,8 +809,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "prophesied_doom",
+          { id : "prophesied_doom",
             name: "Prophesied Doom",
             description: "Cursed with a dire prophecy. The target has disadvantage on all attack rolls. If the predicted trigger occurs, they take an additional 2d6 psychic damage.",
             mechanicsText: "Disadvantage on attack rolls. Takes +2d6 psychic damage if prediction triggers."
@@ -843,8 +834,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== TRUTHSEEKER SPECIALIZATION =====
-    {
-      id: "oracle_reveal_truth",
+    { id : "oracle_reveal_truth",
       name: "Reveal Truth",
       description: "Compel a creature to speak only truth. The target must answer one question honestly, unable to lie or mislead.",
       spellType: "ACTION",
@@ -893,8 +883,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "compelled_truth",
+          { id : "compelled_truth",
             name: "Compelled Truth",
             description: "Target must answer one question you ask with complete honesty, unable to lie, omit crucial facts, or speak in riddles.",
             mechanicsText: "Compelled to answer one question honestly. Cannot lie or omit facts."
@@ -918,8 +907,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["truthseeker", "interrogation", "social", "omen"],
     },
 
-    {
-      id: "oracle_past_sight",
+    { id : "oracle_past_sight",
       name: "Past Sight",
       description: "Touch an object or location to witness its history, seeing events that transpired here.",
       spellType: "ACTION",
@@ -965,8 +953,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "historical_sight",
+          { id : "historical_sight",
             name: "Historical Clairvoyance",
             description: "Witness key events, creatures, and conversations within 10 feet of the target over the past 24 hours. Each key truth revealed drains 3 max HP permanently for the day and adds 1 Omen Debt."
           }
@@ -981,8 +968,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["truthseeker", "ritual", "investigation", "omen"],
     },
 
-    {
-      id: "oracle_piercing_gaze",
+    { id : "oracle_piercing_gaze",
       name: "Piercing Gaze",
       description: "Your eyes glow with pale, porcelain light, seeing through all deceptions, illusions, and concealment.",
       spellType: "ACTION",
@@ -1029,8 +1015,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       buffConfig: {
         buffType: "triggeredEffect",
         effects: [
-          {
-            id: "truesight_active",
+          { id : "truesight_active",
             name: "Porcelain Sight",
             description: "See through all falsehoods, illusions, shapechangers, and invisibility within 60 feet. Automatically reveals hidden threats.",
             mechanicsText: "True sight 60ft. See shapechangers, invisible targets, and illusions."
@@ -1050,8 +1035,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== FATESEER SPECIALIZATION =====
-    {
-      id: "oracle_twist_fate",
+    { id : "oracle_twist_fate",
       name: "Read the Threads",
       description: "Reveal the immediate thread of destiny surrounding a creature. You do not alter the roll, you merely expose what fate has decided before anyone else can act.",
       spellType: "REACTION",
@@ -1094,8 +1078,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "expose_fate_thread",
+          { id : "expose_fate_thread",
             name: "Expose Roll",
             description: "Reveal the exact result of the target's roll and whether they succeeded or failed before the DM announces it. Also reveals their lowest resistance or current HP."
           }
@@ -1110,8 +1093,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["fateseer", "reaction", "information", "prediction-conditional", "omen"],
     },
 
-    {
-      id: "oracle_sever_thread",
+    { id : "oracle_sever_thread",
       name: "Sever Thread",
       description: "Having predicted a massive twist in time, you sever the thread of a critical outcome, collapsing a guaranteed critical or disaster into a normal event.",
       spellType: "REACTION",
@@ -1154,8 +1136,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "collapse_critical",
+          { id : "collapse_critical",
             name: "Critical Collapse",
             description: "Reaction when a creature rolls a Natural 20 or Natural 1. Shift the Natural 20 to a Natural 19 (non-critical), or the Natural 1 to a Natural 2 (non-critical failure)."
           }
@@ -1170,8 +1151,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["fateseer", "reaction", "critical", "manipulation", "prediction-conditional", "omen"],
     },
 
-    {
-      id: "oracle_destiny_lock",
+    { id : "oracle_destiny_lock",
       name: "Destiny Lock",
       description: "Lock a creature's fate after a correct precise prediction. You force the timeline to bend and maximize a chosen outcome, making success absolute.",
       level: 7,
@@ -1221,8 +1201,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "lock_outcome",
+          { id : "lock_outcome",
             name: "Absolute Outcome Lock",
             description: "The next attack roll made by or against the target automatically succeeds as a critical hit, or the next saving throw automatically succeeds or fails (your choice)."
           }
@@ -1238,8 +1217,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== NEW TRUTHSEEKER COMBAT SPELLS =====
-    {
-      id: "oracle_unmask",
+    { id : "oracle_unmask",
       name: "Unmask",
       description: "Pierce through a target's defenses, stripping one active magical buff, elemental immunity, or concealment effect from their timeline.",
       level: 2,
@@ -1281,8 +1259,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "unmasked_timeline",
+          { id : "unmasked_timeline",
             name: "Unmasked defenses",
             description: "Stripped of one buff, immunity, or concealment. On a successful Spirit save, the stripped buff returns after 1 round.",
             mechanicsText: "Removes one active buff, immunity, or concealment. Spirit save restores it in 1 round."
@@ -1306,8 +1283,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["truthseeker", "debuff", "strip", "level_2"],
     },
 
-    {
-      id: "oracle_past_sins",
+    { id : "oracle_past_sins",
       name: "Past Sins",
       description: "Channel the weight of a target's hidden past against them. The more debuffs and exposed weaknesses they carry, the more devastating this chronal backlash.",
       level: 5,
@@ -1366,8 +1342,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== UNIVERSAL ABILITIES =====
-    {
-      id: "oracle_detect_fate",
+    { id : "oracle_detect_fate",
       name: "Detect Fate",
       description: "Sense the weight of destiny on nearby entities and objects, revealing who and what are bound to upcoming timelines.",
       spellType: "ACTION",
@@ -1414,8 +1389,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "sense_fate_lines",
+          { id : "sense_fate_lines",
             name: "Sense Fate Lines",
             description: "See glowing threads of destiny connecting creatures. Brighter threads indicate critical importance to future narrative events (key NPCs, trap triggers, plot objects)."
           }
@@ -1430,8 +1404,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["universal", "detection", "utility", "omen"],
     },
 
-    {
-      id: "oracle_omen_reading",
+    { id : "oracle_omen_reading",
       name: "Omen Reading",
       description: "Perform a complex scrying ritual to read the warnings embedded in your surroundings.",
       spellType: "ACTION",
@@ -1478,8 +1451,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       buffConfig: {
         buffType: "triggeredEffect",
         effects: [
-          {
-            id: "omens_read",
+          { id : "omens_read",
             name: "Foresight Omens",
             description: "Gain Cryptic Insight (GM provides 3 vague clues about upcoming encounters) and advantage on all Initiative rolls for 1 hour. Each omen that comes to pass adds 1 Omen Debt.",
             mechanicsText: "Gain 3 clues from GM. Advantage on initiative rolls for 1 hour."
@@ -1499,8 +1471,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== LEVEL 6 SPELLS =====
-    {
-      id: "oracle_future_strike",
+    { id : "oracle_future_strike",
       name: "Future Strike",
       description: "Strike an enemy's future coordinates before they can even perceive the attack. This strike cannot be blocked or evaded.",
       level: 6,
@@ -1554,8 +1525,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["seer", "damage", "psychic", "guaranteed_hit", "level_6"],
     },
 
-    {
-      id: "oracle_reveal_weakness",
+    { id : "oracle_reveal_weakness",
       name: "Reveal Weakness",
       description: "Peer into a target's timeline to expose a fatal weakness, leaving them completely vulnerable to all damage.",
       level: 3,
@@ -1597,8 +1567,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "revealed_weakness",
+          { id : "revealed_weakness",
             name: "Revealed Weakness",
             description: "The target takes 50% more damage from all sources for 4 rounds (or 2 rounds if the save succeeds).",
             statusEffect: {
@@ -1632,8 +1601,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["truthseeker", "debuff", "vulnerability", "level_3"],
     },
 
-    {
-      id: "oracle_destiny_shift",
+    { id : "oracle_destiny_shift",
       name: "Destiny Shift",
       description: "Having foreseen this outcome, you bend time backward to force a critical reroll, choosing which timeline is applied.",
       level: 6,
@@ -1675,8 +1643,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "force_reroll",
+          { id : "force_reroll",
             name: "Forced Timeline Shift",
             description: "Force any creature within 60 feet to reroll a d20 roll. You choose which roll result is applied. Requires a correct prediction this combat."
           }
@@ -1692,8 +1659,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== LEVEL 7 SPELLS =====
-    {
-      id: "oracle_prescient_dodge",
+    { id : "oracle_prescient_dodge",
       name: "Prescient Dodge",
       description: "See incoming attacks before they occur, contorting your body out of harm's way with flawless agility.",
       level: 7,
@@ -1733,8 +1699,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       buffConfig: {
         buffType: "damageMitigation",
         effects: [
-          {
-            id: "evasive_insight",
+          { id : "evasive_insight",
             name: "Prescient Evasion",
             description: "Enemies have disadvantage on all attack rolls against you. You automatically succeed on all Agility saving throws.",
             mechanicsText: "Enemies have disadvantage on attack rolls. Auto-succeed Agility saves."
@@ -1754,8 +1719,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["seer", "buff", "evasion", "level_7"],
     },
 
-    {
-      id: "oracle_expose_secrets",
+    { id : "oracle_expose_secrets",
       name: "Expose Secrets",
       description: "Expose a creature's hidden timeline, shattering their tactical advantages and revealing their complete history to your allies.",
       level: 7,
@@ -1808,8 +1772,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "secrets_exposed",
+          { id : "secrets_exposed",
             name: "Secrets Exposed",
             description: "All attacks against target gain advantage. The target cannot benefit from invisibility, cover, or concealment for 1 minute.",
             mechanicsText: "All attacks gain advantage. Target loses invisibility, cover, and concealment."
@@ -1833,8 +1796,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["truthseeker", "debuff", "damage", "level_7"],
     },
 
-    {
-      id: "oracle_threads_of_fate",
+    { id : "oracle_threads_of_fate",
       name: "Threads of Fate",
       description: "Intertwine the destinies of up to four targets, binding their timelines so that what affects one cascades into all.",
       level: 7,
@@ -1876,8 +1838,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "fate_link",
+          { id : "fate_link",
             name: "Fate Bind",
             description: "Link up to 4 targets for 1 minute. Any damage split, healing received, or status conditions applied to one target are instantly shared among all linked targets."
           }
@@ -1893,8 +1854,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== LEVEL 8 SPELLS =====
-    {
-      id: "oracle_perfect_foresight",
+    { id : "oracle_perfect_foresight",
       name: "Perfect Foresight",
       description: "Gaze into a complete, unbroken timeline of the next round. You see every enemy's action before it is executed, moving with impossible foresight.",
       level: 8,
@@ -1934,8 +1894,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       buffConfig: {
         buffType: "combatAdvantage",
         effects: [
-          {
-            id: "perfect_foresight_active",
+          { id : "perfect_foresight_active",
             name: "Perfect Foresight",
             description: "You know all enemy actions for 1 round. Gain advantage on all rolls, and enemies suffer disadvantage on all attack rolls against you.",
             mechanicsText: "Know all enemy actions. Advantage on all rolls. Enemies have disadvantage against you."
@@ -1954,8 +1913,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["seer", "buff", "prediction", "level_8"],
     },
 
-    {
-      id: "oracle_psychic_assault",
+    { id : "oracle_psychic_assault",
       name: "Psychic Assault",
       description: "Assault a creature's mind with the absolute weight of their darkest, unwritten futures, leaving them paralyzed with dread.",
       level: 8,
@@ -2008,8 +1966,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "psychic_paralysis",
+          { id : "psychic_paralysis",
             name: "Psychic Dread Stun",
             description: "Stunned with chronal terror for 2 rounds.",
             mechanicsText: "Stunned with terror for 2 rounds. Spirit DC 18 save negates."
@@ -2031,8 +1988,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["truthseeker", "damage", "control", "psychic", "level_8"],
     },
 
-    {
-      id: "oracle_alter_destiny",
+    { id : "oracle_alter_destiny",
       name: "Alter Destiny",
       description: "Having predicted this outcome, you violently rewrite a single thread, completely changing the result of any active roll.",
       level: 8,
@@ -2074,8 +2030,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "rewrite_roll",
+          { id : "rewrite_roll",
             name: "Timeline Rewrite",
             description: "Change any active d20 roll result within 120 feet to any number you choose (1-20). Requires a correct specific/precise prediction."
           }
@@ -2091,8 +2046,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== LEVEL 9 SPELLS =====
-    {
-      id: "oracle_timeline_split",
+    { id : "oracle_timeline_split",
       name: "Timeline Split",
       description: "Force the timeline to split in two, summoning a parallel copy of yourself to double your tactical impact.",
       level: 9,
@@ -2131,8 +2085,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
 
       summonConfig: {
         creatures: [
-          {
-            id: "timeline_duplicate",
+          { id : "timeline_duplicate",
             name: "Timeline Duplicate",
             description: "A perfect parallel copy of yourself. Can execute any spell you know for 3 rounds under independent control.",
             stats: {
@@ -2163,8 +2116,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["seer", "summoning", "duplicate", "level_9"],
     },
 
-    {
-      id: "oracle_omniscience",
+    { id : "oracle_omniscience",
       name: "Omniscience",
       description: "Briefly tap into absolute chronal omniscience. Extract undeniable secrets of reality directly from the flow of time.",
       level: 9,
@@ -2205,8 +2157,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       utilityConfig: {
         utilityType: "fate_manipulation",
         selectedEffects: [
-          {
-            id: "absolute_omniscience",
+          { id : "absolute_omniscience",
             name: "Absolute Omniscience",
             description: "Ask the DM up to 3 questions. The DM must answer truthfully, completely, and without metaphorical veil, revealing any hidden trap, health total, or enemy intention."
           }
@@ -2221,8 +2172,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["truthseeker", "utility", "knowledge", "ritual", "level_9"],
     },
 
-    {
-      id: "oracle_weave_destiny",
+    { id : "oracle_weave_destiny",
       name: "Weave Destiny",
       description: "Having foreseen all variables, you actively manipulate every thread of fate in a massive zone, forcing complete alignment with your predictions.",
       level: 9,
@@ -2265,8 +2215,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       controlConfig: {
         controlType: "zone",
         effects: [
-          {
-            id: "destiny_weaving_active",
+          { id : "destiny_weaving_active",
             name: "Weave Destiny",
             description: "For 1 round, you determine the exact outcome of every d20 roll within 60 feet. You choose success or failure for every attack, check, or save.",
             mechanicsText: "Choose success or failure for all rolls in 60ft for 1 round."
@@ -2285,8 +2234,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== LEVEL 10 SPELLS =====
-    {
-      id: "oracle_future_self",
+    { id : "oracle_future_self",
       name: "Future Self",
       description: "Tear open time to summon your future self—a godlike, immortal incarnation of your timeline's absolute peak.",
       level: 10,
@@ -2326,8 +2274,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
 
       summonConfig: {
         creatures: [
-          {
-            id: "future_self_avatar",
+          { id : "future_self_avatar",
             name: "Future Self",
             description: "An immortal version of yourself from a timeline where you reached peak chronal godhood.",
             stats: {
@@ -2358,8 +2305,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["seer", "summoning", "ultimate", "level_10"],
     },
 
-    {
-      id: "oracle_absolute_truth",
+    { id : "oracle_absolute_truth",
       name: "Absolute Truth",
       description: "Reveal the absolute, terrifying truth of the cosmos, shattering the sanity of all enemies who look upon it.",
       level: 10,
@@ -2413,8 +2359,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       controlConfig: {
         controlType: "incapacitation",
         effects: [
-          {
-            id: "absolute_insanity",
+          { id : "absolute_insanity",
             name: "Crushed Sanity Stun",
             description: "Stunned by cosmic secrets. Cannot benefit from any magical protection or concealment.",
             mechanicsText: "Stunned. Target loses all active magical barriers and concealment."
@@ -2436,8 +2381,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       tags: ["truthseeker", "damage", "control", "ultimate", "level_10"],
     },
 
-    {
-      id: "oracle_master_of_fate",
+    { id : "oracle_master_of_fate",
       name: "Master of Fate",
       description: "Merge with the chronal weave, becoming one with destiny. For 3 rounds, your power is absolute.",
       level: 10,
@@ -2483,18 +2427,15 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
         newForm: "Cosmic Timeweaver",
         description: "Transform into one with the fate threads, gaining massive attributes and temporal abilities. End of transformation inflicts 2 levels of exhaustion and +5 Omen Debt.",
         grantedAbilities: [
-          {
-            id: "fate_stats",
+          { id : "fate_stats",
             name: "Cosmic Insight",
             description: "+5 to all attributes"
           },
-          {
-            id: "fate_control",
+          { id : "fate_control",
             name: "Fate Control",
             description: "Reroll any d20 roll up to 3 times per transformation."
           },
-          {
-            id: "fate_protection",
+          { id : "fate_protection",
             name: "Fate Shield",
             description: "Once per transformation, negate a lethal blow completely."
           }
@@ -2510,8 +2451,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== ZERO-RESOURCE FALLBACK =====
-    {
-      id: "oracle_fate_whisper_strike",
+    { id : "oracle_fate_whisper_strike",
       name: "Fate's Whisper Strike",
       description: "Channel a sliver of prophetic energy into a basic strike. Costs no mana, but still fragments your timeline.",
       level: 0,
@@ -2565,8 +2505,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== ADDITIONAL LEVEL 1 SPELL =====
-    {
-      id: "oracle_divine_insight",
+    { id : "oracle_divine_insight",
       name: "Divine Insight",
       description: "Gain a flash of prophetic insight about an enemy, revealing their upcoming movements to secure a flat bonus to attacks.",
       level: 1,
@@ -2607,8 +2546,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "divine_insight_active",
+          { id : "divine_insight_active",
             name: "Divine Insight",
             description: "Gain +2 flat bonus to attack rolls against the target for 3 rounds.",
             statModifier: {
@@ -2632,8 +2570,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== ADDITIONAL LEVEL 3 SPELL =====
-    {
-      id: "oracle_prophetic_shield",
+    { id : "oracle_prophetic_shield",
       name: "Prophetic Shield",
       description: "Foresight shows the trajectory of incoming strikes, allowing you to shield your vulnerable vessel with physical barriers.",
       level: 3,
@@ -2672,8 +2609,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "prophetic_shield_active",
+          { id : "prophetic_shield_active",
             name: "Prophetic Shield",
             description: "Gain +3 Armor and advantage on all saving throws for 4 rounds.",
             statModifier: {
@@ -2697,8 +2633,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== ADDITIONAL LEVEL 4 SPELL =====
-    {
-      id: "oracle_fate_strike",
+    { id : "oracle_fate_strike",
       name: "Fate Strike",
       description: "Strike with the raw force of a preordained blow. The damage is unavoidable, tearing through spatial boundaries.",
       level: 4,
@@ -2751,8 +2686,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== LEVEL 1 SIGNATURE ABILITY: CHRONO-WOUND =====
-    {
-      id: "oracle_chrono_wound",
+    { id : "oracle_chrono_wound",
       name: "Chrono-Wound",
       description: "Reach across time to absorb damage dealt to an ally within 60 feet. You take half the absorbed damage immediately and the other half over the next 2 rounds. The delayed damage cannot kill you — it drops you to 1 HP instead.",
       level: 1, // HARD-CODED AT LEVEL 1 AS PER DIRECTIVE
@@ -2797,8 +2731,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== PASSIVE: Failed Prophecy =====
-    {
-      id: "oracle_failed_prophecy",
+    { id : "oracle_failed_prophecy",
       name: "Failed Prophecy",
       description: "When a prediction fails, accumulate +1 Omen Debt and take 2d6 psychic damage to self as the timeline snaps back. Your accuracy is your weapon — and your vulnerability.",
       level: 1,
@@ -2829,8 +2762,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
     },
 
     // ===== PASSIVE: Debt Overload (Overhauled thresholds + Debt Eruption) =====
-    {
-      id: "oracle_debt_overload",
+    { id : "oracle_debt_overload",
       name: "Omen Debt: Cracked Vessel",
       description: "Prophecy demands a heavy toll. As your Omen Debt accumulates, your connection to reality fractures, inflicting terrible penalties and threatening a violent physical breakdown.",
       level: 1, // HARD-CODED AT LEVEL 1 SO ALL THRESHOLDS GOVERN FROM TURN ONE
@@ -2861,8 +2793,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          {
-            id: "omen_debt_haunted",
+          { id : "omen_debt_haunted",
             name: "Haunted (Debt 3-5)",
             description: "You suffer a flat -1 penalty to all d20 rolls. The whispers of branching timelines invade your thoughts.",
             statPenalty: {
@@ -2871,8 +2802,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
               magnitudeType: "flat"
             }
           },
-          {
-            id: "omen_debt_torn_veil",
+          { id : "omen_debt_torn_veil",
             name: "Torn Veil (Debt 6-8)",
             description: "At the start of your turn, you take 1d4 psychic damage. You are Blinded for the first round of your next combat encounter.",
             statusEffect: {
@@ -2881,8 +2811,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
               damageType: "psychic"
             }
           },
-          {
-            id: "omen_debt_cracked_vessel",
+          { id : "omen_debt_cracked_vessel",
             name: "Cracked Vessel (Debt 9-10)",
             description: "You gain a catastrophic 100% vulnerability to all physical damage. You lose 10 maximum HP.",
             statusEffect: {
@@ -2891,8 +2820,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
               percentage: 100
             }
           },
-          {
-            id: "omen_debt_eruption",
+          { id : "omen_debt_eruption",
             name: "Debt Eruption (Exactly 10 Debt)",
             description: "At exactly 10 Debt, the vessel ruptures. At the start of your turn, roll a d6: 1-3: Localized blast deals 3d6 force damage to all entities within 15 feet. You take 2d6 psychic damage. 4-5: Permanent max HP reduced by 5 for the day. 6: Time rift stuns all entities within 30 feet who fail DC 15 Spirit save; you take 2d10 psychic damage.",
             statusEffect: {

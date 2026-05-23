@@ -16,6 +16,8 @@ export const BERSERKER_DATA = {
   overview: {
     title: "The Berserker",
     subtitle: "The Hemorrhagic Butcher",
+    illustration: "/assets/images/classes/berserker_illustration.png",
+    illustrationCaption: "A Mimir Face Thief Berserker dual-wielding battleaxes with subtle crystal skin lines.",
 
     quickOverview: {
       title: "Quick Overview",

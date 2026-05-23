@@ -6,7 +6,7 @@
  */
 
 export const MARTYR_DATA = {
-  id: "martyr",
+  id : "martyr",
   name: "Martyr",
   icon: "fas fa-cross",
   role: "Tank/Support",
@@ -431,8 +431,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     description: `Every Martyr chooses one of three specializations that define how they approach the fundamental transaction: their body for their allies' survival. Each specialization is a different theology of suffering — not a different job, but a different interpretation of the same horrible math.`,
 
     specs: [
-      {
-        id: "redemption",
+      { id : "redemption",
         name: "Redemption",
         icon: "Radiant/Radiant Bolt",
         color: "#FFD700",
@@ -478,8 +477,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
           "Players who enjoy pure support roles, keeping allies alive, and selfless protection",
       },
 
-      {
-        id: "zealot",
+      { id : "zealot",
         name: "Zealot",
         icon: "Radiant/Divine Downward Sword",
         color: "#DC143C",
@@ -525,8 +523,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
           "Players who want aggressive support, dealing damage while healing, and offensive playstyles",
       },
 
-      {
-        id: "ascetic",
+      { id : "ascetic",
         name: "Ascetic",
         icon: "Healing/Prayer",
         color: "#4169E1",
@@ -607,8 +604,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 1 STARTING SPELLS (5 options, pick 3)
     // ========================================
-    {
-      id: "martyr_restorative_prayer",
+    { id: "martyr_restorative_prayer",
       name: "Restorative Prayer",
       description:
         "Channel divine energy through prayer to heal an ally. Scales with Spirit and can be amplified with Devotion.",
@@ -661,8 +657,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["healing", "basic", "devotion amplifiable", "level 1"],
     },
 
-    {
-      id: "martyr_intervene",
+    { id: "martyr_intervene",
       name: "Intervene",
       description:
         "Step in front of an ally to intercept an attack, taking the damage yourself. If the intercepted damage is 10 or greater, you gain bonus Devotion equal to damage taken divided by 10 (minimum 1). If the intercepted damage is less than 10 (a minor hit), you bypass Devotion gain and instead immediately restore 1d4 Mana. Choose wisely: bleed for power, or sustain your casting.",
@@ -700,13 +695,11 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "intercept_attack",
+          { id : "intercept_attack",
             name: "Intercept Attack",
             description: "Take damage meant for ally this turn",
           },
-          {
-            id: "minor_hit_mana_loop",
+          { id : "minor_hit_mana_loop",
             name: "Minor Hit Mana Loop",
             description:
               "If intercepted damage is less than 10, bypass Devotion gain and immediately restore 1d4 Mana instead",
@@ -726,8 +719,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["protection", "reaction", "devotion amplifiable", "level 1"],
     },
 
-    {
-      id: "martyr_penance_of_pain",
+    { id: "martyr_penance_of_pain",
       name: "Penance of Pain",
       description:
         "Press your hand to your own wounds, converting pain into healing for an ally. The more wounded you are, the stronger the healing. Builds Devotion.",
@@ -780,8 +772,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["healing", "sacrificial", "devotion amplifiable", "level 1"],
     },
 
-    {
-      id: "martyr_radiant_burst",
+    { id: "martyr_radiant_burst",
       name: "Radiant Burst",
       description:
         "Release a burst of radiant energy that damages undead and heals the living.",
@@ -865,8 +856,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["damage", "healing", "radiant", "devotion amplifiable", "level 1"],
     },
 
-    {
-      id: "martyr_devoted_strike",
+    { id: "martyr_devoted_strike",
       name: "Devoted Strike",
       description:
         "Strike an enemy with radiant power, dealing damage and healing yourself through devotion.",
@@ -946,8 +936,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       ],
     },
 
-    {
-      id: "martyr_divine_shield",
+    { id: "martyr_divine_shield",
       name: "Divine Shield",
       description:
         "Grant protective divine energy to all allies within range, shielding them with temporary HP.",
@@ -998,8 +987,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "temporary_hp",
+          { id : "temporary_hp",
             name: "Temporary HP",
             description:
               "Gain 1d6 temporary HP that absorbs incoming damage before your actual health.",
@@ -1033,8 +1021,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       tags: ["buff", "temporary hp", "aoe", "devotion amplifiable", "level 2"],
     },
-    {
-      id: "martyr_purifying_pain",
+    { id: "martyr_purifying_pain",
       name: "Purifying Pain",
       description:
         "Inflict radiant damage upon yourself to heal an ally. The self-damage builds Devotion.",
@@ -1120,8 +1107,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     },
 
     // Buff and Protection Spells
-    {
-      id: "martyr_sanctuary_aura",
+    { id: "martyr_sanctuary_aura",
       name: "Sanctuary Aura",
       description:
         "Surround an ally with a protective aura that grants resistance to all damage types for 1 minute.",
@@ -1172,8 +1158,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "sanctuary",
+          { id : "sanctuary",
             name: "Sanctuary",
             description: "Gain 25% damage resistance for 1 minute",
             statModifier: {
@@ -1214,8 +1199,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       ],
     },
 
-    {
-      id: "martyr_blessed_resilience",
+    { id: "martyr_blessed_resilience",
       name: "Blessed Resilience",
       description:
         "Bless allies with divine resilience, granting bonuses to saving throws and reducing damage taken.",
@@ -1262,8 +1246,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
-          {
-            id: "blessed_resilience_saves",
+          { id : "blessed_resilience_saves",
             name: "Blessed Resilience (Saves)",
             description: "+2 bonus to all saving throws",
             mechanicsText: "+2 to all Saving Throws",
@@ -1273,8 +1256,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
               magnitudeType: "flat",
             },
           },
-          {
-            id: "blessed_resilience_damage",
+          { id : "blessed_resilience_damage",
             name: "Blessed Resilience (Damage Reduction)",
             description: "Reduces all incoming damage by 2",
             mechanicsText: "-2 Damage Taken (flat reduction)",
@@ -1310,8 +1292,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 3 SPELLS
     // ========================================
-    {
-      id: "martyr_sacrificial_bond",
+    { id: "martyr_sacrificial_bond",
       name: "Sacrificial Bond",
       description:
         "Create a sacred bond with an ally. While active, you take half of the damage they would receive.",
@@ -1349,8 +1330,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "protection",
         effects: [
-          {
-            id: "sacrificial_bond",
+          { id : "sacrificial_bond",
             name: "Sacrificial Bond",
             description: "You take 50% of damage dealt to bonded ally",
             mechanicsText: "Take 50% of damage dealt to bonded ally",
@@ -1372,8 +1352,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["buff", "protection", "sacrifice", "level 3"],
     },
 
-    {
-      id: "martyr_burning_sacrifice",
+    { id: "martyr_burning_sacrifice",
       name: "Burning Sacrifice",
       description:
         "Sacrifice your own life force to deal radiant damage to enemies around you.",
@@ -1428,8 +1407,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["damage", "self damage", "radiant", "aoe", "level 3"],
     },
 
-    {
-      id: "martyr_cleansing_touch",
+    { id: "martyr_cleansing_touch",
       name: "Cleansing Touch",
       description:
         "Remove negative conditions from an ally by taking the affliction upon yourself briefly.",
@@ -1482,8 +1460,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 4 SPELLS
     // ========================================
-    {
-      id: "martyr_shield_of_faith",
+    { id: "martyr_shield_of_faith",
       name: "Shield of Faith",
       description:
         "Create a divine shield around an ally that absorbs 3d8 + spiritÃ—2 damage. Lasts up to 10 rounds or until the shield is depleted.",
@@ -1521,8 +1498,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "shield",
         effects: [
-          {
-            id: "faith_shield",
+          { id : "faith_shield",
             name: "Shield of Faith",
             description:
               "Absorbs 3d8 + spiritÃ—2 damage until depleted. Lasts up to 10 rounds.",
@@ -1548,8 +1524,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["buff", "shield", "protection", "level 4"],
     },
 
-    {
-      id: "martyr_life_transfer",
+    { id: "martyr_life_transfer",
       name: "Life Transfer",
       description:
         "Transfer your own health to heal an ally for twice the amount sacrificed.",
@@ -1598,8 +1573,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["healing", "sacrifice", "self damage", "level 4"],
     },
 
-    {
-      id: "martyr_martyrs_mark",
+    { id: "martyr_martyrs_mark",
       name: "Martyr's Mark",
       description:
         "Mark an enemy. Allies attacking the marked target heal for a portion of damage dealt.",
@@ -1636,8 +1610,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       debuffConfig: {
         debuffType: "mark",
         effects: [
-          {
-            id: "martyrs_mark",
+          { id : "martyrs_mark",
             name: "Martyr's Mark",
             description: "Allies heal for 25% of damage dealt to marked target",
             mechanicsText:
@@ -1661,8 +1634,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 5 SPELLS
     // ========================================
-    {
-      id: "martyr_righteous_suffering",
+    { id: "martyr_righteous_suffering",
       name: "Righteous Suffering",
       description:
         "Embrace suffering to become immune to crowd control while slowly healing allies around you.",
@@ -1700,8 +1672,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "immunity",
         effects: [
-          {
-            id: "righteous_immunity",
+          { id : "righteous_immunity",
             name: "Righteous Immunity",
             description: "You become immune to stun, fear, and charm",
             mechanicsText: "Immune to stun, fear, and charm",
@@ -1731,8 +1702,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["buff", "healing", "immunity", "aoe", "level 5"],
     },
 
-    {
-      id: "martyr_blood_pact",
+    { id: "martyr_blood_pact",
       name: "Covenant of Sacrifice",
       description:
         "Forge a sacred covenant with allies. All party members share damage equally through divine bonds.",
@@ -1771,8 +1741,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "link",
         effects: [
-          {
-            id: "covenant_of_sacrifice",
+          { id : "covenant_of_sacrifice",
             name: "Covenant of Sacrifice",
             description: "All damage is distributed evenly among linked allies",
             mechanicsText: "All damage distributed evenly among linked allies",
@@ -1794,8 +1763,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["buff", "protection", "sacrifice", "party", "level 5"],
     },
 
-    {
-      id: "martyr_divine_retribution",
+    { id: "martyr_divine_retribution",
       name: "Divine Retribution",
       description:
         "When you take damage, store it as holy energy. Release it all as a burst of radiant damage.",
@@ -1861,8 +1829,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 6 SPELLS
     // ========================================
-    {
-      id: "martyr_sanctified_ground",
+    { id: "martyr_sanctified_ground",
       name: "Sanctified Ground",
       description:
         "Create a zone of holy ground that heals allies and burns undead and demons standing upon it. Persists for 5 rounds.",
@@ -1957,8 +1924,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["healing", "damage", "zone", "aoe", "level 6"],
     },
 
-    {
-      id: "martyr_willing_vessel",
+    { id: "martyr_willing_vessel",
       name: "Willing Vessel",
       description:
         "Become a vessel for divine energy. Redirect all ally damage to yourself and gain massive damage reduction.",
@@ -1996,8 +1962,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "protection",
         effects: [
-          {
-            id: "willing_vessel",
+          { id : "willing_vessel",
             name: "Willing Vessel",
             description:
               "All ally damage redirects to you. You take 50% reduced damage.",
@@ -2022,8 +1987,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["buff", "protection", "sacrifice", "tank", "level 6"],
     },
 
-    {
-      id: "martyr_redemption_strike",
+    { id: "martyr_redemption_strike",
       name: "Redemption Strike",
       description:
         "Strike an enemy with holy might. The lower your health, the more damage this deals.",
@@ -2083,8 +2047,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 7 SPELLS (Minor Ultimates - 5-6 Turn Cooldown)
     // ========================================
-    {
-      id: "martyr_mass_resurrection",
+    { id: "martyr_mass_resurrection",
       name: "Mass Restoration",
       description:
         "Channel divine energy to restore all fallen allies to consciousness with partial health.",
@@ -2135,8 +2098,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["healing", "resurrection", "aoe", "ultimate", "level 7"],
     },
 
-    {
-      id: "martyr_guardian_spirit",
+    { id: "martyr_guardian_spirit",
       name: "Guardian Spirit",
       description:
         "Place a guardian spirit on an ally. If they would die, the spirit sacrifices itself to restore them.",
@@ -2174,8 +2136,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "cheat_death",
         effects: [
-          {
-            id: "guardian_spirit",
+          { id : "guardian_spirit",
             name: "Guardian Spirit",
             description:
               "If target would die, restore them to 50% health instead",
@@ -2198,8 +2159,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["buff", "protection", "cheat death", "level 7"],
     },
 
-    {
-      id: "martyr_holy_wrath",
+    { id: "martyr_holy_wrath",
       name: "Holy Wrath",
       description:
         "Unleash all accumulated Devotion as radiant damage to all enemies within range. The more Devotion spent, the more devastating the burst.",
@@ -2272,8 +2232,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 8 SPELLS (Minor Ultimates - 6 Turn Cooldown)
     // ========================================
-    {
-      id: "martyr_divine_intervention",
+    { id: "martyr_divine_intervention",
       name: "Divine Intervention",
       description:
         "Call upon divine power to completely negate one incoming attack or spell against any ally.",
@@ -2310,8 +2269,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       utilityConfig: {
         utilityType: "protection",
         selectedEffects: [
-          {
-            id: "negate_attack",
+          { id : "negate_attack",
             name: "Negate Attack",
             description: "Completely negate one incoming attack or spell",
           },
@@ -2339,8 +2297,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["protection", "reaction", "negate", "level 8"],
     },
 
-    {
-      id: "martyr_shared_agony",
+    { id: "martyr_shared_agony",
       name: "Mirror of Martyrdom",
       description:
         "Link an enemy to yourself through divine retribution. When you take damage, they take the same amount as radiant damage.",
@@ -2378,8 +2335,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       debuffConfig: {
         debuffType: "link",
         effects: [
-          {
-            id: "mirror_of_martyrdom",
+          { id : "mirror_of_martyrdom",
             name: "Mirror of Martyrdom",
             description: "Enemy takes radiant damage equal to damage you take",
             mechanicsText:
@@ -2408,8 +2364,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 9 SPELLS (Major Ultimates - Long Rest)
     // ========================================
-    {
-      id: "martyr_avatar_of_sacrifice",
+    { id: "martyr_avatar_of_sacrifice",
       name: "Avatar of Sacrifice",
       description:
         "Transform into an Avatar of Sacrifice, gaining immense power and the ability to absorb all party damage.",
@@ -2476,8 +2431,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["transformation", "buff", "protection", "ultimate", "level 9"],
     },
 
-    {
-      id: "martyr_judgment_day",
+    { id: "martyr_judgment_day",
       name: "Judgment Day",
       description:
         "Call down divine judgment. Heal all allies to full and deal massive damage to all enemies.",
@@ -2563,8 +2517,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["damage", "healing", "aoe", "ultimate", "level 9"],
     },
 
-    {
-      id: "martyr_eternal_bond",
+    { id: "martyr_eternal_bond",
       name: "Eternal Bond",
       description:
         "Create unbreakable bonds with all allies. When a linked ally would be reduced to 0 HP, the killing blow is redirected to the Martyr instead.",
@@ -2603,8 +2556,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "cheat_death",
         effects: [
-          {
-            id: "eternal_bond",
+          { id : "eternal_bond",
             name: "Eternal Bond",
             description:
               "When a linked ally would be reduced to 0 HP, redirect the killing blow to the Martyr, who takes the damage instead.",
@@ -2631,8 +2583,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     // ========================================
     // LEVEL 10 SPELLS (True Ultimates - Long Rest + Max Devotion)
     // ========================================
-    {
-      id: "martyr_ultimate_sacrifice",
+    { id: "martyr_ultimate_sacrifice",
       name: "Ultimate Sacrifice",
       description:
         "The ultimate act of martyrdom. Full Sacrifice: reduce yourself to 0 HP to fully resurrect and empower all fallen allies. Partial Sacrifice: sacrifice 50 HP to fully heal all living allies within range.",
@@ -2676,8 +2627,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "empowerment",
         effects: [
-          {
-            id: "martyrs_blessing",
+          { id : "martyrs_blessing",
             name: "Martyr's Blessing",
             description:
               "Resurrected allies gain +5 to all stats for 10 rounds",
@@ -2718,8 +2668,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: ["resurrection", "sacrifice", "ultimate", "level 10"],
     },
 
-    {
-      id: "martyr_final_blessing",
+    { id: "martyr_final_blessing",
       name: "Final Blessing",
       description:
         "Bestow your final blessing upon allies. They become immune to death for the rest of the encounter. The Martyr takes double damage while this blessing is active.",
@@ -2765,8 +2714,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       buffConfig: {
         buffType: "immortality",
         effects: [
-          {
-            id: "final_blessing",
+          { id : "final_blessing",
             name: "Final Blessing",
             description:
               "Allies cannot be reduced below 1 HP for the rest of the encounter. The Martyr takes double damage from all sources while this blessing is active.",
@@ -2790,7 +2738,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       tags: ["buff", "protection", "ultimate", "party", "level 10"],
     },    {
-      id: "martyr_burden_of_faith",
+      id : "martyr_burden_of_faith",
       name: "Burden of Faith",
       description:
         "Your healing power flows through sacrifice, not generosity. You can never heal yourself with any Martyr ability. All your healing spells target allies only. The only HP you gain is through suffering for others. Self-preservation is antithetical to the martyr's path.",

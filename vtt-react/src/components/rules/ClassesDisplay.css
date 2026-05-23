@@ -1,8 +1,8 @@
-/* ===== PATHFINDER CLASSES DISPLAY ===== */
+/* ===== MYTHRILL CLASS CODEX ===== */
 
 .classes-display {
-    padding: 24px 28px 40px;
-    max-width: 1200px;
+    padding: 24px 28px 48px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
@@ -23,10 +23,7 @@
 .classes-intro::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background:
         radial-gradient(ellipse at 15% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
         radial-gradient(ellipse at 85% 50%, rgba(139, 105, 20, 0.06) 0%, transparent 50%);
@@ -35,40 +32,9 @@
 }
 
 .classes-intro-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
     margin-bottom: 16px;
     padding-bottom: 14px;
     border-bottom: 1px solid rgba(139, 105, 20, 0.2);
-}
-
-.classes-intro-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow:
-        0 3px 8px rgba(139, 105, 20, 0.2),
-        inset 0 0 0 1px rgba(139, 105, 20, 0.3);
-    border: 2px solid #8b6914;
-    overflow: hidden;
-    position: relative;
-}
-
-.header-pixel-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    image-rendering: auto;
-    mix-blend-mode: multiply;
-    filter: contrast(1.1) brightness(1.1);
-    -webkit-mask-image: radial-gradient(circle at center, black 40%, rgba(0,0,0,0.8) 55%, transparent 72%);
-    mask-image: radial-gradient(circle at center, black 40%, rgba(0,0,0,0.8) 55%, transparent 72%);
 }
 
 .classes-intro-title h2 {
@@ -117,7 +83,7 @@
 
 .classes-intro-col p {
     margin: 0;
-    font-size: 0.88rem;
+    font-size: 0.87rem;
     line-height: 1.65;
     color: #3d2a14;
 }
@@ -138,7 +104,7 @@
 .role-filter-btn {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     padding: 6px 14px;
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 243, 230, 0.9));
     border: 1.5px solid rgba(139, 105, 20, 0.2);
@@ -154,18 +120,9 @@
     white-space: nowrap;
 }
 
-.filter-pixel-icon {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-    image-rendering: auto;
-    mix-blend-mode: multiply;
-    filter: brightness(1.05) contrast(1.1);
-}
-
 .role-filter-btn i {
-    font-size: 0.8rem;
-    opacity: 0.55;
+    font-size: 0.75rem;
+    opacity: 0.6;
     transition: opacity 0.2s ease;
 }
 
@@ -280,199 +237,197 @@
     padding-left: 2px;
 }
 
-/* ===== CLASS CARD GRID ===== */
+/* ===== CLASS CODEX LIST ===== */
 
-.classes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-    gap: 12px;
-}
-
-.class-card {
+.classes-list {
     display: flex;
     flex-direction: column;
+    gap: 8px;
+}
+
+.class-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
     align-items: center;
-    justify-content: center;
-    padding: 16px 10px 14px;
-    background: linear-gradient(145deg,
+    gap: 16px;
+    padding: 14px 18px 14px 14px;
+    background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.92) 0%,
-        rgba(252, 248, 235, 0.88) 50%,
-        rgba(248, 243, 230, 0.85) 100%);
-    border: 1.5px solid rgba(139, 105, 20, 0.18);
-    border-radius: 10px;
+        rgba(252, 248, 235, 0.88) 100%);
+    border: 1.5px solid rgba(139, 105, 20, 0.15);
+    border-left: 3px solid var(--role-color, #d4af37);
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     position: relative;
-    text-align: center;
-    gap: 5px;
-    box-shadow: 0 1px 3px rgba(139, 105, 20, 0.06);
-    z-index: 1;
 }
 
-.class-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 15%;
-    right: 15%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--role-color, #d4af37), transparent);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    border-radius: 1px;
-}
-
-.class-card:hover {
+.class-row:hover {
     border-color: var(--role-color, #d4af37);
-    box-shadow:
-        0 6px 20px rgba(139, 105, 20, 0.12),
-        0 0 0 1px color-mix(in srgb, var(--role-color) 20%, transparent);
-    background: linear-gradient(145deg,
+    border-left-color: var(--role-color, #d4af37);
+    background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.98) 0%,
-        rgba(255, 252, 240, 0.95) 50%,
-        rgba(252, 248, 235, 0.92) 100%);
-    z-index: 1000;
+        rgba(255, 252, 240, 0.95) 100%);
+    box-shadow:
+        0 4px 16px rgba(139, 105, 20, 0.1),
+        0 0 0 1px color-mix(in srgb, var(--role-color) 15%, transparent);
+    transform: translateX(2px);
 }
 
-.class-card:hover::after {
-    opacity: 0.5;
-}
+/* ===== ROW ICON ===== */
 
-.class-card-icon {
-    width: 84px;
-    height: 84px;
+.class-row-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    border: none;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    position: relative;
-    padding: 0;
-    z-index: 2;
-    /* Allow icon to overflow during hover enlargement */
-    overflow: visible;
+    background: rgba(139, 105, 20, 0.06);
+    border: 1px solid rgba(139, 105, 20, 0.12);
 }
 
-.class-pixel-icon,
-.class-card-icon .class-icon-img {
+.class-row-img,
+.class-row-icon .class-icon-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     image-rendering: auto;
-    /* Multiply blends white/parchment → transparent against card bg */
     mix-blend-mode: multiply;
     filter: contrast(1.1) brightness(1.1);
-    /* GPU-accelerated transition with will-change hint */
-    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                filter 0.35s ease;
-    transition-delay: 0s;
-    will-change: transform;
-    position: relative;
-    z-index: 10;
-    /* Prevent layout shifts */
-    contain: layout style;
-    /* Radial mask: fades the parchment border and white box out */
-    -webkit-mask-image: radial-gradient(
-        circle at center,
-        black 45%,
-        rgba(0,0,0,0.85) 55%,
-        rgba(0,0,0,0.5) 68%,
-        transparent 78%
-    );
-    mask-image: radial-gradient(
-        circle at center,
-        black 45%,
-        rgba(0,0,0,0.85) 55%,
-        rgba(0,0,0,0.5) 68%,
-        transparent 78%
-    );
+    transition: filter 0.2s ease;
 }
 
-.class-card:hover .class-pixel-icon,
-.class-card:hover .class-card-icon .class-icon-img {
-    transform: scale(2.2) translateY(25px);
-    z-index: 1001;
-    transition-delay: 0.25s;
-    /* Keep multiply — boost brightness to compensate for darkening */
-    mix-blend-mode: multiply;
-    filter: contrast(1.15) brightness(1.25) drop-shadow(0 12px 20px rgba(0,0,0,0.3));
-    /* Expand mask on hover to show more of the art detail */
-    -webkit-mask-image: radial-gradient(
-        circle at center,
-        black 50%,
-        rgba(0,0,0,0.9) 60%,
-        rgba(0,0,0,0.55) 72%,
-        transparent 82%
-    );
-    mask-image: radial-gradient(
-        circle at center,
-        black 50%,
-        rgba(0,0,0,0.9) 60%,
-        rgba(0,0,0,0.55) 72%,
-        transparent 82%
-    );
+.class-row:hover .class-row-img,
+.class-row:hover .class-row-icon .class-icon-img {
+    filter: contrast(1.15) brightness(1.15) drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
-/* Enhance Martyr icon specifically */
-img[data-class="Martyr"] {
-    filter: contrast(1.4) saturate(1.5) brightness(1.1) !important;
+/* ===== ROW BODY ===== */
+
+.class-row-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-/* Ensure Inscriptor and others pop */
-img[data-class="Inscriptor"], 
-img[data-class="Plaguebringer"],
-img[data-class="Minstrel"] {
-    filter: contrast(1.2) brightness(1.1) !important;
-}
-
-/* Removed tooltip pixel icon styles */
-
-
-
-.class-card-name {
-    font-family: 'Cinzel', serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: #2d1810;
-    line-height: 1.2;
-    letter-spacing: 0.3px;
-}
-
-.class-card-role {
-    font-size: 0.62rem;
-    font-weight: 600;
-    color: var(--role-color, #8b7355);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-}
-
-.class-card-damage-types {
+.class-row-header {
     display: flex;
     align-items: center;
-    gap: 3px;
-    margin-top: 5px;
-    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.card-dmg-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+.class-row-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #2d1810;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+}
+
+.class-row-role-badge {
     display: inline-block;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    padding: 2px 10px;
+    border-radius: 999px;
+    color: white;
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    flex-shrink: 0;
 }
 
-.card-dmg-more {
-    font-size: 0.55rem;
+.class-row-resource {
+    font-size: 0.75rem;
     color: #8b6914;
     font-weight: 600;
-    margin-left: 1px;
+    letter-spacing: 0.2px;
 }
 
+.class-row-resource i {
+    margin-right: 4px;
+    font-size: 0.65rem;
+    color: #d4af37;
+}
+
+.class-row-playstyle {
+    font-size: 0.8rem;
+    color: #4a3420;
+    line-height: 1.5;
+    /* Clamp to 2 lines on smaller layouts */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ===== ROW META ===== */
+
+.class-row-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 120px;
+}
+
+.class-row-dmg-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-end;
+}
+
+.class-row-dmg-tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 999px;
+    color: white;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.class-row-cta {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 0.3px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+.class-row:hover .class-row-cta {
+    opacity: 1;
+}
+
+.class-row-cta i {
+    margin-left: 4px;
+    font-size: 0.6rem;
+    transition: transform 0.2s ease;
+}
+
+.class-row:hover .class-row-cta i {
+    transform: translateX(3px);
+}
+
+/* ===== EMPTY STATE ===== */
+
 .classes-empty {
-    grid-column: 1 / -1;
     text-align: center;
     padding: 3rem 1rem;
     color: #8b6914;
@@ -490,161 +445,7 @@ img[data-class="Minstrel"] {
     font-size: 0.9rem;
 }
 
-/* ===== TOOLTIP ===== */
-
-.class-tooltip {
-    position: fixed;
-    z-index: 10000;
-    width: 330px;
-    background: linear-gradient(145deg, #fdfaf3 0%, #f5eed6 30%, #ede4d3 100%);
-    border: 2px solid #8b6914;
-    border-radius: 12px;
-    box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.35),
-        0 4px 12px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    padding: 0;
-    overflow: hidden;
-    pointer-events: none;
-    animation: tooltipFadeIn 0.15s ease;
-}
-
-@keyframes tooltipFadeIn {
-    from { opacity: 0; transform: translateY(5px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.class-tooltip-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background: linear-gradient(135deg, rgba(139, 105, 20, 0.1), rgba(212, 175, 55, 0.04));
-    border-bottom: 2px solid;
-}
-
-/* Removed tooltip pixel icon styles */
-
-.class-tooltip-title {
-    flex: 1;
-    min-width: 0;
-}
-
-.class-tooltip-title h4 {
-    font-family: 'Cinzel', serif;
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #2d1810;
-    margin: 0 0 5px 0;
-    letter-spacing: 0.5px;
-}
-
-.class-tooltip-role-badge {
-    display: inline-block;
-    padding: 3px 12px;
-    border-radius: 999px;
-    color: white;
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    line-height: 1.4;
-}
-
-.class-tooltip-body {
-    padding: 14px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.class-tooltip-field {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.class-tooltip-field .field-label {
-    font-family: 'Cinzel', serif;
-    font-size: 0.62rem;
-    font-weight: 700;
-    color: #8b6914;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.class-tooltip-field .field-label i {
-    margin-right: 5px;
-    font-size: 0.7rem;
-    color: #d4af37;
-}
-
-.class-tooltip-field .field-value {
-    font-size: 0.85rem;
-    color: #2d1810;
-    line-height: 1.5;
-}
-
-.tooltip-damage-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 2px;
-}
-
-.tooltip-dmg-tag {
-    display: inline-block;
-    padding: 2px 9px;
-    border-radius: 999px;
-    color: white;
-    font-size: 0.58rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    line-height: 1.4;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-.class-tooltip-footer {
-    padding: 9px 16px;
-    background: linear-gradient(135deg, rgba(139, 105, 20, 0.08), rgba(212, 175, 55, 0.04));
-    border-top: 1px solid rgba(139, 105, 20, 0.15);
-    text-align: center;
-    font-family: 'Cinzel', serif;
-    font-size: 0.68rem;
-    font-weight: 600;
-    color: #8b6914;
-    letter-spacing: 0.3px;
-}
-
-.class-tooltip-footer i {
-    margin-left: 5px;
-    font-size: 0.6rem;
-    transition: transform 0.2s ease;
-}
-
-.class-tooltip:hover .class-tooltip-footer i {
-    transform: translateX(4px);
-}
-
 /* ===== RESPONSIVE ===== */
-
-/* ===== INDIVIDUAL CLASS ICON TUNING ===== */
-
-/* Individual class icon tuning removed for consistency with high-quality assets */
-
-
-.filter-pixel-icon {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-    image-rendering: auto;
-    mix-blend-mode: multiply;
-    filter: brightness(1.2) contrast(1.3);
-    transform: scale(1.3);
-    -webkit-mask-image: radial-gradient(circle at center, black 40%, rgba(0,0,0,0.8) 55%, transparent 72%);
-    mask-image: radial-gradient(circle at center, black 40%, rgba(0,0,0,0.8) 55%, transparent 72%);
-}
 
 @media (max-width: 768px) {
     .classes-display {
@@ -664,31 +465,19 @@ img[data-class="Minstrel"] {
         font-size: 1.3rem;
     }
 
-    .classes-grid {
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 8px;
+    .class-row {
+        grid-template-columns: 48px 1fr;
+        grid-template-rows: auto auto;
     }
 
-    .class-card {
-        padding: 12px 6px 10px;
+    .class-row-meta {
+        grid-column: 2;
+        align-items: flex-start;
+        min-width: unset;
     }
 
-    .class-card-icon {
-        width: 38px;
-        height: 38px;
-        font-size: 1.2rem;
-    }
-
-    .class-card-name {
-        font-size: 0.72rem;
-    }
-
-    .class-card-role {
-        font-size: 0.58rem;
-    }
-
-    .class-tooltip {
-        display: none;
+    .class-row-dmg-types {
+        justify-content: flex-start;
     }
 
     .role-filter-btn {
@@ -717,17 +506,6 @@ img[data-class="Minstrel"] {
     .damage-filter-label {
         display: none;
     }
-
-    .class-card:active {
-        transform: scale(0.96);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .role-filter-btn:active,
-    .damage-type-btn:active {
-        transform: scale(0.95);
-        opacity: 0.8;
-    }
 }
 
 @media (max-width: 480px) {
@@ -739,12 +517,6 @@ img[data-class="Minstrel"] {
         padding: 12px;
     }
 
-    .classes-intro-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
-    }
-
     .classes-intro-title h2 {
         font-size: 1.15rem;
     }
@@ -753,28 +525,27 @@ img[data-class="Minstrel"] {
         font-size: 0.7rem;
     }
 
-    .classes-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
+    .class-row {
+        gap: 12px;
+        padding: 12px 12px 12px 10px;
     }
 
-    .class-card {
-        padding: 10px 4px 8px;
+    .class-row-icon {
+        width: 42px;
+        height: 42px;
     }
 
-    .class-card-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 1.05rem;
+    .class-row-name {
+        font-size: 0.85rem;
     }
 
-    .class-card-role,
-    .class-card-damage-types {
+    .class-row-playstyle {
+        font-size: 0.75rem;
+        -webkit-line-clamp: 2;
+    }
+
+    .class-row-meta {
         display: none;
-    }
-
-    .class-card-name {
-        font-size: 0.68rem;
     }
 
     .classes-intro-col p {

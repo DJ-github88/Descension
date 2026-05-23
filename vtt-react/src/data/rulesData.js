@@ -791,15 +791,15 @@ Under the Virtual Tabletop system, players and GMs can easily inspect and manage
           sections: [
             {
               title: 'Discipline System Overview',
-              content: `Disciplines represent your character's chosen philosophical approach and practice. Each of the 9 disciplines (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel) provides mechanical benefits, thematic abilities, and sub-discipline options. Unlike backgrounds (Sailor, Soldier, etc.) which represent your past, disciplines represent your chosen approach to power, knowledge, and adventure through systematic practice and training.`
+              content: `Your **Class** tells the battlefield who you are. Your **Discipline** tells the *world* who you are.\n\nA Discipline is your chosen philosophical approach to power, survival, and mastery — the framework through which your hero makes sense of violence, magic, and mortality. The nine Disciplines (**Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel**) each grant starting attribute adjustments, expanded point-buy capacity, and a set of class-agnostic abilities.\n\nUnlike your Background — which represents where you came from — and your Class — which defines your combat mechanics — your Discipline defines your **approach to danger**. It is the answer to the question: *when the moment turns desperate, what kind of person are you?*`
             },
             {
               title: 'Discipline Abilities',
-              content: `Each discipline provides a set of unique abilities that reflect its core philosophy and practice. These abilities are formatted like spells with detailed mechanics, targeting information, and usage limitations. Each discipline grants these abilities as part of your character's training and mastery of that discipline.`
+              content: `Each Discipline grants a set of signature abilities formatted identically to class spells — effect types, AP costs, targeting, usage limits, and restrictions fully specified. These abilities are available regardless of your class, letting a Dreadnaught access the Trickster's cunning, or a Lunarch draw on the Zealot's divine fury.\n\nDiscipline abilities sit in your character sheet alongside your class spells. They do not require separate management. They are simply *more of what you can do*.`
             },
             {
               title: 'Ability Formatting',
-              content: `Path abilities use the same detailed formatting as spells from the spell crafting wizard, including effect types (damage, healing, buff, debuff, utility, control), targeting information, AP costs, usage limitations, and restrictions. This ensures consistency across all game systems and makes abilities easy to understand and use.`
+              content: `All Discipline abilities follow the same formatting standard as spells from the Spellcrafting Wizard — effect type, targeting, AP cost, usage frequency, and any restrictions are always present, always in the same order. Once you know how to read a spell card, you know how to read a Discipline ability.`
             }
           ],
           tabs: [
@@ -953,29 +953,19 @@ Under the Virtual Tabletop system, players and GMs can easily inspect and manage
           sections: [
             {
               title: 'How Skills Work',
-              content: `Skills represent your character's training and expertise in various areas. Each skill is tied to a primary and secondary ability score. When you make a skill check, your GM determines the difficulty and tells you which die to roll (d4 for very easy tasks up to d20 for very difficult ones). Ability modifiers are not added to the roll - instead, if your primary or secondary stat modifier is +5 or higher, you may request to roll a smaller die for better success chances.
-
-**Understanding Roll Outcome Colors:**
-Skill roll outcomes are color-coded to help GMs quickly interpret results. The color scheme is designed to be visible for people with color vision differences:
-- **Total Failure** (Dark Red): Catastrophic failure with severe consequences or complications
-- **Failure** (Red-Orange): The attempt fails, but without major complications
-- **Partial Success** (Amber/Yellow): Mixed results - some success but with drawbacks, or minimal success
-- **Success** (Teal/Blue-Green): The attempt succeeds as intended
-- **Critical Success** (Bright Blue): Exceptional success with additional benefits or bonuses
-
-These colors use distinct hues and brightness levels, plus visual indicators (⚠ for total failures, ★ for critical successes) to ensure clarity for all players.`
+              content: `A Mythrill veteran does not swing blindly and hope. Their hands know the weight of a blade. Their eyes read ambushes before they spring. Their words cut deals before fists settle disagreements. **Skills** represent this accumulated mastery — trained capabilities that separate a seasoned adventurer from a desperate farmhand.\n\nEach skill is tied to a primary and secondary attribute. When you make a skill check, the GM assigns a **Difficulty Die** — from a d4 for trivial tasks to a d20 for near-impossible ones. If your primary or secondary attribute modifier reaches **+5 or higher**, your mastery steps the difficulty die down by one size, shifting the odds in your favour.\n\n**Roll Outcome Colours** (visible in the chat log):\n• **Dark Red** — Total Failure. Severe consequences.\n• **Red-Orange** — Failure. The attempt fails without major complications.\n• **Amber/Yellow** — Partial Success. You succeed, but at a cost.\n• **Teal/Blue-Green** — Success. The attempt works as intended.\n• **Bright Blue (★)** — Critical Success. Exceptional outcome with additional benefits.`
             },
             {
               title: 'Skill Ranks & Progression',
-              content: `Skills have seven ranks: Untrained, Novice, Trained, Apprentice, Adept, Expert, and Master. Each rank unlocks better outcomes on rollable tables and adds a bonus to your checks. You advance through ranks by completing skill quests during gameplay—small challenges that demonstrate your growing expertise.`
+              content: `Skills advance through seven ranks: **Untrained → Novice → Trained → Apprentice → Adept → Expert → Master**. Each rank adds a numerical bonus to your checks and unlocks richer outcomes on skill-specific rollable tables. You do not advance by grinding experience — you advance by *doing*. Each rank requires completing **Skill Quests**: small, achievable challenges that arise naturally during play.`
             },
             {
               title: 'Critical Success & Failure',
-              content: `Rolling the maximum value on your die (e.g., 20 on a d20) is a critical success, granting exceptional results. Rolling the minimum value (1) is a critical failure, resulting in complications or setbacks. Check your skill's rollable table to see the full range of possible outcomes.`
+              content: `Rolling the **maximum value** on your difficulty die is a **Critical Success** — the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall. Rolling a **1** is always a **Critical Failure** regardless of rank — complications arise, and the GM determines how badly the moment turns. Check your skill's rollable table for the full spectrum of possible outcomes.`
             },
             {
               title: 'Skill Quests',
-              content: `Each skill has 10 quests that unlock as you progress. Completing quests advances your rank and unlocks new abilities. Quests are small, achievable challenges that occur naturally during gameplay—like "Land your first successful attack" for Weapon Mastery or "Successfully persuade an authority figure" for Persuasion.`
+              content: `Every skill has **10 Quests** — narrative milestones that unlock as you use your abilities in the world. Completing them advances your rank and opens new proficient ability options. These quests are not assigned by a trainer; they emerge from play naturally. Land your first successful Grapple. Persuade an authority figure. Survive a harrowing situation through Acrobatics alone. The world rewards those who act.`
             }
           ]
         }
@@ -992,15 +982,15 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
           sections: [
             {
               title: 'Language Categories',
-              content: `Languages are divided into four categories: Standard (Common, Dwarvish, Elvish, etc.), Exotic (Draconic, Celestial, Abyssal, etc.), Secret (Druidic, Thieves' Cant), and Elemental (Aquan, Auran, Ignan, Terran).`
+              content: `Language is power in Mythrill — the difference between an ally and an enemy, between deciphering a ruin's warning and triggering its trap. Languages are organised into four tiers of accessibility:\n\n• **Standard** — Common tongues spoken across most civilised regions: Common, Dwarvish, Elvish, and their kin.\n• **Exotic** — The languages of powerful or alien beings: Draconic, Celestial, Abyssal. Rare to learn, invaluable to know.\n• **Secret** — Guarded dialects like Druidic and Thieves' Cant. These cannot simply be studied — they require initiation, membership, or a sworn oath.\n• **Elemental** — The speech of primal forces: Aquan, Auran, Ignan, Terran. Spoken by elementals, worshipped by cults.`
             },
             {
               title: 'Learning Languages',
-              content: `Your race grants you certain languages automatically (usually Common plus one or two racial languages). You can learn additional languages from your background, path, or through downtime training. Secret languages require special training or membership in specific organizations.`
+              content: `Your race grants starting languages — always Common, plus one or two ancestral tongues. Your **Background** and **Discipline** may add more. Additional languages can be acquired through downtime training: a month of immersion, a patient teacher, or the right book.\n\n**Secret languages cannot be self-taught.** Druidic must be passed from druid to druid. Thieves' Cant is earned through the criminal underworld, not a library.`
             },
             {
               title: 'Using Languages',
-              content: `Knowing a language allows you to speak, read, and write in that language (unless the language has no written form). Languages can be crucial for social encounters, deciphering ancient texts, and communicating with creatures you encounter.`
+              content: `Knowing a language means you can **speak, read, and write** in it — unless it has no written form (some elemental and secret languages are oral-only, their knowledge dying with their speakers). In play, languages unlock NPC dialogue, allow you to decipher ancient inscriptions, communicate with creatures who share no other tongue, and — critically — speak privately in a room full of enemies. The GM may call for a check when ancient dialects or degraded texts are involved.`
             }
           ]
         }
@@ -1018,11 +1008,11 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
           sections: [
             {
               title: 'Class System',
-              content: `Classes determine your combat role, resource system, and mechanical abilities. There are 30 classes organized into thematic paths.`
+              content: `In Mythrill, your **Class** is your identity on the battlefield — the lens through which every combat encounter is viewed and every tactical decision is made. It determines your hit points, weapon proficiencies, armour capabilities, and the unique resource system that fuels your most powerful abilities. With **30 distinct classes** spanning roles from iron-clad tank to temporal manipulator to plague-gardening horror, no archetype is left unexplored. Click any class name in the table below to open its full detail page.`
             },
             {
               title: 'Resource Systems',
-              content: `Each class uses a unique resource system: Rage Points (Berserker), Fortune Points (Gambler), Temporal Energy (Chronarch), Quarry Marks (Huntress), and many more. These resources fuel your class abilities.`
+              content: `What separates a Berserker from a Spellguard isn't just what they carry — it's what they *fuel their power with*. Every class uses a unique resource system designed to reinforce its identity and create a distinct tactical rhythm. A **Berserker** builds Rage by being struck. A **Gambler** bends probability with Fortune Points. A **Deathcaller** sacrifices their own hit points for forbidden necrotic power. Understanding your resource loop is understanding how to play your class at its peak. See [Magic Resources](magic-system/magic-resources) for the full breakdown.`
             }
           ],
           tables: [
@@ -1444,20 +1434,11 @@ This unified flow makes every single weapon swing incredibly fast-paced, keeping
           sections: [
             {
               title: 'Critical Hit System',
-              content: `Our critical hit system is based on the weapon or spell die used:
-
-Critical Hit: Rolling maximum value on weapon die (e.g., 8 on d8): deals maximum damage plus attribute modifier
-Exploding Dice: When you roll the maximum value on a die, you can roll again and add the result (useful for parrying larger weapons)
-Critical Miss: Rolling a 1 followed by another 1: roll on the Miss Consequences table`
+              content: `Every swing carries the weight of fate. In Mythrill, the highest and lowest rolls on your weapon die are not just numbers — they reshape the battlefield in an instant.\n\n**Critical Hit** (max die value): You strike with devastating precision. Deal maximum damage plus your attribute modifier, and the die **explodes** — roll it again and add the result. This chain continues as long as you keep rolling the maximum face.\n\n**Exploding Dice**: Any time a die lands on its maximum during an explosion, roll again and keep adding. Even a humble d4 dagger can cascade into lethal territory.\n\n**Critical Miss** (natural 1 followed by another 1): The worst kind of luck. Your attack goes catastrophically wrong — roll on the Miss Consequences table below and find out the cost.`
             },
             {
               title: 'Weapon-Specific Critical Effects',
-              content: `Different weapon types cause additional effects on critical hits:
-
-Slashing: Bleeding: 1d4 damage for 1d4 rounds
-Piercing: Armor Penetration: Reduce target's passive DR by 2 (minimum 0) for 1d4 rounds
-Bludgeoning: Stun: Target stunned for 1 round (Con save using a moderate difficulty die—typically d8—negates)
-Ranged: Pin: Target's movement reduced by half for 1d4 rounds`
+              content: `A critical hit does not merely deal more damage — the *nature* of the weapon determines how the body breaks. Choose your weapon with intent.\n\n• **Slashing** — Open wounds that refuse to close: the target **Bleeds** for **1d4 damage per round** over **1d4 rounds**.\n• **Piercing** — The blade finds the gap in the armour: **reduce the target's passive DR by 2** (minimum 0) for **1d4 rounds**.\n• **Bludgeoning** — Concussive force that rattles bone and brain: the target is **Stunned for 1 round** (Constitution save against a moderate die — typically d8 — negates).\n• **Ranged** — The shaft pins cloth or flesh: the target's **movement is halved** for **1d4 rounds**.`
             }
           ],
           tables: [
@@ -1493,14 +1474,7 @@ Ranged: Pin: Target's movement reduced by half for 1d4 rounds`
           sections: [
             {
               title: 'Damage Modifier System',
-              content: `Our damage modifier system uses standardized tiers to determine how much damage is increased, reduced, or converted. These modifiers stack with other effects and are calculated after all other damage bonuses.
-
-Application Order:
-1. Base Damage: Calculate the initial damage (dice + modifiers)
-2. Armor Reduction: Subtract passive DR (Armor ÷ 10) and any Defend soak result
-3. Damage Modifiers: Apply vulnerability/resistance modifiers
-4. Conversion Effects: Apply any leech/absorb/invert effects
-5. Final Damage: Apply the final damage to the target`
+              content: `Not all flesh yields equally. A skeletal undead laughs at a piercing blade but shatters under a blessed mace. A fire demon scoffs at flame but screams at cold iron. These truths are encoded in Mythrill's damage modifier system — a tiered framework that determines exactly how much punishment lands.\n\nModifiers always resolve in this fixed sequence:\n\n1. **Base Damage** — Roll dice and add attribute modifiers.\n2. **Armour Reduction** — Subtract passive DR (Armour ÷ 10) and any active Defend soak result.\n3. **Damage Modifiers** — Apply vulnerability or resistance tiers (see tables below).\n4. **Conversion Effects** — Apply any Leech, Absorb, or Invert effects.\n5. **Final Damage** — Deliver what remains to the target.`
             }
           ],
           tables: [
@@ -1557,15 +1531,15 @@ Application Order:
                 },
                 {
                   title: 'Death Saving Throws',
-                  content: `Roll 1d20. On 10+, you succeed. On 9 or less, you fail. Three successes stabilize you. Three failures mean death. Natural 20 restores 1 HP. Natural 1 counts as two failures.`
+                  content: `At the start of each of your turns while Dying, roll **1d20**.\n\n• **10 or higher** — Success.\n• **9 or lower** — Failure.\n• **Three successes** — You stabilise.\n• **Three failures** — You die.\n• **Natural 20** — You immediately return to **1 HP**.\n• **Natural 1** — Counts as **two failures** at once.\n\nSuccesses and failures do not need to be consecutive — they accumulate until the threshold is reached. Any healing received while Dying immediately ends the death save sequence.`
                 },
                 {
                   title: 'System Shock',
-                  content: `When you take damage equal to or greater than half your maximum hit points from a single source, make a Constitution save using an easy difficulty die (typically d6). On a failure, you suffer system shock and gain one level of exhaustion—your body reels from the trauma.`
+                  content: `A single catastrophic strike can break a warrior's body without breaking their hit point total. When you take damage equal to or greater than **half your maximum HP** from a single source, make a **Constitution save** (easy die, typically d6). On a failure, your body reels from the trauma — you immediately gain **1 level of exhaustion**. This applies even if you are in full health.`
                 },
                 {
                   title: 'Massive Damage',
-                  content: `If you take damage equal to or greater than your maximum hit points from a single source, make a Constitution save using a difficult die (usually d12; the GM may step up to d20 for truly devastating blows). On a failure, you die instantly regardless of your current hit points. On a success, you drop to 0 hit points and begin dying normally.`
+                  content: `Some blows are simply meant to kill. When you take damage equal to or greater than your **maximum HP** from a single source, make a **Constitution save** (difficult die, typically d12; the GM may escalate to d20 for truly apocalyptic strikes). On a **failure**, you die **instantly** — regardless of current hit points. On a **success**, you drop to 0 HP and enter the Dying state normally. This is the rule that makes legendary monsters terrifying.`
                 }
               ]
             },
@@ -1575,7 +1549,7 @@ Application Order:
               sections: [
                 {
                   title: 'Lingering Injuries',
-                  content: `When you suffer a critical hit or fail a death saving throw by 5 or more, you may suffer a lingering injury. Roll on the Injury Table to determine the effect. Injuries can be healed through magical means or extended downtime.`
+                  content: `The body remembers what the spirit tries to forget. When you suffer a critical hit, or fail a death saving throw badly (by 5 or more), you may carry a **Lingering Injury** — a permanent mechanical scar that healing potions cannot touch. Roll on the Injury Table. Only powerful magic or extended downtime recovery can mend what the battlefield breaks.`
                 }
               ],
               tables: [
@@ -1600,6 +1574,12 @@ Application Order:
             {
               id: 'exhaustion',
               name: 'Exhaustion',
+              sections: [
+                {
+                  title: 'Exhaustion',
+                  content: `Exhaustion is the slow erosion of a hero's capability under sustained pressure. It accumulates through environmental hazards, missed sleep, forced marches, starvation, and the brutal cost of fighting at 0 HP. Each level stacks its penalty on top of the last — at six levels, the body simply gives out.\n\nExhaustion cannot be ignored. It compounds across combat, rest, and skill checks, and a character with three or more levels is severely compromised. Exhaustion is reduced by one level per completed long rest.`
+                }
+              ],
               tables: [
                 {
                   title: 'Exhaustion Levels',
@@ -1622,13 +1602,11 @@ Application Order:
               sections: [
                 {
                   title: 'When to Use',
-                  content: `**High-stakes campaigns with supernatural themes**
-
-The Soulmonger system adds dark supernatural elements and high-stakes choices to death and recovery.`
+                  content: `The Soulmonger system is a **GM-enabled module** for campaigns where death carries true cosmic weight. In worlds where dark powers trade in souls and resurrection is never guaranteed, this system transforms dying from a temporary setback into a genuine reckoning. Enable it when your table wants that weight — when death should mean something.`
                 },
                 {
                   title: 'Soul Fragments',
-                  content: `When a character dies, their soul shatters into fragments that can be collected for resurrection. In a world of magic, death need not be permanent, but it requires quick action and careful preparation.`
+                  content: `Death in Mythrill does not guarantee a clean end. A soul does not simply ascend — it **shatters**. In the moments after a character falls, their essence fractures into fragments that bleed into the material plane. These fragments are finite, perishable, and essential for resurrection. Allies who want their companion back have exactly **one minute** to collect them before they scatter beyond reach. The clock starts the moment the body hits the ground.`
                 }
               ],
               tabs: [
@@ -1665,11 +1643,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                   sections: [
                     {
                       title: 'The Soulmonger',
-                      content: `In our world, a mysterious force known as the Soulmonger affects what happens to souls after death. Soulmongers offer various services in exchange for souls or Withered Essence.
-
-**Withered Essence:** Souls can be converted into Withered Essence, a currency that can be used to purchase various services. One Soul is equivalent to 1,000 Withered Essence.
-
-**Warning:** The use of souls is irreversible and their consumption carries weighty consequences in the world. Each transaction with a Soulmonger is a pact that shapes the fabric of reality, eternally altering the bearer's destiny.`
+                      content: `In Mythrill, a mysterious force known as the **Soulmonger** governs what happens to souls when they linger between death and resurrection. Soulmongers are entities — dealers, collectors, arbiters — who traffic in the raw material of existence. They offer services to those desperate or wealthy enough to pay.\n\n**Withered Essence** is the currency of this trade. Souls can be converted into Withered Essence at a rate of 1 Soul = 1,000 Essence. This Essence purchases services that range from removing exhaustion to buying a complete level — or resurrecting someone whose fragments are otherwise lost.\n\n**Warning**: Every transaction with a Soulmonger is a pact. The use of souls is irreversible, and the weight of that choice echoes forward through the campaign. These are not vendors — they are creditors.`
                     }
                   ],
                   tables: [
@@ -1727,7 +1701,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'Post-Resurrection Effects',
-                  content: `Returning from death is traumatic and leaves lasting effects. Every resurrection changes the character in some way, making death a meaningful consequence even when reversed.`
+                  content: `Nobody comes back from death unchanged. Crossing that threshold — being dragged back through it — leaves marks that cannot be healed at a campfire. The effects below are not punishment; they are narrative truth. The world should *feel* different when a character has walked through death and returned.`
                 }
               ],
               tables: [
@@ -1750,7 +1724,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'When Resurrection Fails',
-                  content: `When traditional resurrection fails or is unavailable, characters may be offered a deal with dark powers. This is always a last resort with significant consequences.`
+                  content: `When the fragments are gone, when the ritual fails, when no healer remains — there is still one door left. It swings open from the other side, and something with cold eyes waits beyond it. A **Devil's Bargain** is not a happy ending. It is the option that exists when every other option has been exhausted. The price is always significant. The debt always comes due.`
                 }
               ],
               tables: [
@@ -1773,7 +1747,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'Resurrection Miracle Table',
-                  content: `Roll 1d20 when a character fails their Spirit save after a devil's bargain. These effects are permanent and represent the price of cheating death through dark powers.`
+                  content: `When a character fails their Spirit save after a Devil's Bargain, the dark forces that pulled them back leave their mark — permanent, indelible, and non-negotiable. Roll d20. Whatever comes up is what the character carries forward, forever. These are not debuffs. They are **scars with mechanical weight**.`
                 }
               ],
               tables: [
@@ -1811,7 +1785,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'Becoming Stable',
-                  content: `You stabilize when you succeed on three death saves, receive healing, or an ally uses an action to stabilize you (Medicine check with an easy difficulty die—typically d6). Stable creatures remain conscious at 0 HP but don't make death saves.`
+                  content: `Stabilisation is the razor-thin line between dying and dead. A character stabilises when they accumulate **three death save successes**, receive any healing, or an ally applies emergency care with a successful **Medicine check** (easy die, typically d6). Once stable at 0 HP, the death save clock stops — they remain conscious but helpless until healed enough to act.`
                 }
               ]
             }
@@ -1830,7 +1804,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
           sections: [
             {
               title: 'Reaction Rules',
-              content: `Reactions are special actions that can be taken outside of your turn in response to specific triggers. They cost Action Points (AP) and represent your character's ability to respond quickly to changing battlefield conditions.`
+              content: `Combat never pauses for your turn. Arrows fly, spells erupt, and blades seek gaps in armour whether you are ready or not. **Reactions** are your ability to answer danger in real time — spending AP from your pool to act outside your normal turn order.\n\nA reaction requires a **specific trigger**: an incoming attack, an ally being targeted, an enemy breaking away. When that trigger fires, you choose to react or let it pass. You cannot spend AP you do not have remaining.`
             }
           ],
           tabs: [
@@ -1840,7 +1814,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'Defensive Options',
-                  content: `When attacked, you can spend AP for these defensive options:`
+                  content: `When steel comes for you, you are not helpless. The following reactions let you turn an enemy's assault into a missed opportunity — or worse for them, their last mistake.`
                 }
               ],
               tables: [
@@ -1861,7 +1835,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'Available to All Characters',
-                  content: `These reactions are available to all characters regardless of class:`
+                  content: `Every warrior, mage, and wanderer in Mythrill shares access to these battlefield responses. No class gate, no special training required. Mastering them separates survivors from casualties.`
                 }
               ],
               tables: [
@@ -1897,9 +1871,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
           sections: [
             {
               title: 'Usage Limitations',
-              content: `Only one proficient ability can be used per turn, regardless of how many AP you have available. Choose wisely based on the tactical situation.
-
-Proficient abilities are special actions that can be performed by characters who are proficient in specific skills. These powerful techniques represent specialized training and expertise.`
+              content: `Years of dedicated training unlock techniques that ordinary adventurers simply cannot replicate. **Proficient Abilities** are extraordinary actions gated behind specific skill proficiencies — a trained grappler can pin a knight three times their weight; a master of deception can shatter a target's focus at the worst possible moment.\n\nThe price of this power is discipline: **only one proficient ability can be used per turn**, regardless of your remaining AP. You have exactly one window to deploy your expertise. Choose it carefully.`
             }
           ],
           tables: [
@@ -1943,9 +1915,7 @@ Proficient abilities are special actions that can be performed by characters who
           sections: [
             {
               title: 'Condition System',
-              content: `Combat conditions represent various states that can affect characters during battle. These conditions can be inflicted by attacks, spells, environmental hazards, or other effects.
-
-Some conditions interact with each other or with the environment to create enhanced effects. For example, targets affected by the Wet condition take additional damage from lightning attacks.`
+              content: `The battlefield does not merely threaten hit points — it threatens the body and mind in a dozen ways. A soldier who is **Blinded** fights in absolute darkness. A warrior who is **Stunned** cannot act at all. A knight who is **Grappled** finds their footwork destroyed.\n\nConditions are inflicted by attacks, spells, traps, and the environment. They can stack in punishing combinations — a **Wet** target struck by lightning suffers far worse than a dry one. When a condition icon appears in the sidebar, consult this table immediately and adapt your tactics.`
             }
           ],
           tables: [
@@ -1980,7 +1950,7 @@ Some conditions interact with each other or with the environment to create enhan
         summary: ['Short Rest (1 hour): spend Hit Dice or heal 1/4 max HP', 'Long Rest (8 hours): full HP, recover abilities', 'Optional settlement activities add downtime flavor'],
         content: {
           title: 'Rest & Recovery',
-          description: 'Pick the modules you want: start with Core, then layer extras that fit your campaign.',
+          description: 'Rest is not a luxury in Mythrill — it is a lifeline. Manage your recovery well, or watch exhaustion hollow out your capabilities one failed save at a time.',
           sections: [],
           tabs: [
             {
@@ -2019,7 +1989,7 @@ Some conditions interact with each other or with the environment to create enhan
               sections: [
                 {
                   title: 'When to Use',
-                  content: `Use these options when the party spends meaningful time in towns and cities. They add downtime flavor without changing the Core rest math.`
+                  content: `When the party reaches a settlement — whether a walled city or a muddy frontier town — the options for recovery expand. These rules layer over the core rest system without replacing it, adding consequence and flavour to downtime without complicating the baseline math.`
                 }
               ],
               tables: [
@@ -2071,13 +2041,11 @@ Some conditions interact with each other or with the environment to create enhan
               sections: [
                 {
                   title: 'When to Use',
-                  content: `**Social campaigns, downtime activities, seasonal campaigns**
-
-These systems add cultural immersion and social interaction opportunities.`
+                  content: `Coin spent in a tavern buys more than ale. **Carousing** is how adventurers blow off steam between horrors — and how they make connections, enemies, and memorable mistakes. Use these rules whenever the party has gold to burn and a night to spend badly.`
                 },
                 {
                   title: 'Carousing',
-                  content: `Spend gold at taverns and roll for outcomes. Higher spending increases chances of better results.`
+                  content: `Pick your spend level from the table below — from a modest handful of silver to an extravagant night that would make a duke wince. Roll a d8 and add your quality bonus. The result describes what the morning brings.`
                 }
               ],
               tables: [
@@ -2132,7 +2100,7 @@ These systems add cultural immersion and social interaction opportunities.`
               sections: [
                 {
                   title: 'Environmental Factors',
-                  content: `The quality of your rest depends on your environment, comfort, and safety. Poor conditions can reduce rest benefits or prevent rest entirely.`
+                  content: `A cold stone floor and the distant sound of wolves do not make for restful sleep. The quality of a long rest depends heavily on where and how it is taken. Comfort, shelter, and safety translate directly into recovery — or the painful absence of it.`
                 }
               ],
               tables: [
@@ -2158,7 +2126,7 @@ These systems add cultural immersion and social interaction opportunities.`
               sections: [
                 {
                   title: 'Interrupted Rest',
-                  content: `If a long rest is interrupted by combat or other strenuous activity lasting more than 1 hour, the rest provides no benefit. You must start over to gain the benefits of a long rest.`
+                  content: `A long rest interrupted by more than one hour of strenuous activity — combat, desperate flight, sustained spellcasting — provides no benefit. The body needs unbroken recovery time, not snatched moments between crises. When rest is interrupted, the full 8-hour clock must be restarted. On particularly dangerous nights, roll on the Complications table to discover what cut the sleep short.`
                 }
               ],
               tables: [
@@ -2600,7 +2568,7 @@ Both dice use the weapon type to pick the correct outcome text.`
             },
             {
               title: 'Universal Spells',
-              content: `All spellcasters have access to a 'General' tab with universal baseline spells like Detect Magic, Dispel Magic, and Counterspell.`
+              content: `Every spellcaster in Mythrill — regardless of class or magical school — has access to a shared arsenal of **Universal Spells**. These are the bedrock incantations that no mage ventures without: **Detect Magic**, **Dispel Magic**, **Counterspell**, and their kin appear in the General tab of every caster's action bar. They are not glamorous. They are often the difference between controlling a fight and losing it entirely to an enemy's enchantment.`
             },
             {
               title: 'The Void\'s Shadow (Arcane Corruption)',
@@ -2681,15 +2649,15 @@ Both dice use the weapon type to pick the correct outcome text.`
           sections: [
             {
               title: 'Casting a Spell',
-              content: `To cast a spell: 1) Declare the spell and target, 2) Spend the required AP and resources, 3) Make any required spell attack rolls or have targets make saving throws, 4) Resolve the spell's effects.`
+              content: `Magic in Mythrill is not spoken lightly. Every incantation is a transaction with forces older than the world — and those forces demand payment in AP, Mana, or blood.\n\n1. **Declare** the spell and your intended target.\n2. **Spend** the required AP and Mana (or class resource).\n3. **Resolve** any attack rolls or saving throws as specified by the spell.\n4. **Apply** the spell's effects — damage, conditions, buffs, or terrain alterations.\n\nThe spell entry on your action bar handles cost calculation automatically. You cannot cast if you lack sufficient AP or resources.`
             },
             {
               title: 'Spell Components',
-              content: `Spells may require Verbal (speaking), Somatic (gestures), or Material (physical components) components. You must have free hands for somatic components and access to materials for material components.`
+              content: `Not all magic is cast the same way. Some spells demand spoken words — silence the caster, and the casting fails. Others require precise gestures that bound or shattered hands cannot form. The most demanding consume rare physical reagents in the act of casting.\n\n• **Verbal (V)** — Incantations, true names, prayers. Impossible while silenced or gagged.\n• **Somatic (S)** — Focused gestures requiring precision. Demands at least one free hand.\n• **Material (M)** — Physical reagents: powders, crystals, blood, bone. Consumed on casting unless otherwise stated.\n\nA spell may require any combination of the three. The action bar entry notes which components apply.`
             },
             {
               title: 'Concentration',
-              content: `Some spells require concentration. You can only concentrate on one spell at a time. When you take damage, make a Constitution save using a challenging die (d10); if the damage is severe, the GM can step the die up (to d12 or d20) to reflect the hit. Succeed to hold the spell; fail and concentration ends.`
+              content: `The most powerful sustained spells demand constant focus. While **concentrating**, your mind is divided — maintaining the spell's weave even as the world tries to shatter it.\n\n• **One at a time**: You can only concentrate on one spell simultaneously. Casting a new concentration spell immediately ends the previous one.\n• **Damage breaks focus**: Each time you take damage while concentrating, make a **Constitution save** (challenging die, typically d10). The GM may step this up to d12 or d20 for massive blows.\n• **Succeed** — the spell holds. **Fail** — concentration ends and the spell collapses.\n\nProtecting a concentrating ally is often more valuable than landing an extra attack.`
             }
           ]
         }
@@ -2705,15 +2673,15 @@ Both dice use the weapon type to pick the correct outcome text.`
           sections: [
             {
               title: 'Talent Trees',
-              content: `Talent trees are organized into 7 tiers. Higher tiers require more character levels and previous tier investments. Trees show visual dependency chains with connecting lines.`
+              content: `Every scar, every victory, every hard lesson shapes what a warrior becomes. **Talent Trees** are the mechanical expression of this growth — a branching web of unlockable techniques, refinements, and power that deepens your character with each passing level.\n\nTrees are divided into **7 tiers**. Entry-level talents are accessible early; pinnacle abilities at Tier 7 demand significant investment and character experience. Dependency chains are shown visually with connecting lines — you must walk the path before reaching its summit.`
             },
             {
               title: 'Talent Points',
-              content: `You gain 1 talent point per level. Spend these points to unlock new abilities or improve existing ones. Some talents have multiple ranks for increased power.`
+              content: `Each level earned grants **1 Talent Point**. These are spent to unlock new talents or advance existing ones to higher ranks. Some talents scale through multiple ranks — investing deeper increases potency rather than simply adding a new ability.\n\nPoints are finite. Your build defines how your character fights, survives, and applies pressure to the battlefield.`
             },
             {
               title: 'Synergies',
-              content: `Many talents synergize with each other. For example, a talent that increases fire damage will boost all your fire spells. Plan your build carefully!`
+              content: `Talents rarely stand alone. A fire damage talent amplifies every flame-based spell in your arsenal. A speed talent shifts the value of every positioning ability in your kit. A resilience talent changes which risks are worth taking.\n\nUnderstanding these chains — and planning for them — is the difference between a character and a *build*. The most fearsome adventurers in Mythrill didn't stumble into power. They built toward it, one deliberate choice at a time.`
             }
           ]
         }
@@ -2786,7 +2754,7 @@ Every custom spell you weave is calculated and budgeted according to its tier le
               sections: [
                 {
                   title: 'Core Social Skills',
-                  content: `Social interactions rely on five key skills, each serving different purposes in conversation and negotiation.`
+                  content: `Not every battle is won with a blade. In Mythrill, the tongue is a weapon — and sometimes a sharper one. **Social encounters** use the same Difficulty Die system as combat: the GM assigns a die based on the challenge, you roll your relevant skill, and the colour of the result tells the whole table what happens next.\n\nFive skills drive social encounters. Knowing which to reach for — and which to avoid — is as tactically important as knowing when to parry.`
                 }
               ],
               tables: [
@@ -2810,7 +2778,7 @@ Every custom spell you weave is calculated and budgeted according to its tier le
               sections: [
                 {
                   title: 'Disposition System',
-                  content: `NPCs have attitudes toward characters that affect social interaction difficulty. Attitudes can change based on actions, reputation, and successful social encounters.`
+                  content: `An NPC's **Attitude** toward the party is not a fixed trait — it is a living variable shaped by reputation, past interactions, and the consequences of the party's actions in the world. It directly controls how difficult social encounters with that character are.\n\nA **Hostile** merchant won't sell to you. An **Indifferent** city guard follows standard procedure. A **Helpful** informant shares secrets they shouldn't. Attitudes shift over the course of a campaign based on what the party does — and what it fails to do.`
                 }
               ],
               tables: [
@@ -2834,7 +2802,7 @@ Every custom spell you weave is calculated and budgeted according to its tier le
               sections: [
                 {
                   title: 'Structured Social Encounters',
-                  content: `Complex social situations can be run like combat encounters, with initiative, actions, and clear objectives. This is useful for negotiations, debates, or social competitions.`
+                  content: `High-stakes social situations — a tense negotiation with a crime lord, a debate before a war council, a battle of wits in a noble court — can be run as **structured encounters** with initiative, clear objectives, and defined victory conditions. These work like combat rounds: each participant acts in sequence, deploying social actions from a defined pool. The party accumulates **Influence Points** toward a threshold representing their goal. Reach it before the window closes, and the encounter is won.\n\nUse structured social encounters sparingly. Reserve them for moments with real political or narrative weight.`
                 }
               ],
               tables: [
@@ -3081,7 +3049,7 @@ Every custom spell you weave is calculated and budgeted according to its tier le
               sections: [
                 {
                   title: 'Exploration Framework',
-                  content: `When exploring, the GM describes the scene using the 6-question model: What do you see? What do you hear? What do you smell? What's the atmosphere? What's unusual? What can you interact with?`
+                  content: `Mythrill's wilderness and ruins are not passive backdrops — they are layered environments full of threat, treasure, and consequence. **Exploration** is the third pillar of play alongside Combat and Social encounters, demanding attention, preparation, and the willingness to poke at things that probably shouldn't be poked.\n\nWhen exploring, the GM structures their description around six anchors: *What do you see? What do you hear? What do you smell? What is the atmosphere? What is unusual? What can you interact with?* Not all six will always apply — but the best exploration scenes answer most of them, making the space feel real before the players begin tearing it apart.`
                 }
               ],
               tables: [
@@ -3253,6 +3221,12 @@ Every custom spell you weave is calculated and budgeted according to its tier le
         content: {
           title: 'Environments',
           description: 'Terrain types, hazards, and weather effects',
+          sections: [
+            {
+              title: 'The World Is Trying to Kill You',
+              content: `Mythrill's environments are not scenery. They are threats with their own rules. Blizzards impose Constitution saves. Extreme heat drains endurance one hour at a time. Darkness strips perception checks. Difficult terrain slows the cautious and punishes the reckless.\n\nThe hazards below represent the most common environmental pressures characters face during travel and exploration. GMs should treat these as baselines — layering them with biome-specific weather effects from the [Advanced Travel System](travel-exploration/advanced-travel) for a fully immersive overland experience.`
+            }
+          ],
           tables: [
             {
               title: 'Environmental Hazards',

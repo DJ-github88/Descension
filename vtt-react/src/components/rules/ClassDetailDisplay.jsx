@@ -252,6 +252,43 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   const renderOverview = () => {
     const { overview } = classData;
 
+    // Fallback watercolor image assets map based on class ID for an authentic guidebook feel
+    const classFallbacks = {
+      arcanoneer: { url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Morthel Vault Keeper Arcanoneer.' },
+      berserker: { url: '/assets/images/classes/berserker_illustration.png', caption: 'A Mimir Face Thief Berserker.' },
+      false_prophet: { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Vreken Starved False Prophet.' },
+      bladedancer: { url: '/assets/images/watercolor_swords.png', caption: 'A martial master of flashing steel.' },
+      dreadnaught: { url: '/assets/images/watercolor_shield.png', caption: 'An unbreakable bulwark of rune-carved iron.' },
+      inscriptor: { url: '/assets/images/watercolor_quill.png', caption: 'A scholar binding pure magic to ink and scroll.' },
+      lichborne: { url: '/assets/images/watercolor_skull.png', caption: 'A deathless sovereign channeling cold phylactery flame.' },
+      primalist: { url: '/assets/images/watercolor_tree.png', caption: 'An avatar of roaring lightning and living stone.' },
+      pyrofiend: { url: '/assets/images/watercolor_void.png', caption: 'An elemental terror born of cooling lava.' },
+      titan: { url: '/assets/images/watercolor_anvil.png', caption: 'A colossal sentinel of grave-forged steel.' },
+      oracle: { url: '/assets/images/watercolor_sigil.png', caption: 'A cosmic conduit of starry revelations.' },
+      martyr: { url: '/assets/images/watercolor_crown.png', caption: 'A suffering flagellant radiating divine light.' },
+      toxicologist: { url: '/assets/images/watercolor_flask.png', caption: 'A shadowy stalker of deadly alchemical spores.' },
+      plaguebringer: { url: '/assets/images/watercolor_void.png', caption: 'A harbinger of toxic green corruption.' },
+      witchdoctor: { url: '/assets/images/watercolor_flask.png', caption: 'A hollow-vein herbalist mixing marrow-blood.' },
+      minstrel: { url: '/assets/images/watercolor_dragon.png', caption: 'A song-weaver channeling living melody.' },
+      covenbane: { url: '/assets/images/watercolor_axe.png', caption: 'An iron-clad hunter of witches and hexes.' },
+      huntress: { url: '/assets/images/watercolor_quill.png', caption: 'A master of thorny arrows and hidden traps.' },
+      warden: { url: '/assets/images/watercolor_compass.png', caption: 'A forest scout guarding boundary borders.' },
+      gambler: { url: '/assets/images/watercolor_scales.png', caption: 'A rogue dancing on the scales of blind fortune.' },
+      chronarch: { url: '/assets/images/watercolor_hourglass.png', caption: 'A temporal weaver holding hourglass sand.' },
+      spellguard: { url: '/assets/images/watercolor_breastplate.png', caption: 'A magical shield-master absorbing spell feedback.' },
+      augur: { url: '/assets/images/watercolor_crystal.png', caption: 'A nebula seer tracing stargate alignments.' },
+      doomsayer: { url: '/assets/images/watercolor_scroll.png', caption: 'A lore keeper shouting warnings of decay.' },
+      fate_weaver: { url: '/assets/images/watercolor_scales.png', caption: 'A cosmic weaver spinning starlight destiny.' },
+      chaos_weaver: { url: '/assets/images/watercolor_sigil.png', caption: 'A broken master of fragmented void circles.' },
+      formbender: { url: '/assets/images/watercolor_skull.png', caption: 'A changing shapeshifter with erupting bone frames.' },
+      exorcist: { url: '/assets/images/watercolor_seal.png', caption: 'A holy zealot warding off shadows with bells and sigils.' }
+    };
+
+    const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
+    const illustrationData = overview.illustration 
+      ? { url: overview.illustration, caption: overview.illustrationCaption } 
+      : classFallbacks[classId];
+
     return (
       <div className="class-detail-section parchment-content">
         <div className="guide-badge-header">
@@ -265,8 +302,24 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           <div className="guide-subtitle">{overview.subtitle}</div>
         )}
 
-        <div className="guide-description">
-          {renderContent(overview.description)}
+        <div className="overview-intro-wrapper">
+          {illustrationData && (
+            <div className="guide-illustration-wrapper">
+              <div className="guide-illustration-frame">
+                <img
+                  src={illustrationData.url}
+                  alt={illustrationData.caption}
+                  className="guide-illustration-image"
+                />
+                <div className="guide-illustration-caption">
+                  {illustrationData.caption}
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="guide-description">
+            {renderContent(overview.description)}
+          </div>
         </div>
 
         <div className="overview-meta-row">

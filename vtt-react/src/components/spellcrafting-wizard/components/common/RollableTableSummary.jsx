@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaDiceD20, FaClone, FaCoins, FaBullseye } from 'react-icons/fa';
@@ -15,6 +15,18 @@ const RollableTableSummary = ({
   className = ''
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isRolling, setIsRolling] = useState(false);
+  const [rollingIndex, setRollingIndex] = useState(null);
+  const [rolledIndex, setRolledIndex] = useState(null);
+
+  useEffect(() => {
+    // Reset state when rollableTableData changes
+    setCurrentPage(1);
+    setIsRolling(false);
+    setRollingIndex(null);
+    setRolledIndex(null);
+  }, [rollableTableData]);
 
   if (!rollableTableData || !rollableTableData.enabled) {
     return null;
@@ -22,20 +34,23 @@ const RollableTableSummary = ({
 
   const {
     name = 'Random Effects',
+    tableName = '', // Support spelling variation
     description = '',
     resolutionType = 'DICE',
     resolutionConfig = {},
+    diceFormula = '',
     entries = []
   } = rollableTableData;
 
-  // Debug logging
-  console.log('RollableTableSummary - rollableTableData:', rollableTableData);
-  console.log('RollableTableSummary - entries:', entries);
-  if (entries.length > 0) {
-    console.log('RollableTableSummary - first entry:', entries[0]);
-  }
+  const displayTableName = name || tableName || 'Random Effects';
+  const entryCount = entries.length;
+  const entryText = entryCount === 1 ? 'entry' : 'entries';
+  
+  // Pagination parameters
+  const entriesPerPage = 4;
+  const totalPages = Math.ceil(entryCount / entriesPerPage);
 
-  // Helper function to format effect text with better structure and highlighting (shared for both variants)
+  // Helper function to format effect text with better structure and highlighting
   const formatEffectText = (text) => {
     if (!text || typeof text !== 'string') return text;
     
@@ -53,7 +68,6 @@ const RollableTableSummary = ({
     // Highlight armor references
     formatted = formatted.replace(/(\+?\d+)\s+armor/gi, '<span class="armor-highlight">$1 armor</span>');
     
-    
     // Highlight status effects and conditions
     formatted = formatted.replace(/(ignited|frozen|paralyzed|cursed|resistance)/gi, '<span class="status-highlight">$1</span>');
     
@@ -69,38 +83,31 @@ const RollableTableSummary = ({
     return sentences;
   };
 
-  // Helper function to extract text from effect/description (shared for both variants)
+  // Helper function to extract text from effect/description
   const getEffectText = (entry) => {
-    // Priority: Show detailed effect description, then name as fallback
-    // If we have a detailed effect description, show that (it contains all the mechanics)
     if (entry.effect && typeof entry.effect === 'string' && entry.effect.length > 20) {
-      // Detailed effect description - format it better
       const name = entry.name || entry.customName || '';
       return { name, effect: entry.effect, needsFormatting: true };
     }
     
-    // If we have description field with details, use that
     if (entry.description && typeof entry.description === 'string' && entry.description.length > 20) {
       const name = entry.name || entry.customName || '';
       return { name, effect: entry.description, needsFormatting: true };
     }
 
-    // New format: entry.name, entry.description, entry.effectType, entry.effectConfig
     if (entry.name || entry.effectType) {
       let text = entry.name || entry.customName || '';
 
-      // Add effect details based on effectType
       if (entry.effectType && entry.effectConfig) {
         const config = entry.effectConfig;
         switch (entry.effectType) {
           case 'damage':
-            text += ` (${config.damageFormula || '2d6'} ${config.damageType || 'fire'})`;
+            text += ` (${config.damageFormula || '2d6'} ${config.damageType || 'force'})`;
             break;
           case 'healing':
             text += ` (${config.healingFormula || '2d8'} healing)`;
             break;
           case 'summoning':
-            // Enhanced summoning display with creature details
             if (config.creatures && config.creatures.length > 0) {
               const creatureNames = config.creatures.map(c => c.name).join(', ');
               const quantity = config.quantity || 1;
@@ -123,12 +130,10 @@ const RollableTableSummary = ({
         }
       }
 
-      // Add description if available and not already included
       if (entry.description && entry.description !== text) {
         text += entry.description ? `: ${entry.description}` : '';
       }
 
-      // Add effect if available and not already included
       if (entry.effect && entry.effect !== text && !text.includes(entry.effect)) {
         text += entry.effect ? `: ${entry.effect}` : '';
       }
@@ -136,7 +141,6 @@ const RollableTableSummary = ({
       return { effect: text, needsFormatting: false };
     }
 
-    // Legacy format: entry.effect or entry.description
     const effect = entry.effect || entry.description;
     if (typeof effect === 'string') {
       return { effect, needsFormatting: false };
@@ -148,12 +152,9 @@ const RollableTableSummary = ({
 
   // Format resolution method display
   const formatResolutionMethod = () => {
-    console.log('formatResolutionMethod - resolutionType:', resolutionType);
-    console.log('formatResolutionMethod - resolutionConfig:', resolutionConfig);
-
     switch (resolutionType) {
       case 'DICE':
-        return resolutionConfig.diceType || 'd100';
+        return diceFormula || rollableTableData.diceFormula || resolutionConfig.diceType || (entryCount ? `d${entryCount}` : 'd100');
       case 'CARDS':
         const cardCount = resolutionConfig.cardCount || 3;
         const deckType = resolutionConfig.deckType || 'standard';
@@ -163,7 +164,6 @@ const RollableTableSummary = ({
         const coinCount = resolutionConfig.coinCount || 5;
         const coinType = resolutionConfig.coinType || 'standard';
         const coinLabel = coinType === 'weighted' ? 'Weighted' : 'Standard';
-        console.log('formatResolutionMethod - COINS result:', `${coinCount} ${coinLabel} coins`);
         return `${coinCount} ${coinLabel} coins`;
       default:
         return 'Random';
@@ -184,19 +184,125 @@ const RollableTableSummary = ({
     }
   };
 
-  // Format entry count
-  const entryCount = entries.length;
-  const entryText = entryCount === 1 ? 'entry' : 'entries';
+  // Interactive Roll Function
+  const handleRoll = (e) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    
+    if (isRolling || entryCount === 0) return;
+    
+    setIsExpanded(true);
+    setIsRolling(true);
+    setRolledIndex(null);
+    
+    // Determine roll die value or count
+    const formula = diceFormula || rollableTableData.diceFormula || resolutionConfig.diceType || '1d' + entryCount;
+    const match = formula.match(/d(\d+)/i);
+    const dieSize = match ? parseInt(match[1], 10) : entryCount;
+    
+    // Roll a value between 1 and dieSize
+    const rollValue = Math.floor(Math.random() * dieSize) + 1;
+    
+    // Match rollValue to entries range
+    let winningIndex = -1;
+    for (let i = 0; i < entryCount; i++) {
+      const entry = entries[i];
+      if (entry.roll !== undefined && Number(entry.roll) === rollValue) {
+        winningIndex = i;
+        break;
+      }
+      if (entry.range) {
+        const min = entry.range.min !== undefined ? Number(entry.range.min) : Number(entry.range);
+        const max = entry.range.max !== undefined ? Number(entry.range.max) : Number(entry.range);
+        if (rollValue >= min && rollValue <= max) {
+          winningIndex = i;
+          break;
+        }
+      }
+    }
+    
+    // Fallback: select index
+    if (winningIndex === -1) {
+      winningIndex = Math.floor(Math.random() * entryCount);
+    }
+    
+    // Animate cycling effects
+    let counter = 0;
+    const duration = 800; // ms
+    const intervalTime = 60; // ms
+    const totalSteps = duration / intervalTime;
+    
+    const animationInterval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * entryCount);
+      setRollingIndex(randomIndex);
+      
+      // Auto flip page to follow rolling visuals
+      const rollingPage = Math.floor(randomIndex / entriesPerPage) + 1;
+      setCurrentPage(rollingPage);
+      
+      counter++;
+      if (counter >= totalSteps) {
+        clearInterval(animationInterval);
+        setRollingIndex(null);
+        setRolledIndex(winningIndex);
+        setIsRolling(false);
+        
+        // Ensure we end on the exact page of the rolled item
+        const finalPage = Math.floor(winningIndex / entriesPerPage) + 1;
+        setCurrentPage(finalPage);
+      }
+    }, intervalTime);
+  };
 
-  // Compact variant - single line with essential info
+  const formatRange = (entry, index) => {
+    switch (resolutionType) {
+      case 'DICE':
+        if (entry?.roll !== undefined) return String(entry.roll);
+        if (entry?.range) {
+          if (typeof entry.range === 'object' && entry.range !== null && entry.range.min !== undefined && entry.range.max !== undefined) {
+            return entry.range.min === entry.range.max ? `${entry.range.min}` : `${entry.range.min}-${entry.range.max}`;
+          }
+          return String(entry.range);
+        }
+        return `${index + 1}`;
+      case 'CARDS':
+        return entry.cardPattern || entry.range || `Card ${index + 1}`;
+      case 'COINS':
+        return entry.coinPattern || entry.range || `Coin ${index + 1}`;
+      default:
+        return `${index + 1}`;
+    }
+  };
+
+  // Pagination bounds
+  const startIndex = (currentPage - 1) * entriesPerPage;
+  const endIndex = Math.min(startIndex + entriesPerPage, entryCount);
+  const visibleEntries = entries.slice(startIndex, endIndex);
+
+  // Compact variant
   if (variant === 'compact') {
     return (
       <div className={`rollable-table-summary compact ${className}`}>
         <div className="rollable-table-summary-content">
           <span className="rollable-table-icon">{getResolutionIcon()}</span>
-          <span className="rollable-table-name">{name}</span>
+          <span className="rollable-table-name">{displayTableName}</span>
           <span className="rollable-table-method">({formatResolutionMethod()})</span>
           <span className="rollable-table-count">{entryCount} {entryText}</span>
+          
+          {entryCount > 0 && (
+            <button
+              className={`rollable-table-roll-btn ${isRolling ? 'rolling' : ''}`}
+              onClick={handleRoll}
+              disabled={isRolling}
+              title="Roll on this table directly"
+            >
+              <FaDiceD20 className="roll-btn-icon" />
+              {isRolling ? 'Rolling...' : 'Roll'}
+            </button>
+          )}
+
           {showExpandButton && entryCount > 0 && (
             <button
               className="rollable-table-expand-btn"
@@ -223,47 +329,36 @@ const RollableTableSummary = ({
         {isExpanded && entryCount > 0 && (
           <div className="rollable-table-entries-preview">
             <div className="rollable-table-entries-list">
-              {entries.slice(0, 8).map((entry, index) => {
-                // Format the range properly based on resolution type
-                const formatRange = (entry, resolutionType) => {
-                  switch (resolutionType) {
-                    case 'DICE':
-                      // Check for roll field first (single roll value)
-                      if (entry?.roll !== undefined) return String(entry.roll);
-                      // Then check for range object
-                      if (entry?.range) {
-                        if (typeof entry.range === 'object' && entry.range !== null && entry.range.min !== undefined && entry.range.max !== undefined) {
-                          return entry.range.min === entry.range.max ? `${entry.range.min}` : `${entry.range.min}-${entry.range.max}`;
-                        }
-                        return String(entry.range);
-                      }
-                      // Fallback to index + 1
-                      return `${index + 1}`;
-                    case 'CARDS':
-                      // For CARDS, use cardPattern first, then range (which stores card pattern), then fallback
-                      return entry.cardPattern || entry.range || `Card ${index + 1}`;
-                    case 'COINS':
-                      // For COINS, use coinPattern first, then range (which stores coin pattern), then fallback
-                      return entry.coinPattern || entry.range || `Coin ${index + 1}`;
-                    default:
-                      return `${index + 1}`;
-                  }
-                };
-
-
+              {visibleEntries.map((entry, idx) => {
+                const absoluteIndex = startIndex + idx;
+                const isRollingHighlight = rollingIndex === absoluteIndex;
+                const isRolledHighlight = rolledIndex === absoluteIndex;
                 const effectData = getEffectText(entry);
                 
                 return (
-                  <div key={index} className="rollable-table-entry-preview">
-                    <span className="entry-range">{formatRange(entry, resolutionType)}</span>
+                  <div
+                    key={absoluteIndex}
+                    className={`rollable-table-entry-preview ${isRollingHighlight ? 'is-rolling-highlight' : ''} ${isRolledHighlight ? 'is-rolled-highlight' : ''}`}
+                  >
+                    <span className="entry-range">
+                      {formatRange(entry, absoluteIndex)}
+                    </span>
                     <div className="entry-effect-container">
                       {effectData.name && (
-                        <span className="entry-effect-name">{effectData.name}</span>
+                        <span className="entry-effect-name">
+                          {effectData.name}
+                          {isRolledHighlight && <span className="rolled-badge">Rolled!</span>}
+                        </span>
+                      )}
+                      {!effectData.name && isRolledHighlight && (
+                        <div style={{ marginBottom: '4px' }}>
+                          <span className="rolled-badge" style={{ marginLeft: 0 }}>Rolled!</span>
+                        </div>
                       )}
                       {effectData.needsFormatting ? (
                         <div className="entry-effect-text">
-                          {formatEffectText(effectData.effect).map((sentence, idx) => (
-                            <div key={idx} className="entry-effect-sentence" dangerouslySetInnerHTML={{ __html: sentence + (idx < formatEffectText(effectData.effect).length - 1 ? '.' : '') }} />
+                          {formatEffectText(effectData.effect).map((sentence, sIdx) => (
+                            <div key={sIdx} className="entry-effect-sentence" dangerouslySetInnerHTML={{ __html: sentence + (sIdx < formatEffectText(effectData.effect).length - 1 ? '.' : '') }} />
                           ))}
                         </div>
                       ) : (
@@ -276,55 +371,81 @@ const RollableTableSummary = ({
                   </div>
                 );
               })}
-              {entryCount > 8 && (
-                <div className="rollable-table-entry-preview more-entries">
-                  <span className="entry-range">...</span>
-                  <span className="entry-effect">+{entryCount - 8} more entries</span>
-                  {entryCount > 15 && (
-                    <button
-                      className="view-full-table-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // This could trigger a modal or navigate to a detailed view
-                        console.log('View full table:', name);
-                      }}
-                      title="View complete rollable table"
-                    >
-                      View Full Table
-                    </button>
-                  )}
-                </div>
-              )}
             </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="rollable-table-pagination">
+                <button
+                  className="page-btn prev-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentPage(prev => Math.max(prev - 1, 1));
+                  }}
+                  disabled={currentPage === 1 || isRolling}
+                  title="Previous Page"
+                >
+                  ◀
+                </button>
+                <span className="page-info">
+                  {currentPage} of {totalPages}
+                </span>
+                <button
+                  className="page-btn next-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                  }}
+                  disabled={currentPage === totalPages || isRolling}
+                  title="Next Page"
+                >
+                  ▶
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
     );
   }
 
-  // Inline variant - very minimal for tight spaces
+  // Inline variant
   if (variant === 'inline') {
     return (
       <span className={`rollable-table-summary inline ${className}`}>
         <span className="rollable-table-icon">{getResolutionIcon()}</span>
         <span className="rollable-table-inline-text">
-          {name} ({formatResolutionMethod()})
+          {displayTableName} ({formatResolutionMethod()})
         </span>
       </span>
     );
   }
 
-  // Detailed variant - more information displayed
+  // Detailed variant
   return (
     <div className={`rollable-table-summary detailed ${className}`}>
       <div className="rollable-table-summary-header">
         <div className="rollable-table-title">
           <span className="rollable-table-icon">{getResolutionIcon()}</span>
-          <span className="rollable-table-name">{name}</span>
+          <span className="rollable-table-name">{displayTableName}</span>
         </div>
-        <div className="rollable-table-meta">
-          <span className="rollable-table-method">{formatResolutionMethod()}</span>
-          <span className="rollable-table-count">{entryCount} {entryText}</span>
+        
+        <div className="rollable-table-meta-roll-container" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {entryCount > 0 && (
+            <button
+              className={`rollable-table-roll-btn ${isRolling ? 'rolling' : ''}`}
+              onClick={handleRoll}
+              disabled={isRolling}
+              title="Roll on this table directly"
+            >
+              <FaDiceD20 className="roll-btn-icon" />
+              {isRolling ? 'Rolling...' : 'Roll'}
+            </button>
+          )}
+          <div className="rollable-table-meta">
+            <span className="rollable-table-method">{formatResolutionMethod()}</span>
+            <span className="rollable-table-count">{entryCount} {entryText}</span>
+          </div>
         </div>
       </div>
       
@@ -349,46 +470,36 @@ const RollableTableSummary = ({
       {isExpanded && entryCount > 0 && (
         <div className="rollable-table-entries-preview detailed">
           <div className="rollable-table-entries-list">
-            {entries.map((entry, index) => {
-              // Format the range properly based on resolution type
-              const formatRange = (entry, resolutionType) => {
-                switch (resolutionType) {
-                  case 'DICE':
-                    // Check for roll field first (single roll value)
-                    if (entry?.roll !== undefined) return String(entry.roll);
-                    // Then check for range object
-                    if (entry?.range) {
-                      if (typeof entry.range === 'object' && entry.range !== null && entry.range.min !== undefined && entry.range.max !== undefined) {
-                        return entry.range.min === entry.range.max ? `${entry.range.min}` : `${entry.range.min}-${entry.range.max}`;
-                      }
-                      return String(entry.range);
-                    }
-                    // Fallback to index + 1
-                    return `${index + 1}`;
-                  case 'CARDS':
-                    // For CARDS, use cardPattern first, then range (which stores card pattern), then fallback
-                    return entry.cardPattern || entry.range || `Card ${index + 1}`;
-                  case 'COINS':
-                    // For COINS, use coinPattern first, then range (which stores coin pattern), then fallback
-                    return entry.coinPattern || entry.range || `Coin ${index + 1}`;
-                  default:
-                    return `${index + 1}`;
-                }
-              };
-
+            {visibleEntries.map((entry, idx) => {
+              const absoluteIndex = startIndex + idx;
+              const isRollingHighlight = rollingIndex === absoluteIndex;
+              const isRolledHighlight = rolledIndex === absoluteIndex;
               const effectData = getEffectText(entry);
 
               return (
-                <div key={index} className="rollable-table-entry-preview">
-                  <span className="entry-range">{formatRange(entry, resolutionType)}</span>
+                <div
+                  key={absoluteIndex}
+                  className={`rollable-table-entry-preview ${isRollingHighlight ? 'is-rolling-highlight' : ''} ${isRolledHighlight ? 'is-rolled-highlight' : ''}`}
+                >
+                  <span className="entry-range">
+                    {formatRange(entry, absoluteIndex)}
+                  </span>
                   <div className="entry-effect-container">
                     {effectData.name && (
-                      <span className="entry-effect-name">{effectData.name}</span>
+                      <span className="entry-effect-name">
+                        {effectData.name}
+                        {isRolledHighlight && <span className="rolled-badge">Rolled!</span>}
+                      </span>
+                    )}
+                    {!effectData.name && isRolledHighlight && (
+                      <div style={{ marginBottom: '4px' }}>
+                        <span className="rolled-badge" style={{ marginLeft: 0 }}>Rolled!</span>
+                      </div>
                     )}
                     {effectData.needsFormatting ? (
                       <div className="entry-effect-text">
-                        {formatEffectText(effectData.effect).map((sentence, idx) => (
-                          <div key={idx} className="entry-effect-sentence" dangerouslySetInnerHTML={{ __html: sentence + (idx < formatEffectText(effectData.effect).length - 1 ? '.' : '') }} />
+                        {formatEffectText(effectData.effect).map((sentence, sIdx) => (
+                          <div key={sIdx} className="entry-effect-sentence" dangerouslySetInnerHTML={{ __html: sentence + (sIdx < formatEffectText(effectData.effect).length - 1 ? '.' : '') }} />
                         ))}
                       </div>
                     ) : (
@@ -402,6 +513,37 @@ const RollableTableSummary = ({
               );
             })}
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="rollable-table-pagination">
+              <button
+                className="page-btn prev-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentPage(prev => Math.max(prev - 1, 1));
+                }}
+                disabled={currentPage === 1 || isRolling}
+                title="Previous Page"
+              >
+                ◀
+              </button>
+              <span className="page-info">
+                {currentPage} of {totalPages}
+              </span>
+              <button
+                className="page-btn next-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                }}
+                disabled={currentPage === totalPages || isRolling}
+                title="Next Page"
+              >
+                ▶
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

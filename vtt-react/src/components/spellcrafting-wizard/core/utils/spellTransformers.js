@@ -152,24 +152,44 @@ export const transformSpellForCard = (spell) => {
   return transformedSpell;
 };
 
-/**
- * Get the rollable table data from a spell
- * @param {Object} spell - The spell object
- * @returns {Object|null} - The rollable table data or null if not found
- */
 export const getSpellRollableTable = (spell) => {
   if (!spell) return null;
 
   // Try to find the rollable table data in various locations
-  return spell.rollableTable ||
-         spell.rollTable ||
-         spell.randomTable ||
-         spell.randomEffectsTable ||
-         spell.typeConfig?.rollableTable ||
-         spell.effectConfig?.rollableTable ||
-         spell.mechanicsConfig?.rollableTable ||
-         spell.spellConfig?.rollableTable ||
-         null;
+  const rollableTable = spell.rollableTable ||
+                       spell.rollTable ||
+                       spell.randomTable ||
+                       spell.randomEffectsTable ||
+                       spell.typeConfig?.rollableTable ||
+                       spell.effectConfig?.rollableTable ||
+                       spell.mechanicsConfig?.rollableTable ||
+                       spell.spellConfig?.rollableTable ||
+                       null;
+
+  // If we found a rollable table, ensure it has the proper structure
+  if (rollableTable && typeof rollableTable === 'object') {
+    const entries = Array.isArray(rollableTable.entries) ? rollableTable.entries : [];
+    const entryCount = entries.length;
+    const defaultDice = entryCount ? `d${entryCount}` : 'd100';
+    const diceType = rollableTable.resolutionConfig?.diceType || 
+                     rollableTable.diceFormula || 
+                     rollableTable.diceType || 
+                     defaultDice;
+
+    return {
+      enabled: rollableTable.enabled !== false, // Default to enabled if not specified
+      name: rollableTable.name || rollableTable.tableName || 'Random Effects',
+      description: rollableTable.description || '',
+      resolutionType: rollableTable.resolutionType || 'DICE',
+      resolutionConfig: {
+        ...(rollableTable.resolutionConfig || {}),
+        diceType
+      },
+      entries: entries
+    };
+  }
+
+  return null;
 };
 
 /**
