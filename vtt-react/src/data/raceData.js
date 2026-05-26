@@ -19,7 +19,7 @@ import { emberth } from './races/emberth';
 import { vreken } from './races/vreken';
 import { morthel } from './races/morthel';
 import { astril } from './races/astril';
-import { ferrick } from './races/ferrick';
+import { fexrick } from './races/fexrick';
 import { human } from './races/human';
 
 export const RACE_DATA = {
@@ -32,7 +32,7 @@ export const RACE_DATA = {
     vreken,
     morthel,
     astril,
-    ferrick,
+    fexrick,
     human
 };
 

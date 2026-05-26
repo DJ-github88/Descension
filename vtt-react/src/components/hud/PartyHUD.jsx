@@ -3285,8 +3285,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     }
                 }
 
-                // Health adjustment options - only show if GM mode
-                if (isGMMode) {
+                // Health adjustment options - show for GM on anyone, or for self on own character
+                if (isGMMode || isSelf) {
                     menuItems.push({ type: 'separator' });
 
                     // Full Restore All button (restores HP, mana, and AP)
@@ -3488,6 +3488,11 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             }
                         ]
                     });
+                }
+
+                // GM-only options: Experience and Level adjustments
+                if (isGMMode) {
+                    menuItems.push({ type: 'separator' });
 
                     // Experience submenu
                     menuItems.push({

@@ -1784,6 +1784,15 @@ const useCharacterStore = create((set, get) => ({
         get().syncWithMultiplayer();
     },
 
+    setSkillRank: (skillId, rankKey) => {
+        set((state) => ({
+            skillRanks: { ...state.skillRanks, [skillId]: rankKey }
+        }));
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
+    },
+
     updateResource: (resource, current, max, temp, skipSync = false, skipSave = false) => {
         set(state => {
             const oldResource = state[resource] || { current: 0, max: 0 };

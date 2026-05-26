@@ -185,6 +185,7 @@ export const InspectionProvider = ({ character, children }) => {
 
         // Skills
         skillProgress: characterData?.skillProgress || {},
+        skillRanks: characterData?.skillRanks || {},
 
         // Functional update methods that work with the appropriate store
         updateStat: (statName, value) => {
@@ -253,6 +254,29 @@ export const InspectionProvider = ({ character, children }) => {
         updateLore: () => { },
         updateCharacterInfo: () => { },
         unequipItem: () => { },
+        setSkillRank: (skillId, rankKey) => {
+            if (!canEdit) {
+                console.log('Skill rank changes not allowed - not owner and not GM');
+                return;
+            }
+
+            if (isCurrentPlayer) {
+                useCharacterStore.getState().setSkillRank(skillId, rankKey);
+            } else {
+                const member = partyMembers.find(m => m.id === currentMemberData?.id);
+                if (member) {
+                    updatePartyMember(currentMemberData.id, {
+                        character: {
+                            ...member.character,
+                            skillRanks: {
+                                ...(member.character?.skillRanks || {}),
+                                [skillId]: rankKey
+                            }
+                        }
+                    });
+                }
+            }
+        },
 
         // Calculated values - use properly calculated derived stats
         equipmentBonuses: characterData?.equipmentBonuses || {},

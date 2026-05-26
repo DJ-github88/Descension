@@ -64,8 +64,19 @@ export default function Skills() {
         equipmentBonuses,
         skillProgress = {},
         skillRanks = {},
-        updateSkillProgress
+        updateSkillProgress,
+        setSkillRank
     } = dataSource;
+
+    const DIE_SIZE_MAP = {
+        UNTRAINED: 4,
+        NOVICE: 6,
+        TRAINED: 8,
+        APPRENTICE: 10,
+        ADEPT: 12,
+        EXPERT: 20,
+        MASTER: 20
+    };
 
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -407,7 +418,28 @@ export default function Skills() {
                         </h2>
                         <p className="skill-detail-description">{skill.description}</p>
                         <div className="skill-detail-stats">
-                            <span className="skill-rank">{effectiveRank.name}</span>
+                            <div className="skill-rank-selector-wrapper">
+                                <span className="skill-rank" style={{ marginRight: '6px' }}>{effectiveRank.name}</span>
+                                <span className="skill-die-size" title="Skill die size">({DIE_SIZE_MAP[effectiveRank.key]}▼)</span>
+                                <select
+                                    className="skill-rank-dropdown"
+                                    value={effectiveRank.key}
+                                    onChange={(e) => {
+                                        if (setSkillRank) {
+                                            setSkillRank(selectedSkill, e.target.value);
+                                        } else {
+                                            useCharacterStore.getState().setSkillRank(selectedSkill, e.target.value);
+                                        }
+                                    }}
+                                    title="Change skill level"
+                                >
+                                    {Object.entries(SKILL_RANKS).map(([key, data]) => (
+                                        <option key={key} value={key}>
+                                            {data.name} — d{DIE_SIZE_MAP[key]}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                             <span className="skill-modifier">+{modifier}</span>
                             <span className="skill-progress">
                                 {completedQuests.length}/{quests.length} Quests

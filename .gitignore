@@ -46,3 +46,35 @@ server/firebase-service-account.json
 server/local-persistence.json
 server/scripts/local-persistence.json
 server/*.json
+
+# Playwright MCP artifacts
+.playwright-mcp/
+
+# Debug/temp files
+_*.txt
+_*.js
+_fix*.js
+fix-*.js
+fix_*.js
+transform_*.js
+replace_*.js
+temp_*.js
+temp_*.mjs
+audit-*
+audit_*.js
+build-log*.txt
+
+# Screenshots in root
+*.png
+
+# Scratch directory
+scratch/
+
+# Backup and disabled files
+*.backup*.js
+*.backup*.jsx
+*.disabled
+*_backup*
+
+# Script utilities (not part of the app)
+scripts/

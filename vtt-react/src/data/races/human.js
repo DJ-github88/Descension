@@ -1,1982 +1,552 @@
 export const human = {
     id: 'human',
     name: 'Human',
-    essence: 'The burning wick',
+    essence: 'The Burning Wick',
     illustration: '/assets/images/races/human_illustration.png',
-    illustrationCaption: 'A Human Hearthorn survivor standing resiliently with a single steel shoulder guard.',
-    description: 'We are the shortest-lived, most fragile sapient species on Mythrill — and we are the most dangerous thing on two legs. Not because we are strong. Not because we are fast. Not because the gods blessed us. Because we refuse. We refuse to break when every fiber screams surrender. We refuse to die when the blade is at our throat. We refuse to stop when our bodies are failing and our blood is on the stones. Sixty good years. That is all a Human gets. Sixty years to carve a name into a world that was ancient before our ancestors learned to walk upright. We burn brighter, push harder, and fight dirtier than anything else that breathes — because we have to. We have no claws, no fangs, no magic in our blood, no centuries to master a craft. We have spite, stubbornness, and the pathological certainty that tomorrow is worth bleeding for today.',
+    illustrationCaption: 'A diverse gathering of Humanity — a Skald warrior in rimesteel, a Merryn pirate with tattooed arms, a Solvarn sun-priest, and an Ordan herder with wind-leather cloak.',
+    description: `We are the shortest-lived, most fragile sapient species on Mythrill — and the most dangerous thing on two legs. Not because we are strong. Not because we are fast. Not because the gods blessed us or the mountain chose us or the stars fell into our blood. Because we refuse. We refuse to break when every fiber screams surrender. We refuse to die when the blade is at our throat. We refuse to stop when our bodies fail and our blood pools on the stones.
+
+Sixty good years. That is all a Human gets. Sixty years to carve a name into a world that was ancient before our ancestors learned to walk upright. We have no claws. No fangs. No quicksilver blood. No centuries to master a craft. What we have is spite, stubbornness, and the pathological certainty that tomorrow is worth bleeding for today.
+
+Seven noble families sealed the dark bargains that doomed this world. Seven houses traded their children's futures for warmth, for fog, for snow-veils, for navigable seas, for endless grass. Six of those families marched their firstborn to the northern peaks as sacrifice to Keth-Amar. One — House Viridane — refused and fled south, and we struck their name from every record. We are the descendants of the six who said yes, and every human bloodline carries the weight of that capitulation. We do not all remember what was traded. The fog has eaten those memories in Frostwood. The ash has buried them in Sundale. The sea has drowned them in Iceheart. But the debt remains, written in our bones, collectible at any time.
+
+We burn brighter, push harder, and fight dirtier than anything else that breathes — because we have to. We are the burning wick of Mythrill. Bright. Brief. Dangerous to everything nearby. Including ourselves.`,
+
     icon: 'fas fa-user',
-    overview: 'Humans are the burning wick — short-lived, biologically fragile, and pathologically determined. Every other race has evolutionary or magical advantages spanning millennia. Humans have sixty years and the spite to make them count. Their defense is not armor or regeneration; it is will. Their offense is not strength or magic; it is refusal to quit. Organized into three bloodlines: Imperial (conquerors and commanders), Hearthorn (commoners and survivors), and Pale-Born (arcane-touched outcasts).',
-    culturalBackground: 'Human civilization spans more territory than any single non-human race, held together not by individual power but by networks of trade, alliance, blood, and shared stubbornness. Imperials build empires through military discipline and political ambition. Hearthorn carve communities from wilderness with calloused hands and quiet pragmatism. Pale-Born exist on the fringes — distrusted by their own kind, drawn to the arcane forces that marked their bloodlines. All three share the same fundamental truth: Humans survive not because they are powerful, but because they refuse to die.',
-    variantDiversity: 'Humans are divided into three bloodlines shaped by circumstance and environment: The Imperials are empire-builders — militaristic, disciplined, and culturally convinced the world exists to be ordered. The Hearthorn are commoners — farmers, tradesmen, and survivors whose endurance borders on the supernatural. The Pale-Born are arcane-touched outcasts — their bloodlines saturated by generations of proximity to ley-lines and cursed battlefields, making them magically potent but biologically unstable.',
+    overview: `Humans span more territory than any single non-human race. Every continent has human settlements — not because humans conquered them, but because humans were already there when the sun died and simply refused to leave. The seven noble houses made their bargains region by region, and their descendants are still living with the consequences.
+
+In Frostwood Reach, the Thalren keep journals chained to their belts because the fog steals memory and a person without a past is a person without a self. In Nordhalla, the Skald encase their dead in glacier-tombs and measure worth by bloodline purity and cold-endurance. In the Cragjaw Peaks, the Tessen have not left their snow-buried keeps in eight generations and have developed elaborate internal politics to match their elaborate isolation. In Sundale, the Solvarn worship the memory of the sun from forge-towns slowly being buried in volcanic ash, and they will not leave because leaving would mean admitting their ancestors' sacrifice was for nothing.
+
+On the Iceheart Sea, the Merryn tattoo their contracts onto their skin and measure wealth in ships and luck in survived storms — their ports are scattered across half a dozen islands and coastlines, each with its own flavor of the same pirate gospel: tomorrow is not promised, so tonight you drink. In the Sundrift Vale, the Ordan follow the endless herds across the starless steppe, navigating by throat-sung ancestor-maps, leaving their old at the mounds when they can no longer ride. In the Bryngloom Forest, the Morren live in debt to the Neth — every swamp-village owes something, every family has a contract they cannot repay, and the Neth's protection is the only thing standing between the Morren and the things that hunt in the bog.
+
+Seven houses. Seven peoples. One species. We are not united. We never have been. But we are still here, still fighting, still building, still refusing to accept that a frozen, dying world is the end of the story. We are the burning wick. We have not gone out yet.`,
+
+    culturalBackground: `Human civilization is not a single civilization. It is seven distinct cultures, each shaped by the dark bargain their noble ancestors made, each adapted to a different corner of a dying world. The Thalren of Frostwood Reach are archivists — obsessed with preservation because the fog that protects their timber also devours their memories. The Skald of Nordhalla are endurance-purists — the weak are culled, the strong are celebrated, and summer is a myth told to children. The Tessen of the Cragjaw Peaks are the most isolated human culture — keep-dwellers who have not seen the sky in living memory, whose internal politics have become Byzantine in their complexity because there is literally nothing else to do. The Solvarn of Sundale are martyrs — they stay in the ashlands because leaving would mean admitting their ancestors' sacrifice to Keth-Amar was meaningless. The Merryn of the Iceheart Sea are gamblers — pirates, storm-chasers, luck-worshippers whose tattooed skin is a legal document. The Ordan of the Sundrift Vale are nomads — the migration route is home, the herd is family, and the ancestor-song is the only map that works under a starless sky. The Morren of the Bryngloom Forest are debtors — generations of contracts with the Neth have made them dependent on their protectors, and most Morren owe more than they know.
+
+These seven cultures do not love each other. The Skald view the Thalren as soft — fog-dwellers who lost their nerve along with their memories. The Solvarn view the Merryn as frivolous — pirates who gamble with lives the Solvarn consider sacred. The Tessen view everyone as threats — isolation does not breed trust. The Ordan view all settled peoples as fundamentally weak — a house is a cage, a city is a grave. The Morren barely interact with other humans at all — the Bryngloom is its own world, and the Neth discourage outside contact that might introduce competing legal claims.
+
+But they trade. Human merchant networks span the continents — not because humans trust each other, but because the Thalren need Nordhalla iron, the Solvarn need Iceheart timber, the Tessen need Sundrift herd-hides, and survival has always been more persuasive than pride. Human caravans cross the Cragjaw on Groven bridges. Human ships brave the Iceheart storms because the alternative is economic collapse. Human traders deal with Fexrick intermediaries, Astril spirit-readers, Neth contract-houses, and anyone else who will honor a deal. Humans are the connective tissue of Mythrill's economy — not because they are beloved, but because they are everywhere and they never stop moving.
+
+The noble houses still exist. Their bloodlines are thinned by centuries of attrition, but the names carry weight. House Thalreth still governs Frostwood Reach from Greymark. House Skalvyr still commands the fjord-keeps of Nordhalla. House Tesshan still holds the buried keep that bears its name, though no one outside the Peaks has seen a Tesshan in living memory. House Solvan still tends the dying capital of Sundale — and still sends its firstborn children to the northern peaks when the old rituals demand it, though the rituals have not been performed in three centuries and the children who go do not come back. House Mereval still leads the pirate fleets — or claims to; the Merryn have never been good at taking orders. House Ordavan still rides at the head of the migration — the Khan's bloodline, thinned by generations of leaving the old at the mounds. House Morrath still administers the Neth contracts — which means House Morrath is the Neth's most reliable collection agency, and the Morren hate them for it.
+
+The eighth house — House Viridane — is the wound in human history. The family that refused the bargain. The name struck from every record. Their descendants are the Briaran, and every human culture deals with this differently: the Thalren have forgotten them (the fog took that memory too), the Skald despise them as cowards, the Solvarn envy them (they had the courage to say no), the Tessen have never heard of them, the Merryn don't care, the Ordan sing songs about the house that chose freedom over survival, and the Morren know the truth because the Neth told them — Viridane refused, and the rest of us did not, and that is why the world is dying.`,
+
+    variantDiversity: `Humanity is divided into seven regional bloodlines, each shaped by the dark bargain their noble ancestors made and the continent they have spent centuries refusing to abandon. The Thalren of Frostwood Reach, the Skald of Nordhalla, the Tessen of the Cragjaw Peaks, the Solvarn of Sundale, the Merryn of the Iceheart Sea, the Ordan of the Sundrift Vale, and the Morren of the Bryngloom Forest — seven peoples, one species, bound by shared fragility and the shared refusal to accept extinction.`,
+
     integrationNotes: {
-        actionPointSystem: 'Human abilities focus on willpower, social manipulation, and desperate survival. They lack raw supernatural power but gain asymmetric utility — each subrace is devastating in its niche and handicapped outside of it.',
-        backgroundSynergy: 'Imperials excel as military commanders, politicians, and party leaders. Hearthorn thrive as survivalists, crafters, and attrition specialists. Pale-Born are unmatched as arcane specialists and magical reconnaissance — but social pariahs.',
-        classCompatibility: 'Imperials synergize with tanky/frontline classes that benefit from formation bonuses. Hearthorn complement endurance-based classes and crafting-focused builds. Pale-Born amplify any spellcasting class but suffer in anti-magic scenarios. All Humans share the base fragility of -10% HP, forcing tactical play regardless of class.'
+        actionPointSystem: 'All Humans share the universal traits of Mortal Frailty and Desperate Will. Each subrace gains three region-specific traits reflecting their culture. Humans lack supernatural advantages but gain asymmetric utility — each subrace is devastating in its niche and handicapped outside it.',
+        backgroundSynergy: 'Humans excel in any background their regional culture supports. Thalren favor scholarly and diplomatic backgrounds. Skald favor martial and survival backgrounds. Solvarn favor religious and endurance backgrounds. Merryn favor maritime and social backgrounds. Ordan favor nomadic and animal-handling backgrounds. Morren favor occult and contractual backgrounds.',
+        classCompatibility: 'Thalren: Inscriptor, Exorcist, Witch Doctor, Warden. Skald: Berserker, Dreadnaught, Titan, Augur. Tessen: Warden, Spellguard, Doomsayer, Lichborne. Solvarn: Pyrofiend, Martyr, Augur, Doomsayer. Merryn: Gambler, Bladedancer, Minstrel, Deathcaller. Ordan: Huntress, Primalist, Minstrel, Fate Weaver. Morren: Toxicologist, Deathcaller, Covenbane, Lichborne.'
     },
-    meaningfulTradeoffs: 'All Humans share Mortal Frailty (-10% base HP) and The Short Straw (+25% damage from aging/necrotic/time effects). Their only universal strength is Desperate Will (+2 Spirit, advantage vs Fear/Charm/Domination). Every Human subrace trades raw survivability for asymmetric niche power.',
+
+    meaningfulTradeoffs: 'All Humans share Mortal Frailty (-10% base HP) and The Short Straw (+25% damage from necrotic/aging/time effects). Their only universal strength is Desperate Will (+2 Spirit, advantage vs Fear/Charm/Domination). Every Human subrace trades raw survivability for asymmetric niche power shaped by their region\'s dark bargain.',
+
     baseTraits: {
         languages: ['Common'],
-        lifespan: '70-90 years',
+        lifespan: '60-90 years',
         baseSpeed: 30,
         size: 'Medium',
         sizeCategory: 'Medium',
-        height: '5\'4" - 6\'0"',
-        weight: '130-200 lbs',
-        build: 'Variable'
+        height: '5\'2" - 6\'2"',
+        weight: '120-210 lbs',
+        build: 'Variable by region — lean and wind-marked in the Vale, stocky and cold-hardened in Nordhalla, wiry and salt-stained on the Iceheart Sea'
     },
-    epicHistory: `Humans are the oldest race — or at least the most stubborn. Every other race was shaped, transformed, cursed, or blessed by external forces. Humans refused. They watched the Hrym freeze, the Grimheart petrify, the Vreken succumb to the beast. And they built walls.
 
-When the magical cataclysms came, humans survived not through power but through preparation. Their merchant networks fed cities through famines. Their homesteads endured when empires fell. The greatest human empire lasted 800 years not because of magic, but because of roads, laws, and the stubborn insistence that tomorrow is worth planning for.
+    epicHistory: `
+Before the binding of Sol, humanity was already spread across every continent — not as empires, but as scattered peoples adapting to local extremes. The noble houses emerged in the centuries before the Deepening, consolidating power through trade, marriage, and war. When Sol entered its death-rebirth cycle and the world began to freeze, the seven houses pooled their resources and their bloodlines to bind the sun beneath Sundale — an act of desperate, collective survival that exhausted them completely.
 
-But that empire fell too. They all fall eventually. Because Humans are a species that burns through everything — resources, alliances, empires, and themselves. They achieve more in decades than other races manage in centuries, and they leave ruins behind as proof. The Imperials conquered half a continent in three generations and spent the next ten fighting over the pieces. The Hearthorn survived plagues that wiped out entire non-human settlements and repaid the world by farming the mass graves. The Pale-Born learned to weaponize the arcane saturation in their blood — and paid for it with eyes that see too much and flesh that burns in sunlight.
+Then Keth-Amar came. The predator whispered promises of volcanic warmth to the starving nobles who had doomed their own people. Six of the seven houses capitulated. They marched their firstborn heirs to the northern peaks. Keth-Amar consumed them — not as sacrifice, but as vessels — and used their bloodline-keys to crack the binding seal from within. Emberspire erupted. The Wyrd was released. The Campaign Shards scattered.
 
-Humans are the burning wick of Mythrill. Bright. Brief. Dangerous to everything nearby, including themselves.`,
+House Viridane — the eighth house — refused. They fled south through the Frostwood Reach and made a counter-bargain with the fae. Their descendants are the Briaran. The six houses that capitulated spent the next three centuries erasing every record of Viridane's existence, rewriting history to justify their own failure. The lie holds to this day in most human territories.
+
+The dark bargains were struck region by region in the aftermath. Each surviving noble house made its own deal with the Warden — trading something precious for something necessary. The trades shaped the land, and the land shaped the people, and the people became the seven human cultures that exist today.
+
+Human empires have risen and fallen across the millennia. The greatest of them — the Solvan Imperium, which briefly united Sundale, Frostwood, and Nordhalla under one banner — lasted four hundred years before collapsing under the weight of its own supply lines. Human empires always collapse. Humans are not builders of lasting monuments. They are survivors of the collapses that follow.
+    `,
+
     notableFigures: [
         {
-            name: 'General Aldric Voss',
-            title: 'The Iron Standard',
+            name: 'Thalra Greymark',
+            title: 'The Last Archivist',
             portraitIcon: 'Armor/Head/head-hooded-helmet',
-            backstory: 'The last Imperial general to hold the Northern Wall against the Grimheart siege. When his phalanx broke and his officers fled, Voss stood alone at the gate — not because he was brave, but because his legs were pinned under rubble and he could not run. He held the breach for six hours with a broken pike, screaming orders to soldiers who had already deserted. The Grimheart eventually pulled back, not because Voss stopped them, but because they decided he was too insane to be worth killing. He still commands the garrison. He still cannot walk without a cane. He still will not retreat.'
+            backstory: 'The eldest living Thalren, keeper of the Greymark lineage-tapestries for one hundred and seven years. She has memorized the genealogy of every family in Frostwood Reach — forty thousand names, stretching back twelve generations. She can recite the ancestry of any Thalren who petitions her. She cannot remember her own daughter\'s face. The fog took it thirty years ago. She keeps her daughter\'s journal chained to her belt and reads it every morning, and every morning she grieves a death she does not remember happening.'
         },
         {
-            name: 'Mira Thatch',
-            title: 'The Plague Widow',
-            portraitIcon: 'Armor/Head/head-hooded-helmet',
-            backstory: 'Hearthorn herbalist who survived the Hollowthroat Plague that killed three-quarters of her village. When the disease took her husband and all four children, Mira did not grieve — she dissected. She spent two months studying the plague\'s progression in the corpses of her neighbors, brewing poultices from herbs she grew in mass graves. Her cure came too late for her family but saved six neighboring settlements. She now travels with a cart full of medicines and a silence that makes even hardened soldiers uncomfortable. She has never spoken her children\'s names aloud since the day she buried them.'
+            name: 'Ragna Skalvyr',
+            title: 'The Ice-Widow',
+            portraitIcon: 'Armor/Head/head-golden-crown-helmet',
+            backstory: 'The current matriarch of House Skalvyr, who has outlived three husbands and seven of her nine children. She earned her name at forty-two when she walked into a whiteout blizzard to retrieve the body of her eldest son, carrying him back to Ymirhold on her shoulders through fifty miles of killing cold. She lost three toes to frostbite. She refuses to wear boots that cover the stumps — she says the cold reminds her of what she is capable of. She is seventy-one. She still leads raids against the glacier-revenants that crawl out of the fjords.'
         },
         {
-            name: 'Severin Ashmark',
-            title: 'The Bleeding Oracle',
-            portraitIcon: 'Armor/Head/head-hooded-helmet',
-            backstory: 'Pale-Born diviner whose prophecies are terrifyingly accurate — because he bleeds them into existence. Severin\'s Blood Resonance ability is so powerful that he no longer needs to cut himself to replicate spells; he simply weeps blood when the magic takes hold. He predicted the collapse of the Thornwall Bridge three days before it fell. He foretold the return of the Deep Hunger beneath Grimheart mines. He cannot predict his own death, and this terrifies him more than any vision. Other Pale-Born consider him a warning — proof that the ley-saturation will eventually consume those who push too hard. Severin agrees with them.'
+            name: 'Ordan Khan',
+            title: 'The Wind-Singer',
+            portraitIcon: 'Armor/Head/head-dark-hood',
+            backstory: 'The current head of House Ordavan, a throat-singer whose voice carries fifteen miles across the steppe. She knows every migration route by heart and every ancestor-song by muscle memory. She has never seen the sea. She has never entered a building made of stone. She will die on the steppe, as her mother did, as her grandmother did, and her body will be left at the Khan\'s Mound with a song that will be sung until the migration circles back — and then never sung again, because the song belongs to the dead, and the dead do not travel.'
         }
     ],
+
     majorLocations: [
         {
-            name: 'The Iron Standard',
-            description: 'The greatest fortress-city ever built by Human hands, constructed at the narrowest point of the Pass of Cinders. Imperial engineers designed walls thirty feet thick, reinforced with iron mined from Hearthorn quarries and warded by Pale-Born runesmiths. The city has never fallen to siege — though it has changed hands seventeen times through treachery, politics, and outright assassination. It is currently held by the Third Imperial Cohort, who maintain a garrison of 2,000 soldiers and a policy of shooting first and asking questions of the survivors.'
+            name: 'Greymark',
+            description: 'The archive-city of House Thalreth, built around a central library that houses the lineage-tapestries of every family in Frostwood Reach. The library is the largest human-built structure on Mythrill that contains no magic — only ink, wood, and forty thousand names. Visitors must recite their ancestry three generations back to enter. Those who cannot are turned away at the gate.'
         },
         {
-            name: 'Thatch Hollow',
-            description: 'A Hearthorn settlement built in the shadow of the Thornwood, founded by plague survivors who refused to leave the land that killed their families. The buildings are crude but impossibly sturdy — every beam cut by hand, every stone placed without magic. The residents have a saying: \'We buried our dead here. We are not leaving.\' The Hollow is famous for its herbalists, its stubborn refusal to trade on anything but its own terms, and the fact that no bandit crew has ever successfully raided it twice.'
+            name: 'Ymirhold',
+            description: 'The ancestral seat of House Skalvyr, carved into a black fjord-cliff in Nordhalla. The keep is heated by geothermal vents the Skald captured from the Hrym in a war five centuries ago. The great hall is lined with glacier-ice panels behind which the preserved dead of House Skalvyr stand upright in silent witness. Children are brought here to meet their ancestors — literally.'
         },
         {
-            name: 'The Ashring',
-            description: 'A Pale-Born enclave built in the crater of a destroyed ley-convergence, where the ground still crackles with residual arcane energy. The Pale-Born who live here have adapted to the constant magical saturation — their eyes glow faintly in the dark, and their skin is almost translucent. No other race can spend more than a few hours in the Ashring without developing magical sickness. The Pale-Born consider this a feature, not a bug.'
+            name: 'Merrowport',
+            description: 'The largest permanent human settlement on the Iceheart Sea — a floating city of lashed-together hulls, anchored to a volcanic seamount. The population fluctuates between two and five thousand depending on the storm season. Merrowport has no streets, only gangplanks. Its law is administered by ship-captains who vote on disputes at the Drift-Council, a gathering held on a different ship each month so no captain gains permanent advantage. The Merryn claim Merrowport has never been conquered. The truth is no one has ever been able to find it twice in the same place.'
+        },
+        {
+            name: "Solvan's Stand",
+            description: 'The dying capital of House Solvan in Sundale, slowly being buried under volcanic ashfall. The ash-drifts against the outer walls are forty feet deep. The population has dwindled from thirty thousand to less than four thousand over the last two centuries. Those who remain consider themselves the faithful — the ones who will keep the vigil until Sol speaks again or the ash takes them. Every morning, a sun-priest climbs the highest remaining tower and scans the sky for light. Every morning, the sky is grey. Every morning, the priest climbs down and tells the gathered faithful: not today. Perhaps tomorrow.'
+        },
+        {
+            name: "Tesshan Keep",
+            description: 'The ancestral seat of House Tesshan in the Cragjaw Peaks, buried under eighty feet of permanent snow-drift. The keep is accessible only through a single tunnel carved through the drift, defended by a gate that has not been opened from the outside in four hundred years. The Tessen inside number perhaps two hundred, the last remnants of a house that once governed thousands. They survive on geothermal heat purchased from the Fexric through pipes that run beneath the snow. They have never seen their suppliers. They have never asked what the Fexric look like.'
         }
     ],
-    currentCrisis: 'The spreading darkness exploits every Human weakness. It ages the living, feeding on the Short Straw vulnerability that all Humans share. It disrupts Imperial supply lines, breaking the formation-dependent war machine. It brings magical plagues that overwhelm Hearthorn biological resilience. It saturates the ley-lines further, driving Pale-Born into sensory overload. Every Human subrace is being pushed toward extinction by a force that targets their specific, hard-coded vulnerabilities.',
-    culturalPractices: `Humans value practical skill over innate ability. A good blacksmith is worth more than a mediocre mage. Their celebrations center on harvest, trade, and survival — the three things that have kept them alive when more powerful races fell.
 
-Imperials practice formation drills as communal ritual — entire neighborhoods gathering to march in unison, children learning shield formations before they learn to read. Promotion through Imperial society is determined by battlefield merit and political maneuvering in equal measure.
+    currentCrisis: 'The noble houses are failing. House Solvan cannot survive another century of ashfall. House Tesshan has dwindled to a single keep and may already be functionally extinct — no one outside the Peaks has seen a Tessen in living memory. House Mereval\'s fleet is fracturing into independent pirate captains who no longer acknowledge any authority but the storm. House Thalreth\'s archive-city is running out of archivists — the fog takes more each generation, and the young are leaving for settlements where memory is not a weapon. The human diaspora is strong. The noble houses are dying. Whether the two can survive without each other is the question no one wants to answer.',
 
-Hearthorn commemorate survival rather than victory. Their festivals mark the anniversaries of plagues survived, famines endured, and winters outlasted. The highest honor a Hearthorn can receive is not a medal or title — it is a hand-carved chair at the communal table, signifying that this person kept others alive when the world tried to kill them.
+    culturalPractices: 'Human culture varies radically by region, but common threads exist: the importance of practical skill over innate ability, the central role of trade and survival over philosophy, and the stubborn refusal to accept that things cannot be improved. Thalren children learn to write before they learn to speak — journal-keeping is a survival skill when the fog eats memory. Skald children are exposed to the cold from infancy to test their endurance — those who sicken are treated, but noted. Merryn children learn to swim before they can walk and to navigate by storm-patterns before they can read. Ordan children are given to the herd at age five and expected to keep pace — those who fall behind are carried until they can walk again, but only once. Morren children learn the terms of their family\'s Neth contract by heart — the contract is the first story they hear and the last thing they will ever own.',
 
-Pale-Born have no festivals. They have seances. Gatherings in the Ashring involve channeling ley-energy through blood rituals — not for worship, but for information. They read the magical currents the way sailors read the sea, looking for storms on the horizon. Other Humans consider these gatherings deeply unsettling, which is exactly how the Pale-Born prefer it.`,
+    sharedTraits: [
+        {
+            id: 'desperate_will_human',
+            name: 'Desperate Will',
+            description: 'Sixty good years. That is what you get. You have spent every one of them learning that surrender is death and the only thing standing between you and the grave is the pathological refusal to accept that the odds apply to you. +2 Spirit. Advantage on saving throws against Fear, Charm, and Domination effects. Your mind is not a fortress — it is a cornered animal, and cornered animals are the most dangerous kind.',
+            level: 1,
+            icon: 'spell_holy_innerfire',
+            spellType: 'PASSIVE',
+            effectTypes: ['buff'],
+            typeConfig: { category: 'racial', tags: ['desperate-will', 'spirit', 'fear-resist', 'charm-resist', 'passive'] },
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    { id: 'spirit_boost', name: 'Indomitable', description: '+2 Spirit. You have spent a lifetime refusing to break.', statModifier: { stat: 'spirit', magnitude: 2, magnitudeType: 'flat' } },
+                    { id: 'will_resistance', name: 'Cornered Mind', description: 'Advantage on saving throws against Fear, Charm, and Domination.', statusEffect: { level: 'major', description: 'Cornered animals are the most dangerous kind' } }
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 0, mana: 0, components: [] },
+            cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+            id: 'the_short_straw_human',
+            name: 'The Short Straw',
+            description: 'Every human bloodline carries the dark bargain\'s price. Your ancestors said yes to the Warden, and the debt has never been paid. -10% base HP. +25% damage from necrotic, aging, and time-based effects. The Warden\'s bargain touched your blood, and the Warden\'s patience is not infinite. But the same ancestral guilt that weakens your flesh also gives you something to fight for — you know what was traded, even if you do not know the terms.',
+            level: 1,
+            icon: 'spell_shadow_deathanddecay',
+            spellType: 'PASSIVE',
+            effectTypes: ['debuff'],
+            typeConfig: { category: 'racial', isWeakness: true, tags: ['mortal-frailty', 'necrotic-vulnerability', 'dark-bargain', 'passive'] },
+            debuffConfig: {
+                debuffType: 'vulnerability',
+                effects: [
+                    { id: 'mortal_frailty', name: 'Mortal Frailty', description: '-10% base HP. You are the most fragile sapient species — sixty good years, and every one of them earns its keep.', statusEffect: { penaltyType: 'max_hp_reduction', magnitude: 10, magnitudeType: 'percentage' } },
+                    { id: 'necrotic_vulnerability', name: 'Bargain-Debt', description: '+25% damage from necrotic, aging, and time-based effects. The Warden\'s bargain touched every human bloodline.', statusEffect: { vulnerabilityType: 'necrotic', vulnerabilityPercent: 25, additionalTypes: ['aging', 'temporal'] } }
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 0, mana: 0, components: [] },
+            cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        }
+    ],
+
     subraces: {
-        imperial: {
-            id: 'imperial_human',
-            name: 'Imperial',
-            description: 'Descended from the founders of Mythrill\'s largest empires. Generations of militaristic discipline have rewired their nervous systems for formation combat. The Imperial body is a weapon platform calibrated for one purpose: standing shoulder-to-shoulder in a wall of shields and blades. Separated from the phalanx, the conditioning collapses. Their muscles forget how to move alone. Their reflexes — honed for shield-wall timing — become liabilities. The empire feeds on its soldiers\' bones.',
-            culturalBackground: 'Imperial culture is built on hierarchy, discipline, and the conviction that civilization is a weapon to be wielded. Children are drilled in formation tactics from age six. Officers earn rank through merit and political skill in equal measure. Their cities are monuments to order — wide streets, garrison districts, and public execution platforms that serve as both justice and theater. Other races see Imperials as conquerors. Imperials see themselves as the only thing standing between civilization and chaos. Both are correct.',
-            statModifiers: {
-                spirit: 2,
-                strength: 1,
-                agility: -1
-            },
-            baseStats: {
-                armor: 0,
-                hp: 28,
-                mana: 16,
-                ap: 3,
-                passivePerception: 10,
-                swimSpeed: 15,
-                climbSpeed: 15,
-                visionRange: 30,
-                darkvision: 0,
-                initiative: 0
-            },
-            savingThrowModifiers: {
-                advantage: ['fear', 'charm', 'domination'],
-                disadvantage: ['stealth_urban', 'wilderness_survival']
-            },
+        thalren: {
+            id: 'thalren_human',
+            name: 'Thalren',
+            description: 'The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful, with the pale complexion of people who live under perpetual mist. Their hands are ink-stained from a lifetime of journal-keeping — the first skill a Thalren child learns, before speech, before walking. Their eyes carry the particular tension of someone who has forgotten something important and knows it. They check their journals constantly. They ask strangers to repeat their names. They carve lineage into heart-pine because paper rots and memory rots faster.',
+            culturalBackground: 'Thalren culture is an arms race against oblivion. The protective fog that shields Frostwood Reach from the killing cold also degrades memory over generations. A Thalren who does not write everything down will lose it. So they write everything down. Journals are chained to belts. Lineage-tapestries hang in every home. Children are taught calligraphy before they are taught anything else, because a memory not recorded is a memory already dead. The archive-city of Greymark is the Thalren\'s greatest achievement and their deepest fear — if Greymark falls, the Thalren lose everything they have ever known. They are the most literate human culture and the most paranoid. Outsiders who cannot recite three generations of ancestry are assumed to be hiding something. They usually are.',
+            statModifiers: { intelligence: 3, wisdom: 2, constitution: -1 },
+            baseStats: { hp: 22, mana: 7, ap: 3, initiative: 0 },
+            savingThrowModifiers: { advantage: ['investigation', 'history'], disadvantage: ['survival'] },
             traits: [
                 {
-                    id: 'mortal_frailty_human',
-                    name: 'Mortal Frailty',
-                    description: 'Humans are biologically the most fragile sapient species. Base Health Pool reduced by 10% compared to all other playable races. A single clean hit from an Orc\'s greataxe will drop a Human where a Dwarf would bruise and a Troll would regenerate.',
+                    id: 'lineage_recall_thalren',
+                    name: 'Lineage Recall',
+                    description: 'Your memory is a weapon you have trained your whole life to wield. When you encounter a creature, object, or location you have previously documented in your journal, you may spend 1 AP to recall every detail you recorded. Gain advantage on your next Intelligence or Wisdom check related to that subject. Your journal is your external memory — treat it as a permanent record of anything you have chosen to document.',
                     level: 1,
-                    icon: 'ability_rogue_bloodyeye',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'biological',
-                        secondaryElement: 'frailty',
-                        icon: 'ability_rogue_bloodyeye',
-                        tags: ['vulnerability', 'health', 'passive', 'base_race']
-                    },
-                    debuffConfig: {
-                        debuffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'reduced_hp',
-                                name: 'Frail Constitution',
-                                description: '-10% base Health Pool',
-                                statModifier: {
-                                    stat: 'hp',
-                                    magnitude: -10,
-                                    magnitudeType: 'percentage'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'short_straw_human',
-                    name: 'The Short Straw',
-                    description: 'Natural lifespan of 70-90 years. Any aging effects, time-manipulation magic, or necrotic life-drain deals +25% damage/effect potency (Susceptible tier: x1.25, rounded up). Short lifespans make Humans metaphysically vulnerable to anything that accelerates decay.',
-                    level: 1,
-                    icon: 'spell_shadow_lifedrain',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'curse',
-                        secondaryElement: 'time',
-                        icon: 'spell_shadow_lifedrain',
-                        tags: ['vulnerability', 'necrotic', 'aging', 'passive', 'base_race']
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'necrotic_susceptible',
-                                name: 'Necrotic Susceptible',
-                                description: '+25% damage from aging, time-manipulation, and necrotic life-drain effects',
-                                statusEffect: {
-                                    vulnerabilityType: 'necrotic',
-                                    vulnerabilityPercent: 25,
-                                    appliesTo: ['aging', 'time_manipulation', 'life_drain']
-                                }
-                            }
-                        ],
-                        durationType: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'desperate_will_human',
-                    name: 'Desperate Will',
-                    description: 'Humans gain +2 Spirit and have advantage on saves vs Fear, Charm, and Domination. Not armor, not magic — just a species-wide, pathological refusal to break. A Human will hold a shield wall together through sheer terror-suppression when every other race would rout.',
-                    level: 1,
-                    icon: 'spell_holy_divinespirit',
-                    spellType: 'PASSIVE',
+                    icon: 'spell_arcane_mindmastery',
+                    spellType: 'ACTION',
+                    actionPoints: 1,
+                    components: ['somatic'],
                     effectTypes: ['buff'],
-                    typeConfig: {
-                        school: 'willpower',
-                        secondaryElement: 'spirit',
-                        icon: 'spell_holy_divinespirit',
-                        tags: ['spirit', 'willpower', 'fear_resist', 'charm_resist', 'passive', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'spirit_bonus',
-                                name: 'Iron Will',
-                                description: '+2 Spirit from desperate determination',
-                                statModifier: {
-                                    stat: 'spirit',
-                                    magnitude: 2,
-                                    magnitudeType: 'flat'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'journal_recall', name: 'Journal Recall', description: 'Advantage on next INT/WIS check about a documented subject.', statusEffect: { level: 'minor' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] }
                 },
                 {
-                    id: 'cultural_fluency_human',
-                    name: 'Cultural Fluency',
-                    description: 'Advantage on Diplomacy, Persuasion, and Trade checks with non-hostile humanoid factions. NULLIFIED and REVERSED to disadvantage with any faction historically oppressed, conquered, or displaced by Human empires — which is most non-human civilizations.',
+                    id: 'fog_sense_thalren',
+                    name: 'Fog-Sense',
+                    description: 'Generations in the memory-degrading mist have given you an uneasy relationship with clarity. You are most comfortable when visibility is limited. Advantage on Perception and Stealth checks in fog, mist, smoke, or dim light. Disadvantage on the same checks in bright, clear conditions — the openness feels wrong, exposed, like standing in a room where someone has removed all the walls.',
                     level: 1,
-                    icon: 'achievement_reputation_01',
+                    icon: 'spell_nature_sleep',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'social',
-                        secondaryElement: 'persuasion',
-                        icon: 'achievement_reputation_01',
-                        tags: ['social', 'persuasion', 'trade', 'conditional', 'passive', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'social',
-                        effects: [
-                            {
-                                id: 'diplomacy_advantage',
-                                name: 'Common Tongue',
-                                description: 'Advantage on Diplomacy, Persuasion, and Trade with non-hostile humanoids',
-                                socialModifier: {
-                                    skills: ['diplomacy', 'persuasion', 'trade'],
-                                    bonusType: 'advantage',
-                                    condition: 'target_non_hostile_humanoid'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'social',
-                        effects: [
-                            {
-                                id: 'conqueror_stigma',
-                                name: 'Conqueror\'s Stigma',
-                                description: 'Disadvantage on all social checks with factions historically oppressed by Human empires',
-                                socialModifier: {
-                                    skills: ['all'],
-                                    penaltyType: 'disadvantage',
-                                    condition: 'target_oppressed_faction'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'mist_comfort', name: 'Mist Comfort', description: 'Advantage on Perception and Stealth in fog, mist, smoke, or dim light.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'sensoryPenalty', effects: [{ id: 'clarity_unease', name: 'Clarity Unease', description: 'Disadvantage on Perception and Stealth in bright, clear conditions.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['perception', 'stealth'], conditions: ['bright_light', 'clear_visibility'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                 },
                 {
-                    id: 'second_wind_human',
-                    name: 'Second Wind',
-                    description: 'Channel raw survival instinct. Immediately recover 15% max HP and cleanse one Fear effect or one Fear-adjacent debuff. Inflicts Adrenal Debt — all healing received reduced by 30% for 3 rounds.',
+                    id: 'written_word_thalren',
+                    name: 'The Written Word',
+                    description: 'The fog takes memory. Ink resists. You have advantage on checks made to detect forgery, decipher codes, or identify altered documents — you have spent a lifetime reading what others wrote, and you know when the handwriting is wrong. Additionally, you can spend 10 minutes writing a detailed account of any event you witnessed in the last 24 hours. That account is considered a reliable record — your memory may fade, but the page remembers.',
                     level: 1,
-                    icon: 'ability_warrior_improveddisciplines',
-                    spellType: 'ACTION',
-                    actionPoints: 1,
-                    components: ['verbal'],
-                    effectTypes: ['healing', 'buff', 'debuff'],
-                    typeConfig: {
-                        school: 'willpower',
-                        secondaryElement: 'survival',
-                        icon: 'ability_warrior_improveddisciplines',
-                        tags: ['healing', 'cleanse', 'self', 'cooldown', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'heal',
-                        effects: [
-                            {
-                                id: 'hp_recovery',
-                                name: 'Desperate Surge',
-                                description: 'Recover 15% of maximum HP',
-                                healing: {
-                                    type: 'percentage',
-                                    magnitude: 15,
-                                    target: 'self'
-                                }
-                            },
-                            {
-                                id: 'fear_cleanse',
-                                name: 'Shake It Off',
-                                description: 'Cleanse one Fear or Fear-adjacent debuff',
-                                cleanse: {
-                                    effectTypes: ['fear', 'fear_adjacent'],
-                                    count: 1
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'instant',
-                        durationUnit: 'instant',
-                        canBeDispelled: false
-                    },
-                    healConfig: {
-                        healType: 'percentage',
-                        effects: [
-                            {
-                                id: 'hp_recovery',
-                                name: 'Desperate Surge',
-                                description: 'Recover 15% of maximum HP',
-                                healing: {
-                                    type: 'percentage',
-                                    magnitude: 15,
-                                    target: 'self'
-                                }
-                            },
-                            {
-                                id: 'fear_cleanse',
-                                name: 'Shake It Off',
-                                description: 'Cleanse one Fear or Fear-adjacent debuff',
-                                cleanse: {
-                                    effectTypes: ['fear', 'fear_adjacent'],
-                                    count: 1
-                                }
-                            }
-                        ],
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'adrenal_debt',
-                                name: 'Adrenal Debt',
-                                description: 'All healing received reduced by 30% for 3 rounds',
-                                statusEffect: {
-                                    level: 'moderate',
-                                    healingReceivedModifier: -30,
-                                    durationRounds: 3,
-                                    description: 'The body runs on fumes, not recovery'
-                                }
-                            }
-                        ],
-                        durationValue: 3,
-                        durationType: 'rounds',
-                        durationUnit: 'rounds',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    },
-                    resourceCost: {
-                        resourceTypes: [],
-                        resourceValues: {},
-                        actionPoints: 1,
-                        mana: 0,
-                        components: ['verbal']
-                    },
-                    cooldownConfig: {
-                        cooldownType: 'short_rest',
-                        cooldownValue: 1
-                    }
-                },
+                    icon: 'spell_arcane_manashield',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['utility'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'utilityEnhancement', effects: [{ id: 'document_expert', name: 'Document Expertise', description: 'Advantage on detecting forgery, deciphering codes, and identifying altered documents.', statusEffect: { level: 'minor' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                }
+            ]
+        },
+        skald: {
+            id: 'skald_human',
+            name: 'Skald',
+            description: 'The frozen tundra of Nordhalla forges the Skald body into a weapon. Broad-shouldered, cold-hardened, with the dense muscle of people who measure worth in endurance. Their skin is wind-burned and scarred from ritual exposure — Skald children are tested against the cold from infancy. Their eyes are pale, adapted to the glare of sun on endless snow. They move with the deliberate economy of people who know that wasted motion costs body-heat, and body-heat is life.',
+            culturalBackground: 'Skald culture is built on a single, brutal premise: the weak die, and this is correct. Nordhalla\'s dark bargain traded summer for survival — the glaciers were halted, but the warmth never returned. The Skald have made winter into a religion. Endurance is the highest virtue. Physical imperfection is moral failure. Children born with ailments are "summer-touched" — pitied, but never trusted. The old walk into blizzards so the young can eat. The dead are encased in glacier-tombs rather than buried, preserved upright in ice where they can watch their descendants and judge. A Skald does not fear death. A Skald fears dying softly.',
+            statModifiers: { strength: 3, constitution: 2, intelligence: -1 },
+            baseStats: { hp: 30, mana: 4, ap: 3, initiative: 0 },
+            savingThrowModifiers: { advantage: ['cold', 'endurance'], disadvantage: ['heat', 'persuasion'] },
+            traits: [
                 {
-                    id: 'iron_phalanx',
-                    name: 'Iron Phalanx',
-                    description: 'The Imperial\'s body was drilled since childhood to move as a component of a wall of shields. When adjacent to 2+ allied melee combatants, gain +3 Armor Score. Each additional adjacent ally beyond 2 grants +1 Armor (maximum +5 total). When NO ally is adjacent: -2 Armor Score and -1 Action Point. The conditioning that makes the phalanx unbreakable is the same conditioning that makes the lone soldier a corpse — their muscles literally forget how to defend a body standing alone.',
+                    id: 'cold_endurance_skald',
+                    name: 'Cold Endurance',
+                    description: 'Your body has been conditioned by generations of Nordhalla winters. You have resistance to cold damage and automatically succeed on saving throws against environmental cold effects. You can survive indefinitely in freezing temperatures without shelter. Heat, however, is alien and exhausting — you have disadvantage on saving throws against heat effects and take +25% fire damage in environments above freezing. Your blood does not know what warmth means.',
                     level: 1,
-                    icon: 'ability_warrior_defensivestance',
+                    icon: 'spell_nature_frostarmor',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'tactical',
-                        secondaryElement: 'formation',
-                        icon: 'ability_warrior_defensivestance',
-                        tags: ['armor', 'formation', 'conditional', 'action_points', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'formation_armor_base',
-                                name: 'Shield Wall',
-                                description: '+3 Armor when adjacent to 2+ allied melee combatants',
-                                statModifier: {
-                                    stat: 'armor',
-                                    magnitude: 3,
-                                    magnitudeType: 'flat',
-                                    condition: 'adjacent_allied_melee_2plus'
-                                }
-                            },
-                            {
-                                id: 'formation_armor_scaling',
-                                name: 'Deepening Ranks',
-                                description: '+1 Armor per additional adjacent ally beyond 2 (max +5 total)',
-                                statModifier: {
-                                    stat: 'armor',
-                                    magnitude: 1,
-                                    magnitudeType: 'flat',
-                                    scalingCondition: 'each_adjacent_ally_beyond_2',
-                                    maximumStacks: 2,
-                                    stackDescription: 'Phalanx deepens with each shield that joins'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'isolated_collapse',
-                                name: 'Formation Break',
-                                description: '-2 Armor and -1 AP when no ally is adjacent',
-                                statModifier: {
-                                    stat: 'armor',
-                                    magnitude: -2,
-                                    magnitudeType: 'flat',
-                                    condition: 'no_adjacent_ally'
-                                }
-                            },
-                            {
-                                id: 'isolated_ap_drain',
-                                name: 'Drilled into Paralysis',
-                                description: '-1 Action Point when separated from formation',
-                                statModifier: {
-                                    stat: 'ap',
-                                    magnitude: -1,
-                                    magnitudeType: 'flat',
-                                    condition: 'no_adjacent_ally'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'damageMitigation', effects: [{ id: 'cold_resist', name: 'Cold Resistance', description: 'Resistance to cold damage. Auto-succeed environmental cold saves.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'vulnerability', effects: [{ id: 'heat_weakness', name: 'Heat Weakness', description: 'Disadvantage on heat saves. +25% fire damage above freezing.', statusEffect: { vulnerabilityType: 'fire', vulnerabilityPercent: 25, savingThrowPenalty: { type: 'heat', magnitude: 'disadvantage' } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                 },
                 {
-                    id: 'the_iron_law',
-                    name: 'The Iron Law',
-                    description: 'Allied NPCs within 15 feet gain +5% damage and +5% accuracy while the Imperial is visible and standing. Allied player characters within 15 feet gain +2 to Initiative. The Imperial does NOT benefit from their own aura — command is sacrifice, not self-enrichment. COST: The same conditioned obedience that makes Imperials natural leaders makes them puppets for magical authority. Disadvantage on all saving throws vs Charm and Domination effects. The instinct to follow orders does not distinguish between a general and a necromancer.',
+                    id: 'glacier_rage_skald',
+                    name: 'Glacier Rage',
+                    description: 'The cold does not numb you. It focuses you. When you take cold damage or are struck while below 50% HP in a freezing environment, you may use your reaction to enter a state of glacial focus for 1 minute. During this state, you gain +1 to attack rolls and ignore the first level of exhaustion. You cannot use Charisma-based skills — your face has gone still as ice, and no warmth reaches your voice. When the state ends, gain 1 level of exhaustion as your body remembers it is mortal.',
                     level: 1,
-                    icon: 'achievement_pvp_h_01',
+                    icon: 'spell_nature_frostarmor',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'social',
-                        secondaryElement: 'command',
-                        icon: 'achievement_pvp_h_01',
-                        tags: ['social', 'aura', 'initiative', 'command', 'vulnerability', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'aura',
-                        effects: [
-                            {
-                                id: 'commanding_presence',
-                                name: 'Commanding Presence',
-                                description: 'Allied NPCs within 15ft gain +5% damage and +5% accuracy',
-                                auraEffect: {
-                                    radius: 15,
-                                    targetRestriction: 'ally_npc',
-                                    damageModifier: 5,
-                                    accuracyModifier: 5,
-                                    condition: 'imperial_visible_and_standing',
-                                    excludesSelf: true
-                                }
-                            },
-                            {
-                                id: 'tactical_initiative',
-                                name: 'Coordinated Assault',
-                                description: 'Allied player characters within 15ft gain +2 Initiative',
-                                auraEffect: {
-                                    radius: 15,
-                                    targetRestriction: 'ally_player',
-                                    initiativeModifier: 2,
-                                    excludesSelf: true
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'conditioned_obedience',
-                                name: 'Conditioned Obedience',
-                                description: 'Disadvantage on all saves vs Charm and Domination',
-                                statusEffect: {
-                                    saveModifier: 'disadvantage',
-                                    appliesTo: ['charm', 'domination'],
-                                    description: 'The drill-sergeant\'s voice echoes in every command, even magical ones'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'aura',
-                        rangeType: 'self_centered',
-                        aoeParameters: {
-                            radius: 15
-                        }
-                    }
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'glacial_focus', name: 'Glacial Focus', description: '+1 attack rolls, ignore 1 exhaustion level, 1 minute.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'frozen_face', name: 'Frozen Face', description: 'Cannot use Charisma skills while active. 1 exhaustion level when state ends.', statusEffect: { level: 'moderate' } }], targetRestriction: 'self' },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] }
                 },
                 {
-                    id: 'for_the_empire',
-                    name: 'For the Empire!',
-                    description: 'A bellowed order that burns through the throat and rattles the teeth. All allied creatures within 30 feet gain one additional Action on their next turn (cannot cast spells of 3rd level or higher). The Imperial does NOT gain this action — they spend theirs giving it away. After resolution, all affected allies suffer War Weariness: -10% accuracy for 2 rounds as the adrenaline surge collapses into exhaustion. The human body was not built to operate at the tempo empire demands.',
-                    level: 1,
-                    icon: 'ability_warrior_battleshout',
-                    spellType: 'ACTION',
-                    actionPoints: 1,
-                    components: ['verbal'],
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'command',
-                        secondaryElement: 'rally',
-                        icon: 'ability_warrior_battleshout',
-                        tags: ['buff', 'debuff', 'aura', 'action', 'cooldown']
-                    },
-                    buffConfig: {
-                        buffType: 'action_grant',
-                        effects: [
-                            {
-                                id: 'extra_action',
-                                name: 'Rally',
-                                description: 'Allies within 30ft gain 1 additional Action (no spells 3rd level+)',
-                                actionGrant: {
-                                    actionCount: 1,
-                                    restrictions: ['no_spells_3rd_level_or_higher'],
-                                    excludesSelf: true
-                                }
-                            }
-                        ],
-                        durationValue: 1,
-                        durationType: 'rounds',
-                        durationUnit: 'rounds',
-                        canBeDispelled: true
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'war_weariness',
-                                name: 'War Weariness',
-                                description: '-10% accuracy for 2 rounds after rally fades',
-                                statusEffect: {
-                                    level: 'minor',
-                                    accuracyModifier: -10,
-                                    durationRounds: 2,
-                                    description: 'The surge passes; exhaustion follows like a hound on a scent'
-                                }
-                            }
-                        ],
-                        durationValue: 2,
-                        durationType: 'rounds',
-                        durationUnit: 'rounds',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'area',
-                        rangeType: 'self_centered',
-                        rangeDistance: 0,
-                        aoeShape: 'sphere',
-                        aoeParameters: {
-                            radius: 30
-                        },
-                        targetRestrictions: ['ally']
-                    },
-                    resourceCost: {
-                        resourceTypes: [],
-                        resourceValues: {},
-                        actionPoints: 1,
-                        mana: 0,
-                        components: ['verbal']
-                    },
-                    cooldownConfig: {
-                        cooldownType: 'long_rest',
-                        cooldownValue: 1
-                    }
-                },
-                {
-                    id: 'conscripts_burden',
-                    name: 'Conscript\'s Burden',
-                    description: 'Imperial drilling replaces natural dodge reflexes with shield-block muscle memory. The body learns to present iron, not flesh. Without a shield, the trained stance opens the torso to blade work like a gutted fish — +50% vulnerability to slashing damage when not wielding a shield. With a shield equipped: this vulnerability is fully negated. The shield is not equipment. It is a prosthetic survival organ.',
-                    level: 1,
-                    icon: 'ability_warrior_shieldwall',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'biological',
-                        secondaryElement: 'training',
-                        icon: 'ability_warrior_shieldwall',
-                        tags: ['vulnerability', 'slashing', 'conditional', 'shield', 'passive', 'isWeakness']
-                    },
-                    debuffConfig: {
-                        debuffType: 'vulnerability',
-                        effects: [
-                            {
-                                id: 'slashing_vulnerability',
-                                name: 'Open to the Blade',
-                                description: '+50% slashing damage when not wielding a shield',
-                                statusEffect: {
-                                    vulnerabilityType: 'slashing',
-                                    vulnerabilityPercent: 50,
-                                    condition: 'not_wielding_shield',
-                                    negatedBy: 'shield_equipped',
-                                    description: 'Drilled to present iron, not flesh — without a shield the body is a wound waiting to happen'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'scorched_discipline',
-                    name: 'Scorched Discipline',
-                    description: 'The Imperial is immune to Fear. Cannot be frightened, rattled, or terrorized by any means — magical or mundane. The conditioning burned the fear response out of the nervous system with the same ruthless efficiency used to burn the retreat instinct. COST: Cannot use Reactions to flee, retreat, or reposition defensively. When an allied creature dies within line of sight, the Imperial must succeed on a Spirit save (DC 15) or be compelled to attack the killer on their next turn, regardless of tactical situation, hit point total, or odds. Fear was the thing that told the body when to run. Without it, the body only knows how to charge.',
+                    id: 'bloodline_pride_skald',
+                    name: 'Bloodline Pride',
+                    description: 'Your ancestry is your armor. When you succeed on a saving throw or ability check through sheer endurance (Constitution-based), allies within 30 feet who can see you gain advantage on their next saving throw against fear. Your refusal to fall inspires those who fight beside you. But your pride cuts both ways — you have disadvantage on Deception checks. A Skald does not lie. A Skald does not need to.',
                     level: 1,
                     icon: 'spell_holy_auramastery',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'willpower',
-                        secondaryElement: 'conditioning',
-                        icon: 'spell_holy_auramastery',
-                        tags: ['fear_immunity', 'forced_action', 'conditioning', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'passive_enhancement',
-                        effects: [
-                            {
-                                id: 'fear_immunity',
-                                name: 'Burned Out',
-                                description: 'Immune to all Fear effects — magical and mundane',
-                                statusEffect: {
-                                    immunity: ['fear', 'frightened', 'terror'],
-                                    description: 'The fear response was surgically removed by a thousand drills'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'ability_impairment',
-                        effects: [
-                            {
-                                id: 'no_retreat',
-                                name: 'No Retreat Reflex',
-                                description: 'Cannot use Reactions to flee, retreat, or reposition defensively',
-                                statusEffect: {
-                                    reactionRestriction: ['flee', 'retreat', 'defensive_reposition'],
-                                    description: 'The drill-sergeant removed the survival instinct along with the fear'
-                                }
-                            },
-                            {
-                                id: 'avenger_compulsion',
-                                name: 'When Brothers Fall',
-                                description: 'Spirit save DC 15 when ally dies in sight — failure compels attack on killer next turn',
-                                statusEffect: {
-                                    compulsion: 'attack_killer',
-                                    triggerCondition: 'ally_death_within_line_of_sight',
-                                    saveType: 'spirit',
-                                    saveDC: 15,
-                                    durationRounds: 1,
-                                    description: 'Fear was the thing that told the body when to run. Without it, there is only the charge'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'auraEffect', effects: [{ id: 'inspiring_endurance', name: 'Inspiring Endurance', description: 'Allies within 30ft gain advantage on next fear save when you succeed on a Con-based save/check.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'skald_honesty', name: 'Skald Honesty', description: 'Disadvantage on Deception checks. A Skald does not lie.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['deception'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 30 },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                }
+            ]
+        },
+        tessen: {
+            id: 'tessen_human',
+            name: 'Tessen',
+            description: 'The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: pale, watchful, with the slightly hunched posture of people who have spent their entire lives indoors. Tessen skin has not seen direct sunlight in generations. Their eyes are adapted to lamplight and geothermal glow. They speak softly — generations of close quarters have made loud voices a social violation. They are the most isolated human culture, and it shows in everything from their guarded body language to their refusal to make eye contact with strangers.',
+            culturalBackground: 'Tessen culture is a pressure-cooker. The keeps are buried under eighty feet of snow-drift. The population has dwindled to a few hundred spread across two remaining holdfasts. No Tessen has left the keeps in living memory — the blizzard is lethal, and the outside world is a theoretical concept taught to children from old books. The internal politics of the keeps are byzantine: hallway rights, room assignments, marriage permissions, food distribution, all negotiated through a complex system of favors and debts that has been accumulating for centuries. A Tessen who offends the wrong elder may find their family relocated to the unheated outer chambers. A Tessen who earns the right elder\'s favor may eat meat twice a week. This is their world. It is all they have ever known.',
+            statModifiers: { wisdom: 3, constitution: 2, charisma: -1 },
+            baseStats: { hp: 26, mana: 5, ap: 3, initiative: -1 },
+            savingThrowModifiers: { advantage: ['disease', 'isolation'], disadvantage: ['social', 'initiative'] },
+            traits: [
+                {
+                    id: 'keep_rat_tessen',
+                    name: 'Keep-Rat',
+                    description: 'You have spent your entire life in an enclosed stone structure with a finite number of rooms. You know every corner, every draft, every sound the old stones make. Advantage on Perception checks to notice changes in your environment — a moved object, a new scent, a door that was closed and is now open. You cannot be surprised in indoor environments. Disadvantage on Survival checks in open wilderness — you have never seen a tree, and your instincts are attuned to stone, not sky.',
+                    level: 1,
+                    icon: 'ability_rogue_stealth',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'indoor_awareness', name: 'Indoor Awareness', description: 'Advantage on Perception indoors. Cannot be surprised inside.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'sensoryPenalty', effects: [{ id: 'wilderness_blind', name: 'Wilderness Blind', description: 'Disadvantage on Survival in open wilderness.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['survival'], conditions: ['open_wilderness'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                 },
                 {
-                    id: 'sacrificial_rally_human',
-                    name: 'Sacrificial Rally',
-                    description: 'Command in death, as in life. When an Imperial is reduced to 0 HP, they can use their Reaction to issue one final, desperate command, granting all allies within 30 feet a free Action immediately before they slip into unconsciousness.',
+                    id: 'favor_debt_tessen',
+                    name: 'Favor-Debt',
+                    description: 'In the keeps, everything is negotiated. You have learned to read the unspoken economy of obligation. Advantage on Insight checks made to determine what someone wants from you. Once per long rest, when you fail a Persuasion check with a human NPC who shares your enclosed environment, you may call in an unspoken favor — the check succeeds instead, but you now owe that NPC a debt they will collect. The debt is real. The GM decides when it comes due.',
                     level: 1,
-                    icon: 'ability_warrior_battleshout',
-                    spellType: 'REACTION',
+                    icon: 'spell_arcane_mindmastery',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'socialBonus', effects: [{ id: 'read_obligation', name: 'Read Obligation', description: 'Advantage on Insight to determine what someone wants. Once per long rest, turn a failed Persuasion into success — but incur a narrative debt.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'favor_owed', name: 'Favor Owed', description: 'The debt will be collected. The GM decides when.', statusEffect: { penaltyType: 'narrative_debt' } }], targetRestriction: 'self' },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+                },
+                {
+                    id: 'sealed_silence_tessen',
+                    name: 'Sealed Silence',
+                    description: 'Centuries of close-quarters living have made silence a survival skill. Advantage on Stealth checks made to avoid detection by sound. You can whisper across a room and be heard by a specific person while remaining inaudible to everyone else — the keep-acoustics are in your bones. Disadvantage on Intimidation checks made through volume — you do not shout. Shouting is what surface-dwellers do. Shouting is beneath you.',
+                    level: 1,
+                    icon: 'spell_shadow_antimagicshell',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'keep_silence', name: 'Keep-Silence', description: 'Advantage on Stealth vs sound detection. Whisper across a room to one person.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'no_shout', name: 'No Shout', description: 'Disadvantage on Intimidation through volume. You do not shout.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['intimidation'], conditions: ['volume_based'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                }
+            ]
+        },
+        solvarn: {
+            id: 'solvarn_human',
+            name: 'Solvarn',
+            description: 'The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darkened by volcanic particulate — a permanent grey-brown stain that no amount of washing removes. Their lungs are adapted to thin, ash-heavy air. Their eyes are narrowed against the constant particulate drift. They carry themselves with the solemn dignity of people who know their home is killing them and have made peace with it. Sun-emblems are worn on every garment. The vigil is never broken.',
+            culturalBackground: 'Solvarn culture is a death-cult disguised as a religion. They worship the memory of the sun — not Sol itself, which is entombed and silent, but the idea of warmth, the promise of light, the hope that the vigil will one day end. Their ancestors were the first to sacrifice heirs to Keth-Amar. Their capital is slowly being buried in ash. They know their homeland is dying. They stay because leaving would mean admitting the sacrifice was for nothing. Martyrdom is not a tragedy in Solvarn culture. It is the highest virtue. A Solvarn who dies of ash-lung is honored. A Solvarn who leaves for cleaner air is a traitor.',
+            statModifiers: { spirit: 3, wisdom: 2, agility: -1 },
+            baseStats: { hp: 24, mana: 7, ap: 3, initiative: 0 },
+            savingThrowModifiers: { advantage: ['fire', 'disease'], disadvantage: ['cold'] },
+            traits: [
+                {
+                    id: 'ash_blood_solvarn',
+                    name: 'Ash-Blood',
+                    description: 'Generations breathing volcanic particulate have hardened your lungs against airborne contaminants. Resistance to poison damage from inhaled sources. Advantage on saving throws against airborne diseases, gases, and respiratory effects. The ash is in your blood now — you are immune to the negative effects of volcanic ashfall and can see normally in light-to-moderate ash conditions. Disadvantage on saving throws against cold effects — your body has forgotten how to generate its own warmth, relying on the volcanic heat that is slowly killing you.',
+                    level: 1,
+                    icon: 'spell_fire_incinerate',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'damageMitigation', effects: [{ id: 'ash_resist', name: 'Ash Resistance', description: 'Resistance to inhaled poison. Advantage vs airborne disease/gas. Immune to ashfall effects.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'vulnerability', effects: [{ id: 'cold_weakness', name: 'Cold Weakness', description: 'Disadvantage on cold saving throws. Your body has forgotten how to generate warmth.', statusEffect: { penaltyType: 'disadvantage', affectedSaves: ['cold'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'vigil_oath_solvarn',
+                    name: 'Vigil Oath',
+                    description: 'You have sworn the vigil — the Solvarn oath to keep watch for Sol\'s return until death takes you or the sun speaks again. Once per long rest, when you would be reduced to 0 HP, you may instead remain at 1 HP. You are not harder to kill. You simply refuse to die before the vigil is complete. This refusal costs you: gain 1 level of exhaustion immediately. The vigil is not broken. But it is heavy.',
+                    level: 1,
+                    icon: 'spell_holy_renew',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'vigil_save', name: 'The Vigil Holds', description: 'Once per long rest, remain at 1 HP instead of 0.', statusEffect: { level: 'extreme' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'selfHarm', effects: [{ id: 'vigil_cost', name: 'The Weight of Watching', description: 'Gain 1 exhaustion level immediately.', statusEffect: { penaltyType: 'exhaustion', magnitude: 1 } }], targetRestriction: 'self' },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] }
+                },
+                {
+                    id: 'sun_reverence_solvarn',
+                    name: 'Sun-Reverence',
+                    description: 'Your faith in the returning sun is not abstract — it is physical, practiced, worn into your bones by daily ritual. Advantage on saving throws against despair, hopelessness, and effects that would cause you to surrender or retreat. When you are in the presence of fire — a forge, a bonfire, a volcanic vent — you gain +1 to all saving throws. The fire is a promise. You believe it. Disadvantage on saving throws made to abandon your post or retreat from a position you have sworn to hold. The vigil does not permit running.',
+                    level: 1,
+                    icon: 'spell_holy_innerfire',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'faith_persists', name: 'Faith Persists', description: 'Advantage vs despair/surrender/retreat. +1 all saves near fire.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'no_retreat', name: 'No Retreat', description: 'Disadvantage on saves to abandon your post or retreat from a sworn position.', statusEffect: { penaltyType: 'disadvantage', conditions: ['abandon_post', 'retreat_from_sworn_position'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                }
+            ]
+        },
+        merryn: {
+            id: 'merryn_human',
+            name: 'Merryn',
+            description: 'The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean, scarred, perpetually salt-stained, with the restless eyes of people who have learned that stillness means death. Their skin is a canvas — every contract, every debt, every oath tattooed into their flesh in black ink because paper rots at sea. A Merryn\'s body is a legal document. Their hands are callused from rope and salt. They walk with the rolling gait of people who have spent more time on deck than on land, and they distrust anyone who cannot swim.',
+            culturalBackground: 'Merryn culture is a floating anarchy. The pirate fleets of House Mereval are the largest naval force on Mythrill and the least organized. Captains command individual ships; fleets form and dissolve based on profit, loyalty, and who is currently not trying to kill whom. Merrowport — the floating city of lashed-together hulls — is the closest thing to a capital, but it drifts with the currents and has never been in the same place twice. Smaller ports exist on a dozen scattered islands and coastlines: Bone Harbor in the northern ice-floes, built from leviathan ribs; The Drift, a flotilla that has not touched land in forty years; Saltcairn on a volcanic seamount in the southern reaches, where the water is almost warm enough to swim; Stormrest on the eastern cliffs, a smugglers\' haven carved into the rock face. Each port has its own flavor of the same gospel: tomorrow is not promised, so tonight you drink, and if anyone tries to collect your debts, throw them overboard.',
+            statModifiers: { agility: 3, charisma: 2, wisdom: -1 },
+            baseStats: { hp: 24, mana: 5, ap: 3, initiative: 2 },
+            savingThrowModifiers: { advantage: ['water', 'navigation'], disadvantage: ['restraint'] },
+            traits: [
+                {
+                    id: 'sea_legs_merryn',
+                    name: 'Sea-Legs',
+                    description: 'You were born on the water and will probably die on it. Swim speed equal to your walking speed. Advantage on checks to climb rigging, balance on unstable surfaces, and maintain footing during storms. You cannot be made seasick. Disadvantage on Stealth and Acrobatics on solid, unmoving ground — the land feels wrong under your feet, too still, too dead, and your body does not trust it.',
+                    level: 1,
+                    icon: 'spell_nature_wind',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'movementBuff', effects: [{ id: 'swim_speed', name: 'Born to the Water', description: 'Swim speed = walking speed. Advantage on climb/balance/footing at sea. Immune to seasickness.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'environmentalPenalty', effects: [{ id: 'land_sick', name: 'Land-Sick', description: 'Disadvantage on Stealth and Acrobatics on solid, unmoving ground.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['stealth', 'acrobatics'], conditions: ['solid_unmoving_ground'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'tattoo_contract_merryn',
+                    name: 'Tattoo-Contract',
+                    description: 'Your skin is a legal document. The oaths, debts, and agreements tattooed on your body are binding in Merryn law — and Merryn law is the only law on the Iceheart Sea. Once per long rest, when you make a deal with an NPC, you may seal it with a ceremonial mark (ink, blood, or scar). The NPC instinctively understands the contract is binding and will honor its terms until the agreed completion. If you break the contract, the tattoo itches incessantly, preventing long rests until you make amends. The sea remembers.',
+                    level: 1,
+                    icon: 'spell_arcane_manashield',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['social', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'socialBonus', effects: [{ id: 'binding_deal', name: 'Binding Deal', description: 'Once per long rest, seal a contract that an NPC will honor. Sea-law binding.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'broken_contract', name: 'Broken Contract', description: 'Breaking a tattooed contract prevents long rests until amends made.', statusEffect: { penaltyType: 'no_long_rest', condition: 'contract_broken' } }], targetRestriction: 'self' },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+                },
+                {
+                    id: 'storm_luck_merryn',
+                    name: 'Storm-Luck',
+                    description: 'You have survived storms that killed better sailors. You do not know why. Once per long rest, when you fail a saving throw that would result in death or incapacitation, you may reroll it. You must accept the new result. This is not skill. This is luck — the same luck that has kept your particular ship afloat through forty winters of the Iceheart\'s worst. Your crew respects it. You do not understand it. You do not question it.',
+                    level: 1,
+                    icon: 'spell_arcane_blink',
+                    spellType: 'PASSIVE',
                     effectTypes: ['buff'],
-                    typeConfig: {
-                        school: 'command',
-                        secondaryElement: 'willpower',
-                        icon: 'ability_warrior_battleshout',
-                        tags: ['reaction', 'buff', 'ally', 'action_grant', 'death_trigger']
-                    },
-                    buffConfig: {
-                        buffType: 'action_grant',
-                        effects: [
-                            {
-                                id: 'rally_action',
-                                name: 'Final Command',
-                                description: 'Gain 1 free Action immediately',
-                                actionGrant: {
-                                    actionCount: 1,
-                                    excludesSelf: true
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'instant',
-                        durationUnit: 'instant',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'area',
-                        rangeType: 'self_centered',
-                        rangeDistance: 0,
-                        aoeShape: 'sphere',
-                        aoeParameters: {
-                            radius: 30
-                        },
-                        targetRestrictions: ['ally']
-                    },
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'luck_reroll', name: "Sailor's Luck", description: 'Once per long rest, reroll a failed save that would result in death or incapacitation.', statusEffect: { level: 'extreme' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
                     resourceCost: { actionPoints: 0, mana: 0, components: [] }
                 }
             ]
         },
-        hearthorn: {
-            id: 'hearthorn_human',
-            name: 'Hearthorn',
-            description: 'The backbone of Humanity. Farmers, tradesmen, plague survivors. Not glamorous. Not conquerors. They endure — and in Mythrill, endurance is its own kind of power. Generations of surviving filth, famine, and disease have hardened their bodies against the natural world while making them violently allergic to the supernatural. They eat things that should not be eaten. They live in places that should not be lived in. They forget to die with a stubbornness that unsettles even other Humans.',
-            culturalBackground: 'Hearthorn communities are built on mutual reliance and the unspoken understanding that every neighbor is a lifeline. They measure a person by what they do when things get hard. Their settlements are crude but impossibly sturdy — every beam cut by hand, every stone placed without magic. They survived plagues that wiped out entire non-human settlements and repaid the world by farming the mass graves. The dead feed the living — this is not poetry to the Hearthorn. It is agriculture.',
-            statModifiers: {
-                constitution: 2,
-                intelligence: 1,
-                charisma: -1
-            },
-            baseStats: {
-                armor: 0,
-                hp: 30,
-                mana: 12,
-                ap: 3,
-                passivePerception: 11,
-                swimSpeed: 15,
-                climbSpeed: 15,
-                visionRange: 30,
-                darkvision: 0,
-                initiative: 0
-            },
-            savingThrowModifiers: {
-                advantage: ['disease', 'poison_nonmagical', 'exhaustion'],
-                disadvantage: ['magical_effects']
-            },
+        ordan: {
+            id: 'ordan_human',
+            name: 'Ordan',
+            description: 'The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runners. Lean, weathered, with the deep-set eyes of people who squint against a constant gale. Their skin is darkened by wind and sun — even the dim, starless sky of the Vale leaves its mark. Their hands are callused from reins and herd-tending. They carry themselves with an economy of motion — nothing wasted, nothing extraneous, because on the steppe, every motion costs energy and energy is food and food is the migration.',
+            culturalBackground: 'Ordan culture is built on movement. The migration route is home. The herd is family. The ancestor-song is the only map that works under a starless sky. Ordavi children are given to the herd at age five and expected to keep pace. Those who fall behind are carried until they can walk again, but only once. The old are left at the mounds when they can no longer ride — not abandoned, but released, their names sung until the migration circles back and then never sung again, because the song belongs to the dead and the dead do not travel. Relationships are seasonal. Attachments are dangerous. The steppe does not forgive those who cannot let go.',
+            statModifiers: { agility: 3, spirit: 2, intelligence: -1 },
+            baseStats: { hp: 24, mana: 5, ap: 3, initiative: 1 },
+            savingThrowModifiers: { advantage: ['endurance', 'navigation'], disadvantage: ['confinement'] },
             traits: [
                 {
-                    id: 'mortal_frailty_human_hearthorn',
-                    name: 'Mortal Frailty',
-                    description: 'Base Health Pool reduced by 10%. Humans are biologically the most fragile sapient species.',
+                    id: 'endless_march_ordan',
+                    name: 'Endless March',
+                    description: 'The migration never stops. Neither do you. You can travel for twice as long as normal before requiring a rest, and you ignore the first level of exhaustion from forced marches. Your base walking speed increases by 5 feet. You have advantage on saving throws against effects that would slow or immobilize you — the herd does not stop, and neither can you. Disadvantage on checks made while stationary for more than 1 minute — your body grows restless, your mind drifts to the horizon.',
                     level: 1,
-                    icon: 'ability_rogue_bloodyeye',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'biological',
-                        secondaryElement: 'frailty',
-                        icon: 'ability_rogue_bloodyeye',
-                        tags: ['vulnerability', 'health', 'passive', 'base_race']
-                    },
-                    debuffConfig: {
-                        debuffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'reduced_hp',
-                                name: 'Frail Constitution',
-                                description: '-10% base Health Pool',
-                                statModifier: { stat: 'hp', magnitude: -10, magnitudeType: 'percentage' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' }
-                },
-                {
-                    id: 'short_straw_human_hearthorn',
-                    name: 'The Short Straw',
-                    description: '+25% damage from aging, time-manipulation, and necrotic life-drain effects (Susceptible tier: x1.25).',
-                    level: 1,
-                    icon: 'spell_shadow_lifedrain',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'curse', secondaryElement: 'time', icon: 'spell_shadow_lifedrain',
-                        tags: ['vulnerability', 'necrotic', 'aging', 'passive', 'base_race']
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'necrotic_susceptible',
-                                name: 'Necrotic Susceptible',
-                                description: '+25% damage from aging, time-manipulation, and necrotic life-drain',
-                                statusEffect: { vulnerabilityType: 'necrotic', vulnerabilityPercent: 25, appliesTo: ['aging', 'time_manipulation', 'life_drain'] }
-                            }
-                        ],
-                        durationType: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' }
-                },
-                {
-                    id: 'desperate_will_human_hearthorn',
-                    name: 'Desperate Will',
-                    description: '+2 Spirit, advantage on saves vs Fear, Charm, and Domination.',
-                    level: 1,
-                    icon: 'spell_holy_divinespirit',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff'],
-                    typeConfig: {
-                        school: 'willpower', secondaryElement: 'spirit', icon: 'spell_holy_divinespirit',
-                        tags: ['spirit', 'willpower', 'fear_resist', 'charm_resist', 'passive', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'spirit_bonus', name: 'Iron Will', description: '+2 Spirit',
-                                statModifier: { stat: 'spirit', magnitude: 2, magnitudeType: 'flat' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' }
-                },
-                {
-                    id: 'cultural_fluency_human_hearthorn',
-                    name: 'Cultural Fluency',
-                    description: 'Advantage on Diplomacy, Persuasion, Trade with non-hostile humanoids. Reversed to disadvantage with historically oppressed factions.',
-                    level: 1,
-                    icon: 'achievement_reputation_01',
+                    icon: 'ability_warrior_rampage',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'social', secondaryElement: 'persuasion', icon: 'achievement_reputation_01',
-                        tags: ['social', 'persuasion', 'trade', 'conditional', 'passive', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'social',
-                        effects: [
-                            {
-                                id: 'diplomacy_advantage', name: 'Common Tongue',
-                                description: 'Advantage on Diplomacy, Persuasion, Trade with non-hostile humanoids',
-                                socialModifier: { skills: ['diplomacy', 'persuasion', 'trade'], bonusType: 'advantage', condition: 'target_non_hostile_humanoid' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'social',
-                        effects: [
-                            {
-                                id: 'conqueror_stigma', name: 'Conqueror\'s Stigma',
-                                description: 'Disadvantage on all social checks with historically oppressed factions',
-                                socialModifier: { skills: ['all'], penaltyType: 'disadvantage', condition: 'target_oppressed_faction' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' }
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'movementBuff', effects: [{ id: 'migration_pace', name: 'Migration Pace', description: '+5ft speed. 2x travel before rest. Ignore 1 forced-march exhaustion. Advantage vs slow/immobilize.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'restless', name: 'Restless', description: 'Disadvantage on checks while stationary for more than 1 minute.', statusEffect: { penaltyType: 'disadvantage', conditions: ['stationary_over_1min'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                 },
                 {
-                    id: 'second_wind_human_hearthorn',
-                    name: 'Second Wind',
-                    description: 'Recover 15% max HP, cleanse one Fear effect. Inflicts Adrenal Debt (-30% healing received for 3 rounds).',
+                    id: 'throat_song_ordan',
+                    name: 'Throat-Song',
+                    description: 'You carry the ancestor-songs in your throat — the oral maps that guide the migration across the starless steppe. You can produce multiple tones simultaneously, allowing you to communicate complex information (distance, direction, threat type, herd status) across up to 1 mile of open terrain to anyone who knows the song-language. Allies who can hear your song within 60 feet gain advantage on saving throws against fear. The song reminds them that they are not alone on the steppe.',
                     level: 1,
-                    icon: 'ability_warrior_improveddisciplines',
+                    icon: 'spell_arcane_masscharm',
                     spellType: 'ACTION',
                     actionPoints: 1,
                     components: ['verbal'],
-                    effectTypes: ['healing', 'buff', 'debuff'],
-                    typeConfig: {
-                        school: 'willpower', secondaryElement: 'survival', icon: 'ability_warrior_improveddisciplines',
-                        tags: ['healing', 'cleanse', 'self', 'cooldown', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'heal',
-                        effects: [
-                            {
-                                id: 'hp_recovery', name: 'Desperate Surge', description: 'Recover 15% of maximum HP',
-                                healing: { type: 'percentage', magnitude: 15, target: 'self' }
-                            },
-                            {
-                                id: 'fear_cleanse', name: 'Shake It Off', description: 'Cleanse one Fear or Fear-adjacent debuff',
-                                cleanse: { effectTypes: ['fear', 'fear_adjacent'], count: 1 }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
-                    },
-                    healConfig: {
-                        healType: 'percentage',
-                        effects: [
-                            {
-                                id: 'hp_recovery', name: 'Desperate Surge', description: 'Recover 15% of maximum HP',
-                                healing: { type: 'percentage', magnitude: 15, target: 'self' }
-                            },
-                            {
-                                id: 'fear_cleanse', name: 'Shake It Off', description: 'Cleanse one Fear or Fear-adjacent debuff',
-                                cleanse: { effectTypes: ['fear', 'fear_adjacent'], count: 1 }
-                            }
-                        ],
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'adrenal_debt', name: 'Adrenal Debt',
-                                description: 'All healing received reduced by 30% for 3 rounds',
-                                statusEffect: { level: 'moderate', healingReceivedModifier: -30, durationRounds: 3 }
-                            }
-                        ],
-                        durationValue: 3, durationType: 'rounds', durationUnit: 'rounds', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                    resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: ['verbal'] },
-                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    effectTypes: ['utility', 'buff'],
+                    typeConfig: { category: 'racial' },
+                    utilityConfig: { utilityType: 'communication', selectedEffects: [{ id: 'long_song', name: 'Ancestor-Signal', description: 'Communicate across 1 mile of open terrain through throat-singing.' }], duration: 1, durationUnit: 'rounds' },
+                    buffConfig: { buffType: 'auraEffect', effects: [{ id: 'song_comfort', name: 'Song-Comfort', description: 'Allies within 60ft gain advantage vs fear for 1 round.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 60 },
+                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 1, mana: 0, components: ['verbal'] }
                 },
                 {
-                    id: 'plague_hardened',
-                    name: 'Plague-Hardened',
-                    description: 'Generations of surviving filth, plague, and graveyard runoff have rewired the Hearthorn immune system into something that puzzles healers and disgusts everyone else. Advantage on saves vs Disease, non-magical Poison, and Exhaustion. Reduce all environmental damage (natural cold, natural heat, disease exposure) by 25%. COST: The same biological adaptation that repels the natural world rejects the supernatural with violent immune responses. +20% vulnerability to ALL magical damage — arcane, divine, elemental, the lot. Their flesh treats a fireball the way a healthy body treats infected blood.',
+                    id: 'mound_offering_ordan',
+                    name: 'Mound-Offering',
+                    description: 'You carry a small relic from an ancestor left at a burial mound — a bone fragment, a braid of hair, a piece of wind-cured leather. Once per long rest, you may hold the relic and speak your ancestor\'s name aloud. For the next hour, you have advantage on Wisdom checks and cannot be lost — the ancestor remembers the way, even if you do not. At the end of the hour, the relic crumbles to dust. You must find a new one at the next burial mound, or carry the silence until you do.',
                     level: 1,
-                    icon: 'spell_nature_resistnature',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'biological',
-                        secondaryElement: 'endurance',
-                        icon: 'spell_nature_resistnature',
-                        tags: ['resistance', 'vulnerability', 'environmental', 'magical', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'resistance',
-                        effects: [
-                            {
-                                id: 'environmental_resistance',
-                                name: 'Hardened Constitution',
-                                description: '25% reduction to environmental damage (natural cold, heat, disease)',
-                                resistanceModifier: {
-                                    damageTypes: ['cold_natural', 'heat_natural', 'exhaustion', 'disease', 'poison_spoiled'],
-                                    reductionPercent: 25
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'magical_susceptible',
-                                name: 'Unwarded Flesh',
-                                description: '+20% damage from all magical sources',
-                                statusEffect: {
-                                    vulnerabilityTypes: ['arcane', 'divine', 'elemental', 'fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant'],
-                                    vulnerabilityPercent: 20,
-                                    appliesTo: 'all_magical_damage',
-                                    description: 'Generations of plague-hardening left the flesh violently allergic to anything supernatural'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'graveyard_supper',
-                    name: 'Graveyard Supper',
-                    description: 'Consume graveyard soil, ash from a funeral pyre, or decaying organic matter from a burial site. The dead feed the living — this is not poetry to the Hearthorn, it is dinner. Gain +3 temporary Armor for 3 rounds and immediately cleanse one active Poison or Disease effect. The minerals in grave-soil calcify under the skin like crude plate armor. COST: Gain the Poisoned condition for 2 rounds as the body processes what should not be eaten. Cannot be used while currently Poisoned — the stomach has limits, even for a Hearthorn.',
-                    level: 1,
-                    icon: 'inv_misc_food_09',
+                    icon: 'spell_shadow_deathanddecay',
                     spellType: 'ACTION',
                     actionPoints: 1,
-                    components: ['somatic'],
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'survival',
-                        secondaryElement: 'consumption',
-                        icon: 'inv_misc_food_09',
-                        tags: ['armor', 'cleanse', 'survival', 'folklore', 'conditional', 'cooldown']
-                    },
-                    buffConfig: {
-                        buffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'grave_armor',
-                                name: 'Grave-Soil Carapace',
-                                description: '+3 temporary Armor for 3 rounds',
-                                statModifier: {
-                                    stat: 'armor',
-                                    magnitude: 3,
-                                    magnitudeType: 'flat',
-                                    durationRounds: 3,
-                                    isTemporary: true
-                                }
-                            },
-                            {
-                                id: 'cleanse_rot',
-                                name: 'Purge the Humors',
-                                description: 'Cleanse one active Poison or Disease effect',
-                                cleanse: {
-                                    effectTypes: ['poison', 'disease'],
-                                    count: 1
-                                }
-                            }
-                        ],
-                        durationValue: 3,
-                        durationType: 'rounds',
-                        durationUnit: 'rounds',
-                        canBeDispelled: true
-                    },
-                    debuffConfig: {
-                        debuffType: 'conditional',
-                        effects: [
-                            {
-                                id: 'grave_sickness',
-                                name: 'Grave Sickness',
-                                description: 'Poisoned for 2 rounds — the stomach processes what should not be eaten',
-                                statusEffect: {
-                                    level: 'moderate',
-                                    statusEffect: 'poisoned',
-                                    durationRounds: 2,
-                                    condition: 'not_currently_poisoned',
-                                    blocksReuse: true,
-                                    description: 'The body accepts the grave\'s gift and repays it with bile'
-                                }
-                            }
-                        ],
-                        durationValue: 2,
-                        durationType: 'rounds',
-                        durationUnit: 'rounds',
-                        canBeDispelled: true
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    },
-                    resourceCost: {
-                        resourceTypes: [],
-                        resourceValues: {},
-                        actionPoints: 1,
-                        mana: 0,
-                        components: ['somatic']
-                    },
-                    cooldownConfig: {
-                        cooldownType: 'short_rest',
-                        cooldownValue: 1
-                    }
-                },
-                {
-                    id: 'unremarkable',
-                    name: 'Unremarkable',
-                    description: 'The Hearthorn is so perfectly ordinary that the eye slides off them like water off oiled leather. Advantage on Stealth checks in urban environments and crowd situations. Guards, bounty hunters, and spies have disadvantage on any check to recall or describe the Hearthorn\'s face — they remember "someone unremarkable" and nothing more. COST: Allies also lose track. Party members suffer disadvantage on checks to coordinate with the Hearthorn in combat — calling out positions, passing items, executing flanking maneuvers. The Hearthorn is so forgettable that even allies lose them in the chaos of battle. Overlooked for promotions, rewards, credit, and glory. History does not remember the commoner.',
-                    level: 1,
-                    icon: 'spell_magic_magearmor',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'social',
-                        secondaryElement: 'anonymity',
-                        icon: 'spell_magic_magearmor',
-                        tags: ['social', 'stealth', 'urban', 'memory', 'coordination', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'social',
-                        effects: [
-                            {
-                                id: 'urban_anonymity',
-                                name: 'Face in the Crowd',
-                                description: 'Advantage on Stealth checks in urban environments and crowd situations',
-                                skillModifier: {
-                                    skills: ['stealth_urban', 'blend_in', 'avoid_attention'],
-                                    bonusType: 'advantage',
-                                    condition: 'urban_or_crowd_environment'
-                                }
-                            },
-                            {
-                                id: 'forgettable_face',
-                                name: 'Forgettable',
-                                description: 'Guards, bounty hunters, spies have disadvantage recalling/describing face',
-                                socialModifier: {
-                                    penaltyType: 'disadvantage',
-                                    appliesTo: 'npc_recall_attempts',
-                                    condition: 'describing_hearthorn'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'social',
-                        effects: [
-                            {
-                                id: 'ally_confusion',
-                                name: 'Lost in the Fray',
-                                description: 'Allies have disadvantage coordinating with Hearthorn in combat',
-                                socialModifier: {
-                                    penaltyType: 'disadvantage',
-                                    appliesTo: 'allied_combat_coordination',
-                                    condition: 'active_combat',
-                                    description: 'Even allies lose the thread — was she on the left or the right?'
-                                }
-                            },
-                            {
-                                id: 'overlooked',
-                                name: 'Overlooked',
-                                description: 'Easily overlooked for promotions, rewards, credit, and glory',
-                                socialModifier: {
-                                    penaltyType: 'social_invisibility',
-                                    appliesTo: 'recognition_credit_glory',
-                                    description: 'History does not remember the commoner'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'plow_shaped_hands',
-                    name: 'Plow-Shaped Hands',
-                    description: 'The hands that break earth learn to break metal, wood, and bone with equal pragmatism. +2 to one Craft or Profession skill at creation. Self-crafted mundane equipment has +15% durability. Self-crafted mundane weapons deal +2 damage on the first strike in each combat encounter — freshly sharpened, properly weighted, the edge of someone who knows that a dull blade means a slow death. Only applies to mundane equipment. Magic overrides careful tempering, because the world is unfair and has always been.',
-                    level: 1,
-                    icon: 'inv_hammer_06',
-                    spellType: 'PASSIVE',
+                    components: ['verbal', 'somatic'],
                     effectTypes: ['buff'],
-                    typeConfig: {
-                        school: 'craft',
-                        secondaryElement: 'trade',
-                        icon: 'inv_hammer_06',
-                        tags: ['crafting', 'trade', 'durability', 'damage', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'crafting',
-                        effects: [
-                            {
-                                id: 'skill_bonus',
-                                name: 'Master Apprentice',
-                                description: '+2 to one Craft, Profession, or Trade skill',
-                                skillModifier: {
-                                    skills: ['craft', 'profession', 'trade'],
-                                    bonusType: 'flat',
-                                    magnitude: 2,
-                                    chooseOne: true
-                                }
-                            },
-                            {
-                                id: 'craftsmanship_durability',
-                                name: 'Hearthorn Temper',
-                                description: '+15% durability on self-crafted mundane equipment',
-                                equipmentModifier: {
-                                    durability: 15,
-                                    durabilityType: 'percentage',
-                                    condition: 'self_crafted',
-                                    equipmentType: 'mundane'
-                                }
-                            },
-                            {
-                                id: 'first_strike_edge',
-                                name: 'Freshly Sharpened',
-                                description: '+2 damage on first strike with self-crafted mundane weapons per combat encounter',
-                                damageModifier: {
-                                    magnitude: 2,
-                                    magnitudeType: 'flat',
-                                    condition: 'first_strike_per_encounter',
-                                    equipmentCondition: 'mundane_self_crafted'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'the_last_harvest',
-                    name: 'The Last Harvest',
-                    description: 'When the Hearthorn drops below 25% HP, the body enters a state that battlefield medics call "the last harvest" — a desperate, animal survival mode that saves the life by sacrificing wholeness. Gain +10% damage resistance and +2 to all saving throws while below 25% HP. COST: While in this state, the Hearthorn cannot be healed above 50% of their maximum HP until they receive a full rest. Flesh knits wrong. Bones set crooked. The wounds close, but they close like a farmer mends a fence — functionally, ugly, and never quite right. Survival comes at the cost of wholeness.',
-                    level: 1,
-                    icon: 'ability_warrior_improveddisciplines',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'biological',
-                        secondaryElement: 'survival',
-                        icon: 'ability_warrior_improveddisciplines',
-                        tags: ['resistance', 'saving_throw', 'healing_cap', 'conditional', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'desperation_resistance',
-                                name: 'Last Stand Constitution',
-                                description: '+10% damage resistance while below 25% HP',
-                                resistanceModifier: {
-                                    reductionPercent: 10,
-                                    condition: 'hp_below_25_percent',
-                                    description: 'The body refuses to die — tissue calcifies, blood thickens, the animal takes over'
-                                }
-                            },
-                            {
-                                id: 'desperation_saves',
-                                name: 'Cornered Animal',
-                                description: '+2 to all saving throws while below 25% HP',
-                                statModifier: {
-                                    stat: 'all_saving_throws',
-                                    magnitude: 2,
-                                    magnitudeType: 'flat',
-                                    condition: 'hp_below_25_percent'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'conditional',
-                        durationUnit: 'conditional',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'crooked_healing',
-                                name: 'Crooked Mending',
-                                description: 'Cannot be healed above 50% HP until full rest — flesh knits wrong, bones set crooked',
-                                statModifier: {
-                                    stat: 'healing_cap',
-                                    magnitude: 50,
-                                    magnitudeType: 'percentage_cap',
-                                    condition: 'hp_was_below_25_percent',
-                                    removedBy: 'full_rest',
-                                    description: 'Survival came at the cost of wholeness — the farmer\'s mend, ugly and permanent'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'conditional',
-                        durationUnit: 'conditional',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'commoners_grit_human',
-                    name: 'Commoner\'s Grit',
-                    description: 'A quiet, stubborn refusal to die. Once per long rest, when a Hearthorn\'s HP drops below 20%, they automatically cleanse all physical debuffs and gain a temporary shield equal to their missing HP.',
-                    level: 1,
-                    icon: 'spell_nature_resistnature',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff'],
-                    typeConfig: {
-                        school: 'willpower',
-                        secondaryElement: 'survival',
-                        icon: 'spell_nature_resistnature',
-                        tags: ['cleanse', 'shield', 'low_hp_trigger', 'survival', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'shield',
-                        effects: [
-                            {
-                                id: 'grit_shield',
-                                name: 'Stubborn Shield',
-                                description: 'Gain a temporary shield equal to missing HP',
-                                shield: {
-                                    type: 'missing_hp_scaled',
-                                    scalingFactor: 1.0,
-                                    target: 'self'
-                                }
-                            },
-                            {
-                                id: 'grit_cleanse',
-                                name: 'Survival Purge',
-                                description: 'Cleanse all physical debuffs',
-                                cleanse: {
-                                    effectTypes: ['physical'],
-                                    count: 'all'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'instant',
-                        durationUnit: 'instant',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    },
-                    cooldownConfig: {
-                        cooldownType: 'long_rest',
-                        cooldownValue: 1
-                    }
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'ancestor_guide', name: 'Ancestor-Guide', description: '1 hour: advantage on Wisdom checks, cannot be lost. Relic crumbles after.', statusEffect: { level: 'major' } }], durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 1, mana: 0, components: ['verbal', 'somatic'] }
                 }
             ]
         },
-        pale_born: {
-            id: 'paleborn_human',
-            name: 'Pale-Born',
-            description: 'Generations of families living near ley-lines, arcane ruins, or cursed battlefields produced a subrace touched by raw magical resonance. Pale skin, almost translucent — you can see the veins beneath, and they glow faintly violet in the dark. Eyes that catch light wrong, as though the pupil is deeper than it should be. They are Human — but wrong. Like a portrait painted from memory rather than from life. Their blood conducts arcane energy the way copper conducts lightning, and it is killing them slowly from the inside out. Other Humans distrust them instinctively. The Pale-Born do not blame them.',
-            culturalBackground: 'Pale-Born exist on the fringes of Human society — distrusted by their own kind, drawn to the arcane forces that marked their bloodlines. Their enclaves are built in places no other race can tolerate: ley-convergence craters, ruined battlefields still saturated with spell-residue, the shadows beneath ancient towers. They read magical currents the way sailors read the sea, and they trade in secrets that other Humans do not want to know. Their gatherings are not festivals but seances — channeling ley-energy through blood rituals not for worship, but for information about storms on the horizon.',
-            statModifiers: {
-                intelligence: 2,
-                spirit: 1,
-                constitution: -2
-            },
-            baseStats: {
-                armor: 0,
-                hp: 24,
-                mana: 24,
-                ap: 3,
-                passivePerception: 12,
-                swimSpeed: 15,
-                climbSpeed: 15,
-                visionRange: 30,
-                darkvision: 30,
-                initiative: 1
-            },
-            savingThrowModifiers: {
-                advantage: ['arcane', 'magical_detection'],
-                disadvantage: ['radiant', 'anti_magic']
-            },
+        morren: {
+            id: 'morren_human',
+            name: 'Morren',
+            description: 'The sinking bogs of the Bryngloom Forest shape the Morren into a frail, watchful people. Smaller and slighter than other humans, with the pale, peat-stained complexion of those who live under perpetual canopy-gloom. Their hands are thin and long-fingered — adapted for signing Neth contracts in precise, legally-binding script. Their eyes carry the particular anxiety of debtors who know the creditor is patient and immortal. They move quietly through the bog-villages on wooden boardwalks, and they never, ever break a contract.',
+            culturalBackground: 'Morren culture is defined by debt. Every swamp-village owes the Neth something — protection, memory-glass, labor, the firstborn of a particular bloodline every third generation. The contracts are ancient, binding, and enforced by the Keeper of the Last Threshold itself. The Morren do not resent this. The contracts saved their ancestors when the freeze came. What they feel is more complicated: gratitude, fear, dependence, and the slow, corrosive knowledge that they can never leave. Their bodies are too frail for the surface world. Their debts are too large to ever repay. They are not slaves — the Neth do not permit slavery, it violates the First Contract. They are something more complicated: a people who traded freedom for survival so long ago that the trade has become their identity. House Morrath still administers the contracts — which means House Morrath is the Neth\'s most reliable collection agency, and the Morren hate their own nobles with a quiet, desperate fury that never quite rises to rebellion.',
+            statModifiers: { intelligence: 3, wisdom: 2, strength: -2 },
+            baseStats: { hp: 20, mana: 7, ap: 3, initiative: 0 },
+            savingThrowModifiers: { advantage: ['contracts', 'occult'], disadvantage: ['athletics', 'intimidation'] },
             traits: [
                 {
-                    id: 'mortal_frailty_human_paleborn',
-                    name: 'Mortal Frailty',
-                    description: 'Base Health Pool reduced by 10%. Humans are biologically the most fragile sapient species.',
+                    id: 'contract_sight_morren',
+                    name: 'Contract-Sight',
+                    description: 'Generations of Neth contract-law have sharpened your ability to read the fine print. Advantage on checks to detect deception, hidden clauses, or loopholes in any agreement, written or spoken. You instinctively know when someone is trying to cheat you — the Neth taught your ancestors to read contract-language, and the skill is in your blood. Additionally, you may spend 1 AP to identify whether a creature you can see is currently bound by any magical or contractual obligation. The terms are not revealed — only the existence of the binding.',
                     level: 1,
-                    icon: 'ability_rogue_bloodyeye',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'biological', secondaryElement: 'frailty', icon: 'ability_rogue_bloodyeye',
-                        tags: ['vulnerability', 'health', 'passive', 'base_race']
-                    },
-                    debuffConfig: {
-                        debuffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'reduced_hp', name: 'Frail Constitution', description: '-10% base Health Pool',
-                                statModifier: { stat: 'hp', magnitude: -10, magnitudeType: 'percentage' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' }
-                },
-                {
-                    id: 'short_straw_human_paleborn',
-                    name: 'The Short Straw',
-                    description: '+25% damage from aging, time-manipulation, and necrotic life-drain effects (Susceptible tier: x1.25).',
-                    level: 1,
-                    icon: 'spell_shadow_lifedrain',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'curse', secondaryElement: 'time', icon: 'spell_shadow_lifedrain',
-                        tags: ['vulnerability', 'necrotic', 'aging', 'passive', 'base_race']
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'necrotic_susceptible', name: 'Necrotic Susceptible',
-                                description: '+25% damage from aging, time-manipulation, and necrotic life-drain',
-                                statusEffect: { vulnerabilityType: 'necrotic', vulnerabilityPercent: 25, appliesTo: ['aging', 'time_manipulation', 'life_drain'] }
-                            }
-                        ],
-                        durationType: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' }
-                },
-                {
-                    id: 'desperate_will_human_paleborn',
-                    name: 'Desperate Will',
-                    description: '+2 Spirit, advantage on saves vs Fear, Charm, and Domination.',
-                    level: 1,
-                    icon: 'spell_holy_divinespirit',
+                    icon: 'spell_arcane_mindmastery',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff'],
-                    typeConfig: {
-                        school: 'willpower', secondaryElement: 'spirit', icon: 'spell_holy_divinespirit',
-                        tags: ['spirit', 'willpower', 'fear_resist', 'charm_resist', 'passive', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'statEnhancement',
-                        effects: [
-                            {
-                                id: 'spirit_bonus', name: 'Iron Will', description: '+2 Spirit',
-                                statModifier: { stat: 'spirit', magnitude: 2, magnitudeType: 'flat' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' }
-                },
-                {
-                    id: 'cultural_fluency_human_paleborn',
-                    name: 'Cultural Fluency',
-                    description: 'Advantage on Diplomacy, Persuasion, Trade with non-hostile humanoids. Reversed to disadvantage with historically oppressed factions.',
-                    level: 1,
-                    icon: 'achievement_reputation_01',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'social', secondaryElement: 'persuasion', icon: 'achievement_reputation_01',
-                        tags: ['social', 'persuasion', 'trade', 'conditional', 'passive', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'social',
-                        effects: [
-                            {
-                                id: 'diplomacy_advantage', name: 'Common Tongue',
-                                description: 'Advantage on Diplomacy, Persuasion, Trade with non-hostile humanoids',
-                                socialModifier: { skills: ['diplomacy', 'persuasion', 'trade'], bonusType: 'advantage', condition: 'target_non_hostile_humanoid' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'social',
-                        effects: [
-                            {
-                                id: 'conqueror_stigma', name: 'Conqueror\'s Stigma',
-                                description: 'Disadvantage on all social checks with historically oppressed factions',
-                                socialModifier: { skills: ['all'], penaltyType: 'disadvantage', condition: 'target_oppressed_faction' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' }
-                },
-                {
-                    id: 'second_wind_human_paleborn',
-                    name: 'Second Wind',
-                    description: 'Recover 15% max HP, cleanse one Fear effect. Inflicts Adrenal Debt (-30% healing received for 3 rounds).',
-                    level: 1,
-                    icon: 'ability_warrior_improveddisciplines',
-                    spellType: 'ACTION',
-                    actionPoints: 1,
-                    components: ['verbal'],
-                    effectTypes: ['healing', 'buff', 'debuff'],
-                    typeConfig: {
-                        school: 'willpower', secondaryElement: 'survival', icon: 'ability_warrior_improveddisciplines',
-                        tags: ['healing', 'cleanse', 'self', 'cooldown', 'base_race']
-                    },
-                    buffConfig: {
-                        buffType: 'heal',
-                        effects: [
-                            {
-                                id: 'hp_recovery', name: 'Desperate Surge', description: 'Recover 15% of maximum HP',
-                                healing: { type: 'percentage', magnitude: 15, target: 'self' }
-                            },
-                            {
-                                id: 'fear_cleanse', name: 'Shake It Off', description: 'Cleanse one Fear or Fear-adjacent debuff',
-                                cleanse: { effectTypes: ['fear', 'fear_adjacent'], count: 1 }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
-                    },
-                    healConfig: {
-                        healType: 'percentage',
-                        effects: [
-                            {
-                                id: 'hp_recovery', name: 'Desperate Surge', description: 'Recover 15% of maximum HP',
-                                healing: { type: 'percentage', magnitude: 15, target: 'self' }
-                            },
-                            {
-                                id: 'fear_cleanse', name: 'Shake It Off', description: 'Cleanse one Fear or Fear-adjacent debuff',
-                                cleanse: { effectTypes: ['fear', 'fear_adjacent'], count: 1 }
-                            }
-                        ],
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'adrenal_debt', name: 'Adrenal Debt',
-                                description: 'All healing received reduced by 30% for 3 rounds',
-                                statusEffect: { level: 'moderate', healingReceivedModifier: -30, durationRounds: 3 }
-                            }
-                        ],
-                        durationValue: 3, durationType: 'rounds', durationUnit: 'rounds', canBeDispelled: false
-                    },
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'fine_print', name: 'Fine Print', description: 'Advantage on detecting deception/clauses/loopholes in agreements. 1 AP to sense magical or contractual bindings on a creature.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
                     targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                    resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: ['verbal'] },
-                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
-                },
-                {
-                    id: 'ley_saturated_blood',
-                    name: 'Ley-Saturated Blood',
-                    description: 'The Pale-Born\'s blood conducts arcane energy the way copper conducts lightning. All spells cast deal +10% damage OR +10% duration (chosen at time of cast). Their bodies are living magical instruments. COST: The saturation makes them Susceptible (x1.25) to anti-magic, Dispel, and all anti-arcane effects — their blood recognizes the suppression and rebels against it violently. Inside an Anti-Magic Field, the Pale-Born takes 1d4 necrotic damage per round as suppressed blood-magic decays living tissue from the inside out. The blood does not stop being magical. It simply stops being contained.',
-                    level: 1,
-                    icon: 'spell_arcane_manashield',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'arcane',
-                        secondaryElement: 'ley',
-                        icon: 'spell_arcane_manashield',
-                        tags: ['spell_amplification', 'vulnerability', 'anti_magic', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'spellAmplification',
-                        effects: [
-                            {
-                                id: 'spell_power',
-                                name: 'Arcane Conduit',
-                                description: '+10% spell damage or +10% spell duration (chosen at cast)',
-                                spellModifier: {
-                                    damageModifier: 10,
-                                    durationModifier: 10,
-                                    modifierType: 'percentage',
-                                    condition: 'choose_damage_or_duration'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'anti_magic_susceptible',
-                                name: 'Saturated Curse',
-                                description: 'Susceptible (x1.25) to anti-magic, Dispel, and anti-arcane effects',
-                                statusEffect: {
-                                    vulnerabilityTypes: ['anti_magic', 'dispel', 'anti_arcane'],
-                                    vulnerabilityPercent: 25,
-                                    treatedAs: 'partially_magical_being',
-                                    description: 'Blood recognizes suppression and rebels — violently'
-                                }
-                            },
-                            {
-                                id: 'anti_magic_decay',
-                                name: 'Blood Decay',
-                                description: '1d4 necrotic damage per round inside Anti-Magic Fields',
-                                statusEffect: {
-                                    damagePerRound: '1d4',
-                                    damageTypes: ['necrotic'],
-                                    condition: 'inside_anti_magic_field',
-                                    description: 'Suppressed blood-magic decays living tissue — the blood does not stop being magical, it simply stops being contained'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'pale_sight',
-                    name: 'Pale Sight',
-                    description: 'Permanently see magical auras within 30 feet — enchantments glow like guttering candles, magical traps pulse like infected wounds, and creatures who have cast spells within the last hour trail arcane residue like blood in water. COST: In areas of dense magical saturation (ley-convergences, active spellzones, ritual sites), the Pale-Born is blinded — all sight checks fail, disadvantage on all Perception rolls. The gift that illuminates the arcane world becomes sensory torture when that world screams too loudly.',
-                    level: 1,
-                    icon: 'spell_holy_mindvision',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'divination',
-                        secondaryElement: 'arcane',
-                        icon: 'spell_holy_mindvision',
-                        tags: ['detection', 'magic', 'vision', 'conditional', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'detection',
-                        effects: [
-                            {
-                                id: 'magic_aura_vision',
-                                name: 'Arcane Sight',
-                                description: 'See magical auras within 30ft — enchantments, traps, recent spellcasters',
-                                detectionEffect: {
-                                    range: 30,
-                                    detects: ['active_enchantments', 'magical_traps', 'recent_spellcasters'],
-                                    duration: 'recent_cast_within_1_hour',
-                                    description: 'Enchantments glow like guttering candles, spell-trails like blood in water'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'conditional',
-                        effects: [
-                            {
-                                id: 'arcane_overload',
-                                name: 'Arcane Overload',
-                                description: 'Blinded in dense magical areas — all sight checks fail, disadvantage on Perception',
-                                statusEffect: {
-                                    level: 'severe',
-                                    effect: 'blinded',
-                                    condition: 'dense_magical_environment',
-                                    perceptionDisadvantage: true,
-                                    allSightChecks: 'fail',
-                                    description: 'The gift becomes sensory torture when the arcane world screams too loudly'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'conditional',
-                        durationUnit: 'conditional',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered',
-                        aoeParameters: { radius: 30 }
-                    }
-                },
-                {
-                    id: 'blood_resonance',
-                    name: 'Blood Resonance',
-                    description: 'Open a vein. Let the ley-saturated blood taste air. Self-inflict 5% maximum HP as the blade parts skin that is too thin and too full of magic. The blood that leaks is not red — it shimmers with the residue of every spell your bloodline has absorbed in a hundred generations. Instantly replicate any spell of 2nd level or lower that the Pale-Born witnessed being cast within the last hour. No spell slots. No components. No incantation. Just blood and memory and the screaming of the ley-lines through torn flesh. COST: The wound will not close for 2 rounds. Cannot be healed by any means during this time. Take 1d6 necrotic damage at the start of each turn for 2 rounds as blood-magic hemorrhages through the open vein. The blood does not clot. It leaks metaphysically, carrying magic and life out through a wound that remembers every spell it ever held.',
-                    level: 1,
-                    icon: 'spell_shadow_sacrificialshield',
-                    spellType: 'ACTION',
-                    actionPoints: 1,
-                    components: ['somatic'],
-                    effectTypes: ['utility', 'debuff'],
-                    typeConfig: {
-                        school: 'hemomancy',
-                        secondaryElement: 'arcane',
-                        icon: 'spell_shadow_sacrificialshield',
-                        tags: ['spell_replication', 'blood', 'sacrifice', 'cooldown']
-                    },
-                    utilityConfig: {
-                        utilityType: 'spell_replication',
-                        effects: [
-                            {
-                                id: 'blood_sacrifice',
-                                name: 'Open the Vein',
-                                description: 'Self-inflict 5% max HP to catalyze spell replication',
-                                selfDamage: {
-                                    type: 'percentage',
-                                    magnitude: 5,
-                                    damageTypes: ['slashing'],
-                                    target: 'self'
-                                }
-                            },
-                            {
-                                id: 'spell_echo',
-                                name: 'Spell Echo',
-                                description: 'Replicate any spell of 2nd level or lower witnessed in last hour',
-                                spellReplication: {
-                                    maxSpellLevel: 2,
-                                    timeWindow: '1_hour',
-                                    bypassComponents: true,
-                                    bypassSpellSlots: true
-                                }
-                            }
-                        ],
-                        canBeDispelled: false
-                    },
-                    buffConfig: {
-                        buffType: 'spell_replication',
-                        effects: [
-                            {
-                                id: 'blood_sacrifice',
-                                name: 'Open the Vein',
-                                description: 'Self-inflict 5% max HP to catalyze spell replication',
-                                selfDamage: {
-                                    type: 'percentage',
-                                    magnitude: 5,
-                                    damageTypes: ['slashing'],
-                                    target: 'self'
-                                }
-                            },
-                            {
-                                id: 'spell_echo',
-                                name: 'Spell Echo',
-                                description: 'Replicate any spell of 2nd level or lower witnessed in last hour',
-                                spellReplication: {
-                                    maxSpellLevel: 2,
-                                    timeWindow: '1_hour',
-                                    bypassComponents: true,
-                                    bypassSpellSlots: true
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'instant',
-                        durationUnit: 'instant',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'arcane_hemorrhage',
-                                name: 'Arcane Hemorrhage',
-                                description: 'Cannot be healed for 2 rounds. 1d6 necrotic at start of each turn.',
-                                statusEffect: {
-                                    level: 'severe',
-                                    healingBlocked: true,
-                                    damagePerRound: '1d6',
-                                    damageTypes: ['necrotic'],
-                                    durationRounds: 2,
-                                    description: 'Blood does not clot — it leaks metaphysically, carrying magic and life through a wound that remembers every spell it ever held'
-                                }
-                            }
-                        ],
-                        durationValue: 2,
-                        durationType: 'rounds',
-                        durationUnit: 'rounds',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    },
-                    resourceCost: {
-                        resourceTypes: ['hp'],
-                        resourceValues: { hp: 5 },
-                        actionPoints: 1,
-                        mana: 0,
-                        components: ['somatic'],
-                        hpCostIsPercentage: true
-                    },
-                    cooldownConfig: {
-                        cooldownType: 'long_rest',
-                        cooldownValue: 1
-                    }
-                },
-                {
-                    id: 'translucent_flesh',
-                    name: 'Translucent Flesh',
-                    description: 'The Pale-Born\'s skin is nearly see-through — you can count the veins beneath it, and they glow faintly violet when the ley-lines surge. Light passes through the skin and burns the blood-magic underneath like a lens focusing sunlight onto kindling. -15% accuracy on all attack rolls and ability checks in direct sunlight. Take 1 radiant damage per hour of unprotected sun exposure as the skin blisters metaphysically. +15% vulnerability to radiant damage — the flesh was never built to hold light, only to conduct it. In darkness, the Pale-Born is comfortable. In light, they are a wound.',
-                    level: 1,
-                    icon: 'spell_holy_auramastery',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'biological',
-                        secondaryElement: 'light',
-                        icon: 'spell_holy_auramastery',
-                        tags: ['vulnerability', 'sunlight', 'radiant', 'accuracy', 'passive', 'isWeakness']
-                    },
-                    debuffConfig: {
-                        debuffType: 'conditional',
-                        effects: [
-                            {
-                                id: 'sunlight_penalty',
-                                name: 'Sunblind',
-                                description: '-15% accuracy on attack rolls and ability checks in direct sunlight',
-                                statusEffect: {
-                                    accuracyModifier: -15,
-                                    condition: 'direct_sunlight',
-                                    appliesTo: 'attack_rolls_and_ability_checks',
-                                    description: 'Light passes through translucent skin and burns the blood-magic beneath like a lens on kindling'
-                                }
-                            },
-                            {
-                                id: 'sunburn_damage',
-                                name: 'Metaphysical Sunburn',
-                                description: '1 radiant damage per hour of unprotected sun exposure',
-                                statusEffect: {
-                                    damagePerHour: 1,
-                                    damageTypes: ['radiant'],
-                                    condition: 'unprotected_sun_exposure',
-                                    description: 'The skin blisters not from heat but from light itself — the flesh was never built to hold it'
-                                }
-                            },
-                            {
-                                id: 'radiant_vulnerability',
-                                name: 'Lens-Flesh',
-                                description: '+15% vulnerability to radiant damage',
-                                statusEffect: {
-                                    vulnerabilityType: 'radiant',
-                                    vulnerabilityPercent: 15,
-                                    description: 'In darkness, comfort. In light, a wound that does not close'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'conditional',
-                        durationUnit: 'conditional',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'the_unsettling',
-                    name: 'The Unsettling',
-                    description: 'Something about the Pale-Born makes ordinary people\'s skin crawl. It is not their appearance — though the translucent skin and too-deep eyes do not help. It is something older. A genetic memory of what happens when Humans get too close to magic. Disadvantage on Persuasion and Diplomacy with non-magical humanoid NPCs. Advantage on Intimidation against superstitious or magic-fearing NPCs. COST: Non-magical humanoid NPCs have a flat 15% chance per social interaction to become Hostile regardless of context, charm, or prior relationship. The Pale-Born does not choose to unsettle. It is a reflex, like breathing — and just as involuntary. Something in the blood broadcasts wrongness on a frequency that Humans have evolved to fear.',
-                    level: 1,
-                    icon: 'spell_shadow_curse',
-                    spellType: 'PASSIVE',
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: {
-                        school: 'social',
-                        secondaryElement: 'fear',
-                        icon: 'spell_shadow_curse',
-                        tags: ['social', 'intimidation', 'persuasion', 'hostility', 'passive']
-                    },
-                    buffConfig: {
-                        buffType: 'social',
-                        effects: [
-                            {
-                                id: 'fearful_reputation',
-                                name: 'Arcane Menace',
-                                description: 'Advantage on Intimidation vs superstitious or magic-fearing NPCs',
-                                socialModifier: {
-                                    skill: 'intimidation',
-                                    bonusType: 'advantage',
-                                    condition: 'target_superstitious_or_magic_fearing'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'social',
-                        effects: [
-                            {
-                                id: 'unsettling',
-                                name: 'Wrong',
-                                description: 'Disadvantage on Persuasion and Diplomacy with non-magical humanoids',
-                                socialModifier: {
-                                    skills: ['persuasion', 'diplomacy'],
-                                    penaltyType: 'disadvantage',
-                                    condition: 'target_non_magical_humanoid'
-                                }
-                            },
-                            {
-                                id: 'primal_fear',
-                                name: 'Primal Fear Response',
-                                description: '15% chance per social interaction for non-magical humanoid NPCs to become Hostile',
-                                socialModifier: {
-                                    penaltyType: 'random_hostility',
-                                    triggerChance: 15,
-                                    triggerType: 'flat_percentage',
-                                    appliesTo: 'non_magical_humanoid_npcs',
-                                    bypasses: ['charm', 'prior_relationship', 'context'],
-                                    description: 'Something in the blood broadcasts wrongness on a frequency Humans evolved to fear'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'permanent',
-                        durationUnit: 'permanent',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    }
-                },
-                {
-                    id: 'ley_line_overload_human',
-                    name: 'Ley-Line Overload',
-                    description: 'Once per encounter, a Pale-Born can cast a spell without spending mana, but they take necrotic damage equal to double the spell\'s level and gain a stack of "Ley-Burn" (-5% max HP until long rest).',
-                    level: 1,
-                    icon: 'spell_arcane_manashield',
-                    spellType: 'ACTION',
                     resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                    effectTypes: ['debuff'],
-                    typeConfig: {
-                        school: 'arcane',
-                        secondaryElement: 'sacrifice',
-                        icon: 'spell_arcane_manashield',
-                        tags: ['free_cast', 'self_damage', 'ley_burn', 'cooldown']
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'ley_burn',
-                                name: 'Ley-Burn',
-                                description: '-5% maximum HP until long rest',
-                                statModifier: {
-                                    stat: 'hp',
-                                    magnitude: -5,
-                                    magnitudeType: 'percentage'
-                                }
-                            }
-                        ],
-                        durationValue: 0,
-                        durationType: 'until_long_rest',
-                        durationUnit: 'until_long_rest',
-                        canBeDispelled: false
-                    },
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self_centered'
-                    },
-                    cooldownConfig: {
-                        cooldownType: 'encounter',
-                        cooldownValue: 1
-                    }
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'bog_adapted_morren',
+                    name: 'Bog-Adapted',
+                    description: 'The Bryngloom has been your home for generations. You are immune to non-magical diseases from swamp environments. You can move across bog, marsh, and shallow water at full speed without sinking. Advantage on Stealth checks in swamp, marsh, and forest environments. Disadvantage on all physical checks in dry, arid environments — your body is calibrated for moisture, and the dryness cracks your skin and your concentration.',
+                    level: 1,
+                    icon: 'spell_nature_poisongas',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'environmentalAdaptation', effects: [{ id: 'bog_striding', name: 'Bog-Striding', description: 'Immune to swamp disease. Full speed on bog/marsh. Advantage Stealth in swamp/forest.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    debuffConfig: { debuffType: 'environmentalPenalty', effects: [{ id: 'dry_weakness', name: 'Dry-Weakness', description: 'Disadvantage on physical checks in dry/arid environments.', statusEffect: { penaltyType: 'disadvantage', conditions: ['arid', 'dry'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'debtors_patience_morren',
+                    name: "Debtor's Patience",
+                    description: 'You have spent your life waiting for creditors who are immortal. You have learned patience as a survival mechanism. Advantage on saving throws against effects that would cause you to act rashly or impulsively. Once per long rest, when a creature attempts to Intimidate you, you may respond with the quiet, immovable calm of someone who owes more than they can ever repay — the attempt automatically fails, and the creature realizes it cannot threaten someone who has already accepted the worst possible outcome.',
+                    level: 1,
+                    icon: 'spell_shadow_antimagicshell',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff'],
+                    typeConfig: { category: 'racial' },
+                    buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'immovable_calm', name: 'Immovable Calm', description: 'Advantage vs rash/impulsive effects. Once per long rest, auto-negate an Intimidation attempt.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] }
                 }
             ]
         }

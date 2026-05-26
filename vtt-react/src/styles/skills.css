@@ -511,6 +511,66 @@
     flex-wrap: wrap;
 }
 
+/* Skill Rank Selector */
+.skill-rank-selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
+.skill-die-size {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #8b7355;
+    cursor: pointer;
+    user-select: none;
+}
+
+.skill-rank-dropdown {
+    padding: 4px 8px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(240, 230, 210, 0.9) 100%);
+    border: 1px solid #8b7355;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #5a1e12;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    min-width: 140px;
+    -webkit-appearance: none;
+    appearance: none;
+    padding-right: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%238b7355'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 8px 5px;
+}
+
+.skill-rank-dropdown:hover {
+    border-color: #7a3b2e;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.skill-rank-dropdown:focus {
+    outline: none;
+    border-color: #7a3b2e;
+    box-shadow: 0 0 0 2px rgba(122, 59, 46, 0.2);
+}
+
+.skill-rank-dropdown option {
+    padding: 6px 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: #5a1e12;
+    background: #f0e6d2;
+}
+
 /* Skill Stats Badges */
 .skill-detail-stats .skill-rank,
 .skill-rank {
