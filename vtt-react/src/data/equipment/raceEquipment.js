@@ -882,16 +882,16 @@ export const GROVEN_SUBRACE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['guardian_groven']
+            subraces: ['morgh_groven']
         }
     },
     {
-        id: 'wanderer-travel-boots',
-        name: 'Wanderer\'s Earth Boots',
+        id: 'ithran-woven-boots',
+        name: 'Span-Weaver Boots',
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'Boots that provide stability and comfort during long journeys.',
+        description: 'Woven lichen-fiber boots that provide stability on bridge-spans and sheer stone surfaces.',
         iconId: 'inv_boots_06',
         value: { platinum: 0, gold: 5, silver: 50, copper: 75 },
         weight: 3,
@@ -899,19 +899,19 @@ export const GROVEN_SUBRACE_ITEMS = [
         height: 1,
         slots: ['feet'],
         baseStats: {
-            constitution: { value: 2, isPercentage: false }
+            dexterity: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['wanderer_groven']
+            subraces: ['ithran_groven']
         }
     },
     {
-        id: 'shaman-spirit-staff',
-        name: 'Spirit Stone Staff',
+        id: 'ithran-bone-staff',
+        name: 'Ancestor Bone Staff',
         type: 'weapon',
         subtype: 'STAFF',
         quality: 'uncommon',
-        description: 'A staff topped with a stone that channels earthen spirits.',
+        description: 'A staff bound with the preserved bones of ancestors, used for bone-reading rituals and spirit communion.',
         iconId: 'inv_staff_13',
         value: { platinum: 0, gold: 8, silver: 60, copper: 40 },
         weight: 4,
@@ -931,7 +931,7 @@ export const GROVEN_SUBRACE_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['shaman_groven']
+            subraces: ['ithran_groven']
         }
     }
 ];
@@ -965,7 +965,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['forgeborn_emberth']
+            subraces: ['korr_emberth']
         }
     },
     {
@@ -989,7 +989,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['cinderborn_emberth']
+            subraces: ['thrask_emberth']
         }
     },
     {
@@ -1019,7 +1019,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
             charisma: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['warborn_emberth']
+            subraces: ['korr_emberth']
         }
     }
 ];

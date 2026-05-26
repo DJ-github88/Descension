@@ -1,1092 +1,490 @@
 export const vreken = {
-        id: 'vreken',
-        name: 'Vreken',
-        essence: 'Predatory beast-kin',
-        illustration: '/assets/images/races/vreken_illustration.png',
-        illustrationCaption: 'A rugged Vreken beast-touched hunter with wild ears and slitted amber eyes, wielding a stone spear.',
-        description: 'There is a second heartbeat beneath our ribs, a frantic, wild rhythm that answers only to the moon and the scent of blood. We are the inheritors of the animal\'s grace and its hunger, our bodies caught in a permanent tension between the man and the wolf. Our eyes gleam with a yellow, predatory light that sees the world not as cities and roads, but as territories and trails. When we run, the forest floor speaks to us in a language of crushed moss and distant movement; when we hunt, the silence is our closest ally. We do not just wear the beast; we are the beast, forever fighting to keep the human mind from drowning in the primal sea of instinct. Our hands are calloused by the wild, our teeth sharp enough to tear through the thin veil of civilization. We are the watchers at the edge of the firelight, the ones who know that the dark is not empty, but full of eyes that look exactly like ours.',
-        icon: 'fas fa-paw',
-        overview: 'The Vreken are people whose ancestors broke the old taboos. Drank from forbidden springs. Bound their bloodlines to beast-transformation through cursed rituals. Through generations of carrying the beast within, their bloodlines have been marked by the transformation curse. Eyes that gleam with animal cunning. Bodies that shift between human and beast. They are organized into packs that roam the wild borders between civilization and savagery. Settlements hidden in caves and ruined towers. The Vreken do not choose to transform. It is their heritage, passed down through bloodlines that carry the curse of the beast.',
-        culturalBackground: `Vreken society is built on packs that roam the wild borders between civilization and savagery. Communities organized around managing the curse that binds them. Each pack traces its founding to ancestors who broke the old taboos. Drank from forbidden springs. Bound their bloodlines to beast-transformation. Their camps are hidden in caves or ruined towers. Places where the boundary between man and animal frays. Pack elders pass down the old ways. How to control the transformation. How to master the beast. How to survive the curse that claims so many. Children are taught from birth to recognize the signs. The yellow gleam in the eyes. The sudden hunger for raw meat. The dreams of running on four legs through endless forests. A Vreken first change is agony. Bones cracking. Flesh tearing. The human mind drowning in animal instinct. Some learn to master the beast. Using its strength while keeping their humanity intact. Others lose themselves entirely. Becoming monsters that hunt their own kind. Pack disputes settle through hunts and the testimony of those who have mastered the curse. Many Vreken end their days in self-imposed exile. Chaining themselves during full moons to prevent the change that would claim them forever. They are a people bound by curse and beast. Their transformation unmatched but their humanity forever threatened by the animal within.`,
-        variantDiversity: 'The Vreken are divided into four major bloodlines: The Beast-Bound embrace their predatory nature, the Chain-Bound chain the beast through will and iron, the Hollow-Vein carry a curse that metastasized into uncontrolled biological revolt, and the Blood-Given starve the beast into parasitism — feeding it on the blood of others rather than their own sanity.',
-        integrationNotes: {
-            actionPointSystem: 'Vreken abilities focus on transformation, tracking, and bestial combat. Their shapeshifting provides versatile tactical options but carries risks.',
-            backgroundSynergy: 'Vreken excel in backgrounds emphasizing nature, survival, and primal power. Their curse creates compelling internal conflicts and roleplay opportunities.',
-            classCompatibility: 'Vreken make excellent druids, rangers, and primal warriors. Their transformation abilities enhance classes that benefit from versatility and physical prowess.'
+    id: 'vreken',
+    name: 'Vreken',
+    essence: 'The Gloom-Lit',
+    illustration: '/assets/images/races/vreken_illustration.png',
+    illustrationCaption: 'A compact Vreken monk in gothic monastic vestments, rust-amber lantern-eyes glowing beneath a vaulted crypt-ceiling.',
+    description: `There were eyes in the Gloom Forest before the sun died. Before the Neth wrote their first contract. Before the Warden's bargain rippled outward from Emberspire and froze the surface world solid. The Vreken were already there, tending their phosphorescent fungi in the deep bog-caves, navigating mycelial-lit darkness by the soft amber and silver of their own eyes. When the sun perished and the surface world joined their darkness, the Vreken were not surprised. They were not afraid. They were simply the only people in the world who had been living the life everyone else was about to inherit.`,
+    icon: 'fas fa-eye',
+    overview: `We were the Gloom Forest's first inhabitants. The Neth arrived later, with their bargains and their ledger-debts — but we were already here, cultivating light in the cave-dark, reading the trails that living things leave behind when they forget they are being watched.
+
+We are a compact people, standing between dwarf and human height, with wiry builds and long-fingered hands adapted to harvesting delicate fungal filaments from the cavern walls. Our ears curl at the tips — not elven, not human, simply Vreken. Our most distinctive feature, the one that has haunted human folklore for centuries, is our eyes: they glow. A soft, steady bioluminescence, rust-amber among the Deep-Glow kin, silver-white among the Ghost-Mycelium kin. The light is not magic. It is biology — a trait evolved over millennia of navigating fungal-lit caverns where sunlight never reached. We do not see in darkness. We bring our own.
+
+What we see is the trail: the residual luminescence left by passage. Footprints that glow for hours. A recent death shimmering like heat-haze. Infection blooming beneath unbroken skin. The emotional heat of a lie. The approaching weather written in the air before it arrives. Other races rely on eyesight. We rely on what the living leave behind. To our eyes, the world is a palimpsest of passage — every creature, every death, every truth written in light that only we can read.
+
+The strigoi rumor is a human invention. They saw our lantern-eyes flickering through bog-mist and assumed we were risen dead — "grave-lights" that appear where people are dying. The truth is simpler and stranger: we can see death-trails, and death-trails are bright to us. We arrive at the dying because we see the light going out from twenty miles away, not because we caused it. The humans of the Gloom never quite believed us. The rumor still follows us into regions that know us only by superstition.
+
+We are not a cursed people. We are not transformed. We are a distinct species, older than the Neth, older than the noble families, older than the sun's death. Our lantern-eyes are our birthright. Our trail-sight is our inheritance. And our greatest tragedy — the Over-Lit, the ones who chased the fungal-hush too far and burned out from within — is not a flaw in the design. It is the cost of living with a light that never goes out.`,
+    culturalBackground: `Vreken society is built around two institutions that have shaped every aspect of their culture: the trail and the crypt.
+
+The trail is their sensory inheritance — the ability to perceive bioluminescent residue left by passage, death, and decay. For the Vreken, truth is visible. A crime scene is a written document. A dying patient's infection is a red glow before the fever surfaces. A lie is a flicker in the trail that no amount of practice can fully extinguish. Their legal system is built on direct perception: a Vreken judge walks the site of a dispute and reads what happened. Testimony is secondary. The trail is primary. This has made them the most respected witnesses and diagnosticians in the known world — and the most distrusted, because what they claim to see cannot be verified by anyone who isn't Vreken.
+
+The crypt is their social institution. Vreken do not bury their dead in earth. They entomb them in sunken cathedrals carved into the Gloom's peat-stone — vaulted chambers lit only by the fungal shrouds of ancestors whose bodies still emit light generations after death. A family's status is measured by how many generations their crypt still glows. Wealth is measured in ancestral light. Every Vreken cathedral is also a mausoleum, the walls lined with preserved dead whose fungal wrappings continue to emit the lantern-glow of their bloodline. Priests — called Veil-Speakers — sing the names of the crypt's dead in endless rotation, so that no light is ever truly extinguished.
+
+The Over-Lit are the wound in Vreken society. The phosphorescent fungi the Vreken have cultivated for millennia are not merely a resource — they are intoxicating. Prolonged exposure to concentrated fungal glow induces a euphoric, sedative state called "the hush." In moderation, the ambient light of caverns and crypts is harmless, even meditative. But concentrated doses — raw fungal pulp pressed against the skin, inhaled spore-vapor, direct ingestion — produce a deeper, addictive high. The Over-Lit are Vreken who chased the hush too far. Their lantern-eyes burn bright at all times — they can no longer dim them. Their trail-sight is scrambled by their own over-glow, leaving them blind to the very thing that defines their people. Their bodies grow gaunt, their movements twitchy, their skin pale and translucent as the glow eats through them from within. They cluster in shanties at the edges of settlements — tolerated, pitied, feared. Every Vreken knows someone who fell. Every Marked Vreken — those of the Ghost-Mycelium bloodline, whose sensitivity makes them uniquely vulnerable — worries it could be them.
+
+The Covenbane are the Vreken who hunt their own. When an Over-Lit progresses beyond recovery — when the hush has hollowed them out completely and they have become a danger to others — the Covenbane are called. They are Marked Vreken who have trained their trail-sight to track their own kind. They are feared, respected, and deeply isolated. To kill a kinsman, even one already lost to the hush, is a burden that no Clean Vreken — those of the Deep-Glow bloodline, immune to the hush — can truly understand.
+
+Vreken architecture is gothic monastic: low, arched stone halls built around central crypt-courtyards where ancestral light provides the only illumination. Vaulted ceilings. Narrow lancet windows that admit no outside light — the interior glows from within. Settlements are organized like abbeys: chapter house, infirmary, scriptorium, crypt. Every structure descends rather than rises — the spires of a Vreken cathedral reach into the earth, not toward the sky. Their most sacred spaces are the deepest, closest to the Root-Veil: the mycelial network beneath the Gloom that the Vreken believe preserves the echoes of every living thing that ever died in the forest.
+
+The Neth and the Vreken share the Gloom Forest and barely speak. The Neth view the Vreken as archaic, sentimental — a people who surround themselves with glowing dead relatives when they could be running a trade empire. The Vreken view the Neth as spiritually bankrupt — death is a transaction to them, not a continuation. Their relationship is functional: trade routes, shared borders, fungal-light exports to Neth grave-cities in exchange for bog-preserved goods and cold-iron tools. Neither defers to the other. Neither particularly wants to.
+
+The Emberth of Sundale are the Vreken's silent kindred. The Solbrand — the eternal ember the Emberth tend — and the Root-Veil the Vreken venerate are fragments of the same dying consciousness: the memory of warmth in a world that froze. Emberth forge-pilgrims occasionally journey to Vreken crypt-cathedrals. Vreken healers occasionally travel to Sundale to trade techniques. Neither race speaks openly of the connection. The recognition is enough.
+
+To the humans of the Gloom Forest, the Vreken are the grave-lights: lantern-eyed monks who live in upside-down cathedrals and sing to their dead. Their medicine is the best in the known world. Their price is reasonable. But being treated by a Vreken means lying on a stone slab in a mausoleum, ancestors glowing softly from every wall, while someone with too many joints and silver-glowing eyes reads the death-trail forming on your skin like a map of a road you haven't finished walking yet. It works. It is terrifying. And the humans come anyway, because the alternative is worse.`,
+    variantDiversity: `The Vreken are divided into two bloodlines, defined not by geography or ideology but by the fungal strain their ancestors bonded with in the deep caves millennia ago. The Clean carry Deep-Glow — the oldest, most stable strain, granting immunity to the hush but dim trail-sight. The Marked carry Ghost-Mycelium — a volatile, brilliant strain, granting extraordinary perception at the cost of addiction and stigma. The Over-Lit are not a third bloodline. They are Marked who fell.`,
+
+    integrationNotes: {
+        actionPointSystem: 'Vreken abilities focus on perception, trail-reading, healing, and death-proximity. Their lantern-eyes provide unique sensory advantages but make stealth nearly impossible.',
+        backgroundSynergy: 'Vreken excel in backgrounds emphasizing medicine, investigation, and survival. Their crypt-culture creates compelling roleplay opportunities around death, legacy, and the Over-Lit epidemic.',
+        classCompatibility: 'Clean Vreken make natural Witch Doctors, Exorcists, Inscriptors, and Covenbane. Marked Vreken make natural Oracles, Deathcallers, Huntresses, and Augurs.'
+    },
+
+    meaningfulTradeoffs: 'Vreken gain unparalleled sensory abilities through their lantern-eyes and trail-sight, but their bioluminescence makes stealth difficult and their proximity to death carries an emotional toll. The Marked additionally live with the constant threat of the Over-Lit addiction.',
+
+    baseTraits: {
+        languages: ['Common', 'Gloom-Tongue'],
+        lifespan: '160-240 years',
+        baseSpeed: 25,
+        size: 'Medium',
+        height: '4\'10" - 5\'6"',
+        weight: '90-140 lbs',
+        build: 'Wiry and compact, long-fingered, curled ears, lantern-bioluminescent eyes'
+    },
+
+    sharedTraits: [
+        {
+            id: 'lantern_eyes_vreken',
+            name: 'Lantern-Eyes',
+            description: 'Your irises emit a faint, steady bioluminescence — rust-amber or silver-white, depending on your bloodline — illuminating your immediate surroundings with the same cold light your ancestors cultivated in the bog-caves before the sun died. You perceive the trail: the residual luminescence left by passage, death, and decay, written in light that only Vreken eyes can read. But a light that guides is also a light that betrays — your eyes are visible in darkness from sixty feet away, and no shadow can fully hide them.',
+            level: 1,
+            icon: 'spell_holy_innerfire',
+            spellType: 'PASSIVE',
+            effectTypes: ['buff', 'debuff'],
+            typeConfig: { school: 'nature', icon: 'spell_holy_innerfire', tags: ['trail-sight', 'lantern-eyes', 'bioluminescence', 'passive', 'shared'] },
+            buffConfig: {
+                buffType: 'custom',
+                effects: [
+                    {
+                        id: 'trail_sight',
+                        name: 'Trail-Sight',
+                        description: 'You perceive bioluminescent residue left by passage. Advantage on Survival checks made to track creatures, and on Medicine checks made to diagnose disease, poison, or cause of death — you see the trail of sickness or injury before its symptoms surface.',
+                        statModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { trackingOrDiagnosing: true } },
+                        additionalStatModifier: { stat: 'medicine', magnitude: 1, magnitudeType: 'advantage', conditions: { diagnosing: true } }
+                    }
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+            },
+            debuffConfig: {
+                debuffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'glowing_eyes_detectable',
+                        name: 'The Betraying Light',
+                        description: 'Your lantern-eyes are visible in darkness from up to 60 feet. Disadvantage on Stealth checks made in dim light or darkness — your own eyes illuminate you, and no hood or shadow can fully extinguish the glow.',
+                        statModifier: { stat: 'stealth', magnitude: -99, magnitudeType: 'disadvantage', conditions: { lowLightOrDarkness: true } }
+                    }
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 0, mana: 0, components: [] },
+            cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
         },
-        meaningfulTradeoffs: 'Vreken gain powerful transformation and tracking abilities but risk losing control to their beast nature. They suffer social penalties and struggle with their dual identity.',
-        baseTraits: {
-            languages: ['Common', 'Beast Speech'],
-            lifespan: '130-170 years',
-            baseSpeed: 30,
-            size: 'Medium',
-            height: '5\'8" - 6\'4"',
-            weight: '170-260 lbs',
-            build: 'Athletic and feral'
-        },
-        subraces: {
-            hunter: {
-                id: 'hunter_vreken',
-                name: 'Beast Bound',
-                description: 'Most bestial of all Vreken. Eyes brightest yellow, pupils slitted like cats. Hands show permanent claw-like nails. Fur visible on arms and legs. Teeth noticeably sharp. They move with predatory grace, always ready to hunt. Many keep animal trophies. Their transformation is smooth, practiced.',
-                culturalBackground: `The Beast-Bound trace their lineage to Vreken who embraced their inner beast completely. Bloodline marked by perfect mastery of the transformation. Their tradition requires that every member learn to call upon their beast form at will. Apprenticeships spent mastering the predatory instincts that come with the curse. Beast-Bound packs serve as hunters and protectors. Members able to transform into perfect predators capable of tracking prey for days. They practice ancient hunting techniques passed down through generations. How to control the transformation. How to channel animal strength. How to hunt with perfect precision. Their eyes gleam with animal cunning. Movements fluid and predatory. But the beast demands tribute. They must hunt regularly. Or the animal rage consumes their remaining humanity. Many Beast-Bound become solitary predators. Living in the wild and only visiting settlements to trade pelts for necessities. The bloodline values strength and mastery. Honor measured in hunts completed and beasts mastered. They are the hunters of Vreken society. Their transformation unmatched but their humanity forever thin over animal instinct.`,
-                statModifiers: {
-                    strength: 3,
-                    agility: 2,
-                    charisma: -3
-                },
-                traits: [
+        {
+            id: 'witness_touch_vreken',
+            name: 'Witness-Touch',
+            description: 'Your fungal bond reads death as information. When your bare hand touches a corpse, the deceased\'s final heartbeat crashes through you — a single, unfiltered second of their last living moment. You know how they died. You know what they felt. You carry that echo until the next one replaces it.',
+            level: 1,
+            icon: 'spell_shadow_deathanddecay',
+            spellType: 'PASSIVE',
+            effectTypes: ['buff', 'debuff'],
+            typeConfig: { school: 'necrotic', icon: 'spell_shadow_deathanddecay', tags: ['witness', 'death', 'echo', 'passive', 'shared'] },
+            buffConfig: {
+                buffType: 'custom',
+                effects: [
                     {
-                        id: 'beast_form_vreken',
-                        name: 'Beast Form',
-                        description: 'The cursed blood in your veins boils as bones crack and reform — the beast within tears free of its prison of flesh, reshaping you into a predator hungry for the hunt.',
-                        level: 1,
-                        icon: 'ability_druid_primaltenacity',
-                        spellType: 'ACTION',
-                        effectTypes: ['transformation', 'buff'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'beast',
-                            icon: 'ability_druid_primaltenacity',
-                            tags: ['transformation', 'beast', 'combat']
-                        },
-                        transformationConfig: {
-                            transformationType: 'animal',
-                            targetType: 'self',
-                            duration: 10,
-                            durationUnit: 'minutes',
-                            power: 'moderate',
-                            specialEffects: ['natural_weapons', 'enhanced_senses', 'animal_traits']
-                        },
-                        buffConfig: {
-                            statModifiers: [
-                                {
-                                    id: 'beast_strength',
-                                    name: 'Strength Enhancement',
-                                    magnitude: 2,
-                                    magnitudeType: 'flat',
-                                    category: 'stat'
-                                },
-                                {
-                                    id: 'beast_agility',
-                                    name: 'Agility Enhancement',
-                                    magnitude: 2,
-                                    magnitudeType: 'flat',
-                                    category: 'stat'
-                                },
-                                {
-                                    id: 'beast_constitution',
-                                    name: 'Constitution Enhancement',
-                                    magnitude: 1,
-                                    magnitudeType: 'flat',
-                                    category: 'stat'
-                                }
-                            ],
-                            durationValue: 10,
-                            durationType: 'minutes',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'predators_instinct_vreken',
-                        name: 'Predator\'s Instinct',
-                        description: 'The beast sharpens your senses beyond mortal limits — you taste fear on the wind, hear heartbeats through stone, and track prey by the scent of terror alone, though the predator\'s hunger grows harder to silence with each kill.',
-                        level: 1,
-                        icon: 'ability_hunter_mastermarksman',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'beast',
-                            icon: 'ability_hunter_mastermarksman',
-                            tags: ['senses', 'tracking', 'passive']
-                        },
-                        utilityConfig: {
-                            utilityType: 'detection',
-                            selectedEffects: [{
-                                id: 'scent',
-                                name: 'Scent',
-                                description: 'Can detect creatures within 60 feet by scent, even through walls. Advantage on tracking checks.',
-                                range: 60
-                            }],
-                            duration: 10,
-                            durationUnit: 'minutes',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        triggerConfig: {
-                            global: {
-                                logicType: 'AND',
-                                compoundTriggers: [
-                                    {
-                                        triggerType: 'combat_start',
-                                        conditions: {
-                                            healthPercentage: 50,
-                                            comparison: 'less_than'
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        resourceCost: {
-                            actionPoints: 0,
-                            mana: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        },
-                    },
-                    {
-                        id: 'cursed_vulnerability_vreken',
-                        name: 'Cursed Vulnerability',
-                        description: 'The forbidden magic woven into your bloodline can be severed by that which purifies — silver cuts through the curse\'s protection like moonlight through shadow, and radiant light burns the dark weave that holds your shapeshifting together.',
-                        level: 1,
-                        icon: 'spell_holy_harmundeadaura',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'radiant',
-                            icon: 'spell_holy_harmundeadaura',
-                            tags: ['vulnerability', 'curse', 'passive']
-                        },
-                        debuffConfig: {
-                            statModifiers: [
-                                {
-                                    id: 'silver_vulnerability',
-                                    name: 'Silver Vulnerability',
-                                    magnitude: 50,
-                                    magnitudeType: 'percentage',
-                                    category: 'vulnerability'
-                                },
-                                {
-                                    id: 'radiant_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    magnitude: 50,
-                                    magnitudeType: 'percentage',
-                                    category: 'vulnerability'
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            actionPoints: 0,
-                            mana: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        },
-                    },
-                    {
-                        id: 'blood_hunger_vreken',
-                        name: 'Blood Hunger',
-                        description: 'Lose yourself to the scent of the kill. When an enemy within 40ft is bleeding or below 30% HP, you gain a free movement action towards them, but you MUST attack that target on your turn, losing tactical choice to the beast\'s primal instinct.',
-                        level: 1,
-                        icon: 'ability_hunter_hunted',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'beast',
-                            icon: 'ability_hunter_hunted',
-                            tags: ['free_movement', 'compelled_attack', 'low_hp_trigger', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'movementBuff',
-                            effects: [
-                                {
-                                    id: 'blood_charge',
-                                    name: 'Predator\'s Charge',
-                                    description: 'Free movement action towards a target below 30% HP or bleeding within 40ft',
-                                    movementGrant: {
-                                        actionPoints: 0,
-                                        requiresTargetHPBelowPercent: 30
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'instant',
-                            durationUnit: 'instant',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'blood_frenzy_compulsion',
-                                    name: 'Blood Frenzy Compulsion',
-                                    description: 'Compelled to attack the bleeding/low HP target on your turn, losing alternative tactical choices',
-                                    statusEffect: {
-                                        type: 'compulsion',
-                                        forcedTarget: 'bleeding_or_low_hp_creature'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            actionPoints: 0,
-                            mana: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
+                        id: 'death_reading_buff',
+                        name: 'The Last Heartbeat',
+                        description: 'Once per short rest, when you touch a creature that died within the last 24 hours, you experience their final heartbeat. You learn the cause of death and their last conscious emotion (fear, peace, rage, sorrow, relief). This information is visceral and undeniable — the trail does not lie.',
+                        conditions: { usesPerRest: 1, corpseAgeMax: 24, corpseAgeUnit: 'hours' }
                     }
                 ],
-                languages: ['Common', 'Beast Speech', 'Primal'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 28, // Predatory but not particularly hardy
-                    mana: 22,
-                    ap: 4, // Predators, quick reactions - extra action point
-                    passivePerception: 4, // Predator's Instinct - enhanced senses, track prey, detect by scent
-                    swimSpeed: 5, // Predators, decent swimmers
-                    climbSpeed: 10, // Predatory grace, excellent climbers
-                    visionRange: 60,
-                    darkvision: 60, // Predator's eyes, can see in darkness
-                    initiative: 3 // Predatory grace, always ready to hunt - quick to react
-                },
-                savingThrowModifiers: {
-                    // Shapeshifting curse makes them vulnerable to silver weapons
-                    disadvantage: ['poison'], // Silver weapons weaken their curse
-                    advantage: ['fear'] // Beast form resists fear effects
-                }
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
             },
-            penitent: {
-                id: 'penitent_vreken',
-                name: 'Chain Bound',
-                description: 'Scars from chains and restraints cover their bodies. Eyes show less animal gleam, more human struggle. Hands bear marks from self-binding. Many wear restraining items even in human form. Their transformation is painful, bones cracking audibly. They show visible strain when resisting the change. Some have permanent partial transformations, stuck between forms.',
-                culturalBackground: `The Chain-Bound trace their lineage to Vreken who fought to maintain control against the beast. Bloodline marked by constant struggle against the transformation. Their tradition requires that every member learn restraint techniques. Apprenticeships spent mastering chains and rituals that prevent the change. Chain-Bound packs serve as teachers and protectors. Members teaching others how to recognize and resist the transformation curse. They practice ancient control techniques passed down through generations. How to chain the beast. How to resist the change. How to maintain humanity despite the curse. Their bodies are covered in self-inflicted wounds from chains and restraints. Reminders of battles won against their inner beast. But their control is fragile. Stress or injury can cause partial transformations. Leaving them stuck between forms. Many Chain-Bound become healers and teachers. Using their experience to help others through their first changes. The bloodline values control and humanity. Honor measured in transformations resisted and humans saved. They are the guardians of Vreken society. Their control unmatched but their bodies forever marked by the chains that bind the beast.`,
-                statModifiers: {
-                    strength: -2,
-                    spirit: 3,
-                    intelligence: 2
-                },
-                traits: [
+            debuffConfig: {
+                debuffType: 'statusEffect',
+                effects: [
                     {
-                        id: 'controlled_transformation_vreken',
-                        name: 'Controlled Transformation',
-                        description: 'You grip the chains of your curse and haul the beast to heel just long enough to borrow its strength — but every moment of that control costs you, the iron links biting deeper as body and spirit war against each other.',
-                        level: 1,
-                        icon: 'ability_druid_supriseattack',
-                        spellType: 'ACTION',
-                        effectTypes: ['transformation', 'utility'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'beast',
-                            icon: 'ability_druid_supriseattack',
-                            tags: ['transformation', 'control', 'utility']
-                        },
-                        transformationConfig: {
-                            transformationType: 'physical',
-                            targetType: 'self',
-                            duration: 1,
-                            durationUnit: 'minutes',
-                            power: 'minor',
-                            specialEffects: ['enhanced_senses', 'healing_factor']
-                        },
-                        utilityConfig: {
-                            utilityType: 'utility',
-                            selectedEffects: [{
-                                id: 'transformation',
-                                name: 'Transformation',
-                                description: 'Gain enhanced senses or rapid healing for 1 minute.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        savingThrow: {
-                            enabled: true,
-                            savingThrowType: 'spirit',
-                            difficultyClass: 14,
-                            saveOutcome: 'partial_immunity'
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'curse_resistance_vreken',
-                        name: 'Curse Resistance',
-                        description: 'Every waking moment spent wrestling the beast within has forged an iron will — hexes, possessions, and enchantments slide off a mind already occupied by an endless war between man and monster.',
-                        level: 1,
-                        icon: 'spell_holy_removecurse',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'protection',
-                            secondaryElement: 'curse',
-                            icon: 'spell_holy_removecurse',
-                            tags: ['resistance', 'curse', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Curse Resistance',
-                                    description: 'Advantage on saves against curses and lycanthropy',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        saveType: 'spirit',
-                                        saveDC: 0,
-                                        saveOutcome: 'negates'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'detection',
-                                name: 'Detection',
-                                description: 'Can sense supernatural afflictions within 30 feet.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            actionPoints: 0,
-                            mana: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        },
-                    },
-                    {
-                        id: 'iron_vulnerability_vreken',
-                        name: 'Iron Vulnerability',
-                        description: 'The cold iron of your chains is no mere metaphor — iron weapons bite deeper against a body held together by cursed magic, and frost seeps through the cracks in your will, numbing the beast you so desperately cling to.',
-                        level: 1,
-                        icon: 'inv_ingot_iron',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'frost',
-                            icon: 'inv_ingot_iron',
-                            tags: ['vulnerability', 'iron', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Iron Vulnerability',
-                                    description: 'Cold iron sears your cursed flesh, the metal that chains the beast also poisoning your bloodline',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                },
-                                {
-                                    name: 'Frost Vulnerability',
-                                    description: 'Frost stiffens the chains that bind your beast, the cold making your struggle against transformation all the more painful',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                },
-                                {
-                                    name: 'Transformation Block',
-                                    description: 'Iron shackles prevent transformation abilities',
-                                    statusEffect: {
-                                        level: 'severe',
-                                        description: 'Cannot use transformation abilities while bound by iron'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            actionPoints: 0,
-                            mana: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        },
-                    },
-                    {
-                        id: 'chains_of_restraint_vreken',
-                        name: 'Chains of Restraint',
-                        description: 'Wrap your cold-iron bindings around an adjacent enemy, forcing a contested Strength check to grapple them. While grappled, the target takes 1d6 frost damage per turn from the iron\'s bite.',
-                        level: 1,
-                        icon: 'inv_ingot_iron',
-                        spellType: 'ACTION',
-                        actionPoints: 1,
-                        effectTypes: ['debuff', 'damage'],
-                        typeConfig: {
-                            school: 'physical',
-                            secondaryElement: 'frost',
-                            icon: 'inv_ingot_iron',
-                            tags: ['grapple', 'cold_iron', 'damage_over_time', 'cooldown']
-                        },
-                        damageConfig: {
-                            formula: '1d6',
-                            damageTypes: ['frost'],
-                            resolution: 'DICE',
-                            damageOverTime: {
-                                trigger: 'turn_start',
-                                durationRounds: 99,
-                                condition: 'target_grappled'
-                            }
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'iron_grappled',
-                                    name: 'Iron Grappled',
-                                    description: 'Grappled by cold-iron chains. Speed 0.',
-                                    statusEffect: {
-                                        type: 'grappled',
-                                        speedValue: 0
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'until_grapple_ends',
-                            durationUnit: 'until_grapple_ends',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'single',
-                            rangeType: 'melee',
-                            targetRestrictions: ['enemy']
-                        },
-                        resourceCost: {
-                            actionPoints: 1,
-                            mana: 0,
-                            components: ['somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
+                        id: 'death_echo_disorient',
+                        name: 'The Echo\'s Weight',
+                        description: 'After experiencing a final heartbeat, the echo disorients you. You cannot take reactions until the end of your next turn as the death-moment reverberates through your fungal bond. Additionally, you suffer 1 psychic damage — the cost of carrying another\'s last breath in your own lungs.',
+                        statusEffect: { level: 'minor', description: 'Cannot take reactions for 1 round after using Witness-Touch. Take 1 psychic damage when the echo is received.' }
                     }
                 ],
-                languages: ['Common', 'Beast Speech', 'Celestial'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: -5, // Scars from chains, physically weakened from constant struggle
-                    mana: 28, // Spiritual struggle grants some mana
-                    ap: 2, // Constant struggle, less action-oriented
-                    passivePerception: 2, // Teachers and protectors, sense supernatural afflictions
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Not climbers, struggle with transformation
-                    visionRange: 60,
-                    darkvision: 0,
-                    initiative: -1 // Visible strain, slower to react
-                },
-                savingThrowModifiers: {
-                    // Chained nature makes them vulnerable to iron but grants mental resilience
-                    disadvantage: ['poison'],
-                    advantage: ['charm']
-                }
+                durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: false
             },
-            hollow: {
-                id: 'hollow_vreken',
-                name: 'Hollow-Vein',
-                description: 'Flesh that shifts without permission. Bones that crack and reform like ice on a spring thaw. Their eyes are milky, half-blind — the body spends its sight on seeing itself. Scars open and close in real time. Their pulse beats in multiple places at once, as if the heart cannot decide where to live. They carry the stench of raw meat and iron. Children flee. Dogs bark at nothing where they stood.',
-                culturalBackground: `The Hollow-Vein trace their corruption to the Third Pack — a bloodline that interbred with a strain of the curse so virulent it never settled into a proper transformation. Instead of man-or-beast, they became both and neither. Their bodies mutate without stimulus. A rib might push through the chest during sleep. A hand might grow an extra finger at breakfast. Their packs are small and nomadic, driven out of every Vreken settlement within a generation. Even other Vreken find them disturbing. They are cared for, pityingly, like a wound that will not close. Their elders teach acceptance — not mastery of the beast, and not resistance to it, but surrender to the fact that the body will do what it will. Some become shock troops. Others become hermits, living in caves where the noise of their own bones restructuring doesn't frighten the wildlife. A Hollow-Vein who survives to old age is a miracle of catastrophic biology — a walking museum of every mutation the curse has ever attempted, most of them failed, all of them still visible beneath translucent, scar-tissued skin.`,
-                statModifiers: {
-                    constitution: 4,
-                    agility: 1,
-                    charisma: -4
-                },
-                traits: [
-                    {
-                        id: 'rupture_hollow_vreken',
-                        name: 'Rupture',
-                        description: 'You grip the shifting meat of your own torso and PULL — ribs crack outward like a blooming corpse-flower, spraying bone shrapnel and black curse-blood in a widening cone of agony. Your body will rebuild. Theirs will not.',
-                        level: 1,
-                        icon: 'ability_rogue_bloodyeye',
-                        spellType: 'ACTION',
-                        effectTypes: ['damage'],
-                        typeConfig: {
-                            school: 'necrotic',
-                            secondaryElement: 'piercing',
-                            icon: 'ability_rogue_bloodyeye',
-                            tags: ['self-harm', 'area', 'burst']
-                        },
-                        damageConfig: {
-                            formula: '3d8 + constitution/3',
-                            damageTypes: ['piercing', 'necrotic'],
-                            resolution: 'DICE',
-                            selfDamage: {
-                                formula: '1d8',
-                                damageTypes: ['necrotic'],
-                                description: 'The rupture tears at your own corrupted flesh'
-                            }
-                        },
-                        targetingConfig: {
-                            targetingType: 'cone',
-                            rangeType: 'self_centered',
-                            rangeDistance: 15,
-                            areaShape: 'cone',
-                            areaSize: 15,
-                            targetRestrictions: ['enemies']
-                        },
-                        resourceCost: {
-                            actionPoints: 2,
-                            mana: 4,
-                            components: ['somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'turn_based',
-                            cooldownValue: 3
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'living_siege_hollow_vreken',
-                        name: 'Living Siege',
-                        description: 'Between each heartbeat, your body rewrites itself. Bone plates push through muscle. Tendons calcify into natural armor. A third lung inflates somewhere behind your kidney. You are a living siege engine that doesn\'t know what shape it will take next.',
-                        level: 1,
-                        icon: 'ability_warrior_intensifyrage',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'beast',
-                            icon: 'ability_warrior_intensifyrage',
-                            tags: ['mutation', 'passive', 'combat']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Bone Plating',
-                                    description: 'Armor increases by 3 as bone plates erupt beneath skin',
-                                    statModifier: { stat: 'armor', magnitude: 3, magnitudeType: 'flat' },
-                                    triggerCondition: 'start_of_turn'
-                                },
-                                {
-                                    name: 'Sinew Hardening',
-                                    description: 'Dodge increases by 2 as tendons calcify into reactive cables',
-                                    statModifier: { stat: 'dodge', magnitude: 2, magnitudeType: 'flat' },
-                                    triggerCondition: 'start_of_turn'
-                                },
-                                {
-                                    name: 'Frenzy Gland',
-                                    description: 'Melee damage increases by 1d4 as a vestigial gland pumps combat hormones',
-                                    statModifier: { stat: 'damage_bonus', magnitude: 4, magnitudeType: 'flat' },
-                                    triggerCondition: 'start_of_turn'
-                                }
-                            ],
-                            durationType: 'round',
-                            durationValue: 1,
-                            canBeDispelled: false,
-                            selectionType: 'random_one'
-                        },
-                        triggerConfig: {
-                            global: {
-                                logicType: 'AND',
-                                compoundTriggers: [
-                                    { triggerType: 'turn_start', conditions: {} }
-                                ]
-                            }
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'flesh_reclaims_hollow_vreken',
-                        name: 'Flesh Reclaims',
-                        description: 'Your body is an endless civil war between destruction and reconstruction. Bone splinters are reabsorbed. Torn muscle weaves itself shut with black, fibrous threads. You heal not because you are healthy, but because the curse refuses to let its host die before it has finished hollowing you out.',
-                        level: 1,
-                        icon: 'spell_nature_regeneration',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['healing'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'necrotic',
-                            icon: 'spell_nature_regeneration',
-                            tags: ['regeneration', 'passive']
-                        },
-                        healingConfig: {
-                            formula: '1d6',
-                            healingType: 'regeneration',
-                            triggerType: 'turn_start',
-                            conditions: {
-                                healthPercentage: 100,
-                                comparison: 'less_than'
-                            }
-                        },
-                        healConfig: {
-                            healType: 'regeneration',
-                            formula: '1d6',
-                            target: 'self',
-                            triggerType: 'turn_start',
-                            conditions: {
-                                healthPercentage: 100,
-                                comparison: 'less_than'
-                            }
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        triggerConfig: {
-                            global: {
-                                logicType: 'AND',
-                                compoundTriggers: [
-                                    { triggerType: 'turn_start', conditions: { healthPercentage: 100, comparison: 'less_than' } }
-                                ]
-                            }
-                        },
-                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'splintered_reflex_hollow_vreken',
-                        name: 'Splintered Reflex',
-                        description: 'Strike a Hollow-Vein and you\'ll pull back a hand full of splinters. Their bones fracture on impact — but the shards shoot outward like diseased caltrops, embedding in whatever fool thought to touch them.',
-                        level: 1,
-                        icon: 'spell_nature_thorns',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['damage'],
-                        typeConfig: {
-                            school: 'physical',
-                            secondaryElement: 'piercing',
-                            icon: 'spell_nature_thorns',
-                            tags: ['reactive', 'thorns', 'passive']
-                        },
-                        damageConfig: {
-                            formula: '1d6 + constitution/4',
-                            damageTypes: ['piercing'],
-                            resolution: 'DICE',
-                            reactiveTrigger: 'melee_hit_received'
-                        },
-                        targetingConfig: { targetingType: 'single', rangeType: 'melee', targetRestrictions: ['attacker'] },
-                        triggerConfig: {
-                            global: {
-                                logicType: 'AND',
-                                compoundTriggers: [
-                                    { triggerType: 'melee_hit_received', conditions: {} }
-                                ]
-                            }
-                        },
-                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'fractured_constitution_hollow_vreken',
-                        name: 'Fractured Constitution',
-                        description: 'Your body is a patchwork of curse-stitching and misaligned bone. Poison pools in organs that shifted three days ago and forgot where the bloodstream was. A blade finds no resistance in meat that was rearranged by something that doesn\'t understand anatomy — only cruelty.',
-                        level: 1,
-                        icon: 'ability_creature_poison_02',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'poison',
-                            secondaryElement: 'slashing',
-                            icon: 'ability_creature_poison_02',
-                            tags: ['vulnerability', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Poison Vulnerability',
-                                    description: 'Your shifting organs cannot process toxins — poison damage dealt to you is increased',
-                                    statModifier: { stat: 'damage_taken', magnitude: 50, magnitudeType: 'percentage' }
-                                },
-                                {
-                                    name: 'Slashing Vulnerability',
-                                    description: 'Your flesh barely holds together — slashing weapons cleave through curse-knit muscle as if it were wet paper',
-                                    statModifier: { stat: 'damage_taken', magnitude: 50, magnitudeType: 'percentage' }
-                                },
-                                {
-                                    name: 'Hollow Stigma',
-                                    description: 'Your appearance causes visceral revulsion — disadvantage on all social interactions',
-                                    statusEffect: {
-                                        level: 'severe',
-                                        description: 'Disadvantage on Charisma-based checks. Children weep. Dogs growl. Mirrors crack.'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
-                        categoryIds: ['racial_abilities']
-                    }
-                ],
-                languages: ['Common', 'Beast Speech', 'Abyssal'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 35,
-                    mana: 18,
-                    ap: 3,
-                    passivePerception: 2,
-                    swimSpeed: 0,
-                    climbSpeed: 5,
-                    visionRange: 60,
-                    darkvision: 30,
-                    initiative: 0
-                },
-                savingThrowModifiers: {
-                    disadvantage: ['poison'],
-                    advantage: ['disease']
-                }
-            },
-            bloodgiven: {
-                id: 'bloodgiven_vreken',
-                name: 'Blood-Given',
-                description: 'Sunken eyes the color of dried blood. Skin so pale the veins map themselves across it like blue rivers on a dead chart. They do not transform — the beast has been starved into something worse than a wolf. It has become a hunger with no body, a need with no limit. They carry the smell of old copper. Their touch is cold. When they smile, it is the smile of something that has learned to imitate warmth.',
-                culturalBackground: `The Blood-Given are the youngest Vreken bloodline, born of desperation. Three centuries ago, a pack of Chain-Bound elders discovered a ritual — the Grave Communion — that allowed them to redirect the curse's appetite outward. Instead of fighting the beast or surrendering to it, they would feed it the blood of others. The ritual worked. The transformation stopped. The hunger did not. Blood-Given are raised from childhood to manage an appetite that never sleeps. They learn to tithe — to take just enough from prey to quiet the beast without killing. Some become healers, siphoning corrupted blood from the sick. Others become assassins, feeding the beast on the dying gasps of their targets. Their packs are secretive, insular, bonded by the shared shame of what they must do to survive. They cannot cross running water without spending double AP — the beast recoils from it, as if the current could wash away the blood it craves. They cannot enter a home uninvited — an old restriction none of them understand but all of them obey. Grave soil placed on the tongue grants temporary armor but fills the mind with the sorrow of the dead. They are haunted by the memories of every throat they've fed from. Most Blood-Given die not from violence but from starvation — choosing to let the beast consume them rather than take another life. Those who don't are the ones you should fear most.`,
-                statModifiers: {
-                    spirit: 3,
-                    charisma: 2,
-                    constitution: -3
-                },
-                traits: [
-                    {
-                        id: 'blood_tithing_bloodgiven_vreken',
-                        name: 'Blood Tithing',
-                        description: 'You extend the curse outward like a hook threaded through the victim\'s veins — and PULL. Their warmth floods into you, siphoning blood (deals 2d8 + spirit/3 necrotic, healing you). Each cast increases your Grave Hunger meter; if it fills completely, you must succeed on a DC 15 Spirit save or go Berserk for 1 round, attacking the nearest living creature.',
-                        level: 1,
-                        icon: 'spell_deathknight_bloodtap',
-                        spellType: 'ACTION',
-                        effectTypes: ['damage', 'healing'],
-                        typeConfig: {
-                            school: 'necrotic',
-                            secondaryElement: 'necrotic',
-                            icon: 'spell_deathknight_bloodtap',
-                            tags: ['lifesteal', 'siphon', 'blood']
-                        },
-                        damageConfig: {
-                            formula: '2d8 + spirit/3',
-                            damageTypes: ['necrotic'],
-                            resolution: 'DICE'
-                        },
-                        healingConfig: {
-                            formula: 'damage_dealt',
-                            healingType: 'lifesteal',
-                            description: 'Heals for the full amount of necrotic damage dealt'
-                        },
-                        healConfig: {
-                            healType: 'lifesteal',
-                            value: 'damage_dealt',
-                            target: 'self'
-                        },
-                        targetingConfig: {
-                            targetingType: 'single',
-                            rangeType: 'ranged',
-                            rangeDistance: 30,
-                            targetRestrictions: ['enemies']
-                        },
-                        resourceCost: {
-                            actionPoints: 1,
-                            mana: 5,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'turn_based',
-                            cooldownValue: 2
-                        },
-                        specialMechanics: {
-                            graveHunger: 'Each use siphons 1 blood stack. Filling the meter triggers a DC 15 Spirit save to avoid Berserk.',
-                            onFailure: 'Go berserk for 1 round, attacking the nearest living creature.'
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'hollow_maw_bloodgiven_vreken',
-                        name: 'Hollow Maw',
-                        description: 'The beast doesn\'t need claws when it has famine. Enemies near you feel the curse\'s appetite gnawing at their joints, clouding their eyes. It\'s not fear — it\'s hunger. Your hunger. Radiating outward like a wound that won\'t stop bleeding.',
-                        level: 1,
-                        icon: 'spell_shadow_shadetruesight',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'necrotic',
-                            secondaryElement: 'psychic',
-                            icon: 'spell_shadow_shadetruesight',
-                            tags: ['aura', 'debuff', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Withering Gaze',
-                                    description: 'The predatory aura saps coordination — Dodge reduced by 2 within 15 feet',
-                                    statModifier: { stat: 'dodge', magnitude: -2, magnitudeType: 'flat' }
-                                },
-                                {
-                                    name: 'Draining Presence',
-                                    description: 'The curse-drain weakens strikes — damage reduced by 2 within 15 feet',
-                                    statModifier: { stat: 'damage_dealt', magnitude: -2, magnitudeType: 'flat' }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false,
-                            aura: {
-                                radius: 15,
-                                targetType: 'enemies',
-                                requiresLOS: false
-                            }
-                        },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'self_centered',
-                            rangeDistance: 15,
-                            areaShape: 'circle',
-                            areaSize: 15,
-                            targetRestrictions: ['enemies']
-                        },
-                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'scent_of_wounds_bloodgiven_vreken',
-                        name: 'Scent of Wounds',
-                        description: 'The curse can taste blood on the air from a mile away. When a creature bleeds — truly bleeds — the beast surges through your veins like a river breaking its banks, driving your strikes with the precision of something that has never known mercy.',
-                        level: 1,
-                        icon: 'ability_hunter_hunted',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'beast',
-                            icon: 'ability_hunter_hunted',
-                            tags: ['passive', 'damage', 'wounded']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Killing Precision',
-                                    description: 'The beast drives your strikes toward wounded prey — +2d6 damage to targets below 50% HP',
-                                    statModifier: { stat: 'damage_bonus', magnitude: 6, magnitudeType: 'flat' }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        triggerConfig: {
-                            global: {
-                                logicType: 'AND',
-                                compoundTriggers: [
-                                    {
-                                        triggerType: 'attack_roll',
-                                        conditions: {
-                                            targetHealthPercentage: 50,
-                                            comparison: 'less_than'
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'grave_soil_communion_bloodgiven_vreken',
-                        name: 'Grave Soil Communion',
-                        description: 'You kneel, press a fistful of cemetery earth to your tongue, and swallow. The dead fill you — their sorrow, their silence, their patience. The beast gags on the taste of endings and retreats. Your skin calcifies with graveyard calm. But the dead do not leave quietly. Their melancholy settles behind your eyes like silt in a dried riverbed.',
-                        level: 1,
-                        icon: 'spell_shadow_deathanddecay',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            school: 'necrotic',
-                            secondaryElement: 'nature',
-                            icon: 'spell_shadow_deathanddecay',
-                            tags: ['folklore', 'ritual', 'protection']
-                        },
-                        buffConfig: {
-                            statModifiers: [
-                                {
-                                    id: 'grave_armor',
-                                    name: 'Grave Armor',
-                                    magnitude: 5,
-                                    magnitudeType: 'flat',
-                                    category: 'stat'
-                                }
-                            ],
-                            durationValue: 3,
-                            durationType: 'rounds',
-                            canBeDispelled: true
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Melancholy of the Dead',
-                                    description: 'The sorrow of the dead settles into your spirit — disadvantage on Spirit saving throws',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        saveType: 'spirit',
-                                        saveDC: 0,
-                                        saveOutcome: 'disadvantage'
-                                    }
-                                }
-                            ],
-                            durationType: 'rounds',
-                            durationValue: 3,
-                            canBeDispelled: true
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: {
-                            actionPoints: 1,
-                            mana: 3,
-                            components: ['somatic', 'material']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'starvation_pact_bloodgiven_vreken',
-                        name: 'Starvation Pact',
-                        description: 'The beast is not patient. It gave you power on one condition: FEED IT. When no blood crosses your tongue, the hunger turns inward, eating through your mind like acid through silk. The curse recoils from radiant light as though it were a brand, and every quiet moment is a small death of the self.',
-                        level: 1,
-                        icon: 'spell_shadow_requiem',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'necrotic',
-                            secondaryElement: 'psychic',
-                            icon: 'spell_shadow_requiem',
-                            tags: ['vulnerability', 'hunger', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Radiant Vulnerability',
-                                    description: 'The curse\'s hunger recoils from purity — radiant damage dealt to you is increased by 50%',
-                                    statModifier: { stat: 'damage_taken', magnitude: 50, magnitudeType: 'percentage' }
-                                },
-                                {
-                                    name: 'Psychic Vulnerability',
-                                    description: 'The endless hunger is a wound in the mind — psychic damage dealt to you is increased by 50%',
-                                    statModifier: { stat: 'damage_taken', magnitude: 50, magnitudeType: 'percentage' }
-                                },
-                                {
-                                    name: 'Running Water Aversion',
-                                    description: 'Cannot cross running water without spending double AP — the beast recoils from currents as if they could wash away the blood it craves',
-                                    statusEffect: {
-                                        level: 'severe',
-                                        description: 'Crossing running water costs double AP. The beast shrieks and claws at the inside of your skull until you reach the other bank.'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
-                        categoryIds: ['racial_abilities']
-                    }
-                ],
-                languages: ['Common', 'Beast Speech', 'Shadowcant'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 15,
-                    mana: 30,
-                    ap: 3,
-                    passivePerception: 3,
-                    swimSpeed: 0,
-                    climbSpeed: 0,
-                    visionRange: 60,
-                    darkvision: 60,
-                    initiative: 2
-                },
-                savingThrowModifiers: {
-                    disadvantage: ['radiant'],
-                    advantage: ['necrotic']
-                }
-            }
+            targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['corpse'] },
+            resourceCost: { actionPoints: 0, mana: 0, components: [] },
+            cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
         }
+    ],
+
+    epicHistory: `
+The Vreken are the Gloom Forest's oldest living memory. Before the sun died, before the Neth wrote their first contract in bog-iron ink, before the Noble Families drew their borders and sealed their bargains, the Vreken were already here — a small, crepuscular people dwelling in the deep cave networks beneath the forest's peat-bog surface, navigating absolute darkness by the light of their own eyes.
+
+Their origin is not divine. No god made them. No bargain cursed them. They evolved in the fungal-lit caverns, their eyes developing bioluminescence from millennia of close symbiosis with the phosphorescent fungi whose light they cultivated, harvested, and eventually absorbed into their own biology. The mycelial network beneath the Gloom — what the Vreken call the Root-Veil — is older than any civilization on the surface, and the Vreken are its most intimate children.
+
+When the Keth-Amar consumed the sun and the surface world froze, the Vreken were not affected. They had never needed the sun. Their caverns were warm from geothermal vents. Their light was grown, not given. While the seven Noble Families negotiated their desperate bargains and marched their firstborn to the northern peaks, the Vreken simply continued as they always had — singing to their dead in sunken cathedrals, reading the trail, cultivating the glow.
+
+The Neth arrived three centuries after the sun's death — a frail, dying people fleeing the surface freeze who made their own desperate bargain in the Gloom's deepest bogs. The Neth traded death's finality for survival. The Vreken watched this from their cavern-lanterns and said nothing. Two intelligent species sharing a continent, one old and one new, one that had never died and one that had learned to outlast death. The relationship has been coldly functional ever since.
+
+The strigoi myth — the belief that the Vreken are undead, that their lantern-eyes are grave-lights that drain the living — began in the fourth century after the sun's death. Human refugees, fleeing the increasingly hostile Freeze-Front, began settling the Gloom Forest's safer edges. They encountered the Vreken for the first time and immediately made the wrong connection: lantern-eyes in the dark, death-trails visible to Vreken senses but not human ones, Vreken healers arriving at dying settlements before news spread because they had seen the death-trails forming from twenty miles away. The humans assumed the Vreken were causing the deaths. The Vreken, unused to explaining their biology to people who could not perceive it, did not — could not — correct them. The rumor calcified into folklore. It still follows them into regions that have never seen a Vreken but have heard the stories.
+
+The Over-Lit epidemic began in the fifth century. With the Neth's trade networks bringing surface goods into the Gloom for the first time, Vreken fungal exports became valuable currency. Harvest intensified. Exposure intensified. The first recorded case of the hush — a Marked Veil-Speaker named Aedris who pressed raw Ghost-Mycelium pulp to her eyes during a prolonged crypt-vigil and was found three days later, still glowing, still singing, but no longer able to recognize her own reflection — sent a tremor through Vreken society that has never fully settled. The Covenbane order was founded within a decade. The Clean began their quiet, unspoken drift toward the leadership positions that the Marked were deemed too volatile to hold.
+
+The Vreken have never had a war. They have never had a king. They have never been conquered. The Gloom Forest is too deep, too dark, too labyrinthine for any surface army to navigate, and the Vreken themselves are too distributed, too entrenched in their crypt-cathedrals, too difficult to find. They are the only race in the Ethnologue that has survived without violence, without imperialism, without a great leader or a unifying crisis. Their history is not a record of battles. It is a record of light — who glowed, who dimmed, who over-lit, and who is still burning.
+    `,
+
+    notableFigures: [
+        {
+            name: 'Aedris the First-Lit',
+            title: 'The Warning',
+            portraitIcon: 'Ability/ability_druid_starfall',
+            backstory: `
+The first recorded Over-Lit and the reason the Covenbane exist. Aedris was a Marked Veil-Speaker of extraordinary trail-sight — her silver-white eyes could read a death-trail forming three days before the victim felt the first symptom. For forty years she served as the crypt-speaker of the Sunken Spire, the oldest Vreken cathedral in the Gloom, singing the names of seventeen generations of entombed ancestors.
+
+During a prolonged crypt-vigil — a traditional ritual where a Veil-Speaker remains in the deepest crypt-chamber for seven days without surfacing, maintaining the ancestral chant alone — Aedris pressed raw Ghost-Mycelium pulp to her eyes to keep herself awake. The hush took her on the third day. When the other Veil-Speakers descended to relieve her, they found her still singing, still glowing, but her eyes had burned so bright they had bleached the crypt-stone around her to pale grey. She could not recognize her own reflection. She kept asking why a stranger was standing in her cathedral.
+
+Aedris lived for another eleven years before the hush completed its hollowing. During that time she was studied, pitied, and carefully avoided. Her final words — recorded by the Veil-Speaker who witnessed her death — were: "The light is still singing. I just cannot remember the words." The Covenbane order was founded within the decade. Her crypt, in the deepest chamber of the Sunken Spire, still emits a faint silver glow that no other lantern has ever been able to match.
+            `
+        },
+        {
+            name: 'Orven the Still-Handed',
+            title: 'The First Covenbane',
+            portraitIcon: 'Ability/ability_rogue_shadowstrike',
+            backstory: `
+The founder of the Covenbane order and the most feared Vreken in history — not by outsiders, but by his own people. Orven was a Marked Vreken whose twin sister, Seris, over-lit when they were both forty-three. The hush hollowed her over the course of a year. By the end, she had become a danger — her trail-sight scrambled, her lantern-light blinding, her hunger for the hush overriding every other instinct. She had attacked three other Vreken trying to steal their fungal stores. The crypt-council debated for a week. Orven did not wait for their decision.
+
+He tracked his sister through the Gloom's deepest caves for four days, reading her trail with the same Ghost-Mycelium sensitivity she had once shared. He found her in a dead-end cavern, surrounded by the empty husks of fungal blooms she had consumed, her eyes burning so brightly they cast her own shadow against the far wall. She recognized him. She asked him to stay. He did what he had come to do.
+
+Orven spent the remaining sixty years of his life training other Marked Vreken to do what he had done: track the Over-Lit who had progressed beyond recovery and end them before they could harm others. He never married. He never spoke more than was necessary. The Covenbane still follow the protocol he established: the kill must be witnessed by at least two other Covenbane, the death-trail of the Over-Lit must be recorded in the scriptorium archives, and the name of the Over-Lit must be added to the crypt-singing — not as a martyr, but as a warning. Orven's own name is sung first, every rotation, before all the others.
+            `
+        },
+        {
+            name: 'Isara Deep-Glow',
+            title: 'The Matriarch of the Clean',
+            portraitIcon: 'Ability/ability_priest_angelicfeather',
+            backstory: `
+The Vreken who first articulated what the Clean had always quietly believed: that Deep-Glow immunity to the hush was not merely a biological trait but a moral inheritance. Isara was born nine generations after Aedris over-lit, into a Clean bloodline that had never produced a single case of the hush. She was educated in the scriptoriums, learned the crypt-records, read every documented Over-Lit case, and noticed a pattern that no one else had wanted to see: the Over-Lit epidemic was almost entirely confined to the Marked. The Clean were not more virtuous. They were not more disciplined. They were simply immune — and that immunity had, over generations, silently translated into leadership, into trade delegations, into council seats, into a quiet assumption that the Clean were the face the Vreken should show to the world.
+
+Isara did not invent this inequality. She named it. In a series of scriptorium essays — the closest thing the Vreken have to political theory — she argued that the Clean had a duty to lead, not out of superiority but out of stability: the Marked were too volatile, too vulnerable, too likely to over-lit and leave a council seat vacant or a trade agreement unsigned. The Clean had an obligation to ensure continuity. The essays became the unofficial justification for the social hierarchy that already existed.
+
+The Marked have never forgiven her. The Clean have never stopped citing her. Isara herself, according to the crypt-records, spent her final years in the Sunken Spire's deepest chamber, tending Aedris's eternal silver glow, and writing nothing at all.
+            `
+        }
+    ],
+
+    majorLocations: [
+        {
+            name: 'The Sunken Spire',
+            description: `
+The oldest Vreken cathedral in the Gloom Forest, built into a natural sinkhole whose peat-stone walls descend four hundred feet into the earth. The cathedral is inverted — its spire points downward, its nave is a spiraling staircase carved into the sinkhole's walls, and its sanctuary lies at the bottom, where a geothermal spring feeds a grove of ancient phosphorescent fungi that have been cultivated continuously for over three thousand years. The air at the sanctuary level is thick with spore-mist and the sound of the Veil-Speakers' rotating chant — dozens of priests singing the names of the crypt's dead in overlapping, endless rotation.
+
+The walls of every level are lined with entombed ancestors wrapped in fungal shrouds that still glow — some faint amber, some bright silver, some barely visible after centuries of slow dimming. The oldest shrouds, in the deepest chambers, have faded to near-black but still pulse faintly if you watch them long enough. The crypt of Aedris the First-Lit occupies the deepest single chamber, accessible only to Veil-Speakers who have completed the seven-day crypt-vigil. Her glow, according to those who have seen it, is not silver but something closer to moonlight — pale, cold, and entirely unmatched by any other recorded Vreken death-light.
+
+The Sunken Spire is the Vreken's spiritual capital. No council meets there. No laws are passed there. It exists solely for the chant and the dead, and Vreken from every settlement in the Gloom make pilgrimage to it at least once in their lives to hear the names of their ancestors sung aloud by someone who never met them.
+            `
+        },
+        {
+            name: 'The Hollow-Scriptorium',
+            description: `
+The largest repository of written knowledge in Vreken civilization, carved into a series of connected fungal-lit caverns beneath the eastern Gloom. Unlike the Sunken Spire, the Hollow-Scriptorium is not a cathedral — it is a working archive where Vreken Inscriptors record trail-readings, crypt-genealogies, medical observations, and historical chronicles on tablets of compressed fungal-wood that retain a faint bioluminescence for centuries.
+
+The scriptorium's Inscriptors do not write with ink. They etch records into fungal-wood using tools tipped with Ghost-Mycelium residue — a technique that causes the carved grooves to glow faintly with the same silver light as the Marked's eyes. A completed tablet, stacked in one of the scriptorium's deep archive galleries, casts enough ambient light to read its neighbors by. The oldest tablets, in the deepest galleries, date back two thousand years and are still legible — the Ghost-Mycelium residue degrades slower than stone.
+
+The Clean control access to the scriptorium. Marked Inscriptors exist, but they must be sponsored by a Clean elder and submit to regular hush-screenings. The exclusion is not written policy — the Vreken have no written laws — but the scriptorium's gatekeepers have been exclusively Clean for twelve generations, and Marked scholars who apply for access describe the process as "applying to be trusted by people who have already decided you are not."
+            `
+        },
+        {
+            name: 'The Over-Shanty',
+            description: `
+Not a single location but a pattern — wherever a Vreken settlement maintains a permanent population, an Over-Shanty forms at its edge within a generation. These are communities of Over-Lit Vreken who have not yet progressed past the point of recovery but can no longer function in mainstream Vreken society. Their shanties are built against the outer walls of crypt-cathedrals, in the lee of scriptorium entrances, on the outskirts of trade-hubs — as close to the glow as they can get without being driven off entirely.
+
+The Over-Shanty at the Sunken Spire's surface entrance is the largest, housing several hundred Over-Lit at any given time. They are tolerated, not embraced. Clean Vreken leave food and basic fungal supplies at the shanty's boundary. Marked Vreken pass through quickly, eyes averted, afraid of recognizing someone they knew before the hush took them. The Covenbane patrol the shanties regularly — not to hunt, but to monitor. Every Over-Lit who progresses past the threshold of recovery is marked in the Covenbane's mental ledger, and when the time comes, they are tracked into the deep caves where only the Covenbane go.
+
+The Over-Shanty is the open secret of Vreken civilization: the cost of a society built on a substance it cannot stop cultivating, visible at the edge of every settlement, impossible to look at directly. Vreken children are taught to avoid it. Vreken adults contribute to it. Vreken elders are buried inside the cathedrals whose walls the shanty clings to, their death-light indistinguishable from the Over-Lit's over-glow at this distance.
+            `
+        }
+    ],
+
+    currentCrisis: `
+The Clean-Marked hierarchy, unspoken for centuries, is beginning to fracture aloud. A Marked coven of Veil-Speakers in the western crypts has begun a public campaign — called the Bright-Speaking — arguing that the Over-Lit epidemic is not a Marked failure but a Clean exploitation. Their argument, disseminated through the fungal record-network faster than any previous Vreken political movement, is this: the Clean benefit from the fungal trade that produces the Over-Lit, they control the scriptoriums that record the history of the epidemic, and they have spent twelve generations quietly occupying every leadership position while treating the Marked's sensitivity as a moral failing. The Bright-Speaking is the first time this argument has been made publicly, rather than whispered in Over-Shanty kitchens.
+
+The Clean crypt-council has not yet responded. The delay is making things worse. The Marked are waiting for an answer. The Over-Lit are waiting to see if anyone remembers they exist. And the Covenbane — the majority of whom are Marked, the majority of whose targets are Marked — are caught in the middle, unable to take a side without betraying either their bloodline or their duty.
+
+Meanwhile, the Neth have noticed the instability. The Gloom Forest's two powers have coexisted for eight centuries through mutual indifference. The Neth are now asking careful questions about "succession planning" and "trade continuity" — which, in Neth language, means they are preparing for a scenario in which the Vreken's internal crisis weakens their control over the fungal trade. The Clean hear this as a veiled threat. The Marked hear it as an opportunity — if the Neth are willing to negotiate with the Marked directly, bypassing the Clean council, the balance of power shifts overnight.
+
+The Over-Shanty populations are growing. The fungal harvest cannot keep pace with the addiction it feeds. And somewhere in the deep caves, a Marked coven is preparing to walk into the Hollow-Scriptorium and demand to read the oldest tablets — the ones the Clean have always claimed don't exist, the ones that might prove that the epidemic was not inevitable but engineered.
+    `,
+
+    culturalPractices: `
+Every Vreken child learns to read the trail before they learn to read fungal-wood script. The first lesson, taught at the age when a human child would be learning to walk, is "the light does not lie." The child is placed in a dark room with a freshly walked path — a parent who crossed the room, a pet that followed, a trail of fungal-water dripped across the floor — and told to follow it. The Vreken do not teach their children to trust their eyes. They teach them to trust what their eyes illuminate.
+
+The Tithing is the central ritual of Vreken faith. Every month, each Vreken household contributes a portion of their fungal harvest — a single cultivated cap, a vial of spore-dust, a length of mycelial thread — to the nearest Sunken Spire tithe-chamber. The tithe is not charity. It is maintenance: the dead in the crypts require fresh fungal shrouds to continue emitting light, and if the tithe ever stops, the crypts go dark. A family that misses its tithe is visited by a Veil-Speaker within three days — not to punish, but to ask if the family is still alive, because no living Vreken would knowingly allow their ancestors' light to go out.
+
+The Crypt-Vigil is the most sacred Vreken practice and the one most dangerous to the Marked. A Veil-Speaker — or any Vreken who wishes to undertake it — descends to the deepest crypt-chamber of a Sunken Spire and remains there for seven days without surfacing, maintaining the ancestral chant alone. The concentration of fungal light in the deepest chambers is intoxicating even to the Clean. To the Marked, it is almost unbearable — and almost irresistible. A Marked who completes a Crypt-Vigil without over-lighting is considered to have proven something about their bloodline that no one can take from them. A Marked who over-lights during a Vigil is added to the Covenbane's ledger and to the chant-rotation, their name sung as a warning forever.
+
+The Gloom-Tithe governs Vreken relations with the Neth. Every Vreken trader who does business with a Neth merchant must return a small portion of the profit — in fungal light, not Neth currency — to the nearest Sunken Spire. The tithe is an acknowledgment that dealing with the Neth carries a spiritual cost: the Neth view death as a transaction, and prolonged exposure to their worldview erodes the Vreken's certainty that their ancestors are present, rather than simply unpaid. The Gloom-Tithe is not enforced by law. It is enforced by the Veil-Speakers' refusal to sing the names of traders who do not pay it. A Vreken whose ancestors are unspoken becomes, in the eyes of their own people, dangerously close to Neth.
+
+Death rites are simple and grueling. The dying Vreken is carried to the nearest Sunken Spire and laid in the crypt-chamber that corresponds to their bloodline and generation. The Veil-Speakers wrap the body in a living fungal shroud — a sheet of cultivated Deep-Glow or Ghost-Mycelium, depending on the deceased's bloodline — and begin singing their name into the rotation. The body is not buried. It is not burned. It is left on the crypt-shelf, wrapped in its shroud, and the family trusts that the fungal bond will produce light for as long as the deceased's bloodline remembers them. A Vreken whose name is no longer sung goes dark. A Vreken whose name is sung every rotation for a thousand years continues to emit a faint, steady glow — the same color as their eyes in life, and just as difficult to look away from.
+    `,
+
+    birthrightQuestions: {
+        description: 'At character creation, choose whose death-echo you carry — the final heartbeat that lodged deeper than all the others, that recurs in your dreams and surfaces in the presence of certain scents, names, or silences.',
+        prompts: [
+            {
+                id: 'the_parent',
+                name: 'The Parent',
+                question: 'You held your parent\'s hand as the crypt-light dimmed. You felt their final heartbeat as if it were your own — the slow, heavy pulse of a life that had burned for nearly two centuries finally going quiet. You have their heartbeat memorized. It surfaces in your second pulse during moments of stress, and when you close your eyes in a quiet room, you can still see the exact shade of their death-light. Choose: what were their last words to you? Once per long rest, when you fail a saving throw against fear, you may hear their voice beneath the panic and reroll the save — but you take 1d4 psychic damage as the echo of their death replays fresh.',
+                rerollSaveType: 'fear',
+                cost: '1d4 psychic damage'
+            },
+            {
+                id: 'the_patient',
+                name: 'The Patient',
+                question: 'Your first failure as a healer. The trail was too far along. You arrived too late, or the infection had already reached the heart, or the wound was too deep for even fungal-thread to close. You felt them slip — the final heartbeat was not fear but surprise, as if they had not expected to die in front of someone who was supposed to save them. You still know their name. You still visit their crypt during the annual Remembrance, and you still apologize to a glow that cannot hear you. Choose: what was their name, and what were they to you — a stranger, a neighbor, a friend? You have advantage on Medicine checks made to stabilize dying creatures. But when you fail to save someone, the GM may ask you: does this remind you of them?',
+                buffOnStabilize: 'advantage on Medicine checks to stabilize dying creatures',
+                narrativeCost: 'GM may invoke the memory on a failed save'
+            },
+            {
+                id: 'the_innocent',
+                name: 'The Innocent',
+                question: 'As a witness-judge, you read a death-trail at a trial that sent someone to the crypt. Protocol required you to verify: you touched the body afterward and received their final heartbeat. They were innocent. The trail was misleading — some other Vreken\'s passage had crossed theirs, some fungal residue had contaminated the reading, some variable you should have accounted for had slipped past you. No one else knows. You did not speak up, because to admit a misreading would have invalidated every trial you had ever witnessed. You carry their final heartbeat — confusion, betrayal, the certain knowledge that the person who was supposed to see the truth had failed them. Choose: why didn\'t you speak? You have advantage on Insight checks made to detect deception. But whenever you give testimony or make a judgment, the GM may ask: are you sure?',
+                buffOnInsight: 'advantage on Insight checks to detect deception',
+                narrativeCost: 'GM may call your certainty into question when you testify'
+            },
+            {
+                id: 'the_overlit_kin',
+                name: 'The Over-Lit Kin',
+                question: 'You are — or were — Covenbane. You killed your own blood: a cousin, a sibling, a friend who over-lit past the point of recovery. You tracked them through the deep caves, you found them in the dead-end dark, and you ended them. Their final heartbeat was not fear. It was not pain. It was relief — the hush had been screaming in their skull for years, and your blade was the first silence they had felt since the addiction took hold. You don\'t know what to do with that. Choose: who were they to you? When you deal damage to a Marked Vreken enemy, you deal +1d4 psychic damage — you know exactly where the hush has weakened them, because you have studied the addiction your whole life. But you cannot harm a Marked Vreken who has surrendered without reliving the echo, and you suffer 1d4 psychic damage each time you do.',
+                buffDamage: '+1d4 psychic damage to Marked Vreken enemies',
+                costOnSurrender: '1d4 psychic damage when harming a surrendered Marked Vreken'
+            }
+        ]
+    },
+
+    subraces: {
+        clean: {
+            id: 'clean_vreken',
+            name: 'Clean',
+            illustration: '/assets/images/races/vreken_illustration.png',
+            illustrationCaption: 'A Clean Vreken healer in monastic vestments, rust-amber lantern-eyes steady and controlled beneath a vaulted crypt-ceiling.',
+            description: `The inheritors of Deep-Glow — the oldest, most stable fungal strain, bonded to their ancestors in the bog-caves before the sun died. Their lantern-eyes burn a controlled rust-amber, warm and steady, easily dimmed in polite company. Their trail-sight is shorter-range than the Marked's — they read close, read deep, but read slow. They are near-total immune to the Over-Lit addiction: not morally superior, merely biologically fortunate, carrying a strain that does not intoxicate. Disproportionately represented in trade delegations, crypt-councils, scriptorium gatekeeping, and every position that faces the outside world. Their privilege is invisible to them — they have never had to fight the hush, so they do not understand why the Marked cannot simply resist it. The flaw they carry is the quiet assumption that their biological luck is a form of virtue.`,
+            culturalBackground: `The Clean trace their bloodline to the first Vreken who bonded with Deep-Glow — a stable, warm-amber fungal strain that produces steady light and minimal intoxication. Their tradition is continuity: the scriptoriums, the crypt-councils, the trade routes, the diplomatic missions to Neth grave-cities and Emberth forge-halls. The Clean are the face the Vreken show to outsiders, and they have been the face for so long that they have begun to forget there are other Vreken in the dark who look nothing like them.
+
+Clean children are educated in the scriptoriums from the age when their lantern-eyes first steady — around six or seven. They learn to read fungal-wood records, to recite crypt-genealogies, to witness trail-readings without interfering. By adolescence they are expected to choose a vocation: Veil-Speaker (priesthood), Inscriptor (record-keeper), Witch Doctor (healer), or Covenbane (hunter). The last is the least common among the Clean — their trail-sight is shorter-range than the Marked's, and hunting an Over-Lit through the deep caves with dimmer eyes is a test few Clean volunteer for.
+
+They view the Marked with a complex, carefully unspoken mixture of pity and fear. The Marked are their siblings, their cousins, their children who inherited a different strain. The Clean recognize the Marked's superior trail-sight. They rely on it — the best diagnosticians and trackers in Vreken society are overwhelmingly Marked. But the Clean also control the institutions that record, govern, and trade, and none of those institutions have a Marked majority. The Clean call this "stability." The Marked call it what it is.
+
+The Clean rarely leave the Gloom Forest. When they do, they travel in monastic vestments — dark cassocks with fungal-thread embroidery marking their bloodline and vocation — and their rust-amber eyes draw stares in human settlements, Neth trade-hubs, and Emberth forge-halls alike. The Clean are accustomed to being stared at. They are not accustomed to being doubted.`,
+            statModifiers: { spirit: 2, intelligence: 2, strength: -1 },
+            traits: [
+                {
+                    id: 'deep_glow_blood_clean',
+                    name: 'Deep-Glow Blood',
+                    description: 'Your rust-amber eyes carry the oldest fungal strain — warm, steady, and mercifully dim. You are immune to the Over-Lit addiction that ravages the Marked, but the deep-glow that protects you also limits you: your trail-sight reaches only half as far, and your eyes do not frighten.',
+                    level: 1,
+                    icon: 'spell_nature_resistnature',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'nature', icon: 'spell_nature_resistnature', tags: ['deep-glow', 'immunity', 'poison', 'passive'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'overlit_immunity',
+                                name: 'Hush-Immunity',
+                                description: 'Immune to the Over-Lit addiction and resistant to poison damage. Your Deep-Glow blood is stable, ancient, and cannot be intoxicated by the fungal strains that consume the Marked.',
+                                statusEffect: { level: 'moderate', description: 'Immune to Over-Lit addiction. Resistant to poison damage.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'dimmed_trail_sight',
+                                name: 'The Dim Trail',
+                                description: 'Your darkvision is limited to 30 feet. Your trail-sight is shorter-range than the Marked — you see less of the world\'s hidden light, and what you see arrives later.',
+                                statModifier: { stat: 'darkvision', magnitude: 30, magnitudeType: 'flat' }
+                            },
+                            {
+                                id: 'unintimidating_eyes',
+                                name: 'Warm Eyes',
+                                description: 'Disadvantage on Intimidation checks against non-Vreken. Your rust-amber eyes are warm, steady, and unmistakably gentle — a healer\'s light, not a predator\'s.',
+                                statModifier: { stat: 'intimidation', magnitude: -99, magnitudeType: 'disadvantage', conditions: { targetNotVreken: true } }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'crypt_record_clean',
+                    name: 'Crypt-Record',
+                    description: 'You were trained in the scriptoriums — the only formal education the Vreken offer. You can read fungal-wood tablets, trace crypt-genealogies across centuries, and recite the names of the dead as fluently as the Veil-Speakers who taught you. But the records do not maintain themselves, and the backlog does not forgive.',
+                    level: 1,
+                    icon: 'inv_misc_book_09',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'spirit', icon: 'inv_misc_book_09', tags: ['knowledge', 'scriptorium', 'lore', 'passive'] },
+                    buffConfig: {
+                        buffType: 'proficiency',
+                        effects: [
+                            {
+                                id: 'crypt_lore',
+                                name: 'Scriptorium-Trained',
+                                description: '+2 to History and Medicine checks related to Gloom Forest, the Neth, fungal ecology, crypt-genealogies, or death-related lore. You have spent years reading what the dead left written.',
+                                statModifier: { stat: 'history', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } },
+                                additionalStatModifier: { stat: 'medicine', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'curse',
+                        effects: [
+                            {
+                                id: 'record_maintenance',
+                                name: 'The Unwritten Debt',
+                                description: 'You must spend 1 hour per long rest maintaining your personal crypt-record — reciting names, updating genealogies, recording new deaths you have witnessed. If you miss this maintenance, lose the Crypt-Record bonus until you spend 1 hour catching up. The backlog accumulates: two missed days = the bonus remains lost for 2 hours after you resume. Three missed days = you must spend a full long rest catching up before the bonus returns.',
+                                statusEffect: { level: 'minor', description: 'Lose Crypt-Record bonus after 24 hours without maintenance. Recover by spending 1+ hours reciting records.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                }
+            ],
+            languages: ['Common', 'Gloom-Tongue'],
+            speed: 25,
+            baseStats: { armor: 0, hp: 22, mana: 14, ap: 3, passivePerception: 12, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 30, initiative: 1 },
+            savingThrowModifiers: { advantage: ['poison', 'disease'], disadvantage: [] }
+        },
+
+        marked: {
+            id: 'marked_vreken',
+            name: 'Marked',
+            illustration: '/assets/images/races/vreken_illustration.png',
+            illustrationCaption: 'A Marked Vreken tracker in the deep caves, silver-white lantern-eyes blazing in the absolute darkness.',
+            description: `The inheritors of Ghost-Mycelium — a volatile, brilliant fungal strain that amplifies trail-sight to extraordinary range at the cost of stability. Their lantern-eyes burn silver-white and do not dim easily; their emotions are readable from across a room, their presence impossible to hide in darkness. They perceive death-trails from miles away, infections beneath unbroken skin, lies as flickers in the trail-light. They are the best trackers and diagnosticians in Vreken society. They are also the most vulnerable to the Over-Lit addiction — their sensitivity is both gift and curse, and every Marked family carries at least one Over-Lit relative. Stigmatized by the Clean as unreliable, dangerous, the bloodline with the hunger. The flaw they carry is their own biology: the light that makes them extraordinary is the same light that consumes them from within.`,
+            culturalBackground: `The Marked trace their bloodline to the first Vreken who bonded with Ghost-Mycelium — a brilliant, silver-white fungal strain that produces the purest light and the most intoxicating spores. Their tradition is sensitivity: the trail read at extreme range, the death-diagnosis delivered before the patient knows they are dying, the Over-Lit kin tracked into the deep caves by the same light that will one day betray the tracker.
+
+Marked children learn to read the trail before they learn to speak — their Ghost-Mycelium sight is active from birth, silver-white pinpoints flickering in the cradle. By the time a Marked child can walk, they are already tracking: the pet they lost, the parent who left, the trail of the Veil-Speaker who visited yesterday. They are taught to dim their eyes — a skill the Clean never need to practice — and most never fully master it. A Marked's lantern-eyes flicker with their emotions, flare with their anger, dim with their grief. They are the most honest people in the Gloom Forest, and the most exposed.
+
+Every Marked family has at least one Over-Lit relative. The numbers are not a matter of debate — they are recorded in the scriptoriums, which are maintained by the Clean. The Marked believe the Clean underreport the epidemic to minimize its political impact. The Clean believe the Marked exaggerate their suffering to gain leverage in crypt-council negotiations. Neither side has proof. Both sides have centuries of resentment.
+
+The Marked are disproportionately represented among the Covenbane — the order that hunts Over-Lit Vreken who have progressed past recovery. This is not because the Clean forbid Clean from joining. It is because the Clean's shorter trail-sight makes them less effective trackers, and because the psychological burden of killing your own kind falls more heavily on a Clean who has never felt the hush's pull than on a Marked who has spent their entire life fighting it. The Marked who join the Covenbane are the most respected and most isolated Vreken in the Gloom — feared by the Over-Lit they hunt, pitied by the Clean who no longer sit beside them at crypt-feasts, and quietly, desperately envied by the Marked who have not yet fallen.
+
+The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are too bright — they unsettle human merchants, make Neth negotiators uncomfortable, and remind the Emberth of something their Sun-Speakers have been prophesying for centuries but will not name. When a Marked leaves the Gloom Forest, it is generally because they have chosen to, and the choice marks them as someone who has accepted that the outside world will stare and flinch and reach for iron that does not burn them but still, somehow, hurts to look at.`,
+            statModifiers: { agility: 2, spirit: 3, constitution: -1 },
+            traits: [
+                {
+                    id: 'ghost_mycelium_sight_marked',
+                    name: 'Ghost-Mycelium Sight',
+                    description: 'Your silver-white eyes burn with the most volatile fungal strain — brilliant, hungry, impossible to hide. You see death-trails forming miles away, infections blooming beneath skin that still looks healthy, and lies flickering through the trail like heat-lightning. But you are a beacon: everything you see, everything you are, is visible to everyone who looks at you.',
+                    level: 1,
+                    icon: 'spell_holy_mindvision',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'nature', secondaryElement: 'radiant', icon: 'spell_holy_mindvision', tags: ['ghost-mycelium', 'trail-sight', 'darkvision', 'passive'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'extended_trail_sight',
+                                name: 'The Long Trail',
+                                description: 'Darkvision 90 feet. Advantage on Perception checks made to track creatures or detect hidden objects, passages, and traps — your trail-sight reads what the world has forgotten it left behind.',
+                                statModifier: { stat: 'perception', magnitude: 1, magnitudeType: 'advantage', conditions: { trackingOrDetecting: true } }
+                            },
+                            {
+                                id: 'death_sense',
+                                name: 'Death-Sense',
+                                description: 'You automatically detect any creature within 60 feet that is below 25% of its maximum HP. The death-trail forming around them is visible to you as a distinct, cold silver halo — unmistakable, involuntary, and growing.',
+                                conditions: { range: 60, detectBelowHP: 25, detectBelowHPUnit: 'percent' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'beacon_eyes',
+                                name: 'The Unhidden Light',
+                                description: 'Disadvantage on Stealth checks in any lighting condition. Your silver-white lantern-eyes are visible in darkness from 120 feet away — a beacon that cannot be hooded, cloaked, or extinguished. Creatures have advantage on Perception checks to detect you in dim light or darkness.',
+                                statModifier: { stat: 'stealth', magnitude: -99, magnitudeType: 'disadvantage' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'hush_temptation_marked',
+                    name: 'The Hush-Temptation',
+                    description: 'Your Ghost-Mycelium bond is a double-edged gift. You can amplify your trail-sight to extraordinary levels — tasting every death-trail within miles, reading the entire crypt-genealogy of a dying stranger, perceiving truths that no Clean eyes could ever reach. But the hush sings in your blood, and every amplification brings you closer to the light that does not let go.',
+                    level: 1,
+                    icon: 'spell_shadow_shadetruesight',
+                    spellType: 'ACTION',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'nature', secondaryElement: 'psychic', icon: 'spell_shadow_shadetruesight', tags: ['amplification', 'hush', 'risk', 'active'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'amplified_trail_sight',
+                                name: 'The Brightening',
+                                description: 'For 10 minutes, your trail-sight reaches its maximum potential: advantage on Perception, Insight, and Investigation checks. Your lantern-eyes blaze silver-white — visible from 300 feet in darkness — and the world\'s hidden light opens to you like a book written in a language you were born to read.',
+                                statModifier: { stat: 'perception', magnitude: 1, magnitudeType: 'advantage', conditions: { amplified: true } },
+                                additionalStatModifiers: [
+                                    { stat: 'insight', magnitude: 1, magnitudeType: 'advantage', conditions: { amplified: true } },
+                                    { stat: 'investigation', magnitude: 1, magnitudeType: 'advantage', conditions: { amplified: true } }
+                                ],
+                                duration: 10, durationUnit: 'minutes'
+                            }
+                        ],
+                        durationValue: 10, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'hush_save',
+                                name: 'The Hush\'s Pull',
+                                description: 'When the Brightening ends, make a DC 14 Spirit saving throw. On a failure, the Over-Lit\'s hunger surfaces: you suffer -2 to all d20 rolls until you complete a short rest, as the hush screams in the back of your skull and every fungal light you pass whispers your name. On a success, you resist — the pull was there, but it was not strong enough. This time.',
+                                statusEffect: { level: 'moderate', description: 'DC 14 Spirit save after Brightening. On failure: -2 to all d20 rolls until short rest.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'until_rest', durationUnit: 'short_rest', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: ['verbal'] },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+                }
+            ],
+            languages: ['Common', 'Gloom-Tongue'],
+            speed: 25,
+            baseStats: { armor: 0, hp: 18, mana: 12, ap: 4, passivePerception: 15, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 90, initiative: 3 },
+            savingThrowModifiers: { advantage: ['perception'], disadvantage: ['poison'] }
+        }
+    }
 };

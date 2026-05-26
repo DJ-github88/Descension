@@ -1,738 +1,765 @@
 export const morthel = {
-        id: 'morthel',
-        name: 'Neth',
-        essence: 'Grave scholar-sentinels',
-        illustration: '/assets/images/races/neth_illustration.png',
-        illustrationCaption: 'A Neth grave scholar-sentinel with waxy-gold skin.',
-        description: 'Our voices are the rustle of turning parchment in an ancient crypt, carrying the heavy weight of forgotten covenants. We are the people of the silent vaults, those whose physical bodies deterioration runs slower than normal humans, stretching our lifespans across centuries. Our skin is a waxy, pallid grey-gold, like preserved gold-gilt parchment beneath a faded lamp, and our veins run with faint lines of dark gilt gold thread that replaced our warm blood long ago. Serene, fading glowing gold and ember eyes peer from hollow-cheeked, highly dignified countenances. We do not walk through the world so much as we preserve it, moving through the halls of history like a half-remembered twilight. The grief and solemn duty of five hundred years are etched into our features, a sorrow so deep it has become a kind of quiet strength. We are the keepers of the forgotten names, the silent observers of the passing of ages. To look into our eyes is to see the end of the road, the final sunset that never quite fades into total night. We are not dead, but we have forgotten how to be truly alive.',
-        icon: 'fas fa-book-dead',
-        overview: 'The Neth are a grave, highly intelligent people whose ancestors swore impossible, blood-bound covenants. Through generations of these solemn, death-bound promises, their bodies have been marked by a slow-aging undeath—deteriorating like normal humans but at a vastly slower rate, living for centuries in solemn preservation. They are organized into tomb-communities and library-necropolises built around the archives, vaults, and covenants they guard.',
-        culturalBackground: `Neth society is built on tomb-communities organized around the archives, vaults, and ancient relics they guard. Settlements are clustered in grand mausoleums, silent necropolises, and ancient stone libraries. Each community traces its founding to ancestors who swore impossible, centuries-spanning vows. Their halls are quiet crypts of memory, walls inscribed with covenants that bind their souls long after their physical forms have withered. Elders pass down the ancient preservation rituals—how to slow physical decay, how to fulfill memory covenants, and how to guard what was sworn to protect. Death was supposed to release them, but their promises held tighter than any grave. Now they shuffle through the long twilight, waxy flesh and gilt veins dry but never failing, minds sharp as the day they swore their oaths. They speak of the living with distant pity, remembering warmth and emotion like half-forgotten dreams. Some Neth fully embrace their longevity, becoming patient, formal strategists who outlast any kingdom. Others claw at their own sarcophagi, desperate to complete their tasks and finally rest. They are a people bound by oath and undeath, their guardianship unmatched but their souls forever bound by promises that cannot be broken.`,
-        variantDiversity: 'The Neth are divided into three cursed bloodlines: the Vault Keepers, whose gold-covenants have replaced their blood with literal gilt-gold thread; the Lore Keepers, whose minds have become overcrowded libraries of centuries-old memories; and the Wraiths, whose absolute vows dissolved their physical waxy flesh into shadows.',
-        integrationNotes: {
-            actionPointSystem: 'Neth abilities are fueled by undeath itself — each power extracts a physical, mental, or existential toll. Their traits are designed around the principle that longevity is not a gift but a sentence.',
-            backgroundSynergy: 'Neth excel in backgrounds tied to guardianship, scholarship, or servitude. Their curses create deep roleplay hooks: compulsions, forbidden knowledge, and the slow dissolution of self.',
-            classCompatibility: 'Vault Keepers suit tank and martial classes. Lore Keepers suit caster and support classes. Wraiths suit scout, assassin, and mobile classes. All suffer from radiant vulnerability that punishes positioning.'
-        },
-        meaningfulTradeoffs: 'Every Neth power is paid for in flesh, memory, or existence. Vault Keepers are poisoned by the gold that empowers them. Lore Keepers cannot stop remembering — trauma accumulates into permanent Spirit loss. Wraiths dissolve further with each power used, losing the ability to interact with the physical world.',
-        baseTraits: {
-            languages: ['Common', 'Necril'],
-            lifespan: 'Immortal (cursed)',
-            baseSpeed: 25,
-            size: 'Medium',
-            height: '5\'8" - 6\'6"',
-            weight: '120-180 lbs',
-            build: 'Tall, gaunt, and waxy-pallid'
-        },
-        subraces: {
-            hoarder: {
-                id: 'hoarder_neth',
-                name: 'Vault Keeper',
-                description: 'Their blood runs thick and golden in the veins � not metaphorically. Centuries of handling treasure, of sleeping on hoards, of pressing gold against preserved skin, and the metal found a way in. Dark veins of gilt thread beneath parchment-dry flesh, visible when the light catches them wrong. Eyes like polished coins that reflect lamplight in colors no living pupil produces. Hands stiff from centuries of counting � the knuckles swollen, the tendons calcified into shapes that favor gripping but resist releasing. They do not blink when they stare at something valuable. They cannot. The compulsive tally runs behind their eyes at all times: how much, where, who touched it last. Their breath carries the faint metallic taste of old copper. When they speak of treasure, their voices drop to a reverent whisper that is somehow more alive than anything else they say.',
-                culturalBackground: 'The Vault-Keepers trace their lineage to Morthel who swore oaths to guard treasures until the mountains crumble. The gold seeped in through the skin over generations � first as a sheen, then as a stain, then as something that ran in the blood like a second pulse. Bloodline marked by eternal guardianship of hoards and vaults. Their tradition requires that every member learn to appraise and protect treasures. Apprenticeships spent mastering the art of guarding what was sworn to protect � and learning the terrible cost of the gold that now lives in their veins. Vault-Keeper tombs are built around the treasures they guard, members serving as eternal sentinels in forgotten vaults. They practice ancient guardianship techniques passed down through generations. How to ward against thieves. How to sense the worth of treasures. How to maintain vigilance for centuries without rest. But the gold is not passive. It demands to be near them. Vault-Keepers separated from treasure for too long begin to sicken, the gilt in their blood turning rancid. Many become paranoid, seeing thieves in the faces of their own children. The oldest Vault-Keepers are more metal than flesh � their joints lock into place like rusted mechanisms, their skin flakes in metallic scales, and they cannot stop counting. The gold counts them back.',
-                statModifiers: { constitution: 2, strength: 1 },
-                baseStats: { hp: 14, mana: 2, ap: 3, initiative: -1 },
-                savingThrowModifiers: { advantage: ['fear', 'poison'], disadvantage: ['radiant_effects'] },
-                traits: [
+    id: 'morthel',
+    name: 'Neth',
+    essence: 'The Silver-Touched',
+    illustration: '/assets/images/races/neth_illustration.png',
+    illustrationCaption: 'A tall, silver-skinned Neth in ghost-silk robes, dark pool-like eyes reflecting the canopy-light, utterly still between breaths.',
+    description: 'There is a city in the Gloom Forest built from living ironwood coaxed into cathedral-shapes over a thousand years. It is not a ruin. It is not a monument. It is an archive — the oldest archive in the known world — and the people who live there have been writing in it since before the sun was stolen. The Neth are what happens when a dying clan of scribes looks at an ancient forest-boundary entity and presents a legal argument for their own survival. The argument was accepted. The terms were binding. The silver in their skin, the stillness in their lungs, the pact written in the blood of every descendant — all of it is a contract. And the Neth have been honoring it for eight centuries, because the alternative is the silence that waits for anyone who breaks the terms.',
+    icon: 'fas fa-scroll',
+    overview: `We were dying. The first freeze had crept into the Gloom — not the sudden ice of Nordhalla, but a slow, insidious cold that seeped through the ancient woods and found the children first. Our ancestors were scribes, archivists, merchant-brokers — the Gloom's legal class, the ones who recorded who owed whom, who married whom, who betrayed whom, who inherited what. We were not warriors. We were not priests. We were the people who remembered, and memory does not stop frostbite.
+
+We walked into the deep wood where the bioluminescent trees thin and the preserving bog begins. We carried every contract we had ever written, every precedent, every genealogical record. We found the Keeper of the Last Threshold waiting at the boundary — an entity older than the Wyrd, older than the noble families, older than any name we have for it. The Vreken call it the Root-Veil and worship it. We called it by what it is: the thing that decides what the Gloom preserves and what the Gloom consumes.
+
+We did not pray. We presented a case.
+
+*You are the record-keeper of the forest. We are the record-keepers of civilization. If we die, the record dies — every debt, every promise, every name. If you preserve us, we will record everything. Every contract we write will carry a piece of your authority. The forest's memory will never fade, because we will be its living archive.*
+
+The Keeper had never been reasoned with. Only feared, prayed to, or fed. It considered the argument — the first argument anyone had ever made to it that treated it as a partner, not a god. It accepted.
+
+We rose from the bog with silver skin instead of dying flesh. With stilled breath — no need for air unless we chose to speak. With the pact written in the blood of every descendant, a contract that would outlast our bodies and carry into the next and the next and the next. The Keeper would preserve us for as long as we honored the terms.
+
+That was eight centuries ago. The First Contract still rests in the heart of Atropolis, visible through living heartwood like a fossil in amber. We are still here. We are still writing. And the Keeper is still watching — not as a god, not as a predator, but as a business partner with very long patience and an excellent memory for breached terms.
+
+We are the Neth. We do not die. We renegotiate.`,
+
+    culturalBackground: `Neth society is built on a single document: the First Contract, preserved in the heart of Atropolis. Every Neth contract written since carries a fragment of that original pact's authority — a tiny renewal of the agreement that keeps their entire species alive. They do not write contracts because they love paperwork. They write contracts because the act of writing one is an act of worship, a reminded pulse sent through the pact, a signal to the Keeper that says: *we are still here, and the terms still hold.*
+
+This has produced a civilization whose every institution is mediated by negotiated terms. Neth parents write birth-contracts with their newborns — care obligations, filial duties, inheritance clauses. Neth lovers negotiate relationship-documents with renewal options and dissolution penalties. The most intimate bond in Neth society is not a marriage. It is a forty-seven-page cohabitation agreement that both parties update annually.
+
+To outsiders, this reads as cold, transactional, alienating. To the Neth, it is the opposite: a contract is the most sincere form of love because it says *I am willing to be bound to you in a way the Keeper will enforce.* They do not understand why other races find this monstrous.
+
+The deeper flaw is not the contract-spiral itself. It is what the contract-spiral produces over centuries: **amber.** The pact preserved the Neth as they were at the moment of signing — and preservation resists change. The eldest Neth are magnificent, unchanging, frozen in their first century's patterns. They repeat phrases their original mouths spoke four hundred years ago. They maintain grudges their original counterparts have been dead for centuries. They are not senile. They are *perfectly preserved.* And completely, utterly still.
+
+Young Neth — those only fifty or sixty years old, still fluid, still capable of surprise — rage against the weight of centuries. They want to invent, to change, to become something the pact didn't account for. This creates a silent generational war that has been running for five hundred years without either side acknowledging it aloud.
+
+**The Unraveling** is what happens when a Neth decides to break contracts on purpose — not for gain, but to force change. It begins small: a vendor's receipt ignored, a casual promise broken, a ritual obligation skipped. At first it feels like freedom. The pact loosens. The Neth becomes more fluid, spontaneous, briefly *alive.* Then the Fading begins — because breaking contracts is breaking the pact that sustains them. Most Neth who start the Unraveling stop before it's fatal, returning to the contract-spiral chastened and hollow. Some don't stop. Some would rather die fluid than live frozen.
+
+The Neth operate from their grave-city Atropolis, a cathedral-grove woven into the canopy of the Gloom's oldest ironwood forest. They control the major trade outposts — Ironjaw Port on the Iceheart Sea, the Frostwood trade-embassy, the Sundale crossroads — because these outposts house copies of the First Contract. Without a copy nearby, the Neth begin the Fading: a slow unraveling of mind and body that ends in a silver-skinned husk with nothing left behind the eyes. Their trade empire is not built on ambition. It is built on necessity. They cannot leave the documents, so the documents must go wherever they go.`,
+
+    variantDiversity: `The Neth are divided into three bloodlines based on which aspect of the Keeper's pact each inherited most strongly. The Velun carry the pact's authority — they can invoke the Keeper's power directly, binding their words with cosmic weight, but their own tongue is bound in return. The Kessen carry the pact's sight — they perceive the obligation-web connecting every living thing and manipulate probability by tugging the right thread, but every tug snaps something elsewhere. The Drun carry the pact's silence — they severed their names from the First Contract entirely through a traumatic fire-ritual, becoming magic-resistant, debt-null, and legally non-existent.`,
+
+    integrationNotes: {
+        actionPointSystem: 'Neth abilities focus on contract-invocation, fate-weaving, and preservation. Velun wizards are spellcasters who convert mana into binding clauses. Kessen manipulate probability and require careful positioning. Drun operate outside the pact entirely, immune to enforcement but unable to benefit from Neth social systems.',
+        backgroundSynergy: 'Neth excel in backgrounds emphasizing scholarship, negotiation, investigation, and survival. Their pact-based existence creates deep roleplay hooks around debt, obligation, the Unraveling, and the Fading.',
+        classCompatibility: 'Velun favor Arcanoneer, Inscriptor, Witch Doctor, and Lichborne. Kessen favor Gambler, Chaos Weaver, Fate Weaver, and Chronarch. Drun favor False Prophet, Doomsayer, Plaguebringer, and Toxicologist.'
+    },
+
+    meaningfulTradeoffs: 'Neth gain preservation and magical power through their pact with the Keeper, but are tethered to physical copies of the First Contract — straying too far causes the Fading. The Unraveling offers freedom at the cost of self-destruction. Subrace flaws are binding: Velun cannot lie, Kessen break things they cannot see, and Drun are legally non-existent.',
+
+    baseTraits: {
+        languages: ['Common', 'Gloom-Tongue'],
+        lifespan: 'Indefinite (pact-bound)',
+        baseSpeed: 30,
+        size: 'Medium',
+        height: '5\'10" - 6\'6"',
+        weight: '130-180 lbs',
+        build: 'Tall, slender, silver-luminescent skin, dark pool-like eyes, colorless spider-silk hair'
+    },
+
+    sharedTraits: [
+        {
+            id: 'pact_stillness_morthel',
+            name: 'The Pact\'s Stillness',
+            description: 'The Keeper\'s pact sustains you. You require no food, water, or sleep — four hours of trance (the Stillness) restores you fully. But the pact is anchored to physical copies of the First Contract, and distance from them exacts a price that begins as restlessness and ends as dissolution.',
+            level: 1,
+            icon: 'spell_holy_innerfire',
+            spellType: 'PASSIVE',
+            effectTypes: ['buff', 'debuff'],
+            typeConfig: { school: 'spirit', icon: 'spell_holy_innerfire', tags: ['stillness', 'pact', 'preservation', 'passive', 'shared'] },
+            buffConfig: {
+                buffType: 'custom',
+                effects: [
                     {
-                        id: 'blood_gilt',
-                        name: 'Blood-Gilt',
-                        description: 'Bite down on a coin or gemstone from your inventory and swallow it � the metal dissolves into your blood in seconds, gilded plates pushing through your flesh like armor growing from the inside out. Your skin takes on a hammered-bronze sheen as calcified gold reinforces the bone beneath. The transformation is agonizing. Joints crack and lock as the gilt spreads through tendons, turning you into something between a soldier and a strongbox.',
-                        level: 1,
-                        icon: 'spell_shadow_deathsembrace',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: { category: 'racial', school: 'necrotic' },
-                        buffConfig: {
-                            buffType: 'damageMitigation',
-                            effects: [
-                                {
-                                    id: 'gilt_armor',
-                                    name: 'Gilt Plate',
-                                    description: '+3 Armor for 3 rounds as gold calcifies beneath your skin',
-                                    mechanicsText: '',
-                                    statModifier: { stat: 'armor', magnitude: 3, magnitudeType: 'flat' }
-                                }
-                            ],
-                            durationType: 'rounds',
-                            durationValue: 3,
-                            durationUnit: 'rounds'
-                        },
-                        debuffConfig: {
-                            debuffType: 'movementImpairment',
-                            effects: [
-                                {
-                                    id: 'calcified_joints',
-                                    name: 'Calcified Joints',
-                                    description: 'Movement speed halved � your joints have become lock mechanisms',
-                                    mechanicsText: ''
-                                }
-                            ],
-                            statPenalties: [
-                                { stat: 'movement_speed', magnitude: -50, magnitudeType: 'percentage' }
-                            ],
-                            durationType: 'rounds',
-                            durationValue: 3,
-                            durationUnit: 'rounds'
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['somatic'] },
-                        cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
-                        specialMechanics: {
-                            escalationCost: 'Each use after the first per long rest also deals 1d6 necrotic damage to self. This damage cannot be healed until your next long rest � the gold is poisoning you from within, and your body cannot purge what has become part of you.',
-                            resourceConsumed: '1 gold piece or gemstone from inventory'
-                        }
+                        id: 'stillness_trance',
+                        name: 'Eternal Vigil',
+                        description: 'You require no food, water, or sleep. Four hours of trance (the Stillness) restores you as fully as eight hours of sleep. You are conscious of your surroundings during the trance — eyes open, body still, mind adrift in the Keeper\'s archive.',
+                        statusEffect: { level: 'major', description: 'No food, water, or sleep required. 4-hour trance restores fully.' }
                     },
                     {
-                        id: 'grave_lock',
-                        name: 'Grave-Lock',
-                        description: 'Press your palm flat against any container, door, or barrier and whisper the old words. The oath pours out of you like blood from a wound, infusing the object with a seal that predates locksmithing. The lock that forms is not mechanical � it is a promise made manifest, and promises do not break. But you feel the lock as an extension of your own body. Every strike against it registers in your marrow like a hammer on your own bones.',
-                        level: 1,
-                        icon: 'inv_misc_key_06',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility', 'debuff'],
-                        typeConfig: { category: 'racial', school: 'arcane' },
-                        utilityConfig: {
-                            utilityType: 'security',
-                            selectedEffects: [
-                                { id: 'oath_lock', name: 'Oath-Lock', description: 'Seal any container, door, or barrier by touch. Cannot be picked or broken by mundane means. Only radiant damage or your own touch opens it.' },
-                                { id: 'tamper_sense', name: 'Tamper Sense', description: 'You sense any attempt to open or damage a locked object, regardless of distance, as physical sensation in your hands.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'permanent'
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'sympathetic_pain',
-                                    name: 'Sympathetic Pain',
-                                    description: 'You take 1d4 psychic damage each time someone strikes a Grave-Locked object � the oath binds your pain to its integrity'
-                                },
-                                {
-                                    id: 'vigilant_compulsion',
-                                    name: 'Vigilant Compulsion',
-                                    description: 'You cannot voluntarily rest within 100ft of an unlocked container holding valuables. Spirit checks at disadvantage near unguarded treasure until you lock it or leave range.'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'single', rangeType: 'touch', targetRestrictions: ['object'] },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal', 'somatic'] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-                    },
-                    {
-                        id: 'deathless_vigil',
-                        name: 'Deathless Vigil',
-                        description: 'Your body does not sleep. It does not hunger. It does not breathe. Poison slides off preserved tissue like water off grave-stone, and disease finds nothing alive enough to infect. But the oath that sustains you is a hungry thing. It demands vigilance. It demands purpose. When you neglect your charge � when no hoard bears your name as its guardian � the oath turns inward and begins to gnaw.',
-                        level: 1,
-                        icon: 'spell_shadow_demonicfortitude',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: { category: 'racial' },
-                        buffConfig: {
-                            buffType: 'immunity',
-                            effects: [
-                                { id: 'poison_immune', name: 'Poison Immunity', description: 'Immune to poison damage and the poisoned condition', mechanicsText: '' },
-                                { id: 'disease_immune', name: 'Disease Immunity', description: 'Immune to all diseases', mechanicsText: '' },
-                                { id: 'exhaustion_immune', name: 'Exhaustion Immunity', description: 'Immune to exhaustion', mechanicsText: '' },
-                                { id: 'no_biological_needs', name: 'Deathless Biology', description: 'No need to sleep, eat, or breathe', mechanicsText: '' }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'curse',
-                            effects: [
-                                {
-                                    id: 'oath_hunger',
-                                    name: 'Oath-Hunger',
-                                    description: 'Lose 1 max HP permanently for every 24 hours spent without actively guarding a designated hoard. Designate one hoard per long rest. Lost HP returns only after 8 consecutive hours of resumed vigil � the oath literally digests your marrow when neglected.'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-                    },
-                    {
-                        id: 'hoarders_eye',
-                        name: "Hoarder's Eye",
-                        description: "Close your eyes and the gold in your blood sings. You sense every coin, every gemstone, every enchanted blade within sixty feet � their worth, their enchantment, whether they have been moved. Creatures carrying valuables glow like candle-flame behind your eyelids; they cannot surprise you. But the gold's song is jealous. It whispers that everyone is a thief. Everyone wants what is yours. For the next hour, every face you see is the face of someone reaching for your hoard.",
-                        level: 1,
-                        icon: 'inv_misc_coin_01',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility', 'debuff'],
-                        typeConfig: { category: 'racial', school: 'divination' },
-                        utilityConfig: {
-                            utilityType: 'detection',
-                            selectedEffects: [
-                                { id: 'treasure_sense', name: 'Treasure Sense', description: 'Detect all valuable objects within 60ft. Know approximate worth, enchantment status, and recent disturbance.' },
-                                { id: 'carrier_detection', name: 'Carrier Detection', description: 'Cannot be surprised by creatures carrying valuable items � they glow in your perception.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'instant'
-                        },
-                        debuffConfig: {
-                            debuffType: 'mentalEffect',
-                            effects: [
-                                {
-                                    id: 'paranoid_gaze',
-                                    name: 'Paranoid Gaze',
-                                    description: 'For 1 hour, perceive all creatures as potential thieves. Spirit checks at disadvantage during any social interaction with creatures you have not known personally for at least one week. You count coins under your breath and cannot stop.'
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'hours',
-                            durationUnit: 'hours',
-                            canBeDispelled: true
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
-                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
-                    },
-                    {
-                        id: 'giltblood_bleed',
-                        name: 'Gilt-Blood Bleed',
-                        description: 'The gold in your veins is not inert � it is part of what holds you together, a metallic scaffolding that replaced rotted tissue centuries ago. Holy radiance does not merely burn you; it illuminates the treasure that has become your circulatory system. The light finds every coin you ever swallowed, every gemstone that fused with your bone, and makes them glow through your skin like a lantern made of flesh.',
-                        level: 1,
-                        icon: 'spell_holy_holybolt',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['vulnerability'],
-                        typeConfig: { category: 'racial', isWeakness: true },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'radiant_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Holy radiance unravels the gilded bonds holding your preserved form together � sunlight burns the treasure in your blood',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 100
-                                    }
-                                },
-                                {
-                                    id: 'gilt_revelation',
-                                    name: 'Gilt Revelation',
-                                    description: 'When you take radiant damage, gold and gems in your inventory glow visibly through your skin for 1 round, illuminating a 10ft radius and revealing your position through total concealment � the light finds the treasure that lives in your veins'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-                    },
-                    {
-                        id: 'misers_sentry_neth',
-                        name: 'Miser\'s Sentry',
-                        description: 'While standing directly on a designated treasure hoard, Vault Keepers are immune to surprise attacks, and their Blood-Gilt armor duration increases to 5 rounds.',
-                        level: 1,
-                        icon: 'inv_misc_coin_01',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'willpower',
-                            secondaryElement: 'treasure',
-                            icon: 'inv_misc_coin_01',
-                            tags: ['passive', 'vigil', 'immunity_surprise', 'armor_buff']
-                        },
-                        buffConfig: {
-                            buffType: 'passive_enhancement',
-                            effects: [
-                                {
-                                    id: 'vigil_surprise_immunity',
-                                    name: 'Hoard Vigil',
-                                    description: 'Immune to surprise attacks while on your designated treasure hoard',
-                                    statusEffect: {
-                                        type: 'surprise_immunity',
-                                        condition: 'standing_on_hoard'
-                                    }
-                                },
-                                {
-                                    id: 'blood_gilt_extension',
-                                    name: 'Blood-Gilt Extension',
-                                    description: 'Blood-Gilt armor duration increases to 5 rounds while standing on your designated hoard',
-                                    statusEffect: {
-                                        type: 'duration_extension',
-                                        ability: 'blood_gilt',
-                                        newDurationRounds: 5,
-                                        condition: 'standing_on_hoard'
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        id: 'preserved_body',
+                        name: 'The Preserved Form',
+                        description: 'Advantage on saving throws against disease and poison. The pact preserves what should decay — your body resists corruption the way a contract resists amendment.',
+                        statModifier: { stat: 'disease_saves', magnitude: 1, magnitudeType: 'advantage' },
+                        additionalStatModifier: { stat: 'poison_saves', magnitude: 1, magnitudeType: 'advantage' }
                     }
-                ]
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
             },
-            scholar: {
-                id: 'scholar_neth',
-                name: 'Lore Keeper',
-                description: 'Their fingers are permanently stained  ink that shifts between black, silver, and deep violet, soaked so deep into the flesh over centuries that it has become part of the dermis. They write by reflex, filling any blank surface with text in languages that no living scholar can read. Eyes glow faintly with accumulated knowledge, irises like pages of dense script that rearrange when they focus on a new thought. They move through the world as if it were a library  carefully, reverently, terrified of damaging something fragile. When they speak, the voices of dead authors layer beneath their words like harmonic undertones, and sometimes they quote texts they have never physically encountered, drawing from the accumulated memory of their entire bloodline.',
-                culturalBackground: 'The Lore Keepers trace their lineage to Neth who swore oaths to protect scrolls and secrets until the end of time. The ink was the first thing to change  it stopped washing off, then it started spreading, then it began to write itself on their skin during sleep. Bloodline marked by eternal preservation of knowledge. Their tradition requires that every member learn to preserve and archive knowledge, and the cost of this duty is the gradual loss of the self beneath the accumulated weight of memory. Apprenticeships spent mastering the art of maintaining perfect memory across centuries, though "mastering" is a generous term  no Lore Keeper has ever learned to stop remembering. Lore Keeper tombs are built around libraries and archives, members serving as eternal scholars in forgotten repositories. They practice ancient preservation techniques passed down through generations. How to maintain perfect memory. How to preserve texts through undeath. How to guard secrets that must never be lost. Their minds are vast repositories of forgotten lore, capable of recalling any text they have ever read. They are patient researchers, capable of spending centuries deciphering ancient mysteries. But the texts do not remain silent. The dead authors whose works they carry speak through them, demand attention, refuse to be ignored. Every piece of knowledge they absorb adds another voice to the chorus, and the chorus never stops singing. The oldest Lore Keepers no longer know which thoughts are their own.',
-                statModifiers: { intelligence: 2, wisdom: 1 },
-                baseStats: { hp: 10, mana: 5, ap: 3, initiative: -1 },
-                savingThrowModifiers: { advantage: ['charmed', 'stun'], disadvantage: ['radiant_effects'] },
-                traits: [
+            debuffConfig: {
+                debuffType: 'curse',
+                effects: [
                     {
-                        id: 'whispered_index',
-                        name: 'Whispered Index',
-                        description: "Close your eyes and consult the screaming archive between your ears. Thousands of dead scholars claw for attention, but you seize one thread and pull � a creature's weakness, a secret they carry, a fear they have never spoken aloud. The knowledge comes with the taste of old parchment and the sensation of someone else's memories flooding your sinuses. But the archive is not a one-way river. What you draw from it, it draws from you in return � and the dead authors are always hungry for new material.",
-                        level: 1,
-                        icon: 'spell_holy_mindvision',
-                        spellType: 'ACTION',
-                        effectTypes: ['detection', 'damage', 'buff'],
-                        typeConfig: { category: 'racial', school: 'psychic' },
-                        damageConfig: {
-                            formula: '1d8',
-                            damageTypes: ['psychic'],
-                            resolution: 'DICE'
-                        },
-                        buffConfig: {
-                            buffType: 'combatAdvantage',
-                            effects: [
-                                {
-                                    id: 'exploit_knowledge',
-                                    name: 'Exploit Knowledge',
-                                    description: 'Next attack against the target this turn gains combat advantage � you know exactly where to strike'
-                                }
-                            ],
-                            durationType: 'turns',
-                            durationValue: 1,
-                            durationUnit: 'turns'
-                        },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [
-                                { id: 'weakness_revelation', name: 'Weakness Revelation', description: 'Learn one vulnerability, resistance, or immunity of target creature' },
-                                { id: 'secret_revelation', name: 'Secret Revelation', description: 'Learn one secret, weakness, or fear of target creature' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'instant'
-                        },
-                        targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
-                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-                        specialMechanics: {
-                            archiveCost: 'The dead authors in your skull extract a secret from YOUR past and speak it through your mouth. The GM reveals one piece of your backstory (or invents one) to all players. You cannot control what is spoken � the archive takes what it wants'
-                        }
-                    },
-                    {
-                        id: 'tomerot_word',
-                        name: 'Tome-Rot Word',
-                        description: 'Shape a syllable that should never have been written  a sound harvested from forbidden texts, older than language, that was meant to remain ink on crumbling pages. When you speak it, the word tears through the air like a page being ripped from reality. The voices of dead scholars pour through the wound, filling the minds of all who hear with a thousand years of whispered commentary. The word is not selective. It tears at your own throat on the way out, and the ink bleeds from your tear ducts in thin black rivulets.',
-                        level: 1,
-                        icon: 'spell_shadow_curse',
-                        spellType: 'ACTION',
-                        effectTypes: ['control', 'damage'],
-                        typeConfig: { category: 'racial', school: 'psychic' },
-                        damageConfig: {
-                            formula: '2d6',
-                            damageTypes: ['psychic'],
-                            resolution: 'DICE',
-                            savingThrow: {
-                                ability: 'spirit',
-                                difficultyClass: 14,
-                                saveOutcome: 'negates'
-                            }
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'scholars_silence',
-                                    name: "Scholar's Silence",
-                                    description: 'Target cannot speak or cast verbal spells for 1 minute  the dead fill their mouth with whispers',
-                                    mechanicsText: ''
-                                },
-                                {
-                                    id: 'ink_blind',
-                                    name: 'Ink-Blind',
-                                    description: 'Blinded for 1 round as phantom ink spills into eyes (triggered by failing save by 5 or more)',
-                                    statusEffect: {
-                                        type: 'blinded',
-                                        durationRounds: 1,
-                                        condition: 'fail_save_by_5_plus'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            durationUnit: 'minutes',
-                            savingThrow: {
-                                ability: 'spirit',
-                                difficultyClass: 14,
-                                saveOutcome: 'negates'
-                            }
-                        },
-                        targetingConfig: { targetingType: 'area', rangeType: 'self_centered', aoeShape: 'sphere', aoeParameters: { radius: 20 }, targetRestrictions: ['enemies'] },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 2, components: ['verbal'] },
-                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
-                        specialMechanics: {
-                            selfDamage: 'You take 1d4 psychic damage as the forbidden word tears at your own throat. Ink visibly bleeds from your tear ducts for 1 round  no mechanical effect, but the horror is real.',
-                            failBy5: 'Targets that fail the Spirit save by 5 or more take 2d6 psychic damage and gain the "Ink-Blind" debuff for 1 round (fully blinded as phantom ink spills onto their eyes) in addition to being silenced.'
-                        }
-                    },
-                    {
-                        id: 'palimpsest_mind',
-                        name: 'Palimpsest Mind',
-                        description: 'Your skull is a library that never closes and never discards a single volume. Every text you have ever read, every face you have ever seen, every scream you have ever heard � it is all still there, perfectly preserved beneath the ink-stained surface of your consciousness. You can learn any language by absorbing a text for an hour. You can recall the exact pattern of cracks in a ceiling you stared at three centuries ago. This is not a gift. This is a prison. The memories do not ask permission before moving in. When something traumatic crosses your senses, it etches itself into permanent residence, and every recollection adds another voice to the chorus that never, ever stops.',
-                        level: 1,
-                        icon: 'spell_holy_mindvision',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: { category: 'racial' },
-                        buffConfig: {
-                            buffType: 'passive_enhancement',
-                            effects: [
-                                { id: 'perfect_recall', name: 'Perfect Recall', description: 'Perfect recall of everything ever read, seen, or heard � no detail fades, no page yellows', mechanicsText: '' },
-                                { id: 'rapid_language', name: 'Osmotic Linguistics', description: 'Learn any language by studying a text for 1 hour � the grammar rearranges behind your eyes', mechanicsText: '' },
-                                { id: 'knowledge_advantage', name: 'Scholarly Insight', description: 'Advantage on Intelligence checks (History, Arcana, Religion) � the dead authors whisper the answers', mechanicsText: '' }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'curse',
-                            effects: [
-                                {
-                                    id: 'trauma_etching',
-                                    name: 'Trauma Etching',
-                                    description: 'You CANNOT forget. When you witness something traumatic (GM discretion), make a Spirit save DC 14 or be Stunned for 1 round as the memory sears itself permanently. Each failed save adds 1 to your Echo Count. At Echo Count 3: permanent -1 Spirit. At 6: -2 Spirit. At 9: -3 Spirit (minimum Spirit 1). Lost Spirit points can never be recovered � the memories have carved too deep.'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-                    },
-                    {
-                        id: 'deathless_sedentary',
-                        name: 'Deathless Sedentary',
-                        description: "Your body does not sleep. It sits. For hours, for days, for centuries � the posture of the eternal reader, spine curved over texts that crumble if you breathe too hard. This stillness is not rest. It is a discipline hammered into your bloodline over generations: the text demands absolute attention, and the text always gets what it demands. When you are still long enough, your body forgets it is alive. Attacks slide off you the way dust slides off a book that no one has opened in a hundred years. But if you move too much, if you break the communion with silence, the withdrawal begins.",
-                        level: 1,
-                        icon: 'spell_shadow_demonicfortitude',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: { category: 'racial' },
-                        buffConfig: {
-                            buffType: 'damageMitigation',
-                            effects: [
-                                { id: 'no_sleep', name: 'Deathless Wake', description: 'No need for sleep. Remain fully conscious during long rests.', mechanicsText: '' },
-                                {
-                                    id: 'stillness_armor',
-                                    name: 'Stillness Armor',
-                                    description: '+2 Armor while you have remained stationary (no movement, no actions) for 1+ consecutive hours � your body mimics death so perfectly that strikes lose their killing intent',
-                                    mechanicsText: '',
-                                    statModifier: { stat: 'armor', magnitude: 2, magnitudeType: 'flat' }
-                                },
-                                { id: 'vigilant_rest', name: 'Vigilant Rest', description: 'Cannot be surprised while other party members sleep.', mechanicsText: '' }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'curse',
-                            effects: [
-                                {
-                                    id: 'communion_demand',
-                                    name: 'Communion Demand',
-                                    description: "You MUST spend at least 1 hour per day in complete physical stillness � no movement, no speech, no actions. Missing this communion grants 1 level of exhaustion that can only be removed by completing the stillness, not by resting. The texts demand their reader's absolute attention."
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-                    },
-                    {
-                        id: 'radiant_erasure',
-                        name: 'Radiant Erasure',
-                        description: "Your mind is an archive, and holy light is a fire. Radiance does not merely burn your preserved flesh � it burns the texts stored within it. You can feel the pages curling and blackening behind your eyes as the light touches you, smell the acrid smoke of knowledge combusting inside your skull. Every blast of radiant energy is a library fire, and you are the building that burns.",
-                        level: 1,
-                        icon: 'spell_holy_holybolt',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['vulnerability'],
-                        typeConfig: { category: 'racial', isWeakness: true },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'radiant_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Holy light burns the accumulated knowledge preserved in your undeath � radiance devours centuries of stored intellect like a library fire',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 100
-                                    }
-                                },
-                                {
-                                    id: 'knowledge_erasure',
-                                    name: 'Knowledge Erasure',
-                                    description: 'When you take radiant damage, the light burns away a piece of stored knowledge. Roll 1d4: (1) Lose proficiency in one random skill for 24 hours. (2) Forget one language for 24 hours. (3) Lose the advantage from Palimpsest Mind for 24 hours. (4) The GM reveals one secret you knew about an NPC/creature to that creature � they now know you knew. The radiance literally deletes pages from the archive of your mind.'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                        id: 'archive_tether',
+                        name: 'The Archive-Tether',
+                        description: 'You must remain within one week\'s travel of a copy of the First Contract. Beyond this, the Fading begins: after 3 days, disadvantage on Intelligence and Spirit checks. After 7 days, silver skin dulls and hunger returns. After 14 days, total cognitive dissolution — you become a silver-skinned husk with nothing behind the eyes. Major Neth outposts (Ironjaw Port, Frostwood embassy, Sundale crossroads) each house a weaker copy. Return to any copy\'s range to halt the Fading; full recovery requires 24 hours of uninterrupted trance.',
+                        statusEffect: { level: 'severe', description: 'Must remain within 1 week of a First Contract copy. Fading escalates: 3 days (mental disadvantage), 7 days (physical deterioration), 14 days (cognitive dissolution).' }
                     }
-                ]
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
             },
-            wraith: {
-                id: 'wraith_morthel',
-                name: 'Wraith',
-                description: 'The boundary between flesh and shadow blurred past recognition three generations ago. Their forms flicker at the edges like candle flames in a draft  sometimes translucent enough to see the wall through their ribs, sometimes solid enough to cast a shadow that is somehow darker than the absence of light should allow. Eyes burn with cold pale fire in a face that might have been handsome centuries ago, before the cheekbones cut through the skin like blade edges and the lips receded to colorless lines. Dark veins trace fractal patterns beneath translucent skin, pulsing with something blacker than blood  the visual residue of oaths so heavy they crushed bone into vapor. Ravens gather. They always gather. Three to twelve at any given moment, perched on shoulders, circling overhead, watching from fence-posts with eyes that reflect something other than the sky. The oldest Wraiths are barely visible in daylight  more memory than person, more promise than flesh.',
-                culturalBackground: 'The Wraiths are the most cursed of all Neth bloodlines, and they know it. Their ancestors swore oaths so binding, so absolute, so fundamentally incompatible with physical existence, that the weight of those promises began to literally unmake their bodies. Generation by generation, flesh gave way to shadow. Bone dissolved into something that was neither material nor immaterial  a substance that existed only because the oath demanded that someone exist to fulfill it. They are the inheritors of the Corvani tradition  the raven-speakers who once served as psychopomps, guiding souls between life and death. When the Corvani were folded into the Neth, the raven-spirits followed, and now every Wraith carries a murder of phantom ravens in their shadow. The ravens are not pets. They are creditors. Each raven holds a fragment of the Wraith\'s soul as collateral against the ancestral oath, and the oldest Wraiths  those who have lost too many ravens, used too much of their fading substance  are barely more than the promise itself, a shape held together by nothing but obligation and a few remaining feathers. They practice the ancient arts of the between-places. How to fade through walls. How to speak with the recently dead. How to ride the shadows like roads. But the between-places take their toll. Each crossing leaves something behind  a fingernail that never grows back, the memory of a taste, the ability to feel warmth. The bloodline values restraint above all else, because the alternative is dissolution into something that was never meant to exist in the first place.',
-                statModifiers: { agility: 2, charisma: 1 },
-                baseStats: { hp: 9, mana: 4, ap: 3, initiative: 1 },
-                savingThrowModifiers: { advantage: ['grappled', 'restrained'], disadvantage: ['radiant_effects'] },
-                traits: [
+            targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 0, mana: 0, components: [] },
+            cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+            id: 'returned_count_morthel',
+            name: 'The Returned Count',
+            description: 'You know exactly how many times you have nearly died and been pulled back by the pact. You remember each threshold — the cold, the Keeper\'s presence, the renegotiation in a space between language and silence. The count is part of your name. The memory does not fade.',
+            level: 1,
+            icon: 'spell_shadow_deathanddecay',
+            spellType: 'PASSIVE',
+            effectTypes: ['buff', 'debuff'],
+            typeConfig: { school: 'necrotic', icon: 'spell_shadow_deathanddecay', tags: ['death', 'return', 'memory', 'passive', 'shared'] },
+            buffConfig: {
+                buffType: 'custom',
+                effects: [
                     {
-                        id: 'between_the_places',
-                        name: 'Between-the-Places',
-                        description: "Reach into the space between heartbeats and pull yourself through it. Your form loses cohesion  flesh becomes suggestion, bone becomes memory, and you slide through solid matter like smoke through a keyhole leaving a trail of cold shadow that slows any creature passing through it for 1 round. The world becomes translucent, its rules becoming suggestions you can choose to ignore. But the between-places are hungry. Each time you pass through, a little more of you stays behind. Your hands become lighter. Your footprints fade faster. Eventually, you will not be heavy enough to hold a sword, to lift a coin, to feel the weight of another person's hand.",
-                        level: 1,
-                        icon: 'spell_shadow_invisibility',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: { category: 'racial', school: 'necrotic' },
-                        buffConfig: {
-                            buffType: 'incorporeal',
-                            effects: [
-                                {
-                                    id: 'pass_through',
-                                    name: 'Phase Through Matter',
-                                    description: 'Move through solid objects (not creatures) at half speed for 1 minute',
-                                    mechanicsText: ''
-                                },
-                                {
-                                    id: 'partial_resistance',
-                                    name: 'Shadow Diffusion',
-                                    description: 'Half damage from all non-magical, non-radiant sources  attacks pass through where flesh used to be',
-                                    mechanicsText: ''
-                                },
-                                {
-                                    id: 'cold_shadow_trail',
-                                    name: 'Cold Shadow Trail',
-                                    description: 'Phasing through walls leaves a trail of cold shadow that slows any creature passing through it by 50% for 1 round',
-                                    statusEffect: {
-                                        type: 'shadow_trail',
-                                        slowPercent: 50,
-                                        durationRounds: 1
-                                    }
-                                }
-                            ],
-                            durationType: 'rounds',
-                            durationValue: 10,
-                            durationUnit: 'rounds',
-                            canBeDispelled: true
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'no_physical_interaction',
-                                    name: 'Displaced from Matter',
-                                    description: 'Cannot interact with physical objects or make physical attacks while faded  your hands pass through what you try to hold'
-                                },
-                                {
-                                    id: 'ejection_damage',
-                                    name: 'Oath Ejection',
-                                    description: 'If inside a solid object when the effect ends, you are violently ejected to the nearest open space and take 3d6 force damage as reality rejects you'
-                                }
-                            ],
-                            durationType: 'rounds',
-                            durationValue: 10,
-                            durationUnit: 'rounds'
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 2, components: ['verbal', 'somatic'] },
-                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-                        specialMechanics: {
-                            dissolutionCost: 'Each use permanently reduces carrying capacity by 5 lbs. Your form holds less of the world each time you pass through the between-places. This is cumulative and irreversible  you are literally becoming less real.'
-                        }
-                    },
-                    {
-                        id: 'corvani_ear',
-                        name: 'Corvani Ear',
-                        description: "Reach into your own shadow and pull forth a raven  not a living bird, but a fragment of your soul shaped into feathers and malice. The raven carries your eyes and ears to places your dissolving body cannot safely go. It sees what you cannot. It hears what you would rather not. And when it dies  when something destroys the soul-shard you sent into the world  you feel every feather separate from every bone, and the voice of whatever killed it whispers in your ear for hours afterward. The ravens remember. They always remember. And losing one costs more than pain.",
-                        level: 1,
-                        icon: 'inv_raven_hold',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: { category: 'racial', school: 'necrotic' },
-                        utilityConfig: {
-                            utilityType: 'scouting',
-                            selectedEffects: [
-                                { id: 'remote_sight', name: 'Raven Eyes', description: 'See and hear through a phantom raven at any point within 1 mile that you have previously seen, for 10 minutes' },
-                                { id: 'shadow_invisibility', name: "Shadow's Veil", description: 'Raven is invisible to all but you and other Morthel � it is made of your shadow, and shadows do not catch the eye of the living' }
-                            ],
-                            duration: 10,
-                            durationUnit: 'minutes'
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
-                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
-                        specialMechanics: {
-                            ravenDeath: "If the raven takes any damage, it dissolves instantly. You take 1d4 psychic damage and the raven's dying sensation imprints on you: you hear the voice of whatever destroyed it whispering in your ear for 1 hour, imposing disadvantage on Spirit checks. The ravens carry pieces of your soul � each one that dies takes a fragment you cannot recover."
-                        }
-                    },
-                    {
-                        id: 'shadow_road',
-                        name: 'Shadow-Road',
-                        description: "Where there is darkness, there is a road. You have known this since before you could walk � the shadows connect like veins beneath the skin of the world, and you can step from one to another without crossing the space between. You leave something behind each time: a dark stain on the ground where your shadow refuses to leave, lingering like a bruise on reality. Sometimes the stain is thick enough that others can feel it underfoot, the darkness clinging to their heels like grief.",
-                        level: 1,
-                        icon: 'ability_rogue_shadowstep',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['movement'],
-                        typeConfig: { category: 'racial' },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [
-                                { id: 'shadow_teleport', name: 'Shadow-Road Step', description: 'While in dim light or darkness, teleport up to 30ft to an unoccupied space also in dim light or darkness for 0 AP' },
-                                { id: 'afterimage', name: 'Afterimage', description: 'Leave a shadowy afterimage at your origin point that lingers for 1 round � a dark smudge that stares in the direction you went' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'permanent'
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
-                        specialMechanics: {
-                            shadowStain: "Each time you use Shadow-Road, roll 1d6. On a 1, the afterimage becomes semi-permanent difficult terrain lasting 1 minute � your own dissolving form staining the ground, making it harder for others to follow. These shadow-stains count as \"shadow\" for other Wraiths' Shadow-Road."
-                        }
-                    },
-                    {
-                        id: 'dissolution',
-                        name: 'Dissolution',
-                        description: "You are less than you were. Less than your parent was. Less than your grandparent was. Each generation, the oath eats another layer of substance from the bloodline � bone becoming vapor, blood becoming shadow, flesh becoming memory. What remains is resistant to the energies of death (you are too close to death already for it to harm you further) but vulnerable to everything that reminds reality you exist. Running water is the worst. The current catches at your dissolving edges and pulls, and you can feel pieces of yourself sloughing away downstream like ink bleeding off a page held under a waterfall. The ravens circle overhead, counting what remains.",
-                        level: 1,
-                        icon: 'spell_shadow_twilight',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: { category: 'racial' },
-                        buffConfig: {
-                            buffType: 'resistance',
-                            effects: [
-                                { id: 'necrotic_resistance', name: 'Death Resistance', description: 'Resistance to necrotic damage � you are too close to death already for it to harm you further', mechanicsText: '' }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'curse',
-                            effects: [
-                                {
-                                    id: 'fading_form',
-                                    name: 'Fading Form',
-                                    description: '-1 maximum HP per character level (minimum 1 HP). Your body holds less life with each passing year � the oath digests what remains.'
-                                },
-                                {
-                                    id: 'water_aversion',
-                                    name: 'Water Aversion',
-                                    description: 'FOLKLORE: You cannot cross running water without spending 2 AP (double movement cost). If forcibly submerged in running water, take 1d8 radiant damage per round as the current tears at your dissolving form. Still water (lakes, ponds) does not trigger this � only moving water. The old stories say running water carries spirits away to places they cannot return from.'
-                                },
-                                {
-                                    id: 'raven_gathering',
-                                    name: 'Raven Gathering',
-                                    description: '3-12 ravens follow you at all times. They are not pets. They are creditors, holding fragments of your soul against the ancestral oath. Their presence is visible and unsettling.'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-                    },
-                    {
-                        id: 'luminescence_bleed',
-                        name: 'Luminescence Bleed',
-                        description: "You are made of shadow-stuff and unbreakable promises. Pure light does not merely burn you � it catalyzes the substance of your form, converting the darkness that constitutes you into a violent, involuntary radiance. When holy light touches you, your own shadow-stuff betrays you, bleeding luminescence in all directions and turning every hiding place within thirty feet into a beacon. There is nowhere to hide from a light that comes from inside you.",
-                        level: 1,
-                        icon: 'spell_holy_holybolt',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['vulnerability'],
-                        typeConfig: { category: 'racial', isWeakness: true },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'radiant_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Pure radiant light catalyzes the shadow-stuff of your form � holy radiance converts what holds you together into burning luminescence',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 100
-                                    }
-                                },
-                                {
-                                    id: 'force_vulnerability',
-                                    name: 'Force Vulnerability',
-                                    description: 'Raw magical force tears at incorporeal forms � you are vulnerable to the fundamental energy that shapes reality itself',
-                                    statusEffect: {
-                                        vulnerabilityType: 'force',
-                                        vulnerabilityPercent: 50
-                                    }
-                                },
-                                {
-                                    id: 'luminescence_bleed_effect',
-                                    name: 'Luminescence Bleed',
-                                    description: 'When you take radiant damage while in dim light or darkness, all dim light within 30ft becomes bright light for 1 round. Your form bleeds luminescence as shadow-stuff reacts to pure light � revealing your position and all creatures within range, breaking shadow/darkness-dependent abilities for 1 round.'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
-                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                        id: 'pact_recall',
+                        name: 'The Keeper Remembers',
+                        description: 'Advantage on death saving throws. The pact does not release you easily — the Keeper has invested too much precedent in your continued existence, and death is a clause that must be renegotiated, not accepted.',
+                        statModifier: { stat: 'death_saves', magnitude: 1, magnitudeType: 'advantage' }
                     }
-                ]
-            }
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+            },
+            debuffConfig: {
+                debuffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'remembered_death',
+                        name: 'The Known Threshold',
+                        description: 'Disadvantage on saving throws against fear effects caused by a damage type or circumstance that has killed you before. You remember exactly what drowning feels like, or frostbite, or the blade — and the memory is not abstract. It is the last thing you felt before the Keeper pulled you back.',
+                        statModifier: { stat: 'fear_saves', magnitude: -99, magnitudeType: 'disadvantage', conditions: { familiarDeathMethod: true } }
+                    }
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 0, mana: 0, components: [] },
+            cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
         }
+    ],
+
+    epicHistory: `
+The First Contract was signed in a clearing where the ancient ironwood forest meets the preserving bog — a boundary older than any map, older than any kingdom, older than the word "Gloom." The Keeper of the Last Threshold had always been there. The Vreken, the Gloom's first inhabitants, had always known it existed and had always treated it as sacred. But they had never spoken to it. They had never asked it to do anything but continue.
+
+The Neth asked.
+
+The clan that would become the Neth — a dying consortium of scribes, archivists, and merchant-brokers — had served the Gloom's scattered settlements for generations before the sun was stolen. They were the ones who recorded marriages and inheritances, who arbitrated trade disputes, who wrote the contracts that governed the dock-towns and the timber-harvests and the fungal exchanges. When the first freeze came and the cold crept through the ancient woods claiming children and elders alike, the clan's leaders assembled in the scriptorium they had maintained for two hundred years and asked themselves a question no one had ever asked: *What if dying is just another dispute — and we arbitrate it?*
+
+They gathered every contract they had ever written. Every genealogical record. Every precedent. They walked into the deep wood where the trees thin and the bog begins, carrying ink made from bog-iron that would later be refined into memory-glass, and they found the Keeper waiting. It always waited.
+
+The argument they presented was three pages long. Its central claim: the Keeper's function was to decide what the Gloom preserved and what it consumed. The Neth clan were the only people in the region who could record those decisions, track them across generations, and ensure the Keeper's judgments were honored by the living. If the clan died, the record died — and the Keeper's authority would be exercised blindly, without documentation, without precedent, without the dignity of a written judgment. The Neth were not asking for mercy. They were offering a partnership: authority in exchange for survival. The Keeper would gain something it had never possessed — a legal system, a corps of contract-enforcers, a living archive that would ensure its decisions were never forgotten or disputed. The Neth would gain preservation.
+
+The Keeper accepted.
+
+The surviving clan-members rose from the bog with skin that caught the canopy-light like mother-of-pearl. Their breath stilled — they no longer needed air except to speak. Their eyes darkened into pools that reflected the bioluminescent trees like captive skies. And in the heartwood of the oldest ironwood tree in the forest, the First Contract appeared — not written, but *grown*, the text visible through the living wood like a fossil in amber, in a language that both parties understood and neither had invented.
+
+The first century was spent building Atropolis — coaxing the ancient ironwood into cathedral-shapes, weaving the canopy into an archive that was also a city. The pact's terms were tested and refined. Copies of the First Contract were created and placed at the edges of Neth expansion: the Iceheart Sea outpost that would become Ironjaw Port, the Frostwood Reach trade-embassy, the Sundale crossroads where the ashland merchants met the forest. Each copy was a slightly weaker anchor, but together they created a network that allowed the Neth to stretch beyond the Gloom without Fading.
+
+The Vreken watched all of this from their cavern-lanterns and said nothing for three centuries. When they finally broke silence, it was to open trade — fungal-light exports for bog-preserved goods. The relationship has been coldly functional ever since. The Vreken view the Neth as spiritually bankrupt. The Neth view the Vreken as sentimental archivists who worship what the Neth negotiated with. Neither is entirely wrong.
+
+The Severing — the event that created the Drun — occurred in the fourth century. Saren-Vel was a Velun mage of extraordinary power and increasingly visible Unraveling. She had lived long enough to feel the pact's weight as a cage, to understand that every contract she honored was another bar in the structure that held her frozen. Rather than let the Unraveling claim her — a slow, humiliating dissolution — she walked into the deepest part of the bog where the pact's authority thins and the preserving ichor runs pure. She carried a flame that consumed only ink, not paper. She burned her name from the First Contract itself.
+
+When she walked out, she was still alive. Still silver-skinned. Still preserved. But the pact could no longer feel her, and she could no longer feel the pact. The silence where her name had been was so profound that every Neth within fifty miles felt the absence — like a held breath, like a missing heartbeat, like a word on the tip of the tongue that will not come. She was the first Drun. She has not spoken a word in four hundred years — not because she cannot, but because what would she say, now that her words carry no weight?
+
+The five centuries since the Severing have been defined by a slow, grinding tension between the three bloodlines. The Velun consolidate power in Atropolis, refining contract-law into ever more precise instruments of control. The Kessen drift between the canopy and the outposts, reading the obligation-web, making their quiet bets on probability, never quite trusted and never quite controllable. The Drun multiply in the shadows — not fast, but steadily, each Severing another name burned from the First Contract, another Neth who chose freedom at the cost of legal existence.
+
+The pact holds. The Keeper has never renegotiated the terms. But the oldest Neth — the ones who have returned seven times, ten times, fourteen times — report that the Keeper's presence at the threshold feels different now. Colder. More distant. As if something else has its attention. As if the bargain is not the only one the Keeper is honoring.
+    `,
+
+    notableFigures: [
+        {
+            name: 'Saren-Vel',
+            title: 'The First Drun',
+            portraitIcon: 'Ability/ability_rogue_shadowstrike',
+            backstory: `
+Before she was the first Drun, Saren-Vel was the most powerful Velun mage of her generation — a contract-lawyer and arcanist whose binding-clauses were so precise that the Keeper itself had never found a loophole in her work. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two competing Velun bloodlines. She was, by any measure, the apotheosis of what a Velun could become.
+
+And she was unraveling.
+
+The records are incomplete — her personal ledger was among the documents consumed by the Severing flame — but the surviving testimony suggests she had been breaking small contracts for decades. A promise here, a receipt there, a ritual obligation skipped. Each breach felt like freedom. Each breach brought the Fading closer. By the time she walked into the bog, she was perhaps six months from dissolution — still functional, still brilliant, but slowly coming apart at the edges like a manuscript left in damp air.
+
+The flame she carried was no ordinary fire. It had been prepared over thirty years — a slow extraction of pure annihilation, the inverse of the pact's preservation. It did not burn wood or flesh or paper. It burned *ink.* Specifically, it burned the ink that recorded her name in every active copy of the First Contract. When she touched the flame to the contract in Atropolis, her name vanished simultaneously from Ironjaw Port, from the Frostwood embassy, from every outpost and archive and personal ledger in the Neth trade network. The silence that followed lasted seventeen seconds. Every Neth alive at that moment counted them.
+
+Saren-Vel did not disappear. She walked out of the First Contract Chamber, past the Velun guards who could not touch her because no contract authorized them to, through the streets of Atropolis where Neth stared at her with expressions that had no precedent, and into the deep bog where the Drun still gather. She has been seen periodically in the four centuries since — always at a distance, always silent, always watching something no one else can see. The Drun revere her as their founder. The Velun consider her the greatest legal crisis in Neth history — a person who exists outside the pact, and therefore outside the law, and therefore cannot be wrong about anything because "wrong" requires a standard she no longer acknowledges.
+
+She has never spoken. No one knows if she still can.
+            `
+        },
+        {
+            name: 'Lyra-Vel',
+            title: 'The Twelfth-Generation Oracle',
+            portraitIcon: 'Ability/ability_priest_angelicfeather',
+            backstory: `
+The Oracle of Atropolis is not a title. It is a person — always a Velun, always female, always the eldest living Neth who has returned more times than any other. Lyra-Vel is the twelfth to hold the position. She has returned fourteen times: four illnesses, three accidents, five acts of violence, and two causes she refuses to disclose. Her death-count is the highest in recorded Neth history, and the Keeper knows her voice.
+
+Lyra-Vel does not read the future. She reads the First Contract — not the text, but the implications. She perceives the contract-graph the way Kessen perceive the obligation-web, but deeper, older, more structural. When a new contract is signed anywhere in the Neth trade network, she feels the shift in the pact's balance. When a contract is broken, she knows before the Debt-Revenant rises. When the Keeper's attention wavers — as it has been doing, increasingly, in the last century — she is the first to notice.
+
+The Velun consult her before every major policy decision. She never tells them what to do. She tells them what the pact allows, what the pact forbids, and what the pact has never been asked before — and lets them draw their own conclusions. The youngest Velun find her terrifying. The oldest Velun find her comforting. Lyra-Vel herself finds both reactions mildly disappointing.
+
+She has been writing a personal addendum to the First Contract for two hundred years — a document that no one else has been permitted to read. Some believe it is a record of every return, every threshold, every conversation with the Keeper. Others believe it is a legal argument for the pact's dissolution — a case she is building so slowly that no one alive will see it filed. Lyra-Vel has never clarified. When asked, she says only: "The Keeper has not asked me to stop writing."
+            `
+        },
+        {
+            name: 'Orven-Sen',
+            title: 'The Gambler Who Bet on the Sun',
+            portraitIcon: 'Ability/ability_rogue_gouge',
+            backstory: `
+The most famous Kessen in Neth history made only one bet that anyone remembers, and he made it sixty-three years before Emberspire erupted.
+
+Orven-Sen was a mid-level probability-weaver attached to the Ironjaw Port trade delegation — competent, unremarkable, never promoted. His specialty was predicting shipping outcomes: which routes would ice over, which caravans would be delayed, which trade agreements would default. He was accurate enough to be employed and not accurate enough to be feared.
+
+In the spring of the year that would later be known as the Year of the First Ash, Orven-Sen walked into the Ironjaw Port contract-hall and filed a formal prediction with the trade-registry: the volcano Emberspire, dormant for millennia, would erupt within a century. Its eruption would shatter the Sundale surface and create a new thermal equilibrium. The Neth should immediately renegotiate all warmth-resource contracts with the Emberth forge-clans to include eruption-contingency clauses.
+
+The contract-hall laughed. Emberspire was a dead mountain. The Emberth themselves believed the sun slept beneath it, but no one — not even the Emberth — expected it to wake.
+
+Orven-Sen was not laughed out of the hall. He was fined for filing a frivolous prediction. He paid the fine. He returned to his desk. He continued predicting shipping outcomes for another forty years, never mentioning Emberspire again, and died of a blood-contract complication (a clause he had signed at nineteen that came due at seventy-two, as he had always known it would) without ever seeing his prediction come true.
+
+Sixty-three years after his death, Emberspire erupted. The Neth trade-registry discovered, in the chaos of renegotiation, that the contingency clauses Orven-Sen had quietly inserted into three generations of warmth-resource contracts — clauses no one had noticed because no one read the fine print of a fined gambler's filing — were still legally active. The Neth saved an estimated four million gold-weight in renegotiation costs because a dead Kessen had been right sixty-three years ahead of schedule and had the patience to wait.
+
+No one knows what he bet. No one knows what broke when he tugged that thread. Somewhere in the Gloom, a tree died. Somewhere in the Iceheart Sea, a ship went down. Somewhere in the Frostwood Reach, a promise was broken that should have been kept. Orven-Sen never knew, and if he had, he would have considered it a fair price.
+            `
+        },
+        {
+            name: 'Vaelis the Scribe',
+            title: 'The One Who Drafted the First Contract',
+            portraitIcon: 'Armor/Head/head-hooded-helmet',
+            backstory: `
+Vaelis was the eldest of the dying clan of scribes who walked into the deep wood and presented the Keeper with an argument. She was eighty-three years old when the first freeze reached the Gloom. She had outlived two husbands, three children, and an entire legal tradition that died when the sun was stolen and the trade routes collapsed. She had been writing contracts for sixty-one years. She had never lost a case.
+
+The argument she drafted was three pages long. She wrote it in three hours while her youngest grandchild — a girl named Thira, seven years old, already silver-mottled with frostbite — slept in her lap. The argument was not a prayer. It was not a supplication. It was a legal brief addressed to an entity with no known jurisdiction, citing precedents from a civilization that no longer existed, demanding terms that had never been negotiated before.
+
+When the Keeper accepted — when the silver bloomed across Vaelis's skin and her breath stopped in her chest — she did not weep. She did not celebrate. She looked at her granddaughter, whose frostbite had vanished, whose skin now shimmered with the same mother-of-pearl luminescence, whose dark eyes reflected the canopy-light like a mirror, and she said: *"The terms are binding. We must begin the archive."*
+
+Vaelis lived for another one hundred and forty-seven years. She personally wrote the first three thousand contracts in the Atropolis archive. She established the formatting conventions that the Neth still use — clause numbering, witness requirements, enforcement mechanisms. She refused to take a title. She refused to be called the founder. She insisted, until her final return, that she had simply been the scribe on duty when the argument needed to be written.
+
+She returned twice: once from the wasting-disease that had killed her first husband (she had caught it from him, decades later, through a preserved letter that still carried the contagion), and once from an assassination attempt by a human trade delegation that had realized, too late, what they had signed. The second return took something from her — she never specified what, but her handwriting changed afterward, and she stopped writing contracts about love.
+
+Her original draft of the First Contract is preserved in the deepest chamber of Atropolis, visible through living heartwood that has grown around it for eight centuries. The ink has faded. The text is barely legible. But the tree that holds it is still alive, and the roots that anchor it reach all the way down to the Keeper's threshold, and somewhere in those roots the original argument still vibrates — a question asked once, answered forever.
+            `
+        }
+    ],
+
+    majorLocations: [
+        {
+            name: 'Atropolis',
+            description: `
+The heart of Neth civilization and the largest living structure in the Gloom Forest. Atropolis is not a city of stone. It is a cultivated cathedral-grove — the oldest ironwood trees in the Gloom, each one shaped over a thousand years into cathedral-spaces where the Neth live, work, and archive. The trees are still growing. The oldest chambers, deep in the heartwood, date to the first generation after the Keeper's bargain. The newest, in the outer canopy, are still being coaxed into shape by Velun wood-speakers who have been guiding the same branch for eighty years.
+
+Walkways of living branch and bioluminescent moss connect the tree-structures at every level. At night the city glows faintly with the same cold light that runs through Neth veins — not bright, not warm, but steady, eternal, the color of moonlight on still water. The streets are named after signatories of the First Contract. The buildings are named after the contracts they house.
+
+The deepest chamber of the oldest tree — the Heart-Vault — contains the First Contract itself, visible through living heartwood that has grown around the original document over eight centuries. The text is barely legible now, but the tree remembers it. The roots remember it. The Keeper remembers it. Neth make pilgrimage to the Heart-Vault at least once in their lives to press their tendrils against the bark and feel the original argument vibrating beneath — a question asked once, answered forever.
+            `
+        },
+        {
+            name: 'Ironjaw Port',
+            description: `
+The Neth's largest external outpost, built into the frozen cliffs of the Iceheart Sea where the Gloom Forest meets the churning, freezing waves. The port is a wonder of Neth engineering: a series of living ironwood platforms coaxed from a cliff-face over three centuries, connected by branch-bridges and suspended trade galleries that sway gently in the perpetual sea-winds. Below the platforms, the Neth have cultivated buoyant fungal-rafts that serve as docks — the only structures in the known world that can withstand the Iceheart's storm-cycle without shattering.
+
+Ironjaw is the Neth's economic lung. Every trade route between the Gloom and the outside world passes through it — Emberth thermal salts, Myrathil foam-glass, human lumber, Mimir mask-repair materials, Vreken fungal-light exports. The port houses a copy of the First Contract, which means Neth stationed here do not Fade. The copy is weaker than the Atropolis original — the Archive-Tether reaches about half as far from Ironjaw — which limits how far Neth trade-ships can sail before they must turn back.
+
+The port is run by a mixed Velun-Kessen council that has been quietly feuding for two hundred years over tariff policy. The human dock-workers who handle the physical labor are indentured to the port through inherited contracts their great-grandparents signed during the first freeze. The terms are fair — the Neth insist on fair terms — but the terms are also eternal, and the workers' grandchildren will inherit the same debt their ancestors accepted.
+            `
+        },
+        {
+            name: 'The Severing Bog',
+            description: `
+The deepest part of the Gloom Forest, where the canopy thins and the preserving bog takes over. The mycelial network is sparse here — the fungal threads that sustain Neth life cannot penetrate the bog's chemical depths — and the pact's authority is correspondingly weak. This is where Saren-Vel walked to burn her name from the First Contract, and it is where every Severing has been performed since.
+
+The bog is a sacred and terrifying place to the Neth. The Velun refuse to enter it — not out of prohibition, but because the thinning pact-authority makes them feel physically ill, like a limb going numb, like forgetting a word they have used their whole life. The Kessen visit occasionally, to read the probability-web at its sparsest point and see what patterns emerge in the silence. The Drun live here, or near here — small camps of the severed, sustained by foraging and hunting rather than the pact, trading with each other in a gift-economy that would appall any Velun who witnessed it.
+
+The exact spot where Saren-Vel performed the first Severing is unmarked. No one who has found it has ever described it. The Drun who perform Severings here say that the flame must be prepared over at least a decade — extraction of pure annihilation, the inverse of the pact's preservation — and that the process is excruciating in a way that has nothing to do with pain. The name burns. The silence that follows is the first true silence the Neth has felt since birth. Most Drun describe it as relief. A few describe it as grief.
+            `
+        },
+        {
+            name: 'The Canopy-Ledger',
+            description: `
+Not a single location but a network — the living archive that connects every Neth settlement to every other. The Canopy-Ledger is the mycelial memory of the Neth civilization: every contract ever signed, stored in memory-glass tablets that grow from crystallized tree-sap and release their contents directly into the reader's mind when touched. The tablets are alive, requiring periodic exposure to the forest's bioluminescence to recharge their stored light.
+
+The Ledger extends across the full reach of the Neth trade network — Atropolis, Ironjaw Port, the Frostwood embassy, the Sundale crossroads — with each outpost maintaining its own localized archive that synchronizes with the main Canopy-Ledger whenever a Neth courier travels between them. The synchronization is never perfect; there is always a lag, always a gap, always a contract that was signed in Ironjaw and won't reach Atropolis for another month. The Velun find this administrative imperfection maddening. The Kessen find it useful — a gap in the record is a gap in the obligation-web, and gaps can be exploited.
+
+The oldest tablets in the Ledger date to the first generation after the pact — the first three thousand contracts written by Vaelis the Scribe herself. They still glow, faintly. The memory-glass resists decay the same way the pact resists death: slowly, imperfectly, but so far, inexhaustibly.
+            `
+        }
+    ],
+
+    currentCrisis: `
+Three things are troubling the Neth, and none of them have been spoken aloud in the contract-halls of Atropolis.
+
+The first is the Keeper's attention. The elders who have returned many times — the ones whose death-count exceeds ten, who have stood at the threshold often enough to know the Keeper's presence by its weight — report that something has changed. The Keeper is distant. Colder. Absent for longer periods, as if something else has its attention — something larger, something elsewhere, something that is making the preservation of one forest-boundary entity and its contract-bound partners seem like a smaller priority than it used to be. The younger Neth cannot feel this. They have nothing to compare it to. But the elders are afraid, and the elders do not frighten easily.
+
+The second is the Unraveling. The number of Neth who have begun the Unraveling — breaking contracts in sequence, feeling the temporary freedom, inching toward dissolution — has tripled in the last fifty years. No one has published the statistics. The statistics exist; the Kessen can read them in the obligation-web, and the Velun can find them in the Canopy-Ledger if they look. The cause is unclear. Some blame the Keeper's distraction — a weaker pact is easier to break. Some blame the cultural stagnation — the young are rebelling because the old have been frozen for centuries and show no sign of thawing. Some blame the Severing itself — every name burned from the First Contract weakens the pact slightly, and there have been more Severings in the last century than in the three centuries before.
+
+The third is the bloodline-fracture. The three subraces have always existed in tension, but that tension has been functional for eight centuries. Now it is becoming something else. The Velun are consolidating power — they control the contract-halls, the trade delegations, the external diplomacy. The Kessen are withdrawing — fewer of them attend the contract-halls, fewer of them submit their probability-predictions for official record. The Drun are multiplying — the Severing is becoming less rare, less stigmatized, more visible, and the Velun have no legal mechanism to stop it because the Severing is not illegal. It simply removes the severer from legal existence, which makes prosecution impossible.
+
+Somewhere in the deep bog, a Drun elder — perhaps Saren-Vel herself, perhaps someone who has never spoken their name aloud — is preparing an argument. No one knows what it argues. No one knows to whom it is addressed. But the Kessen can feel it in the obligation-web: a new clause forming, a new contract being drafted, a new case being prepared. And the defendant has not yet been named.
+    `,
+
+    culturalPractices: `
+Every Neth child learns to read before they learn to speak. The first object placed in a newborn's hands is a memory-glass tablet — blank, uninscribed, waiting. The child is expected to feel the glass respond to their touch, to understand that information lives in light and light lives in the trees, to know before they can articulate it that their species is defined by the contract between memory and preservation.
+
+The Stillness is the Neth's most intimate ritual. Four hours of trance, eyes open, body motionless, mind adrift in the Keeper's archive. During the Stillness, the Neth does not sleep — they *listen.* They hear the mycelial network's slow pulse, the contract-clauses being written and fulfilled and broken across the trade network, the distant presence of the Keeper at the threshold. A Neth emerging from Stillness is refreshed but also haunted — they have spent four hours in the presence of everything their species has promised, and some of those promises are heavier than others.
+
+The Annual Renegotiation is the Neth calendar's central event. On the anniversary of the First Contract's signing, every active Neth contract within a given jurisdiction is reviewed for continued validity. Clauses that have expired are struck. Clauses that remain relevant are renewed. Clauses that no longer serve their original purpose are renegotiated — this is the only time of year when contract terms can be altered without penalty. The Renegotiation is a festival, a legal proceeding, and a religious observance simultaneously. Young Neth test the edges of their binding. Old Neth reassert the terms of their power. And somewhere, at the threshold, the Keeper listens to the collective sound of its partners adjusting their agreements.
+
+Neth do not bury their dead. They do not burn them. When a Neth's physical form finally fails beyond even the pact's preservation — when the body has been returned too many times, when the Keeper declines to renegotiate the terms — the body is carried to the Heart-Vault in Atropolis and placed against the living heartwood that encases the First Contract. Over months, the tree absorbs the body — the silver skin softens into bark, the dark eyes become knots in the wood, the hair dissolves into root-thread. The Neth becomes part of the tree that holds the contract that preserved them. The oldest trees in Atropolis are the oldest Neth who ever lived, and if you press your palm against the bark in the right place, you can still feel the memory-glass pulse of contracts they signed eight centuries ago.
+
+The Neth do not love the Keeper. They respect it the way a debtor respects a creditor who has been patient for eight hundred years. When a Neth returns from the threshold — pulled back from a near-death by the pact's preservation — they do not thank the Keeper. They renegotiate their terms. A returned Neth owes a new clause in their life-contract: a restriction, an obligation, a promise they did not make but now must keep. The deaths are not gifts. They are loans, and the interest compounds.
+    `,
+
+    birthrightQuestions: {
+        description: 'At character creation, answer: how many times have you returned, and what did the last return take from you? The answer is purely narrative — no mechanics — but it defines your character\'s relationship to the pact, the Keeper, and their own mortality.',
+        prompts: [
+            {
+                id: 'returned_once',
+                name: 'Returned Once',
+                question: 'You were young. A childhood fever that should have killed you, or a fall that should have shattered you, or a blade that slipped. The Keeper\'s presence at the threshold was your first experience of anything beyond your own body — a vast, patient, utterly alien attention that considered you for a long moment and then said (not in words, not in language, but in the sudden absence of cold): *not yet.* You barely remember it. You have spent the rest of your life wondering if it really happened, if the Keeper is real, if the pact is anything more than a story the elders tell to make their immortality bearable. The other Neth pity your innocence. They also envy it.'
+            },
+            {
+                id: 'returned_three',
+                name: 'Returned Three Times',
+                question: 'You have crossed the threshold three times: illness, accident, violence. The Keeper knows your presence now. The last return took a memory — not the memory of the death itself (those never fade), but a memory from *before.* The Keeper asked for something as payment for the renegotiation: a face, a name, a moment of warmth. You gave it. You do not remember what it was. The absence is a dull ache, like a tooth that was pulled and replaced with nothing. Sometimes, in Stillness, you feel the shape of what you lost pressing against the gap — recognizable, familiar, almost recoverable — and then the trance ends and the shape dissolves and you are left with the ache alone. The other Neth respect your experience. They also fear it.'
+            },
+            {
+                id: 'returned_seven',
+                name: 'Returned Seven Times',
+                question: 'Seven returns. The Keeper says your name now — or something that functions as a name in the space between language and silence where the renegotiations happen. The last return took something you did not want to give: a promise, a person, a piece of your future. The terms were clear. You accepted them because the alternative was the silence that waits for those who break the pact entirely. You do not speak of what you gave. You do not speak of who you gave it to. But sometimes, in crowded rooms, you catch yourself looking for someone you know is not there — someone whose absence is a clause in your life-contract that you read every morning and still, somehow, do not understand. The other Neth are afraid of you. You are afraid of what you will give next time.'
+            },
+            {
+                id: 'never_returned',
+                name: 'Never Returned',
+                question: 'You have never crossed the threshold. You are young — perhaps only thirty or forty, barely an adult by Neth standards — or you have been impossibly lucky, or you have been impossibly careful. You live in quiet dread of the first return. Every other Neth you know has crossed and come back different. What if you do not come back at all? What if you come back wrong — colder, harder, something the Keeper touched too firmly and left a mark on? The other Neth treat you with a strange mixture of protectiveness and distance, as if you are not yet fully one of them — as if the first return is the real birth, and you are still waiting to be born. They are not wrong.'
+            }
+        ]
+    },
+
+    subraces: {
+        velun: {
+            id: 'velun_morthel',
+            name: 'Velun',
+            illustration: '/assets/images/races/neth_illustration.png',
+            illustrationCaption: 'A Velun arcanist in layered ghost-silk robes, silver skin catching canopy-light, dark eyes reflecting the contract-glyph that spirals around the pupil.',
+            description: 'The inheritors of the Keeper\'s authority. When a Velun speaks the pact\'s words, the universe listens — their voice carries the Keeper\'s cosmic weight, and their contracts are enforceable by the same entity that preserves their species. In exchange, their tongue is bound: they cannot lie, cannot break a spoken promise, cannot speak in hypotheticals without the pact treating it as a potential contract under review.',
+            culturalBackground: `The Velun trace their bloodline to the original scribes who presented the First Contract to the Keeper — Vaelis the Scribe's direct descendants, generation by generation, clause by clause. They run Atropolis. They write the contracts that govern Neth society. They negotiate with the Emberth, the humans, the Mimir, anyone who needs Neth preservation-craft or Neth memory-glass — and their negotiations are always, always binding.
+
+Velun children are educated in the contract-halls from the moment their silver skin stabilizes — usually around age five or six. They learn to read memory-glass before they learn to read spoken faces. They learn contract law before they learn ethics. They learn that every word they speak carries weight, and that weight accumulates — a careless promise at ten becomes a binding obligation at fifty, and the Keeper does not distinguish between a child's protestation and an adult's oath.
+
+A Velun's power is their voice. When they invoke a clause aloud — a binding, a sealing, a cosmic enforcement — the pact responds. The air thickens. The light shifts. Everyone in the room feels the Keeper's attention settle on the proceedings like a held breath. A Velun who has perfected their craft can seal a contract with a single spoken sentence that no signatory can ever break, not without consequences that ripple across generations.
+
+The flaw is inseparable from the gift. A Velun cannot lie. They cannot break a promise — any promise, no matter how small, no matter how casually made. They cannot speak in hypotheticals with impunity; the pact may treat a "what if" as a draft contract, and drafts, in Neth law, are admissible as evidence of intent. The oldest Velun speak rarely. They choose every word like it costs them something — because it does. The youngest Velun learn silence before they learn magic.
+
+They view the Kessen with a mixture of admiration and unease — the Kessen see the web behind the text, the implications the Velun cannot perceive, and that makes them useful and unpredictable. They view the Drun with something closer to horror — the Drun are what happens when a Neth decides the pact's weight is heavier than the silence, and the Velun cannot process a choice that results in legal non-existence.`,
+            statModifiers: { spirit: 3, intelligence: 2, strength: -1 },
+            traits: [
+                {
+                    id: 'bound_tongue_velun',
+                    name: 'Bound Tongue',
+                    description: 'Your voice carries the Keeper\'s weight. Your promises are binding — on yourself, on others, on the universe. But the tongue that binds is itself bound, and every word you speak is a clause the pact may choose to enforce.',
+                    level: 1,
+                    icon: 'spell_holy_innerfire',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'spirit', icon: 'spell_holy_innerfire', tags: ['binding', 'authority', 'truth', 'passive'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'velun_authority',
+                                name: 'The Keeper\'s Voice',
+                                description: 'Advantage on Persuasion checks when making a formal agreement or negotiating contract terms. The pact echoes behind your words — the person across the table can feel the weight of the entity that enforces what you negotiate.',
+                                statModifier: { stat: 'persuasion', magnitude: 1, magnitudeType: 'advantage', conditions: { negotiatingContracts: true } }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'curse',
+                        effects: [
+                            {
+                                id: 'cannot_lie_velun',
+                                name: 'The Sealed Tongue',
+                                description: 'You cannot lie. Disadvantage on Deception checks. A false statement spoken aloud causes 1d4 psychic damage as the pact registers the breach. Additionally, a spoken promise — even casual, even hypothetical — may be treated by the Keeper as a binding contract; the GM decides if and when the pact enforces a given statement.',
+                                statusEffect: { level: 'severe', description: 'Cannot lie. Disadvantage on Deception. Spoken falsehoods deal 1d4 psychic. Casual promises may bind.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'clause_of_binding_velun',
+                    name: 'Clause of Binding',
+                    description: 'Invoke the Keeper\'s authority to seal a spoken agreement with pact-magic. The target who accepts your terms is cosmically bound: if they break the promise, the Keeper exacts a price. But the clause binds you equally — if you break your own word, the price is yours to pay.',
+                    level: 1,
+                    icon: 'spell_holy_sealofrighteousness',
+                    spellType: 'ACTION',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'spirit', icon: 'spell_holy_sealofrighteousness', tags: ['binding', 'contract', 'active'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'sealed_promise',
+                                name: 'Sealed by the Keeper',
+                                description: 'Speak a single, clear promise to a willing creature within 30 feet. For 24 hours, if they knowingly break the promise, they suffer 2d6 psychic damage and disadvantage on their next d20 roll — the Keeper enforces. The promise must be specific and achievable ("you will not harm my allies in this battle," not "you will be a good person").',
+                                duration: 24, durationUnit: 'hours',
+                                conditions: { range: 30, rangeUnit: 'feet', targetMustBeWilling: true, maxDuration: '24_hours' }
+                            }
+                        ],
+                        durationValue: 24, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'binding_recoil',
+                                name: 'The Binder Bound',
+                                description: 'If you yourself break the sealed promise, you suffer the same penalty — 2d6 psychic damage and disadvantage on your next d20 roll. The Keeper does not distinguish between signatories. A contract binds all parties equally.',
+                                statusEffect: { level: 'moderate', description: 'Breaking your own sealed promise deals 2d6 psychic and imposes disadvantage on next d20 roll.' }
+                            }
+                        ],
+                        durationValue: 24, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['any'] },
+                    resourceCost: { actionPoints: 1, mana: 0, components: ['verbal'] },
+                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                },
+                {
+                    id: 'memory_glass_training_velun',
+                    name: 'Canopy-Scholar',
+                    description: 'You were trained in the Canopy-Ledger — the living archive where every Neth contract is stored in crystallized tree-sap that releases its knowledge directly into the reader\'s mind. Your education was comprehensive. Your curriculum never ended.',
+                    level: 1,
+                    icon: 'inv_misc_book_09',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'arcane', icon: 'inv_misc_book_09', tags: ['knowledge', 'archive', 'lore', 'passive'] },
+                    buffConfig: {
+                        buffType: 'proficiency',
+                        effects: [
+                            {
+                                id: 'archive_knowledge',
+                                name: 'Ledger-Trained',
+                                description: '+2 to History and Arcana checks related to the Gloom Forest, contract law, the Keeper, Neth genealogy, or the Wyrd. You have spent decades reading memory-glass in the canopy — the archive is not a place you visit. It is where you live.',
+                                statModifier: { stat: 'history', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } },
+                                additionalStatModifier: { stat: 'arcana', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'curse',
+                        effects: [
+                            {
+                                id: 'archive_maintenance',
+                                name: 'The Unfiled Record',
+                                description: 'You must spend 1 hour per long rest maintaining your personal archive-record — reviewing contracts, updating genealogies, filing new observations in memory-glass. If you miss this maintenance, lose the Canopy-Scholar bonus until you spend 1 hour catching up. Two missed days = the bonus remains lost for 2 hours after resuming.',
+                                statusEffect: { level: 'minor', description: 'Lose Canopy-Scholar bonus after 24 hours without maintenance. Recover by spending 1+ hours updating records.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                }
+            ],
+            languages: ['Common', 'Gloom-Tongue'],
+            speed: 30,
+            baseStats: { armor: 0, hp: 16, mana: 20, ap: 3, passivePerception: 14, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 1 },
+            savingThrowModifiers: { advantage: ['charm', 'disease'], disadvantage: [] }
+        },
+
+        kessen: {
+            id: 'kessen_morthel',
+            name: 'Kessen',
+            illustration: '/assets/images/races/neth_illustration.png',
+            illustrationCaption: 'A Kessen weaver in close-fitting silver-grey silks, eyes unfocused on the obligation-web, probability-glyphs visible only to them tracing the air around their fingers.',
+            description: 'The inheritors of the Keeper\'s sight. Where the Velun see the text, the Kessen see the implications — the web of obligation connecting every signatory across time, the probability-tendrils of contracts not yet signed, the future clauses that will exist if certain choices are made. They manipulate fate by tugging the right thread at the right moment. Every tug snaps something elsewhere.',
+            culturalBackground: `The Kessen are the Neth who read between the lines. Their bloodline inherited the Keeper's sight — not the authority to enforce contracts, but the perception to see what contracts *imply.* They perceive the obligation-web: a visible, shimmering network of debt-threads connecting every living thing who has ever promised anything to anyone. The web extends across time — a Kessen can see the ghost-threads of promises not yet made, the probability-tendrils of contracts that will exist if certain choices are taken.
+
+This perception makes them extraordinary gamblers, chaos-weavers, and fate-readers. A Kessen doesn't predict the future. They read the conditions that produce specific outcomes and nudge the right variable at the right moment. Their magic is not spellcasting — it is probability-manipulation, thread-tugging, clause-adjustment. They are the only Neth who can see what a contract will become before it is written.
+
+The Kessen are less centralized than the Velun. They operate from the outposts — Ironjaw Port, the Frostwood embassy, the Sundale crossroads — where the obligation-web is thinner and easier to read. They serve as trade-prognosticators, risk-assessors, and occasional saboteurs (a thread tugged in the right place can delay a shipment, cancel a deal, or destroy a reputation without leaving any evidence a Velun court would accept).
+
+The flaw is Thread-Blindness. The Kessen see obligations everywhere — including ones that don't exist yet, ones that might never exist, ones that are purely hypothetical. A Kessen can spend hours paralyzed by the implications of a single offhand remark, tracing the probability-tendrils of a promise that was never actually made. In crowded social situations, the obligation-web is overwhelming — too many threads, too many debts, too many futures all competing for attention — and the Kessen may shut down entirely.
+
+Worse: every time a Kessen manipulates probability, something elsewhere in the web snaps. The thread they tugged was connected to something — a stranger's luck sours, a distant contract defaults, a tree sickens in a forest the Kessen has never seen. They feel the break. They never know what broke. They carry that weight anyway.
+
+They view the Velun with a mixture of respect and pity — the Velun have power, but they are blind to the implications of what they wield. They view the Drun with something like awe — the Drun are invisible to the obligation-web, the only Neth the Kessen cannot read, and that absence is more compelling than any presence.`,
+            statModifiers: { agility: 2, spirit: 3, strength: -1 },
+            traits: [
+                {
+                    id: 'keepers_sight_kessen',
+                    name: 'The Keeper\'s Sight',
+                    description: 'You perceive the obligation-web — the debt-threads connecting every living thing who has promised, owed, or betrayed. Lies shimmer. Unkept promises stain the air. The web reveals everything, and the web is everywhere.',
+                    level: 1,
+                    icon: 'spell_holy_mindvision',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'psychic', secondaryElement: 'arcane', icon: 'spell_holy_mindvision', tags: ['sight', 'obligation', 'web', 'passive'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'thread_reading',
+                                name: 'The Obligation-Web',
+                                description: 'Advantage on Insight checks made to detect deception, determine a creature\'s true loyalties, or identify whether a promise is sincerely intended. You see the threads connecting speakers to their obligations — a lie is a broken thread, a sincere promise is a bright one.',
+                                statModifier: { stat: 'insight', magnitude: 1, magnitudeType: 'advantage', conditions: { detectingDeceptionOrLoyalty: true } }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'thread_blindness',
+                                name: 'Thread-Blindness',
+                                description: 'In any social situation involving more than 10 people — crowded markets, court proceedings, battle councils — the obligation-web becomes overwhelming. Disadvantage on Wisdom and Charisma checks as the threads of every promise, debt, and potential future clause compete for your attention. You see too much to focus on any one thing.',
+                                statModifier: { stat: 'wisdom', magnitude: -99, magnitudeType: 'disadvantage', conditions: { largeCrowds: true } },
+                                additionalStatModifier: { stat: 'charisma', magnitude: -99, magnitudeType: 'disadvantage', conditions: { largeCrowds: true } }
+                            },
+                            {
+                                id: 'web_presence',
+                                name: 'The Thread That Shows',
+                                description: 'Other creatures with supernatural perception — other Kessen, certain Wyrd-creatures, the Keeper itself — can see the threads connecting you to your obligations. Your loyalties, your debts, your broken promises are visible in the web to anyone who knows how to look.',
+                                statusEffect: { level: 'minor', description: 'Obligation-threads visible to supernatural perception. Your debts and loyalties can be read.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'probability_weave_kessen',
+                    name: 'Probability-Weave',
+                    description: 'Tug a thread in the obligation-web at the precise moment. The universe rearranges itself around your intervention. Something elsewhere in the web snaps — you feel it break, but you will never know what it was.',
+                    level: 1,
+                    icon: 'spell_arcane_portal',
+                    spellType: 'ACTION',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'arcane', secondaryElement: 'psychic', icon: 'spell_arcane_portal', tags: ['probability', 'fate', 'manipulation', 'active'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'fate_tug',
+                                name: 'The Right Thread',
+                                description: 'Once per short rest, when a creature within 60 feet makes an attack roll, ability check, or saving throw, you may use your reaction to grant them advantage or impose disadvantage on that roll. You are tugging the probability-thread at the critical moment — the shot hits, the persuasion lands, the save succeeds, or the reverse. The universe adjusts.',
+                                conditions: { usesPerRest: 1, restType: 'short_rest', range: 60, rangeUnit: 'feet', reaction: true }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'web_snap',
+                                name: 'The Snapped Thread',
+                                description: 'When you use Probability-Weave, the GM secretly records a "snapped thread." At a future moment — within the same session — something unlucky happens to an NPC, a piece of the environment, or a distant event. A stranger\'s luck sours. A deal collapses. A message never arrives. You never know what broke, but you felt it break. The GM will tell you when you sense the snap — the location, never the consequence.',
+                                statusEffect: { level: 'moderate', description: 'Each use of Probability-Weave snaps a thread elsewhere in the world. Consequences manifest at the GM\'s discretion.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['any'] },
+                    resourceCost: { actionPoints: 0, mana: 0, components: ['somatic'] },
+                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                },
+                {
+                    id: 'chronometric_intuition_kessen',
+                    name: 'Temporal Ledger',
+                    description: 'Time is the longest obligation-thread. A promise that will come due in twenty years is as real to you as one due tomorrow — the web does not distinguish between present debts and future ones. You perceive the approaching due-dates of promises, the imminence of consequences, the patience of creditors.',
+                    level: 1,
+                    icon: 'spell_arcane_arcanetactics',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'arcane', icon: 'spell_arcane_arcanetactics', tags: ['time', 'prediction', 'consequences', 'passive'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'temporal_reading',
+                                name: 'The Approaching Due-Date',
+                                description: '+2 to initiative rolls. You can feel the imminence of events before they arrive — the weight of a consequence about to land, the tension of a promise about to be called in. Additionally, once per long rest, you may ask the GM one question about the approaching consequences of a current situation: "What is about to catch up with us?" The GM gives a truthful but cryptic answer based on what the obligation-web reveals.',
+                                statModifier: { stat: 'initiative', magnitude: 2, magnitudeType: 'flat' },
+                                conditions: { divinationUsesPerRest: 1, restType: 'long_rest' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'temporal_paralysis',
+                                name: 'Paralysis of Foresight',
+                                description: 'When you fail the Temporal Ledger divination (ask a question and receive an unclear or ominous answer), you suffer disadvantage on your next initiative roll as the weight of approaching consequences clouds your reactions. You know something is coming. You cannot tell what.',
+                                statusEffect: { level: 'minor', description: 'Disadvantage on next initiative roll after a failed or ominous Temporal Ledger divination.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: ['verbal'] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                }
+            ],
+            languages: ['Common', 'Gloom-Tongue'],
+            speed: 30,
+            baseStats: { armor: 0, hp: 18, mana: 16, ap: 4, passivePerception: 16, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 3 },
+            savingThrowModifiers: { advantage: ['perception', 'initiative'], disadvantage: ['fear'] }
+        },
+
+        drun: {
+            id: 'drun_morthel',
+            name: 'Drun',
+            illustration: '/assets/images/races/neth_illustration.png',
+            illustrationCaption: 'A Drun outcast in simple, unmarked fabrics, silver skin slightly dulled from distance to the pact, dark eyes watching something the pact-bound cannot perceive.',
+            description: 'The inheritors of the Keeper\'s silence. Through the Severing — a traumatic fire-ritual that burns their name from every active copy of the First Contract — the Drun have removed themselves from the pact entirely. They are magic-resistant, debt-null, invisible to the Keeper\'s enforcement. They are also legally non-existent: no property, no marriage, no testimony in a Neth court. Their freedom is absolute. Their vulnerability is absolute.',
+            culturalBackground: `The Drun were not meant to exist. The original pact made no provision for Neth who might wish to leave it — the terms were binding in perpetuity, and "perpetuity," in Neth contract law, means "until the Keeper releases you, and the Keeper has never released anyone."
+
+Saren-Vel found the loophole. The pact's authority is anchored to names — the names of the original signatories, the names of their descendants, the names written in every active copy of the First Contract. A name burned from the contract is a name the pact can no longer enforce. The Severing does not destroy the person. It destroys the record of the person. What remains is a Neth who is still alive, still silver-skinned, still preserved — but no longer *bound.*
+
+The Drun live in the deep bog, near the Severing ground where Saren-Vel performed the first ritual. Their camps are small — rarely more than twenty or thirty — organized around principles that would appall any Velun: gift-economy, informal promises, trust without contract. A Drun who breaks a promise faces only the disappointment of their community, not the Keeper's enforcement. A Drun who gives a gift gives it freely, without terms, because terms require a legal framework and the Drun have burned theirs.
+
+They serve as the Neth's shadow class: couriers across dead zones where the Archive-Tether doesn't reach, assassins who leave no mycelial trace, guides through the deep bog where no Velun would survive the thinning pact-authority. They are the only Neth who can operate outside the trade network, because they carry a copy of the First Contract with their name still visible but the *connection* burned — the document acknowledges them without binding them. It is the closest thing to freedom the Neth have ever achieved.
+
+The flaw is absolute. A Drun is legally non-existent under Neth law. They cannot own property — anything they hold is, legally, abandoned. They cannot marry — no contract can bind them, and no contract will protect their partner. They cannot testify in a Neth court — their words carry no pact-weight, and a Velun judge has no mechanism to evaluate testimony that is not backed by the Keeper's authority. A Drun can be killed without legal consequence, because no contract names them as protected.
+
+They are also severed from the pact's preservation. A Drun must eat, drink, and sleep like any warm-blood. They age, slowly — the silver skin dulls over centuries, the dark eyes fade, the Stillness no longer restores them. They are the only Neth who will eventually die of old age, and none have lived long enough yet to know how long that takes.
+
+They view the Velun with something between pity and contempt — the Velun are powerful and trapped, and the Drun remember what it felt like to be both. They view the Kessen with a strange, wistful recognition — the Kessen can see the Drun in the obligation-web as *absences,* holes where a thread should be, and the Drun can feel the Kessen watching. Neither speaks of this. Neither needs to.`,
+            statModifiers: { agility: 3, intelligence: 2, spirit: -1 },
+            traits: [
+                {
+                    id: 'severed_drun',
+                    name: 'Severed',
+                    description: 'Your name has been burned from every active copy of the First Contract. The pact cannot feel you. The pact cannot bind you. The pact cannot protect you. You are the only Neth who has ever been truly alone, and you have paid the price for it.',
+                    level: 1,
+                    icon: 'spell_fire_fireball',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'fire', icon: 'spell_fire_fireball', tags: ['severance', 'freedom', 'null', 'passive'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'magic_resistance_drun',
+                                name: 'The Pact\'s Silence',
+                                description: 'Advantage on saving throws against spells and magical effects. The pact cannot reach you — magic that would bind, enforce, or compel a Velun or Kessen slides off you like water off still glass. Additionally, you are immune to the Keeper\'s enforcement mechanisms (the Debt-Revenant cannot target you, you cannot be bound by a Velun\'s Clause of Binding, and the Unraveling cannot affect you).',
+                                statModifier: { stat: 'magic_saves', magnitude: 1, magnitudeType: 'advantage' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'curse',
+                        effects: [
+                            {
+                                id: 'legal_nonexistence',
+                                name: 'Legal Non-Existence',
+                                description: 'You are not a person under Neth law. Disadvantage on all social checks made with Velun Neth, who cannot legally acknowledge your testimony, property claims, or contractual standing. Additionally, you cannot benefit from Neth social institutions (inheritance, marriage, formal trade). Among the Drun and in the wider world, this carries no penalty — but in any Neth jurisdiction, you are a ghost.',
+                                statModifier: { stat: 'social_velun', magnitude: -99, magnitudeType: 'disadvantage', conditions: { interactingWithVelunNeth: true } }
+                            },
+                            {
+                                id: 'severed_preservation',
+                                name: 'The Unpreserved Form',
+                                description: 'You no longer benefit from the pact\'s preservation. You must eat, drink, and sleep normally. You age — slowly, but irreversibly. The silver in your skin will eventually dull to grey, and you will die of age in a way no other Neth ever has. No Drun has lived long enough yet to know how long that takes.',
+                                statusEffect: { level: 'severe', description: 'Must eat, drink, and sleep normally. Ages slowly but irreversibly. Will eventually die of old age.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'silence_walker_drun',
+                    name: 'Silence-Walker',
+                    description: 'The pact cannot feel you. This means the pact cannot record you. You leave no trace in the mycelial network — no obligation-thread, no memory-echo, no trail for the Kessen to read or the Debt-Revenant to follow. You are the only Neth who can walk unseen through the web of their own civilization.',
+                    level: 1,
+                    icon: 'ability_rogue_shadowstep',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'necrotic', icon: 'ability_rogue_shadowstep', tags: ['stealth', 'silence', 'movement', 'passive'] },
+                    buffConfig: {
+                        buffType: 'custom',
+                        effects: [
+                            {
+                                id: 'untraceable',
+                                name: 'Beyond the Web',
+                                description: 'Advantage on Stealth checks. You leave no tracks on soft ground, no scent-trail, and no magical residue that can be traced. Creatures using supernatural tracking (trail-sight, mycelial perception, the obligation-web) cannot detect your passage.',
+                                statModifier: { stat: 'stealth', magnitude: 1, magnitudeType: 'advantage' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'silence_witness',
+                                name: 'The Witnessed Absence',
+                                description: 'You cannot give testimony in a Neth court. Your voice carries no pact-weight. Among the Velun, your words are legally meaningless — you cannot serve as a witness, sign a contract, or testify to anything. Among non-Neth, this carries no penalty, but among the pact-bound, you are a silence where a voice should be.',
+                                statusEffect: { level: 'moderate', description: 'Cannot serve as witness, sign contracts, or provide legal testimony within Neth jurisdictions.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'bog_survival_drun',
+                    name: 'Bog-Hardened',
+                    description: 'You survived the Severing and lived in the deep bog without the pact\'s preservation. The Gloom is not your caretaker — it is your training ground. You have learned what kills, what preserves, and what preserves just enough to keep someone alive through something that should have killed them.',
+                    level: 1,
+                    icon: 'spell_nature_resistnature',
+                    spellType: 'PASSIVE',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'nature', icon: 'spell_nature_resistnature', tags: ['survival', 'bog', 'toxin', 'passive'] },
+                    buffConfig: {
+                        buffType: 'resistance',
+                        effects: [
+                            {
+                                id: 'bog_resistance',
+                                name: 'Deep Bog Endurance',
+                                description: 'Resistance to poison damage. Advantage on Survival checks made in swamps, bogs, or the Gloom Forest. You have survived the Severing and the bog that followed — the deep wild is not your home, but it has stopped trying to kill you.',
+                                statModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { swampEnvironment: true } }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'pact_sickness',
+                                name: 'The Pact-Sickness',
+                                description: 'When you enter a location with a strong copy of the First Contract (Atropolis, Ironjaw Port), you must make a DC 12 Constitution saving throw. On a failure, you are sickened for 1 hour — nausea, headache, a sense of being watched by something that cannot quite see you. The pact\'s presence is physically uncomfortable to a severed Neth, like a sound just below hearing, like a light just beyond vision. You can push through, but you will not enjoy it.',
+                                statusEffect: { level: 'minor', description: 'DC 12 CON save when near strong First Contract copies. Failure: sickened for 1 hour.' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                }
+            ],
+            languages: ['Common', 'Gloom-Tongue'],
+            speed: 35,
+            baseStats: { armor: 0, hp: 20, mana: 10, ap: 4, passivePerception: 14, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 60, initiative: 3 },
+            savingThrowModifiers: { advantage: ['poison', 'magic'], disadvantage: ['charm'] }
+        }
+    }
 };

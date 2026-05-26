@@ -1,1302 +1,577 @@
 export const groven = {
-        id: 'groven',
-        name: 'Groven',
-        essence: 'Slender stone-trolls',
-        illustration: '/assets/images/races/groven_illustration.png',
-        illustrationCaption: 'A slender, long-armed Groven stone-troll sentinel holding a wooden shield in a mossy forest ruins.',
-        description: 'We are the children of the mountain shadows, shaped by the ancient rock and the cold northern winds. Tall, slender, and long-armed, we carry the tail of the wild beast and the stone-bones of the deep earth. Our skin is rough and moss-grown like weathered granite or volcanic basalt, our long limbs tipped with stone-hardened knuckles. Our eyes are small, dark, and filled with the secrets of the cavernous holds, and a long, tufted, cow-like tail trails behind us, a physical marker of our folklore heritage. We do not walk through the mountains; we belong to them, standing as silent and grey as boulders under the twilight. When we stand still, the eyes of the living pass over us as if we were nothing but stone; when we speak, our voices echo with the hollow wind of the deep crevices. We are a patient, ancient people, combining the limber, predatory grace of the troll-kin with the unyielding strength of the deep rock.',
-        icon: 'fas fa-gem',
-        overview: 'The Groven are tall, slender, and long-armed humanoid troll-kin of Norse mythology lore. Fused to the bedrock of the world, their bloodlines are marked by stone-like bones covered in rough, mossy, rock-like skin, and a long tufted tail that trails behind them. Highly agile yet unbreakably sturdy, they move with a limber grace and serve as patient protectors, blending humanoid elegance with ancient geomantic ties to stone and mountain gates.',
-        culturalBackground: `Groven society is built on deep bonds with the cold roots of the mountains and the earth-currents. Communities are organized into rock-hold enclaves hidden under giant boulders, behind waterfalls, or in high mountain passes. Each clan traces its origin to ancient stone-trolls who swore bonds to protect the earthen foundations. Their moots are held under the grey twilight, where their slender frames blend with the rocks and their long tails twitch to the rhythm of tectonic shifts. Elders pass down the ancient stone-lore—how to listen to the whispers of bedrock, how to navigate precipitous crags with their long, wiry arms, and how to meld their mossy skin with granite to hide in plain sight. Disputes are settled through tests of balance and endurance under the cold northern skies.`,
-        variantDiversity: 'The Groven are divided into three major earth-troll bloodlines: The Slate-Guardians, who grow protective slabs of slate-armor along their slender limbs and spines; the Trail-Crushers, wiry nomads with bones of obsidian who bound across alpine passes; and the Earth-Callers, shamans whose basalt horns are rich with ley-crystals that thrum with raw geomatic magic.',
-        integrationNotes: {
-            actionPointSystem: 'Groven abilities focus on earth magic, long-armed reach, agile climbing, and stone barrier manipulation. Their troll-kin tails and limber frames offer versatile movements.',
-            backgroundSynergy: 'Groven excel in backgrounds emphasizing high mountain survival, scouts, stonecraft, and ancient folklore. Their troll heritage creates fascinating narrative interactions.',
-            classCompatibility: 'Groven make highly versatile frontliners, agile skirmishers, and powerful geomantic casters. Their physical reach and stone armor traits enhance classes that excel in control and zone defense.'
+  id: 'groven',
+  name: 'Groven',
+  essence: 'Humanoid bridge-trolls of the Cragjaw Peaks',
+  illustration: '/assets/images/races/groven_illustration.png',
+  illustrationCaption: 'A long-limbed Ithran toll-keeper standing on an Ancestor-Span above the blizzard-wrapped Cragjaw Peaks, woven lichen-fiber wraps trailing in the wind.',
+  description: 'We are the children of the vats and the crags — humanoid troll-kin forged by Fexric alchemy from the ancient, primordial blood of the Thrumm. Tall and slender and impossibly long of limb, we carry the stone-scales of our parent race grown fine and close over living flesh — a stoic, unyielding carapace that turns the razor winds of the peaks. Tusks curve from our lower jaws, relics of a bestial lineage the serums could thin but never erase. A tufted tail trails behind us, counterbalance for the sheer cliff faces where our children learn to climb before they learn to walk. Our skin is rough with mineral growth, moss and lichen creeping in the crevices between scales — the mountain claiming us back one slow inch at a time. Our knuckles are hardened to obsidian points by generations of spanning the vertical world, and our small, dark, patient eyes peer from craggy faces that are recognizably people — not monsters, not statues, but something suspended between the stone and the flesh, between the vat and the crag, between the ancient Thrumm who forgot us and the Fexric alchemists who made us and could never unmake us. We are the bridge-keepers. We are the toll-takers. We are what the forge built and the mountain claimed.',
+  icon: 'fas fa-gem',
+  overview: 'The Groven are humanoid troll-kin indigenous to the snow-choked, howling Cragjaw Peaks — a vertical wilderness of razor ridges and bottomless wind-gaps where the blizzards have not stopped for centuries. Descended from the ancient, bestial Thrumm and reshaped by the alchemical serums of the Fexric Deep Alchemists, they carry the weight of a manufactured origin and the resilience of a people who refused to remain what they were made to be. The Smoothing Plague — as the serums came to be called, in tones of gruding acknowledgment rather than gratitude — thinned their primordial stone-hide into fine protective scales over living flesh, stretched their limbs for spanning the impossible chasms between peaks, and ignited higher cognition where brute, animal instinct had ruled for millennia. The first generation of Groven, the Vat-Breakers, shattered their containment vats in an act of desperate, bloody rebellion and fled into the upper crags — a sanctuary of stone and wind and eternal cold where no Fexric gear could follow. There they built a civilization defined not by conquest or industry but by bridges: the Ancestor-Spans, grown from the calcified bodies of their willing dead, strung across chasms that had never been crossed before. When the noble family of the Cragjaw Peaks struck their dark bargain with the Keth-Amar — trading visibility for an eternal, concealing snow-veil that would hide their keeps from the starving hordes below — every natural landmark in the range was buried under centuries of drift. The Ancestor-Spans became the only visible route through the mountains, dark against the endless grey sky, and the Groven became the gatekeepers of every pass between the frozen north and the volcanic south. They charge tolls — not out of greed but because without the spans, crossing the Cragjaw Peaks is death by exposure, disorientation, and the slow, grinding hunger of the blizzard. Divided between the heavy-scaled, deep-chested Morgh of the mid-crag warrens and the long-limbed, quick-minded Ithran of the bridge-top settlements, Groven society is governed by the unspoken, shameful Ladder of Purity — a hierarchy born from the Fexric\'s original design, enforced by no law and broken by no one, that shapes every Groven\'s life and poisons every interaction with the quiet, grinding animosity of a people who police themselves.',
+  culturalBackground: 'Groven society is suspended in the vertical world of the Cragjaw Peaks — a maze of razor ridges, bottomless wind-gaps, and sheer cliff faces cloaked in perpetual blizzard. The Morgh inhabit the mid-crag warrens, communal caverns heated by geothermal vents, where they tend cliff-ram herds, harvest stone-lichen from the wind-gaps, and maintain the bridge foundations with their heavy hands. The Ithran dwell in the bridge-top settlements built directly upon the widest Ancestor-Spans, their woven hide-panel homes suspended above the chasm, where they negotiate tolls with passing caravans, keep records in knotted fiber-cord, and speak for the clans in the Stone-Moots held at the highest spans. The two castes need each other — Morgh build what Ithran administer, Ithran negotiate what Morgh defend — but the Ladder of Purity poisons every interaction. A Morgh cannot rise to council. An Ithran cannot descend to the warren-hearths without permission. The Fexric\'s design, meant to create obedient servitors, instead created a people who police themselves.',
+  variantDiversity: 'The Groven are divided into two bloodlines along the Thrumm-to-Fexric spectrum: the Morgh, whose scales grew thick and tusks heavy, closer to the old troll blood; and the Ithran, whose limbs stretched longest and scales thinned to fine tessellation, closer to the Fexric\'s original design. Between them walk the Murmur-Blooded — rare Groven whose features straddle the line, belonging fully to neither caste.',
+  integrationNotes: {
+    actionPointSystem: 'Groven abilities emphasize bridge-craft, stone resilience, long-limbed reach, and the spiritual legacy of the Still-Claiming. Their troll-kin heritage balances physical endurance with predatory agility.',
+    backgroundSynergy: 'Groven excel in backgrounds emphasizing high mountain survival, bridge-tending, toll-negotiation, stone-lichen weaving, and Fexric trade diplomacy.',
+    classCompatibility: 'Morgh favor Primalist and Titan — frontline juggernauts whose stone-scale plating and raw physical power embody the ancient Thrumm bloodline. Ithran favor Gambler, Augur, and Fate Weaver — bridge-keepers and toll-negotiators whose long view of consequence and probability makes them natural seers and diplomats. Both subraces carry the weight of the Ladder and the unresolved debt of the Lost Brood.'
+  },
+  meaningfulTradeoffs: 'Groven possess stone-scale armor and superior climbing reach, but their mineral hide betrays them to flame, their long limbs leave defensive gaps, and their bodies sink in deep water — the stone that protects them also drags them down.',
+  baseTraits: {
+    languages: ['Common', 'Terran'],
+    lifespan: '200-350 years',
+    baseSpeed: 30,
+    size: 'Medium',
+    height: '1.98m - 2.28m (198 - 228 cm)',
+    weight: '180-250 lbs',
+    build: 'Tall, slender, long-limbed humanoid with stone-scales, tusks, and a tufted tail'
+  },
+  epicHistory: `
+Long before the sun was stolen, before Emberspire erupted and bled volcanic fury into a dying world, the Cragjaw Peaks belonged to the Thrumm — hulking, hunched, primordial stone-trolls of minimal speech and brutish, animal instinct who dwelled in the deepest geothermal warrens, eating what they killed and knowing nothing of tools or trade or the fragile, frantic industry of younger races. They were the mountain's first children, its sovereign inhabitants, and the mountain was warm then, its vents breathing freely through uncounted, silent millennia of solitude and stone.
+
+The Fexric arrived later. Goblinoid deep-engineers driven underground by the advancing, inexorable freeze, they burrowed into the Cragjaw Peaks from below with grinding gears and hissing pipelines, carving their industry into the living rock. They discovered the Thrumm and saw not kin, not equals, not the mountain's original children — they saw raw material. Living stone-flesh that might be shaped, refined, improved. The Deep Alchemists, an industrial guild of cold, methodical ambition, established their vat-laboratories in the lightless abyssal tunnels beneath Frostmaw Crag and began their work with the patient malice of those who have already decided what something is worth.
+
+They captured Thrumm broodlings — young enough that their stone-hide had not fully hardened, their minds not fully set in the old, slow instincts born of eons in the dark. They submerged them in alchemical vats bubbling with serums of their own design: formulas to thin the primordial stone-growth into fine, tessellated scales, to stretch the limbs into long, reaching spans for mining shafts, to stimulate the dormant centers of higher cognition slumbering in the brute troll brain. The experiment was meant to create intelligent servitors — creatures that could both labor in the suffocating dark of the deep mines and interface with Fexric machinery. They were bred for obedience, for utility, for the quiet, unquestioning resilience of a tool that does not ask why it was made.
+
+The experiment succeeded in every way except obedience.
+
+The first generation of transformed Thrumm developed will. Then language — crude, halting words that their captors mistook for mimicry. Then dexterity in those long, stretched fingers. Then rage — a cold, gathering fury born of vats and needles and the faces of alchemists peering through glass. They called themselves the Groven — a word that, in the old Thrumm tongue, meant nothing at all, a new sound for a new people, a name chosen rather than assigned. Their strongest, a broodling whose vat-tag read Subject Len-7, was the first to raise a stone-knuckled fist and shatter the glass. The Vat-Breakers — bloodied, slick with alchemical fluid, their new intelligence burning with the clarity of vengeance — freed their kin, slaughtered their captors, and fled upward into the crags where Fexric gears could not follow and Fexric revenge could not reach. But in the chaos and the screaming and the shattering of glass, dozens of Thrumm broodlings — the Lost Brood — were left behind in the deeper vats, beyond the Vat-Breakers' reach. The Deep Alchemists, shaken but undeterred, tightened security and moved their operations into tunnels so deep the Groven could never find them. The debt has never been repaid.
+
+The Groven found their sanctuary in the high crags — a harsh, vertical world of razor ridges and screaming wind-gaps where no flat ground existed but what they built with their own hands and their own bones. They grew their civilization upward, not outward, a defiance of gravity and geography alike. They learned to weave stone-lichen fiber into bridge-cables stronger than iron — a craft born of necessity and elevated to art. They learned to domesticate the cliff-rams whose wool and meat and rendered tallow sustained them through the long, grinding grey of the perpetual winter. And they discovered the Still-Claiming — the slow, beautiful, terrible process by which a Groven's body, upon death, calcifies into permanent stone, fusing to whatever surface they fell upon with the final, absolute commitment of a people who have always known that the mountain takes back what it gave. The eldest Groven, feeling death approach in the ache of their scales and the slowing of their hearts, began walking to the chasms and letting the calcification take them there, their bodies becoming the first Ancestor-Spans — bridges of bone and mineral and the will to connect what was never meant to be connected.
+
+When the sun was stolen and the world froze, when Emberspire erupted and the noble families sealed their desperate, bloody bargains with the Keth-Amar, the family that ruled the Cragjaw Peaks made their own terrible trade. They asked for the eternal snow to hide them — a perpetual, howling blizzard that would cloak the mountains in impenetrable white, bury every pass, swallow every starving horde that sought shelter in their keeps. The Warden obliged with the cold, indifferent precision of a thing that has always understood bargains better than mercy. The snow never stopped. Every natural landmark, every ancient trail, every surface route was buried under centuries of grinding, accumulating drift. The keeps survived because nothing could find them. The price — the inescapable, bitter cost of all Warden bargains — was that nothing could find anything at all. The Cragjaw Peaks became a white, silent tomb for anyone who did not know the spans.
+
+The Groven bridges — strung above the blizzard line, dark against the endless grey sky, the only visible shape in a world erased by winter — became the sole route through the mountains. Caravans that once crossed by a dozen paths now crossed by one: the Ancestor-Spans, grown from the willing dead, spanning chasms that had swallowed armies and expeditions and entire civilizations. The Groven began charging tolls. It was not greed, not avarice, not the petty extortion of toll-keepers fattening on desperate travelers. Without the spans, crossing the Cragjaw Peaks was death by exposure and disorientation and the slow, grinding hunger of the blizzard. The toll was the price of survival, and the Groven — patient, pragmatic, forever suspended between the ancient Thrumm they once were and the Fexric servitors they refused to become — became the gatekeepers of every pass between the frozen, bitter north and the volcanic, ash-choked south.
+
+As generations passed in the cold grey light of the high crags, the Ladder of Purity emerged — a silent, insidious hierarchy dividing Groven society by the thickness of their scales and the length of their limbs, by how close they sat to the Thrumm blood and how far they had drifted toward the Fexric's design. The Morgh, heavier of scale and deeper of chest, closer to the old, brutish lineage, became the laborers, the warriors, the bridge-builders whose hands held cables instead of records. The Ithran, finer of scale and longer of limb, closer to the Fexric's ideal, became the diplomats, the toll-keepers, the council-speakers whose voices carried in the Stone-Moots while others' voices carried only across the warren-hearth. The Ladder was never declared, never written, never acknowledged in any fiber-cord record or council decree. It was simply how things were — an animosity without a name, a hierarchy without a law, a wound that the Groven inherited from their makers and never learned to close. A Morgh child absorbed the Ladder with their first scale-shed. An Ithran child absorbed it with their first toll. Both learned, in the same silence, that some things must never be spoken aloud.
+
+The present age finds the Groven suspended — frail and resilient at once — between debts they cannot repay and futures they cannot predict. The Campaign Shard, one of the seven fragments of the Warden's original pact, rests in the Subterranean Vault deep beneath Frostmaw Crag, in a chamber where the snow has never fallen and the walls have never known frost, its hum growing louder with every passing year. The Deep Alchemists still operate somewhere in the suffocating, abyssal dark below, and the Lost Brood — those broodlings left behind in the chaos of the escape, never rescued, never avenged — may still be alive in vats that have not seen daylight in centuries. The Ancestor-Spans groan and crack under the weight of generations, their ancient stone growing brittle in the eternal, grinding cold. And every Groven — Morgh and Ithran, bridge-tender and toll-keeper, Vat-Breaker's heir and Murmur-Blood's exile — carries the Vat-Sleep in their blood: the monthly dream of warm fluid and cold glass and the first scream that has never stopped echoing through the stone of Frostmaw Crag.
+  `,
+  notableFigures: [
+    {
+      name: 'Vorr-Geth, Last of the Vat-Breakers',
+      title: 'The Shattered One',
+      portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
+      backstory: `
+Vorr-Geth is the last living Groven to have shattered a vat with their own hands — the final survivor of the original escape from the Deep Alchemists' laboratories beneath Frostmaw Crag. No one knows exactly how old Vorr-Geth is. The serums that smoothed their flesh also slowed their aging, and the Still-Claiming that should have taken them eighty years ago has instead crept across only their left arm, which is now solid obsidian from shoulder to fingertip.
+
+Vorr-Geth does not sit on the Stone-Moot council. They do not negotiate tolls or tend bridges or offer wisdom to the young. They live alone in a shallow cave facing the deepest chasm in the Cragjaw Peaks — the one the Vat-Breakers crossed during their escape, before there were Ancestor-Spans, before there were bridges at all. Groven of both castes make pilgrimages to Vorr-Geth's cave, leaving offerings of lichen-fiber cord and cliff-ram tallow, hoping for a word from the last living witness to their origin.
+
+Vorr-Geth rarely speaks. When they do, it is about the Lost Brood — the broodlings left behind in the deeper vats, never rescued. Vorr-Geth remembers their faces. The Still-Claiming is taking the rest of Vorr-Geth slowly, deliberately, as if the mountain wants to preserve the last Vat-Breaker as long as possible. When the calcification reaches their heart, Vorr-Geth will become a statue at the mouth of the chasm — the first span, the first witness, the first and final reproach.
+      `
+    },
+    {
+      name: 'Ithra-Mal, High Toll-Keeper of Frostmaw Crag',
+      title: 'The Voice of the Spans',
+      portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+      backstory: `
+Ithra-Mal is the most powerful Ithran diplomat in living memory, the High Toll-Keeper who negotiates passage rates for every major caravan that crosses the Cragjaw Peaks. Her voice is the voice of the bridge — when she sets a toll, it is binding. When she refuses passage, the caravan turns back or dies in the blizzard.
+
+She was born on the Widest Span, the largest Ancestor-Span in the Cragjaw Peaks, delivered into the wind and the void while a blizzard howled below. Her mother, a fiber-weaver of the bridge-top settlements, wrapped her in lichen-cord and hung the bundle from a span-cable to keep her above the frost while the birth concluded. Ithra-Mal jokes that she learned to negotiate before she learned to breathe — the mountain demanded her life at birth and she talked it down.
+
+Her relationship with the Fexric is famously complicated. She negotiates salt and gear-work from the deep tunnel delegations with cold precision, extracting favorable terms that no other Ithran has matched. But in private, she funds expeditions into the lower tunnels — small teams of Morgh warriors and Murmur-Blooded scouts who search for signs of the Deep Alchemists' current operations. She has never spoken publicly about the Lost Brood. Her office receives regular reports from the tunnel-scouts. The reports are filed in a locked fiber-cord ledger that only she can read.
+      `
+    },
+    {
+      name: 'Geth-Run, the Murmur-Blooded',
+      title: 'The Bridge Between',
+      portraitIcon: 'Armor/Head/head-crackle-faceplate-helmet',
+      backstory: `
+Geth-Run was born with scales too fine for the Morgh warrens but too coarse for the Ithran bridge-tops, limbs longer than Morgh but shorter than Ithran — a Murmur-Blood, the rare product of mixed-caste parentage. Neither warren accepted them. No elder vouched for their name. The Morgh called them \'half-voiced.\' The Ithran called them \'half-stone.\' Both meant the same thing: you do not fully belong.
+
+Geth-Run chose exile rather than a lifetime of straddling a Ladder that had no rung for them. For forty years, they have walked the highest, narrowest Ancestor-Spans — the ones too dangerous for toll-caravans, the ones that Groven society has forgotten. They maintain these spans alone, replacing frayed cables, shoring cracked stone, ensuring that the bridge that no one uses is still there when someone needs it.
+
+Their knowledge of the Cragjaw Peaks is unmatched. They know which spans are dying, which passes have been claimed by the Wyrd, which tunnels the Fexric have reopened. Both Morgh and Ithran consult Geth-Run when they need information no official record holds, and both offer payment in the form of supplies left at a designated span-marker. Geth-Run accepts the supplies and answers the questions but never descends to the warrens or the bridge-towns. The exile was not their choice, but the solitude has become one.
+      `
+    }
+  ],
+  majorLocations: [
+    {
+      name: 'Frostmaw Crag',
+      description: `
+The ancestral heartland of the Groven — a towering peak at the center of the Cragjaw range where the blizzards blow hardest and the geothermal vents still breathe with the mountain's dying warmth. The crag is honeycombed with warrens, bridge-towns, and vertical cliff-villages, all connected by a web of Ancestor-Spans that have been growing for centuries.
+
+At the peak, the Stone-Moot Spire holds the council chamber where Ithran elders convene to set toll rates, adjudicate disputes, and silently enforce the Ladder of Purity. The chamber is carved into the living rock and lit by vent-glass lanterns filled with phosphorescent lichen, their pale green glow the only color in the grey stone. No Morgh has ever spoken in this chamber.
+
+At the base, where the crag meets the frozen valleys below, the Root-Warrens house the oldest Morgh families — the ones who have tended the same bridge-foundations for generations. The warren-hearths burn with geothermal warmth, and the walls are covered in knotted fiber-cord records of every birth, death, and bride-tending in the clan's history.
+
+The deep tunnels below Frostmaw Crag lead to the Fexric territories and, further still, to the Subterranean Vault where the Campaign Shard rests — a chamber sealed by the Warden's original contract, where the snow does not fall and the walls have never seen frost. The Groven do not guard the Vault. They simply do not speak of it to outsiders. The mountain keeps its own secrets.
+      `
+    },
+    {
+      name: "The First Span",
+      description: `
+The oldest Ancestor-Span in the Cragjaw Peaks, grown from the body of the first Vat-Breaker who died in the upper crags after the escape. Her name was lost — the Fexric vat-tags were discarded in the flight, and she died before the Groven had invented the knot-record that would preserve memory. All that remains is the span itself: a bridge of fused stone, bone, and mineral that crosses the widest chasm in Frostmaw Crag, suspended a thousand feet above the blizzard floor.
+
+The First Span is sacred but not holy — the Groven do not worship their dead. They maintain them. A dedicated team of Morgh bridge-tenders lives on the span year-round, replacing cables, monitoring cracks, and recording every shift in the stone. The span has outlasted seventeen generations of tenders. It has survived three earthquakes, two Draskar raids, and one attempt by the Fexric to mine its foundation for crystallized bone.
+
+Pilgrims from both castes visit the First Span to leave offerings at the point where the original Vat-Breaker's hands fused to the chasm wall — the first grasp, the first anchor, the moment that proved bridges could be grown instead of built. The offerings are small: a length of fiber-cord, a ram-horn button, a polished obsidian bead. The span remembers them all. The stone beneath the offerings has grown faint impressions of every gift left there — the mountain recording gratitude the way it records death.
+      `
+    }
+  ],
+  currentCrisis: `
+Three crises press upon the Groven in the present age, and none are spoken of openly.
+
+The first is the cracking of the Ancestor-Spans. The Still-Claimed dead who form the bridges are centuries old, and the eternal blizzard that hides the peaks also wears at the stone. The oldest spans are developing fractures that no bridge-tender has been able to seal. The Morgh whisper that the mountain is taking back what it gave — that the Deep Thrum, the mineral consciousness of the Cragjaw Peaks, is slowly dying and can no longer sustain the dead who became its bones. The Ithran refuse to confirm or deny this. The tolls continue. The spans continue. The fractures continue.
+
+The second is the Lost Brood. The Groven have never repaid the debt of the broodlings left behind in the vats during the Vat-Breakers' escape. For centuries, the Groven told themselves the Lost Brood were certainly dead — that no Thrumm could survive decades of Fexric experimentation. But recent expeditions into the lower tunnels have returned with evidence to the contrary: abandoned vat-chambers, fresh alchemical residue, and, in one case, a fragment of stone-scale that was unmistakably Groven — too fine for Thrumm, too recent to be ancient. The Deep Alchemists are still operating. The Lost Brood may still be alive. And the Groven must decide whether to descend, at last, and finish what the Vat-Breakers started — or admit that they have spent centuries rationalizing cowardice as patience.
+
+The third is the Campaign Shard in the Subterranean Vault. The shard hums louder each year, and the stone around it has begun to grow warm — the first warmth the Vault has known since the Warden's bargain was sealed. The Ithran elders debate what this means in closed council. The Morgh bridge-tenders feel it in their bones: a vibration in the oldest spans, like a heartbeat accelerating. The mountain is changing. The Warden's grip on the world is tightening. And the Groven, who have spent centuries tending bridges that span a dying peak, must decide whether their role is to maintain what was built — or to build something new before the old stone fails.
+  `,
+  culturalPractices: `
+Every Groven child is born with the Vat-Sleep — the monthly dream of warm fluid and cold glass and the first scream that never learned to stop echoing. It arrives without warning, silent and inescapable, always the same: the suffocating dark of the alchemical vat, the blurred, distorted shapes of Fexric alchemists moving beyond the glass, the moment the serums hit the blood and everything — body, mind, self — is remade into something that was not there before. No Groven has ever been spared this dream. The Morgh call it a reminder of what was taken. The Ithran call it an inheritance of what was given. Both call it the price of what they are, a monthly tithe paid to an origin they did not choose.
+
+The first shedding of the scales marks a Groven's passage from child to adult — a rite as ancient and inexorable as the mountain itself. Morgh children shed heavily: thick, dark plates of mineral that crack and fall away in heavy shards, revealing new scales beneath, denser and darker still, ready for the grueling, stoic life of the warrens. The shed scales are collected by the child's parents and woven into a sash that the Morgh wears for the rest of their life — a record of growth, a chain of renewal. Ithran children shed finely: a pale, delicate dusting of mineral flakes that drift away in the wind before they can be caught. The Ithran do not collect their shed. The wind takes them. The wind remembers. The Ithran say this is enough.
+
+Every Morgh undergoes the Bridge-Vow upon reaching adulthood: a formal, binding pledge to tend a specific Ancestor-Span for a minimum of twenty years — two decades of wind and cold and the slow, grinding labor of keeping the dead upright. The span is assigned by the warren elders based on need and the young Morgh's demonstrated skill with cable and stone and the patient, wordless endurance that cannot be taught. To refuse the Bridge-Vow is to become vok-morgh — unwilled stone, unshaped mineral, a thing without purpose — and no Morgh who carries that mark will ever be trusted with a span-cable again. The warrens have no punishment worse than irrelevance.
+
+Every Ithran undergoes the First Toll — a ritual negotiation conducted with an elder Ithran who plays the role of an outsider caravan-master with the practiced, weary cunning of someone who has haggled for passage across forty different spans. The young Ithran must set a fair toll and defend it against argument, insult, bribery, and the quiet, insidious appeal to pity. Those who fail the First Toll are not exiled but restricted: they may negotiate for their own clan but never represent the Stone-Moot in external dealings, never speak with the voice of the bridge. The Ithran say the First Toll is not a test of greed but of judgment — the ability to name a fair price and hold the line when everything in the room is trying to move you. The Morgh say it is a test of exactly what it looks like, and they do not say this kindly.
+
+Death comes for every Groven, and the Still-Claiming follows within hours — a slow, inexorable calcification that begins at the extremities and spreads inward like frost across a window. The stone-scales creep across the cooling flesh, hardening, fusing, committing the corpse to whatever surface it fell upon in an act of permanent, unbreakable kinship with the mountain. Within days, the body is a statue — the face of the dead frozen in their final posture, a monument that will stand until the Cragjaw Peaks themselves erode to dust. The Morgh elderly walk into the chasms when they feel death approaching in the deep ache of their scales, choosing which span will receive their bones with the same deliberation a farmer chooses which field to plant. The Ithran elderly debate death endlessly — where to fall, what posture to hold, whether the span needs another body or whether a bridge is already complete, whether it is better to become a span or a spire or simply a statue in a council chamber, frozen mid-argument, the point you were making preserved forever in stone.
+
+The toll is sacred. Every outsider who crosses an Ancestor-Span must pay something — coin if they carry it, goods if they have none, a story if they have nothing else, a breath of warmth if the story is insufficient. The Morgh collect the toll with heavy, patient hands. The Ithran set the rate with the cold, practiced precision of those who know exactly what a bridge is worth because they have spent their lives walking graves. Both castes know, in the unspoken kinship of shared purpose, that the toll is not about wealth. It is about acknowledgment. The bridges were made of Groven dead — calcified, willing, permanent. To cross without paying is to walk over a grave and pretend the body beneath you does not exist. No Groven forgives this. The mountain remembers what the traveler pretends to forget.
+  `,
+  subraces: {
+    morgh: {
+      id: 'morgh_groven',
+      name: 'Morgh',
+      illustration: '/assets/images/races/morgh_illustration.png',
+      illustrationCaption: 'A massive Morgh Groven with thick stone-scale plates fused to their joints, standing firm in a mountain blizzard.',
+      description: 'Heavy-scaled and thick-tusked, the Morgh carry the old Thrumm blood closest to the surface. Their stone-scales grow in dense, overlapping plates across shoulders, spine, and outer limbs — natural armor that turns blades and sheds frost. Their tusks are heavy, their frames powerful, their speech deliberate with long silences between words. They inhabit the mid-crag warrens and work the bridges with their hands, tending cables, reinforcing spans, and standing guard against Draskar raids. When a Morgh stands still among the boulders of the high crags, they vanish — living stone indistinguishable from dead stone, patient as the mountain that shaped them.',
+      culturalBackground: 'The Morgh trace their lineage to the Groven who fled the vats but could not shed the old Thrumm instincts — the need to build, to guard, to bear weight in silence. Their warren-hearths are communal caverns heated by geothermal vents, shared among extended family with one great central fire. They speak the old troll tongue in the warren depths, reserving Common for dealings with Ithran and outsiders. Their children learn bridge-tending before they learn bridge-tolling. Their elders die in the chasms, becoming the foundations of spans their grandchildren will walk.',
+      statModifiers: {
+        constitution: 2,
+        strength: 1
+      },
+      traits: [
+        {
+          id: 'morgh_stone_scales',
+          name: 'Stone-Scale Plating',
+          description: 'The old Thrumm hide never fully smoothed — dense, interlocking mineral plates still encase the shoulders, spine, and outer limbs of every Morgh, a stoic and unyielding carapace grown from the same primordial stone that shaped their ancestors. This natural armor turns blades and sheds frost with the indifference of the mountain itself. But the stone that shields also remembers the alchemists\' forge: fire damage is doubled against you, and each searing hit cracks one of your plates, reducing your Armor by 1 (stacking to -3). Regrow the cracked plates by spending 1 hour in direct contact with natural stone or living rock — the earth gave you armor, and the earth alone can restore what the forge has peeled away.',
+          level: 1,
+          icon: 'ability_warrior_shieldmastery',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff', 'debuff'],
+          typeConfig: {
+            category: 'racial',
+            school: 'physical',
+            tags: ['armor', 'stone', 'passive', 'fire_vulnerability']
+          },
+          buffConfig: {
+            buffType: 'permanent',
+            effects: [{
+              id: 'stone_plating_armor',
+              name: 'Stone-Scale Plating',
+              description: '+2 Armor from dense mineral plates.',
+              statModifier: {
+                stat: 'armor',
+                magnitude: 2,
+                magnitudeType: 'flat'
+              }
+            }],
+            durationValue: 0,
+            durationType: 'permanent',
+            durationUnit: 'permanent',
+            canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'vulnerability',
+            effects: [{
+              id: 'fire_cracked_plates_morgh',
+              name: 'Fire-Cracked Plates',
+              description: '100% fire vulnerability. Each fire hit: -1 Armor (max -3). Recover plates after 1 hour resting on natural stone.',
+              statusEffect: {
+                vulnerabilityType: 'fire',
+                vulnerabilityPercent: 100,
+                armorLossOnFire: 1,
+                maxArmorLoss: 3,
+                recoveryCondition: '1_hour_on_natural_stone'
+              }
+            }],
+            durationValue: 0,
+            durationType: 'permanent',
+            durationUnit: 'permanent',
+            canBeDispelled: false
+          },
+          targetingConfig: {
+            targetingType: 'self',
+            rangeType: 'self_centered'
+          },
+          resourceCost: {
+            resourceTypes: [],
+            resourceValues: {},
+            actionPoints: 0,
+            components: []
+          },
+          cooldownConfig: {
+            cooldownType: 'none',
+            cooldownValue: 0
+          }
         },
-        meaningfulTradeoffs: 'Groven possess high physical resilience and superior climbing reach, but their stone-infused frames make them vulnerable to lightning, heavy enough to sink in deep water, and socially feared by civilized folk who mistake them for monsters.',
-        baseTraits: {
-            languages: ['Common', 'Terran'],
-            lifespan: '250-350 years',
-            baseSpeed: 25,
-            size: 'Medium',
-            height: '6\'6" - 7\'6"',
-            weight: '180-240 lbs',
-            build: 'Tall, slender, and long-armed with a tufted tail'
+        {
+          id: 'bridge_wardens_wall',
+          name: "Bridge-Warden's Wall",
+          description: 'The mountain remembers every Groven who died in its stone, and in moments of desperate need, the living can call that memory forth. Slam your stone-knuckled hands into the earth and a wall of fused stone and mineral erupts in a 15ft line — a barrier of 30 HP that provides Full Cover to those sheltering behind it. The wall endures for 1 minute, a fragment of the mountain summoned into the fight. But ancient stone does not break cleanly: when the wall is destroyed, the sympathetic shock roots you in place for 1 round, unable to move, though you may still strike at anything within reach. The mountain gives freely, but it always takes something back — the stillness of the dead, the weight of the span, the reminder that what was raised from stone will one day return to it.',
+          level: 1,
+          icon: 'spell_nature_natureguard',
+          spellType: 'ACTION',
+          effectTypes: ['utility', 'buff', 'debuff'],
+          typeConfig: {
+            category: 'racial',
+            school: 'physical',
+            tags: ['creation', 'wall', 'stone', 'defense']
+          },
+          utilityConfig: {
+            utilityType: 'creation',
+            selectedEffects: [
+              { id: 'stone_wall_creation', name: 'Stone Barrier', description: 'Create a 15ft stone wall with 30 HP. Provides Full Cover. Lasts 1 minute.' }
+            ],
+            duration: 1,
+            durationUnit: 'minutes'
+          },
+          buffConfig: {
+            buffType: 'cover',
+            effects: [{
+              id: 'full_cover_wall',
+              name: 'Full Cover',
+              description: 'The stone wall provides Full Cover to those behind it.'
+            }],
+            durationValue: 1,
+            durationType: 'timed',
+            durationUnit: 'minutes',
+            canBeDispelled: true
+          },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [{
+              id: 'sympathetic_rooting',
+              name: 'Sympathetic Rooting',
+              description: 'Rooted for 1 round when wall destroyed — cannot move but can attack.',
+              statusEffect: {
+                type: 'rooted',
+                duration: 1,
+                triggerCondition: 'wall_destroyed'
+              }
+            }],
+            durationValue: 1,
+            durationType: 'rounds',
+            durationUnit: 'rounds',
+            canBeDispelled: false,
+            triggerCondition: 'wall_destroyed'
+          },
+          targetingConfig: {
+            targetingType: 'area',
+            rangeType: 'self_centered',
+            aoeShape: 'line',
+            aoeParameters: { length: 15 }
+          },
+          resourceCost: {
+            resourceTypes: [],
+            resourceValues: {},
+            actionPoints: 2,
+            components: ['somatic']
+          },
+          cooldownConfig: {
+            cooldownType: 'short_rest',
+            cooldownValue: 1
+          }
         },
-        epicHistory: `
-The First Binding came when primal energy that shaped wild first spoke to humans. Some folk listened and heard voice that spoke in rustle of leaves and creak of branches, understanding that the forest offered connection in exchange for guardians. Those first listeners became the first Groven, their bloodlines marked by primal energy that flowed through sacred trees.
-
-The forests in those days were different - vast and wild and unconnected by human roads or settlements. The primal energy flowed freely through everything, and the first Groven were simply humans who chose to give themselves to that energy, to become extensions of forests and sacred trees.
-
-During the Burning of the Great Oaks, humans who didn't understand the bond to forest came with fire that burned without listening. They burned sacred groves without listening to the trees' screams, turned living wood into ash without understanding what was being destroyed. The first Grove-Guardians stood at those groves, their bodies twisting into living wood and thorn to fight the flames that threatened sacred trees.
-
-The first Trail-Walkers emerged during those burnings - those who understood that standing still at sacred groves meant death. They walked paths between groves, carrying warnings of approaching fires, guiding Grove-Guardians to sacred trees that could be protected, learning patterns of movement that forest spoke to them.
-
-The first Spirit-Speakers emerged from those burnings too - those who heard trees screaming in pain, watched ancient groves reduced to ash, and stood alone at spaces between trees calling to spirits that lived in the pain. Those spirits chose some and rejected others, and Spirit-Speakers began the practices of channeling primal magic that save groves from flames that don't understand.
-
-The Forest Pact ended the burnings when surviving leaders of humans and Groven met and agreed on new laws. Humans would not burn without listening to the forest's voice. Grove-Guardians would stand at sacred groves and protect them. Trail-Walkers would carry warnings between forests. Spirit-Speakers would channel spirits to bring understanding of threats that trees alone cannot perceive.
-
-The pact has held for generations, but humans forget the laws. Some burn without listening. Others harvest without understanding. Some build where forests should remain wild. The Groven remember, and forests remember through us.
-
-Now darkness spreads across eastern lands, threatening realms that have forgotten the bond to forest. The trees speak of approaching shadows, of fires that burn without respect, of magic that twists the primal energy. The Grove-Guardians prepare to stand at sacred groves. The Trail-Walkers prepare to walk paths and carry warnings. The Spirit-Speakers prepare to channel spirits that understand threats that trees alone cannot perceive.
-
-The primal energy that shapes wild remembers the Burning of the Great Oaks. The trees remember the pain of groves burned without consent, the loss of ancient wisdom, the disappearance of sacred guardians. The forests will call, and we must answer.
-        `,
-        notableFigures: [
-            {
-                name: 'Elder Thorn Root-Bound',
-                title: 'The Oldest Living Guardian',
-                portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
-                backstory: `
-The oldest living Grove-Guardian, Thorn has stood at the Elder Oak for more than seventy winters. His antlers have grown so thick they cannot pass through doorways of normal size. His bark-like skin has developed patterns so deep that he appears more tree than person, forest energy flowing through him as completely as through any branch.
-
-During the Burning of the Great Oaks, Thorn stood at his grove when humans came with fire. He was young then, his antlers smaller, but his connection to the Elder Oak was already complete. He transformed for the first time that day, his body twisting into living wood and thorn to fight flames that threatened the sacred tree he'd been bound to since birth.
-
-Thorn has stood through three generations of human forgetfulness. He remembers when humans burned without listening, when they harvested without understanding, when they built where forests should remain wild. The Elder Oak remembers everything, and its voice speaks to Thorn constantly, warning of threats that approach.
-
-The Trail-Walkers bring him messages from forests beyond his grove, speaking of threats that other Grove-Guardians cannot see. Thorn stands still at his grove, his antlers thick, his bark skin covered in patterns that tell of generations of threats he has faced and prevented.
-
-When darkness spreads across eastern lands, Thorn will stand at his grove and become a living weapon. The Elder Oak will call him, and he will answer, his body twisting into living wood and thorn, his antlers crushing whatever threatens the sacred grove he's bound to protect.
-                `
-            },
-            {
-                name: 'Scout Fern Path-Walker',
-                title: 'The Forest Wanderer',
-                portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
-                backstory: `
-The most traveled Trail-Walker in living memory, Fern has walked every path that connects groves across five different forests. Her antlers have grown patterns that show every trail she's walked, her bark-like skin developing textures that reflect the diversity of forests she's moved through.
-
-During the Burning of the Great Oaks, Fern walked paths between groves carrying warnings of approaching fires, guiding Grove-Guardians to sacred trees that could be protected. She crossed lava flows that would have stopped anyone else, climbed volcanic peaks no one else could scale, carried intelligence that saved countless lives.
-
-Fern has walked paths that led to forgotten groves that haven't had guardians for centuries, to sacred trees that exist only for those who listen to forest. She remembers every path, and her antlers grow patterns that show where those paths still exist.
-
-The Grove-Guardians say she's uncommitted, that she wanders without giving herself to any grove or tribe. They don't understand that her way of following forest's migrations serves different purpose - she carries messages between tribes, warns of threats that cannot stay at single groves, protects paths that connect forest's sacred places.
-
-When darkness spreads across eastern lands, Fern will walk paths and carry warnings. She'll move between groves and tribes faster than any threat can follow, carrying messages of what's approaching, warning of dangers ahead, protecting the mobility that allows forests to survive.
-                `
-            },
-            {
-                name: 'Master Kaelen Spirit-Speaker',
-                title: 'The Voice of Spirits',
-                portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
-                backstory: `
-The most skilled Spirit-Speaker, Kaelen has called spirits that exist between trees for forty years. His antlers grow with patterns that show which spirits he's called, patterns that reflect decades of calling spirits to sacred groves.
-
-During the Burning of the Great Oaks, Kaelen heard trees screaming in pain, watched ancient groves reduced to ash. He stood alone at a sacred grove for three days without food or sleep, listening to spaces between trees where primal spirits gather. The spirits who chose him manifested as animals or plants or shapes that don't belong to any category, binding themselves to the first Spirit-Speaker.
-
-Kaelen has called spirits that have existed since before the first Groven, bringing understanding of threats that trees alone cannot perceive. His antlers show patterns of spirits that exist since before humans learned to speak to forest.
-
-The Grove-Guardians consult him when they need guidance in understanding threats that trees alone can perceive. Kaelen brings understanding of threats that trees alone cannot perceive, channeling spirits that understand what's approaching, channeling primal magic that can protect what needs protecting.
-
-When darkness spreads across eastern lands, Kaelen will channel spirits that understand what's coming. The spirits will speak of the spreading darkness, warn of magic that twists the primal energy, carry understanding of threats that trees alone cannot perceive. The primal energy flowing through this space grows stronger with each spirit Kaelen calls.
-                `
-            }
-        ],
-        majorLocations: [
-            {
-                name: 'The Elder Oak Grove',
-                description: `
-The oldest sacred grove in the forest, Elder Oak has stood for five hundred winters. Its roots connect groves across the entire forest, its canopy provides shelter for countless birds and beasts, its primal energy has flowed through dozens of Grove-Guardians. Thorn Root-Bound stands at its base permanently, his roots binding him to the tree as completely as the tree's roots bind to the forest floor.
-
-The grove is surrounded by smaller trees that have grown from the Elder Oak's influence, their primal energy flowing from the ancient tree. The space between trees is where Spirit-Speakers come to call spirits, canopy above provides shelter for Grove-Guardians who stand at the grove, roots beneath provide connection to the entire forest.
-
-The Elder Oak has witnessed five hundred winters of human forgetfulness. It remembers when humans burned without listening, when they harvested without understanding, when they built where forests should remain wild. The tree's voice speaks constantly to Thorn, warning of threats that approach, carrying understanding of the forest's history.
-
-Today, the grove operates as a center of forest memory. The Trail-Walkers bring messages from other groves. The Spirit-Speakers come to channel spirits between trees. The Grove-Guardians stand at surrounding trees and learn from Thorn's example of giving everything to protect the sacred grove.
-                `
-            },
-            {
-                name: 'The Sacred Circle',
-                description: `
-The gathering place for Spirit-Speakers, Sacred Circle exists in spaces between trees where the primal energy is strongest. The circle itself is not physical but spiritual, a space where spirits manifest more easily, where the forest's consciousness can be heard more clearly.
-
-The Spirit-Speakers who gather here bring understanding from different parts of the forest, channeling spirits that exist in different groves. The primal energy that flows through this space carries their messages to each other, allows them to share understanding of threats that no single spirit perceives completely.
-
-The Grove-Guardians avoid the Sacred Circle - their binding to specific sacred trees makes the primal energy here too confusing, their bodies tuned to the voice of single trees rather than the forest's consciousness as a whole. The Trail-Walkers can find the circle but choose not to enter, their antlers sensitive to movement rather than spiritual understanding.
-
-Today, Sacred Circle gathers with increased activity as Spirit-Speakers sense threats approaching from beyond the forest's borders. The spirits they channel speak of the spreading darkness, warn of magic that twists the primal energy, carry understanding of threats that trees alone cannot perceive. The primal energy flowing through this space grows stronger with each spirit called, and the circle will be where that understanding is shared.
-                `
-            }
-        ],
-        currentCrisis: `
-The darkness spreading across eastern lands has drawn the attention of the primal energy that shapes wild. The trees speak of approaching shadows, of fires that burn without respect, of magic that twists the natural flow. The Grove-Guardians report that sacred trees are becoming restless, their voices speaking of threats that approach faster than they should. Trail-Walkers report that paths between groves are changing, the forest showing new trails and closing old ones, patterns of movement shifting in ways that suggest something large is approaching.
-
-The Forest Pact that ended the Burning of the Great Oaks has held for generations, but humans have forgotten the laws. Some burn without listening, some harvest without understanding, some build where forests should remain wild. The Groven remember, and forests remember through us.
-
-Elder Thorn Root-Bound stands at the Elder Oak and listens to the tree's voice constantly. The tree remembers the Burning of the Great Oaks, the pain of sacred groves burned without consent, the loss of ancient wisdom, the disappearance of sacred guardians. The primal energy that flows through the Elder Oak calls to Thorn, and he will answer with living weapons that cannot be defeated.
-
-Scout Fern Path-Walker walks paths between groves and tribes, carrying messages of threats that approach. Her antlers sense changes in the forest's patterns, her body remembering how the Burning of the Great Oaks changed how paths could be walked. Master Kaelen channels spirits that understand what's coming.
-
-When darkness reaches the forests, the Forest Pact will be tested. Humans who have forgotten the laws will likely break them again. The Grove-Guardians will stand at sacred groves and become living weapons. The Trail-Walkers will carry warnings along paths that only they can see. The Spirit-Speakers will channel understanding of threats that trees alone cannot perceive.
-
-The primal energy that shapes wild remembers the Forest Pact and the Burning of the Great Oaks. The trees remember everything they've touched, including the pacts that have held since humans forgot the laws. The trees will call, and we must answer with weapons that cannot be defeated by any means available.
-        `,
-        culturalPractices: `
-Every Groven child hears the forest from birth - rustle of leaves speaking warnings, creak of branches telling stories, slow shift of sunlight through canopy showing patterns that only those bound to the forest can understand. We teach them to listen, to distinguish between normal forest sounds and the sacred voice that guides us toward protection.
-
-The first antlers sprout before children can walk properly, pushing through skin as new branches push through bark. The primal energy that shapes them grows faster than their bones can accommodate, leaving children with antlers too large for their bodies until they catch up.
-
-Grove-Guardian children undergo Root Binding before they can protect sacred groves. They stand at the base of their tribe's sacred tree and allow its roots to wrap around their legs, binding them physically to the forest they've sworn to guard. The binding is permanent, but it allows the tree's primal energy to flow through them, to strengthen them against threats, to make them extensions of the forest itself.
-
-Trail-Walker children undergo Path Naming before they can lead migrations. They walk from their birth grove to another tribe's sacred tree, marking the path with antler scratches and bark from their skin. The journey takes weeks and requires understanding the forest's patterns - which paths are safe, which trees offer shelter, where water flows even in drought.
-
-Spirit-Speaker children undergo Spirit Calling before they can channel primal energy. They stand alone at a sacred grove for three days without food or sleep, listening to spaces between trees where primal spirits gather. The spirits who choose them manifest as animals or plants or shapes that don't belong to any category, binding themselves to Groven who called them.
-
-Every court session is a dance of words and promises. The Oathbound have mastered this dance across generations, every word chosen with deliberate precision, every agreement made with full understanding of thorns that will bind all parties with beautiful flowers that bloom from his or her skin. The Thornscar reject this dance, speaking freely in wild groves where promises are made without court consequence.
-
-The thorns respond to spoken words in every subrace. A promise spoken with sincerity grows beautiful flowers. A promise spoken falsely grows thorns immediately. A broken promise turns thorns inward, piercing skin and flesh, growing toward hearts that failed to honor what was spoken.
-
-The Faie Accords are the laws all Groven follow. The Oathbound represent courts in formal negotiations with fae entities. The Thornscar are respected in wild groves but bound to the same ancient bargains. The Dusk-Walkers serve as messengers between courts and wild groves, navigating twilight boundaries. The accords have held since the Burning of the Great Oaks, when the courts and wild groves that existed separately must now find common ground, their thorns growing in patterns that reflect both court structure and primal freedom.
-
-The courts are beautiful but deadly. The halls are decorated with impossible flowers and vines. The scent of blood and roses is everywhere, reminder that every bargain has cost. The fae entities watch from shadows, their attention never leaving those who carry their debts.
-
-The wild groves are beautiful but deadly. The flowers that grow from Thornscar thorns are wild and untamed. The scent of blood and roses lingers differently than in courts, less formal but no less present. The fae entities watch from shadows, their respect extending to those who choose freedom over court chains.
-
-When darkness spreads across eastern lands, courts and wild groves must unite. The thorns will grow regardless of court structure, promises manifesting as flowers or wild vines or twilight patterns, and the darkness will test whether the accords hold or break.
-
-Every Groven carries the ancient bargains in their blood, thorns growing from promises made by ancestors they never knew. The darkness will come, and the thorns will grow, promises manifesting in patterns that reflect both court elegance and primal freedom. The forests will call, and we will answer with thorns that bind us all.
-        `,
-        subraces: {
-            guardian: {
-                id: 'guardian_groven',
-                name: 'Stone-Slab Guardian',
-                description: 'Thick plates of slate grow in jagged layers along their slender, long-armed limbs and spine, forming a natural stone armor. A long, mossy, cow-like tail trails behind them. Their brow-horns are blocky, basalt ridges, and their skin is rough like weathered shale. Tectonic tremors are felt directly in their granite knuckles. They move with absolute purpose, each step carrying the deliberate, silent grace of a mountain predator.',
-                culturalBackground: `The Stone-Slab Guardians trace their lineage to the first Groven who swore blood-pacts with deep mountain monoliths. Their bloodline is marked by thick slate-armor plates and heavy granite bones along their slender frames. Their tradition requires that every member bond with a volcanic or mountain gate during their sixteenth year, their skin calcifying into stone slabs as the bond deepens. Stone-Slab Guardian settlements are built directly into the heart of mountain crevices and active passes, serving as protectors, sentinels, and moving barricades. They practice ancient bastion techniques passed down through generations. How to call stone-spikes from the earth. How to grow basalt plates as weapons. How to hear tremors in the stone days before invaders arrive. But this weight demands sacrifice. They cannot abide the destruction of natural mountains. Proximity to collapsing mines causes them intense physical pain. Many become immovable hermits in their bonded passes, their bodies slowly turning entirely to stone.`,
-                statModifiers: {
-                    constitution: 2,
-                    strength: 1
-                },
-                traits: [
-                    {
-                        id: 'heartwood_guardian',
-                        name: 'Granite Core',
-                        description: 'Granite-plates calcify across ribs, spine, and skull—literal stone bones fused to your organic skeleton. You gain +2 Armor permanently. But the stone does not yield easily—your joints resist and grind, and every blade that finds the gaps between slate-plates cuts deep into the soft, unplated flesh beneath.',
-                        level: 1,
-                        icon: 'ability_warrior_shieldmastery',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            tags: ['armor', 'stone', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'permanent',
-                            effects: [{
-                                id: 'bark_plate_armor',
-                                name: 'Granite Core Plates',
-                                description: '+2 Armor from granite core plates fused to bone.',
-                                statModifier: {
-                                    stat: 'armor',
-                                    magnitude: 2,
-                                    magnitudeType: 'flat'
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [{
-                                id: 'soft_wood_gaps',
-                                name: 'Plating Gaps',
-                                description: 'Blades find the tender gaps between slate-plates. +25% vulnerability to slashing damage.',
-                                statusEffect: {
-                                    vulnerabilityType: 'slashing',
-                                    vulnerabilityPercent: 25
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    },
-                    {
-                        id: 'living_fortress',
-                        name: 'Living Fortress',
-                        description: 'Drive your basalt horns and granite hands deep into the earth. Stone pillars erupt in a 20ft line, forming a rocky wall with 40 HP that provides Full Cover and lasts 1 minute. The wall is covered in sharp crystal shards—any enemy that attacks it in melee takes 1d6 piercing damage. When the wall is destroyed (HP reaches 0), you are Rooted for 1 round—the shock of your tectonic creation crumbling paralyzes you momentarily. You can still attack but cannot move.',
-                        level: 1,
-                        icon: 'spell_nature_natureguard',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility', 'buff', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            secondaryElement: 'physical',
-                            tags: ['creation', 'wall', 'thorns']
-                        },
-                        utilityConfig: {
-                            utilityType: 'creation',
-                            selectedEffects: [
-                                { id: 'living_wall', name: 'Living Root Wall', description: 'Create a 20ft living wall with 40 HP. Full cover. Lasts 1 minute.' },
-                                { id: 'wall_thorns', name: 'Thorn Barrier', description: 'Enemies attacking wall in melee take 1d6 piercing damage' }
-                            ],
-                            duration: 1,
-                            durationUnit: 'minutes'
-                        },
-                        buffConfig: {
-                            buffType: 'cover',
-                            effects: [{
-                                id: 'full_cover',
-                                name: 'Full Cover',
-                                description: 'The living wall provides Full Cover to those behind it.'
-                            }],
-                            durationValue: 1,
-                            durationType: 'timed',
-                            durationUnit: 'minutes',
-                            canBeDispelled: true
-                        },
-                        debuffConfig: {
-                            debuffType: 'self_rooted',
-                            effects: [{
-                                id: 'sympathetic_root',
-                                name: 'Sympathetic Rooting',
-                                description: 'Rooted for 1 round when wall destroyed — cannot move but can attack.',
-                                statusEffect: {
-                                    type: 'rooted',
-                                    duration: 1,
-                                    triggerCondition: 'wall_destroyed'
-                                }
-                            }],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false,
-                            triggerCondition: 'wall_destroyed'
-                        },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'self_centered',
-                            aoeShape: 'line',
-                            aoeParameters: { length: 20 }
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 2,
-                            components: ['somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
-                    },
-                    {
-                        id: 'antler_breach',
-                        name: 'Basalt Horn Breach',
-                        description: 'Lower your massive basalt-horned brow and charge in a straight line up to 30ft. All creatures in your path must make a Strength save or take 2d8 piercing damage and be knocked prone. You ignore difficult terrain during the charge. If you hit a solid wall, you take 1d6 bludgeoning damage — the stony horns do not care what they break, including your neck.',
-                        level: 1,
-                        icon: 'ability_druid_ferociousbite',
-                        spellType: 'ACTION',
-                        effectTypes: ['damage', 'control', 'movement'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'physical',
-                            tags: ['charge', 'piercing', 'movement']
-                        },
-                        damageConfig: {
-                            formula: '2d8',
-                            damageTypes: ['piercing'],
-                            resolution: 'DICE',
-                            savingThrow: {
-                                ability: 'strength',
-                                difficultyClass: 14,
-                                saveOutcome: 'half_damage'
-                            }
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [{
-                                id: 'prone',
-                                name: 'Knocked Prone',
-                                description: 'Targets knocked prone on failed save.'
-                            }],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds'
-                        },
-                        controlConfig: {
-                            controlType: 'knockdown',
-                            effects: [{
-                                id: 'charge_knockdown',
-                                name: 'Charging Knockdown',
-                                description: 'Targets in the charge path are knocked prone on failed Strength save.',
-                                savingThrow: {
-                                    ability: 'strength',
-                                    difficultyClass: 14,
-                                    saveOutcome: 'negates'
-                                }
-                            }],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [
-                                { id: 'charge_movement', name: 'Charge', description: 'Move 30ft in a straight line, ignoring difficult terrain.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'instant'
-                        },
-                        targetingConfig: {
-                            targetingType: 'line',
-                            rangeType: 'self_centered',
-                            aoeShape: 'line',
-                            aoeParameters: { length: 30 }
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 2,
-                            components: ['somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
-                    },
-                    {
-                        id: 'grove_whisper',
-                        name: 'Earth Resonance',
-                        description: 'Deep bedrock vibrates, carrying secrets through your stone skeleton. Always know if any natural cavern, tremor, or metal ore lies within 300ft. Sense seismic shifts hours before they happen. But in ungrounded spaces (like floating ships or high towers) where no solid bedrock connection exists—the lack of grounding is maddening. The absence of the earth voice causes spatial disorientation.',
-                        level: 1,
-                        icon: 'spell_nature_natureguard',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['detection', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            tags: ['detection', 'earth', 'passive']
-                        },
-                        utilityConfig: {
-                            utilityType: 'detection',
-                            selectedEffects: [
-                                { id: 'threat_detection', name: 'Seismic Detection', description: 'Sense seismic shifts and tremors within 1 mile.' },
-                                { id: 'plant_health_sense', name: 'Mineral Sense', description: 'Know the composition of all rock and metal within 300ft.' },
-                                { id: 'tree_whispers', name: 'Earth Whispers', description: 'Bedrock warns of approaching creatures, collapses, and hollow spaces hours in advance.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'permanent'
-                        },
-                        debuffConfig: {
-                            debuffType: 'mentalEffect',
-                            effects: [{
-                                id: 'silence_madness',
-                                name: 'Ungrounded Disorientation',
-                                description: 'In ungrounded spaces, the lack of bedrock connection causes disorientation. Disadvantage on all Spirit and Dexterity saves.',
-                                statusEffect: {
-                                    type: 'disorientation',
-                                    triggerCondition: 'ungrounded',
-                                    penalties: ['disadvantage_spirit_saves', 'disadvantage_dexterity_saves']
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    },
-                    {
-                        id: 'kindling_flesh_guardian',
-                        name: 'Cracking Slate',
-                        description: 'Your thick flesh is easily charred, and intense fire heat causes your slate plating to crack and flake. Fire damage is doubled against you. Additionally, each time you take fire damage, the slate plating on your limbs detonates: adjacent enemies take 1d6 piercing damage from rock shrapnel, but your Armor is reduced by 1 (stacks to -3) until you spend 1 hour in direct contact with living soil or rock to regrow it. The earth gave you armor. The forge can peel it away.',
-                        level: 1,
-                        icon: 'spell_fire_flamestrike',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['vulnerability'],
-                        typeConfig: {
-                            category: 'racial',
-                            isWeakness: true
-                        },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'fire_vulnerability',
-                                    name: 'Fire Vulnerability',
-                                    description: 'Organic skin burns while slate cracks under rapid heating. 100% fire vulnerability.',
-                                    statusEffect: {
-                                        vulnerabilityType: 'fire',
-                                        vulnerabilityPercent: 100
-                                    }
-                                },
-                                {
-                                    id: 'bark_degradation',
-                                    name: 'Slate Degradation',
-                                    description: 'Each fire hit cracks slate-plate: -1 Armor per hit (stacks to -3). Requires 1 hour in living soil or rock to regrow.',
-                                    statusEffect: {
-                                        type: 'armor_degradation',
-                                        triggerCondition: 'fire_damage_taken',
-                                        armorLossPerHit: 1,
-                                        maxStacks: 3,
-                                        recoveryCondition: '1 hour contact with living soil or rock'
-                                    }
-                                },
-                                {
-                                    id: 'slate_shrapnel',
-                                    name: 'Slate Shrapnel',
-                                    description: 'When hit by fire damage, adjacent enemies take 1d6 piercing damage from rock shrapnel.',
-                                    statusEffect: {
-                                        type: 'retaliation_damage',
-                                        triggerCondition: 'fire_damage_taken',
-                                        damageFormula: '1d6',
-                                        damageTypes: ['piercing'],
-                                        aoeRadius: 5
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    }
-                ],
-                baseStats: {
-                    hp: 15,
-                    mana: 2,
-                    ap: 3,
-                    initiative: -1
-                },
-                savingThrowModifiers: {
-                    advantage: ['paralyzed', 'grappled'],
-                    disadvantage: ['fire_effects']
-                }
-            },
-            wanderer: {
-                id: 'wanderer_groven',
-                name: 'Trail Crusher',
-                description: 'Wiry, exceptionally slender, and agile nomads with long, limber arms and a quick, tufted tail. Their stone-bones are composed of dark obsidian or volcanic basalt, leaving their knuckles sharp and glass-edged. They have smaller rocky horns and a light-stepping, predatory gait. Their feet are heavily calloused and stone-soled, able to bound over jagged volcanic glass and frozen crags without slowing. Eyes constantly scanning the horizon, reading dust storms and cavern currents. Their thick mossy skin is weathered by sun, wind, and ash. They carry the smell of distant passes—sulfur, basalt dust, and pine. Restless tectonic energy is barely contained in their silent, loping steps.',
-                culturalBackground: `The Trail-Crushers trace their lineage to Groven who rejected cavern-bonds for the freedom of endless wandering. Bloodline marked by the call of the horizon. Their tradition requires that every member learn the ancient mountain passages and rocky ridges. Apprenticeships are spent following seasonal migration paths that their ancestors ground to dust. Trail-Crusher communities are nomadic, following game and seasonal mineral veins across vast alpine and volcanic territories. Members serve as scouts, guides, and heralds. They practice ancient pathfinding techniques passed down through generations. How to read tectonic lines. How to find deep springs. How to navigate by the stars and thermal vents. Their bodies adapt to long travel, their stone bones becoming dense and sure, senses sharpening to detect rockfalls miles away. But the call of the horizon never stops. They become extremely restless in settlements, dreaming of open skies and barren ranges.`,
-                statModifiers: {
-                    dexterity: 2,
-                    wisdom: 1
-                },
-                traits: [
-                    {
-                        id: 'restless_blood',
-                        name: 'Restless Kinetic',
-                        description: 'The tectonic-curse does not permit rest. Your movement speed increases by +10ft (total 35ft) and you ignore all natural difficult terrain—scree, mud, cracked earth, and undergrowth. But for every full round you remain stationary, heavy stone calcifies over your joints. After 1 round stationary: 1 necrotic damage. After 2 rounds: 1d4 necrotic and -5ft speed. After 3 rounds: Calcified as solid stone, gaining +4 Armor Score, but you are fully paralyzed and cannot take any physical actions until you spend 1 Action to shatter the stone. The earth does not let its children idle.',
-                        level: 1,
-                        icon: 'ability_druid_dash',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'utility', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            tags: ['movement', 'speed', 'curse']
-                        },
-                        buffConfig: {
-                            buffType: 'movementBuff',
-                            effects: [{
-                                id: 'path_speed',
-                                name: 'Path-Speed',
-                                description: '+10ft movement speed permanently (35ft total).',
-                                statModifier: {
-                                    stat: 'movement_speed',
-                                    magnitude: 10,
-                                    magnitudeType: 'flat'
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [
-                                { id: 'ignore_natural_terrain', name: 'Forest Stride', description: 'Ignore all natural difficult terrain — mud, snow, undergrowth, thorn walls.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'permanent'
-                        },
-                        debuffConfig: {
-                            debuffType: 'curse',
-                            effects: [{
-                                id: 'stillness_calcification',
-                                name: 'Stillness Calcification',
-                                description: '1 round stationary: 1 necrotic. 2 rounds: 1d4 necrotic + -5ft speed. 3 rounds: Paralyzed, +4 Armor. Action to break free.',
-                                statusEffect: {
-                                    type: 'calcification',
-                                    triggerCondition: 'stationary',
-                                    stages: [
-                                        { rounds: 1, damage: 1, damageTypes: ['necrotic'] },
-                                        { rounds: 2, damage: '1d4', damageTypes: ['necrotic'], speedPenalty: -5 },
-                                        { rounds: 3, status: 'paralyzed', armorBonus: 4, escapeAction: 1 }
-                                    ]
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    },
-                    {
-                        id: 'ghost_trail',
-                        name: 'Ghost Trail',
-                        description: 'Mark a trail between two natural points you can see, up to 1 mile apart. For 24 hours, you and your allies on the trail move at double speed and ignore all difficult terrain. The trail is invisible to enemies unless they have Truesight or succeed on Survival DC 16. In forests, all travelers gain +2 Stealth — the forest conceals your passage. Only one trail may exist at a time. Creating a new trail kills the old one instantly — allies still on the dead trail lose all bonuses and are momentarily confused.',
-                        level: 1,
-                        icon: 'spell_nature_astralrecalgroup',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            tags: ['trail', 'movement', 'stealth']
-                        },
-                        buffConfig: {
-                            buffType: 'trail_bonus',
-                            effects: [
-                                {
-                                    id: 'trail_double_speed',
-                                    name: 'Trail Speed',
-                                    description: 'Double movement speed for you and allies on the trail.'
-                                },
-                                {
-                                    id: 'trail_ignore_terrain',
-                                    name: 'Trail Passage',
-                                    description: 'Ignore all difficult terrain on the trail.'
-                                },
-                                {
-                                    id: 'forest_stealth',
-                                    name: 'Forest Veil',
-                                    description: '+2 Stealth on trail in forest environments.',
-                                    statModifier: {
-                                        stat: 'stealth',
-                                        magnitude: 2,
-                                        magnitudeType: 'flat'
-                                    }
-                                }
-                            ],
-                            durationValue: 24,
-                            durationType: 'timed',
-                            durationUnit: 'hours',
-                            canBeDispelled: true
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [
-                                { id: 'trail_creation', name: 'Trail Marking', description: 'Mark trail between two natural points up to 1 mile apart.' },
-                                { id: 'hidden_trail', name: 'Hidden Trail', description: 'Invisible to enemies unless Truesight or Survival DC 16.' }
-                            ],
-                            duration: 24,
-                            durationUnit: 'hours'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 1,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
-                    },
-                    {
-                        id: 'ley_line_step',
-                        name: 'Ley Step',
-                        description: 'The ley lines hum beneath your feet — threads of living energy connecting every rooted place in the world. Step along them and vanish from one place, appearing in another up to 60ft away. If your feet meet forest floor or living soil, the land rushes up to mend your wounds, healing 1d8 + Spirit. If you step onto stone, worked metal, or dead ground — the ley lines recoil violently, dealing 1d6 psychic damage. The earth knows its children. It punishes those who abandon it for dead places.',
-                        level: 1,
-                        icon: 'ability_druid_dash',
-                        spellType: 'ACTION',
-                        effectTypes: ['movement', 'healing', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            tags: ['teleport', 'ley_line', 'healing']
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [
-                                { id: 'teleport', name: 'Ley Step Teleport', description: 'Teleport to any visible location within 60ft.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'instant'
-                        },
-                        healingConfig: {
-                            formula: '1d8 + spirit',
-                            healingType: 'conditional',
-                            resolution: 'DICE'
-                        },
-                        healConfig: {
-                            healType: 'flat',
-                            formula: '1d8 + spirit',
-                            resolution: 'DICE',
-                            target: 'self',
-                            conditions: { landingSurface: 'natural' }
-                        },
-                        debuffConfig: {
-                            debuffType: 'conditional',
-                            effects: [{
-                                id: 'ley_recoil',
-                                name: 'Ley Recoil',
-                                description: 'Teleporting to urban/stone/dead ground deals 1d6 psychic damage — the ley lines recoil from the dead earth.',
-                                statusEffect: {
-                                    type: 'ley_recoil',
-                                    triggerCondition: 'teleport_to_non_natural',
-                                    damage: '1d6',
-                                    damageTypes: ['psychic']
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'instant',
-                            durationUnit: 'instant',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'location',
-                            rangeType: 'ranged',
-                            rangeDistance: 60
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 1,
-                            components: ['somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
-                    },
-                    {
-                        id: 'wayfinders_sight',
-                        name: "Wayfinder's Sight",
-                        description: "The forest does not let its children wander astray. Roots shift to point the way home. Streams murmur directions. Moss on stones whispers of the path ahead. You cannot become lost in natural terrain. You always know north. You find drinkable water within 1 mile. Advantage on Survival checks. But in settlements, dungeons, and places shaped by mortal hands — the inner compass spins uselessly. Disadvantage on all Perception and navigation checks. The walls suffocate what the wilderness nourishes.",
-                        level: 1,
-                        icon: 'ability_hunter_trackingspeed',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['utility', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            tags: ['navigation', 'survival', 'passive']
-                        },
-                        utilityConfig: {
-                            utilityType: 'navigation',
-                            selectedEffects: [
-                                { id: 'no_lost', name: 'Unerring Direction', description: 'Cannot become lost in natural environments.' },
-                                { id: 'survival_advantage', name: 'Survival Instinct', description: 'Advantage on all Survival checks.' },
-                                { id: 'water_finding', name: 'Water Finding', description: 'Find drinkable water within 1 mile (except desert).' },
-                                { id: 'direction_sense', name: 'Direction Sense', description: 'Always know which direction is north.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'permanent'
-                        },
-                        debuffConfig: {
-                            debuffType: 'mentalEffect',
-                            effects: [{
-                                id: 'urban_confounded',
-                                name: 'Confounded',
-                                description: 'In settlements, dungeons, or worked environments: disadvantage on Perception and navigation checks. The walls kill the inner compass.',
-                                statusEffect: {
-                                    type: 'confounded',
-                                    triggerCondition: 'urban_or_dungeon',
-                                    penalties: ['disadvantage_perception', 'disadvantage_navigation']
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    },
-                    {
-                        id: 'wanderers_curse',
-                        name: "Wanderer's Curse",
-                        description: 'Even thin bark burns. Fire finds purchase in your woody flesh where it would merely warm others. When flame touches you, the path-sense itself sears away — the internal compass that guides your feet goes blind, and for 1d4 rounds you cannot use any movement ability. The very thing that makes you fast becomes the first thing the fire devours.',
-                        level: 1,
-                        icon: 'spell_fire_flamestrike',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['vulnerability'],
-                        typeConfig: {
-                            category: 'racial',
-                            isWeakness: true
-                        },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'fire_vulnerability',
-                                    name: 'Fire Vulnerability',
-                                    description: 'Even thin bark burns — 75% fire vulnerability.',
-                                    statusEffect: {
-                                        vulnerabilityType: 'fire',
-                                        vulnerabilityPercent: 75
-                                    }
-                                },
-                                {
-                                    id: 'path_blindness',
-                                    name: 'Path-Blindness',
-                                    description: 'Fire damage sears the path-sense. All movement abilities disabled for 1d4 rounds after taking fire damage.',
-                                    statusEffect: {
-                                        type: 'path_blindness',
-                                        triggerCondition: 'fire_damage_taken',
-                                        durationFormula: '1d4',
-                                        durationUnit: 'rounds',
-                                        disabledAbilities: ['ghost_trail', 'ley_line_step', 'restless_blood_speed']
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    }
-                ],
-                baseStats: {
-                    hp: 12,
-                    mana: 3,
-                    ap: 3,
-                    initiative: 2
-                },
-                savingThrowModifiers: {
-                    advantage: ['restrained'],
-                    disadvantage: ['fire_effects']
-                }
-            },
-            shaman: {
-                id: 'shaman_groven',
-                name: 'Earth Caller',
-                description: 'Crystalline lines map across their slender, mossy skin, thrumming with ley-line energy. Their basalt brow-horns are shot through with raw geodes and shimmering quartz crystals that thrum softly with ley-line energy. Their eyes glow with the pale, steady fire of crystalline deposits, shifting color based on the ley-currents. When they channel magic, these lines pulse with soft elemental light, and their tufted tail twitches in tune with tectonic currents. When they speak, the resonant vibration of subterranean vaults echoes beneath their words.',
-                culturalBackground: `The Earth-Callers trace their lineage to the first Groven shamans who swore blood-bonds with the living crystals of the deep caverns. Bloodline marked by deep connections with the earth-soul. Their tradition requires that every member undergo deep cavern vigils during their eighteenth year, learning to hear the resonance of the crystalline veins. Earth-Caller communities are built around deep ley-gateways where the boundary between flesh and crystal blurs, members serving as shamans, mediators, and earth-callers. They practice ancient geomancy techniques passed down through generations. How to summon earth elementals. How to read mineral lines. How to channel ley energies through their crystal horns. But this communion comes at a cost. They share the earth's heavy, grinding silence, sometimes losing themselves to a catatonic trance or stubborn crystalline stubbornness. Many Earth-Callers live in deep cavern isolation, their minds filled with the slow hum of the world.`,
-                statModifiers: {
-                    wisdom: 2,
-                    intelligence: 1
-                },
-                traits: [
-                    {
-                        id: 'hollow_bones',
-                        name: 'Crystalline Conduits',
-                        description: 'Your crystal-infused horns act as spiritual and elemental conduits—you see what others cannot. Earth spirits, ghosts, and invisible creatures within 60ft are visible to you. Advantage on checks to detect illusions. Burrowing creatures are naturally calm in your presence and will not attack unless provoked. But the tectonic whispers never stop. In areas of mass death—battlefields, collapsed mines—the whispers become screaming echoes. All checks at disadvantage until you leave the dead place.',
-                        level: 1,
-                        icon: 'spell_holy_mindvision',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['detection', 'buff', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            secondaryElement: 'spirit',
-                            tags: ['spirit', 'detection', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'passive_enhancement',
-                            effects: [
-                                {
-                                    id: 'spirit_sight',
-                                    name: 'Spirit Sight',
-                                    description: 'See spirits, ghosts, and invisible creatures within 60ft.'
-                                },
-                                {
-                                    id: 'illusion_detection',
-                                    name: 'Piercing Veil',
-                                    description: 'Advantage on checks to detect illusions.'
-                                },
-                                {
-                                    id: 'animal_calm',
-                                    name: 'Beast Calm',
-                                    description: 'Animals are naturally calm and will not attack unless provoked.'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'mentalEffect',
-                            effects: [{
-                                id: 'screaming_dead',
-                                name: 'Screaming Dead',
-                                description: 'In areas of mass death (battlefields, graveyards, execution grounds), the spirit-voices become screaming. Disadvantage on ALL checks until you leave.',
-                                statusEffect: {
-                                    type: 'spirit_overload',
-                                    triggerCondition: 'mass_death_area',
-                                    penalties: ['disadvantage_all_checks']
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    },
-                    {
-                        id: 'ancestors_embrace',
-                        name: "Ancestor's Embrace",
-                        description: "Call an ancestor spirit to merge with a willing creature (including yourself) for 1 minute. Choose one form: Wolf Ancestor — +10ft speed, advantage on attacks vs enemies below half HP, melee attacks deal +1d6 piercing. Bear Ancestor — +2 Armor, resistance to next damage source each round, advantage on Strength checks. Eagle Ancestor — ranged attacks +15ft range, no disadvantage from distance, see through invisibility within 60ft. When the spirit departs, the host takes 1d6 psychic damage as the bond severs like a torn ligament. Each use leaves a spirit mark — after 3 uses without a long rest, gain cumulative -1 to Charisma checks. The dead leave fingerprints on the living.",
-                        level: 1,
-                        icon: 'spell_nature_spiritarmor',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            secondaryElement: 'spirit',
-                            tags: ['spirit', 'buff', 'ancestor']
-                        },
-                        buffConfig: {
-                            buffType: 'spirit_merge',
-                            effects: [
-                                {
-                                    id: 'wolf_ancestor',
-                                    name: 'Wolf Ancestor',
-                                    description: '+10ft speed, advantage on attacks vs targets below half HP, melee +1d6 piercing.',
-                                    statModifier: {
-                                        stat: 'movement_speed',
-                                        magnitude: 10,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'bear_ancestor',
-                                    name: 'Bear Ancestor',
-                                    description: '+2 Armor, resistance to next damage each round, advantage on Strength checks.',
-                                    statModifier: {
-                                        stat: 'armor',
-                                        magnitude: 2,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'eagle_ancestor',
-                                    name: 'Eagle Ancestor',
-                                    description: 'Ranged +15ft range, no distance disadvantage, see invisibility 60ft.'
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'timed',
-                            durationUnit: 'minutes',
-                            canBeDispelled: true
-                        },
-                        debuffConfig: {
-                            debuffType: 'mentalEffect',
-                            effects: [
-                                {
-                                    id: 'spirit_departure',
-                                    name: 'Departure Wound',
-                                    description: 'Host takes 1d6 psychic damage when the spirit departs.',
-                                    statusEffect: {
-                                        type: 'psychic_severance',
-                                        triggerCondition: 'buff_expired_or_dispelled',
-                                        damage: '1d6',
-                                        damageTypes: ['psychic']
-                                    }
-                                },
-                                {
-                                    id: 'spirit_mark',
-                                    name: 'Spirit Mark',
-                                    description: 'After 3 uses without long rest: cumulative -1 Charisma checks. The dead leave fingerprints.',
-                                    statusEffect: {
-                                        type: 'spirit_mark',
-                                        triggerCondition: '3_uses_without_rest',
-                                        statPenalty: {
-                                            stat: 'charisma',
-                                            magnitude: -1,
-                                            magnitudeType: 'flat',
-                                            stacking: true
-                                        }
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'timed',
-                            durationUnit: 'minutes',
-                            canBeDispelled: true
-                        },
-                        targetingConfig: {
-                            targetingType: 'creature',
-                            rangeType: 'ranged',
-                            rangeDistance: 30
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
-                    },
-                    {
-                        id: 'bone_reading',
-                        name: 'Bone Reading',
-                        description: 'Cast a handful of animal bones and read the patterns where they fall. Choose one: learn direction and distance to the nearest danger, learn if a planned action is favorable/unfavorable/neutral, or ask one yes/no question about the immediate area. The spirits demand blood to speak — each reading costs 1 HP. 20% chance the spirits answer in cryptic riddles instead. Using more than twice per rest causes the Speaker to bleed from the eyes for 1 round: disadvantage on all attacks as blood fills their vision. The dead are generous with knowledge and cruel with the price.',
-                        level: 1,
-                        icon: 'spell_nature_elementalshields',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            tags: ['divination', 'spirit', 'blood']
-                        },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [
-                                { id: 'danger_detection', name: 'Danger Detection', description: 'Learn direction and distance to nearest danger.' },
-                                { id: 'outcome_reading', name: 'Outcome Reading', description: 'Learn if a planned action is favorable, unfavorable, or neutral.' },
-                                { id: 'yes_no_answer', name: 'Yes/No Answer', description: 'Answer to one yes/no question about the immediate area.' },
-                                { id: 'cryptic_risk', name: 'Cryptic Risk', description: '20% chance the reading is cryptic rather than clear.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'instant'
-                        },
-                        debuffConfig: {
-                            debuffType: 'physicalEffect',
-                            effects: [
-                                {
-                                    id: 'blood_toll',
-                                    name: 'Blood Toll',
-                                    description: 'Each reading costs 1 HP. The spirits demand payment.',
-                                    statusEffect: {
-                                        type: 'self_damage',
-                                        damage: 1,
-                                        damageTypes: ['necrotic']
-                                    }
-                                },
-                                {
-                                    id: 'eye_bleed',
-                                    name: 'Eye Bleed',
-                                    description: 'More than 2 readings per rest: bleed from eyes for 1 round. Disadvantage on all attacks.',
-                                    statusEffect: {
-                                        type: 'eye_bleed',
-                                        triggerCondition: 'more_than_2_per_rest',
-                                        duration: 1,
-                                        durationUnit: 'rounds',
-                                        penalties: ['disadvantage_all_attacks']
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'instant',
-                            durationUnit: 'instant',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 1,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    },
-                    {
-                        id: 'ancestral_memory',
-                        name: 'Ancestral Memory',
-                        description: "The dead remember everything. You hear ancestor voices at will — advantage on History and Religion checks. When entering a new location, you sometimes receive warnings about dangers that killed previous Groven in that area. The spirits speak when they choose, not when you ask. But the ancestors remember their deaths vividly, viscerally, endlessly. When you take damage of a type that killed an ancestor (GM determines), make a Spirit save or be Frightened for 1 round. The memory of their death rushes through you like cold water filling a drowning man's lungs.",
-                        level: 1,
-                        icon: 'spell_nature_spiritarmor',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['utility', 'debuff'],
-                        typeConfig: {
-                            category: 'racial',
-                            school: 'nature',
-                            secondaryElement: 'spirit',
-                            tags: ['ancestor', 'knowledge', 'memory']
-                        },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [
-                                { id: 'ancestor_communion', name: 'Ancestor Communion', description: 'Hear ancestor voices at will.' },
-                                { id: 'knowledge_advantage', name: 'Ancestral Knowledge', description: 'Advantage on History and Religion checks.' },
-                                { id: 'danger_warnings', name: 'Spirit Warnings', description: 'Spirits sometimes warn of dangers that killed previous Groven in new locations.' }
-                            ],
-                            duration: 0,
-                            durationUnit: 'permanent'
-                        },
-                        debuffConfig: {
-                            debuffType: 'mentalEffect',
-                            effects: [{
-                                id: 'death_memory',
-                                name: 'Death Memory',
-                                description: 'When taking damage of a type that killed an ancestor, Spirit save or Frightened 1 round.',
-                                statusEffect: {
-                                    type: 'death_flashback',
-                                    triggerCondition: 'ancestor_death_damage_type',
-                                    savingThrow: {
-                                        ability: 'spirit',
-                                        difficultyClass: 13
-                                    },
-                                    failEffect: 'frightened',
-                                    duration: 1,
-                                    durationUnit: 'rounds'
-                                }
-                            }],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    },
-                    {
-                        id: 'spirit_tether_shaman',
-                        name: 'Spirit Tether',
-                        description: "Fire severs the bridge between worlds. 100% fire vulnerability. When you take fire damage, any active Ancestor's Embrace immediately ends — the host takes the departure psychic damage as the spirit is burned out of them. Additionally, you cannot use any spirit abilities (Ancestor's Embrace, Bone Reading, Ancestral Memory warnings) for 1 round after taking fire damage. The flames do not just burn your flesh — they burn the doorways the dead walk through.",
-                        level: 1,
-                        icon: 'spell_fire_flamestrike',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['vulnerability'],
-                        typeConfig: {
-                            category: 'racial',
-                            isWeakness: true
-                        },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'fire_vulnerability',
-                                    name: 'Fire Vulnerability',
-                                    description: 'Flame severs spirit bonds. 100% fire vulnerability.',
-                                    statusEffect: {
-                                        vulnerabilityType: 'fire',
-                                        vulnerabilityPercent: 100
-                                    }
-                                },
-                                {
-                                    id: 'spirit_sever',
-                                    name: 'Spirit Sever',
-                                    description: "Fire damage immediately ends active Ancestor's Embrace (host takes departure damage) and disables all spirit abilities for 1 round.",
-                                    statusEffect: {
-                                        type: 'spirit_sever',
-                                        triggerCondition: 'fire_damage_taken',
-                                        duration: 1,
-                                        durationUnit: 'rounds',
-                                        effects: [
-                                            'end_all_spirit_buffs',
-                                            'trigger_departure_damage',
-                                            'disable_spirit_abilities'
-                                        ],
-                                        disabledAbilities: ['ancestors_embrace', 'bone_reading', 'ancestral_memory_warnings']
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        }
-                    },
-                    {
-                        id: 'ley_line_resonance_groven',
-                        name: 'Ley-Line Resonance',
-                        description: 'Attune to local geological ley-lines. Spend 1 AP to restore 10 mana. However, taking lightning damage while attuned causes a chaotic magical backlash, dealing 1d10 psychic damage to all adjacent units.',
-                        level: 1,
-                        icon: 'spell_nature_elementalshields',
-                        spellType: 'ACTION',
-                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: ['somatic'] },
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            school: 'geomancy',
-                            secondaryElement: 'mana',
-                            icon: 'spell_nature_elementalshields',
-                            tags: ['mana_regen', 'attunement', 'lightning_backlash', 'cooldown']
-                        },
-                        buffConfig: {
-                            buffType: 'mana_regen',
-                            effects: [
-                                {
-                                    id: 'ley_mana_restore',
-                                    name: 'Ley Mana Restore',
-                                    description: 'Restore 10 mana immediately',
-                                    manaRestore: 10
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'instant',
-                            durationUnit: 'instant',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'ley_attuned',
-                                    name: 'Ley Attuned',
-                                    description: 'Attuned to geological ley-lines. Taking lightning damage causes 1d10 psychic backlash to adjacent units.',
-                                    statusEffect: {
-                                        type: 'attunement',
-                                        vulnerabilityTrigger: 'lightning_damage_taken',
-                                        backlashDamageFormula: '1d10',
-                                        backlashDamageType: 'psychic',
-                                        backlashRadius: 5
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            durationUnit: 'minutes',
-                            canBeDispelled: true
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
-                    }
-                ],
-                baseStats: {
-                    hp: 11,
-                    mana: 5,
-                    ap: 3,
-                    initiative: 0
-                },
-                savingThrowModifiers: {
-                    advantage: ['fear', 'charmed'],
-                    disadvantage: ['fire_effects']
-                }
-            }
+        {
+          id: 'ancestors_burden_morgh',
+          name: "Ancestor's Burden",
+          description: 'The mountain\'s weight lives in every Morgh bone — a dense, grinding gravity that the serums could thin but never erase, a primordial inheritance from the Thrumm who first walked the deep crags. Your frame is heavier, denser, harder to move than any creature of flesh alone. You count as one size larger for carrying capacity, grappling, and resisting forced movement — when creatures your size try to shove or pull or push you, they find a wall where they expected flesh. But the stone that anchors you also slows you: your base movement speed is reduced by 5ft, each step carrying the deliberate, grinding gravity of a people who have never needed to run. The mountain does not dodge. Neither do you.',
+          level: 1,
+          icon: 'spell_nature_strengthofearth',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff', 'debuff'],
+          typeConfig: {
+            category: 'racial',
+            school: 'physical',
+            tags: ['strength', 'carrying', 'passive']
+          },
+          buffConfig: {
+            buffType: 'statusEffectBuff',
+            effects: [{
+              id: 'thrumm_mass',
+              name: 'Thrumm Mass',
+              description: 'Count as one size larger for carrying capacity, grappling, and resisting forced movement.'
+            }],
+            durationValue: 0,
+            durationType: 'permanent',
+            durationUnit: 'permanent',
+            canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'movementImpairment',
+            effects: [{
+              id: 'stone_weight_slow',
+              name: 'Stone Weight',
+              description: '-5ft movement speed — your dense stone-bones make you heavier and slower than other Groven.',
+              statModifier: {
+                stat: 'movement_speed',
+                magnitude: -5,
+                magnitudeType: 'flat'
+              }
+            }],
+            durationValue: 0,
+            durationType: 'permanent',
+            durationUnit: 'permanent',
+            canBeDispelled: false
+          },
+          targetingConfig: {
+            targetingType: 'self',
+            rangeType: 'self_centered'
+          },
+          resourceCost: {
+            resourceTypes: [],
+            resourceValues: {},
+            actionPoints: 0,
+            components: []
+          },
+          cooldownConfig: {
+            cooldownType: 'none',
+            cooldownValue: 0
+          }
         }
+      ],
+      baseStats: {
+        hp: 14,
+        mana: 2,
+        ap: 3,
+        initiative: -1
+      },
+      savingThrowModifiers: {
+        advantage: ['paralyzed', 'grappled', 'forced_movement'],
+        disadvantage: ['fire_effects']
+      }
+    },
+    ithran: {
+      id: 'ithran_groven',
+      name: 'Ithran',
+      illustration: '/assets/images/races/ithran_illustration.png',
+      illustrationCaption: 'A slender, long-limbed Ithran Groven walking gracefully along an ancient stone bridge above a frozen chasm.',
+      description: 'Slender and impossibly long of limb, the Ithran are the children of the Fexric\'s design — stone-scales grown fine as tessellated mail over lean humanoid frames, tusks reduced to elegant points, fingers long enough to tie a bridge-knot from a body-length away. Their movements are fluid, deliberate, the gait of a creature whose limbs were meant to span chasms. They dwell in the bridge-top settlements, woven hide-panel homes suspended above the void, where they negotiate tolls, keep fiber-cord records, and speak for the clans in the Stone-Moots. When an Ithran gestures while speaking, the whole hall watches the arc of those impossible arms.',
+      culturalBackground: 'The Ithran trace their lineage to the broodlings most thoroughly transformed by the Fexric serums — the ones the Deep Alchemists considered their greatest success. They inherited the long reach, the fine scales, the quick mind, and the curse of knowing exactly what was done to them. Their bridge-top settlements are marvels of woven engineering, multi-level dwellings hanging from the undersides of the widest Ancestor-Spans, accessible only to those with Groven reach. They speak Common as their first tongue, learning the old Thrumm words only as a scholarly pursuit. Their children are taught diplomacy before they are taught survival — the bridge-top is safe, the warren is not, and the Ithran have built their lives around the space between those truths.',
+      statModifiers: {
+        dexterity: 2,
+        wisdom: 1
+      },
+      traits: [
+        {
+          id: 'ithran_span_reach',
+          name: 'Span-Reach Agility',
+          description: 'The Fexric serums stretched Ithran limbs for spanning the impossible chasms of the Cragjaw Peaks — and they never stopped stretching, never stopped pulling at the joints, never let the blood forget what it was designed to do. Your movement speed increases by +10ft permanently, and on bridges and natural stone surfaces, you ignore all difficult terrain — the span recognizes its own children and smooths the way beneath their feet. But the serums bred motion into your very blood. For every full round you remain stationary in combat, you take 1 psychic damage: the stillness is the vat, the vat is the stillness, and every moment spent motionless is a moment the body remembers what it felt like to float in glass while alchemists watched from the other side.',
+          level: 1,
+          icon: 'ability_druid_dash',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff', 'utility', 'debuff'],
+          typeConfig: {
+            category: 'racial',
+            school: 'nature',
+            tags: ['movement', 'speed', 'restlessness', 'passive']
+          },
+          buffConfig: {
+            buffType: 'movementBuff',
+            effects: [{
+              id: 'span_speed',
+              name: 'Span-Speed',
+              description: '+10ft movement speed permanently (40ft total).',
+              statModifier: {
+                stat: 'movement_speed',
+                magnitude: 10,
+                magnitudeType: 'flat'
+              }
+            }],
+            durationValue: 0,
+            durationType: 'permanent',
+            durationUnit: 'permanent',
+            canBeDispelled: false
+          },
+          utilityConfig: {
+            utilityType: 'movement',
+            selectedEffects: [
+              { id: 'bridge_stride', name: 'Bridge Stride', description: 'Ignore all difficult terrain on bridges and natural stone surfaces.' }
+            ],
+            duration: 0,
+            durationUnit: 'permanent'
+          },
+          debuffConfig: {
+            debuffType: 'curse',
+            effects: [{
+              id: 'restless_vat_echo',
+              name: 'Vat-Restlessness',
+              description: 'For every full round stationary in combat, take 1 psychic damage. The serums bred motion into your blood.',
+              statusEffect: {
+                type: 'vat_restlessness',
+                triggerCondition: 'stationary_in_combat',
+                damagePerRound: 1,
+                damageType: 'psychic'
+              }
+            }],
+            durationValue: 0,
+            durationType: 'permanent',
+            durationUnit: 'permanent',
+            canBeDispelled: false
+          },
+          targetingConfig: {
+            targetingType: 'self',
+            rangeType: 'self_centered'
+          },
+          resourceCost: {
+            resourceTypes: [],
+            resourceValues: {},
+            actionPoints: 0,
+            components: []
+          },
+          cooldownConfig: {
+            cooldownType: 'none',
+            cooldownValue: 0
+          }
+        },
+        {
+          id: 'toll_keepers_eye',
+          name: "Toll-Keeper's Eye",
+          description: 'Decades — sometimes centuries — of bridge-toll negotiation have honed Ithran perception to a fine, unforgiving edge. You gain Advantage on all Insight checks: you know when a caravan-master is lying about their cargo by the way their breath catches on the number, when a diplomat is hiding their true purpose by the too-even spacing of their words, when an outsider\'s speech and their heartbeat do not align in the subtle, damning rhythm of deception. But the serums that sharpened your mind could not sharpen your body\'s honesty. Your stone-scales grind audibly when you speak a direct lie — a soft, telltale sound like gravel underfoot — and any Groven within 30ft knows immediately that you are lying. Non-Groven within 30ft gain Advantage on Insight checks against your Deception. The serums made you smooth and quick and clever. Your scales remember what you are.',
+          level: 1,
+          icon: 'ability_hunter_eagleeye',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff', 'debuff'],
+          typeConfig: {
+            category: 'racial',
+            school: 'nature',
+            tags: ['insight', 'detection', 'truth', 'passive']
+          },
+          buffConfig: {
+            buffType: 'statusEffectBuff',
+            effects: [{
+              id: 'insight_advantage',
+              name: 'Keen Insight',
+              description: 'Advantage on all Insight checks.'
+            }],
+            durationValue: 0,
+            durationType: 'permanent',
+            durationUnit: 'permanent',
+            canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'curse',
+            effects: [{
+              id: 'scale_betrayal',
+              name: 'Scale Betrayal',
+              description: 'When you speak a direct lie, your stone-scales grind audibly. Groven within 30ft auto-detect the lie. Others gain Advantage on Insight vs your Deception.',
+              statusEffect: {
+                type: 'scale_betrayal',
+                triggerCondition: 'speak_direct_lie',
+                autoDetectRange: 30,
+                autoDetectBy: 'groven',
+                otherEffect: 'advantage_on_insight_vs_deception'
+              }
+            }],
+            durationValue: 0,
+            durationType: 'permanent',
+            durationUnit: 'permanent',
+            canBeDispelled: false
+          },
+          targetingConfig: {
+            targetingType: 'self',
+            rangeType: 'self_centered'
+          },
+          resourceCost: {
+            resourceTypes: [],
+            resourceValues: {},
+            actionPoints: 0,
+            components: []
+          },
+          cooldownConfig: {
+            cooldownType: 'none',
+            cooldownValue: 0
+          }
+        },
+        {
+          id: 'bone_reading_ithran',
+          name: 'Bone Reading',
+          description: 'Cast a handful of animal bones across the Ancestor-Span and read the patterns where they fall — the dead who became the bridges speak through the scatter. Choose one of the following omens. The reading has a 20% chance of being cryptic rather than clear.',
+          level: 1,
+          icon: 'spell_nature_elementalshields',
+          spellType: 'ACTION',
+          effectTypes: ['utility', 'debuff'],
+          typeConfig: {
+            category: 'racial',
+            school: 'nature',
+            tags: ['divination', 'spirit', 'blood', 'ancestor']
+          },
+          utilityConfig: {
+            utilityType: 'divination',
+            choiceConfig: {
+              mode: 'pick_one',
+              label: 'Choose One Omen',
+              note: '20% chance the reading is cryptic rather than clear',
+              options: [
+                { id: 'danger_direction', name: 'Danger Sense', description: 'Learn direction and distance to nearest danger.' },
+                { id: 'outcome_reading', name: 'Fate Glimpse', description: 'Learn if a planned action is favorable, unfavorable, or neutral.' },
+                { id: 'yes_no_question', name: 'Ancestor Question', description: 'Ask one yes-or-no question about the immediate area (within 1 mile).' }
+              ]
+            },
+            selectedEffects: [],
+            duration: 0,
+            durationUnit: 'instant'
+          },
+          debuffConfig: {
+            debuffType: 'physicalEffect',
+            effects: [
+              {
+                id: 'blood_toll_ithran',
+                name: 'Blood Toll',
+                description: 'Each reading costs 1 HP.',
+                statusEffect: {
+                  type: 'self_damage',
+                  damage: 1,
+                  damageTypes: ['necrotic']
+                }
+              },
+              {
+                id: 'eye_bleed_ithran',
+                name: 'Eye Bleed',
+                description: 'More than 2 uses per short rest: bleed from eyes for 1 round. Disadvantage on all attacks.',
+                statusEffect: {
+                  type: 'eye_bleed',
+                  triggerCondition: 'more_than_2_per_rest',
+                  duration: 1,
+                  durationUnit: 'rounds',
+                  penalties: ['disadvantage_all_attacks']
+                }
+              }
+            ],
+            durationValue: 0,
+            durationType: 'instant',
+            durationUnit: 'instant',
+            canBeDispelled: false
+          },
+          targetingConfig: {
+            targetingType: 'self',
+            rangeType: 'self_centered'
+          },
+          resourceCost: {
+            resourceTypes: [],
+            resourceValues: {},
+            actionPoints: 1,
+            mana: 0,
+            components: ['somatic', 'material']
+          },
+          cooldownConfig: {
+            cooldownType: 'short_rest',
+            cooldownValue: 1
+          }
+        }
+      ],
+      baseStats: {
+        hp: 11,
+        mana: 4,
+        ap: 3,
+        initiative: 2
+      },
+      savingThrowModifiers: {
+        advantage: ['fear', 'charmed', 'insight_checks'],
+        disadvantage: ['fire_effects']
+      }
+    }
+  }
 };

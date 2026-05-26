@@ -1376,7 +1376,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     { id : "fb_beast_aspect",
       name: "Beast Aspect",
       description:
-        "Transform part of your body into an animal feature for 1 minute. Choose: claws (climbing speed), wings (glide 60ft), gills (breathe underwater), or enhanced senses (advantage on Perception). Higher WI: manifest multiple traits.",
+        "Transform part of your body into an animal feature for 1 minute. Choose one beast aspect from the options below. Higher WI: manifest multiple traits.",
       spellType: "ACTION",
       icon: "Nature/Beast Mark",
       level: 2,
@@ -1419,8 +1419,7 @@ The Formbender's specializations are not schools of thought â€” they are di
         effects: [
           { id : "beast_aspect",
             name: "Beast Aspect",
-            description:
-              "Choose one: claws (climbing speed), wings (glide 60ft), gills (water breathing), or enhanced senses (Perception advantage)",
+            description: "Manifest a single animal feature from the choices below.",
             mechanicsText: "",
           },
         ],
@@ -1433,13 +1432,22 @@ The Formbender's specializations are not schools of thought â€” they are di
 
       utilityConfig: {
         utilityType: "enhancement",
-        selectedEffects: [
-          { id : "partial_transform",
-            name: "Partial Transformation",
-            description:
-              "Manifest specific animal traits without full shapeshift",
-          },
-        ],
+        choiceConfig: {
+          mode: 'pick_one',
+          label: 'Choose One Beast Aspect',
+          note: 'Higher WI: manifest multiple traits.',
+          options: [
+            { id: 'beast_claws', name: 'Claws', description: 'Gain climbing speed equal to your movement speed.' },
+            { id: 'beast_wings', name: 'Wings', description: 'Glide 60ft. Cannot gain altitude, only descend.' },
+            { id: 'beast_gills', name: 'Gills', description: 'Breathe underwater for the duration.' },
+            { id: 'beast_senses', name: 'Enhanced Senses', description: 'Advantage on all Perception checks.' }
+          ]
+        },
+        selectedEffects: [{
+          id: "partial_transform",
+          name: "Partial Transformation",
+          description: "Manifest specific animal traits without full shapeshift",
+        }],
         duration: 1,
         durationUnit: "minutes",
       },

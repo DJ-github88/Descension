@@ -467,6 +467,46 @@ utilityConfig: {
 }
 ```
 
+### choiceConfig (Optional — "Choose One" Table)
+
+When a utility effect requires the player to pick from multiple options, use `choiceConfig` instead of (or alongside) `selectedEffects`. The card renders choices as a numbered option table.
+
+```javascript
+utilityConfig: {
+  utilityType: 'divination',
+  choiceConfig: {
+    mode: 'pick_one',               // REQUIRED: 'pick_one' | 'pick_two' | 'pick_three'
+    pickCount: 1,                   // Alternative to mode: explicit number of choices
+    label: 'Choose One',            // Optional custom header (defaults to "Choose One"/"Choose Two")
+    note: '20% chance cryptic',     // Optional italic note below header
+    options: [                      // REQUIRED: array of choice objects
+      {
+        id: 'danger_direction',     // Unique ID for the option
+        name: 'Danger Sense',       // Display name for the option
+        description: 'Learn direction and distance to nearest danger.'
+                                    // What this option does (rendered as mechanics text)
+      },
+      {
+        id: 'outcome_reading',
+        name: 'Fate Glimpse',
+        description: 'Learn if a planned action is favorable, unfavorable, or neutral.'
+      },
+      {
+        id: 'yes_no_question',
+        name: 'Ancestor Question',
+        description: 'Ask one yes-or-no question about the immediate area (within 1 mile).'
+      }
+    ]
+  },
+  duration: 0,
+  durationUnit: 'instant'
+}
+```
+
+**Rendering:** The card shows a styled table with a "CHOOSE ONE" header row, followed by numbered rows (`1. Danger Sense — Learn direction...`, `2. Fate Glimpse — Learn if...`, etc.). If `note` is provided, it appears in italics beneath the header.
+
+**Backward compatibility:** When `choiceConfig` is present, the card renders it instead of `selectedEffects`. If both are present, `choiceConfig` takes precedence. If only `selectedEffects` exists, it renders as before (a bulleted list of effects).
+
 ### utilityType Values (22 observed)
 
 | utilityType | Description |

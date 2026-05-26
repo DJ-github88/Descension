@@ -12390,8 +12390,8 @@ const UnifiedSpellCard = ({
                 // Don't show just because utilityType is set - need actual effects or enhancements
                 if (!hasUtilityType && !hasAnyUtilityConfiguration) return null;
                 
-                // If utilityType is set but no actual effects/enhancements, don't show generic utility
-                if (hasUtilityType && !hasSelectedEffects && !spell.utilityConfig?.enhancementType && !spell.utilityConfig?.enhancementValue) {
+                // If utilityType is set but no actual effects/enhancements/choices, don't show generic utility
+                if (hasUtilityType && !hasSelectedEffects && !spell.utilityConfig?.enhancementType && !spell.utilityConfig?.enhancementValue && !spell.utilityConfig?.choiceConfig?.options?.length) {
                   return null;
                 }
 
@@ -12413,6 +12413,34 @@ const UnifiedSpellCard = ({
                       mechanicsText
                     });
                   }
+                }
+
+                // Handle choiceConfig — renders as a "Choose One" options table
+                if (utilityData?.choiceConfig?.options?.length > 0) {
+                  const choiceMode = utilityData.choiceConfig.mode || 'pick_one';
+                  const pickCount = utilityData.choiceConfig.pickCount || 1;
+                  const choiceLabel = pickCount === 1 ? 'Choose One' : `Choose ${pickCount}`;
+                  const choiceHeader = utilityData.choiceConfig.label || choiceLabel;
+                  const choiceNote = utilityData.choiceConfig.note || null;
+                  const utilityTargeting = formatEffectTargeting('utility');
+
+                  effects.push({
+                    name: choiceHeader,
+                    description: '',
+                    mechanicsText: choiceNote || '',
+                    targeting: null,
+                    isChoiceHeader: true
+                  });
+
+                  utilityData.choiceConfig.options.forEach((option, idx) => {
+                    effects.push({
+                      name: `${idx + 1}. ${option.name}`,
+                      description: '',
+                      mechanicsText: option.description || '',
+                      targeting: utilityTargeting,
+                      isChoice: true
+                    });
+                  });
                 }
 
                 // Handle selected effects
@@ -12643,9 +12671,18 @@ const UnifiedSpellCard = ({
                       <div className="healing-formula-line">
                         <div className="healing-effects-list">
                           {effects.map((effect, index) => (
-                            <div key={`utility-${index}`} className="healing-effect-item">
+                            <div key={`utility-${index}`} className={`healing-effect-item${effect.isChoiceHeader ? ' choice-header' : ''}${effect.isChoice ? ' choice-option' : ''}`}>
                               <div className="healing-effect">
-                                <span className="healing-effect-name">{effect.name}</span>
+                                {effect.isChoiceHeader ? (
+                                  <div>
+                                    <div className="choice-header-label">{effect.name}</div>
+                                    {effect.mechanicsText && (
+                                      <div className="choice-header-note">{effect.mechanicsText}</div>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <span className="healing-effect-name">{effect.name}</span>
+                                )}
                                 {/* Description removed - already shown in UnifiedSpellCard main description */}
                                 {/* Targeting/Range badges */}
                                 {effect.targeting && (

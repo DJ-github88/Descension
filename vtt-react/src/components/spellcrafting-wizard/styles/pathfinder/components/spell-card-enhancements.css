@@ -464,3 +464,55 @@
 .spell-cooldown {
     color: var(--pf-text-primary, #2d1810) !important;
 }
+
+/* Choice Config — "Choose One" table styling */
+.healing-effect-item.choice-header {
+    background: rgba(139, 115, 85, 0.12) !important;
+    border: 1px solid rgba(139, 115, 85, 0.4) !important;
+    border-radius: 4px 4px 0 0 !important;
+    padding: 7px 8px !important;
+    margin-bottom: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+
+.choice-header-label {
+    font-weight: 700 !important;
+    font-size: 0.88em !important;
+    color: var(--pf-text-primary, #2d1810) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.choice-header-note {
+    font-style: italic !important;
+    font-size: 0.78em !important;
+    color: var(--pf-text-secondary, #5c3a2e) !important;
+    opacity: 0.8 !important;
+}
+
+.healing-effect-item.choice-option {
+    border-radius: 0 !important;
+    margin-bottom: 0 !important;
+    border-top: none !important;
+    background: rgba(255, 255, 255, 0.35) !important;
+    padding: 5px 8px !important;
+}
+
+.healing-effect-item.choice-option:last-of-type {
+    border-radius: 0 0 4px 4px !important;
+    margin-bottom: 6px !important;
+}
+
+.healing-effect-item.choice-option .healing-effect-name {
+    font-weight: 600 !important;
+    font-size: 0.85em !important;
+    color: var(--pf-text-primary, #2d1810) !important;
+}
+
+.healing-effect-item.choice-option .healing-effect-mechanics {
+    font-size: 0.8em !important;
+    color: var(--pf-text-secondary, #5c3a2e) !important;
+    padding-left: 4px !important;
+}

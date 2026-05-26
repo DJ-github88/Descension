@@ -1190,18 +1190,18 @@ const RaceSelector = () => {
           <div className="details-layout">
             {/* Left Column: Stats & Basic Info */}
             <div className="details-left">
-              {/* Race Illustration in Guidebook Frame */}
-              {raceData.illustration && (
+              {/* Race Illustration in Guidebook Frame (checks for subrace-specific illustration first) */}
+              {(variantData.illustration || raceData.illustration) && (
                 <div className="guide-illustration-wrapper race-illustration-wrapper">
                   <div className="guide-illustration-frame">
                     <img
-                      src={raceData.illustration}
-                      alt={raceData.illustrationCaption || raceData.name}
+                      src={variantData.illustration || raceData.illustration}
+                      alt={variantData.illustrationCaption || raceData.illustrationCaption || variantData.name || raceData.name}
                       className="guide-illustration-image"
                     />
-                    {raceData.illustrationCaption && (
+                    {(variantData.illustrationCaption || raceData.illustrationCaption) && (
                       <div className="guide-illustration-caption">
-                        {raceData.illustrationCaption}
+                        {variantData.illustrationCaption || raceData.illustrationCaption}
                       </div>
                     )}
                   </div>

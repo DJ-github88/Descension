@@ -33,7 +33,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
   const raceIcons = {
     'Human': '👤', 'Astren': '🌿', 'Briaran': '🦊', 'Emberth': '🔥',
-    'Ferrick': '🦅', 'Grimheart': '⚙️', 'Groven': '🌳', 'Mimir': '🎭',
+    'Ferrick': '🦅', 'Grimheart': '⚙️', 'Groven': '💎', 'Mimir': '🎭',
     'Morthel': '👻', 'Hrym': '❄️', 'Vreken': '🦎'
   };
 

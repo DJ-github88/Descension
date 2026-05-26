@@ -578,7 +578,8 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
     duration: 3,
     durationUnit: 'minutes',
     concentration: false,
-    selectedEffects: []
+    selectedEffects: [],
+    choiceConfig: null
   };
 
   // Initialize utility configuration with defaults or existing state
@@ -932,7 +933,93 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
             </div>
           </div>
 
+          <div className="config-group">
+            <label>Choice Mode (Pick One)</label>
+            <div className="concentration-toggle">
+              <button
+                type="button"
+                className={`toggle-btn ${!!utilityConfig.choiceConfig ? 'active' : ''}`}
+                onClick={() => {
+                  if (utilityConfig.choiceConfig) {
+                    // Disable choice mode — move options back to selectedEffects
+                    updateUtilityConfig('choiceConfig', null);
+                  } else {
+                    // Enable choice mode — convert selectedEffects into choice options
+                    const options = (utilityConfig.selectedEffects || []).map(e => ({
+                      id: e.id,
+                      name: e.customName || e.name,
+                      description: e.customDescription || e.description || ''
+                    }));
+                    updateUtilityConfig('choiceConfig', {
+                      mode: 'pick_one',
+                      pickCount: 1,
+                      label: 'Choose One',
+                      note: '',
+                      options: options.length > 0 ? options : []
+                    });
+                    // Clear selectedEffects since choice mode takes over
+                    updateUtilityConfig('selectedEffects', []);
+                  }
+                }}
+              >
+                {utilityConfig.choiceConfig ? 'On' : 'Off'}
+              </button>
+            </div>
+          </div>
+
         </div>
+
+        {/* Choice Mode Configuration */}
+        {utilityConfig.choiceConfig && (
+          <div className="section choice-mode-section">
+            <h4>Choice Options</h4>
+            <p>
+              Each selected effect below becomes a numbered option the player picks from 
+              ({utilityConfig.choiceConfig.pickCount === 1 ? 'pick one' : `pick ${utilityConfig.choiceConfig.pickCount}`}).
+            </p>
+
+            <div className="utility-config-grid" style={{ marginTop: '8px' }}>
+              <div className="config-group">
+                <label>Header Label</label>
+                <input
+                  type="text"
+                  value={utilityConfig.choiceConfig.label || 'Choose One'}
+                  onChange={(e) => updateUtilityConfig('choiceConfig', { ...utilityConfig.choiceConfig, label: e.target.value })}
+                  className="pf-input"
+                  placeholder="Choose One"
+                />
+              </div>
+              <div className="config-group">
+                <label>Pick Count</label>
+                <select
+                  value={utilityConfig.choiceConfig.mode || 'pick_one'}
+                  onChange={(e) => {
+                    const mode = e.target.value;
+                    const pickCount = mode === 'pick_one' ? 1 : mode === 'pick_two' ? 2 : 3;
+                    updateUtilityConfig('choiceConfig', { ...utilityConfig.choiceConfig, mode, pickCount });
+                  }}
+                  className="duration-unit"
+                >
+                  <option value="pick_one">Pick One</option>
+                  <option value="pick_two">Pick Two</option>
+                  <option value="pick_three">Pick Three</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="config-group" style={{ marginTop: '6px' }}>
+              <label>Footer Note (optional)</label>
+              <input
+                type="text"
+                value={utilityConfig.choiceConfig.note || ''}
+                onChange={(e) => updateUtilityConfig('choiceConfig', { ...utilityConfig.choiceConfig, note: e.target.value })}
+                className="pf-input"
+                placeholder="e.g. 20% chance the reading is cryptic"
+              />
+            </div>
+          </div>
+        )}
+
       </div>
 
       {/* Combined Category Selection and Available Effects */}
