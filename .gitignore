@@ -78,3 +78,13 @@ scratch/
 
 # Script utilities (not part of the app)
 scripts/
+
+# One-off utility files in vtt-react root
+vtt-react/rewrite_*.js
+vtt-react/**/*_new.js
+
+# Data backup files
+vtt-react/src/data/**/*.backup*
+
+# Random root junk
+UTF8
