@@ -10,78 +10,165 @@ export const RULES_CATEGORIES = [
     subcategories: [
       {
         id: 'cosmic-mythos',
-        name: 'Cosmic Mythos',
+        name: 'The Deepening & The Breach',
         icon: 'fas fa-sun',
         theme: 'narrative',
         summary: [
-          'Sol entered its natural death-rebirth cycle — the Deepening — becoming vulnerable to an ancient predator.',
-          'The 7 Noble Families bound Sol beneath Sundale to protect it, but exhausted their power in the binding.',
-          'Keth-Amar tricked the starving families into sacrificing their heirs, shattering the seal to feed on Sol from within.'
+          'The Deepening is the ancient death-rebirth cycle of every star — and it always attracts predators.',
+          'The 7 Noble Families entombed Sol beneath Sundale using the hide of Aex, Sol\'s firstborn — a desperate act of protection soaked in sacrifice.',
+          'Keth-Amar consumed six families\' sacrificed heirs as vessel-keys, shattering the seal into 7 Sundered Monoliths. The slow feast began.'
         ],
         content: {
-          title: 'The Cosmic Mythos & The Dark Compromise',
-          description: 'The fundamental conflict of Mythrill is built upon a tragic, cyclical compromise between mortal desperation, political conspiracy, and a cosmic predator called Keth-Amar.',
+          title: 'The Deepening & The Great Breach',
+          description: 'Before noble houses, before dark bargains, there was a law older than any deity: the Deepening, the death-rebirth cycle of every star. When Sol entered this vulnerable trance, an ancient predator descended. The desperate acts that followed — a binding ritual soaked in sacrifice, a whispered bargain, a seal shattered by children — are the foundation of everything.',
           sections: [
             {
               title: 'The Deepening & The Binding',
-              content: `Sol did not die — it entered the ancient death-rebirth cycle known to the oldest star-watchers as the **Deepening**, a vulnerable trance during which a celestial body sheds its exhausted light and rekindles from within. The **7 Noble Families**, counseled by their augurs, knew what followed: the Deepening always attracted predators. An abyssal entity called **Keth-Amar** — the Sun-Eater of elder myth, the First Hunger — would descend to devour Sol before it could be reborn.\n\nThe families pooled their bloodlines and cataclysmic ritual knowledge to entomb Sol beneath the crust of **Sundale**. They channeled Sol's own dying radiance as the fuel — using the sun's death-throe to power its own burial. The result was a one-way seal: a vault with no key, protecting Sol from the predator at the cost of locking its warmth underground forever. None of the families possessed the power to undo what they had done. The binding had exhausted them completely.`
+              content: `Before there were noble houses, before there was a frozen world, there was a law older than any deity. It is called the **Deepening**: the ancient death-rebirth cycle by which every celestial body sheds its exhausted light and rekindles from within. Every star that has ever burned has entered the Deepening. Every star has emerged.
+
+But the Deepening carries a fatal flaw: it attracts predators. The dimming light broadcasts across the void: *here is something vulnerable.*
+
+When the sun-god **Sol** entered its own Deepening, the **[Augurs](world-lore/classes)** of the seven noble houses were the first to read the signs in the cooling light. Their rune-scarred forearms burned with visions traded from personal memory. The **[Oracles](world-lore/classes)** of Sol's celestial court — constellation-spirits who would later flee into willing vessels among the **[Astril](world-lore/races-overview)** — screamed warnings. The **[Doomsayers](world-lore/classes)** recorded the approaching darkness.
+
+An abyssal entity called **Keth-Amar** — the Sun-Eater, the First Hunger — was already here.
+
+To protect Sol, the seven families pooled their bloodlines to entomb the dying star beneath **[Sundale](world-lore/regions)**. **[Inscriptors](world-lore/classes)** encoded the binding terms into burn-scar and memory-glass. **[Titans](world-lore/classes)** of the **[Emberth](world-lore/races-overview)** Korr stood sentinel. **[Wardens](world-lore/classes)** guarded the approaches.
+
+What the histories burned from every account is the seal's substance. Ritual alone cannot bind a star. The families needed a vessel woven from living radiance: a hide that remembered the warmth of the sun. The oldest name for such a vessel is **Aex** — the firstborn of Sol, a living entity of pure solar fire. The fragments that survived the purge record a hunt. Aex did not volunteer. Aex was taken — the first being to eat fire so others would not burn. The **[Spellguards](world-lore/classes)** of later ages trace their origin to this moment.
+
+The result: a one-way seal, a vault with no key. The binding exhausted the families — and the world began to freeze.`
             },
             {
               title: 'Keth-Amar & The Breach',
-              content: `Without Sol's light, the surface world began to die. Darkness and frost. Crops failed. Children froze in their cradles. The peoples of every region dug into the earth for residual warmth — temporary refuge, nothing more.\n\n**Keth-Amar**, denied its prey, circled the frozen world and turned its attention to the starving. It whispered to the desperate nobles who had doomed their own people — promises of warmth, of volcanic vents that would crack the frozen earth and bleed heat back to the surface. The price: the firstborn heirs of each noble house.\n\nPressed to extinction, six of the seven families capitulated. They marched their heirs to the northern peaks. Keth-Amar consumed them — not as mere sacrifice, but as **vessels**. The children's bloodlines were the original keys to the binding seal; by devouring them, Keth-Amar cracked the vault from within. The seal shattered into **7 fragments** — the Campaign Shards, each screaming with the echo of a sacrificed heir. The resulting breach unleashed volcanic pressure across the world. **Emberspire** erupted in Sundale. The **Wyrd**, a formless spiritual rot sealed in the deep earth since before human memory, bled through the cracks into the surface air.`
+              content: `Without Sol's light, the surface world began to die. Frost crept south. Crops failed. Children froze. Every people dug into the earth for residual warmth.
+
+Keth-Amar, denied its prey, turned to the starving. It whispered to the desperate nobles — not in words but impressions: *warmth, vents cracking frozen earth.* The price: **firstborn heirs.**
+
+Pressed to extinction — **[Doomsayers](world-lore/classes)** recording deaths that were no longer prophecy but arithmetic — six families capitulated. The first **[Martyr](world-lore/classes)** was a Solvarn mother named **Sera Solvan**, who carved her sacrificed child's name into her forearm. The scar still glows in the presence of Sundered Monoliths.
+
+They marched their heirs north. Keth-Amar consumed them as **vessels** — the children's bloodlines were the keys to the seal. The seal shattered into **7 Sundered Monoliths.** **[Emberspire](world-lore/regions)** erupted. The **Wyrd** bled through the cracks. The first **[Exorcists](world-lore/classes)** were active within months. **[Huntresses](world-lore/classes)** began tracking Wyrd-sign. **[Deathcallers](world-lore/classes)** discovered the Wyrd's victims were not silent. **[Covenbanes](world-lore/classes)** were written in that first bleeding of spiritual rot.`
             },
             {
               title: 'The Slow Feast',
-              content: `Keth-Amar is now inside the binding — inside the vault it was never meant to enter. It feeds on Sol's slumbering embers through the fractured seal, slowly, patiently, growing incrementally stronger as the world grows incrementally colder. Sol cannot wake. Sol cannot die. Sol is being eaten. And the **7 Shards** — scattered across the continents, each a fragment of the original seal, each whispering with Keth-Amar's hunger — are the only way to close the breach and seal the predator's jaws.\n\n**The Refusal:** House Viridane alone rejected Keth-Amar's bargain. They did not march their children north. The **Briaran** — their hidden descendants — carry the weight of that refusal through every generation, branded oathbreakers by the history the other six families wrote to justify their own capitulation.`
+              content: `Keth-Amar is now inside the binding — inside the vault it was never meant to enter. It feeds on Sol's embers, growing stronger as the world grows colder. Sol cannot wake. Sol cannot die. Sol is being eaten — the slowest meal in cosmic history.
+
+The **7 Sundered Monoliths** are the only way to close the breach. **[Huntresses](world-lore/classes)** track Shard-sign through every biome. **[Oracles](world-lore/classes)** receive warnings when a Shard wakes. **[Doomsayers](world-lore/classes)** record each awakening. (Full locations in [The Age of the Dimming](world-lore/world-state).)
+
+But closing a wound is not the same as healing it.
+
+**The Refusal:** There was an **eighth house** — House Viridane. They refused, fled south through the **[Frostwood Reach](world-lore/regions)**, and made a counter-bargain with fae entities. The **[Briaran](world-lore/races-overview)** carry that refusal — their **[Lunarchs](world-lore/classes)** are living memory of the burned contract, their **[Bladedancers](world-lore/classes)** are its sharp edge, their **[Martyrs](world-lore/classes)** carry the ancestral debt in thorn and flesh.`
             }
           ]
         }
       },
       {
         id: 'world-state',
-        name: 'World State & Geography',
+        name: 'The Age of the Dimming',
         icon: 'fas fa-map',
         theme: 'narrative',
         summary: [
-          'The oceans are violent, freezing, churning waves of thick icy foam — not static ice sheets.',
-          'Maritime travel is treacherous, keeping continents naturally isolated.',
-          'The pact shattered into 7 Regional Shards scattered across the world.'
+          'The Solbrand is dimming. The Sundered Monoliths are waking. Civil war brews in Sundale. The frost lords stir beneath Nordhalla\'s glaciers.',
+          'Every region faces its own crisis — but no crisis stays contained. The powder keg is global.',
+          'The definitive campaign follows seven Shards across seven continents.'
         ],
         content: {
-          title: 'The World State & The Geography of Isolation',
-          description: 'The world map reflects a violent clash of elements. Rather than oceans frozen solid into static ice sheets, the waters of Mythrill are violent, freezing, churning waves filled with thick, icy foam. This makes maritime travel highly treacherous, keeping the continents naturally isolated and reinforcing the terrifying nature of the sea.',
+          title: 'The Age of the Dimming',
+          description: 'Eight centuries without a sun. Seven continents shaped by desperate bargains. One dying ember tended by a forge-clan concealing its decline. The Sundered Monoliths are waking. The frost lords stir. Civil war brews in Sundale. This is the world your adventurers inherit — a powder keg lit by the slowest fire in cosmic history.',
           sections: [
             {
-              title: 'The 7 Campaign Shards',
-              content: `When the dark bargain was sealed in the north, the magical impact shattered the pact into **7 Regional Shards**. These shards were scattered across the face of the world.\n\n• Each Shard is intrinsically tied to one of the 7 Noble Families' sacrifices.\n• They contain the raw power of the compromise, act as anchors for local magic, and whisper dark secrets to the surviving noble bloodlines.\n• **TTRPG Structure**: Finding and sealing/reclaiming these 7 scattered Shards forms the definitive 7-part campaign framework for players, leading to a final world-deciding confrontation.`
+              title: 'The World Today',
+              content: `Close your eyes. Imagine a world where the sun has not risen in eight hundred years. Not hidden behind clouds — **gone**. Entombed beneath volcanic crust by a desperate ritual, fed upon by a cosmic predator that grows stronger with every passing decade. The only warmth comes from below: volcanic vents, geothermal springs, the grudging heat of a dying planet. Cities cluster around these vents like children around a dying hearth. Caravans cross snow-choked passes on bridges grown from the calcified dead.
+
+This is the world your adventurers were born into. Not a post-apocalypse — an **ongoing apocalypse**, eight centuries deep and still accelerating.`
+            },
+            {
+              title: 'The Dimming of the Solbrand',
+              content: `In the volcanic heart of **[Sundale](world-lore/regions)**, beneath the Harath-Vault, the **[Emberth](world-lore/races-overview)** have tended the **Solbrand** — believed to be Sol's last conscious fragment — for eight centuries. **[Titans](world-lore/classes)** of the Korr stand six-hour sentinel shifts. **[Oracles](world-lore/classes)** listen for a voice that has not spoken since the binding.
+
+The Solbrand is dimming. The tending-clan has known for three generations and concealed it. Three factions have emerged: the **Risen** (old faith), the **Sunderer** (heretics who believe the Solbrand is Keth-Amar's feeding-line), and the **Unwoven** (who deface their forge-marks and scour the world for Shards). Civil war brews.
+
+The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every morning a sun-priest climbs the highest tower: *not today. Perhaps tomorrow.* Their **[Doomsayers](world-lore/classes)** record the Dimming's progression. Their **[Martyrs](world-lore/classes)** stay, wounds glowing faintly near the dying ember.`
+            },
+            {
+              title: 'The Stirring of the Shards',
+              content: `The seven **Sundered Monoliths** have been dormant for centuries. No longer. The **[Myrathil](world-lore/races-overview)** Deep-Born Listeners feel the Iceheart Shard thrumming. The **[Astril](world-lore/races-overview)** spirits convulse. The **[Groven](world-lore/races-overview)** report the Shard beneath Frostmaw Crag has begun to sing — vibrations cracking older Ancestor-Spans. **[Huntresses](world-lore/classes)** track Shard-sign through every biome. **[Exorcists](world-lore/classes)** contain the Wyrd-creatures drawn to Shard-resonance. **[Oracles](world-lore/classes)** receive fragments of warning.`
+            },
+            {
+              title: 'The Regional Powder Kegs',
+              content: `Each region faces its own crisis — and each threatens to spill.
+
+**In [Sundale](world-lore/regions)** — Civil war brews between forge-clans. **[Pyrofiends](world-lore/classes)** burn with a fire the Emberth revere but cannot trust.
+
+**In [Nordhalla](world-lore/regions)** — Frost lords stir. Rune Keeper **[Augurs](world-lore/classes)** record irregular vibrations in the Archive. Skreika besiege the **[Skald](world-lore/races-overview)** fjord-keeps in numbers not seen in centuries.
+
+**In the [Cragjaw Peaks](world-lore/regions)** — Ancestor-Spans crack. **[Fexrick](world-lore/races-overview)** machines fail. **[Chronarchs](world-lore/classes)** extend lifespans while **[Formbenders](world-lore/classes)** search for the Lost Brood.
+
+**In the [Bryngloom](world-lore/regions)** — The **[Neth](world-lore/races-overview)** have filed seventeen petitions. The Keeper has not ruled. Over-Lit epidemic worsens. **[Covenbanes](world-lore/classes)** stretched to their limits.
+
+**On the [Iceheart Sea](world-lore/regions)** — Spawning gales shift north. The First Shore grows quiet. The Rift Shard thrums.
+
+**In the [Sundrift Vale](world-lore/regions)** — Ancestor-mounds hum louder. The Astril assassination economy intensifies.
+
+**In the [Frostwood Reach](world-lore/regions)** — Fog thickens. **[Mimir](world-lore/races-overview)** mother-flame flickers. Noble houses fund fresh expeditions. The **[Briaran](world-lore/races-overview)** run out of places to hide.`
+            },
+            {
+              title: 'The Seven Sundered Monoliths',
+              content: `When Keth-Amar consumed the six sacrificed heirs, the seal shattered into seven fragments.
+
+**What the Shards Are:** Fragments of the original binding ritual, each tied to one noble house's sacrifice. Magical anchors corrupting ambient energy. Living whispers — as Keth-Amar feeds, they grow louder.
+
+**Where They Rest:**
+• **[Frostwood Reach](world-lore/regions)** — Greymark lineage-tapestry archive.
+• **[Nordhalla](world-lore/regions)** — Sealed hall of the Frozen Archive.
+• **[Sundale](world-lore/regions)** — Emberspire's caldera.
+• **[Iceheart Sea](world-lore/regions)** — Treakous Oceanic Rift.
+• **[Cragjaw Peaks](world-lore/regions)** — Subterranean Vault beneath Frostmaw Crag.
+• **[Sundrift Vale](world-lore/regions)** — Ancient Burial Mound.
+• **[Bryngloom Forest](world-lore/regions)** — Bottom of a Murky Pool with no bottom. The Neth have filed seventeen petitions. The Keeper has not ruled.
+
+**Campaign Framework:** Finding and sealing these seven Shards — one per region — carries players from Frostwood Reach to the final confrontation at Emberspire. No Shard yields without cost.`
             }
           ]
         }
       },
       {
         id: 'the-wyrd',
-        name: 'The Wyrd',
+        name: 'The Wyrd & Its Creatures',
         icon: 'fas fa-ghost',
         theme: 'danger',
         summary: [
-          'The Wyrd is a formless primordial spiritual rot unleashed when Emberspire erupted.',
-          'It manifests by occupying human fear, rumors, hearsay, and folklore as a literal blueprint.',
-          'Each continent suffers unique, localized monsters based on local cultural superstitions.'
+          'The Wyrd is a formless spiritual rot that bled through the cracks when Emberspire erupted. It cannot create — only occupy the collective imagination.',
+          'It uses human fear and folklore as structural blueprints. Every creature in the Bestiary was born when the Wyrd found an empty shape in a culture\'s terrors.',
+          'Each continent produces unique monsters. To understand a creature is to understand the fear that birthed it. That fear is always the leverage point.'
         ],
         content: {
           title: 'The Wyrd — The Folkloric Infestation',
-          description: 'When Emberspire erupted, it did not just release magma; it unsealed a primordial, spiritual rot from the earth\'s deep history.',
+          description: 'When Emberspire erupted, it unsealed the Wyrd: a formless spiritual rot sealed since before human memory. It cannot create — only occupy. Every ghost story whispered around a hearth becomes a blueprint it can crawl inside. This is why the Gref of Frostwood wears stolen faces while the Cinder of Sundale burns truth into liars. Full stats in the Bestiary.',
           sections: [
             {
               title: 'Mechanics of Manifestation',
-              content: `The Wyrd is a formless, ancient spiritual energy that cannot manifest a physical body on its own. Instead, it utilizes **human fear, rumors, hearsay, and old folklore as a literal structural blueprint**.\n\nWhen a settlement gathers around a hearth and whispers cautionary tales or ghost stories out of paranoia, they draw an accidental blueprint in the ambient air. The Wyrd slips inside these rumors, occupying the manifested tales in a twisted, malicious manner, turning folklore into physical, living horrors.\n\nConsequently, different continents suffer from completely unique, localized monsters based entirely on the specific cultural superstitions of the people living there.`
+              content: `The Wyrd is a formless, ancient spiritual energy that cannot manifest on its own. It must occupy something — and what it occupies is the collective imagination. When a settlement whispers cautionary tales around a hearth, they draw an accidental blueprint. The Wyrd slips inside, turning folklore into living horrors.
+
+**Why Each Continent Has Unique Monsters:**
+• **[Frostwood Reach](world-lore/regions)** (Germanic/Celtic) — face-stealing Gref, oath-hunting Gambrels. Exorcists cross-reference journals; Bladedancers navigate the Revel's circle.
+• **[Nordhalla](world-lore/regions)** (Norse/Alpine) — glacier-memory Stels, hearth-parasite Rimors. Berserkers wade into fjord-surf; Augurs extract prophecies from frozen victims.
+• **[Sundale](world-lore/regions)** (Mesopotamian/Egyptian) — the burning Cinder, the Husque. Pyrofiends alone approach a Husque without immediate consumption.
+• **[Iceheart Sea](world-lore/regions)** (Greek/Yoruba) — the Spume of the Drowned, the Writ of Passage. Deathcallers separate voices; Arcanoneers study the Writ.
+• **[Cragjaw Peaks](world-lore/regions)** (Yokai/Andean) — metal-eating Scrabs, the mountain's consciousness. Formbenders develop deterrents; Fate Weavers read the Thrum's approach.
+• **[Sundrift Vale](world-lore/regions)** (Mongol/Chinese) — debt-tracking Lien, the Hungry Child. Martyrs assume debts into flesh; Oracles tell stories of a sky the Child has never seen.
+• **[Bryngloom Forest](world-lore/regions)** (Slavic/Hindu) — the Grandmother of the Bog, the Cycle-Eater. Witch Doctors treat memory-wounds; Covenbanes track Debt-Revenants.
+
+**Key Principles:**
+• The Wyrd cannot invent — only occupy. Every creature was born when the Wyrd found an empty shape in a culture's imagination.
+• To permanently destroy a Wyrd-creature, address the fear that birthed it. The blueprint persists.
+• Full combat stats and quest hooks: [Bestiary](world-lore/bestiary).`
             }
           ]
         }
       },
       {
         id: 'regions',
-        name: 'Regional Gazetteer',
+        name: 'The Continents',
         icon: 'fas fa-mountain',
         theme: 'narrative',
         summary: [
@@ -90,20 +177,46 @@ export const RULES_CATEGORIES = [
           'Seven major regions detailed with their dark bargains, native races, folklore anchors, and Wyrd-creatures.'
         ],
         content: {
-          title: 'Regional Gazetteer',
-          description: 'A comprehensive survey of the known world — each continent shaped by its own dark bargain with the Warden, each haunted by Wyrd-creatures born from the fears whispered around local hearths.',
+          title: 'The Seven Continents',
+          description: 'Seven continents. Seven dark bargains. Seven Sundered Monoliths. Each land shaped by the desperate trade its noble house made with Keth-Amar, and each haunted by creatures born from the specific fears of its people. The Frostwood Reach devours memory. Nordhalla surrendered summer forever. Sundale chokes on the ash of a dying god.',
           sections: [
             {
               title: 'Frostwood Reach (Starting Zone)',
-              content: `A smaller, highly atmospheric continent characterized by dense, transitional fog where warm volcanic air from the south aggressively collides with the creeping northern frost.\n\n**Folklore Blend:** Germanic/Grimm + Celtic. The Black Forest meets the misty highlands — bargains rot, shapeshifters steal faces, thorn-curses bloom, and the Wild Hunt rides through fog that erases memory.\n\n**The Dark Bargain:** The local noble family traded the region's absolute spatial clarity for an insulating, protective mist to keep their ancient timber and wildlife from freezing and shattering like glass. The price was the steady decay of historical memory over generations.\n\n**Culture & What They Cherish:** Because the magical fog subtly degrades memory over decades, the society is obsessed with preservation. They cherish **written journals, hand-carved lineage tapestries, and physical keepsakes**. They are deeply suspicious of outsiders who cannot verify their ancestry.\n\n**The Crafts:**\n• *Heart-Pine Carving*: Harvesting petrified wood hardened by frost until it mimics iron, used to build interlocking structures without nails.\n• *Mist-Glassing*: Forging a translucent green glass out of volcanic ash and glacial sand to create specialized lanterns that pierce the magical fog.\n\n**Native Races:** Primarily human subraces (the Thalren of House Thalreth — journal-keepers obsessed with preserving memory against the fog), the secretive faceshifting **Mimir**, and the hidden **Briaran** — descendants of the forgotten eighth noble house who live concealed in the deepest moonlit groves.\n\n**Wyrd-Creatures:**\n• *The Vylgora*: A towering, skeletal woodland entity woven from petrified bark and dense mist. It digests the memories of those it claims, using its exposed ribcage to echo the perfect, heartbreaking voice of a traveler's lost child to lure others off the safety of the path.\n• *The Morovath*: Born from the fear of death and identity theft. When someone dies alone in the woods, the Wyrd weaves roots and frozen moss into the hollow shell of the corpse. The creature walks back into the village, perfectly mimicking the walking gait and posture of the deceased, slipping into their old home to silently drain the heat from the family hearth while they sleep.\n• *The Wild Hunt Remnant*: On certain moonless nights, the fog carries the sound of baying hounds and thundering hooves — but the riders are not fae lords. They are Briaran who broke the old contract and were claimed by the Wyrd, now riding for eternity through the Reach, stealing the breath from anyone caught alone on the road. Their passage leaves frost on every door they did not open.`
+              content: `The air tastes of wet iron and old pine — a forest dying for eight centuries that refuses to finish. The fog is not weather. It is the permanent condition.
+
+> *"The fog keeps the timber from shattering. It also eats what you remember — slowly, starting with the faces of the dead."*
+
+**The Dark Bargain:** House Thalreth traded spatial clarity for protective fog. Price: memory decays.
+
+**The Land & Its People:** The **[Thalren](world-lore/races-overview)** dominate from Greymark, a library of forty thousand names. The **[Mimir](world-lore/races-overview)** — mask-bound faceshifters — hide in canopy-holds; the art of mask-forging was lost ninety years ago. The **[Briaran](world-lore/races-overview)** — thorn-born descendants of House Viridane — live in moonlit groves. **[Exorcists](world-lore/classes)** cross-reference journals against Wyrd-manifestations. **[Huntresses](world-lore/classes)** read the fog. **[Bladedancers](world-lore/classes)** patrol with speed born of necessity. **[Lunarchs](world-lore/classes)** draw power from lunar cycles. **[Witch Doctors](world-lore/classes)** practice spore-based medicine.
+
+**What Hunts Here:**
+• The **Gref** — A face-trader. Huntresses track Gref-sign; Exorcists identify which face in the village no longer belongs.
+• The **Gambrel** — Born from broken oaths. Lunarchs, whose thorns prickle at oathbreakers, sense them first.
+• The **Revel** — A fae court whose celebration began before the sun died. Bladedancers navigate its circle.
+
+**The Shard:** Sealed within the Greymark lineage-tapestry archive.`
             },
             {
               title: 'Nordhalla & The Valley of Ymir',
-              content: `A brutal, blinding-white northern tundra sliced by towering black fjords and absolute, sub-zero cold.\n\n**Folklore Blend:** Norse + Alpine. Fjord-vikings and mountain-specters — glacier-revenants drag the drowned through ice, the Berggeist tests travelers on the frozen tundra, and the Weiße Frau appears in whiteout storms offering shelter that was never there.\n\n**The Dark Bargain:** The noble family bargained to halt the grinding, aggressive advance of massive glaciers that threatened to crush their mountain keeps. The Warden froze the ice sheets permanently in place, but decreed that summer would never return to the north.\n\n**Culture & What They Cherish:** They view the ice as a sacred vault of history. They cherish **unbroken bloodlines, physical endurance, and ancient relics frozen in time**. The dead are encased in clear glacial tombs rather than buried.\n\n**The Crafts:** *Rimesteel* (a dark, dense iron tempered in glacial runoff that never shatters in the cold) and *Skali* (heavy fur cloaks and sails treated with leviathan fat to repel freezing gales).\n\n**Native Races:** Hardened human tribal subraces (the Skald of House Skalvyr — bloodline-purists who measure worth in cold-endurance) and the frostborn **Hrym**.\n\n**Wyrd-Creatures:**\n• *The Skreika*: Blue-fleshed, frost-rimed remnants of drowned warriors who crawl out of the black fjords draped in frozen seaweed, seeking to drag the living into the icy tides.\n• *The Tursas*: Massive, armored quadrupeds made of jagged volcanic glass, black ice, and compact stone that sleep in glacial crevasses, waking violently when the volcanic core tremors.\n• *The Weiße Frau*: A woman of packed snow and frost who materializes during whiteout storms on the tundra, offering shelter in a cave that was never there. Those who follow are found days later, frozen solid in a blizzard-hollow with their mouths full of ice — and their eyes open, as if they saw something they were still trying to understand.\n• *The Berggeist*: A mountain-specter of the northern peaks that tests travelers with impossible choices. One wrong answer and the pass seals behind you. Walk the wrong ridge and the ice opens beneath your feet. The Hrym call it *the Examiner* and leave offerings of rimesteel at the foot of its known haunts.`
+              content: `A brutal tundra sliced by black fjords. Beneath glacier walls, the flash-frozen dead of an unknown civilization stand in silent streets — the Frozen Archive, machines humming for ten thousand years.
+
+> *"The south owes us blood-debts from the War of Thousand Screams that they have never paid."*
+
+**The Dark Bargain:** House Skalvyr halted the glaciers. Price: summer never returned.
+
+**The Land & Its People:** The **[Skald](world-lore/races-overview)** rule fjord-keeps, encasing dead in glacier-tombs. The **[Hrym](world-lore/races-overview)** — frost-born of the Hunger Pact — do not ask "Who is your mother?" (the Milk-Grief kills nearly half). Bloodhammer **[Berserkers](world-lore/classes)** channel ancestral fury. **[Dreadnaughts](world-lore/classes)** seal themselves in Archive-forged iron. Rune Keeper **[Augurs](world-lore/classes)** trade memories for prophecy. **[Spellguards](world-lore/classes)** absorb enemy magic into flesh. Frostbound **[Oracles](world-lore/classes)** listen to the ice.
+
+**What Hunts Here:**
+• The **Skreika** — Drowned warriors. Berserkers meet them in the surf.
+• The **Rimor** — A hearth-parasite. Augurs detect it by frost-pattern absence.
+• The **Stel** — A glacier's memory. Augurs extract prophecies from frozen victims.
+
+**The Shard:** Deep within a sealed hall of the Frozen Archive. Rune Keepers hear it humming.`
             },
             {
               title: 'Sundale & Emberspire',
-              content: `A volcanic desert of ashfall, obsidian rivers, and smoldering badlands surrounding the world-heart volcano — the tomb and cradle of Sol itself.\n\n**Folklore Blend:** Mesopotamian/Zoroastrian + Egyptian. Fire as dual-god — creator and consumer. The volcano is a dying pharaoh entombed in ash. Lava-djinn write prophecy in cooling stone. Death is passage through flame, and scribes of the underworld weigh hearts against obsidian.\n\n**The Dark Bargain:** Sol slumbers beneath Sundale's crust — not dead, not dying, but entombed within the Deepening trance by the seven noble families' binding ritual. Emberspire is the wound through which Keth-Amar breached the seal, using the sacrificed heirs of six noble houses as vessels to crack the vault from within. The predator now feeds on Sol's embers from inside the binding, growing stronger with each passing year as the world grows colder. The region's noble family — whose heirs were among those consumed — watches their ancestral lands slowly die beneath ashfall.\n\n**Culture & What They Cherish:** The Emberth were Sol's chosen — a sun-revering people whose Sun-Speakers received cryptic prophecy from the dying god centuries before the binding. Forewarned by visions of darkness and descent, they excavated vast tunnel networks beneath Sundale and were already underground when the surface froze. They emerged generations later, following Emberspire's eruption, to reclaim their ancestral ashlands. They cherish **the Solbrand** — the last eternal ember, believed to be Sol's final conscious fragment — and **thermal rights**, the legal ownership of a geothermal vent or lava-flow that forms the basis of all Sundale law. Warmth is property. Cold is poverty.\n\n**The Crafts:**\n• *Obsidian-Forging*: Volcanic glass shaped into blades sharper than steel but brittle, requiring constant ritual replacement — a blade is worn for a season and then shattered at the solstice fire.\n• *Ash-Glass*: Sand and ash fused at volcanic vents into pale grey panes used for greenhouses and thermal-capture architecture.\n\n**Native Races:** The sun-revering **Emberth**, the subterranean gear-engineers **Fexric** who maintain the deep thermal pipelines, and the undying merchant-lords **Neth** who operate trade-posts at the volcanic frontier.\n\n**Shard Location:** The Volcanic Caldera — one of the seven Campaign Shards is embedded in the throat of Emberspire itself, visible only during the annual vent-calm when the smoke clears for a single hour. The Emberth regard it with a mixture of reverence and terror: it is both Sol's cage and Keth-Amar's tooth.\n\n**Wyrd-Creatures:**\n• *The Ash-Scribe*: A figure of compacted ash and cooling obsidian that walks the badlands after eruptions, carving tally marks into stone. Each mark is a death — past, present, or impending. Following the Ash-Scribe leads to the dying. Stopping it requires offering a memory written in your own blood on obsidian.\n• *The Ember-Judge*: Appears at the mouth of lava-tubes on nights when the vents glow red. It wears the face of someone you wronged and asks one question: what do you owe? Those who answer truthfully are permitted to leave. Those who lie are found the next morning, turned to obsidian statues at the lava-tube's mouth, their face frozen in the act of speaking.`
+              content: `A volcanic desert of ashfall, obsidian rivers, and smoldering badlands surrounding the world-heart volcano — the tomb and cradle of Sol itself.\n\n**Folklore Blend:** Mesopotamian/Zoroastrian + Egyptian. Fire as dual-god — creator and consumer. The volcano is a dying pharaoh entombed in ash. Lava-djinn write prophecy in cooling stone. Death is passage through flame, and scribes of the underworld weigh hearts against obsidian.\n\n**The Dark Bargain:** Sol slumbers beneath Sundale's crust — not dead, not dying, but entombed within the Deepening trance by the seven noble families' binding ritual. Emberspire is the wound through which Keth-Amar breached the seal, using the sacrificed heirs of six noble houses as vessels to crack the vault from within. The predator now feeds on Sol's embers from inside the binding, growing stronger with each passing year as the world grows colder. The region's noble family — whose heirs were among those consumed — watches their ancestral lands slowly die beneath ashfall.\n\n**Culture & What They Cherish:** The Emberth were Sol's chosen — a sun-revering people whose Sun-Speakers received cryptic prophecy from the dying god centuries before the binding. Forewarned by visions of darkness and descent, they excavated vast tunnel networks beneath Sundale and were already underground when the surface froze. They emerged generations later, following Emberspire's eruption, to reclaim their ancestral ashlands. They cherish **the Solbrand** — the last eternal ember, believed to be Sol's final conscious fragment — and **thermal rights**, the legal ownership of a geothermal vent or lava-flow that forms the basis of all Sundale law. Warmth is property. Cold is poverty.\n\n**The Crafts:**\n• *Obsidian-Forging*: Volcanic glass shaped into blades sharper than steel but brittle, requiring constant ritual replacement — a blade is worn for a season and then shattered at the solstice fire.\n• *Ash-Glass*: Sand and ash fused at volcanic vents into pale grey panes used for greenhouses and thermal-capture architecture.\n\n**Native Races:** The sun-revering **Emberth**, the subterranean gear-engineers **Fexric** who maintain the deep thermal pipelines, and the undying merchant-lords **Neth** who operate trade-posts at the volcanic frontier.\n\n**Shard Location:** The Volcanic Caldera — one of the seven Sundered Monoliths is embedded in the throat of Emberspire itself, visible only during the annual vent-calm when the smoke clears for a single hour. The Emberth regard it with a mixture of reverence and terror: it is both Sol's cage and Keth-Amar's tooth.\n\n**Wyrd-Creatures:**\n• *The Ash-Scribe*: A figure of compacted ash and cooling obsidian that walks the badlands after eruptions, carving tally marks into stone. Each mark is a death — past, present, or impending. Following the Ash-Scribe leads to the dying. Stopping it requires offering a memory written in your own blood on obsidian.\n• *The Ember-Judge*: Appears at the mouth of lava-tubes on nights when the vents glow red. It wears the face of someone you wronged and asks one question: what do you owe? Those who answer truthfully are permitted to leave. Those who lie are found the next morning, turned to obsidian statues at the lava-tube's mouth, their face frozen in the act of speaking.`
             },
             {
               title: 'The Iceheart Sea',
@@ -115,20 +228,20 @@ export const RULES_CATEGORIES = [
             },
             {
               title: 'Sundrift Vale',
-              content: `Wind-swept steppe and dead tundra grass stretching endlessly beneath the starless sky.\n\n**Folklore Blend:** Mongol/Turkic + Chinese. The eternal horizon meets celestial bureaucracy. Wind-hungry ghosts ride with the herds. Ancestor mounds are audit-halls where the dead reconcile debts across generations. The starless sky is a ledger with pages torn out. Throat-singing wakes things that should sleep.\n\n**The Dark Bargain:** The noble family traded fertile soil for the endless migration — the herds never stop, the grass always returns, no matter how many mouths feed upon it. The price: the sky went dark. No stars. No constellations. No navigable heavens. The ancestors who navigated by stars that are no longer there are now navigating by memory alone, and memory is the first thing the steppe takes.\n\n**Culture & What They Cherish:** The nomadic human clans cherish **the migration route, the herd, and the ancestor-song** — throat-sung histories that map the steppe by sound rather than sight. The Astril, who carry the surviving constellation-spirits in their very blood, cherish **the spirits themselves** — the last living fragments of Sol's celestial court, preserved in mortal flesh.\n\n**The Crafts:**\n• *Wind-Leather*: Horsehide cured in the constant steppe wind until it becomes as hard as wood but light as cloth, used for armor, tents, and ancestor-scrolls.\n• *Spirit-Binding*: The Astril practice ritual scarification and throat-singing to soothe, bind, or commune with the constellation-spirits they carry — their bodies are living star-charts, their voices the language the spirits remember from before the sky was erased.\n\n**Native Races:** The nomadic human clans of House Ordavan (the Ordan — herders and throat-singers who follow the endless migration) and the spirit-inhabited **Astril** — farmers and herders who volunteered to carry the last fragments of Sol's celestial court in their blood.\n\n**Shard Location:** Ancient Burial Mound — the campaign shard is interred with the first khan, whose name has been deliberately forgotten to keep the shard hidden.\n\n**Wyrd-Creatures:**\n• *The Wind-Hungry*: Ghosts of warriors who died without an heir to sing their name. They ride the steppe winds as screaming, semi-visible shapes, latching onto travelers who carry unresolved debts. They do not kill — they *follow*. The only way to banish one is to complete the dead warrior's unfinished business, which the ghost communicates through nightmares that grow more detailed each night.\n• *The Ledger-Keeper*: A figure of compacted dust and horsehair that sits at crossroads in the steppe, writing in a book of pressed grass. It records every debt, every broken oath, every unpaid toll across generations. If your ancestor owed something, the Ledger-Keeper knows — and it charges interest.\n• *The Empty Sky-Thing*: On certain windless nights, something vast and dark eclipses the already-empty sky. No one has seen its shape. Those caught beneath it report a crushing sense of being *accounted for* — as if something above was tallying their life and finding it insufficient. The Astren have theories. None of them are comforting.`
+              content: `Wind-swept steppe and dead tundra grass stretching endlessly beneath the starless sky.\n\n**Folklore Blend:** Mongol/Turkic + Chinese. The eternal horizon meets celestial bureaucracy. Wind-hungry ghosts ride with the herds. Ancestor mounds are audit-halls where the dead reconcile debts across generations. The starless sky is a ledger with pages torn out. Throat-singing wakes things that should sleep.\n\n**The Dark Bargain:** The noble family traded fertile soil for the endless migration — the herds never stop, the grass always returns, no matter how many mouths feed upon it. The price: the sky went dark. No stars. No constellations. No navigable heavens. The ancestors who navigated by stars that are no longer there are now navigating by memory alone, and memory is the first thing the steppe takes.\n\n**Culture & What They Cherish:** The nomadic human clans cherish **the migration route, the herd, and the ancestor-song** — throat-sung histories that map the steppe by sound rather than sight. The Astril, who carry the surviving constellation-spirits in their very blood, cherish **the spirits themselves** — the last living fragments of Sol's celestial court, preserved in mortal flesh.\n\n**The Crafts:**\n• *Wind-Leather*: Horsehide cured in the constant steppe wind until it becomes as hard as wood but light as cloth, used for armor, tents, and ancestor-scrolls.\n• *Spirit-Binding*: The Astril practice ritual scarification and throat-singing to soothe, bind, or commune with the constellation-spirits they carry — their bodies are living star-charts, their voices the language the spirits remember from before the sky was erased.\n\n**Native Races:** The nomadic human clans of House Ordavan (the Ordan — herders and throat-singers who follow the endless migration) and the spirit-inhabited **Astril** — farmers and herders who volunteered to carry the last fragments of Sol's celestial court in their blood.\n\n**Shard Location:** Ancient Burial Mound — the Sundered Monolith is interred with the first khan, whose name has been deliberately forgotten to keep the shard hidden.\n\n**Wyrd-Creatures:**\n• *The Wind-Hungry*: Ghosts of warriors who died without an heir to sing their name. They ride the steppe winds as screaming, semi-visible shapes, latching onto travelers who carry unresolved debts. They do not kill — they *follow*. The only way to banish one is to complete the dead warrior's unfinished business, which the ghost communicates through nightmares that grow more detailed each night.\n• *The Ledger-Keeper*: A figure of compacted dust and horsehair that sits at crossroads in the steppe, writing in a book of pressed grass. It records every debt, every broken oath, every unpaid toll across generations. If your ancestor owed something, the Ledger-Keeper knows — and it charges interest.\n• *The Empty Sky-Thing*: On certain windless nights, something vast and dark eclipses the already-empty sky. No one has seen its shape. Those caught beneath it report a crushing sense of being *accounted for* — as if something above was tallying their life and finding it insufficient. The Astren have theories. None of them are comforting.`
             },
             {
               title: 'The Bryngloom Forest',
               content: `Sinking, semi-frozen bogs and swamps — but also ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood — where the silver-skinned Neth and the lantern-eyed Vreken share the continent in cold, functional silence.\n\n**Folklore Blend:** Slavic/Carpathian + Hindu/Vedic. Corpse-debt meets cosmic cycle. Grandmother-witches trade in reincarnation — not rebirth, but re-use. The Neth conduct cold business with souls that have died eight times and are owed a ninth. The Vreken's lantern-eyes gave rise to the strigoi myth — the Romanian folkloric belief that glowing eyes in the dark are the risen dead returning to drain the living — a superstition that still follows them into regions that have never seen a Vreken but have heard the stories.\n\n**The Dark Bargain:** The Neth's ancestors — a dying clan of scribes, archivists, and merchant-brokers — made their own bargain separate from the noble families. They walked into the boundary where the ancient woods meet the preserving bog and presented a legal argument to the **Keeper of the Last Threshold** (the same entity the Vreken call the Root-Veil): *preserve us, and we will be your living archive — every contract we write carries your authority, every debt we record is a name you helped remember.* The Keeper accepted. The price: the pact must be honored in perpetuity through the physical **First Contract** preserved in Atropolis's heartwood. The Neth cannot stray far from copies of this document without beginning the **Fading** — a slow unraveling of mind and body that ends in a silver-skinned husk. Death became a renegotiated clause, not an ending. Every Neth remembers every near-death return. Every broken contract is enforced by the Keeper itself.\n\n**Culture & What They Cherish:** The Neth cherish **contracts, precedent, and the silence between terms**. They operate from their living canopy-city of **Atropolis** — a cathedral-grove of ancient ironwood coaxed into shape over a thousand years — and the frozen dock-outpost of **Ironjaw Port** on the Iceheart Sea. Their society is divided into three bloodlines: the **Velun** (arcanists and pact-mages, cannot lie), the **Kessen** (probability-weavers who read the obligation-web connecting every living thing), and the **Drun** (severed from the pact through a traumatic fire-ritual, magic-resistant but legally non-existent under Neth law). They view survival as a binding agreement — and they have been in contract for eight centuries.\n\n**The Crafts:**\n• *Memory-Glass* (Neth): Thin, translucent sheets of crystallized tree-sap that store information in refracted light patterns, releasing full sensory experience — the scribe\'s voice, the smell of the chamber, the temperature of that day — directly into the reader\'s mind. The oldest tablets in the Canopy-Ledger are two thousand years old and still legible.\n• *Ghost-Silk* (Neth): Pale, iridescent fiber harvested from domesticated silk-moths that feed on bioluminescent lichen. Woven into impossibly fine garments that float around the body like mist given form. The Velun wear layered robes inscribed with contract-clauses along the hems. The Kessen wear close-fitting garments marked with probability-glyphs only they can read.
 • *Fungal-Weave* (Vreken): Luminescent fungal filaments woven into fabric — dark monastic cassocks with thread-embroidery marking bloodline and vocation, rust-amber for the Clean, silver-white for the Marked. The cloth glows faintly in darkness, just enough to find each other.
-• *Crypt-Engraving* (Vreken): Records etched into compressed fungal-wood tablets using Ghost-Mycelium residue. The carved grooves retain a faint bioluminescence for centuries — the oldest tablets in the Hollow-Scriptorium are still legible after two thousand years.\n\n**Native Races:** The lantern-eyed **Vreken** — an ancient crepuscular people who cultivated phosphorescent fungi in the Bryngloom's deep bog-caves millennia before the sun died, organized around sunken gothic cathedrals lit by the perpetual glow of their entombed ancestors — the silver-skinned **Neth** (preserved by their pact with the Keeper of the Last Threshold, organized into three bloodlines: Velun arcanists, Kessen fate-weavers, and Drun covenant-severed), and frail human swamp-dwellers of House Morrath (the Morren — debtors who trade labor and memory to the Neth for protection) who trade their labor and their memories for Neth protection.\n\n**Shard Location:** Bottom of a Murky Pool — the campaign shard rests in a bog-pool that has no bottom. Divers who descend come back up with water in their lungs and someone else's memories behind their eyes.\n\n**Wyrd-Creatures:**\n• *The Grandmother of the Bog*: An ancient, stooped figure of preserved moss and frozen peat who appears at the edge of dying settlements. She offers a trade — one life extended for one memory surrendered. The memory is never trivial. She deals in first loves, last words, the face of a child. The Wyrd has made her into a recurring thing — those who trade with her see her again at their death, collecting the rest.\n• *The Debt-Revenant*: When a Neth contract is broken by death, the debtor does not rest. They rise from the bog, preserved and aware, compelled to complete the terms of their agreement. They can speak, reason, and remember everything — but they cannot refuse the contract. Once the debt is fulfilled, they sink back into the bog. The Neth consider this a legitimate form of posthumous enforcement.\n• *The Cycle-Eater*: A creature that should not exist — a thing that hunts reincarnating souls. When it devours someone, that person does not return. Their thread in the cosmic cycle is severed. The Neth fear it above all things because the Neth have died many times and plan to die many more. A Cycle-Eater is the one thing their contracts cannot protect against.`
+• *Crypt-Engraving* (Vreken): Records etched into compressed fungal-wood tablets using Ghost-Mycelium residue. The carved grooves retain a faint bioluminescence for centuries — the oldest tablets in the Hollow-Scriptorium are still legible after two thousand years.\n\n**Native Races:** The lantern-eyed **Vreken** — an ancient crepuscular people who cultivated phosphorescent fungi in the Bryngloom's deep bog-caves millennia before the sun died, organized around sunken gothic cathedrals lit by the perpetual glow of their entombed ancestors — the silver-skinned **Neth** (preserved by their pact with the Keeper of the Last Threshold, organized into three bloodlines: Velun arcanists, Kessen fate-weavers, and Drun covenant-severed), and frail human swamp-dwellers of House Morrath (the Morren — debtors who trade labor and memory to the Neth for protection) who trade their labor and their memories for Neth protection.\n\n**Shard Location:** Bottom of a Murky Pool — the Sundered Monolith rests in a bog-pool that has no bottom. Divers who descend come back up with water in their lungs and someone else's memories behind their eyes.\n\n**Wyrd-Creatures:**\n• *The Grandmother of the Bog*: An ancient, stooped figure of preserved moss and frozen peat who appears at the edge of dying settlements. She offers a trade — one life extended for one memory surrendered. The memory is never trivial. She deals in first loves, last words, the face of a child. The Wyrd has made her into a recurring thing — those who trade with her see her again at their death, collecting the rest.\n• *The Debt-Revenant*: When a Neth contract is broken by death, the debtor does not rest. They rise from the bog, preserved and aware, compelled to complete the terms of their agreement. They can speak, reason, and remember everything — but they cannot refuse the contract. Once the debt is fulfilled, they sink back into the bog. The Neth consider this a legitimate form of posthumous enforcement.\n• *The Cycle-Eater*: A creature that should not exist — a thing that hunts reincarnating souls. When it devours someone, that person does not return. Their thread in the cosmic cycle is severed. The Neth fear it above all things because the Neth have died many times and plan to die many more. A Cycle-Eater is the one thing their contracts cannot protect against.`
             }
           ]
         }
       },
       {
         id: 'races-overview',
-        name: 'Ethnologue: Races & Factions',
+        name: 'The Peoples',
         icon: 'fas fa-users',
         theme: 'social',
         summary: [
@@ -137,7 +250,7 @@ export const RULES_CATEGORIES = [
           'Each race carries a unique biological curse or adaptation born from the world\'s trauma.'
         ],
         content: {
-          title: 'Ethnologue — Races & Factions of Mythrill',
+          title: 'The Peoples of Mythrill',
           description: 'Humans comprise the largest overall population across the world, split into distinct regional subraces occupying feudal settlements, castles, and outposts. The original fantasy races exist as highly specialized cultures interacting with this human majority.',
           sections: [
             {
@@ -190,6 +303,46 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
             }
           ]
         }
+      }
+    
+      ,{
+        id: 'timeline',
+        name: 'Timeline',
+        icon: 'fas fa-hourglass',
+        useCustomComponent: true,
+        theme: 'narrative',
+        content: {
+          title: 'Timeline of the World',
+          description: 'A chronological journey from the first stars to the present day.',
+          sections: []
+        },
+        summary: [
+          'A chronological journey from the first stars to the present day.',
+          'Every race, every class, every dark bargain traces back to moments on this timeline.',
+          'From the Deepening of Sol to the waking of the Sundered Monoliths.'
+        ]
+      },
+      {
+        id: 'bestiary',
+        name: 'Bestiary',
+        icon: 'fas fa-dragon',
+        useCustomComponent: true,
+        theme: 'danger',
+        content: {
+          title: 'Bestiary',
+          description: 'The Wyrd-born creatures that inhabit the frozen world.',
+          sections: [
+            {
+              title: 'What Is the Wyrd?',
+              content: 'The Wyrd is a formless primordial spiritual energy that manifests using human fear and folklore as a structural blueprint. It cannot create — it can only occupy.'
+            }
+          ]
+        },
+        summary: [
+          '21 iconic Wyrd-creatures across all 7 continents.',
+          'Creatures range from Low danger to High danger.',
+          'Each creature is built from its regional folklore and cultural fears.'
+        ]
       }
     ]
   },
@@ -1229,7 +1382,7 @@ Under the Virtual Tabletop system, players and GMs can easily inspect and manage
       },
       {
         id: 'classes',
-        name: 'Classes',
+        name: 'Traditions of Power',
         icon: 'fas fa-hat-wizard',
         hasDetailPages: true,
         useCustomComponent: true,

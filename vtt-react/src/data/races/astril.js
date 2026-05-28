@@ -46,7 +46,7 @@ The Vreken feel an unspoken kinship. Both peoples are inhabited by something old
 
 The Hrym distrust them. The spirits are too close to the Wyrd — a voice inside the flesh that is not the flesh's own. The Hrym have spent centuries fighting the Wyrd-creatures that the Frostwood fog births from human fear, and the idea of voluntarily inviting a spirit into one's own body strikes them as either madness or corruption.
 
-And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astril exist. The spirits they carry are the ones that escaped. The predator has not forgotten. When its influence stirs — near a Campaign Shard, near Emberspire's caldera, near Wyrd-creatures that serve it — Astril patterns writhe and recoil. The spirit remembers what ate its kin. The Astril are living detectors of the predator's presence. Some call this a gift. Others call it a beacon.`,
+And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astril exist. The spirits they carry are the ones that escaped. The predator has not forgotten. When its influence stirs — near a Sundered Monolith, near Emberspire's caldera, near Wyrd-creatures that serve it — Astril patterns writhe and recoil. The spirit remembers what ate its kin. The Astril are living detectors of the predator's presence. Some call this a gift. Others call it a beacon.`,
 
     variantDiversity: `The Astril are divided not by birth or geography, but by the single most defining choice of their existence: how to live with the spirit inside them. The Sylen open themselves to the constellation — they embrace the whisper, let the patterns blaze, cultivate symbiosis at the risk of being consumed. The Muren bind the spirit through ritual — they suppress the whisper, dim the patterns, build walls at the risk of eruption. Both paths are ancient. Both are honored. Both are terrified of each other.`,
 
@@ -90,7 +90,7 @@ And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astr
                     {
                         id: 'predator_detection_astril',
                         name: 'The Skin Remembers',
-                        description: 'When within 120 feet of Keth-Amar\'s direct influence (a Campaign Shard, Emberspire\'s caldera, a Wyrd-creature serving the predator), your luminous patterns writhe and recoil involuntarily — the spirit within recognizes what ate its kin. This cannot be suppressed.',
+                        description: 'When within 120 feet of Keth-Amar\'s direct influence (a Sundered Monolith, Emberspire\'s caldera, a Wyrd-creature serving the predator), your luminous patterns writhe and recoil involuntarily — the spirit within recognizes what ate its kin. This cannot be suppressed.',
                         statusEffect: { level: 'moderate', description: 'Your skin knows when the predator is near' }
                     }
                 ],

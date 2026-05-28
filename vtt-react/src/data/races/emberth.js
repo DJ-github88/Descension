@@ -95,7 +95,7 @@ The Risen hold to the old faith: Sol is sleeping, the ember is merely resting, a
 
 The Sunderer — a smaller, heretical faction — believe the Solbrand was never Sol's gift at all. They argue that the ember is Keth-Amar's tether, a feeding-line the predator left embedded in Emberth culture so it could consume their devotion alongside their god's embers. They advocate extinguishing the Solbrand entirely and beginning a new covenant.
 
-The Unwoven — named for the forge-marks they ritually defaced upon joining — have left both bloodlines entirely. They are scattered across Sundale, gathering fragments of the binding seal (the Campaign Shards) in the belief that if Keth-Amar's breach can be sealed, Sol may finally complete the Deepening and be reborn. They are regarded as dangerous fanatics by the tending-clan, as noble fools by the Sunderer, and as a quiet hope by the Thrask who fear the Solbrand's extinction.
+The Unwoven — named for the forge-marks they ritually defaced upon joining — have left both bloodlines entirely. They are scattered across Sundale, gathering fragments of the binding seal (the Sundered Monoliths) in the belief that if Keth-Amar's breach can be sealed, Sol may finally complete the Deepening and be reborn. They are regarded as dangerous fanatics by the tending-clan, as noble fools by the Sunderer, and as a quiet hope by the Thrask who fear the Solbrand's extinction.
 
 The Thrask, who spend more time on the surface than any Korr, were the first to notice the evidence: ashfall shifting, vents cooling, the temperature dropping year by year. They are agitating for transparency. The Korr are refusing. The surface outposts and frontier settlements are caught between the two bloodlines, unsure which way the crisis will break.
 
