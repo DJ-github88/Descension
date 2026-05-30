@@ -1,0 +1,358 @@
+/* DramatisPersonaeDisplay.css — Parchment-theme NPC roster */
+
+/* ─────────────────────────────────────────
+   BASE
+───────────────────────────────────────── */
+.dramatis-personae-display {
+  padding: 0 0 60px 0;
+  color: #2b1c11;
+  font-family: 'Crimson Text', 'Georgia', serif;
+}
+
+/* ─────────────────────────────────────────
+   HERO BANNER
+───────────────────────────────────────── */
+.dp-hero {
+  text-align: center;
+  padding: 32px 32px 28px;
+  border-bottom: 2px solid rgba(196, 160, 96, 0.35);
+  margin-bottom: 36px;
+  position: relative;
+}
+
+.dp-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: #c4a060;
+}
+
+.dp-hero-ornament {
+  font-size: 22px;
+  color: #c4a060;
+  line-height: 1;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.dp-hero-title {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #4a3020;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+}
+
+.dp-hero-subtitle {
+  font-size: 15px;
+  color: #6b4c32;
+  max-width: 520px;
+  margin: 0 auto 14px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.dp-hero-tip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #8b5e3a;
+  background: rgba(196, 160, 96, 0.1);
+  border: 1px solid rgba(196, 160, 96, 0.3);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.5px;
+}
+
+.dp-hero-tip i {
+  color: #8b4513;
+  font-size: 10px;
+}
+
+/* ─────────────────────────────────────────
+   REGION GROUPS
+───────────────────────────────────────── */
+.dp-regions {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.npc-region-group {
+  position: relative;
+}
+
+.npc-region-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: linear-gradient(90deg, var(--accent-bg) 0%, rgba(245,240,232,0) 100%);
+  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid rgba(196, 160, 96, 0.2);
+  margin-bottom: 16px;
+}
+
+.npc-region-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.npc-region-title-block {
+  flex: 1;
+}
+
+.npc-region-title {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 1px 0;
+}
+
+.npc-region-subtitle {
+  font-size: 10px;
+  color: #8b6a50;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'Cinzel', serif;
+}
+
+.npc-region-count {
+  font-size: 11px;
+  color: #8b6a50;
+  font-family: 'Cinzel', serif;
+  background: rgba(139, 69, 19, 0.06);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  border-radius: 10px;
+  padding: 2px 10px;
+  letter-spacing: 0.5px;
+}
+
+/* ─────────────────────────────────────────
+   NPC CARD GRID
+───────────────────────────────────────── */
+.npc-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* ─────────────────────────────────────────
+   NPC CARD — parchment paper look
+───────────────────────────────────────── */
+.npc-card {
+  display: flex;
+  gap: 14px;
+  background: linear-gradient(145deg, rgba(255,251,242,0.7) 0%, rgba(240,228,208,0.5) 100%);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-top: 2px solid var(--accent);
+  border-radius: 3px;
+  padding: 16px 16px 14px;
+  transition: box-shadow 220ms ease, border-color 220ms ease, transform 180ms ease;
+  position: relative;
+}
+
+.npc-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--accent-bg) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.npc-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 3px 16px rgba(139, 69, 19, 0.18);
+  transform: translateY(-1px);
+}
+
+/* Portrait */
+.npc-portrait {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.npc-portrait-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-bg) 0%, rgba(255,251,242,0.4) 100%);
+  border: 1.5px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 16px;
+}
+
+.npc-sigil {
+  font-size: 14px;
+  color: var(--accent);
+  opacity: 0.35;
+  line-height: 1;
+}
+
+/* Body */
+.npc-body {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.npc-name {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2b1c11;
+  margin: 0 0 5px 0;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+
+.npc-description {
+  font-size: 13px;
+  color: #5a3a1e;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+  font-style: italic;
+}
+
+/* Pillars */
+.npc-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.npc-pillar {
+  border-radius: 2px;
+  padding: 6px 9px;
+  border-left: 2px solid transparent;
+  background: rgba(139, 69, 19, 0.04);
+}
+
+.npc-pillar--goal     { border-left-color: #c4a060; }
+.npc-pillar--secret   { border-left-color: #7a2060; }
+.npc-pillar--conflict { border-left-color: #8a1a10; }
+
+.npc-pillar-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 3px;
+}
+
+.npc-pillar--goal .npc-pillar-label     { color: #8b6a10; }
+.npc-pillar--secret .npc-pillar-label   { color: #7a2060; }
+.npc-pillar--conflict .npc-pillar-label { color: #8a1a10; }
+
+.npc-pillar-label i {
+  font-size: 8px;
+}
+
+.npc-pillar-text {
+  font-size: 12.5px;
+  color: #3a2510;
+  line-height: 1.5;
+  margin: 0;
+  font-family: 'Crimson Text', 'Georgia', serif;
+}
+
+/* Secret toggle */
+.npc-secret-toggle {
+  margin-left: auto;
+  background: none;
+  border: 1px solid rgba(122, 32, 96, 0.3);
+  color: #7a2060;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 7px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.npc-secret-toggle:hover {
+  background: rgba(122, 32, 96, 0.1);
+  color: #5a0040;
+  border-color: rgba(122, 32, 96, 0.55);
+}
+
+/* Blurred secret text */
+.npc-secret-text {
+  filter: blur(4px);
+  user-select: none;
+  transition: filter 300ms ease;
+  color: #9a7a5a;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.npc-secret-text.revealed {
+  filter: blur(0);
+  color: #3a2510;
+  user-select: text;
+}
+
+/* Lore links inside NPC cards — use the site's warm gold */
+.npc-card .lore-link {
+  color: #8b4513;
+  border-bottom-color: rgba(139, 69, 19, 0.35);
+}
+
+.npc-card .lore-link:hover {
+  color: #5a1e12;
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .npc-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .npc-card {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .npc-portrait {
+    flex-direction: row;
+  }
+}
