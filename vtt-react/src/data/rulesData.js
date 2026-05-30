@@ -344,6 +344,203 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
           'Each creature is built from its regional folklore and cultural fears.'
         ]
       }
+      ,{
+        id: 'dramatis-personae',
+        name: 'Notable Figures',
+        icon: 'fas fa-users',
+        theme: 'narrative',
+        useCustomComponent: true,
+        summary: [
+          '14 named present-day NPCs (2 per region) complete with goals, secrets, and regional conflicts.',
+          'Provides GMs with active, living actors driving the political and magical landscape of Mythrill.',
+          'Contains built-in adventure hooks and cross-NPC relationships to spark campaigns immediately.'
+        ],
+        content: {
+          title: 'Notable Figures',
+          description: 'A comprehensive roster of the sunless world\'s most powerful, desperate, and scheming figures. These characters drive the immediate conflicts across Mythrill\'s seven regions, offering the Game Master a ready cast of active agents to populate the campaign.',
+          sections: [
+            {
+              title: 'Frostwood Reach (Greymark Keep)',
+              content: `• **Sentinel-Commander Vaelen Greymark:** The iron-willed warden of Greymark Keep. **Goal:** To find a pure, uncorrupted child of Briaran descent to sit on the Greymark Throne to satisfy an ancient lineage pact. **Secret:** He has begun showing the early signs of the memory-fog (forgetting the names of his captains) and has executed two archivists who documented his lapses. **Conflict:** Locked in bitter, covert opposition with Sister Vraka of the Unwoven.\n\n• **Sylvain of the Unwoven:** A soft-spoken Briaran rebel lead who smuggles fae-hush into Greymark's barracks. **Goal:** To provoke a total war between Greymark and the Briaran to break the memory-tithe of the Heart-Oak. **Secret:** His wooden arm contains the living soul of a dead Greymark prince, bound by green-graft fae-sorcery. **Conflict:** Secretly feeding information to Jarl Eirik of Nordhalla to redirect northern raids.`
+            },
+            {
+              title: 'Nordhalla (The Frozen Archive)',
+              content: `• **High-Oracle Skari:** The blind Skald record-keeper of the Frozen Archive. **Goal:** To rewrite the tragic history of the Milk-Grief by carving a massive, global memory-rune on the face of the Frostwood Monolith. **Secret:** He whispered the locations of the fjord-keeps to the Skreika, sacrificing them to buy time for his runic excavation. **Conflict:** Opposed by the elders of House Skalvyr, who view the excavation as blasphemous grave-robbing.\n\n• **Jarl Eirik Skalvyr:** The towering, mammoth-fur-clad human leader of the fjord-keeps. **Goal:** To unify the fragmented human clans of the north under the orthodox banner of the Sol-Vigil. **Secret:** He is not a pureborn Skald human; he carries an ancient blood-mutation from the Hunger Winter, his veins running colder than any living Skald. **Conflict:** Clashes continuously with the Archive wardens over ownership of the geothermal pipes.`
+            },
+            {
+              title: 'Sundale (The Ash-City of Korr)',
+              content: `• **Arch-Sun Speaker Kaelen:** The dogmatic leader of the orthodox Sol-Vigil in the city of Korr. **Goal:** To sacrifice a thousand Neth contract-slaves to feed the failing embers of the Solbrand. **Secret:** He no longer hears the voice of Sol; the whispers he receives come from Keth-Amar, commanding him to crack the Sundale seal wider. **Conflict:** Locked in a theological schism with the Church of the Golden Horizon.\n\n• **Mara of the Badlands:** A cynical Tessen ranger who patrols the border of the volcanic vents. **Goal:** To smuggle cooling basalt ore out of the Fexric mines to arm the underground rebellion in Korr. **Secret:** She carries a dormant Wyrd-parasite in her chest that flares with solar heat whenever she draws near the Solbrand. **Conflict:** Actively hunted by the alchemical wardens of Frostmaw Holdfast.`
+            },
+            {
+              title: 'Iceheart Sea (Merrowport)',
+              content: `• **Captain Mereval:** A legendary Merrowport pirate captain whose skin is entirely cross-hatched with shining ink-contracts. **Goal:** To locate the legendary Oceanic Rift Monolith and sell its location to the highest bidder in the Synod. **Secret:** He has already sold his soul's final hour to the Keeper of the Last Threshold, and the contract is set to expire at midnight of the next Silt-Tide. **Conflict:** Hunted by Synod-Broker Lyra's privateers.\n\n• **Synod-Broker Lyra:** A silver-skinned Neth elite who controls the shipping lanes and hush-licensing of the Iceheart Sea. **Goal:** To establish a permanent Neth trade embassy in Korr, cementing their control over geothermal energy distribution. **Secret:** She is the primary financier of the false prophet heresy, using the cult to destabilize human leadership in the south. **Conflict:** Locked in a legal battle with the Cragjaw merchant guilds over toll-rights.`
+            },
+            {
+              title: 'Cragjaw Peaks (Frostmaw Holdfast)',
+              content: `• **Guild-Master Fexric Keth:** The chief engineer of the geothermal pipeline network in Frostmaw Holdfast. **Goal:** To shut down the pipelines supplying heat to Jarl Eirik's fjord-keeps, forcing them to cede ancestral lands. **Secret:** His mechanical eye-graft is actually a dormant piece of the Cragjaw Monolith that records everything he sees for Keth-Amar. **Conflict:** Targets the bridge-scales of the Ancestor-Spans, whom he views as escaped property.\n\n• **Toll-Leader Ithra Groven:** A massive, smooth-scaled Groven diplomat who guards the Ancestor-Spans. **Goal:** To gain sovereign recognition for the Groven nation from the Astril Synod. **Secret:** She is secretly funding the Restorer raids, providing the Morgh warriors with Fexric security codes. **Conflict:** Clashes with Guild-Master Keth over transit tolls and the smuggling of alchemical components.`
+            },
+            {
+              title: 'Sundrift Vale (Synod-Hold)',
+              content: `• **Khan Orda of the Mound-Camps:** A fierce, nomadic human leader who guides his horse-clans through the ash-storms. **Goal:** To locate the mythical Mound Monolith and harness its gravity-warping properties to lift his people's camps above the freezing Silt-Tide. **Secret:** He has made a private blood-contract with Jarl Eirik, promising to betray the Astril Synod in exchange for mammoth-furs and steel weapons. **Conflict:** Waging a low-intensity guerilla war against the Astril outposts.\n\n• **Grand Exemplar Vaelen:** The silent, crystalline leader of the Astril Synod. **Goal:** To guide the Astril through a ritual ascension that will shed their mortal vessels and return them to the constellation courts. **Secret:** The ascension ritual requires the total collapse of the Sundrift Monolith, which would vaporize the surrounding human settlements. **Conflict:** Pursuing and assassinating Astril heretics who refuse the star-bound ascension.`
+            },
+            {
+              title: 'Bryngloom Forest (The Sunken Spire)',
+              content: `• **Sister Vraka:** A Marked Vreken rebel who has turned her back on the Sunken Spire. **Goal:** To liberate the Vreken peat-cutters from their ancestral contracts with the Neth. **Secret:** Her lantern-eyes glow red rather than amber; she has accepted the Wyrd's gift of Somatic Echoes to gain the power to fight the Neth pact-mages. **Conflict:** Leads targeted raids against Matriarch Isara's scriptoriums.\n\n• **Matriarch Isara:** The ruler of the Sunken Spire's Clean Vreken. **Goal:** To maintain the absolute purity of the Vreken bloodlines and the sacred sanctity of their contracts with the Keeper of the Last Threshold. **Secret:** She has signed a secret treaty with Sister Vraka, supplying the rebels with alchemical weapons to eliminate rival Neth nobles. **Conflict:** Trying to prevent Sister Vraka's red-glowing corruption from spreading to the younger Vreken castes.`
+            }
+          ]
+        }
+      }
+      ,{
+        id: 'class-origins',
+        name: 'Class Origins',
+        icon: 'fas fa-hat-wizard',
+        theme: 'narrative',
+        summary: [
+          'Every class resource system has an immersive origin story woven into the history of Mythrill.',
+          'These origins tie mechanical resources directly to regional bargains, the Breach, and Wyrd aftermath.',
+          'Each calling represents a profound physical and spiritual toll paid to survive the sunless era.'
+        ],
+        content: {
+          title: 'Class Resource Lore Origins',
+          description: 'In the frozen world of Mythrill, class resources are not merely game mechanics — they are physical and physiological inheritances of ancient bargains, Wyrd-rot, and the Breach. Every calling represents a heavy toll paid in blood, memory, and stamina.',
+          sections: [
+            {
+              title: 'Sundale (Caldera Callings)',
+              content: `• **Pyrofiend:** Forged in the volcanic desert of <LoreLink termId="sundale">Sundale</LoreLink>, when an Emberth forge-miner named **Ignis** bargained with a volcanic caldera fiend to secure a geothermal vent. The price was a sulfurous, burning ember nesting in his chest that burns brighter with each spell, searing his capillaries and pulling his flesh closer to a demon's absolute claim.
+• **Berserker:** Born during the defense of the volcanic caldera tunnels of <LoreLink termId="sundale">Sundale</LoreLink>, when the blacksmith <LoreLink termId="grum">Grum</LoreLink> surrendered to the forge. Grum's veins boiled with a violent adrenaline surge, allowing him to single-handedly shatter an ice-wyrm's hide at the cost of a permanent physiological meltdown where his blood runs hotter than forge-steel, locking out all incoming restorative magic while the battle-fury burned.
+• **Titan:** Forged in the volcanic throat of Emberspire in <LoreLink termId="sundale">Sundale</LoreLink> when the sentinel **Korr** stood sentinel along molten pathways. The price of this thermal sentinel was basalt-cracking skin, requiring continuous shifts near geothermal vents to keep from freezing solid.
+• **Arcanoneer:** Born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first drafting of the First Contract with the Keeper of the Last Threshold, a high archivist named <LoreLink termId="valerius">Valerius</LoreLink> sought a way to capture the raw, volatile magic of the forest. The price was that his blood crystallized into volatile, multicolored shards siphoned through iron, anchoring his limbs to the earth in a freezing lock.
+• **Spellguard:** Forged during the solar binding in the volcanic calderas of <LoreLink termId="sundale">Sundale</LoreLink> when the arcanist **Damon** absorbed the explosive backdraft to prevent his lords from being vaporized. The price of this aegis was severe vascular blistering, leaving his hands scarred and his veins humming with volatile energy.`
+            },
+            {
+              title: 'Nordhalla (Frozen Vigil Callings)',
+              content: `• **Martyr:** Born in the volcanic badlands of <LoreLink termId="sundale">Sundale</LoreLink> when the Solvarn mother <LoreLink termId="sera">Sera</LoreLink> refused to let her sacrificed child's memory be erased, carving her child's name directly into her forearm with volcanic obsidian. She established the path that absorbs the suffering of others, leaving permanent obsidian scars that burn with sympathetic solar heat in the presence of <LoreLink termId="monolith-sealing">Sundered Monoliths</LoreLink>.
+• **Augur:** Born in the Frozen Archive of <LoreLink termId="nordhalla">Nordhalla</LoreLink> when the Skald star-watcher **Cassia** read the terrifying portents of Sol's Deepening. The price of this feedback loop was memory-loss, as she traded away her own personal memories to glimpse the future, leaving her runes scarred and her mind disoriented.
+• **Doomsayer:** Born in the library-vaults of <LoreLink termId="nordhalla">Nordhalla</LoreLink> when the Skald record-keeper **Malakor** recorded the approaching doom of Sol's Deepening, calculating the exact arithmetic of coming deaths. The price of this absolute calculation was a perpetual dread, leaving him unable to feel joy or surprise.
+• **Inscriptor:** Born in the Frozen Archive of <LoreLink termId="nordhalla">Nordhalla</LoreLink> when the Skald scholar **Theron** sought to preserve the ancient clockwork songs, carving runes directly into his own skin. The price of this preservation was memory-loss, as he traded away his own personal memories to carve the mathematical formulas of the Archive.
+• **Warden:** Born in the brutal keeps of <LoreLink termId="nordhalla">Nordhalla</LoreLink> when the Skald law-keeper **Alaric** bargained with the Cosmic Warden to secure the gates of a mountain keep during the glacier-halt. The price of this legal bond was a frozen soul, leaving his veins cold as iron and his soul permanently bound to the stone keeps.`
+            },
+            {
+              title: 'Frostwood Reach (Fog-Memory Callings)',
+              content: `• **Huntress:** Forged in the ancient ironwood forests of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> when the wood-ranger **Sylas** tracked the invisible spoor of Wyrd-creatures. The price of this perfect focus was a sensory numbness, leaving Sylas completely deaf to the voices of his kin.
+• **Bladedancer:** Born in the mist-shrouded canopy of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> when the wood-warden <LoreLink termId="sylvain">Sylvain</LoreLink> synchronized his strikes with the swaying ironwood branches. The price of this perfect physical momentum was absolute exhaustion, locking his joints in agonizing fatigue when the dance stopped.
+• **Lunarch:** Born in the moonlit groves of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> when the sister of House Viridane named **Selene** bargained with the wildwood fae to capture the moon's light. The price of this celestial aura was a permanent chill in her bones, leaving her unable to feel warmth again.
+• **Exorcist:** Born in the fog-shrouded groves of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> when the human healer <LoreLink termId="elias">Elias</LoreLink> realized that conceptual horrors could only be bound by pinning their forms with rusted iron and bog-salt. The price was opening his own veins to draw the Wyrd into himself, leaving his vascular system permanently scarred.
+• **Toxicologist:** Born in the ironwood forests of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> when the alchemist **Varis** extracted raw venom from fog-predators. The price of this alchemical synthesis was chronic tremors in his hands, leaving his fingers permanently stained with chemical runoff and his sense of taste dulled.`
+            },
+            {
+              title: 'Bryngloom Forest (Pact-Bog Callings)',
+              content: `• **Deathcaller:** Born in the sunken cathedrals of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> when the Vreken Veil-Speaker **Kora** sought to maintain the light of thirty generations of ancestors. The price of this spiritual connection was hearing the continuous, overlapping screams of the deceased, leaving her to speak only in tattered whispers.
+• **Covenbane:** Born in the deep, damp bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> when the Vreken hunter <LoreLink termId="orven">Orven</LoreLink> swore the Barbed Vow to hunt down and execute his own spore-addicted kinsmen. The price of this tracking efficiency was complete social isolation, permanently scarring his mental pathways.
+• **Witch Doctor:** Born in the lightless groves of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> when the Vreken botanist **Nesta** sought to cultivate bioluminescent mushrooms, absorbing their spore-dust. The price of this botanical bond was a persistent mental confusion, leaving Nesta suffering from the spore-hush.
+• **Plaguebringer:** Born in the peat-bog sinks of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> when the alchemist **Nesta** sought to synthesize a cure for the mycelial spore-hush and bonded with the bog's decay. The price was living in perpetual symbiosis with rot, her skin turning pale, waxy, and cold to the touch.
+• **Lichborne:** Born in the deep peat-bog sinks of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> when the dying human scribe **Vesper** bargained with the Root-Veil to halt his decaying flesh. The price of this survival was a slow, cold death, leaving his heart to beat once an hour.`
+            },
+            {
+              title: 'Cragjaw Peaks (Span-Bound Callings)',
+              content: `• **Formbender:** Forged in the deep sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink> when the Groven laborer **Torin** forced his skeleton to calcify and expand under grinding stone during a collapse. The price was continuous skeletal agony, leaving his frame rigid and vulnerable to sudden kinetic stress.
+• **Dreadnaught:** Forged on the precipitous bridges of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink> when the Groven warrior **Vance** anchored himself to a crumbling span to shield refugees. The price was severe skeletal fatigue, permanently reducing his speed and leaving him rigid.
+• **Fate Weaver:** Born in the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink> when the Kessen Neth probability-watcher **Lyra** sought to calculate the exact structural failure of a rope-bridge. The price of this vision was psychic trauma, leaving her mind permanently fractured from experiencing alternate deaths.
+• **Chronarch:** Born in the high passes of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink> when the Fexric clockwork engineer **Nesta** accidentally trapped her own timeline in a feedback loop. The price was rapid localized aging and memory displacement, leaving her past as blank grey stone.`
+            },
+            {
+              title: 'Iceheart Sea (Gale-Rider Callings)',
+              content: `• **Gambler:** Born in the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink> when the Merryn pirate captain **Jax** wagered his own lifeline to navigate a vessel through a perpetual storm-cycle. The price was perpetual insomnia, leaving his heartbeat permanently synchronized with the churning of the freezing waves.
+• **Minstrel:** Born on the storm-lashed decks of <LoreLink termId="merrowport">Merrowport</LoreLink> when the Merryn sailor **Lyris** sang to the churning gales. The price was her spoken voice, leaving her able to communicate only in melodic whispers that crumbled when she tried to scream.`
+            },
+            {
+              title: 'Sundrift Vale (Steppe Nomadic Callings)',
+              content: `• **Oracle:** Born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> when the Astril star-watcher **Vala** stared into the dark and received a vision of the stars' destruction. The price of this foresight was physical seizure, leaving her blind to the immediate present.
+• **Primalist:** Born in the starless grasslands of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> when the herd-ranger **Kael** ran with the woolly-herds. The price of this wilderness alignment was a feral silence, leaving his mind periodically slipping into animalistic silence.
+• **Chaos Weaver:** Born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> when the nomadic star-watcher **Xyris** spliced a thread of temporal friction into her blood. The price of this planar thinning was severe molecular instability, leaving her physical form vulnerable to sudden dissolution.
+• **False Prophet:** Born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> when the nomadic herd-watcher **Micah** surrendered his vision to the phantom lights. The price was physical blindness, leaving his eyes blank and his mind permanently disoriented.`
+            }
+          ]
+        }
+      }
+      ,{
+        id: 'lexicon',
+        name: 'Lexicon',
+        icon: 'fas fa-book',
+        theme: 'narrative',
+        useCustomComponent: true,
+        summary: [
+          'Comprehensive pronunciation guide for Mythrill\'s complex terminology.',
+          'Lists phonetic spellings and deep lore contextual explanations.',
+          'Fully auto-linked proper nouns let you easily cross-reference everything.'
+        ],
+        content: {
+          title: 'The Mythrill Lexicon & Pronunciation Guide',
+          description: 'A comprehensive guide to the unique terminology, custom races, regional human bloodlines, and cosmological phenomena of the sunless world.',
+          sections: [
+            {
+              title: 'Mimir [Pronunciation: MEE-meer]',
+              content: '**Noun (Plural: Mimir).** A secretive, fluid race of misty face-shifters native to the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. To navigate human paranoia, they wear a single beautifully carved seamless heartwood or storm-glass mask that they never remove in public under the *Rite of Masks*, preventing the doppelganger shadow-parasites in their blood from overwhelming their mortal souls.'
+            },
+            {
+              title: 'Emberth [Pronunciation: EM-berth]',
+              content: '**Noun (Plural: Emberth).** Dense, powerful sun-reverent forge-clans of <LoreLink termId="sundale">Sundale</LoreLink>. They possess charcoal-textured black skin cross-hatched with glowing, scar-traced forge-marks and large, heat-sensitive eyes. Long before the sun\'s death, they dug vast subterranean vaults to preserve the *Solbrand*—believed to be the last conscious spark of the sun god Sol.'
+            },
+            {
+              title: 'Fexric / Fexrick [Pronunciation: FEX-rik]',
+              content: '**Noun (Plural: Fexric).** The ancient gnomish engineers of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, creators of alchemy and geothermal technology. Stocky, green-skinned craftsmen with copper-wired beards, every Fexric carries at least one mechanical clockwork graft (ocular, limb, or digit) as a mark of craft-mastery, which acts as a lightning rod for alchemical currents.'
+            },
+            {
+              title: 'Myrathil [Pronunciation: my-RATH-il]',
+              content: '**Noun (Plural: Myrathil).** Ethereal, scaled water-creatures born from the violent collision of volcanic caldera heat and freezing glacial ice sheet runoff. They possess shimmering, bioluminescent teal veins that ebb and flow with the ocean\'s tides, and they survive by siphoning ocean-glow to navigate ice-bound maritime lanes.'
+            },
+            {
+              title: 'Velun Neth [Pronunciation: veh-LOON NETH]',
+              content: '**Noun (Plural: Velun Neth).** The highest bloodline of the Neth, who inherited the Keeper of the Last Threshold\'s authority. Pure-silver-skinned arcanists and pact-mages who cannot lie — every word they speak is magically binding on themselves. They govern the high libraries of <LoreLink termId="atropolis">Atropolis</LoreLink> and run <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink> with legalistic coldness.'
+            },
+            {
+              title: 'Wyrd [Pronunciation: WIRD]',
+              content: '**Noun.** A formless primordial spiritual rot sealed since before human memory, released when <LoreLink termId="emberspire">Emberspire</LoreLink> erupted. It cannot create — only occupy the collective imagination. It uses human fear and folklore as structural blueprints, transforming whispered cautionary tales into living, physical horrors unique to each region.'
+            },
+            {
+              title: 'Thrask [Pronunciation: THRASK]',
+              content: '**Noun (Plural: Thrask).** Emberth rangers, hunters, and miners of the <LoreLink termId="sundale">Sundale</LoreLink> surface badlands. Evolving bronze, wind-scarred skin and thick muscle, they are pragmatic, swift skeptics of the Korr\'s wait-and-see policy. They patrol the Shyr trade route, demanding tolls in blood-ore and alchemical reagents.'
+            },
+            {
+              title: 'Unlit [Pronunciation: UN-lit]',
+              content: '**Noun (Plural: Unlit).** Astril born without a constellation-pattern, carrying no spirit, no whisper, and no star-glow. Legally non-existent within the Luminarchy\'s registries. Because they are the only Astril who can lie without their skin flashing betrayal, they operate as a powerful shadow network of spies, smugglers, and information brokers.'
+            },
+            {
+              title: 'Vat-Breakers [Pronunciation: VAT-bray-kers]',
+              content: '**Noun.** Fexric and Groven outcasts who sabotage geothermal siphons. Operating in the vertical ravines of Cragjaw, they rupture municipal heating pipes to redirect warmth to the freezing shanties of the lower Peaks.'
+            },
+            {
+              title: 'Rite of the Cold Hearth [Pronunciation: RITE of the COLD HARTH]',
+              content: '**Noun.** The forbidden ritual performed by the legendary Skald warlock Karr Bloodhammer in the prehistoric chambers of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>. It binds the caster\'s soul to a basalt phylactery, granting undeath. Used to combat the Milk-Grief that claimed so many Skald mothers and children.'
+            },
+            {
+              title: 'Scathrach, the Ashen Sovereign [Pronunciation: SKATH-rak, the ASH-en SOV-rin]',
+              content: '**Noun (Deity).** An ancient, parasitic demonic intelligence nesting deep within the volcanic caldera vaults of <LoreLink termId="emberspire">Emberspire</LoreLink> in <LoreLink termId="sundale">Sundale</LoreLink>. Scathrach answers the desperate prayers of martyrs and outcasts with destructive, absolute combustion. It serves as the sovereign patron of the Pyrofiends, slowly claiming their flesh and blood in exchange for fire magic, eventually binding their souls to the infernal furnace.'
+            },
+            {
+              title: 'Shade-Walkers [Pronunciation: SHAYD-wawk-ers]',
+              content: '**Noun.** Star-starved undead husks that hunt for open fire during the absolute freeze of a Cold-Lock. When the <LoreLink termId="silt_tide">Silt-Tide</LoreLink> peaks and the world freezes solid, mortals must seal their vaults and burn sacred ember-oil to survive these predators that are drawn to any source of warmth.'
+            },
+            {
+              title: 'Skreika [Pronunciation: SKRAY-kah]',
+              content: '**Noun.** Blue-skinned, water-logged undead sailors that rise from the freezing depths of the Iceheart Sea and climb onto the northern fjords of <LoreLink termId="nordhalla">Nordhalla</LoreLink>, carrying a freezing frost-fever.'
+            },
+            {
+              title: 'Sol [Pronunciation: SOHL]',
+              content: '**Noun (Deity).** The sun-god of Mythrill, who was bound and entombed beneath Emberspire in <LoreLink termId="sundale">Sundale</LoreLink> during the Deepening by the seven noble families to protect the star from the cosmic hunger of <LoreLink termId="keth_amar">Keth-Amar</LoreLink>.'
+            },
+            {
+              title: 'Silt-Tide [Pronunciation: SILT-tyde]',
+              content: '**Noun.** The periodic surge of freezing, crystalline dust that sweeps across the Iceheart Sea and Frostwood Reach, freezing everything in its path and forcing settlements to enter total lockdown.'
+            },
+            {
+              title: 'Keth-Amar [Pronunciation: KETH-ah-mar]',
+              content: '**Noun (Deity).** The Sun-Eater, the First Hunger — an abyssal entity that descended to consume Sol during its Deepening, now trapped inside the volcanic vault under <LoreLink termId="emberspire">Emberspire</LoreLink>, slowly devouring the sun\'s fading embers.'
+            }
+          ]
+        }
+      }
+
     ]
   },
   {
@@ -853,78 +1050,91 @@ Tactical packing is a mini-game in itself: do you keep your heavy steel plate an
         icon: 'fas fa-shield-alt',
         theme: 'trade',
         summary: [
-          'Weapons, armor, and gear decay slowly in combat, tracked as a durability ratio.',
-          'Items hitting 0 durability shatter completely, automatically unequipping and nullifying bonuses.',
-          'Mending ruined gear is done during rests by rolling a d20 against a GM-set Difficulty Class.'
+          'Armor durability is tracked as a die step (e.g., d8 current / d10 max) representing structural integrity.',
+          'When taking damage, rolling a 1 or 2 on the DR die degrades the armor by one step tier.',
+          'Mending ruined gear restores 1 step on short rests and 2 steps on long rests for one item.'
         ],
         content: {
           title: 'Fraying Weaves & Shattered Iron',
-          description: 'The slow decay of arms and armor, and the craft of restoring them.',
+          description: 'The die-step decay of arms and armor, and the craft of restoring them.',
           sections: [
             {
-              title: 'Mortal Wear',
-              content: `No weapon remains eternally sharp, and no steel plate remains unbent in the crucible of battle. In Mythrill, every piece of equippable gear—from heavy steel cuirasses and runic shields to fine silken robes and magic rings—carries a physical Durability rating representing its structural integrity. Expressed as a tactile ratio (e.g., **5/8 Durability**), this metric marks the slow, inevitable decline of your gear under the grinding toll of combat. The finest masterwork weapons will chip, leather straps will fray under strain, and magical bindings will leak their residual energy as the item's structural cohesion decays.`
-            },
-            {
-              title: 'The Toll of Combat (Durability Damage)',
-              content: `When an opponent lands a devastating critical strike or targets a specific Zone of Protection (such as your head, chest, or limbs), your protective gear or parrying weapon bears the brunt of the strike. Furthermore, when resolving a weapon swing via the [Unified Strike & Damage Combat Roll](combat-system/attacks-damage), rolling a Critical Fumble (natural 1) immediately risks chipping your blade or fracturing your shield, dealing direct durability damage. 
+              title: 'Dice-Based Durability System',
+              content: `No weapon remains eternally sharp, and no steel plate remains unbent in the crucible of battle. In Mythrill, equippable armor pieces track their physical integrity through a dynamic **Dice-Based Durability** system. Rather than tracking mechanical percentages or large numbers, an armor\'s current and maximum protective values are expressed as a die size step (e.g., **d8/d10 Durability**).
 
-Under the Virtual Tabletop system, players and GMs can easily inspect and manage these wear marks manually. Simply open the item's **Right-Click Context Menu** inside your spatial inventory grid and select the **Durability** slider to adjust current values, simulating the realistic wear and tear of a long, gritty crawl or direct maintenance.`
+When wearing armor and taking a hit, you roll your armor's current DR die (e.g., **d8**) to reduce the damage. If you roll a **1 or 2**, the structural integrity of your armor slips and it degrades by one die size step (e.g., **d8** -> **d6**). If you roll a **3 or higher**, the durability does not decrease. This provides a tactile, visual decay that can be tracked easily. If the item degrades below a **d4**, it becomes **broken**.`
             },
             {
               title: 'The Shattered State (Broken Items)',
-              content: `When an item is reduced to **0 Durability**, it shatters with a sickening crack. A shattered item is completely inert and structurally useless, failing to offer any protection or offensive power. Upon breaking, the item immediately triggers the following VTT mechanics:
+              content: `When an item\'s durability degrades below a **d4**, it is reduced to **broken**. A broken item is completely inert and structurally useless, failing to offer any protection or damage reduction:
 
 • **Automatic Unequip**: The ruined item is instantly stripped from your active combat slot and moved to your pack's deep storage.
-• **Strict Equilibrium**: You cannot re-equip, wield, or wear the item until a crafter mends it back to at least 1 durability.
-• **Snuffed Runes & Magic**: All magical enchantments, stat bonuses, and runic properties are instantly snuffed out and nullified.
+• **Strict Equilibrium**: You cannot re-equip, wield, or wear the item until a crafter or rest mends it back to at least a **d4** durability.
+• **Snuffed Runes & Magic**: All magical enchantments, active attributes, and runic properties are instantly snuffed out and nullified.
 • **Visceral Fracture Visual**: The item's VTT entry is overlaid with a striking cracked crimson bar, rendering its ruined state clear.
 • **Table Notification**: A system-wide message is broadcast to the chat log, alerting the entire party that a vital piece of gear has fractured under pressure.`
             },
             {
-              title: 'Visual Condition Marks',
-              content: `The VTT color-codes durability status so you can track your gear at a glance:
-
-• **Green**: Above 50% durability. Good, reliable condition.
-• **Yellow**: 50% or lower. Showing wear and tear; consider repairing soon.
-• **Red**: 25% or lower. Critical condition; one hard blow could break it.
-• **Broken Overlay**: 0 durability. Completely broken.`
+              title: 'Manual Durability Adjustment',
+              content: `Under the Virtual Tabletop system, players and GMs can easily inspect and manage these wear marks manually. Simply open the item's **Right-Click Context Menu** inside your spatial inventory grid or click the item directly from the inventory or equipment panel, which opens a tactile **Durability Adjustment Modal** allowing players to step their items up or down the die ladder.`
             },
             {
-              title: 'The Art of Repair (Resting)',
-              content: `During short or long rests, a character can attempt to mend their broken gear. The player rolls a d20 check against a difficulty set by the GM. This challenge is resolved against the [Ladder of Trials](core-rules/dice-system) (default DC 15). The GM sets the DC based on:
+              title: 'The Art of Repair (Short & Long Rests)',
+              content: `During rests, characters can focus their attention on repairing and maintaining their gear. The repair mechanics are simple and deterministic:
 
-• The severity of the ruin (lower durability = harder repair DC)
-• The rarity and material of the artifact
-• Available tools (anvil, sewing kits, leather presses)
-• The character's background or trade skills
-
-**A successful roll** restores a portion of the item's durability based on narrative agreement. **A failed roll** wastes precious time and may consume raw materials without restoring any integrity. GMs may require scrap iron for plate, cured leather for jerkins, or residuum for magical items to perform repairs.`
-            },
-            {
-              title: 'Forge Customization (Item Durability)',
-              content: `When forging a new item via the Item Wizard, creators are free to set the Maximum Durability. There is no automated formula—GMs and creators decide what makes sense for the narrative:
-
-• A rusted iron shiv might possess only **10 Durability**.
-• A standard military-grade broadsword holds **50 Durability**.
-• A masterwork heavy shield holds **150 Durability**.
-• A legendary relic of old may hold **200+ Durability**.`
+• **Short Rest**: You can restore **1 die step** of durability to **one single item** of your choice.
+• **Long Rest**: You can restore **2 die steps** of durability to **one single item** of your choice (or restore 1 step to two separate items).
+• **City Repairs**: When visiting a blacksmith or forge in cities and towns, items can be fully repaired back to their maximum durability tier for a fair gold price.`
             }
           ],
           tables: [
             {
-              title: 'Quick Create Default Durability',
-              description: 'Default durability values assigned when quick-creating items. These are suggestions — the GM or creator can override them at any time.',
-              headers: ['Quality Tier', 'Recommended Max Durability'],
+              title: 'Quick Create Default Max DR Dice',
+              description: 'Default maximum DR/Durability dice assigned when quick-creating items based on their quality tier.',
+              headers: ['Quality Tier', 'Recommended Max DR/Durability Die'],
               rows: [
-                ['Poor', '30'],
-                ['Common', '50'],
-                ['Uncommon', '70'],
-                ['Rare', '90'],
-                ['Epic', '120'],
-                ['Legendary', '160'],
-                ['Artifact', '200']
+                ['Poor', 'd4'],
+                ['Common', 'd6'],
+                ['Uncommon', 'd8'],
+                ['Rare', 'd10'],
+                ['Epic / Legendary', 'd12'],
+                ['Artifact', 'd20']
               ]
+            }
+          ]
+        }
+      },
+      {
+        id: 'push-your-luck',
+        name: 'Push Your Luck',
+        icon: 'fas fa-dice',
+        theme: 'mechanic',
+        summary: [
+          'Add a 1d6 Push Die to any skill check or attack roll at any moment.',
+          'Rolling a 1 inflicts 1 level of exhaustion. Rolling a 2 blocks further pushes for the day.',
+          'Rolling a 3-6 adds the amount and allows subsequent pushes with a progressive -1 penalty.'
+        ],
+        content: {
+          title: 'Push Your Luck (Optional Rule)',
+          description: 'A high-stakes optional rule allowing heroes to reach beyond their limits at a severe physical cost.',
+          sections: [
+            {
+              title: 'Reaching Beyond Limits',
+              content: `Sometimes, survival requires pushing your body and fate to the absolute brink. The **Push Your Luck** optional system allows characters to supplement their rolls in desperate moments. At any moment before a check's result is finalized—whether it is a vital skill check, a saving throw, or a crucial weapon strike—a player can declare they are pushing their luck. 
+
+Doing so instantly adds a **1d6 Push Die** to their total roll. However, fate is a double-edged sword, and reaching beyond your limits carries immediate physical consequences based on the value rolled on the Push Die:`
+            },
+            {
+              title: 'The Push Die Results',
+              content: `• **Roll a 1 (The Exhausting Strain)**: You push your muscles or mind too hard. You add the **1** to your roll, but you immediately suffer **1 level of exhaustion**.
+• **Roll a 2 (The Lockout)**: You exhaust your immediate reservoir of luck. You add the **2** to your roll, but you **cannot push your luck again for the remainder of the game day**.
+• **Roll a 3–6 (Sustained Momentum)**: You successfully channel your focus. You add the value to your roll, and you are free to continue pushing your luck on future rolls.`
+            },
+            {
+              title: 'Infinite Chaos: Subsequent Pushes',
+              content: `By default, characters are limited to **one Push Die per check/action**. However, for tables that crave ultimate risk and high-adrenaline chaos, GMs can enable **Subsequent Pushes**. 
+
+Under this rule, a player who rolled a 3–6 can immediately choose to push their luck *again* on the same check, rolling an additional 1d6. Each subsequent Push Die rolled on the same action suffers a **cumulative -1 penalty** (e.g., the second Push Die rolls 1d6 - 1, the third rolls 1d6 - 2, and so on). If any subsequent Push Die lands on a 1 (after modifiers) or a natural 1, the exhaustion penalty applies immediately, and if it lands on a 2 or less, the luck lockout or worse occurs!`
             }
           ]
         }
@@ -1756,7 +1966,7 @@ The Myrathil cannot truly rest without submersion in water. Their vein-colors be
         name: 'Attacks & Damage',
         icon: 'fas fa-crosshairs',
         theme: 'combat',
-        summary: ['Unified attack/damage roll using weapon die', 'Armor gives passive DR = Armor / 10', 'Defend action rolls a soak die for extra reduction'],
+        summary: ['Unified attack/damage roll using weapon die', 'Equipment-Based Damage Reduction (DR) die replaces static soak', 'Critical hits ignore Damage Reduction and do not degrade durability'],
         content: {
           title: 'Attacks & Damage',
           description: 'Unified attack/damage rolls, armor absorption, critical system',
@@ -1772,41 +1982,26 @@ The Myrathil cannot truly rest without submersion in water. Their vein-colors be
 This unified flow makes every single weapon swing incredibly fast-paced, keeping combat visceral, lethal, and tactically fluid.`
             },
             {
-              title: 'Armor & Defense',
-              content: `In Mythrill, defending yourself is not a static state. Armor protects you through two highly tactical layers:
+              title: 'Equipment-Based Damage Reduction',
+              content: `In Mythrill, armor does not make you harder to hit. Instead, it absorbs the physical impact of incoming blows to directly reduce physical trauma:
 
-• **Passive Damage Reduction (DR)**: Your armor constantly absorbs physical trauma without any manual bookkeeping. You receive passive damage reduction equal to your **Armor Score ÷ 10** (rounded down). For instance, a knight wearing thick plate with an Armor Score of 24 has a permanent Passive DR of 2, subtracting 2 damage from every single incoming attack.
-• **Active Soak Die (Defending)**: If you anticipate a devastating blow, you can spend AP to take the **Defend** action. When doing so, you roll an active **Soak Die** determined by your armor class (ranging from a d4 for light leather up to a d10 or d12 for masterwork heavy plate). The result rolled on the soak die is immediately subtracted from the incoming damage alongside your Passive DR, allowing you to shrug off even giant-sized strikes.`
+• **Damage Reduction (DR) Die**: Each equippable armor piece is assigned a designated DR die size based on its category and construction (e.g., a d10 for plate chests, a d4 for cloth robes). When you take damage, you roll this die and subtract the result directly from the damage dealt.
+• **Durability Step Degradation**: If you roll a **1 or 2** on your DR die, the item's durability is degraded by one die step size (e.g., d10 -> d8). A roll of **3 or higher** keeps your durability fully intact. When rolling a 1 or 2, you take the reduced damage but the armor's integrity slips. Roleplay-wise, you can tell the GM where you reacted in the instant to take the hit, or the GM tells you where you are hit if it was by surprise.
+• **No Creature DR**: Creatures do not possess equipment damage reduction; their defense is purely based on elemental or physical resistances.
+• **Critical Hits Bypass DR**: Critical hits are so devastatingly precise that they ignore all armor damage reduction entirely, and they do not prompt the equipment to roll DR or take durability damage.`
             }
           ],
           tables: [
             {
-              title: 'Passive Damage Reduction Examples',
-              description: 'Your armor provides constant protection, automatically reducing incoming damage. Higher armor means better passive defense.',
-              headers: ['Armor', 'Passive DR (Armor ÷ 10, floor)'],
+              title: 'Armor Category Damage Reduction Dice',
+              description: 'Standard DR die sizes assigned to different armor classes and slots. Better quality or heavier slots mean larger DR dice.',
+              headers: ['Armor Category', 'Standard DR Die'],
               rows: [
-                ['7', '0'],
-                ['14', '1'],
-                ['22', '2'],
-                ['38', '3'],
-                ['77', '7']
-              ]
-            },
-            {
-              title: 'Soak Die Scale (Defend Action)',
-              description: 'When you take the Defend action, roll a soak die based on your armor to reduce damage. Better armor means better defensive rolls.',
-              headers: ['Armor', 'Soak Die'],
-              rows: [
-                ['0–4', '—'],
-                ['5–9', '1d4'],
-                ['10–14', '1d6'],
-                ['15–19', '1d8'],
-                ['20–24', '1d10'],
-                ['25–29', '1d12'],
-                ['30–34', '1d12 + 1d4'],
-                ['35–39', '1d12 + 1d6'],
-                ['40–44', '2d12'],
-                ['45–49', '2d12 + 1d4']
+                ['Cloth / Robes', 'd4'],
+                ['Leather / Light', 'd6'],
+                ['Mail / Medium', 'd8'],
+                ['Plate / Heavy', 'd10'],
+                ['Masterwork Plate / Artifact relics', 'd12 / d20']
               ]
             }
           ]
@@ -4366,5 +4561,199 @@ export const getRuleContent = (categoryId, subcategoryId) => {
 
   const subcategory = category.subcategories.find(s => s.id === subcategoryId);
   return subcategory?.content || null;
+};
+
+// Build a flat search index from all rules content
+const buildSearchIndex = () => {
+  const index = [];
+  let idCounter = 0;
+
+  const addEntry = (entry) => {
+    index.push({ id: `search-${idCounter++}`, ...entry });
+  };
+
+  const stripMarkdown = (text) => {
+    if (!text) return '';
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+      .replace(/\\n/g, ' ')
+      .replace(/[`•>]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
+  for (const category of RULES_CATEGORIES) {
+    // Category-level entry
+    addEntry({
+      categoryId: category.id,
+      categoryName: category.name,
+      subcategoryId: null,
+      subcategoryName: null,
+      sectionIndex: -1,
+      sectionTitle: null,
+      searchText: `${category.name} ${category.description || ''}`.toLowerCase(),
+      displayTitle: category.name,
+      preview: category.description || '',
+      type: 'category'
+    });
+
+    for (const sub of category.subcategories) {
+      // Subcategory-level entry
+      const subText = `${sub.name} ${sub.summary ? sub.summary.join(' ') : ''} ${sub.content?.title || ''} ${sub.content?.description || ''}`;
+      addEntry({
+        categoryId: category.id,
+        categoryName: category.name,
+        subcategoryId: sub.id,
+        subcategoryName: sub.name,
+        sectionIndex: -1,
+        sectionTitle: null,
+        searchText: subText.toLowerCase(),
+        displayTitle: sub.name,
+        preview: sub.content?.description || (sub.summary ? sub.summary[0] : ''),
+        type: 'subcategory'
+      });
+
+      const sections = sub.content?.sections || [];
+      let validSectionIdx = 0;
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        if (!section || (!section.title && !section.content)) continue;
+        if (section.type === 'rotating-tips') {
+          validSectionIdx++;
+          continue;
+        }
+        const rawContent = section.content || '';
+        const previewText = stripMarkdown(rawContent).slice(0, 200);
+        addEntry({
+          categoryId: category.id,
+          categoryName: category.name,
+          subcategoryId: sub.id,
+          subcategoryName: sub.name,
+          sectionIndex: validSectionIdx,
+          sectionTitle: section.title || '',
+          tabId: null,
+          searchText: `${section.title || ''} ${rawContent}`.toLowerCase(),
+          displayTitle: section.title || sub.name,
+          preview: previewText,
+          type: 'section'
+        });
+        validSectionIdx++;
+      }
+
+      // Index tabbed sections too
+      const tabs = sub.content?.tabs || [];
+      for (const tab of tabs) {
+        if (!tab || !tab.sections) continue;
+        let tabValidIdx = 0;
+        for (let i = 0; i < tab.sections.length; i++) {
+          const section = tab.sections[i];
+          if (!section || (!section.title && !section.content)) continue;
+          if (section.type === 'rotating-tips') {
+            tabValidIdx++;
+            continue;
+          }
+          const rawContent = section.content || '';
+          const previewText = stripMarkdown(rawContent).slice(0, 200);
+          addEntry({
+            categoryId: category.id,
+            categoryName: category.name,
+            subcategoryId: sub.id,
+            subcategoryName: sub.name,
+            sectionIndex: tabValidIdx,
+            sectionTitle: section.title || '',
+            tabId: tab.id,
+            tabName: tab.name,
+            searchText: `${tab.name} ${section.title || ''} ${rawContent}`.toLowerCase(),
+            displayTitle: section.title || tab.name,
+            preview: previewText,
+            type: 'section'
+          });
+          tabValidIdx++;
+        }
+        // Index tab tables
+        if (tab.tables) {
+          for (const table of tab.tables) {
+            if (!table || !table.title) continue;
+            addEntry({
+              categoryId: category.id,
+              categoryName: category.name,
+              subcategoryId: sub.id,
+              subcategoryName: sub.name,
+              sectionIndex: -1,
+              sectionTitle: table.title,
+              tabId: tab.id,
+              tabName: tab.name,
+              searchText: `${tab.name} ${table.title} ${table.description || ''}`.toLowerCase(),
+              displayTitle: table.title,
+              preview: table.description || '',
+              type: 'table'
+            });
+          }
+        }
+      }
+
+      // Also index top-level table titles
+      const tables = sub.content?.tables || [];
+      for (let t = 0; t < tables.length; t++) {
+        const table = tables[t];
+        if (!table || !table.title) continue;
+        addEntry({
+          categoryId: category.id,
+          categoryName: category.name,
+          subcategoryId: sub.id,
+          subcategoryName: sub.name,
+          sectionIndex: -1,
+          sectionTitle: table.title,
+          tabId: null,
+          searchText: `${table.title} ${table.description || ''}`.toLowerCase(),
+          displayTitle: table.title,
+          preview: table.description || '',
+          type: 'table'
+        });
+      }
+    }
+  }
+
+  return index;
+};
+
+export const RULES_SEARCH_INDEX = buildSearchIndex();
+
+// Search helper that scores and ranks results
+export const searchRulesIndex = (query) => {
+  if (!query || query.trim().length < 2) return [];
+  const q = query.trim().toLowerCase();
+  const terms = q.split(/\s+/).filter(t => t.length >= 2);
+  if (terms.length === 0) return [];
+
+  const scored = RULES_SEARCH_INDEX.map(entry => {
+    let score = 0;
+    const text = entry.searchText;
+    const title = (entry.displayTitle || '').toLowerCase();
+
+    for (const term of terms) {
+      // Exact title match is highest
+      if (title === term) score += 20;
+      else if (title.includes(term)) score += 10;
+      else if (text.includes(term)) score += 2;
+    }
+
+    // Boost exact phrase matches in content
+    if (text.includes(q)) score += 5;
+
+    // Boost sections over tables, tables over subcategories
+    if (entry.type === 'section') score += 1;
+    else if (entry.type === 'table') score += 0.5;
+
+    return { entry, score };
+  });
+
+  return scored
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 50)
+    .map(s => s.entry);
 };
 

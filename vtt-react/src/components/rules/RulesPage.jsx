@@ -6,7 +6,7 @@ import {
   faWind, faScroll, faBiohazard, faFlask, faMusic, faSun, faFire,
     faDove, faBolt
 } from '@fortawesome/free-solid-svg-icons';
-import { RULES_CATEGORIES, getRuleContent } from '../../data/rulesData';
+import { RULES_CATEGORIES, getRuleContent, searchRulesIndex } from '../../data/rulesData';
 import BackgroundSelector from './BackgroundSelector';
 import BackgroundsDisplay from './BackgroundsDisplay';
 import SkillsDisplay from './SkillsDisplay';
@@ -23,11 +23,17 @@ import './components/rules-components.css';
 import RulesHeroBanner from './components/RulesHeroBanner';
 import RulesSectionCard from './components/RulesSectionCard';
 import RulesCollapsible from './components/RulesCollapsible';
+import LoreLink from '../common/LoreLink';
+import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import RulesSummaryBox from './components/RulesSummaryBox';
 import RulesQuickTiles from './components/RulesQuickTiles';
 
 // Lazy load RaceSelector for better performance
 const RaceSelector = React.lazy(() => import('./RaceSelector'));
+const BestiaryDisplay = React.lazy(() => import('./BestiaryDisplay'));
+const TimelineDisplay = React.lazy(() => import('./TimelineDisplay'));
+const LexiconDisplay = React.lazy(() => import('./LexiconDisplay'));
+const DramatisPersonaeDisplay = React.lazy(() => import('./DramatisPersonaeDisplay'));
 
 // PERFORMANCE OPTIMIZATION: Lazy load class data files on demand instead of importing all at once
 // This reduces initial bundle size significantly since class data files are large
@@ -124,8 +130,10 @@ const processMarkdown = (text) => {
   // Process bullet points (• at start of line)
   processed = processed.replace(/^• (.+)$/gm, '<li>$1</li>');
 
-  // Wrap consecutive list items in <ul>
-  processed = processed.replace(/(<li>.*<\/li>\s*)+/gs, '<ul>$&</ul>');
+  // Wrap consecutive list items in <ul> and strip inter-item newlines to prevent invalid <br> injections
+  processed = processed.replace(/(<li>(?:(?!<\/li>)[\s\S])*<\/li>(?:\s*<li>(?:(?!<\/li>)[\s\S])*<\/li>)*)/g, (match) => {
+    return `<ul>${match.trim().replace(/\n/g, '')}</ul>`;
+  });
 
   // Process line breaks
   processed = processed.replace(/\n\n/g, '</p><p>');
@@ -136,7 +144,119 @@ const processMarkdown = (text) => {
     processed = `<p>${processed}</p>`;
   }
 
+  // Auto-link all recognised LORE_DICTIONARY terms after all markdown is processed
+  processed = autoLinkTerminology(processed);
+
   return processed;
+};
+
+// High-performance parser that converts static HTML strings with embedded <LoreLink> or <a> tags into active React components
+const InteractiveRulesContent = ({ contentHtml, handleClassClick, handleSubcategoryClick }) => {
+  const parsedElements = useMemo(() => {
+    if (!contentHtml) return null;
+
+    try {
+      const parser = new DOMParser();
+      // Wrap contentHtml in a wrapper div to ensure it parses as a single DOM fragment
+      const doc = parser.parseFromString(`<div>${contentHtml}</div>`, 'text/html');
+      const rootDiv = doc.body.firstChild;
+
+      const renderDomNode = (node, keyVal) => {
+        if (node.nodeType === 3) { // Node.TEXT_NODE
+          return node.nodeValue;
+        }
+
+        if (node.nodeType === 1) { // Node.ELEMENT_NODE
+          const tagName = node.tagName.toLowerCase();
+
+          // Check if it's our custom LoreLink tag
+          if (tagName === 'lorelink') {
+            const termId = node.getAttribute('termid');
+            const children = Array.from(node.childNodes).map((child, index) =>
+              renderDomNode(child, `lore-child-${index}`)
+            );
+            return (
+              <LoreLink key={keyVal} termId={termId}>
+                {children}
+              </LoreLink>
+            );
+          }
+
+          // Check if it's our custom internal rules-link
+          if (tagName === 'a' && node.className.includes('rules-link')) {
+            const cat = node.getAttribute('data-category');
+            const sub = node.getAttribute('data-subcategory');
+            const children = Array.from(node.childNodes).map((child, index) =>
+              renderDomNode(child, `link-child-${index}`)
+            );
+            return (
+              <span
+                key={keyVal}
+                className="rules-link clickable-link"
+                style={{ cursor: 'pointer', color: '#d4af37', fontWeight: '600' }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (cat === 'classes') {
+                    handleClassClick(node.textContent);
+                  } else {
+                    handleSubcategoryClick(cat, sub);
+                  }
+                }}
+              >
+                {children}
+              </span>
+            );
+          }
+
+          // For standard HTML tags, map them to React elements
+          const attribs = {};
+          for (const attr of node.attributes) {
+            let name = attr.name;
+            if (name === 'class') name = 'className';
+            // convert style string to react style object if present
+            if (name === 'style') {
+              const styleObj = {};
+              attr.value.split(';').forEach(style => {
+                const parts = style.split(':');
+                if (parts.length >= 2) {
+                  const k = parts[0].trim();
+                  const v = parts.slice(1).join(':').trim();
+                  const camelKey = k.replace(/-./g, x => x[1].toUpperCase());
+                  styleObj[camelKey] = v;
+                }
+              });
+              attribs.style = styleObj;
+              continue;
+            }
+            attribs[name] = attr.value;
+          }
+          attribs.key = keyVal;
+
+          const children = Array.from(node.childNodes).map((child, index) =>
+            renderDomNode(child, `${tagName}-child-${index}`)
+          );
+
+          return React.createElement(tagName, attribs, ...children);
+        }
+
+        return null;
+      };
+
+      // Return the children of our root wrapper div
+      return Array.from(rootDiv.childNodes).map((child, index) =>
+        renderDomNode(child, `root-${index}`)
+      );
+    } catch (error) {
+      console.error("DOMParser rendering error:", error);
+      // Fallback in case of parse failures
+      return <div dangerouslySetInnerHTML={{ __html: contentHtml }} />;
+    }
+  }, [contentHtml, handleClassClick, handleSubcategoryClick]);
+
+  if (!contentHtml) return null;
+
+  return <div className="rules-content-interactive">{parsedElements}</div>;
 };
 
 const getThemeColor = (theme) => {
@@ -199,7 +319,7 @@ const RotatingTips = React.memo(({ tips }) => {
 });
 
 // Rules Section Item Component
-const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory, isLast }) => {
+const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory, isLast, handleClassClick, handleSubcategoryClick }) => {
   const contentHtml = useMemo(() => {
     if (!section.content) return null;
     let processed = processMarkdown(section.content);
@@ -565,35 +685,25 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
   if (!contentHtml) return null;
 
-  const contentLength = section.content ? section.content.length : 0;
-  const isLong = contentLength > 500;
-  const isShort = contentLength < 600;
-
-  const renderedElement = isLong ? (
-    <RulesCollapsible
-      title={section.title || 'DETAILS'}
-      icon="fas fa-scroll"
-      theme={theme}
-      defaultOpen={idx === 0}
-      contentLength={contentLength}
-    >
-      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-    </RulesCollapsible>
-  ) : (
-    <RulesSectionCard title={section.title} theme={theme} short={isShort}>
-      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+  const renderedElement = (
+    <RulesSectionCard title={section.title} theme={theme} short={false}>
+      <InteractiveRulesContent 
+        contentHtml={contentHtml} 
+        handleClassClick={handleClassClick} 
+        handleSubcategoryClick={handleSubcategoryClick} 
+      />
     </RulesSectionCard>
   );
 
   return (
-    <>
+    <div id={`section-${idx}`} className="rules-section-wrapper" style={{ scrollMarginTop: '16px' }}>
       {renderedElement}
       {!isLast && (
         <div className="rules-divider">
           <span className="rules-divider-icon">✥</span>
         </div>
       )}
-    </>
+    </div>
   );
 });
 
@@ -643,14 +753,12 @@ const RulesTable = React.memo(({ table, tableIdx, sectionTheme, selectedSubcateg
   const pageRows = rows.slice(startIdx, endIdx);
   
   // Only split into two pages when the right side would be at least 75% full.
-  // This prevents near-empty right columns (e.g. 8 rows → 5+3 at 60% looks wrong).
-  const minRowsForRightPage = Math.max(2, Math.ceil(rowsPerSide * 0.75));
-  const potentialRightRows = pageRows.slice(rowsPerSide);
-  const shouldSplit = potentialRightRows.length >= minRowsForRightPage;
+  // We force this to false to ensure a clean, high-readability single-page table layout
+  const shouldSplit = false;
 
-  const leftPageRows = shouldSplit ? pageRows.slice(0, rowsPerSide) : pageRows;
-  const rightPageRows = shouldSplit ? potentialRightRows : [];
-  const hasRightPage = shouldSplit && rightPageRows.length > 0;
+  const leftPageRows = pageRows;
+  const rightPageRows = [];
+  const hasRightPage = false;
 
   const renderTablePage = (rows, startRowIndex) => (
     <table className="rules-table">
@@ -767,6 +875,21 @@ const RulesTable = React.memo(({ table, tableIdx, sectionTheme, selectedSubcateg
   );
 });
 
+const GET_THEME_COLOR = (theme) => {
+  const colors = {
+    mechanic: '#8a1a10',
+    combat: '#9c281a',
+    narrative: '#6d4021',
+    danger: '#a62424',
+    nature: '#2a5c2d',
+    arcane: '#5b2c80',
+    undead: '#3d1c47',
+    trade: '#997400',
+    social: '#b25900'
+  };
+  return colors[theme] || '#6d4021';
+};
+
 const RulesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('core-rules');
   const [selectedSubcategory, setSelectedSubcategory] = useState('game-overview');
@@ -778,6 +901,12 @@ const RulesPage = () => {
   const [loadedClassData, setLoadedClassData] = useState(null);
   const [isLoadingClassData, setIsLoadingClassData] = useState(false);
   const buttonRefs = useRef({});
+  const [activeSectionTab, setActiveSectionTab] = useState(0);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const searchInputRef = useRef(null);
+  const searchModalRef = useRef(null);
 
   // Lazy load class data when a class is selected
   useEffect(() => {
@@ -815,11 +944,30 @@ const RulesPage = () => {
   }, [selectedClassDetail]);
 
   // Handle subcategory selection
-  const handleSubcategoryClick = (categoryId, subcategoryId) => {
+  const handleSubcategoryClick = (categoryId, subcategoryId, sectionIndex = null, tabId = null) => {
     setSelectedCategory(categoryId);
     setSelectedSubcategory(subcategoryId);
     setSelectedClassDetail(null); // Clear class detail when changing subcategory
-    setActiveTab(null); // Reset tab when changing subcategory
+    setActiveTab(tabId); // Reset tab, or activate specific tab for search results
+    setActiveSectionTab(sectionIndex !== null && sectionIndex >= 0 ? sectionIndex : 0);
+    setShowSearch(false);
+
+    // Scroll to section if specified, otherwise scroll content to top
+    if (sectionIndex !== null && sectionIndex >= 0) {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const contentArea = document.querySelector('.rules-content-area');
+          const sectionEl = document.getElementById(`section-${sectionIndex}`);
+          if (contentArea && sectionEl) {
+            const top = sectionEl.offsetTop - 24;
+            contentArea.scrollTo({ top, behavior: 'smooth' });
+          }
+        }, 180);
+      });
+    } else {
+      const mainEl = document.querySelector('.rules-main');
+      if (mainEl) mainEl.scrollTop = 0;
+    }
   };
 
   // Handle breadcrumb navigation
@@ -842,6 +990,65 @@ const RulesPage = () => {
   const handleBackToClasses = () => {
     setSelectedClassDetail(null);
   };
+
+  // Search functionality
+  const openSearch = useCallback(() => {
+    setShowSearch(true);
+    setSearchQuery('');
+    setSearchResults([]);
+    // Focus input after modal opens
+    requestAnimationFrame(() => {
+      searchInputRef.current?.focus();
+    });
+  }, []);
+
+  const closeSearch = useCallback(() => {
+    setShowSearch(false);
+    setSearchQuery('');
+    setSearchResults([]);
+  }, []);
+
+  const handleSearchChange = useCallback((e) => {
+    const val = e.target.value;
+    setSearchQuery(val);
+    if (val.trim().length >= 2) {
+      setSearchResults(searchRulesIndex(val));
+    } else {
+      setSearchResults([]);
+    }
+  }, []);
+
+  const handleSearchKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') {
+      closeSearch();
+    } else if (e.key === 'Enter' && searchResults.length > 0) {
+      const first = searchResults[0];
+      handleSubcategoryClick(first.categoryId, first.subcategoryId, first.sectionIndex, first.tabId);
+    }
+  }, [searchResults, closeSearch]);
+
+  const handleSearchResultClick = useCallback((result) => {
+    handleSubcategoryClick(result.categoryId, result.subcategoryId, result.sectionIndex, result.tabId);
+  }, []);
+
+  // Close search modal on outside click or Escape
+  useEffect(() => {
+    if (!showSearch) return;
+    const handleKey = (e) => {
+      if (e.key === 'Escape') closeSearch();
+    };
+    const handleClickOutside = (e) => {
+      if (searchModalRef.current && !searchModalRef.current.contains(e.target)) {
+        closeSearch();
+      }
+    };
+    document.addEventListener('keydown', handleKey);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSearch, closeSearch]);
 
   // Handle internal rules link clicks for interactive navigation
   const handleContentClick = useCallback((e) => {
@@ -915,16 +1122,61 @@ const RulesPage = () => {
     if (!sections) return null;
     const theme = sectionTheme || 'narrative';
 
-    return sections.map((section, idx) => (
-      <RulesSectionItem
-        key={idx}
-        section={section}
-        idx={idx}
-        theme={theme}
-        selectedSubcategory={selectedSubcategory}
-        isLast={idx === sections.length - 1}
-      />
-    ));
+    // Filter out sections that are just rotating tips or have no content
+    const validSections = sections.filter(s => s.type !== 'rotating-tips' && (s.content || s.title));
+    const tipsSections = sections.filter(s => s.type === 'rotating-tips');
+
+    // Render active tabbed section
+    let renderedSections = null;
+    if (validSections.length <= 1) {
+      renderedSections = validSections.map((section, idx) => (
+        <RulesSectionItem
+          key={idx}
+          section={section}
+          idx={idx}
+          theme={theme}
+          selectedSubcategory={selectedSubcategory}
+          isLast={idx === validSections.length - 1}
+          handleClassClick={handleClassClick}
+          handleSubcategoryClick={handleSubcategoryClick}
+        />
+      ));
+    } else {
+      const activeIdx = activeSectionTab < validSections.length ? activeSectionTab : 0;
+      const activeSection = validSections[activeIdx];
+      renderedSections = (
+        <div className="page-fade-in" key={activeIdx}>
+          <RulesSectionItem
+            section={activeSection}
+            idx={activeIdx}
+            theme={theme}
+            selectedSubcategory={selectedSubcategory}
+            isLast={true}
+            handleClassClick={handleClassClick}
+            handleSubcategoryClick={handleSubcategoryClick}
+          />
+        </div>
+      );
+    }
+
+    // Render rotating tips at the bottom if present
+    return (
+      <>
+        {renderedSections}
+        {tipsSections.map((section, idx) => (
+          <RulesSectionItem
+            key={`tip-${idx}`}
+            section={section}
+            idx={idx}
+            theme={theme}
+            selectedSubcategory={selectedSubcategory}
+            isLast={idx === tipsSections.length - 1}
+            handleClassClick={handleClassClick}
+            handleSubcategoryClick={handleSubcategoryClick}
+          />
+        ))}
+      </>
+    );
   };
 
   // Render tabbed content
@@ -976,15 +1228,15 @@ const RulesPage = () => {
           {isLoadingClassData ? (
             <div className="rules-loading">
               <i className="fas fa-spinner fa-spin"></i>
-              <p>Loading class data...</p>
+              <p>Loading tradition data...</p>
             </div>
           ) : loadedClassData ? (
             <ClassDetailDisplay classData={loadedClassData} onBack={handleBackToClasses} />
           ) : (
             <div className="rules-no-content">
               <i className="fas fa-exclamation-triangle"></i>
-              <p>Class data for {selectedClassDetail} is not yet available.</p>
-              <p>This class will be added in a future update.</p>
+              <p>Tradition data for {selectedClassDetail} is not yet available.</p>
+              <p>This tradition will be added in a future update.</p>
             </div>
           )}
         </div>
@@ -997,16 +1249,40 @@ const RulesPage = () => {
 
     return (
       <div className={`rules-content-area ${isUsingCustomComponent ? 'custom-component-view' : ''}`}>
-        {!isUsingCustomComponent && (
-          <RulesHeroBanner
-            title={currentContent.title}
-            subtitle={currentContent.description}
-            badge={breadcrumbs.category?.toUpperCase()}
-            badgeIcon="fas fa-book-open"
-            theme={sectionTheme}
-            quickTiles={currentSubcategory?.quickFacts}
-          />
-        )}
+        <RulesHeroBanner
+          title={currentContent.title}
+          subtitle={currentContent.description}
+          badge={breadcrumbs.category?.toUpperCase()}
+          badgeIcon="fas fa-book-open"
+          theme={sectionTheme}
+          quickTiles={currentSubcategory?.quickFacts}
+        />
+
+        {/* Antique Scribe's Index Tabs Bar */}
+        {!isUsingCustomComponent && currentContent.sections && currentContent.sections.length > 1 && (() => {
+          const validSections = currentContent.sections.filter(s => s.title && s.type !== 'rotating-tips' && (s.content || s.title));
+          if (validSections.length <= 1) return null;
+          return (
+            <div className="rpg-tabs-bar">
+              {validSections.map((section, idx) => {
+                const displayTitle = section.title.split(':')[0].split('(')[0].replace(/this rulebook/i, '').trim();
+                return (
+                  <React.Fragment key={idx}>
+                    {idx > 0 && <span className="rpg-tab-divider">✦</span>}
+                    <button
+                      className={`rpg-custom-tab ${activeSectionTab === idx ? 'active' : ''}`}
+                      onClick={() => setActiveSectionTab(idx)}
+                      title={section.title}
+                    >
+                      <span className="rpg-tab-label">{displayTitle}</span>
+                    </button>
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          );
+        })()}
+
 
         {/* Quick reference tiles */}
         {!isUsingCustomComponent && currentSubcategory?.quickFacts && (
@@ -1019,7 +1295,7 @@ const RulesPage = () => {
         )}
 
         {/* Render sections */}
-        {!(isUsingCustomComponent && selectedSubcategory === 'classes') && currentContent.sections && renderSections(currentContent.sections, sectionTheme)}
+        {!isUsingCustomComponent && currentContent.sections && renderSections(currentContent.sections, sectionTheme)}
 
         {/* Custom component: Classes grid replaces the old table */}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'classes' && !selectedClassDetail && (
@@ -1050,9 +1326,49 @@ const RulesPage = () => {
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'advanced-travel' && (
           <AdvancedTravelDisplay />
         )}
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'timeline' && (
+          <Suspense fallback={
+            <div className="rules-loading">
+              <i className="fas fa-spinner fa-spin"></i>
+              <p>Loading timeline...</p>
+            </div>
+          }>
+            <TimelineDisplay />
+          </Suspense>
+        )}
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'bestiary' && (
+          <Suspense fallback={
+            <div className="rules-loading">
+              <i className="fas fa-spinner fa-spin"></i>
+              <p>Loading bestiary...</p>
+            </div>
+          }>
+            <BestiaryDisplay />
+          </Suspense>
+        )}
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'lexicon' && (
+          <Suspense fallback={
+            <div className="rules-loading">
+              <i className="fas fa-spinner fa-spin"></i>
+              <p>Loading lexicon...</p>
+            </div>
+          }>
+            <LexiconDisplay />
+          </Suspense>
+        )}
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'dramatis-personae' && (
+          <Suspense fallback={
+            <div className="rules-loading">
+              <i className="fas fa-spinner fa-spin"></i>
+              <p>Loading notable figures...</p>
+            </div>
+          }>
+            <DramatisPersonaeDisplay />
+          </Suspense>
+        )}
 
         {/* Render tables */}
-        {!(isUsingCustomComponent && selectedSubcategory === 'classes') && currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx, sectionTheme))}
+        {!isUsingCustomComponent && currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx, sectionTheme))}
 
         {/* Render tabs if present (only if not using custom component) */}
         {!currentSubcategory?.useCustomComponent && currentContent.tabs && renderTabbedContent(currentContent.tabs, sectionTheme)}
@@ -1078,8 +1394,10 @@ const RulesPage = () => {
       const button = buttonRefs.current[categoryId];
       if (button) {
         const rect = button.getBoundingClientRect();
+        const category = filteredCategories.find(c => c.id === categoryId);
+        const subCount = category ? category.subcategories.length : 8;
         const popoutWidth = 300;
-        const popoutHeight = 500;
+        const popoutHeight = Math.min(window.innerHeight - 120, 60 + subCount * 44);
         const gap = 12;
         const padding = 10;
         const headerHeight = 70; // Height of the header
@@ -1133,6 +1451,17 @@ const RulesPage = () => {
       <aside className="rules-sidebar collapsed">
         {/* Navigation Tree */}
         <nav className="rules-nav collapsed">
+          {/* Search Trigger Button */}
+          <div className="rules-sidebar-search-trigger">
+            <button
+              className="rules-search-trigger-btn"
+              onClick={openSearch}
+              title="Search the Codex"
+              aria-label="Search the Codex"
+            >
+              <i className="fas fa-search"></i>
+            </button>
+          </div>
           {filteredCategories.map(category => (
             <div key={category.id} className="rules-nav-category">
               <div style={{ position: 'relative' }}>
@@ -1153,9 +1482,10 @@ const RulesPage = () => {
                       });
                     } else {
                       // Desktop positioning logic
-                      // Popout dimensions (approximate)
+                      // Popout dimensions (dynamic & accurate)
                       const popoutWidth = 300; // max-width from CSS (240-300px)
-                      const popoutHeight = 500; // approximate max height for safety
+                      const subCount = category.subcategories ? category.subcategories.length : 8;
+                      const popoutHeight = Math.min(window.innerHeight - 120, 60 + subCount * 44);
                       const gap = 12;
                       const padding = 10; // minimum padding from screen edges
                       const headerHeight = 70; // Height of the header
@@ -1219,24 +1549,26 @@ const RulesPage = () => {
                       <i className={category.icon}></i>
                       <span>{category.name}</span>
                     </div>
-                    {category.subcategories.map(sub => (
-                      <button
-                        key={sub.id}
-                        className={`rules-nav-popout-item ${
-                          selectedCategory === category.id && selectedSubcategory === sub.id && !selectedClassDetail
-                            ? 'active'
-                            : ''
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSubcategoryClick(category.id, sub.id);
-                          setPopoutCategory(null);
-                        }}
-                      >
-                        <i className={sub.icon}></i>
-                        <span>{sub.name}</span>
-                      </button>
-                    ))}
+                    <div className="rules-nav-popout-body">
+                      {category.subcategories.map(sub => (
+                        <button
+                          key={sub.id}
+                          className={`rules-nav-popout-item ${
+                            selectedCategory === category.id && selectedSubcategory === sub.id && !selectedClassDetail
+                              ? 'active'
+                              : ''
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSubcategoryClick(category.id, sub.id);
+                            setPopoutCategory(null);
+                          }}
+                        >
+                          <i className={sub.icon}></i>
+                          <span>{sub.name}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -1274,7 +1606,7 @@ const RulesPage = () => {
             <button
               className="rules-breadcrumb rules-breadcrumb-link"
               onClick={handleBackToClasses}
-              aria-label="Navigate to Classes list"
+              aria-label="Navigate to Traditions of Power list"
             >
               {breadcrumbs.subcategory}
             </button>
@@ -1292,6 +1624,104 @@ const RulesPage = () => {
         {/* Content */}
         {renderContent()}
       </main>
+
+      {/* Search Modal Overlay */}
+      {showSearch && (
+        <div className="rules-search-overlay">
+          <div className="rules-search-modal" ref={searchModalRef}>
+            <div className="rules-search-header">
+              <h3 className="rules-search-title">
+                <i className="fas fa-book-open"></i>
+                Search the Codex
+              </h3>
+              <button className="rules-search-close" onClick={closeSearch} aria-label="Close search">
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div className="rules-search-body">
+              <div className="rules-search-input-wrapper">
+                <span className="rules-search-input-icon">
+                  <i className="fas fa-search"></i>
+                </span>
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  className="rules-search-input"
+                  placeholder="Search rules, sections, topics..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleSearchKeyDown}
+                />
+                {searchQuery && (
+                  <button className="rules-search-input-clear" onClick={() => { setSearchQuery(''); setSearchResults([]); searchInputRef.current?.focus(); }} aria-label="Clear search">
+                    <i className="fas fa-times"></i>
+                  </button>
+                )}
+              </div>
+
+              <div className="rules-search-results">
+                {searchQuery.trim().length < 2 ? (
+                  <div className="rules-search-hint">
+                    <i className="fas fa-search"></i>
+                    <p>Type at least 2 characters to search the Codex</p>
+                  </div>
+                ) : searchResults.length === 0 ? (
+                  <div className="rules-search-empty">
+                    <i className="fas fa-scroll"></i>
+                    <p>No results found for "{searchQuery}"</p>
+                  </div>
+                ) : (
+                  <div className="rules-search-results-list">
+                    {searchResults.map((result) => (
+                      <button
+                        key={result.id}
+                        className="rules-search-result-item"
+                        onClick={() => handleSearchResultClick(result)}
+                      >
+                        <div className="rules-search-result-breadcrumb">
+                          {result.categoryName}
+                          {result.subcategoryName && (
+                            <>
+                              <i className="fas fa-chevron-right"></i>
+                              {result.subcategoryName}
+                            </>
+                          )}
+                          {result.tabName && (
+                            <>
+                              <i className="fas fa-chevron-right"></i>
+                              <span className="rules-search-result-section">{result.tabName}</span>
+                            </>
+                          )}
+                          {result.sectionTitle && result.sectionIndex >= 0 && !result.tabName && (
+                            <>
+                              <i className="fas fa-chevron-right"></i>
+                              <span className="rules-search-result-section">{result.sectionTitle}</span>
+                            </>
+                          )}
+                        </div>
+                        <div className="rules-search-result-title">
+                          {result.displayTitle}
+                        </div>
+                        {result.preview && (
+                          <div className="rules-search-result-preview">
+                            {result.preview}
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            {searchResults.length > 0 && (
+              <div className="rules-search-footer">
+                <span>{searchResults.length} result{searchResults.length !== 1 ? 's' : ''}</span>
+                <span className="rules-search-footer-hint">Press <kbd>Enter</kbd> to open top result</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
