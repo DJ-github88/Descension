@@ -780,6 +780,52 @@
     opacity: 0.8;
 }
 
+/* ─── Active Ribbon Bookmark laying flat inside the book spine margin ─── */
+.tome-active-ribbon-body {
+    position: absolute;
+    top: -24px; /* Extends past the top gold border up under the spine trim */
+    bottom: -24px; /* Extends past the bottom gold border down to the tab */
+    width: 14px;
+    z-index: 4; /* On top of filigree border but under text/spine rings */
+    box-shadow: 
+        2px 0 5px rgba(0, 0, 0, 0.2),
+        -1px 0 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+/* Position it on the inner spine edge of the right page */
+.right-page .tome-active-ribbon-body {
+    left: 10px; /* Perfectly aligned in the spine gutter */
+    border-left: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-right: 1.5px solid rgba(0, 0, 0, 0.3);
+}
+
+/* Position it on the inner spine edge of the left page */
+.left-page .tome-active-ribbon-body {
+    right: 10px; /* Perfectly aligned in the spine gutter */
+    border-right: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-left: 1.5px solid rgba(0, 0, 0, 0.3);
+}
+
+/* Ribbon colors matching the book bookmarks */
+.tome-active-ribbon-body.history {
+    background: linear-gradient(90deg, #b87548 0%, #9e643b 50%, #734321 100%);
+}
+.tome-active-ribbon-body.figures {
+    background: linear-gradient(90deg, #ebd068 0%, #c29d38 50%, #8c6e20 100%);
+}
+.tome-active-ribbon-body.locations {
+    background: linear-gradient(90deg, #5aa387 0%, #446e5c 50%, #294c3e 100%);
+}
+.tome-active-ribbon-body.crisis {
+    background: linear-gradient(90deg, #cc5e5e 0%, #a13f3f 50%, #702626 100%);
+}
+.tome-active-ribbon-body.practices {
+    background: linear-gradient(90deg, #9177ad 0%, #6a5382 50%, #47355c 100%);
+}
+
 /* ─── Dynamic Responsive Design ─── */
 @media (max-width: 1024px) {
     .race-epic-lore-container {
@@ -855,19 +901,17 @@
         border-radius: 0;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% calc(100% - 8px), 0% 100%);
+        transform: none !important;
+        animation: none !important;
     }
 
     .tome-bookmark.active {
-        padding-bottom: 26px; /* Dynamic grow on mobile active */
-        transform: none;
+        padding-bottom: 26px !important; /* Dynamic grow on mobile active */
+        transform: none !important;
     }
     
     .tome-bookmark i {
         font-size: 9px;
-    }
-    
-    .tome-bookmark.active {
-        transform: translateY(4px);
     }
     
     .tome-illustration-frame {
@@ -895,6 +939,19 @@
     }
     .tome-edge-nav-btn.next-btn:hover {
         right: -40px;
+    }
+
+    /* Adjust inner active ribbon overlays for mobile collapsed view */
+    .tome-active-ribbon-body {
+        top: -20px;
+        bottom: -20px;
+        width: 10px;
+    }
+    .right-page .tome-active-ribbon-body {
+        left: 6px;
+    }
+    .left-page .tome-active-ribbon-body {
+        right: 6px;
     }
 }
 
