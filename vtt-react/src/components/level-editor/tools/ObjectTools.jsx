@@ -4,7 +4,7 @@ import { getIconUrl } from '../../../utils/assetManager';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useMapStore from '../../../store/mapStore';
 import ConnectionRenameDialog from '../ConnectionRenameDialog';
-import NuclearObjectImage from '../objects/NuclearObjectImage';
+import CanvasObjectThumbnail from '../objects/CanvasObjectThumbnail';
 import './styles/ObjectTools.css';
 
 const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
@@ -159,7 +159,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                                     className={`object-card mini ${settings?.selectedObjectType === obj.id ? 'selected' : ''}`}
                                     onClick={() => handleObjectSelect(obj.id)}
                                 >
-                                    <NuclearObjectImage src={obj.image} alt={obj.name} className="mini-img" />
+                                    <CanvasObjectThumbnail objectType={obj.id} className="mini-img" />
                                     <div className="mini-info">
                                         <span className="mini-name">{obj.name}</span>
                                         <span className="mini-badge">GM ONLY</span>
@@ -180,9 +180,8 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                                         className={`object-card mini ${settings?.selectedObjectType === obj.id ? 'selected' : ''}`}
                                         onClick={() => handleObjectSelect(obj.id)}
                                     >
-                                        <NuclearObjectImage
-                                            src={obj.image}
-                                            alt={obj.name}
+                                        <CanvasObjectThumbnail
+                                            objectType={obj.id}
                                             className="mini-img"
                                         />
                                         <div className="mini-info">

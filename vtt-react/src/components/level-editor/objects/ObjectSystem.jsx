@@ -1,622 +1,695 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react';
+﻿import React, { useRef, useEffect, useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import UnifiedContextMenu from '../UnifiedContextMenu';
+import { drawObject, hasObjectArt } from './ObjectCanvasRenderer';
+import { drawObjectArt } from './PixelArtRenderer';
+
+const snapRotationForHitTest = (type, rotation) => {
+    // Snap rotation to the nearest 90° for any object that has a sprite.
+    // Pure canvas-only objects (like GM Notes) get free rotation.
+    const def = PROFESSIONAL_OBJECTS[type];
+    if (!def || !def.image) return rotation || 0;
+    const norm = ((rotation % 360) + 360) % 360;
+    return Math.round(norm / 90) * 90;
+};
+
+// Image cache: URL -> HTMLImageElement. Shared with thumbnails and on-map
+// rendering so a single Image is loaded per sprite and reused.
+const spriteImageCache = new Map();
+// Cache-buster so the dev server / browser doesn't return a stale 404 from
+// before the sprite files were copied into public/assets/objects/.
+const SPRITE_CACHE_BUST = `?v=${Date.now()}`;
+const getSpriteImage = (url) => {
+    if (!url) return null;
+    if (spriteImageCache.has(url)) return spriteImageCache.get(url);
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+        // Trigger a re-render so on-map objects appear the moment they load.
+        if (typeof window !== 'undefined' && window.__vttObjectSystemRefresh) {
+            window.__vttObjectSystemRefresh();
+        }
+    };
+    img.onerror = () => {
+        // If the image fails to load, remove from cache so a future call
+        // retries (in case the user copies the file in later).
+        spriteImageCache.delete(url);
+        if (typeof window !== 'undefined' && window.__vttObjectSystemRefresh) {
+            window.__vttObjectSystemRefresh();
+        }
+    };
+    img.src = url + SPRITE_CACHE_BUST;
+    spriteImageCache.set(url, img);
+    return img;
+};
 
 const globalObjectImageCache = new Map();
 
 export const getObjectImageCache = () => globalObjectImageCache;
 
 // Professional object types for VTT
+// Sprite names are taken from the Dungeon Crawl 32x32 tileset by
+// MedicineStorm (CC0, 3000+ tiles). https://opengameart.org/content/dungeon-crawl-32x32-tiles
+// Each entry maps a sprite basename to a category, size, and metadata.
+const SPRITE = (name) => `/assets/objects/${name}.png`;
+
 export const PROFESSIONAL_OBJECTS = {
+    // ===== Furniture =====
+    misc_box: {
+        id: 'misc_box',
+        name: 'Treasure Chest',
+        image: SPRITE('misc_box'),
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'A wooden chest for treasures',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    shop_potions: {
+        id: 'shop_potions',
+        name: 'Shop Counter',
+        image: SPRITE('shop_potions'),
+        category: 'furniture',
+        size: { width: 2, height: 1 },
+        description: 'A merchant counter',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    statue_base: {
+        id: 'statue_base',
+        name: 'Stone Statue',
+        image: SPRITE('statue_base'),
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'A carved stone statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    silver_statue: {
+        id: 'silver_statue',
+        name: 'Silver Statue',
+        image: SPRITE('silver_statue'),
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'A gleaming silver statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    dark_vine_statue_base: {
+        id: 'dark_vine_statue_base',
+        name: 'Dark Statue',
+        image: SPRITE('dark_vine_statue_base'),
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'A dark vine-wrapped statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    light_vine_statue_base: {
+        id: 'light_vine_statue_base',
+        name: 'Light Statue',
+        image: SPRITE('light_vine_statue_base'),
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'A light vine-wrapped statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    orange_crystal_statue: {
+        id: 'orange_crystal_statue',
+        name: 'Crystal Statue',
+        image: SPRITE('orange_crystal_statue'),
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'A statue carved from orange crystal',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    ice_statue: {
+        id: 'ice_statue',
+        name: 'Ice Statue',
+        image: SPRITE('ice_statue'),
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'A frozen ice statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    firespitter_statue: {
+        id: 'firespitter_statue',
+        name: 'Fire Statue',
+        image: SPRITE('firespitter_statue'),
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'A statue breathing fire',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    elephant_statue: {
+        id: 'elephant_statue',
+        name: 'Elephant Statue',
+        image: SPRITE('elephant_statue'),
+        category: 'furniture',
+        size: { width: 2, height: 2 },
+        description: 'A massive stone elephant',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    bone: {
+        id: 'bone',
+        name: 'Bone',
+        image: SPRITE('bone'),
+        category: 'furniture',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A scattered bone',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    flying_skull: {
+        id: 'flying_skull',
+        name: 'Skull',
+        image: SPRITE('flying_skull'),
+        category: 'furniture',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A floating skull',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    curse_skull: {
+        id: 'curse_skull',
+        name: 'Cursed Skull',
+        image: SPRITE('curse_skull'),
+        category: 'furniture',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A cursed floating skull',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+
+    // ===== Props =====
+    gold_pile: {
+        id: 'gold_pile',
+        name: 'Treasure Pile',
+        image: SPRITE('gold_pile'),
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'A pile of gold',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    misc_lamp: {
+        id: 'misc_lamp',
+        name: 'Brass Lamp',
+        image: SPRITE('misc_lamp'),
+        category: 'props',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A small brass lamp',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    misc_lantern: {
+        id: 'misc_lantern',
+        name: 'Lantern',
+        image: SPRITE('misc_lantern'),
+        category: 'props',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A handheld lantern',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    misc_orb: {
+        id: 'misc_orb',
+        name: 'Crystal Orb',
+        image: SPRITE('misc_orb'),
+        category: 'props',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A glowing crystal orb',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    misc_bottle: {
+        id: 'misc_bottle',
+        name: 'Bottle',
+        image: SPRITE('misc_bottle'),
+        category: 'props',
+        size: { width: 0.4, height: 0.4 },
+        description: 'A glass bottle',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    misc_stone: {
+        id: 'misc_stone',
+        name: 'Rune Stone',
+        image: SPRITE('misc_stone'),
+        category: 'props',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A stone with carved runes',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    misc_crystal: {
+        id: 'misc_crystal',
+        name: 'Mystic Crystal',
+        image: SPRITE('misc_crystal'),
+        category: 'props',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A glowing mystic crystal',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    dngn_sparkling_fountain: {
+        id: 'dngn_sparkling_fountain',
+        name: 'Sparkling Fountain',
+        image: SPRITE('dngn_sparkling_fountain'),
+        category: 'props',
+        size: { width: 2, height: 2 },
+        description: 'A fountain of sparkling water',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    dngn_blue_fountain: {
+        id: 'dngn_blue_fountain',
+        name: 'Blue Fountain',
+        image: SPRITE('dngn_blue_fountain'),
+        category: 'props',
+        size: { width: 2, height: 2 },
+        description: 'A blue-water fountain',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    dngn_blood_fountain: {
+        id: 'dngn_blood_fountain',
+        name: 'Blood Fountain',
+        image: SPRITE('dngn_blood_fountain'),
+        category: 'props',
+        size: { width: 2, height: 2 },
+        description: 'A gruesome blood fountain',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    cherub: {
+        id: 'cherub',
+        name: 'Cherub Statue',
+        image: SPRITE('cherub'),
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'A cherub statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    paladin: {
+        id: 'paladin',
+        name: 'Paladin Statue',
+        image: SPRITE('paladin'),
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'A holy paladin statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    eastern_dragon: {
+        id: 'eastern_dragon',
+        name: 'Dragon Statue',
+        image: SPRITE('eastern_dragon'),
+        category: 'props',
+        size: { width: 2, height: 2 },
+        description: 'An eastern dragon statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    shedu: {
+        id: 'shedu',
+        name: 'Shedu Statue',
+        image: SPRITE('shedu'),
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'A lamassu guardian statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    ophan: {
+        id: 'ophan',
+        name: 'Ophan Statue',
+        image: SPRITE('ophan'),
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'A wheeled ophan statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    apis: {
+        id: 'apis',
+        name: 'Apis Statue',
+        image: SPRITE('apis'),
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'A sacred bull statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    demon_wings_bones: {
+        id: 'demon_wings_bones',
+        name: 'Demon Remains',
+        image: SPRITE('demon_wings_bones'),
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'The skeletal remains of a demon',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+
+    // ===== Structures =====
+    dngn_altar: {
+        id: 'dngn_altar',
+        name: 'Stone Altar',
+        image: SPRITE('dngn_altar'),
+        category: 'structures',
+        size: { width: 2, height: 1 },
+        description: 'A ritual stone altar',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    dngn_granite_statue: {
+        id: 'dngn_granite_statue',
+        name: 'Granite Statue',
+        image: SPRITE('dngn_granite_statue'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A weathered granite statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    crumbled_column: {
+        id: 'crumbled_column',
+        name: 'Crumbling Column',
+        image: SPRITE('crumbled_column'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A crumbling stone column',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    zot_pillar: {
+        id: 'zot_pillar',
+        name: 'Ornate Pillar',
+        image: SPRITE('zot_pillar'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'An ornate magical pillar',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    granite_stump: {
+        id: 'granite_stump',
+        name: 'Granite Stump',
+        image: SPRITE('granite_stump'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A flat-topped granite pillar',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    dngn_closed_door: {
+        id: 'dngn_closed_door',
+        name: 'Stone Door',
+        image: SPRITE('dngn_closed_door'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A closed stone door',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    dngn_open_door: {
+        id: 'dngn_open_door',
+        name: 'Open Doorway',
+        image: SPRITE('dngn_open_door'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'An open stone doorway',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    dngn_trap_spear: {
+        id: 'dngn_trap_spear',
+        name: 'Spear Trap',
+        image: SPRITE('dngn_trap_spear'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A floor-mounted spear trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_blade: {
+        id: 'dngn_trap_blade',
+        name: 'Blade Trap',
+        image: SPRITE('dngn_trap_blade'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A spinning blade trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_axe: {
+        id: 'dngn_trap_axe',
+        name: 'Axe Trap',
+        image: SPRITE('dngn_trap_axe'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A swinging axe trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_arrow: {
+        id: 'dngn_trap_arrow',
+        name: 'Arrow Trap',
+        image: SPRITE('dngn_trap_arrow'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A wall-mounted arrow trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_bolt: {
+        id: 'dngn_trap_bolt',
+        name: 'Bolt Trap',
+        image: SPRITE('dngn_trap_bolt'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A heavy crossbow bolt trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_dart: {
+        id: 'dngn_trap_dart',
+        name: 'Dart Trap',
+        image: SPRITE('dngn_trap_dart'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A poisoned dart trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_needle: {
+        id: 'dngn_trap_needle',
+        name: 'Needle Trap',
+        image: SPRITE('dngn_trap_needle'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A tiny poisoned needle trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_net: {
+        id: 'dngn_trap_net',
+        name: 'Net Trap',
+        image: SPRITE('dngn_trap_net'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A falling net trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_teleport: {
+        id: 'dngn_trap_teleport',
+        name: 'Teleport Trap',
+        image: SPRITE('dngn_trap_teleport'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A teleportation trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_zot: {
+        id: 'dngn_trap_zot',
+        name: 'Zot Trap',
+        image: SPRITE('dngn_trap_zot'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A magical Zot trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+    dngn_trap_alarm: {
+        id: 'dngn_trap_alarm',
+        name: 'Alarm Trap',
+        image: SPRITE('dngn_trap_alarm'),
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'A noise-making alarm trap',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+    },
+
+    // ===== Nature =====
+    tree1_red: {
+        id: 'tree1_red',
+        name: 'Broadleaf Tree',
+        image: SPRITE('tree1_red'),
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'A broadleaf tree with deep-red autumn foliage',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    tree1_lightred: {
+        id: 'tree1_lightred',
+        name: 'Broadleaf Tree (Autumn)',
+        image: SPRITE('tree1_lightred'),
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'A broadleaf tree with light autumn foliage',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    tree1_yellow: {
+        id: 'tree1_yellow',
+        name: 'Broadleaf Tree (Golden)',
+        image: SPRITE('tree1_yellow'),
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'A broadleaf tree with golden autumn leaves',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    tree2_red: {
+        id: 'tree2_red',
+        name: 'Canopy Tree',
+        image: SPRITE('tree2_red'),
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'A wide-canopied tree with deep-red foliage',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    tree2_lightred: {
+        id: 'tree2_lightred',
+        name: 'Canopy Tree (Autumn)',
+        image: SPRITE('tree2_lightred'),
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'A wide-canopied tree with light autumn foliage',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    tree2_yellow: {
+        id: 'tree2_yellow',
+        name: 'Canopy Tree (Golden)',
+        image: SPRITE('tree2_yellow'),
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'A wide-canopied tree with golden leaves',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    plant: {
+        id: 'plant',
+        name: 'Shrub',
+        image: SPRITE('plant'),
+        category: 'nature',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A leafy green shrub',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    plant_crypt: {
+        id: 'plant_crypt',
+        name: 'Crypt Plant',
+        image: SPRITE('plant_crypt'),
+        category: 'nature',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A pale, withered crypt plant',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+    fire_drake: {
+        id: 'fire_drake',
+        name: 'Fire Drake',
+        image: SPRITE('fire_drake'),
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'A small red fire drake',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true,
+        lightRadius: 2, lightColor: '#ff6622', showLight: true
+    },
+    fire_giant: {
+        id: 'fire_giant',
+        name: 'Fire Giant',
+        image: SPRITE('fire_giant'),
+        category: 'nature',
+        size: { width: 2, height: 2 },
+        description: 'A towering fire giant',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true,
+        lightRadius: 3, lightColor: '#ff4400', showLight: true
+    },
+    fire_elemental: {
+        id: 'fire_elemental',
+        name: 'Fire Elemental',
+        image: SPRITE('fire_elemental'),
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'A living ball of elemental fire',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true,
+        lightRadius: 3, lightColor: '#ff6622', showLight: true
+    },
+    flame: {
+        id: 'flame',
+        name: 'Flame',
+        image: SPRITE('flame'),
+        category: 'nature',
+        size: { width: 0.5, height: 0.5 },
+        description: 'A small fire flame',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+
+    // ===== Lighting =====
+    torch0: {
+        id: 'torch0',
+        name: 'Wall Torch',
+        image: SPRITE('torch0'),
+        category: 'lighting',
+        size: { width: 0.4, height: 0.4 },
+        description: 'A wall-mounted torch',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
+        lightRadius: 2, lightColor: '#ffcc55', showLight: true
+    },
+    torch1: {
+        id: 'torch1',
+        name: 'Brazier',
+        image: SPRITE('torch1'),
+        category: 'lighting',
+        size: { width: 0.4, height: 0.4 },
+        description: 'A standing brazier with flame',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
+        lightRadius: 2, lightColor: '#ffcc55', showLight: true
+    },
+    torch2: {
+        id: 'torch2',
+        name: 'Torch Stand',
+        image: SPRITE('torch2'),
+        category: 'lighting',
+        size: { width: 0.4, height: 0.4 },
+        description: 'A standing torch on a pedestal',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
+        lightRadius: 2, lightColor: '#ffcc55', showLight: true
+    },
+    torch3: {
+        id: 'torch3',
+        name: 'Brass Torch',
+        image: SPRITE('torch3'),
+        category: 'lighting',
+        size: { width: 0.4, height: 0.4 },
+        description: 'A brass-mounted torch',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
+        lightRadius: 2.5, lightColor: '#ffdd55', showLight: true
+    },
+    torch4: {
+        id: 'torch4',
+        name: 'Smoldering Torch',
+        image: SPRITE('torch4'),
+        category: 'lighting',
+        size: { width: 0.4, height: 0.4 },
+        description: 'A smoldering torch with low flame',
+        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
+        lightRadius: 1.5, lightColor: '#ffaa33', showLight: true
+    },
+    banner1: {
+        id: 'banner1',
+        name: 'Wall Banner',
+        image: SPRITE('banner1'),
+        category: 'lighting',
+        size: { width: 0.5, height: 1 },
+        description: 'A decorative wall banner',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+    },
+
+    // ===== Utility / GM =====
     gmNotes: {
         id: 'gmNotes',
         name: 'GM Notes',
+        image: null,
+        canvasRender: 'gmNotes',
         category: 'gm',
-        icon: 'inv_misc_note_02',
-        image: '/assets/objects/gm-notes.png',
-        size: { width: 0.8, height: 0.8 },
+        size: { width: 1, height: 1 },
         description: 'GM prepared notes with items and creatures',
-        freePosition: true,
-        draggable: true,
-        resizable: false,
-        clickable: true,
-        gmOnly: true,
-        interactive: true
+        freePosition: true, draggable: true, resizable: false, clickable: true,
+        gmOnly: true, interactive: true
     },
-    treasureChest: {
-        id: 'treasureChest',
-        name: 'Treasure Chest',
-        category: 'furniture',
-        icon: 'items/Container/Chest/treasure-chest-wooden-brown-straps',
-        image: '/assets/objects/treasure-chest.png',
-        size: { width: 1, height: 1 },
-        description: 'A wooden chest for treasures',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    barrel: {
-        id: 'barrel',
-        name: 'Barrel',
-        category: 'furniture',
-        icon: 'items/Container/Crate/barrel-wooden-orange-bands-hoops',
-        image: '/assets/objects/barrel.png',
-        size: { width: 0.8, height: 0.8 },
-        description: 'A wooden barrel',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    crate: {
-        id: 'crate',
-        name: 'Crate',
-        category: 'furniture',
-        icon: 'items/Container/Crate/crate-wooden-planks-orange-outline',
-        image: '/assets/objects/crate.png',
-        size: { width: 1, height: 1 },
-        description: 'A sturdy wooden crate',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    table: {
-        id: 'table',
-        name: 'Table',
-        category: 'furniture',
-        icon: 'items/Misc/Profession Resources/Woodworking/resource-block-wooden-isometric-grain',
-        image: '/assets/objects/table.png',
-        size: { width: 2, height: 1 },
-        description: 'A wooden table',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    chair: {
-        id: 'chair',
-        name: 'Chair',
-        category: 'furniture',
-        icon: 'items/Armor/Hands/hands-straw-hay-bench',
-        image: '/assets/objects/chair.png',
-        size: { width: 0.6, height: 0.6 },
-        description: 'A wooden chair',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    pillar: {
-        id: 'pillar',
-        name: 'Pillar',
-        category: 'structures',
-        icon: 'Utility/Falling Block',
-        image: '/assets/objects/pillar.png',
-        size: { width: 1, height: 1 },
-        description: 'A stone pillar',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    rowboat: {
-        id: 'rowboat',
-        name: 'Rowboat',
-        category: 'furniture',
-        icon: 'items/Misc/Profession Resources/Woodworking/resource-block-wooden-isometric-grain',
-        image: '/assets/objects/rowboat.png',
-        size: { width: 3, height: 1.5 },
-        description: 'A wooden rowboat',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    sailboat: {
-        id: 'sailboat',
-        name: 'Sailboat',
-        category: 'furniture',
-        icon: 'items/Misc/Profession Resources/Woodworking/resource-block-wooden-isometric-grain',
-        image: '/assets/objects/sailboat_0.png',
-        multiAngle: true,
-        angles: {
-            0: '/assets/objects/sailboat_0.png',
-            45: '/assets/objects/sailboat_45.png',
-            90: '/assets/objects/sailboat_90.png',
-            135: '/assets/objects/sailboat_135.png',
-            180: '/assets/objects/sailboat_180.png',
-            225: '/assets/objects/sailboat_225.png',
-            270: '/assets/objects/sailboat_270.png',
-            315: '/assets/objects/sailboat_315.png'
-        },
-        size: { width: 4, height: 2 },
-        description: 'A small sailboat',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    cauldron: {
-        id: 'cauldron',
-        name: 'Cauldron',
-        category: 'furniture',
-        icon: 'items/Misc/Profession Resources/Alchemy/potion-vial-glass-empty-unfilled',
-        image: '/assets/objects/cauldron.png',
-        size: { width: 1.2, height: 1.2 },
-        description: 'A bubbling iron cauldron',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    treasurePile: {
-        id: 'treasurePile',
-        name: 'Treasure Pile',
-        category: 'furniture',
-        icon: 'items/Misc/Quest Items/currency-gold-pile-wealth-coins',
-        image: '/assets/objects/treasure-pile.png',
-        size: { width: 2, height: 2 },
-        description: 'A pile of gold and gems',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    magicCircle: {
-        id: 'magicCircle',
-        name: 'Magic Circle',
-        category: 'structures',
-        icon: 'Arcane/Orb Manipulation',
-        image: '/assets/objects/magic-circle.png',
-        size: { width: 3, height: 3 },
-        description: 'A glowing arcane circle',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    campfire: {
-        id: 'campfire',
-        name: 'Campfire',
-        category: 'props',
-        icon: 'Fire/Fire Logs',
-        image: '/assets/objects/campfire.png',
-        size: { width: 1, height: 1 },
-        description: 'A crackling campfire',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true,
-        lightRadius: 3,
-        lightColor: '#ffaa00',
-        showLight: true
-    },
-    torch: {
-        id: 'torch',
-        name: 'Torch',
-        category: 'props',
-        icon: 'Fire/Green Torch',
-        image: '/assets/objects/torch.png',
-        size: { width: 0.4, height: 0.4 },
-        description: 'A lit torch',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true,
-        lightRadius: 1.5,
-        lightColor: '#ffcc55',
-        showLight: true
-    },
-    trapdoor: {
-        id: 'trapdoor',
-        name: 'Trap Door',
-        category: 'props',
-        icon: 'Utility/Blue Door',
-        image: '/assets/objects/trapdoor.png',
-        size: { width: 1, height: 1 },
-        description: 'A hidden trap door',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    throne: {
-        id: 'throne',
-        name: 'Throne',
-        category: 'furniture',
-        icon: 'Social/Golden Crown',
-        image: '/assets/objects/throne.png',
-        size: { width: 1, height: 1 },
-        description: 'An ornate throne',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    bookshelf: {
-        id: 'bookshelf',
-        name: 'Bookshelf',
-        category: 'furniture',
-        icon: 'items/Misc/Books/book-stack-parchment-text-symbols',
-        image: '/assets/objects/bookshelf.png',
-        size: { width: 1.5, height: 2 },
-        description: 'A tall bookshelf',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    bed: {
-        id: 'bed',
-        name: 'Bed',
-        category: 'furniture',
-        icon: 'items/Armor/Hands/hands-simple-brown-bed',
-        image: '/assets/objects/bed.png',
-        size: { width: 2, height: 1 },
-        description: 'A simple bed',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    statue: {
-        id: 'statue',
-        name: 'Statue',
-        category: 'structures',
-        icon: 'Utility/Armored Construct',
-        image: '/assets/objects/statue.png',
-        size: { width: 1, height: 1 },
-        description: 'A carved stone statue',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    banner: {
-        id: 'banner',
-        name: 'Banner',
-        category: 'props',
-        icon: 'Utility/Fleur De Lis',
-        image: '/assets/objects/banner.png',
-        size: { width: 0.5, height: 1.5 },
-        description: 'A hanging banner',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    crystals: {
-        id: 'crystals',
-        name: 'Crystals',
-        category: 'props',
-        icon: 'Utility/Glowing Shard',
-        image: '/assets/objects/crystals.png',
-        size: { width: 0.8, height: 0.8 },
-        description: 'Glowing crystals',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true,
-        lightRadius: 2,
-        lightColor: '#aa00ff',
-        showLight: true
-    },
-    weaponRack: {
-        id: 'weaponRack',
-        name: 'Weapon Rack',
-        category: 'furniture',
-        icon: 'items/Misc/Quest Items/weapon-rack-wooden-swords-axes',
-        image: '/assets/objects/weapon-rack.png',
-        size: { width: 1.5, height: 0.8 },
-        description: 'A wooden rack for weapons',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    rug: {
-        id: 'rug',
-        name: 'Ornate Rug',
-        category: 'props',
-        icon: 'items/Misc/Quest Items/rug-ornate-red-gold',
-        image: '/assets/objects/rug.png',
-        size: { width: 3, height: 2 },
-        description: 'An ornate oriental rug',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    fountain: {
-        id: 'fountain',
-        name: 'Stone Fountain',
-        category: 'structures',
-        icon: 'items/Misc/Quest Items/fountain-stone-water',
-        image: '/assets/objects/fountain.png',
-        size: { width: 2, height: 2 },
-        description: 'A decorative stone fountain',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    sarcophagus: {
-        id: 'sarcophagus',
-        name: 'Sarcophagus',
-        category: 'structures',
-        icon: 'items/Misc/Quest Items/sarcophagus-stone-ornate',
-        image: '/assets/objects/sarcophagus.png',
-        size: { width: 1, height: 2 },
-        description: 'A heavy stone sarcophagus',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    altar: {
-        id: 'altar',
-        name: 'Stone Altar',
-        category: 'structures',
-        icon: 'items/Misc/Quest Items/altar-stone-runes',
-        image: '/assets/objects/altar.png',
-        size: { width: 2, height: 1 },
-        description: 'A ritual stone altar',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    well: {
-        id: 'well',
-        name: 'Stone Well',
-        category: 'structures',
-        icon: 'items/Misc/Quest Items/well-stone-roof',
-        image: '/assets/objects/well.png',
-        size: { width: 1.5, height: 1.5 },
-        description: 'A stone well with a roof',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    wagon: {
-        id: 'wagon',
-        name: 'Merchant Wagon',
-        category: 'props',
-        icon: 'items/Misc/Quest Items/wagon-wooden-canvas',
-        image: '/assets/objects/wagon.png',
-        size: { width: 3, height: 2 },
-        description: 'A wooden merchant wagon',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    tent: {
-        id: 'tent',
-        name: 'Adventurer Tent',
-        category: 'props',
-        icon: 'items/Misc/Quest Items/tent-canvas-blue',
-        image: '/assets/objects/tent.png',
-        size: { width: 2, height: 2 },
-        description: 'A simple canvas tent',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    stump: {
-        id: 'stump',
-        name: 'Tree Stump',
-        category: 'props',
-        icon: 'items/Misc/Quest Items/stump-mossy-wood',
-        image: '/assets/objects/stump.png',
-        size: { width: 1, height: 1 },
-        description: 'A mossy tree stump',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    boulder: {
-        id: 'boulder',
-        name: 'Large Boulder',
-        category: 'props',
-        icon: 'items/Misc/Quest Items/boulder-stone-gray',
-        image: '/assets/objects/boulder.png',
-        size: { width: 2, height: 2 },
-        description: 'A large gray boulder',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    bones: {
-        id: 'bones',
-        name: 'Scattered Bones',
-        category: 'props',
-        icon: 'items/Misc/Quest Items/bones-human-skeleton',
-        image: '/assets/objects/bones.png',
-        size: { width: 1, height: 1 },
-        description: 'Scattered ancient bones',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    candelabra: {
-        id: 'candelabra',
-        name: 'Candelabra',
-        category: 'props',
-        icon: 'items/Misc/Quest Items/candelabra-golden-lit',
-        image: '/assets/objects/candelabra.png',
-        size: { width: 0.6, height: 0.6 },
-        description: 'A golden lit candelabra',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true,
-        lightRadius: 2.5,
-        lightColor: '#ffeeaa',
-        showLight: true
-    },
-    fireplace: {
-        id: 'fireplace',
-        name: 'Stone Fireplace',
-        category: 'furniture',
-        icon: 'items/Misc/Quest Items/fireplace-stone-lit',
-        image: '/assets/objects/fireplace.png',
-        size: { width: 2, height: 1 },
-        description: 'A stone fireplace with a warm glow',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true,
-        lightRadius: 3.5,
-        lightColor: '#ff9933',
-        showLight: true
-    },
-    writingDesk: {
-        id: 'writingDesk',
-        name: 'Writing Desk',
-        category: 'furniture',
-        icon: 'items/Misc/Books/book-parchment-text-symbols',
-        image: '/assets/objects/desk.png',
-        size: { width: 1.5, height: 1 },
-        description: 'A wooden writing desk with parchment and ink',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    pineTree: {
-        id: 'pineTree',
-        name: 'Pine Tree',
-        category: 'nature',
-        icon: 'inv_misc_tree_01',
-        image: '/assets/objects/pine_tree.png',
-        size: { width: 2, height: 2 },
-        description: 'A tall pine tree',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    lever: {
-        id: 'lever',
-        name: 'Metal Lever',
-        category: 'props',
-        icon: 'inv_misc_gear_01',
-        image: '/assets/objects/lever.png',
-        size: { width: 0.6, height: 0.6 },
-        description: 'A metal wall lever',
-        freePosition: true,
-        draggable: true,
-        resizable: false,
-        clickable: true,
-        interactive: true
-    },
-    pressurePlate: {
-        id: 'pressurePlate',
-        name: 'Pressure Plate',
-        category: 'props',
-        icon: 'inv_stone_01',
-        image: '/assets/objects/pressure_plate.png',
-        size: { width: 1, height: 1 },
-        description: 'A stone pressure plate on the floor',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    floorSpikes: {
-        id: 'floorSpikes',
-        name: 'Floor Spikes',
-        category: 'props',
-        icon: 'ability_warrior_trauma',
-        image: '/assets/objects/spikes.png',
-        size: { width: 1, height: 1 },
-        description: 'Hidden floor spikes',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    shrub: {
-        id: 'shrub',
-        name: 'Garden Shrub',
-        category: 'nature',
-        icon: 'inv_misc_herb_01',
-        image: '/assets/objects/shrub.png',
-        size: { width: 1, height: 1 },
-        description: 'A decorative garden shrub',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true
-    },
-    streetLamp: {
-        id: 'streetLamp',
-        name: 'Street Lamp',
-        category: 'lighting',
-        icon: 'inv_misc_lantern_01',
-        image: '/assets/objects/street_lamp.png',
-        size: { width: 0.6, height: 0.6 },
-        description: 'A tall iron street lamp',
-        freePosition: true,
-        draggable: true,
-        resizable: true,
-        clickable: true,
-        interactive: true,
-        lightRadius: 4,
-        lightColor: '#ffeecc',
-        showLight: true
-    }
 };
+
+// Pre-warm the image cache for all known sprites so the editor
+// has them ready the moment it opens.
+Object.values(PROFESSIONAL_OBJECTS).forEach(def => {
+    if (def.image) getSpriteImage(def.image);
+});
+
 
 
 
@@ -889,6 +962,8 @@ const ObjectSystem = () => {
 
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Pixel-art objects must be drawn without smoothing or they smear.
+        ctx.imageSmoothingEnabled = false;
 
         // Check if objects layer is visible
         const objectsLayer = drawingLayers.find(layer => layer.id === 'objects');
@@ -967,6 +1042,11 @@ const ObjectSystem = () => {
             // Render object based on category
             renderObjectByCategory(ctx, obj, objectDef, screenPos, objWidth, objHeight);
 
+            // Use the snapped rotation for selection chrome so the highlight
+            // and handles stay aligned with the pixel art underneath.
+            const snappedRotationDeg = snapRotationForHitTest(obj.type, obj.rotation || 0);
+            const rotRad = (snappedRotationDeg || 0) * Math.PI / 180;
+
             // Render light radius if object has lighting - use object properties if available
             const lightRadius = obj.lightRadius || objectDef.lightRadius;
             const lightColor = obj.lightColor || objectDef.lightColor;
@@ -976,13 +1056,11 @@ const ObjectSystem = () => {
 
             // Render selection highlight if selected
             if (obj.selected) {
-                const rotRad = (obj.rotation || 0) * Math.PI / 180;
                 renderSelectionHighlight(ctx, screenPos, objWidth, objHeight, rotRad);
             }
 
             // Render drag handles if selected and draggable
             if (obj.selected && objectDef.draggable && (isEditorMode || isGMMode)) {
-                const rotRad = (obj.rotation || 0) * Math.PI / 180;
                 renderDragHandles(ctx, screenPos, objWidth, objHeight, rotRad);
             }
 
@@ -1033,30 +1111,66 @@ const ObjectSystem = () => {
 
     renderObjectsRef.current = renderObjects;
 
+    // Expose a global hook so the sprite image loader can trigger a
+    // re-render of the on-map canvas the moment an image finishes
+    // loading. Without this, objects placed while their sprite is
+    // still loading would be invisible.
+    if (typeof window !== 'undefined') {
+        window.__vttObjectSystemRefresh = () => {
+            if (renderObjectsRef.current) renderObjectsRef.current();
+        };
+    }
+
     // Render object based on its category
     const renderObjectByCategory = (ctx, obj, objectDef, screenPos, width, height) => {
         ctx.save();
+        ctx.imageSmoothingEnabled = false;
 
-        if (objectDef.multiAngle) {
-            // Multi-angle objects handle their own rotation logic
-            renderGenericObject(ctx, objectDef, screenPos, width, height, obj);
+        // Snap rotation to the nearest 90° for pixel-perfect rotation.
+        // Most sprites are top-down so this is rarely visible, but for
+        // wall-mounted objects (torches, banners) it keeps the visual
+        // rotation in sync with the bounding box rotation.
+        const rotationDeg = snapRotationForHitTest(objectDef.id, obj.rotation || 0);
+        if (rotationDeg !== 0) {
+            ctx.translate(screenPos.x, screenPos.y);
+            ctx.rotate(rotationDeg * Math.PI / 180);
+            ctx.translate(-screenPos.x, -screenPos.y);
+        }
+
+        // GM Notes is canvas-rendered (paper style). Everything else uses the
+        // actual sprite image from the asset pack, blitted at integer pixel
+        // coordinates for crisp pixel-art output.
+        if (objectDef.canvasRender === 'gmNotes') {
+            renderGMObject(ctx, objectDef, screenPos, width, height, obj);
+        } else if (objectDef.image) {
+            const img = getSpriteImage(objectDef.image);
+            if (img && img.complete && img.naturalWidth > 0) {
+                const dx = Math.round(screenPos.x - width / 2);
+                const dy = Math.round(screenPos.y - height / 2);
+                const dw = Math.round(width);
+                const dh = Math.round(height);
+                ctx.drawImage(img, dx, dy, dw, dh);
+            } else {
+                // Sprite not yet loaded - show a parchment-coloured placeholder
+                // so the user can see the object footprint while it loads.
+                const dx = Math.round(screenPos.x - width / 2);
+                const dy = Math.round(screenPos.y - height / 2);
+                const dw = Math.round(width);
+                const dh = Math.round(height);
+                ctx.fillStyle = 'rgba(138, 80, 40, 0.5)';
+                ctx.fillRect(dx, dy, dw, dh);
+                ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(dx + 0.5, dy + 0.5, dw - 1, dh - 1);
+            }
+        } else if (hasObjectArt(objectDef.id)) {
+            // Fallback: the legacy pixel art canvas renderer (only used if
+            // an object has no sprite URL at all).
+            drawObjectArt(ctx, objectDef.id, screenPos.x, screenPos.y, width, height, {
+                rotation: obj.rotation || 0
+            });
         } else {
-            // Standard objects rotate the entire canvas
-            const rotation = (obj.rotation || 0) * Math.PI / 180;
-            if (rotation !== 0) {
-                ctx.translate(screenPos.x, screenPos.y);
-                ctx.rotate(rotation);
-                ctx.translate(-screenPos.x, -screenPos.y);
-            }
-
-            switch (objectDef.category) {
-                case 'gm':
-                    renderGMObject(ctx, objectDef, screenPos, width, height, obj);
-                    break;
-                default:
-                    renderGenericObject(ctx, objectDef, screenPos, width, height, obj);
-                    break;
-            }
+            renderGenericObject(ctx, objectDef, screenPos, width, height, obj);
         }
 
         ctx.restore();
@@ -1110,67 +1224,20 @@ const ObjectSystem = () => {
     };
 
     const renderGenericObject = (ctx, objectDef, screenPos, width, height, obj) => {
-        let imageUrl = objectDef.image;
-        let finalRotation = 0;
-
-        if (objectDef.multiAngle && objectDef.angles) {
-            const rotation = (obj?.rotation || 0);
-            const angles = Object.keys(objectDef.angles).map(Number).sort((a, b) => a - b);
-            const normRot = ((rotation % 360) + 360) % 360;
-            
-            let bestAngle = angles[0];
-            let minDiff = 360;
-            
-            for (const angle of angles) {
-                const diff = Math.min(Math.abs(normRot - angle), 360 - Math.abs(normRot - angle));
-                if (diff < minDiff) {
-                    minDiff = diff;
-                    bestAngle = angle;
-                }
-            }
-            imageUrl = objectDef.angles[bestAngle];
-            
-            // Calculate the remainder rotation to apply to the canvas
-            let diff = normRot - bestAngle;
-            if (diff > 180) diff -= 360;
-            if (diff < -180) diff += 360;
-            finalRotation = diff * Math.PI / 180;
+        // The pixel art renderer handles rotation via pre-baked angle
+        // variants, so this legacy path is only used as a fallback for
+        // objects without pixel art. We still disable smoothing so the
+        // vector fallback looks consistent with the pixel art output.
+        ctx.save();
+        ctx.imageSmoothingEnabled = false;
+        const rotation = (obj?.rotation || 0) * Math.PI / 180;
+        if (rotation !== 0) {
+            ctx.translate(screenPos.x, screenPos.y);
+            ctx.rotate(rotation);
+            ctx.translate(-screenPos.x, -screenPos.y);
         }
-
-        const img = globalObjectImageCache.get(imageUrl);
-        if (img) {
-            ctx.save();
-            if (finalRotation !== 0) {
-                ctx.translate(screenPos.x, screenPos.y);
-                ctx.rotate(finalRotation);
-                ctx.translate(-screenPos.x, -screenPos.y);
-            }
-
-            // Calculate aspect-correct dimensions to prevent stretching
-            const imgAspect = img.width / img.height;
-            const targetAspect = width / height;
-            
-            let drawWidth = width;
-            let drawHeight = height;
-            
-            if (imgAspect > targetAspect) {
-                // Image is wider than target area - limit by width
-                drawHeight = width / imgAspect;
-            } else {
-                // Image is taller than target area - limit by height
-                drawWidth = height * imgAspect;
-            }
-            
-            ctx.drawImage(img, screenPos.x - drawWidth / 2, screenPos.y - drawHeight / 2, drawWidth, drawHeight);
-            ctx.restore();
-        } else {
-            // Fallback while image loads
-            ctx.fillStyle = 'rgba(136, 136, 136, 0.5)';
-            ctx.fillRect(screenPos.x - width / 2, screenPos.y - height / 2, width, height);
-            ctx.strokeStyle = '#666666';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(screenPos.x - width / 2, screenPos.y - height / 2, width, height);
-        }
+        drawObject(ctx, objectDef.id, screenPos.x, screenPos.y, width, height);
+        ctx.restore();
     };
 
     const renderLightRadius = (ctx, screenPos, radius, color) => {
@@ -1309,7 +1376,11 @@ const ObjectSystem = () => {
 
             let testX = screenX;
             let testY = screenY;
-            const rotation = (obj.rotation || 0) * Math.PI / 180;
+            // Hit-test against the same snapped rotation the visual uses, so a
+            // user can click where the pixel art actually appears instead of
+            // missing because the bounding box is rotated to a different angle.
+            const snappedDeg = snapRotationForHitTest(obj.type, obj.rotation || 0);
+            const rotation = (snappedDeg || 0) * Math.PI / 180;
             if (rotation !== 0) {
                 const dx = screenX - screenPos.x;
                 const dy = screenY - screenPos.y;
@@ -1361,7 +1432,7 @@ const ObjectSystem = () => {
             { id: 'br', lx: objW / 2, ly: objH / 2 }
         ];
 
-        const rotation = (obj.rotation || 0) * Math.PI / 180;
+        const rotation = (snapRotationForHitTest(obj.type, obj.rotation || 0)) * Math.PI / 180;
 
         for (const handle of handles) {
             let hx = screenPos.x + handle.lx;
@@ -1648,12 +1719,12 @@ const ObjectSystem = () => {
 
     // Handle context menu (right-click)
     const handleContextMenu = useCallback((e) => {
-        console.log('🎯 ObjectSystem context menu triggered:', { isEditorMode, isGMMode });
+        console.log('ðŸŽ¯ ObjectSystem context menu triggered:', { isEditorMode, isGMMode });
 
         // Allow context menu in editor mode OR for GM notes objects when in GM mode
         // BUT respect the objectManipulationEnabled toggle
         if (!isEditorMode && !isGMMode) {
-            console.log('🎯 Context menu blocked: not in editor or GM mode');
+            console.log('ðŸŽ¯ Context menu blocked: not in editor or GM mode');
             return;
         }
         if (!objectManipulationEnabled) return;
@@ -1683,7 +1754,7 @@ const ObjectSystem = () => {
         const hasTokenOrHUD = allElementsAtPoint.some(el => isTokenOrHUD(el));
 
         if (connectionElement) {
-            console.log('🔗 ObjectSystem: detected connection element, triggering its context menu', {
+            console.log('ðŸ”— ObjectSystem: detected connection element, triggering its context menu', {
                 connectionElement: {
                     tag: connectionElement.tagName,
                     classes: connectionElement.classList ? Array.from(connectionElement.classList) : [],
@@ -1727,23 +1798,23 @@ const ObjectSystem = () => {
         const screenX = e.clientX - canvasRect.left;
         const screenY = e.clientY - canvasRect.top;
 
-        console.log('🎯 Context menu coordinates:', { screenX, screenY });
+        console.log('ðŸŽ¯ Context menu coordinates:', { screenX, screenY });
 
         const clickedObject = getObjectAtScreenPosition(screenX, screenY);
-        console.log('🎯 Clicked object:', clickedObject);
+        console.log('ðŸŽ¯ Clicked object:', clickedObject);
 
         if (clickedObject) {
             if (isEditorMode || isGMMode) {
-                console.log('🎯 Showing context menu for object:', clickedObject.id, clickedObject.type);
+                console.log('ðŸŽ¯ Showing context menu for object:', clickedObject.id, clickedObject.type);
                 selectEnvironmentalObject(clickedObject.id);
                 setSelectedObject(clickedObject);
                 setContextMenuPosition({ x: e.clientX, y: e.clientY });
                 setShowContextMenu(true);
             } else {
-                console.log('🎯 Context menu blocked: not in editor or GM mode', { isEditorMode, isGMMode, type: clickedObject.type });
+                console.log('ðŸŽ¯ Context menu blocked: not in editor or GM mode', { isEditorMode, isGMMode, type: clickedObject.type });
             }
         } else {
-            console.log('🎯 No object found at click position', { screenX, screenY });
+            console.log('ðŸŽ¯ No object found at click position', { screenX, screenY });
         }
     }, [isEditorMode, isGMMode, getObjectAtScreenPosition, selectEnvironmentalObject]);
 
@@ -2364,11 +2435,11 @@ const ObjectSystem = () => {
                     handleMouseUp();
                 }}
                 onMouseDown={(e) => {
-                    console.log('🎯 Canvas MouseDown');
+                    console.log('ðŸŽ¯ Canvas MouseDown');
                     handleMouseDown(e);
                 }}
                 onContextMenu={(e) => {
-                    console.log('🎯 Canvas ContextMenu');
+                    console.log('ðŸŽ¯ Canvas ContextMenu');
                     handleContextMenu(e);
                 }}
             />
