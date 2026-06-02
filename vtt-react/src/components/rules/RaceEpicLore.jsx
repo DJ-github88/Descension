@@ -304,11 +304,6 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                 {/* LEFT PAGE */}
                 <div className="tome-page left-page">
                     <div className="tome-page-filigree">
-                        {/* Active ribbon bookmark laying flat inside the Left Page spine margin */}
-                        {(activeTab === 'history' || activeTab === 'figures') && (
-                            <div className={`tome-active-ribbon-body ${activeTab}`} />
-                        )}
-
                         <div className={`tome-page-content ${contentVisible ? 'page-flip-fade' : ''}`} ref={leftPageRef}>
                             
                             {/* --- HISTORY LEFT PAGE --- */}
@@ -452,11 +447,6 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                 {/* RIGHT PAGE */}
                 <div className="tome-page right-page">
                     <div className="tome-page-filigree">
-                        {/* Active ribbon bookmark laying flat inside the Right Page spine margin */}
-                        {(activeTab === 'locations' || activeTab === 'crisis' || activeTab === 'practices') && (
-                            <div className={`tome-active-ribbon-body ${activeTab}`} />
-                        )}
-
                         <div className={`tome-page-content ${contentVisible ? 'page-flip-fade' : ''}`} ref={rightPageRef}>
 
                             {/* --- HISTORY RIGHT PAGE --- */}

@@ -1,0 +1,1208 @@
+/* ==========================================================================
+   PREMIUM RPG BESTIARY LORE AND RULES LAYOUT
+   ========================================================================== */
+
+.bestiary-display {
+    padding: 1.5rem;
+    min-height: 700px;
+    font-family: 'Crimson Text', serif;
+    background: radial-gradient(circle at top, rgba(250, 245, 235, 0.6) 0%, rgba(240, 230, 210, 0.4) 100%);
+    border-radius: 12px;
+}
+
+.bestiary-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* ==========================================================================
+   LEFT CONTINENT SIDEBAR
+   ========================================================================== */
+
+.bestiary-sidebar {
+    flex: 0 0 280px;
+    background: linear-gradient(145deg, #fbf7ee 0%, #f3ecd8 100%);
+    border: 2px solid #c9b38c;
+    box-shadow: 0 8px 24px rgba(139, 115, 85, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 1.5rem 1.2rem;
+    position: sticky;
+    top: 1.5rem;
+    z-index: 10;
+}
+
+.bestiary-sidebar-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #4a381f;
+    margin: 0 0 1.2rem 0;
+    padding-bottom: 0.85rem;
+    border-bottom: 2px double #c9b38c;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.bestiary-sidebar-title::after {
+    content: "✥";
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #c9b38c;
+}
+
+.bestiary-region-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.bestiary-region-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.bestiary-region-item:hover {
+    background: rgba(201, 179, 140, 0.2);
+    border-color: #c9b38c;
+    transform: translateX(4px);
+}
+
+.bestiary-region-item.active {
+    background: linear-gradient(135deg, #2d2215 0%, #1a140b 100%);
+    color: #f7f3e8;
+    border-color: #1a140b;
+    box-shadow: 0 4px 12px rgba(26, 20, 11, 0.3);
+}
+
+.bestiary-region-icon {
+    width: 24px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #8c6d3f;
+    transition: color 0.2s;
+}
+
+.bestiary-region-item.active .bestiary-region-icon {
+    color: #e2d1a6;
+}
+
+.bestiary-region-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.bestiary-region-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.bestiary-region-folklore {
+    font-size: 0.75rem;
+    color: #7d6a50;
+    margin-top: 2px;
+}
+
+.bestiary-region-item.active .bestiary-region-folklore {
+    color: #c4b998;
+}
+
+.bestiary-region-count {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #5c4728;
+    background: #e9dfcb;
+    padding: 3px 9px;
+    border-radius: 12px;
+    border: 1px solid #c9b38c;
+}
+
+.bestiary-region-item.active .bestiary-region-count {
+    background: rgba(255, 255, 255, 0.15);
+    color: #e2d1a6;
+    border-color: rgba(226, 209, 166, 0.3);
+}
+
+/* ==========================================================================
+   MAIN DETAILS & GRID
+   ========================================================================== */
+
+.bestiary-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.bestiary-intro {
+    background: linear-gradient(135deg, rgba(139, 26, 16, 0.05) 0%, rgba(139, 26, 16, 0.01) 100%);
+    border: 2px solid rgba(139, 26, 16, 0.15);
+    border-radius: 10px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2rem;
+    position: relative;
+    box-shadow: inset 0 0 12px rgba(139, 26, 16, 0.03);
+}
+
+.bestiary-intro-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #8a1a10;
+    margin: 0 0 0.65rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bestiary-intro-text {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #4a3e2e;
+    text-align: justify;
+}
+
+.bestiary-region-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px double #c9b38c;
+}
+
+.bestiary-region-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: #332211;
+    margin: 0 0 0.35rem 0;
+}
+
+.bestiary-folklore-label {
+    font-size: 1rem;
+    color: #7d6a50;
+    font-style: italic;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bestiary-folklore-label i {
+    color: #c9b38c;
+}
+
+/* ==========================================================================
+   CREATURE GRID VIEW
+   ========================================================================== */
+
+.bestiary-creature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.5rem;
+}
+
+.bestiary-creature-card {
+    background: #fdfaf4;
+    border: 1px solid #dcd1bd;
+    border-top: 5px solid #9b2226;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(139, 115, 85, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.bestiary-creature-card::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    pointer-events: none;
+    transition: border-color 0.2s;
+}
+
+.bestiary-creature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 24px rgba(139, 115, 85, 0.25);
+    border-color: #bfa882;
+}
+
+.bestiary-creature-card:hover::after {
+    border-color: rgba(201, 179, 140, 0.4);
+}
+
+.bestiary-card-image {
+    height: 160px;
+    background: linear-gradient(135deg, #201a12 0%, #0c0a07 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #dcd1bd;
+}
+
+.bestiary-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.bestiary-creature-card:hover .bestiary-card-image img {
+    transform: scale(1.05);
+}
+
+.fallback-card-icon {
+    font-size: 3rem;
+    color: rgba(226, 209, 166, 0.3);
+}
+
+.bestiary-card-body {
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.bestiary-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+    gap: 0.5rem;
+}
+
+.bestiary-card-header h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #332211;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.bestiary-card-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.bestiary-card-role {
+    font-size: 0.85rem;
+    color: #8c7355;
+    font-style: italic;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.2;
+}
+
+.bestiary-card-origin {
+    font-size: 0.95rem;
+    color: #4a3e2e;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   CREATURE DETAIL VIEWS
+   ========================================================================== */
+
+.bestiary-back-btn {
+    background: linear-gradient(to bottom, #fbfaf7 0%, #e9dfca 100%);
+    border: 1px solid #c9b38c;
+    color: #4a381f;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 5px rgba(139, 115, 85, 0.15);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bestiary-back-btn:hover {
+    background: #e9dfca;
+    border-color: #b39b71;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.25);
+}
+
+.bestiary-detail-header {
+    border-bottom: 2px double #c9b38c;
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.8rem;
+}
+
+.bestiary-detail-title-group {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 0.4rem;
+}
+
+.bestiary-detail-name {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #2b1c11;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+.bestiary-detail-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.bestiary-detail-role {
+    font-size: 1.1rem;
+    color: #8c7355;
+    font-style: italic;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bestiary-header-shield-icon {
+    color: #c9b38c;
+}
+
+.bestiary-detail-body {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* ==========================================================================
+   COLUMN 1: PORTRAIT & QUICK STATS
+   ========================================================================== */
+
+.bestiary-portrait-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.bestiary-portrait-frame {
+    border: 6px double #c9b38c;
+    background: #201a12;
+    padding: 6px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bestiary-portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid rgba(226, 209, 166, 0.2);
+}
+
+.bestiary-portrait-frame.empty {
+    flex-direction: column;
+    color: #a3957b;
+    gap: 1rem;
+}
+
+.fallback-icon {
+    font-size: 4rem;
+    color: rgba(201, 179, 140, 0.15);
+}
+
+.bestiary-portrait-frame.empty span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+}
+
+.bestiary-detail-caption {
+    font-size: 0.85rem;
+    color: #7d6a50;
+    font-style: italic;
+    text-align: center;
+    margin-top: 0.6rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.bestiary-detail-caption i {
+    color: #c9b38c;
+}
+
+/* QUICK STATS PANEL */
+.bestiary-quick-stats-card {
+    background: linear-gradient(135deg, #faf7f0 0%, #f4ece0 100%);
+    border: 2px solid #c9b38c;
+    border-radius: 10px;
+    padding: 1.25rem 1.1rem;
+    box-shadow: 0 4px 15px rgba(139, 115, 85, 0.1);
+}
+
+.bestiary-quick-stats-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #4a381f;
+    margin: 0 0 1rem 0;
+    border-bottom: 1.5px solid #dcd1bd;
+    padding-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bestiary-quick-stats-title i {
+    color: #9b2226;
+}
+
+.bestiary-quick-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.bestiary-quick-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.6rem 0.4rem;
+    background: #fff;
+    border: 1px solid #e5dccb;
+    border-radius: 6px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bestiary-quick-stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.bestiary-quick-stat-item .label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #8c7355;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.bestiary-quick-stat-item .value {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2b1c11;
+}
+
+/* Specific Resource Colors */
+.bestiary-quick-stat-item.hp {
+    border-left: 3px solid #dc3545;
+    background: linear-gradient(135deg, #fff 50%, rgba(220, 53, 69, 0.05) 100%);
+}
+.bestiary-quick-stat-item.hp .value { color: #b30000; }
+
+.bestiary-quick-stat-item.mana {
+    border-left: 3px solid #0056b3;
+    background: linear-gradient(135deg, #fff 50%, rgba(0, 86, 179, 0.05) 100%);
+}
+.bestiary-quick-stat-item.mana .value { color: #004494; }
+.bestiary-quick-stat-item.mana.disabled {
+    border-left: 3px solid #8c8c8c;
+    background: #fafafa;
+}
+.bestiary-quick-stat-item.mana.disabled .value { color: #8c8c8c; }
+
+.bestiary-quick-stat-item.ap {
+    border-left: 3px solid #198754;
+    background: linear-gradient(135deg, #fff 50%, rgba(25, 135, 84, 0.05) 100%);
+}
+.bestiary-quick-stat-item.ap .value { color: #146c43; }
+
+.bestiary-quick-stat-item.armor {
+    border-left: 3px solid #6c757d;
+    background: linear-gradient(135deg, #fff 50%, rgba(108, 117, 125, 0.05) 100%);
+}
+
+.bestiary-quick-stat-item.soak {
+    border-left: 3px solid #5c3a21;
+    background: linear-gradient(135deg, #fff 50%, rgba(92, 58, 33, 0.05) 100%);
+}
+.bestiary-quick-stat-item.soak .value {
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.bestiary-quick-stat-item.initiative {
+    grid-column: span 2;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border-left: 3px solid #ffc107;
+    background: linear-gradient(135deg, #fff 50%, rgba(255, 193, 7, 0.05) 100%);
+}
+.bestiary-quick-stat-item.initiative .label {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   COLUMN 2: INTERACTIVE TABS & DETAILS
+   ========================================================================== */
+
+.bestiary-tabs-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* TABS NAVIGATION BAR */
+.bestiary-tabs-navigation {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 2px solid #c9b38c;
+    padding-bottom: 1px;
+}
+
+.bestiary-tab-btn {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(230,220,200,0.3) 100%);
+    border: 1px solid #dcd1bd;
+    border-bottom: none;
+    color: #7d6a50;
+    padding: 0.65rem 1.3rem;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    top: 1px;
+}
+
+.bestiary-tab-btn:hover {
+    background: rgba(201, 179, 140, 0.15);
+    color: #4a381f;
+}
+
+.bestiary-tab-btn.active {
+    background: #fff;
+    border-color: #c9b38c;
+    border-bottom: 2px solid #fff;
+    color: #2b1c11;
+    z-index: 2;
+    top: 2px;
+    padding-bottom: calc(0.65rem + 1px);
+    box-shadow: 0 -3px 8px rgba(139, 115, 85, 0.08);
+}
+
+.bestiary-tab-btn i {
+    color: #8c7355;
+}
+
+.bestiary-tab-btn.active i {
+    color: #a62424;
+}
+
+.bestiary-tab-content {
+    background: #fff;
+    border: 1px solid #c9b38c;
+    border-radius: 0 0 10px 10px;
+    padding: 1.8rem;
+    box-shadow: 0 6px 20px rgba(139, 115, 85, 0.08);
+    min-height: 400px;
+}
+
+/* ==========================================================================
+   TAB 1 CONTENT: LORE & LEGENDS
+   ========================================================================== */
+
+.bestiary-lore-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1.5px dashed #e8dfd0;
+}
+
+.bestiary-lore-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.bestiary-lore-section h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #4a381f;
+    margin: 0 0 0.65rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bestiary-lore-section h4 i {
+    color: #c9b38c;
+}
+
+.bestiary-lore-section p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #3d3224;
+    text-align: justify;
+    text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.01);
+}
+
+.bestiary-lore-section.scroll-bg {
+    background: radial-gradient(circle at center, rgba(253, 250, 244, 0.8) 0%, rgba(247, 241, 227, 0.4) 100%);
+    border: 1px solid #e9dfca;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: inset 0 0 8px rgba(139,115,85,0.05);
+}
+
+.bestiary-depth {
+    background: #fcf9f2;
+    border-left: 4px solid #c9b38c !important;
+    border: 1px solid #e9dfca;
+    padding: 1.2rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.bestiary-depth h4 i {
+    color: #a62424 !important;
+}
+
+/* ==========================================================================
+   TAB 2 CONTENT: COMBAT STATISTICS
+   ========================================================================== */
+
+.bestiary-section-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #4a381f;
+    margin: 0 0 1.2rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1.5px solid #dcd1bd;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bestiary-section-subtitle i {
+    color: #c9b38c;
+}
+
+/* ATTRIBUTES SHIELD GRID */
+.bestiary-attributes-section {
+    margin-bottom: 2rem;
+}
+
+.bestiary-attr-shield-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.65rem;
+}
+
+.bestiary-attr-shield {
+    background: #fdfaf4;
+    border: 2px solid #c9b38c;
+    box-shadow: 0 4px 10px rgba(139, 115, 85, 0.1), inset 0 0 6px rgba(255,255,255,0.9);
+    border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%; /* Shield curve */
+    aspect-ratio: 1/1.1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 5px;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    cursor: help;
+}
+
+.bestiary-attr-shield:hover {
+    transform: translateY(-4px);
+    border-color: #a62424;
+    box-shadow: 0 8px 16px rgba(166, 36, 36, 0.15);
+}
+
+.bestiary-attr-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #8c7355;
+    letter-spacing: 0.5px;
+}
+
+.bestiary-attr-shield:hover .bestiary-attr-title {
+    color: #a62424;
+}
+
+.bestiary-attr-score {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2b1c11;
+    line-height: 1.1;
+    margin-top: 2px;
+}
+
+.bestiary-attr-mod-badge {
+    position: absolute;
+    bottom: -8px;
+    background: #4a381f;
+    color: #f7f3e8;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border: 1px solid #c9b38c;
+    transition: background-color 0.2s;
+}
+
+.bestiary-attr-shield:hover .bestiary-attr-mod-badge {
+    background: #a62424;
+    border-color: #e2d1a6;
+}
+
+.bestiary-attr-fullname {
+    font-size: 0.6rem;
+    color: #a3957b;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+    display: none; /* Keep layout tight, raw short tags are descriptive enough */
+}
+
+/* SENSES SECTION */
+.bestiary-senses-section {
+    margin-bottom: 2rem;
+}
+
+.bestiary-senses-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+}
+
+.bestiary-sense-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    background: #fbf9f4;
+    border: 1px solid #e5dccb;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.bestiary-sense-item i {
+    font-size: 1.1rem;
+    color: #8c7355;
+    width: 20px;
+    text-align: center;
+}
+
+.bestiary-sense-item .label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #4a381f;
+    margin-right: 5px;
+    font-size: 0.85rem;
+}
+
+.bestiary-sense-item .value {
+    font-weight: 700;
+    color: #2d2215;
+}
+
+/* COLORED RESISTANCES AND VULNERABILITIES */
+.bestiary-resistances-section {
+    margin-bottom: 0;
+}
+
+.bestiary-res-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.bestiary-res-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.bestiary-res-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 0.95rem;
+    font-weight: 700;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    transition: transform 0.2s;
+}
+
+.bestiary-res-badge:hover {
+    transform: translateY(-1.5px);
+}
+
+.bestiary-res-pill {
+    padding: 4px 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bestiary-res-icon {
+    font-size: 0.85rem;
+}
+
+.bestiary-res-value-text {
+    padding: 4px 10px;
+    font-size: 0.95rem;
+}
+
+.bestiary-no-res, .bestiary-no-stats {
+    font-size: 1.05rem;
+    color: #7d6a50;
+    font-style: italic;
+    margin: 0;
+}
+
+.bestiary-no-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #fdfaf4;
+    border: 1px solid #dcd1bd;
+    padding: 1.2rem;
+    border-radius: 8px;
+}
+
+.bestiary-no-stats i {
+    color: #bc6c25;
+}
+
+/* ==========================================================================
+   TAB 3 CONTENT: TACTICS & ACTIONS
+   ========================================================================== */
+
+.bestiary-tactics-section {
+    margin-bottom: 2rem;
+}
+
+.bestiary-tactics-section:last-child {
+    margin-bottom: 0;
+}
+
+/* DYNAMICALLY HIGHLIGHTED COMBAT PARSER */
+.bestiary-narrative-mechanics-card {
+    background: linear-gradient(to right, #fbfaf8 0%, #fff 100%);
+    border: 1.5px solid #dcd1bd;
+    padding: 1.4rem;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(139,115,85,0.03);
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #3a3020;
+    text-align: justify;
+}
+
+.bestiary-narrative-mechanics-card p {
+    margin: 0;
+}
+
+/* In-line game highlights */
+.bestiary-inline-mechanic {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-family: 'Cinzel', serif;
+    margin: 0 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid transparent;
+}
+
+.mechanic-icon {
+    font-size: 0.8rem;
+}
+
+/* Highlight themes */
+.bestiary-inline-mechanic.roll-highlight {
+    background: rgba(166, 36, 36, 0.08);
+    border-color: rgba(166, 36, 36, 0.3);
+    color: #a62424;
+}
+
+.bestiary-inline-mechanic.dc-highlight {
+    background: rgba(188, 108, 37, 0.08);
+    border-color: rgba(188, 108, 37, 0.3);
+    color: #b85e14;
+}
+
+.bestiary-inline-mechanic.range-highlight {
+    background: rgba(45, 106, 79, 0.08);
+    border-color: rgba(45, 106, 79, 0.3);
+    color: #2d6a4f;
+}
+
+.bestiary-inline-mechanic.stats-highlight {
+    background: rgba(92, 58, 33, 0.08);
+    border-color: rgba(92, 58, 33, 0.3);
+    color: #5c3a21;
+}
+
+/* QUEST HOOKS CARDS */
+.bestiary-adventure-hooks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.bestiary-hook-card {
+    background: #fbf9f4;
+    border: 1.5px solid #e5dccb;
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    box-shadow: 0 2px 6px rgba(139, 115, 85, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.bestiary-hook-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: #c9b38c;
+    transition: background-color 0.25s;
+}
+
+.bestiary-hook-card:hover {
+    transform: translateY(-2px);
+    border-color: #c9b38c;
+    box-shadow: 0 6px 14px rgba(139, 115, 85, 0.12);
+}
+
+.bestiary-hook-card:hover::before {
+    background: #a62424;
+}
+
+.bestiary-hook-number {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #a62424;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    padding: 2px 8px;
+    background: rgba(166, 36, 36, 0.06);
+    border: 1px solid rgba(166, 36, 36, 0.12);
+    border-radius: 4px;
+}
+
+.bestiary-hook-content {
+    font-size: 1rem;
+    line-height: 1.55;
+    color: #4a3e2e;
+    flex: 1;
+}
+
+/* ==========================================================================
+   MICRO-ANIMATIONS & TRANSITIONS
+   ========================================================================== */
+
+.fade-in {
+    animation: bestiaryFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes bestiaryFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUTS
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .bestiary-detail-body {
+        grid-template-columns: 280px 1fr;
+        gap: 1.5rem;
+    }
+    .bestiary-attr-shield-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .bestiary-layout {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .bestiary-sidebar {
+        flex: none;
+        width: 100%;
+        position: static;
+    }
+
+    .bestiary-region-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .bestiary-region-item {
+        margin-bottom: 0;
+    }
+    
+    .bestiary-region-item:hover {
+        transform: none;
+    }
+
+    .bestiary-detail-body {
+        grid-template-columns: 1fr;
+    }
+
+    .bestiary-portrait-col {
+        max-width: 320px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .bestiary-detail-illustration {
+        position: static;
+    }
+    
+    .bestiary-creature-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .bestiary-region-list {
+        grid-template-columns: 1fr;
+    }
+    .bestiary-detail-title-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .bestiary-detail-name {
+        font-size: 1.8rem;
+    }
+    .bestiary-tabs-navigation {
+        flex-direction: column;
+        border-bottom: none;
+        gap: 2px;
+    }
+    .bestiary-tab-btn {
+        border-radius: 6px;
+        border: 1px solid #dcd1bd;
+        width: 100%;
+        top: 0 !important;
+    }
+    .bestiary-tab-btn.active {
+        border: 2px solid #c9b38c;
+        padding-bottom: 0.65rem;
+    }
+    .bestiary-tab-content {
+        border-radius: 8px;
+        padding: 1.25rem;
+    }
+    .bestiary-attr-shield-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .bestiary-senses-grid {
+        grid-template-columns: 1fr;
+    }
+    .bestiary-hook-card {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .bestiary-hook-number {
+        align-self: flex-start;
+    }
+}
