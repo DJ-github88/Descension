@@ -1042,6 +1042,45 @@
     padding: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     position: relative;
+    transition: all 0.3s ease;
+}
+
+.guide-illustration-frame.interactive-illustration {
+    cursor: pointer;
+}
+
+.guide-illustration-frame.interactive-illustration:hover {
+    border-color: #d4af37;
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.25);
+    transform: translateY(-2px);
+}
+
+.illustration-cycle-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(44, 36, 22, 0.85);
+    color: #fcf8ee;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.guide-illustration-frame.interactive-illustration:hover .illustration-cycle-badge {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Woodcut double border */
@@ -1106,4 +1145,75 @@
         max-width: 100%;
         width: 80%;
     }
+}
+
+/* ===== VARIANT DETAILS SWITCHER ===== */
+.variant-details-switcher {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: rgba(139, 90, 60, 0.05);
+    border: 1.5px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    flex-wrap: wrap;
+}
+
+.variant-details-switcher .switcher-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #8b6914;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.variant-details-switcher .switcher-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.variant-details-switcher .switcher-btn {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 1.5px solid #8b5a3c;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #5d4037;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.variant-details-switcher .switcher-btn:hover {
+    background: #faecd6;
+    border-color: #8b7355;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.variant-details-switcher .switcher-btn.active {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    border-color: #8b6914;
+    color: #2c2416;
+    font-weight: 700;
+    box-shadow: 
+        0 4px 10px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.variant-details-switcher .switcher-btn .variant-stats {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    font-family: 'Cinzel', serif;
 }

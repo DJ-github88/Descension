@@ -1578,8 +1578,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             } : {}),
 
             ...(type === 'weapon' || type === 'armor' || type === 'accessory' ? (() => {
-                const qualityValues = { poor: 30, common: 50, uncommon: 70, rare: 90, epic: 120, legendary: 160, artifact: 200 };
-                const maxDur = qualityValues[RARITY_LEVELS[rarityLevel]] || 50;
+                const qualityValues = { poor: 'd4', common: 'd6', uncommon: 'd8', rare: 'd10', epic: 'd12', legendary: 'd12', artifact: 'd20' };
+                const maxDur = qualityValues[RARITY_LEVELS[rarityLevel]] || 'd6';
                 return { durability: maxDur, maxDurability: maxDur };
             })() : {}),
 

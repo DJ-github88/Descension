@@ -28,8 +28,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 30,
-    maxDurability: 30
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'weathered-hide',
@@ -60,8 +60,8 @@ export const ARMOR = [
       agility: { value: 1, isPercentage: false },
       constitution: { value: -1, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'rusted-sorrow',
@@ -92,8 +92,8 @@ export const ARMOR = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === LEG ARMOR ===
@@ -115,8 +115,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 20,
-    maxDurability: 20
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'stiff-resolve',
@@ -146,8 +146,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: -1, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'chain-of-burden',
@@ -179,8 +179,8 @@ export const ARMOR = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 65,
-    maxDurability: 65
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === HEAD ARMOR ===
@@ -200,8 +200,8 @@ export const ARMOR = [
     slots: ['head'],
     armor: 0,
     baseStats: {},
-    durability: 25,
-    maxDurability: 25
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'muffled-thoughts',
@@ -221,8 +221,8 @@ export const ARMOR = [
     baseStats: {
       intelligence: { value: -1, isPercentage: false }
     },
-    durability: 45,
-    maxDurability: 45
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'blinded-helm',
@@ -244,8 +244,8 @@ export const ARMOR = [
       intelligence: { value: -2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === HAND ARMOR ===
@@ -267,8 +267,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 20,
-    maxDurability: 20
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'stiffened-grip',
@@ -288,8 +288,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: -1, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'iron-fetters',
@@ -310,8 +310,8 @@ export const ARMOR = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === FOOT ARMOR ===
@@ -333,8 +333,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 25,
-    maxDurability: 25
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'travelers-tread',
@@ -354,8 +354,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'anchor-greaves',
@@ -376,8 +376,8 @@ export const ARMOR = [
       constitution: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 75,
-    maxDurability: 75
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === WRIST ARMOR ===
@@ -399,8 +399,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 15,
-    maxDurability: 15
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'leather-bindings',
@@ -420,8 +420,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'chain-wraps',
@@ -442,8 +442,8 @@ export const ARMOR = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'iron-vambraces',
@@ -464,8 +464,8 @@ export const ARMOR = [
       constitution: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 65,
-    maxDurability: 65
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === SHOULDER ARMOR ===
@@ -487,8 +487,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 20,
-    maxDurability: 20
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'weathered-pauldrons',
@@ -508,8 +508,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'chain-spaulders',
@@ -530,8 +530,8 @@ export const ARMOR = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'iron-pauldrons',
@@ -552,8 +552,8 @@ export const ARMOR = [
       constitution: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === WAIST ARMOR ===
@@ -575,8 +575,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 15,
-    maxDurability: 15
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'travelers-belt',
@@ -596,8 +596,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 45,
-    maxDurability: 45
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'chain-girdle',
@@ -618,8 +618,8 @@ export const ARMOR = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'iron-girdle',
@@ -640,8 +640,8 @@ export const ARMOR = [
       constitution: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 65,
-    maxDurability: 65
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === SHIRTS (CLOTHING SLOT) ===
@@ -661,8 +661,8 @@ export const ARMOR = [
     slots: ['shirt'],
     armor: 0,
     baseStats: {},
-    durability: 10,
-    maxDurability: 10
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'simple-tunic',
@@ -680,8 +680,8 @@ export const ARMOR = [
     slots: ['shirt'],
     armor: 0,
     baseStats: {},
-    durability: 30,
-    maxDurability: 30
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'comfortable-undershirt',
@@ -699,8 +699,8 @@ export const ARMOR = [
     slots: ['shirt'],
     armor: 0,
     baseStats: {},
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
 
   // === TABARDS (CLOTHING SLOT) ===
@@ -720,8 +720,8 @@ export const ARMOR = [
     slots: ['tabard'],
     armor: 0,
     baseStats: {},
-    durability: 35,
-    maxDurability: 35
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'guild-tabard',
@@ -739,8 +739,8 @@ export const ARMOR = [
     slots: ['tabard'],
     armor: 0,
     baseStats: {},
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'faction-tabard',
@@ -758,8 +758,8 @@ export const ARMOR = [
     slots: ['tabard'],
     armor: 0,
     baseStats: {},
-    durability: 45,
-    maxDurability: 45
+    durability: 'd6',
+    maxDurability: 'd6'
   },
 
   // === SHIELDS ===
@@ -791,8 +791,8 @@ export const ARMOR = [
     baseStats: {
       agility: { value: -1, isPercentage: false }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'oaken-bulwark',
@@ -823,8 +823,8 @@ export const ARMOR = [
       constitution: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'iron-bastion',
@@ -857,8 +857,8 @@ export const ARMOR = [
       agility: { value: -2, isPercentage: false },
       strength: { value: 1, isPercentage: false }
     },
-    durability: 80,
-    maxDurability: 80
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === UNCOMMON ARMOR WITH EFFECTS ===
@@ -922,8 +922,8 @@ export const ARMOR = [
         }
       }
     },
-    durability: 120,
-    maxDurability: 120
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'shadowweave',
@@ -982,8 +982,8 @@ export const ARMOR = [
         }
       }
     },
-    durability: 80,
-    maxDurability: 80
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'thunderplate',
@@ -1034,8 +1034,8 @@ export const ARMOR = [
         }
       }
     },
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === RARE ARMOR WITH EFFECTS ===
@@ -1091,8 +1091,8 @@ export const ARMOR = [
       },
       maxHealth: { value: 20, isPercentage: false }
     },
-    durability: 180,
-    maxDurability: 180
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'stormweaver',
@@ -1150,8 +1150,8 @@ export const ARMOR = [
         }
       }
     },
-    durability: 120,
-    maxDurability: 120
+    durability: 'd12',
+    maxDurability: 'd12'
   },
 
   // === EPIC ARMOR WITH POWERFUL EFFECTS ===
@@ -1207,8 +1207,8 @@ export const ARMOR = [
       },
       maxHealth: { value: 30, isPercentage: false }
     },
-    durability: 250,
-    maxDurability: 250
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'voidweave',
@@ -1281,8 +1281,8 @@ export const ARMOR = [
         }
       }
     },
-    durability: 150,
-    maxDurability: 150
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'warded-plate',
@@ -1329,8 +1329,8 @@ export const ARMOR = [
         }
       }
     },
-    durability: 140,
-    maxDurability: 140
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'mindguard-robe',
@@ -1373,7 +1373,7 @@ export const ARMOR = [
         }
       }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   }
 ];

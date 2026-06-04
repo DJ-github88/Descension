@@ -31,52 +31,15 @@ export const getSpeedRating = (speed) => {
 };
 
 // === ARMOR RATING ===
-// Returns qualitative armor description with soak die for GMs
+// Returns qualitative armor description for creatures (resistances only)
 export const getArmorRating = (armor) => {
-  const ac = armor || 0;
-  const passiveDR = Math.floor(ac / 10);
-  const soakDie = getSoakDie(ac);
-  
-  let label, color;
-  
-  if (ac <= 4) {
-    label = 'Unarmored';
-    color = '#E0E0E0';
-  } else if (ac <= 9) {
-    label = 'Lightly Armored';
-    color = '#A5D6A7';
-  } else if (ac <= 14) {
-    label = 'Moderately Armored';
-    color = '#81C784';
-  } else if (ac <= 19) {
-    label = 'Heavily Armored';
-    color = '#66BB6A';
-  } else if (ac <= 29) {
-    label = 'Very Heavily Armored';
-    color = '#43A047';
-  } else {
-    label = 'Impenetrable';
-    color = '#2E7D32';
-  }
-  
-  return { label, color, passiveDR, soakDie, armorValue: ac };
+  return { label: 'Resistances Only', color: '#9e9e9e', passiveDR: 0, soakDie: '—', armorValue: 0 };
 };
 
 // === SOAK DIE ===
-// Calculate soak die based on armor value (matches CharacterStats.jsx logic)
+// Creatures do not have soak dice under the simplified rules
 export const getSoakDie = (armor) => {
-  const ac = Math.max(0, Math.floor(armor));
-  if (ac < 5) return '—';
-  if (ac <= 9) return '1d4';
-  if (ac <= 14) return '1d6';
-  if (ac <= 19) return '1d8';
-  if (ac <= 24) return '1d10';
-  if (ac <= 29) return '1d12';
-  if (ac <= 34) return '1d12+1d4';
-  if (ac <= 39) return '1d12+1d6';
-  if (ac <= 44) return '2d12';
-  if (ac <= 49) return '2d12+1d4';
-  return '2d12+1d6';
+  return '—';
 };
 
 // === BASE ATTACK DIE ===

@@ -18,6 +18,13 @@ export const BERSERKER_DATA = {
     subtitle: "The Hemorrhagic Butcher",
     illustration: "/assets/images/classes/berserker_illustration.png",
     illustrationCaption: "A Mimir Face Thief Berserker dual-wielding battleaxes with subtle crystal skin lines.",
+    originStory: `The world of Mythrill does not forgive weakness, and in the freezing wastes of Nordhalla, the line between survival and savagery was erased eight centuries ago. When the glaciers halted at the price of summer's return, the Skald were left in a land of absolute ice. In the darkest winter of the cataclysm, when starvation stalked the keeps of the Frozen Archive, the Skald did not pray for warmth — they prayed for endurance. The ancestors consumed their own fallen kin so the bloodline could persist, and that terrible act did not merely scar their history. It entered their very blood.
+
+The Bloodhammer clans tell of the first Berserker, Grum the Iron-Smith, who did not choose the fury — the fury chose him. Trapped in a collapsing shaft beneath the badlands by a glacier-wyrm, Grum threw down his hammer and allowed the furnace's heat to occupy his marrow. His veins boiled with an adrenaline rush so violent his tendons snapped, yet he shattered the wyrm's frozen hide with his bare hands. The Skald recount the tale differently: they swear Grum was trapped by his own lords, sacrificed to the deep mantles to see if a man could burn and still stand.
+
+Today, this physiological meltdown is known as the Blood-Heat. A Berserker’s muscles literally tear themselves from the bone to swing harder. Their heart is a ticking engine of self-destruction. In the civilized plazas of <LoreLink termId="atropolis">Atropolis</LoreLink>, they are banned as rabid beasts. But in the arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, they are celebrated as the ultimate survivors of a world that tried to freeze them.
+
+As a Berserker of the Bloodhammer line, you carry the Hunger Pact in your veins. The world sees a savage. Your ancestors see a promise kept. Let your blood boil. Let the cold world watch you burn.`,
 
     quickOverview: {
       title: "Quick Overview",
@@ -35,14 +42,57 @@ export const BERSERKER_DATA = {
     description: `The Berserker represents the desperate, agonizing survival of meat and bone. They do not wield magic; they mutilate their own anatomy through pure adrenaline and boiling fury. As their Blood-Heat rises, their muscles literally tear themselves from the bone to swing harder. This physiological meltdown grants terrifying strength but rapidly burns their metabolic reserves, leading toward inevitable systemic collapse.`,
 
     roleplayIdentity: {
-      title: "The Agony of the Flesh",
-      content: `To be a Berserker is to bear a curse of relentless physical ruin. In roleplay, your fury is not a loud emotion—it is a horrifying physiological seizure. When the blood boils, veins blacken and bulge beneath the skin, steam rises from open gashes, and the stench of scorched copper follows you. You do not speak in battle; you emit guttural, rattling gasps as your lungs bleed from exertion.
+      title: "Roleplay Identity",
+      content: `**HISTORY: THE GENESIS**
+The berserker's calling was forged during the desperate defense of the volcanic caldera tunnels of <LoreLink termId="sundale">Sundale</LoreLink>. When a colossal ice-wyrm burst into the lower miners' chambers, a blacksmith named <LoreLink termId="grum">Grum</LoreLink> threw down his tools and surrendered entirely to the searing heat of the forge. Rather than burning away, Grum's veins boiled with a violent adrenaline surge, allowing him to single-handedly shatter the wyrm's glacial hide.
 
-Common archetypes of this tragic dirge:
-- **The Adrenaline Thrall**: A survivor of a horrific battlefield who can only feel alive when their veins are screaming with fire.
-- **The Tendon-Carver**: A warrior who deliberately cuts their own muscle binds to allow wider, unnatural weapon swings.
-- **The Ruined Vessel**: A ticking clock of a person whose heart is visibly scarred and ready to seize from years of boiling Blood-Heat.`,
+Yet, this power was an anatomical curse. The price of this survival instinct was a permanent physiological meltdown. His blood ran hotter than forge-steel, cooking his internal pathways and locking out all incoming restorative magic while the battle-fury burned.
+
+**CITIES & CIVIL RECEPTION**
+Berserkers are completely outlawed within the silver law-chambers and administrative halls of <LoreLink termId="atropolis">Atropolis</LoreLink>, where their volatile fury is viewed as a threat to public order. However, they are highly celebrated in the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> and the frontier keeps of the Skald, where their high-stamina survival engine is viewed as a sacred gift.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the massive Skald and hot-headed <LoreLink termId="emberth">Thrask Emberth</LoreLink> who defaced their imperial marks to embrace the wild fury of the caldera.
+
+**NOTABLE FIGURES**
+* **Grum the Iron-Smith**: The legendary smith who crushed a glacier-wyrm with bare hands while his marrow boiled.
+* **Torra Bloodhammer**: A chieftain who led the Bloodhammer clans down into the geothermal vaults.`
     },
+
+    signatureQuote: {
+      text: '"The world tried to freeze me. I chose to burn instead. Ask my enemies which temperature hurts more."',
+      speaker: 'Torra Bloodhammer',
+      context: 'Spoken to the Skald Council before leading the Bloodhammer migration into the volcanic deeps'
+    },
+
+    philosophy: {
+      coreTenet: 'Survival is not passive. It is not endurance, patience, or faith. It is the willingness to destroy yourself before the world does it for you. A Berserker does not fight to win — they fight because stillness is death.',
+      relationship: 'The Blood-Heat is not rage in the emotional sense. It is a physiological state — the body\'s last-ditch survival protocol, normally reserved for mothers lifting boulders off their children. Berserkers have learned to trigger this state at will, and to endure its consequences. The Heat does not make them angry. It makes them efficient.',
+      paradox: 'The Berserker is simultaneously the most vulnerable and most dangerous combatant on any battlefield. At full health, they are merely dangerous. At the edge of death, with their Blood-Heat at critical levels, they become unstoppable — because the body, convinced it is dying, stops holding anything back. The paradox is that they must nearly die to truly live.'
+    },
+
+    currentCrisis: `The Bloodhammer clans are fracturing. For centuries, all Berserkers traced their lineage to Grum the Iron-Smith and the original Hunger Pact. But in the past decade, a new generation of Berserkers has emerged who never underwent the Pact ritual — their Blood-Heat manifests spontaneously, without the ancestral trigger. The elders call them "Unbound" and consider them abominations. The Unbound argue that the Pact was always a leash — a way for the Skald lords to control who could access the Heat and who could not.
+
+Tensions erupted into violence at the last Harath-Vault arena, when an Unbound Berserker who had never sworn the Pact defeated three Pact-sworn champions in succession. The Skald Council declared the match invalid and ordered the Unbound executed. The Unbound escaped, and now there are rumors of an Unbound settlement forming in the deep volcanic tunnels — Berserkers who answer to no clan, no pact, and no lord.`,
+
+    meaningfulTradeoffs: `To be a Berserker is to accept that your body is a temporary resource. Every fight shortens your lifespan. Every activation of the Blood-Heat cooks your internal organs a little more. Veteran Berserkers die young — not in battle, but in their sleep, when their hearts finally give out after years of thermal stress. They know this. They do not fear it. They fear being too weak to fight when the time comes. Berserkers measure their lives not in years but in worthy opponents — and they consider a death from organ failure to be the only truly shameful end.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Harath-Vault Arenas',
+        locationId: 'harath-vault',
+        description: 'A network of geothermal arenas carved into the volcanic tunnels beneath Sundale. Here, Berserkers compete in ritual combat — not for glory, but to test their Blood-Heat thresholds against worthy opponents. The arenas are heated by exposed magma vents, which Berserkers claim helps them maintain the Heat between fights.',
+        purpose: 'Training, competition, and rite of passage — a Berserker is not considered blooded until they have won a match in the Vault',
+        status: 'Active — but the Unbound schism has poisoned the atmosphere, with Pact-sworn Berserkers refusing to face Unbound opponents'
+      },
+      {
+        name: 'The Forge of Grum',
+        locationId: 'emberspire',
+        description: 'The original blacksmith\'s forge where Grum the Iron-Smith first experienced the Blood-Heat. The forge is still lit — the same coal-seam that burned eight centuries ago continues to smolder. Berserkers make pilgrimage here to press their bare hands against the anvil and feel the residual heat of the first transformation.',
+        purpose: 'Pilgrimage site and initiation ground — some Berserkers claim the Forge speaks to them, offering cryptic advice',
+        status: 'Active — maintained by a single elderly Berserker who has tended the coals for sixty years without speaking a word'
+      }
+    ],
 
     combatRole: {
       title: "The Death's Door Execute",

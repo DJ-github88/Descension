@@ -114,7 +114,7 @@ const DIFFICULTY_LEVELS = [
 const ABILITY_OPTIONS = [
   { id: 'natural_weapons', name: 'Natural Weapons', icon: 'ability_druid_catform', description: 'Claws, teeth, horns, etc.' },
   { id: 'enhanced_senses', name: 'Enhanced Senses', icon: 'spell_nature_eyeoftheowl', description: 'Improved sight, hearing, smell' },
-  { id: 'natural_armor', name: 'Natural Armor', icon: 'inv_shield_04', description: 'Tough hide, scales, or fur' },
+  { id: 'damage_resistance', name: 'Damage Resistance', icon: 'inv_shield_04', description: 'Innate resistance to physical damage' },
   { id: 'special_movement', name: 'Special Movement', icon: 'ability_rogue_sprint', description: 'Swimming, climbing, burrowing, etc.' },
   { id: 'special_attack', name: 'Special Attack', icon: 'spell_fire_flamebolt', description: 'Breath weapon, poison, etc.' },
   { id: 'size_change', name: 'Size Change', icon: 'spell_nature_wispsplode', description: 'Grow larger or smaller' }
@@ -815,8 +815,8 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
                       <span className="stat-value">{selectedCreature.stats?.maxAp || 'N/A'}</span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-label">Armor</span>
-                      <span className="stat-value">{selectedCreature.stats?.armor || 'N/A'}</span>
+                      <span className="stat-label">DR</span>
+                      <span className="stat-value">{selectedCreature.stats?.damageReduction || 'N/A'}</span>
                     </div>
                   </div>
                 </div>

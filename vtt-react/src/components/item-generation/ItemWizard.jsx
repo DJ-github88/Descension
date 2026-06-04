@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 
+import DieIcon from './DieIcon';
 import { WOW_ICONS } from './wowIcons';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import ItemTooltip from './ItemTooltip';
@@ -729,12 +730,11 @@ const COMBAT_STATS = {
         icon: 'Piercing/Scatter Shot',
         description: 'Bonus to initiative rolls'
     },
-    armor: {
-        name: 'Armor',
-        icon: 'Utility/Scaled Armor',
-        description: 'Bonus to Armor'
-    },
-
+    damageReduction: {
+        name: 'Damage Reduction',
+        icon: 'Utility/Golden Shield',
+        description: 'Bonus to damage reduction'
+    }
 };
 
 const DAMAGE_TYPES = {
@@ -995,9 +995,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     weaponStats: itemData.weaponStats
                 }),
 
-                // Armor class directly at top level for display
-                armor: itemData.combatStats?.armor?.value || 0,
-
                 // Slots (important for display)
                 slots: itemData.type === 'weapon' ?
                     [itemData.weaponSlot] :
@@ -1017,8 +1014,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
                 // Durability - for equippable items
                 ...(['weapon', 'armor', 'accessory'].includes(itemData.type) ? {
-                    durability: itemData.durability ?? itemData.maxDurability ?? 50,
-                    maxDurability: itemData.maxDurability ?? 50
+                    durability: itemData.durability ?? itemData.maxDurability ?? 'd8',
+                    maxDurability: itemData.maxDurability ?? 'd8'
                 } : {}),
 
                 // Appearance
@@ -1292,11 +1289,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 maxMana: { value: 0, isPercentage: false },
                 manaRegen: { value: 0, isPercentage: false },
                 initiative: { value: 0, isPercentage: false },
-                armor: { value: 0, isPercentage: false },
-
-                spellDamage: {
-                    types: {}
-                },
+                spellDamage: { types: {} },
                 resistances: {},
                 conditionModifiers: {},
                 onHitEffects: {
@@ -1312,166 +1305,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     customEffects: [],
                     useRollableTable: false
                 }
-            },
-            utilityStats: {
-                movementSpeed: { value: 0, isPercentage: false },
-                swimSpeed: { value: 0, isPercentage: true },
-                carryingCapacity: { enabled: false, slots: 1 },
-                duration: {
-                    type: 'ROUNDS',
-                    value: 1
-                }
-            },
-            effects: {
-                damage: 0,
-                healing: 0,
-                duration: 0,
-                initiative: 0,
-                resistances: Object.keys(DAMAGE_TYPES).reduce((acc, type) => {
-                    acc[type] = 0;
-                    return acc;
-                }, {}),
-                conditions: [],
-                special: ''
-            },
-            value: {
-                platinum: 0,
-                gold: 0,
-                silver: 0,
-                copper: 0
-            },
-            image: null,
-            slots: [],
-            // Shape data will be set by ItemGeneration component
-            weaponCategory: '',
-            weaponStats: {
-                baseDamage: {
-                    diceCount: 1,
-                    diceType: 'd6',
-                    damageType: 'slashing',
-                    bonusDamage: 0,
-                    bonusDamageType: ''
-                }
             }
-        };
-
-        if (initialData) {
-            // Deep merge to ensure nested objects like 'value' are properly initialized
-            return {
-                ...defaultData,
-                ...initialData,
-                value: {
-                    ...defaultData.value,
-                    ...(initialData.value || {})
-                },
-                baseStats: {
-                    ...defaultData.baseStats,
-                    ...(initialData.baseStats || {})
-                },
-                combatStats: {
-                    ...defaultData.combatStats,
-                    ...(initialData.combatStats || {})
-                },
-                utilityStats: {
-                    ...defaultData.utilityStats,
-                    ...(initialData.utilityStats || {})
-                }
-            };
         }
-
-        return defaultData;
-    });
-
-    const [availableSlots, setAvailableSlots] = useState([]);
-    const [openCategories, setOpenCategories] = useState(new Set()); // Track which icon categories are open
-
-    useEffect(() => {
-        // Update available slots based on item type
-        switch (itemData.type) {
-            case 'weapon':
-                setAvailableSlots(['mainHand', 'offHand']);
-                break;
-            case 'armor':
-                setAvailableSlots(['head', 'shoulders', 'chest', 'wrists', 'hands', 'waist', 'legs', 'feet']);
-                break;
-            case 'accessory':
-                setAvailableSlots(['neck', 'back', 'ring1', 'ring2', 'trinket1', 'trinket2']);
-                break;
-            case 'clothing':
-                setAvailableSlots(['shirt', 'tabard']);
-                break;
-            default:
-                setAvailableSlots([]);
-        }
-    }, [itemData.type]);
-
-    const updateItemData = (newData) => {
-        setItemData(prevData => {
-            // Create a new object with the updates
-            const updatedData = { ...prevData, ...newData };
-
-            // Don't reset quality when changing equipment slot
-            if (newData.slots && !newData.quality) {
-                updatedData.quality = prevData.quality;
-            }
-
-            // Don't reset quality when changing armor type
-            if (newData.subtype && !newData.quality) {
-                updatedData.quality = prevData.quality;
-            }
-
-            // Ensure baseStats always exists and has proper structure
-            if (!updatedData.baseStats) {
-                updatedData.baseStats = {
-                    constitution: { value: 0, isPercentage: false },
-                    strength: { value: 0, isPercentage: false },
-                    agility: { value: 0, isPercentage: false },
-                    intelligence: { value: 0, isPercentage: false },
-                    spirit: { value: 0, isPercentage: false },
-                    charisma: { value: 0, isPercentage: false }
-                };
-            }
-
-            // Ensure combatStats always exists and has proper structure
-            if (!updatedData.combatStats) {
-                updatedData.combatStats = {
-                    healthRestore: { value: 0, isPercentage: false },
-                    manaRestore: { value: 0, isPercentage: false },
-                    apRestore: { value: 0, isPercentage: false },
-                    piercingDamage: { value: 0, isPercentage: false },
-                    bludgeoningDamage: { value: 0, isPercentage: false },
-                    slashingDamage: { value: 0, isPercentage: false },
-                    healingReceived: { value: 0, isPercentage: false },
-                    healingPower: { value: 0, isPercentage: false },
-                    maxAP: { value: 0, isPercentage: false },
-                    maxHealth: { value: 0, isPercentage: false },
-                    healthRegen: { value: 0, isPercentage: false },
-                    maxMana: { value: 0, isPercentage: false },
-                    manaRegen: { value: 0, isPercentage: false },
-                    initiative: { value: 0, isPercentage: false },
-                    armor: { value: 0, isPercentage: false },
-                    spellDamage: { types: {} },
-                    resistances: {},
-                    conditionModifiers: {},
-                    onHitEffects: {
-                        enabled: false,
-                        procType: 'dice',
-                        procChance: 15,
-                        diceThreshold: 18,
-                        cardProcRule: 'face_cards',
-                        coinProcRule: 'all_heads',
-                        coinCount: 3,
-                        procSuit: 'hearts',
-                        spellEffect: null,
-                        customEffects: [],
-                        useRollableTable: false
-                    }
-                };
-            }
 
             // Ensure utilityStats always exists and has proper structure
-            if (!updatedData.utilityStats) {
-                updatedData.utilityStats = {
+            if (!defaultData.utilityStats) {
+                defaultData.utilityStats = {
                     movementSpeed: { value: 0, isPercentage: false },
                     swimSpeed: { value: 0, isPercentage: true },
                     carryingCapacity: { enabled: false, slots: 1 },
@@ -1483,8 +1322,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             }
 
             // Ensure effects always exists and has proper structure
-            if (!updatedData.effects) {
-                updatedData.effects = {
+            if (!defaultData.effects) {
+                defaultData.effects = {
                     damage: 0,
                     healing: 0,
                     duration: 0,
@@ -1498,9 +1337,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 };
             }
 
-            return updatedData;
+            return defaultData;
         });
-    };
 
     const renderStepNavigation = () => {
         const maxStep = Math.max(...Object.values(STEPS));
@@ -4618,8 +4456,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         </div>
                     </>
                 );
-
-            case STEPS.DURABILITY: {
+                          case STEPS.DURABILITY: {
                 const isEquippableType = ['weapon', 'armor', 'accessory'].includes(itemData.type);
                 if (!isEquippableType) {
                     return (
@@ -4648,27 +4485,79 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         </div>
                     );
                 }
-                const currentMaxDur = itemData.maxDurability ?? 50;
-                const currentDur = itemData.durability ?? currentMaxDur;
-                const durPercent = currentMaxDur > 0 ? (currentDur / currentMaxDur) * 100 : 0;
-                const barColor = currentDur === 0 ? '#b71c1c' : durPercent <= 25 ? '#d32f2f' : durPercent <= 50 ? '#f57c00' : '#4caf50';
-                
-                const durabilityTiers = [
-                    { label: 'Fragile', value: 15, color: '#ff6666', icon: 'Misc/Potions/potion-red-bubbles' },
-                    { label: 'Standard', value: 50, color: '#ffaa00', icon: 'Misc/Books/book-brown-gold' },
-                    { label: 'Sturdy', value: 100, color: '#44ff44', icon: 'Armor/Shields/shield-wood-iron-trim' },
-                    { label: 'Reinforced', value: 200, color: '#4488ff', icon: 'Armor/Plate/chest-plate-iron' },
-                    { label: 'Indestructible', value: 500, color: '#cc66ff', icon: 'Weapon/Maces/mace-iron-spikes' }
-                ];
+
+                const getDiceString = (val, defaultVal) => {
+                    if (!val) return defaultVal;
+                    if (typeof val === 'string') return val.toLowerCase();
+                    if (val <= 30) return 'd4';
+                    if (val <= 50) return 'd6';
+                    if (val <= 70) return 'd8';
+                    if (val <= 100) return 'd10';
+                    if (val <= 150) return 'd12';
+                    return 'd20';
+                };
+
+                const currentMaxDurStr = getDiceString(itemData.maxDurability, 'd8');
+                const currentDurStr = getDiceString(itemData.durability, currentMaxDurStr);
+
+                const diceSteps = ['broken', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20'];
+                const maxDiceSteps = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
+
+                const handleMaxChange = (newMax) => {
+                    const currentIdx = diceSteps.indexOf(currentDurStr);
+                    const newMaxIdx = diceSteps.indexOf(newMax);
+                    let newDur = currentDurStr;
+                    if (currentIdx > newMaxIdx) {
+                        newDur = newMax;
+                    }
+                    updateItemData({ maxDurability: newMax, durability: newDur });
+                };
+
+                const handleDurChange = (newDur) => {
+                    updateItemData({ durability: newDur });
+                };
+
+                const getStepColor = (dur, max) => {
+                    if (dur === 'broken') return '#ff3838';
+                    const durIdx = diceSteps.indexOf(dur);
+                    const maxIdx = diceSteps.indexOf(max);
+                    if (maxIdx <= 1) return '#4caf50';
+                    const ratio = (durIdx - 1) / (maxIdx - 1);
+                    if (ratio <= 0.25) return '#ff3838';
+                    if (ratio <= 0.5) return '#ffaa00';
+                    return '#4caf50';
+                };
+
+                const barColor = getStepColor(currentDurStr, currentMaxDurStr);
+                const maxIdx = diceSteps.indexOf(currentMaxDurStr);
+                const curIdx = diceSteps.indexOf(currentDurStr);
+                const durPercent = maxIdx > 1 ? ((curIdx - 1) / (maxIdx - 1)) * 100 : 0;
 
                 return (
                     <div className="wizard-step">
                         <h3 className="wow-heading quality-text">Durability Settings</h3>
                         <p style={{ color: '#8b7355', fontFamily: "'Crimson Text', serif", marginBottom: '24px', fontSize: '15px', textAlign: 'center', fontStyle: 'italic' }}>
-                            Define the resilience of this artifact. Items with 0 durability are rendered useless until repaired.
+                            Define the resilience of this artifact. Items use a die-based Damage Reduction system where durability degrades on rolls of 1 or 2.
                         </p>
 
                         <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                            
+                            {/* Rules Reminder Callout */}
+                            <div style={{
+                                padding: '16px',
+                                background: 'rgba(212, 175, 55, 0.05)',
+                                border: '1px solid rgba(212, 175, 55, 0.3)',
+                                borderRadius: '12px',
+                                color: '#8b7355',
+                                fontSize: '13px',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong style={{ color: 'var(--pf-gold-dark, #b8860b)', fontFamily: "'Cinzel', serif", display: 'block', marginBottom: '6px' }}>
+                                    <i className="fas fa-scroll" style={{ marginRight: '6px' }}></i> DICE-BASED DURABILITY RULES
+                                </strong>
+                                Armor items grant a Damage Reduction (DR) die. When hit, players roll their current DR die size to absorb damage. If a <strong>1 or 2</strong> is rolled, the armor degrades by one step tier on the ladder. A roll of <strong>3 or higher</strong> maintains its current tier. Critical hits ignore DR and do not degrade durability.
+                            </div>
+
                             {/* Max Durability Section */}
                             <div style={{
                                 padding: '20px',
@@ -4678,52 +4567,39 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)'
                             }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <span style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '14px', letterSpacing: '1px' }}>MAXIMUM CAPACITY</span>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <button className="stat-button" style={{ width: '32px', height: '32px' }} onClick={() => updateItemData({ maxDurability: Math.max(1, currentMaxDur - 10) })}>-</button>
-                                        <input
-                                            type="number"
-                                            min="1"
-                                            value={currentMaxDur}
-                                            onChange={(e) => {
-                                                const val = Math.max(1, parseInt(e.target.value) || 1);
-                                                updateItemData({ maxDurability: val, durability: Math.min(currentDur, val) });
-                                            }}
-                                            className="wow-input"
-                                            style={{ width: '80px', textAlign: 'center', fontWeight: 'bold' }}
-                                        />
-                                        <button className="stat-button" style={{ width: '32px', height: '32px' }} onClick={() => updateItemData({ maxDurability: currentMaxDur + 10, durability: Math.min(currentDur, currentMaxDur + 10) })}>+</button>
-                                    </div>
+                                    <span style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '14px', letterSpacing: '1px' }}>
+                                        MAXIMUM CAPACITY (DR DIE)
+                                    </span>
+                                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--pf-gold-dark, #b8860b)', fontFamily: "'Cinzel', serif", display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                                        <DieIcon die={currentMaxDurStr} size="16px" /> {currentMaxDurStr.toUpperCase()}
+                                    </span>
                                 </div>
                                 
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px', marginTop: '20px' }}>
-                                    {durabilityTiers.map(tier => (
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '8px', marginTop: '10px' }}>
+                                    {maxDiceSteps.map(step => (
                                         <button
-                                            key={tier.label}
+                                            key={step}
                                             style={{
                                                 display: 'flex',
                                                 flexDirection: 'column',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 gap: '6px',
-                                                padding: '10px 4px',
+                                                padding: '12px 4px',
                                                 height: 'auto',
-                                                minWidth: '0',
-                                                background: currentMaxDur === tier.value ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
-                                                border: `2px solid ${currentMaxDur === tier.value ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
-                                                color: currentMaxDur === tier.value ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
+                                                background: currentMaxDurStr === step ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
+                                                border: `2px solid ${currentMaxDurStr === step ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
+                                                color: currentMaxDurStr === step ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
                                                 borderRadius: '8px',
                                                 cursor: 'pointer',
-                                                boxShadow: currentMaxDur === tier.value ? 'inset 0 2px 4px rgba(212, 175, 55, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 12px rgba(212, 175, 55, 0.4)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',
+                                                boxShadow: currentMaxDurStr === step ? 'inset 0 2px 4px rgba(212, 175, 55, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 12px rgba(212, 175, 55, 0.4)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',
                                                 transition: 'all 0.2s ease',
                                                 fontFamily: "'Cinzel', serif"
                                             }}
-                                            onClick={() => updateItemData({ maxDurability: tier.value, durability: tier.value })}
+                                            onClick={() => handleMaxChange(step)}
                                         >
-                                            <span style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase' }}>{tier.label}</span>
-                                            <span style={{ fontSize: '14px', fontWeight: '700' }}>{tier.value}</span>
+                                            <DieIcon die={step} size="18px" />
+                                            <span style={{ fontSize: '12px', fontWeight: '800' }}>{step.toUpperCase()}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -4738,35 +4614,30 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)'
                             }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <span style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '14px', letterSpacing: '1px' }}>CURRENT STATUS</span>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <button className="stat-button" style={{ width: '32px', height: '32px' }} onClick={() => updateItemData({ durability: Math.max(0, currentDur - 10) })}>-</button>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max={currentMaxDur}
-                                            value={currentDur}
-                                            onChange={(e) => {
-                                                const val = Math.max(0, Math.min(currentMaxDur, parseInt(e.target.value) || 0));
-                                                updateItemData({ durability: val });
-                                            }}
-                                            className="wow-input"
-                                            style={{ width: '80px', textAlign: 'center', fontWeight: 'bold' }}
-                                        />
-                                        <button className="stat-button" style={{ width: '32px', height: '32px' }} onClick={() => updateItemData({ durability: Math.min(currentMaxDur, currentDur + 10) })}>+</button>
-                                    </div>
+                                    <span style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '14px', letterSpacing: '1px' }}>
+                                        CURRENT INTEGRITY (STATUS DIE)
+                                    </span>
+                                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: barColor, fontFamily: "'Cinzel', serif", display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                                        {currentDurStr === 'broken' ? (
+                                            <>
+                                                <DieIcon die="broken" size="16px" /> BROKEN
+                                            </>
+                                        ) : (
+                                            <>
+                                                <DieIcon die={currentDurStr} size="16px" /> {currentDurStr.toUpperCase()}
+                                            </>
+                                        )}
+                                    </span>
                                 </div>
 
                                 {/* Status Progress Bar */}
                                 <div style={{ margin: '20px 0' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                        <span style={{ fontSize: '12px', fontWeight: '800', color: 'var(--pf-brown-darkest)' }}>
-                                            {currentDur === 0 ? 'BROKEN' : `${Math.round(durPercent)}% INTEGRITY`}
+                                        <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--pf-brown-darkest)' }}>
+                                            {currentDurStr === 'broken' ? 'SHATTERED' : `${currentDurStr.toUpperCase()} OUT OF ${currentMaxDurStr.toUpperCase()}`}
                                         </span>
-                                        <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--pf-brown-light)' }}>
-                                            {currentDur} / {currentMaxDur}
+                                        <span style={{ fontSize: '11px', fontWeight: '600', color: 'var(--pf-brown-light)' }}>
+                                            {currentDurStr === 'broken' ? 'broken' : `step ${curIdx} / ${maxIdx}`}
                                         </span>
                                     </div>
                                     <div style={{
@@ -4779,7 +4650,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.2)'
                                     }}>
                                         <div style={{
-                                            width: `${durPercent}%`,
+                                            width: currentDurStr === 'broken' ? '100%' : `${durPercent}%`,
                                             height: '100%',
                                             background: barColor,
                                             boxShadow: `0 0 10px ${barColor}40`,
@@ -4788,62 +4659,44 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </div>
                                 </div>
 
-                                {/* Quick Presets */}
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
-                                    <button
-                                        style={{ 
-                                            height: '36px', 
-                                            fontWeight: '700',
-                                            background: 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
-                                            border: '2px solid var(--pf-brown-medium, #8B4513)',
-                                            color: 'var(--pf-text-primary, #2d1810)',
-                                            borderRadius: '8px',
-                                            cursor: 'pointer',
-                                            fontFamily: "'Cinzel', serif",
-                                            boxShadow: 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)'
-                                        }}
-                                        onClick={() => updateItemData({ durability: currentMaxDur })}
-                                        onMouseEnter={(e) => { e.target.style.background = 'linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)'; e.target.style.borderColor = 'var(--pf-gold, #d4af37)'; }}
-                                        onMouseLeave={(e) => { e.target.style.background = 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))'; e.target.style.borderColor = 'var(--pf-brown-medium, #8B4513)'; }}
-                                    >
-                                        REPAIR ALL
-                                    </button>
-                                    <button
-                                        style={{ 
-                                            height: '36px', 
-                                            fontWeight: '700',
-                                            background: 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
-                                            border: '2px solid var(--pf-brown-medium, #8B4513)',
-                                            color: 'var(--pf-text-primary, #2d1810)',
-                                            borderRadius: '8px',
-                                            cursor: 'pointer',
-                                            fontFamily: "'Cinzel', serif",
-                                            boxShadow: 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)'
-                                        }}
-                                        onClick={() => updateItemData({ durability: Math.floor(currentMaxDur / 2) })}
-                                        onMouseEnter={(e) => { e.target.style.background = 'linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)'; e.target.style.borderColor = 'var(--pf-gold, #d4af37)'; }}
-                                        onMouseLeave={(e) => { e.target.style.background = 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))'; e.target.style.borderColor = 'var(--pf-brown-medium, #8B4513)'; }}
-                                    >
-                                        REDUCED
-                                    </button>
-                                    <button
-                                        style={{ 
-                                            height: '36px', 
-                                            fontWeight: '700',
-                                            background: 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
-                                            border: '2px solid var(--pf-brown-medium, #8B4513)',
-                                            color: '#d32f2f',
-                                            borderRadius: '8px',
-                                            cursor: 'pointer',
-                                            fontFamily: "'Cinzel', serif",
-                                            boxShadow: 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)'
-                                        }}
-                                        onClick={() => updateItemData({ durability: 0 })}
-                                        onMouseEnter={(e) => { e.target.style.background = 'linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)'; e.target.style.borderColor = 'var(--pf-gold, #d4af37)'; }}
-                                        onMouseLeave={(e) => { e.target.style.background = 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))'; e.target.style.borderColor = 'var(--pf-brown-medium, #8B4513)'; }}
-                                    >
-                                        BREAK
-                                    </button>
+                                {/* Step Selection Ladder Grid */}
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '6px' }}>
+                                    {diceSteps.map((step, idx) => {
+                                        const isAllowed = idx <= maxIdx;
+                                        const isSelected = currentDurStr === step;
+                                        return (
+                                            <button
+                                                key={step}
+                                                disabled={!isAllowed}
+                                                style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    gap: '4px',
+                                                    padding: '10px 2px',
+                                                    height: 'auto',
+                                                    background: isSelected ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : isAllowed ? 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))' : 'rgba(0,0,0,0.05)',
+                                                    border: `2px solid ${isSelected ? 'var(--pf-gold-dark, #b8860b)' : isAllowed ? 'var(--pf-brown-medium, #8B4513)' : 'rgba(0,0,0,0.1)'}`,
+                                                    color: isSelected ? 'var(--pf-brown-darkest, #2d1810)' : isAllowed ? 'var(--pf-text-primary, #2d1810)' : 'rgba(0,0,0,0.3)',
+                                                    borderRadius: '8px',
+                                                    cursor: isAllowed ? 'pointer' : 'not-allowed',
+                                                    boxShadow: isSelected ? 'inset 0 2px 4px rgba(212, 175, 55, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2)' : isAllowed ? 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)' : 'none',
+                                                    transition: 'all 0.2s ease',
+                                                    fontFamily: "'Cinzel', serif",
+                                                    opacity: isAllowed ? 1 : 0.4
+                                                }}
+                                                onClick={() => isAllowed && handleDurChange(step)}
+                                            >
+                                                {step === 'broken' ? (
+                                                    <DieIcon die="broken" size="14px" style={{ color: isSelected ? '#2d1810' : '#d32f2f' }} />
+                                                ) : (
+                                                    <DieIcon die={step} size="14px" />
+                                                )}
+                                                <span style={{ fontSize: '10px', fontWeight: '800' }}>{step.toUpperCase()}</span>
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>

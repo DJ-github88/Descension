@@ -17,19 +17,15 @@ const formatTimestamp = (timestamp) => {
 // Helper function to get class color
 const getClassColor = (className) => {
   const classColors = {
-    warrior: '#C79C6E',
-    mage: '#69CCF0',
-    rogue: '#FFF569',
-    priest: '#FFFFFF',
-    warlock: '#9482C9',
-    paladin: '#F58CBA',
-    druid: '#FF7D0A',
-    shaman: '#0070DE',
-    hunter: '#ABD473',
-    deathknight: '#C41F3B',
-    monk: '#00FF96',
-    demonhunter: '#A330C9',
-    cleric: '#FFFFFF'
+    mystic: '#0070DE',
+    arcanist: '#69CCF0',
+    trickster: '#FFF569',
+    zealot: '#FFFFFF',
+    harrow: '#9482C9',
+    hexer: '#FF7D0A',
+    reaver: '#C41F3B',
+    mercenary: '#C79C6E',
+    sentinel: '#F58CBA'
   };
 
   return classColors[className.toLowerCase()] || '#FFFFFF';

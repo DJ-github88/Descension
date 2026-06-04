@@ -51,7 +51,18 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
             key="durability-btn"
             className="context-menu-button"
             onClick={() => setShowDurabilityModal(true)}
-            style={{ color: item.durability === 0 ? '#ff4444' : (item.durability ?? item.maxDurability) / item.maxDurability <= 0.25 ? '#ff8844' : (item.durability ?? item.maxDurability) / item.maxDurability <= 0.50 ? '#ffaa00' : 'inherit' }}
+            style={{ color: (() => {
+                const cur = item.durability ?? item.maxDurability;
+                const max = item.maxDurability;
+                if (cur === 0 || cur === 'broken') return '#ff4444';
+                const curVal = typeof cur === 'string' && String(cur).toLowerCase().startsWith('d') ? parseInt(cur.match(/d(\d+)/)?.[1] || '0', 10) : cur;
+                const maxVal = typeof max === 'string' && String(max).toLowerCase().startsWith('d') ? parseInt(max.match(/d(\d+)/)?.[1] || '0', 10) : max;
+                if (maxVal === 0) return 'inherit';
+                const ratio = curVal / maxVal;
+                if (ratio <= 0.25) return '#ff8844';
+                if (ratio <= 0.50) return '#ffaa00';
+                return 'inherit';
+            })() }}
         >
             <i className="fas fa-shield-alt"></i>
             Durability: {item.durability ?? item.maxDurability}/{item.maxDurability}

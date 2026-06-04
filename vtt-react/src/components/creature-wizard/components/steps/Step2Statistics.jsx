@@ -455,25 +455,6 @@ const Step2Statistics = () => {
             <div className="combat-stat-item">
               <div className="stat-header">
                 <img
-                  src={getIconUrl('Utility/Golden Shield', 'abilities')}
-                  alt="Armor"
-                  className="stat-icon"
-                />
-                <label htmlFor="stat-armor">Armor</label>
-              </div>
-              <input
-                id="stat-armor"
-                type="number"
-                min="1"
-                value={wizardState.stats.armor}
-                onChange={(e) => handleStatChange('armor', e.target.value)}
-                className="combat-input"
-              />
-            </div>
-
-            <div className="combat-stat-item">
-              <div className="stat-header">
-                <img
                   src={getIconUrl('Arcane/Swift Boot', 'abilities')}
                   alt="Initiative"
                   className="stat-icon"

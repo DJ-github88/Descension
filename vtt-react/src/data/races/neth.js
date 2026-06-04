@@ -4,6 +4,7 @@ export const neth = {
     essence: 'The Silver-Skin Pact-Bound',
     illustration: '/assets/images/races/neth_illustration.png',
     illustrationCaption: 'A tall, silver-skinned Neth Velun in obsidian robes, holding a scroll with glowing legal bindings in the canopy groves of Atropolis.',
+    cardFlavor: 'Silver-skinned immortals bound by an unbreakable contract — they cannot lie, and their existence is a lease.',
     description: `**[The Silver-Skin Pact-Bound]** — *Standing on the high branching bridges of Atropolis, a silver-skinned scholar with solid obsidian eyes watches the shifting peat-bogs below, her skin humming with the faint blue light of the First Contract.*
 
 The Neth are the sunless world's most legalistic and tragic immortals. Originally a dying clan of human scribes fleeing the frozen surface centuries ago, they descended into the Bryngloom Forest and negotiated a literal, binding contract with the Keeper of the Last Threshold (the Root-Veil) for their survival. The Keeper accepted. The scribes rose from the bogs with silver skin, stilled breath, and solid black eyes, their immortality written directly into their biology. Yet, the price of this preservation was absolute: they cannot tell a direct lie. Their very existence is a lease, and their bloodlines are written in ink that never fades.`,

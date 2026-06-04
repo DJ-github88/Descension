@@ -183,7 +183,6 @@ export const ENHANCED_EFFECT_TYPES_DATA = [
   { id: 'intelligence', name: 'Intelligence', category: 'stat', description: 'Modify intelligence stat' },
   { id: 'spirit', name: 'Spirit', category: 'stat', description: 'Modify spirit stat' },
   { id: 'charisma', name: 'Charisma', category: 'stat', description: 'Modify charisma stat' },
-  { id: 'armor', name: 'Armor', category: 'stat', description: 'Modify armor value' },
   { id: 'speed', name: 'Speed', category: 'stat', description: 'Modify movement speed' },
 
   // Status effects - positive

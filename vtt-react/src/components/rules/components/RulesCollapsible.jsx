@@ -31,6 +31,8 @@ const RulesCollapsible = ({ title, icon, theme, defaultOpen = false, contentLeng
   // Only use 2-column layout when there's enough content to fill both columns
   const bodyClass = contentLength >= 800 ? 'rules-collapsible-body' : 'rules-collapsible-body no-columns';
 
+  const publicUrl = process.env.PUBLIC_URL || '';
+
   return (
     <div
       className="rules-collapsible"
@@ -38,11 +40,15 @@ const RulesCollapsible = ({ title, icon, theme, defaultOpen = false, contentLeng
     >
       <div className="rules-collapsible-header" onClick={() => setIsOpen(!isOpen)}>
         <div className="rules-collapsible-tag">
-          {icon && <i className={icon} />}
+          {icon && <i className={icon} style={{ marginRight: '6px' }} />}
           {title}
         </div>
-        <button className="rules-collapsible-toggle" aria-label={isOpen ? 'Collapse' : 'Expand'}>
-          <i className={`fas fa-chevron-${isOpen ? 'up' : 'down'}`} />
+        <button className="rpg-wax-seal-btn" aria-label={isOpen ? 'Collapse' : 'Expand'}>
+          <img 
+            src={`${publicUrl}/assets/images/watercolor_wax_seal.png`} 
+            alt="Wax Seal" 
+            className="rpg-wax-seal-img"
+          />
         </button>
       </div>
       {isOpen && (

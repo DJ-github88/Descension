@@ -39,7 +39,6 @@ import { initializeCleanSpellLibrary } from './utils/clearSpellCache';
 import './services/roomService';
 import './styles/player-notification.css';
 import './styles/wow-classic-tooltip.css';
-import './styles/skill-roll-notification.css';
 import './styles/wow-window.css';
 import './styles/draggable-window.css';
 import './styles/Grid.css';
@@ -216,7 +215,7 @@ const LoadingFallback = ({ message = "Loading..." }) => (
 
 function GameScreen() {
     const location = useLocation();
-    const { isGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
+    const { isGMMode, setGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
     
     // Selectors for better performance - avoid re-rendering entire screen on unrelated store changes
     const setActiveCharacter = useCharacterStore(state => state.setActiveCharacter);

@@ -592,7 +592,7 @@ class CampaignService {
     }
 
     try {
-      const campaignRef = doc(db, COLLECTIONS.USER_CAMPAIGNS, userId, 'campaigns', campaignId);
+      const campaignRef = doc(db, 'users', userId, 'campaigns', campaignId);
       await deleteDoc(campaignRef);
       console.log(`✅ Campaign data deleted for ${campaignId} by user ${userId}.`);
       return true;

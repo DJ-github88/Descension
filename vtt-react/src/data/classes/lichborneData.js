@@ -14,10 +14,15 @@ export const LICHBORNE_DATA = {
 
   // Overview section
   overview: {
+    originStory: `The Neth archivist Vesper, dying of the sumps' lung-rot in the Bryngloom, performed the forbidden Rite of the Cold Hearth. He bound his soul to a basalt phylactery and invited the bog's freezing decay to halt his mortal heart, swapping his failing mortal organs for the moss-preserved stasis of the peat.
+
+He achieved immortality, but his body is a cold, rotting tomb. His heart beats once an hour, his flesh is cold as bog-iron, and he must constantly harvest life force to prevent his skeleton from dissolving. Restoring his form requires the raw combustion of death, leaving him in a state of perpetual, ravenous hunger.
+
+The tomb is empty. Rise. You are the bone-weaver, and death is your fuel. Reclaim your flesh.`,
     title: "The Lichborne",
     subtitle: "Eternal Frost and Undying Will",
     illustration: "/assets/images/classes/lichborne_illustration.png",
-    illustrationCaption: "A Ferrick Lichborne deep-gnome tinkerer with alchemical clockwork grafts.",
+    illustrationCaption: "A Fexrick Lichborne deep-gnome tinkerer with alchemical clockwork grafts.",
 
     quickOverview: {
       title: "Quick Overview",
@@ -36,18 +41,56 @@ export const LICHBORNE_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Lichborne are individuals who have transcended death through forbidden rituals, binding their soul to a phylactery. They exist in a state between life and death, wielding frost magic that mirrors their cold, undying nature. The phylactery is both their greatest strength and their most vulnerable weakness.
+      content: `**HISTORY: THE GENESIS**
+The lichborne's necrotic stasis was born in the deep peat-bog sinks of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. A dying human scribe named **Vesper** walked into the deep woods and bargained with the Root-Veil to halt his decaying flesh. The price of this survival was a slow, cold death. Vesper's heart beat once an hour, his extremities grew waxy and cold, and his joints required constant moss preservation to keep from locking.
 
-**Philosophy**: Death is not the end, but a transformation. The Lichborne believes that true power comes from mastering the boundary between life and death, using their undead state to achieve immortality and unmatched magical prowess.
+**CITIES & CIVIL RECEPTION**
+Lichbornes are viewed with profound dread throughout the sunless world, often forced to reside in the Over-Shanties or the deepest subterranean sumps.
 
-**Personality Archetypes**:
-- **The Eternal Scholar**: Seeks knowledge across centuries, viewing death as merely an inconvenience
-- **The Vengeful Revenant**: Returned from death to exact revenge, fueled by cold fury
-- **The Reluctant Immortal**: Bound to phylactery against their will, struggling with their undead nature
-- **The Power-Hungry Lich**: Embraces undeath fully, seeking ever-greater magical power
+**RACES & CULTURAL AFFILIATION**
+The class is practiced by the <LoreLink termId="neth">Drun Neth</LoreLink> and desperate human Morren.
 
-**Social Dynamics**: Lichborne are feared and reviled by most. Their undead nature is obvious to those who look closely - pale skin, cold touch, unnatural stillness. They must decide whether to hide their nature or embrace the terror they inspire.`,
+**NOTABLE FIGURES**
+* **Vesper the Scribe**: The dying scholar who first bound his soul to a basalt phylactery to halt his lung-rot.
+* **Karr Bloodhammer**: The legendary Skald warlock who performed the first stasis ritual to combat the Milk-Grief.`
     },
+
+    signatureQuote: {
+      text: '"Death came for me in the peat-bogs. I told it to wait. It has been waiting for eight hundred years, and I am still not finished."',
+      speaker: 'Vesper the Scribe',
+      context: 'The first words carved into his basalt phylactery, still legible beneath the moss'
+    },
+
+    philosophy: {
+      coreTenet: 'Death is a failure of will. The body decays because it has forgotten how to endure. The Lichborne remembers. By binding the soul to cold stone and preserving the flesh in peat-stasis, one can simply... refuse to end.',
+      relationship: 'Lichbornes are not undead in the traditional sense — they are in a state of suspended decay. Their hearts still beat (once an hour). Their blood still flows (cold and slow as bog-water). They have not died. They have simply negotiated a pause in the process of dying. The Root-Veil honors this negotiation as long as the Lichborne continues to harvest life force to sustain the stasis.',
+      paradox: 'The Lichborne sought immortality to escape death, but achieved only a prolongation of dying. Every day is a negotiation with decay. Every week without harvested life force causes visible deterioration. They are immortal only so long as they are willing to kill — and the moral weight of that calculus drives many Lichbornes to simply stop feeding, accepting the final decay they have postponed for centuries.'
+    },
+
+    currentCrisis: `The Cult of Forgotten Shadow has discovered a way to amplify the Lichborne stasis ritual using Void energy. Unlike traditional peat-preservation, Void-stasis requires no life force harvesting — the Void sustains the body directly. The Cult is offering this "clean immortality" to any Lichborne willing to join them.
+
+Half of the remaining Lichbornes have accepted. They are now Void-bound, their phylacteries humming with the Silence Between Stars. The other half consider this a betrayal of the original bargain with the Root-Veil — and worse, they suspect the Void is not sustaining the new Lichbornes but slowly consuming them, replacing their souls with something else.
+
+The peat-bogs themselves have begun to react. In areas where Void-stasis Lichbornes have congregated, the preserving peat has turned black and acidic, no longer preserving but actively dissolving anything that touches it. The Root-Veil is withdrawing its blessing from the corrupted ground.`,
+
+    meaningfulTradeoffs: `To be Lichborne is to trade warmth for time. The body runs cold — literally. Lichbornes cannot feel physical warmth, cannot taste food, cannot experience the flush of emotion that heats the blood. They experience the world at one remove, as if through frosted glass. Relationships with the living become impossible over time — the Lichborne forgets what it felt like to feel. Many survive only through an intellectual commitment to goals set centuries ago, the emotional resonance of those goals long since faded into ash.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Peat-Bog Sinks',
+        locationId: 'peat-bog-sinks',
+        description: 'The deep, preserving bogs where Lichbornes perform the Rite of the Cold Hearth. The acidic peat preserves organic matter indefinitely — Lichbornes who enter the bogs and perform the ritual emerge with their decay halted. The bogs are also where failed Lichbornes go to finally die, sinking into the peat to be preserved for eternity.',
+        purpose: 'Initiation site and final resting place for failed Lichbornes',
+        status: 'Active — but sections of the bog are turning black and acidic due to Void contamination'
+      },
+      {
+        name: 'The Sunken Confessionals',
+        locationId: 'over-shanty',
+        description: 'Where the Cult of Forgotten Shadow offers Void-stasis to Lichbornes willing to abandon the old ways. The ritual chamber is lined with black crystal that absorbs light and sound — the Silence Between Stars manifests here as a physical pressure.',
+        purpose: 'Void-stasis initiation for Cult-aligned Lichbornes',
+        status: 'Active — increasingly popular as word of "clean immortality" spreads'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

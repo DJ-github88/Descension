@@ -65,8 +65,8 @@ const RollableTableSummary = ({
     // Extract and highlight healing amounts (e.g., "healed for 3d8")
     formatted = formatted.replace(/(healed?|healing)\s+for\s+(\d+d\d+)/gi, '<span class="healing-highlight">$1 for $2</span>');
     
-    // Highlight armor references
-    formatted = formatted.replace(/(\+?\d+)\s+armor/gi, '<span class="armor-highlight">$1 armor</span>');
+    // Highlight damage reduction references
+    formatted = formatted.replace(/(\+?\d+)\s+dr/gi, '<span class="armor-highlight">$1 DR</span>');
     
     // Highlight status effects and conditions
     formatted = formatted.replace(/(ignited|frozen|paralyzed|cursed|resistance)/gi, '<span class="status-highlight">$1</span>');

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import { getAllBackgrounds } from '../../data/backgroundData';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
-import { getFullRaceData, getSubraceData, getRaceData } from '../../data/raceData';
-import { ENHANCED_PATHS } from '../../data/enhancedPathData';
+import { getFullRaceData, getSubraceData, getRaceData, getRaceList, getSubraceList } from '../../data/raceData';
+// import { ENHANCED_PATHS } from '../../data/enhancedPathData'; // Disciplines removed
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import CharacterAppearanceModal from '../character-creation-wizard/components/CharacterAppearanceModal';
 
@@ -42,18 +42,45 @@ export default function Lore() {
         updateTokenSettings: state.updateTokenSettings,
         race: state.race,
         subrace: state.subrace,
-        path: state.path
+        path: state.path,
+        name: state.name,
+        baseName: state.baseName,
+        class: state.class,
+        alignment: state.alignment,
+        updateCharacterInfo: state.updateCharacterInfo,
+        updateBaseName: state.updateBaseName,
+        background: state.background
     }));
 
     // Choose data source based on whether we're in inspection mode
     const dataSource = inspectionData || characterStore;
-    const { lore, updateLore } = dataSource;
-    const { updateBackground, background } = characterStore;
+    const { 
+        lore, 
+        updateLore,
+        race,
+        subrace,
+        path,
+        name,
+        baseName,
+        class: characterClass,
+        alignment,
+        updateCharacterInfo,
+        updateBaseName,
+        updateBackground,
+        background
+    } = dataSource;
 
     // Token settings are only available when not in inspection mode
     const { tokenSettings, updateTokenSettings } = inspectionData ? { tokenSettings: null, updateTokenSettings: null } : characterStore;
 
-    const [activeSection, setActiveSection] = useState('background');
+    const [activeSection, setActiveSection] = useState('identity');
+    const [subPage, setSubPage] = useState(0);
+
+    // Reset sub-page when active section changes
+    useEffect(() => {
+        setSubPage(0);
+    }, [activeSection]);
+
     const [showLabels, setShowLabels] = useState(false); // Start with icons only
     const [showImageControls, setShowImageControls] = useState(false);
     const [showAppearanceModal, setShowAppearanceModal] = useState(false);
@@ -87,68 +114,91 @@ export default function Lore() {
     }, [lore.background, inspectionData, updateBackground, background]);
 
     // Get race and subrace data
-    const { race, subrace, path } = dataSource;
     const raceData = race ? getRaceData(race) : null;
     const subraceData = race && subrace ? getSubraceData(race, subrace) : null;
     const fullRaceData = race && subrace ? getFullRaceData(race, subrace) : null;
-    const pathData = path ? ENHANCED_PATHS[path] : null;
+    // const pathData = path ? ENHANCED_PATHS[path] : null; // Disciplines removed
 
     const sections = {
-        background: {
-            title: 'Background & History',
+        identity: {
+            title: 'Identity & Origin',
+            label: 'Identity',
             icon: getIconUrl('Utility/Utility', 'abilities'),
-            fields: [
-                { key: 'background', label: 'Background', type: 'select', options: getAllBackgrounds() },
-                { key: 'backstory', label: 'Backstory', placeholder: 'Write your character\'s detailed backstory and history...', type: 'textarea' }
+            leftFields: [
+                { key: 'name', label: 'Character Name', type: 'characterName' },
+                { key: 'class', label: 'Class', type: 'classSelect' },
+                { key: 'race', label: 'Ancestry (Race)', type: 'raceSelect' },
+                { key: 'subrace', label: 'Subrace', type: 'subraceSelect' },
+                { key: 'alignment', label: 'Alignment', type: 'alignmentSelect' }
+            ],
+            rightFields: [
+                { key: 'background', label: 'Social Background', type: 'backgroundSelect' },
+                { key: 'backstory', label: 'Detailed Backstory', placeholder: 'Write your character\'s detailed backstory and history...', type: 'textarea', fullPage: true }
             ]
         },
         personality: {
             title: 'Personality & Traits',
+            label: 'Personality',
             icon: getIconUrl('Utility/Meditative Figure', 'abilities'),
-            fields: [
+            leftFields: [
                 { key: 'personalityTraits', label: 'Personality Traits', placeholder: 'Describe your character\'s personality traits and quirks...', type: 'textarea' },
-                { key: 'ideals', label: 'Ideals', placeholder: 'What principles and beliefs drive your character?...', type: 'textarea' },
+                { key: 'ideals', label: 'Ideals', placeholder: 'What principles and beliefs drive your character?...', type: 'textarea' }
+            ],
+            rightFields: [
                 { key: 'bonds', label: 'Bonds', placeholder: 'What connects your character to the world? Family, friends, organizations?...', type: 'textarea' },
                 { key: 'flaws', label: 'Flaws', placeholder: 'What weaknesses or vices does your character have?...', type: 'textarea' }
             ]
         },
         appearance: {
             title: 'Appearance & Description',
+            label: 'Appearance',
             icon: getIconUrl('Utility/Robed Figure', 'abilities'),
-            fields: [
+            leftFields: [
                 { key: 'characterImage', label: 'Character Portrait', placeholder: 'Upload or paste image URL...', type: 'image' },
-                { key: 'appearance', label: 'Physical Appearance', placeholder: 'Describe your character\'s physical appearance, clothing, and distinguishing features...', type: 'textarea' },
                 ...(tokenSettings ? [{ key: 'tokenBorder', label: 'Token Border Color', type: 'borderColor' }] : [])
+            ],
+            rightFields: [
+                { key: 'appearance', label: 'Physical Appearance', placeholder: 'Describe your character\'s physical appearance, clothing, and distinguishing features...', type: 'textarea', fullPage: true }
             ]
         },
         relationships: {
             title: 'Relationships & Connections',
+            label: 'Relationships',
             icon: getIconUrl('Social/Party Gathering', 'abilities'),
-            fields: [
-                { key: 'allies', label: 'Allies & Friends', placeholder: 'List and describe your character\'s allies, friends, and positive relationships...', type: 'textarea' },
+            leftFields: [
+                { key: 'allies', label: 'Allies & Friends', placeholder: 'List and describe your character\'s allies, friends, and positive relationships...', type: 'textarea', fullPage: true }
+            ],
+            rightFields: [
                 { key: 'enemies', label: 'Enemies & Rivals', placeholder: 'List and describe your character\'s enemies, rivals, and negative relationships...', type: 'textarea' },
                 { key: 'organizations', label: 'Organizations & Factions', placeholder: 'What organizations, guilds, or factions is your character affiliated with?...', type: 'textarea' }
             ]
         },
         goals: {
             title: 'Goals & Motivations',
+            label: 'Goals',
             icon: getIconUrl('Utility/Comet Trail', 'abilities'),
-            fields: [
-                { key: 'goals', label: 'Goals & Ambitions', placeholder: 'What does your character hope to achieve? What are their short and long-term goals?...', type: 'textarea' },
-                { key: 'fears', label: 'Fears & Concerns', placeholder: 'What does your character fear most? What keeps them awake at night?...', type: 'textarea' }
+            leftFields: [
+                { key: 'goals', label: 'Goals & Ambitions', placeholder: 'What does your character hope to achieve? What are their short and long-term goals?...', type: 'textarea', fullPage: true }
+            ],
+            rightFields: [
+                { key: 'fears', label: 'Fears & Concerns', placeholder: 'What does your character fear most? What keeps them awake at night?...', type: 'textarea', fullPage: true }
             ]
         },
         notes: {
             title: 'Notes & Miscellaneous',
+            label: 'Notes',
             icon: getIconUrl('Utility/Utility', 'abilities'),
-            fields: [
-                { key: 'notes', label: 'General Notes', placeholder: 'Any additional notes, reminders, or information about your character...', type: 'textarea' }
+            leftFields: [],
+            rightFields: [
+                { key: 'notes', label: 'General Notes', placeholder: 'Any additional notes, reminders, or information about your character...', type: 'textarea', fullPage: true }
             ]
         },
         heritage: {
             title: 'Heritage',
+            label: 'Heritage',
             icon: getIconUrl('Nature/World Map', 'abilities'),
-            fields: [],
+            leftFields: [],
+            rightFields: [],
             isReadOnly: true,
             customRender: true
         }
@@ -301,12 +351,184 @@ export default function Lore() {
         };
     };
 
+    const hasPortrait = !!(lore.characterImage || lore.characterIcon);
+    const portraitPreviewStyle = {
+        backgroundColor: lore.iconBackgroundColor || '#f8f5eb',
+        borderColor: lore.iconBorderColor || '#d4af37',
+        backgroundImage: lore.iconBackgroundImage
+            ? `url(/assets/backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})`
+            : 'none',
+        backgroundSize: lore.iconBackgroundImage
+            ? `${(lore.iconBackgroundScale || 2.5) * 100}%`
+            : 'cover',
+        backgroundPosition: lore.iconBackgroundImage
+            ? `calc(50% + ${lore.iconBackgroundOffsetX || 0}px) calc(50% + ${lore.iconBackgroundOffsetY || 0}px)`
+            : 'center',
+        backgroundRepeat: 'no-repeat'
+    };
 
+    const portraitContentStyle = lore.characterIcon && !lore.characterImage
+        ? {
+            transform: `scale(${lore.iconScale || 1}) translate(${lore.iconOffsetX || 0}px, ${lore.iconOffsetY || 0}px)`
+        }
+        : {
+            transform: `scale(${lore.imageTransformations?.scale || 1}) rotate(${lore.imageTransformations?.rotation || 0}deg) translate(${lore.imageTransformations?.positionX || 0}px, ${lore.imageTransformations?.positionY || 0}px)`
+        };
+
+    const formatTextWithDropCap = (text) => {
+        if (!text || typeof text !== 'string') return text;
+        const trimmed = text.trim();
+        if (!trimmed) return text;
+        
+        // Find the first letter/word character
+        const match = trimmed.match(/^([a-zA-Z])(.*)/s);
+        if (!match) return trimmed;
+        
+        const firstLetter = match[1];
+        const restOfText = match[2];
+        
+        return (
+            <p className="book-body-text">
+                <span className="drop-cap">{firstLetter}</span>
+                {restOfText}
+            </p>
+        );
+    };
 
     const renderField = (field) => {
-        if (field.type === 'textarea') {
+        if (field.type === 'characterName') {
             return (
                 <div key={field.key} className="lore-field">
+                    <label className="lore-field-label">{field.label}</label>
+                    <input
+                        type="text"
+                        className="lore-input"
+                        value={baseName || name || ''}
+                        onChange={(e) => updateBaseName ? updateBaseName(e.target.value) : (updateCharacterInfo ? updateCharacterInfo('name', e.target.value) : null)}
+                        placeholder={field.placeholder}
+                        disabled={!!inspectionData}
+                        maxLength={30}
+                    />
+                </div>
+            );
+        } else if (field.type === 'classSelect') {
+            const classesList = [
+                "Pyrofiend", "Minstrel", "Chronarch", "Chaos Weaver", "Fate Weaver",
+                "Gambler", "Martyr", "False Prophet", "Exorcist", "Oracle",
+                "Plaguebringer", "Lichborne", "Deathcaller", "Spellguard", "Inscriptor",
+                "Arcanoneer", "Witch Doctor", "Formbender", "Primalist", "Berserker",
+                "Dreadnaught", "Titan", "Toxicologist", "Covenbane", "Bladedancer",
+                "Lunarch", "Huntress", "Warden", "Augur", "Doomsayer"
+            ];
+            return (
+                <div key={field.key} className="lore-field">
+                    <label className="lore-field-label">{field.label}</label>
+                    <select
+                        className="lore-select"
+                        value={characterClass || ''}
+                        onChange={(e) => updateCharacterInfo ? updateCharacterInfo('class', e.target.value) : null}
+                        disabled={!!inspectionData}
+                    >
+                        <option value="">Select a class</option>
+                        {classesList.map(cls => (
+                            <option key={cls} value={cls}>{cls}</option>
+                        ))}
+                    </select>
+                </div>
+            );
+        } else if (field.type === 'raceSelect') {
+            return (
+                <div key={field.key} className="lore-field">
+                    <label className="lore-field-label">{field.label}</label>
+                    <select
+                        className="lore-select"
+                        value={race || ''}
+                        onChange={(e) => updateCharacterInfo ? updateCharacterInfo('race', e.target.value) : null}
+                        disabled={!!inspectionData}
+                    >
+                        <option value="">Select an ancestry</option>
+                        {getRaceList().map(raceOption => (
+                            <option key={raceOption.id} value={raceOption.id}>
+                                {raceOption.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            );
+        } else if (field.type === 'subraceSelect') {
+            return (
+                <div key={field.key} className="lore-field">
+                    <label className="lore-field-label">{field.label}</label>
+                    <select
+                        className="lore-select"
+                        value={subrace || ''}
+                        onChange={(e) => updateCharacterInfo ? updateCharacterInfo('subrace', e.target.value) : null}
+                        disabled={!race || !!inspectionData}
+                    >
+                        <option value="">Select a subrace</option>
+                        {race && getSubraceList(race).map(subraceOption => (
+                            <option key={subraceOption.id} value={subraceOption.id}>
+                                {subraceOption.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            );
+        } else if (field.type === 'alignmentSelect') {
+            const alignmentsList = [
+                "Lawful Good", "Neutral Good", "Chaotic Good",
+                "Lawful Neutral", "True Neutral", "Chaotic Neutral",
+                "Lawful Evil", "Neutral Evil", "Chaotic Evil"
+            ];
+            return (
+                <div key={field.key} className="lore-field">
+                    <label className="lore-field-label">{field.label}</label>
+                    <select
+                        className="lore-select"
+                        value={alignment || ''}
+                        onChange={(e) => updateCharacterInfo ? updateCharacterInfo('alignment', e.target.value) : null}
+                        disabled={!!inspectionData}
+                    >
+                        <option value="">Select an alignment</option>
+                        {alignmentsList.map(align => (
+                            <option key={align} value={align}>{align}</option>
+                        ))}
+                    </select>
+                </div>
+            );
+        } else if (field.type === 'backgroundSelect') {
+            return (
+                <div key={field.key} className="lore-field">
+                    <label className="lore-field-label">{field.label}</label>
+                    <select
+                        className="lore-select"
+                        value={background || ''}
+                        onChange={(e) => {
+                            const bgId = e.target.value;
+                            const backgrounds = getAllBackgrounds();
+                            const selectedBg = backgrounds.find(bg => bg.id === bgId);
+                            if (selectedBg) {
+                                if (updateBackground) updateBackground(selectedBg.id, selectedBg.name);
+                                updateLore('background', selectedBg.name);
+                            } else {
+                                if (updateBackground) updateBackground('', '');
+                                updateLore('background', '');
+                            }
+                        }}
+                        disabled={!!inspectionData}
+                    >
+                        <option value="">Select a background</option>
+                        {getAllBackgrounds().map(bgOption => (
+                            <option key={bgOption.id} value={bgOption.id}>
+                                {bgOption.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            );
+        } else if (field.type === 'textarea') {
+            return (
+                <div key={field.key} className="lore-field has-textarea">
                     <label className="lore-field-label">{field.label}</label>
                     <textarea
                         className="lore-textarea"
@@ -314,6 +536,7 @@ export default function Lore() {
                         onChange={(e) => handleFieldChange(field.key, e.target.value)}
                         placeholder={field.placeholder}
                         rows={6}
+                        disabled={!!inspectionData}
                     />
                 </div>
             );
@@ -336,30 +559,6 @@ export default function Lore() {
                 </div>
             );
         } else if (field.type === 'image') {
-            const hasPortrait = !!(lore.characterImage || lore.characterIcon);
-            const portraitPreviewStyle = {
-                backgroundColor: lore.iconBackgroundColor || '#f8f5eb',
-                borderColor: lore.iconBorderColor || '#d4af37',
-                backgroundImage: lore.iconBackgroundImage
-                    ? `url(/assets/backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})`
-                    : 'none',
-                backgroundSize: lore.iconBackgroundImage
-                    ? `${(lore.iconBackgroundScale || 2.5) * 100}%`
-                    : 'cover',
-                backgroundPosition: lore.iconBackgroundImage
-                    ? `calc(50% + ${lore.iconBackgroundOffsetX || 0}px) calc(50% + ${lore.iconBackgroundOffsetY || 0}px)`
-                    : 'center',
-                backgroundRepeat: 'no-repeat'
-            };
-
-            const portraitContentStyle = lore.characterIcon && !lore.characterImage
-                ? {
-                    transform: `scale(${lore.iconScale || 1}) translate(${lore.iconOffsetX || 0}px, ${lore.iconOffsetY || 0}px)`
-                }
-                : {
-                    transform: `scale(${lore.imageTransformations?.scale || 1}) rotate(${lore.imageTransformations?.rotation || 0}deg) translate(${lore.imageTransformations?.positionX || 0}px, ${lore.imageTransformations?.positionY || 0}px)`
-                };
-
             return (
                 <div key={field.key} className="lore-field">
                     <label className="lore-field-label">{field.label}</label>
@@ -589,81 +788,309 @@ export default function Lore() {
         return null;
     };
 
+    const renderPortraitSummary = () => {
+        return (
+            <>
+                <div className="character-book-header">
+                    <div className="decorative-header-arch"></div>
+                    <h1 className="character-book-name">{dataSource.name || 'Unnamed Adventurer'}</h1>
+                    <div className="character-book-subtitle">
+                        {raceData?.name || 'Unknown Race'} {subraceData?.name ? `(${subraceData.name})` : ''} 
+                        {characterClass ? ` • ${characterClass}` : ''}
+                    </div>
+                    <div className="decorative-double-hr"></div>
+                </div>
+
+                {/* Gothic Ornate Portrait Frame */}
+                <div className="book-portrait-frame-wrapper">
+                    <div 
+                        className="book-portrait-frame" 
+                        style={portraitPreviewStyle}
+                        onClick={() => !inspectionData && setShowAppearanceModal(true)}
+                        title={!inspectionData ? 'Click to craft character portrait' : 'Character Portrait'}
+                    >
+                        {hasPortrait ? (
+                            lore.characterImage ? (
+                                <img
+                                    src={lore.characterImage}
+                                    alt="Character Portrait"
+                                    className="book-portrait-img"
+                                    style={portraitContentStyle}
+                                    draggable={false}
+                                />
+                            ) : (
+                                <img
+                                    src={getCustomIconUrl(lore.characterIcon, 'creatures')}
+                                    alt="Character Icon"
+                                    className="book-portrait-img"
+                                    style={portraitContentStyle}
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = getCustomIconUrl('Human/Icon1', 'creatures');
+                                    }}
+                                />
+                            )
+                        ) : (
+                            <div className="book-portrait-empty">
+                                <i className="fas fa-user-plus"></i>
+                                <span>Craft Portrait</span>
+                            </div>
+                        )}
+                        {!inspectionData && (
+                            <div className="book-portrait-edit-badge">
+                                <i className="fas fa-feather-alt"></i> Edit
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Ornate Character Identity Metadata block */}
+                <div className="book-character-meta-block">
+                    <h3 className="meta-block-title">Chronicles & Identity</h3>
+                    <div className="meta-rows">
+                        <div className="meta-row-item">
+                            <span className="meta-item-label">Ancestry</span>
+                            <span className="meta-item-val">{raceData?.name || 'Uncharted'}</span>
+                        </div>
+                        <div className="meta-row-item">
+                            <span className="meta-item-label">Subrace</span>
+                            <span className="meta-item-val">{subraceData?.name || 'None'}</span>
+                        </div>
+                        <div className="meta-row-item">
+                            <span className="meta-item-label">Class</span>
+                            <span className="meta-item-val">{characterClass || 'Adventurer'}</span>
+                        </div>
+                        <div className="meta-row-item">
+                            <span className="meta-item-label">Alignment</span>
+                            <span className="meta-item-val">{alignment || 'Neutral'}</span>
+                        </div>
+                        <div className="meta-row-item">
+                            <span className="meta-item-label">Social Background</span>
+                            <span className="meta-item-val">{lore.background || 'Commoner'}</span>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    };
+
+    const renderLeftFields = () => {
+        return (
+            <>
+                <div className="lore-section-header-enhanced">
+                    <div className="section-title-wrapper">
+                        <img
+                            src={sections[activeSection].icon}
+                            alt=""
+                            className="lore-section-icon-enhanced"
+                        />
+                        <h2 className="lore-section-title-enhanced">{sections[activeSection].title}</h2>
+                    </div>
+                    <div className="decorative-single-hr"></div>
+                </div>
+
+                <div className="lore-fields-enhanced">
+                    {sections[activeSection].leftFields.map(renderField)}
+                </div>
+            </>
+        );
+    };
+
+    const renderBackstoryPage = () => {
+        return (
+            <>
+                <div className="lore-section-header-enhanced">
+                    <div className="section-title-wrapper">
+                        <img
+                            src={sections.identity.icon}
+                            alt=""
+                            className="lore-section-icon-enhanced"
+                        />
+                        <h2 className="lore-section-title-enhanced">Chronicles & Backstory</h2>
+                    </div>
+                    <div className="decorative-single-hr"></div>
+                </div>
+
+                <div className="lore-fields-enhanced">
+                    {sections.identity.rightFields.map(renderField)}
+                </div>
+            </>
+        );
+    };
+
+    const renderIdentityInputs = () => {
+        return (
+            <>
+                <div className="lore-section-header-enhanced">
+                    <div className="section-title-wrapper">
+                        <img
+                            src={sections.identity.icon}
+                            alt=""
+                            className="lore-section-icon-enhanced"
+                        />
+                        <h2 className="lore-section-title-enhanced">Identity & Origin</h2>
+                    </div>
+                    <div className="decorative-single-hr"></div>
+                </div>
+
+                <div className="lore-fields-enhanced">
+                    {sections.identity.leftFields.map(renderField)}
+                </div>
+            </>
+        );
+    };
+
+    const renderRightFields = () => {
+        return (
+            <>
+                {(!sections[activeSection].leftFields || sections[activeSection].leftFields.length === 0) && (
+                    <div className="lore-section-header-enhanced">
+                        <div className="section-title-wrapper">
+                            <img
+                                src={sections[activeSection].icon}
+                                alt=""
+                                className="lore-section-icon-enhanced"
+                            />
+                            <h2 className="lore-section-title-enhanced">{sections[activeSection].title}</h2>
+                        </div>
+                        <div className="decorative-single-hr"></div>
+                    </div>
+                )}
+
+                <div className="lore-fields-enhanced">
+                    {sections[activeSection].rightFields && sections[activeSection].rightFields.map(renderField)}
+                </div>
+            </>
+        );
+    };
+
+    const renderDecorativeFantasyPage = () => {
+        return (
+            <div className="lore-book-decorative-page">
+                <img 
+                    src="/assets/images/watercolor_tome.png" 
+                    alt="Tome" 
+                    className="fantasy-decorative-icon"
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/assets/images/watercolor_scroll.png";
+                    }}
+                />
+                <div className="fantasy-quote-divider"></div>
+                <blockquote className="fantasy-quote-text">
+                    "Every legend begins with a single step, and every chronicle is written in the echoes of their deeds across the realm."
+                </blockquote>
+                <div className="fantasy-page-flourish"></div>
+            </div>
+        );
+    };
+
     return (
-        <div className="lore-container">
-            <div className={`lore-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
+        <div className="lore-book-wrapper">
+            {/* BOOK NAVIGATION bookmarks/ribbons */}
+            <div className={`lore-book-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
                 <button
-                    className="lore-label-toggle-button"
+                    className="lore-bookmark-toggle-btn"
                     onClick={() => setShowLabels(!showLabels)}
                     title={showLabels ? 'Hide Labels' : 'Show Labels'}
                 >
-                    <span className="lore-toggle-icon">{showLabels ? '◀' : '▶'}</span>
+                    <span className="stats-toggle-icon">{showLabels ? '◀' : '▶'}</span>
                 </button>
                 {Object.entries(sections).map(([key, section]) => (
                     <button
                         key={key}
-                        className={`lore-nav-button ${activeSection === key ? 'active' : ''}`}
+                        className={`lore-book-bookmark ${activeSection === key ? 'active' : ''}`}
                         onClick={() => setActiveSection(key)}
                         title={section.title}
                     >
-                        <img src={section.icon} alt="" className="lore-nav-icon" />
-                        {showLabels && <span className="lore-nav-text">{section.title}</span>}
+                        <img src={section.icon} alt="" className="bookmark-icon-img" />
+                        {showLabels && <span className="bookmark-label-text">{section.label || section.title}</span>}
                     </button>
                 ))}
             </div>
 
-            <div 
-                className={`character-content-area ${
-                    activeSection === 'background' ? 'lore-background-backdrop' : 
-                    activeSection === 'personality' ? 'lore-personality-backdrop' : 
-                    activeSection === 'appearance' ? 'lore-appearance-backdrop' : 
-                    activeSection === 'relationships' ? 'lore-relationships-backdrop' : 
-                    activeSection === 'goals' ? 'lore-goals-backdrop' : 
-                    activeSection === 'notes' ? 'lore-notes-backdrop' : 
-                    activeSection === 'heritage' ? 'lore-heritage-backdrop' : 
-                    'character-backdrop'
-                }`}
-                style={{
-                    ...(activeSection === 'background' && {
-                        backgroundImage: 'url(/assets/Backgrounds/DesertTemple.png)'
-                    }),
-                    ...(activeSection === 'personality' && {
-                        backgroundImage: 'url(/assets/Backgrounds/Flowers.png)'
-                    }),
-                    ...(activeSection === 'appearance' && {
-                        backgroundImage: 'url(/assets/Backgrounds/Sky.png)'
-                    }),
-                    ...(activeSection === 'relationships' && {
-                        backgroundImage: 'url(/assets/Backgrounds/OpenForest.png)'
-                    }),
-                    ...(activeSection === 'goals' && {
-                        backgroundImage: 'url(/assets/Backgrounds/Volcano.png)'
-                    }),
-                    ...(activeSection === 'notes' && {
-                        backgroundImage: 'url(/assets/Backgrounds/Stonehedge.png)'
-                    }),
-                    ...(activeSection === 'heritage' && {
-                        backgroundImage: 'url(/assets/Backgrounds/DenseForest.png)'
-                    })
-                }}
-            >
-                <div className="lore-section-header">
-                    <img
-                        src={sections[activeSection].icon}
-                        alt=""
-                        className="lore-section-icon"
-                    />
-                    <h2 className="lore-section-title">{sections[activeSection].title}</h2>
-                </div>
+            {/* MAIN BOOK SPREAD CONTAINER */}
+            <div className="lore-book-spread-container">
+                <div className="lore-book-spread">
+                    
+                    {/* LEFT PAGE: Split fields list or static Character Portrait fallback */}
+                    <div className="lore-book-page left-page">
+                        <div className="page-filigree-border">
+                            <div className="page-ornament top-ornament"></div>
+                            <div className="book-page-content">
+                                {activeSection === 'identity' ? (
+                                    subPage === 0 ? (
+                                        renderPortraitSummary()
+                                    ) : (
+                                        renderBackstoryPage()
+                                    )
+                                ) : sections[activeSection].leftFields && sections[activeSection].leftFields.length > 0 ? (
+                                    renderLeftFields()
+                                ) : (
+                                    renderPortraitSummary()
+                                )}
+                            </div>
+                            <div className="page-number-marker">
+                                {activeSection === 'identity' ? (subPage === 0 ? 'Page I' : 'Page III') : 'Page I'}
+                            </div>
+                            {activeSection === 'identity' && subPage === 1 && (
+                                <button
+                                    type="button"
+                                    className="book-page-flip-btn prev-page"
+                                    onClick={() => setSubPage(0)}
+                                    title="Go back to Character Identity (Page I)"
+                                >
+                                    <i className="fas fa-chevron-left"></i>
+                                    <span>Identity Details</span>
+                                </button>
+                            )}
+                        </div>
+                    </div>
 
-                <div className="lore-fields">
-                    {sections[activeSection].customRender ? (
-                        renderHeritageSection()
-                    ) : sections[activeSection].fields.map(renderField)}
+                    {/* BOOK SPINE - 3D spine and deep book gutter shadow */}
+                    <div className="lore-book-spine-divider">
+                        <div className="spine-ring top-ring"></div>
+                        <div className="spine-ring mid-ring"></div>
+                        <div className="spine-ring bot-ring"></div>
+                    </div>
+
+                    {/* RIGHT PAGE: Active Lore content fields/views */}
+                    <div className="lore-book-page right-page">
+                        <div className="page-filigree-border">
+                            <div className="page-ornament top-ornament"></div>
+                            <div className="book-page-content">
+                                {activeSection === 'identity' ? (
+                                    subPage === 0 ? (
+                                        renderIdentityInputs()
+                                    ) : (
+                                        renderDecorativeFantasyPage()
+                                    )
+                                ) : sections[activeSection].customRender ? (
+                                    renderHeritageSection()
+                                ) : (
+                                    renderRightFields()
+                                )}
+                            </div>
+                            <div className="page-number-marker">
+                                {activeSection === 'identity' ? (subPage === 0 ? 'Page II' : 'Page IV') : 'Page II'}
+                            </div>
+                            {activeSection === 'identity' && subPage === 0 && (
+                                <button
+                                    type="button"
+                                    className="book-page-flip-btn next-page"
+                                    onClick={() => setSubPage(1)}
+                                    title="Flip to Backstory (Page III)"
+                                >
+                                    <span>Detailed Backstory</span>
+                                    <i className="fas fa-feather-alt"></i>
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {/* Icon Selector Modal */}
+            {/* Portrait Customization Appearance Modal */}
             <CharacterAppearanceModal
                 isOpen={showAppearanceModal}
                 onClose={() => setShowAppearanceModal(false)}
@@ -716,87 +1143,100 @@ export default function Lore() {
 
     function renderHeritageSection() {
         return (
-            <div className="heritage-section">
+            <div className="heritage-section-enhanced">
                 {subraceData ? (
                     <>
                         {subraceData.description && (
-                            <div className="lore-field">
-                                <label className="lore-field-label">Description</label>
-                                <div className="heritage-readonly-text">{subraceData.description}</div>
+                            <div className="lore-field-enhanced">
+                                <label className="lore-field-label-enhanced">Description</label>
+                                <div className="heritage-readonly-text-enhanced">
+                                    {formatTextWithDropCap(subraceData.description)}
+                                </div>
                             </div>
                         )}
                         {subraceData.culturalBackground && (
-                            <div className="lore-field">
-                                <label className="lore-field-label">Cultural Background</label>
-                                <div className="heritage-readonly-text">{subraceData.culturalBackground}</div>
+                            <div className="lore-field-enhanced">
+                                <label className="lore-field-label-enhanced">Cultural Background</label>
+                                <div className="heritage-readonly-text-enhanced">
+                                    {formatTextWithDropCap(subraceData.culturalBackground)}
+                                </div>
                             </div>
                         )}
+                        
                         {fullRaceData && fullRaceData.race && fullRaceData.race.baseTraits && (
-                            <>
-                                {fullRaceData.race.baseTraits.height && (
-                                    <div className="lore-field">
-                                        <label className="lore-field-label">Height</label>
-                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.height}</div>
-                                    </div>
-                                )}
-                                {fullRaceData.race.baseTraits.weight && (
-                                    <div className="lore-field">
-                                        <label className="lore-field-label">Weight</label>
-                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.weight}</div>
-                                    </div>
-                                )}
-                                {fullRaceData.race.baseTraits.build && (
-                                    <div className="lore-field">
-                                        <label className="lore-field-label">Build</label>
-                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.build}</div>
-                                    </div>
-                                )}
-                                {fullRaceData.race.baseTraits.lifespan && (
-                                    <div className="lore-field">
-                                        <label className="lore-field-label">Lifespan</label>
-                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.lifespan}</div>
-                                    </div>
-                                )}
-                                {fullRaceData.race.baseTraits.size && (
-                                    <div className="lore-field">
-                                        <label className="lore-field-label">Size</label>
-                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.size}</div>
-                                    </div>
-                                )}
-                                {fullRaceData.combinedTraits && fullRaceData.combinedTraits.speed && (
-                                    <div className="lore-field">
-                                        <label className="lore-field-label">Speed</label>
-                                        <div className="heritage-readonly-text">{fullRaceData.combinedTraits.speed} ft</div>
-                                    </div>
-                                )}
-                                {fullRaceData.combinedTraits && fullRaceData.combinedTraits.languages && fullRaceData.combinedTraits.languages.length > 0 && (
-                                    <div className="lore-field">
-                                        <label className="lore-field-label">Languages</label>
-                                        <div className="heritage-readonly-text">{fullRaceData.combinedTraits.languages.join(', ')}</div>
-                                    </div>
-                                )}
-                            </>
+                            <div className="lore-field-enhanced">
+                                <label className="lore-field-label-enhanced">Ancestral Statistics & Traits</label>
+                                <div className="heritage-traits-grid-enhanced">
+                                    {fullRaceData.race.baseTraits.height && (
+                                        <div className="grid-item">
+                                            <span className="grid-item-label">Typical Height</span>
+                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.height}</span>
+                                        </div>
+                                    )}
+                                    {fullRaceData.race.baseTraits.weight && (
+                                        <div className="grid-item">
+                                            <span className="grid-item-label">Typical Weight</span>
+                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.weight}</span>
+                                        </div>
+                                    )}
+                                    {fullRaceData.race.baseTraits.build && (
+                                        <div className="grid-item">
+                                            <span className="grid-item-label">Typical Build</span>
+                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.build}</span>
+                                        </div>
+                                    )}
+                                    {fullRaceData.race.baseTraits.lifespan && (
+                                        <div className="grid-item">
+                                            <span className="grid-item-label">Typical Lifespan</span>
+                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.lifespan}</span>
+                                        </div>
+                                    )}
+                                    {fullRaceData.race.baseTraits.size && (
+                                        <div className="grid-item">
+                                            <span className="grid-item-label">Size Class</span>
+                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.size}</span>
+                                        </div>
+                                    )}
+                                    {fullRaceData.combinedTraits && fullRaceData.combinedTraits.speed && (
+                                        <div className="grid-item">
+                                            <span className="grid-item-label">Base Speed</span>
+                                            <span className="grid-item-val">{fullRaceData.combinedTraits.speed} ft</span>
+                                        </div>
+                                    )}
+                                    {fullRaceData.combinedTraits && fullRaceData.combinedTraits.languages && fullRaceData.combinedTraits.languages.length > 0 && (
+                                        <div className="grid-item full-width">
+                                            <span className="grid-item-label">Known Languages</span>
+                                            <span className="grid-item-val">{fullRaceData.combinedTraits.languages.join(', ')}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         )}
+
                         {raceData && raceData.overview && (
-                            <div className="lore-field">
-                                <label className="lore-field-label">Race Overview</label>
-                                <div className="heritage-readonly-text">{raceData.overview}</div>
+                            <div className="lore-field-enhanced">
+                                <label className="lore-field-label-enhanced">Ancestry Overview</label>
+                                <div className="heritage-readonly-text-enhanced">
+                                    {formatTextWithDropCap(raceData.overview)}
+                                </div>
                             </div>
                         )}
                         {raceData && raceData.culturalBackground && (
-                            <div className="lore-field">
-                                <label className="lore-field-label">Race Cultural Background</label>
-                                <div className="heritage-readonly-text">{raceData.culturalBackground}</div>
+                            <div className="lore-field-enhanced">
+                                <label className="lore-field-label-enhanced">Racial Society & Culture</label>
+                                <div className="heritage-readonly-text-enhanced">
+                                    {formatTextWithDropCap(raceData.culturalBackground)}
+                                </div>
                             </div>
                         )}
                     </>
                 ) : (
-                    <div className="heritage-empty">
-                        <p>No heritage information available. Select a race and subrace to see details here.</p>
+                    <div className="heritage-empty-enhanced">
+                        <i className="fas fa-scroll decorative-scroll-icon"></i>
+                        <p>No heritage information available. Select a race and subrace to unlock these ancient chronicled texts.</p>
                     </div>
                 )}
             </div>
         );
     }
-
 }

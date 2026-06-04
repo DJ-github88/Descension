@@ -14,6 +14,11 @@ export const INSCRIPTOR_DATA = {
 
   // Overview section
   overview: {
+    originStory: `The Skald scholar Theron could not stand the thought of the Frozen Archive's clockwork songs fading into oblivion as the glacier-halt slowly claimed the keepers. Using memory-glass chisels, he carved the mathematical formulas of the ancient solar machines directly into his own skin, binding the clockwork syntax to his own nervous system.
+
+The price of this absolute preservation was his own past. Theron traded away his personal recollections; he forgets his children's names and his mother's face to retain the math of the runes. Every rune he writes erases another memory, replacing his history with blank, gray stone.
+
+Inscribe the stone. The page remembers what the mind forgets, and the runes are written in blood. Write until you are blank.`,
     title: "The Inscriptor",
     subtitle: "Sovereign of the Scarred Earth & Blood-Rune Carver",
 
@@ -103,19 +108,56 @@ export const INSCRIPTOR_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Inscriptors are grim scholars who have abandoned the clean magic of the academies. They understand that true power is not conjured from thin air; it must be carved into reality with steel, bone, and agony. They cover their bodies in deep, self-inflicted scars—glowing runic matrices that pulse with the quiet hum of the earth's marrow.
+      content: `**HISTORY: THE GENESIS**
+The inscriptor's memory-carving was born in the Frozen Archive of <LoreLink termId="nordhalla">Nordhalla</LoreLink>. A Skald scholar named **Theron** sought to preserve the ancient clockwork songs and began carving the runes directly into his own skin. The price of this preservation was memory-loss. To carve the mathematical formulas of the Archive, Theron had to trade away his own personal memories, leaving his past as blank grey stone.
 
-**The Inscriptor's Philosophy**: The world is a scroll of bone and stone, waiting to be written. The blood we shed is the only ink that endures. To move is to be weak; to stand firm and carve is to become eternal.
+**CITIES & CIVIL RECEPTION**
+Inscriptors are highly respected as high scholars and archivists within the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the Canopy-Ledger of Atropolis.
 
-**Common Archetypes**:
-- **The Skin-Stitcher**: One who carves defensive wards directly into the bones and flesh of allies, reinforcing them with agonizing armor.
-- **The Scarred Hermit**: A stationary zealot who terraforms a single domain, slaughtering anyone who steps onto their scarred soil.
-- **The Chisel Martyr**: A fragile scholar whose spells deal immense self-damage, converting their own life force into explosive runic mines.
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink> and the Velun Neth.
 
-**Personality Traits**: Cold, stoic, and unsettlingly quiet. They speak in slow, rhythmic whispers that sound like stone grinding on bone. They are intensely protective of their designated zones, viewing the battlefield as an architectural puzzle to be solved through pain.
-
-**Physical Manifestations**: The scent of copper and burnt skin clings to them. Their hands are raw and calloused, covered in silver-white scars that glow with a faint, oppressive light when their runes are active. Their bone styluses are stained dark with decades of dried essence.`,
+**NOTABLE FIGURES**
+* **Theron the Skald Scholar**: The librarian who traded his children's names to preserve the Archive's clockwork songs.
+* **Aurelia the Scribe**: A Neth contract-weaver who codified the Runic Vault rules in the Frozen Archive.`
     },
+
+    signatureQuote: {
+      text: '"Every word carved in blood is a word the fog cannot steal. Every ledger we burn, we burn to keep the truth alive."',
+      speaker: 'Aurelia the Scribe',
+      context: 'Inscribed in blood-ink on the wall of the Ledger Halls, discovered after the collapse'
+    },
+
+    philosophy: {
+      coreTenet: 'Memory is the only currency that matters. The fog erases it. Ink preserves it. Blood-ink preserves it forever. An Inscriptor does not write — they scar reality with permanent truth.',
+      relationship: 'Inscriptors are the immune system of civilization. In a world where memory is actively consumed by magical forces, they are the only ones who can create permanent records. Their power flows not from gods or contracts, but from the absolute certainty of the written word — written in their own blood, carved into their own skin, or chiseled into stone that will outlast the sun.',
+      paradox: 'The Inscriptor preserves truth by destroying their own body. Every rune carved into their flesh is a memory they have chosen to save — and a piece of themselves they have permanently sacrificed. The greatest Inscriptors are covered head to toe in their own writing, and can no longer remember what any of it says.'
+    },
+
+    currentCrisis: `The Great Revision has been exposed. A junior Scribe-Sentinel discovered evidence that her own family line had been written out of the ledgers — erased as if they had never existed. She confronted the Master Scribe and was immediately reassigned to a remote archive in the Cragjaw Peaks. Before she left, she copied key pages from the edited ledgers and hid them.
+
+Now a quiet war is being fought in the margins of every ledger in the Reach. Some Sentinels are secretly correcting the edits, restoring the erased families. Others are doubling down, accelerating the revisions. The Master Scribe has begun burning ledgers entirely, claiming they were "damaged by the fog." The truth is that some ledgers now contradict each other so completely that preserving them would expose the entire revision project.
+
+The junior Sentinel has sent word to the Church of the Holy Light, hoping they will intervene. She does not know that the Church's Council of Elders has not met in forty years.`,
+
+    meaningfulTradeoffs: `To be an Inscriptor is to accept that your body is a temporary medium. The blood-ink that creates permanent records comes from the Inscriptor's own veins. Every significant inscription costs the Inscriptor something they will never recover — a memory, a scar, a few hours of their dwindling lifespan. Senior Inscriptors are pale, gaunt, covered in scarified text, and frequently forget their own names because they have traded that knowledge for something more important. They are walking archives, and when they die, their skin is flayed and preserved in the ledger-halls as a final record.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Ledger Halls',
+        locationId: 'ledger-halls',
+        description: 'The original archive complex, partially collapsed but still actively maintained by the most senior Inscriptors. The deepest chambers contain the First Ledger — the original record of the Fog Compact, written in the blood of the first Thalreth lord.',
+        purpose: 'Archive of original records; training ground for senior Inscriptors',
+        status: 'Active — partially collapsed; the deepest chambers are unstable and off-limits'
+      },
+      {
+        name: "Scribes' Tower",
+        locationId: 'scribes-tower',
+        description: 'The primary working archive, where Inscriptors train and work in silent shifts. The tower is a vertical cathedral of parchment and ink, built into a hollow petrified ironwood. The constant scratching of quills is the only permitted sound.',
+        purpose: 'Daily work, training, and record preservation',
+        status: 'Active — the seniormost scribes control access to the deepest records'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

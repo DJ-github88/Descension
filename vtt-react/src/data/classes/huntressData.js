@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Huntress Class Data
  *
  * Complete class information for the Huntress - an agile melee combatant
@@ -14,6 +14,11 @@ export const HUNTRESS_DATA = {
 
   // Overview section
   overview: {
+    originStory: `The ranger Sylas tracked the invisible spoor of Wyrd-creatures through the Frostwood Reach by tuning his senses to the silent, sub-vocal vibrations of the pine needles and the damp earth. In a fog-shrouded valley, he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace the faint disturbances in the fog-memory.
+
+To achieve this absolute sensory focus, Sylas paid with his own hearing, becoming completely deaf to the voices of his kin. The Huntress lives in a silent, predatory world of scents and vibrations, unable to hear the warnings of allies or the screams of her prey. The forest is a map written in heat, odor, and kinetic tremors.
+
+Draw the bow. Scent the spoor. The forest is silent, and you are its sharpest shadow. Strike before they know you are there.`,
     title: "The Huntress",
     subtitle: "Shadow Glaive Wielder & Beast Companion",
 
@@ -42,18 +47,47 @@ export const HUNTRESS_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Huntresses are elite warriors who have bonded with a beast companion through ancient rituals. They often serve as scouts, trackers, or guardians of wild places, using their agility and their companion's instincts to protect their territory.
+      content: `**HISTORY: THE GENESIS**
+The huntress's stalker focus was forged in the ancient ironwood forests of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. A wood-ranger named **Sylas** tracked the invisible spoor of Wyrd-creatures, using the fog to mask his approach. The price of this perfect focus was a sensory numbness. Sylas became completely deaf to the voices of his kin, his mind permanently locked in the tracking of mist-spoor.
 
-**Common Huntress Archetypes**:
-- **The Sentinel**: A guardian of sacred groves who patrols with her companion, defending nature from intruders
-- **The Tracker**: A relentless pursuer who marks her quarry and never stops until the hunt is complete
-- **The Shadowblade**: An assassin who strikes from darkness, her glaive a blur of deadly precision
-- **The Beastmaster**: A warrior whose bond with her companion transcends normal understanding, fighting as one entity
-- **The Moonlight Warrior**: A nocturnal hunter who channels lunar energy through her glaive and companion
+**CITIES & CIVIL RECEPTION**
+Huntresses are welcomed as essential guides and beast-slayers in every frontier keep, though they rarely speak or enter the civilian sectors.
 
-**Personality Traits**:
-Huntresses are typically independent, patient, and fiercely loyal to their companions. They value freedom, respect nature's balance, and trust their instincts. Many prefer the company of beasts to people, finding honesty in the wild that civilization lacks.`,
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="mimir">Mist-Woven Mimir</LoreLink> and the Skald hunters.
+
+**NOTABLE FIGURES**
+* **Sylas the Silent**: The first ranger who tracked the invisible spoor of Wyrd-creatures through the Frostwood.
+* **Maeve of the Canopy**: A Mist-Woven Mimir scout who guided the first Thalren refugees through the memory-erasing fog.`
     },
+
+    signatureQuote: {
+      text: '"The Wyrd-creature does not leave tracks in the snow. It leaves tracks in the memory of the snow. I do not hunt with my eyes. I hunt with my patience."',
+      speaker: 'Sylas the Silent',
+      context: 'Teaching his apprentice how to track a Gref through the fog'
+    },
+
+    philosophy: {
+      coreTenet: 'Every creature leaves a mark on the world, whether it knows it or not. A footprint, a broken twig, a displaced scent, a tremor in the moss. The Huntress reads these marks the way a scholar reads a book. The quarry cannot hide — they can only make the reading harder.',
+      relationship: 'The Huntress and her companion are not master and pet — they are partners. The bond is forged through shared hunts, shared kills, and shared survival. The companion does not obey; it anticipates. After years together, a Huntress does not need to give commands — her companion knows what she needs before she knows it herself. This bond is sacred and irreplaceable. A Huntress whose companion dies rarely takes another. The grief is too specific.',
+      paradox: 'The Huntress lives in a world of pure sensation — scents, vibrations, tiny visual cues — because she has deliberately sacrificed the world of human connection. Sylas went deaf to his kin so he could hear the forest. Every Huntress since has made a similar trade: they give up something essential to their humanity in exchange for the ability to track the supernaturally untrackable. They are the greatest hunters in the world, and the loneliest.'
+    },
+
+    currentCrisis: `The mist is learning to hide. For centuries, Huntresses have tracked Wyrd-creatures through the Frostwood Reach by reading the disturbances they leave in the fog — ripples of displaced vapor that betray their passage. But the fog is changing. It is becoming more static, less responsive, as if it is deliberately refusing to reveal the creatures moving through it.
+
+Some Huntresses believe the fog is responding to the increased activity of the Wyrd — that it is thickening to protect the incursions. Others believe something worse: the fog is not protecting them. It is hiding something else, something large, that has been moving through the Reach for months without leaving any trace. The old Huntresses say the last time the fog went this still was the day before the first Gref appeared.`,
+
+    meaningfulTradeoffs: `To be a Huntress is to give up the world of words. The constant sensory tuning required to track Wyrd-creatures permanently alters the brain\'s auditory processing centers. Huntresses gradually lose the ability to understand spoken language — not because their hearing fails, but because their brain no longer prioritizes human speech over environmental sound. They develop their own sign language, tactile gestures that can be felt through gloves. A pair of Huntresses can hold a silent conversation through hand-pressure alone, but they cannot hear a friend say goodbye.`,
+
+    classSpecificLocations: [
+      {
+        name: 'Sylas\'s Clearing',
+        locationId: 'ironwood-heart',
+        description: 'A small, moss-floored clearing deep in the Ironwood Heart where Sylas the Silent trained the first generation of Huntresses. The trees around the clearing are carved with the hand-signs of every Huntress who passed through — hundreds of symbols, each one unique, each one representing a graduate who went on to hunt the things that hide in the mist.',
+        purpose: 'Training ground and memorial grove',
+        status: 'Active — maintained by the Silent Sisterhood, a guild of Huntresses who have lost all verbal speech'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

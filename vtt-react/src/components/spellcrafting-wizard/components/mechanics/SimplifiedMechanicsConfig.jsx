@@ -76,7 +76,7 @@ const MECHANICS_SYSTEMS = {
     icon: faPaw,
     color: "#8e44ad", // Purple
     formTypes: [
-      { id: 'bear_form', name: 'Bear Form', description: 'Tank form with increased armor', icon: faPaw },
+      { id: 'bear_form', name: 'Bear Form', description: 'Tank form with increased resilience', icon: faPaw },
       { id: 'cat_form', name: 'Cat Form', description: 'DPS form with increased speed', icon: faPaw },
       { id: 'tree_form', name: 'Tree Form', description: 'Healing form with increased healing', icon: faPaw }
     ]
@@ -854,8 +854,8 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                   >
                     <option value="damage">Damage</option>
                     <option value="healing">Healing</option>
-                    <option value="armor">Armor</option>
                     <option value="speed">Movement Speed</option>
+                    <option value="damage_reduction">Damage Reduction</option>
                   </select>
                 </div>
                 <div className="config-row">

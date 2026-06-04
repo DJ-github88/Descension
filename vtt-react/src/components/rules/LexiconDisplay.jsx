@@ -15,11 +15,11 @@ const parseTerm = (section) => {
 };
 
 // Robust scanner/tokenizer that converts markdown and LoreLink markup into clickable React nodes
-const parseTextWithLoreLinks = (text) => {
+const parseTextWithLoreLinks = (text, skipAutoLink = false) => {
   if (!text || typeof text !== 'string') return null;
 
   // Auto-link all recognised dictionary terminology first
-  const processedText = autoLinkTerminology(text);
+  const processedText = skipAutoLink ? text : autoLinkTerminology(text);
 
   const result = [];
   const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>|\*\*(.*?)\*\*)/g;
@@ -39,7 +39,7 @@ const parseTextWithLoreLinks = (text) => {
       const label = match[3];
       result.push(
         <LoreLink key={`lore-${key++}`} termId={termId}>
-          {parseTextWithLoreLinks(label)}
+          {parseTextWithLoreLinks(label, true)}
         </LoreLink>
       );
     } else if (match[4] !== undefined) {
@@ -47,7 +47,7 @@ const parseTextWithLoreLinks = (text) => {
       const boldText = match[4];
       result.push(
         <strong key={`bold-${key++}`}>
-          {parseTextWithLoreLinks(boldText)}
+          {parseTextWithLoreLinks(boldText, skipAutoLink)}
         </strong>
       );
     }

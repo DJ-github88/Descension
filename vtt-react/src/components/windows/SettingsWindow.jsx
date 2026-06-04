@@ -121,6 +121,8 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const setViewUpdateOnPlacement = useSettingsStore(state => state.setViewUpdateOnPlacement);
     const playerTooltipMode = useSettingsStore(state => state.playerTooltipMode || 'vague');
     const setPlayerTooltipMode = useSettingsStore(state => state.setPlayerTooltipMode);
+    const skillSystemMode = useSettingsStore(state => state.skillSystemMode || 'simple');
+    const setSkillSystemMode = useSettingsStore(state => state.setSkillSystemMode);
 
     // Speech bubble settings
     const showSpeechBubbles = useSettingsStore(state => state.showSpeechBubbles);
@@ -623,6 +625,55 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                             checked={playerTooltipMode === opt.value}
                                             onChange={() => setPlayerTooltipMode(opt.value)}
                                             style={{ marginTop: '3px', accentColor: '#d4af37' }}
+                                        />
+                                        <div>
+                                            <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>{opt.label}</div>
+                                            <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>{opt.desc}</div>
+                                        </div>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* GM-only: Skill System Mode */}
+                {isGMMode && (
+                    <div style={{ marginBottom: '24px', padding: '20px', background: 'linear-gradient(135deg, rgba(90,79,207,0.08), rgba(90,79,207,0.03))', border: '1px solid rgba(90,79,207,0.25)', borderRadius: '8px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
+                            <i className="fas fa-dice" style={{ fontSize: '20px', color: '#5a4fcf' }}></i>
+                            <div>
+                                <h3 style={{ margin: '0 0 4px 0', color: '#5a4fcf', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>Skill System</h3>
+                                <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Choose which skill system players use in their character sheets</p>
+                            </div>
+                        </div>
+                        <div className="settings-group">
+                            <div style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
+                                {[
+                                    { value: 'simple', label: '🎲 Simple', desc: 'Players see die sizes (d4, d6, d8…) and roll against DCs. No quests or rollable tables. Clean and fast.' },
+                                    { value: 'advanced', label: '📜 Advanced', desc: 'Full quest-based advancement with rank progression, rollable outcome tables, and skill quests.' }
+                                ].map(opt => (
+                                    <label
+                                        key={opt.value}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'flex-start',
+                                            gap: '10px',
+                                            padding: '10px 14px',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            background: skillSystemMode === opt.value ? 'rgba(90,79,207,0.12)' : 'rgba(255,255,255,0.4)',
+                                            border: `1px solid ${skillSystemMode === opt.value ? 'rgba(90,79,207,0.45)' : 'rgba(160,140,112,0.2)'}`,
+                                            transition: 'all 0.15s ease'
+                                        }}
+                                    >
+                                        <input
+                                            type="radio"
+                                            name="skillSystemMode"
+                                            value={opt.value}
+                                            checked={skillSystemMode === opt.value}
+                                            onChange={() => setSkillSystemMode(opt.value)}
+                                            style={{ marginTop: '3px', accentColor: '#5a4fcf' }}
                                         />
                                         <div>
                                             <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>{opt.label}</div>

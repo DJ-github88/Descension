@@ -523,13 +523,13 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                         )}
                       </div>
                       <div className="stat-item">
-                        <span className="stat-label">Armor</span>
+                        <span className="stat-label">DR</span>
                         {creature.id?.startsWith('custom-summon') ? (
                           <input
                             type="number"
                             min="0"
-                            max="50"
-                            value={creature.stats?.armor || 15}
+                            max="20"
+                            value={creature.stats?.damageReduction || 2}
                             onChange={(e) => {
                               const updatedCreatures = summonConfig.creatures.map(c =>
                                 c.id === creature.id
@@ -537,7 +537,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                                       ...c,
                                       stats: {
                                         ...c.stats,
-                                        armor: parseInt(e.target.value) || 15
+                                        damageReduction: parseInt(e.target.value) || 2
                                       }
                                     }
                                   : c
@@ -550,7 +550,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                             className="stat-input"
                           />
                         ) : (
-                          <span className="stat-value">{creature.stats?.armor || 'N/A'}</span>
+                          <span className="stat-value">{creature.stats?.damageReduction || 'N/A'}</span>
                         )}
                       </div>
                       <div className="stat-item">
@@ -808,7 +808,6 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                                       className="config-select"
                                     >
                                       <option value="speed">Speed</option>
-                                      <option value="armor">Armor</option>
                                       <option value="damage">Damage</option>
                                       <option value="healing">Healing</option>
                                       <option value="strength">Strength</option>
@@ -884,7 +883,6 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                                           className="config-select"
                                         >
                                           <option value="speed">Speed</option>
-                                          <option value="armor">Armor</option>
                                           <option value="damage">Damage</option>
                                           <option value="healing">Healing</option>
                                           <option value="strength">Strength</option>
@@ -1051,7 +1049,6 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                                       className="config-select"
                                     >
                                       <option value="speed">Speed</option>
-                                      <option value="armor">Armor</option>
                                       <option value="damage">Damage</option>
                                       <option value="healing">Healing</option>
                                       <option value="strength">Strength</option>
@@ -1362,7 +1359,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                 tokenIcon: 'spell_arcane_portalshattrath',
                 stats: {
                   maxHp: 50,
-                  armor: 15,
+                  damageReduction: 2,
                   maxMana: 0
                 },
                 config: { ...DEFAULT_CREATURE_CONFIG }

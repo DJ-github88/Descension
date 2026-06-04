@@ -46,6 +46,32 @@ export const WARDEN_DATA = {
 Wardens are stoic, grim, and utterly hollowed out by their duty. They speak in hushed tones, their voices like dry leaves scraping over gravel. They carry the smell of old iron, dried blood, and tomb-dust. They do not seek glory or companionship; they seek only the cold, silent relief of a duty completed.`,
     },
 
+    signatureQuote: {
+      text: '"I drove the chain through my own shoulder so I could anchor the beast. The pain kept me conscious. The beast was surprised. We stood there for three hours, neither of us able to move, both of us bleeding. It was the most intimate moment of my life."',
+      speaker: 'Alaric the Law-Keeper',
+      context: 'From his training manual on Flesh Tethering, still used to train new Wardens'
+    },
+
+    philosophy: {
+      coreTenet: 'A chain is not a tool of restraint. It is a tool of connection. When a Warden chains themselves to a monster, they are not trapping the monster — they are agreeing to share its fate. If it falls, they fall. If it bleeds, they feel it. The chain is a vow made of iron and flesh.',
+      relationship: 'A Warden\'s power comes from the Flesh Tether — a chain physically grafted through their own body and anchored to their target. The tether is not magical; it is a medical fact. The hooks are driven through the bone. The chain is anchored to the skeleton. The pain is the source of the Warden\'s Tension, and the Tension is the source of their power.',
+      paradox: 'The Warden controls their enemy by giving up control of themselves. They cannot release the tether at will — the hooks are too deep, the tension too great. Once anchored, the Warden is committed. They must win or die.'
+    },
+
+    currentCrisis: `The chains are breaking. The iron used for traditional Flesh Tethers is failing — the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fexric Drall have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Wardens who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
+
+    meaningfulTradeoffs: `To be a Warden is to carry permanent scars. The tether hooks leave holes in the bone that never fully heal. A Warden can be identified by the pattern of scars on their arms, shoulders, and back — a map of every creature they have ever anchored. Old wounds remember; they hurt more when struck.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Forge of Alaric',
+        locationId: 'frostmaw-holdfast',
+        description: 'The original blacksmith\'s forge where Alaric forged the first Flesh Tether chains. Still maintained by a line of Fexric Drall smiths.',
+        purpose: 'Chain forge and Warden initiation site',
+        status: 'Active — struggling to meet demand for new chains'
+      }
+    ],
+
     combatRole: {
       title: "Combat Role",
       content: `**Primary Role**: Heavy-martial lockdown specialist and damage-absorbing anchor.

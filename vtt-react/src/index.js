@@ -7,6 +7,7 @@ import './styles/currency-notification.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { isDevelopment } from './config/env';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 if (!isDevelopment()) {
   const noop = () => {};
@@ -29,7 +30,6 @@ if (!isDevelopment()) {
 
 // Note: Global title polyfills and other environment setups are handled in ./polyfills
 
-import ErrorBoundary from './components/common/ErrorBoundary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

@@ -10,10 +10,11 @@ import { useRealtimeSync } from './useRealtimeSync';
 
 export const useRoomPersistence = (roomId) => {
   const useAuthStore = require('../store/authStore').default;
-  const useGameStore = require('../store/gameStore').default;
   const persistenceService = require('../services/firebase/persistenceService').default;
   const { user } = useAuthStore();
-  const currentRoomId = roomId || useGameStore(state => state.currentRoomId);
+  // Call useGameStore unconditionally (React hooks rules) and use roomId prop as primary source
+  const storeRoomId = require('../store/gameStore').default(state => state.currentRoomId);
+  const currentRoomId = roomId || storeRoomId;
 
   // Auto-save timer refs
   const roomStateTimerRef = useRef(null);

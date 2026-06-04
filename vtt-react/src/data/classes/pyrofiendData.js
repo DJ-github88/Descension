@@ -35,6 +35,13 @@ export const PYROFIEND_DATA = {
     subtitle: "Demonic Fire Wielder",
     illustration: "/assets/images/classes/pyrofiend_illustration.png",
     illustrationCaption: "An Emberth Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning demon embers.",
+    originStory: `The summoner does not command the flame; they submit their flesh to it. In the lightless badlands of Sundale, when the sun-god Sol was entombed, a cabal of Solvarn occultists gathered in an obsidian cavern beneath the Emberspire caldera. They did not pray for salvation; they drew a summoning circle in their own blood, using volcanic glass knives to carve the seven sigils of Scathrach, the Ashen Sovereign. They offered their marrow as kindling, inviting the Ninth Flame of the Burning Throne to nest in their bones.
+
+When the ritual was completed, they swallowed demonic coals of pure, burning sulfur. The demonic embers did not destroy their flesh, but bound their capillaries in a permanent, glowing lattice of occult channels. Their blood became liquid fire, their bones seared black, and their eyes reflecting the lightless heat of the infernal mantle. They survived the freeze, but they emerged as the first Pyrofiends — living vessels for a parasitic demon-lord.
+
+This occult covenant demands a terrible, escalating price. The sulfurous coal nesting in the host's chest slowly burns away their sanity, whispering forbidden secrets of destruction while demanding more blood, more ash, and more fuel. At the height of their ascension, the host's skin cracks open to reveal molten rock, and they have only minutes before their marrow turns to ash. The Sun-Speakers of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> hunt them down with silver chains, viewing them not just as heretics, but as walking portals to the infernal deep.
+
+Your marrow is the candle. Your blood is the wax. The Ashen Sovereign has written his name in your bones, and the interest is paid in flesh. Burn them before you burn yourself.`,
 
     quickOverview: {
       title: "Quick Overview",
@@ -49,20 +56,53 @@ export const PYROFIEND_DATA = {
 **Best For**: Players who thrive on living dangerously, managing escalating self-harm for devastating firepower, and making split-second tactical decisions — and who are comfortable being a potential liability to their own party at high corruption`,
     },
 
-    description: `The Pyrofiend did not choose this path — Scathrach chose them. They are a Damned Conduit: a mortal body repurposed as a furnace for an infernal parasite. Every spell cast is a surrender, every Inferno ascent another strip of flesh traded for fire. The Pyrofiend wields the most devastating area-of-effect power in Mythrill, but every point of that power is borrowed against their own life. At Level 9, Scathrach fully manifests — and the Pyrofiend has three turns to descend or die permanently. There is no resurrection from Scathrach's grasp. Only ash.`,
+    description: `The Pyrofiend is a chaotic, fire-wielder who has invited a parasitic demon-intelligence — **Scathrach, the Ashen Sovereign** — to nest directly within their marrow. They do not command fire through careful study or divine grace; they bleed it. The Pyrofiend's power is governed by the **Inferno Veil**, an escalating state of corruption that grows hotter, brighter, and more chaotic as battle progresses. The Pyrofiend deals devastating, explosive damage, but the demon within constantly claw at their sanity, demanding more heat, more ash, and more fuel.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Pyrofiends did not make a deal — they were selected by Scathrach, the Ashen Sovereign, a parasitic intelligence that feeds on desperation. The pact was not negotiated. It was inflicted. Scathrach tasted their despair, their willingness to burn rather than endure, and it moved in.
-      
-Their connection to hellfire manifests physically at every threshold (see the Corruption Manifestation Table in the Resource System). Eyes ignite. Veins darken. Horns erupt. At Level 5, Scathrach begins speaking through them — and forcing their body to act against their will. At Level 9, the original personality is a passenger in their own charring flesh.
+      content: `**HISTORY: THE GENESIS**
+The pyrofiend's inferno veil was born in the volcanic desert of <LoreLink termId="sundale">Sundale</LoreLink>. An Emberth forge-miner named **Ignis** bargained with a volcanic caldera fiend to secure a geothermal vent for his clan.
 
-Common Pyrofiend archetypes include:
-- **The Grief-Stricken**: Lost everything and chose to become the fire that consumed their world
-- **The Failed Priest**: Prayed to every god and was answered only by Scathrach
-- **The Calculating Arsonist**: Believes the demon can be controlled through sheer will and mathematics
-- **The Resigned Kindling**: Knows they will die by fire and has made peace with it — fights to take the enemy with them`,
+The price of this fiery pact was a sulfurous, burning ember nesting in his chest. As the veil rose, Ignis's capillaries seared, pulling his flesh closer to the fiend's absolute claim.
+
+**CITIES & CIVIL RECEPTION**
+Pyrofiends are revered yet deeply feared in the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, where their destructive potential is used to clear volcanic blockades.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the Thrask Emberth and hot-blooded Solvarn humans.
+
+**NOTABLE FIGURES**
+* **Ignis the First-Singed**: The Thrask miner who first welcomed the Sovereign to protect his deep caldera clan.
+* **Aethelgard the Seared**: A Solvarn occultist who led the Cabal of the Ninth Flame during the solar binding.`
     },
+
+    signatureQuote: {
+      text: '"Scathrach whispers to me in the language of burning things. It says the world was made from fire, and to fire it will return. It says I am the kindling. It says I should be grateful."',
+      speaker: 'Ignis the Caldera-Bound',
+      context: 'His confession to an Exorcist who was unable to remove the parasitic demon'
+    },
+
+    philosophy: {
+      coreTenet: 'Fire is not destruction — it is transformation. The Pyrofiend does not burn things to ash. They return them to their original state: raw, formless, potential. Ash is not waste. Ash is the universe\'s memory of what something used to be.',
+      relationship: 'Scathrach, the Ashen Sovereign, is a parasitic demon-intelligence from the infernal deep. It does not possess the Pyrofiend — it rents them. The relationship is contractual: the demon provides power, and the Pyrofiend provides a body through which the demon can experience the material world. Scathrach is patient, ancient, and deeply curious about mortality. It finds humans fascinating in the way a scholar finds a dying insect interesting.',
+      paradox: 'The Pyrofiend is most powerful when they are closest to permanent death. Every point of Inferno Veil brings them closer to Scathrach\'s embrace — and closer to being consumed entirely. At Veil 9, they have exactly three turns before they cease to exist, their body becoming a permanent conduit for the Ashen Sovereign. The power is intoxicating; the price is oblivion. Every Pyrofiend must decide exactly how much they are willing to burn for victory, knowing that the final flame will be themselves.'
+    },
+
+    currentCrisis: `Scathrach is calling in all its debts simultaneously. The Ashen Sovereign has communicated to every living Pyrofiend — telepathically, simultaneously, in a voice that smelled of sulfur — that it intends to close its mortal contracts. All of them. At once.
+
+The Pyrofiends of Sundale are in chaos. Some believe Scathrach is preparing for a war and needs its full strength returned to it. Others believe the demon has simply grown bored and wants to collect its vessels. A third faction — the devout — believe Scathrach is testing their faith, and that those who refuse the call will be rewarded. They are gathering at the Emberspire caldera for a final convocation. No one knows what happens when a demon collects a contract. No Pyrofiend has ever survived to describe it.`,
+
+    meaningfulTradeoffs: `A Pyrofiend cannot touch anything without burning it. Their body runs hot — not dangerously so for metal or stone, but anything organic: wood, paper, cloth, skin. They cannot hold a book without charring the cover. Cannot embrace a lover without leaving marks. Cannot eat food that has not been prepared with their specific tolerance in mind. They live in a world of carefully managed contact, wearing thick gloves and insulated clothing even in the heat of Sundale. Physical intimacy is a logistical nightmare. Affection is measured in millimeters of clearance.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Convocation Grounds',
+        locationId: 'emberspire',
+        description: 'A vast, flat expanse of volcanic glass at the base of Emberspire, where Pyrofiends gather for their ritual convocations. The ground is hot enough to melt leather boots — Pyrofiends walk barefoot here, their soles callused by years of thermal exposure. The Convocation Grounds are where Scathrach\'s voice is loudest, and where the final contracts will be fulfilled.',
+        purpose: 'Ritual gathering ground for Pyrofiend ceremonies and contract negotiations',
+        status: 'Active — the Final Convocation is imminent'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

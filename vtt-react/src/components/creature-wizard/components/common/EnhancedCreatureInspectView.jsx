@@ -14,13 +14,13 @@ import { getAbilityIconUrl, getCustomIconUrl, getIconUrl } from '../../../../uti
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../constants/skillDefinitions';
 import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
 import { calculateStatModifier } from '../../../../utils/characterUtils';
-import { showSkillRollNotification } from '../../../../utils/skillRollNotification';
 import useCreatureStore from '../../../../store/creatureStore';
 import useGridItemStore from '../../../../store/gridItemStore';
 import useGameStore from '../../../../store/gameStore';
 import useChatStore from '../../../../store/chatStore';
 import useInventoryStore from '../../../../store/inventoryStore';
 import useItemStore from '../../../../store/itemStore';
+import useDiceStore from '../../../../store/diceStore';
 import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
 import { calculateEffectiveMovementSpeed } from '../../../../utils/conditionUtils';
@@ -207,7 +207,10 @@ const formatAbilityType = (type) => {
 };
 
 // Calculate soak die based on armor value (same logic as character sheet)
+// NOTE: Creatures do not use equipment-based DR/soak. This is kept for
+// backward compatibility with any legacy creature data that may have armor values.
 const getSoakDieFromArmor = (armorValue = 0) => {
+  if (!armorValue || armorValue <= 0) return '—';
   const armor = Math.max(0, Math.floor(armorValue));
   if (armor < 5) return '—';
   if (armor <= 9) return '1d4';
@@ -865,38 +868,10 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           })
       },
       defensive: {
-        title: 'Defensive Statistics',
-            icon: getCustomIconUrl('Utility/Scaled Armor', 'abilities'),
-        description: 'Defensive capabilities and survivability',
+        title: 'Resources',
+            icon: getCustomIconUrl('Healing/Red Heart', 'abilities'),
+        description: 'Vital resources and survivability',
         stats: [
-          {
-            label: 'Armor',
-            value: creature.stats.armor || 10,
-            tooltip: true,
-            icon: getCustomIconUrl('Utility/Scaled Armor', 'abilities'),
-            description: 'Defense against physical attacks'
-          },
-          {
-            label: 'Passive DR',
-            value: Math.floor((creature.stats.armor || 10) / 10),
-            tooltip: true,
-            icon: getCustomIconUrl('Utility/Golden Shield', 'abilities'),
-            description: 'Damage reduced automatically each hit (Armor ÷ 10, rounded down)'
-          },
-          {
-            label: 'Soak Die (Defend)',
-            value: getSoakDieFromArmor(creature.stats.armor || 10),
-            tooltip: true,
-            icon: getCustomIconUrl('Utility/Golden Shield', 'abilities'),
-            description: 'Bonus reduction you roll when you take the Defend action'
-          },
-          {
-            label: 'Dodge',
-            value: Math.round(Math.floor((creature.stats.agility || 10) / 3) || 0),
-            tooltip: true,
-            icon: getCustomIconUrl('Utility/Speed Dash', 'abilities'),
-            description: 'Chance to avoid attacks entirely'
-          },
           {
             label: 'Max Health',
             value: Math.round(creature.stats.maxHp || creature.stats.hitPoints || 0),
@@ -910,6 +885,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             tooltip: true,
             icon: getCustomIconUrl('Utility/Glowing Orb', 'abilities'),
             description: 'Maximum mana points'
+          },
+          {
+            label: 'Max Action Points',
+            value: Math.round(creature.stats.maxActionPoints || creature.stats.actionPoints || 0),
+            tooltip: true,
+            icon: getCustomIconUrl('General/Sword', 'abilities'),
+            description: 'Maximum action points per turn'
           }
         ]
       },
@@ -1382,18 +1364,20 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // Roll on a skill table
   const rollSkillTable = (skill, skillId) => {
     const tableId = getCurrentRollableTable(skill, skillId);
-    const table = ROLLABLE_TABLES[tableId];
-    if (!table) return;
+    if (!tableId) return;
 
-    const dieSize = parseInt(selectedDie.substring(1));
-    const roll = Math.floor(Math.random() * dieSize) + 1;
-    const result = table.table.find(entry =>
-      roll >= entry.roll[0] && roll <= entry.roll[1]
-    );
-
-    if (result) {
-      showSkillRollNotification(roll, result, skill.name);
-    }
+    const diceStore = useDiceStore.getState();
+    diceStore.clearSelectedDice();
+    diceStore.addDice(selectedDie, 1);
+    diceStore.startRoll({
+      type: 'skill',
+      skillId,
+      skillName: skill.name,
+      rollType: 'table',
+      tableId,
+      dieKey: selectedDie,
+      characterName: creature?.name || 'Creature'
+    });
   };
 
   // Toggle category collapse state
@@ -1913,7 +1897,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
         // Roll for drop chance
         const roll = Math.random() * 100;
-        const dropChance = item.dropChance || 100;
+        const dropChance = item.dropChance || 30;
 
         if (roll <= dropChance) {
           const tile = emptyTiles[usedTiles.length];

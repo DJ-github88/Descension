@@ -21,6 +21,13 @@ export const DREADNAUGHT_DATA = {
     subtitle: "The Ironclad Furnace",
     illustration: "/assets/images/classes/dreadnaught_illustration.png",
     illustrationCaption: "A Groven Dreadnaught stone-troll sentinel with a massive stone shield.",
+    originStory: `The vertical bridges of the Cragjaw Peaks are spans of bone and rope, hanging over blizzards that swallow both sound and direction. When the smoothing plague first swept through the Fexric vats, the Groven troll-kin broke their alchemical chains and claimed these bridges as their sanctuary. Yet, during the War of Thousand Screams, the blue-fleshed Skreika descended from the northern fjords, threatening to sweep the refugees into the bottomless rifts of the Peaks.
+
+In that hour of ruin, a Skald blacksmith named Vaelen Bloodhammer took the heavy brass plates of the Frozen Archive's heating pipes and welded them directly onto the skin of his frontliners. He mounted alchemical steam-pistons to their limbs, powered by alchemical coal-boilers mounted to their spines. These warriors marched back into the blizzard, belching black soot and superheated steam, shrugging off the Skreika's icy claws to anchor themselves to the crumbling spans.
+
+This was the birth of the Dreadnaught — a calling that transforms the body into a steam-powered tomb. The constant heat of the combustion engine blisters the skin, and the crushing weight of the iron plates causes severe skeletal fatigue, slowing the wearer to a methodical, unstoppable advance.
+
+You are the iron wall between your kin and the freezing dark. Let the storm howl and the enemy strike. You are the shield of the Peaks, and your resolve is welded to the stone.`,
 
     quickOverview: {
       title: "Quick Overview",
@@ -35,20 +42,53 @@ export const DREADNAUGHT_DATA = {
 **The Fatal Flaw**: The Iron Tomb. The slowest class in the game, completely incapable of stealth, swimming, or fitting through narrow spaces. Trap-iron makes you highly conductive, giving you catastrophic 100% vulnerability to Lightning (bypasses armor) and Cold (roots pistons).`,
     },
 
-    description: `The Dreadnaught is a dark, heavy warrior permanently entombed within a massive, soot-blackened suit of steam-powered iron armor. Powered by an internal combustion boiler fueled by coal, blood, or the screams of trapped souls, their every movement is a grinding agony of screeching gears and boiling steam. They do not fight for glory; they fight to vent the roaring pressure in their chest before it burns them to ash. They are less of a soldier and more of a walking siege engine, leaving a trail of melted stone, crushed bone, and thick, choking soot.`,
+    description: `The Dreadnaught is a colossal, steam-belching juggernaut of the frontlines — a warrior permanently sealed inside hundreds of pounds of superheated, thick iron plating. They do not dodge; they endure. Powered by a combustion engine mounted to their spine that runs on coal, blood, or trapped souls, the Dreadnaught converts incoming trauma into steam pressure. Their resource — **Dark Resilience Points** — accumulates with every blow absorbed, allowing them to vent superheated steam to incinerate nearby foes or overload their pistons for bone-shattering melee strikes.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `To be a Dreadnaught is to accept a permanent, agonizing confinement. There is no removing the iron tomb; the seams are welded shut, the pistons bolted directly into the collarbones and spine. The smell of burning fat, boiling blood, and sulfur clings to them like a tragic dirge. 
+      content: `**HISTORY: THE GENESIS**
+The dreadnaught's immovable defense was forged on the precipitous bridges of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>. A heavy-scaled Groven warrior named **Vance** anchored himself to a crumbling span during a blizzard, shielding a refugee caravan from a howling wind-gap.
 
-In roleplay, they are grim, tragic sentinels whose voices sound like grinding sheet metal and deep, resonant iron pipes. They speak in slow, deliberate gasps, their words punctuated by the rhythmic hiss of release valves. They are outcasts who have traded their humanity and their flesh to become unbreakable walls of molten iron, carrying their own blazing hell in their chest.
+The price of this absolute resilience was severe skeletal fatigue. By forcing his muscles to calcify into dense plates, Vance's joints grew rigid, permanently reducing his speed and rendering him vulnerable to sudden kinetic impacts.
 
-Common Dreadnaught archetypes include:
-- **The Engine Slave**: Welded into the suit by sadistic masters to serve as a living siege engine.
-- **The Soul-Bound Sentry**: Sustained by a furnace that consumes the souls of their fallen enemies to keep them from dying.
-- **The Molten Zealot**: A fanatical warrior who believes that purification only comes through superheated self-immolation.
-- **The Rusty Exile**: A wandering colossus whose iron shell has begun to decay, desperate for grease and heat to stay active.`,
+**CITIES & CIVIL RECEPTION**
+Dreadnaughts are given places of honor as sentinels along the <LoreLink termId="cragjaw-peaks">Ancestor-Spans</LoreLink> and the gates of Greymark Keep.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="groven">Morgh Groven</LoreLink> and the armored human defenders of the north.
+
+**NOTABLE FIGURES**
+* **Vance the Immovable**: The troll-kin who became a living furnace-shield to protect the refugee spans.
+* **Vaelen the Welded**: A Fexric guild-engineer who created the steam-piston armor to defend the vertical gates.`
     },
+
+    signatureQuote: {
+      text: '"They call me slow. They call me dumb. They call me an iron coffin with legs. And then the Skreika charge, and they hide behind me. I am still holding the line. I will always hold the line."',
+      speaker: 'Vaelen the Welded',
+      context: 'Spoken to an Atropolis clerk processing his death-benefits after the Battle of Frostmaw Pass'
+    },
+
+    philosophy: {
+      coreTenet: 'Speed is a lie. Agility is a myth. The only thing that matters on a battlefield is who is still standing when the killing stops. The Dreadnaught does not dodge. They do not retreat. They advance, one steam-powered step at a time, and the enemy breaks against them like waves against a cliff.',
+      relationship: 'The Dreadnaught\'s power comes from combustion — coal, steam, and alchemical pressure. Their armor is not worn; it is inhabited. The furnace strapped to their back is a living thing that must be fed, stoked, and vented. A Dreadnaught without fuel is a Dreadnaught who will die in their own armor, unable to move, cooked alive by the cooling plates.',
+      paradox: 'The Dreadnaught is the most defensively powerful class in Mythrill — and the most vulnerable. They can withstand a direct hit from a glacier-wyrm, but they cannot outrun a single unarmored opponent. Their armor is their strength and their prison. A Dreadnaught who falls in battle cannot get up without assistance. A Dreadnaught whose furnace floods cannot escape. They are the ultimate line of defense, but they need the people behind the line to survive.'
+    },
+
+    currentCrisis: `The coal-seams under the Cragjaw Peaks are running out. The Dreadnaught furnaces were designed to burn a specific grade of mountain coal that is now 80% depleted. The remaining supply is being rationed, and the Dreadnaughts are facing an impossible choice: reduce their operational capacity, or find an alternative fuel.
+
+Alchemical substitutes exist, but they burn hotter and faster — they damage the furnaces and shorten the armor\'s lifespan. Some Dreadnaughts have begun experimenting with Void-infused coal, supplied by the Cult of Forgotten Shadow. The Void-coal burns cold, produces more pressure, and leaves no ash. It also whispers to the Dreadnaught when they are alone in their armor. The Steel-Bound Council has forbidden Void-coal use, but enforcement is impossible when the alternative is sitting idle while Skreika attack.`,
+
+    meaningfulTradeoffs: `A Dreadnaught cannot take off their armor alone. The plates are bolted, riveted, and welded to a frame that requires two assistants to remove. This means Dreadnaughts cannot sleep alone, cannot bathe alone, cannot use a privy alone. They live their lives dependent on others for basic bodily functions. The armor becomes a second skin — and like real skin, it cannot be shed. Dreadnaughts who retire often suffer severe psychological trauma from the sudden lack of pressure and heat. Some never leave the armor at all, dying in their furnaces years after their last battle.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Foundry-Forges',
+        locationId: 'cragjaw-peaks',
+        description: 'A network of subterranean forge-chambers built into the geothermal vents of the Cragjaw Peaks, where Dreadnaught armor is forged and maintained. The heat is unbearable to anyone not furnace-bonded — the air itself seems to burn. Dreadnaughts come here to repair their plates, replace their rivets, and mourn the friends whose armor was carried back empty.',
+        purpose: 'Armor forge, repair yard, and Dreadnaught gathering hall',
+        status: 'Active — but the forge-fires are burning lower as coal supplies dwindle'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

@@ -17,6 +17,11 @@ export const TITAN_DATA = {
 
   // Overview section
   overview: {
+    originStory: `The sentinel Korr stood watch along the crumbling lava paths of Emberspire during the War of Thousand Screams, holding back the glacier-wyrms with a massive obsidian pillar. To stand against the freezing winds, he drew the volcanic gravity of the caldera directly into his bones.
+
+The volcanic gravity deformed his muscle structure, cracking his skin like basalt. The Titan requires continuous proximity to geothermal heat to prevent freezing solid; if he stays in the cold for too long, his joints calcify into immovable stone, requiring constant shifts in the Harath-Vault.
+
+Wield the mountain. You are the basalt anchor of the badlands, and the earth bends to your strength. Crush them before the frost claims you.`,
     title: "The Titan",
     subtitle: "The Ossified Juggernaut",
     illustration: "/assets/images/classes/titan_illustration.png",
@@ -39,10 +44,47 @@ export const TITAN_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `To be a Titan is to endure a tragic, slow petrification. The bone-stitch ritual binds your soul to the crushing gravity of the earth. Every time you channel your mass, your bones fracture, splinter, and heal at hyper-accelerated speeds, filling your ears with the sickening crunch of grinding calcium. In the towns and villages, you are viewed as a lumbering freak—a calcified golem of flesh whose joints bleed dust. You do not fight for glory, but for the desperate, tragic survival of those you body-block with your fossilized ribs.
+      content: `**HISTORY: THE GENESIS**
+The titan's core pressure was forged in the volcanic throat of Emberspire in <LoreLink termId="sundale">Sundale</LoreLink>. An Emberth sentinel named **Korr** stood sentinel along the molten pathways, absorbing the volcanic heat into his own skin. The price of this thermal sentinel was basalt-cracking skin. Korr's skin cracked like basalt, requiring continuous shifts near geothermal vents to keep from freezing solid.
 
-Their calcification attunements manifest visually as horrifying physical changes: blistering solar heat radiating from bleached marrow (Marrow-Burn), a cadaverous outer shell of dead bone-crust (Pale Tomb), a space-bending distortion field pulling dust into their heavy skeleton (Crushing Core), fossilized rock-muscle that splits skin to show stone-slate (Fossilized Tomb), or razor-sharp bone spurs tearing through flesh (Flayed Gale).`,
+**CITIES & CIVIL RECEPTION**
+Titans are highly celebrated as guardians of the great forge and the Solbrand in the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>.
+
+**RACES & CULTURAL AFFILIATION**
+The class is exclusively practiced by the <LoreLink termId="emberth">Korr Emberth</LoreLink>.
+
+**NOTABLE FIGURES**
+* **Korr the Unyielding**: The first Titan who stood watch with an obsidian pillar for three days in the ashfall.
+* **Malkar the Obsidian Core**: First to master the gravitational stabilization of the caldera chambers.`
     },
+
+    signatureQuote: {
+      text: '"Volcanic glass does not shatter. Stone does not tire. Mountains do not retreat. I am not a warrior. I am geography."',
+      speaker: 'Korr the Unyielding',
+      context: 'Spoken to a glacier-wyrm that was trying to push him off the Caldera Path; the wyrm failed'
+    },
+
+    philosophy: {
+      coreTenet: 'The body is a weapon, but the skeleton is the foundation. A Titan does not build muscle — they build density. They do not strike harder — they simply become harder to move. The best defense is immovability, and the Titan is the immovable object made flesh.',
+      relationship: 'A Titan\'s power comes from gravitational mass — not their physical weight, but their spiritual anchor. They draw the weight of the earth into their bones, becoming denser, heavier, more substantial. The relationship is geological: the Titan is a mountain that has learned to walk. Their Calcification Mass is not an energy they generate but a substance they accumulate, pulled from the deep earth through sheer force of will.',
+      paradox: 'The Titan becomes stronger by becoming more stationary. Their most devastating abilities require them to stop moving entirely — to plant their feet and become a structure. A Titan at full Calcification is immovable, almost indestructible, and completely dependent on their allies for mobility. They are the ultimate anchor and the ultimate burden. They cannot be moved, and they cannot move themselves.'
+    },
+
+    currentCrisis: `The geothermal vents that feed the Titans are cooling. The Titan tradition is built on access to volcanic gravity — the unique geomantic pressure found only near Emberspire\'s magma chambers. For reasons the Emberth priests do not fully understand, the pressure is decreasing. The vents that have burned for eight centuries are sputtering.
+
+Titans who trained at these vents are finding that their Calcification Mass deteriorates faster than they can rebuild it. They are literally losing mass — their bones are becoming less dense, their anchor weaker. The Emberth priests have proposed relocating the Titan training grounds to a site near the Cragjaw Peaks, where geothermal activity remains stable. But the journey would take months, and not all Titans are willing to leave the caldera that has sustained them for centuries. A schism is forming: the Caldera-Bound versus the Wanderers.`,
+
+    meaningfulTradeoffs: `To be a Titan is to be too heavy for the world. Ordinary structures cannot support them — they break chairs, crack stone floors, collapse wooden bridges. They must know the weight limits of every surface before they step on it. They cannot ride in boats without swamping them. Cannot walk across ice. Cannot be carried by anyone. Every aspect of life must be calculated around their mass. Most Titans develop a deep, almost obsessive awareness of structural engineering — they can look at a ceiling and tell you the exact maximum load it can bear. This is not expertise. It is survival.`,
+
+    classSpecificLocations: [
+        {
+        name: 'The Caldera Forge-Floor',
+        locationId: 'emberspire',
+        description: 'A flat expanse of obsidian directly over the Emberspire magma chamber, where the heat is intense enough to liquify bone. Titans come here to train, standing motionless for hours while the volcanic pressure seeps into their skeletons. The floor is cracked from centuries of heavy footfalls.',
+        purpose: 'Training ground for Calcification Mass accumulation',
+        status: 'Active — but the heat is decreasing, and the cracks are growing wider'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

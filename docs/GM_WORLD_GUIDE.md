@@ -41,7 +41,7 @@ Keth-Amar is now inside the binding — inside the vault it was never meant to e
 
 ---
 
-# PART II: REGIONAL REALPOLITIK & GEOGRAPHY
+# PART II: REGIONAL REALPOLITIK, GEOGRAPHY & CITIES
 
 Each of Mythrill's seven continents was shaped by a dark bargain struck between a noble family and the cosmic predator. These bargains determined the climate, the dangers, and the very soul of each region. No land is neutral. Every horizon is a contract with fine print written in frost and ash.
 
@@ -57,19 +57,25 @@ The Frostwood Reach is a continent of dense, transitional fog where warm volcani
 
 **The Dark Bargain:** The noble family of House Thalreth traded the region's **absolute spatial clarity** for an insulating, protective mist to keep the ancient forests and wildlife from freezing into glass. The price was the steady, inexorable decay of historical memory over generations.
 
-**The Coexistence & Friction**
+**The Seat of Power: Greymark Keep**
 
-Three distinct peoples share the Reach, and their coexistence is a study in armed paranoia. The **Thalren** humans — journal-keepers of House Thalreth, who chain written records to their belts because paper outlasts memory — dominate the settlements and trading outposts. They view everyone who cannot recite three generations of ancestry as a potential threat, and the fog has made paranoia a survival trait.
+Nestled in the center of the Reach is **Greymark Keep**, a sprawling, imposing fortress carved from wet grey peat-stone and walled in titanic, petrified ironwood trunks. Founded during the second century of the sunless era to shield the human lineages of House Thalreth, the keep serves as a sanctuary and an archive. Because the fog slowly consumes memory, Greymark has developed into a culture of desperate record-keeping. Scribe-sentinels patrol the catwalks, heavy leather-bound journals chained directly to their iron belts, their quills constantly scratching out lineage logs, tax records, and personal histories before the creeping fog hollows their minds. 
 
-The **Mimir** — secretive, tall, slender faceshifters who wear carved wooden masks they never remove in public — live in the deep canopy-holds and mountain aeries, hiding from a world that either refuses to believe they exist or pays fortunes for the masks off their dead. The Thalren fear them; the Mimir tolerate the Thalren with the weary patience of a people who have been hunted for their skin and have learned that visibility is death. Humans in the Reach often refuse to enter Mimir territories, and Mimir who enter human towns do so only in borrowed faces.
+Within the high-arched halls of the keep, the air is thick with the scent of pine oil, damp paper, and raw tallow candles. In the **Ledger Halls**, the central quarter of the city, citizens queue before the archivists to have their identities, marriages, and debts verified against the great family tapestries. To lose your journal in Greymark is to lose your legal existence. At the city's highest point sits the **Scribe's Tower**, where the grand tapestries of House Thalreth are tended. Beneath the keep, in the damp vaults known as **The Shallows**, the **Unwoven Mimir** and human outcasts operate a black market, exchanging bottled memories, stolen diary keys, and secret lineages in the shadow of wet stone.
 
-The **Briaran** — the hidden descendants of House Viridane — are the shadow beneath both. They live in the deepest moonlit groves where the protective fog thins and fae old laws still hold. The Thalren have forgotten them (the fog took that memory). The Mimir recognize them with the wary kinship of fellow hunted creatures. Both groups share the same forest but rarely the same clearing.
+**The Subrace Friction**
+
+Three distinct peoples share the Reach, and their coexistence is a study in armed paranoia. The **Thalren Humans** dominate Greymark Keep, clinging to their written chains and viewing anyone without a recorded lineage as a potential threat. 
+
+Living in the high branches above are the Mimir. The **Mask-Borne Mimir** are the high canopy aristocrats. They wear pristine, beautifully carved heartwood or storm-glass masks that they never remove in public, viewing shape-shifting as a private, highly ritualized statecraft reserved for nobility. They look down on the **Unwoven Mimir** of the forest floor, who wear cracked, salvaged masks made of pine or birch, or go completely maskless with painted skin. The Unwoven run the black markets of the Shallows, trading in memories and memories' absence, completely rejecting the high-born purity laws of the canopy. The **Mist-Woven Mimir** of the mountain aeries are the sentinels—wearing stone masks, they use their shape-shifting as a lethal tool of guerrilla warfare, acting as the eyes and ears of the Reach. 
+
+The **Briaran** — the hidden descendants of House Viridane — are the shadow beneath both. They live in the deepest moonlit groves where the protective fog thins and fae old laws still hold.
 
 **Localized Threats & Daily Realities**
 
 The Wyrd, that formless spiritual rot unleashed by Emberspire's eruption, finds rich material in the Frostwood Reach's folkloric imagination. Drawing from Germanic and Celtic traditions, it manifests as creatures born from the specific fears whispered around local hearths: the **Gref**, a face-trader that wears the stolen visages of its victims; the **Gambrel**, a creature born from broken oaths that hunts those who made promises they did not intend to keep; and **the Revel**, a fae court whose celebration began before the sun died and has never ended, whose dancers pull travelers into a revelry that consumes decades in a single night.
 
-The Hunters — mercenary bands from the eastern kingdoms armed with detection magic and silver weapons — periodically sweep the Vales, seeking Mimir masks for black-market collectors. The Briaran live in constant fear of discovery by the seven noble houses that spent centuries erasing their name from history. And the fog itself remains the most patient predator: it steals memory incrementally, and a Thalren who loses their journal loses everything they have ever been.
+The Shard of the Monolith is interred deep within the Greymark lineage-tapestry archive, its silent hum vibrating through the parchment vaults.
 
 ---
 
@@ -77,23 +83,29 @@ The Hunters — mercenary bands from the eastern kingdoms armed with detection m
 
 **The Regional Landscape & Current Vibe**
 
-Nordhalla is a brutalist cathedral of ice and stone — a blinding-white tundra sliced by towering black fjords where the temperature never rises above freezing. The glaciers were halted mid-advance by the dark bargain, frozen in place like a wave that will never break. The sky is a pale, washed-out grey that has not seen true sunlight in eight centuries. Wind-carved ice sculptures — the flash-frozen dead of a civilization that perished before the Hrym were a people — stand in silent streets beneath the glacier walls.
+Nordhalla is a brutalist cathedral of ice and stone — a blinding-white tundra sliced by towering black fjords where the temperature never rises above freezing. The glaciers were halted mid-advance by the dark bargain, frozen in place like a wave that will never break. The sky is a pale, washed-out grey that has not seen true sunlight in eight centuries. Wind-carved ice sculptures — the flash-frozen dead of a civilization that perished before the Skald were a people — stand in silent streets beneath the glacier walls.
 
 > *"The south calls this place a wasteland. The south has never understood that some things grow best in the cold."*
 
 **The Dark Bargain:** House Skalvyr bargained to halt the grinding advance of massive glaciers that threatened to crush their mountain keeps. Keth-Amar froze the ice sheets permanently in place — but decreed that **summer would never return to the north**.
 
-**The Coexistence & Friction**
+**The Seat of Power: The Frozen Archive**
 
-The **Skald** humans of House Skalvyr — endurance-purists who measure worth in cold-resistance and unbroken bloodlines — rule the fjord-keeps. They view the **Hrym**, the frost-born viking people forged from the Hunger Pact, with a complicated mixture of respect, debt, and simmering resentment. The Skald owe the Hrym blood-debts from the War of Thousand Screams, when Hrym warriors held the Frostgate Pass alone while Skald reinforcements arrived late and withdrew at the first killing frost. The debts are acknowledged but never paid — a guilty silence that poisons every diplomatic exchange.
+Carved into the sheer face of a titanic, mile-high glacier in the Valley of Ymir sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead ten-thousand-year-old civilization. The city is a masterpiece of prehistoric clockwork and runic engineering, its monumental brass domes, vaulted archways, and basalt streets preserved perfectly inside the deep ice sheets. It was discovered and reclaimed by the Skald Rune Keepers three centuries ago. The Archive is not a traditional city of trade; it is a massive, echoing library-fortress where machines built by hands that predate human memory continue their ten-thousand-year labor towards mysterious, cold calculations.
 
-The Hrym themselves, breathing frost even in southern heat, live in the hollow bones of the **Frozen Archive** — a dead civilization's capital, flash-frozen mid-calamity, its ancient machines still humming after ten thousand years. They do not ask "Who is your mother?" because the Milk-Grief — an inherited cold that drains mothers of warmth during childbirth — kills nearly half of Hrym mothers within the first year. Asking the question is asking "How did you kill her?"
+Within the Archive, the air is freezing, dry, and smells of old brass and ozone. High walkways of green-patinated copper span the icy chasms between glacier walls. In the **Runic Vaults**, scholars scrape away sheets of frost to read the rotating brass cylinders and light-scrolls preserved in the ice. At the city's gates is **The Fjord-Gate**, a massive basalt fortification carved directly into the black cliffs to guard the sea lanes. Deep below, in the geothermal trenches known as **The Bloodhammer Sump**, Berserkers and Fexric engineers maintain roaring coal-furnaces that power the Archive's heating pipes, belching thick black soot into the cold air.
+
+**The Subrace Friction**
+
+The **Skald Humans** of House Skalvyr — endurance-purists who measure worth in cold-resistance and unbroken bloodlines — rule the fjord-keeps. They view the frost-touched **Skald** with a complicated mixture of respect, debt, and simmering resentment. 
+
+The Skald themselves are divided by three bloodlines. The **Rune Keepers** occupy the libraries of the Frozen Archive, devoting their lives to learning the ancient technology. They cover their bodies in inscribed runes, each rune representing a personal memory traded to the Archive in exchange for knowledge. The **Bloodhammer** are the warriors who inhabit the lower sumps. Evolving from the first survivors of the Hunger Pact, they carry the Pact as a burning physical rage, channeling ancestral starvation into frontline combat. They view the Rune Keepers as cold, memoryless shells who have traded away their souls for dead machines. Pushed to the freezing margins of both are the **Frostbound** — gelid-born infants who survived the Milk-Grief (an inherited cold that drains mothers during childbirth) but emerged permanently colder, their flesh turning pale blue and brittle. They live in the Gelid-Caverns, suspicious of both libraries and forge-halls.
 
 **Localized Threats & Daily Realities**
 
 Nordhalla's Wyrd draws from Norse and Alpine folklore, producing creatures of frozen terror: the **Skreika**, blue-fleshed drowned warriors who crawl from the black fjords to drag the living into the icy tides; the **Rimor**, a hearth-parasite that infests the one warm place in a Nordhallan home and slowly consumes the family's ability to feel warmth; the **Stel**, a glacier's memory given form — a creature of compacted ice and stolen moments that replays the last seconds of everyone who ever died inside it.
 
-The frost lords — ancient Wyrd-entities that descended during the First Breaking, before memory was written — are stirring again beneath the eternal ice. The Hrym's Rune Keepers have recorded changes in the Archive's resonance: a hum beneath the ice that changes pitch when something stirs deep below. And somewhere in the halls the Hrym have never entered, doors still lock from the inside, lights still flicker, and machines built by hands that predate human memory continue their ten-thousand-year labor toward purposes no living being understands.
+The Sundered Monolith of the region rests within the sealed, lightless central hall of the Frozen Archive, humming an increasingly erratic frequency that makes the ancient brass cylinders rattle in their sockets.
 
 ---
 
@@ -107,19 +119,23 @@ Sundale is a volcanic desert of ashfall, obsidian rivers, and smoldering badland
 
 **The Dark Bargain:** Sundale's bargain is the ur-bargain — the original sin from which all others descend. Sol was bound beneath this continent. Emberspire is the wound through which Keth-Amar breached the seal. The predator now feeds on Sol's embers from inside the binding, and the region's noble family, House Solvan, watches their ancestral lands slowly die beneath ashfall.
 
-**The Coexistence & Friction**
+**The Seat of Power: The Harath-Vault**
 
-The **Emberth** — broad-shouldered, deliberate, sun-reverent forge-clans — are the original children of Sundale. Forewarned by Sol's dying prophecy, they excavated vast thermal tunnel networks and were already underground when the surface froze. They emerged after Emberspire's eruption to reclaim their ancestral ashlands. Their society is organized into forge-clans bound to volcanic calderas, each clan tracing its lineage to one of the original Sun-Speakers who received the prophecy of descent.
+Carved radially into the volcanic throat of a dormant secondary caldera three miles from Emberspire sits **The Harath-Vault**, the massive subterranean capital of the Emberth forge-clans. Carved out by the Sun-Speakers centuries before the sun's death, the Vault is a titanic, sprawling underground city of craftsman, miners, and priests. Grated catwalks are suspended above hot, molten metal rivers that rush through the center of the pathways, acting as both the source of the city's immense heat and its primary defensive barrier. The sounds of hammers falling rings out through the hustle and bustle of the stone avenues.
 
-The **Solvarn** humans of House Solvan share the ashlands with the Emberth in an uneasy coexistence. The Solvarn are martyrs — they stay in the dying capital because leaving would mean admitting their ancestors' sacrifice to Keth-Amar was meaningless. The Emberth tolerate them with the quiet pity of a people whose god spoke to them directly. The Solvarn resent the Emberth for their certainty and need the Emberth for their forge-craft. Neither group acknowledges the depth of the dependency.
+At the Vault's absolute center is **The Great Forge**, where oversized obsidian anvils are worked diligently by craftsmen who barely break a sweat under the unbearable heat. In the inner ring sits **The Harath-Chamber**, a massive monastic sanctuary of pure basalt where the **Korr Sun-Speakers** kneel in six-hour shifts, practicing the Vault-Breath in absolute silence around the **Solbrand** — the stone bowl containing the last eternal ember of Sol. The outer rings contain the residential sectors and the alchemical laboratories of the **Fexric**, who trade alchemical reagents and gear-work for Emberth obsidian.
 
-The **Fexrick** maintain a trade presence through geothermal tunnel networks that connect Sundale to the Cragjaw Peaks far to the north. And the **Neth** operate a crossroads outpost in Sundale — one of the precious few locations housing a copy of the First Contract, the document that sustains their immortal existence — staffed by silver-skinned archivists who regard the volcanic wasteland with the cool dispassion of a people who find all surface temperatures equally tedious.
+**The Subrace Friction**
+
+The **Solvarn Humans** of House Solvan share the ashlands with the Emberth in an uneasy coexistence, staying in the dying surface capital because leaving would mean admitting their ancestors' sacrifice to Keth-Amar was meaningless. 
+
+The **Emberth** themselves are split by a deep geological and philosophical chasm. The **Korr** of the Deep-Vault are the priestly elite. Evolving pitch-charcoal skin, elongated lungs to sip thin air, and bulbous eyes sensitive to heat, they have tended the Solbrand for eight centuries. They believe Sol's silence is a sacred language, and they advocate for absolute patience, conservative faith, and silent devotion. The **Thrask** of the surface badlands are the rangers, hunters, and miners. Evolving bronze, wind-scarred skin and thick muscle, they live in the volcanic frontier calderas. They are pragmatic, swift, and highly skeptical of the Korr's wait-and-see policy. Having noticed that the volcanic vents are cooling and the ash-growth is changing, the Thrask view the Korr's holy vigil as a stagnant, self-destructive lie that will freeze them all. The **Unwoven** — heretical Emberth who have ritually defaced their forge-marks — scour the wastes for Sundered Monoliths, believing that only by sealing the breach can Sol be reborn.
 
 **Localized Threats & Daily Realities**
 
 Sundale's Wyrd draws from Mesopotamian and Egyptian folklore, producing beings of fire and judgment: **the Cinder**, a lost Sun-Speaker child who walked into Emberspire's caldera and emerged as something that burns truth into the flesh of liars; the **Ash-Woven Oracle**, a creature of compacted ash and prophecy that speaks in the voices of every person it has consumed; and the **Husque**, a sympathy-wound of Keth-Amar's breach — a mobile fissure in reality that leaks the predator's hunger into the surrounding landscape.
 
-The greatest threat, however, is not Wyrd-born. It is the slow, inexorable dimming of the **Solbrand** — the eternal ember believed to be Sol's last conscious fragment. The tending-clan entrusted with the Solbrand's care has known of the dimming for three generations and concealed it. The other forge-clans are beginning to splinter. The **Sunderer** faction believes the Solbrand was never Sol's gift at all — that it is Keth-Amar's tether, a feeding-line the predator left embedded in Emberth culture so it could consume their devotion alongside their god's embers. The **Unwoven** — Emberth who have ritually defaced their forge-marks — scour the world for Sundered Monoliths, believing that sealing the breach may allow Sol to finally complete the Deepening and be reborn. And the eldest Sun-Speaker, Thaeron, has not left the inner ring of the Harath-Vault in eleven years, staring into a dying ember and harboring a third theory he has never dared to speak aloud.
+The region's Sundered Monolith is embedded deep within the primary throat of Emberspire itself, visible only during the annual vent-calm when the volcanic smoke clears for a single hour.
 
 ---
 
@@ -133,19 +149,27 @@ The Iceheart Sea is not a frozen wasteland — it is a violent, churning fury of
 
 **The Dark Bargain:** House Mereval traded calm seas for **navigable routes** — certain currents always flow, certain channels between the ice sheets never freeze. The price: the sea never sleeps. Every voyage is a gamble the Iceheart intends to collect.
 
-**The Coexistence & Friction**
+**The Seat of Power: Merrowport & Ironjaw Port**
 
-The **Merryn** humans of House Mereval — pirates, storm-chasers, luck-worshippers — tattoo their contracts onto their skin because paper rots at sea. Their floating city of **Merrowport**, a shifting metropolis of lashed-together hulls anchored to a volcanic seamount, has never been conquered — largely because no one has ever been able to find it twice in the same place. The Merryn measure wealth in ships and luck in survived storms. Their loyalty is to the captain who keeps them alive, not to the bloodline that claims their allegiance.
+The Iceheart has two distinct hearts: **Merrowport** and **Ironjaw Port**. 
 
-The **Myrathil** — ethereal, foam-born amphibious sea-children spawned when Emberspire's volcanic heat met glacial meltwater — are the sea mother's experiment in personhood. With no parents, no bloodlines, and skin whose vein-colors shift with emotion, they are the most transparent people in Mythrill — and the most misunderstood. Merryn poets write of their "liquid eyes." Merryn nobles keep Myrathil lovers they will never marry. Merryn collectors pay fortunes for sea-glass beads, real or fake. The Myrathil tolerate this attention with the quiet grace of a people who have watched civilizations rise and fall on shorelines they once called home.
+**Merrowport** is a shifting, lawless, floating city of lashed-together galleon hulls, merchant ships, and derelict barges anchored to a massive, warm subterranean volcanic seamount. Because the seamount heats the water from below, Merrowport is the only major harbor that never freezes. It is a city of pirates, storm-chasers, and luck-worshippers where wealth is measured in survived voyages. The streets are wooden gangplanks that shift with the tide, lit by copper lanterns and the bioluminescent veins of the Myrathil who live in the berths below.
 
-The **Neth** control **Ironjaw Port** — a living ironwood dock-complex coaxed from the frozen cliff-face over three centuries, the only structure that can withstand the Iceheart's perpetual storm-cycle. The Merryn trade here because they must; the Neth tolerate the Merryn because the pirates bring goods from ports the Neth cannot reach. Neither side trusts the other, but trade routes are sacred, and the First Contract's copy at Ironjaw must be maintained.
+**Ironjaw Port** is the opposite — a monumental, cold-iron dock-complex grown directly out of the frozen northern cliffs over three centuries by the Neth pact-mages. Walled in petrified ironwood and fortified with colossal brass cranes, Ironjaw is a clinical, hyper-organized fortress of commerce. It is the only structure that can withstand the Iceheart's perpetual storm-cycle, serving as the primary trade gateway between the northern keeps and the southern calderas.
+
+**The Subrace Friction**
+
+The human fleets of House Mereval (the **Merryn**) dominate Merrowport, tattooing their contracts directly onto their skin because paper rots at sea. 
+
+They share the waters with the **Myrathil**, who are split by the waters that birth them. The **Breakers-Born Myrathil** (spawned where waves hammer the shore) are the diplomats, merchants, and poets who navigate Merrowport, serving as the face the land-folk see. The **Deep-Born Myrathil** (spawned in open ocean) are the mystics and sea-herders who live in the abyssal rifts. Evolving low-frequency communication, they find land-folk exhausting and are deeply troubled by the new thrumming of the sea-shard. The **River-Fed Myrathil** (spawned in brackish estuaries) are the inland scouts who follow freshwater rivers, often disguising themselves as human to explore cities the other subraces cannot reach. 
+
+The **Neth Velun** pact-lords run Ironjaw Port with legalistic coldness, frequently clashing with the chaotic Merryn captains over port-taxes and contract enforcement.
 
 **Localized Threats & Daily Realities**
 
 The Iceheart's Wyrd draws from Greek and West African/Yoruba folklore, producing creatures born from the fear of drowning, the fear of bad bargains, and the fear of what watches from below: the **Spume of the Drowned**, a memory-colony formed from the final thoughts of every sailor who ever went under; the **Brine**, a ghost-ferryman who offers passage to any port for a price the passenger does not understand until they've paid it; and **the Writ of Passage**, a sentient contract that drifts on the currents, binding anyone who reads it to terms written in a language that pre-dates human speech.
 
-The **Treakous Oceanic Rift** — a fissure in the seafloor where one of the seven Sundered Monoliths rests in absolute darkness — has changed its resonance. For generations, Deep-Born Myrathil Listeners hummed toward the abyss and received answers they did not share. Now the Shard thrums like a plucked string, and every Deep-Born within a hundred miles can feel it in their teeth. Some Listeners whisper that Keth-Amar has finally turned its attention to the pieces of the bargain it left scattered across the world. Others say the sea mother herself is calling the Shard — that she has decided, after millennia of patience, that the time for watching has passed.
+The regional Sundered Monolith rests at the bottom of the Treakous Oceanic Rift, thrumming a deep, low frequency that causes the teeth of every Deep-Born Myrathil within a hundred miles to ache.
 
 ---
 
@@ -159,23 +183,27 @@ The Cragjaw Peaks are a vertical wilderness — razor mountain ridges and bottom
 
 **The Dark Bargain:** House Tesshan traded **visibility for the eternal snow-veil** — a perpetual blizzard to hide their keeps from the starving hordes that swept across the lowlands when the world froze. The keeps survived because nothing could find them. The price: every landmark was buried. The Tessen have not seen the sky in eight generations.
 
-**The Coexistence & Friction**
+**The Seat of Power: Frostmaw Holdfast & The Spans**
 
-Three races share the Peaks, and their relationship is a study in creation, rebellion, and unresolved debt.
+The Peaks are governed from **Frostmaw Holdfast** and the precarious settlements of **The Spans**.
 
-The **Groven** — humanoid troll-kin, long-limbed and stone-scaled — control the bridges and charge tolls for passage. Descended from the ancient Thrumm and reshaped by Fexric alchemical serums (the "Smoothing Plague"), they shattered their vats in rebellion and fled into the upper crags. Their Ancestor-Spans are the only visible route through the mountains. Caravans that once crossed by a dozen paths now cross by one, and the Groven — patient, pragmatic, forever suspended between the ancient Thrumm they once were and the Fexric servitors they refused to become — are the gatekeepers of every pass between the frozen north and the volcanic south.
+**Frostmaw Holdfast** is a colossal, lightless subterranean vertical city of the Fexrick, descending thousands of feet around roaring geothermal chimneys. The city is a masterpiece of alchemical sumps and clockwork galleries, lit by volcanic soot-glow and the green hum of mineral furnaces. It is a hyper-industrial, paranoid fortress guarded by massive alchemical traps and subterranean gates. The Fexrick clans live in stratified tiers: the hereditary Kethrin guilds occupying the comfortable upper galleries, while the Clan-Free Drall salvage-folk live in the sumps below.
 
-The **Fexrick** — compact, gnomish subterranean engineers, the oldest continuous civilization on Mythrill (eight millennia) — dwell in the deep holdfasts below, maintaining machines they can no longer build, singing maintenance songs in syllables no living Fexric understands. They created the Groven and lost control of them. They created the Fexrick — a small, quicksilver-blooded species — entirely by accident and refuse to admit it. Their relationship with the Groven is a frozen standoff: trade occurs through intermediaries, but trust is a currency neither side possesses.
+**The Spans** are the opposite — vertical shanty-towns, toll-posts, and rope-bridges built directly onto the Ancestor-Spans by the Groven. Strung across bottomless whiteout chasms and anchored to the sheer mountain cliffs, these wooden and bone-woven settlements are the only surface thoroughfares in the region. They are cold, wind-blasted, and smell of ram-tallow and lichen-brew.
 
-The **Tessen** humans of House Tesshan remain in their buried keep, isolated for four hundred years, numbering perhaps two hundred survivors who purchase geothermal heat from the Fexric through pipes that run beneath the snow. They have never seen their suppliers. They have never asked what the Fexric look like.
+**The Subrace Friction**
 
-The **Thrumm** — the Groven's ancestral parent race, hulking stone-trolls of brutish intelligence — inhabit the deepest crags. They view the Groven with superstitious fear: their smoothed cousins smell wrong, think too fast, and carry the taint of the Fexric vats. The Groven protect Thrumm territories from the periphery but cannot live among them anymore.
+The relationship between the **Groven** and the **Fexrick** is a frozen standoff. The Fexrick alchemically created the Groven in their vats centuries ago and lost control of them during the Vat-Breakers' rebellion. 
+
+The **Groven** themselves are divided by the **Ladder of Purity**, an unspoken caste system. The heavier-scaled, deep-chested **Morgh Groven** are the bridge-builders, warriors, and laborers who live in the mid-crag warrens. The finer-scaled, longer-limbed **Ithran Groven** are the diplomats, toll-keepers, and councilors who live in the comfortable span-settlements. A Morgh cannot rise to council, and an Ithran rarely descends to the warrens. The mixed-caste **Murmur-Blooded** are outcasts belonging to neither, often serving as the most trusted bridge-tenders because they have no political allegiance. 
+
+The **Fexrick** are split between the **Kethrin** (hereditary guild engineers who hoard oral maintenance songs) and the **Drall** (self-taught scrap-folk who survive on alchemical runoff).
 
 **Localized Threats & Daily Realities**
 
 The Cragjaw's Wyrd draws from Japanese Yokai and Andean/Incan folklore, producing creatures born from the fear of thresholds, the fear of debt, and the fear of what the mountain remembers: the **Scrab**, a metal-eater that consumes the very tools the Fexrick depend on for survival; **the Yawn**, an incomplete bridge-creature that builds itself toward settlements, never arriving but never stopping; and **the Thrum**, the mountain's own consciousness — a vast, slow intelligence that predates all the races and has only recently begun to stir.
 
-The **Lost Brood** — Thrumm broodlings left behind in the deeper vats during the Vat-Breakers' rebellion — may still be alive, still being injected, still being molded by Deep Alchemists whose laboratories exist somewhere in the lightless abyssal tunnels beneath Frostmaw Crag. The debt has never been repaid. Every Groven carries the Vat-Sleep: a monthly dream of warm fluid and cold glass and the first scream that has never stopped echoing.
+The region's Sundered Monolith is sealed within a lightless alchemical chamber deep beneath Frostmaw Crag.
 
 ---
 
@@ -189,19 +217,25 @@ The Sundrift Vale is a wind-swept expanse of dead tundra grass stretching endles
 
 **The Dark Bargain:** House Ordavan traded **fertile soil for the endless migration** — the herds never stop, the grass always returns, no matter how many mouths feed upon it. The price: the sky went dark. The constellations were erased from the firmament above them.
 
-**The Coexistence & Friction**
+**The Seat of Power: The Synod-Hold & Mound-Camps**
 
-The **Ordan** humans of House Ordavan — herders, throat-singers, nomads who follow the migration route with the relentless rhythm of a people who have no home but motion — measure wealth in herds and legacy in song. They leave their old at the mounds when they can no longer ride, and the ancestor-song sung at each departure is never repeated until the migration circles back — which it may not do for a generation.
+The Vale has no permanent stone cities; its seats of power are the **Mound-Camps** and **The Synod-Hold**.
 
-The **Astril** — humble farmers and herders who volunteered as living vessels for the dying constellation-spirits of Sol's celestial court — are the most extraordinary people in the Vale and the most dangerous to know. Their skin bears luminous patterns that ebb with faith and emotion. The spirit within whispers constantly, remembers what Keth-Amar tasted like, and when an Astril dies, it seeks the nearest Astril with the purest faith — spawning an assassination economy governed by the desperate, unending performance of belief. The Ordan view the Astril with reverence and wariness in equal measure: the spirits are sacred, but the Luminarchy is terrifying.
+**The Mound-Camps** are massive, moving yurt-metropolises of the Ordan humans. They migrate continuously in the wake of the massive woolly-herd migrations, congregating seasonal-style around the giant, grass-covered **Ancestor Mounds** — ancient burial sites where the dead are left, and whose mounds hum with throat-sung chronicles. When the camps gather, the steppe is filled with the scent of fermented mare's milk, mutton fat, and the thunderous, miles-wide resonance of throat-singing.
 
-The **Neth** have petitioned the Astril Synod for access to bloodline records for three centuries — the Astril represent a form of contract (voluntary binding between mortal and celestial) that the Neth have never encountered. The Synod has refused every petition. The Neth continue to ask.
+**The Synod-Hold** is the only static structure — a magnificent, shimmering sanctuary of pure, light-refracting crystal-lattice constructed in the steppe's geographic center by the Astril. Lit from within by the luminous skin-patterns of the Astril priests, the Synod-Hold is a quiet, sacred observatory designed to preserve the lineages of the constellation-spirits carried in their blood.
+
+**The Subrace Friction**
+
+The **Ordan Humans** are herders and nomads who navigate by throat-sung ancestor-maps, viewing all settled peoples as weak and housebound. 
+
+They share the starless grasslands with the **Astril**, who are split by how they live with the constellation-spirits of Sol's celestial court nesting in their blood. The **Sylen Astril (The Open)** embrace the spirits, allowing the patterns to blaze bright across their skin and seeking absolute symbiosis, though they risk being **Over-Sung** (consumed entirely by the cosmic mind). The **Muren Astril (The Bound)** suppress the spirits through strict meditation, containing the star-light behind mental walls, though they risk catastrophic physical explosions of light. Pushed to the margins of both are the **Unlit** — Astril born without a constellation, carrying no patterns, no whisper, and no star-glow. The Synod views them as cursed, but because they are the only Astril who can lie without their skin glowing to betray them, the Unlit are used as the Synod's eyes, ears, and spies across the steppe.
 
 **Localized Threats & Daily Realities**
 
 Sundrift's Wyrd draws from Mongol/Turkic and Chinese folklore, producing creatures born from the fear of debt across generations and the fear of a sky that will never be full again: the **Lien**, a debt-tracker that remembers every broken promise made within a hundred miles and collects on terms the debtor did not know they had agreed to; the **Hungry Child**, the Wyrd-occupied echo of a lost Ordan girl who appears at campfires asking for stories about stars — and consuming those who have none to tell; and the **Sere-Khan**, a guilt-ridden judge who was once a mortal khan and now rides the steppe, trying cases brought by the dead against the living.
 
-The Sundered Monolith in the Sundrift Vale rests in an ancient burial mound — a site sacred to both Ordan and Astril. The Shard's resonance has changed, as it has elsewhere. The Astril's constellation-spirits writhe and recoil when near it, their luminous patterns screaming a warning that the vessels can feel but not interpret.
+The regional Sundered Monolith is buried deep within the oldest Ancestor Mound, its location erased from memory.
 
 ---
 
@@ -215,21 +249,27 @@ The Bryngloom Forest is a continent of contradictions: semi-frozen sinking bogs 
 
 **The Dark Bargain:** The Bryngloom's dark bargain is unique among the seven regions: it was not struck by a noble family but by the Neth's own ancestors — a dying clan of scribes who walked into the deep wood and presented a legal argument to the Keeper for their own survival. The argument was accepted. The Neth rose from the bog with silver skin, stilled breath, and a pact written in the blood of every descendant. They would be preserved in exchange for serving as the Keeper's living archive. Death became a renegotiated clause, not an ending.
 
-**The Coexistence & Friction**
+**The Seat of Power: Atropolis & The Sunken Spire**
 
-The **Neth** — tall, beautiful, silver-skinned immortals — dominate the Bryngloom's political and economic landscape. Operating from their living canopy-city of **Atropolis** (a cathedral-grove of ancient ironwood), they control the major trade routes and preservation techniques needed by every warm-blooded survivor. Their society is organized into three bloodlines derived from the original pact: the **Velun** arcanists (who cannot lie), the **Kessen** fate-weavers (who perceive the web of obligations connecting all living things), and the **Drun** (who severed their names from the First Contract and are legally non-existent under Neth law).
+The Bryngloom's power is split between the canopy city of **Atropolis** and the subterranean chambers of **The Sunken Spire**.
 
-The **Vreken** — compact, lantern-eyed, the Bryngloom's oldest inhabitants — share the forest with the Neth in cold, functional silence. Their eyes emit a steady bioluminescence, rust-amber or silver-white depending on bloodline, and they perceive "the trail" — residual light left by passage, death, and decay, invisible to all other races. Their society is organized around sunken gothic cathedrals lit by the perpetual glow of entombed ancestors. The Neth view the Vreken as archaic and sentimental — a people who surround themselves with glowing dead relatives when they could be running a trade empire. The Vreken view the Neth as spiritually bankrupt — death is a transaction to the silver-skinned, not a continuation. Neither defers to the other. Neither particularly wants to.
+**Atropolis** is the magnificent canopy-city of the silver-skinned Neth, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. The streets are suspended walkways of living branch and ghost-silk, lit by the pale, cold glow of memory-glass tablets. It is a city of lawyers, pact-mages, and merchants who view survival as a legal agreement. The air is quiet, smells of petrichor and old paper, and is governed by strict, silent contract protocols.
 
-The **Morren** humans of House Morrath — frail swamp-dwellers, generations deep in debt to the Neth — trade their labor and their memories for protection. Every Morren family has a contract they cannot repay, and the Neth's protection is the only thing standing between the Morren and the things that hunt in the bog. House Morrath administers the contracts, which makes them the Neth's most reliable collection agency, and the Morren hate them for it.
+**The Sunken Spire** is the inverted capital of the Vreken — a colossal cathedral and crypt carved four hundred feet down into a natural peat-stone sinkhole. Lit solely by the soft phosphorescence of entombed ancestors wrapped in living fungal shrouds, the Spire is a place of shadows, moisture, and the continuous, overlapping chant of the Veil-Speakers who sing the names of the dead to keep their light from fading.
+
+**The Subrace Friction**
+
+The **Neth** and the **Vreken** share the forest in cold, functional silence, trading fungal-lights and cold-iron tools but keeping their cultures entirely separate. 
+
+The **Neth** are divided into three bloodlines. The **Velun** are the pact-lords and arcanists. Evolving pure-silver skin and unable to lie, they govern the high libraries of Atropolis. The **Kessen** are the gamblers and weavers, reading the probability-web of the forest floor to manipulate trade and politics. The **Drun** are the severed outcasts. Evolving dull, leaden-grey skin, they burned their names from the First Contract. Immune to magic but legally non-existent under Neth law, they live in the canopy-sumps as mercenaries and smugglers.
+
+The **Vreken** are split by their fungal bonds. The **Clean Vreken** (rust-amber eyes) are immune to the addictive, euphoric "hush" of the Ghost-Mycelium. They occupy every seat on the crypt-council and the scriptoriums. The **Marked Vreken** (silver-white eyes) carry the volatile Ghost-Mycelium strain, granting them terrifying trail-sight but leaving them vulnerable to the hush. They are segregated into the **Over-Shanties** at the Spire's entrance, treated as an underclass. The western Marked covens have begun an open rebellion (The Bright-Speaking) to demand equality.
 
 **Localized Threats & Daily Realities**
 
-The Bryngloom's Wyrd draws from Slavic/Carpathian and Hindu/Vedic folklore, producing creatures born from the fear of debt that outlasts death and the fear of cycles that never close: **the Grandmother of the Bog**, an ancient figure of preserved moss and frozen peat who offers extensions on life in exchange for memories — always the most precious ones; the **Debt-Revenant**, a deceased debtor who rises from the bog to complete the terms of a broken contract, fully aware and unable to refuse; and **the Cycle-Eater**, a creature that consumes the reincarnation cycle itself, devouring not just a life but every iteration of that soul across all its past and future existences.
+The Bryngloom's Wyrd draws from Slavic/Carpathian and Hindu/Vedic folklore, producing creatures born from the fear of debt that outlasts death and the fear of cycles that never close: **the Grandmother of the Bog**, an ancient figure of preserved moss and frozen peat who offers extensions on life in exchange for memories; the **Debt-Revenant**, a deceased debtor who rises from the bog to complete the terms of a broken contract, fully aware and unable to refuse; and **the Cycle-Eater**, a creature that consumes the reincarnation cycle itself, devouring not just a life but every iteration of that soul across all its past and future existences.
 
-The **Over-Lit** epidemic ravages Vreken society from within. The Marked bloodline — those bonded to the Ghost-Mycelium fungal strain — are genetically vulnerable to addiction. Prolonged exposure to concentrated fungal glow induces "the hush," a euphoric state that eventually burns out the user's trail-sight and leaves them a hollow, perpetually glowing shell. The **Covenbane** — Marked Vreken who hunt their own fallen kin — are the only ones who can stop an Over-Lit before they become a danger to others, and the burden of killing kinsmen isolates them from both bloodlines.
-
-The Sundered Monolith in the Bryngloom rests at the bottom of a murky pool that has no bottom. Divers who descend come back up with water in their lungs and someone else's memories behind their eyes. The Neth have filed seventeen legal petitions to declare the pool a protected archive site. The Keeper has not ruled on any of them.
+The regional Sundered Monolith rests at the bottom of a bog-pool that has no bottom, leaking the memories of drowned divers into the peat.
 
 ---
 
@@ -255,7 +295,7 @@ The eighth house — **House Viridane** — is the wound in human history. The f
 
 **Proximal Relations**
 
-Humans are the connective tissue of Mythrill's economy — not because they are beloved, but because they are everywhere and they never stop moving. Thalren merchants trade with Mimir canopy-holds through intermediaries. Skald fjord-keeps maintain an uneasy cold-war detente with the Hrym. Tessen keep-dwellers purchase geothermal heat from the Fexric through pipes they have never seen. Merryn pirates trade at Ironjaw Port under Neth supervision. Morren villages owe contracts to Neth archive-houses. Ordan nomads pass through Astril territory during the migration season, exchanging herd-meat for spirit-blessed water.
+Humans are the connective tissue of Mythrill's economy — not because they are beloved, but because they are everywhere and they never stop moving. Thalren merchants trade with Mimir canopy-holds through intermediaries. Skald fjord-keeps maintain an uneasy cold-war detente with the Skald. Tessen keep-dwellers purchase geothermal heat from the Fexric through pipes they have never seen. Merryn pirates trade at Ironjaw Port under Neth supervision. Morren villages owe contracts to Neth archive-houses. Ordan nomads pass through Astril territory during the migration season, exchanging herd-meat for spirit-blessed water.
 
 ---
 
@@ -275,7 +315,7 @@ The mother-flame still burns in the oldest canopy-hold, but no birth has occurre
 
 **Proximal Relations**
 
-The Thalren humans of the Reach fear the Mimir's faceshifting abilities — a paranoia the Wyrd has weaponized into creatures that steal faces. Mask-hunters from the eastern kingdoms probe the Vales with detection magic, and black-market Mimir masks fetch fortunes in distant ports. The Frostbound Hrym — exiles from Nordhalla — share a grudging respect with the Unwoven Mimir: both peoples were cast out by their own kind and recognize each other's survival. The Mimir view the Briaran with wary recognition — two hunted peoples hiding in the same mist.
+The Thalren humans of the Reach fear the Mimir's faceshifting abilities — a paranoia the Wyrd has weaponized into creatures that steal faces. Mask-hunters from the eastern kingdoms probe the Vales with detection magic, and black-market Mimir masks fetch fortunes in distant ports. The Frostbound — exiles from Nordhalla — share a grudging respect with the Unwoven Mimir: both peoples were cast out by their own kind and recognize each other's survival. The Mimir view the Briaran with wary recognition — two hunted peoples hiding in the same mist.
 
 ---
 
@@ -295,7 +335,7 @@ The crisis of the Dimming has produced three ideological factions: the **Risen**
 
 **Proximal Relations**
 
-The Emberth and the **Hrym** share a deep, unspoken kinship — both were shaped by opposite extremes of the same catastrophe, one forged by volcanic fire, the other frozen by its absence. An Emberth in Nordhalla is as out of place as a Hrym in Sundale, and both recognize in the other the shape of their own survival. The **Astril** are a theological crisis for the Emberth: the Astril carry Sol's celestial ministers in their blood, and some Emberth revere them as sacred vessels while others despise them as servants who fled while Sol was entombed. The **Vreken** are silent kindred — the Solbrand and the Root-Veil are fragments of the same dying consciousness. The **Solvarn** humans share the ashlands in an uneasy dependency; the Fexrick trade gear-work for obsidian through deep-tunnel intermediaries.
+The Emberth and the frost-touched clans of the **Skald** share a deep, unspoken kinship — both were shaped by opposite extremes of the same catastrophe, one forged by volcanic fire, the other frozen by its absence. An Emberth in Nordhalla is as out of place as a Skald in Sundale, and both recognize in the other the shape of their own survival. The **Astril** are a theological crisis for the Emberth: the Astril carry Sol's celestial ministers in their blood, and some Emberth revere them as sacred vessels while others despise them as servants who fled while Sol was entombed. The **Vreken** are silent kindred — the Solbrand and the Root-Veil are fragments of the same dying consciousness. The **Solvarn** humans share the ashlands in an uneasy dependency; the Fexrick trade gear-work for obsidian through deep-tunnel intermediaries.
 
 ---
 
@@ -305,7 +345,7 @@ The Emberth and the **Hrym** share a deep, unspoken kinship — both were shaped
 
 **The Current State**
 
-The Fexrick are the oldest continuous civilization on Mythrill — eight millennia of underground industry. Compact and stocky, with pale green or mine-darkened skin and elaborate beards woven with copper wire, gears, and tools, every Fexric carries one subtle mechanical body replacement earned by mastering a craft. Their holdfasts descend around geothermal vents in tiered galleries, lit by volcanic glow and the hum of machines that have been running since before the invention of speech.
+The Fexrick are the oldest continuous civilization on Mythrill — three millennia of underground industry. Compact and stocky, with pale green or mine-darkened skin and elaborate beards woven with copper wire, gears, and tools, every Fexric carries one subtle mechanical body replacement earned by mastering a craft. Their holdfasts descend around geothermal vents in tiered galleries, lit by volcanic glow and the hum of machines that have been running since before the invention of speech.
 
 **The Internal Fractures**
 
@@ -329,13 +369,13 @@ The Neth are tall, beautiful, silver-skinned immortals of the Bryngloom Forest �
 
 **The Internal Fractures**
 
-Three bloodlines descend from the original pact: the **Velun** (inherited the Keeper's authority — arcanists who cannot lie, whose every spoken word is self-binding), the **Kessen** (inherited the Keeper's sight — weavers who perceive the obligation-web connecting all living things and manipulate probability by tugging its threads, though every tug snaps something elsewhere), and the **Drun** (inherited the Keeper's silence — Neth who burned their names from the First Contract through a traumatic Severing ritual, becoming magic-resistant, debt-null, and legally non-existent under Neth law).
+Three bloodlines descend from the original pact: the **Velun** (inherited the Keeper's authority — arcanists who cannot lie, whose every spoken word is self-binding), the **Kessen** (inherited the Keeper's sight — weavers who perceive the web of obligations connecting all living things and manipulate probability by tugging its threads, though every tug snaps something elsewhere), and the **Drun** (inherited the Keeper's silence — Neth who burned their names from the First Contract through a traumatic Severing ritual, becoming magic-resistant, debt-null, and legally non-existent under Neth law).
 
 The silent generational war between young Neth (still fluid, still capable of surprise) and elder Neth (frozen in their first century's patterns, repeating phrases their original mouths spoke four hundred years ago) has been running for five hundred years without either side acknowledging it aloud. The **Unraveling** — a deliberate breaking of contracts to force change — is the young Neth's desperate gamble, a path that offers fleeting freedom before the Fading claims them.
 
 **Proximal Relations**
 
-The Neth and the **Vreken** share the Bryngloom and barely speak — one views the other as spiritually bankrupt, the other views the first as sentimental. Their relationship is functional: fungal-light exports from Vreken crypt-cathedrals in exchange for bog-preserved goods and cold-iron tools from Neth outposts. The **Hrym** Rune Keepers trade Archive access for Neth knowledge — the only outsiders the Hrym trust near the old machines. The **Morren** humans are generations deep in debt to Neth contract-houses, their relationship defined by dependency and quiet resentment. The **Astril** fascinate the Neth — the voluntary binding between mortal and celestial represents a form of contract they have never encountered and cannot replicate.
+The Neth and the **Vreken** share the Bryngloom and barely speak — one views the other as spiritually bankrupt, the other views the first as sentimental. Their relationship is functional: fungal-light exports from Vreken crypt-cathedrals in exchange for bog-preserved goods and cold-iron tools from Neth outposts. The **Skald** Rune Keepers trade Archive access for Neth knowledge — the only outsiders the Skald trust near the old machines. The **Morren** humans are generations deep in debt to Neth contract-houses, their relationships managed entirely through ledger balance-sheets.
 
 ---
 
@@ -359,13 +399,13 @@ The Groven and the **Fexrick** maintain frozen diplomatic relations — trade oc
 
 ---
 
-## The Hrym — The Breath-Takers
+## The Skald — The Breath-Takers
 
 > *"We do not ask 'Who is your mother?' That question means 'How did you kill her?'"*
 
 **The Current State**
 
-The Hrym are a formidable, stoic people of Nordhalla — tall, broad-shouldered, permanently cold to the touch, their breath freezing even in southern heat. Forged during a blizzard that lasted three winters when starving refugees consumed their own dead (the Hunger Pact), the cold entered their bloodline through that first terrible meal and has lived in Hrym blood ever since. Their skin feels like stone left in shadow: resistant to warmth, never quite alive.
+The Skald are a formidable, stoic people of Nordhalla — tall, broad-shouldered, permanently cold to the touch, their breath freezing even in southern heat. Forged during a blizzard that lasted three winters when starving refugees consumed their own dead (the Hunger Pact), the cold entered their bloodline through that first terrible meal and has lived in Skald blood ever since. Their skin feels like stone left in shadow: resistant to warmth, never quite alive.
 
 **The Internal Fractures**
 
@@ -373,7 +413,7 @@ Three bloodlines descend from the original clan structure: the **Bloodhammer** c
 
 **Proximal Relations**
 
-The Hrym view the volcanic eruption of Emberspire not as a miracle but as an ecological threat — the heat that saved the south is melting their sacred glaciers. They regard the **Emberth** with a complex mixture of recognition and resentment: two peoples shaped by opposite extremes of the same catastrophe. The **Skald** humans owe them blood-debts from the War of Thousand Screams that have never been paid, and the guilty silence poisons every diplomatic exchange. The **Neth** Rune Keepers trade knowledge for Archive access — the only outsiders the Hrym trust near the old machines. The **Astril** are viewed with deep suspicion: voluntarily inviting a spirit into one's own flesh strikes the Hrym as either madness or corruption, too close to the Wyrd-creatures they have spent centuries fighting.
+The Skald view the volcanic eruption of Emberspire not as a miracle but as an ecological threat — the heat that saved the south is melting their sacred glaciers. They regard the **Emberth** with a complex mixture of recognition and resentment: two peoples shaped by opposite extremes of the same catastrophe. The **Skald** humans owe them blood-debts from the War of Thousand Screams that have never been paid, and the guilty silence poisons every diplomatic exchange. The **Neth** Rune Keepers trade knowledge for Archive access — the only outsiders the Skald trust near the old machines. The **Astril** are viewed with deep suspicion: voluntarily inviting a spirit into one's own flesh strikes the Skald as either madness or corruption, too close to the Wyrd-creatures they have spent centuries fighting.
 
 ---
 
@@ -393,7 +433,7 @@ The spawning gales are shifting north — further north each season — and the 
 
 **Proximal Relations**
 
-In port cities from Sundale to the Frostwood Reach, the Myrathil are exotic celebrities — poets write of their eyes, collectors pay fortunes for their sea-glass, nobles keep Myrathil lovers they will never marry. The **Merryn** humans trade with them at Salt-Hinge, the only port where land-folk and sea-folk conduct commerce as equals. The **Hrym** view them with suspicion — anything that does not freeze cannot be trusted. The **Neth**, ever pragmatic, simply ask what the Myrathil want to trade. The Myrathil themselves know the location of a Sundered Monolith in the Treakous Oceanic Rift and keep it secret — a decision that grows more difficult to justify as the Shard's resonance changes and the Deep-Born Listeners hear new voices in the abyss.
+In port cities from Sundale to the Frostwood Reach, the Myrathil are exotic celebrities — poets write of their eyes, collectors pay fortunes for their sea-glass, nobles keep Myrathil lovers they will never marry. The **Merryn** humans trade with them at Salt-Hinge, the only port where land-folk and sea-folk conduct commerce as equals. The **Skald** view them with suspicion — anything that does not freeze cannot be trusted. The **Neth**, ever pragmatic, simply ask what the Myrathil want to trade. The Myrathil themselves know the location of a Sundered Monolith in the Treakous Oceanic Rift and keep it secret — a decision that grows more difficult to justify as the Shard's resonance changes and the Deep-Born Listeners hear new voices in the abyss.
 
 ---
 
@@ -413,7 +453,7 @@ The **Unlit** are born without a constellation — no patterns, no whisper, no v
 
 **Proximal Relations**
 
-The Astril's relationship with the **Emberth** is the deepest theological schism in the known world — some Emberth revere them as sacred vessels of Sol's court, others despise them as servants who fled while Sol was entombed. The **Hrym** distrust them — spirits in the flesh are too close to the Wyrd. The **Neth** have petitioned for access to Astril bloodline records for three centuries. The **Vreken** feel an unspoken kinship — both peoples are inhabited by something older than themselves. And Keth-Amar knows the Astril exist: when the predator's influence stirs, Astril patterns writhe and recoil. The spirit remembers what ate its kin.
+The Astril's relationship with the **Emberth** is the deepest theological schism in the known world — some Emberth revere them as sacred vessels of Sol's court, others despise them as servants who fled while Sol was entombed. The **Skald** distrust them — spirits in the flesh are too close to the Wyrd. The **Neth** have petitioned for access to Astril bloodline records for three centuries. The **Vreken** feel an unspoken kinship — both peoples are inhabited by something older than themselves. And Keth-Amar knows the Astril exist: when the predator's influence stirs, Astril patterns writhe and recoil. The spirit remembers what ate its kin.
 
 ---
 
@@ -449,7 +489,7 @@ Two answers to a single question — how do you survive when the world has erase
 
 **Proximal Relations**
 
-The Briaran's thorns migrate slowly across their bodies over a lifetime, drifting toward the site of the oldest unfulfilled promise their bloodline carries — a physical archive of unfinished business stretching back eight centuries. This trait makes them uniquely valuable as oath-witnesses and uniquely dangerous to anyone who has broken a promise. The **Mimir** recognize them with wary kinship — both are hunted peoples hiding in the same mist. The **Skald** humans despise them as cowards. The **Solvarn** humans envy their courage to say no. The **Hrym** regard them with contempt — the Briaran fled while the Hrym stayed and fought. And the seven noble houses still fund quiet expeditions into the groves to finish what the erasure started.
+The Briaran's thorns migrate slowly across their bodies over a lifetime, drifting toward the site of the oldest unfulfilled promise their bloodline carries — a physical archive of unfinished business stretching back eight centuries. This trait makes them uniquely valuable as oath-witnesses and uniquely dangerous to anyone who has broken a promise. The **Mimir** recognize them with wary kinship — both are hunted peoples hiding in the same mist. The **Skald** humans despise them as cowards. The **Solvarn** humans envy their courage to say no. The **Skald** regard them with contempt — the Briaran fled while the Skald stayed and fought. And the seven noble houses still fund quiet expeditions into the groves to finish what the erasure started.
 
 ---
 
@@ -471,123 +511,246 @@ The Thrumm fought a centuries-long territorial war with the **Fexrick** for cont
 
 ---
 
-# PART IV: INSTITUTIONS & POWER — CLASSES IN THE WORLD
+# PART IV: THE GENESIS OF THE CALLINGS — CLASSES IN THE WORLD
 
 In Mythrill, a character's class is not merely a set of combat mechanics — it is an institution, a tradition, a way of engaging with a dying world that is taught, feared, revered, or condemned depending on where you stand. Every one of the thirty classes has a native home: a region, a culture, or a race that shaped its philosophy and continues to produce its practitioners. What follows is not a mechanical breakdown (for that, consult the comprehensive rules data in `rulesData.js`) but an overview of how these traditions exist within the world's political and cultural landscape.
 
 ---
 
-## The Sundale Traditions: Fire & Forge
+## 1. Exorcist
 
-The volcanic desert of Sundale — tomb and cradle of Sol — produces classes shaped by heat, endurance, and the spiritual weight of a dying god.
+### The Calling
+For those who stand on the bleeding edge between divine authority and absolute heresy, the Exorcist is a grim, blue-collar tradesman of the occult. They do not cast clean, glowing divine magic; their tools are burning salt, rusted iron nails, and agonizing brands. They bind demons through grueling, blood-soaked rituals and command them in battle with a barbed leash called **Divine Dominance**, tracking their grip with a shifting Dominance Die (d12 down to d6). Every command or strike of pain degrades this leash. Let the die hit zero, and the demon breaks free, its red eyes turning upon you with murderous revenge. The Exorcist's life is a constant, high-tension balance between devastating demonic violence and the agonizing self-inflicted wounds required to whip their servants back into submission.
 
-**The Pyrofiend** is not trained but chosen. Its practitioners have been selected by **Scathrach, the Ashen Sovereign** — a parasitic demon-intelligence from the deepest furnace of the infernal deep — for their particular brand of despair, their willingness to burn rather than endure. The Emberth regard Pyrofiends with horrified recognition: they channel the same fire the Emberth revere, but through a demon's pact rather than a god's grace. Thrask Huntresses who track Wyrd-creatures across the ashlands sometimes fall to the Pyrofiend's path — the demon finds them in moments of desperate fury and offers warmth at a price the Emberth understand all too well.
+### History
+The calling of the Exorcist was written in the immediate, blood-slicked aftermath of Keth-Amar's breach of the binding seal. When the six noble families marched their firstborn heirs north to be consumed, the seal shattered, Emberspire erupted, and the **Wyrd** — a formless, ancient spiritual rot — bled through the cracks of the deep earth into the Frostwood Reach. Finding a population paralyzed by the unimaginable trauma of sacrificing their own children, the Wyrd occupied their collective grief, turning caution into flesh and manifesting as the first face-stealing Gref. 
 
-**The Titan** is the Emberth Korr's native expression: a Deep-Vault sentinel whose stillness-discipline — learned in cramped tunnels where oxygen was scarce and children who could not sit motionless for hours did not survive to adulthood — translates into immovable physical defense. Titans are living anchors, trained in the Harath-Vault's outer rings by elders who have spent decades learning to become stone.
+Traditional steel blades passed through the formless horrors without harm. The first Exorcist, a Thalren scholar named **Elias the Salt-Scarred**, realized the unholy was a conceptual infection born of fear. Armed only with the tools of his scribal trade and the salt-cured timbers of his hearth, Elias hammered four cold iron stakes into the mud around a weeping shadow-horror, pressed raw rock-salt into his own palm, and reached into the entity's throat. By binding the fiend directly to his own open veins, he proved that the dark could not be destroyed — only chained, mutilated, and forced to claw at its own kin.
 
-**The Oracle** is the Sun-Speaker's path — a tradition inherited from the first Emberth who crouched in volcanic vents at dawn and received Sol's dying prophecy. Emberth Oracles are trained from childhood to listen to silence. Astril Oracles listen to the constellation-spirits within them. The training diverges; the discipline — stillness, patience, the willingness to receive what the divine chooses to give — is identical.
+### Cities
+Within the civilized outposts of humanity, Exorcists are deeply feared, shunned, and treated as dangerous tragedies. Within the stone walls of **Greymark Keep**, they are completely outlawed; their dark practices and copper-smelling ritual chains are viewed as a direct invitation to the Wyrd. Their places of teaching are strictly outside the city walls, operating in ruined watchtowers along the misty borders of the Reach. The settled human keeps of Nordhalla also treat them with profound suspicion, equating demon-binding with Wyrd-collusion. Only the subterranean holdfasts of the **Fexrick** and the sunken peat-cathedrals of the **Vreken** fully accept Exorcists, respecting their utility in purging local infestations and granting them the space to maintain their chained arsenals in the deep shadows.
 
-**The Inscriptor** is Sundale's scribal tradition, shared with the Neth's Velun arcanists. Emberth Inscriptors encode forge-marks, clan-lineage, and thermal rights into the language of the burn-scar. Neth Inscriptors encode contractual obligations into memory-glass records grown from crystallized tree-sap. Both traditions treat the written word as binding magic — ink on a page is a promise the paper cannot enforce, but an inscription in flesh or glass carries the authority of the entity that witnessed it.
-
----
-
-## The Frostwood Traditions: Mask & Memory
-
-The fog-choked forests of the Reach produce classes shaped by the tension between visibility and erasure, memory and oblivion.
-
-**The Huntress** is the Mist-Woven Mimir's native expression — a sentinel trained to read the fog, track poachers through the grey, and protect the borders of a people who have been hunted for their skin. Thalren Huntresses are journal-keepers who track not prey but information — they hunt lost memories, suppressed histories, and the gaps in the record where House Viridane's name used to be.
-
-**The Bladedancer** is the Smooth-Skinned Briaran's clandestine art — a combat tradition that emphasizes speed, precision, and the quick, decisive strike of a people who cannot afford prolonged exposure. Bladedancers train in moonlit groves, their movements designed to end a fight before an observer can identify the thorn-barb scars beneath their clothes.
-
-**The Witch Doctor** bridges the Mimir's spore-birth and the Vreken's fungal bond — a tradition of healing and hex-craft rooted in the understanding that the body is permeable, that spirits and spores and the Wyrd itself can occupy flesh. Thalren Witch Doctors combine herbal medicine with journal-based diagnostic rituals. Mimir Witch Doctors are Unwoven practitioners who learned medicine from the floor — using what everyone else threw away.
-
-**The Exorcist** is the Frostwood Reach's response to the Wyrd — a tradition born from the understanding that the formless spiritual rot uses human fear as a structural blueprint, and that to fight it, one must understand the fear that birthed it. Thalren Exorcists cross-reference their journals against Wyrd-manifestations. Mimir Exorcists use their fetch-bond to perceive the Wyrd's presence before it takes physical form.
+### Races
+Because the calling requires an iron will and a desperate willingness to trade flesh for power, it is natively practiced by the **Thalren Humans** of the Frostwood Reach, who seek external strength to stave off their own fog-induced mental decay. The **Unwoven Mimir** of the forest floor also produce exceptional Exorcists; having lost their ancestral masks, they use their shape-shifting fetch-bonds as living anchors to contain the bound fiends' spiritual backlash, though the strain often splits their salvaged heartwood masks.
 
 ---
 
-## The Nordhalla Traditions: Rage & Rune
+## 2. Covenbane
 
-The frozen tundra of the north produces classes shaped by ancestral debt, cold-adapted endurance, and the weight of promises broken by people who live where warmth still exists.
+### The Calling
+The Covenbane is the silent, shadow-cloaked stalker of the deep marshes — an anti-magic executioner wreathed in cold iron, silent seals, and a heavy, tragic purpose. They do not seek glory, nor do they offer comfort. Armed with specialized anti-magic seals and rusted executioner's irons, they track their prey through the dark and purge magical corruption with absolute, mechanical precision. Their signature resource — **Anti-Magic Seals** — allows them to disrupt spellcasting, nullify wards, and dismantle supernatural entities from within. Yet, the price of this power is absolute social isolation: to carry the cold iron is to be cast out from the very community you bleed to protect.
 
-**The Berserker** is the Bloodhammer Hrym's native expression — a warrior whose fury channels the Hunger Pact directly, whose rage is not mindless violence but the cold, grinding fury of ancestors who consumed their own dead so their bloodline could continue. Skald Berserkers are endurance-purists who enter battle-rage not through drugs or rituals but through sheer, accumulated cold — they strip their furs before combat and let the killing frost sharpen their fury.
+### History
+The Covenbane arose from the fifth-century tragedy of the Vreken in the Bryngloom Forest. Evolving a deep symbiosis with the phosphorescent Ghost-Mycelium fungal strain, the Marked Vreken developed near-apocalyptic *trail-sight*, but the volatile fungus carried the highly addictive, euphoric "hush." In the year 412, a beloved Marked Veil-Speaker named **Aedris** over-lit during a prolonged crypt-vigil, her eyes burning so brightly they bleached the ancient peat-stone. Blinded by her own light and driven mad by the spore-addiction, she began draining the lifeforce of her acolytes to feed her glow.
 
-**The Dreadnaught** is the Hrym's forge-soul — a warrior sealed inside hundreds of pounds of superheated iron plating, powered by a combustion engine running on coal, blood, or trapped souls. The Bloodhammer invented this tradition when they discovered the Frozen Archive's ancient forges and learned to work metals they do not fully understand. A Dreadnaught's furnace pressure builds with every blow absorbed; the art lies in channeling that pressure before it triggers a catastrophic internal meltdown.
+Her brother, **Orven the Still-Handed**, refused to let the crypt-council debate. He forged a blade of cold bog-iron, wrapped his hands in salted leather, and tracked his sister into the deepest caverns. He ended her suffering in the dark, receiving her final heartbeat as a silent, terrible echo. Returning to the surface, Orven gathered a circle of Marked Vreken and founded the Covenbane order — swearing the Barbed Vow to hunt down and execute their own spore-addicted kinsmen before they could become vectors of the rot.
 
-**The Augur** is the Rune Keeper Hrym's scholastic tradition — a seer whose body is covered in inscribed runes, each one a memory traded to the Archive for knowledge. Augurs read the future in frost-patterns, glacier-songs, and the resonance of the Archive's ancient machines. Skald Augurs read the same signs in bloodline-records and the preserved faces of glacier-entombed ancestors.
+### Cities
+Covenbanes are treated as grim, necessary executioners within **Atropolis** and **The Sunken Spire**. While the Clean Vreken crypt-councils rely on them to maintain the safety of the fungal trade, they are legally segregated: Covenbanes are forbidden from entering the high archives of the Hollow-Scriptorium and are kept at arm's length in the public plazas. They operate from isolated frontier garrisons — the Coven-Holds — built deep in the sinking peat-bogs of the Bryngloom, returning to the Sunken Spire only to deliver the glowing, alchemical death-scrolls of the kin they have executed.
 
-**The Spellguard** traces its origin to Aex, the firstborn of Sol, the fire that ate the sun's own radiance to protect the warmth of the world — and was killed by the noble families for its trouble. Spellguards are catastrophic magical sponges who absorb volatile enemy spells into their own mutilated flesh, suffering severe internal radiation to protect allies before detonating that stored energy back at the caster. The Hrym practice a frost-variant; the Emberth practice a fire-variant. Both traditions are built on the same principle: absorb what should destroy you and make it your weapon.
-
----
-
-## The Cragjaw Traditions: Bridge & Vat
-
-The vertical wilderness of the Peaks produces classes shaped by the tension between creation and rebellion, structure and escape.
-
-**The Primalist** is the Morgh Groven's native expression — a warrior who channels the ancient Thrumm bloodline, whose stone-scale plating and raw physical power embody the parent race the serums could thin but never erase. Primalists do not learn their abilities. They remember them — tapping into instincts that predate the vats, the serums, and the Fexric who reshaped their ancestors.
-
-**The Gambler** is the Ithran Groven's diplomatic tradition — a toll-negotiator whose long view of consequence and probability makes them natural risk-calculators. Ithran Gamblers do not wager with coins. They wager with passage rights, bridge-tolls, and the accumulated debts of caravans that have crossed their spans for generations. The Fexric Clan-Free also produce Gamblers — self-taught tinkerers who bet on salvage and improvisation because they have nothing else to bet with.
-
-**The Formbender** is the Fexric Clan-Free's alchemical tradition — a practitioner who manipulates the mineral compounds of the Cragjaw's deep veins to reshape matter itself. Formbenders are self-taught, their formulas improvised from Guild-discarded reagents, their techniques illegal under Orthodoxy law and quietly envied by every Guild-Bound alchemist who wishes they had the courage to innovate.
-
-**The Fate Weaver** bridges the Ithran Groven and the Kessen Neth — both traditions perceive the web of connections that bind living things, and both manipulate probability by tugging the right thread. Ithran Fate Weavers read the web in bridge-tolls and caravan-debts. Kessen Fate Weavers read it in contracts and obligation-echoes. Both know that every tug snaps something elsewhere.
+### Races
+The calling is exclusively pursued by the **Marked Vreken**, whose biological sensitivity to the Ghost-Mycelium provides the trail-sight needed to track the glowing footfalls of the Over-Lit in absolute darkness. A small, desperate faction of **Drun Neth** — who burned their names from the First Contract and exist as magic-immune outcasts — also walk this path, using their leaden-grey skin to shrug off the spells of the entities they are paid to put down.
 
 ---
 
-## The Iceheart Traditions: Salt & Gamble
+## 3. Pyrofiend
 
-The churning, freezing waves of the Iceheart Sea produce classes shaped by the wager of every voyage and the transparency of a people whose bodies cannot lie.
+### The Calling
+The Pyrofiend is a chaotic, fire-wielders who has invited a parasitic demon-intelligence — **Scathrach, the Ashen Sovereign** — to nest directly within their marrow. They do not command fire through careful study or divine grace; they bleed it. The Pyrofiend's power is governed by the **Inferno Veil**, an escalating state of corruption that grows hotter, brighter, and more chaotic as battle progresses. The Pyrofiend deals devastating, explosive damage, but the demon within constantly claw at their sanity, demanding more heat, more ash, and more fuel.
 
-**The Minstrel** is the Merryn human's cultural expression — a performer whose music carries across the waves when the wind fails, whose songs are contracts, histories, and navigation charts compressed into melody. Myrathil Minstrels throat-sing the harmonics their sea mother taught them. Ordan Minstrels throat-sing ancestor-maps that navigate a starless steppe. The instrument changes. The principle — that a song sung correctly can do what no blade or spell can accomplish — is identical.
+### History
+The first Pyrofiends were born in the freezing badlands of Sundale during the dark century that followed Sol's entombment. A caravan of human refugees of House Solvan, starving and freezing in the shadow of a cooling lava-flow, were trapped by a three-week ash-blizzard. As their children froze in their arms, their prayers to Sol were met only with silence. 
 
-**The Deathcaller** finds its native home among the Merryn pirates who have seen too many shipmates go under. Deathcallers do not fear death — they have made peace with it, and their abilities reflect that terrible intimacy. Myrathil Deep-Born Deathcallers listen to the voices of those who died at sea and carry their final messages to shore. Morren Deathcallers are sought by Neth contract-houses for their ability to negotiate with debt-revenants — the deceased debtors who rise from the bog to complete broken contracts.
+In the absolute darkness of the blizzard, they were answered instead by **Scathrach**, a parasitic demon-lord of the deep mantle. He offered them the Inferno Veils — demonic coals that, when swallowed, would nest inside the host's chest and generate boiling volcanic heat. The desperate humans accepted, swallowing the embers to save their lineages. They survived the blizzard, but they emerged onto the ashlands with blackened, cracked veins and a burning hunger that could only be satisfied by watching the world burn.
 
-**The Bladedancer** appears again along the Iceheart's shores — this time as the Myrathil's combat expression. Breakers-Born Bladedancers fight with the rhythm of the tide, their movements fluid and unpredictable, their vein-colors shifting mid-combat to signal the next strike before it lands.
+### Cities
+Pyrofiends are completely outlawed within **The Harath-Vault**. The Korr Sun-Speakers regard them as absolute heretics who have desecrated the sacred element of fire by blending it with demonic marrow. Any Pyrofiend who enters the Vault is immediately hunted by the Titans and dragged to the volcanic sumps to be extinguished. Consequently, Pyrofiends gather in renegade calderas along the **Shyr**, building volcanic camps and clashing constantly with both settled humans and forge-clans over thermal rights.
 
----
-
-## The Sundrift Traditions: Star & Steppe
-
-The wind-swept, starless steppe produces classes shaped by the absence of the heavens and the presence of the spirits that fled them.
-
-**The Oracle** takes its most dramatic form among the Astril — a vessel whose constellation-spirit speaks through them directly, whose luminous patterns blaze with borrowed starlight, whose prophecies are the whispered memories of a celestial being that remembers what the sky looked like before Keth-Amar ate it.
-
-**The Martyr** is the Unshorn Briaran's native expression, but it finds resonance among the Astril Sylen — those who embrace the spirit within at the risk of being consumed. The Martyr does not use shields or armor to stop blades. They use their own body to catch weapons meant for companions. Every wound they choose to bear becomes a prayer. The Astril Martyr's wounds glow with constellation-light; the Briaran Martyr's wounds sprout fresh thorns. Both traditions treat sacrifice as the sincerest form of devotion.
-
-**The False Prophet** is the Muren Astril's expression — a practitioner whose entire existence is built on the tension between the spirit they suppress and the faith they perform. False Prophets do not channel celestial power. They redirect it, deflect it, twist it. Their abilities come from the constant, exhausting labor of keeping a god inside a mortal body and telling it no.
-
-**The Minstrel** appears among the Ordan nomads as throat-singers whose voices carry fifteen miles across the steppe. Ordan Minstrels do not perform for coin. They perform to map the migration route, to guide the herds, to honor the dead left at the mounds whose songs will never be sung again until the migration circles back.
+### Races
+The path is natively pursued by the desperate **Solvarn Humans** of Sundale, who carry the ancestral trauma of the freeze, and the heretical **Thrask Emberth** of the frontier, who believe Sol's silence is permanent and have defaced their forge-marks to join the Sunderer faction.
 
 ---
 
-## The Bryngloom Traditions: Contract & Crypt
+## 4. Dreadnaught
 
-The bioluminescent, bog-preserved forest produces classes shaped by the legal architecture of the pact and the fungal biology of the trail.
+### The Calling
+The Dreadnaught is a colossal, steam-belching juggernaut of the frontlines — a warrior permanently sealed inside hundreds of pounds of superheated, thick iron plating. They do not dodge; they endure. Powered by a combustion engine mounted to their spine that runs on coal, blood, or trapped souls, the Dreadnaught converts incoming trauma into steam pressure. Their resource — **Dark Resilience Points** — accumulates with every blow absorbed, allowing them to vent superheated steam to incinerate nearby foes or overload their pistons for bone-shattering melee strikes.
 
-**The Arcanoneer** is the Velun Neth's native expression — a pact-mage whose spells are written as contractual clauses, whose mana is converted into binding terms, whose every incantation is a legal argument submitted to the Keeper of the Last Threshold for adjudication. Velun Arcanoneers cannot lie, and this limitation has made their spellcraft the most rigorously honest magical tradition in the known world.
+### History
+The Dreadnaught was invented by the Bloodhammer during the War of Thousand Screams, four centuries ago. Trapped in the high passes of Nordhalla by the blue-fleshed Skreika drowned-warriors, the Bloodhammer were pushed back into the ruins of the **Frozen Archive**. Surrounded by flash-frozen machinery they did not understand, a desperate blacksmith named **Vaelen Bloodhammer** discovered an ancient, still-functioning combustion forge.
 
-**The Lichborne** is the Drun Neth's forbidden path — a practitioner who severed their name from the First Contract and exists outside the pact's protection entirely. Lichborne are magic-resistant, debt-null, legally non-existent — and their abilities reflect this untethered state. Morren Lichborne are sought by those who wish to escape Neth contracts; Drun Lichborne are feared by the Velun who cannot comprehend an existence without binding terms.
+Realizing his warriors were freezing to death before they could even reach the enemy, Vaelen took the heavy brass plates of the Archive's heating pipes and welded them directly onto the skin of his frontliners, mounting alchemical steam-pistons to their limbs and feeding the engines with high-grade mountain coal. The iron-clad warriors marched back into the blizzard, belching black soot and superheated steam, shrugging off the Skreika's icy claws to hold the pass alone.
 
-**The Chaos Weaver** bridges the Kessen Neth and the Covenbane Vreken — both traditions manipulate systems from within, one through probability-threads, the other through fungal-bond tracking. Chaos Weavers do not create chaos. They perceive the chaos that already exists in every system and learn which thread to pull to make it unravel.
+### Cities
+Dreadnaughts are celebrated as legendary front-line protectors in the Skald fjord-keeps of Nordhalla, though their soot-belching rigs and industrial noise mean they are legally confined to the lower dock-districts. Within the **Frozen Archive**, they occupy the lower sumps, working alongside the Fexric alchemists who maintain their boilers.
 
-**The Covenbane** is the Marked Vreken's grim burden — a hunter trained to track fallen kinsmen through the trail-sight, to kill those already consumed by the Over-Lit epidemic. Covenbane are feared, respected, and deeply isolated. To kill a kinsman, even one already lost to the hush, is a burden no Clean Vreken can truly understand.
-
-**The Witch Doctor** finds its deepest expression among the Clean Vreken — healers who read death-trails forming on patients' skin like maps of roads the patient hasn't finished walking yet. Vreken Witch Doctors treat the dying on stone slabs in mausoleums, ancestors glowing softly from every wall. It works. It is terrifying. The Morren humans come anyway, because the alternative is worse.
+### Races
+The path is natively practiced by the massive **Bloodhammer**, whose stone-like skin can withstand the extreme heat of the internal engines, and the **Guild-Bound Fexric** engineers of the Peaks, who treat their steam-armor as the ultimate expression of their craft.
 
 ---
 
-## The Universal Traditions: Classes Without Borders
+## 5. Arcanoneer
 
-Certain classes transcend regional boundaries, appearing wherever the conditions that birthed them are replicated.
+### The Calling
+The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or raw instinct; they negotiate it. By converting mana into elemental spheres, they generate and combine different magical terms (Sphere Generation & Combination) to produce highly specialized, legally binding spellcraft. The Arcanoneer operates with absolute strategic clarity: because their magic is a contract submit to the Keeper of the Last Threshold, they cannot lie — and this limitation makes their spellcraft the most rigorously honest and devastatingly precise magic in the world.
 
-**The Warden** is the defender's path — practiced by Thrask Emberth surface-rangers, Tessen human keep-guardians, Mist-Woven Mimir sentinels, and Muren Astril spirit-wardens. Wardens do not destroy. They contain. They stand between the thing they protect and the thing that would consume it, and they do not move.
+### History
+The Arcanoneer was founded by the Velun Neth in Atropolis, two centuries after the sun's death. Evolving stilled breath and silver skin from their First Contract with the Keeper of the Last Threshold, the Velun realized that the Keeper's preservation was not a spiritual miracle but a legal document. 
 
-**The Doomsayer** is the prophet of endings — practiced by Solvarn human sun-priests who climb the highest remaining tower each morning and scan the sky for light, by Drun Neth who have seen the Fading claim their kin, by Unwoven Emberth who believe the Solbrand is Keth-Amar's tether and must be extinguished. Doomsayers do not cause doom. They predict it — and their predictions carry weight.
+A high archivist named **Valerius Velun** discovered that the magic of the Gloom Forest responded to the same legal syntax as the First Contract itself. By structuring incantations as strict, balanced legal briefs — defining the exact targets, elemental spheres, and terms of adjudication — Valerius could bypass the traditional, volatile decay of arcane magic, generating a clinical and flawless school of magic that could never be dispelled, backfire, or fail.
 
-**The Plaguebringer** is the alchemical shadow — practiced by Fexric Clan-Free toxicologists, Mimir Unwoven spore-tenders, and Drun Neth who have abandoned the pact's restrictions. Plaguebringers understand disease not as curse but as ecosystem — and they have learned which spores to cultivate, which compounds to refine, which infections to shepherd toward a desired outcome.
+### Cities
+Arcanoneers are the most politically powerful and highly respected citizens within **Atropolis**. They occupy the highest seats of the Canopy-Ledger, serving as the judges, administrators, and high diplomats of the Neth empire. They are also welcomed within **Ironjaw Port**, where their contract-based spellcraft ensures the safety of the dock-complex.
 
-**The Chronarch** bridges the Neth and the Fexrick — both ancient civilizations that have been watching their accumulated knowledge decay across centuries. Chronarchs manipulate time itself — slowing deterioration, accelerating healing, glimpsing moments that have not yet occurred. Neth Chronarchs extend the Stillness; Fexric Chronarchs extend the operational lifespan of machines that should have failed millennia ago.
+### Races
+The path is almost exclusively practiced by the **Velun Neth**, whose biology (being unable to lie) provides the absolute honesty required to submit contracts to the Keeper without triggering a catastrophic, soul-fading breach of terms.
 
-**The Lunarch** is the Briaran's native tradition — a practitioner attuned to the moonlit groves where the fae old laws still hold. Lunarchs draw power from the same lunar cycles that govern the Briaran's thorn-shedding, and their abilities reflect the fae contract that preserved House Viridane when the other houses marched their children north.
+---
+
+## 6. Chaos Weaver
+
+### The Calling
+The Chaos Weaver is a volatile, high-stakes spellcaster who has abandoned the rigid structure of traditional wizardry in favor of drawing raw, unrefined magic from the Great Breach itself. Rather than casting balanced spells or negotiating clinical contracts, the Chaos Weaver channels unstable energy to generate **Mayhem Modifiers** and **Chaos Spheres**. They are the masters of unpredictable feedback—every spell they cast is a calculated risk that can either trigger a devastating critical blast or collapse into a localized cosmic rift. They do not seek to control magic; they ride its explosion.
+
+### History
+The first Chaos Weavers were a renegade faction of Neth arcanists who fled Atropolis in the third century of the sunless era. Led by a brilliant but unstable mage named **Elas Velun**, they became disillusioned with the absolute restrictions of the Keeper's First Contract, which rendered their magic safe but static. 
+
+During an expedition to the **Sundale** badlands, Elas and his followers camped near the Emberspire caldera. They realized that the raw spiritual rot of the Wyrd leaking through Keth-Amar's breach was highly conductive to arcane intent. By dismantling their memory-glass lenses and abandoning their legal syntax, they cast the first "Unwoven spell" — a torrent of chaotic, purple-black flame that incinerated a besieging pack of Ash-Scribes but permanently scarred Elas's silver skin with burning, static-like runes. The school spread among outcasts who preferred immediate, dangerous power to slow, freezing extinction.
+
+### Cities
+Chaos Weavers are strictly outlawed in **Atropolis** and **Greymark Keep**, where their presence is treated as a severe public safety threat. They are frequently found in the lower berths of **Merrowport**, where pirate captains pay handsome sums for their raw firepower, and in the volcanic frontier calderas of **Sundale** along the Shyr.
+
+### Races
+The path is natively practiced by the **Drun Neth** (who have already severed their names from the First Contract and have nothing left to lose) and **Solvarn Humans**, whose desperate struggle for survival makes them highly receptive to the breach's volatile power.
+
+---
+
+## 7. Doomsayer
+
+### The Calling
+The Doomsayer is a grim prophet of catastrophe who has looked into the maw of Keth-Amar and accepted the world's ultimate demise as a mathematical certainty. Their spellcraft focuses on placing **Prophecies of Havoc** and **Living Bomb Prophecies** onto their targets. Unlike Augurs who merely observe the future, the Doomsayer forces the universe to align with their dark visions, earning **Havoc Points** as their prophecies of destruction are fulfilled. They are feared on the battlefield because they do not fight to win; they fight to accelerate the end of all things.
+
+### History
+The order of the Doomsayers was founded in the high towers of Sundale by a Solvarn sun-priestess named **Sariel the Blind**. In the fourth century, after decades of recording the slow dimming of the Solbrand, Sariel realized that the prayers of the Sun-Speakers were being ignored because Keth-Amar's feeding tube was directly connected to the dying star.
+
+Driven mad by the star's slow, agonizing screams, Sariel gouged her own eyes out with volcanic obsidian and turned her back on the Sun-Speakers. She claimed that the only way to save Sol was to shatter the remaining Sundered Monoliths and let the predator consume the star entirely, so that the universe could reset. She recorded the first **Havoc Prophecies** onto tablets of pressed ash, establishing a dark order of street-prophets and doomsday cultists who wander the continents, orchestrating localized catastrophes to weaken the seal.
+
+### Cities
+Doomsayers are prosecuted as dangerous heretics in **The Harath-Vault** and are banned from the upper rings. They operate primarily in the chaotic sprawl of **The Mound-Camps** in the Sundrift Vale, where their bleak prophecies find fertile ground among nomads who have watched their sky go dark, and in the damp canals of **Greymark Keep**, whispered from the shadows of the Shallows.
+
+### Races
+The calling is dominated by **Solvarn Humans** (haunted by their ancestors' sacrifice) and **Unlit Astril**, who carry the celestial light of the stars Keth-Amar ate and feel the starless void as a physical ache in their blood.
+
+---
+
+## 8. Lichborne
+
+### The Calling
+The Lichborne is a terrifying master of death-magic and eternal frost who has bypassed the natural boundaries of mortality and the Keeper's legalistic contracts. By performing the forbidden Rite of the Cold Hearth, they bind their soul to a physical **Basalt Phylactery**, achieving a rotting, cold immortality. On the battlefield, they project an **Eternal Frost Aura** that siphons the warmth and life-force of their enemies, commanding legions of skeletal thralls and frozen dead while possessing unique self-resurrection mechanics that make them nearly impossible to permanently destroy.
+
+### History
+The first Lichborne was **Karr Bloodhammer**, a legendary Skald Rune Keeper who lived in the fifth century. Terrified by the creeping spread of the Milk-Grief and the slow death of his clan's warriors, Karr entered the deepest, sealed chambers of the **Frozen Archive** beneath the Valley of Ymir.
+
+Deep inside the prehistoric vaults, Karr discovered a flash-frozen sarcophagus containing the petrified remains of a cosmic entity that predated the noble families. Using runic calculations that traded away his own beating heart, Karr forged the first basalt phylactery and cast his soul inside. He emerged from the archive as a creature of ice and rot, his breath no longer showing in the cold, his touch freezing the blood of the living. Though he saved his fjord-keep from a Skreika siege, his people recoiled from his undead state, driving him into the glaciers where he founded the first Scriptoriums of the Cold Hearth.
+
+### Cities
+The Lichborne are hunted with extreme prejudice by **Exorcists** and **Covenbanes** across all seven continents. They have no open presence in any mortal city, operating instead from the forgotten ruins of the **Frozen Archive**'s lowest vaults and the bottomless bog-caves of the **Bryngloom Forest**, where they weave their death-webs in absolute secrecy.
+
+### Races
+The path is practiced almost exclusively by **Skald Rune Keepers** (obsessed with preserving their memories through artificial means) and **Velun Neth** heretics who seek to escape both the Fading and the Keeper's First Contract by freezing their silver flesh permanently.
+
+---
+
+## 9. False Prophet
+
+### The Calling
+The False Prophet is a charismatic manipulator of faith and spiritual energy who has forged a secret bargain with the voids of Keth-Amar to weave warm, blinding illusions of solar redemption. They utilize **Madness Points** and **Propaganda Resource** to manipulate the minds of the desperate, presenting their dark, void-fueled sorcery as holy miracles from Sol itself. They are the ultimate puppeteers, turning their allies into fanatical zealots who will gladly throw themselves onto the enemy's blades, and driving their foes into whimpering madness through the sheer cognitive dissonance of their "holy" light.
+
+### History
+The calling of the False Prophet arose in the starless steppes of the **Sundrift Vale** during the sixth century, when a charismatic nomadic orator named **Li Wei** discovered a buried monolith fragment. Instead of sealing it, Li Wei realized that the psychic agony screaming from the shard could be filtered through Astril crystal-sap to produce a blinding, warm, and highly addictive light.
+
+Li Wei established the **Church of the Golden Horizon**, presenting himself as the chosen vessel of Sol's resurrection. He healed the sick by burning away their nerve endings with "holy" light and led thousands of fanatical nomads in a crusade against the Synod. Though Li Wei was eventually assassinated by Muren Astril agents, his doctrines survived. False Prophets still wander the frozen world, establishing localized sun-cults that fleece the starving and feed the cosmic predator with the souls of the faithful.
+
+### Cities
+False Prophets are strictly banned from **The Synod-Hold** and the **Harath-Vault**, where the legitimate priests of Sol recognize their light as a toxic forgery. They are highly active in the moving **Mound-Camps** of the Sundrift Vale and the crowded, impoverished **Over-Shanties** of the Vreken Sunken Spire, where they build fanatical congregations of the desperate.
+
+### Races
+The calling is natively practiced by the **Sylen Astril** (who seek immediate light-symbiosis at any cost) and **Thalren Humans**, who are easily swayed by warm promises in a world wreathed in permanent fog.
+
+---
+
+# PART V: SCHISMS, SCARS & SUPERNATURAL REALITIES
+
+The survival of Mythrill’s peoples is not merely a matter of finding coal or scaling bridges; it is an ongoing negotiation of blood, belief, and tragedy. The dark bargains that preserved the seven continents have left deep, weeping scars across the social and physical landscape. To run a campaign in Mythrill, a Game Master must understand not just where the warm vents lie, but how the compromises of the past have calcified into modern, breathing conflicts.
+
+---
+
+## 1. Factions & Schisms
+
+Survival has forced the races of Mythrill into uncomfortable, stratified arrangements. As the cold deepens, the internal ideological rifts within these groups threaten to shatter what little peace remains.
+
+### The Schisms of the Luminarchy
+In the shimmering crystal-lattice of the **Synod-Hold** at the center of the Sundrift Vale, the **Astril** guide their people through the starless dark. But beneath the silent beauty of their glowing skin lies a theological cold war that has begun to turn lethal. The Luminarchy is split into three primary camps:
+* **The Sylen (The Open):** Led by Grand Exemplar **Vaelen the Star-Beet**, the Sylen advocate for absolute integration with the constellation-spirits nesting in their blood. They believe that humanity’s ultimate destiny is to yield entirely to the cosmic minds. Vaelen himself is a living warning: his skin has almost completely crystalized into light-refracting minerals, and he speaks in overlapping celestial chords, his personal identity long since dissolved into the constellation of the Silver Wolf.
+* **The Muren (The Bound):** Led by Iron-Scribe **Kaelen the Still**, the Muren view the constellation-spirits as dangerous cosmic parasites that must be bound and suppressed to preserve Astril humanity. They practice the **Iron Brand** — a painful, alchemical ritual that engraves cold-iron sigils into the skin, permanently dampening the light-patterns. The Muren argue that if the spirits are allowed to consume their hosts, the Astril will cease to be a mortal race and become merely a herd of mindless celestial beasts.
+* **The Unlit Outcasts:** Born without constellation-patterns, the **Unlit** are legally non-existent within the Synod's registries. They cannot hold office or enter the crystal libraries. However, because they carry no star-glow, they are the only Astril who can lie without their skin flashing to betray them. Operating in the shadows of the **Mound-Camps**, the Unlit have formed a powerful network of smugglers, information brokers, and spies. They play the Sylen and Muren against each other, trading in star-sap and forbidden memories to secure their own survival, while secretly plotting to dismantle the Luminarchy's rigid caste system from within.
+
+### The Vat-Breakers' Guild
+Four centuries ago, the troll-kin **Groven** broke their alchemical chains and fled the deep vats of the **Fexrick** holdfasts. Today, the survivors govern the **Ancestor-Spans** of the Cragjaw Peaks, but the legacy of their creation still divides them. The **Vat-Breakers' Guild** is torn between two diametrically opposed paths:
+* **The Restorers:** Driven by the heavy-scaled **Morgh** warriors, the Restorers believe that the Groven can never be truly free while their kin remain in chains. They launch desperate, bloody raids into the deepest geothermal sumps of **Frostmaw Holdfast** to rescue the **Lost Brood** — Thrumm troll-kin who were never rescued during the initial rebellion and are still subjected to the Fexric's Deep Alchemical injections. The Restorers value blood and lineage above all, arguing that even the most bestial Thrumm is a brother who deserves liberation.
+* **The Preservers:** Comprising the long-limbed **Ithran** diplomats and councilors, the Preservers argue that the raids are a suicidal folly that will provoke the Fexrick into launching a total war of extermination. They believe the Groven must sever all ties with their bestial **Thrumm** ancestry, focusing instead on fortifying the Ancestor-Spans and securing their place as the essential merchant-arbiters of the high passes.
+* **The Ladder of Purity:** This unspoken caste system creates daily friction. Morgh warriors are relegated to dangerous bridge-maintenance and military duties in the mid-crag warrens, while the long-limbed Ithran dominate the comfortable span-settlements and control the toll-posts. A Morgh cannot rise to the high council, and an Ithran rarely descends to the damp lower warrens. This social friction has led to silent assassinations along the dark spans, with Morgh rangers secretly funneling black market alchemical reagents to rebel cells in the sumps, while Ithran toll-keepers feed information to Fexric agents to neutralize Restorer raids.
+
+### The Rune-forged Scriptoriums
+Beneath the damp canopy of the **Bryngloom Forest**, the lantern-eyed **Vreken** dwell in the **Sunken Spire**. Their society is governed by a strict, biological caste system enforced by the **Rune-forged Scriptoriums**:
+* **The Clean Scriptoriums:** The **Clean Vreken** (distinguished by their rust-amber eyes) possess a natural immunity to the addictive, euphoric "hush" of the Ghost-Mycelium. Because of this immunity, they monopolize every seat on the Crypt-Council and hold absolute authority over the Scriptoriums — the sacred archives where the ancestral lineages and "trail-maps" are recorded. The Clean view themselves as the rational guardians of the Vreken soul, enforcing strict quarantine laws that bar the Marked from entering the lower cathedral chambers or holding administrative power.
+* **The Marked Covens:** The **Marked Vreken** (carrying silver-white eyes) possess the volatile strain of the Ghost-Mycelium in their blood. This grants them an extraordinary, supernatural trail-sight — allowing them to track spiritual residues through solid rock — but leaves them physically and mentally vulnerable to the mycelial hush. Relegated to the **Over-Shanties** at the Spire’s entrance, they perform the dangerous labors of bog-dredging and pathfinding.
+* **The Bright-Speaking Rebellion:** This systemic inequality has sparked an open rebellion led by a visionary Marked spore-bearer named **Sister Vraka**. The rebel covens have begun to deface the quarantine runes on the Spire’s gates. They demand equal representation on the Crypt-Council and access to the sacred archives, arguing that the Marked’s trail-sight is not a curse to be quarantined, but a holy gift from the Root-Veil that the Clean are too blind to understand.
+
+---
+
+## 2. Historical Scars & Epidemics
+
+A world sunless for eight centuries does not heal cleanly. The survival strategies of the past have left deep, systemic scars across the continents — plagues of the mind, spiritual winters in the blood, and dangerous trade corridors where the price of passage is written in ash.
+
+### The Milk-Grief of Nordhalla
+The ancestral bargain of House Skalvyr saved **Nordhalla** from the glaciers, but it left a freezing, spiritual draft in the very blood of the **Skald**. This inheritance is known as the **Milk-Grief**.
+The Milk-Grief is an inherited, supernatural cold that manifests during childbirth. As a Skald mother of the frost-touched bloodline begins labor, the ambient temperature in the room plummets, frost crawling across the walls and freezing water in its basins. The grief drains the mother’s natural warmth, pulling her life-force into the child. In three out of ten births, the mother freezes to death during delivery.
+The surviving infants emerge permanently altered. Known as the **Frostbound**, their skin is pale blue, brittle as thin ice, and their blood flows gelid and slow. They cannot feel warmth, and physical heat causes them intense, blistering pain.
+To cope with this epidemic, the frost-touched have developed the **Cradle-Forges**: deep, copper-lined chambers heated by geothermal vents where Frostbound infants are kept in suspended, warm sand-boxes for their first year. The tragedy has deeply strained relations between the frost-touched bloodlines and the warm-blooded Skald clans. The Skald, who do not suffer from the Milk-Grief, are often accused of hoarding geothermal coal, while the frost-touched view the warm-bloods' survival as an insult to the mothers who froze to secure the north.
+
+### The Fungal Hush of the Bryngloom
+Deep within the bogs of the **Bryngloom Forest** grows the **Ghost-Mycelium**, a parasitic fungus that emits a soft, silver-blue phosphorescence. This fungus is the source of the **Fungal Hush** — the most pervasive and tragic addiction in the sunless world.
+The mycelium releases a sweet-smelling spore-dust known as "Hush." When inhaled, the spores coat the lungs and nervous system, granting an immediate, euphoric release from physical pain and temporarily halting the **Fading** — the silver decay Neth suffer when separated from the First Contract. For a few hours, a spore-addict feels warm, remembers their childhood clearly, and sees the world in vibrant, sunlit color.
+But the price is absolute:
+* **The Mycelial Graft:** With every inhalation, the spores take root. The host's veins slowly darken with silver-blue fungal threads.
+* **The Loss of Flesh:** Over months, the host loses the ability to digest solid food, surviving solely on the damp nutrients of the bogs.
+* **The Fungal Thrall:** In the final stages of the addiction, the host's mind dissolves. They wander into the **Hush-Bogs**, joining the silent, shuffling herds of the "Spores-Born" — mindless husks whose bodies serve as fertile soil for new fungal colonies.
+The **Neth Velun** pact-mages maintain a strict monopoly on the legal trade of "Hush-Licenses," using the drug as a powerful tool of social control, while Vreken **Covenbanes** patrol the forest margins, using black pine-tar to burn infested settlements and execute those whose mycelial veins have reached their eyes.
+
+### The Shyr: Obsidian Caldera Trade Routes
+Connecting the volcanic calderas of **Sundale** to the frozen keeps of the north is **The Shyr** — a ninety-mile fracture of cooling basalt that serves as the primary trade artery of the dying world.
+The Shyr is a geological anomaly: a massive, slow-moving river of lava that cools and contracts at its edges into predictable, interlocking basalt pillars. The **Emberth** have built their primary trade route directly upon this moving highway. Because the stone is warmed from below, it is the only road in the western hemisphere that never accumulates ice.
+However, navigating the Shyr is a high-stakes gamble:
+* **The Basalt Shifts:** The basalt pillars are not static. The road moves, buckling and contracting. A caravan that stops for too long risks being swallowed by a sudden magma-vent or trapped on an isolated basalt island as the surrounding road melts back into the river.
+* **The Husque-Rifts:** The Shyr runs parallel to the Emberspire caldera. The Wyrd-leakage is intense here, and **Husque-Rifts** — tears in reality that leak Keth-Amar's hunger — frequently manifest along the road, vaporizing beasts of burden and consuming the memories of the merchants.
+* **The Caldera-Tolls:** The road is patrolled by the **Thrask** forge-rangers. Evolving wind-scarred skin and thick muscle, the Thrask demand a heavy toll in "blood-ore" and alchemical reagents from any southern merchant seeking to pass. Those who cannot pay are abandoned on the basalt margins, left to the mercy of the cooling stone.
+
+---
+
+## 3. Metaphysical Laws of the Wyrd
+
+The Wyrd, that formless spiritual rot unleashed by Emberspire's eruption, operates on three absolute metaphysical laws, each discovered at immense cost by the early **Exorcists** and **Covenbanes**:
+
+* **The Law of Somatic Echoes:** The Wyrd cannot affect physical matter unless it has a conceptual tether. A house cannot be haunted unless a tragedy occurred within its walls to draw the Wyrd's eye. If a family abandons a cabin because they fear a monster is inside, the Wyrd fills the empty house, transforming their fear into a physical beast. The creature will match their expectations down to the number of teeth and the color of its eyes. If the family believes the beast is vulnerable to silver, the Wyrd-creature will indeed burn when touched by silver — not because silver is inherently magical, but because the blueprint they drew in their minds demanded it.
+* **The Law of Names:** A Wyrd-creature has no name of its own. It inherits the names given to it by the local population. If a village names a shape in the forest "The Old Man of the Woods," the Wyrd-creature becomes bound to that identity. It will mimic an old man, walk with a limp, and respond to the name. If an **Oracle** can discover the first name whispered by the first child who saw the shape, the creature's conceptual integrity can be shattered instantly, reducing it to harmless, formless grey vapor.
+* **The Law of Resonating Guilt:** The Wyrd is attracted to hidden shame, broken promises, and unpaid debts. It acts as an aggressive spiritual mirror. In the **Frostwood Reach**, if a merchant cheats a widow out of her land, the Wyrd will occupy the widow's grief, manifesting as a **Gambrel** that will stalk the merchant's carriage. The merchant's own guilt serves as the beacon; the more he tries to forget his crime, the brighter the beacon burns, and the faster the Gambrel moves.
+
+### Exorcism and Cleansing Protocols
+Because Wyrd-creatures are made of conceptual fear, standard blades and arrows are rarely enough to destroy them permanently. A fighter may sever a beast's head, but as long as the village continues to whisper stories of the beast, the Wyrd will simply reoccupy the legend, rising from the bog on the next sunless night. To permanently cleanse a Wyrd-infestation, an adventurer must:
+1. **Starve the Legend:** The villagers must be sworn to absolute silence. The name of the beast must never be spoken again, and its cautionary tales must be struck from the lineage journals.
+2. **Resolve the Debt:** If the creature was birthed from an unpaid moral debt or broken promise, the original transaction must be completed or legally absolved.
+3. **Deploy Cold Iron or Salt:** Rusted iron and bog-salt disrupt the Wyrd's ability to mirror the human mind. An **Exorcist** must bind the formless rot to physical iron spikes, pinning the concept to the earth until the local memory of the terror fades into dust.
 
 ---
 

@@ -336,7 +336,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
             <div className="header-actions">
               <button
-                className={`community-btn ${isInParty ? 'in-party' : ''}`}
+                className={`community-btn ${isInParty ? 'in-party' : ''} ${showCommunity ? 'active' : ''}`}
                 onClick={handleCommunityClick}
                 title={isInParty ? `Community Chat (In Party${isPartyLeader ? ' - Leader' : ''})` : "Community Chat"}
               >

@@ -288,7 +288,6 @@ const DamageEffects = () => {
         { key: 'spellDamage', name: 'Spell Damage', description: 'Magical damage bonus from intelligence and equipment' },
         { key: 'rangedDamage', name: 'Ranged Damage', description: 'Ranged attack damage bonus from agility and equipment' },
         { key: 'healingPower', name: 'Healing Power', description: 'Healing effectiveness bonus from spirit and equipment' },
-        { key: 'armor', name: 'Armor', description: 'Physical damage reduction' },
         { key: 'initiative', name: 'Initiative', description: 'Initiative bonus for combat order' }
       ],
       'Resources': [
@@ -347,7 +346,7 @@ const DamageEffects = () => {
       },
       {
         name: 'Constitution Scaling',
-        formula: '1d6 + constitution + armor/2',
+        formula: '1d6 + constitution + damageReduction/2',
         description: 'Cast 1d6, channel Constitution + defense',
         category: 'Defensive'
       }
@@ -787,7 +786,7 @@ const DamageEffects = () => {
               <div className="variable-category">
                 <h6>Defensive Stats</h6>
                 <div className="variables-grid">
-                  {['armor', 'maxHealth', 'maxMana', 'healthRegen', 'manaRegen'].map(stat => (
+                  {['damageReduction', 'maxHealth', 'maxMana', 'healthRegen', 'manaRegen'].map(stat => (
                     <button
                       key={stat}
                       className="variable-button"

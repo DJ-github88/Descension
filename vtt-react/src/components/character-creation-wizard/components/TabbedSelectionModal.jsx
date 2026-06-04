@@ -35,7 +35,8 @@ const TabbedSelectionModal = ({
     defaultTab = null,
     icon = null,
     imageIcon = null,
-    gradient = null
+    gradient = null,
+    subHeaderContent = null
 }) => {
     const [activeTab, setActiveTab] = useState(defaultTab || (tabs.length > 0 ? tabs[0].id : null));
 
@@ -114,6 +115,7 @@ const TabbedSelectionModal = ({
                             <h3 className="tabbed-selection-modal-title">
                                 {selectedItem?.name || `${selectionType} Details`}
                             </h3>
+                            {subHeaderContent}
                             {selectedItem?.description && (
                                 <p className="tabbed-modal-subtitle">
                                     {selectedItem.description.substring(0, 100)}

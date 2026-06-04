@@ -4,23 +4,23 @@ export const morthel = {
     essence: 'The Silver-Touched',
     illustration: '/assets/images/races/neth_illustration.png',
     illustrationCaption: 'A tall, silver-skinned Neth in ghost-silk robes, dark pool-like eyes reflecting the canopy-light, utterly still between breaths.',
-    description: 'There is a city in the Gloom Forest built from living ironwood coaxed into cathedral-shapes over a thousand years. It is not a ruin. It is not a monument. It is an archive — the oldest archive in the known world — and the people who live there have been writing in it since before the sun was stolen. The Neth are what happens when a dying clan of scribes looks at an ancient forest-boundary entity and presents a legal argument for their own survival. The argument was accepted. The terms were binding. The silver in their skin, the stillness in their lungs, the pact written in the blood of every descendant — all of it is a contract. And the Neth have been honoring it for eight centuries, because the alternative is the silence that waits for anyone who breaks the terms.',
+    description: `**[The Silver-Skinned Pact-Lords]** — *Inside the quiet canopy-libraries of Atropolis, a tall, silver-skinned scribe traces contract terms on memory-glass, his chest perfectly still and unbreathing as he bargains with the forest's root-veil.*
+
+There is a city in the Gloom Forest built from living ironwood coaxed into cathedral-shapes over a thousand years. It is not a ruin. It is not a monument. It is an archive — the oldest archive in the known world — and the people who live there have been writing in it since before the sun was stolen. The Neth are what happens when a dying clan of scribes looks at an ancient forest-boundary entity and presents a legal argument for their own survival. The argument was accepted. The terms were binding. The silver in their skin, the stillness in their lungs, the pact written in the blood of every descendant — all of it is a contract. And the Neth have been honoring it for eight centuries, because the alternative is the silence that waits for anyone who breaks the terms.`,
     icon: 'fas fa-scroll',
-    overview: `We were dying. The first freeze had crept into the Gloom — not the sudden ice of Nordhalla, but a slow, insidious cold that seeped through the ancient woods and found the children first. Our ancestors were scribes, archivists, merchant-brokers — the Gloom's legal class, the ones who recorded who owed whom, who married whom, who betrayed whom, who inherited what. We were not warriors. We were not priests. We were the people who remembered, and memory does not stop frostbite.
+    overview: `The Neth were dying. The first freeze had crept into the Gloom — not the sudden ice of Nordhalla, but a slow, insidious cold that seeped through the ancient woods and found the children first. Their ancestors were scribes, archivists, merchant-brokers — the Gloom's legal class, the ones who recorded who owed whom, who married whom, who betrayed whom, who inherited what. They were not warriors or priests. They were the people who remembered, and memory does not stop frostbite.
 
-We walked into the deep wood where the bioluminescent trees thin and the preserving bog begins. We carried every contract we had ever written, every precedent, every genealogical record. We found the Keeper of the Last Threshold waiting at the boundary — an entity older than the Wyrd, older than the noble families, older than any name we have for it. The Vreken call it the Root-Veil and worship it. We called it by what it is: the thing that decides what the Gloom preserves and what the Gloom consumes.
+They walked into the deep wood where the bioluminescent trees thin and the preserving bog begins, carrying every contract they had ever written, every precedent, and every genealogical record. They found the Keeper of the Last Threshold waiting at the boundary — an entity older than the Wyrd, older than the noble families, and older than any name. The Vreken call it the Root-Veil and worship it. The Neth ancestors called it by what it is: the thing that decides what the Gloom preserves and what the Gloom consumes.
 
-We did not pray. We presented a case.
+They did not pray. They presented a case.
 
-*You are the record-keeper of the forest. We are the record-keepers of civilization. If we die, the record dies — every debt, every promise, every name. If you preserve us, we will record everything. Every contract we write will carry a piece of your authority. The forest's memory will never fade, because we will be its living archive.*
+*You are the record-keeper of the forest. The Neth are the record-keepers of civilization. If we die, the record dies — every debt, every promise, every name. If you preserve us, we will record everything. Every contract we write will carry a piece of your authority. The forest's memory will never fade, because we will be its living archive.*
 
-The Keeper had never been reasoned with. Only feared, prayed to, or fed. It considered the argument — the first argument anyone had ever made to it that treated it as a partner, not a god. It accepted.
+The Keeper had never been reasoned with, only feared, prayed to, or fed. It considered the argument — the first argument anyone had ever made to it that treated it as a partner, not a god — and accepted.
 
-We rose from the bog with silver skin instead of dying flesh. With stilled breath — no need for air unless we chose to speak. With the pact written in the blood of every descendant, a contract that would outlast our bodies and carry into the next and the next and the next. The Keeper would preserve us for as long as we honored the terms.
+They rose from the bog with silver skin instead of dying flesh, with stilled breath, and with the pact written in the blood of every descendant, a contract that would outlast their bodies and carry into subsequent generations. The Keeper would preserve them for as long as they honored the terms.
 
-That was eight centuries ago. The First Contract still rests in the heart of Atropolis, visible through living heartwood like a fossil in amber. We are still here. We are still writing. And the Keeper is still watching — not as a god, not as a predator, but as a business partner with very long patience and an excellent memory for breached terms.
-
-We are the Neth. We do not die. We renegotiate.`,
+That was eight centuries ago. The First Contract still rests in the heart of Atropolis, visible through living heartwood like a fossil in amber. The Neth are still there, and they are still writing. The Keeper is still watching — not as a god or predator, but as a business partner with very long patience and an excellent memory for breached terms. The Neth do not die; they renegotiate.`,
 
     culturalBackground: `Neth society is built on a single document: the First Contract, preserved in the heart of Atropolis. Every Neth contract written since carries a fragment of that original pact's authority — a tiny renewal of the agreement that keeps their entire species alive. They do not write contracts because they love paperwork. They write contracts because the act of writing one is an act of worship, a reminded pulse sent through the pact, a signal to the Keeper that says: *we are still here, and the terms still hold.*
 
@@ -41,7 +41,7 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
     integrationNotes: {
         actionPointSystem: 'Neth abilities focus on contract-invocation, fate-weaving, and preservation. Velun wizards are spellcasters who convert mana into binding clauses. Kessen manipulate probability and require careful positioning. Drun operate outside the pact entirely, immune to enforcement but unable to benefit from Neth social systems.',
         backgroundSynergy: 'Neth excel in backgrounds emphasizing scholarship, negotiation, investigation, and survival. Their pact-based existence creates deep roleplay hooks around debt, obligation, the Unraveling, and the Fading.',
-        classCompatibility: 'Velun favor Arcanoneer, Inscriptor, Witch Doctor, and Lichborne. Kessen favor Gambler, Chaos Weaver, Fate Weaver, and Chronarch. Drun favor False Prophet, Doomsayer, Plaguebringer, and Toxicologist.'
+        classCompatibility: 'The Velun favor Arcanoneers, Inscriptors, Witch Doctors, and Lichbornes, drawing upon the First Contract\'s authority to bind spells in legal script, preserve spirits in memory-glass, and replicate the Keeper\'s partial death. The Kessen favor Gamblers, Chaos Weavers, Fate Weavers, and Chronarchs, utilizing their ability to perceive the obligation-web of the world to tilt the scales of probability and manipulate the flow of time. The Drun favor False Prophets, Doomsayers, Plaguebringers, and Toxicologists, operating outside the Keeper\'s legal system to harness raw, non-contractual decay, fear, and alchemical poison.'
     },
 
     meaningfulTradeoffs: 'Neth gain preservation and magical power through their pact with the Keeper, but are tethered to physical copies of the First Contract — straying too far causes the Fading. The Unraveling offers freedom at the cost of self-destruction. Subrace flaws are binding: Velun cannot lie, Kessen break things they cannot see, and Drun are legally non-existent.',
@@ -338,7 +338,7 @@ The Neth do not love the Keeper. They respect it the way a debtor respects a cre
         velun: {
             id: 'velun_morthel',
             name: 'Velun',
-            illustration: '/assets/images/races/neth_illustration.png',
+            illustration: '/assets/images/races/velun_illustration.png',
             illustrationCaption: 'A Velun arcanist in layered ghost-silk robes, silver skin catching canopy-light, dark eyes reflecting the contract-glyph that spirals around the pupil.',
             description: 'The inheritors of the Keeper\'s authority. When a Velun speaks the pact\'s words, the universe listens — their voice carries the Keeper\'s cosmic weight, and their contracts are enforceable by the same entity that preserves their species. In exchange, their tongue is bound: they cannot lie, cannot break a spoken promise, cannot speak in hypotheticals without the pact treating it as a potential contract under review.',
             culturalBackground: `The Velun trace their bloodline to the original scribes who presented the First Contract to the Keeper — Vaelis the Scribe's direct descendants, generation by generation, clause by clause. They run Atropolis. They write the contracts that govern Neth society. They negotiate with the Emberth, the humans, the Mimir, anyone who needs Neth preservation-craft or Neth memory-glass — and their negotiations are always, always binding.
@@ -350,7 +350,7 @@ A Velun's power is their voice. When they invoke a clause aloud — a binding, a
 The flaw is inseparable from the gift. A Velun cannot lie. They cannot break a promise — any promise, no matter how small, no matter how casually made. They cannot speak in hypotheticals with impunity; the pact may treat a "what if" as a draft contract, and drafts, in Neth law, are admissible as evidence of intent. The oldest Velun speak rarely. They choose every word like it costs them something — because it does. The youngest Velun learn silence before they learn magic.
 
 They view the Kessen with a mixture of admiration and unease — the Kessen see the web behind the text, the implications the Velun cannot perceive, and that makes them useful and unpredictable. They view the Drun with something closer to horror — the Drun are what happens when a Neth decides the pact's weight is heavier than the silence, and the Velun cannot process a choice that results in legal non-existence.`,
-            statModifiers: { spirit: 3, intelligence: 2, strength: -1 },
+            statModifiers: { spirit: 2, intelligence: 1, strength: -1 },
             traits: [
                 {
                     id: 'bound_tongue_velun',
@@ -475,7 +475,7 @@ They view the Kessen with a mixture of admiration and unease — the Kessen see 
         kessen: {
             id: 'kessen_morthel',
             name: 'Kessen',
-            illustration: '/assets/images/races/neth_illustration.png',
+            illustration: '/assets/images/races/kessen_illustration.png',
             illustrationCaption: 'A Kessen weaver in close-fitting silver-grey silks, eyes unfocused on the obligation-web, probability-glyphs visible only to them tracing the air around their fingers.',
             description: 'The inheritors of the Keeper\'s sight. Where the Velun see the text, the Kessen see the implications — the web of obligation connecting every signatory across time, the probability-tendrils of contracts not yet signed, the future clauses that will exist if certain choices are made. They manipulate fate by tugging the right thread at the right moment. Every tug snaps something elsewhere.',
             culturalBackground: `The Kessen are the Neth who read between the lines. Their bloodline inherited the Keeper's sight — not the authority to enforce contracts, but the perception to see what contracts *imply.* They perceive the obligation-web: a visible, shimmering network of debt-threads connecting every living thing who has ever promised anything to anyone. The web extends across time — a Kessen can see the ghost-threads of promises not yet made, the probability-tendrils of contracts that will exist if certain choices are taken.
@@ -489,7 +489,7 @@ The flaw is Thread-Blindness. The Kessen see obligations everywhere — includin
 Worse: every time a Kessen manipulates probability, something elsewhere in the web snaps. The thread they tugged was connected to something — a stranger's luck sours, a distant contract defaults, a tree sickens in a forest the Kessen has never seen. They feel the break. They never know what broke. They carry that weight anyway.
 
 They view the Velun with a mixture of respect and pity — the Velun have power, but they are blind to the implications of what they wield. They view the Drun with something like awe — the Drun are invisible to the obligation-web, the only Neth the Kessen cannot read, and that absence is more compelling than any presence.`,
-            statModifiers: { agility: 2, spirit: 3, strength: -1 },
+            statModifiers: { agility: 2, spirit: 1, strength: -1 },
             traits: [
                 {
                     id: 'keepers_sight_kessen',
@@ -518,8 +518,8 @@ They view the Velun with a mixture of respect and pity — the Velun have power,
                             {
                                 id: 'thread_blindness',
                                 name: 'Thread-Blindness',
-                                description: 'In any social situation involving more than 10 people — crowded markets, court proceedings, battle councils — the obligation-web becomes overwhelming. Disadvantage on Wisdom and Charisma checks as the threads of every promise, debt, and potential future clause compete for your attention. You see too much to focus on any one thing.',
-                                statModifier: { stat: 'wisdom', magnitude: -99, magnitudeType: 'disadvantage', conditions: { largeCrowds: true } },
+                                description: 'In any social situation involving more than 10 people — crowded markets, court proceedings, battle councils — the obligation-web becomes overwhelming. Disadvantage on Spirit and Charisma checks as the threads of every promise, debt, and potential future clause compete for your attention. You see too much to focus on any one thing.',
+                                statModifier: { stat: 'spirit', magnitude: -99, magnitudeType: 'disadvantage', conditions: { largeCrowds: true } },
                                 additionalStatModifier: { stat: 'charisma', magnitude: -99, magnitudeType: 'disadvantage', conditions: { largeCrowds: true } }
                             },
                             {
@@ -620,7 +620,7 @@ They view the Velun with a mixture of respect and pity — the Velun have power,
         drun: {
             id: 'drun_morthel',
             name: 'Drun',
-            illustration: '/assets/images/races/neth_illustration.png',
+            illustration: '/assets/images/races/drun_illustration.png',
             illustrationCaption: 'A Drun outcast in simple, unmarked fabrics, silver skin slightly dulled from distance to the pact, dark eyes watching something the pact-bound cannot perceive.',
             description: 'The inheritors of the Keeper\'s silence. Through the Severing — a traumatic fire-ritual that burns their name from every active copy of the First Contract — the Drun have removed themselves from the pact entirely. They are magic-resistant, debt-null, invisible to the Keeper\'s enforcement. They are also legally non-existent: no property, no marriage, no testimony in a Neth court. Their freedom is absolute. Their vulnerability is absolute.',
             culturalBackground: `The Drun were not meant to exist. The original pact made no provision for Neth who might wish to leave it — the terms were binding in perpetuity, and "perpetuity," in Neth contract law, means "until the Keeper releases you, and the Keeper has never released anyone."
@@ -636,7 +636,7 @@ The flaw is absolute. A Drun is legally non-existent under Neth law. They cannot
 They are also severed from the pact's preservation. A Drun must eat, drink, and sleep like any warm-blood. They age, slowly — the silver skin dulls over centuries, the dark eyes fade, the Stillness no longer restores them. They are the only Neth who will eventually die of old age, and none have lived long enough yet to know how long that takes.
 
 They view the Velun with something between pity and contempt — the Velun are powerful and trapped, and the Drun remember what it felt like to be both. They view the Kessen with a strange, wistful recognition — the Kessen can see the Drun in the obligation-web as *absences,* holes where a thread should be, and the Drun can feel the Kessen watching. Neither speaks of this. Neither needs to.`,
-            statModifiers: { agility: 3, intelligence: 2, spirit: -1 },
+            statModifiers: { agility: 2, intelligence: 1, spirit: -1 },
             traits: [
                 {
                     id: 'severed_drun',

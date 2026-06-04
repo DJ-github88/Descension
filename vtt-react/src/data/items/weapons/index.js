@@ -38,8 +38,8 @@ export const WEAPONS = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'wanderers-edge',
@@ -68,8 +68,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 80,
-    maxDurability: 80
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'soulthirst',
@@ -99,8 +99,8 @@ export const WEAPONS = [
       agility: { value: 2, isPercentage: false },
       constitution: { value: -1, isPercentage: false }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === TWO-HANDED WEAPONS ===
@@ -143,8 +143,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'grave-axe',
@@ -184,8 +184,8 @@ export const WEAPONS = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 75,
-    maxDurability: 75
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'cleaver',
@@ -225,8 +225,8 @@ export const WEAPONS = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'battle-axe',
@@ -266,8 +266,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 90,
-    maxDurability: 90
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === MACE & BLUNT ===
@@ -309,8 +309,8 @@ export const WEAPONS = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 90,
-    maxDurability: 90
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'bone-hunger',
@@ -339,8 +339,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
 
   // === RANGED WEAPONS ===
@@ -382,8 +382,8 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false },
       strength: { value: -1, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'hunters-whisper',
@@ -423,8 +423,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 80,
-    maxDurability: 80
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === STAFFS & MAGIC ===
@@ -474,8 +474,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'fractured-dream',
@@ -511,8 +511,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 30,
-    maxDurability: 30
+    durability: 'd4',
+    maxDurability: 'd4'
   },
 
   // === OFF-HAND WEAPONS ===
@@ -546,8 +546,8 @@ export const WEAPONS = [
     combatStats: {
       armor: { value: 1, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'warding-dagger',
@@ -579,8 +579,8 @@ export const WEAPONS = [
     combatStats: {
       armor: { value: 2, isPercentage: false }
     },
-    durability: 65,
-    maxDurability: 65
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'small-buckler',
@@ -612,8 +612,8 @@ export const WEAPONS = [
     combatStats: {
       armor: { value: 1, isPercentage: false }
     },
-    durability: 35,
-    maxDurability: 35
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'iron-buckler',
@@ -646,8 +646,8 @@ export const WEAPONS = [
     combatStats: {
       armor: { value: 2, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'tattered-tome',
@@ -684,8 +684,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'ancient-tome',
@@ -721,8 +721,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'dim-orb',
@@ -759,8 +759,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 35,
-    maxDurability: 35
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'glowing-orb',
@@ -797,8 +797,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'weathered-totem',
@@ -835,8 +835,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'carved-totem',
@@ -872,8 +872,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'crude-idol',
@@ -910,8 +910,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 35,
-    maxDurability: 35
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'sacred-idol',
@@ -947,8 +947,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === INSTRUMENTS ===
@@ -987,8 +987,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'travelers-lute',
@@ -1024,8 +1024,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'broken-flute',
@@ -1062,8 +1062,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 30,
-    maxDurability: 30
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'war-drum',
@@ -1101,8 +1101,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'hunters-horn',
@@ -1138,8 +1138,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'weathered-violin',
@@ -1176,8 +1176,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'travelers-guitar',
@@ -1213,8 +1213,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === RAPIERS ===
@@ -1246,8 +1246,8 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false },
       strength: { value: -1, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'duelists-thorn',
@@ -1276,8 +1276,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 75,
-    maxDurability: 75
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === KATANAS ===
@@ -1309,8 +1309,8 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false },
       strength: { value: -1, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'wandering-blade',
@@ -1339,8 +1339,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === SABERS ===
@@ -1371,8 +1371,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'cavalry-saber',
@@ -1401,8 +1401,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === SICKLES ===
@@ -1433,8 +1433,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'harvesters-curse',
@@ -1463,8 +1463,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === FLAILS ===
@@ -1496,8 +1496,8 @@ export const WEAPONS = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 45,
-    maxDurability: 45
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'iron-thresher',
@@ -1527,8 +1527,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 65,
-    maxDurability: 65
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === FIST WEAPONS ===
@@ -1559,8 +1559,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 35,
-    maxDurability: 35
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'iron-talons',
@@ -1589,8 +1589,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === CROSSBOWS ===
@@ -1621,8 +1621,8 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false },
       strength: { value: -1, isPercentage: false }
     },
-    durability: 45,
-    maxDurability: 45
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'hunters-crossbow',
@@ -1659,8 +1659,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 75,
-    maxDurability: 75
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === THROWN WEAPONS ===
@@ -1690,8 +1690,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'weathered-boomerang',
@@ -1719,8 +1719,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'chipped-chakram',
@@ -1748,8 +1748,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'shuriken',
@@ -1777,8 +1777,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 45,
-    maxDurability: 45
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'dart',
@@ -1806,8 +1806,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 30,
-    maxDurability: 30
+    durability: 'd4',
+    maxDurability: 'd4'
   },
 
   // === BLOWGUNS ===
@@ -1838,8 +1838,8 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false },
       constitution: { value: -1, isPercentage: false }
     },
-    durability: 35,
-    maxDurability: 35
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'hunters-blowgun',
@@ -1867,8 +1867,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === SLINGS ===
@@ -1898,8 +1898,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
-    durability: 30,
-    maxDurability: 30
+    durability: 'd4',
+    maxDurability: 'd4'
   },
   {
     id: 'shepherds-sling',
@@ -1927,8 +1927,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
 
   // === HALBERDS ===
@@ -1960,8 +1960,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'polearm-of-burden',
@@ -1991,8 +1991,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 80,
-    maxDurability: 80
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === SCYTHES ===
@@ -2024,8 +2024,8 @@ export const WEAPONS = [
       strength: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'reapers-tool',
@@ -2055,8 +2055,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === JOUSTING SPEARS ===
@@ -2088,8 +2088,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 55,
-    maxDurability: 55
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'knights-lance',
@@ -2119,8 +2119,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 75,
-    maxDurability: 75
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === DOUBLE-SIDED SWORDS ===
@@ -2152,8 +2152,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'twin-blade',
@@ -2183,8 +2183,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
 
   // === WARHAMMERS ===
@@ -2216,8 +2216,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    durability: 65,
-    maxDurability: 65
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'iron-judgment',
@@ -2247,8 +2247,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 85,
-    maxDurability: 85
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === UNCOMMON WEAPONS WITH EFFECTS ===
@@ -2311,8 +2311,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'frostbite',
@@ -2373,8 +2373,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 90,
-    maxDurability: 90
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'thunderstrike',
@@ -2435,8 +2435,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 110,
-    maxDurability: 110
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'venomstrike',
@@ -2497,8 +2497,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 85,
-    maxDurability: 85
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'soulreaper',
@@ -2560,8 +2560,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 120,
-    maxDurability: 120
+    durability: 'd12',
+    maxDurability: 'd12'
   },
 
   // === RARE WEAPONS WITH EFFECTS ===
@@ -2626,8 +2626,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 150,
-    maxDurability: 150
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'shadowblade',
@@ -2689,8 +2689,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 130,
-    maxDurability: 130
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'bonecrusher',
@@ -2747,8 +2747,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 160,
-    maxDurability: 160
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'windwhisper',
@@ -2808,8 +2808,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 140,
-    maxDurability: 140
+    durability: 'd12',
+    maxDurability: 'd12'
   },
 
   // === EPIC WEAPONS WITH POWERFUL EFFECTS ===
@@ -2873,8 +2873,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 200,
-    maxDurability: 200
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'voidreaver',
@@ -2937,8 +2937,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 180,
-    maxDurability: 180
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'stormbreaker',
@@ -3000,8 +3000,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 220,
-    maxDurability: 220
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'icebreaker',
@@ -3063,8 +3063,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 200,
-    maxDurability: 200
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'disarmor',
@@ -3121,8 +3121,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 130,
-    maxDurability: 130
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'venomfang',
@@ -3183,8 +3183,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'dueling-rapier',
@@ -3214,8 +3214,8 @@ export const WEAPONS = [
       agility: { value: 3, isPercentage: false },
       intelligence: { value: 1, isPercentage: false }
     },
-    durability: 95,
-    maxDurability: 95
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'honor-blade',
@@ -3245,8 +3245,8 @@ export const WEAPONS = [
       agility: { value: 3, isPercentage: false },
       spirit: { value: 1, isPercentage: false }
     },
-    durability: 95,
-    maxDurability: 95
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'cavalry-saber',
@@ -3276,8 +3276,8 @@ export const WEAPONS = [
       agility: { value: 3, isPercentage: false },
       strength: { value: 1, isPercentage: false }
     },
-    durability: 95,
-    maxDurability: 95
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'harvest-sickle',
@@ -3306,8 +3306,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 3, isPercentage: false }
     },
-    durability: 85,
-    maxDurability: 85
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'chain-flail',
@@ -3337,8 +3337,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: 1, isPercentage: false }
     },
-    durability: 90,
-    maxDurability: 90
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'iron-fist',
@@ -3368,8 +3368,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: 2, isPercentage: false }
     },
-    durability: 80,
-    maxDurability: 80
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'arcane-staff',
@@ -3406,8 +3406,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 110,
-    maxDurability: 110
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'wand-of-flame',
@@ -3443,8 +3443,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'wand-of-frost',
@@ -3480,8 +3480,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 70,
-    maxDurability: 70
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'throwing-axe',
@@ -3510,8 +3510,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'throwing-dagger',
@@ -3540,8 +3540,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 40,
-    maxDurability: 40
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'poison-blowgun',
@@ -3576,8 +3576,8 @@ export const WEAPONS = [
         }
       }
     },
-    durability: 80,
-    maxDurability: 80
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'sling-stone',
@@ -3605,8 +3605,8 @@ export const WEAPONS = [
     baseStats: {
       agility: { value: 2, isPercentage: false }
     },
-    durability: 60,
-    maxDurability: 60
+    durability: 'd8',
+    maxDurability: 'd8'
   },
   {
     id: 'war-spear',
@@ -3636,8 +3636,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: 1, isPercentage: false }
     },
-    durability: 90,
-    maxDurability: 90
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'pike',
@@ -3667,8 +3667,8 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'glaive',
@@ -3698,8 +3698,8 @@ export const WEAPONS = [
       strength: { value: 3, isPercentage: false },
       agility: { value: 1, isPercentage: false }
     },
-    durability: 110,
-    maxDurability: 110
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'executioners-axe',
@@ -3729,8 +3729,8 @@ export const WEAPONS = [
       strength: { value: 3, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 120,
-    maxDurability: 120
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'berserker-axe',
@@ -3760,8 +3760,8 @@ export const WEAPONS = [
       strength: { value: 3, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    durability: 120,
-    maxDurability: 120
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'battle-halberd',
@@ -3791,8 +3791,8 @@ export const WEAPONS = [
       strength: { value: 3, isPercentage: false },
       agility: { value: 0, isPercentage: false }
     },
-    durability: 110,
-    maxDurability: 110
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'reapers-scythe',
@@ -3822,7 +3822,7 @@ export const WEAPONS = [
       strength: { value: 2, isPercentage: false },
       agility: { value: 2, isPercentage: false }
     },
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   }
 ];

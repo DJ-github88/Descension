@@ -10,11 +10,11 @@
     padding: 0; /* Remove padding to use full space */
     margin: 0; /* Remove margin to use full space */
     background: linear-gradient(135deg,
-        rgba(240, 230, 210, 0.95) 0%,
-        rgba(230, 220, 200, 0.9) 50%,
-        rgba(213, 203, 176, 0.85) 100%);
+        #f0e6d2 0%,
+        #e6dac8 50%,
+        #d5cbb8 100%);
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-    color: #5a1e12;
+    color: #5c4033;
 }
 
 /* When skills-container only contains no-skill-selected, center it */
@@ -35,8 +35,8 @@
     width: 260px !important;
     flex-shrink: 0 !important;
     background: linear-gradient(135deg,
-        rgba(213, 203, 176, 0.98) 0%,
-        rgba(200, 190, 160, 0.95) 100%);
+        #d5cbb8 0%,
+        #c8bea8 100%);
     border-right: 3px solid #8b7355;
     padding: 0;
     display: flex !important;
@@ -64,7 +64,7 @@
         rgba(190, 180, 150, 0.85) 100%);
     border: none;
     border-bottom: 2px solid #8b7355;
-    color: #5a1e12;
+    color: #5c4033;
     font-family: 'Cinzel', serif;
     font-size: 16px;
     font-weight: 600;
@@ -115,7 +115,7 @@
     border-radius: 6px;
     font-family: 'Cinzel', serif;
     font-size: 12px;
-    color: #5a1e12;
+    color: #5c4033;
     outline: none;
     transition: all 0.3s ease;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -127,10 +127,10 @@
 }
 
 .skills-search-input:focus {
-    border-color: #7a3b2e;
+    border-color: #6b5344;
     box-shadow:
         inset 0 1px 3px rgba(0, 0, 0, 0.1),
-        0 0 0 3px rgba(122, 59, 46, 0.1);
+        0 0 0 3px rgba(107, 83, 68, 0.1);
 }
 
 .skills-search-clear {
@@ -145,7 +145,7 @@
 }
 
 .skills-search-clear:hover {
-    color: #7a3b2e;
+    color: #6b5344;
     transform: translateY(-50%) scale(1.2);
 }
 
@@ -172,7 +172,7 @@
     font-family: 'Cinzel', serif;
     font-size: 11px;
     font-weight: 700;
-    color: #5a1e12;
+    color: #5c4033;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -200,7 +200,7 @@
 
 .skill-category-icon-fa {
     font-size: 16px;
-    color: #7a3b2e;
+    color: #6b5344;
 }
 
 .skill-category-name {
@@ -268,9 +268,9 @@
 
 .skill-list-item.selected {
     background: linear-gradient(90deg,
-        rgba(122, 59, 46, 0.2) 0%,
+        rgba(107, 83, 68, 0.2) 0%,
         rgba(139, 115, 85, 0.15) 100%);
-    border-left: 4px solid #7a3b2e;
+    border-left: 4px solid #6b5344;
     padding-left: 20px;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -295,7 +295,7 @@
 
 .skill-list-progress {
     font-size: 10px;
-    color: #5a1e12;
+    color: #5c4033;
     font-weight: 700;
     padding: 3px 7px;
     background: linear-gradient(135deg,
@@ -538,7 +538,7 @@
     font-family: 'Cinzel', serif;
     font-size: 11px;
     font-weight: 600;
-    color: #5a1e12;
+    color: #5c4033;
     cursor: pointer;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
@@ -553,21 +553,21 @@
 }
 
 .skill-rank-dropdown:hover {
-    border-color: #7a3b2e;
+    border-color: #6b5344;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .skill-rank-dropdown:focus {
     outline: none;
-    border-color: #7a3b2e;
-    box-shadow: 0 0 0 2px rgba(122, 59, 46, 0.2);
+    border-color: #6b5344;
+    box-shadow: 0 0 0 2px rgba(107, 83, 68, 0.2);
 }
 
 .skill-rank-dropdown option {
     padding: 6px 10px;
     font-family: 'Cinzel', serif;
     font-size: 12px;
-    color: #5a1e12;
+    color: #5c4033;
     background: #f0e6d2;
 }
 
@@ -585,7 +585,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.3px;
-    color: #5a1e12;
+    color: #5c4033;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     text-align: center;
     white-space: nowrap;
@@ -598,8 +598,8 @@
         rgba(255, 255, 255, 0.9) 0%,
         rgba(250, 240, 230, 0.8) 100%);
     border-radius: 4px;
-    border: 1px solid #7a3b2e;
-    color: #7a3b2e;
+    border: 1px solid #6b5344;
+    color: #6b5344;
     font-family: 'Cinzel', serif;
     font-size: 12px;
     font-weight: 600;
@@ -687,7 +687,7 @@
     background: linear-gradient(135deg,
         rgba(255, 245, 225, 0.95) 0%,
         rgba(240, 225, 200, 0.95) 100%);
-    border-color: #7a3b2e;
+    border-color: #6b5344;
     transform: translateY(-1px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
@@ -696,7 +696,7 @@
     font-family: 'Cinzel', serif;
     font-size: 20px;
     font-weight: 700;
-    color: #7a3b2e;
+    color: #6b5344;
     margin: 0 0 20px 0;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
     padding-bottom: 12px;
@@ -755,7 +755,7 @@
     font-family: 'Cinzel', serif;
     font-size: 14px;
     font-weight: 600;
-    color: #5a1e12;
+    color: #5c4033;
     margin: 0 0 4px 0;
 }
 
@@ -829,7 +829,7 @@
     font-weight: 700;
     letter-spacing: 0.4px;
     text-transform: uppercase;
-    color: #5a1e12;
+    color: #5c4033;
     background: linear-gradient(135deg, rgba(255, 250, 235, 0.95), rgba(244, 232, 200, 0.9));
     border: 1px solid #c6a02d;
     border-radius: 999px;
@@ -851,7 +851,7 @@
     font-family: 'Cinzel', serif;
     font-size: 20px;
     font-weight: 700;
-    color: #7a3b2e;
+    color: #6b5344;
     margin: 0 0 12px 0;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
     padding-bottom: 12px;
@@ -1074,7 +1074,7 @@
 
 .skills-content::-webkit-scrollbar-thumb:hover,
 .skills-sidebar::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 100%);
+    background: linear-gradient(135deg, #a68b52 0%, #8b7355 100%);
 }
 
 /* Responsive adjustments */
@@ -1123,7 +1123,7 @@
     margin: 0 0 12px 0;
     font-size: 14px;
     font-weight: 600;
-    color: #5a1e12;
+    color: #5c4033;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -1162,22 +1162,22 @@
 
 .die-selector-icon.selected {
     background: linear-gradient(135deg,
-        rgba(139, 115, 85, 0.9) 0%,
-        rgba(107, 83, 69, 0.85) 100%);
-    border-color: #5a1e12;
-    box-shadow: 0 0 12px rgba(139, 115, 85, 0.6),
-                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+        #cbb07a 0%,
+        #a68b52 100%);
+    border-color: #b89b6a;
+    box-shadow: 0 0 12px rgba(197, 160, 89, 0.35),
+                inset 0 2px 4px rgba(255, 255, 255, 0.25);
 }
 
 .die-selector-icon.selected .die-number {
-    color: #f0e6d2;
+    color: #3d2b1d;
     font-weight: 700;
 }
 
 .die-number {
     font-size: 20px;
     font-weight: 600;
-    color: #5a1e12;
+    color: #5c4033;
     font-family: 'Cinzel', serif;
 }
 
@@ -1288,4 +1288,401 @@
 .character-sheet .weapon-type-option.selected .weapon-type-icon {
     filter: drop-shadow(0 0 10px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.6)));
     transform: scale(1.04);
+}
+
+/* ============================================================
+   SIMPLE MODE — CLEAN DIE-BASED SKILL VIEW
+   ============================================================ */
+
+/* Simple Header */
+.skill-simple-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(253, 250, 242, 0.96) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(90, 30, 18, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.skill-simple-header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(90, 30, 18, 0.15), 0 4px 8px rgba(0, 0, 0, 0.08);
+    border-color: #6b5344;
+}
+
+.skill-simple-header-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex: 1;
+    min-width: 0;
+}
+
+.skill-simple-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    border: 2px solid #8b7355;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(90, 30, 18, 0.2);
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.skill-simple-header:hover .skill-simple-icon {
+    transform: scale(1.05) rotate(2deg);
+    border-color: #6b5344;
+    box-shadow: 0 5px 15px rgba(90, 30, 18, 0.3);
+}
+
+.skill-simple-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.skill-simple-name {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    color: #3e2723;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.15), 0 0 8px rgba(255,255,255,0.5);
+    line-height: 1.2;
+}
+
+.skill-simple-description {
+    font-size: 14px;
+    color: #6b4423;
+    margin: 0;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.skill-simple-attrs {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+.skill-attr-badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.skill-attr-badge.primary {
+    background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.08) 100%);
+    border: 1px solid rgba(212,175,55,0.4);
+    color: #8b6914;
+}
+
+.skill-attr-badge.secondary {
+    background: linear-gradient(135deg, rgba(139,69,19,0.1) 0%, rgba(139,69,19,0.05) 100%);
+    border: 1px solid rgba(139,69,19,0.3);
+    color: #6b5344;
+}
+
+/* Simple Header Right — Die Badge + Controls */
+.skill-simple-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.skill-simple-die-badge {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    border: 3px solid;
+    background: linear-gradient(135deg,
+        rgba(255,255,255,0.98) 0%,
+        rgba(252,248,238,0.95) 100%);
+    box-shadow: 0 5px 15px rgba(90, 30, 18, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.skill-simple-die-badge:hover {
+    transform: scale(1.08) rotate(5deg);
+    box-shadow: 0 8px 20px rgba(90, 30, 18, 0.2);
+}
+
+.die-badge-size {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #3e2723;
+    line-height: 1;
+}
+
+.die-badge-rank {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #8b7355;
+}
+
+.skill-simple-dropdown {
+    min-width: 110px;
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.skill-simple-roll {
+    padding: 12px 24px;
+    font-size: 15px;
+    background: linear-gradient(135deg, #8a2e1d 0%, #5e1c10 100%);
+    color: #fdf6e3;
+    border: 2px solid #5a2a0f;
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(90, 30, 18, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-simple-roll::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: all 0.5s ease;
+}
+
+.skill-simple-roll:hover::after {
+    left: 100%;
+}
+
+.skill-simple-roll:hover {
+    background: linear-gradient(135deg, #a64735 0%, #8a2e1d 100%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 15px rgba(90, 30, 18, 0.35);
+}
+
+.skill-simple-roll:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 2px 5px rgba(90, 30, 18, 0.2);
+}
+
+/* Simple Cards */
+.skill-simple-card {
+    padding: 18px 22px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.99) 0%,
+        rgba(252, 249, 243, 0.97) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(90, 30, 18, 0.08);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.skill-simple-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(90, 30, 18, 0.12);
+    border-color: #8b7355;
+}
+
+.skill-simple-card h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #3e2723;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.12);
+}
+
+.skill-simple-card h4 i {
+    color: #b8860b;
+    font-size: 14px;
+}
+
+.skill-simple-context {
+    font-size: 14px;
+    color: #5c4033;
+    line-height: 1.65;
+    margin: 0 0 12px 0;
+    font-weight: 500;
+}
+
+.skill-simple-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.03) 100%);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 8px;
+    font-size: 13px;
+    color: #6d4c41;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.skill-simple-hint i {
+    color: #b8860b;
+    font-size: 14px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Steps */
+.skill-simple-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skill-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    background: rgba(253, 248, 238, 0.7);
+    border-radius: 8px;
+    border: 1px solid rgba(139, 69, 19, 0.08);
+}
+
+.skill-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b7355 0%, #6b5a3e 100%);
+    color: #fdf6e3;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.skill-step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.skill-step-body strong {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    color: #3e2723;
+}
+
+.skill-step-body span {
+    font-size: 13px;
+    color: #6d4c41;
+    line-height: 1.5;
+}
+
+/* Advancement Track */
+.skill-advancement-card {
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(245, 240, 230, 0.95) 100%);
+    border-color: rgba(184, 134, 11, 0.4);
+}
+
+.skill-advancement-track {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 14px 0;
+}
+
+.advancement-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 10px;
+    min-width: 64px;
+    background: rgba(255,255,255,0.7);
+    border: 2px solid;
+    border-radius: 8px;
+    opacity: 0.45;
+    transition: all 0.2s ease;
+}
+
+.advancement-node.past {
+    opacity: 0.75;
+    background: rgba(240, 250, 245, 0.6);
+}
+
+.advancement-node.current {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,245,235,0.9) 100%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.advancement-die {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #3e2723;
+    line-height: 1;
+}
+
+.advancement-name {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #8b7355;
+}
+
+/* Responsive simple header */
+@media (max-width: 768px) {
+    .skill-simple-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .skill-simple-header-right {
+        flex-direction: row;
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .skill-simple-die-badge {
+        width: 64px;
+        height: 64px;
+    }
+    .die-badge-size {
+        font-size: 20px;
+    }
 }

@@ -11,6 +11,16 @@ export const BIOMES = [
     name: 'Arctic',
     icon: 'fa-snowflake',
     localIcon: 'assets/icons/abilities/Frost/Snowflake.png',
+    regionFlavor: {
+      regionName: 'Nordhalla',
+      curseName: 'Glacier Freeze',
+      description: 'The freezing tundra of Nordhalla is locked in eternal glacial stasis under an unmoving, pale sky. The temperature is so low that the cold becomes a physical obstacle, ensuring a severity 1 minimum weather effect at all times.',
+      rules: [
+        'Perpetual severity 1 minimum weather condition.',
+        'Standard exposed torches are extinguished instantly by sub-zero winds.',
+        'Taking a short or long rest outside of geothermal volcanic vent areas or insulated shelter requires a Constitution save against a moderate die (d8) or the character suffers 1 level of Exhaustion.'
+      ]
+    },
     cssVars: {
       '--travel-primary': '#3d6e90',
       '--travel-primary-bright': '#4d8eb5',
@@ -116,6 +126,16 @@ export const BIOMES = [
     name: 'Desert',
     icon: 'fa-sun',
     localIcon: 'assets/icons/abilities/Fire/Sun Symbol.png',
+    regionFlavor: {
+      regionName: 'Sundale',
+      curseName: 'Caldera Ashfall',
+      description: 'The scorched badlands of Sundale are choked in thick basalt soot and volcanic debris venting from Emberspire. The air is warm but highly toxic, and fire hazards completely replace standard sandstorms.',
+      rules: [
+        'All standard navigation and perception checks suffer disadvantage unless wearing alchemical leather respirators.',
+        'Sandstorm weather conditions are replaced by Caldera Ashfall, dealing 1d4 fire damage per hour of active travel without protective cloaks.',
+        'Water skins evaporate at twice the standard rate; characters must consume double water rations or suffer a level of Exhaustion every 4 hours.'
+      ]
+    },
     cssVars: {
       '--travel-primary': '#9a6e10',
       '--travel-primary-bright': '#c08a14',
@@ -212,6 +232,16 @@ export const BIOMES = [
     name: 'Forest',
     icon: 'fa-tree',
     localIcon: 'assets/icons/abilities/Nature/Stylized Tree.png',
+    regionFlavor: {
+      regionName: 'Frostwood Reach',
+      curseName: 'Memory Decay Mists',
+      description: 'The dense, petrified ironwood forests of the Reach are blanketed in a permanent, thick mist. This fog is not weather but a protective curse that insulates the wood from freezing, at the price of slowly eating the memories of all who dwell within.',
+      rules: [
+        'Every 4 hours of travel, the navigator must succeed on a Wisdom save against a moderate die (d8) or lose their bearings, adding 1d4 hours to the current travel segment.',
+        'Characters cannot naturally recover spell slots or high-tier resource points during a short rest in the open woods; the fog diffuses mental focus.',
+        'When writing or consulting records, characters gain advantage on History checks to counteract the mist\'s memory decay.'
+      ]
+    },
     cssVars: {
       '--travel-primary': '#2b5e1a',
       '--travel-primary-bright': '#3a7a24',
@@ -307,6 +337,16 @@ export const BIOMES = [
     name: 'Swamp',
     icon: 'fa-water',
     localIcon: 'assets/icons/abilities/Nature/River Through Forest.png',
+    regionFlavor: {
+      regionName: 'Bryngloom Forest',
+      curseName: 'Bog Preserves',
+      description: 'The sinking peat-bogs of the Bryngloom are quiet, damp tombs where the laws of life and death are governed by Neth contract-houses. The acidic water preserves everything, and contract-breaches trigger immediate vegetative backlashes from the peat itself.',
+      rules: [
+        'Entering deep peat-bogs requires a Strength (Athletics) check against a moderate die (d8) or the traveler is restrained and begins sinking.',
+        'Any spoken lie or contract violation in the swamp triggers an immediate bog-tremor, attracting Wyrd-creatures like Debt-Revenants.',
+        'Traveling through the swamp without wading-gear requires a Constitution save against a moderate die (d8) every 8 hours or the character contracts Swamp Rot, reducing maximum HP by 1d6 until cured.'
+      ]
+    },
     cssVars: {
       '--travel-primary': '#3a5a40',
       '--travel-primary-bright': '#4a7a50',
@@ -402,6 +442,16 @@ export const BIOMES = [
     name: 'Ocean',
     icon: 'fa-anchor',
     localIcon: 'assets/icons/abilities/Nature/Swirling Vortex.png',
+    regionFlavor: {
+      regionName: 'Iceheart Sea',
+      curseName: 'Storm-Cycle Navigation',
+      description: 'A violent, freezing sea where the waves never rest. House Mereval bargained for open, unfreezing sea lanes, leaving the ocean in a state of perpetual, churning motion and severe storm-cycles.',
+      rules: [
+        'Navigators must perform a severe navigation check (Agility vs challenging die, d10) every 4 hours to maintain course through drifting icebergs.',
+        'Any character who falls into the freezing water must succeed on a Constitution save against a difficult die (d12) at the start of their turn or be paralyzed by the extreme cold.',
+        'Ship repairs take twice as long due to the shifting, violent motion of the waves.'
+      ]
+    },
     cssVars: {
       '--travel-primary': '#1a3a6e',
       '--travel-primary-bright': '#2a5a9e',
@@ -498,6 +548,16 @@ export const BIOMES = [
     name: 'Underdark',
     icon: 'fa-dungeon',
     localIcon: 'assets/icons/abilities/Nature/Cave Run.png',
+    regionFlavor: {
+      regionName: 'Cragjaw Peaks',
+      curseName: 'Chasm Bridge Hazards',
+      description: 'A vertical network of lightless, toxic tunnels and sheer bone bridges spanning bottomless chasms. Miners and travelers must navigate thin arches while breathing sulfurous gases and battling rapid altitude sickness.',
+      rules: [
+        'Crossing bone spans or rock ledges in high wind requires an Agility save against a moderate die (d8) or the traveler falls, hanging from the edge.',
+        'Squeezing through tight basalt cracks requires an Agility or Strength check against a moderate die (d8) or the character becomes stuck and Restrained.',
+        'The lack of clean air and rapid altitude changes requires a Constitution save against a moderate die (d8) every 6 hours or the character suffers a -2 penalty to all physical saving throws due to hypoxia.'
+      ]
+    },
     cssVars: {
       '--travel-primary': '#3a1a5e',
       '--travel-primary-bright': '#5a2a8e',

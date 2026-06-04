@@ -4,7 +4,29 @@ import { isPassiveStatModifier } from '../../utils/raceDisciplineSpellUtils';
 import { getRacialBaseStats, getRacialSavingThrowModifiers } from '../../data/raceData';
 import { getIconUrl } from '../../utils/assetManager';
 import RaceEpicLore from './RaceEpicLore';
+import LoreLink from '../common/LoreLink';
+import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import './RaceSelector.css';
+
+// Parses lore text to render recognised dictionary terms as interactive LoreLink popups
+const renderLoreText = (text) => {
+  if (!text || typeof text !== 'string') return text;
+  const processed = autoLinkTerminology(text);
+  const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>)/g;
+  const result = [];
+  let lastIndex = 0;
+  let match;
+  let key = 0;
+  while ((match = regex.exec(processed)) !== null) {
+    if (match.index > lastIndex) result.push(processed.substring(lastIndex, match.index));
+    result.push(
+      <LoreLink key={`lore-${key++}`} termId={match[2]}>{match[3]}</LoreLink>
+    );
+    lastIndex = regex.lastIndex;
+  }
+  if (lastIndex < processed.length) result.push(processed.substring(lastIndex));
+  return result.length > 0 ? result : text;
+};
 
 // Race data loader utility
 const raceDataCache = new Map();
@@ -38,6 +60,7 @@ const getRaceList = async () => {
       id: race.id,
       name: race.name,
       description: race.description,
+      cardFlavor: race.cardFlavor,
       essence: race.essence,
       gradient: race.gradient,
       icon: race.icon,
@@ -713,10 +736,11 @@ const transformTraitToSpell = (trait) => {
 
 // Memoized Race Card Component
 const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
-  const truncatedDesc = race.description
-    ? race.description.length > 220
-      ? race.description.substring(0, 220).trim() + '...'
-      : race.description
+  const displayText = race.cardFlavor || race.description;
+  const truncatedDesc = displayText
+    ? displayText.length > 220
+      ? displayText.substring(0, 220).trim() + '...'
+      : displayText
     : null;
 
   return (
@@ -911,6 +935,7 @@ const RaceSelector = () => {
   const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
   const [showEpicLore, setShowEpicLore] = useState(false);
   const [raceOverviewExpanded, setRaceOverviewExpanded] = useState(false);
+  const [customIllustration, setCustomIllustration] = useState(null);
   const raceGridRef = useRef(null);
 
   // Load race list on component mount
@@ -986,10 +1011,51 @@ const RaceSelector = () => {
     [selectedVariant, raceData]
   );
 
+  // Helper to gather all unique illustrations for cycling
+  const gatherIllustrations = useCallback(() => {
+    if (!raceData) return [];
+    const images = [];
+    if (raceData.subraces) {
+      Object.values(raceData.subraces).forEach(sub => {
+        if (sub.illustration) {
+          if (!images.some(img => img.src === sub.illustration)) {
+            images.push({
+              src: sub.illustration,
+              caption: sub.illustrationCaption || sub.name
+            });
+          }
+        }
+      });
+    }
+    // If no subraces have illustrations, fall back to the base race illustration
+    if (images.length === 0 && raceData.illustration) {
+      images.push({
+        src: raceData.illustration,
+        caption: raceData.illustrationCaption || raceData.name
+      });
+    }
+    return images;
+  }, [raceData]);
+
+  // Handler to cycle to a random different illustration
+  const handleIllustrationClick = useCallback(() => {
+    if (!raceData) return;
+    const allImages = gatherIllustrations();
+    if (allImages.length <= 1) return;
+    
+    const currentSrc = customIllustration ? customIllustration.src : raceData.illustration;
+    const options = allImages.filter(img => img.src !== currentSrc);
+    if (options.length === 0) return;
+    
+    const randomImage = options[Math.floor(Math.random() * options.length)];
+    setCustomIllustration(randomImage);
+  }, [raceData, customIllustration, gatherIllustrations]);
+
   const handleRaceSelect = useCallback((raceId) => {
     setSelectedRace(raceId);
     setSelectedVariant(null);
     setRaceOverviewExpanded(false);
+    setCustomIllustration(null); // Reset when active race changes
 
     const currentIndex = allRaces.findIndex(r => r.id === raceId);
     if (currentIndex !== -1) {
@@ -1015,6 +1081,21 @@ const RaceSelector = () => {
       });
     }
   }, [allRaces, loadedRaceData]);
+
+  // Effect to pick a random subrace illustration on active race load
+  useEffect(() => {
+    if (raceData) {
+      const allImages = gatherIllustrations();
+      if (allImages.length > 0) {
+        const randomIndex = Math.floor(Math.random() * allImages.length);
+        setCustomIllustration(allImages[randomIndex]);
+      } else {
+        setCustomIllustration(null);
+      }
+    } else {
+      setCustomIllustration(null);
+    }
+  }, [selectedRace, raceData, gatherIllustrations]);
 
   const handleVariantSelect = (variantId) => {
     setSelectedVariant(variantId);
@@ -1088,14 +1169,23 @@ const RaceSelector = () => {
 
               {/* Race Overview Container with floated illustration */}
               <div className="race-overview-container">
-                {raceData.illustration && (
+                {(variantData?.illustration || customIllustration?.src || raceData.illustration) && (
                   <div className="race-overview-illustration-wrapper">
-                    <div className="guide-illustration-frame">
+                    <div 
+                      className={`guide-illustration-frame ${gatherIllustrations().length > 1 ? 'interactive-illustration' : ''}`}
+                      onClick={handleIllustrationClick}
+                      title={gatherIllustrations().length > 1 ? 'Click to cycle variant illustrations' : ''}
+                    >
                       <img
-                        src={raceData.illustration}
-                        alt={raceData.illustrationCaption || raceData.name}
+                        src={variantData?.illustration || customIllustration?.src || raceData.illustration}
+                        alt={variantData?.illustrationCaption || customIllustration?.caption || raceData.illustrationCaption || raceData.name}
                         className="guide-illustration-image"
                       />
+                      {gatherIllustrations().length > 1 && (
+                        <div className="illustration-cycle-badge">
+                          <i className="fas fa-sync-alt"></i> Cycle Variant
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -1105,7 +1195,7 @@ const RaceSelector = () => {
                     <div
                       className={`race-overview-text ${raceOverviewExpanded ? 'expanded' : ''}`}
                     >
-                      {raceData.overview}
+                      {renderLoreText(raceData.overview)}
                     </div>
                     {raceData.overview.length > 300 && (
                       <button
@@ -1141,7 +1231,7 @@ const RaceSelector = () => {
 
               {/* Variant Diversity */}
               {raceData.variantDiversity && (
-                <p className="race-variant-diversity">{raceData.variantDiversity}</p>
+                <p className="race-variant-diversity">{renderLoreText(raceData.variantDiversity)}</p>
               )}
             </div>
 
@@ -1186,6 +1276,41 @@ const RaceSelector = () => {
               </button>
             )}
           </div>
+
+          {/* Quick-Switch Subrace/Variant Bar */}
+          {raceData.subraces && Object.keys(raceData.subraces).length > 1 && (
+            <div className="variant-details-switcher">
+              <span className="switcher-label">
+                <i className="fas fa-exchange-alt"></i> Variants of {raceData.name}:
+              </span>
+              <div className="switcher-buttons">
+                {Object.entries(raceData.subraces).map(([variantId, variant]) => {
+                  const isSelected = selectedVariant === variantId;
+                  return (
+                    <button
+                      key={variantId}
+                      type="button"
+                      className={`switcher-btn ${isSelected ? 'active' : ''}`}
+                      onClick={() => {
+                        setSelectedVariant(variantId);
+                        setSelectedTrait(null);
+                      }}
+                    >
+                      <span className="variant-name">{variant.name}</span>
+                      {variant.statModifiers && Object.keys(variant.statModifiers).length > 0 && (
+                        <span className="variant-stats">
+                          ({Object.entries(variant.statModifiers)
+                            .filter(([_, mod]) => mod !== 0)
+                            .map(([stat, mod]) => `${stat.slice(0, 3).toUpperCase()}${mod > 0 ? '+' : ''}${mod}`)
+                            .join(', ')})
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <div className="details-layout">
             {/* Left Column: Stats & Basic Info */}
@@ -1399,7 +1524,7 @@ const RaceSelector = () => {
               <h4 className="cultural-title">
                 <i className="fas fa-book"></i> Cultural Background
               </h4>
-              <p className="cultural-text">{raceData.culturalBackground}</p>
+              <p className="cultural-text">{renderLoreText(raceData.culturalBackground)}</p>
             </div>
           )}
 
@@ -1413,19 +1538,19 @@ const RaceSelector = () => {
                 {raceData.integrationNotes.actionPointSystem && (
                   <div className="integration-card">
                     <h5>Action Points</h5>
-                    <p>{raceData.integrationNotes.actionPointSystem}</p>
+                    <p>{renderLoreText(raceData.integrationNotes.actionPointSystem)}</p>
                   </div>
                 )}
                 {raceData.integrationNotes.backgroundSynergy && (
                   <div className="integration-card">
                     <h5>Background Synergy</h5>
-                    <p>{raceData.integrationNotes.backgroundSynergy}</p>
+                    <p>{renderLoreText(raceData.integrationNotes.backgroundSynergy)}</p>
                   </div>
                 )}
                 {raceData.integrationNotes.classCompatibility && (
                   <div className="integration-card">
-                    <h5>Class Compatibility</h5>
-                    <p>{raceData.integrationNotes.classCompatibility}</p>
+                    <h5>Tradition Compatibility</h5>
+                    <p>{renderLoreText(raceData.integrationNotes.classCompatibility)}</p>
                   </div>
                 )}
               </div>

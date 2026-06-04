@@ -6,6 +6,11 @@ export const GAMBLER_DATA = {
   damageTypes: ["force", "psychic", "necrotic"],
 
   overview: {
+    originStory: `The pirate captain Jax wagered his own lifeline in a game of dice against a freezing storm-spirit of the Iceheart Sea, seeking a wind that would blow his ice-locked vessel out of the grinding floes. He rolled three sixes, claiming the wind, but the spirit did not leave empty-handed; it claimed the warmth of his blood, synchronizing his pulse with the deep rifts.
+
+The gambler's heartbeat was permanently synchronized with the ocean's tides, preventing him from ever finding sleep unless his head is submerged in freezing saltwater. If he remains on dry land for too long, his blood begins to clot and stagnate, and his mind slips into a state of wild, risk-seeking paranoia, mapping his fortunes on his tattooed skin.
+
+Flip the coin. Bet it all. Fortune is a fickle mistress, and she demands your life as the stake. Roll the dice before the tide turns.`,
     title: "The Desperate Debtor",
     subtitle: "The Probability Siphon",
 
@@ -24,13 +29,47 @@ export const GAMBLER_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `In the world of Mythrill, these desperate souls are driven outcasts. They are high-strung probability addicts who can see the invisible, vibrating threads of chance and push their minds and bodies to the breaking point to pull them.
+      content: `**HISTORY: THE GENESIS**
+The gambler's risk-based magic was born in the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>. A Merryn pirate captain named **Jax** wagered his own lifeline to navigate a vessel through a perpetual storm-cycle. The price of this luck-manipulation was perpetual insomnia. His heartbeat was permanently synchronized with the churning of the freezing waves, preventing him from ever finding rest.
 
-- **The Reluctant Debtor**: A desperate soul who bartered their luck to save a dying loved one, only to realize the collector's terms are eternal.
-- **The Probability Savant**: A gaunt scholar who mapped the mathematical patterns of cosmic debt and now treats their own vitality as a resource to be spent.
-- **The Thread Reader**: An obsessive who has trained their senses to physically feel the vibrating strings of destiny, channeling them through sheer mental focus.
-- **The Defaulted Hunter**: One who defaulted on their loan and now tracks down other debtors, siphoning their fortune before the collector's hounds arrive.`,
+**CITIES & CIVIL RECEPTION**
+Gamblers are highly celebrated in the tavern-decks of Merrowport, but they are viewed with clinical contempt by the Neth pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
+
+**RACES & CULTURAL AFFILIATION**
+The class is almost exclusively practiced by the Merryn humans and the <LoreLink termId="myrathil">Breakers-Born Myrathil</LoreLink>.
+
+**NOTABLE FIGURES**
+* **Jax the Storm-Wagerer**: The pirate who gambled his soul for a gale and lost his sleep to the ocean's tides.
+* **Elysia the Gilded Die**: A notorious high roller who won the charter of <LoreLink termId="merrowport">Merrowport</LoreLink> in a high-stakes dice game against a sea-spirit.`
     },
+
+    signatureQuote: {
+      text: '"I do not gamble against the house. I am the house. The stakes are your luck, and I am very, very good at collecting."',
+      speaker: 'Jax the Storm-Wagerer',
+      context: 'Said to a sea-spirit who tried to cheat him; he still won'
+    },
+
+    philosophy: {
+      coreTenet: 'Everything is a bet. Love, war, survival, the weather — every moment is a wager between you and the universe. Most people do not realize they are playing. The Gambler does. They know the game is rigged, and they have learned to rig it back.',
+      relationship: 'Gamblers do not have good luck — they have stolen luck. They bartered their original fortune to an extraplanar collector in exchange for the ability to manipulate probability on command. But stolen luck does not regenerate. Every Fortune Point spent was once a genuine stroke of good fortune that the Gambler had in their future. They are spending their own tomorrows to win today.',
+      paradox: 'The Gambler controls luck — but they cannot be lucky themselves. Every Fortune Point they use costs them 1 unpreventable HP. They are bleeding their own future luck in the form of physical damage. A Gambler who uses their power excessively will find themselves in a permanent state of misfortune: doors slam in their face, food spoils instantly, allies trip at critical moments. The universe always balances the ledger, and the Gambler always pays.'
+    },
+
+    currentCrisis: `The Storm-Spirit is calling in Jax\'s debt. When Jax bargained for a favorable wind, he wagered "the warmth of his blood" — a poetic phrase he assumed was metaphor. The spirit just sent a collector to Merrowport with a written demand: Jax\'s heartbeat is now forfeit.
+
+Jax is missing. His ship, the Last Wager, is gone from its berth. His first mate reports that he was seen walking into the Iceheart Sea at midnight, fully clothed, with a smile on his face and a loaded die in his hand. The other Gamblers of Merrowport have formed a search party, but they suspect the truth: Jax knew the terms better than anyone, and he calculated that his life was worth exactly one final game. If he wins, the debt is cleared for every Gambler who ever bargained with the Sea-Spirit. If he loses, the Iceheart Sea claims another captain.`,
+
+    meaningfulTradeoffs: `A Gambler can never stop. The addiction is not psychological — it is physiological. The collateral damage from stored Fortune Points creates a constant, low-grade physical suffering that only a bet can relieve. Gamblers develop compulsive gambling habits not because they want to, but because the pain of unspent Fortune is worse than the pain of spending it. They gamble on anything — coin flips, dice throws, the exact time a candle will gutter out. It is not a vice. It is a symptom.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The House of Eighty-Eight Doors',
+        locationId: 'merrowport',
+        description: 'The most notorious gambling den in Merrowport, built in a former smuggler\'s warehouse with exactly eighty-eight doors (no one has found them all). Gamblers gather here to wager on anything — dice, cards, the sex of an unhatched fish, the exact number of rain-drops that will hit a specific roof-tile during a storm. The house takes a 10% cut and guarantees fair play by employing a retired Gambler as the pit boss.',
+        purpose: 'Gambling den, social hub, and informal Gambler guild hall',
+        status: 'Active — Jax\'s empty chair at the high-stakes table has become a shrine'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

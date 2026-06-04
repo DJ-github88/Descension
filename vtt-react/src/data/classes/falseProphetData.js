@@ -32,6 +32,11 @@ export const FALSE_PROPHET_DATA = {
 
   // Overview section
   overview: {
+    originStory: `In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Micah followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where the sun-god Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
+
+Micah returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars. The False Prophet is physically blind, his skin pale and cracked, and his heart beating in erratic, asynchronous patterns. His words carry a hypnotic madness that drains the stamina of listeners, forcing them to see the phantom embers of dead stars.
+
+Speak the void's gospel. The stars are dead, and the vacuum is the only truth left. Lead them into the dark.`,
     title: "The False Prophet",
     subtitle: "The Lie That Devours the Living",
     illustration: "/assets/images/classes/false_prophet_illustration.png",
@@ -54,19 +59,47 @@ export const FALSE_PROPHET_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `False Prophets are manipulators in holy vestments. They do not serve a higher power - they channel one. They siphon psychic energy and faith from those around them, twisting devotion into a weapon they hide in the congregation's own hands. Their "miracles" are psychic projection dressed in candlelight: every healing hand conceals a draining grip, every blessing carries a hidden cost paid in mental fortitude, every sermon is a hook planted deep in the listener's psyche. They are not shepherds. They are conductors who learned to sing so the congregation would march willingly into the chorus.
+      content: `**HISTORY: THE GENESIS**
+The false prophet's blinding fervor was born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. A nomadic herd-watcher named **Micah** stared into the empty, starless sky and surrendered his vision to the phantom lights of the steppe. The price of this revelation was physical blindness. Micah gouged his own physical sight to perceive the guiding embers, leaving his eyes blank and his mind permanently disoriented.
 
-Their madness is not a curse - it is the weight of every mind they have touched, layered like sediment behind their eyes. At low Madness, they appear composed, even beatific. Holy. At high Madness, the mask fractures: their presence warps the air with psychic pressure, their voice carries undertones of those they have touched, and their gaze becomes so intense that others instinctively look away. They are not vessels of the divine. They are psychic storms that learned to speak.
+**CITIES & CIVIL RECEPTION**
+False Prophets are viewed with profound suspicion in civilized kingdoms, often treated as dangerous heretics, though they lead small, devoted followings among the steppe nomads.
 
-Common False Prophet archetypes include:
-- **The Parasitic Shepherd**: Genuinely believes their psychic siphoning is sacred communion - "I take your pain and make it holy." They are wrong. The pain is not holy. The pain is fuel.
-- **The False Messiah**: Exploits the desperate and dying, offering miracles harvested from the psychic resonance of the still-living. Every miracle is borrowed from someone else's willpower.
-- **The Sympathetic Torturer**: Creates empathetic links to channel their victims' psychic resonance - and redirect it the way a furnace channels heat. They are never cold. They are never done.
-- **The Hollow Oracle**: Divines truth by touching the minds of others, leaving behind only scattered memories. The touched keep breathing. The touched keep speaking. The touched do not know what they lost.
-- **The Devourer of Congregations**: Wanders from village to village, leaving congregations of hollow-eyed followers - alive, breathing, and utterly drained of the psychic vitality that made them who they were.
+**RACES & CULTURAL AFFILIATION**
+The class is practiced by desperate humans and the constellationless <LoreLink termId="astril">Unlit Astril</LoreLink>.
 
-False Prophets understand that faith is a currency, and they are the only ones who know the coin is counterfeit. They trade in desperation, buying loyalty with forged miracles and paying in stolen mental energy. The question is never whether they will betray you - it is whether you will realize it before your willpower runs dry and your children kneel at their altar, mouthing prayers to a voice that was never divine.`,
+**NOTABLE FIGURES**
+* **Micah the Blind Prophet**: The herd-watcher who gouged his eyes to see the void's dead constellations.
+* **Seraphina the Silent**: An Unlit Astril who led a small cult of starless heretics across the steppe.`
     },
+
+    signatureQuote: {
+      text: '"They call it madness. I call it freedom. The Void does not lie to me — it simply shows me things that would drive you mad, and I have the courage to look."',
+      speaker: 'Micah the Blind Prophet',
+      context: 'His first public sermon in the Over-Shanty, Year 501 of the Dimming'
+    },
+
+    philosophy: {
+      coreTenet: 'The universe is cold, dark, and empty. The Light is a lie people tell themselves to feel safe. The Void is the truth — vast, silent, and indifferent. To embrace the Void is not to worship death; it is to finally stop being afraid of it. A False Prophet does not preach despair. They preach clarity.',
+      relationship: 'False Prophets draw power from the psychic resonance of the Void — the space between stars, the silence after death, the vacuum that existed before creation. This resonance is always present, always listening, always hungry. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Void\'s truth — and the less human they become.',
+      paradox: 'False Prophets preach salvation through oblivion, but they cannot practice what they preach. To fully embrace the Void would be to dissolve — to become one with the silence they worship. But if they dissolved, who would spread the gospel? So they hold themselves at the edge of annihilation, forever teetering, forever preaching, forever denying themselves the peace they offer others.'
+    },
+
+    currentCrisis: `The Voice of the Silence is getting louder. For centuries, the Void entity that speaks through False Prophets was a distant whisper — a suggestion, not a command. In the past year, the Voice has grown unmistakable, and it is giving specific instructions: "Go to the Frozen Archive. Descend to the lowest vault. Open the way."
+
+The False Prophets of the Over-Shanty are divided. Some believe the Voice is guiding them to a new revelation — a deeper truth that will expand their understanding of the Void. Others hear something else beneath the Voice: a scraping sound, like claws on stone. They believe the Voice is not inviting them to discover something. It is using them as tools to free something that has been trapped since the Age of the Deepening. The two factions have begun to war with each other, and the streets of the Over-Shanty run with blood.`,
+
+    meaningfulTradeoffs: `To be a False Prophet is to never be alone — and never at peace. The Voice is always there, commenting on everything, suggesting alternatives, pointing out the horrifying truth behind every mundane moment. A False Prophet cannot enjoy a sunset without being reminded that the light is dying. Cannot hold a child without calculating the exact statistical probability of that child\'s death. Cannot love without feeling the Void\'s amused contempt for something so fragile. The Prophet trades peace for clarity, and they are never sure they made the right choice.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Cathedral of the Last Light',
+        locationId: 'over-shanty',
+        description: 'A repurposed ship\'s hull, inverted and suspended above the deepest peat-bog, serving as the False Prophets\' gathering place. The interior is completely dark — no fire, no lamp, no bioluminescence is permitted. Worshipers sit in absolute blackness and listen to the Prophet\'s voice echo through the hull. The only light comes from the Prophet\'s eyes, which glow faintly white.',
+        purpose: 'Place of worship, proselytizing, and communal Madness-sharing',
+        status: 'Active — divided between the Voice-followers and the Skeptics'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

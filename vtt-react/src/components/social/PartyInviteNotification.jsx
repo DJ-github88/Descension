@@ -10,16 +10,15 @@ import usePresenceStore from '../../store/presenceStore';
 
 // Class color mapping for accent theming
 const CLASS_COLORS = {
-    warrior: '#c41e3a',
-    paladin: '#f58cba',
-    ranger: '#abd473',
-    rogue: '#fff569',
-    mage: '#69ccf0',
-    warlock: '#9482c9',
-    cleric: '#f0ebe0',
-    druid: '#ff7d0a',
-    bard: '#00ff98',
-    monk: '#00ff96',
+    mystic: '#0070DE',
+    arcanist: '#69CCF0',
+    trickster: '#FFF569',
+    zealot: '#FFFFFF',
+    harrow: '#9482C9',
+    hexer: '#FF7D0A',
+    reaver: '#C41F3B',
+    mercenary: '#C79C6E',
+    sentinel: '#F58CBA',
     default: '#d4af37'
 };
 

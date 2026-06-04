@@ -151,6 +151,8 @@ const initialState = {
   selectedTheme: 'classic',
   activePreset: 'classic',
   diceColor: '#14092b',
+  rollContext: null,
+  skillOutcome: null,
   physicsSettings: {
     gravity: -9.81,
     restitution: 0.6,
@@ -219,7 +221,7 @@ const useDiceStore = create(
         };
       }),
 
-      startRoll: () => {
+      startRoll: (context = null) => {
         const { user } = useAuthStore.getState();
         if (user && !user.isGuest) {
           const rateLimitCheck = checkDiceRollRateLimit(user.uid);
@@ -228,7 +230,7 @@ const useDiceStore = create(
             return;
           }
         }
-        set({ isRolling: true, rollResults: [] });
+        set({ isRolling: true, rollResults: [], rollContext: context });
       },
 
       finishRoll: (results) => set(state => {
@@ -248,7 +250,9 @@ const useDiceStore = create(
         return {
           isRolling: false,
           rollResults: validResults.length > 0 ? validResults : results,
-          rollHistory: newHistory
+          rollHistory: newHistory,
+          rollContext: null,
+          skillOutcome: null
         };
       }),
 

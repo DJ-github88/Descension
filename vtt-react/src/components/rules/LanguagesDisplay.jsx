@@ -24,8 +24,8 @@ const COMMON_LANGUAGES = [
     { name: 'Undercommon', icon: 'fa-dungeon', category: 'exotic', description: 'The trade language of the Underdark, spoken by drow and other subterranean races.', sound: 'Hushed and whispered, with sibilant sounds adapted for dark caverns and secrecy.', example: 'Ss\'ussun ss\'sinss', translation: 'Whisper dark shadow trade now' },
     
     // Secret Languages
-    { name: 'Druidic', icon: 'fa-seedling', category: 'secret', description: 'The secret language of druids, forbidden to non-druids.', sound: 'Natural and flowing, woven from nature\'s sounds—rustling leaves, flowing water, bird calls.', example: '*rustle* *flow* *chirp-chirp*', translation: 'The grove speaks: balance returns' },
-    { name: 'Thieves\' Cant', icon: 'fa-mask', category: 'secret', description: 'A secret code language used by rogues and criminals.', sound: 'Coded and subtle, with double meanings and signals disguised as casual speech.', example: 'The red door is warm, but the window sings', translation: 'The front is guarded, use the side entrance silently' },
+    { name: 'Hex-Speech', icon: 'fa-seedling', category: 'secret', description: 'The secret language of Hexers, guarded by the forest covens.', sound: 'Natural and thrumming, woven from nature\'s sounds—rustling wood, low hums, animal calls.', example: '*rustle* *thrum* *growl*', translation: 'The wild wood speaks: balance returns' },
+    { name: 'Trickster\'s Cant', icon: 'fa-mask', category: 'secret', description: 'A secret code language used by Tricksters and outlaws.', sound: 'Coded and subtle, with double meanings and signals disguised as casual speech.', example: 'The red door is warm, but the window sings', translation: 'The front is guarded, use the side entrance silently' },
     
     // Rare/Regional Languages
     { name: 'Aquan', icon: 'fa-water', category: 'elemental', description: 'The flowing language of water elementals and aquatic creatures.', sound: 'Flowing and fluid, like water rushing over stones with bubbling and gurgling tones.', example: 'Gurgle-flow-deep-current', translation: 'Flowing current runs deep here' },
@@ -228,7 +228,7 @@ const LanguagesDisplay = () => {
                                 <>
                                     <li><i className="fas fa-check"></i> Elves and half-elves</li>
                                     <li><i className="fas fa-check"></i> Forest dwellers and rangers</li>
-                                    <li><i className="fas fa-check"></i> Scholars, poets, and bards</li>
+                                    <li><i className="fas fa-check"></i> Scholars, poets, and song-weavers</li>
                                     <li><i className="fas fa-check"></i> Ancient libraries and elven courts</li>
                                 </>
                             )}
@@ -277,13 +277,13 @@ const LanguagesDisplay = () => {
                                     <li><i className="fas fa-check"></i> Demons and chaotic evil outsiders</li>
                                     <li><i className="fas fa-check"></i> Cultists serving demonic entities</li>
                                     <li><i className="fas fa-check"></i> Corrupted creatures from the Abyss</li>
-                                    <li><i className="fas fa-check"></i> Warlocks bound to demonic patrons</li>
+                                    <li><i className="fas fa-check"></i> Exorcists and dark channelers</li>
                                 </>
                             )}
                             {selectedLanguage.name === 'Celestial' && (
                                 <>
                                     <li><i className="fas fa-check"></i> Angels and celestial beings</li>
-                                    <li><i className="fas fa-check"></i> Clerics and paladins of good deities</li>
+                                    <li><i className="fas fa-check"></i> Zealots and Sentinels of the Sol-Vigil</li>
                                     <li><i className="fas fa-check"></i> Heavenly planes and divine realms</li>
                                     <li><i className="fas fa-check"></i> Servants of lawful good powers</li>
                                 </>
@@ -307,7 +307,7 @@ const LanguagesDisplay = () => {
                             {selectedLanguage.name === 'Infernal' && (
                                 <>
                                     <li><i className="fas fa-check"></i> Devils and lawful evil outsiders</li>
-                                    <li><i className="fas fa-check"></i> Warlocks bound to infernal patrons</li>
+                                    <li><i className="fas fa-check"></i> Neth pact-mages and arcanists</li>
                                     <li><i className="fas fa-check"></i> Lawyers, bureaucrats, and contract-makers</li>
                                     <li><i className="fas fa-check"></i> Servants of the Nine Hells</li>
                                 </>
@@ -317,14 +317,14 @@ const LanguagesDisplay = () => {
                                     <li><i className="fas fa-check"></i> Elementals and genies</li>
                                     <li><i className="fas fa-check"></i> Planar travelers and scholars</li>
                                     <li><i className="fas fa-check"></i> Creatures native to elemental planes</li>
-                                    <li><i className="fas fa-check"></i> Druids and elemental spellcasters</li>
+                                    <li><i className="fas fa-check"></i> Hexers and elemental channelers</li>
                                 </>
                             )}
                             {selectedLanguage.name === 'Sylvan' && (
                                 <>
                                     <li><i className="fas fa-check"></i> Fey creatures (dryads, nymphs, pixies, sprites)</li>
-                                    <li><i className="fas fa-check"></i> Druids and nature clerics</li>
-                                    <li><i className="fas fa-check"></i> Rangers connected to the Feywild</li>
+                                    <li><i className="fas fa-check"></i> Hexers and wildwood channelers</li>
+                                    <li><i className="fas fa-check"></i> Briaran and Mimir forest folk</li>
                                     <li><i className="fas fa-check"></i> Ancient forests and enchanted groves</li>
                                 </>
                             )}
@@ -336,19 +336,19 @@ const LanguagesDisplay = () => {
                                     <li><i className="fas fa-check"></i> Subterranean civilizations</li>
                                 </>
                             )}
-                            {selectedLanguage.name === 'Druidic' && (
+                            {selectedLanguage.name === 'Hex-Speech' && (
                                 <>
-                                    <li><i className="fas fa-check"></i> Druids and only druids (secret language)</li>
-                                    <li><i className="fas fa-check"></i> Initiates of druidic circles</li>
-                                    <li><i className="fas fa-check"></i> Cannot be taught to non-druids</li>
+                                    <li><i className="fas fa-check"></i> Hexers and only Hexers (secret language)</li>
+                                    <li><i className="fas fa-check"></i> Initiates of the wildwood covens</li>
+                                    <li><i className="fas fa-check"></i> Cannot be taught to non-Hexers</li>
                                     <li><i className="fas fa-check"></i> Used for secret communications in nature</li>
                                 </>
                             )}
-                            {selectedLanguage.name === 'Thieves\' Cant' && (
+                            {selectedLanguage.name === 'Trickster\'s Cant' && (
                                 <>
-                                    <li><i className="fas fa-check"></i> Rogues and thieves' guild members</li>
-                                    <li><i className="fas fa-check"></i> Criminals and underground networks</li>
-                                    <li><i className="fas fa-check"></i> Assassins and spies</li>
+                                    <li><i className="fas fa-check"></i> Tricksters and outlaw guild members</li>
+                                    <li><i className="fas fa-check"></i> Smugglers and underground networks</li>
+                                    <li><i className="fas fa-check"></i> Spies and information brokers</li>
                                     <li><i className="fas fa-check"></i> Street informants and fences</li>
                                 </>
                             )}

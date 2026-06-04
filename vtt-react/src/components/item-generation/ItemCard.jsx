@@ -13,6 +13,16 @@ const getQualityColor = (quality) => {
     return RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
 };
 
+const getDiceValue = (die) => {
+    if (!die) return 0;
+    if (typeof die === 'number') return die;
+    const dieLower = String(die).toLowerCase();
+    if (dieLower === 'broken' || dieLower === '0') return 0;
+    const match = dieLower.match(/^d(\d+)$/);
+    if (match) return parseInt(match[1], 10);
+    return parseInt(dieLower, 10) || 0;
+};
+
 const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop, isDraggingGlobal = false, onDragStartGlobal, onDragEndGlobal }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -306,27 +316,34 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                         onDragStart={(e) => e.preventDefault()}
                     />
                     {['weapon', 'armor', 'accessory'].includes(item.type) && item.maxDurability != null && (
-                        <div style={{
-                            position: 'absolute',
-                            bottom: '2px',
-                            left: '2px',
-                            right: '2px',
-                            height: '3px',
-                            background: '#1a0f0a',
-                            borderRadius: '2px',
-                            overflow: 'hidden',
-                            opacity: 0.9
-                        }}>
-                            <div style={{
-                                width: `${((item.durability ?? item.maxDurability) / item.maxDurability) * 100}%`,
-                                height: '100%',
-                                background: (item.durability ?? item.maxDurability) === 0 ? '#ff0000' :
-                                            (item.durability ?? item.maxDurability) / item.maxDurability <= 0.25 ? '#ff4444' :
-                                            (item.durability ?? item.maxDurability) / item.maxDurability <= 0.50 ? '#ffaa00' : '#44ff44'
-                            }} />
-                        </div>
+                        (() => {
+                            const curVal = getDiceValue(item.durability ?? item.maxDurability);
+                            const maxVal = getDiceValue(item.maxDurability);
+                            const ratio = maxVal > 0 ? curVal / maxVal : 0;
+                            return (
+                                <div style={{
+                                    position: 'absolute',
+                                    bottom: '2px',
+                                    left: '2px',
+                                    right: '2px',
+                                    height: '3px',
+                                    background: '#1a0f0a',
+                                    borderRadius: '2px',
+                                    overflow: 'hidden',
+                                    opacity: 0.9
+                                }}>
+                                    <div style={{
+                                        width: `${ratio * 100}%`,
+                                        height: '100%',
+                                        background: curVal === 0 ? '#ff0000' :
+                                                    ratio <= 0.25 ? '#ff4444' :
+                                                    ratio <= 0.50 ? '#ffaa00' : '#44ff44'
+                                    }} />
+                                </div>
+                            );
+                        })()
                     )}
-                    {(item.broken || (['weapon', 'armor', 'accessory'].includes(item.type) && item.durability === 0)) && (
+                    {(item.broken || (['weapon', 'armor', 'accessory'].includes(item.type) && (item.durability === 0 || item.durability === 'broken' || getDiceValue(item.durability) === 0))) && (
                         <div style={{
                             position: 'absolute',
                             top: 0, left: 0, right: 0, bottom: 0,

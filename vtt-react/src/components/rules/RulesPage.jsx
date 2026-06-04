@@ -7,7 +7,6 @@ import {
     faDove, faBolt
 } from '@fortawesome/free-solid-svg-icons';
 import { RULES_CATEGORIES, getRuleContent, searchRulesIndex } from '../../data/rulesData';
-import BackgroundSelector from './BackgroundSelector';
 import BackgroundsDisplay from './BackgroundsDisplay';
 import SkillsDisplay from './SkillsDisplay';
 import LanguagesDisplay from './LanguagesDisplay';
@@ -20,6 +19,7 @@ import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './RulesPage.css';
 import './components/rules-components.css';
+import './ClassOriginsDisplay.css';
 import RulesHeroBanner from './components/RulesHeroBanner';
 import RulesSectionCard from './components/RulesSectionCard';
 import RulesCollapsible from './components/RulesCollapsible';
@@ -34,6 +34,8 @@ const BestiaryDisplay = React.lazy(() => import('./BestiaryDisplay'));
 const TimelineDisplay = React.lazy(() => import('./TimelineDisplay'));
 const LexiconDisplay = React.lazy(() => import('./LexiconDisplay'));
 const DramatisPersonaeDisplay = React.lazy(() => import('./DramatisPersonaeDisplay'));
+const ClassOriginsDisplay = React.lazy(() => import('./ClassOriginsDisplay'));
+
 
 // PERFORMANCE OPTIMIZATION: Lazy load class data files on demand instead of importing all at once
 // This reduces initial bundle size significantly since class data files are large
@@ -106,6 +108,21 @@ const CLASS_ICON_MAP = {
   'Witch Doctor': faSkull,
   'Augur': faDove,
   'Doomsayer': faBolt,
+};
+
+// Helper to convert plural class names in link text to singular valid class names
+const normalizeClassName = (text) => {
+  const trimmed = text.trim();
+  if (CLASS_ICON_MAP[trimmed]) return trimmed;
+  if (trimmed.endsWith('es')) {
+    const singular = trimmed.slice(0, -2);
+    if (CLASS_ICON_MAP[singular]) return singular;
+  }
+  if (trimmed.endsWith('s')) {
+    const singular = trimmed.slice(0, -1);
+    if (CLASS_ICON_MAP[singular]) return singular;
+  }
+  return null;
 };
 
 // Simple markdown processor for basic formatting with internal link support
@@ -197,8 +214,13 @@ const InteractiveRulesContent = ({ contentHtml, handleClassClick, handleSubcateg
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  if (cat === 'classes') {
-                    handleClassClick(node.textContent);
+                  if (sub === 'classes') {
+                    const className = normalizeClassName(node.textContent);
+                    if (className) {
+                      handleClassClick(className);
+                    } else {
+                      handleSubcategoryClick(cat, sub);
+                    }
                   } else {
                     handleSubcategoryClick(cat, sub);
                   }
@@ -983,6 +1005,8 @@ const RulesPage = () => {
 
   // Handle class detail selection
   const handleClassClick = (className) => {
+    setSelectedCategory('character-creation');
+    setSelectedSubcategory('classes');
     setSelectedClassDetail(className);
   };
 
@@ -1057,6 +1081,17 @@ const RulesPage = () => {
       e.preventDefault();
       const category = link.getAttribute('data-category');
       const subcategory = link.getAttribute('data-subcategory');
+      if (subcategory === 'classes') {
+        const className = normalizeClassName(link.textContent);
+        if (className) {
+          handleClassClick(className);
+          const mainEl = document.querySelector('.rules-main');
+          if (mainEl) {
+            mainEl.scrollTop = 0;
+          }
+          return;
+        }
+      }
       if (category && subcategory) {
         handleSubcategoryClick(category, subcategory);
         const mainEl = document.querySelector('.rules-main');
@@ -1122,13 +1157,17 @@ const RulesPage = () => {
     if (!sections) return null;
     const theme = sectionTheme || 'narrative';
 
+    const currentSubcategory = RULES_CATEGORIES
+      .find(cat => cat.id === selectedCategory)
+      ?.subcategories?.find(sub => sub.id === selectedSubcategory);
+
     // Filter out sections that are just rotating tips or have no content
     const validSections = sections.filter(s => s.type !== 'rotating-tips' && (s.content || s.title));
     const tipsSections = sections.filter(s => s.type === 'rotating-tips');
 
     // Render active tabbed section
     let renderedSections = null;
-    if (validSections.length <= 1) {
+    if (validSections.length <= 1 || currentSubcategory?.disableSectionTabs) {
       renderedSections = validSections.map((section, idx) => (
         <RulesSectionItem
           key={idx}
@@ -1259,7 +1298,7 @@ const RulesPage = () => {
         />
 
         {/* Antique Scribe's Index Tabs Bar */}
-        {!isUsingCustomComponent && currentContent.sections && currentContent.sections.length > 1 && (() => {
+        {!isUsingCustomComponent && !currentSubcategory?.disableSectionTabs && currentContent.sections && currentContent.sections.length > 1 && (() => {
           const validSections = currentContent.sections.filter(s => s.title && s.type !== 'rotating-tips' && (s.content || s.title));
           if (validSections.length <= 1) return null;
           return (
@@ -1314,11 +1353,11 @@ const RulesPage = () => {
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'character-backgrounds' && (
           <BackgroundsDisplay />
         )}
-        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'disciplines' && (
-          <BackgroundSelector />
-        )}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'skills' && (
-          <SkillsDisplay />
+          <SkillsDisplay variant="advanced" />
+        )}
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'simplified-skills' && (
+          <SkillsDisplay variant="simple" />
         )}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'languages' && (
           <LanguagesDisplay />
@@ -1366,6 +1405,17 @@ const RulesPage = () => {
             <DramatisPersonaeDisplay />
           </Suspense>
         )}
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'class-origins' && (
+          <Suspense fallback={
+            <div className="rules-loading">
+              <i className="fas fa-spinner fa-spin"></i>
+              <p>Loading class origins...</p>
+            </div>
+          }>
+            <ClassOriginsDisplay />
+          </Suspense>
+        )}
+
 
         {/* Render tables */}
         {!isUsingCustomComponent && currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx, sectionTheme))}
@@ -1606,7 +1656,7 @@ const RulesPage = () => {
             <button
               className="rules-breadcrumb rules-breadcrumb-link"
               onClick={handleBackToClasses}
-              aria-label="Navigate to Traditions of Power list"
+              aria-label="Navigate to Classes list"
             >
               {breadcrumbs.subcategory}
             </button>

@@ -20,11 +20,19 @@ const CharacterManagement = ({ user }) => {
   // Helper functions for icons
   const getRaceIcon = (race) => {
     const raceIcons = {
-      'Human': 'H', 'Elf': 'E', 'Dwarf': 'D', 'Halfling': 'H',
-      'Dragonborn': 'Dr', 'Gnome': 'G', 'Half-Elf': 'HE', 'Half-Orc': 'HO',
-      'Tiefling': 'T', 'Aasimar': 'A'
+      'human': '👤', 'Human': '👤',
+      'astril': '⭐', 'Astril': '⭐',
+      'briaran': '🦊', 'Briaran': '🦊',
+      'emberth': '🔥', 'Emberth': '🔥',
+      'fexrick': '⚙️', 'Fexrick': '⚙️',
+      'groven': '💎', 'Groven': '💎',
+      'mimir': '🎭', 'Mimir': '🎭',
+      'morthel': '📜', 'Morthel': '📜', 'neth': '📜', 'Neth': '📜',
+
+      'vreken': '🦎', 'Vreken': '🦎',
+      'myrathil': '🌊', 'Myrathil': '🌊'
     };
-    return raceIcons[race] || 'H';
+    return raceIcons[race] || '👤';
   };
 
   const getClassIcon = (characterClass) => {

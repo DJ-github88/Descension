@@ -8,6 +8,10 @@ import SphereComboFinder from './SphereComboFinder';
 import './ClassDetailDisplay.css';
 import ClassIcon from '../common/ClassIcon';
 import './SphereComboFinder.css';
+import LoreLink from '../common/LoreLink';
+import { autoLinkTerminology } from '../../utils/loreAutoLinker';
+import { RULES_CATEGORIES } from '../../data/rulesData';
+
 
 /**
  * Build a sensible demo classResource prop for the rules page preview.
@@ -104,6 +108,422 @@ const buildDemoClassResource = (className) => {
   return { current, max, spheres: [] };
 };
 
+// Programmatic mapping of classes to their native world regions for premium TTRPG color accents
+const CLASS_REGIONS = {
+  arcanoneer: {
+    regionId: 'bryngloom-forest',
+    regionName: 'Bryngloom Forest',
+    accentColor: '#16a085', // swamp-teal
+    bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
+    borderColor: '#16a085',
+    glowColor: 'rgba(22, 160, 133, 0.15)',
+    icon: 'fas fa-tree'
+  },
+  deathcaller: {
+    regionId: 'bryngloom-forest',
+    regionName: 'Bryngloom Forest',
+    accentColor: '#16a085',
+    bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
+    borderColor: '#16a085',
+    glowColor: 'rgba(22, 160, 133, 0.15)',
+    icon: 'fas fa-ghost'
+  },
+  covenbane: {
+    regionId: 'bryngloom-forest',
+    regionName: 'Bryngloom Forest',
+    accentColor: '#16a085',
+    bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
+    borderColor: '#16a085',
+    glowColor: 'rgba(22, 160, 133, 0.15)',
+    icon: 'fas fa-crosshairs'
+  },
+  witch_doctor: {
+    regionId: 'bryngloom-forest',
+    regionName: 'Bryngloom Forest',
+    accentColor: '#16a085',
+    bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
+    borderColor: '#16a085',
+    glowColor: 'rgba(22, 160, 133, 0.15)',
+    icon: 'fas fa-mortar-pestle'
+  },
+  plaguebringer: {
+    regionId: 'bryngloom-forest',
+    regionName: 'Bryngloom Forest',
+    accentColor: '#16a085',
+    bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
+    borderColor: '#16a085',
+    glowColor: 'rgba(22, 160, 133, 0.15)',
+    icon: 'fas fa-vial'
+  },
+  lichborne: {
+    regionId: 'bryngloom-forest',
+    regionName: 'Bryngloom Forest',
+    accentColor: '#16a085',
+    bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
+    borderColor: '#16a085',
+    glowColor: 'rgba(22, 160, 133, 0.15)',
+    icon: 'fas fa-skull'
+  },
+  pyrofiend: {
+    regionId: 'sundale',
+    regionName: 'Sundale Badlands',
+    accentColor: '#d35400', // fire-amber
+    bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
+    borderColor: '#d35400',
+    glowColor: 'rgba(211, 84, 0, 0.15)',
+    icon: 'fas fa-fire'
+  },
+  berserker: {
+    regionId: 'sundale',
+    regionName: 'Sundale Badlands',
+    accentColor: '#d35400',
+    bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
+    borderColor: '#d35400',
+    glowColor: 'rgba(211, 84, 0, 0.15)',
+    icon: 'fas fa-gavel'
+  },
+  titan: {
+    regionId: 'sundale',
+    regionName: 'Sundale Badlands',
+    accentColor: '#d35400',
+    bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
+    borderColor: '#d35400',
+    glowColor: 'rgba(211, 84, 0, 0.15)',
+    icon: 'fas fa-mountain'
+  },
+  spellguard: {
+    regionId: 'sundale',
+    regionName: 'Sundale Badlands',
+    accentColor: '#d35400',
+    bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
+    borderColor: '#d35400',
+    glowColor: 'rgba(211, 84, 0, 0.15)',
+    icon: 'fas fa-shield-alt'
+  },
+  martyr: {
+    regionId: 'sundale',
+    regionName: 'Sundale Badlands',
+    accentColor: '#d35400',
+    bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
+    borderColor: '#d35400',
+    glowColor: 'rgba(211, 84, 0, 0.15)',
+    icon: 'fas fa-heart'
+  },
+  augur: {
+    regionId: 'nordhalla',
+    regionName: 'Nordhalla Tundra',
+    accentColor: '#2980b9', // frosty blue
+    bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
+    borderColor: '#2980b9',
+    glowColor: 'rgba(41, 128, 185, 0.15)',
+    icon: 'fas fa-eye'
+  },
+  doomsayer: {
+    regionId: 'nordhalla',
+    regionName: 'Nordhalla Tundra',
+    accentColor: '#2980b9',
+    bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
+    borderColor: '#2980b9',
+    glowColor: 'rgba(41, 128, 185, 0.15)',
+    icon: 'fas fa-hourglass-end'
+  },
+  inscriptor: {
+    regionId: 'nordhalla',
+    regionName: 'Nordhalla Tundra',
+    accentColor: '#2980b9',
+    bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
+    borderColor: '#2980b9',
+    glowColor: 'rgba(41, 128, 185, 0.15)',
+    icon: 'fas fa-pen-fancy'
+  },
+  warden: {
+    regionId: 'nordhalla',
+    regionName: 'Nordhalla Tundra',
+    accentColor: '#2980b9',
+    bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
+    borderColor: '#2980b9',
+    glowColor: 'rgba(41, 128, 185, 0.15)',
+    icon: 'fas fa-compass'
+  },
+  huntress: {
+    regionId: 'frostwood-reach',
+    regionName: 'Frostwood Reach',
+    accentColor: '#27ae60', // ancient pine
+    bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
+    borderColor: '#27ae60',
+    glowColor: 'rgba(39, 174, 96, 0.15)',
+    icon: 'fas fa-leaf'
+  },
+  bladedancer: {
+    regionId: 'frostwood-reach',
+    regionName: 'Frostwood Reach',
+    accentColor: '#27ae60',
+    bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
+    borderColor: '#27ae60',
+    glowColor: 'rgba(39, 174, 96, 0.15)',
+    icon: 'fas fa-wind'
+  },
+  lunarch: {
+    regionId: 'frostwood-reach',
+    regionName: 'Frostwood Reach',
+    accentColor: '#27ae60',
+    bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
+    borderColor: '#27ae60',
+    glowColor: 'rgba(39, 174, 96, 0.15)',
+    icon: 'fas fa-moon'
+  },
+  exorcist: {
+    regionId: 'frostwood-reach',
+    regionName: 'Frostwood Reach',
+    accentColor: '#27ae60',
+    bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
+    borderColor: '#27ae60',
+    glowColor: 'rgba(39, 174, 96, 0.15)',
+    icon: 'fas fa-bell'
+  },
+  toxicologist: {
+    regionId: 'frostwood-reach',
+    regionName: 'Frostwood Reach',
+    accentColor: '#27ae60',
+    bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
+    borderColor: '#27ae60',
+    glowColor: 'rgba(39, 174, 96, 0.15)',
+    icon: 'fas fa-skull-crossbones'
+  },
+  formbender: {
+    regionId: 'cragjaw-peaks',
+    regionName: 'Cragjaw Peaks',
+    accentColor: '#8e44ad', // slate purple
+    bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
+    borderColor: '#8e44ad',
+    glowColor: 'rgba(142, 68, 173, 0.15)',
+    icon: 'fas fa-hammer'
+  },
+  dreadnaught: {
+    regionId: 'cragjaw-peaks',
+    regionName: 'Cragjaw Peaks',
+    accentColor: '#8e44ad',
+    bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
+    borderColor: '#8e44ad',
+    glowColor: 'rgba(142, 68, 173, 0.15)',
+    icon: 'fas fa-shield-alt'
+  },
+  fate_weaver: {
+    regionId: 'cragjaw-peaks',
+    regionName: 'Cragjaw Peaks',
+    accentColor: '#8e44ad',
+    bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
+    borderColor: '#8e44ad',
+    glowColor: 'rgba(142, 68, 173, 0.15)',
+    icon: 'fas fa-project-diagram'
+  },
+  chronarch: {
+    regionId: 'cragjaw-peaks',
+    regionName: 'Cragjaw Peaks',
+    accentColor: '#8e44ad',
+    bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
+    borderColor: '#8e44ad',
+    glowColor: 'rgba(142, 68, 173, 0.15)',
+    icon: 'fas fa-history'
+  },
+  gambler: {
+    regionId: 'iceheart-sea',
+    regionName: 'Iceheart Sea',
+    accentColor: '#2c3e50', // deep indigo
+    bgGradient: 'linear-gradient(135deg, rgba(44, 62, 80, 0.06) 0%, rgba(52, 73, 94, 0.02) 100%)',
+    borderColor: '#2c3e50',
+    glowColor: 'rgba(44, 62, 80, 0.15)',
+    icon: 'fas fa-dice'
+  },
+  minstrel: {
+    regionId: 'iceheart-sea',
+    regionName: 'Iceheart Sea',
+    accentColor: '#2c3e50',
+    bgGradient: 'linear-gradient(135deg, rgba(44, 62, 80, 0.06) 0%, rgba(52, 73, 94, 0.02) 100%)',
+    borderColor: '#2c3e50',
+    glowColor: 'rgba(44, 62, 80, 0.15)',
+    icon: 'fas fa-music'
+  },
+  oracle: {
+    regionId: 'sundrift-vale',
+    regionName: 'Sundrift Vale',
+    accentColor: '#6c5ce7', // twilight purple
+    bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
+    borderColor: '#6c5ce7',
+    glowColor: 'rgba(108, 92, 231, 0.15)',
+    icon: 'fas fa-star'
+  },
+  primalist: {
+    regionId: 'sundrift-vale',
+    regionName: 'Sundrift Vale',
+    accentColor: '#6c5ce7',
+    bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
+    borderColor: '#6c5ce7',
+    glowColor: 'rgba(108, 92, 231, 0.15)',
+    icon: 'fas fa-paw'
+  },
+  chaos_weaver: {
+    regionId: 'sundrift-vale',
+    regionName: 'Sundrift Vale',
+    accentColor: '#6c5ce7',
+    bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
+    borderColor: '#6c5ce7',
+    glowColor: 'rgba(108, 92, 231, 0.15)',
+    icon: 'fas fa-atom'
+  },
+  false_prophet: {
+    regionId: 'sundrift-vale',
+    regionName: 'Sundrift Vale',
+    accentColor: '#6c5ce7',
+    bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
+    borderColor: '#6c5ce7',
+    glowColor: 'rgba(108, 92, 231, 0.15)',
+    icon: 'fas fa-exclamation-triangle'
+  }
+};
+
+// Robust scanner/tokenizer that converts markdown and LoreLink markup into clickable React nodes
+const parseTextWithLoreLinks = (text, skipAutoLink = false) => {
+  if (!text || typeof text !== 'string') return null;
+
+  // Dynamically auto-link all dictionary terminology first
+  const processedText = skipAutoLink ? text : autoLinkTerminology(text);
+
+  const result = [];
+  const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>|\*\*(.*?)\*\*)/g;
+  let lastIndex = 0;
+  let match;
+  let key = 0;
+
+  while ((match = regex.exec(processedText)) !== null) {
+    // Add text before the match
+    if (match.index > lastIndex) {
+      result.push(processedText.substring(lastIndex, match.index));
+    }
+
+    if (match[2]) {
+      // LoreLink match: match[2] is termId, match[3] is label
+      const termId = match[2];
+      const label = match[3];
+      result.push(
+        <LoreLink key={`lore-${key++}`} termId={termId}>
+          {parseTextWithLoreLinks(label, true)}
+        </LoreLink>
+      );
+    } else if (match[4] !== undefined) {
+      // Bold match: match[4] is the bold content
+      const boldText = match[4];
+      result.push(
+        <strong key={`bold-${key++}`}>
+          {parseTextWithLoreLinks(boldText, skipAutoLink)}
+        </strong>
+      );
+    }
+
+    lastIndex = regex.lastIndex;
+  }
+
+  // Add remaining text
+  if (lastIndex < processedText.length) {
+    result.push(processedText.substring(lastIndex));
+  }
+
+  return result.length > 0 ? result : processedText;
+};
+
+// Helper function to dynamically parse the class's Genesis lore origin and physical toll paragraphs
+const parseResourceOrigin = (content) => {
+  if (!content) return null;
+  const paragraphs = content.split(/\n\s*\n/);
+  let genesisText = '';
+  let priceText = '';
+  
+  for (let i = 0; i < paragraphs.length; i++) {
+    const p = paragraphs[i].trim();
+    if (p.startsWith('**HISTORY: THE GENESIS**') || p.includes('HISTORY: THE GENESIS')) {
+      // Extract the narrative (remove the header)
+      genesisText = p.replace(/\*\*HISTORY: THE GENESIS\*\*\s*\n*/i, '').trim();
+      // The next paragraph is the physical price
+      if (i + 1 < paragraphs.length) {
+        const nextP = paragraphs[i+1].trim();
+        if (!nextP.startsWith('**')) {
+          priceText = nextP;
+        }
+      }
+      break;
+    }
+  }
+  
+  if (!genesisText) return null;
+  return { genesis: genesisText, price: priceText };
+};
+
+// Helper function to extract notable figures for a specific class within a region section
+const getNotableFiguresForClass = (regionSection, className) => {
+  if (!regionSection || !regionSection.content || !className) return [];
+  const content = regionSection.content;
+  
+  // Locate the class's card block inside the region content HTML
+  const nameQueryEscaped = `class-lore-name\\">${className}`;
+  const nameQueryRaw = `class-lore-name">${className}`;
+  let classIndex = content.indexOf(nameQueryEscaped);
+  if (classIndex === -1) {
+    classIndex = content.indexOf(nameQueryRaw);
+  }
+  if (classIndex === -1) return [];
+
+  // Search backwards for the start of the class card
+  let cardStartIdx = content.lastIndexOf('<div class="class-lore-card"', classIndex);
+  if (cardStartIdx === -1) {
+    cardStartIdx = content.lastIndexOf('<div class=\\"class-lore-card\\"', classIndex);
+  }
+  if (cardStartIdx === -1) return [];
+
+  // Search forwards for the start of the next card or the end of content
+  let cardEndIdx = content.indexOf('<div class="class-lore-card"', classIndex + 20);
+  if (cardEndIdx === -1) {
+    cardEndIdx = content.indexOf('<div class=\\"class-lore-card\\"', classIndex + 20);
+  }
+  if (cardEndIdx === -1 || cardEndIdx < cardStartIdx) {
+    cardEndIdx = content.length;
+  }
+
+  const cardContent = content.substring(cardStartIdx, cardEndIdx);
+  const parts = cardContent.split(/\*\*Notable Figures\*\*/i);
+  if (parts.length < 2) return [];
+  
+  // Extract bullet points
+  const lines = parts[1].split('\n');
+  const figures = [];
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('*') || trimmed.startsWith('•') || trimmed.startsWith('-')) {
+      // Format: * **Name**: description
+      const nameMatch = trimmed.match(/^[\*\-•]\s*\*\*(.*?)\*\*\s*:\s*(.*)$/);
+      if (nameMatch) {
+        // Strip trailing HTML tags like </div> or </p> from the description, while keeping LoreLink
+        const rawDesc = nameMatch[2].trim();
+        const cleanDesc = rawDesc.replace(/<(?!LoreLink\b|\/LoreLink\b)\/?[a-zA-Z0-9]+[^>]*>/g, '').trim();
+        figures.push({
+          name: nameMatch[1],
+          description: cleanDesc
+        });
+      } else {
+        const cleanLine = trimmed.replace(/^[\*\-•]\s*/, '');
+        if (cleanLine) {
+          const cleanDesc = cleanLine.replace(/<(?!LoreLink\b|\/LoreLink\b)\/?[a-zA-Z0-9]+[^>]*>/g, '').trim();
+          figures.push({
+            name: '',
+            description: cleanDesc
+          });
+        }
+      }
+    }
+  }
+  return figures;
+};
+
+
 /**
  * ClassDetailDisplay Component
  *
@@ -135,7 +555,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     return (
       <div className="class-detail-error">
         <i className="fas fa-exclamation-triangle"></i>
-        <p>Class data not found</p>
+        <p>Tradition data not found</p>
       </div>
     );
   }
@@ -144,9 +564,9 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     if (!content) return null;
     if (typeof content !== 'string') return null;
     return content.split('\n\n').map((paragraph, i) => (
-      <p key={i} dangerouslySetInnerHTML={{
-        __html: paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      }} />
+      <p key={i}>
+        {parseTextWithLoreLinks(paragraph)}
+      </p>
     ));
   };
 
@@ -249,6 +669,370 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     );
   };
 
+  // Parsers to extract structured fields from markdown strings for the dashboard dossier
+  const parseCombatRole = (content) => {
+    if (!content) return {};
+    const lines = content.split('\n');
+    const result = {
+      primaryRole: '',
+      whyBringMe: '',
+      howYouFight: [],
+      strengths: [],
+      weaknesses: []
+    };
+
+    let currentKey = '';
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed) return;
+
+      // Match markdown section headings
+      const primaryRoleMatch = trimmed.match(/^\*\*Primary Role\*\*:\s*(.*)/i);
+      const whyBringMeMatch = trimmed.match(/^\*\*Why Bring Me\??(?:\s*\([^)]+\))?\*\*:\s*(.*)/i);
+      const howYouFightMatch = trimmed.match(/^\*\*How You Fight\*\*:\s*(.*)/i);
+      const strengthsMatch = trimmed.match(/^\*\*Strengths\*\*:\s*(.*)/i);
+      const weaknessesMatch = trimmed.match(/^\*\*Weaknesses\*\*:\s*(.*)/i);
+
+      if (primaryRoleMatch) {
+        result.primaryRole = primaryRoleMatch[1];
+        currentKey = 'primaryRole';
+      } else if (whyBringMeMatch) {
+        result.whyBringMe = whyBringMeMatch[1];
+        currentKey = 'whyBringMe';
+      } else if (howYouFightMatch) {
+        result.howYouFight = [];
+        if (howYouFightMatch[1]) result.howYouFight.push(howYouFightMatch[1]);
+        currentKey = 'howYouFight';
+      } else if (strengthsMatch) {
+        result.strengths = [];
+        if (strengthsMatch[1]) result.strengths.push(strengthsMatch[1]);
+        currentKey = 'strengths';
+      } else if (weaknessesMatch) {
+        result.weaknesses = [];
+        if (weaknessesMatch[1]) result.weaknesses.push(weaknessesMatch[1]);
+        currentKey = 'weaknesses';
+      } else {
+        // Append bullet/numbered points or append to string
+        if (currentKey === 'howYouFight') {
+          const itemMatch = trimmed.match(/^\d+\.\s*(.*)/);
+          if (itemMatch) {
+            result.howYouFight.push(itemMatch[1]);
+          } else {
+            result.howYouFight.push(trimmed);
+          }
+        } else if (currentKey === 'strengths') {
+          const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
+          if (bulletMatch) {
+            result.strengths.push(bulletMatch[1]);
+          } else {
+            result.strengths.push(trimmed);
+          }
+        } else if (currentKey === 'weaknesses') {
+          const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
+          if (bulletMatch) {
+            result.weaknesses.push(bulletMatch[1]);
+          } else {
+            result.weaknesses.push(trimmed);
+          }
+        } else if (currentKey === 'whyBringMe') {
+          result.whyBringMe += (result.whyBringMe ? ' ' : '') + trimmed;
+        } else if (currentKey === 'primaryRole') {
+          result.primaryRole += (result.primaryRole ? ' ' : '') + trimmed;
+        }
+      }
+    });
+
+    return result;
+  };
+
+  const parseRoleplayIdentity = (content) => {
+    if (!content) return [];
+    const sections = [];
+    const paragraphs = content.split('\n\n');
+    let currentSection = null;
+
+    paragraphs.forEach(para => {
+      const trimmed = para.trim();
+      if (!trimmed) return;
+
+      const headerMatch = trimmed.match(/^\*\*(.*?)\*\*\s*\n*(.*)/s);
+      if (headerMatch) {
+        if (currentSection) {
+          sections.push(currentSection);
+        }
+        currentSection = {
+          title: headerMatch[1],
+          content: headerMatch[2] || ''
+        };
+      } else if (currentSection) {
+        currentSection.content += '\n\n' + trimmed;
+      } else {
+        currentSection = {
+          title: '',
+          content: trimmed
+        };
+      }
+    });
+
+    if (currentSection) {
+      sections.push(currentSection);
+    }
+    return sections;
+  };
+
+  // Immersive parsed Actual Play logger for class combat examples
+  const renderCombatExampleContent = (content) => {
+    if (!content) return null;
+    if (typeof content !== 'string') return null;
+
+    const paragraphs = content.split('\n\n');
+    return (
+      <div className="combat-example-parsed">
+        {paragraphs.map((p, idx) => {
+          const trimmed = p.trim();
+          if (!trimmed) return null;
+
+          // 1. The Scenario Setup Card
+          const setupMatch = trimmed.match(/^\*\*The Setup\*\*:\s*(.*)/i);
+          if (setupMatch) {
+            return (
+              <div className="combat-setup-card" key={idx}>
+                <div className="card-tag"><i className="fas fa-scroll"></i> THE SCENARIO SETUP</div>
+                <p dangerouslySetInnerHTML={{ __html: setupMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+              </div>
+            );
+          }
+
+          // 2. Character spec status bar
+          const charSpecMatch = trimmed.match(/^\*\*You are a Level (\d+) ([^*:\n]+)\*\*(.*)/i);
+          if (charSpecMatch) {
+            return (
+              <div className="combat-char-status-bar" key={idx}>
+                <div className="status-header">
+                  <span className="char-badge"><i className="fas fa-user-shield"></i> LEVEL {charSpecMatch[1]} {charSpecMatch[2].toUpperCase()}</span>
+                  <span className="combat-label"><i className="fas fa-crosshairs"></i> STATUS STATUS EFFECT</span>
+                </div>
+                <div className="status-body">
+                  <p dangerouslySetInnerHTML={{ __html: charSpecMatch[3].trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                </div>
+              </div>
+            );
+          }
+
+          // 3. Turn divider
+          const turnMatch = trimmed.match(/^\*\*Turn (\d+)\s*—\s*([^*:\n]+)\*\*(.*)/i);
+          if (turnMatch) {
+            return (
+              <div className="combat-turn-header" key={idx}>
+                <div className="turn-number-tag">TURN {turnMatch[1]}</div>
+                <div className="turn-title">{turnMatch[2]}</div>
+                {turnMatch[3] && <div className="turn-meta" dangerouslySetInnerHTML={{ __html: turnMatch[3].trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />}
+              </div>
+            );
+          }
+
+          // 4. Interactive 3D Dice Tray
+          const rollMatch = trimmed.match(/^\*\*Roll (\d+d\d+)\*\*:\s*\[(.*?)\]\s*(?:→|->)\s*(.*)/i);
+          if (rollMatch) {
+            const diceValues = rollMatch[2].split(',').map(d => d.trim());
+            return (
+              <div className="combat-dice-roll-card" key={idx}>
+                <div className="dice-roll-header">
+                  <span className="dice-label"><i className="fas fa-dice-d20"></i> DADO DICE ROLL: {rollMatch[1]}</span>
+                  <span className="dice-outcome">{rollMatch[3]}</span>
+                </div>
+                <div className="dice-tray">
+                  {diceValues.map((val, i) => (
+                    <div className="dice-block d8-die" key={i}>
+                      <span className="die-bg"><i className="fas fa-cube"></i></span>
+                      <span className="die-val">{val}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          // Roll fallback in case brackets are different
+          if (trimmed.startsWith('**Roll ') && !rollMatch) {
+            return (
+              <div className="combat-simple-roll" key={idx}>
+                <div className="simple-roll-header">
+                  <i className="fas fa-dice-d20"></i> ACTIVE ROLL RECORD
+                </div>
+                <p dangerouslySetInnerHTML={{ __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+              </div>
+            );
+          }
+
+          // 5. In-character narrative actions (starts and ends with asterisk)
+          if (trimmed.startsWith('*') && trimmed.endsWith('*')) {
+            const narrativeText = trimmed.slice(1, -1);
+            return (
+              <div className="combat-narrative-action" key={idx}>
+                <i className="fas fa-quote-left narrative-quote-icon"></i>
+                <p dangerouslySetInnerHTML={{ __html: narrativeText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+              </div>
+            );
+          }
+
+          // 6. Tactical resolutions
+          const resultMatch = trimmed.match(/^\*\*Result\*\*:\s*(.*)/i);
+          const costMatch = trimmed.match(/^\*\*Cost\*\*:\s*(.*)/i);
+          const mindRacesMatch = trimmed.match(/^\*\*Your Mind Races\*\*:\s*(.*)/i);
+
+          if (resultMatch) {
+            return (
+              <div className="combat-tactical-result" key={idx}>
+                <div className="result-header"><i className="fas fa-clipboard-check"></i> ACTION RESOLUTION OUTCOME</div>
+                <p dangerouslySetInnerHTML={{ __html: resultMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+              </div>
+            );
+          }
+
+          if (mindRacesMatch) {
+            return (
+              <div className="combat-tactical-strategy" key={idx}>
+                <div className="strategy-header"><i className="fas fa-brain"></i> TACTICAL DECISION LOG</div>
+                <p dangerouslySetInnerHTML={{ __html: mindRacesMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+              </div>
+            );
+          }
+
+          // Fallback to standard render content
+          return (
+            <div className="combat-default-block" key={idx}>
+              {renderContent(trimmed)}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderTradition = () => {
+    const { overview } = classData;
+    const originStoryText = overview?.originStory || '';
+    const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
+    
+    const regionInfo = CLASS_REGIONS[classId] || {
+      regionId: 'unknown',
+      regionName: 'Unknown Lands',
+      accentColor: '#8b4513',
+      bgGradient: 'linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(139, 69, 19, 0.03) 100%)',
+      borderColor: '#8b4513',
+      glowColor: 'rgba(139, 69, 19, 0.1)',
+      icon: 'fas fa-scroll'
+    };
+
+    if (!originStoryText) {
+      return (
+        <div className="class-detail-section parchment-content">
+          <div className="lore-covenant-card" style={{ borderLeft: '4px solid #8b4513' }}>
+            <div className="covenant-card-header" style={{ color: '#8b4513' }}>
+              <span className="covenant-badge" style={{ backgroundColor: '#8b4513' }}>
+                <i className="fas fa-scroll"></i> Lore Unknown
+              </span>
+              <h4>The Unrecorded Tradition</h4>
+            </div>
+            <div className="covenant-card-body">
+              <p>The mythic histories and oral traditions of this calling have not yet been fully transcribed from the regional archives. Scholars are currently scouring the keeps for forgotten journals and covenant clauses.</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const paragraphs = originStoryText.split('\n\n').filter(p => p.trim());
+    
+    let callToAction = null;
+    let mainParagraphs = [...paragraphs];
+    if (paragraphs.length > 1) {
+      const lastPara = paragraphs[paragraphs.length - 1].trim();
+      if (lastPara.toLowerCase().startsWith('as a ') || 
+          lastPara.toLowerCase().startsWith('you are ') || 
+          lastPara.toLowerCase().startsWith('the fire in ') ||
+          lastPara.toLowerCase().startsWith('you carry ')) {
+        callToAction = lastPara;
+        mainParagraphs.pop();
+      }
+    }
+
+    const classOriginsSub = RULES_CATEGORIES
+      .find(cat => cat.id === 'world-lore')
+      ?.subcategories?.find(sub => sub.id === 'class-origins');
+
+    const regionSection = classOriginsSub?.content?.sections?.find(sec => {
+      if (!regionInfo.regionId) return false;
+      return sec.title.toLowerCase().includes(regionInfo.regionId.toLowerCase()) ||
+             sec.title.toLowerCase().includes(regionInfo.regionName.split(' ')[0].toLowerCase());
+    });
+
+    const notableFigures = getNotableFiguresForClass(regionSection, classData.name);
+
+    return (
+      <div className="class-detail-section parchment-content">
+        <div 
+          className="lore-covenant-card" 
+          style={{ 
+            borderLeft: `4px solid ${regionInfo.borderColor}`,
+            background: regionInfo.bgGradient,
+            boxShadow: `0 4px 15px ${regionInfo.glowColor}, inset 0 0 20px rgba(139, 69, 19, 0.02)`
+          }}
+        >
+          <div className="covenant-card-header" style={{ color: regionInfo.accentColor }}>
+            <span className="covenant-badge" style={{ backgroundColor: regionInfo.accentColor }}>
+              <i className={regionInfo.icon}></i> {regionInfo.regionName.toUpperCase()} TRADITION
+            </span>
+            <h4>{classData.name} Origin & Heritage</h4>
+          </div>
+          
+          <div className="covenant-card-body" style={{ fontStyle: 'normal' }}>
+            <div className="lore-text">
+              {mainParagraphs.map((para, idx) => (
+                <p key={idx}>{parseTextWithLoreLinks(para)}</p>
+              ))}
+            </div>
+
+            {callToAction && (
+              <div className="tradition-call-to-action" style={{ borderLeft: `3px solid ${regionInfo.borderColor}` }}>
+                <p>{parseTextWithLoreLinks(callToAction)}</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {notableFigures.length > 0 && (
+          <div className="chronicle-card full-width-card" style={{ marginTop: '20px' }}>
+            <div className="chronicle-card-header bronze-header">
+              <i className="fas fa-users"></i> LEGENDARY PRACTITIONERS
+            </div>
+            <div className="notable-practitioners-list">
+              {notableFigures.map((fig, idx) => {
+                const initial = fig.name ? fig.name.trim().charAt(0) : 'P';
+                return (
+                  <div 
+                    key={idx} 
+                    className="practitioner-card" 
+                    style={{ borderLeft: `4px solid ${regionInfo.borderColor}` }}
+                  >
+                    <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}>
+                      {initial}
+                    </div>
+                    <div className="practitioner-content">
+                      <h5 style={{ color: regionInfo.accentColor }}>{fig.name}</h5>
+                      <p>{parseTextWithLoreLinks(fig.description)}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const renderOverview = () => {
     const { overview } = classData;
 
@@ -260,12 +1044,12 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       bladedancer: { url: '/assets/images/classes/bladedancer_illustration.png', caption: 'An Emberth Ash-Born Bladedancer wielding dual curved swords trailing kinetic sparks.' },
       dreadnaught: { url: '/assets/images/classes/dreadnaught_illustration.png', caption: 'A Groven Dreadnaught stone-troll sentinel with a massive stone shield.' },
       deathcaller: { url: '/assets/images/classes/deathcaller_illustration.png', caption: 'A Briaran Deathcaller commanding the natural cycle of decay with delicate leaves in their hair.' },
-      lichborne: { url: '/assets/images/classes/lichborne_illustration.png', caption: 'A Ferrick Lichborne deep-gnome tinkerer with alchemical clockwork grafts.' },
+      lichborne: { url: '/assets/images/classes/lichborne_illustration.png', caption: 'A Fexrick Lichborne deep-gnome tinkerer with alchemical clockwork grafts.' },
       inscriptor: { url: '/assets/images/classes/inscriptor_illustration.png', caption: 'A Mask-Borne Mimir Inscriptor sitting stationary and carving a bleeding rune into the stone.' },
       primalist: { url: '/assets/images/classes/primalist_illustration.png', caption: 'A Groven Primalist, a stone-troll channeling blue crackling lightning.' },
       pyrofiend: { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'An Emberth Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning demon embers.' },
       titan: { url: '/assets/images/classes/titan_illustration.png', caption: 'A Groven Titan, a slender stone-troll with rough slate plates fused to their joints.' },
-      oracle: { url: '/assets/images/classes/oracle_illustration.png', caption: 'An Astren Oracle, a starlight-aligned cosmic conduit of starry revelations.' },
+      oracle: { url: '/assets/images/classes/oracle_illustration.png', caption: 'An Astril Oracle, a starlight-aligned cosmic conduit of starry revelations.' },
       martyr: { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Vreken Martyr flagellant in tattered rags radiating divine light.' },
       toxicologist: { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mimir Toxicologist, a mysterious alchemist wearing a flat reflective silver mask and a tattered bark-hide cloak.' },
       plaguebringer: { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'An Unwoven Mimir Plaguebringer holding a bubbling vial of toxic green corruption.' },
@@ -274,80 +1058,314 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       covenbane: { url: '/assets/images/classes/covenbane_illustration.png', caption: 'An Emberth Covenbane in dark steel plate wielding a hex-cleaving battleaxe.' },
       huntress: { url: '/assets/images/classes/huntress_illustration.png', caption: 'A Mist-Woven Mimir Huntress pulling back a recurve bow with thorny arrows.' },
       warden: { url: '/assets/images/classes/warden_illustration.png', caption: 'A Briaran Warden forest scout tracing boundary paths with a brass compass.' },
-      gambler: { url: '/assets/images/classes/gambler_illustration.png', caption: 'A Morthel Gambler dancing on the scales of blind fortune, flipping a glowing coin.' },
-      chronarch: { url: '/assets/images/classes/chronarch_illustration.png', caption: 'An Astren Chronarch using starlight sand to stabilize a bleeding timeline.' },
-      spellguard: { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Ferrick Spellguard deep-gnome shield-master carrying a glowing magical tower shield.' },
-      augur: { url: '/assets/images/classes/augur_illustration.png', caption: 'An Astren Augur nebula seer holding a glowing crystal ball tracing stargate alignments.' },
-      doomsayer: { url: '/assets/images/classes/doomsayer_illustration.png', caption: 'A Grimheart Doomsayer clutching an ancient, decaying scroll shouting warnings of decay.' },
-      fate_weaver: { url: '/assets/images/classes/fate_weaver_illustration.png', caption: 'An Astren Fate Weaver spinning starlight destiny from golden threads.' },
+      gambler: { url: '/assets/images/classes/gambler_illustration.png', caption: 'A Neth Gambler dancing on the scales of blind fortune, flipping a glowing coin.' },
+      chronarch: { url: '/assets/images/classes/chronarch_illustration.png', caption: 'An Astril Chronarch using starlight sand to stabilize a bleeding timeline.' },
+      spellguard: { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Fexrick Spellguard deep-gnome shield-master carrying a glowing magical tower shield.' },
+      augur: { url: '/assets/images/classes/augur_illustration.png', caption: 'An Astril Augur nebula seer holding a glowing crystal ball tracing stargate alignments.' },
+      doomsayer: { url: '/assets/images/classes/doomsayer_illustration.png', caption: 'A Skald Doomsayer clutching an ancient, decaying scroll shouting warnings of decay.' },
+      fate_weaver: { url: '/assets/images/classes/fate_weaver_illustration.png', caption: 'An Astril Fate Weaver spinning starlight destiny from golden threads.' },
       chaos_weaver: { url: '/assets/images/classes/chaos_weaver_illustration.png', caption: 'A Vreken Chaos Weaver casting erratic fragmented purple void circles.' },
       formbender: { url: '/assets/images/classes/formbender_illustration.png', caption: 'A Briaran Formbender shapeshifting with erupting wooden bone frames.' },
       exorcist: { url: '/assets/images/classes/exorcist_illustration.png', caption: 'A Vreken Exorcist zealot warding off shadows with bronze bells and sigils.' },
       lunarch: { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Mask-Borne Mimir Lunarch, a vessel of the lunar parasite with cold starlight veins.' }
     };
 
-    const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
+const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
     const illustrationData = overview.illustration 
       ? { url: overview.illustration, caption: overview.illustrationCaption } 
       : classFallbacks[classId];
+
+    const rawCombatRoleData = parseCombatRole(overview.combatRole?.content);
+    const roleplaySections = parseRoleplayIdentity(overview.roleplayIdentity?.content);
+
+    // Deep Tactical Dossier Fallbacks to guarantee content is never empty
+    const combatRoleData = useMemo(() => {
+      const data = { ...rawCombatRoleData };
+
+      // 1. Fallback for primaryRole
+      if (!data.primaryRole && classData.role) {
+        data.primaryRole = classData.role;
+      }
+
+      // 2. Fallback for whyBringMe (Promise)
+      if (!data.whyBringMe) {
+        if (overview.quickOverview?.content) {
+          // Extract What You Need to Know section or first sentences
+          const tlDrMatch = overview.quickOverview.content.match(/\*\*What You Need to Know\*\*:\s*([^\n]+)/i) || 
+                            overview.quickOverview.content.match(/\*\*TL;DR\*\*:\s*([^\n]+)/i);
+          if (tlDrMatch && tlDrMatch[1]) {
+            data.whyBringMe = tlDrMatch[1].replace(/\*\*/g, '').trim();
+          }
+        }
+        if (!data.whyBringMe && overview.combatRole?.content) {
+          // Use first paragraph of combatRole content
+          const paragraphs = overview.combatRole.content.split('\n\n');
+          if (paragraphs[0]) {
+            data.whyBringMe = paragraphs[0].replace(/\*\*/g, '').trim();
+          }
+        }
+        if (!data.whyBringMe && overview.description) {
+          data.whyBringMe = overview.description.replace(/\*\*/g, '').trim();
+        }
+        if (!data.whyBringMe) {
+          data.whyBringMe = `Play as the ${classData.name} and master their unique tactical mechanics to dominate the battlefield.`;
+        }
+      }
+
+      // 3. Fallback for strengths: aggregate from specs if empty
+      if (!data.strengths || data.strengths.length === 0) {
+        const specStrengths = [];
+        if (classData.specializations?.specs) {
+          classData.specializations.specs.forEach(spec => {
+            if (spec.strengths && Array.isArray(spec.strengths)) {
+              spec.strengths.forEach(str => {
+                const cleaned = str.replace(/\*\*/g, '').trim();
+                if (!specStrengths.includes(cleaned)) specStrengths.push(cleaned);
+              });
+            }
+          });
+        }
+        if (specStrengths.length > 0) {
+          data.strengths = specStrengths.slice(0, 4); // Take top 4
+        } else {
+          data.strengths = [
+            "High tactical adaptability to shifting threats",
+            "Strong team synergy and support capabilities",
+            "Specialized resource economy for high-impact turns"
+          ];
+        }
+      }
+
+      // 4. Fallback for weaknesses: aggregate from specs if empty
+      if (!data.weaknesses || data.weaknesses.length === 0) {
+        const specWeaknesses = [];
+        if (classData.specializations?.specs) {
+          classData.specializations.specs.forEach(spec => {
+            if (spec.weaknesses && Array.isArray(spec.weaknesses)) {
+              spec.weaknesses.forEach(weak => {
+                const cleaned = weak.replace(/\*\*/g, '').trim();
+                if (!specWeaknesses.includes(cleaned)) specWeaknesses.push(cleaned);
+              });
+            }
+          });
+        }
+        if (specWeaknesses.length > 0) {
+          data.weaknesses = specWeaknesses.slice(0, 4); // Take top 4
+        } else {
+          data.weaknesses = [
+            "Vulnerable to heavy crowd control or mobility locks",
+            "Demands careful resource planning to avoid stalling",
+            "Requires precise positioning to maximize spell effectiveness"
+          ];
+        }
+      }
+
+      // 5. Fallback for howYouFight: generate clean general steps if empty
+      if (!data.howYouFight || data.howYouFight.length === 0) {
+        if (overview.quickOverview?.content) {
+          const coreLoopMatch = overview.quickOverview.content.match(/\*\*Core Loop\*\*:\s*([^\n]+)/i) ||
+                                overview.quickOverview.content.match(/\*\*Core Mechanic\*\*:\s*([^\n]+)/i);
+          if (coreLoopMatch && coreLoopMatch[1]) {
+            const steps = coreLoopMatch[1].split('→').map(s => s.trim().replace(/\*\*/g, ''));
+            if (steps.length > 1) {
+              data.howYouFight = steps;
+            }
+          }
+        }
+        if (!data.howYouFight || data.howYouFight.length === 0) {
+          data.howYouFight = [
+            "Generate your unique class resources through targeted attacks and setups.",
+            "Monitor cooldowns and align precursor conditions before invoking massive powers.",
+            "Trigger devastating high-tier finishers while staying safely behind your frontliners."
+          ];
+        }
+      }
+
+      return data;
+    }, [rawCombatRoleData, classData, overview]);
+
 
     return (
       <div className="class-detail-section parchment-content">
         <div className="guide-badge-header">
           <span className="guide-badge">
-            <i className="fas fa-book-open"></i> CLASS OVERVIEW
+            <i className="fas fa-book-open"></i> TRADITION OVERVIEW
           </span>
           <h3>{overview.title}</h3>
+          {overview.subtitle && (
+            <div className="guide-subtitle">“{overview.subtitle}”</div>
+          )}
         </div>
 
-        {overview.subtitle && (
-          <div className="guide-subtitle">{overview.subtitle}</div>
+        {/* Top Concept Quote Section */}
+        {overview.description && (
+          <div className="overview-concept-quote">
+            <i className="fas fa-quote-left quote-icon-bg"></i>
+            <div className="quote-text">
+              {renderContent(overview.description)}
+            </div>
+          </div>
         )}
 
-        <div className="overview-intro-wrapper">
-          {illustrationData && (
-            <div className="guide-illustration-wrapper">
-              <div className="guide-illustration-frame">
-                <img
-                  src={illustrationData.url}
-                  alt={illustrationData.caption}
-                  className="guide-illustration-image"
-                />
-                <div className="guide-illustration-caption">
-                  {illustrationData.caption}
+        {/* Dashboard Grid */}
+        <div className="overview-dashboard-grid">
+          
+          {/* Left Column: Dossier specs and tactical pros/cons */}
+          <div className="overview-dossier-column">
+            
+            <div className="dossier-card spec-card">
+              {illustrationData && (
+                <div className="guide-illustration-wrapper-centered">
+                  <div className="guide-illustration-frame">
+                    <img
+                      src={illustrationData.url}
+                      alt={illustrationData.caption}
+                      className="guide-illustration-image"
+                    />
+                    <div className="guide-illustration-caption">
+                      {illustrationData.caption}
+                    </div>
+                  </div>
                 </div>
+              )}
+
+              <div className="dossier-specs-list">
+                <div className="dossier-spec-row">
+                  <span className="spec-label"><i className="fas fa-shield-alt"></i> ROLE</span>
+                  <span className="spec-value">{classData.role}</span>
+                </div>
+                {classData.resourceSystem && (
+                  <div className="dossier-spec-row">
+                    <span className="spec-label"><i className="fas fa-bolt"></i> RESOURCE</span>
+                    <span className="spec-value">{classData.resourceSystem.title}</span>
+                  </div>
+                )}
+                {classData.damageTypes && classData.damageTypes.length > 0 && (
+                  <div className="dossier-spec-row damage-spec-row">
+                    <span className="spec-label"><i className="fas fa-fire"></i> DAMAGE</span>
+                    <span className="spec-value damage-types-container">
+                      {classData.damageTypes.map((d, i) => (
+                        <span key={i} className={`damage-type-tag dmg-${d.toLowerCase()}`}>
+                          {d.charAt(0).toUpperCase() + d.slice(1)}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
-          )}
-          <div className="guide-description">
-            {renderContent(overview.description)}
+
+            {overview.combatRole && (
+              <div className="dossier-card tactical-card">
+                <div className="dossier-card-header crimson-header">
+                  <i className="fas fa-swords"></i> TACTICAL DOSSIER
+                </div>
+                
+                {combatRoleData.primaryRole && (
+                  <div className="dossier-sub-section">
+                    <span className="sub-label">Combat Archetype</span>
+                    <p className="sub-text">{combatRoleData.primaryRole}</p>
+                  </div>
+                )}
+
+                {combatRoleData.whyBringMe && (
+                  <div className="dossier-sub-section">
+                    <span className="sub-label">Why Bring This Tradition?</span>
+                    <p className="sub-text italic-promise">“{combatRoleData.whyBringMe}”</p>
+                  </div>
+                )}
+
+                <div className="tactical-pros-cons-grid">
+                  {combatRoleData.strengths && combatRoleData.strengths.length > 0 && (
+                    <div className="tactical-list-section pros">
+                      <div className="list-title"><i className="fas fa-check-circle"></i> KEY STRENGTHS</div>
+                      <ul>
+                        {combatRoleData.strengths.map((str, idx) => (
+                          <li key={idx} dangerouslySetInnerHTML={{
+                            __html: str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                          }} />
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {combatRoleData.weaknesses && combatRoleData.weaknesses.length > 0 && (
+                    <div className="tactical-list-section cons">
+                      <div className="list-title"><i className="fas fa-exclamation-triangle"></i> VULNERABILITIES</div>
+                      <ul>
+                        {combatRoleData.weaknesses.map((weak, idx) => (
+                          <li key={idx} dangerouslySetInnerHTML={{
+                            __html: weak.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                          }} />
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Column: Deep strategy logs & loops */}
+          <div className="overview-chronicles-column">
+            
+            {combatRoleData.howYouFight && combatRoleData.howYouFight.length > 0 && (
+              <div className="chronicle-card flow-card">
+                <div className="chronicle-card-header gold-header">
+                  <i className="fas fa-spinner"></i> COMBAT LOOP: HOW YOU FIGHT
+                </div>
+                <div className="flow-steps-container">
+                  {combatRoleData.howYouFight.map((step, idx) => (
+                    <div className="flow-step-item" key={idx}>
+                      <div className="flow-step-number">{idx + 1}</div>
+                      <div className="flow-step-body" dangerouslySetInnerHTML={{
+                        __html: step.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                      }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {overview.playstyle && (
+              <div className="chronicle-card playstyle-card">
+                <div className="chronicle-card-header dark-gold-header">
+                  <i className="fas fa-crown"></i> MASTER GUIDE: EXPERT TACTICS
+                </div>
+                <div className="playstyle-body">
+                  {renderContent(overview.playstyle.content)}
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
 
-        <div className="overview-meta-row">
-          <span className="overview-meta-badge">
-            <span className="meta-label">Role</span>
-            <span className="meta-value"><i className="fas fa-shield-alt"></i> {classData.role}</span>
-          </span>
-          {classData.damageTypes && classData.damageTypes.length > 0 && (
-            <span className="overview-meta-badge">
-              <span className="meta-label">Damage Types</span>
-              <span className="meta-value">{classData.damageTypes.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}</span>
-            </span>
-          )}
-          {classData.resourceSystem && (
-            <span className="overview-meta-badge">
-              <span className="meta-label">Resource</span>
-              <span className="meta-value"><i className="fas fa-bolt"></i> {classData.resourceSystem.title}</span>
-            </span>
-          )}
-        </div>
+        {/* Full-Width Lore Card positioned underneath the grid */}
+        {roleplaySections.length > 0 && (
+          <div className="chronicle-card lore-card full-width-card">
+            <div className="chronicle-card-header bronze-header">
+              <i className="fas fa-theater-masks"></i> ROLEPLAY NARRATIVE & ORIGINS
+            </div>
+            <div className="chronicle-scroll-content lore-grid-layout">
+              {roleplaySections.map((sec, idx) => (
+                <div className="lore-sub-section" key={idx}>
+                  {sec.title && <h5>{sec.title}</h5>}
+                  <div className="lore-text">
+                    {renderContent(sec.content)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
+        {/* Collapsible Combat Example at the Bottom (Full-Width) */}
         {overview.immersiveCombatExample && (
-          <div className={`guide-flavor-box collapsible ${combatExampleOpen ? 'open' : 'closed'}`}>
+          <div className={`guide-flavor-box collapsible bottom-flavor-box full-width-card ${combatExampleOpen ? 'open' : 'closed'}`}>
             <div className="flavor-box-header" onClick={() => setCombatExampleOpen(!combatExampleOpen)}>
               <div className="flavor-box-tag">
-                <i className="fas fa-scroll"></i> {overview.immersiveCombatExample.title || 'COMBAT EXAMPLE'}
+                <i className="fas fa-book"></i> NARRATIVE CHRONICLE: {overview.immersiveCombatExample.title || 'COMBAT EXAMPLE'}
               </div>
               <button className="flavor-box-toggle" aria-label={combatExampleOpen ? 'Collapse' : 'Expand'}>
                 <i className={`fas fa-chevron-${combatExampleOpen ? 'up' : 'down'}`}></i>
@@ -355,38 +1373,9 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             </div>
             {combatExampleOpen && (
               <div className="flavor-box-content">
-                {renderContent(overview.immersiveCombatExample.content || overview.immersiveCombatExample)}
+                {renderCombatExampleContent(overview.immersiveCombatExample.content || overview.immersiveCombatExample)}
               </div>
             )}
-          </div>
-        )}
-
-        {overview.roleplayIdentity && (
-          <div className="guide-subsection identity-box">
-            <h4><i className="fas fa-theater-masks"></i> {overview.roleplayIdentity.title}</h4>
-            <div className="subsection-content">
-              {renderContent(overview.roleplayIdentity.content)}
-            </div>
-          </div>
-        )}
-
-        {overview.combatRole && (
-          <div className="guide-subsection combat-box">
-            <h4><i className="fas fa-swords"></i> {overview.combatRole.title}</h4>
-            <div className="subsection-content">
-              {renderContent(overview.combatRole.content)}
-            </div>
-          </div>
-        )}
-
-        {overview.playstyle && (
-          <div className="guide-master-box">
-            <div className="master-tag">
-              <i className="fas fa-crown"></i> MASTER GUIDE
-            </div>
-            <div className="master-content">
-              {renderContent(overview.playstyle.content)}
-            </div>
           </div>
         )}
       </div>
@@ -617,18 +1606,68 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
 
   // Render resource system tab
   const renderResourceSystem = () => {
-    const { resourceSystem } = classData;
+    const { resourceSystem, overview } = classData;
 
     if (!resourceSystem) {
       return (
         <div className="class-detail-section parchment-content">
-          <p className="guide-empty-text">Resource system information not available for this class.</p>
+          <p className="guide-empty-text">Resource system information not available for this tradition.</p>
         </div>
       );
     }
 
+    const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
+    const regionInfo = CLASS_REGIONS[classId] || {
+      regionName: 'Unknown Lands',
+      accentColor: '#8b4513',
+      bgGradient: 'linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(139, 69, 19, 0.03) 100%)',
+      borderColor: '#8b4513',
+      glowColor: 'rgba(139, 69, 19, 0.1)',
+      icon: 'fas fa-scroll'
+    };
+
+    const genesisData = parseResourceOrigin(overview?.roleplayIdentity?.content);
+
     return (
       <div className="class-detail-section parchment-content">
+        
+        {/* PREMIUM LORE-MECHANIC COVENANT CARD */}
+        {genesisData && (
+          <div 
+            className="lore-covenant-card" 
+            style={{ 
+              borderLeft: `4px solid ${regionInfo.borderColor}`,
+              background: regionInfo.bgGradient,
+              boxShadow: `0 4px 15px ${regionInfo.glowColor}, inset 0 0 20px rgba(139, 69, 19, 0.02)`
+            }}
+          >
+            <div className="covenant-card-header" style={{ color: regionInfo.accentColor }}>
+              <span className="covenant-badge" style={{ backgroundColor: regionInfo.accentColor }}>
+                <i className={regionInfo.icon}></i> {regionInfo.regionName.toUpperCase()} ORIGIN
+              </span>
+              <h4>The Covenant Genesis</h4>
+            </div>
+            
+            <div className="covenant-card-body">
+              <div className="covenant-narrative">
+                <i className="fas fa-quote-left quote-icon-left" style={{ color: regionInfo.borderColor }}></i>
+                <span>{parseTextWithLoreLinks(genesisData.genesis)}</span>
+              </div>
+              
+              {genesisData.price && (
+                <div className="covenant-price-box" style={{ borderTop: `1px dashed rgba(139, 69, 19, 0.15)` }}>
+                  <div className="price-title">
+                    <i className="fas fa-balance-scale"></i> The Physical Toll
+                  </div>
+                  <p className="price-content">
+                    {parseTextWithLoreLinks(genesisData.price)}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         <div className="guide-section main-resource">
           <div className="guide-badge-header">
             <span className="guide-badge">
@@ -984,7 +2023,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     if (!specializations || !specializations.specs) {
       return (
         <div className="class-detail-section parchment-content">
-          <p className="guide-empty-text">No specialization data available for this class.</p>
+          <p className="guide-empty-text">No specialization data available for this tradition.</p>
         </div>
       );
     }
@@ -1384,7 +2423,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     if (!spells || spells.length === 0) {
       return (
         <div className="class-detail-section">
-          <p>No spells available for this class yet.</p>
+          <p>No spells available for this tradition yet.</p>
         </div>
       );
     }
@@ -1710,6 +2749,12 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           <i className="fas fa-book-open"></i> Overview
         </button>
         <button
+          className={`class-tab ${activeTab === 'tradition' ? 'active' : ''}`}
+          onClick={() => { setActiveTab('tradition'); setCurrentPage(0); }}
+        >
+          <i className="fas fa-history"></i> Tradition
+        </button>
+        <button
           className={`class-tab ${activeTab === 'resource' ? 'active' : ''}`}
           onClick={() => { setActiveTab('resource'); setCurrentPage(0); }}
         >
@@ -1731,6 +2776,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
 
       <div className="class-detail-content">
         {activeTab === 'overview' && renderOverview()}
+        {activeTab === 'tradition' && renderTradition()}
         {activeTab === 'resource' && renderResourceSystem()}
         {activeTab === 'specializations' && renderSpecializations()}
         {activeTab === 'spells' && renderSpells()}

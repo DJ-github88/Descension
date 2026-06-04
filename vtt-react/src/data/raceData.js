@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Race Data Module
  *
  * Thin aggregator that imports all playable races from individual module files.
@@ -10,7 +10,7 @@
  */
 
 import { ABILITY_SCORES } from '../utils/pointBuySystem';
-import { hrym } from './races/hrym';
+
 import { myrathil } from './races/myrathil';
 import { mimir } from './races/mimir';
 import { briaran } from './races/briaran';
@@ -23,7 +23,6 @@ import { fexrick } from './races/fexrick';
 import { human } from './races/human';
 
 export const RACE_DATA = {
-    hrym,
     myrathil,
     mimir,
     briaran,
@@ -40,7 +39,8 @@ export const getRaceList = () => {
     return Object.values(RACE_DATA).map(race => ({
         id: race.id,
         name: race.name,
-        description: race.description
+        description: race.description,
+        cardFlavor: race.cardFlavor
     }));
 };
 

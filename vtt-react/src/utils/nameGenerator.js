@@ -8,7 +8,7 @@ export const RACE_NAMES = {
         'Isobel', 'Caspian', 'Rowena', 'Eamon', 'Sylas', 'Aria', 'Dorian', 'Faelan', 'Gweneth', 'Malachi',
         'Basile', 'Caelum', 'Daenerys', 'Elowen', 'Freyja', 'Gavriel', 'Hestia', 'Icarus', 'Jezebel', 'Kael'
     ],
-    hrym: [
+    skald: [
         'Bjorn', 'Astrid', 'Erik', 'Sigrid', 'Olaf', 'Ingrid', 'Thorstein', 'Gudrun', 'Harald', 'Svea',
         'Ragnar', 'Freya', 'Leif', 'Brynhild', 'Gunnar', 'Helga', 'Ivar', 'Solveig', 'Ulf', 'Thyra'
     ],
@@ -56,9 +56,13 @@ export const RACE_NAMES = {
         'Abyss', 'Crush', 'Heavy', 'Depths', 'Trench', 'Pressure', 'Gorge', 'Sink', 'Weight', 'Benthic',
         'Anchor', 'Deep', 'Crushing', 'Bent', 'Warped', 'Stone', 'Core', 'Tension', 'Force', 'Abyssal'
     ],
-    astren: [
+    astril: [
         'Nova', 'Cosmos', 'Vesta', 'Rigel', 'Lyra', 'Altair', 'Vega', 'Eclipser', 'Stella', 'Nebula',
         'Orion', 'Sirius', 'Star', 'Space', 'Void', 'Galaxy', 'Astral', 'Starlight', 'Celestial', 'Infinite'
+    ],
+    fexrick: [
+        'Karr', 'Silas', 'Kethrin', 'Drall', 'Tinker', 'Gear', 'Soot', 'Chimney', 'Geotherm', 'Alchem',
+        'Clock', 'Valve', 'Sump', 'Solder', 'Bellows', 'Crank', 'Piston', 'Fulcrum', 'Sprocket', 'Gauge'
     ]
 };
 

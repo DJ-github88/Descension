@@ -25,7 +25,7 @@ const getStatDescription = (stat, value) => {
             color: "#AAD372",
             effects: [
                 `Increases Ranged Power by ${modifier * 2}`,
-                `Increases Armor by ${modifier}`,
+                `Increases Defense by ${modifier}`,
                 `Grants +${modifier} Initiative`
             ]
         },

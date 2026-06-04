@@ -204,6 +204,11 @@ const useSettingsStore = create(
         get().updateSettings({ playerTooltipMode: mode });
       },
 
+      setSkillSystemMode: (mode) => {
+        // mode: 'simple' | 'advanced'
+        get().updateSettings({ skillSystemMode: mode });
+      },
+
       // Vision & Fog Settings
       setViewUpdateOnPlacement: (enabled) => {
         get().updateSettings({ viewUpdateOnPlacement: enabled });
@@ -416,6 +421,7 @@ const useSettingsStore = create(
         gmOverlayOpacity: state.gmOverlayOpacity,
         viewUpdateOnPlacement: state.viewUpdateOnPlacement,
         playerTooltipMode: state.playerTooltipMode,
+        skillSystemMode: state.skillSystemMode,
 
         // Audio
         masterVolume: state.masterVolume,

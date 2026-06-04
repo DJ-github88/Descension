@@ -19,7 +19,7 @@ import {
     calculateAbilityModifier,
     getTotalBonusPoints
 } from '../../../utils/pointBuySystem';
-import { getPathStatModifiers } from '../../../data/pathData';
+// import { getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
 import { applyRacialModifiers, getRacialBaseStats } from '../../../data/raceData';
 
 const Step6StatAllocation = () => {
@@ -31,7 +31,7 @@ const Step6StatAllocation = () => {
 
     // Get modifiers and bonuses
     const bonusPoints = getTotalBonusPoints(characterData);
-    const pathModifiers = path ? getPathStatModifiers(path) : {};
+    const pathModifiers = {}; // Path modifiers removed (disciplines are no longer part of the system)
     const racialModifiers = race && subrace ? applyRacialModifiers({}, race, subrace) : {};
 
     // Calculate available points

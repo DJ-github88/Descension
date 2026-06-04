@@ -477,7 +477,7 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
                   <div className="config-field">
                     <label className="pf-label">Stat to Enhance</label>
                     <select
-                      value={localEffect.effectConfig?.statModifier?.stat || 'armor'}
+                      value={localEffect.effectConfig?.statModifier?.stat || 'damage_reduction'}
                       onChange={(e) => updateEffectConfig('statModifier', {
                         ...localEffect.effectConfig?.statModifier,
                         stat: e.target.value
@@ -493,7 +493,6 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
                         <option value="charisma">Charisma</option>
                       </optgroup>
                       <optgroup label="Combat Stats">
-                        <option value="armor">Armor</option>
                         <option value="damage_reduction">Damage Reduction</option>
                         <option value="speed">Movement Speed</option>
                         <option value="attack">Attack Bonus</option>
@@ -573,7 +572,6 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
                         <option value="charisma">Charisma</option>
                       </optgroup>
                       <optgroup label="Combat Stats">
-                        <option value="armor">Armor</option>
                         <option value="speed">Movement Speed</option>
                         <option value="attack">Attack Bonus</option>
                         <option value="damage">Damage</option>

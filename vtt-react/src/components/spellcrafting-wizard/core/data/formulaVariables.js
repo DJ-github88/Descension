@@ -70,12 +70,6 @@ export const COMBAT_STATS = {
     description: 'Healing effectiveness bonus from spirit and equipment',
     category: 'Combat Stats',
     example: 'healingPower * 2'
-  },
-  armor: { 
-    name: 'Armor', 
-    description: 'Physical damage reduction from agility and equipment',
-    category: 'Combat Stats',
-    example: 'armor + 10'
   }
 };
 

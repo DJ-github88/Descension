@@ -7,7 +7,7 @@
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoints } from '../../../utils/pointBuySystem';
-import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData';
+// import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
 import { applyRacialModifiers } from '../../../data/raceData';
 
 // Wizard steps configuration
@@ -17,12 +17,11 @@ export const WIZARD_STEPS = {
     CLASS_SELECTION: 3,
     SPELL_SELECTION: 4,
     BACKGROUND_SELECTION: 5,
-    PATH_SELECTION: 6,
-    STAT_ALLOCATION: 7,
-    SKILLS_LANGUAGES: 8,
-    LORE_DETAILS: 9,
-    EQUIPMENT_SELECTION: 10,
-    CHARACTER_SUMMARY: 11
+    STAT_ALLOCATION: 6,
+    SKILLS_LANGUAGES: 7,
+    LORE_DETAILS: 8,
+    EQUIPMENT_SELECTION: 9,
+    CHARACTER_SUMMARY: 10
 };
 
 export const STEP_INFO = {
@@ -49,11 +48,6 @@ export const STEP_INFO = {
     [WIZARD_STEPS.BACKGROUND_SELECTION]: {
         name: 'Background',
         description: 'Choose your character\'s history',
-        icon: 'fas fa-book'
-    },
-    [WIZARD_STEPS.PATH_SELECTION]: {
-        name: 'Discipline',
-        description: 'Select your character\'s discipline',
         icon: 'fas fa-book'
     },
     [WIZARD_STEPS.STAT_ALLOCATION]: {
@@ -353,10 +347,8 @@ const characterWizardReducer = (state, action) => {
                 ? applyRacialModifiers({}, characterData.race, characterData.subrace)
                 : {};
 
-            // Get path modifiers (paths provide stat bonuses, not backgrounds)
-            const pathModifiers = characterData.path
-                ? getPathStatModifiers(characterData.path)
-                : {};
+            // Path modifiers removed (disciplines are no longer part of the system)
+            const pathModifiers = {};
 
             // Calculate final stats
             const finalStats = calculateFinalStats(
@@ -525,12 +517,6 @@ const validateCurrentStep = (state) => {
         case WIZARD_STEPS.BACKGROUND_SELECTION:
             if (!characterData.background) {
                 errors.background = 'Please select a background';
-            }
-            break;
-
-        case WIZARD_STEPS.PATH_SELECTION:
-            if (!characterData.path) {
-                errors.path = 'Please select a discipline';
             }
             break;
 

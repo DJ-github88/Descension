@@ -59,6 +59,7 @@ export const DEFAULT_USER_SETTINGS = {
   gmOverlayOpacity: 0.8,
   viewUpdateOnPlacement: true, // When true: fog/view only updates on token drop, not during drag
   playerTooltipMode: 'vague', // 'vague' | 'partial' | 'full' – what info players see on creature tooltips
+  skillSystemMode: 'simple', // 'simple' | 'advanced' – simplified die-based skills vs full quest-based system
 
   // Audio Settings
   masterVolume: 0.8,

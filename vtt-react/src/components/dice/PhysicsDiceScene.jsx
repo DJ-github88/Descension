@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
-import { DICE_PRESETS } from '../../store/diceStore';
+import useDiceStore, { DICE_PRESETS } from '../../store/diceStore';
 import './PhysicsDiceScene.css';
 
 const FONT = "'Cinzel', 'Times New Roman', serif";
@@ -972,10 +972,19 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
       side.plate = plate;
     });
 
-    const solidMat = new THREE.MeshStandardMaterial({
-      color: bodyColor, roughness: roughness, metalness: metalness,
-      emissive: emissive, emissiveIntensity: emissiveIntensity,
-      transparent: transparent, opacity: opacity
+    const solidMat = new THREE.MeshPhysicalMaterial({
+      color: bodyColor,
+      roughness: roughness,
+      metalness: metalness,
+      emissive: emissive,
+      emissiveIntensity: emissiveIntensity,
+      transparent: transparent,
+      opacity: opacity,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.1,
+      sheen: 1.0,
+      sheenColor: new THREE.Color(preset?.glowColor || '#ffffff'),
+      sheenRoughness: 0.2
     });
     const mesh = new THREE.Mesh(geom, solidMat);
     mesh.castShadow = true; mesh.receiveShadow = true;
@@ -1062,10 +1071,19 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
     side.plate = plate;
   });
 
-  const solidMat = new THREE.MeshStandardMaterial({
-    color: bodyColor, roughness: roughness, metalness: metalness,
-    emissive: emissive, emissiveIntensity: emissiveIntensity,
-    transparent: transparent, opacity: opacity
+  const solidMat = new THREE.MeshPhysicalMaterial({
+    color: bodyColor,
+    roughness: roughness,
+    metalness: metalness,
+    emissive: emissive,
+    emissiveIntensity: emissiveIntensity,
+    transparent: transparent,
+    opacity: opacity,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.1,
+    sheen: 1.0,
+    sheenColor: new THREE.Color(preset?.glowColor || '#ffffff'),
+    sheenRoughness: 0.2
   });
   const mesh = new THREE.Mesh(geom, solidMat);
   mesh.castShadow = true; mesh.receiveShadow = true;
@@ -1120,6 +1138,8 @@ const PhysicsDiceScene = ({
   onDismiss,
   isVisible = false
 }) => {
+  const rollContext = useDiceStore(state => state.rollContext);
+  const skillOutcome = useDiceStore(state => state.skillOutcome);
   const containerRef = useRef(null);
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
@@ -1731,26 +1751,34 @@ const PhysicsDiceScene = ({
       <div className="dice-3d-canvas-container" ref={containerRef} />
 
       {resultState && (
-        <div className={`dice-3d-result-area ${resultState.hasCrit ? 'crit' : ''} ${resultState.hasFail ? 'fail' : ''}`}>
-          <div className="dice-3d-result-label">Result</div>
-          <div className={`dice-3d-result-number ${resultState.hasCrit ? 'nat20' : ''} ${resultState.hasFail ? 'nat1' : ''}`}>
+        <div className={`dice-3d-result-area ${skillOutcome ? skillOutcome.type : (resultState.hasCrit ? 'crit' : '')} ${!skillOutcome && resultState.hasFail ? 'fail' : ''}`}>
+          <div className="dice-3d-result-label">
+            {skillOutcome ? skillOutcome.skillName.toUpperCase() : 'Result'}
+          </div>
+          <div className={`dice-3d-result-number ${!skillOutcome && resultState.hasCrit ? 'nat20' : ''} ${!skillOutcome && resultState.hasFail ? 'nat1' : ''}`}>
             {resultState.results.length === 1
               ? formatResultDisplay(resultState.results[0].value, resultState.results[0].type)
               : resultState.total}
           </div>
-          {resultState.results.length > 1 && (
-            <div className="dice-3d-result-breakdown">
-              {resultState.results.map((r, i) => (
-                <span key={i} className="dice-3d-breakdown-item">
-                  {r.type === 'd100'
-                    ? `D100: ${r.percentileValue !== undefined ? String(r.percentileValue).padStart(2, '0') : ''}+${r.d10Value || 0} = ${r.value}`
-                    : `${r.type.toUpperCase()}: ${formatResultDisplay(r.value, r.type)}`}
-                </span>
-              ))}
+          {skillOutcome ? (
+            <div className="dice-3d-result-breakdown" style={{ fontSize: '14px', marginTop: '4px', opacity: 0.8 }}>
+              {skillOutcome.message}
             </div>
+          ) : (
+            resultState.results.length > 1 && (
+              <div className="dice-3d-result-breakdown">
+                {resultState.results.map((r, i) => (
+                  <span key={i} className="dice-3d-breakdown-item">
+                    {r.type === 'd100'
+                      ? `D100: ${r.percentileValue !== undefined ? String(r.percentileValue).padStart(2, '0') : ''}+${r.d10Value || 0} = ${r.value}`
+                      : `${r.type.toUpperCase()}: ${formatResultDisplay(r.value, r.type)}`}
+                  </span>
+                ))}
+              </div>
+            )
           )}
-          <div className={`dice-3d-result-flavor ${resultState.hasCrit ? 'nat20' : ''} ${resultState.hasFail ? 'nat1' : ''}`}>
-            {resultState.hasCrit ? 'MAXIMUM DAMAGE!' : resultState.hasFail ? 'CRITICAL FAILURE.' : `Total: ${resultState.total}`}
+          <div className={`dice-3d-result-flavor ${!skillOutcome && resultState.hasCrit ? 'nat20' : ''} ${!skillOutcome && resultState.hasFail ? 'nat1' : ''}`} style={{ fontSize: '15px', color: '#dbb85c', marginTop: '8px' }}>
+            {skillOutcome ? skillOutcome.flavor : (resultState.hasCrit ? 'MAXIMUM DAMAGE!' : resultState.hasFail ? 'CRITICAL FAILURE.' : `Total: ${resultState.total}`)}
           </div>
           <div className="dice-3d-result-actions">
             <button className="dice-3d-reroll-btn" onClick={(e) => { e.stopPropagation(); throwAllDice(); }}>

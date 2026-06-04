@@ -10,20 +10,20 @@
   --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
   --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
   --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-  --pf-text-primary: #5a1e12 !important;
-  --pf-text-secondary: #5a1e12 !important;
-  --pf-text-muted: #5a1e12 !important;
-  --pf-text-light: #5a1e12 !important;
-  --pf-text-on-dark: #5a1e12 !important;
+  --pf-text-primary: #5c4033 !important;
+  --pf-text-secondary: #5c4033 !important;
+  --pf-text-muted: #5c4033 !important;
+  --pf-text-light: #5c4033 !important;
+  --pf-text-on-dark: #5c4033 !important;
   
-  --pf-gradient-parchment: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%) !important;
+  --pf-gradient-parchment: linear-gradient(135deg, #f0e6d2 0%, #e6dac8 50%, #d5cbb8 100%) !important;
   --pf-parchment: #ede4d3 !important;
   --pf-parchment-light: #f8f4e6 !important;
   --pf-parchment-dark: #e8dcc6 !important;
   --pf-parchment-darker: #d5cbb0 !important;
   
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-  color: #5a1e12 !important;
+  color: #5c4033 !important;
   
   isolation: isolate !important;
   contain: layout style !important;
@@ -40,17 +40,17 @@
 
 /* FORCE BACKGROUND COLORS */
 .game-mode .character-container {
-  background: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%) !important;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dac8 50%, #d5cbb8 100%) !important;
 }
 
 .game-mode .character-navigation {
-  background: linear-gradient(135deg, rgba(213, 203, 176, 0.9) 0%, rgba(203, 193, 166, 0.8) 100%) !important;
+  background: linear-gradient(135deg, #d5cbb8 0%, #cbc1ae 100%) !important;
 }
 
 .game-mode .character-sheet {
   background-color: #f0e6d2 !important;
-  color: #3a3a3a !important;
-  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  color: #5c4033 !important;
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
 }
 
 /* OVERRIDE ANY POSSIBLE SPELLBOOK INTERFERENCE */
@@ -59,7 +59,7 @@
 .game-mode .character-container:not(.spellbook-layout),
 .game-mode .character-navigation:not(.spellbook-layout) {
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-  color: #5a1e12 !important;
+  color: #5c4033 !important;
 }
 
 /* FINAL SAFETY NET */

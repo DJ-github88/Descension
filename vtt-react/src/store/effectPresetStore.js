@@ -292,24 +292,6 @@ const getBuiltInPresets = () => [
         canBeDispelled: true,
         isBuiltIn: true
     },
-    {
-        id: 'builtin_armor_boost',
-        name: 'Armor Boost',
-        description: 'Temporarily increases Armor',
-        category: 'stat_buff',
-        effectType: 'buff',
-        icon: 'fas fa-shield-alt',
-        color: '#4682B4',
-        durationType: 'rounds',
-        durationValue: 3,
-        hasOverTimeEffect: false,
-        statModifiers: [{ stat: 'armor', value: 2, type: 'flat' }],
-        resourceModifiers: [],
-        stackable: false,
-        canBeDispelled: true,
-        isBuiltIn: true
-    },
-    
     // Stat Debuff Effects
     {
         id: 'builtin_weakness',
@@ -345,24 +327,6 @@ const getBuiltInPresets = () => [
         canBeDispelled: true,
         isBuiltIn: true
     },
-    {
-        id: 'builtin_vulnerability',
-        name: 'Vulnerable',
-        description: 'Armor reduced, taking more damage',
-        category: 'stat_debuff',
-        effectType: 'debuff',
-        icon: 'fas fa-heart-broken',
-        color: '#B22222',
-        durationType: 'rounds',
-        durationValue: 2,
-        hasOverTimeEffect: false,
-        statModifiers: [{ stat: 'armor', value: -3, type: 'flat' }],
-        resourceModifiers: [],
-        stackable: false,
-        canBeDispelled: true,
-        isBuiltIn: true
-    },
-    
     // Resource Effects
     {
         id: 'builtin_mana_drain',

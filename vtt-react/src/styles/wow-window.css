@@ -27,7 +27,7 @@
     justify-content: space-between;
     height: 40px;
     padding: 8px 12px; /* Add top/bottom padding to move text away from edges */
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
+    background: linear-gradient(to bottom, #6b5344, #4a3b2d);
     border-bottom: 2px solid #a08c70;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     -webkit-user-select: none;
@@ -58,7 +58,7 @@
 
 /* D&D/Pathfinder Theme Header */
 .dnd-theme-header {
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23) !important; /* Rustic red gradient */
+    background: linear-gradient(to bottom, #6b5344, #4a3b2d) !important;
     border-bottom: 2px solid #a08c70 !important;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
 }
@@ -321,9 +321,9 @@
     flex: 1;
     height: 100%;
     background: linear-gradient(135deg, 
-        rgba(138, 43, 22, 0.95) 0%, 
-        rgba(122, 30, 15, 0.9) 50%, 
-        rgba(90, 20, 10, 0.85) 100%
+        #6b5344 0%, 
+        #5a4633 50%, 
+        #4a3b2d 100%
     );
     border-bottom: 2px solid #8b7355;
     border-radius: 0;
@@ -490,15 +490,15 @@
 
 .spellbook-tab-button.active {
     background: linear-gradient(to bottom,
-        rgba(240, 230, 210, 0.35) 0%,
-        rgba(213, 203, 176, 0.25) 50%,
-        rgba(160, 140, 112, 0.15) 100%
+        rgba(203, 176, 122, 0.4) 0%,
+        rgba(166, 139, 82, 0.3) 50%,
+        rgba(139, 115, 85, 0.2) 100%
     );
     color: #fff;
     font-weight: 700;
     box-shadow: 
         inset 0 2px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -3px 0 #cc2a1d;
+        inset 0 -3px 0 #a68b52;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
     z-index: 3;
 }
@@ -665,5 +665,191 @@
         top: 50% !important;
         transform: translateY(-50%) !important;
         z-index: 10001 !important;
+    }
+}
+
+/* ==========================================================================
+   ENHANCED HEADER TABS FOR WINDOWS (PREMIUM TACTILE WOW RED/GOLD THEME)
+   ========================================================================== */
+
+/* Add elegant top golden border to the spellbook tab buttons */
+.spellbook-tab-button {
+    border-top: 2px solid rgba(212, 175, 55, 0.25) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: uppercase !important;
+}
+
+/* Stunning tactile hover states for header tabs */
+.spellbook-tab-button:hover {
+    background: linear-gradient(to bottom,
+        rgba(255, 255, 255, 0.22) 0%,
+        rgba(240, 230, 210, 0.14) 50%,
+        rgba(160, 140, 112, 0.08) 100%
+    ) !important;
+    color: #ffd100 !important; /* Gold text hover */
+    text-shadow: 
+        0 0 10px rgba(255, 209, 0, 0.6),
+        1px 1px 2px rgba(0, 0, 0, 0.9) !important;
+    border-top-color: rgba(212, 175, 55, 0.6) !important;
+    transform: translateY(-1px);
+}
+
+/* Beautiful active tab indicator styling */
+.spellbook-tab-button.active {
+    background: linear-gradient(to bottom,
+        rgba(203, 176, 122, 0.4) 0%,
+        rgba(166, 139, 82, 0.3) 50%,
+        rgba(139, 115, 85, 0.2) 100%
+    ) !important;
+    border-top: 2px solid #ffd100 !important; /* Vibrant gold top line */
+    color: #fff !important;
+    font-weight: 700 !important;
+    text-shadow: 
+        0 0 8px rgba(255, 255, 255, 0.4),
+        1px 1px 3px rgba(0, 0, 0, 1) !important;
+    box-shadow: 
+        inset 0 3px 6px rgba(0, 0, 0, 0.45),
+        inset 0 -3px 0 #a68b52 !important;
+    z-index: 5 !important;
+}
+
+
+/* ==========================================================================
+   LORE BOOK PAGE FLIPPING & DECORATIVE PAGES STYLING
+   ========================================================================== */
+
+/* Elegant fantasy page flip button */
+.book-page-flip-btn {
+    position: absolute;
+    bottom: 24px;
+    background: linear-gradient(135deg, #8b7355 0%, #6b5a45 100%);
+    border: 1px solid #5a4a3a;
+    border-radius: 6px;
+    color: #f0e6d2;
+    padding: 6px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(60, 45, 30, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.book-page-flip-btn.next-page {
+    right: 24px;
+    border-color: #b89b6a;
+    background: linear-gradient(135deg, #c5a47a 0%, #a68b52 100%);
+    color: #3d2b1d;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.book-page-flip-btn.prev-page {
+    left: 24px;
+}
+
+.book-page-flip-btn:hover {
+    transform: scale(1.05) translateY(-1px);
+    box-shadow: 0 4px 10px rgba(60, 45, 30, 0.2);
+}
+
+.book-page-flip-btn.next-page:hover {
+    background: linear-gradient(135deg, #d4b896 0%, #b89b6a 100%);
+    box-shadow:
+        0 4px 10px rgba(60, 45, 30, 0.2),
+        0 0 10px rgba(197, 160, 89, 0.25);
+}
+
+.book-page-flip-btn.prev-page:hover {
+    background: linear-gradient(135deg, #9c8470 0%, #7a6552 100%);
+    border-color: #6b5a45;
+}
+
+.book-page-flip-btn:active {
+    transform: scale(0.98) translateY(0);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Beautiful centered fantasy decorative page */
+.lore-book-decorative-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    position: relative;
+    text-align: center;
+    animation: fadeInPage 0.8s ease-out;
+}
+
+.fantasy-decorative-icon {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    opacity: 0.75;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+    margin-bottom: 24px;
+    transition: all 0.5s ease;
+}
+
+.lore-book-decorative-page:hover .fantasy-decorative-icon {
+    transform: scale(1.04) rotate(2deg);
+    opacity: 0.9;
+}
+
+.fantasy-quote-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #8b7355 50%, transparent);
+    margin-bottom: 24px;
+}
+
+.fantasy-quote-text {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.8;
+    color: #6e583d;
+    max-width: 320px;
+    margin: 0 0 24px 0;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+    position: relative;
+}
+
+.fantasy-quote-text::before {
+    content: '“';
+    font-family: 'Georgia', serif;
+    font-size: 48px;
+    color: rgba(139, 115, 85, 0.2);
+    position: absolute;
+    top: -24px;
+    left: -20px;
+}
+
+.fantasy-page-flourish {
+    width: 120px;
+    height: 12px;
+    background-image: radial-gradient(circle, #8b7355 1.5px, transparent 2px);
+    background-size: 10px 12px;
+    opacity: 0.3;
+}
+
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

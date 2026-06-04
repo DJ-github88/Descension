@@ -7,9 +7,10 @@ import { WEAPON_TYPE_QUEST_DATA } from '../../constants/weaponTypeQuests';
 import { WEAPON_TYPE_META } from '../../constants/weaponTypeMeta';
 import { ROLLABLE_TABLES } from '../../constants/rollableTables';
 import { calculateStatModifier } from '../../utils/characterUtils';
-import { showSkillRollNotification } from '../../utils/skillRollNotification';
 import { showAchievementNotification } from '../../utils/achievementNotification';
 import usePresenceStore from '../../store/presenceStore';
+import useSettingsStore from '../../store/settingsStore';
+import useDiceStore from '../../store/diceStore';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 
 import '../../styles/skills.css';
@@ -51,6 +52,149 @@ const buildWeaponRankStyles = (color) => {
     };
 };
 
+export const WEAPON_FACE_TEXT = {
+    sword: {
+        1: 'Blade overextends; lose 1 AP and you cannot riposte this round.',
+        2: 'Edge scrapes; shallow cut only.',
+        3: 'Measured cut; steady but simple.',
+        4: 'Quick slash; you may step 1 after the hit.',
+        5: 'Pommel check; on hit, target reels and loses 1 space of movement.',
+        6: 'Cross-cut; on hit, roll weapon die again and add half.',
+        7: 'Riposte set; if target attacks you before your next turn, make a free counter at -2.',
+        8: 'Dancing steel; make a free follow-up slash at half damage.'
+    },
+    axe: {
+        1: 'Head bites and lodges; spend 1 AP to wrench it free.',
+        2: 'Heavy chop skids; half damage.',
+        3: 'Wide arc forces them back 1 space on hit.',
+        4: 'Hack through; +2 damage versus shields or hard cover.',
+        5: 'Cleave; on hit, deal 2 damage to an adjacent foe.',
+        6: 'Hook and yank; pull target 1 space on hit.',
+        7: 'Rending blow; on hit, target suffers a bleeding nick (GM: minor ongoing).',
+        8: 'Sundering chop; on hit, crack armor or deal +4 damage.'
+    },
+    mace: {
+        1: 'Shock up the arm; you drop 1 AP after this swing.',
+        2: 'Glancing crown; half damage.',
+        3: 'Bruising tap; normal damage.',
+        4: 'Ringing strike; on hit, target’s next action is -1.',
+        5: 'Shatter guard; ignore hardness/armor for this hit.',
+        6: 'Crush limb; on hit, target’s move is -1 until end of next turn.',
+        7: 'Concussive blow; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
+        8: 'Skull-rattler; on hit, target is stunned for a turn or takes +5 damage.'
+    },
+    dagger: {
+        1: 'Slip; nick yourself for 1 damage.',
+        2: 'Short slash; half damage.',
+        3: 'Close stab; normal damage.',
+        4: 'Gut jab; +1 damage and you may hide weapon-side if fiction allows.',
+        5: 'Hamstring; on hit, target’s speed -1 until it recovers.',
+        6: 'Quickhand; on hit, make a second dagger jab at -3 to hit.',
+        7: 'Bleed line; on hit, target suffers minor ongoing bleed (GM adjudicates).',
+        8: 'Assassin’s flick; on hit, add weapon die again and step 1 for free.'
+    },
+    greatsword: {
+        1: 'Mass overbalances; fall prone unless you spend 1 AP to steady.',
+        2: 'Draggy swing; half damage.',
+        3: 'Wide arc; push target 1 on hit.',
+        4: 'Driving cut; +2 damage.',
+        5: 'Mighty sweep; on hit, also deal 2 damage to an adjacent foe.',
+        6: 'Batter through; ignore heavy cover for this attack.',
+        7: 'Cleaving stride; on hit, shift 1 and strike a second adjacent foe at -2 to hit.',
+        8: 'Heaving execution; on hit, add weapon die again and force target prone or take +5 damage.'
+    },
+    greataxe: {
+        1: 'Head bites stone; you must spend 1 AP to free it.',
+        2: 'Wild chop; half damage and you stagger 1 space.',
+        3: 'Raking cut; normal damage.',
+        4: 'Hefted cleave; +2 damage.',
+        5: 'Armor split; on hit, ignore armor/hardness for this strike.',
+        6: 'Sweeping murder; cleave an adjacent foe for half damage.',
+        7: 'Bonebreaker; on hit, target’s next move is halved; if it can’t move, +3 damage.',
+        8: 'Executioner’s arc; on hit, add weapon die again and the target is rattled (loses 1 AP).'
+    },
+    maul: {
+        1: 'Recoil numbs arms; lose 1 AP after this attack.',
+        2: 'Head drags; half damage.',
+        3: 'Thudding hit; normal damage.',
+        4: 'Cratering blow; +2 damage.',
+        5: 'Ring their bell; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
+        6: 'Ground-shake; on hit, target is knocked prone.',
+        7: 'Stunning smash; on hit, target is stunned for a turn.',
+        8: 'Pulverize; on hit, add weapon die again and shove target 2 spaces.'
+    },
+    polearm: {
+        1: 'Hook catches; you cannot shift this turn.',
+        2: 'Overreach; half damage.',
+        3: 'Set vs advance; if target moves toward you, it takes +2 damage on hit.',
+        4: 'Lever pull; on hit, pull target 2 or push 2.',
+        5: 'Trip arc; on hit, target is knocked prone.',
+        6: 'Pin and post; target’s move is -2 until end of next turn.',
+        7: 'Crow’s beak; ignore armor and add +3 damage.',
+        8: 'Whirl hook; on hit, reposition the target 3 and follow into its space.'
+    },
+    staff: {
+        1: 'Misstep; you fall prone unless you spend 1 AP to steady.',
+        2: 'Glance; half damage.',
+        3: 'Quick rap; normal damage.',
+        4: 'Low sweep; on hit, target’s next attack roll is -1.',
+        5: 'Disarm flick; on hit, target drops a held item or takes +2 damage.',
+        6: 'Trip and follow; on hit, target goes prone and you may step 1.',
+        7: 'Sweeping arc; on hit, target is knocked prone or stunned for a turn.',
+        8: 'Whirling stave; on hit, strike a second adjacent foe for half damage and shift 1.'
+    },
+    bow: {
+        1: 'String frays; next shot costs +1 AP to ready.',
+        2: 'Wind catches; half damage.',
+        3: 'Arced shot; normal damage.',
+        4: 'Pinning arrow; on hit, target’s next move is -2.',
+        5: 'Seam seeker; ignore cover on this shot.',
+        6: 'Marked; on hit, next ally to shoot this target gains +2 to hit.',
+        7: 'Whistling arc; on hit, add +2 range to your next shot and deal +2 damage now.',
+        8: 'Twin release; fire a second arrow at the same target for half damage.'
+    },
+    crossbow: {
+        1: 'Latch jams; spend 1 AP to clear before next shot.',
+        2: 'Bolt skitters; half damage.',
+        3: 'Solid bolt; normal damage.',
+        4: 'Pinned limb; on hit, target’s next action is -1.',
+        5: 'Crank and fire; ignore cover on this shot.',
+        6: 'Punch-through; on hit, add +3 damage.',
+        7: 'Rattling hit; on hit, target loses 1 AP next turn.',
+        8: 'Snap reload; after this hit, reload for free and gain +1 damage on the next shot.'
+    },
+    thrown: {
+        1: 'Slip; weapon drops at your feet.',
+        2: 'Off-line; half damage.',
+        3: 'Solid throw; normal damage.',
+        4: 'Pin cloak; on hit, target’s speed -2.',
+        5: 'Gouging strike; on hit, target is dazzled—its next attack roll is -1.',
+        6: 'Ricochet; on hit, choose a second nearby target for 2 damage.',
+        7: 'Crippling toss; on hit, target’s next action is -1 and it bleeds (GM adjudicates).',
+        8: 'Bullseye; on hit, add weapon die again and you may immediately retrieve the weapon.'
+    },
+    wand: {
+        1: 'Mana sputter; lose 1 mana/charge.',
+        2: 'Wild spark; half damage, minor harmless sparks.',
+        3: 'Arcane dart; normal damage.',
+        4: 'Channel; on hit, regain 1 mana/charge.',
+        5: 'Spell lash; on hit, target’s next action is -1.',
+        6: 'Force pulse; on hit, push target 2.',
+        7: 'Focused surge; on hit, regain 2 mana/charges.',
+        8: 'Overchannel; on hit, add weapon die again and choose: regain 2 mana/charges or deal +4 damage.'
+    },
+    unarmed: {
+        1: 'Wild swing; you overextend and lose 1 AP.',
+        2: 'Glancing jab; half damage.',
+        3: 'Solid hit; normal damage.',
+        4: 'Counter palm; on hit, shove target 1 space.',
+        5: 'Elbow in; on hit, target’s next attack is -1.',
+        6: 'Sweep the leg; on hit, target is knocked prone.',
+        7: 'Stunning strike; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
+        8: 'Open-hand finale; on hit, add weapon die again and shift 1 into a better position.'
+    }
+};
+
 export default function Skills() {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
@@ -58,6 +202,9 @@ export default function Skills() {
 
     // Choose data source based on whether we're in inspection mode
     const dataSource = inspectionData || characterStore;
+
+    const skillSystemMode = useSettingsStore(state => state.skillSystemMode || 'simple');
+    const isSimpleMode = skillSystemMode === 'simple';
 
     const {
         stats,
@@ -345,27 +492,43 @@ export default function Skills() {
         return skill.rollableTable; // Fallback for old format
     };
 
-    // Roll on a skill table
+    // Simple skill roll — trigger 3D physical dice rolling
+    const rollSimpleSkill = (skill, skillId) => {
+        const rank = getSkillRank(skillId);
+        const dieSize = DIE_SIZE_MAP[rank.key];
+        const dieType = `d${dieSize}`;
+        
+        const diceStore = useDiceStore.getState();
+        diceStore.clearSelectedDice();
+        diceStore.addDice(dieType, 1);
+        diceStore.startRoll({
+            type: 'skill',
+            skillId,
+            skillName: skill.name,
+            rollType: 'simple',
+            dieSize
+        });
+    };
+
+    // Roll on a skill table — trigger 3D physical dice rolling
     const rollSkillTable = (skill, skillId) => {
         const rank = getSkillRank(skillId);
         const isWeaponMastery = (skillId || selectedSkill) === 'weaponMastery';
         const dieKey = isWeaponMastery ? 'd8' : selectedDie;
         const tableId = getCurrentRollableTable(skill, skillId, rank.key, dieKey);
-        const table = ROLLABLE_TABLES[tableId];
-        if (!table) return;
-
-        // Get the die size from selectedDie (e.g., 'd20' -> 20)
-        const dieSize = parseInt(dieKey.substring(1));
-        const roll = Math.floor(Math.random() * dieSize) + 1;
-        const result = table.table.find(entry =>
-            roll >= entry.roll[0] && roll <= entry.roll[1]
-        );
-
-        if (result) {
-            // Show beautiful notification instead of ugly alert
-            console.log(`Rolled ${roll}: ${result.result}`);
-            showSkillRollNotification(roll, result, skill.name);
-        }
+        
+        const diceStore = useDiceStore.getState();
+        diceStore.clearSelectedDice();
+        diceStore.addDice(dieKey, 1);
+        diceStore.startRoll({
+            type: 'skill',
+            skillId,
+            skillName: skill.name,
+            rollType: 'table',
+            tableId,
+            dieKey,
+            weaponType: selectedWeaponType
+        });
     };
 
     // Calculate skill modifier
@@ -408,21 +571,37 @@ export default function Skills() {
 
         return (
             <div className="skill-detail-view">
-                <div className="skill-detail-header">
-                    <img src={skill.icon.startsWith('http') ? skill.icon : getCustomIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
-                    <div className="skill-detail-title-section">
-                        <h2 className="skill-detail-name" style={{ color: rank.color }}>
-                            {isWeaponMastery
-                                ? `${WEAPON_TYPE_LABELS[selectedWeaponType] || 'Weapon'} Mastery`
-                                : skill.name}
-                        </h2>
-                        <p className="skill-detail-description">{skill.description}</p>
-                        <div className="skill-detail-stats">
-                            <div className="skill-rank-selector-wrapper">
-                                <span className="skill-rank" style={{ marginRight: '6px' }}>{effectiveRank.name}</span>
-                                <span className="skill-die-size" title="Skill die size">({DIE_SIZE_MAP[effectiveRank.key]}▼)</span>
+                {isSimpleMode ? (
+                    <div className="skill-simple-header">
+                        <div className="skill-simple-header-left">
+                            <img
+                                src={skill.icon.startsWith('http') ? skill.icon : getCustomIconUrl(skill.icon, 'abilities')}
+                                alt={skill.name}
+                                className="skill-simple-icon"
+                            />
+                            <div className="skill-simple-title-block">
+                                <h2 className="skill-simple-name">{skill.name}</h2>
+                                <p className="skill-simple-description">{skill.description}</p>
+                                <div className="skill-simple-attrs">
+                                    <span className="skill-attr-badge primary">
+                                        <i className="fas fa-star"></i> {skill.primaryStat?.toUpperCase() || 'N/A'}
+                                    </span>
+                                    {skill.secondaryStat && (
+                                        <span className="skill-attr-badge secondary">
+                                            <i className="fas fa-plus"></i> {skill.secondaryStat.toUpperCase()}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="skill-simple-header-right">
+                            <div className="skill-simple-die-badge" style={{ borderColor: rank.color }}>
+                                <span className="die-badge-size">d{DIE_SIZE_MAP[effectiveRank.key]}</span>
+                                <span className="die-badge-rank">{effectiveRank.name}</span>
+                            </div>
+                            <div className="skill-simple-controls">
                                 <select
-                                    className="skill-rank-dropdown"
+                                    className="skill-rank-dropdown skill-simple-dropdown"
                                     value={effectiveRank.key}
                                     onChange={(e) => {
                                         if (setSkillRank) {
@@ -431,30 +610,72 @@ export default function Skills() {
                                             useCharacterStore.getState().setSkillRank(selectedSkill, e.target.value);
                                         }
                                     }}
-                                    title="Change skill level"
+                                    title="Change skill die"
                                 >
                                     {Object.entries(SKILL_RANKS).map(([key, data]) => (
                                         <option key={key} value={key}>
-                                            {data.name} — d{DIE_SIZE_MAP[key]}
+                                            d{DIE_SIZE_MAP[key]} — {data.name}
                                         </option>
                                     ))}
                                 </select>
+                                <button
+                                    className="roll-table-btn skill-simple-roll"
+                                    onClick={() => rollSimpleSkill(skill, selectedSkill)}
+                                >
+                                    <i className="fas fa-dice-d20"></i> ROLL
+                                </button>
                             </div>
-                            <span className="skill-modifier">+{modifier}</span>
-                            <span className="skill-progress">
-                                {completedQuests.length}/{quests.length} Quests
-                            </span>
                         </div>
                     </div>
-                    {(skill.rollableTable || skill.rollableTables) && (
-                        <button
-                            className="roll-table-btn"
-                            onClick={() => rollSkillTable(skill, selectedSkill)}
-                        >
-                            <i className="fas fa-dice"></i> Roll
-                        </button>
-                    )}
-                </div>
+                ) : (
+                    <div className="skill-detail-header">
+                        <img src={skill.icon.startsWith('http') ? skill.icon : getCustomIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
+                        <div className="skill-detail-title-section">
+                            <h2 className="skill-detail-name" style={{ color: rank.color }}>
+                                {isWeaponMastery
+                                    ? `${WEAPON_TYPE_LABELS[selectedWeaponType] || 'Weapon'} Mastery`
+                                    : skill.name}
+                            </h2>
+                            <p className="skill-detail-description">{skill.description}</p>
+                            <div className="skill-detail-stats">
+                                <div className="skill-rank-selector-wrapper">
+                                    <span className="skill-rank" style={{ marginRight: '6px' }}>{effectiveRank.name}</span>
+                                    <span className="skill-die-size" title="Skill die size">({DIE_SIZE_MAP[effectiveRank.key]}▼)</span>
+                                    <select
+                                        className="skill-rank-dropdown"
+                                        value={effectiveRank.key}
+                                        onChange={(e) => {
+                                            if (setSkillRank) {
+                                                setSkillRank(selectedSkill, e.target.value);
+                                            } else {
+                                                useCharacterStore.getState().setSkillRank(selectedSkill, e.target.value);
+                                            }
+                                        }}
+                                        title="Change skill level"
+                                    >
+                                        {Object.entries(SKILL_RANKS).map(([key, data]) => (
+                                            <option key={key} value={key}>
+                                                {data.name} — d{DIE_SIZE_MAP[key]}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <span className="skill-modifier">+{modifier}</span>
+                                <span className="skill-progress">
+                                    {completedQuests.length}/{quests.length} Quests
+                                </span>
+                            </div>
+                        </div>
+                        {(skill.rollableTable || skill.rollableTables) && (
+                            <button
+                                className="roll-table-btn"
+                                onClick={() => rollSkillTable(skill, selectedSkill)}
+                            >
+                                <i className="fas fa-dice"></i> Roll
+                            </button>
+                        )}
+                    </div>
+                )}
 
                 {isWeaponMastery && (
                     <div className="damage-type-section">
@@ -484,6 +705,7 @@ export default function Skills() {
                     </div>
                 )}
 
+                {!isSimpleMode && (
                 <div className="quest-section">
                     <div className="quest-header-row">
                         <h3>
@@ -555,8 +777,9 @@ export default function Skills() {
                     </div>
                     )}
                 </div>
+                )}
 
-                {(() => {
+                {!isSimpleMode && (() => {
                     // Check if this skill uses the new multi-dimensional table structure
                     const rankTables = skill.rollableTables?.[effectiveRank.key] || skill.rollableTables?.UNTRAINED;
                     const hasMultiDieTables = rankTables && typeof rankTables === 'object' && rankTables.d4;
@@ -566,148 +789,6 @@ export default function Skills() {
                     const currentTable = currentTableId ? ROLLABLE_TABLES[currentTableId] : null;
 
                     // Weapon mastery flavor override
-                    const WEAPON_FACE_TEXT = {
-                        sword: {
-                            1: 'Blade overextends; lose 1 AP and you cannot riposte this round.',
-                            2: 'Edge scrapes; shallow cut only.',
-                            3: 'Measured cut; steady but simple.',
-                            4: 'Quick slash; you may step 1 after the hit.',
-                            5: 'Pommel check; on hit, target reels and loses 1 space of movement.',
-                            6: 'Cross-cut; on hit, roll weapon die again and add half.',
-                            7: 'Riposte set; if target attacks you before your next turn, make a free counter at -2.',
-                            8: 'Dancing steel; make a free follow-up slash at half damage.'
-                        },
-                        axe: {
-                            1: 'Head bites and lodges; spend 1 AP to wrench it free.',
-                            2: 'Heavy chop skids; half damage.',
-                            3: 'Wide arc forces them back 1 space on hit.',
-                            4: 'Hack through; +2 damage versus shields or hard cover.',
-                            5: 'Cleave; on hit, deal 2 damage to an adjacent foe.',
-                            6: 'Hook and yank; pull target 1 space on hit.',
-                            7: 'Rending blow; on hit, target suffers a bleeding nick (GM: minor ongoing).',
-                            8: 'Sundering chop; on hit, crack armor or deal +4 damage.'
-                        },
-                        mace: {
-                            1: 'Shock up the arm; you drop 1 AP after this swing.',
-                            2: 'Glancing crown; half damage.',
-                            3: 'Bruising tap; normal damage.',
-                            4: 'Ringing strike; on hit, target’s next action is -1.',
-                            5: 'Shatter guard; ignore hardness/armor for this hit.',
-                            6: 'Crush limb; on hit, target’s move is -1 until end of next turn.',
-                            7: 'Concussive blow; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
-                            8: 'Skull-rattler; on hit, target is stunned for a turn or takes +5 damage.'
-                        },
-                        dagger: {
-                            1: 'Slip; nick yourself for 1 damage.',
-                            2: 'Short slash; half damage.',
-                            3: 'Close stab; normal damage.',
-                            4: 'Gut jab; +1 damage and you may hide weapon-side if fiction allows.',
-                            5: 'Hamstring; on hit, target’s speed -1 until it recovers.',
-                            6: 'Quickhand; on hit, make a second dagger jab at -3 to hit.',
-                            7: 'Bleed line; on hit, target suffers minor ongoing bleed (GM adjudicates).',
-                            8: 'Assassin’s flick; on hit, add weapon die again and step 1 for free.'
-                        },
-                        greatsword: {
-                            1: 'Mass overbalances; fall prone unless you spend 1 AP to steady.',
-                            2: 'Draggy swing; half damage.',
-                            3: 'Wide arc; push target 1 on hit.',
-                            4: 'Driving cut; +2 damage.',
-                            5: 'Mighty sweep; on hit, also deal 2 damage to an adjacent foe.',
-                            6: 'Batter through; ignore heavy cover for this attack.',
-                            7: 'Cleaving stride; on hit, shift 1 and strike a second adjacent foe at -2 to hit.',
-                            8: 'Heaving execution; on hit, add weapon die again and force target prone or take +5 damage.'
-                        },
-                        greataxe: {
-                            1: 'Head bites stone; you must spend 1 AP to free it.',
-                            2: 'Wild chop; half damage and you stagger 1 space.',
-                            3: 'Raking cut; normal damage.',
-                            4: 'Hefted cleave; +2 damage.',
-                            5: 'Armor split; on hit, ignore armor/hardness for this strike.',
-                            6: 'Sweeping murder; cleave an adjacent foe for half damage.',
-                            7: 'Bonebreaker; on hit, target’s next move is halved; if it can’t move, +3 damage.',
-                            8: 'Executioner’s arc; on hit, add weapon die again and the target is rattled (loses 1 AP).'
-                        },
-                        maul: {
-                            1: 'Recoil numbs arms; lose 1 AP after this attack.',
-                            2: 'Head drags; half damage.',
-                            3: 'Thudding hit; normal damage.',
-                            4: 'Cratering blow; +2 damage.',
-                            5: 'Ring their bell; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
-                            6: 'Ground-shake; on hit, target is knocked prone.',
-                            7: 'Stunning smash; on hit, target is stunned for a turn.',
-                            8: 'Pulverize; on hit, add weapon die again and shove target 2 spaces.'
-                        },
-                        polearm: {
-                            1: 'Hook catches; you cannot shift this turn.',
-                            2: 'Overreach; half damage.',
-                            3: 'Set vs advance; if target moves toward you, it takes +2 damage on hit.',
-                            4: 'Lever pull; on hit, pull target 2 or push 2.',
-                            5: 'Trip arc; on hit, target is knocked prone.',
-                            6: 'Pin and post; target’s move is -2 until end of next turn.',
-                            7: 'Crow’s beak; ignore armor and add +3 damage.',
-                            8: 'Whirl hook; on hit, reposition the target 3 and follow into its space.'
-                        },
-                        staff: {
-                            1: 'Misstep; you fall prone unless you spend 1 AP to steady.',
-                            2: 'Glance; half damage.',
-                            3: 'Quick rap; normal damage.',
-                            4: 'Low sweep; on hit, target’s next attack roll is -1.',
-                            5: 'Disarm flick; on hit, target drops a held item or takes +2 damage.',
-                            6: 'Trip and follow; on hit, target goes prone and you may step 1.',
-                            7: 'Sweeping arc; on hit, target is knocked prone or stunned for a turn.',
-                            8: 'Whirling stave; on hit, strike a second adjacent foe for half damage and shift 1.'
-                        },
-                        bow: {
-                            1: 'String frays; next shot costs +1 AP to ready.',
-                            2: 'Wind catches; half damage.',
-                            3: 'Arced shot; normal damage.',
-                            4: 'Pinning arrow; on hit, target’s next move is -2.',
-                            5: 'Seam seeker; ignore cover on this shot.',
-                            6: 'Marked; on hit, next ally to shoot this target gains +2 to hit.',
-                            7: 'Whistling arc; on hit, add +2 range to your next shot and deal +2 damage now.',
-                            8: 'Twin release; fire a second arrow at the same target for half damage.'
-                        },
-                        crossbow: {
-                            1: 'Latch jams; spend 1 AP to clear before next shot.',
-                            2: 'Bolt skitters; half damage.',
-                            3: 'Solid bolt; normal damage.',
-                            4: 'Pinned limb; on hit, target’s next action is -1.',
-                            5: 'Crank and fire; ignore cover on this shot.',
-                            6: 'Punch-through; on hit, add +3 damage.',
-                            7: 'Rattling hit; on hit, target loses 1 AP next turn.',
-                            8: 'Snap reload; after this hit, reload for free and gain +1 damage on the next shot.'
-                        },
-                        thrown: {
-                            1: 'Slip; weapon drops at your feet.',
-                            2: 'Off-line; half damage.',
-                            3: 'Solid throw; normal damage.',
-                            4: 'Pin cloak; on hit, target’s speed -2.',
-                            5: 'Gouging strike; on hit, target is dazzled—its next attack roll is -1.',
-                            6: 'Ricochet; on hit, choose a second nearby target for 2 damage.',
-                            7: 'Crippling toss; on hit, target’s next action is -1 and it bleeds (GM adjudicates).',
-                            8: 'Bullseye; on hit, add weapon die again and you may immediately retrieve the weapon.'
-                        },
-                        wand: {
-                            1: 'Mana sputter; lose 1 mana/charge.',
-                            2: 'Wild spark; half damage, minor harmless sparks.',
-                            3: 'Arcane dart; normal damage.',
-                            4: 'Channel; on hit, regain 1 mana/charge.',
-                            5: 'Spell lash; on hit, target’s next action is -1.',
-                            6: 'Force pulse; on hit, push target 2.',
-                            7: 'Focused surge; on hit, regain 2 mana/charges.',
-                            8: 'Overchannel; on hit, add weapon die again and choose: regain 2 mana/charges or deal +4 damage.'
-                        },
-                        unarmed: {
-                            1: 'Wild swing; you overextend and lose 1 AP.',
-                            2: 'Glancing jab; half damage.',
-                            3: 'Solid hit; normal damage.',
-                            4: 'Counter palm; on hit, shove target 1 space.',
-                            5: 'Elbow in; on hit, target’s next attack is -1.',
-                            6: 'Sweep the leg; on hit, target is knocked prone.',
-                            7: 'Stunning strike; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
-                            8: 'Open-hand finale; on hit, add weapon die again and shift 1 into a better position.'
-                        }
-                    };
 
                     const renderWeaponFlavor = (entry) => {
                         const rollFace = Array.isArray(entry.roll) ? entry.roll[0] : entry.roll || 1;
@@ -758,6 +839,77 @@ export default function Skills() {
                         </div>
                     );
                 })()}
+
+                {isSimpleMode && (
+                    <>
+                    {/* What This Skill Covers */}
+                    <div className="skill-simple-card">
+                        <h4><i className="fas fa-compass"></i> What This Skill Covers</h4>
+                        <p className="skill-simple-context">{skill.description}</p>
+                        <div className="skill-simple-hint">
+                            <i className="fas fa-lightbulb"></i>
+                            <span>Use this skill whenever your character attempts something that matches its expertise. The GM sets a DC based on difficulty.</span>
+                        </div>
+                    </div>
+
+                    {/* How It Works */}
+                    <div className="skill-simple-card">
+                        <h4><i className="fas fa-bolt"></i> How It Works</h4>
+                        <div className="skill-simple-steps">
+                            <div className="skill-step">
+                                <div className="skill-step-num">1</div>
+                                <div className="skill-step-body">
+                                    <strong>Roll your die</strong>
+                                    <span>You have a <strong>d{DIE_SIZE_MAP[effectiveRank.key]}</strong>. Roll it and announce the total to the GM.</span>
+                                </div>
+                            </div>
+                            <div className="skill-step">
+                                <div className="skill-step-num">2</div>
+                                <div className="skill-step-body">
+                                    <strong>Against the DC</strong>
+                                    <span>The GM sets a DC. Meet or beat it to succeed. The closer you are, the more dramatic the outcome.</span>
+                                </div>
+                            </div>
+                            <div className="skill-step">
+                                <div className="skill-step-num">3</div>
+                                <div className="skill-step-body">
+                                    <strong>Exploding dice</strong>
+                                    <span>Roll the maximum? Roll again and add! Multiple explosions can chain for legendary results.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Advancement */}
+                    <div className="skill-simple-card skill-advancement-card">
+                        <h4><i className="fas fa-arrow-up"></i> Getting Better</h4>
+                        <p className="skill-simple-context">
+                            When you do something <strong>extraordinary</strong> with this skill — a creative solution, a clutch success under pressure, or a moment that makes the table cheer — the GM may award you a die upgrade.
+                        </p>
+                        <div className="skill-advancement-track">
+                            {Object.entries(SKILL_RANKS).map(([key, data]) => {
+                                const dieSize = DIE_SIZE_MAP[key];
+                                const isCurrent = effectiveRank.key === key;
+                                const isPast = Object.keys(SKILL_RANKS).indexOf(effectiveRank.key) > Object.keys(SKILL_RANKS).indexOf(key);
+                                return (
+                                    <div
+                                        key={key}
+                                        className={`advancement-node ${isCurrent ? 'current' : ''} ${isPast ? 'past' : ''}`}
+                                        style={{ borderColor: data.color }}
+                                    >
+                                        <span className="advancement-die">d{dieSize}</span>
+                                        <span className="advancement-name">{data.name}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="skill-simple-hint">
+                            <i className="fas fa-comments"></i>
+                            <span>Advancement is a conversation. There are no XP bars — just memorable moments.</span>
+                        </div>
+                    </div>
+                    </>
+                )}
             </div>
         );
     };
@@ -822,10 +974,13 @@ export default function Skills() {
                                         }}
                                     >
                                         <div className="skill-list-name" style={{ color: rank.color }}>
-                                            {skill.name} <span className="skill-rank-label">({rank.name})</span>
+                                            {skill.name}{' '}
+                                            <span className="skill-rank-label">
+                                                {isSimpleMode ? `(d${DIE_SIZE_MAP[rank.key]})` : `(${rank.name})`}
+                                            </span>
                                         </div>
                                         <div className="skill-list-progress">
-                                            {completedQuests.length}/{quests.length}
+                                            {isSimpleMode ? `d${DIE_SIZE_MAP[rank.key]}` : `${completedQuests.length}/${quests.length}`}
                                         </div>
                                     </div>
                                 );
@@ -888,10 +1043,13 @@ export default function Skills() {
                                                     onClick={() => setSelectedSkill(skill.id)}
                                                 >
                                                     <div className="skill-list-name" style={{ color: rank.color }}>
-                                                        {skill.name} <span className="skill-rank-label">({rank.name})</span>
+                                                        {skill.name}{' '}
+                                                        <span className="skill-rank-label">
+                                                            {isSimpleMode ? `(d${DIE_SIZE_MAP[rank.key]})` : `(${rank.name})`}
+                                                        </span>
                                                     </div>
                                                     <div className="skill-list-progress">
-                                                        {completedQuests.length}/{quests.length}
+                                                        {isSimpleMode ? `d${DIE_SIZE_MAP[rank.key]}` : `${completedQuests.length}/${quests.length}`}
                                                     </div>
                                                 </div>
                                             );

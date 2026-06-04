@@ -21,6 +21,11 @@ export const ORACLE_DATA = {
   },
 
   overview: {
+    originStory: `Vala, the Astril star-watcher of the Sundrift Vale, stared into the black sky during Keth-Amar's descent and received a blinding vision of the stars' destruction. The constellation-spirits flooded her mind, searing her optical nerves and leaving her in a state of permanent temporal displacement.
+
+The weight of this celestial foresight left her blind to the immediate present. The Oracle can see tomorrow's battles with perfect clarity, but she cannot see the stones at her feet, requiring allies to guide her steps through the physical world, her body wracked by warning seizures.
+
+Glimpse the light. The future is written in starlight, and you are the lens. Read the thread before it burns away.`,
     title: "The Oracle",
     subtitle: "The Wound That Never Closes",
 
@@ -41,16 +46,47 @@ export const ORACLE_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Every Oracle carries the same sickness: they have seen too much, and they cannot stop seeing. They did not choose prophecy — prophecy chose them, and it chose wrong. They are broken vessels leaking futures. They might be:
+      content: `**HISTORY: THE GENESIS**
+The oracle's warning flashes were born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. An Astril star-watcher named **Vala** stared into the starless dark and received a vision of the stars' destruction. The price of this foresight was physical seizure. The warning flashes induced minor physical seizures, leaving her blind to the immediate present to see the future.
 
-**The Blind Seer**: Physical blindness traded for supernatural sight — eyes burned milk-white from the first vision.
-**The Dream Walker**: Receiving visions through nightmares that leave physical scars and pale porcelain fractures.
-**The Omen Reader**: Interpreting signs in entrails, cards, bones, or stars — each reading costs blood and mind.
-**The Fate Touched**: Born with the gift (or curse) of prophecy — the debt has been accumulating since birth.
-**The Truth Seeker**: Dedicated to stripping deceptions from reality — each truth extracted costs a piece of their soul.
+**CITIES & CIVIL RECEPTION**
+Oracles are highly revered as vital spiritual guides in the yurt-camps of the steppe and the high halls of the <LoreLink termId="synod_hold">Synod-Hold</LoreLink>.
 
-Oracles speak in riddles not from arrogance but from trauma. The future is a mouth that never stops screaming. To speak plainly would be to echo what it says, and that would break the people around them. So they veil the horror in metaphor and carry the weight alone.`,
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the crystal-skinned <LoreLink termId="astril">Sylen Astril</LoreLink> and nomadic humans.
+
+**NOTABLE FIGURES**
+* **Vala the Star-Eyed**: The Astril seer whose warning flashes left her blind to the dirt but clear to the future.
+* **Micah the Seer**: A nomad who mapped the starless sky by tracing the echoes of dead constellations.`
     },
+
+    signatureQuote: {
+      text: '"I can see the exact moment of your death. I can also see three alternative versions where you survive. I will not tell you which one is real. That knowledge would break you, and you still have things to do."',
+      speaker: 'Vala the Star-Eyed',
+      context: 'Spoken to a caravan guard who asked his fortune; he died three days later from entirely preventable causes'
+    },
+
+    philosophy: {
+      coreTenet: 'The future is not a single path — it is a thicket of overlapping possibilities, each one as real as the others. The Oracle sees them all simultaneously. They do not predict the future; they perceive the full landscape of probability, and they must navigate it moment by moment.',
+      relationship: 'Oracles do not seek visions — the visions come whether they want them or not. Their power is a curse of constant, unwanted clarity. Every decision they witness has consequences they cannot unsee. The Omens are not tools they wield; they are weights they carry. The Oracle accumulates Omen Debt not by using their power but simply by existing — the visions come, and the Debt grows.',
+      paradox: 'The Oracle knows everything that could happen and nothing that will. They can describe a dozen different versions of the next ten minutes with perfect clarity, but they cannot tell you which one will actually occur until it does. This makes them invaluable advisors — and profoundly unreliable. An Oracle who says "you will die tomorrow" is not giving you a death sentence. They are describing one possibility among a thousand. They do not know which one will come true. Neither do you.'
+    },
+
+    currentCrisis: `Vala has stopped speaking. The first Oracle — the Astril star-watcher who saw the destruction of the stars — has gone completely silent. She sits in her chamber in Synod Hold, staring at nothing, occasionally weeping, but she will not describe what she sees.
+
+The other Oracles of the Sundrift Vale are divided. Some believe Vala has finally broken under the weight of Omen Debt — that her mind has collapsed into a permanent vision-state from which she cannot return. Others believe she has seen something so catastrophic that describing it would trigger it. The Steppe-Lord has stationed guards at her door with orders to report anyone who enters or leaves. But the guards have begun to notice something: Vala\'s tears leave trails in the dust on her floor, and the trails form patterns — complex, repeating geometric shapes that match no known prophecy system. She is not silent. She is drawing.`,
+
+    meaningfulTradeoffs: `To be an Oracle is to be blind to the present. Vala can see the battle that will happen tomorrow with perfect clarity, but she cannot see the cup of water on the table in front of her. She requires a guide for basic movement — someone to describe the immediate physical world while she navigates the future. This dependence creates a strange intimacy: Oracles bond deeply with their guides, often developing romantic attachments to the people whose eyes they borrow. An Oracle without a guide is helpless, trapped in a world of infinite futures and zero present.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Vision Chambers of Synod Hold',
+        locationId: 'synod-hold',
+        description: 'Dark, circular rooms lined with black felt at the center of Synod Hold, where Oracles retreat to receive visions without visual distraction. The walls are covered in charcoal sketches — the Oracles draw what they see, hoping patterns will emerge. The oldest sketches date back centuries, and some show events that have not yet occurred.',
+        purpose: 'Vision reception and Omen recording',
+        status: 'Active — Vala\'s chamber is sealed, but the others remain open'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

@@ -4,25 +4,28 @@ export const astril = {
     essence: 'The Star-Carried',
     illustration: '/assets/images/races/astril_illustration.png',
     illustrationCaption: 'A humble Astril herder on the wind-swept Sundrift steppe, faint constellation-patterns ebbing across their forearms beneath a starless sky.',
-    description: `There is a silence in the Sundrift Vale that has nothing to do with the wind. The sky is empty. It has been empty since the dark bargain was sealed — since the noble family traded fertile soil for endless grass and woke to find the stars erased from the firmament above them. What the histories do not record, what the Emberth will not sing, what the Neth cannot prove but know to be true, is that the stars did not simply vanish when the Warden took the sky. They fell. They fled. They bled into the only vessels willing to receive them.
+    cardFlavor: 'Vessels of fallen stars — constellation patterns drift beneath their skin like embers beneath ash.',
+    description: `**[The Constellation Vessels]** — *Standing on the synod's crystal balcony, a silent Astril priest watches the starless steppe, the glowing starlight patterns on her skin dimming to a deep obsidian.*
 
-We were a humble people before the constellations came — herders, throat-singers, farmers who mapped the heavens through song and ritual. We watched the stars go dark one by one and understood what was happening: the predator that had entombed Sol beneath Emberspire was eating the celestial court. Our gods were being consumed. And when the dying ministers of heaven came to us — not as deities demanding worship, but as refugees begging sanctuary — our ancestors opened themselves. They volunteered. They became living vessels for the last fragments of Sol's court.
+There is a silence in the Sundrift Vale that has nothing to do with the wind. The sky is empty. It has been empty since the dark bargain was sealed — since the noble family traded fertile soil for endless grass and woke to find the stars erased from the firmament above them. What the histories do not record, what the Emberth will not sing, what the Neth cannot prove but know to be true, is that the stars did not simply vanish when the Warden took the sky. They fell. They fled. They bled into the only vessels willing to receive them.
 
-We carry them still. Every Astril child is born with a constellation-spirit woven into their blood — an animal-sign of the old zodiac, a celestial bureaucrat who fled the slaughter and took shelter in mortal flesh. It whispers to us. It marks our skin with luminous patterns visible only in the dark. It remembers what Keth-Amar tasted like. And when we die, it does not fade. It seeks the nearest Astril with the purest faith and enters them — a succession that has made our society a labyrinth of devotion, assassination, and the desperate, unending performance of belief.`,
+The Astril were a humble people before the constellations came — herders, throat-singers, farmers who mapped the heavens through song and ritual. They watched the stars go dark one by one and understood what was happening: the predator that had entombed Sol beneath Emberspire was eating the celestial court. The gods of the steppe were being consumed. And when the dying ministers of heaven came to them — not as deities demanding worship, but as refugees begging sanctuary — the Astril ancestors opened themselves. They volunteered. They became living vessels for the last fragments of Sol's court.
+
+They carry them still. Every Astril child is born with a constellation-spirit woven into their blood — an animal-sign of the old zodiac, a celestial bureaucrat who fled the slaughter and took shelter in mortal flesh. The spirit whispers to them. It marks their skin with luminous patterns visible only in the dark. It remembers what Keth-Amar tasted like. And when an Astril dies, the spirit does not fade. It seeks the nearest Astril with the purest faith and enters them — a succession that has made Astril society a labyrinth of devotion, assassination, and the desperate, unending performance of belief.`,
     icon: 'fas fa-star',
-    overview: `We were farmers before we were vessels. Throat-singers, herders, people who mapped the sky through song and ritual because the sky was all we had. The Sundrift Vale was our home long before the dark bargain — wind-swept steppe, dead tundra grass, ancestors buried in mounds that still hum with the memory of their voices. When the sun was bound and the world began to freeze, we endured because the steppe had always demanded endurance. When the noble family traded fertile soil for endless grass and the sky went dark, we endured because the sky had been our map and now the map was gone, but the land remained.
+    overview: `The Astril were herders and throat-singers of the Sundrift Vale long before they became vessels of the stars. In the age before the sky went dark, they mapped the heavens through song and lived by the grass. The Sundrift Vale was their home long before the dark bargain — wind-swept steppe, dead tundra grass, ancestors buried in mounds that still hum with the memory of their voices. When the sun was bound and the world began to freeze, they endured because the steppe had always demanded endurance. When the noble family traded fertile soil for endless grass and the sky went dark, the Astril survived because the sky had been their map and now the map was gone, but the land remained.
 
-We did not seek the constellations. They came to us.
+They did not seek the constellations. The constellations came to them.
 
 Keth-Amar — the predator, the First Hunger, the thing that burrows through Sol's dying embers beneath Emberspire — did not stop at devouring the sun. It hunted the celestial court. The zodiac ministers, the animal-spirits who had governed the seasons and the stars and the turning of the heavens since before human memory, were consumed one by one. The sky did not simply darken. It was eaten.
 
 The spirits that survived — Horse and Wolf, Dragon and Serpent, Tiger and Stag — fled the massacre. But they had no physical form. They were celestial beings, and the mortal world offers no shelter to things without flesh. They needed vessels. They needed those vessels to be willing. And in the Sundrift Vale, among a people who had been singing the stars' names for a thousand years, they found what they were looking for.
 
-Our ancestors opened themselves. Not as sacrifice. As sanctuary.
+The Astril ancestors opened themselves. Not as sacrifice, but as sanctuary.
 
-The infusion changed us. The spirits entered the bloodlines and stayed. Every Astril born since carries a constellation — its animal-sign marking the body in subtle ways, its luminous pattern ebbing across the skin in darkness, its voice a constant low whisper beneath conscious thought. We are not possessed. We are inhabited. The spirit and the mortal are woven together, two consciousnesses sharing one flesh, and after centuries of coexistence we have learned to call this condition home.
+The infusion changed them. The spirits entered the bloodlines and stayed. Every Astril born since carries a constellation — its animal-sign marking the body in subtle ways, its luminous pattern ebbing across the skin in darkness, its voice a constant low whisper beneath conscious thought. The Astril are not possessed; they are inhabited. The spirit and the mortal are woven together, two consciousnesses sharing one flesh, and after centuries of coexistence they have learned to call this condition home.
 
-But the spirits are not passive guests. They remember. They hunger. They speak. And when an Astril dies, the spirit does not fade — it seeks the nearest Astril of purest faith, drawn to belief like a moth to the only lamp left in a darkened world. This is the Luminarchy: our hierarchy of inherited light, our nobility built on how many constellations a bloodline carries, our assassination economy, our sacred terror, our truth.`,
+But the spirits are not passive guests. They remember, they hunger, and they speak. When an Astril dies, the spirit does not fade — it seeks the nearest Astril of purest faith, drawn to belief like a moth to the only lamp left in a darkened world. This is the Luminarchy: a complex political hierarchy of inherited starlight where social status, noble lineages, and even the assassination economy are governed by the number and power of the zodiac spirits a bloodline carries.`,
 
     culturalBackground: `Astril society is built on a single, inescapable truth: faith is visible. The constellation-spirit within every Astril responds to the depth of mortal belief — the luminous patterns on the skin brighten with genuine conviction, dim with doubt, writhe with heresy. An Astril cannot fake piety. The body betrays the soul.
 
@@ -44,7 +47,7 @@ The Neth are fascinated. The Astril represent a form of contract the Neth have n
 
 The Vreken feel an unspoken kinship. Both peoples are inhabited by something older than themselves — the Vreken by their fungal bond, the Astril by their constellation-spirits. Neither people chose their passenger. Both have learned to live with it. The Vreken's trail-sight and the Astril's star-sense are not the same thing, but they recognize each other across a crowded room.
 
-The Hrym distrust them. The spirits are too close to the Wyrd — a voice inside the flesh that is not the flesh's own. The Hrym have spent centuries fighting the Wyrd-creatures that the Frostwood fog births from human fear, and the idea of voluntarily inviting a spirit into one's own body strikes them as either madness or corruption.
+The Skald distrust them. The spirits are too close to the Wyrd — a voice inside the flesh that is not the flesh's own. The Skald have spent centuries fighting the Wyrd-creatures that the Frostwood fog births from human fear, and the idea of voluntarily inviting a spirit into one's own body strikes them as either madness or corruption.
 
 And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astril exist. The spirits they carry are the ones that escaped. The predator has not forgotten. When its influence stirs — near a Sundered Monolith, near Emberspire's caldera, near Wyrd-creatures that serve it — Astril patterns writhe and recoil. The spirit remembers what ate its kin. The Astril are living detectors of the predator's presence. Some call this a gift. Others call it a beacon.`,
 
@@ -53,7 +56,7 @@ And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astr
     integrationNotes: {
         actionPointSystem: 'Astril abilities focus on the constellation-spirit relationship — channeling celestial power, faith-display, and the constant tension between embrace and suppression. Their luminous patterns create unique tactical opportunities and social consequences.',
         backgroundSynergy: 'Astril excel in backgrounds emphasizing faith, performance, and survival. Their Luminarchy culture creates deep roleplay hooks around devotion, assassination, inherited power, and the Unlit.',
-        classCompatibility: 'Sylen favor Oracle, Berserker, Primalist, Martyr, and Minstrel. Muren favor Warden, Huntress, Spellguard, False Prophet, and Inscriptor.'
+        classCompatibility: 'The Sylen favor Oracles, Berserkers, Primalists, Martyrs, and Minstrels because their total embrace of the constellation-spirit grants them wild premonitions, untamed physical fury, and the ability to channel celestial frequencies through song and sacrifice. The Muren, who suppress the spirit within, favor Wardens, Huntresses, Spellguards, False Prophets, and Inscriptors, using strict mental discipline to build walls around the passenger, guard thresholds, and direct the trapped starlight into defensive arrays and written runes.'
     },
 
     meaningfulTradeoffs: 'Astril gain celestial guidance through their constellation-spirit and luminous pattern-detection, but their visible faith makes stealth and deception difficult among their own kind. The spirit\'s constant whisper is both a gift and a burden. Sylen risk being consumed by the spirit they embrace; Muren risk the spirit breaking through the walls they build.',
@@ -134,7 +137,7 @@ And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astr
                     {
                         id: 'dual_consciousness_astril',
                         name: 'Dual Consciousness',
-                        description: 'The spirit within is a second mind that sees through mortal deception. Advantage on Wisdom saving throws against being charmed or frightened — the constellation has governed seasons for millennia and is not impressed by your intimidation.',
+                        description: 'The spirit within is a second mind that sees through mortal deception. Advantage on Spirit saving throws against being charmed or frightened — the constellation has governed seasons for millennia and is not impressed by your intimidation.',
                         statusEffect: { level: 'moderate', description: 'Two minds share one skull; manipulation finds twice the resistance' }
                     }
                 ],
@@ -146,12 +149,12 @@ And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astr
                     {
                         id: 'psychic_collapse_astril',
                         name: 'Psychic Collapse',
-                        description: 'When you take psychic damage, succeed on a DC 12 Wisdom saving throw or the whisper becomes a scream — your two consciousnesses collapse into each other. Disadvantage on your next attack roll, saving throw, or ability check as you wrestle the spirit back into silence.',
+                        description: 'When you take psychic damage, succeed on a DC 12 Spirit saving throw or the whisper becomes a scream — your two consciousnesses collapse into each other. Disadvantage on your next attack roll, saving throw, or ability check as you wrestle the spirit back into silence.',
                         statusEffect: {
                             level: 'moderate',
                             description: 'Psychic wounds strike twice in a mind that houses two',
                             trigger: 'psychic_damage_taken',
-                            savingThrow: { stat: 'wisdom', dc: 12, failureEffect: 'disadvantage_on_next_roll' }
+                            savingThrow: { stat: 'spirit', dc: 12, failureEffect: 'disadvantage_on_next_roll' }
                         }
                     }
                 ],
@@ -223,9 +226,11 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
         sylen: {
             id: 'sylen_astril',
             name: 'Sylen',
+            illustration: '/assets/images/races/sylen_illustration.png',
+            illustrationCaption: 'A Sylen Astril whose skin-patterns blaze like hearth-fire under a starless sky.',
             description: 'The Sylen are Astril who have chosen to open themselves to the constellation within. Their luminous patterns blaze bright as hearth-fire in any darkness — visible constellations that shift and pulse with their emotions, their faith, and the unseen position of the stars that no longer exist. Their features carry the animal-sign of their spirit more visibly than the Muren: elongated canines among the Wolf-blooded, an equine elongation of the face among the Horse-blooded, serpentine pupils among the Dragon-blooded. They move with the confidence of the possessed — a second consciousness humming beneath their own, granting them premonitions, hungers, and instincts not their own. Their faith is not private. It cannot be. And every Sylen knows the name of at least one Over-Sung — someone who opened too wide and was consumed, the spirit claiming the vessel entirely, the mortal consciousness snuffed like a candle in a hurricane. The risk is the price. The light is the reward.',
             culturalBackground: 'Sylen culture is built on openness — to the spirit, to the community, to the constant performance of belief that the Luminarchy demands. A Sylen does not hide their doubts because they cannot hide them — the patterns dim with uncertainty, writhe with heresy, go dark with despair. This creates an almost unbearable social transparency: every Sylen knows the state of every other Sylen\'s faith at a glance. Friendships are built on mutual spiritual accountability. Betrayals are visible before they happen. A Sylen who is losing their faith is visited by the community within hours — the patterns told on them before they said a word.\n\nThe Over-Sung are the Sylen\'s wound. When a Sylen opens too completely — in battle, in ritual, in passion — and cannot close again, the spirit floods the vessel. The mortal consciousness is submerged, not destroyed. The Over-Sung still walks, still speaks, still recognizes faces, but the person they were is gone — replaced by a constellation that has forgotten it was ever a passenger. The Over-Sung are not killed. They are tended in the spirit-dormitories, sung to, fed, loved. Some recover. Most do not. Every Sylen has visited the dormitory where their predecessor\'s predecessor still rocks in place, humming a star-frequency that no living Astril can reproduce.\n\nSylen dominate the Luminarchy\'s upper ranks. The Synod is overwhelmingly Sylen — the Muren cannot display their faith visibly enough to attract the spirits of the dying powerful, and the Unlit have no faith to display at all. The Sylen nobility carry the oldest, strongest constellations: Dragon, Tiger, Wolf. Their patterns are layered — some bloodlines carry five, six, seven spirits simultaneously, the skin rippling like a nebula. The assassination economy targets Sylen almost exclusively. The Muren are rarely worth killing for their spirits because Muren spirits are suppressed — dim, hard to read, hard to attract. An assassin who kills a Muren risks the spirit choosing a Sylen bystander whose faith blazes louder than the killer\'s own.',
-            statModifiers: { spirit: 3, charisma: 2, constitution: -1 },
+            statModifiers: { spirit: 2, charisma: 1, constitution: -1 },
             baseStats: { hp: 6, mana: 7, ap: 3, initiative: 0 },
             savingThrowModifiers: { advantage: ['charm'], disadvantage: ['psychic'] },
             traits: [
@@ -346,12 +351,12 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                             {
                                 id: 'spirit_reins_sylen',
                                 name: 'The Reins Are Loosed',
-                                description: 'While this effect is active, you must attack the nearest creature each turn — friend or foe. The spirit does not distinguish. When the effect ends, DC 14 Wisdom save or the spirit attempts to retain control: you make one melee attack against yourself (1d8+Str) as you wrestle it back down.',
+                                description: 'While this effect is active, you must attack the nearest creature each turn — friend or foe. The spirit does not distinguish. When the effect ends, DC 14 Spirit save or the spirit attempts to retain control: you make one melee attack against yourself (1d8+Str) as you wrestle it back down.',
                                 statusEffect: {
                                     level: 'extreme',
                                     description: 'The spirit does not distinguish friend from prey',
                                     compulsion: 'attack_nearest_creature',
-                                    savingThrow: { stat: 'wisdom', dc: 14, failureEffect: 'self_damage_1d8_plus_str' }
+                                    savingThrow: { stat: 'spirit', dc: 14, failureEffect: 'self_damage_1d8_plus_str' }
                                 }
                             }
                         ],
@@ -366,10 +371,11 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
         muren: {
             id: 'muren_astril',
             name: 'Muren',
-            
+            illustration: '/assets/images/races/muren_illustration.png',
+            illustrationCaption: 'A Muren Astril showing faint, suppressed skin-patterns and binding-ritual scars.',
             description: "The Muren are Astril who bind the constellation within through ritual suppression. Their luminous patterns are dim. Their animal-sign features are subtle. They live at war with their own passenger — a Muren who maintains their rituals is a fortress; a Muren who falters is a bomb.",
             culturalBackground: "The Muren bind through scarification, fasting, and binding-chants learned before speech. Their faith is private, unverifiable, and distrusted by the Sylen-dominated Luminarchy. Suppression creates pressure — when the walls fail, years of pent celestial energy erupt. A Muren who flares in public is exiled. They pass unnoticed among non-Astril.",
-            statModifiers: { wisdom: 3, constitution: 2, charisma: -1 },
+            statModifiers: { spirit: 2, constitution: 1, charisma: -1 },
             baseStats: { hp: 8, mana: 5, ap: 3, initiative: 0 },
             savingThrowModifiers: { advantage: ['charm'], disadvantage: ['radiant'] },
             traits: [
@@ -390,7 +396,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                             {
                                 id: 'fortress_mind_muren',
                                 name: 'Fortress Mind',
-                                description: 'For 1 hour: advantage on Wisdom and Charisma saving throws against external mental influence. +1 to all saving throws. Suppressed luminous patterns grant advantage on Stealth checks made to avoid detection — you appear Unlit.',
+                                description: 'For 1 hour: advantage on Spirit and Charisma saving throws against external mental influence. +1 to all saving throws. Suppressed luminous patterns grant advantage on Stealth checks made to avoid detection — you appear Unlit.',
                                 statusEffect: { level: 'major', description: 'Your mind is a fortress; the spirit is locked within, and external influence glances off the same walls' }
                             }
                         ],

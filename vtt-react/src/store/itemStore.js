@@ -37,7 +37,7 @@ export const ITEM_RARITIES = {
 };
 
 // Version for comprehensive items (increment when items change)
-const COMPREHENSIVE_ITEMS_VERSION = 6;
+const COMPREHENSIVE_ITEMS_VERSION = 7;
 
 const CATEGORY_ICON_MIGRATION = {
   'inv_sword_04': 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
@@ -1050,19 +1050,27 @@ const useItemStore = create(
                 const item = state.items.find(i => i.id === itemId);
                 if (!item) return;
 
-                const maxDur = item.maxDurability || item.durability || 1;
-                const clamped = Math.max(0, Math.min(newDurability, maxDur));
+                let durabilityValue = newDurability;
+                let isBroken = false;
 
-                const updates = { durability: clamped };
-                if (clamped === 0) {
-                    updates.broken = true;
-                } else {
-                    updates.broken = false;
+                if (typeof newDurability === 'string') {
+                    const cleanDur = String(newDurability).toLowerCase();
+                    if (cleanDur === 'broken' || cleanDur === '0') {
+                        isBroken = true;
+                    }
+                } else if (typeof newDurability === 'number') {
+                    const maxDur = typeof item.maxDurability === 'number' ? item.maxDurability : 100;
+                    const clamped = Math.max(0, Math.min(newDurability, maxDur));
+                    durabilityValue = clamped;
+                    if (clamped === 0) {
+                        isBroken = true;
+                    }
                 }
 
+                const updates = { durability: durabilityValue, broken: isBroken };
                 state.updateItem(itemId, updates);
 
-                if (clamped === 0) {
+                if (isBroken) {
                     try {
                         const characterStore = require('./characterStore').default;
                         const charState = characterStore.getState();
@@ -1088,11 +1096,11 @@ const useItemStore = create(
                     }
                 }
 
-                state.syncItemUpdate('item_updated', { itemId, updates: { durability: clamped, broken: clamped === 0 } });
+                state.syncItemUpdate('item_updated', { itemId, updates: { durability: durabilityValue, broken: isBroken } });
 
                 const currentUser = useAuthStore.getState().user;
                 if (currentUser && !currentUser.isGuest) {
-                    state.saveItemToFirebase({ ...item, durability: clamped, broken: clamped === 0 });
+                    state.saveItemToFirebase({ ...item, durability: durabilityValue, broken: isBroken });
                 }
             },
 

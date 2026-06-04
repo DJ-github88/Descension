@@ -47,14 +47,9 @@ const SkillAbilityIconTooltip = ({ skillName, className = '', style = {} }) => {
   const abilities = skillId ? getSkillAbilities(skillId) : [];
   const ability = abilities.length > 0 ? abilities[0] : null;
 
-  // If no ability found, return null
-  if (!ability) {
-    return null;
-  }
-
-  // Get ability icon
+  // Get ability icon — only used when ability exists
   const getAbilityIcon = () => {
-    return ability.typeConfig?.icon || ability.icon || 'inv_misc_questionmark';
+    return ability?.typeConfig?.icon || ability?.icon || 'inv_misc_questionmark';
   };
 
   // Handle mouse enter with delay
@@ -129,6 +124,9 @@ const SkillAbilityIconTooltip = ({ skillName, className = '', style = {} }) => {
       setShowTooltip(false);
     };
   }, []);
+
+  // Now safe to return null after all hooks have been called
+  if (!ability) return null;
 
   return (
     <>

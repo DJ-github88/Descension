@@ -733,11 +733,16 @@
   overflow: visible;
 }
 
-/* Disable scrolling on rules-content-area when displaying class details or custom components */
-.rules-content-area.class-detail-view,
-.rules-content-area.custom-component-view {
+/* Disable scrolling on rules-content-area when displaying class details */
+.rules-content-area.class-detail-view {
   overflow-y: visible !important;
   overflow-x: visible !important;
+}
+
+/* Allow scrolling on rules-content-area when displaying custom components on desktop */
+.rules-content-area.custom-component-view {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 /* Ensure class-detail-content never scrolls - use most specific selector */
@@ -1529,7 +1534,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     max-height: 60px;
     height: 60px;
     border-right: none;
-    border-bottom: 3px solid #8b4513;
+    border-bottom: 2px solid #321c10;
     position: relative;
     overflow: visible;
     flex-shrink: 0;
@@ -1537,6 +1542,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     padding: 0 !important;
     margin: 0 !important;
     box-sizing: border-box;
+    background: linear-gradient(180deg, #180e09 0%, #100805 100%);
   }
 
   .rules-sidebar.collapsed {
@@ -1562,7 +1568,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
-    background: linear-gradient(180deg, #d4c4a8 0%, #c8b89a 50%, #d4c4a8 100%) !important;
+    background: transparent !important;
     border-right: none !important;
     z-index: 100 !important;
     box-shadow: none !important;
@@ -1594,10 +1600,10 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     min-height: 48px;
     margin: 0;
     border-radius: 8px;
-    /* Ensure background is explicitly set to prevent green coloring */
-    background: linear-gradient(145deg, #f5ead6 0%, #e8dcc4 100%) !important;
-    /* Ensure border is explicitly set to prevent green coloring */
-    border-color: #b89870 !important;
+    /* Match desktop dark ironwood theme */
+    background: linear-gradient(145deg, #2b1b11 0%, #1a0e07 100%) !important;
+    border-color: #3c2415 !important;
+    color: #c4a060 !important;
   }
 
   /* Hide the ::after indicator bar on mobile - it doesn't make sense in horizontal layout */
@@ -1648,49 +1654,57 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     position: relative !important;
   }
 
-  /* Mobile-optimized breadcrumbs */
+  /* Mobile-optimized breadcrumbs — match desktop dark mahogany theme */
   .rules-breadcrumbs {
     padding: var(--pf-space-mobile-4) var(--pf-space-mobile-6);
     font-size: var(--pf-font-size-mobile-sm);
     flex-wrap: wrap;
     gap: var(--pf-space-mobile-2);
-    background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
+    background: linear-gradient(180deg, #23120b 0%, #120804 100%);
+    border-bottom: 2px solid #3c2415;
     margin: 0;
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(10px);
+    color: #c4a060;
+    box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.25), 0 4px 12px rgba(0, 0, 0, 0.45);
   }
 
   .rules-breadcrumb {
     padding: var(--pf-space-mobile-1) var(--pf-space-mobile-2);
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.3);
+    color: #a88c52;
     transition: all 0.2s ease;
   }
 
   .rules-breadcrumb.active {
-    background: rgba(212, 175, 55, 0.2);
+    color: #fffbf2;
     font-weight: 700;
+    text-shadow: 0 0 8px rgba(196, 160, 96, 0.4);
   }
 
   .rules-breadcrumb-link {
     min-height: var(--pf-touch-target-min);
     padding: var(--pf-space-mobile-2) var(--pf-space-mobile-3);
     border-radius: 6px;
+    color: #c4a060;
   }
 
   .rules-breadcrumb-link:hover {
-    background: rgba(212, 175, 55, 0.15);
+    color: #fffbf2;
+    background: rgba(196, 160, 96, 0.15);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 8px rgba(196, 160, 96, 0.1);
     transform: none;
   }
 
   .rules-breadcrumb-link:active {
-    background: rgba(212, 175, 55, 0.25);
+    background: rgba(196, 160, 96, 0.25);
   }
 
   .rules-breadcrumbs i {
     font-size: var(--pf-font-size-mobile-xs);
+    color: #8f6f35;
   }
 
   /* Mobile content header */
@@ -1838,20 +1852,24 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     background: rgba(212, 175, 55, 0.1) !important;
   }
 
-  /* Ensure active category doesn't show green on mobile */
+  /* Active category on mobile — glowing gold accent to match desktop */
   .rules-sidebar.collapsed .rules-nav-category-btn.active-category {
-    background: linear-gradient(145deg, rgba(212, 175, 55, 0.15) 0%, rgba(196, 163, 115, 0.1) 100%) !important;
-    border-color: #d4af37 !important;
+    background: linear-gradient(145deg, #3e2719 0%, #1d0f07 100%) !important;
+    border-color: #c4a060 !important;
+    color: #fffbf2 !important;
+    box-shadow: 0 0 10px rgba(196, 160, 96, 0.35);
   }
 
   .rules-sidebar.collapsed .rules-nav-category-btn.active-category::after {
     display: none !important;
   }
 
-  /* Ensure hover state doesn't show green on mobile */
+  /* Hover state on mobile — match desktop sidebar hover */
   .rules-sidebar.collapsed .rules-nav-category-btn:hover {
-    background: linear-gradient(145deg, #fff8ec 0%, #f5ead6 100%) !important;
+    background: linear-gradient(145deg, #362113 0%, #201107 100%) !important;
     border-color: #c4a060 !important;
+    color: #fffbf2 !important;
+    box-shadow: 0 0 10px rgba(196, 160, 96, 0.25);
   }
 
   .rules-nav-icon {

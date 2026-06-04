@@ -112,8 +112,8 @@ const useCharacterStore = create((set, get) => ({
     name: 'Character Name',
     baseName: 'Character Name', // Store the original name without room formatting
     roomName: '', // Current room name for multiplayer
-    race: '', // Race ID (e.g., 'hrym')
-    subrace: '', // Subrace ID (e.g., 'berserker_hrym')
+    race: '', // Race ID (e.g., 'human')
+    subrace: '', // Subrace ID (e.g., 'skald_human')
     class: '', // Character class
     background: '', // Background ID (e.g., 'acolyte', 'sage')
     backgroundDisplayName: '', // Display name for background
@@ -143,7 +143,7 @@ const useCharacterStore = create((set, get) => ({
     racialTraits: [],
     racialLanguages: [],
     racialSpeed: 30,
-    raceDisplayName: '', // Full display name like "Berserker Hrym"
+    raceDisplayName: '', // Full display name like "Skald Human"
 
     // Character Lore and RP Information
     lore: {
@@ -381,7 +381,7 @@ const useCharacterStore = create((set, get) => ({
         if (state.race && state.subrace) {
             const raceData = getFullRaceData(state.race, state.subrace);
             if (raceData) {
-                // Standard format: "Subrace Race" e.g. "Berserker Hrym"
+                // Standard format: "Subrace Race" e.g. "Skald Human"
                 // This matches what most users expect for a display name
                 set({ raceDisplayName: `${raceData.subrace.name} ${raceData.race.name}` });
             }

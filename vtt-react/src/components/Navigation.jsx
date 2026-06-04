@@ -12,6 +12,12 @@ import WowWindow from './windows/WowWindow';
 import SettingsWindow from './windows/SettingsWindow';
 import ExitGameConfirmDialog from './dialogs/ExitGameConfirmDialog';
 import { getWowIconUrl } from '../utils/assetManager';
+import useCombatStore from '../store/combatStore';
+import useCreatureStore from '../store/creatureStore';
+import useInventoryStore from '../store/inventoryStore';
+import ErrorBoundary from './ErrorBoundary';
+import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
+import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardContext';
 
 import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibraryContext';
 import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
@@ -102,14 +108,6 @@ const PlayerTravelDashboard = lazy(() =>
         };
     })
 );
-
-import useCombatStore from '../store/combatStore';
-import useCreatureStore from '../store/creatureStore';
-import useInventoryStore from '../store/inventoryStore';
-import ErrorBoundary from './ErrorBoundary';
-
-import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
-import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardContext';
 
 // Creature Window Wrapper with spellbook-style tabs
 function CreatureWindowWrapper({ isOpen, onClose }) {
@@ -485,13 +483,17 @@ const NAVIGATION_BUTTONS = [
 ];
 
 function CharacterSheetWindow({ isOpen, onClose, title }) {
-    const [activeTab, setActiveTab] = useState('character');
+    const [activeTab, setActiveTab] = useState('lore');
 
     // Ensure title is always defined with fallback
     const safeTitle = title || 'Character Sheet';
 
     // Define character sheet sections with icons
     const characterSections = {
+        lore: {
+            title: 'Lore',
+            icon: getWowIconUrl('inv_misc_note_05')
+        },
         character: {
             title: 'Info',
             icon: getWowIconUrl('inv_misc_book_11')
@@ -503,10 +505,6 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
         skills: {
             title: 'Skills',
             icon: getWowIconUrl('trade_engineering')
-        },
-        lore: {
-            title: 'Lore',
-            icon: getWowIconUrl('inv_misc_note_05')
         }
     };
 

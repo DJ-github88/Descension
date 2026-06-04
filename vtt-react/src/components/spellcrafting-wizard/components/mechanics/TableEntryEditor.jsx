@@ -638,7 +638,6 @@ const TableEntryEditor = ({
                               <option value="intelligence">Intelligence</option>
                               <option value="spirit">Spirit</option>
                               <option value="charisma">Charisma</option>
-                              <option value="armor">Armor</option>
                               <option value="speed">Speed</option>
                             </select>
                           </div>

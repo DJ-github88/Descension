@@ -14,6 +14,11 @@ export const DEATHCALLER_DATA = {
 
   // Overview section
   overview: {
+    originStory: `Kora, the first human debtor to the Neth, could not bear the silence of the peat-bogs. She walked into the marsh-depths of the Bryngloom and bargained with the Root-Veil, offering her own life force to keep the ancestral lights of thirty generations burning.
+
+The price of this necrotic link was absolute. Kora was cursed to hear the overlapping, non-stop screams of the deceased, reducing her spoken voice to a dry, raspy whisper. Every necrotic thread she spins drains her own blood, slowly decaying her skin to a waxy, pale frost.
+
+Walk between life and the peat. The ancestors demand a voice, and you are the channel. Call them down before they call you home.`,
     title: "The Deathcaller",
     subtitle: "The Price Was Always Your Blood",
     illustration: "/assets/images/classes/deathcaller_illustration.png",
@@ -38,18 +43,49 @@ export const DEATHCALLER_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Deathcallers are what remains after a person has been hollowed out and refilled with something that hungers. They crossed a threshold that has no return -- not because the magic forbids it, but because they cannot remember who they were before the blood started speaking. Every spell is a transaction with something that lives inside their veins. The price is always flesh. The receipt is always pain.
+      content: `**HISTORY: THE GENESIS**
+The deathcaller's vocal resonance was born in the sunken cathedrals of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. A Vreken Veil-Speaker named **Kora** sought to maintain the light of thirty generations of ancestors and began singing the names of the dead with absolute vocal volume.
 
-**Philosophy**: Power does not ask permission. It takes. The Deathcaller knows this because power took everything from them first, then offered it back at interest. They do not wield death -- they are in debt to it.
+The price of this spiritual connection was hearing the continuous, overlapping screams of the deceased. The necrotic feedback permanently scarred her vocal cords, forcing her to speak in tattered whispers and spit blood when shouting her dirges.
 
-**Personality Archetypes**:
-- **The Hollowed**: Lost so much to blood magic that they no longer feel the cuts. They cast spells the way a dying man breathes -- automatically, desperately.
-- **The Penitent Butcher**: Knows what they've become. Hates it. Continues because stopping means dying, and dying means the sacrifices were for nothing.
-- **The Mourner**: Carries the names of everyone they couldn't save. Uses blood magic to ensure the list doesn't grow longer. It always grows longer.
-- **The Last Patient**: Treats their own corruption like a disease they're studying. Clinical. Detached. One part curiosity to nine parts horror.
+**CITIES & CIVIL RECEPTION**
+Deathcallers are respected as vital spiritual caretakers within the catacombs of the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink>, but their presence in surface cities is viewed as a dark omen.
 
-**Social Dynamics**: Others flinch when a Deathcaller enters a room -- not from fear, but from the instinctive recognition that something is wrong. The air tastes of copper around them. Flowers wilt. Children stare. They carry death the way a chimney carries smoke: it is what they were made to do, and it has stained them through.`,
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</LoreLink> and the foam-born Myrathil who listen to the ocean rifts.
+
+**NOTABLE FIGURES**
+* **Kora the Veil-Speaker**: The first caller whose voice turned to tattered whispers to keep the crypt-lights burning.
+* **Neth-Veil Valerius**: A Neth pact-lord who established the necrotic covenant linking bog-graves to Atropolis.`
     },
+
+    signatureQuote: {
+      text: '"I hear thirty generations of the dead. Every day, they ask me when it will be my turn. I tell them: when the last Neth is safely buried, and not a moment before."',
+      speaker: 'Kora the Veil-Speaker',
+      context: 'Her first words after emerging from the peat-bogs, Year 401 of the Dimming'
+    },
+
+    philosophy: {
+      coreTenet: 'Death is not the end — it is the beginning of a debt. The dead owe their stories to the living, and the Deathcaller is the collector. Every ancestor has something to teach, and every Deathcaller is the conduit. Life force is the currency, and the dead are generous lenders.',
+      relationship: 'Deathcallers do not raise the dead as servants — they petition them as ancestors. The dead choose whether to answer. This relationship is built on mutual obligation: the Deathcaller feeds the ancestors with their own life force (HP), and in return, the dead lend their power. If the Deathcaller stops paying, the dead stop answering — or worse, they start asking questions the Deathcaller does not want to answer.',
+      paradox: 'The Deathcaller keeps the ancestors alive by feeding them their own health. Every spell costs blood. The most powerful rituals require so much life force that the Deathcaller must be on the verge of death to complete them. They are essentially a living blood bank for the dead, slowly draining themselves to keep the voices of the past audible. The question every Deathcaller eventually faces: how much of yourself are you willing to spend to keep the voices going?'
+    },
+
+    currentCrisis: `The bog-graves are waking up on their own. For centuries, the peat-bogs of the Bryngloom have held the dead in perfect preservation — bodies intact, memories accessible. Deathcallers have always decided when to call. Now, the dead are calling themselves.
+
+In the past year, twelve Deathcallers have been found dead in their ritual chambers, their bodies drained of blood but showing no wounds. The bog-graves nearest them were empty — the occupants simply gone. The ancestors are not waiting for permission anymore. They are leaving their bogs and walking. No one knows where they are going, but the tracks all lead toward the Sundered Monoliths. The Deathcallers have lost control of their ancestral covenant, and the dead are marching toward something only they can see.`,
+
+    meaningfulTradeoffs: `To hear the dead is to lose the living. Deathcallers exist in a state of constant aural overload — the voices of ancestors overlay the voices of the people in front of them. They develop the habit of staring past people, responding to voices no one else hears, and forgetting conversations that happened minutes ago because a more urgent ancestor interrupted. Relationships are nearly impossible — partners eventually realize they are competing with a chorus of dead relatives for the Deathcaller\'s attention. They always lose.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Bog-Graves of Kora',
+        locationId: 'peat-bog-sinks',
+        description: 'The oldest consecrated burial ground in the Bryngloom, where Kora the Veil-Speaker performed the first necrotic covenant. The graves are marked by pale, bioluminescent fungi that pulse in sequence — a slow, rhythmic heartbeat of light that the Deathcallers believe is the ancestors breathing.',
+        purpose: 'Primary necrotic anchor — the first and most powerful covenant site',
+        status: 'Compromised — twelve graves are empty and the fungi pulses erratically'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

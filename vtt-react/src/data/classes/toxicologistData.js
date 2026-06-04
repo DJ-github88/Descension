@@ -14,6 +14,11 @@ export const TOXICOLOGIST_DATA = {
 
   // Overview Section
   overview: {
+    originStory: `Varis the alchemist extracted raw venom from the fog-predators of the Frostwood, seeking a chemical defense against the face-stealing horrors that cornered his scout patrols. He spent years in the ironwood canopies, distilling toxic moss and acidic secretions.
+
+The constant exposure to toxic fumes caused chronic tremors in his hands, burning away his sense of taste and leaving his fingers permanently stained with acid runoff. The Toxicologist cannot handle delicate tools without intense pain, their catalysts trailing corrosive fumes.
+
+Brew the end. The vial is filled with your own decay, and the vapor is your shroud. Let them choke.`,
     title: "The Toxicologist",
     subtitle: "The Self-Poisoned Surgeon -- Every Cure Is for Someone Else",
     illustration: "/assets/images/classes/toxicologist_illustration.png",
@@ -36,21 +41,47 @@ export const TOXICOLOGIST_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `You were a healer once. Or perhaps you were a scholar who wandered too far into forbidden pharmacology. Or a field medic who learned that the same needle that delivers morphine can deliver something far more permanent. However you arrived here, the result is the same: your body is a temple to toxins, your mind a catalogue of suffering, your hands instruments of slow, deliberate ruin.
+      content: `**HISTORY: THE GENESIS**
+The toxicologist's chemical catalysts were born in the ironwood forests of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. An alchemist named **Varis** extracted raw venom from the fog-predators to create specialized combat catalysts. The price of this alchemical synthesis was chronic tremors. Varis's hands developed chronic tremors, and his fingers were permanently stained with chemical runoff, dulling his sense of taste.
 
-Toxicologists do not practice magic in any traditional sense. They practice mutilation refined to a science. Every poison is a wound that hasn't happened yet. Every antidote is a kindness they can extend to others but never to themselves. Their laboratories smell of copper and formaldehyde -- or perhaps that is just the smell of their own blood, which hasn't been truly clean in years.
+**CITIES & CIVIL RECEPTION**
+Toxicologists are viewed with extreme caution in <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>, but their services are highly valued by scouts and hunters in the Reach.
 
-In roleplay, Toxicologists often embody:
-- **The Self-Poisoned Surgeon**: A healer who began testing cures on themselves until cure and curse became indistinguishable
-- **The battlefield Mortician**: Collects tissue samples from the dying to refine their craft, always seeking the perfect toxin
-- **The Tragic Alchemist**: Knows they are killing themselves slowly, believes it is a worthy trade for the lives they save with their antidotes
-- **The Venom-Sick Hermit**: Has lived so long among poisons that their touch is dangerous, their breath is acrid, and they cannot remember what health feels like
-- **The Punisher**: Turned their knowledge of anatomy into a weapon after witnessing something unforgivable -- every poison is calibrated to the exact amount of suffering they believe a target deserves
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the Thalren humans and the <LoreLink termId="mimir">Unwoven Mimir</LoreLink>.
 
-Their fingers are stained permanent yellow-green. Their veins are visible beneath the skin, dark with circulating reagents. They carry the scent of a hospital ward that has seen too much death.
-
-**Philosophy**: "I cannot save myself. But I can ensure that whatever killed me dies slower, suffers longer, and begs louder."`,
+**NOTABLE FIGURES**
+* **Varis the Alchemist**: The chemist whose hands shook but whose poison cleared the Shallows of Gref.
+* **Lyra the Poison-Weaver**: An Unwoven Mimir who synthesized the first combat catalysts used in the Shallows black markets.`
     },
+
+    signatureQuote: {
+      text: '"The Gref wanted my face. I gave it my venom instead. It could not steal a face that was melting. Problem solved."',
+      speaker: 'Varis the Alchemist',
+      context: 'Explaining his tactical philosophy to a young apprentice'
+    },
+
+    philosophy: {
+      coreTenet: 'The difference between poison and medicine is dosage. Everything in the world is toxic if you consume enough of it. The Toxicologist simply understands the thresholds better than anyone else. They do not create poisons — they identify which naturally occurring toxins will produce the desired effect.',
+      relationship: 'A Toxicologist\'s body is a chemical processing plant. They have deliberately microdosed themselves with so many toxins that their body has developed a complex tolerance network. New toxins must be administered carefully — the body needs time to learn to process them. The relationship is alchemical: the Toxicologist is both the chemist and the laboratory. Every new resistance they develop changes the internal chemistry, and some changes are irreversible.',
+      paradox: 'The Toxicologist heals more slowly because their body is too busy processing toxins to repair itself. Any magical healing they receive is halved — their internal chemistry rejects outside interference. They are the most self-sufficient alchemists in the world, but they cannot accept help from anyone. A Toxicologist who pushes too hard will find themselves unable to recover, their body too overwhelmed by toxins to heal even the simplest wound.'
+    },
+
+    currentCrisis: `The fog is changing the chemistry of the Frostwood Reach. The airborne toxins that Toxicologists have relied on for generations — distilled from fog-predator venom, ironwood sap, and Gref residue — are becoming unstable. Compounds that once remained viable for years are now degrading in weeks.
+
+Toxicologists have traced the cause to a change in the fog\'s composition. Something is leaching into the mist — a new element that reacts unpredictably with their stored compounds. Some believe it is a byproduct of the Void contamination spreading from the Bryngloom. Others believe the fog is simply evolving, becoming more complex as it ages. Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch — while the Gref continue to attack.`,
+
+    meaningfulTradeoffs: `To be a Toxicologist is to shake constantly. The chronic tremors caused by years of toxin exposure make fine motor control difficult. A Toxicologist cannot thread a needle, cannot sign their name legibly, cannot hold a cup of tea without sloshing. Their hands are in constant motion, a visible reminder of the price they pay. The tremors are worse when they are stressed, which makes combat particularly challenging — and particularly dangerous for anyone standing next to them when they are trying to pour a precise dose of poison into a vial.`,
+
+    classSpecificLocations: [
+      {
+        name: 'Varis\'s Canopy Laboratory',
+        locationId: 'the-shallows',
+        description: 'A suspended platform high in the ironwood canopy where Varis the Alchemist conducted his original research into fog-predator venom. The laboratory is still maintained — glass vials line the walls, each one containing a different toxin sample collected over decades. The newest vials are labeled with question marks — compounds that the Toxicologists cannot yet identify.',
+        purpose: 'Research laboratory and toxin archive',
+        status: 'Active — the senior Toxicologists use it to analyze the changing fog composition'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

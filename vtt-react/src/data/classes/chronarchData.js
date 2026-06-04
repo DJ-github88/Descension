@@ -36,10 +36,15 @@ export const CHRONARCH_DATA = {
 
   // Overview section
   overview: {
+    originStory: `During the War of Thousand Screams, when a collapsing glacier threatened to crush the Frostmaw Holdfast, the Fexric engineer Nesta realized that physical struts could not hold back the grinding weight of the ice. She built a prototype time-dilation engine using volcanic glass and alchemical gears. In her desperation to freeze the falling stone, she hooked the engine's temporal loop directly into her own chest, trapping her timeline in a temporal feedback loop.
+
+Nesta held the span, but the temporal feedback loop incinerated her past. The Chronarch carries no personal memories of childhood or family; she lives in a perpetual, agonizing present, her past constantly erased to make space for the calculations of time manipulation. Furthermore, every second she bends causes severe skeletal decay, her bones calcifying like ancient fossilized stone under the strain of chronal friction.
+
+Command the ticking of the gears. You are the clockwork sentinel, and the timeline is yours to wind. Wind it before the gears grind to a halt.`,
     title: "The Chronarch",
     subtitle: "The Accidental Anchor",
     illustration: "/assets/images/classes/chronarch_illustration.png",
-    illustrationCaption: "An Astren Chronarch using starlight sand to stabilize a bleeding timeline.",
+    illustrationCaption: "An Astril Chronarch using starlight sand to stabilize a bleeding timeline.",
 
     quickOverview: {
       title: "Quick Overview",
@@ -58,15 +63,49 @@ export const CHRONARCH_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Chronarchs are not born — they are broken into being. Something reached across the timestream and grabbed them, and now they cannot let go. Their connection to the temporal current manifests as heavy physical exertion: silver hair bleaching from chronal friction, skin that cools to near-freezing, and an accelerated heart rate during high-exertion castings.
+      content: `**HISTORY: THE GENESIS**
+The chronarch's temporal manipulation was first manifested in the high passes of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>. A Fexric clockwork engineer named **Nesta** sought to repair an alchemical engine and accidentally trapped her own timeline in a feedback loop of temporal friction.
 
-Common Chronarch archetypes include:
-- **The Accidental Anchor**: Caught in an alchemical temporal event, now acting as a living anchor to keep local reality from unspooling.
-- **The Decaying Scholar**: Once a brilliant researcher, now a hollowed vessel whose experiments with relativity left them with terminal temporal drift.
-- **The Timeline Warden**: A dedicated defender of the primary thread, willing to absorb extreme somatic strain to undo catastrophic historical deviations.
+The price of this chronal mastery was rapid localized aging and memory displacement. Every time she manipulated time to prolong an ally's lifespan or delay a threat, her own personal history decayed, leaving her past as blank grey stone.
 
-Chronarchs do not enjoy their gift. Foresight is a burden — every possible future is a risk waiting to happen, and choosing not to act carries the same weight as acting. They know that every time they rewind kinetic trauma, their own nervous system absorbs a fraction of it as localized recoil.`
+**CITIES & CIVIL RECEPTION**
+Chronarchs are highly respected and given places of honor in the library-cathedrals of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the guild chambers of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the guild-bound <LoreLink termId="fexrick">Kethrin Fexrick</LoreLink> and long-limbed Groven diplomats who oversee the Ancestor-Spans.
+
+**NOTABLE FIGURES**
+* **Nesta the Clockwork Engineer**: The Fexric builder who halted a glacier's advance by trapping herself in a temporal loop.
+* **Chronos the Blind**: A prehistoric Fexric master who built the clockwork galleries in <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.`
     },
+
+    signatureQuote: {
+      text: '"I have already lived this conversation. I know exactly what you are going to say next. Please, say it anyway — the version where you chose differently gives me headaches."',
+      speaker: 'Nesta of the Cragjaw Peaks',
+      context: 'Reported by several engineers at Frostmaw Holdfast; Nesta herself has no memory of these encounters'
+    },
+
+    philosophy: {
+      coreTenet: 'Time is not a river. It is a scar. Every moment that passes leaves a mark on the universe, and some of us are marked more deeply than others. The Chronarch does not control time — they simply remember what has not happened yet, and that memory gives them leverage.',
+      relationship: 'The Chronarch\'s power comes from temporal friction — the resistance generated by living in a timeline where they do not fully belong. They are out of sync with the present, their cells resonating at a frequency slightly different from everyone around them. This friction can be harnessed to create localized time-effects: slowing, stuttering, or — rarely — reversing the flow for a precious few seconds.',
+      paradox: 'The Chronarch accumulates Time Shards by living through moments of high temporal stress — near-death experiences, emotional extremes, chronal coincidences. But every shard they hoard increases their Temporal Strain, calcifying their bones and erasing their past. The Chronarch must choose: live long enough to make a difference, or stay human enough to remember why.'
+    },
+
+    currentCrisis: `Nesta is disappearing. Not dying — disappearing. The original Chronarch, who hooked the time-dilation engine to her chest four centuries ago, has begun to fade from history. Physical records mentioning her name are going blank. People who knew her are forgetting. The other Chronarchs have gathered at Frostmaw Holdfast to witness what they believe will be her final temporal collapse.
+
+If Nesta ceases to exist retroactively, the temporal friction she generated will redistribute to every other living Chronarch. The engineers calculate that the strain will be fatal to half of them. Worse: Nesta's disappearance may create a chronal vacuum that pulls the entire Cragjaw Peaks out of sync with the rest of the timeline — a region-sized temporal bubble that experiences time at an entirely different rate.`,
+
+    meaningfulTradeoffs: `To be a Chronarch is to experience time as a burden. They remember conversations before they happen. They feel the weight of every possible future pressing on them simultaneously. Simple pleasures — surprise, anticipation, the joy of an unexpected gift — are unavailable to them. They already know how the meal will taste, how the song will end, how the relationship will conclude. Chronarchs become profoundly, achingly bored. The only thing that still surprises them is death — and they are never entirely sure it will stick.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Chronostasis Chamber',
+        locationId: 'frostmaw-holdfast',
+        description: 'A sealed chamber beneath Frostmaw Holdfast where Nesta\'s original time-dilation engine continues to hum. The chamber is kept at precisely -12 degrees Celsius — the temperature at which temporal friction is minimized. Chronarchs gather here to calibrate their internal clocks and share time shards.',
+        purpose: 'Calibration, meditation, and temporal maintenance',
+        status: 'Active — Nesta\'s chair at the center of the chamber has been empty for three weeks'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

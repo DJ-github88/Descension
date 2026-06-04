@@ -7,62 +7,12 @@
 // Import race data
 import { RACE_DATA, getFullRaceData, getSubraceData } from '../data/raceData';
 
-// Import path data from enhancedPathData.js (which already imports all paths)
-import { ENHANCED_PATHS } from '../data/enhancedPathData';
-
 // Import spell library context (avoid circular import by importing at top)
 import { libraryActionCreators } from '../components/spellcrafting-wizard/context/SpellLibraryContext';
 
-// Map of path IDs to path data (using ENHANCED_PATHS which already imports all paths)
-const PATH_DATA_MAP = ENHANCED_PATHS;
-
-// Normalize discipline abilities to use allowed resources/damage types
+// Normalize discipline abilities to use allowed resources/damage types (stub)
 export const normalizeDisciplineAbility = (ability = {}) => {
-    const normalized = { ...ability };
-
-    // Resource cost: remove stamina, use mana instead
-    if (normalized.resourceCost) {
-        const { resourceTypes = [], resourceValues = {}, actionPoints } = normalized.resourceCost;
-        const hasStamina = resourceTypes.includes('stamina') || resourceValues.stamina !== undefined;
-        const staminaValue = resourceValues.stamina;
-        const filteredTypes = resourceTypes.filter(r => r !== 'stamina');
-        if (hasStamina) {
-            const manaValue = typeof staminaValue === 'number' ? staminaValue : 5;
-            normalized.resourceCost = {
-                resourceTypes: [...filteredTypes, 'mana'],
-                resourceValues: { ...resourceValues, mana: manaValue },
-                actionPoints: actionPoints ?? 0,
-                useFormulas: normalized.resourceCost.useFormulas || {}
-            };
-            delete normalized.resourceCost.resourceValues.stamina;
-        }
-    }
-
-    // Damage types: replace "physical" with "bludgeoning" (allowed)
-    if (Array.isArray(normalized.damageTypes)) {
-        normalized.damageTypes = normalized.damageTypes.map(dt => dt === 'physical' ? 'bludgeoning' : dt);
-    }
-    if (normalized.damageConfig?.elementType === 'physical') {
-        normalized.damageConfig = { ...normalized.damageConfig, elementType: 'bludgeoning' };
-    }
-
-    // Type/tags cleanup
-    if (normalized.typeConfig) {
-        normalized.typeConfig = {
-            ...normalized.typeConfig,
-            school: normalized.typeConfig.school === 'physical' ? 'martial' : normalized.typeConfig.school,
-            icon: normalized.typeConfig.icon,
-            tags: (normalized.typeConfig.tags || []).map(t => t === 'physical' ? 'martial' : t)
-        };
-    }
-    if (Array.isArray(normalized.tags)) {
-        normalized.tags = normalized.tags.map(t => t === 'physical' ? 'martial' : t);
-    }
-    if (normalized.visualTheme === 'physical') {
-        normalized.visualTheme = 'martial';
-    }
-
-    return normalized;
+    return ability;
 };
 
 /**
@@ -81,13 +31,6 @@ export function isPassiveStatModifier(trait) {
         return false;
     }
     
-    // Explicit check for known passive traits by ID or name
-    const traitId = (trait.id || '').toLowerCase();
-    const traitName = (trait.name || '').toLowerCase();
-    if (traitId === 'deep_frost_hrym' || traitName === 'deep frost') {
-        return true; // Deep Frost is always a passive
-    }
-
     // Defensive catch-all: any passive trait that clearly represents a resistance/vulnerability
     // should be treated as a stat modifier even if its tags are incomplete
     const idIndicatesResistance =
@@ -368,19 +311,8 @@ export function getRacialStatModifiers(raceId, subraceId) {
  * @returns {Array} Array of spell objects
  */
 export function getDisciplineSpells(pathId) {
+    // Disciplines have been removed from the system - always return empty array
     const spells = [];
-
-    if (!pathId || !PATH_DATA_MAP[pathId]) {
-        return spells;
-    }
-
-    const pathData = PATH_DATA_MAP[pathId];
-
-    // Extract abilities from the path
-    if (pathData.abilities) {
-        spells.push(...pathData.abilities.map(normalizeDisciplineAbility));
-    }
-
     return spells;
 }
 

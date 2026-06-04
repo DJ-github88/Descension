@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
+import { RACE_DATA } from '../../data/raceData';
 import './styles/CharacterManager.css';
 
 const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
@@ -12,9 +13,9 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newCharacter, setNewCharacter] = useState({
     name: '',
-    race: 'Human',
+    race: 'human',
     subrace: '',
-    class: 'Fighter',
+    class: 'Dreadnaught',
     background: 'Acolyte',
     level: 1
   });
@@ -32,9 +33,17 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
   };
 
   const raceIcons = {
-    'Human': '👤', 'Astren': '🌿', 'Briaran': '🦊', 'Emberth': '🔥',
-    'Ferrick': '🦅', 'Grimheart': '⚙️', 'Groven': '💎', 'Mimir': '🎭',
-    'Morthel': '👻', 'Hrym': '❄️', 'Vreken': '🦎'
+    'human': '👤', 'Human': '👤',
+    'astril': '⭐', 'Astril': '⭐',
+    'briaran': '🦊', 'Briaran': '🦊',
+    'emberth': '🔥', 'Emberth': '🔥',
+    'fexrick': '⚙️', 'Fexrick': '⚙️',
+    'groven': '💎', 'Groven': '💎',
+    'mimir': '🎭', 'Mimir': '🎭',
+    'morthel': '📜', 'Morthel': '📜', 'neth': '📜', 'Neth': '📜',
+
+    'vreken': '🦎', 'Vreken': '🦎',
+    'myrathil': '🌊', 'Myrathil': '🌊'
   };
 
 
@@ -82,9 +91,9 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
     setShowCreateForm(false);
     setNewCharacter({
       name: '',
-      race: 'Human',
+      race: 'human',
       subrace: '',
-      class: 'Fighter',
+      class: 'Dreadnaught',
       background: 'Acolyte',
       level: 1
     });
@@ -149,13 +158,13 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                       <div className="character-header-info">
                         <h3 className="character-name">{character.name}</h3>
                         <p className="character-title">
-                          {character.race} {character.class}
+                          {RACE_DATA[character.race]?.name || character.race} {character.class}
                         </p>
                         {character.subrace && (
                           <p className="character-subrace">{character.subrace}</p>
                         )}
                         <div className="character-class-icons">
-                          <div className="race-icon" title={character.race}>
+                          <div className="race-icon" title={RACE_DATA[character.race]?.name || character.race}>
                             {raceIcons[character.race] || '👤'}
                           </div>
                           <div className="class-icon" title={character.class}>
@@ -396,17 +405,16 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                     value={newCharacter.race}
                     onChange={(e) => setNewCharacter(prev => ({ ...prev, race: e.target.value }))}
                   >
-                    <option value="Human">Human</option>
-                    <option value="Astren">Astren</option>
-                    <option value="Briaran">Briaran</option>
-                    <option value="Emberth">Emberth</option>
-                    <option value="Ferrick">Ferrick</option>
-                    <option value="Grimheart">Grimheart</option>
-                    <option value="Groven">Groven</option>
-                    <option value="Mimir">Mimir</option>
-                    <option value="Morthel">Morthel</option>
-                    <option value="Hrym">Hrym</option>
-                    <option value="Vreken">Vreken</option>
+                    <option value="human">Human</option>
+                    <option value="astril">Astril</option>
+                    <option value="briaran">Briaran</option>
+                    <option value="emberth">Emberth</option>
+                    <option value="fexrick">Fexrick</option>
+                    <option value="groven">Groven</option>
+                    <option value="mimir">Mimir</option>
+                    <option value="morthel">Neth</option>
+                    <option value="vreken">Vreken</option>
+                    <option value="myrathil">Myrathil</option>
                   </select>
                 </div>
 
@@ -455,7 +463,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                 <div className="preview-icon">
                   {classIcons[newCharacter.class]} {raceIcons[newCharacter.race]}
                 </div>
-                <p>{newCharacter.race} {newCharacter.class}</p>
+                <p>{RACE_DATA[newCharacter.race]?.name || newCharacter.race} {newCharacter.class}</p>
               </div>
 
               <div className="form-actions">

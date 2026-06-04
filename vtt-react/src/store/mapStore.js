@@ -41,6 +41,13 @@ const createDefaultMap = (name = 'New Map') => ({
     // Portals for map navigation
     portals: [],
 
+    // World-building context — links this map to a location in the world
+    worldContext: {
+        locationId: null,
+        regionId: null,
+        isOverworld: false
+    },
+
     // Camera and view settings
     cameraX: 0,
     cameraY: 0,
@@ -104,6 +111,7 @@ const handleStorageQuotaExceeded = (name, value) => {
                     items: [],
                     containers: [],
                     portals: map.portals || [],
+                    worldContext: map.worldContext || { locationId: null, regionId: null, isOverworld: false },
                     // Keep essential settings
                     cameraX: map.cameraX || 0,
                     cameraY: map.cameraY || 0,
@@ -1001,6 +1009,43 @@ const useMapStore = create(
                 } catch (error) {
                     return null;
                 }
+            },
+
+            // World-building: link a map to a location
+            linkMapToLocation: (mapId, locationId, regionId, isOverworld = false) => {
+                set(state => ({
+                    maps: state.maps.map(map =>
+                        map.id === mapId
+                            ? { ...map, worldContext: { locationId, regionId, isOverworld } }
+                            : map
+                    ),
+                    ...(state.currentMapId === mapId ? {
+                        currentMapWorldContext: { locationId, regionId, isOverworld }
+                    } : {})
+                }));
+            },
+
+            // World-building: get maps belonging to a location
+            getMapsByLocation: (locationId) => {
+                const state = get();
+                return (state.maps || []).filter(
+                    map => map.worldContext && map.worldContext.locationId === locationId
+                );
+            },
+
+            // World-building: get maps belonging to a region
+            getMapsByRegion: (regionId) => {
+                const state = get();
+                return (state.maps || []).filter(
+                    map => map.worldContext && map.worldContext.regionId === regionId
+                );
+            },
+
+            // World-building: get current map's world context
+            getCurrentMapWorldContext: () => {
+                const state = get();
+                const currentMap = state.maps.find(m => m.id === state.currentMapId);
+                return currentMap?.worldContext || { locationId: null, regionId: null, isOverworld: false };
             },
 
             cleanupStorage: () => {

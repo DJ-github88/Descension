@@ -45,7 +45,7 @@ const ZEALOT_PATH = {
         integrationNotes: {
             actionPointSystem: 'Zealot abilities often cost 2-3 AP and provide powerful combat or support effects. Divine abilities may have faith-based requirements.',
             backgroundSynergy: 'Works well with Acolyte or Soldier backgrounds for thematic coherence.',
-            classCompatibility: 'Particularly strong with Paladin, Cleric, or Warrior classes. Divine abilities complement holy magic and righteous combat.'
+            classCompatibility: 'Particularly strong with Zealot, Sentinel, or Reaver traditions of power. Divine abilities complement radiant magic and righteous combat.'
         },
 
         // Roleplaying guidance

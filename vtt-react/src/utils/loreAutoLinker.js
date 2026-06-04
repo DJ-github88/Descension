@@ -32,9 +32,22 @@ export const autoLinkTerminology = (text) => {
   const tokenRegex = /(<[^>]+>)/g;
   const parts = text.split(tokenRegex);
 
+  let insideLoreLink = false;
+
   const processedParts = parts.map(part => {
     // If it's an HTML tag, leave it untouched
     if (part.startsWith('<') && part.endsWith('>')) {
+      const lower = part.toLowerCase();
+      if (lower.startsWith('<lorelink')) {
+        insideLoreLink = true;
+      } else if (lower === '</lorelink>') {
+        insideLoreLink = false;
+      }
+      return part;
+    }
+
+    // Skip processing if this text is inside a LoreLink tag
+    if (insideLoreLink) {
       return part;
     }
 
@@ -54,16 +67,24 @@ export const autoLinkTerminology = (text) => {
           return placeholder;
         });
       } catch (e) {
-        // Fallback for environments where lookbehinds are not supported
-        const regex = new RegExp(`\\b(${item.pattern})\\b`, 'gi');
-        temp = temp.replace(regex, (match) => {
-          const placeholder = `__LORE_PLACEHOLDER_${placeholders.length}__`;
-          placeholders.push({
-            placeholder,
-            html: `<LoreLink termId="${item.id}">${match}</LoreLink>`
+        // Fallback for environments where lookbehinds are not supported.
+        // Skip \b word-boundary fallback for terms with non-word characters (commas, apostrophes, etc.)
+        // as they cause "Maximum call stack size exceeded" in certain V8 builds.
+        const hasNonWordChars = /[^a-zA-Z0-9\s]/.test(item.term);
+        if (hasNonWordChars) continue;
+        try {
+          const regex = new RegExp(`\\b(${item.pattern})\\b`, 'gi');
+          temp = temp.replace(regex, (match) => {
+            const placeholder = `__LORE_PLACEHOLDER_${placeholders.length}__`;
+            placeholders.push({
+              placeholder,
+              html: `<LoreLink termId="${item.id}">${match}</LoreLink>`
+            });
+            return placeholder;
           });
-          return placeholder;
-        });
+        } catch (innerE) {
+          // If even the fallback fails, skip this term silently
+        }
       }
     }
 

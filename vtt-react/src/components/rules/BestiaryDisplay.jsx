@@ -266,14 +266,6 @@ const BestiaryDisplay = () => {
                           <span className="label">AP Limit</span>
                           <span className="value">{currentCreature.stats.maxActionPoints}</span>
                         </div>
-                        <div className="bestiary-quick-stat-item armor">
-                          <span className="label">Armor</span>
-                          <span className="value">{currentCreature.stats.armor}</span>
-                        </div>
-                        <div className="bestiary-quick-stat-item soak">
-                          <span className="label">Soak Die</span>
-                          <span className="value">{getSoakDieFromArmor(currentCreature.stats.armor)}</span>
-                        </div>
                         <div className="bestiary-quick-stat-item speed">
                           <span className="label">Speed</span>
                           <span className="value">{currentCreature.stats.speed} ft</span>

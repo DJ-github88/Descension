@@ -238,16 +238,17 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
             // Right page of Spread S (S > 0)
             const startIndex = 1 + (historySpread - 1) * 4 + 2;
             const pageParas = historyParagraphs.slice(startIndex, startIndex + 2);
+            const isLastSpread = startIndex + 2 >= historyParagraphs.length;
             return (
                 <>
                     <div className="tome-section-header">
                         <i className="fas fa-scroll"></i>
-                        <h4 className="tome-section-title">Final Chronicles</h4>
+                        <h4 className="tome-section-title">{isLastSpread ? 'Final Chronicles' : 'The Chronicle Continues'}</h4>
                     </div>
                     {pageParas.map((para, i) => (
                         <p key={i} className="tome-body-text">{renderLoreText(para)}</p>
                     ))}
-                    {startIndex + 2 >= historyParagraphs.length && renderDecorativeDivider()}
+                    {isLastSpread && renderDecorativeDivider()}
                 </>
             );
         }
@@ -391,15 +392,25 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                                             <i className="fas fa-exclamation-triangle"></i>
                                             <span>Current Crisis Alerts</span>
                                         </div>
-                                        <p className="tome-body-text" style={{ fontStyle: 'italic', fontSize: '15px' }}>
-                                            "Bridges built of bone begin to fracture in the cold, and the old alchemical vats in the deep places hum with forgotten screams that must eventually be answered."
-                                        </p>
+                                        {crisisParagraphs.length > 0 ? (
+                                            <p className="tome-body-text" style={{ fontStyle: 'italic', fontSize: '15px' }}>
+                                                &ldquo;{crisisParagraphs[0].replace(/^\*\*|\*\*$/g, '').trim()}&rdquo;
+                                            </p>
+                                        ) : (
+                                            <p className="tome-body-text" style={{ fontStyle: 'italic', fontSize: '15px', opacity: 0.7 }}>
+                                                No crisis records found for this people.
+                                            </p>
+                                        )}
                                     </div>
                                     
-                                    {renderDecorativeDivider()}
-                                    <p className="tome-body-text" style={{ textIndent: '1.5em', fontStyle: 'italic', textAlign: 'center', opacity: 0.8 }}>
-                                        The spans groan under the weight of centuries, and the balance of castes threatens to collapse as the deeper dark of Frostmaw Crag awakens.
-                                    </p>
+                                    {crisisParagraphs.length > 1 && (
+                                        <>
+                                            {renderDecorativeDivider()}
+                                            <p className="tome-body-text" style={{ textIndent: '1.5em', fontStyle: 'italic', textAlign: 'center', opacity: 0.8 }}>
+                                                {renderLoreText(crisisParagraphs[1])}
+                                            </p>
+                                        </>
+                                    )}
                                 </>
                             )}
 
@@ -411,7 +422,7 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                                     
                                     <div className="tome-section-header">
                                         <i className="fas fa-feather-alt"></i>
-                                        <span className="tome-section-title">The Vat-Sleep & Passage</span>
+                                        <span className="tome-section-title">Ancestral Way &amp; Passage</span>
                                     </div>
                                     {(() => {
                                         const startIndex = practicesSpread * 4;
@@ -543,7 +554,7 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                                 <>
                                     <div className="tome-section-header">
                                         <i className="fas fa-shield-alt"></i>
-                                        <span className="tome-section-title">The Burden, Rites & Death</span>
+                                        <span className="tome-section-title">Tradition, Rites &amp; Death</span>
                                     </div>
                                     {(() => {
                                         const startIndex = practicesSpread * 4 + 2;

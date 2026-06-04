@@ -7,7 +7,8 @@ import { ROLLABLE_TABLES } from '../../constants/rollableTables';
 import { getIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
 import './BackgroundSelector.css';
 
-const SkillsDisplay = () => {
+const SkillsDisplay = ({ variant = 'advanced' }) => {
+    const isSimple = variant === 'simple';
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedDie, setSelectedDie] = useState('d20'); // Default to d20 (hardest)
@@ -713,8 +714,104 @@ const SkillsDisplay = () => {
     // Step 1: Show all categories
     if (!selectedCategory && !selectedSkill) {
         return (
-            <div className="background-selector">
-                <div className="skill-categories-view">
+            <div className="skills-single-layout">
+                {/* Skills Guide — full width, stacked */}
+                <div className="skills-guide-section">
+                    <div className="premium-parchment-scroll">
+                        <div className="scroll-title-header">
+                            <span className="scroll-tag">
+                                <i className={isSimple ? "fas fa-dice-four" : "fas fa-cogs"}></i>
+                                {isSimple ? ' QUICK PLAY GUIDE' : ' FULL SYSTEM GUIDE'}
+                            </span>
+                            <h3>{isSimple ? 'Skills' : 'Advanced Skills'}</h3>
+                            <p className="scroll-subtitle">
+                                {isSimple ? 'The Primary Skill System' : 'Quest-Based Advancement & Rollable Tables'}
+                            </p>
+                        </div>
+                        
+                        {isSimple ? (
+                            <>
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-magic"></i> The Core Idea</h5>
+                                <p>In the skill system, every skill is represented by a single die size, written directly on your character sheet: <strong>4</strong> for a d4, <strong>6</strong> for a d6, <strong>8</strong> for a d8, and so on.</p>
+                                <ul>
+                                    <li><strong>d4 Baseline</strong>: All characters start with a d4 (written as "4") in all skills. Baseline attempt is always possible.</li>
+                                    <li><strong>Organic Upgrades</strong>: Successful learning or extraordinary actions trigger dynamic upgrades awarded by the GM.</li>
+                                    <li><strong>Conversation Driven</strong>: Set your die size manually under your sheet as your character grows.</li>
+                                </ul>
+                            </div>
+
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-crosshairs"></i> Difficulty Classes (DCs)</h5>
+                                <p>Instead of assigned difficulty dice, roll against fixed target numbers:</p>
+                                <div className="dc-reference-grid">
+                                    <div className="dc-row"><span>DC 2</span><strong>Trivial</strong><span>Climbing a ladder, lighting campfire</span></div>
+                                    <div className="dc-row"><span>DC 4</span><strong>Easy</strong><span>Picking a rusty lock, tracking in mud</span></div>
+                                    <div className="dc-row"><span>DC 6</span><strong>Moderate</strong><span>Climbing a knotted rope, deceiving guards</span></div>
+                                    <div className="dc-row"><span>DC 8</span><strong>Challenging</strong><span>Scaling wall handholds, disarming traps</span></div>
+                                    <div className="dc-row"><span>DC 10</span><strong>Hard</strong><span>Climbing steep mountains, field surgery</span></div>
+                                    <div className="dc-row"><span>DC 12+</span><strong>Legendary</strong><span>Tasks bordering on the impossible</span></div>
+                                </div>
+                            </div>
+
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-bolt"></i> Exploding Dice</h5>
+                                <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong> — roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
+                            </div>
+
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
+                                <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
+                            </div>
+                            </>
+                        ) : (
+                            <>
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
+                                <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery — trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
+                                <ul>
+                                    <li>Each skill is tied to a <strong>primary and secondary attribute</strong>.</li>
+                                    <li>The GM assigns a <strong>Difficulty Die</strong> — from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
+                                    <li>If your primary or secondary attribute modifier reaches <strong>+5 or higher</strong>, your mastery steps the difficulty die down by one size.</li>
+                                </ul>
+                            </div>
+
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-layer-group"></i> Skill Ranks & Progression</h5>
+                                <p>Skills advance through seven ranks:</p>
+                                <div className="dc-reference-grid">
+                                    <div className="dc-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline — no bonus</span></div>
+                                    <div className="dc-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
+                                    <div className="dc-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
+                                    <div className="dc-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
+                                    <div className="dc-row"><span style={{color:'#2563eb'}}>Adept</span><span>d12</span><span>+4 to checks, 9 quests</span></div>
+                                    <div className="dc-row"><span style={{color:'#7a3b2e'}}>Expert</span><span>d20</span><span>+5 to checks, 11 quests</span></div>
+                                    <div className="dc-row"><span style={{color:'#9d4edd'}}>Master</span><span>d20</span><span>+6 to checks, 12 quests</span></div>
+                                </div>
+                                <p style={{marginTop:'10px', fontSize:'0.92rem'}}><strong>Skill Quests</strong> are narrative milestones that unlock as you use abilities in the world. Completing them advances your rank and opens new proficient ability options.</p>
+                            </div>
+
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-dice-d20"></i> Critical Success & Failure</h5>
+                                <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong> — the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
+                                <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank — complications arise, and the GM determines how badly the moment turns.</p>
+                            </div>
+
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
+                                <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
+                            </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                {/* Skills Directory — full width, below guide */}
+                <div className="skills-directory-section">
+                    <div className="skills-index-header">
+                        <h3>{isSimple ? 'Skills Directory' : 'Advanced Skills Directory'}</h3>
+                        <p>Explore trained capabilities, starting quests, and rollable tables.</p>
+                    </div>
                     <div className="skill-categories-simple">
                         {Object.entries(skillsByCategory).map(([categoryName, skills]) => {
                             const categoryData = getCategoryData(categoryName);
@@ -724,13 +821,24 @@ const SkillsDisplay = () => {
                                     className="skill-category-simple-card"
                                     onClick={() => handleCategoryClick(categoryName)}
                                 >
-                                    <div className="skill-category-simple-header">
-                                        <h3>{categoryName}</h3>
-                                        <span className="skill-count-badge">{skills.length} skills</span>
+                                    <div className="skill-category-icon">
+                                        {categoryData?.icon && (
+                                            <img
+                                                src={getIconUrl(categoryData.icon, 'abilities')}
+                                                alt={categoryName}
+                                                onError={(e) => { e.target.style.display = 'none'; }}
+                                            />
+                                        )}
                                     </div>
-                                    <p className="skill-category-simple-desc">
-                                        {categoryData?.description || 'Skills in this category'}
-                                    </p>
+                                    <div className="skill-category-simple-body">
+                                        <div className="skill-category-simple-header">
+                                            <h3>{categoryName}</h3>
+                                            <span className="skill-count-badge">{skills.length} skills</span>
+                                        </div>
+                                        <p className="skill-category-simple-desc">
+                                            {categoryData?.description || 'Skills in this category'}
+                                        </p>
+                                    </div>
                                 </div>
                             );
                         })}
@@ -739,6 +847,7 @@ const SkillsDisplay = () => {
             </div>
         );
     }
+
 
     // Step 2: Show skills in selected category
     if (selectedCategory && !selectedSkill) {
@@ -788,64 +897,6 @@ const SkillsDisplay = () => {
 
     // Step 3: Show selected skill details
     if (selectedSkill) {
-        // Get quests for this skill
-        const skillQuests = (() => {
-            if (selectedSkill.id !== 'weaponMastery') {
-                return SKILL_QUESTS[selectedSkill.id] || [];
-            }
-            // Only show quests for the selected weapon type; fallback to default if none
-            return WEAPON_TYPE_QUEST_DATA[selectedWeaponType] || WEAPON_TYPE_QUEST_DATA.default || [];
-        })();
-        const startingQuests = skillQuests.filter(q => q.rank === 'NOVICE' || q.rank === 'APPRENTICE').slice(0, 3);
-
-        // Check if this skill has rollableTables with multiple proficiency levels
-        const hasMultipleProficiencyLevels = selectedSkill.rollableTables && 
-            Object.keys(selectedSkill.rollableTables).length > 0;
-
-        // Get the rank tables for the selected proficiency level
-        const rankTables = selectedSkill.rollableTables?.[selectedProficiency] || 
-                          selectedSkill.rollableTables?.UNTRAINED || 
-                          selectedSkill.rollableTables?.NOVICE;
-        
-        const isWeaponMastery = selectedSkill.id === 'weaponMastery';
-
-        // Check if this skill uses the new multi-dimensional table structure
-        const hasMultiDieTables = rankTables && typeof rankTables === 'object' && (
-            rankTables.d4 || rankTables.d6 || rankTables.d8 || rankTables.d10 || rankTables.d12 || rankTables.d20
-        );
-
-        // Get rollable table for this skill
-        const masteryDieKey = 'd8'; // Weapon mastery uses a fixed d8 for effects
-
-        let rollableTableKey;
-        if (hasMultiDieTables) {
-            if (isWeaponMastery) {
-                // Weapon mastery: always pull the d8 track (fallback to nearest available)
-                rollableTableKey =
-                    rankTables[masteryDieKey] ||
-                    rankTables.d8 ||
-                    rankTables.d6 ||
-                    rankTables.d10 ||
-                    rankTables.d4 ||
-                    rankTables.d12 ||
-                    rankTables.d20;
-            } else {
-                // Other skills: respect the selected difficulty die
-                rollableTableKey =
-                    rankTables[selectedDie] ||
-                    rankTables.d8 ||
-                    rankTables.d6 ||
-                    rankTables.d10 ||
-                    rankTables.d4 ||
-                    rankTables.d12 ||
-                    rankTables.d20;
-            }
-        } else {
-            // Old structure: just use the rank table
-            rollableTableKey = rankTables || selectedSkill.rollableTable;
-        }
-        const rollableTable = rollableTableKey ? ROLLABLE_TABLES[rollableTableKey] : null;
-
         return (
             <div className="background-selector">
                 <button className="back-button" onClick={handleBackClick}>
@@ -872,195 +923,275 @@ const SkillsDisplay = () => {
                         </div>
                     </div>
 
-                    {/* Rollable Table Examples */}
-                    {rollableTable && (
+                    {isSimple ? (
+                        <>
+                        {/* Simple: Die Size Selector */}
                         <div className="benefits-section">
-                            <h4><i className="fas fa-dice-d20"></i> Example Roll Outcomes: {rollableTable.name}</h4>
+                            <h4><i className="fas fa-dice"></i> Your Skill Die</h4>
                             <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
-                                {rollableTable.description}
+                                In the skill system, your proficiency is shown as a single die size. Select your current die to see what it can do:
                             </p>
-
-                            {/* Color Legend for Roll Outcomes */}
-                            <div className="roll-outcome-legend" style={{ 
-                                marginBottom: '18px', 
-                                padding: '14px 16px', 
-                                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 245, 240, 0.7) 100%)',
-                                border: '2px solid #d4af37',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '10px'
-                            }}>
-                                <h5 style={{ 
-                                    margin: '0 0 8px 0', 
-                                    fontSize: '13px', 
-                                    fontWeight: '700', 
-                                    color: '#5a1e12',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '0.8px',
-                                    fontFamily: "'Cinzel', serif"
-                                }}>
-                                    <i className="fas fa-palette" style={{ marginRight: '6px' }}></i>
-                                    Roll Outcome Colors (Colorblind-Friendly)
-                                </h5>
-                                <div style={{ 
-                                    display: 'grid', 
-                                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-                                    gap: '8px',
-                                    fontSize: '13px'
-                                }}>
-                                    <div className="table-preview-entry total-failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                        <span style={{ fontWeight: '600', color: '#8B0000' }}>⚠ Total Failure</span>
-                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Catastrophic with complications</span>
-                                    </div>
-                                    <div className="table-preview-entry failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                        <span style={{ fontWeight: '600', color: '#D84315' }}>✗ Failure</span>
-                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Attempt fails</span>
-                                    </div>
-                                    <div className="table-preview-entry normal" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                        <span style={{ fontWeight: '600', color: '#F57C00' }}>➡ Partial Success</span>
-                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Mixed results</span>
-                                    </div>
-                                    <div className="table-preview-entry success" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                        <span style={{ fontWeight: '600', color: '#00897B' }}>✓ Success</span>
-                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Succeeds as intended</span>
-                                    </div>
-                                    <div className="table-preview-entry critical" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                        <span style={{ fontWeight: '600', color: '#1976D2' }}>★ Critical Success</span>
-                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Exceptional with bonuses</span>
-                                    </div>
+                            <div className="die-selector-section">
+                                <div className="die-selector-strip">
+                                    {['d4', 'd6', 'd8', 'd10', 'd12', 'd20'].map(die => (
+                                        <div
+                                            key={die}
+                                            className={`die-selector-icon ${selectedDie === die ? 'selected' : ''}`}
+                                            onClick={() => setSelectedDie(die)}
+                                            title={`${die.toUpperCase()} - ${
+                                                die === 'd4' ? 'Untrained' :
+                                                die === 'd6' ? 'Novice' :
+                                                die === 'd8' ? 'Trained' :
+                                                die === 'd10' ? 'Apprentice' :
+                                                die === 'd12' ? 'Adept' :
+                                                'Expert / Master'
+                                            }`}
+                                        >
+                                            <span className="die-number">{die.substring(1)}</span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-
-                            {/* Proficiency Level Selector */}
-                            {hasMultipleProficiencyLevels && (
-                                <div className="proficiency-selector-section">
-                                    <h4>Proficiency Level</h4>
-                                    <div className="proficiency-selector-strip">
-                                        {Object.entries(SKILL_RANKS).map(([rankKey, rankData]) => {
-                                            const hasTablesForRank = selectedSkill.rollableTables?.[rankKey];
-                                            return (
-                                                <div
-                                                    key={rankKey}
-                                                    className={`proficiency-selector-icon ${selectedProficiency === rankKey ? 'selected' : ''} ${!hasTablesForRank ? 'disabled' : ''}`}
-                                                    onClick={() => hasTablesForRank && setSelectedProficiency(rankKey)}
-                                                    style={{
-                                                        borderColor: rankData.color,
-                                                        opacity: hasTablesForRank ? 1 : 0.4
-                                                    }}
-                                                    title={`${rankData.name}${!hasTablesForRank ? ' (No tables available)' : ''}`}
-                                                >
-                                                    <span className="proficiency-name">{rankData.name}</span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Die Selector for multi-die skills (all non-weapon mastery skills) */}
-                            {hasMultiDieTables && selectedSkill.id !== 'weaponMastery' && (
-                                <div className="die-selector-section">
-                                    <h4>Difficulty (Die Type)</h4>
-                                    <div className="die-selector-strip">
-                                        {['d4', 'd6', 'd8', 'd10', 'd12', 'd20'].map(die => (
-                                            <div
-                                                key={die}
-                                                className={`die-selector-icon ${selectedDie === die ? 'selected' : ''}`}
-                                                onClick={() => setSelectedDie(die)}
-                                                title={`${die.toUpperCase()} - ${
-                                                    die === 'd4' ? 'Very Easy' :
-                                                    die === 'd6' ? 'Easy' :
-                                                    die === 'd8' ? 'Moderate' :
-                                                    die === 'd10' ? 'Challenging' :
-                                                    die === 'd12' ? 'Difficult' :
-                                                    'Very Difficult'
-                                                }`}
-                                            >
-                                                <span className="die-number">{die.substring(1)}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Weapon type selector (only for Weapon Mastery; mastery die is fixed d8) */}
-                            {selectedSkill.id === 'weaponMastery' && (
-                                <div className="damage-type-section">
-                                    <h4>Weapon Type (Mastery Die: d8)</h4>
-                                    {renderWeaponTypeGrid('mastery-grid')}
-                                </div>
-                            )}
-
-                            <div className="table-preview-entries">
-                                        {rollableTable.table.map((entry, index) => {
-                                            const rollFace = Array.isArray(entry.roll) ? entry.roll[0] : entry.roll || 1;
-                                            const filteredResult = isWeaponMastery
-                                                ? filterWeaponTypeResult(entry.result, rollFace)
-                                                : entry.result;
-                                            return (
-                                                <div key={index} className={`table-preview-entry ${entry.type}`}>
-                                                    <span className="roll-range">
-                                                        {entry.roll[0] === entry.roll[1]
-                                                            ? entry.roll[0]
-                                                            : `${entry.roll[0]}-${entry.roll[1]}`}
-                                                    </span>
-                                                    <span className="roll-result">{filteredResult}</span>
-                                                </div>
-                                            );
-                                        })}
+                            <div className="dc-reference-grid" style={{ marginTop: '16px' }}>
+                                <div className="dc-row"><span style={{color:'#6b6b6b'}}>d4</span><span>Untrained</span><span>Baseline — everyone starts here</span></div>
+                                <div className="dc-row"><span style={{color:'#8b7355'}}>d6</span><span>Novice</span><span>+1 to checks, 1 quest completed</span></div>
+                                <div className="dc-row"><span style={{color:'#4a7c59'}}>d8</span><span>Trained</span><span>+2 to checks, 3 quests completed</span></div>
+                                <div className="dc-row"><span style={{color:'#5d8a6b'}}>d10</span><span>Apprentice</span><span>+3 to checks, 6 quests completed</span></div>
+                                <div className="dc-row"><span style={{color:'#2563eb'}}>d12</span><span>Adept</span><span>+4 to checks, 9 quests completed</span></div>
+                                <div className="dc-row"><span style={{color:'#7a3b2e'}}>d20</span><span>Expert / Master</span><span>+5/+6 to checks, 11-12 quests</span></div>
                             </div>
                         </div>
-                    )}
 
-                    {/* Starting Quests */}
-                    {startingQuests.length > 0 && (
+                        {/* Simple: What You Can Do */}
                         <div className="benefits-section">
-                            <h4><i className="fas fa-tasks"></i> Example Starting Quests</h4>
+                            <h4><i className="fas fa-bolt"></i> What You Can Do</h4>
                             <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
-                                Complete quests during gameplay to unlock higher skill ranks and better outcomes!
+                                Roll your skill die against a DC set by the GM. Roll the max? The die <strong>explodes</strong> — roll again and add!
                             </p>
-                            {selectedSkill.id === 'weaponMastery' && (
-                                <div className="damage-type-section" style={{ marginBottom: '14px' }}>
-                                    <h4>Weapon Type (for quest progress & rolls)</h4>
-                                    {renderWeaponTypeGrid('quest-grid', { compact: true, showRankChip: false })}
-                                </div>
-                            )}
-                            <div className="quest-preview-list">
-                                {startingQuests.map(quest => (
-                                    <div key={quest.id} className="quest-preview-item">
-                                        <img src={getAbilityIconUrl(quest.icon)} alt={quest.name} className="quest-preview-icon" />
-                                        <div className="quest-preview-info">
-                                            <strong>{quest.name}</strong>
-                                            <p>{quest.description}</p>
+                            <ul className="equipment-items">
+                                <li><i className="fas fa-check"></i> Attempt any task tied to this skill</li>
+                                <li><i className="fas fa-check"></i> Roll your current skill die vs the DC</li>
+                                <li><i className="fas fa-check"></i> Max roll = explode and add again</li>
+                                <li><i className="fas fa-check"></i> Higher die = better odds and bigger explosions</li>
+                            </ul>
+                        </div>
+                        </>
+                    ) : (
+                        <>
+                        {/* Advanced: Full skill detail with quests and rollable tables */}
+                        {(() => {
+                            const skillQuestsAdv = (() => {
+                                if (selectedSkill.id !== 'weaponMastery') {
+                                    return SKILL_QUESTS[selectedSkill.id] || [];
+                                }
+                                return WEAPON_TYPE_QUEST_DATA[selectedWeaponType] || WEAPON_TYPE_QUEST_DATA.default || [];
+                            })();
+                            const startingQuestsAdv = skillQuestsAdv.filter(q => q.rank === 'NOVICE' || q.rank === 'APPRENTICE').slice(0, 3);
+                            const hasMultipleProficiencyLevels = selectedSkill.rollableTables && Object.keys(selectedSkill.rollableTables).length > 0;
+                            const rankTables = selectedSkill.rollableTables?.[selectedProficiency] || selectedSkill.rollableTables?.UNTRAINED || selectedSkill.rollableTables?.NOVICE;
+                            const isWeaponMastery = selectedSkill.id === 'weaponMastery';
+                            const hasMultiDieTables = rankTables && typeof rankTables === 'object' && (rankTables.d4 || rankTables.d6 || rankTables.d8 || rankTables.d10 || rankTables.d12 || rankTables.d20);
+                            const masteryDieKey = 'd8';
+                            let rollableTableKey;
+                            if (hasMultiDieTables) {
+                                if (isWeaponMastery) {
+                                    rollableTableKey = rankTables[masteryDieKey] || rankTables.d8 || rankTables.d6 || rankTables.d10 || rankTables.d4 || rankTables.d12 || rankTables.d20;
+                                } else {
+                                    rollableTableKey = rankTables[selectedDie] || rankTables.d8 || rankTables.d6 || rankTables.d10 || rankTables.d4 || rankTables.d12 || rankTables.d20;
+                                }
+                            } else {
+                                rollableTableKey = rankTables || selectedSkill.rollableTable;
+                            }
+                            const rollableTable = rollableTableKey ? ROLLABLE_TABLES[rollableTableKey] : null;
+
+                            return (
+                                <>
+                                {rollableTable && (
+                                    <div className="benefits-section">
+                                        <h4><i className="fas fa-dice-d20"></i> Example Roll Outcomes: {rollableTable.name}</h4>
+                                        <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
+                                            {rollableTable.description}
+                                        </p>
+
+                                        <div className="roll-outcome-legend" style={{
+                                            marginBottom: '18px',
+                                            padding: '14px 16px',
+                                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 245, 240, 0.7) 100%)',
+                                            border: '2px solid #d4af37',
+                                            borderRadius: '8px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '10px'
+                                        }}>
+                                            <h5 style={{
+                                                margin: '0 0 8px 0',
+                                                fontSize: '13px',
+                                                fontWeight: '700',
+                                                color: '#5a1e12',
+                                                textTransform: 'uppercase',
+                                                letterSpacing: '0.8px',
+                                                fontFamily: "'Cinzel', serif"
+                                            }}>
+                                                <i className="fas fa-palette" style={{ marginRight: '6px' }}></i>
+                                                Roll Outcome Colors (Colorblind-Friendly)
+                                            </h5>
+                                            <div style={{
+                                                display: 'grid',
+                                                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                                                gap: '8px',
+                                                fontSize: '13px'
+                                            }}>
+                                                <div className="table-preview-entry total-failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                                    <span style={{ fontWeight: '600', color: '#8B0000' }}>⚠ Total Failure</span>
+                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Catastrophic with complications</span>
+                                                </div>
+                                                <div className="table-preview-entry failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                                    <span style={{ fontWeight: '600', color: '#D84315' }}>✗ Failure</span>
+                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Attempt fails</span>
+                                                </div>
+                                                <div className="table-preview-entry normal" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                                    <span style={{ fontWeight: '600', color: '#F57C00' }}>➡ Partial Success</span>
+                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Mixed results</span>
+                                                </div>
+                                                <div className="table-preview-entry success" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                                    <span style={{ fontWeight: '600', color: '#00897B' }}>✓ Success</span>
+                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Succeeds as intended</span>
+                                                </div>
+                                                <div className="table-preview-entry critical" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                                    <span style={{ fontWeight: '600', color: '#1976D2' }}>★ Critical Success</span>
+                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Exceptional with bonuses</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {hasMultipleProficiencyLevels && (
+                                            <div className="proficiency-selector-section">
+                                                <h4>Proficiency Level</h4>
+                                                <div className="proficiency-selector-strip">
+                                                    {Object.entries(SKILL_RANKS).map(([rankKey, rankData]) => {
+                                                        const hasTablesForRank = selectedSkill.rollableTables?.[rankKey];
+                                                        return (
+                                                            <div
+                                                                key={rankKey}
+                                                                className={`proficiency-selector-icon ${selectedProficiency === rankKey ? 'selected' : ''} ${!hasTablesForRank ? 'disabled' : ''}`}
+                                                                onClick={() => hasTablesForRank && setSelectedProficiency(rankKey)}
+                                                                style={{
+                                                                    borderColor: rankData.color,
+                                                                    opacity: hasTablesForRank ? 1 : 0.4
+                                                                }}
+                                                                title={`${rankData.name}${!hasTablesForRank ? ' (No tables available)' : ''}`}
+                                                            >
+                                                                <span className="proficiency-name">{rankData.name}</span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {hasMultiDieTables && selectedSkill.id !== 'weaponMastery' && (
+                                            <div className="die-selector-section">
+                                                <h4>Difficulty (Die Type)</h4>
+                                                <div className="die-selector-strip">
+                                                    {['d4', 'd6', 'd8', 'd10', 'd12', 'd20'].map(die => (
+                                                        <div
+                                                            key={die}
+                                                            className={`die-selector-icon ${selectedDie === die ? 'selected' : ''}`}
+                                                            onClick={() => setSelectedDie(die)}
+                                                            title={`${die.toUpperCase()} - ${
+                                                                die === 'd4' ? 'Very Easy' :
+                                                                die === 'd6' ? 'Easy' :
+                                                                die === 'd8' ? 'Moderate' :
+                                                                die === 'd10' ? 'Challenging' :
+                                                                die === 'd12' ? 'Difficult' :
+                                                                'Very Difficult'
+                                                            }`}
+                                                        >
+                                                            <span className="die-number">{die.substring(1)}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {selectedSkill.id === 'weaponMastery' && (
+                                            <div className="damage-type-section">
+                                                <h4>Weapon Type (Mastery Die: d8)</h4>
+                                                {renderWeaponTypeGrid('mastery-grid')}
+                                            </div>
+                                        )}
+
+                                        <div className="table-preview-entries">
+                                            {rollableTable.table.map((entry, index) => {
+                                                const rollFace = Array.isArray(entry.roll) ? entry.roll[0] : entry.roll || 1;
+                                                const filteredResult = isWeaponMastery
+                                                    ? filterWeaponTypeResult(entry.result, rollFace)
+                                                    : entry.result;
+                                                return (
+                                                    <div key={index} className={`table-preview-entry ${entry.type}`}>
+                                                        <span className="roll-range">
+                                                            {entry.roll[0] === entry.roll[1]
+                                                                ? entry.roll[0]
+                                                                : `${entry.roll[0]}-${entry.roll[1]}`}
+                                                        </span>
+                                                        <span className="roll-result">{filteredResult}</span>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
+                                )}
+
+                                {startingQuestsAdv.length > 0 && (
+                                    <div className="benefits-section">
+                                        <h4><i className="fas fa-tasks"></i> Example Starting Quests</h4>
+                                        <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
+                                            Complete quests during gameplay to unlock higher skill ranks and better outcomes!
+                                        </p>
+                                        {selectedSkill.id === 'weaponMastery' && (
+                                            <div className="damage-type-section" style={{ marginBottom: '14px' }}>
+                                                <h4>Weapon Type (for quest progress & rolls)</h4>
+                                                {renderWeaponTypeGrid('quest-grid', { compact: true, showRankChip: false })}
+                                            </div>
+                                        )}
+                                        <div className="quest-preview-list">
+                                            {startingQuestsAdv.map(quest => (
+                                                <div key={quest.id} className="quest-preview-item">
+                                                    <img src={getAbilityIconUrl(quest.icon)} alt={quest.name} className="quest-preview-icon" />
+                                                    <div className="quest-preview-info">
+                                                        <strong>{quest.name}</strong>
+                                                        <p>{quest.description}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="benefits-section">
+                                    <h4>Common Uses</h4>
+                                    <ul className="equipment-items">
+                                        <li><i className="fas fa-check"></i> Make skill checks when attempting tasks related to this skill</li>
+                                        <li><i className="fas fa-check"></i> Your proficiency rank determines which rollable table outcomes are available</li>
+                                        <li><i className="fas fa-check"></i> Primary and secondary stats affect your ability to reduce die size with +5 modifiers</li>
+                                        <li><i className="fas fa-check"></i> Higher proficiency ranks unlock better outcomes on rollable tables</li>
+                                    </ul>
+                                </div>
+
+                                <div className="benefits-section">
+                                    <h4>Gaining Proficiency</h4>
+                                    <ul className="equipment-items">
+                                        <li><i className="fas fa-check"></i> Choose during character creation (2 skills from your class list)</li>
+                                        <li><i className="fas fa-check"></i> Gain from your background (automatically granted)</li>
+                                        <li><i className="fas fa-check"></i> Gain from your path/specialization (automatically granted)</li>
+                                        <li><i className="fas fa-check"></i> Gain from racial traits (some races grant specific skills)</li>
+                                    </ul>
+                                </div>
+                                </>
+                            );
+                        })()}
+                        </>
                     )}
-
-                    {/* Usage Examples */}
-                    <div className="benefits-section">
-                        <h4>Common Uses</h4>
-                        <ul className="equipment-items">
-                            <li><i className="fas fa-check"></i> Make skill checks when attempting tasks related to this skill</li>
-                            <li><i className="fas fa-check"></i> Your proficiency rank determines which rollable table outcomes are available</li>
-                            <li><i className="fas fa-check"></i> Primary and secondary stats affect your ability to reduce die size with +5 modifiers</li>
-                            <li><i className="fas fa-check"></i> Higher proficiency ranks unlock better outcomes on rollable tables</li>
-                        </ul>
-                    </div>
-
-                    {/* How to Gain Proficiency */}
-                    <div className="benefits-section">
-                        <h4>Gaining Proficiency</h4>
-                        <ul className="equipment-items">
-                            <li><i className="fas fa-check"></i> Choose during character creation (2 skills from your class list)</li>
-                            <li><i className="fas fa-check"></i> Gain from your background (automatically granted)</li>
-                            <li><i className="fas fa-check"></i> Gain from your path/specialization (automatically granted)</li>
-                            <li><i className="fas fa-check"></i> Gain from racial traits (some races grant specific skills)</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         );

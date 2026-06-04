@@ -22,6 +22,11 @@ export const WITCH_DOCTOR_DATA = {
   damageTypes: ["necrotic", "nature", "poison"],
 
   overview: {
+    originStory: `Nesta the Vreken herbalist bargained with the ancient loa of the Bryngloom marsh to heal the spore-hush that ravaged her family's cave-keeps. She offered her own mind as a playground for the spirits, inhaling the green spore-dust of the bioluminescent groves.
+
+The spirits healed her kin, but they left Nesta in a state of permanent mental confusion. The Witch Doctor suffers constant hallucinations, hearing the whispering voices of the bog-loa and struggling to separate reality from the spirit world.
+
+Curse the living. The loa demand blood, and your bone flask is empty. Brew the curse.`,
     title: "The Witch Doctor",
     subtitle: "Voodoo Invoker & Loa Channeler",
 
@@ -42,16 +47,47 @@ export const WITCH_DOCTOR_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Witch Doctors are spiritual intermediaries between the mortal world and the realm of the loa. Whether through ancestral tradition, desperate bargaining, or scholarly pursuit of forbidden knowledge, they have learned to commune with powerful voodoo spirits and channel their divine power.
+      content: `**HISTORY: THE GENESIS**
+The witch doctor's root-weave was born in the lightless groves of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. A Vreken botanist named **Nesta** sought to cultivate the bioluminescent mushrooms and accidentally absorbed their spore-dust. The price of this botanical bond was a persistent mental confusion. Nesta suffered from the spore-hush, her eyes reflecting the pale green of bog-lanterns.
 
-**The Witch Doctor's Philosophy**: The loa are neither good nor evil — they are forces of nature, ancient spirits with their own agendas. To invoke them is to make a pact, to offer respect and tribute in exchange for their devastating power. Every curse cast, every ritual performed, every totem placed is an offering to the spirits.
+**CITIES & CIVIL RECEPTION**
+Witch Doctors are respected as vital healers in the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and the Morren villages, though their treatments are viewed as terrifying.
 
-**Common Witch Doctor Archetypes**:
-- **The Tribal Shaman**: Keeper of ancestral traditions, protector of their people through ancient rites
-- **The Desperate Bargainer**: Made a pact with the loa in a moment of need, now bound to their service
-- **The Dark Scholar**: Studied forbidden voodoo texts, seeking power through understanding the spirits
-- **The Cursed Bloodline**: Born with the loa's mark, destined to serve as their mortal vessel`,
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</LoreLink> and the Morren humans.
+
+**NOTABLE FIGURES**
+* **Nesta the Herbalist**: The botanist who first allowed the bog-loa to speak through her hallucinations.
+* **Karr the Spirit-Talker**: A Morren healer who bargained with the bog-loa to cure the lung-rot epidemic.`
     },
+
+    signatureQuote: {
+      text: '"The loa do not lie to me. They simply show me things that do not exist yet, and I must decide whether to bring them into being. Every ritual is an act of creation. Every creation is an act of responsibility. Every responsibility is a chain around my ankle."',
+      speaker: 'Nesta the Herbalist',
+      context: 'Explaining the burden of channeling loa to a young initiate'
+    },
+
+    philosophy: {
+      coreTenet: 'The world is not ruled by laws — it is ruled by spirits. The loa are the oldest spirits, older than the sun, older than the Deepening. They were here before anything, and they will be here after everything. The Witch Doctor does not command them. They ask, and they listen, and they hope the answer is helpful.',
+      relationship: 'A Witch Doctor channels the loa by accumulating Voodoo Essence — a measure of spiritual debt. Each loa has a specific price: Simbi requires offerings of water, Papa Legba demands stories, Erzulie wants beauty, Ogoun craves battle, Baron Samedi claims secrets. The Witch Doctor pays these prices, and in return, the loa lend their power. But the loa are not tools — they are personalities with their own agendas. A Witch Doctor who offends a loa may find their spells failing at critical moments.',
+      paradox: 'The Witch Doctor gains power by accumulating spiritual debt. Every ritual, every blessing, every curse adds to the Voodoo Essence they owe the loa. The debt cannot be paid off — it can only be managed. A Witch Doctor with high Essence can perform devastating rituals, but they are also deeply in debt, and the loa are known to collect in unexpected ways. A Witch Doctor who owes too much may find their own soul offered as collateral at the most inconvenient moment.'
+    },
+
+    currentCrisis: `The loa are arguing. For centuries, the various loa of the Bryngloom maintained a stable hierarchy of power and influence. The Witch Doctors could always predict which loa would answer which type of petition. That order has collapsed. The loa are competing for territory, influence, and worshipers — and their competition is manifesting as violent spiritual storms in the Bryngloom marshlands.
+
+Witch Doctors report that multiple loa are answering the same petition simultaneously, each one trying to overwrite the others\' influence. The resulting conflicts create dangerous magical feedback loops — rituals that fire uncontrollably, blessings that turn into curses, summoned spirits that refuse to leave. The spiritual landscape of the Bryngloom has become a war zone, and the Witch Doctors are caught in the crossfire. They cannot stop channeling — the loa demand their tribute — but every channeling adds fuel to a fire they do not know how to extinguish.`,
+
+    meaningfulTradeoffs: `To be a Witch Doctor is to never be entirely sure which thoughts are yours. The loa speak constantly — sometimes in images, sometimes in words, sometimes by simply inserting a feeling that does not belong to you. A Witch Doctor can be mid-conversation when a loa decides to remind them of something important, and suddenly they are talking about a completely different topic. The constant spiritual noise makes concentration difficult, and Witch Doctors are often perceived as eccentric, distracted, or mad. They are not mad. They are simply sharing their head with beings that do not respect personal boundaries.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Spirit-Moot',
+        locationId: 'sunken-spire',
+        description: 'A circular clearing deep in the Bryngloom bog where the loa gather when they wish to speak to the Witch Doctors collectively. The air here is thick with spiritual presence — visible as heat shimmer even in the cold. The Witch Doctors come here to listen when the loa are fighting, hoping to negotiate peace between the warring spirits.',
+        purpose: 'Spiritual gathering ground for communicating with loa',
+        status: 'Active — but the atmosphere is hostile, and several Witch Doctors have been injured by spiritual feedback during moots'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

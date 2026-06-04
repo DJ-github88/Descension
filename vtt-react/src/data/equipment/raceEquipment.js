@@ -56,55 +56,6 @@ export const HUMAN_BASE_ITEMS = [
     }
 ];
 
-// Hrym base items
-export const HRYM_BASE_ITEMS = [
-    {
-        id: 'hrym-frost-gloves',
-        name: 'Frostbite Gloves',
-        type: 'armor',
-        subtype: 'CLOTH',
-        quality: 'common',
-        description: 'Gloves that resist cold and allow bare-handed combat in freezing conditions.',
-        iconId: 'inv_gauntlets_02',
-        value: { platinum: 0, gold: 5, silver: 75, copper: 50 },
-        weight: 1,
-        width: 1,
-        height: 1,
-        slots: ['hands'],
-        combatStats: {
-            armor: { value: 1, isPercentage: false }
-        },
-        baseStats: {
-            constitution: { value: 1, isPercentage: false },
-            strength: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            races: ['hrym']
-        }
-    },
-
-    {
-        id: 'hrym-winter-boots',
-        name: 'Snowtread Boots',
-        type: 'armor',
-        subtype: 'LEATHER',
-        quality: 'common',
-        description: 'Boots designed for traversing snow and ice with enhanced traction.',
-        iconId: 'inv_boots_04',
-        value: { platinum: 0, gold: 6, silver: 85, copper: 25 },
-        weight: 3,
-        width: 2,
-        height: 1,
-        slots: ['feet'],
-        baseStats: {
-            constitution: { value: 1, isPercentage: false },
-            agility: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            races: ['hrym']
-        }
-    }
-];
 
 // Myrathil base items
 export const MYRATHIL_BASE_ITEMS = [
@@ -465,7 +416,7 @@ export const ASTREN_BASE_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            races: ['astren']
+            races: ['astril']
         }
     },
 
@@ -488,7 +439,7 @@ export const ASTREN_BASE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['astren']
+            races: ['astril']
         }
     }
 ];
@@ -516,7 +467,7 @@ export const FERRICK_BASE_ITEMS = [
             dexterity: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['ferrick']
+            races: ['fexrick']
         }
     },
 
@@ -537,92 +488,13 @@ export const FERRICK_BASE_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            races: ['ferrick']
+            races: ['fexrick']
         }
     }
 ];
 
 // ===== SUBRACE ITEMS (1 extra per subrace) =====
 
-// Hrym subrace items
-export const HRYM_SUBRACE_ITEMS = [
-    {
-        id: 'bloodhammer-war-horn',
-        name: 'Bloodhammer War Horn',
-        type: 'miscellaneous',
-        subtype: 'TOOL',
-        quality: 'uncommon',
-        description: 'A carved horn that rallies allies and strikes fear into enemies.',
-        iconId: 'inv_misc_horn_01',
-        value: { platinum: 0, gold: 5, silver: 60, copper: 25 },
-        weight: 2,
-        width: 1,
-        height: 2,
-        rotation: 0,
-        stackable: false,
-        baseStats: {
-            charisma: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            subraces: ['bloodhammer_hrym']
-        }
-    },
-
-    {
-        id: 'frostbound-ice-armor',
-        name: 'Glacial Plate',
-        type: 'armor',
-        subtype: 'PLATE',
-        quality: 'uncommon',
-        description: 'Armor forged from enchanted ice that never melts, providing superior protection in cold environments.',
-        iconId: 'inv_chest_plate_08',
-        value: { platinum: 0, gold: 13, silver: 50, copper: 75 },
-        weight: 20,
-        width: 2,
-        height: 2,
-        slots: ['chest'],
-        combatStats: {
-            armor: { value: 4, isPercentage: false }
-        },
-        baseStats: {
-            constitution: { value: 2, isPercentage: false },
-            spirit: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            subraces: ['frostbound_hrym']
-        }
-    },
-
-    {
-        id: 'runekeeper-rune-staff',
-        name: 'Runekeeper\'s Staff',
-        type: 'weapon',
-        subtype: 'STAFF',
-        quality: 'uncommon',
-        description: 'A staff inscribed with ancient runes that glow with mystical energy.',
-        iconId: 'inv_staff_13',
-        value: { platinum: 0, gold: 10, silver: 85, copper: 50 },
-        weight: 4,
-        width: 1,
-        height: 3,
-        slots: ['mainHand'],
-        weaponSlot: 'TWO_HANDED',
-        hand: 'TWO_HAND',
-        weaponStats: {
-            baseDamage: {
-                diceCount: 1,
-                diceType: 6,
-                damageType: 'bludgeoning'
-            }
-        },
-        baseStats: {
-            wisdom: { value: 2, isPercentage: false }
-        },
-        availableFor: {
-            subraces: ['runekeeper_hrym']
-        }
-    }
-];
 
 // Myrathil subrace items
 export const MYRATHIL_SUBRACE_ITEMS = [
@@ -1140,7 +1012,7 @@ export const MORTHEL_SUBRACE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['hoarder_neth']
+            subraces: ['kessen_morthel']
         }
     },
     {
@@ -1162,7 +1034,7 @@ export const MORTHEL_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['scholar_neth']
+            subraces: ['velun_morthel']
         }
     },
     {
@@ -1183,7 +1055,7 @@ export const MORTHEL_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['wraith_morthel']
+            subraces: ['drun_morthel']
         }
     }
 ];
@@ -1208,7 +1080,7 @@ export const ASTREN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['voidwalker_astren']
+            subraces: ['muren_astril']
         }
     },
     {
@@ -1229,7 +1101,7 @@ export const ASTREN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['sunborn_astren']
+            subraces: ['sylen_astril']
         }
     },
     {
@@ -1250,7 +1122,7 @@ export const ASTREN_SUBRACE_ITEMS = [
             wisdom: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['starmapped_astren']
+            subraces: ['sylen_astril', 'muren_astril']
         }
     }
 ];
@@ -1274,7 +1146,7 @@ export const FERRICK_SUBRACE_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['scrapwright_ferrick']
+            subraces: ['drall_fexric']
         }
     },
     {
@@ -1298,7 +1170,7 @@ export const FERRICK_SUBRACE_ITEMS = [
             strength: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['bonesmith_ferrick']
+            subraces: ['kethrin_fexric']
         }
     }
 ];
@@ -1372,7 +1244,6 @@ export const HUMAN_SUBRACE_ITEMS = [
 
 export const ALL_RACE_EQUIPMENT = [
     ...HUMAN_BASE_ITEMS,
-    ...HRYM_BASE_ITEMS,
     ...MYRATHIL_BASE_ITEMS,
     ...MIMIR_BASE_ITEMS,
     ...BRIARAN_BASE_ITEMS,
@@ -1382,7 +1253,6 @@ export const ALL_RACE_EQUIPMENT = [
     ...MORTHEL_BASE_ITEMS,
     ...ASTREN_BASE_ITEMS,
     ...FERRICK_BASE_ITEMS,
-    ...HRYM_SUBRACE_ITEMS,
     ...MYRATHIL_SUBRACE_ITEMS,
     ...MIMIR_SUBRACE_ITEMS,
     ...BRIARAN_SUBRACE_ITEMS,

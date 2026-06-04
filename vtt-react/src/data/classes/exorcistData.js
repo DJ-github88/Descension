@@ -56,6 +56,11 @@ export const EXORCIST_DATA = {
     notes: "Exorcists cannot wield enchanted or arcane weapons. Their iron and salt nullifies foreign enchantments on contact. All weapons must be mundane materials (iron, steel, salt crystal). Bows and crossbows are forbidden; the Exorcist's work requires the press of iron against flesh or the projection of pure will through chains."
   },
   overview: {
+    originStory: `Traditional blades and steel-clad shields are useless against the conceptual horrors born from the Frostwood Reach's mist. In the second century after the solar bind, Elias the salt-scarred healer realized that these entity-incursions could not be destroyed by force of arms; they had to be lured into a living vessel and physically anchored within a human vascular system. By using rusted bells tuned to sub-vocal hums and bathing his arms in alchemical null-salts, Elias became the first prison.
+
+This righteous burden permanently scarred Elias's blood vessels, leaving his veins humming with trapped, thrashing spirits. The Exorcist lives in constant, agonizing proximity to the damned, hearing the claws of bound entities scratching inside his skin, whispering heresy to his marrow. To prevent the conceptual rot from leaking out, they must regularly apply brand-seals and carry heavy, brass bell-harnesses.
+
+Ring the bell. Clear the fog. You are the living prison for the dark, and your blood is the lock. Keep them bound until you break.`,
     title: "The Exorcist",
     subtitle: "Rusted Iron, Agonizing Salt, and the Barbed Leash of Demons",
 
@@ -72,20 +77,51 @@ export const EXORCIST_DATA = {
 **Best For**: Players who crave high-risk pet micromanagement, tragic roleplay, and the visceral feel of a character who bleeds for every scrap of power they command.`,
     },
 
-    description: `The Exorcist stands on the thin, bleeding edge between divine authority and heresy. They believe the most effective weapon against evil is the evil itself—chained, mutilated, and forced to claw at its own kin. It is a grueling, blue-collar trade of flesh and willpower. Where others pray for salvation, the Exorcist hammers rusted iron stakes into the earth and burns salt across open wounds. Their presence is a tragedy, a copper-smelling dirge that demands a toll of blood from all who seek their aid.`,
+    description: `For those who stand on the bleeding edge between divine authority and absolute heresy, the Exorcist is a grim, blue-collar tradesman of the occult. They do not cast clean, glowing divine magic; their tools are burning salt, rusted iron nails, and agonizing brands. They bind demons through grueling, blood-soaked rituals and command them in battle with a barbed leash called **Divine Dominance**, tracking their grip with a shifting Dominance Die (d12 down to d6). Every command or strike of pain degrades this leash. Let the die hit zero, and the demon breaks free, its red eyes turning upon its master with murderous revenge. The Exorcist's life is a constant, high-tension balance between devastating demonic violence and the agonizing self-inflicted wounds required to whip their servants back into submission.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Exorcists are not priests of high cathedrals; they are the Iron Inquisitors and Sin-Eaters who clean the gutter of the supernatural. They carry the crushing, atmospheric weight of their calling: ritual scars from binding ceremonies, hands permanently blackened by sulfur, and eyes that flicker with a cold, radiant light. Bound demons manifest as heavy spectral chains and weeping shadow, constant reminders of the horror they keep on a leash.
+      content: `**HISTORY: THE GENESIS**
+The exorcist's purification rites were born in the fog-shrouded groves of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. A human salt-scarred healer named <LoreLink termId="elias">Elias</LoreLink> realized that conceptual, face-stealing horrors could only be bound by pinning their forms with rusted iron and bog-salt. The price of this spiritual sealing was biological. Elias had to open his own veins to draw the Wyrd into himself, leaving his vascular system permanently scarred and raw to the touch.
 
-Common Exorcist archetypes include:
-- **The Iron Inquisitor**: Driven by an unyielding hatred of the supernatural, they use cold iron and holy fire to subjugate horrors.
-- **The Sin-Eater**: A weary wanderer who absorbs the curses of others into their own flesh, paying the price of agony to keep the innocent clean.
-- **The Chained General**: Binds multiple lesser fiends, split in attention, walking the razor's edge of a collective rebellion.
-- **The Flesh Vessel**: Channels a demon internally, lock-stepping their sanity with a monster that wants to steer their bones.
+**CITIES & CIVIL RECEPTION**
+Exorcists are welcomed in every timber keep and frontier settlement of the Reach, serving as the essential shields against the Wyrd's conceptual infestations. They are given a wide berth in Atropolis, where citizens fear the whispering voices emanating from the exorcists' skin.
 
-Every ritual is a mutilation, and every victory is paid for in salt, iron, and blood. They do not seek heaven's approval, only the survival of the meat and bone they are bound to protect.`,
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the Thalren humans and the <LoreLink termId="mimir">Unwoven Mimir</LoreLink> who live on the forest floor.
+
+**NOTABLE FIGURES**
+* **Elias the Salt-Scarred**: The healer who first drew the Gref face-traders into his own blood to bind them.
+* **Vaelen the Sin-Eater**: An Unwoven Mimir who opened his own veins to trap a face-stealing horror under <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>.`
     },
+
+    signatureQuote: {
+      text: '"I carry fourteen demons in my blood right now. They are screaming. I am making tea. You learn to compartmentalize."',
+      speaker: 'Vaelen the Sin-Eater',
+      context: 'Overheard by a Scribe-Sentinel during a routine ledger update at Greymark Keep'
+    },
+
+    philosophy: {
+      coreTenet: 'Evil cannot be destroyed — only contained. The Exorcist does not banish demons to some distant hell. They imprison them within their own vascular system, using salt, iron, and sheer force of will. Every Exorcist is a walking prison, and the inmates are always trying to escape.',
+      relationship: 'Exorcists are not priests. They do not pray for divine intervention. They are tradesmen — the spiritual equivalent of rat-catchers or septic engineers. Their power comes from ritual, material components, and the absolute conviction that they are the only thing standing between civilization and the conceptual horrors that seep through the cracks in the Wyrd.',
+      paradox: 'The Exorcist protects others by becoming the thing they fight. The more demons they contain, the less human they become. Senior Exorcists are barely distinguishable from the entities they hunt — their skin crawls with contained horrors, their eyes reflect light wrong, and their voices carry undertones that are not their own. They protect humanity by sacrificing their own.'
+    },
+
+    currentCrisis: `The Wyrd is bleeding faster. For two centuries, Exorcists maintained a stable rate of containment — roughly one new entity-incursion per month across the entire Frostwood Reach. In the past year, that rate has tripled. The Gref face-traders are appearing in settlements they have never visited before. New entities — things the Exorcists have no names for, no rituals against — are manifesting in the deep ironwood groves.
+
+The senior Exorcists believe the Sundered Monoliths are cracking further. Something is accelerating the Wyrd's bleeding, and the Exorcists are running out of vessels. There are only forty-seven active Exorcists left in the Reach. Each can contain, at most, a dozen entities before their body fails. The math is simple and catastrophic: if the incursion rate continues to increase, the Exorcists will reach saturation within five years. After that, there will be no one left to contain what comes through.`,
+
+    meaningfulTradeoffs: `To be an Exorcist is to never know silence again. The contained entities do not sleep. They whisper, scream, bargain, and threaten — constantly. Exorcists learn to function through the noise, but it extracts a toll. Most develop nervous tics, obsessive rituals, or dissociative disorders. Relationships are nearly impossible — partners report waking to find the Exorcist's skin moving independently, or hearing voices that use the Exorcist's mouth but are clearly not the Exorcist speaking. The Exorcist's body is not their own. It is a tenement for horror, and the tenants are restless.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Salt-Pans of Greymark',
+        locationId: 'greymark-keep',
+        description: 'A ritual space maintained beneath Greymark Keep where Exorcists prepare their null-salt mixtures and forge their iron binding chains. The walls are lined with containment circles — carved into the stone floor, each circle holds a bound entity in stasis, awaiting transfer into a living vessel.',
+        purpose: 'Ritual preparation, entity containment, and training',
+        status: 'Active — operating at capacity; the containment circles are all occupied'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",
@@ -111,13 +147,13 @@ Every ritual is a mutilation, and every victory is paid for in salt, iron, and b
 
     immersiveCombatExample: {
       title: "Combat Example: The Price of the Purge",
-      content: `**The Setup**: Your party is ambushed in a lightless tomb by a towering Wraith and three mundane skeletal archers. Your ally, the Paladin, is struck by a paralyzing death curse, frozen in terror. Your bound Shadow Hound is at d8 Dominance. You are already bleeding from your previous ritual.
+      content: `**The Setup**: Your party is ambushed in a lightless tomb by a towering Wraith and three mundane skeletal archers. Your ally, the Zealot, is struck by a paralyzing death curse, frozen in terror. Your bound Shadow Hound is at d8 Dominance. You are already bleeding from your previous ritual.
 
 **Turn 1 - Ripping the Curse (Why Bring Me?)**
-*The Paladin stands paralyzed, eyes wide as necrotic veins crawl up his neck. You step forward, ignoring the arrows whistling by your head. You reach into your pouch, pull out a handful of coarse rock salt, and slam it directly into the Paladin's neck.*
-* **Your Action**: Cast "Purge the Defiled" on the Paladin (1 AP, 6 mana).
-* **The Toll**: The Paladin takes 1d8 physical damage (6 damage) as your salt burns his flesh.
-* **The Purge**: The paralyzing death curse is instantly ripped out, dissolving into black smoke. The Paladin gasps, freed from the CC.
+*The Zealot stands paralyzed, eyes wide as necrotic veins crawl up his neck. You step forward, ignoring the arrows whistling by your head. You reach into your pouch, pull out a handful of coarse rock salt, and slam it directly into the Zealot's neck.*
+* **Your Action**: Cast "Purge the Defiled" on the Zealot (1 AP, 6 mana).
+* **The Toll**: The Zealot takes 1d8 physical damage (6 damage) as your salt burns his flesh.
+* **The Purge**: The paralyzing death curse is instantly ripped out, dissolving into black smoke. The Zealot gasps, freed from the CC.
 
 **Turn 2 - The Hound Lunges (Dominance Cost: d8 -> d6)**
 *You point a scarred finger at the Wraith. The Shadow Hound roars, shadow-wreathed jaws clamping onto the Wraith's incorporeal flank.*
@@ -131,7 +167,7 @@ Every ritual is a mutilation, and every victory is paid for in salt, iron, and b
 * **The Sacrifice**: You take 1d6 caster HP damage (4 HP lost).
 * **The Recovery**: The spectral chains flare with blinding radiant wire, searing the hound back into absolute obedience. The hound's DD is restored from d6 back to d10.
 
-**The Lesson**: You saved the Paladin, devastated the Wraith, and secured your hound, but your own palms are shredded and your blood stains the stone. Every choice is a transaction of flesh.`,
+**The Lesson**: You saved the Zealot, devastated the Wraith, and secured your hound, but your own palms are shredded and your blood stains the stone. Every choice is a transaction of flesh.`,
     },
   },
 

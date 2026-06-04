@@ -1,0 +1,351 @@
+/* ==========================================================================
+   World-Building Dashboard CSS
+   ========================================================================== */
+
+.world-panel {
+  background: #1a1a2e;
+  color: #e8e0d5;
+  min-height: 100vh;
+  font-family: 'Georgia', serif;
+  overflow-y: auto;
+}
+
+.world-panel-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #2a2a4a;
+  background: linear-gradient(180deg, #16213e 0%, #1a1a2e 100%);
+}
+
+.world-panel-header h1 { font-size: 28px; margin: 0; color: #d4af37; }
+.world-panel-header h2 { font-size: 22px; margin: 0 0 4px 0; }
+.world-panel-header h3 { font-size: 16px; margin: 0; color: #aaa; }
+
+.world-subtitle { font-size: 13px; color: #888; display: block; }
+
+.world-back-btn {
+  background: none;
+  border: 1px solid #3a3a5a;
+  color: #aab;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.world-back-btn:hover { border-color: #d4af37; color: #d4af37; }
+
+.world-header-identity { display: flex; align-items: center; gap: 14px; }
+.world-header-meta { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+
+.world-heraldry {
+  width: 52px; height: 52px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; color: #fff; flex-shrink: 0;
+}
+
+/* ---- Tabs ---- */
+.world-tabs {
+  display: flex; gap: 2px; padding: 0 24px;
+  background: #141428; border-bottom: 1px solid #2a2a4a;
+  overflow-x: auto;
+}
+.world-tab {
+  background: none; border: none; color: #888;
+  padding: 10px 16px; cursor: pointer;
+  font-family: 'Georgia', serif; font-size: 14px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.world-tab:hover { color: #d4af37; }
+.world-tab.active { color: #d4af37; border-bottom-color: #d4af37; }
+
+.world-tab-content { padding: 20px 24px; }
+
+/* ---- Section Stack ---- */
+.world-section-stack { display: flex; flex-direction: column; gap: 20px; }
+.world-section { background: #1f1f3a; border-radius: 10px; padding: 18px 20px; border: 1px solid #2a2a4a; }
+.world-section h3 {
+  font-size: 16px; color: #d4af37; margin: 0 0 10px 0;
+  border-bottom: 1px solid #2a2a4a; padding-bottom: 8px;
+}
+.world-section h4 { font-size: 14px; margin: 6px 0; color: #ccc; }
+
+.world-section-highlight { border-color: #8b2d6b; background: #1f1a2e; }
+.world-section-dark { border-color: #2d004b; background: #1a1428; }
+
+.world-prose {
+  font-size: 14px; line-height: 1.7; color: #ccc;
+  white-space: pre-line;
+}
+
+/* ---- Quote ---- */
+.world-quote {
+  border-left: 3px solid #d4af37; padding: 14px 20px;
+  background: #1a1a30; border-radius: 0 8px 8px 0; margin: 0;
+}
+.world-quote p { font-size: 16px; font-style: italic; margin: 0 0 6px 0; color: #d4af37; }
+.world-quote cite { font-size: 12px; color: #888; }
+
+/* ---- Philosophy Grid ---- */
+.world-philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.world-philosophy-card { background: #1a1a30; border-radius: 8px; padding: 14px; border: 1px solid #2a2a4a; }
+.world-philosophy-card h4 { color: #d4af37; margin: 0 0 8px 0; font-size: 13px; }
+.world-philosophy-card p { font-size: 13px; line-height: 1.6; color: #bbb; margin: 0; }
+
+/* ---- Card Grid ---- */
+.world-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.world-info-card {
+  background: #1a1a30; border-radius: 8px; padding: 16px;
+  border: 1px solid #2a2a4a;
+}
+.world-info-card h4 { margin: 4px 0; font-size: 15px; color: #ddd; }
+.world-info-card p { font-size: 13px; line-height: 1.5; color: #aaa; margin: 6px 0 0 0; }
+.world-info-card.world-clickable { cursor: pointer; transition: border-color 0.2s; }
+.world-info-card.world-clickable:hover { border-color: #d4af37; }
+
+.world-member-card { display: flex; flex-direction: column; gap: 4px; }
+
+.world-map-card { cursor: pointer; }
+
+.world-card-meta { font-size: 12px; color: #777; display: block; margin-top: 4px; }
+
+/* ---- Badges ---- */
+.world-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: bold; text-transform: uppercase;
+  background: #2a2a4a; color: #aab;
+}
+.world-badge-sm { font-size: 10px; padding: 1px 6px; margin: 0 4px; }
+.world-badge-city { background: #1a4a2a; color: #5ae87a; }
+.world-badge-settlement { background: #2a3a1a; color: #aad45a; }
+.world-badge-wilderness { background: #1a3a1a; color: #5ad45a; }
+.world-badge-ruin { background: #3a2a1a; color: #d4a05a; }
+.world-badge-tomb { background: #2a1a3a; color: #a05ad4; }
+.world-badge-low { background: #1a3a1a; color: #5ad45a; }
+.world-badge-medium { background: #3a3a1a; color: #d4d45a; }
+.world-badge-high { background: #3a1a1a; color: #d45a5a; }
+.world-badge-extreme { background: #2a1a1a; color: #d42a2a; }
+.world-badge-stable { background: #1a3a2a; color: #5ad45a; }
+.world-badge-struggling { background: #3a3a1a; color: #d4d45a; }
+.world-badge-thriving { background: #1a2a3a; color: #5aaad4; }
+.world-badge-active { background: #1a3a2a; color: #5ad45a; }
+.world-badge-secret { background: #2a1a3a; color: #a05ad4; }
+.world-badge-dominant { background: #3a1a1a; color: #d45a5a; font-size: 10px; }
+.world-badge-strong { background: #3a2a1a; color: #d4a05a; font-size: 10px; }
+.world-badge-moderate { background: #2a2a3a; color: #aab; font-size: 10px; }
+.world-badge-nominal { background: #1a1a2a; color: #777; font-size: 10px; }
+.world-badge-warning { background: #3a2a1a; color: #d4a05a; }
+
+/* ---- Stats Grid ---- */
+.world-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.world-stat {
+  background: #1f1f3a; border-radius: 8px; padding: 14px; text-align: center;
+  border: 1px solid #2a2a4a;
+}
+.world-stat-value { font-size: 24px; font-weight: bold; color: #d4af37; display: block; }
+.world-stat-label { font-size: 11px; color: #888; text-transform: uppercase; }
+
+/* ---- Sense Grid ---- */
+.world-sense-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.world-sense-card {
+  background: #1a1a30; border-radius: 8px; padding: 14px; border: 1px solid #2a2a4a;
+}
+.world-sense-card h4 { color: #d4af37; font-size: 13px; margin: 0 0 8px 0; }
+.world-sense-card h4 i { margin-right: 6px; }
+.world-sense-card p { font-size: 13px; line-height: 1.5; color: #bbb; margin: 0; }
+
+/* ---- Feature List ---- */
+.world-feature-list { margin: 8px 0 0 0; padding-left: 16px; }
+.world-feature-list li { font-size: 12px; color: #999; margin-bottom: 4px; }
+
+/* ---- Tags ---- */
+.world-tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.world-tag {
+  display: inline-block; padding: 6px 12px; border-radius: 16px;
+  background: #1f1f3a; color: #aab; font-size: 12px; border: 1px solid #2a2a4a;
+}
+.world-tag-clickable { cursor: pointer; border-color: transparent; background: transparent; font-family: 'Georgia', serif; }
+.world-tag-clickable:hover { border-color: #d4af37; color: #d4af37; }
+
+/* ---- Region Grid ---- */
+.world-region-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.world-region-card {
+  background: #1f1f3a; border-radius: 10px; padding: 18px;
+  border: 1px solid #2a2a4a; cursor: pointer; transition: border-color 0.2s;
+}
+.world-region-card:hover { border-color: #d4af37; }
+.world-region-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.world-region-card-header h3 { margin: 0; font-size: 17px; color: #d4af37; }
+.world-region-desc { font-size: 13px; line-height: 1.5; color: #aaa; margin: 0 0 10px 0; }
+.world-region-stats { display: flex; gap: 16px; font-size: 12px; color: #777; margin-bottom: 10px; }
+.world-region-locations { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.world-location-chip {
+  background: #1a1a30; border: 1px solid #2a2a4a; color: #aab;
+  padding: 4px 10px; border-radius: 12px; font-size: 12px;
+  cursor: pointer; font-family: 'Georgia', serif;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.world-location-chip:hover { border-color: #d4af37; color: #d4af37; }
+
+.world-loc-type-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.world-loc-city { background: #d4af37; }
+.world-loc-settlement { background: #5ad45a; }
+.world-loc-wilderness { background: #5a8ad4; }
+.world-loc-ruin { background: #d4a05a; }
+.world-loc-tomb { background: #a05ad4; }
+
+/* ---- Faction Color Bar ---- */
+.world-faction-color-bar { width: 100%; height: 4px; border-radius: 2px; margin-bottom: 4px; }
+.world-faction-colors { width: 12px; height: 12px; border-radius: 3px; display: inline-block; margin-right: 6px; flex-shrink: 0; }
+
+/* ---- Relation List ---- */
+.world-relation-list { display: flex; flex-direction: column; gap: 10px; }
+.world-relation-card { display: flex; align-items: flex-start; gap: 10px; padding: 10px; background: #1a1a30; border-radius: 8px; border: 1px solid #2a2a4a; }
+.world-relation-card svg { flex-shrink: 0; margin-top: 4px; }
+
+/* ---- Timeline ---- */
+.world-era-tabs { display: flex; gap: 4px; }
+.world-era-tab {
+  background: #1f1f3a; border: 1px solid #2a2a4a; color: #aab;
+  padding: 6px 12px; border-radius: 6px; cursor: pointer;
+  font-family: 'Georgia', serif; font-size: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.world-era-tab.active { border-color: #d4af37; color: #d4af37; }
+.world-era-count { background: #2a2a4a; color: #888; padding: 1px 6px; border-radius: 8px; font-size: 10px; }
+.world-era-desc { font-size: 13px; color: #888; padding: 0 24px 12px 24px; font-style: italic; }
+
+.world-type-filters { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 24px 12px 24px; }
+.world-type-btn {
+  background: #1f1f3a; border: 1px solid #2a2a4a; color: #aab;
+  padding: 4px 10px; border-radius: 14px; cursor: pointer;
+  font-family: 'Georgia', serif; font-size: 11px;
+}
+.world-type-btn.active { border-color: #d4af37; color: #d4af37; }
+.world-type-btn i { margin-right: 4px; }
+
+.world-timeline-layout { padding: 0 24px; }
+.world-timeline-list { display: flex; flex-direction: column; gap: 0; }
+.world-timeline-event {
+  display: flex; gap: 14px; cursor: pointer; padding: 0;
+}
+.world-timeline-marker {
+  display: flex; flex-direction: column; align-items: center;
+  width: 24px; flex-shrink: 0;
+}
+.world-event-dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 6px; }
+.world-event-line { width: 2px; flex: 1; background: #2a2a4a; margin-top: 4px; }
+.world-timeline-event:last-child .world-event-line { display: none; }
+
+.world-event-cosmic { background: #a05ad4; }
+.world-event-ritual { background: #d45a5a; }
+.world-event-pact { background: #5aaad4; }
+.world-event-catastrophe { background: #d42a2a; }
+.world-event-founding { background: #5ad45a; }
+.world-event-political { background: #d4af37; }
+.world-event-discovery { background: #5ad4d4; }
+.world-event-conspiracy { background: #d45ad4; }
+.world-event-disaster { background: #d4a05a; }
+.world-event-conflict { background: #d45a5a; }
+
+.world-timeline-card { flex: 1; padding-bottom: 16px; }
+.world-timeline-card-header { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; }
+.world-timeline-card h4 { margin: 0; font-size: 14px; color: #ddd; }
+.world-timeline-date { font-size: 11px; color: #888; }
+.world-timeline-expanded { margin-top: 10px; }
+.world-timeline-desc { font-size: 12px; color: #999; margin: 4px 0 0 0; }
+
+.world-causal { margin-top: 8px; font-size: 12px; }
+.world-causal strong { color: #d4af37; }
+.world-causal-link { display: inline-block; background: #2a2a4a; padding: 2px 8px; border-radius: 4px; margin: 2px 4px; font-size: 11px; color: #aab; }
+
+/* ---- Timeline Compact ---- */
+.world-timeline-compact { display: flex; flex-direction: column; gap: 10px; }
+.world-timeline-item { padding: 8px 0; border-bottom: 1px solid #2a2a4a; }
+.world-timeline-item strong { display: block; font-size: 14px; color: #ddd; margin: 2px 0; }
+
+.world-timeline-mini { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.world-timeline-mini .world-timeline-item { padding: 6px 0; font-size: 13px; }
+.world-timeline-mini .world-timeline-item p { margin: 2px 0 0 0; font-size: 12px; color: #999; }
+
+/* ---- Mini Calendar ---- */
+.world-mini-calendar { margin-top: 20px; }
+.world-mini-calendar h4 { color: #d4af37; margin: 0 0 10px 0; }
+.world-month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.world-month-card {
+  background: #1f1f3a; border-radius: 6px; padding: 8px;
+  text-align: center; border: 1px solid #2a2a4a;
+}
+.world-month-num { display: block; font-size: 11px; color: #888; }
+.world-month-name { display: block; font-size: 12px; color: #ccc; }
+
+.world-holidays { margin-top: 16px; }
+.world-holiday { background: #1f1f3a; border-radius: 8px; padding: 12px; margin-bottom: 8px; border: 1px solid #2a2a4a; }
+.world-holiday strong { color: #d4af37; }
+.world-holiday span { color: #888; font-size: 12px; margin-left: 8px; }
+.world-holiday p { font-size: 12px; color: #aaa; margin: 4px 0 0 0; }
+
+/* ---- Quick Links ---- */
+.world-quick-links { display: flex; flex-direction: column; gap: 12px; }
+.world-quick-link {
+  background: #1f1f3a; border: 1px solid #2a2a4a; border-radius: 10px;
+  padding: 16px; text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; gap: 6px;
+  font-family: 'Georgia', serif; color: #ccc;
+  transition: border-color 0.2s;
+}
+.world-quick-link:hover { border-color: #d4af37; }
+.world-quick-link i { font-size: 22px; color: #d4af37; }
+.world-quick-link span { font-size: 16px; }
+.world-quick-link small { font-size: 12px; color: #888; }
+
+/* ---- Section Actions ---- */
+.world-section-actions { margin-bottom: 12px; }
+.world-action-btn {
+  background: #1f1f3a; border: 1px solid #d4af37; color: #d4af37;
+  padding: 8px 16px; border-radius: 8px; cursor: pointer;
+  font-family: 'Georgia', serif; font-size: 13px;
+}
+.world-action-btn:hover { background: #2a2a4a; }
+.world-action-btn i { margin-right: 6px; }
+
+/* ---- Faction Graph ---- */
+.world-faction-graph-container {
+  background: #141428; border-radius: 10px; padding: 16px;
+  border: 1px solid #2a2a4a; margin: 16px 0;
+  position: relative; overflow: hidden;
+}
+.world-faction-graph-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
+.world-toggle { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #aab; cursor: pointer; }
+.world-toggle input { accent-color: #d4af37; }
+.world-legend { display: flex; flex-wrap: wrap; gap: 10px; }
+.world-legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #888; }
+.world-faction-graph { display: block; }
+.world-graph-tooltip {
+  position: absolute; bottom: 10px; right: 16px;
+  background: #1f1f3a; border: 1px solid #d4af37; border-radius: 6px;
+  padding: 6px 12px; font-size: 13px; color: #d4af37;
+}
+
+/* ---- Scrollbar ---- */
+.world-panel::-webkit-scrollbar { width: 8px; }
+.world-panel::-webkit-scrollbar-track { background: #141428; }
+.world-panel::-webkit-scrollbar-thumb { background: #2a2a4a; border-radius: 4px; }
+
+.world-muted { color: #777; font-style: italic; }
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .world-panel-header { flex-direction: column; }
+  .world-region-grid { grid-template-columns: 1fr; }
+  .world-card-grid { grid-template-columns: 1fr; }
+  .world-sense-grid { grid-template-columns: 1fr; }
+  .world-philosophy-grid { grid-template-columns: 1fr; }
+  .world-stat-grid { grid-template-columns: 1fr 1fr; }
+  .world-month-grid { grid-template-columns: repeat(3, 1fr); }
+}

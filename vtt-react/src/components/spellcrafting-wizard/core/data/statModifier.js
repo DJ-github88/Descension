@@ -108,15 +108,6 @@ export const COMBAT_STAT_MODIFIERS = [
     derivedFrom: ['agility', 'intelligence']
   },
   {
-    id: 'armor',
-    name: 'Armor',
-    description: 'General defense against physical attacks',
-    defaultValue: 10,
-    category: 'combat',
-    icon: 'inv_shield_04',
-    derivedFrom: ['agility', 'constitution']
-  },
-  {
     id: 'lifesteal',
     name: 'Lifesteal',
     description: 'Percentage of damage dealt converted to healing',

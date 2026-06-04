@@ -1,5 +1,6 @@
 import React, { memo, useState, useRef, useEffect } from 'react';
 
+import DieIcon from './DieIcon';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import useCraftingStore, { SKILL_LEVELS } from '../../store/craftingStore';
 import useItemStore from '../../store/itemStore';
@@ -1480,6 +1481,29 @@ function ItemTooltip({ item }) {
         return typeof stat.value === 'number' ? stat.value : 0;
     };
 
+    // Helper to get numeric value of a die size step
+    const getDiceValue = (die) => {
+        if (!die) return 0;
+        if (typeof die === 'number') return die;
+        const dieLower = String(die).toLowerCase();
+        if (dieLower === 'broken' || dieLower === '0') return 0;
+        const match = dieLower.match(/^d(\d+)$/);
+        if (match) return parseInt(match[1], 10);
+        return parseInt(dieLower, 10) || 0;
+    };
+
+    // Helper to calculate durability color ratio (high contrast on beige)
+    const getDurabilityColor = (dur, max) => {
+        const curVal = getDiceValue(dur);
+        const maxVal = getDiceValue(max);
+        if (curVal === 0) return '#b71c1c'; // broken - dark red
+        if (maxVal === 0) return '#2e7d32';
+        const ratio = curVal / maxVal;
+        if (ratio <= 0.25) return '#d32f2f'; // red
+        if (ratio <= 0.50) return '#e65100'; // deep orange
+        return '#1b5e20'; // forest green
+    };
+
     // Helper to check if a stat is percentage
     const isPercentage = (stat) => {
         if (!stat) return false;
@@ -2234,13 +2258,6 @@ function ItemTooltip({ item }) {
             {/* Non-Consumable Effects */}
             {item.type !== 'consumable' && (
                 <>
-                    {/* Armor - Display before base stats */}
-                    {armorValue > 0 && (
-                        <div style={{ color: '#ffffff', marginBottom: '8px', fontSize: '0.95em' }}>
-                            <strong>Armor {armorValue}</strong>
-                        </div>
-                    )}
-
                     {/* Base Stats */}
                     {baseStats.map(({ name, value, isPercentage }) => (
                         <div key={name} style={{ color: '#ffffff' }}>
@@ -2250,15 +2267,51 @@ function ItemTooltip({ item }) {
                         </div>
                     ))}
 
-                    {/* Durability - Dynamic color text */}
+                    {/* Durability - Dynamic color text with dice icons */}
                     {['weapon', 'armor', 'accessory'].includes(item.type) && item.maxDurability != null && (
-                        <div style={{ 
-                            color: (item.durability ?? item.maxDurability) === 0 ? '#d32f2f' : ((item.durability ?? item.maxDurability) / item.maxDurability) <= 0.25 ? '#f57c00' : ((item.durability ?? item.maxDurability) / item.maxDurability) <= 0.50 ? '#b8860b' : '#2e7d32', 
-                            margin: '4px 0', 
-                            fontSize: '0.95em' 
-                        }}>
-                            Durability: {item.durability ?? item.maxDurability} / {item.maxDurability}
-                        </div>
+                        (() => {
+                            const isDiceBased = typeof item.maxDurability === 'string' && item.maxDurability.toLowerCase().startsWith('d');
+                            const currentDur = item.durability ?? item.maxDurability;
+                            const maxDur = item.maxDurability;
+                            const durColor = getDurabilityColor(currentDur, maxDur);
+
+                            if (isDiceBased) {
+                                const curDurStr = String(currentDur).toLowerCase();
+                                const maxDurStr = String(maxDur).toLowerCase();
+
+                                return (
+                                    <div style={{
+                                        color: '#5d4037',
+                                        margin: '6px 0',
+                                        fontSize: '0.95em',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '6px'
+                                    }}>
+                                        <strong>Durability:</strong>
+                                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 'bold', color: durColor }}>
+                                            <DieIcon die={curDurStr} size="1em" />
+                                            <span>{curDurStr.toUpperCase()}</span>
+                                        </span>
+                                        <span style={{ opacity: 0.35 }}>/</span>
+                                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', opacity: 0.6 }}>
+                                            <DieIcon die={maxDurStr} size="1em" />
+                                            <span>{maxDurStr.toUpperCase()}</span>
+                                        </span>
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <div style={{
+                                        color: durColor,
+                                        margin: '4px 0',
+                                        fontSize: '0.95em'
+                                    }}>
+                                        Durability: {currentDur} / {maxDur}
+                                    </div>
+                                );
+                            }
+                        })()
                     )}
 
                     {/* On Equip section - show if there are any effects including resistances */}

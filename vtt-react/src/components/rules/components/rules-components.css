@@ -709,6 +709,97 @@
   transform: rotate(45deg);
 }
 
+/* ===== IMMERSIVE ANTIQUE SCRIBE'S INDEX TABS ===== */
+.rpg-tabs-bar {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  margin: -10px auto 32px auto;
+  padding: 8px 10px;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.rpg-tabs-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.rpg-custom-tab {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  outline: none;
+}
+
+/* Elegant gold-leaf divider between items */
+.rpg-tab-divider {
+  color: var(--rpg-gold, #c4a060);
+  font-size: 0.85rem;
+  margin: 0 4px;
+  opacity: 0.8;
+  user-select: none;
+  text-shadow: 0 0 2px rgba(196, 160, 96, 0.2);
+}
+
+/* Cursive, untruncated serif title */
+.rpg-tab-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6d4021;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Hover effect */
+.rpg-custom-tab:hover .rpg-tab-label {
+  color: #8a1a10;
+  text-shadow: 0 0 8px rgba(138, 26, 16, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Active tab */
+.rpg-custom-tab.active .rpg-tab-label {
+  color: #4a150b;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(196, 160, 96, 0.45), 0 0 16px rgba(196, 160, 96, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Page flip transition effect when tabs are switched */
+.page-fade-in {
+  animation: pageTurnEffect 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}
+
+@keyframes pageTurnEffect {
+  0% {
+    opacity: 0;
+    transform: rotateY(-5deg) translateX(10px);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg) translateX(0);
+    filter: blur(0);
+  }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .rules-hero-banner { margin: 0 12px 20px 12px; padding: 24px 20px; }
@@ -768,4 +859,61 @@
 .rules-link:hover::after {
   color: #b95dff;
   text-shadow: 0 0 8px rgba(163, 53, 238, 0.5);
+}
+
+/* ===== MOBILE FIXES FOR RPG TABS BAR ===== */
+@media (max-width: 768px) {
+  .rpg-tabs-bar {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2px;
+    padding: 8px 6px;
+    margin: -10px -6px 20px -6px;
+    overflow-x: auto;
+    /* Ensure horizontal scroll works properly */
+    scroll-padding-left: 6px;
+  }
+
+  .rpg-custom-tab {
+    display: inline-flex;
+    background: transparent;
+    border: none;
+    flex-shrink: 0;
+    padding: 8px 10px;
+    min-height: 36px;
+  }
+
+  .rpg-tab-label {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    letter-spacing: 0.8px;
+  }
+
+  .rpg-tab-divider {
+    font-size: 0.6rem;
+    margin: 0 2px;
+    flex-shrink: 0;
+  }
+}
+
+/* Extra small devices — further tighten tab sizing */
+@media (max-width: 480px) {
+  .rpg-tabs-bar {
+    gap: 0px;
+    padding: 6px 4px;
+  }
+
+  .rpg-custom-tab {
+    padding: 6px 8px;
+    min-height: 32px;
+  }
+
+  .rpg-tab-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+  }
+
+  .rpg-tab-divider {
+    margin: 0 1px;
+  }
 }

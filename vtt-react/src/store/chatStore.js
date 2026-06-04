@@ -39,14 +39,14 @@ const initialState = {
 
   // Online users
   onlineUsers: [
-    { id: '1', name: 'Thordak', class: 'warrior', level: 12, status: 'online' },
-    { id: '2', name: 'Elaria', class: 'mage', level: 10, status: 'online' },
-    { id: '3', name: 'Grimjaw', class: 'rogue', level: 11, status: 'away' },
-    { id: '4', name: 'Lyra', class: 'cleric', level: 9, status: 'offline' }
+    { id: '1', name: 'Thordak', class: 'reaver', level: 12, status: 'online' },
+    { id: '2', name: 'Elaria', class: 'arcanist', level: 10, status: 'online' },
+    { id: '3', name: 'Grimjaw', class: 'trickster', level: 11, status: 'away' },
+    { id: '4', name: 'Lyra', class: 'zealot', level: 9, status: 'offline' }
   ],
 
   // Current user
-  currentUser: { id: 'current', name: 'Player', class: 'paladin', level: 10 },
+  currentUser: { id: 'current', name: 'Player', class: 'sentinel', level: 10 },
 
   // Multiplayer integration
   multiplayerSocket: null,

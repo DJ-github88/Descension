@@ -1,0 +1,503 @@
+/* ============================================================
+   CLASS ORIGINS DISPLAY — Root Container
+   ============================================================ */
+.class-origins-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.4s ease-out;
+  padding: 4px;
+}
+
+/* ============================================================
+   REGION TABS NAVIGATION
+   ============================================================ */
+div.class-origins-container .region-tabs-navigation {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  border-bottom: 2px solid rgba(139, 69, 19, 0.18) !important;
+  padding-bottom: 14px !important;
+  justify-content: center !important; /* Centered tabs */
+}
+
+div.class-origins-container button.region-tab-btn {
+  background: #ebdcb8 !important;
+  border: 1px solid rgba(139, 69, 19, 0.4) !important;
+  border-radius: 4px !important;
+  color: #4a341e !important;
+  padding: 10px 16px !important;
+  font-family: 'Cinzel', 'Georgia', serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  box-shadow: 0 2px 4px rgba(139, 69, 19, 0.08) !important;
+}
+
+div.class-origins-container button.region-tab-btn:hover {
+  background: #fffbf2 !important;
+  border-color: var(--tab-accent-color) !important;
+  color: var(--tab-accent-color) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(139, 69, 19, 0.15) !important;
+}
+
+div.class-origins-container button.region-tab-btn.active {
+  background: #5a1e12 !important;
+  border-color: var(--tab-accent-color) !important;
+  color: #fffbf2 !important;
+  box-shadow: 0 0 12px var(--tab-glow-color), 0 3px 6px rgba(90, 30, 18, 0.3) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+div.class-origins-container button.region-tab-btn i {
+  font-size: 0.95rem !important;
+  color: #8b4513 !important;
+  transition: transform 0.3s ease !important;
+}
+
+div.class-origins-container button.region-tab-btn.active i {
+  color: #fffbf2 !important;
+  transform: scale(1.1) !important;
+}
+
+/* ============================================================
+   REGION HEADER CARD
+   ============================================================ */
+div.class-origins-container div.region-header-card {
+  padding: 24px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.08) !important;
+  border: 1px solid rgba(139, 69, 19, 0.3) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: #faf6eb !important;
+}
+
+div.class-origins-container div.region-badge-area {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+div.class-origins-container div.region-badge-area i {
+  font-size: 1.5rem !important;
+}
+
+div.class-origins-container div.region-badge-area h3 {
+  font-family: 'Cinzel', 'Georgia', serif !important;
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  margin: 0 !important;
+}
+
+div.class-origins-container p.region-description {
+  font-size: 0.98rem !important;
+  line-height: 1.65 !important;
+  color: #2b1c11 !important;
+  margin: 0 0 16px 0 !important;
+  font-weight: 500 !important;
+}
+
+div.class-origins-container div.region-dark-bargain {
+  font-size: 0.95rem !important;
+  line-height: 1.55 !important;
+  color: #801a08 !important;
+  background: #fff8eb !important;
+  border: 1px dashed rgba(139, 69, 19, 0.35) !important;
+  padding: 14px 18px !important;
+  border-radius: 6px !important;
+  font-style: italic !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.02) !important;
+}
+
+/* ============================================================
+   CLASS ORIGINS LIST — Accordion entries
+   ============================================================ */
+.class-origins-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ============================================================
+   SINGLE CLASS ENTRY
+   ============================================================ */
+.class-origin-entry {
+  background: #fbf6e8;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 5px rgba(139, 69, 19, 0.06);
+}
+
+.class-origin-entry:hover {
+  border-color: var(--co-border, rgba(139, 69, 19, 0.45));
+  box-shadow: 0 4px 10px rgba(139, 69, 19, 0.1);
+}
+
+.class-origin-entry.expanded {
+  border-color: var(--co-border, rgba(139, 69, 19, 0.55));
+  box-shadow: 0 6px 18px rgba(139, 69, 19, 0.15), 0 0 10px var(--co-glow);
+  background: #fffdf7;
+}
+
+/* ============================================================
+   COLLAPSED HEADER ROW
+   ============================================================ */
+.co-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  gap: 16px;
+  transition: background 0.25s ease;
+}
+
+.co-header-row:hover {
+  background: rgba(139, 69, 19, 0.05);
+}
+
+.class-origin-entry.expanded .co-header-row {
+  background: rgba(139, 69, 19, 0.04);
+  border-bottom: 1px solid rgba(139, 69, 19, 0.12);
+}
+
+.co-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.co-class-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(139, 69, 19, 0.06);
+  border-radius: 50%;
+  border: 1px solid rgba(139, 69, 19, 0.22);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.co-class-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.co-class-title h4 {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0;
+  color: #2b1c11;
+  line-height: 1.2;
+}
+
+.co-subtitle {
+  font-size: 0.78rem;
+  color: #7a6a55;
+  font-style: italic;
+  line-height: 1;
+}
+
+.co-role-badge {
+  font-size: 0.72rem;
+  color: #5a1e12;
+  text-transform: uppercase;
+  background: rgba(90, 30, 18, 0.06);
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(90, 30, 18, 0.15);
+  letter-spacing: 0.05em;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.co-expand-btn {
+  color: #8b7d6b;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: color 0.2s ease, transform 0.3s ease;
+}
+
+/* ============================================================
+   EXPANDED CONTENT BODY
+   ============================================================ */
+.co-expanded-body {
+  padding: 24px 28px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: slideDown 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: radial-gradient(circle at top right, rgba(139, 69, 19, 0.015), transparent 70%);
+}
+
+/* ============================================================
+   SECTION: ORIGIN STORY
+   ============================================================ */
+.co-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.co-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.co-section-header i {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.co-section-header h5 {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.co-origin-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.co-pull-quote {
+  margin: 0;
+  padding: 16px 20px;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #4a3018;
+  background: rgba(253, 250, 242, 0.8);
+  border-left: 4px solid var(--co-border);
+  border-radius: 0 6px 6px 0;
+  box-shadow: inset 0 0 15px rgba(139, 69, 19, 0.02), 0 2px 6px rgba(0,0,0,0.02);
+  position: relative;
+}
+
+/* Elegant Drop Cap for the Origin Story atmospheric quote */
+.co-pull-quote::first-letter {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 2.2rem;
+  float: left;
+  line-height: 0.85;
+  margin-top: 0.055em;
+  margin-right: 0.08em;
+  font-weight: bold;
+  color: var(--co-border);
+  text-shadow: 1px 1px 0px #ffffff;
+}
+
+.co-text-para {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: #3e2d1d;
+  margin: 0;
+  text-align: justify;
+  font-family: 'Crimson Text', serif;
+}
+
+.co-call-to-action {
+  font-size: 1.02rem;
+  line-height: 1.55;
+  font-weight: 600;
+  margin: 8px 0 0 0;
+  font-style: italic;
+  font-family: 'Crimson Text', serif;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   LORE SECTIONS FROM ROLEPLAY IDENTITY
+   ============================================================ */
+.co-lore-sections-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(139, 69, 19, 0.15);
+}
+
+.co-lore-sections-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 20px;
+}
+
+.co-grid-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .co-lore-sections-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* Individual lore block */
+.co-lore-block {
+  background: color-mix(in srgb, var(--co-accent) 3%, #fdfbf7);
+  border: 1px solid rgba(143, 111, 53, 0.22);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(139, 69, 19, 0.04);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+}
+
+.co-lore-block:hover {
+  border-color: var(--co-border);
+  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.08), 0 0 8px var(--co-glow);
+  transform: translateY(-2px);
+}
+
+.co-lore-block-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: linear-gradient(to right, rgba(143, 111, 53, 0.08), transparent);
+  border-bottom: 1px solid rgba(143, 111, 53, 0.15);
+}
+
+.co-lore-block-header i {
+  font-size: 0.85rem;
+}
+
+.co-lore-block-header h6 {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.co-lore-block-body {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.co-lore-block-body .co-text-para {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #3e2d1d;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   NOTABLE FIGURES (LEGENDARY PRACTITIONERS) BLOCK
+   ============================================================ */
+.co-notable-block {
+  width: 100%;
+}
+
+.co-notable-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.co-notable-item {
+  display: flex;
+  gap: 16px;
+  padding: 18px;
+  background: color-mix(in srgb, var(--co-accent) 2%, #ffffff);
+  border: 1px solid rgba(143, 111, 53, 0.16);
+  border-left: 4px solid var(--co-border);
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.03);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.co-notable-item:hover {
+  background: #ffffff;
+  border-color: var(--co-border);
+  border-left-width: 6px;
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.10), 0 0 12px var(--co-glow);
+  transform: translateY(-3px) scale(1.01);
+}
+
+.co-notable-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fffbf2;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.co-notable-item:hover .co-notable-avatar {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.co-notable-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.co-notable-name {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+

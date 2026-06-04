@@ -37,6 +37,11 @@ export const FATE_WEAVER_DATA = {
   },
 
   overview: {
+    originStory: `In the vertical canyons of the Cragjaw Peaks, the Neth probability-watcher Lyra saw her trade-caravan cornered by a sudden, massive rockslide. Rather than trying to outrun the stone, she used her cards to pluck the threads of alternate timelines, finding the single reality where her companions survived. She pulled that timeline into the present, swapping the falling boulders with empty air.
+
+The psychic recoil of experiencing all alternate deaths of her friends in a single second permanently fractured Lyra's consciousness. The Fate Weaver's mind remains split across multiple timelines; she suffers from constant hallucinations, visual tremors, and panic attacks as she witnesses her companions die in dozens of ways every second.
+
+Deal the cards. Reweaver the thread. The tapestry of fate is frayed, and you are the needle. Stitch it before the final thread snaps.`,
     title: "The Fate Weaver",
     subtitle: "Cartomancer Sovereign",
 
@@ -57,15 +62,47 @@ export const FATE_WEAVER_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `In the dark folklore of Mythrill, Fate Weavers are feared outcasts known as "Cartomancer Sovereigns." They are individuals who stared into the Loom of Fate and tore away the threads that bound their destinies. Their tools are cards crafted from rune-etched parchment, each one a captured sliver of compressed probability.
+      content: `**HISTORY: THE GENESIS**
+The fate weaver's probability manipulation was born in the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>. A Kessen Neth probability-watcher named **Lyra** sought to calculate the exact structural failure of a rope-bridge and began weaving the threads of alternative timelines. The price of this vision was psychic trauma. By severing her own connection to native timelines, Lyra experienced the visceral shock of alternate deaths, leaving her mind permanently fractured.
 
-Their power manifests as visible arcane strain. Every card drawn sends pulses of temporal energy through their nervous system; every point of Karmic Debt they accumulate causes their arcane resonance to spike uncontrollably, creating visible distortion halos around their hands. They speak in hushed, rhythmic incantations — their magic feeling less like divine authority and more like intense, taxing concentration pushed to the brink.
+**CITIES & CIVIL RECEPTION**
+Fate Weavers are highly valued in the canopy-libraries of Atropolis, serving as the high strategists and trade arbiters of the Neth guilds.
 
-Fate Weaver archetypes include:
-- **The Desperate Scholar**: Attempted to rewrite a dying loved one's fate thread, only to bind themselves to the probability deck forever.
-- **The Accursed Gambler**: Wagered their destiny against an ancient entity of chance, winning the deck but losing their temporal anchor.
-- **The Heretical Chronicler**: Believes that all mortal history is a poorly written narrative and seeks to meticulously edit it card by card.`
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="neth">Kessen Neth</LoreLink> and the fine-scaled Ithran Groven.
+
+**NOTABLE FIGURES**
+* **Lyra the Probability-Watcher**: The cartomancer who witnessed her friends die in a hundred ways to find the one path where they lived.
+* **Ordan the Cartomancer**: A steppe nomad who mapped the constellation shifts by weaving probability threads.`
     },
+
+    signatureQuote: {
+      text: '"I have seen the timeline where you live, the timeline where you die, and the timeline where you were never born. I chose the one where you live. You are welcome. A card, please."',
+      speaker: 'Lyra of the Fractured Deck',
+      context: 'Said to a Cragjaw merchant whose life she saved by selecting a favorable probability; the merchant later reported she looked "profoundly sad"'
+    },
+
+    philosophy: {
+      coreTenet: 'Probability is not random — it is a landscape. Most people walk blindly across it, stumbling into good and bad luck without understanding the terrain. The Fate Weaver reads the map. They know which paths lead to favorable outcomes, and they cut the strands they do not like.',
+      relationship: 'A Fate Weaver\'s power comes from Karmic Debt — the accumulated cost of cheating probability. Every time they override a bad roll, the universe takes note. The Debt does not vanish. It accrues interest. Eventually, the Tapestry Collapses, and the Fate Weaver must pay the accumulated debt in a single catastrophic installment. The relationship is transactional: the Weaver borrows luck from their future self, and the future self always, always collects.',
+      paradox: 'The Fate Weaver is the master of probability — and the slave of their own Karmic Debt. They can force any outcome to go their way, but every forced outcome makes the next one harder. The wisest Fate Weavers use their power sparingly, accepting small losses to preserve their luck for the moments that truly matter. The worst Fate Weavers — and there are many — grow addicted to control, stack their Debt high, and disappear when the Tapestry finally Collapses, erased from the timeline as if they never existed.'
+    },
+
+    currentCrisis: `Lyra is trying to destroy the Fates themselves. The founder of the Fate Weaver tradition has concluded that Karmic Debt is not a natural law — it is an artificial construct imposed on probability by an unknown entity. She believes this entity feeds on the suffering it causes, and that the only way to free all Fate Weavers from Debt is to kill the entity.
+
+She has gathered a small cadre of followers — the Deck-Burners — and they are pursuing a radical solution: a ritual that will force the universe to choose between the entity and every Fate Weaver alive. If the ritual succeeds, Fate Weavers will be free. If it fails, the Karmic Debt of every living Weaver will be collected simultaneously. Lyra has not told her followers the second part. They follow her because they believe in freedom. She leads them because she believes nothing else is left to try.`,
+
+    meaningfulTradeoffs: `To weave fate is to bear the weight of every forced outcome. A Fate Weaver who saves a friend from a lethal blow carries the knowledge that somewhere, in a timeline they rejected, that friend died — and the Weaver chose to let that version of reality suffer so this one could prosper. The guilt accumulates alongside the Karmic Debt. Most Fate Weavers become profoundly fatalistic outside of combat, refusing to make even trivial choices. "I do not decide where we eat for dinner," one Weaver is reported to have said. "I have already decided too much today."`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Deck-Burners\' Hollow',
+        locationId: 'cragjaw-peaks',
+        description: 'A hidden cave-chamber in the lower Cragjaw Peaks where Lyra and her followers meet. The walls are covered in the burned patterns of thousands of cards — residue of Fate Weavers who have burned their decks to sever their connection to fate entirely. The air is thick with the smell of old ash and ozone.',
+        purpose: 'Secret meeting place for the radical Deck-Burner faction',
+        status: 'Secret — hidden even from most Fate Weavers'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

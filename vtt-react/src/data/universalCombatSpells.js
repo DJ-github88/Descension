@@ -53,7 +53,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   {
     id: 'universal_dodge',
     name: 'Dodge',
-    description: 'Add +1 Dodge Rating to your existing Dodge Rating for 1 round. Your Dodge Rating applies to any attack against you, increasing the miss range on attack dice. Each Dodge Rating adds 1 to the miss range. For example, with 2 Dodge Rating against a d6 attack: rolls 1-3 miss, 4-6 hit (6 crits). Crits cannot be dodged - the highest roll always hits.',
+    description: "Take defensive actions against an incoming strike, making you 50% less likely to be hit. The attacker's strike roll is checked against their weapon die size: rolls equal to or less than half of the die's maximum value miss entirely (e.g., 1-2 on a 1d4 dagger, 1-6 on a 1d12 greataxe). Exploding critical hits always hit.",
     level: 1,
     spellType: 'REACTION',
     effectTypes: ['buff'],
@@ -65,16 +65,11 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       tags: ['reaction', 'defensive', 'universal']
     },
     buffConfig: {
-      buffType: 'statEnhancement',
-        effects: [{
-          id: 'dodge',
-          name: 'Dodge Active',
-          description: 'Adds +1 Dodge Rating to your existing Dodge Rating. Your total Dodge Rating applies to any attack against you, increasing the miss range on attack dice. Crits cannot be dodged.',
-        statModifier: {
-          stat: 'dodge',
-          magnitude: 1,
-          magnitudeType: 'flat'
-        }
+      buffType: 'custom',
+      effects: [{
+        id: 'dodge',
+        name: 'Dodge Active',
+        description: "Makes you 50% less likely to be hit. Incoming non-critical attack rolls equal to or less than half the weapon die's maximum value miss entirely."
       }],
       durationValue: 1,
       durationType: 'rounds',
@@ -250,32 +245,31 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     tags: ['reaction', 'support', 'universal']
   },
   {
-    id: 'universal_evade',
-    name: 'Evade',
-    description: 'Evade an attack by rolling 5 ft. into a dodge. Has to be used when player is prompted by the GM. Performing this agile dodge roll, you also gain a better position (Current Level * 1).',
+    id: 'universal_defend',
+    name: 'Defend',
+    description: 'Hunker down and absorb the blow. Your equipped piece absorbs double the damage it normally would — and it will not degrade from this use. No risk, full absorption.',
     level: 1,
     spellType: 'REACTION',
-    effectTypes: ['utility'],
+    effectTypes: ['buff'],
     source: 'general',
     categoryIds: ['general_reactions'],
     typeConfig: {
-      school: undefined, // No damage type for movement utility
-      icon: 'ability_rogue_evasion',
-      tags: ['reaction', 'defensive', 'universal', 'movement']
+      school: undefined,
+      icon: 'ability_warrior_shieldwall',
+      tags: ['reaction', 'defensive', 'universal']
     },
-    utilityConfig: {
-      utilityType: 'movement',
-      selectedEffects: [{
-        id: 'evade',
-        name: 'Evade',
-        description: 'Roll 5 ft. into a dodge and gain better position',
-        distance: 5,
-        needsLineOfSight: false
+    buffConfig: {
+      buffType: 'custom',
+      effects: [{
+        id: 'defend',
+        name: 'Defending',
+        description: 'Equipped piece absorbs double damage from the incoming hit with no risk of durability loss.'
       }],
-      duration: 0,
+      durationValue: 0,
+      durationType: 'instant',
       durationUnit: 'instant',
-      concentration: false,
-      power: 'minor'
+      concentrationRequired: false,
+      canBeDispelled: false
     },
     targetingConfig: {
       targetingType: 'self'
@@ -292,7 +286,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       value: 0
     },
     resolution: 'DICE',
-    tags: ['reaction', 'defensive', 'universal', 'movement']
+    tags: ['reaction', 'defensive', 'universal']
   },
   {
     id: 'universal_opportunity_attack',

@@ -10,6 +10,13 @@ export const COVENBANE_DATA = {
   overview: {
     title: "The Covenbane",
     subtitle: "A Mutilated Instrument of Divine Negation",
+    originStory: `The Bryngloom Forest is a landscape of moss and peat-bogs where the line between life and death is a legal clause written in silver and heartwood. The Vreken, native to these crepuscular caves, carry the Ghost-Mycelium in their blood, granting them the trail-sight to track the residual light of the dead. But the volatile fungus is a double-edged sword, carrying the highly addictive, euphoric "hush" that leads to the Over-Lit epidemic.
+
+In the fifth century, a beloved Marked Veil-Speaker named Aedris succumbed to the hush, her eyes burning with a blinding silver light that bleached the peat-stone. Blinded by her own glow, she began draining the lifeforce of her acolytes. Her brother, Orven the Still-Handed, refused to let the crypt-council debate. He forged a blade of cold bog-iron, wrapped his hands in salted leather, and tracked his sister into the deepest bogs. He ended her suffering and swore the Barbed Vow: to execute any kinsman lost to the mycelial hush.
+
+Orven's sacrifice birthed the order of the Covenbane. To carry the cold iron and alchemical null-salts is to become a sterile void for magic. The silver deposits in their marrow make their bones brittle, and their tracking seals isolate them from the very Spire they protect. The Clean Vreken crypt-councils tolerate them at the margins, relying on their blades but banning them from the high archives.
+
+You are the Covenbane. The trail-sight shows you every kinsman who has fallen to the hush. You hunt them because no one else can. You hunt them alone because no one else should have to.`,
 
     quickOverview: {
       title: "The Agony of the Hunt",
@@ -26,23 +33,53 @@ export const COVENBANE_DATA = {
 **Best For**: Players who crave systematic oppression of spellcasters, tactile resource systems, and heavy, high-stakes trade-offs`,
     },
 
-    description: `To hunt the witch, one must first murder their own connection to the natural flow of life. The Covenbane is a solemn zealot who has undergone the excruciating Ritual of the Silvered Veins, transforming their own body into a cold, sterile void where magic dies. They do not cast spells; they unleash the agonizing pressure of absolute negation. Against mundane steel they are brittle and slow, but when an arcane target attempts to shape a spell, the Covenbane's poisoned blood boils, channeling the collective screams of everyone who has ever burned at the stake.`,
+    description: `The Covenbane is the silent, shadow-cloaked stalker of the deep marshes — an anti-magic executioner wreathed in cold iron, silent seals, and a heavy, tragic purpose. They do not seek glory, nor do they offer comfort. Armed with specialized anti-magic seals and rusted executioner's irons, they track their prey through the dark and purge magical corruption with absolute, mechanical precision. Their signature resource — **Anti-Magic Seals** — allows them to disrupt spellcasting, nullify wards, and dismantle supernatural entities from within. Yet, the price of this power is absolute social isolation: to carry the cold iron is to be cast out from the very community you bleed to protect.`,
 
     roleplayIdentity: {
-      title: "Blackened Oaths & Tragic Folklore",
-      content: `A Covenbane's existence is a slow, cold martyrdom. Their weapons are not forged, but baptized in liquid silver and tears; their flesh is branded with runes of negation that thrum with a sickening ache whenever magic is shaped nearby. They are survivors of dark covens, hollowed-out templars who watched their gods burn, or desperate zealots who chose physical mutilation over magical slavery.
+      title: "Roleplay Identity",
+      content: `**HISTORY: THE GENESIS**
+The covenbane's specialized tracking was born in the deep, damp bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. A Vreken hunter named <LoreLink termId="orven">Orven</LoreLink>, whose sister had succumbed to the mycelial spore-hush, swore the Barbed Vow to track and execute his own corrupted kinsmen.
 
-Their curse is visible and tragic: alchemical silver bleeding from their pores, black veins branching across their eyes, and an atmosphere of leaden silence that follows them like a shroud.
+The price of this tracking efficiency was complete social isolation. By training his trail-sight to detect the fungal-hush, Orven permanently scarred his mental pathways, leaving him blind to warmth and locked in a sterile, silent hunt.
 
-Common Covenbane archetypes include:
-- **The Ash Inquisitor**: A joyless wanderer whose cathedral was turned to slag, seeking absolute purging
-- **The Null-Zealot**: A seasoned veteran who has hollowed out their own soul to reject magical influence
-- **The Silver Knight**: A warrior who has bound their fading life to cold, blessed iron and alchemist's salt
-- **The Brand-Bearer**: Marked by ancient runes that burn when the natural law is bent
-- **The Grave Inquisitor**: Marked to drag spellcasters down into the silent, unyielding earth
+**CITIES & CIVIL RECEPTION**
+Covenbanes are feared, respected, and deeply isolated. They are tolerated at the margins of <LoreLink termId="sunken_spire">The Sunken Spire</LoreLink> and Atropolis, but they never find a permanent home within the civilian sectors.
 
-Covenbanes know that power demands an agonizing toll. They do not save lives; they excise the rot from reality, one screaming caster at a time.`,
+**RACES & CULTURAL AFFILIATION**
+The class is exclusively practiced by the <LoreLink termId="vreken">Marked Vreken</LoreLink> who carry the volatile Ghost-Mycelium strain.
+
+**NOTABLE FIGURES**
+* **Orven the Still-Handed**: The founder of the Barbed Vow who tracked his own sister into the sinking bogs.
+* **Aedris the Blind**: A Marked Vreken hunter who tracked heretics through the bogs using only the thrum of the mycelium.`
     },
+
+    signatureQuote: {
+      text: '"She was my sister before she was their priestess. I loved her before I killed her. That is the Barbed Vow. Love first. Execution second. Always in that order."',
+      speaker: 'Orven the Still-Handed',
+      context: 'Testimony before the Vreken Crypt-Council after executing his sister Aedris'
+    },
+
+    philosophy: {
+      coreTenet: 'Magic is a disease, and those who wield it irresponsibly are vectors. The Covenbane does not hunt witches because they are evil — they hunt them because unchecked magic attracts worse things. The Wyrd bleeds through the cracks that careless spellcasters create. Covenbanes are the ones who seal the cracks by removing the caster.',
+      relationship: 'Covenbanes draw power from cold iron, null-salt, and the absolute conviction that their work is necessary. They do not cast spells — they shatter them. Their anti-magic aura is not a gift; it is a curse they have learned to weaponize. A Covenbane cannot be healed by magic, cannot be enchanted, cannot be blessed. They exist in a permanent state of magical isolation.',
+      paradox: 'The Covenbane exists to kill the thing they love best. Orven killed his sister. Every Covenbane since has trained to kill their own kin — because the most dangerous magic always comes from someone close enough to trust. The Barbed Vow demands that a Covenbane be willing to execute anyone, and the only way to prove that willingness is to start with family. They are the loneliest warriors in Mythrill.'
+    },
+
+    currentCrisis: `The Bryngloom mycelial network is developing a response to Covenbane activity. The hive-mind of the bog — the Root-Veil — has begun marking Covenbanes with a distinctive fungal rash that glows in the dark. The rash makes stealth impossible and alerts mycelial creatures to the Covenbane\'s presence from miles away.
+
+Worse: the rash is spreading to non-Covenbanes who associate with them. Families of Covenbanes are developing the same luminous rash, making them targets. For the first time in centuries, recruits are refusing the Barbed Vow. They will hunt witches. They will not sacrifice their families to do it. The existing Covenbanes are divided: some argue the rash is a sign that their work is more important than ever, while others believe the Root-Veil is sending a clear message to stop.`,
+
+    meaningfulTradeoffs: `To be a Covenbane is to accept total isolation. The anti-magic aura that allows them to hunt witches also prevents them from receiving magical healing, blessing, or comfort. A Covenbane with a broken leg must wait for it to heal naturally — no priest can speed the process. A Covenbane dying of disease must fight it with their own immune system. They cannot be detected by divination, which means search parties cannot find them if they are lost. They are, permanently and irrevocably, alone in a world full of magic.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Hall of Barbed Vows',
+        locationId: 'sunken-spire',
+        description: 'A deep chamber beneath the Sunken Spire where Covenbanes undergo their initiation. The walls are hung with the cold-iron blades of every Covenbane who has taken the Vow — rows upon rows of identical swords, each one representing a life dedicated to magical extermination. The newest blade still bears traces of its owner\'s blood.',
+        purpose: 'Initiation hall, armory, and memorial',
+        status: 'Active — but the newest blades are being hung by people whose families now glow in the dark'
+      }
+    ],
 
     combatRole: {
       title: "The Silent Shroud",

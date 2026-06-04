@@ -13,6 +13,11 @@ export const FORMBENDER_DATA = {
   damageTypes: ["nature", "bludgeoning"],
 
   overview: {
+    originStory: `The Morgh Groven laborer Torin was trapped in a deep mine-sump beneath the Cragjaw Peaks when a structural support snapped. Rather than allowing the mountain to crush his kin, he drank a draft of raw alchemical sulfur-clay and forced his own skeleton to calcify and expand, mimicking the basalt pillars to hold up the ceiling. The alchemical calcification cracked his bones, leaving his frame rigid and rough as slate.
+
+The desperate adaptation saved the miners, but it permanently locked Torin in a state of continuous skeletal mutation. The Formbender's bones are in constant, grinding friction; their calcified skin is rigid and rough as slate, making their movement slow and highly vulnerable to sudden kinetic impacts that crack their bone-plates.
+
+Shatter the stone. Shift the bone. Your body is a mountain in miniature, and the rock does not yield. Hold the line.`,
     title: "The Formbender",
     subtitle: "The Animal Behind the Mask",
 
@@ -41,14 +46,47 @@ export const FORMBENDER_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `**TL;DR**: You are not a person who turns into animals â€” you are an animal who learned to wear a human shape. Every transformation peels back the disguise. The question isn't whether you'll lose yourself. The question is whether there was ever a "you" to lose.
+      content: `**HISTORY: THE GENESIS**
+The formbender's alchemical physical adaptation was forged in the deep sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. A troll-kin laborer named **Torin** sought to survive a structural collapse and forced his skeleton to calcify and expand under the grinding stone. The price of this biological molding was continuous skeletal agony. The alchemical calcification cracked his bones, leaving his frame rigid and vulnerable to sudden kinetic stress.
 
-**The Lie of Humanity**: Formbenders do not *become* animals. They *cease pretending* to be human. Your human body is a prison you built from meat and manners, and every transformation is a jailbreak written in blood and snapping cartilage. You don't commune with nature â€” you *are* the part of nature that civilization walled out and forgot to feed.
+**CITIES & CIVIL RECEPTION**
+Formbenders are highly respected as elite laborers and combatants along the spans, though they are viewed as volatile alchemical anomalies by the Fexric guilds.
 
-**The Erosion**: With every shift, the animal mind grows stronger. You lose the ability to speak. You forget your allies' names. You stop seeing friends and start seeing *pack* and *prey*. The human consciousness fights a losing war against instincts older than language. Psychic attacks don't just hurt you â€” they unmask you.
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the heavy-scaled <LoreLink termId="groven">Morgh Groven</LoreLink> and the Fexric Drall.
 
-**The Horror**: Other shapeshifters talk about "harmony with the wild." You know the truth. There is no harmony. There is only the animal, wearing your skin, waiting for you to slip. The wolf doesn't serve you. *You serve the wolf.* And one day, you'll stop serving and start *being*.`,
+**NOTABLE FIGURES**
+* **Torin the Troll-Kin**: The miner whose slate-plates held up a mile of collapsing mountain to save his clan.
+* **Durn the Scrap-Molder**: A Fexric Drall who used alchemical runoff to mold his own limbs into ironwood-hard forms.`
     },
+
+    signatureQuote: {
+      text: '"The mountain fell on me. I did not move. The mountain broke against my bones. That is not strength. That is the simple refusal to die."',
+      speaker: 'Torin the Troll-Kin',
+      context: 'Spoken to the surviving miners after his skeleton held up the collapse for three hours'
+    },
+
+    philosophy: {
+      coreTenet: 'The body is not fixed — it is a negotiation. Every bone, every muscle, every organ is a temporary arrangement that can be improved upon. The Formbender does not accept the body they were born with. They reshape it, one excruciating transformation at a time, until it becomes the instrument they need.',
+      relationship: 'A Formbender\'s power comes from alchemical catalysts — sulfur-clay, volcanic ash, distilled troll-blood, crystallized Groven marrow — that trigger controlled mutations. Each transformation requires a specific catalyst and a willingness to endure the agony of bones re-forming. The relationship is alchemical: the body is a laboratory, and every transformation is an experiment with permanent consequences.',
+      paradox: 'The Formbender gains power by becoming less human. Each stolen form — the nightstalker\'s claws, the ironhide\'s armor, the skyhunter\'s wings — pushes them further from their original shape and identity. Their Humanity Erosion is a measure of how much of themselves they have sacrificed for adaptation. A Formbender at maximum Erosion has become something entirely other — powerful beyond measure, but no longer able to remember who they were before the first transformation. They lose their name, their language, their sense of self. In becoming more than human, they become less.'
+    },
+
+    currentCrisis: `A new catalyst has appeared in the Cragjaw Peaks: crystallized Groven marrow, harvested from the bones of alchemically-uplifted trolls who died in the deep sumps. This catalyst is more powerful than any previous one — it enables transformations that last longer, heal faster, and are more anatomically stable.
+
+The problem: the Groven are not dead. The "corpses" from which the marrow is harvested are actually Groven in deep hibernation — a survival state they enter when food is scarce. The Formbenders who harvested the marrow believed they were scavenging the dead. They were not. The Groven are waking up, and they are very, very angry. A war is brewing between the Formbender guilds and the Groven tribes, and the Cragjaw Peaks — already structurally unstable — will be the battlefield.`,
+
+    meaningfulTradeoffs: `Every transformation leaves a permanent mark. Formbenders who have used the nightstalker form develop nocturnal vision and an aversion to light that never fully fades. Those who have used the ironhide form retain patches of calcified skin that never soften. The body remembers every shape it has taken. A Formbender who has shapeshifted extensively may look vaguely humanoid but feel profoundly alien — their joints move wrong, their skin texture varies patchily, their internal organs are not quite where they should be. They are permanent hybrids, and they feel at home in no single form.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Transformation Sumps',
+        locationId: 'frostmaw-holdfast',
+        description: 'Deep alchemical chambers beneath Frostmaw Holdfast where Formbenders undergo their transformations. The sumps are filled with warm, viscous alchemical clay that supports the body during the mutation process. The walls are lined with carved Groven runes — instructions for transformation, written by those who have already made the journey.',
+        purpose: 'Transformation chamber, alchemical workshop, and recovery ward',
+        status: 'Active — under guard due to rising tensions with the Groven'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

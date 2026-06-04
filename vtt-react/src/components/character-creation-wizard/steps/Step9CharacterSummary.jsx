@@ -7,7 +7,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useCharacterWizardState } from '../context/CharacterWizardContext';
 import { ABILITY_SCORES, getStatBreakdown } from '../../../utils/pointBuySystem';
-import { getPathData, getPathStatModifiers } from '../../../data/pathData';
 import { getWowIconUrl, getIconUrl } from '../../../utils/assetManager';
 import { getBackgroundData, getBackgroundStatModifiers } from '../../../data/backgroundData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
@@ -30,7 +29,7 @@ const Step9CharacterSummary = () => {
     };
 
     // Get modifiers for stat breakdown
-    const pathModifiers = characterData.path ? getPathStatModifiers(characterData.path) : {};
+    const pathModifiers = {};
     const racialModifiers = characterData.race && characterData.subrace ? applyRacialModifiers({}, characterData.race, characterData.subrace) : {};
     const backgroundModifiers = characterData.background ? getBackgroundStatModifiers(characterData.background) : {};
     const statBreakdown = getStatBreakdown(characterData.baseStats, racialModifiers, backgroundModifiers, pathModifiers);
@@ -188,7 +187,7 @@ const Step9CharacterSummary = () => {
     // Get background and path data for display
     const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
     const backgroundAbilities = characterData.background ? getBackgroundAbilities(characterData.background) : [];
-    const pathData = characterData.path ? getPathData(characterData.path) : null;
+    // const pathData = null; // Disciplines removed
 
     // Build completion checklist
     const checklistItems = [
@@ -196,7 +195,6 @@ const Step9CharacterSummary = () => {
         { label: 'Race & Subrace', done: !!(characterData.race && characterData.subrace) },
         { label: 'Class', done: !!characterData.class },
         { label: 'Background', done: !!characterData.background },
-        { label: 'Discipline (Path)', done: !!characterData.path },
         { label: 'Ability Scores', done: !!(characterData.baseStats && Object.values(characterData.baseStats).some(v => v > 0)) },
         { label: 'Equipment Chosen', done: !!(characterData.selectedEquipment && characterData.selectedEquipment.length > 0) },
     ];
@@ -264,10 +262,6 @@ const Step9CharacterSummary = () => {
                                 <div className="detail-item">
                                     <span className="detail-label">Background:</span>
                                     <span className="detail-value">{backgroundData?.name || formatValue(characterData.background)}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">Path:</span>
-                                    <span className="detail-value">{pathData?.name || formatValue(characterData.path)}</span>
                                 </div>
                             </div>
                         </div>

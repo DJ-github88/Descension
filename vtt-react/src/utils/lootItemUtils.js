@@ -69,7 +69,7 @@ export const processCreatureLoot = (creature, itemStore = null) => {
           return {
             ...mainLibraryItem,
             id: mainLibraryItem.id,
-            dropChance: item.dropChance || 100,
+            dropChance: item.dropChance || 30,
             quantity: processedQuantity
           };
         }
@@ -87,7 +87,7 @@ export const processCreatureLoot = (creature, itemStore = null) => {
           return {
             ...lootItem,
             id: lootItem.id,
-            dropChance: item.dropChance || 100,
+            dropChance: item.dropChance || 30,
             quantity: processedQuantity,
             // Add missing inventory properties with sensible defaults
             width: lootItem.width || 1,
@@ -115,7 +115,7 @@ export const processCreatureLoot = (creature, itemStore = null) => {
         description: item.description || (item.itemId ? `This item (${item.itemId}) could not be loaded from the item library.` : 'A mysterious item.'),
         iconId: item.iconId || 'inv_misc_questionmark',
         quantity: 1,
-        dropChance: item.dropChance || 100,
+        dropChance: item.dropChance || 30,
         width: 1,
         height: 1,
         stackable: false,

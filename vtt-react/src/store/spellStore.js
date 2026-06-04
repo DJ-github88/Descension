@@ -73,7 +73,7 @@ const SAMPLE_SPELLS = [
     effects: [
       {
         type: 'buff',
-        stat: 'armor',
+        stat: 'damage_reduction',
         value: 5,
         duration: 1
       }

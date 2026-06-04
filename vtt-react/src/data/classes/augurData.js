@@ -16,6 +16,11 @@ export const AUGUR_DATA = {
   damageTypes: ["psychic", "radiant"],
 
   overview: {
+    originStory: `The future does not reveal itself to clean minds; it must be dragged, warm and steaming, from the belly of the dead. It is said that Cassia, the chief star-watcher of the Nordhalla Keeps, sat in the Frozen Archive when the star Solbound first darkened. With the astrolabes frozen solid, she did not look to the sky. Instead, she took a bronze scaling knife and opened the abdomen of a sacrificial glacier-elk, spilling its entrails across the icy stone. By tracing the steaming convolutions of the intestines and the purple mottling of the liver, she read the exact hour of the Deepening. She did not find a path to salvation, but a map of the deaths to come.
+
+The price of peering through the stargate feedback loops of fate was immediate and cruel. As the future flooded her mind, the temporal feedback loop burned away her past. The memories of her husband’s face, the warmth of the hearth, and the names of her children were incinerated to clear space for the mathematically precise coordinate chains of cosmic doom. To maintain this sight, the Augur must invite physical trauma. When the air is still and the future grows dim, she must carve deep runes into her own forearms, using the warm flow of her own blood to re-establish the connection to the stars. The viscera of her enemies and the split-open hides of beasts are her only ledger.
+
+Predict the end. The sky is dark, but the runes in the meat still burn. Read the gory scroll before the final memory of your own name fades into the ice.`,
     title: "The Augur",
     subtitle: "Visceral Haruspex of the Ripped Flesh",
 
@@ -34,16 +39,49 @@ export const AUGUR_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Augurs carry the crushing weight of tomorrow's tragedy today. They see the maggots in the skin of the living, and hear the death rattle in every laugh. Trained in dark folklore, forgotten woodland clearings, or desperate war camps, they use visceral catalysts to force reality to flinch. They are commonly known as:
+      content: `**HISTORY: THE GENESIS**
+The augur's foresight was born in the Frozen Archive of <LoreLink termId="nordhalla">Nordhalla</LoreLink>. A Skald star-watcher named **Cassia** read the terrifying portents of Sol's Deepening, her runes burning with intense, blistering heat.
 
-**The Gut-Sifter**: A grim diviner who follows the path of armies, sifting through corpses and reading the warm patterns of exposed intestines.
-**The Bone-Fracturer**: One who reads the cracks in their own knuckles or the shattered limbs of foes to map the pressure points of fate.
-**The Self-Flayer**: A flagellant who believes that the only clean portal to the future is the opening of their own skin.
-**The Crow-Call**: A desolate storm reader who maps the flight patterns of carrion birds, tracing where the next carcass will drop.
-**The Desolate Oracle**: A ruined prophet who was blinded by a radiant vision of their own end, left to navigate the darkness by feeling the hot blood of others.
+The price of this feedback loop was memory-loss. Cassia had to trade away her own personal memories to glimpse the future, leaving her runes scarred and her mind disoriented.
 
-Augurs speak in hushed, heavy tones, like a funeral dirge. They are methodology-driven, intensely observant, and carry the smell of copper and rot wherever they walk.`,
+**CITIES & CIVIL RECEPTION**
+Augurs are highly revered as scholars and prophets in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the high halls of the <LoreLink termId="synod_hold">Synod-Hold</LoreLink>.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink> and the Astril.
+
+**NOTABLE FIGURES**
+* **Cassia the Star-Eyed**: The legendary seer of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> who predicted the solar eclipse at the cost of her past.
+* **Kaelen the Unseen**: An Astril priest who mapped the stellar decay from the Scribe's Tower.`
     },
+
+    signatureQuote: {
+      text: '"I opened the elk and saw our chieftain dead, our granary empty, and the sun still dark. The entrails do not lie. They also do not offer comfort."',
+      speaker: 'Cassia the Star-Eyed',
+      context: 'First recorded augury, Nordhalla Frozen Archive, Year 0 of the Dimming'
+    },
+
+    philosophy: {
+      coreTenet: 'The future is not hidden — it is written in the present if you know where to look. Blood, bones, entrails, smoke, the scatter of rune-stones — these are not omens. They are data. The Augur reads the data that others are too squeamish to examine.',
+      relationship: 'Augurs do not bargain with spirits or petition gods. They extract information from the physical world through direct, visceral methods. The future is not revealed to them — it is cut open, spilled, and read while steaming. This relationship is purely mechanical: the Augur opens, the future bleeds, the Augur reads.',
+      paradox: 'The Augur sees what is coming but cannot change it. The visions are snapshots of probability, not commands. An Augur who sees a party member dying in the next room has two choices: warn them (and be right when they die anyway), or say nothing. The future does not change because it was seen. It changes despite being seen.'
+    },
+
+    currentCrisis: `The star-arithmetic is failing. For eight centuries, the Augurs of the Frozen Archive have used Cassia's original elk-entrail method to predict major events with 93% accuracy. In the past three months, accuracy has dropped to 41%. The entrails are not lying — they are returning results that contradict each other. One elk shows the Archive intact in ten years. Another shows it collapsed last week.
+
+The Augurs have identified the cause: something is interfering with the flow of time itself, creating echoes of futures that cannot exist simultaneously. The phenomenon began on the same day the first Doomsayer returned contradictory extinction equations. The Augurs and Doomsayers do not speak to each other, but their numbers are converging on the same conclusion: the timeline is fracturing, and the Augurs are the first to feel the cracks.`,
+
+    meaningfulTradeoffs: `To see the future is to lose the present. Augurs develop a condition called "chronal myopia" — their vision of tomorrow is crystal clear, but the room they are standing in now is blurry. They forget conversations that happened five minutes ago. They cannot read a book because the words of the next page overlay the words of the current one. They live in a permanent state of temporal vertigo, seeing every moment overlaid with its potential futures. Cassia forgot her children's names within a year of her first augury.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Entrail Chambers',
+        locationId: 'frozen-archive',
+        description: 'A cold, stone chamber beneath the Frozen Archive where Augurs perform their readings. The floor is sloped and drained — blood washes away into a central basin. Racks of rune-etched bone chisels line the walls. The air smells of iron and old salt.',
+        purpose: 'Ritual space for augury readings',
+        status: 'Active — but the contradictory results have thrown the chamber into chaos'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

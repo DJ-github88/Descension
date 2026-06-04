@@ -28,11 +28,11 @@ const GLOBAL_STAT_MAP = {
   'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
   'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
   // Combat stats
-  'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 
+  'speed': 'Speed', 'attack': 'Attack', 'damage': 'Damage', 
   'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 
   'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 
   'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points',
-  'dodge': 'Dodge Rating', 'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
+  'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
   'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
   'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points', 'action_points': 'Action Points',
   'damagereduction': 'Damage Reduction', 'damage_reduction': 'Damage Reduction',
@@ -153,10 +153,7 @@ const UnifiedSpellCard = ({
     derivedStats: state.derivedStats || {}
   }));
   
-  // Calculate current Dodge Rating (every 15 Agility = 1 Dodge Rating)
-  const currentDodgeValue = Math.floor((characterStats.agility || 10) / 15);
-
-
+  
   // NORMALIZE SPELL DATA - Transform from any format into complete wizard format
   // This ensures spells from class data, manual JSON, or legacy formats all work
   // All references to 'spell' in this component will now use the normalized version
@@ -5604,7 +5601,6 @@ const UnifiedSpellCard = ({
       'mana': isPositive ? 'Arcane Reservoir' : 'Mana Drain',
       'stamina': isPositive ? 'Endurance Boost' : 'Stamina Penalty',
       'speed': isPositive ? 'Swiftness' : 'Sluggishness',
-      'armor': isPositive ? 'Protective Ward' : 'Armor Reduction',
       'damage': isPositive ? 'Combat Prowess' : 'Damage Penalty',
       'damage_reduction': 'Damage Resistance'
     };
@@ -5617,7 +5613,7 @@ const UnifiedSpellCard = ({
     if (!statName) return 'general';
 
     const baseName = statName.toLowerCase();
-    const physicalStats = ['strength', 'agility', 'constitution', 'health', 'stamina', 'armor'];
+    const physicalStats = ['strength', 'agility', 'constitution', 'health', 'stamina'];
     const mentalStats = ['intelligence', 'spirit', 'perception'];
     const magicalStats = ['mana', 'spell_power', 'magical_resistance'];
 
@@ -6148,12 +6144,6 @@ const UnifiedSpellCard = ({
       mechanicsParts.push(`Movement speed reduced by ${speedReduction}%`);
     }
 
-    // REDUCED ARMOR EFFECT
-    else if (effectId === 'reduced_armor') {
-      const armorReduction = status.armorReduction || 4;
-      mechanicsParts.push(`Armor reduced by ${armorReduction}`);
-    }
-
     // STAT REDUCTION EFFECT
     else if (effectId === 'stat_reduction') {
       const statReductions = status.statReductions || {};
@@ -6541,10 +6531,6 @@ const UnifiedSpellCard = ({
                 statDisplay.value = `Reduces incoming damage by ${Math.abs(magnitude)}`;
               }
               statDisplay.class = 'damage-reduction';
-            } else if (stat.stat === 'armor' || statName.includes('armor')) {
-              // Special handling for armor
-              statDisplay.value = `+${magnitude} Armor`;
-              statDisplay.class = 'armor-bonus';
               } else {
                 const advDis = getAdvantageDisadvantageText(stat.stat || stat.name || stat.id, magnitude, stat.magnitudeType);
                 if (advDis.isAdvDis) {
@@ -10838,12 +10824,11 @@ const UnifiedSpellCard = ({
                 const hasLegacyDamageRedirection = legacyBuff?.damageRedirection;
                 const hasLegacyActionPoints = legacyBuff?.actionPoints;
                 const hasLegacyAttackBonus = legacyBuff?.attackBonus;
-                const hasLegacyArmorClass = legacyBuff?.armor;
                 const hasLegacyStatModifiers = legacyBuff?.statModifiers && typeof legacyBuff.statModifiers === 'object' && !Array.isArray(legacyBuff.statModifiers) && Object.keys(legacyBuff.statModifiers).length > 0;
                 
                 const hasLegacyBuff = hasLegacyResistance || hasLegacyTemporaryHP || hasLegacyImmunity || 
                                      hasLegacyDamageRedirection || hasLegacyActionPoints || hasLegacyAttackBonus ||
-                                     hasLegacyArmorClass || hasLegacyStatModifiers;
+                                     hasLegacyStatModifiers;
 
                 // Don't render if no actual buff content exists (don't render empty sections)
                 // Only render if we have buff type OR actual buff configuration OR legacy buff data
@@ -11252,7 +11237,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
+                              'speed': 'Speed', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11347,9 +11332,6 @@ const UnifiedSpellCard = ({
                                 } else {
                                   statModifierTexts.push(`Reduces incoming damage by ${value}`);
                                 }
-                              } else if (modifier.stat === 'armor' || modifierName.includes('armor')) {
-                                // Special handling for armor
-                                statModifierTexts.push(`+${value} Armor`);
                               } else {
                                 // Simple formatting for all other stats
                                 statModifierTexts.push(`${sign}${value}${typeText} ${statName}`);
@@ -11437,7 +11419,7 @@ const UnifiedSpellCard = ({
                                 'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                                 'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                                 'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
+                                'speed': 'Speed', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points',
                                 'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                                 'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                                 'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11769,7 +11751,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
+                              'speed': 'Speed', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11855,7 +11837,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
+                              'speed': 'Speed', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -12004,7 +11986,7 @@ const UnifiedSpellCard = ({
                                 'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                                 'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                                 'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
+                                'speed': 'Speed', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points',
                                 'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                                 'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                                 'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -12016,11 +11998,7 @@ const UnifiedSpellCard = ({
                               const rawStat = statMod.stat?.toLowerCase() || '';
                               const statName = statMap[rawStat] || 
                                              (statMod.stat ? statMod.stat.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
-                              // Special handling for Dodge reaction: shows total Dodge Rating (base + 1 from reaction)
-                              const originalMagnitude = statMod.magnitude || 0;
-                              const isDodgeReaction = spell.id === 'universal_dodge' && rawStat === 'dodge';
-                              // For Dodge reaction, show total (base Dodge Rating + 1 from reaction)
-                              let magnitude = isDodgeReaction ? (currentDodgeValue + originalMagnitude) : originalMagnitude;
+                              const magnitude = statMod.magnitude || 0;
                               const magnitudeType = statMod.magnitudeType || 'flat';
                               const typeText = magnitudeType === 'percentage' ? '%' : '';
                               
@@ -13184,8 +13162,8 @@ const UnifiedSpellCard = ({
                             if (creature.stats?.maxAp || creature.stats?.ap) {
                               stats.push(`AP: ${creature.stats.maxAp || creature.stats.ap}`);
                             }
-                            if (creature.stats?.armor) {
-                              stats.push(`Armor: ${creature.stats.armor}`);
+                            if (creature.stats?.damageReduction) {
+                              stats.push(`DR: ${creature.stats.damageReduction}`);
                             }
 
                             // Build enhanced mechanics text with proper hierarchy
@@ -13352,8 +13330,8 @@ const UnifiedSpellCard = ({
                           if (creatureStats.health) {
                             stats.push(`HP: ${creatureStats.health}`);
                           }
-                          if (creatureStats.armor) {
-                            stats.push(`Armor: ${creatureStats.armor}`);
+                          if (creatureStats.damageReduction) {
+                            stats.push(`DR: ${creatureStats.damageReduction}`);
                           }
                           if (creatureStats.damage) {
                             stats.push(`Damage: ${creatureStats.damage}`);
@@ -13558,12 +13536,10 @@ const UnifiedSpellCard = ({
                             if (creature.stats?.maxAp || creature.stats?.ap) {
                               stats.push(`AP: ${creature.stats.maxAp || creature.stats.ap}`);
                             }
-                            if (creature.stats?.armor) {
-                              stats.push(`Armor: ${creature.stats.armor}`);
+                            if (creature.stats?.damageReduction) {
+                              stats.push(`DR: ${creature.stats.damageReduction}`);
                             }
                           }
-
-                          // Add equipment and ability handling info
                           if (transformationData.maintainEquipment === true) {
                             stats.push('Equipment maintained');
                           } else if (transformationData.maintainEquipment === false) {

@@ -23,8 +23,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Mining'],
     gatheringMethod: 'purchasing',
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'reinforced-pick',
@@ -42,8 +42,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Mining'],
     gatheringMethod: 'purchasing',
-    durability: 200,
-    maxDurability: 200
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'prospecting-hammer',
@@ -61,8 +61,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Mining'],
     gatheringMethod: 'purchasing',
-    durability: 150,
-    maxDurability: 150
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'herbalists-knife',
@@ -80,8 +80,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Herbalism'],
     gatheringMethod: 'purchasing',
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'gathering-sickle',
@@ -99,8 +99,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Herbalism'],
     gatheringMethod: 'purchasing',
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   },
   {
     id: 'skinning-knife',
@@ -118,8 +118,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Skinning'],
     gatheringMethod: 'purchasing',
-    durability: 100,
-    maxDurability: 100
+    durability: 'd10',
+    maxDurability: 'd10'
   },
 
   // === CRAFTING TOOLS ===
@@ -139,8 +139,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Blacksmithing'],
     gatheringMethod: 'purchasing',
-    durability: 150,
-    maxDurability: 150
+    durability: 'd12',
+    maxDurability: 'd12'
   },
   {
     id: 'tongs',
@@ -158,8 +158,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Blacksmithing'],
     gatheringMethod: 'purchasing',
-    durability: 200,
-    maxDurability: 200
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'sewing-needle',
@@ -178,8 +178,8 @@ export const TOOLS = [
     materialType: 'Metal',
     professions: ['Tailoring'],
     gatheringMethod: 'purchasing',
-    durability: 50,
-    maxDurability: 50
+    durability: 'd6',
+    maxDurability: 'd6'
   },
   {
     id: 'loom-kit',
@@ -197,8 +197,8 @@ export const TOOLS = [
     materialType: 'Wood',
     professions: ['Tailoring'],
     gatheringMethod: 'purchasing',
-    durability: 300,
-    maxDurability: 300
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'mortar-pestle',
@@ -216,8 +216,8 @@ export const TOOLS = [
     materialType: 'Stone',
     professions: ['Alchemy'],
     gatheringMethod: 'purchasing',
-    durability: 200,
-    maxDurability: 200
+    durability: 'd20',
+    maxDurability: 'd20'
   },
   {
     id: 'distillation-coil',
@@ -235,8 +235,8 @@ export const TOOLS = [
     materialType: 'Glass',
     professions: ['Alchemy'],
     gatheringMethod: 'purchasing',
-    durability: 150,
-    maxDurability: 150
+    durability: 'd12',
+    maxDurability: 'd12'
   }
 ];
 

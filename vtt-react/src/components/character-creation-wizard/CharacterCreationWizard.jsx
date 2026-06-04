@@ -15,12 +15,11 @@ import Step2RaceSelection from './steps/Step2RaceSelection';
 import Step3ClassSelection from './steps/Step3ClassSelection';
 import Step4SpellSelection from './steps/Step4SpellSelection';
 import Step5BackgroundSelection from './steps/Step4BackgroundSelection';
-import Step6PathSelection from './steps/Step5PathSelection';
-import Step7StatAllocation from './steps/Step6StatAllocation';
-import Step8SkillsLanguages from './steps/Step7SkillsLanguages';
-import Step9LoreDetails from './steps/Step8LoreDetails';
-import Step10EquipmentSelection from './steps/Step10EquipmentSelection';
-import Step11CharacterSummary from './steps/Step9CharacterSummary';
+import Step6StatAllocation from './steps/Step6StatAllocation';
+import Step7SkillsLanguages from './steps/Step7SkillsLanguages';
+import Step8LoreDetails from './steps/Step8LoreDetails';
+import Step9EquipmentSelection from './steps/Step10EquipmentSelection';
+import Step10CharacterSummary from './steps/Step9CharacterSummary';
 
 // Import components
 import AnimatedChatBubble from './components/AnimatedChatBubble';
@@ -65,18 +64,16 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 return <Step4SpellSelection />;
             case WIZARD_STEPS.BACKGROUND_SELECTION:
                 return <Step5BackgroundSelection />;
-            case WIZARD_STEPS.PATH_SELECTION:
-                return <Step6PathSelection />;
             case WIZARD_STEPS.STAT_ALLOCATION:
-                return <Step7StatAllocation />;
+                return <Step6StatAllocation />;
             case WIZARD_STEPS.SKILLS_LANGUAGES:
-                return <Step8SkillsLanguages />;
+                return <Step7SkillsLanguages />;
             case WIZARD_STEPS.LORE_DETAILS:
-                return <Step9LoreDetails />;
+                return <Step8LoreDetails />;
             case WIZARD_STEPS.EQUIPMENT_SELECTION:
-                return <Step10EquipmentSelection />;
+                return <Step9EquipmentSelection />;
             case WIZARD_STEPS.CHARACTER_SUMMARY:
-                return <Step11CharacterSummary />;
+                return <Step10CharacterSummary />;
             default:
                 return <Step1BasicInfo />;
         }
@@ -113,7 +110,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 selectedSkills: state.characterData.selectedSkills,
                 selectedLanguages: state.characterData.selectedLanguages,
                 skillRanks: state.characterData.skillRanks,
-                path: state.characterData.path,
+                path: '',
                 selectedAbility: state.characterData.selectedAbility,
                 stats: state.characterData.finalStats,
                 lore: state.characterData.lore,

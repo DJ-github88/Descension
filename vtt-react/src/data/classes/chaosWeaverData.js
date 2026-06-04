@@ -35,6 +35,11 @@ export const CHAOS_WEAVER_DATA = {
 
   // 1. Lore & Systems Header
   overview: {
+    originStory: `Reality is a woven tapestry, but the nomad Xyris did not see beauty in the threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Breach. She gathered fragments of the Sundrift Monolith, fusing them into her own blood to thin the planar anchor that binds her to this world.
+
+The price of this entropic friction is molecular instability. Her physical form is vulnerable to sudden, localized dissolution, her marrow humming with erratic void energy that threatens to tear her apart. Her spells are wild, unpredictable swings, risking catastrophic feedback loops that can consume her own flesh or damage allies as easily as enemies.
+
+Embrace the void's friction. The lines of reality are fraying, and your hands are on the loom. Spin the madness before it unravels you.`,
     title: "The Chaos Weaver",
     subtitle: "A Walking Fracture in the Tapestry of Time and Space",
 
@@ -55,16 +60,49 @@ export const CHAOS_WEAVER_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Chaos Weavers are tragic outcasts, marked by the atmospheric terror of their magic. Their bodies bear the scars of reality's backlash: hair that drifts as if underwater, eyes that reflect starry voids, and skin that is cold to the touch. 
+      content: `**HISTORY: THE GENESIS**
+The chaos weaver's volatile planar manipulation was first manifested in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. A nomadic star-watcher named **Xyris** sought to capture the energy of the dying constellations and accidentally spliced a thread of temporal friction directly into her blood.
 
-Common Chaos Weaver archetypes include:
-- **The Entropic Vector**: A fatalistic scholar who accepts that the universe must dissolve, acting as a willing conduit for its decay.
-- **The Spatial Weaver**: Focuses on the tearing and folding of physical space, stepping through dimensional seams while leaving craters in their wake.
-- **The Timeline Fracturer**: Haunted by visions of what could have been, they rip threads from parallel timelines, splicing them violently into the present.
-- **The Void Echo**: A survivor of a partial planar deletion, half-dissolved, struggling to keep their molecular weight anchored to the soil.
+The price of this planar thinning was severe molecular instability. By step-stepping through dimensional seams, Xyris permanently thinned her planar anchor, leaving her physical form vulnerable to sudden dissolution and requiring intense mental stamina to maintain stability.
 
-They carry a deep, copper-smelling atmospheric weight. To allies, they are a terrifying shield; to enemies, they are the harbinger of a localized apocalypse.`
+**CITIES & CIVIL RECEPTION**
+Chaos Weavers are viewed with intense suspicion and fear throughout the settled kingdoms, often forced to practice their volatile arts in the nomadic yurt-camps of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> or the deep subterranean sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the crystal-skinned <LoreLink termId="astril">Sylen Astril</LoreLink> who seek absolute symbiosis with their nesting spirits.
+
+**NOTABLE FIGURES**
+* **Xyris the Rift-Spanner**: The nomad who thinned her planar anchor to step through reality, risking physical dissolution.
+* **Zarek the Unstable**: An Astril chaos-weaver whose skin blazed with the light of three colliding stars.`
     },
+
+    signatureQuote: {
+      text: '"I did not tear a hole in reality. I simply found one that was already there, and I am small enough to crawl through. The chaos was here before me."',
+      speaker: 'Xyris the Unbound',
+      context: 'Final journal entry before her physical form dissolved and reconstituted seventeen miles away'
+    },
+
+    philosophy: {
+      coreTenet: 'Reality is a consensus hallucination held together by habit. Chaos Weavers are the ones who wake up from the dream and realize the walls are thin. The cosmos is not orderly — it is a seething mass of potential that has been temporarily constrained by the will of the living. Constraint is violence. Chaos is truth.',
+      relationship: 'Chaos Weavers do not create Mayhem — they release it. The universe is full of latent probability friction, the residue of collapsing timelines and unrealized futures. Every spell draws on this friction, thinning the walls between what is and what could be. The relationship is parasitic: the Chaos Weaver feeds on the death throes of unborn realities.',
+      paradox: 'The more Mayhem a Chaos Weaver accumulates, the more powerful they become — and the closer they come to catastrophic dissolution. At maximum Mayhem, they are briefly godlike, warping reality with every gesture. And then the Wild Surge hits. Some have described what comes after as "like dying, but not stopping." A Chaos Weaver who survives their first Surge is forever changed — and forever less human.'
+    },
+
+    currentCrisis: `The Wild Surges are becoming permanent. Historically, the Mayhem collapse was a violent but contained event — the Chaos Weaver destabilized, reality snapped back, and order was restored. In the past six months, three Chaos Weavers have experienced Surges that did not collapse. Their Mayhem reached maximum, the Surge triggered, but instead of resetting, the chaos stabilized into a new, localized reality-warp.
+
+These "Chaos Pockets" — zones where the laws of physics operate differently — now exist in the Sundrift Vale. Grass grows sideways. Rain falls upward. Time passes at different rates depending on where you stand. The Weavers who created them are still alive, trapped at the center of their own Surges, unable to move, unable to die, their bodies suspended in a state of permanent dissolution. The other Weavers have cordoned off the areas and are trying to understand what happened before they trigger a Pocket themselves.`,
+
+    meaningfulTradeoffs: `To weave chaos is to never be certain of your own existence. Chaos Weavers sometimes reach for a memory and find a different person's life has replaced it. They occasionally meet people who swear they met "last year" — but for the Weaver, that meeting is still in the future. The chronal friction that powers their spells eats away at their linear experience of time. They cannot trust their own past, and they cannot predict their own future. Most Chaos Weavers develop compulsive recording habits — journals, voice-carvings, memory-crystals — desperate attempts to anchor themselves to a single, stable timeline.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Fracture Sites',
+        locationId: 'sundrift-vale',
+        description: 'Three cordoned-off locations in the Sundrift Vale where Chaos Weavers\' Surges became permanent. Each site is a dome of warped reality, visible from miles away as a shimmer in the air. Grass inside grows in spirals. Animals that wander in emerge walking backward. The sites are studied obsessively by surviving Weavers, who hope to understand the transition — and prevent it.',
+        purpose: 'Research sites for understanding permanent Surge-states',
+        status: 'Active — cordoned off, under observation'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

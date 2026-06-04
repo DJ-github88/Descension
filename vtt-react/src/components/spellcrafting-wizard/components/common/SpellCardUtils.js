@@ -302,7 +302,6 @@ const convertStatToReadable = (stat) => {
     'spelldamage': 'Spell Damage',
     'damage': 'Physical Damage',
     'rangeddamage': 'Ranged Damage',
-    'armor': 'Armor',
     'maxhealth': 'max health',
     'maxmana': 'max mana',
     'currenthealth': 'current health',
@@ -451,7 +450,6 @@ export const formatFormulaToReadableText = (formula, drawCount = 4) => {
   readableText = readableText.replace(/\b(charisma|CHA)\b/gi, 'Charisma');
   readableText = readableText.replace(/\b(damage)\b/gi, 'might');
   readableText = readableText.replace(/\b(rangeddamage|rangedDamage)\b/gi, 'precision');
-  readableText = readableText.replace(/\b(armor)\b/gi, 'defense');
   readableText = readableText.replace(/\b(maxhealth|maxHealth)\b/gi, 'max health');
   readableText = readableText.replace(/\b(maxmana|maxMana)\b/gi, 'max mana');
   readableText = readableText.replace(/\b(currenthealth|currentHealth)\b/gi, 'current health');

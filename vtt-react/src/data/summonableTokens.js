@@ -695,7 +695,7 @@ export const TOKEN_TEMPLATES = {
         size: 'TINY',
         stats: { maxHp: 5, maxMana: 0, speed: 0 },
         tokenIcon: 'spell_shadow_acid',
-        abilities: ['2d8 poison damage', '-3 armor for 3 rounds', '5ft cone trigger'],
+        abilities: ['2d8 poison damage', '-3 DR for 3 rounds', '5ft cone trigger'],
       },
       quantity: 1,
       duration: { value: 10, unit: 'minutes' },

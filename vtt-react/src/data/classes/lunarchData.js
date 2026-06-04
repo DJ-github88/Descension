@@ -16,6 +16,11 @@ export const LUNARCH_DATA = {
 
   // Overview section
   overview: {
+    originStory: `Selene, a sister of the forgotten House Viridane, bargained with the wildwood fae in the moonlit groves of the Frostwood, seeking the light of the dead moon to guide her family's escape from the northern vigil keeps. She bound a lunar parasite to her bones, letting its starlight veins wrap around her marrow.
+
+The fae granted the light, but they took the warmth from her blood. The Lunarch carries a permanent chill in her marrow, unable to feel heat even when standing in forge-fire. Her power fluctuates erratically with the lunar cycles, leaving her weak during the new moon, her skin glowing with a pale silver aura.
+
+Shine in the dark. The moon's light is cold, but it is the only guide left in a frozen world. Guide them before the shadows close in.`,
     title: "The Lunarch",
     subtitle: "Vessel of the Lunar Parasite",
 
@@ -42,18 +47,47 @@ No other class can manipulate the passage of rounds on the battlefield. No other
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Lunarchs are not born -- they are claimed. The parasite selects its host through unknown criteria, though victims often report a single night where the moon seemed impossibly large and a cold pressure settled at the base of their skull. By morning, the Lunarch can feel it: something stirring behind their thoughts, something that is not them, something that is older than the ground beneath their feet.
+      content: `**HISTORY: THE GENESIS**
+The lunarch's crescent aura was born in the moonlit groves of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. A sister of House Viridane named **Selene** fled the noble armies and bargained with the wildwood fae to capture the moon's light. The price of this celestial aura was a permanent chill in her bones. Selene could never feel warmth again, even next to volcanic vents, her flesh glowing with a pale, sympathetic silver.
 
-**Common Lunarch Archetypes**:
-- **The Reluctant Vessel**: A farmer, a soldier, a beggar -- someone ordinary who woke up one night with starlight bleeding from their eyes and a voice that was not theirs whispering the names of dead stars
-- **The Willing Sacrifice**: Someone who sought out the parasite deliberately, believing that cosmic horror was preferable to the alternative -- a dying parent, a losing war, a debt that could only be paid in flesh
-- **The Hollowed Scholar**: A mage or astronomer who studied the moon too closely, too hungrily, and drew the parasite's attention through sheer obsession
-- **The Weaponized Host**: A soldier or assassin who was deliberately infected by an organization that treats Lunarchs as living siege engines -- pointed at enemies and released
+**CITIES & CIVIL RECEPTION**
+Lunarchs are celebrated as spiritual leaders among the Briaran, but they are hunted as heretics by the noble houses of the north.
 
-**Physical Signs**: All Lunarchs carry visible marks of their parasitic bond. Starlight-visible veins beneath translucent skin. Eyes that reflect moonlight even in total darkness. A faint hum or crackle of static when the phase shifts. At higher levels, the Lunarch's flesh develops visible seams -- thin lines of cold white light where the parasite's tendrils have replaced connective tissue.
+**RACES & CULTURAL AFFILIATION**
+The class is exclusively practiced by the <LoreLink termId="briaran">Briaran</LoreLink> descendants of House Viridane.
 
-**Personality**: Lunarchs tend toward fatalism. They know what lives inside them. They know it is killing them. They know they cannot remove it without dying. Some become cold and detached, viewing their body as a borrowed weapon. Others become fiercely defiant, determined to wring every drop of power from the parasite before it consumes them entirely. All of them flinch when they see the moon.`,
+**NOTABLE FIGURES**
+* **Selene of House Viridane**: The founding sister of the Lunarch order who led her house's escape from the north.
+* **Eldrin the Moon-Touched**: A Briaran elder who established the first moonlit sanctuaries in the Frostwood Reach.`
     },
+
+    signatureQuote: {
+      text: '"The parasite does not hate me. It loves me. That is the horror of it. It loves me so completely that it has rewritten every cell of my body to match its idea of perfection."',
+      speaker: 'Selene of House Viridane',
+      context: 'Her testimony to the Briaran elders, explaining why she cannot remove the lunar entity'
+    },
+
+    philosophy: {
+      coreTenet: 'The moon is dead, but its ghost still orbits. The light it casts is not illumination — it is memory, a recording of a celestial body that no longer exists. The Lunarch does not draw power from the moon; they draw power from the absence of the moon, the hollow space where it used to be, the ache of something beautiful that has ended.',
+      relationship: 'The lunar parasite is not a symbiont — it is a predator that has learned to keep its host alive. It feeds on specific human experiences: the New Moon feeds on hope, the Waxing on anticipation, the Full on ecstasy, the Waning on memory. It cycles through these phases relentlessly, consuming whatever emotional energy the host is producing at that moment. The host is not in control. The parasite decides when to hunt, and the host is left to pick up the pieces of their own psyche afterward.',
+      paradox: 'The Lunarch is at their most powerful when the parasite is at its most active — the Full Moon phase brings devastating power, but it consumes the host\'s most precious memories. A Lunarch who cycles through too many Full Moons will forget their own name, their family, their reason for fighting. The parasite remembers for them, but the parasite does not care. It will cheerfully trade a moment of transcendent power for a decade of the host\'s most cherished experiences.'
+    },
+
+    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity — a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the moon was not a celestial body. It was an egg, and its children are the parasites.
+
+The elder parasites — those bonded to the first Lunarchs — are beginning to communicate with each other across their hosts. They are planning something. Selene of House Viridane has been silent for three weeks, staring at the sky, occasionally whispering in a language that no living person speaks. The Briaran shamans have placed her in isolation, but they cannot stop the parasite from cycling through its phases. When the next Full Moon comes, they do not know if Selene will still be Selene — or if she will be something the egg has been waiting for.`,
+
+    meaningfulTradeoffs: `A Lunarch cannot control when they change, what they feel, or what they remember. The parasite cycles through its phases on a fixed schedule, and the host is along for the ride. A Lunarch in the Waning phase will lose memories regardless of whether they are in combat or sitting peacefully by a fire. They can be mid-conversation when the parasite decides it is time to feed, and they will suddenly forget the person they are talking to. Relationships are nearly impossible — partners learn to read the phase-cycle and avoid the host during certain times. The Lunarch lives at the mercy of a creature that does not negotiate.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Moonlit Sanctuaries',
+        locationId: 'ironwood-heart',
+        description: 'Hidden clearings deep in the Ironwood Heart where the Briaran elders established safe houses for Lunarchs to cycle through their phases without endangering others. Each sanctuary is a circle of standing stones positioned to catch the light of the dead moon at specific angles, minimizing the parasite\'s feeding efficiency and giving the host a few precious hours of lucidity.',
+        purpose: 'Safe cycling grounds for Lunarchs in crisis',
+        status: 'Active — Selene occupies the central sanctuary, and no one can approach'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

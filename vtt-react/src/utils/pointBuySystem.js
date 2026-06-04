@@ -6,7 +6,7 @@
  */
 
 import { getCustomBackgroundStartingPoints } from '../data/customBackgroundData';
-import { getPathStartingPoints } from '../data/pathData';
+// import { getPathStartingPoints } from '../data/pathData'; // Disciplines removed
 
 // Base point-buy configuration
 export const POINT_BUY_CONFIG = {
@@ -270,7 +270,6 @@ export const calculateAbilityModifier = (statValue) => {
 export const getRaceBonusPoints = (raceId) => {
     // Races that provide bonus points (can be expanded based on lore)
     const raceBonuses = {
-        'hrym': 1, // Hrym get +1 point for their resilience and survival skills
         'human': 2, // Humans get +2 points for their adaptability and ambition
         'elf': 1, // Elves get +1 point for their long lifespan and magical affinity
         'dwarf': 1, // Dwarves get +1 point for their craftsmanship and endurance
@@ -290,11 +289,6 @@ export const getRaceBonusPoints = (raceId) => {
 export const getSubraceBonusPoints = (raceId, subraceId) => {
     // Subraces that provide bonus points (can be expanded based on lore)
     const subraceBonuses = {
-        // Hrym subraces
-        'hrym_berserker': 1, // Bloodhammer get +1 point for their martial prowess
-        'hrym_runekeeper': 1, // Rune-Keepers get +1 point for their magical knowledge
-        'hrym_frostbound': 1, // Frostbound get +1 point for their survival expertise
-
         // Human subraces
         'human_variant': 1, // Variant humans get +1 point for their flexible nature
 
@@ -329,8 +323,7 @@ export const getTotalBonusPoints = (characterData) => {
     const subraceBonus = getSubraceBonusPoints(characterData.race, characterData.subrace);
     const backgroundBonus = characterData.background ?
         getCustomBackgroundStartingPoints(characterData.background) : 0;
-    const pathBonus = characterData.path ?
-        getPathStartingPoints(characterData.path) : 0;
+    const pathBonus = 0; // Path bonus removed (disciplines are no longer part of the system)
 
     return {
         race: raceBonus,

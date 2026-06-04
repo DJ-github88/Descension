@@ -111,17 +111,13 @@ const CreatureTooltip = ({
         {isGM ? (
           /* ══════ GM VIEW – full data ══════ */
           <>
-            {/* Stat grid: SPD / Armor / AP */}
-            <div className="tt-stat-grid">
+            {/* Stat grid: Speed & AP */}
+            <div className="tt-stat-grid two-col">
               <div className="tt-stat-cell">
                 <span className="tt-stat-cell-label">Speed</span>
                 <span className="tt-stat-cell-value">
                   {speed}<span className="stat-unit">ft</span>
                 </span>
-              </div>
-              <div className="tt-stat-cell">
-                <span className="tt-stat-cell-label">Armor</span>
-                <span className="tt-stat-cell-value">{armor}</span>
               </div>
               <div className="tt-stat-cell">
                 <span className="tt-stat-cell-label">AP</span>
@@ -133,20 +129,13 @@ const CreatureTooltip = ({
               </div>
             </div>
 
-            {/* Attack + Armor Detail rows */}
+            {/* Attack Detail row */}
             <div className="tt-divider" />
             <div className="tt-row">
               <span className="tt-row-label">Attack</span>
               <span className="tt-row-value">
                 <span className="dice-badge">{attackInfo.formula}</span>
                 <span className="dmg-type">{damageType.label.toLowerCase()}</span>
-              </span>
-            </div>
-            <div className="tt-row">
-              <span className="tt-row-label">Armor</span>
-              <span className="tt-row-value">
-                <span style={{ color: '#e8d9b8' }}>DR {armorRating.passiveDR}</span>
-                <span className="armor-detail">• Soak {armorRating.soakDie}</span>
               </span>
             </div>
 
@@ -239,14 +228,10 @@ const CreatureTooltip = ({
         ) : playerTooltipMode === 'full' ? (
           /* ══════ PLAYER VIEW – full (GM grants) ══════ */
           <>
-            <div className="tt-stat-grid two-col">
+            <div className="tt-stat-grid">
               <div className="tt-stat-cell">
                 <span className="tt-stat-cell-label">Speed</span>
                 <span className="tt-stat-cell-value">{speed}<span className="stat-unit">ft</span></span>
-              </div>
-              <div className="tt-stat-cell">
-                <span className="tt-stat-cell-label">Armor</span>
-                <span className="tt-stat-cell-value">{armor}</span>
               </div>
             </div>
             <div className="tt-health-section">
@@ -271,12 +256,6 @@ const CreatureTooltip = ({
               <span className="tt-descriptor-label">Speed</span>
               <span className="tt-descriptor-badge" style={{ color: speedRating.color }}>
                 {speedRating.label}
-              </span>
-            </div>
-            <div className="tt-descriptor-row">
-              <span className="tt-descriptor-label">Armor</span>
-              <span className="tt-descriptor-badge" style={{ color: armorRating.color }}>
-                {armorRating.label}
               </span>
             </div>
             <div className="tt-divider" />
@@ -304,12 +283,6 @@ const CreatureTooltip = ({
               <span className="tt-descriptor-label">Speed</span>
               <span className="tt-descriptor-badge" style={{ color: speedRating.color }}>
                 {speedRating.label}
-              </span>
-            </div>
-            <div className="tt-descriptor-row">
-              <span className="tt-descriptor-label">Armor</span>
-              <span className="tt-descriptor-badge" style={{ color: armorRating.color }}>
-                {armorRating.label}
               </span>
             </div>
             <div className="tt-divider" />

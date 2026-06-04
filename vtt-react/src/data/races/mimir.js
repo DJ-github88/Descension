@@ -4,7 +4,10 @@ export const mimir = {
         essence: 'The Mask-Bound',
         illustration: '/assets/images/races/mimir_illustration.png',
         illustrationCaption: 'A tall, slender Mimir in a bark-hide cloak, flat reflective mask catching fog-light, two glowing eye-beads burning through the mist like distant stars.',
-        description: `We have never shown you our faces. Not because we are hiding something monstrous — but because the fog that saved the Frostwood Reach from the deep freeze also devours memory, and eleven generations ago we stopped being certain what our faces looked like, so we have been wearing the answer ever since. When the local noble family traded the region's spatial clarity for an insulating, protective mist, they did not understand what they had bargained away. The fog that keeps the ancient timber from shattering in the cold also steals what a people remember of themselves — names blur, faces fade, lineages dissolve into the grey. The humans cope with journals and carved tapestries. We cope with masks. But the mask is not a disguise. The mask is the last thing our mothers gave us, pressed into newborn spore-flesh still wet from the birthing flame, and we have never taken it off. You think we are secretive. You are right. But we are secretive the way a person who has been hunted for their skin is secretive — not proud, not mysterious, just still alive in a land where the very air conspires to erase us.`,
+        cardFlavor: 'Canopy-dwellers who sealed their faces behind wooden masks when the Frostwood fog began stealing their memories.',
+        description: `**[The Mask-Bound Canopy-Folk]** — *High in the foggy canopy of the ironwood forests, a slender figure in a seamless oak mask leans forward, their wooden face perfectly still while their body shifts with a liquid, predatory grace.*
+
+The Mimir have never shown their faces to outsiders. This is not because they hide something monstrous, but because the fog that saved the Frostwood Reach from the deep freeze also devours memory over generations, leaving them uncertain of what their original faces looked like. The seamless mask of heartwood or storm-glass is the last thing a Mimir mother gives to her child, pressed into newborn spore-flesh to serve as a calcified barrier between the original soul and the fetch-spirit that lives inside them. Poachers hunt the Mimir for their mask-relics, and the Mimir live in perpetual secrecy in the mist-shattered valleys, where the very air threatens to erase their memories.`,
         icon: 'fas fa-mask',
         overview: `When the Frostwood Reach's noble family made their dark bargain with the Keth-Amar — trading the region's spatial clarity for a protective, insulating mist that would keep their ancient timber and wildlife from freezing into glass — they understood the price they were paying. The fog would decay memory. Over generations, history would blur. Faces would fade. The humans would cope with written journals, hand-carved lineage tapestries, and a deep, abiding suspicion of anyone who could not verify their ancestry.
 
@@ -26,7 +29,7 @@ Mimir are introverted by nature. Outside the Vales they wear borrowed forms — 
         integrationNotes: {
             actionPointSystem: 'Mimir abilities focus on perception, memory, identity protection, and environmental adaptation. Their traits emphasize survival in obscured terrain and social nuance.',
             backgroundSynergy: 'Mimir excel in backgrounds emphasizing stealth, perception, and survival. Their introverted nature and secretive culture create compelling roleplay tension with outsiders.',
-            classCompatibility: 'Mask-Borne favor Inscriptor, Oracle, Augur, and Lunarch. Mist-Woven favor Huntress, Warden, Bladedancer, and Spellguard. The Unwoven favor Toxicologist, Plaguebringer, Witch Doctor, and Doomsayer.'
+            classCompatibility: 'The Mask-Borne favor Inscriptors, Oracles, Augurs, and Lunarchs, using their inherited masks and canopy archives to record lineages, read starlight portents, and commune with ancestral memories. The Mist-Woven favor Huntresses, Wardens, Bladedancers, and Spellguards, employing their physical agility and storm-glass masks to patrol cliff-borders and channel mist-concealment into defensive barriers. The Unwoven favor Toxicologists, Plaguebringers, Witch Doctors, and Doomsayers, relying on deep-floor fungal poisons, homebrew remedies, and the desperate, maskless freedom of the valley floor to survive.'
         },
         meaningfulTradeoffs: 'Mimir gain powerful identity protection and perception abilities through their masks and fetch-motes, but suffer severe consequences if their masks are forcibly removed or their motes destroyed. They are introverted outsiders who struggle outside the Fog-Vales and face hostility from poachers who hunt them for their mask-relics.',
         baseTraits: {
@@ -158,7 +161,7 @@ The fog itself grows stranger. The protective mist that the Frostwood Reach's no
 
 Meanwhile, the Hunters grow bolder. A new cartel operating out of the eastern trade cities has begun systematic expeditions into the Vales, equipped with detection magic refined specifically to pierce Mimir concealment. These are not superstitious peasants with silver knives. They are professionals backed by noble houses who know exactly what a Mimir mask is worth on the black collector's market — more than a mercenary company's annual contract, more than a small estate, more than most people in the Reach will earn in a lifetime.
 
-The Mist-Woven have held the borders so far. But they are losing scouts faster than they can train replacements. The Watch-Bell has rung twice in the last year — more than in the previous decade combined. Some Mist-Woven whisper that the Aeries should be abandoned, that the Mimir should retreat deeper into the Vales and collapse the passes behind them. Others say retreat only delays extinction — that the Mimir must finally stop hiding and fight, as the Hrym fought at Frostgate Pass, as the Emberth fought to reclaim Sundale. Hiding, they argue, is what their ancestors did during the Purge. And the Purge nearly ended them.
+The Mist-Woven have held the borders so far. But they are losing scouts faster than they can train replacements. The Watch-Bell has rung twice in the last year — more than in the previous decade combined. Some Mist-Woven whisper that the Aeries should be abandoned, that the Mimir should retreat deeper into the Vales and collapse the passes behind them. Others say retreat only delays extinction — that the Mimir must finally stop hiding and fight, as the Skald fought at Frostgate Pass, as the Emberth fought to reclaim Sundale. Hiding, they argue, is what their ancestors did during the Purge. And the Purge nearly ended them.
 
 The Unwoven watch this crisis from the floor with the patience of people who have always known the reckoning was coming. They have something the Mask-Borne do not: numbers. For every Mask-Borne or Mist-Woven child who inherits a mask, two more are born Maskless and sent to the floor. The Unwoven have been growing, quietly, for three generations. They are no longer the minority. They are the majority, and they know it. They have learned to read spore-trails that the canopy-folk have forgotten exist. They brew toxins from deep-floor fungal blooms. They navigate by senses the Mask-Borne aristocracy — so proud of their eleven generations of lineage — can no longer access.
 
@@ -210,7 +213,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                 level: 1,
                 icon: 'spell_holy_divinespirit',
                 spellType: 'PASSIVE',
-                effectTypes: ['buff', 'utility', 'debuff'],
+                effectTypes: ['buff', 'debuff'],
                 typeConfig: {
                     school: 'spirit',
                     secondaryElement: 'psychic',
@@ -303,7 +306,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                 culturalBackground: 'Mask-Borne society is built on lineage and craft — and on the unspoken terror that both are running out. Every child is trained in mask-maintenance, ancestral history, and the art of reading the carved patterns that tell a Mimir\'s entire lineage at a glance. They live in the Canopy-Holds, suspended eighty feet above the forest floor in villages grown from living mycelium and ironwood, where the fog never fully penetrates and the air smells of cultivated spore and ancient heartwood. They are the keepers of the mother-flame, the custodians of the sealed birthing chamber, the ones who debate endlessly in halls hung with sound-dampening mycelium tapestries because they know — they have always known — that the Purge could come again. But preservation has calcified into hoarding. The younger generation is beginning to ask what happens when the last heartwood mask cracks and no one alive remembers how to carve its replacement. They ask why the Unwoven are not invited to Conclave. They ask — quietly, carefully, so the elders cannot hear — whether the Rupture was a mistake, and whether the Mask-Borne deserve the masks they inherited.',
                 statModifiers: {
                     charisma: 2,
-                    intelligence: 2,
+                    intelligence: 1,
                     agility: -1
                 },
                 traits: [

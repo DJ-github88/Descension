@@ -36,6 +36,11 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
   },
 
   overview: {
+    originStory: `Vespera the Vreken alchemist bonded with the bog-rot of the Bryngloom to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered the decaying moss of the Sunken Spire, injecting its alchemical bile directly into her veins to act as a counter-toxin.
+
+She cured the hush, but her body became a permanent host for active decay. The Plaguebringer's skin is waxy, pale, and cold, and she must constantly cultivate new diseases within her own tissue to prevent the rot from consuming her own internal organs, transforming her body into a living laboratory.
+
+Sicken the world. You are the flask of pestilence, and the rot is your only strength. Spread the seed before you dissolve.`,
     title: "The Plaguebringer",
     subtitle: "Dark Cultivator of Rot & Decay",
 
@@ -56,16 +61,47 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `To be a Plaguebringer is to embrace a curse. They are pariahs, tragic figures who have peered into the rotting heart of nature and seen the mold, the maggots, and the creeping damp as the true masters of life.
+      content: `**HISTORY: THE GENESIS**
+The plaguebringer's rot-vessel was born in the peat-bog sinks of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. An alchemist named **Vespera** sought to synthesize a cure for the mycelial spore-hush and accidentally bonded with the bog's decay. The price of this alchemical synthesis was waxy, cold skin and warty growths. Vespera lived in perpetual symbiosis with the rot, her skin turning waxy, pale, and cold to the touch.
 
-**The Plaguebringer's Philosophy**: Magic is not light or music; it is a wet, heavy rot. Every spell is a physical toll, a desperate, agonizing survival of bone and blood. They are the grim reapers who know that everything must rot eventually—they simply hasten the harvest.
+**CITIES & CIVIL RECEPTION**
+Plaguebringers are feared and outlawed in every civilized city, forced to reside in the Over-Shanties or the forest sumps.
 
-**Common Plaguebringer Archetypes**:
-- **The Defiled Hermit**: Retreating to stagnant swamps, they have learned the languages of mold and decay.
-- **The Agonized Martyr**: Cursed with a terminal rot, they seek to spread their suffering to those who wronged them.
-- **The Black Apothecary**: A fallen physician who realized that cultivating plagues is far easier than curing them.
-- **The Mold-Bound Cultist**: Serving the ancient, silent forces of rot and fungal reanimation.`,
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="neth">Drun Neth</LoreLink> and the Morren outcasts.
+
+**NOTABLE FIGURES**
+* **Vespera the Rot-Vessel**: The alchemist who saved her family from the spore-hush at the price of hosting active decay.
+* **Malakor the Bile-Lord**: A Drun Neth outcast who weaponized the mycelial rot against canopy patrols.`
     },
+
+    signatureQuote: {
+      text: '"They call me a monster. They are right. But I did not make myself this way — I was born into a world that was already rotting, and I learned to breathe the decay."',
+      speaker: 'Vespera the Rot-Keeper',
+      context: 'Her journals, found in a peat-bog after she was presumed dead; she was not dead'
+    },
+
+    philosophy: {
+      coreTenet: 'Decay is not the end of life — it is the continuation of life by other means. The Plaguebringer does not create disease; they cultivate it, tend it, and guide it toward specific outcomes. A disease is not a weapon. It is a garden, and the Plaguebringer is the gardener.',
+      relationship: 'The Plaguebringer\'s body is a living ecosystem. They have deliberately infected themselves with carefully balanced strains of bacteria, fungi, and parasites that coexist without consuming their host. New strains must be introduced carefully — a Plaguebringer can die if they add a disease that upsets the internal balance. Their power comes from this precarious equilibrium, and every harvest — every time they release a cultivated disease into the world — destabilizes them.',
+      paradox: 'The Plaguebringer preserves life by cultivating death. Their body would collapse without the carefully balanced diseases they carry. The rot is not a weapon they wield — it is a symbiotic ecosystem that they host. If they ever cured themselves of every disease, their immune system would collapse from the shock. They need the rot to live. They must keep themselves sick to stay healthy.'
+    },
+
+    currentCrisis: `The internal ecosystem is collapsing. Vespera\'s original strain — the carefully balanced blend of diseases that makes Plaguebringer cultivation possible — is failing. After eight centuries of adaptation, the foundational bacteria are dying. Plaguebringers across the Bryngloom are reporting the same symptoms: their cultivated diseases are becoming unstable, mutating into virulent forms that attack the host.
+
+The cause is unclear. Some blame the Void contamination spreading through the peat-bogs. Others believe the bacterial strains have simply reached the end of their evolutionary lifespan. Whatever the cause, the Plaguebringers are facing extinction. Without stable foundational strains, they cannot cultivate new diseases. Without new diseases, they cannot harvest Virulence. Without Virulence, they cannot fight. And some of them are beginning to realize that if the foundational strains die, the diseases they are carrying may turn on them.`,
+
+    meaningfulTradeoffs: `To be a Plaguebringer is to be untouchable. The diseases they carry are contagious — not lethally (they have cultivated them to be host-specific), but enough to make casual physical contact dangerous. Plaguebringers cannot hug their children. Cannot share a bed. Cannot hold a dying friend\'s hand. They live in a state of permanent physical isolation, surrounded by people who flinch when they approach. Many Plaguebringers develop elaborate surrogate-contact rituals — they leave gifts at doorsteps, communicate through windows, touch via intermediaries. They are never touched.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Rot-Gardens',
+        locationId: 'peat-bog-sinks',
+        description: 'Submerged cultivation chambers in the deepest peat-bogs, where Plaguebringers grow and maintain their foundational bacterial strains. The gardens are marked by distinctive bioluminescent fungi that change color based on the health of the culture. Several gardens have recently turned black — the color of culture death.',
+        purpose: 'Bacterial cultivation and strain preservation',
+        status: 'Critical — foundational strains are failing across all active gardens'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

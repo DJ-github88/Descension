@@ -1039,7 +1039,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             // Explicitly filter out known passive traits that shouldn't be spells
             const spellName = (spell.name || '').toLowerCase();
             const spellId = (spell.id || '').toLowerCase();
-            if (spellId === 'deep_frost_hrym' || spellName === 'deep frost') {
+            if (spellName === 'deep frost') {
               console.warn('🚫 [SpellLibrary] Filtering out Deep Frost - it should be a passive, not a spell');
               return false;
             }

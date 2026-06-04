@@ -699,24 +699,7 @@ export const COMBAT_DISADVANTAGES = [
         affectsActionPoints: false
       }
     },
-    {
-      id: 'reduced_armor',
-      name: 'Reduced Armor',
-      description: 'Armor is reduced',
-      icon: 'spell_shadow_curseofachimonde',
-      category: 'debuff',
-      actionPointCost: 2,
-      options: [
-        { id: 'minor', name: 'Minor Reduction', description: 'Armor reduced by a small amount' },
-        { id: 'major', name: 'Major Reduction', description: 'Armor reduced significantly' },
-        { id: 'bypass', name: 'Armor Bypass', description: 'Specific attacks ignore a portion of armor' }
-      ],
-      defaultParameters: {
-        armorReduction: 4,
-        duration: 3, // rounds
-        bypassPercentage: 0 // percent
-      }
-    },
+
     {
       id: 'stat_reduction',
       name: 'Stat Reduction',

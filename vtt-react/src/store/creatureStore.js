@@ -1,3 +1,9 @@
+import { create } from 'zustand';
+import { v4 as uuidv4 } from 'uuid';
+import useGameStore from './gameStore';
+import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
+import { normalizeTokenData } from '../utils/tokenStateUtils';
+
 // CRITICAL FIX: Track recent token movements to prevent server echo-induced position resets
 // This prevents tokens from jumping back to old positions when server broadcasts position back to all players
 // Initialize tracking in window scope to prevent duplicates across store instances
@@ -6,12 +12,6 @@ if (typeof window !== 'undefined') {
     window.recentTokenMovements = new Map();
   }
 }
-
-import { create } from 'zustand';
-import { v4 as uuidv4 } from 'uuid';
-import useGameStore from './gameStore';
-import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
-import { normalizeTokenData } from '../utils/tokenStateUtils';
 
 // Global recent token movements tracking (window scope for echo prevention)
 // Fallback to new Map if window is not defined (SSR compatibility)

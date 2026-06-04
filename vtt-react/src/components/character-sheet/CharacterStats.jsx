@@ -131,20 +131,7 @@ const STAT_ICONS = {
     'charisma': getCustomIconUrl('Radiant/Radiant Aura', 'abilities')
 };
 
-const getSoakDieFromArmor = (armorValue = 0) => {
-    const armor = Math.max(0, Math.floor(armorValue));
-    if (armor < 5) return '—';
-    if (armor <= 9) return '1d4';
-    if (armor <= 14) return '1d6';
-    if (armor <= 19) return '1d8';
-    if (armor <= 24) return '1d10';
-    if (armor <= 29) return '1d12';
-    if (armor <= 34) return '1d12 + 1d4';
-    if (armor <= 39) return '1d12 + 1d6';
-    if (armor <= 44) return '2d12';
-    if (armor <= 49) return '2d12 + 1d4';
-    return '2d12 + 1d6';
-};
+
 
 // Stat Edit Modal Component
 function StatEditModal({ stat, initialValue, position, onSubmit, onCancel }) {
@@ -680,57 +667,6 @@ export default function CharacterStats() {
             return equipmentBonuses.actionPoints || 0;
         } else if (statLabel.toLowerCase().includes('movement') && statLabel.toLowerCase().includes('speed')) {
             return equipmentBonuses.moveSpeed || 0;
-        } else if (statLabel.toLowerCase() === 'armor') {
-            // For armor, we need to match calculateDerivedStats exactly:
-            // baseArmor = racial + Math.floor((totalAgility - 10) / 2) where totalAgility = base + equipment
-            // armor = baseArmor + equipmentBonuses.armor
-            //
-            // But for display, we want to show:
-            // - Base: racial + baseAgilityModifier
-            // - Equipment: directArmor + equipmentAgilityModifier
-            //
-            // The key insight: calculateDerivedStats uses totalAgility for the modifier, but we split it
-            const directArmorBonus = equipmentBonuses.armor || 0;
-            const agilityEquipmentBonus = equipmentBonuses.agi || 0;
-            
-            // Calculate total agility (base + equipment) - this is what calculateDerivedStats uses
-            const baseAgilityStat = stats.agility || 0;
-            let totalAgility = baseAgilityStat + agilityEquipmentBonus;
-            
-            // Apply encumbrance effects (matching calculateDerivedStats logic exactly)
-            const currentEncumbranceState = encumbranceState || 'normal';
-            if (currentEncumbranceState === 'encumbered') {
-                totalAgility = Math.floor(totalAgility * 0.95);
-            } else if (currentEncumbranceState === 'overencumbered') {
-                totalAgility = Math.floor(totalAgility * 0.85);
-            }
-            
-            // This is what calculateDerivedStats uses for the agility modifier
-            const totalAgilityModifier = Math.floor((totalAgility - 10) / 2);
-            
-            // For display, calculate base agility modifier separately
-            let modifiedBaseAgility = baseAgilityStat;
-            if (currentEncumbranceState === 'encumbered') {
-                modifiedBaseAgility = Math.floor(modifiedBaseAgility * 0.95);
-            } else if (currentEncumbranceState === 'overencumbered') {
-                modifiedBaseAgility = Math.floor(modifiedBaseAgility * 0.85);
-            }
-            const baseAgilityModifier = Math.floor((modifiedBaseAgility - 10) / 2);
-            
-            // Equipment agility modifier is the difference (how much equipment agility adds)
-            const equipmentAgilityModifier = totalAgilityModifier - baseAgilityModifier;
-            
-            // Return breakdown - note that baseValue already includes baseAgilityModifier
-            // So equipment should only show directArmor + equipmentAgilityModifier
-            return {
-                total: directArmorBonus + equipmentAgilityModifier,
-                directArmor: directArmorBonus,
-                fromAgility: equipmentAgilityModifier, // Only the equipment portion
-                agilityEquipmentBonus: agilityEquipmentBonus,
-                totalAgility: totalAgility,
-                totalAgilityModifier: totalAgilityModifier,
-                baseAgilityModifier: baseAgilityModifier // For reference
-            };
         } else if (statLabel.toLowerCase().includes('power')) {
             // For spell power types like "Arcane Power", extract the type and check equipment
             const powerMatch = statLabel.toLowerCase().match(/(\w+)\s+power/);
@@ -771,14 +707,14 @@ export default function CharacterStats() {
             'mana regeneration': ['manaRegen', 'mana_regen', 'regen_mana'],
             'healing power': ['healingPower', 'healing_power'],
             'healing received': ['healingReceived'],
-            'passive dr': ['passiveDR'],
+
             'vision range': ['visionRange'],
             'darkvision': ['darkvision'],
             'swim speed': ['swimSpeed'],
             'climb speed': ['climbSpeed'],
             'fly speed': ['flySpeed'],
             'initiative': ['initiative'],
-            'dodge rating': ['dodgeRating'],
+
             'carrying capacity': ['carryingCapacity'],
         };
 
@@ -936,10 +872,7 @@ export default function CharacterStats() {
     // Calculate XP progress for display
     const xpProgress = getXPProgress(experience);
     
-    // Calculate base armor for display purposes
-    // Note: calculateDerivedStats actually calculates baseArmor using totalAgility (base + equipment),
-    // but for display we want to show what base contributes separately
-    let racialBaseArmor = 0;
+    // Calculate racial base stats for display purposes
     let racialBaseSpeed = 30;
     let racialBaseHP = 25;
     let racialBaseMana = 15;
@@ -948,40 +881,17 @@ export default function CharacterStats() {
         try {
             const { getRacialBaseStats } = require('../../data/raceData');
             const racialStats = getRacialBaseStats(race, subrace);
-            racialBaseArmor = racialStats.armor || 0;
             racialBaseSpeed = racialStats.speed || 30;
             racialBaseHP = racialStats.hp !== undefined ? racialStats.hp : 25;
             racialBaseMana = racialStats.mana !== undefined ? racialStats.mana : 15;
             racialBaseAP = racialStats.ap !== undefined ? racialStats.ap : 3;
         } catch (e) {
-            racialBaseArmor = 0;
             racialBaseSpeed = 30;
             racialBaseHP = 25;
             racialBaseMana = 15;
             racialBaseAP = 3;
         }
     }
-    // Base agility modifier from base agility stat (without equipment bonuses)
-    // This is for display purposes to show what base agility contributes
-    const baseAgilityStat = stats.agility || 0;
-    // Apply encumbrance to base agility for consistency with calculateDerivedStats
-    const currentEncumbranceState = encumbranceState || 'normal';
-    let modifiedBaseAgility = baseAgilityStat;
-    if (currentEncumbranceState === 'encumbered') {
-        modifiedBaseAgility = Math.floor(modifiedBaseAgility * 0.95);
-    } else if (currentEncumbranceState === 'overencumbered') {
-        modifiedBaseAgility = Math.floor(modifiedBaseAgility * 0.85);
-    }
-    const baseAgilityModifier = Math.floor((modifiedBaseAgility - 10) / 2);
-    
-    // Base armor = racial base armor + base agility modifier (for display)
-    // Note: The actual calculateDerivedStats uses totalAgility, but we show base separately
-    const baseArmor = Math.round(racialBaseArmor + baseAgilityModifier);
-    // Use the calculated armor from totalStats which includes all modifiers
-    const totalArmor = Math.round(totalStats.armor || baseArmor || 0);
-    const passiveDR = Math.floor(totalArmor / 10);
-    const basePassiveDR = Math.floor(baseArmor / 10);
-    const soakDie = getSoakDieFromArmor(totalArmor);
 
     const statGroups = {
         summary: {
@@ -1042,51 +952,6 @@ export default function CharacterStats() {
                     icon: getCustomIconUrl('Arcane/Enchanted Sword 2', 'abilities'),
                     color: '#b8860b',
                     description: 'Current and maximum action points per turn'
-                },
-                {
-                    label: 'Passive DR',
-                    value: passiveDR,
-                    baseValue: basePassiveDR,
-                    tooltip: true,
-                    icon: getCustomIconUrl('Utility/Golden Shield', 'abilities'),
-                    color: '#4b6b6b',
-                    description: 'Damage reduced automatically each hit (Armor ÷ 10, rounded down)'
-                },
-                {
-                    label: 'Soak Die (Defend)',
-                    value: soakDie,
-                    baseValue: getSoakDieFromArmor(baseArmor),
-                    tooltip: true,
-                    icon: getCustomIconUrl('Utility/Golden Shield', 'abilities'),
-                    color: '#3b5b7b',
-                    description: 'Bonus reduction you roll when you take the Defend action'
-                },
-                {
-                    label: 'Movement Speed',
-                    value: Math.round(totalStats.movementSpeed ?? 30),
-                    baseValue: racialBaseSpeed,
-                    tooltip: true,
-                    icon: getCustomIconUrl('Arcane/Swift Boot', 'abilities'),
-                    color: '#44ff44',
-                    description: 'Base walking speed in feet per turn'
-                },
-                {
-                    label: 'Passive Perception',
-                    value: 10 + Math.floor(((typeof totalStats.spirit === 'object' ? totalStats.spirit.value : totalStats.spirit || 10) - 10) / 2),
-                    baseValue: 10 + Math.floor(((typeof stats.spirit === 'object' ? stats.spirit.value : stats.spirit || 10) - 10) / 2),
-                    tooltip: true,
-                    icon: getCustomIconUrl('Utility/Watchful Eye', 'abilities'),
-                    color: '#8b6914',
-                    description: 'Passive awareness of surroundings (10 + Spirit modifier)'
-                },
-                {
-                    label: 'Carrying Capacity',
-                    value: Math.round(totalStats.carryingCapacity || 75),
-                    baseValue: Math.round((stats.strength || 10) * 15),
-                    tooltip: true,
-                    icon: getCustomIconUrl('Social/Weight', 'abilities'),
-                    color: '#8B4513',
-                    description: 'Total inventory slots available (base 75 + strength modifier rows + equipment bonuses)'
                 }
             ]
         },
@@ -1215,67 +1080,7 @@ export default function CharacterStats() {
                 }))
                 .filter(stat => stat !== null && stat !== undefined) // Additional safety filter
         },
-        defensive: {
-            title: 'Defensive Statistics',
-            icon: getCustomIconUrl('Utility/Scaled Armor', 'abilities'),
-            description: 'Your character\'s defensive capabilities and survivability',
-            stats: [
-                {
-                    label: 'Armor',
-                    value: totalArmor,
-                    baseValue: baseArmor,
-                    tooltip: true,
-                    icon: getCustomIconUrl('Utility/Scaled Armor', 'abilities'),
-                    color: '#6b6b6b',
-                    description: 'Armor score used for passive DR and the Defend soak die'
-                },
-                {
-                    label: 'Passive DR',
-                    value: passiveDR,
-                    baseValue: basePassiveDR,
-                    tooltip: true,
-                    icon: getCustomIconUrl('Utility/Golden Shield', 'abilities'),
-                    color: '#4b6b6b',
-                    description: 'Damage reduced automatically each hit (Armor ÷ 10, rounded down)'
-                },
-                {
-                    label: 'Soak Die (Defend)',
-                    value: soakDie,
-                    baseValue: getSoakDieFromArmor(baseArmor),
-                    tooltip: true,
-                    icon: getCustomIconUrl('Utility/Golden Shield', 'abilities'),
-                    color: '#3b5b7b',
-                    description: 'Bonus reduction you roll when you take the Defend action'
-                },
-                {
-                    label: 'Dodge Rating',
-                    value: Math.floor((totalStats.agility || 10) / 15),
-                    baseValue: Math.floor((stats.agility || 10) / 15),
-                    tooltip: true,
-                    icon: getCustomIconUrl('Utility/Speed Dash', 'abilities'),
-                    color: '#4b6b6b',
-                    description: `${Math.floor((totalStats.agility || 10) / 15)} Dodge Rating (15 Agility = 1 Rating)`
-                },
-                {
-                    label: 'Max Health',
-                    value: health.max,
-                    baseValue: Math.round((stats.constitution || 10) * 5) + racialBaseHP,
-                    tooltip: true,
-                    icon: getCustomIconUrl('Healing/Red Heart', 'abilities'),
-                    color: '#ff4444',
-                    description: 'Maximum hit points'
-                },
-                {
-                    label: 'Max Mana',
-                    value: mana.max,
-                    baseValue: Math.round((stats.intelligence || 10) * 5) + racialBaseMana,
-                    tooltip: true,
-                    icon: getCustomIconUrl('Utility/Glowing Orb', 'abilities'),
-                    color: '#4444ff',
-                    description: 'Maximum mana points'
-                }
-            ]
-        },
+
         regeneration: {
             title: 'Regeneration & Healing',
             icon: getCustomIconUrl('Healing/Golden Heart', 'abilities'),
@@ -1396,6 +1201,15 @@ export default function CharacterStats() {
             description: 'Your character\'s sensory and utility capabilities',
             stats: [
                 {
+                    label: 'Passive Perception',
+                    value: 10 + Math.floor(((typeof totalStats.spirit === 'object' ? totalStats.spirit.value : totalStats.spirit || 10) - 10) / 2),
+                    baseValue: 10 + Math.floor(((typeof stats.spirit === 'object' ? stats.spirit.value : stats.spirit || 10) - 10) / 2),
+                    tooltip: true,
+                    icon: getCustomIconUrl('Utility/Watchful Eye', 'abilities'),
+                    color: '#8b6914',
+                    description: 'Passive awareness of surroundings (10 + Spirit modifier)'
+                },
+                {
                     label: 'Vision Range',
                     value: Math.round(totalStats.visionRange || 60),
                     baseValue: 60,
@@ -1415,21 +1229,12 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Carrying Capacity',
-                    value: '5x5', // Show as grid size instead of weight
-                    baseValue: '5x5',
+                    value: Math.round(totalStats.carryingCapacity || 75),
+                    baseValue: Math.round((stats.strength || 10) * 15),
                     tooltip: true,
                     icon: getCustomIconUrl('Social/Weight', 'abilities'),
                     color: '#8B4513',
-                    description: 'Inventory grid size'
-                },
-                {
-                    label: 'Initiative',
-                    value: Math.round(totalStats.initiative || Math.floor((stats.agility || 10) / 5) || 0),
-                    baseValue: Math.round(Math.floor((stats.agility || 10) / 5) || 0),
-                    tooltip: true,
-                    icon: getCustomIconUrl('Piercing/Dash Arrow', 'abilities'),
-                    color: '#8B4513',
-                    description: 'Initiative bonus for combat order'
+                    description: 'Total carrying capacity (Strength-based)'
                 }
             ]
         },

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Martyr Class Data
  *
  * Complete class information for the Martyr - a selfless protector
@@ -14,6 +14,11 @@ export const MARTYR_DATA = {
 
   // Overview section
   overview: {
+    originStory: `The Solvarn mother Sera refused to let her sacrificed child's name be erased by the noble houses' history-purge. She carved the name directly into her forearm with volcanic obsidian, swearing to bear the pain of the entire badlands to keep the memory alive.
+
+Her devotion opened a channel of sympathetic pain. The Martyr carries the physical scars of all nearby wounds, her tissue burning with sympathetic heat whenever an ally is struck. She finds power only in her own suffering, converting blood to light, her skin cracking to reveal the solar embers of her vow.
+
+Suffer for them. You are the shield of meat and bone, and your wounds are the only light left in the ash. Bleed until they are safe.`,
     title: "The Martyr",
     subtitle: "Bleeding Faith Healer — Where the Divine Meets the Scalpel",
 
@@ -40,17 +45,47 @@ export const MARTYR_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Martyrs are not saints. Saints are chosen. Martyrs volunteer — and the distinction is the difference between a blessing and a self-inflicted wound. They have sworn oaths to protect others, but the cost of those oaths is etched into their bodies: scars that weep golden light, stigmata that never close, an aura of serene agony that unsettles even their allies. Their devotion does not manifest as clean halos or phantom wings. At high Devotion Levels, their flesh turns translucent, their bones blaze with volatile energy from within, and they become something that looks less like a holy champion and more like an anatomy diagram weaponized by grief.
+      content: `**HISTORY: THE GENESIS**
+The martyr's devotion was born in the volcanic badlands of <LoreLink termId="sundale">Sundale</LoreLink>. A Solvarn mother named <LoreLink termId="sera">Sera</LoreLink> refused to let her sacrificed child's memory be erased by the houses' subsequent history-purge. The price of this memory was a glowing, sympathetic solar scar. Sera carved her child's name directly into her forearm with volcanic obsidian, establishing the path that absorbs the suffering of others.
 
-Common Martyr archetypes include:
-- **The Penitent Butcher**: Atoning for past sins by treating every ally's wound as a debt paid in their own flesh
-- **The Shepherd of Sorrows**: Believes suffering is the only honest prayer; protects their flock by absorbing its punishment
-- **The Oath-Corrupted**: Swore a vow so absolute it metastasized into something supernatural and hungry
-- **The Weeping Anatomist**: Treats their own body as a surgical offering — every incision a liturgy, every scar a scripture
-- **The Living Crash Pad**: Finds purpose in being the thing that breaks so others keep moving
+**CITIES & CIVIL RECEPTION**
+Martyrs are highly respected as holy guardians in the frontier keeps and the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>.
 
-Martyrs understand that true strength is not the absence of pain — it is the willingness to become a vessel for it. They see each wound as a deposit, each sacrifice as a withdrawal from an account that only empties when they stop paying into it. Their magic is not divine generosity. It is a currency exchange: blood for light, agony for salvation, self for other.`,
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the Solvarn humans and the <LoreLink termId="emberth">Korr Emberth</LoreLink>.
+
+**NOTABLE FIGURES**
+* **Sera the Devoted**: The founding mother of the Martyr's Vow who carved the history of the sacrificed children.
+* **Orak the Scarred**: A Korr monk who bore the sympathetic heat of thirty miners during a geothermal rupture.`
     },
+
+    signatureQuote: {
+      text: '"My child\'s name was carved from history. I carved it back into my arm. Every beat of my heart pushes their name through my veins. They are not forgotten. They are my pulse."',
+      speaker: 'Sera the Devoted',
+      context: 'The founding oath of the Martyr\'s Vow, Year 12 of the Dimming'
+    },
+
+    philosophy: {
+      coreTenet: 'Suffering is not meaningless. Pain is a currency, and the Martyr spends it freely. Every wound they take is a debt the universe owes to someone else. They bleed so others can stand. They burn so others can feel warmth. The balance must be maintained, and the Martyr is the scale.',
+      relationship: 'A Martyr\'s power comes from the sympathetic bond between their pain and their allies\' survival. When they Intervene, they do not just take damage — they absorb the spiritual weight of the injury. The wound that was meant for their ally exists in their body instead. The Devotion Gauge is not a resource they generate — it is a measure of how much suffering they have volunteered to carry. Every point of Devotion is a wound that belongs to someone else.',
+      paradox: 'The Martyr heals others by refusing to heal themselves. Their power is maximized when they are at their most vulnerable. A Martyr with full health is useless. A Martyr at death\'s door can raise the entire party from the brink. This creates an agonizing incentive structure: the better a Martyr is at their job, the closer they are to dying. They must walk the exact line between enough sacrifice and too much — and the line moves every time.'
+    },
+
+    currentCrisis: `The Martyr\'s Vow is being weaponized. Sera\'s original covenant was a personal oath — a mother\'s refusal to let her child be forgotten. But the noble houses have discovered that organized groups of Martyrs can be used as a strategic resource. A battalion supported by a Martyr cadre can fight for three times as long as a normal one.
+
+Several houses have begun "recruiting" Martyrs — some by indoctrination, some by coercion, some by simply taking children and training them from birth to associate pain with duty. These conscripted Martyrs do not carry the Vow willingly. Their Devotion Gauge fills more slowly, and their wounds heal less cleanly. The original Martyrs — those who took the Vow freely — have publicly condemned this practice, but they are outnumbered. The debate has split the Martyr tradition: free Martyrs versus conscripted Martyrs, and the conscripts are winning through sheer numbers.`,
+
+    meaningfulTradeoffs: `To be a Martyr is to be in pain, always. The sympathetic bond means they feel every wound that their allies take, whether they Intervene or not. An ally who stubs their toe causes a Martyr a moment of sharp discomfort. An ally who dies causes the Martyr to experience that death in full, visceral detail. The Martyr cannot turn this off. They are permanently, intimately connected to the suffering of everyone they have sworn to protect. Most develop elaborate pain-management rituals — breathing exercises, meditation, or simply gritting their teeth until the wave passes. They never stop gritting.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Martyr\'s Vigil',
+        locationId: 'sundale',
+        description: 'A shallow cave in the volcanic badlands of Sundale where Sera the Devoted carved her son\'s name into her arm. The cave walls are now covered in names — thousands of them, carved by every Martyr who has taken the Vow. Each name represents someone the Martyr has sworn to protect. The floor is worn smooth by generations of kneeling.',
+        purpose: 'Pilgrimage site and initiation ground',
+        status: 'Active — the free Martyrs gather here twice a year to renew their Vows'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

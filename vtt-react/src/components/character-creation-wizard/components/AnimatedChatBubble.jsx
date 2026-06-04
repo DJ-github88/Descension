@@ -21,8 +21,8 @@ const STEP_MESSAGES = {
   ],
   3: [ // Class
     "The moment of truth! What path shall you walk, young champion?",
-    "Fighter: Smash first, ask questions later! Wizard: Knowledge is power!",
-    "Rogue: Stealth and shadows, or Paladin: Light and honor?",
+    "Reaver: Smash first, ask questions later! Arcanist: Knowledge is power!",
+    "Trickster: Stealth and shadows, or Zealot: Light and honor?",
     "Choose your class wisely - it defines how the bards will sing of you.",
     "Every class has mastered different arts of survival and glory!",
     "Your profession shapes not just your skills, but your very worldview!",
@@ -46,16 +46,7 @@ const STEP_MESSAGES = {
     "Your past experiences make you unique among adventurers!",
     "The world is full of stories - yours is about to become legendary!"
   ],
-  6: [ // Path Selection
-    "The road branches before you! Which path calls to your soul?",
-    "Will you embrace the arcane mysteries, or master the blade?",
-    "Some paths lead to glory, others to infamy... which will you choose?",
-    "Your path determines not just what you can do, but who you become!",
-    "Every path has its own challenges and rewards awaiting!",
-    "Choose the path that resonates with your inner spirit!",
-    "Some walk the path of light, others darkness, but all seek truth!"
-  ],
-  7: [ // Stat Allocation
+  6: [ // Stat Allocation
     "Numbers and destiny intertwine! How shall we distribute your natural gifts?",
     "Strength for warriors, Intelligence for mages, Spirit for priests...",
     "Every point spent shapes the hero you'll become!",
@@ -64,7 +55,7 @@ const STEP_MESSAGES = {
     "Balance is key - every stat tells part of your hero's story!",
     "Some are born with gifts, others forge them through experience!"
   ],
-  8: [ // Skills & Languages
+  7: [ // Skills & Languages
     "Knowledge is power! What worldly wisdom have you acquired?",
     "Languages of ancient empires, or skills honed in forgotten arts?",
     "A well-rounded hero is prepared for any challenge the world throws!",
@@ -73,7 +64,7 @@ const STEP_MESSAGES = {
     "Every skill mastered brings you closer to legendary status!",
     "True heroes are not just strong, but wise and knowledgeable!"
   ],
-  9: [ // Lore Details
+  8: [ // Lore Details
     "The soul of a character lies in their story! What mysteries do you hold?",
     "A portrait says a thousand words, but your lore tells a thousand tales!",
     "Every scar, every memory, every secret shapes who you are...",
@@ -82,7 +73,7 @@ const STEP_MESSAGES = {
     "Every detail adds depth to the legend you will become!",
     "Heroes aren't defined by their victories, but by their stories!"
   ],
-  10: [ // Equipment Selection
+  9: [ // Equipment Selection
     "Gear up, adventurer! What tools and treasures will accompany you?",
     "A sword sings, armor whispers, potions promise power...",
     "Choose wisely - what you carry today may save your life tomorrow!",
@@ -91,7 +82,7 @@ const STEP_MESSAGES = {
     "The right equipment can turn the tide of any battle!",
     "Adventurers live and die by their equipment choices!"
   ],
-  11: [ // Character Summary
+  10: [ // Character Summary
     "Behold! A hero stands ready to face destiny's call!",
     "All preparations are complete... the world awaits your legend!",
     "This is no ordinary soul, but a force that will shake the foundations!",

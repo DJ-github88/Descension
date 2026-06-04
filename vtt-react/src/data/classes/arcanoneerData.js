@@ -25,6 +25,11 @@ export const ARCANONEER_DATA = {
 
   // Overview section
   overview: {
+    originStory: `In the first drafting of the First Contract with the Keeper of the Last Threshold, the high Neth archivist Valerius sought to capture the raw, volatile magic of the Bryngloom Forest without succumbing to its decay. By structuring incantations as strict legal syntax and balanced clauses, he bypassed the chaotic feedback of traditional spellcasting.
+
+Yet, the Keeper demanded a physical toll. The price of this absolute structured clarity was that his blood crystallized into volatile, multicolored shards that had to be physically siphoned through a massive pig-iron cylinder forearm graft. Firing these shards anchors the limbs to the earth in a freezing lock, fractures the ribs from recoil, and seals the voice against any falsehood.
+
+You are the contract's executioner. The Keeper has written the syntax in your bones, and your forearm cylinder is the chamber. Pull the trigger.`,
     title: "The Arcanoneer",
     subtitle: "The Magi-ballistic Mutilator",
     illustration: "/assets/images/classes/arcanoneer_illustration.png",
@@ -45,26 +50,60 @@ export const ARCANONEER_DATA = {
 **Resource**: Elemental Spheres (random each turn, forged from your own blood, bankable during combat, lost when combat ends) + Mana + Your Own Health (Recoil).`,
     },
 
-    description: `The Arcanoneer doesn't cast elegant spells. They pull the trigger on a massive, skin-searing iron chassis bolted directly to their skeletal frame. Each shell is loaded with raw, crystallized blood and soul-shards. They chamber the volatile spheres and ignite them, shattering their own ribs with the recoil to mutilate their targets.
-
-Every Arcanoneer carries an instinctive knowledge of the **Combination Matrix** — the 36 fundamental ballistic reactions that occur when two elemental spheres are chambered together. Fire + Frost = Steam Vent. Necrotic + Nature = Grisly Veil. Radiant + Radiant = Radiance. These combinations are predictable, repeatable, and always available. The clinical "Healing" sphere is entirely gone; in its place is "Nature" — raw compressed flesh, bone grafts, and blood sutures used to knit tissue at a painful biological tax.
-
-But raw combination is only the beginning. Through study and practice, Arcanoneers learn **Recipes** — refined formulas that supercharge specific combinations. A novice combining Fire + Frost gets basic Steam: some damage, some mist. A master who has learned the *Steam Burst* recipe gets a pressurized cone of superheated vapor that blinds and scorches everything in its path.
-
-The Arcanoneer's true power emerges at higher levels, when they unlock **3-sphere and 4-sphere Recipes** — complex combinations that produce effects no two-sphere reaction can match. These require patience, banking spheres across multiple turns, and careful planning. But when the moment arrives and you unleash *Elemental Maelstrom* with four banked spheres... the battlefield reshapes itself around your will.`,
+    description: `The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or raw instinct; they negotiate it. By converting mana into elemental spheres, they generate and combine different magical terms (Sphere Generation & Combination) to produce highly specialized, legally binding spellcraft. The Arcanoneer operates with absolute strategic clarity: because their magic is a contract submitted to the Keeper of the Last Threshold, they cannot lie — and this limitation makes their spellcraft the most rigorously honest and devastatingly precise magic in the world.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Arcanoneers are Magi-ballistic Mutilators — soot-stained, iron-grafted survivors who have surrendered their own bodies to the recoil of pure iron. They do not carry books; they carry heavy wrenches to tighten the iron straps on their shoulders, and their skin is covered in circular chemical burns where crystallized blood-shards have been gouged out to forge ammunition.
+      content: `**HISTORY: THE GENESIS**
+The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first drafting of the First Contract with the Keeper of the Last Threshold, a Neth archivist named <LoreLink termId="valerius">Valerius</LoreLink> sought a way to capture the raw, volatile magic of the forest without succumbing to its decay. By structuring incantations as strict, balanced legal syntax, he bypassed the chaotic feedback of traditional spellcasting.
 
-In roleplay, Arcanoneers carry heavy canisters filled with black powder and raw, blood-slicked crystal fragments, and they argue with other spellcasters about whether Fire + Necrotic should be called "Hellfire" or "Umbral Ignition" (it's Hellfire, and they will die on this hill).
+Yet, the magic demanded a heavy physical toll. The price of this absolute structured clarity was that his blood crystallized into volatile, multicolored shards that had to be physically chambered and siphoned through pig-iron sleeves grafted directly to the forearm. Firing these shards anchored his limbs to the earth in a freezing lock, drained his physical stamina, and permanently sealed his voice against any falsehood.
 
-Common Arcanoneer archetypes:
-- **The Pig-Iron Grafted**: Bolted directly to their massive cannon, their flesh is permanently scarred and scorched.
-- **The Blood-Shard Forger**: Gouges out their own crystallized blood to create highly volatile ammunition.
-- **The Bone-Shatterer**: Embraces the bone-cracking recoil of high-sphere recipes, considering the pain a fair price for ultimate power.
-- **The Ballistic Alchemist**: Obsessed with combining the most violent elements to see what kind of kinetic carnage they can unleash.`,
+**CITIES & CIVIL RECEPTION**
+Arcanoneers are the most politically powerful and highly respected citizens within <LoreLink termId="atropolis">Atropolis</LoreLink>. They occupy the highest seats of the Canopy-Ledger, serving as the judges, administrators, and high diplomats of the Neth empire. They are also welcomed within <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>, where their contract-based spellcraft ensures the safety of the dock-complex.
+
+**RACES & CULTURAL AFFILIATION**
+The class is almost exclusively practiced by the <LoreLink termId="neth">Velun Neth</LoreLink>, whose biology (being unable to lie) provides the absolute honesty required to submit contracts to the Keeper without triggering a catastrophic, soul-fading breach of terms.
+
+**NOTABLE FIGURES**
+* **Valerius the Scriptor**: First Neth archivist to graft the pig-iron sleeve to channel crystallized blood-shards.
+* **Kaelen the Unbroken**: A Neth arcanoneer who held the docks of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink> against a tide of glacier-wyrms.`
     },
+
+    signatureQuote: {
+      text: '"The Contract does not ask if you are willing. It asks if you are honest. And then it pulls the trigger."',
+      speaker: 'Valerius the Scriptor',
+      context: 'Inscribed on the casing of the first pig-iron cylinder graft, displayed in the Canopy-Ledger of Atropolis'
+    },
+
+    philosophy: {
+      coreTenet: 'Magic is not a gift, not an art, not a science — it is a contract. Every spell is a clause. Every incantation is a signature. Every misfire is a breach of terms.',
+      relationship: 'Arcanoneers do not cast spells; they execute legally binding magical instruments. Their power flows from the Keeper of the Last Threshold, who enforces the terms. The Keeper demands absolute honesty, absolute precision, and — when the contract is violated — absolute payment.',
+      paradox: 'The most powerful legal mages in the world are physically incapable of lying. This is not a weakness. It is the source of their power. In a world built on dark bargains and broken promises, the Arcanoneer is the only party whose word is iron.'
+    },
+
+    currentCrisis: `The Canopy-Ledger is fractured. For the first time in four centuries, the senior Arcanoneers of Atropolis cannot agree on the interpretation of a contract — specifically, the Velun Contingency Protocol, which governs what happens if the First Contract itself is ever breached. Half the Ledger argues the Protocol authorizes total magical warfare against the breaching party. The other half argues it requires the Ledger to dissolve itself and release all Arcanoneers from their oaths.
+
+Behind the legal dispute is a darker truth: someone IS breaching the First Contract. The Keeper has begun rejecting clauses it previously accepted. Spells are misfiring in ways that suggest intentional sabotage of the contractual framework. If the Contract collapses, every Arcanoneer\'s graft becomes a deadweight of iron fused to their arm — and every spell they\'ve ever cast becomes retroactively void, unraveling centuries of magical infrastructure across the Bryngloom.`,
+
+    meaningfulTradeoffs: `To be an Arcanoneer is to trade your voice for your power. The pig-iron graft seals the throat against falsehood — you cannot lie, cannot equivocate, cannot even remain silent when asked a direct question. Every word you speak is legally binding. Every promise you make is enforced by the Keeper. You cannot say "I love you" unless you mean it with absolute, contractual certainty. You cannot say "I will protect you" unless you are prepared to die trying. Most Arcanoneers learn to speak very, very carefully. Some stop speaking entirely, communicating only through written contracts — which, under the terms of the graft, are equally binding.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Canopy-Ledger',
+        locationId: 'atropolis',
+        description: 'The highest court of Arcanoneer law, occupying the topmost platforms of Atropolis. Here, senior Arcanoneers debate contract interpretation, adjudicate magical disputes, and draft new clauses for submission to the Keeper.',
+        purpose: 'Legislative, judicial, and educational — the Ledger is simultaneously parliament, supreme court, and university',
+        status: 'Active — but the current factional dispute is paralyzing its function'
+      },
+      {
+        name: 'The Foundry of Grafts',
+        locationId: 'ironjaw-port',
+        description: 'The only facility capable of forging and attaching a pig-iron cylinder graft. The process takes three days and requires the prospective Arcanoneer to recite the entire First Contract from memory while molten iron is poured into the forearm mold. Fewer than half survive the grafting.',
+        purpose: 'Initiation — every Arcanoneer receives their graft here',
+        status: 'Active — overseen by the Iron-Sworn, a guild of smith-priests who have never spoken a word'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

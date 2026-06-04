@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Doomsayer Class Data
  *
  * Complete class information for the Doomsayer - a Prophet of Catastrophe
@@ -14,6 +14,11 @@ export const DOOMSAYER_DATA = {
   damageTypes: ["necrotic", "psychic", "fire", "force"],
 
   overview: {
+    originStory: `During the first solar eclipse of Sol's Deepening, the Skald archivist Malakor did not flee. He locked himself in the Scribe's Tower with thirty scrolls of star-arithmetic. By calculating the mass of the dying sun and the cooling rate of the mantle, he realized that the freeze was not temporary — it was mathematically absolute. The realization did not break his mind; it froze it.
+
+The absolute certainty of the world's end left Malakor in a state of perpetual dread. The Doomsayer is chemically unable to feel joy, surprise, or physical warmth. His voice carries a subsonic frequency that induces minor panic attacks in nearby creatures, and his skin is cold and blue as fjord-ice.
+
+Sound the bell of doom. The math is absolute, and the end is written in stone. Warn them before the final tally.`,
     title: "The Doomsayer",
     subtitle: "The End Already Came. Now It Answers to You.",
 
@@ -40,16 +45,49 @@ export const DOOMSAYER_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `They saw the end of all things. It did not kill them. It should have. Now they carry fragments of that ending wherever they go — prophecy-bombs stitched into the marrow of the world, waiting to detonate. They are not evil by nature. They are worse: they are right. Every doom they speak will come true. The question is only when, and who pays. They might be:
+      content: `**HISTORY: THE GENESIS**
+The doomsayer's apocalypse counting was born in the library-vaults of <LoreLink termId="nordhalla">Nordhalla</LoreLink>. A Skald record-keeper named **Malakor** recorded the approaching doom of Sol's Deepening, calculating the exact arithmetic of coming deaths.
 
-**The Shattered Seer**: One who looked directly into the death of the world and came back with cracks running through their mind — and power leaking out through every fracture
-**The Hollow Prophet**: A divine mouthpiece abandoned by their god, still speaking prophecy because the words no longer need a god behind them
-**The Grave Scholar**: One who dug too deep into the mathematics of entropy and learned to WRITE new endings into the equation
-**The Accursed Witness**: One whose every prediction of doom comes true — whether they want it to or not. The fates do not ask permission
-**The Mourning Herald**: A war prophet who learned to weaponize grief itself, planting doom in enemy ranks like seeds in a graveyard
+The price of this absolute calculation was a perpetual dread. Malakor became completely unable to feel joy or surprise, his voice carrying the solemn, mathematical certainty of doom.
 
-Doomsayers speak in certainties because for them, there is nothing else. "This WILL end." "Your doom is WRITTEN." They do not say these things to be dramatic. They say them because they can see the words, burning, etched into the skin of everything that lives. Their companions find them terrifying — and correct, always correct.`,
+**CITIES & CIVIL RECEPTION**
+Doomsayers are respected yet avoided in civilized cities, often acting as solemn record-keepers in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the Solvarn humans and the <LoreLink termId="skald">Rune Keeper Skald</LoreLink>.
+
+**NOTABLE FIGURES**
+* **Malakor the Grim**: The archivist who calculated the exact decline of the human keeps, losing his ability to feel warmth.
+* **Valeria the Grim**: A Solvarn priestess who prophesied the extinction of the surface cities during the Cold-Lock.`
     },
+
+    signatureQuote: {
+      text: '"I have calculated the exact hour of your death. Would you like to know it? Most people say no. It does not change the hour."',
+      speaker: 'Malakor the Grim',
+      context: 'Recorded in the margin of his final star-arithmetic scroll, found clutched in his frozen hands'
+    },
+
+    philosophy: {
+      coreTenet: 'The future is not a mystery. It is a mathematical certainty that most people lack the courage to compute. The Doomsayer does not predict — they reveal what has already been decided.',
+      relationship: 'Doomsayers are bound to absolute truth. They cannot offer comfort or hope because they have seen the numbers. The death of Sol was not a tragedy — it was arithmetic. The extinction of surface life is not a possibility — it is an equation waiting to be solved. Their power comes from accepting this and forcing others to accept it too.',
+      paradox: 'The Doomsayer is chemically incapable of joy, yet they are the only class whose power grows from fulfilled predictions. Every prophecy that comes true gives them Havoc — stolen entropy, pure satisfaction. They are the only people in Mythrill who smile when the worst happens, because it means they were right.'
+    },
+
+    currentCrisis: `Three ancestral mounds in the Sundrift Vale fell silent in a single season. Doomsayers who attempted to calculate the cause experienced something unprecedented: their equations began returning multiple contradictory answers simultaneously. The same calculation, performed three times, yields three different extinction dates. Some Doomsayers have received results that predate the Deepening — results suggesting the world already ended, and what remains is a mathematical afterimage.
+
+The senior Doomsayer Valeria the Grim has sealed herself in the Frozen Archive\'s deepest vault, refusing to speak. Novices report that her calculations have begun appearing on the walls of her chamber — written in frost, in her handwriting, despite her never touching a chisel. The equations describe an event she will not name, occurring on a date that keeps changing.`,
+
+    meaningfulTradeoffs: `To calculate the end of all things is to carry that knowledge in your bones. Doomsayers cannot feel warmth — not physical, not emotional. They experience the world through a lens of terminal certainty. A Doomsayer at a wedding does not see love; they calculate the statistical likelihood of divorce, death in childbirth, and widowhood. A Doomsayer holding their own child calculates the child\'s probable lifespan to the minute. They are not cruel. They are honest in a way that most people find indistinguishable from cruelty.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Apocrypha Vaults',
+        locationId: 'frozen-archive',
+        description: 'The deepest, coldest chambers of the Frozen Archive, where Doomsayers store their completed calculations. Each vault contains a single scroll — a mathematical proof of a specific extinction event. The oldest scrolls date to the first years of the Dimming. The newest are added weekly.',
+        purpose: 'Archival — the Doomsayers believe that if the world ends, the calculations should survive to warn whatever comes next',
+        status: 'Active — but the vaults are over capacity, and some scrolls have begun to rewrite themselves'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

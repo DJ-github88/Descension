@@ -65,7 +65,6 @@ const LoreLink = ({ termId, children }) => {
         tabIndex={0}
       >
         {children}
-        <i className="fas fa-question-circle lore-link-icon" />
       </span>
 
       {isOpen && (

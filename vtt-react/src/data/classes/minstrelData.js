@@ -15,6 +15,11 @@ export const MINSTREL_DATA = {
 
   // Overview section
   overview: {
+    originStory: `The Merryn sailor Lyris sang a sacred sea-symphony to the churning gales of the Iceheart Sea, calming the waves so her ice-locked vessel could dock at Merrowport. The song was beautiful, but it was a transaction with the deep tides, drawing the freezing currents into her lungs.
+
+The ocean mother accepted the song, but she stole Lyris's spoken voice. The Minstrel can only communicate through melodic whispers or the strings of her lute. Attempting to scream or speak normally causes her throat to bleed and her lungs to fill with salt-water, her melodies carrying the physical weight of the gales.
+
+Let the chorus rise. The sea has taken your voice, but your song can still shatter the glaciers. Sing until the world listens.`,
     title: "The Minstrel",
     subtitle: "Conductor of Reality's Death Rattle",
 
@@ -35,19 +40,47 @@ export const MINSTREL_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Minstrels are not entertainers. They are hollow-eyed vagabonds who stumbled upon a terrible truth: music is not sound, but the death cry of parallel dimensions compressed into audible form. They learned to capture those cries, to string them into sequences that shatter minds and splinter bone. Their instruments — things of sinew and sorrow — are the only conduits capable of channeling frequencies that should never have been heard.
+      content: `**HISTORY: THE GENESIS**
+The minstrel's auditory resonance was born on the storm-lashed decks of <LoreLink termId="merrowport">Merrowport</LoreLink>. A Merryn sailor named **Lyris** sang to the churning gales, using the sea's own frequency to steady her vessel. The price of this musical balance was her spoken voice. The sea-gales stole her spoken speech, leaving her able to communicate only in melodic whispers that crumbled when she tried to scream.
 
-Each Minstrel bears the marks of their calling: ruptured eardrums that healed wrong, fingertips worn to bone from strings that cut deeper than steel, a voice that sounds like it belongs to several people dying simultaneously. They carry their instruments like open wounds.
+**CITIES & CIVIL RECEPTION**
+Minstrels are highly celebrated in the floating taverns of <LoreLink termId="merrowport">Merrowport</LoreLink> and the nomadic yurt-camps of the steppe.
 
-In roleplay, Minstrels often serve as:
-- **The Mourning Busker**: Playing on street corners, each song siphoning years from surrounding buildings
-- **The War Drummer**: Driving soldiers into a killing frenzy with rhythms that bypass the conscious mind entirely
-- **The Silence Seeker**: Desperately searching for a counter-melody that might undo the damage they've caused
-- **The Bone Violinist**: Whose instrument's strings are made from something they refuse to discuss
-- **The Dirge Singer**: Collecting the last breaths of the dying and weaving them into songs that keep the rest alive
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the Merryn humans and the <LoreLink termId="myrathil">Breakers-Born Myrathil</LoreLink>.
 
-Minstrels understand that every sound is a small death. They hear the world decomposing in concert pitch — the groan of rotting wood, the whimper of collapsing stone, the arrhythmic flutter of a failing heart. They weaponize the elegy of a dying world.`,
+**NOTABLE FIGURES**
+* **Lyris the Tide-Singer**: The sailor whose melodies calmed the Iceheart Sea but left her throat bleeding if she tried to speak.
+* **Aurelius the Tide-Singer**: A Myrathil bard whose songs could resonate with the deep rifts, opening safe passages between drift-ice.`
     },
+
+    signatureQuote: {
+      text: '"You think music is beauty. You are wrong. Music is resonance — the frequency at which things break. I have found the note that shatters ice. I am looking for the one that shatters gods."',
+      speaker: 'Lyris the Tide-Singer',
+      context: 'Her lute, recovered from the Iceheart Sea, had this carved into its soundboard'
+    },
+
+    philosophy: {
+      coreTenet: 'Sound is older than light. Before the sun, before the stars, there was vibration — the hum of potential, the frequency of emptiness, the note that preceded creation. The Minstrel does not make music. They remember the original note, the one that started everything, and they play it backward.',
+      relationship: 'A Minstrel\'s power comes from the resonance of dying realities. When a timeline collapses, it releases a burst of energy — a death-cry that exists as pure frequency. Minstrels harvest these frequencies and store them as musical notes, which they combine into Cadences that violate natural law. The relationship is parasitic: Minstrels cannot create music; they must harvest it from the death of other possibilities. Their art is built on the grave of what could have been.',
+      paradox: 'The Minstrel seeks the perfect Cadence — the combination of notes that will produce the most beautiful sound ever heard. But the most beautiful sounds come from the most catastrophic collapses. The Minstrel is therefore incentivized to seek out destruction, to position themselves at the epicenter of collapsing realities, to drink in the death-rattle of dying timelines. They are artists of catastrophe, and their masterpiece is always someone else\'s tragedy.'
+    },
+
+    currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean\'s frequency report total silence — no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
+
+The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest continuous frequency in the known world — it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.`,
+
+    meaningfulTradeoffs: `Minstrels trade their own voice for their music. The stolen frequencies degrade the larynx — every Cadence performed causes cumulative damage to the vocal cords. Senior Minstrels speak in hoarse whispers, if they can speak at all. Their voices are replaced by their instruments; they communicate through hummed melodies, tapped rhythms, and the expressive language of lute-strings. The irony is not lost on them: they are masters of sound who have sacrificed their own.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Tide-Chamber',
+        locationId: 'merrowport',
+        description: 'A submerged stone amphitheater beneath the Merrowport docks, accessible only by diving through a flooded passage. The chamber is designed to amplify the ocean\'s natural frequencies — Minstrels would sit here for hours, letting the sea\'s song fill them. The chamber is now completely silent, the water still and dead.',
+        purpose: 'Meditation chamber and frequency-harvesting site',
+        status: 'Silent — the Minstrels maintain a vigil, hoping the song returns'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",

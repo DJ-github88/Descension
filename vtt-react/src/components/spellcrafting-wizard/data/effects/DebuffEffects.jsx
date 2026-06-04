@@ -56,7 +56,7 @@ const DEBUFF_TYPES = {
     id: 'exposure',
     name: 'Exposure',
     icon: 'spell_shadow_antishadow',
-    description: 'Reduces armor or defensive capabilities',
+    description: 'Reduces defensive capabilities or damage resistance',
     category: 'vulnerability'
   },
   DAMAGE: {

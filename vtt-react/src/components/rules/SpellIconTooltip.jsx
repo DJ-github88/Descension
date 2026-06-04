@@ -23,23 +23,12 @@ const SpellIconTooltip = ({ spellId, className = '', style = {} }) => {
   
   // If not found in universal spells, check general spells
   if (!spell) {
-    // For general spells, match by id or name
-    // Note: 'general_attack' has been removed - Attack (Unarmed) is now dynamically generated
-    if (spellId === 'general_attack') {
-      // Return null for removed spell
-      return null;
-    } else {
+    if (spellId !== 'general_attack') {
       spell = ALL_GENERAL_SPELLS.find(s => 
         s.id === spellId || 
         s.name === spellId
       );
     }
-  }
-
-  // If spell not found, return null or fallback
-  if (!spell) {
-    console.warn(`Spell not found: ${spellId}`);
-    return null;
   }
 
   // Helper function to map WoW icon IDs to local ability icons for spells
@@ -239,6 +228,9 @@ const SpellIconTooltip = ({ spellId, className = '', style = {} }) => {
       setShowTooltip(false);
     };
   }, []);
+
+  // Now safe to conditionally return after all hooks are declared
+  if (spellId === 'general_attack' || !spell) return null;
 
   return (
     <>

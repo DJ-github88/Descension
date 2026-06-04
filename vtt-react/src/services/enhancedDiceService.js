@@ -7,11 +7,85 @@ import useDiceStore from '../store/diceStore';
 import useChatStore from '../store/chatStore';
 import useGameStore from '../store/gameStore';
 
+const DIFFICULTY_DIE_LADDER = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
+
 class EnhancedDiceService {
   constructor() {
     this.rollHistory = [];
     this.maxHistorySize = 100;
     this.socket = null;
+  }
+
+  /**
+   * Apply the Milestone of Mastery rule: when an attribute modifier reaches +5 or
+   * higher, the difficulty die steps down one size before the roll.
+   * @param {number} modifier - The attribute modifier (e.g. +5 for STR 20)
+   * @param {string} currentDie - Current difficulty die (e.g. 'd10')
+   * @returns {{ die: string, stepped: boolean }} The stepped-down die and whether a step occurred
+   */
+  applyMilestoneOfMastery(modifier, currentDie) {
+    if (modifier < 5) return { die: currentDie, stepped: false };
+    const idx = DIFFICULTY_DIE_LADDER.indexOf(currentDie);
+    if (idx <= 0) return { die: currentDie, stepped: false };
+    return { die: DIFFICULTY_DIE_LADDER[idx - 1], stepped: true };
+  }
+
+  /**
+   * Handle weapon durability damage on a combat fumble.
+   * Reduces the equipped weapon's durability by 1d4 and shows a notification.
+   * @param {string} weaponItemId - The item ID of the equipped weapon
+   * @param {string} weaponName - Display name of the weapon
+   * @returns {{ durabilityLost: number, newDurability: number, broken: boolean } | null}
+   */
+  handleWeaponFumble(weaponItemId, weaponName) {
+    if (!weaponItemId) return null;
+    try {
+      const itemStore = require('../store/itemStore').default;
+      const item = itemStore.getState().items.find(i => i.id === weaponItemId);
+      if (!item || item.durability === undefined) return null;
+
+      const diceSteps = ['broken', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20'];
+      const isDiceBased = typeof item.durability === 'string' && String(item.durability).toLowerCase().startsWith('d');
+
+      let newDurability;
+      let durabilityLost;
+      let isBroken = false;
+
+      if (isDiceBased) {
+        // Dice-based: step down 1-2 die sizes on fumble
+        const stepsLost = Math.floor(Math.random() * 2) + 1;
+        const currentIdx = diceSteps.indexOf(item.durability.toLowerCase());
+        const newIdx = Math.max(0, currentIdx - stepsLost);
+        newDurability = diceSteps[newIdx];
+        durabilityLost = stepsLost;
+        isBroken = newDurability === 'broken';
+      } else {
+        // Numeric legacy system
+        durabilityLost = Math.floor(Math.random() * 4) + 1;
+        newDurability = Math.max(0, item.durability - durabilityLost);
+        isBroken = newDurability === 0;
+      }
+
+      itemStore.getState().updateItemDurability(weaponItemId, newDurability);
+      if (typeof window !== 'undefined') {
+        if (!document.querySelector('#durability-notification-styles')) {
+          const style = document.createElement('style');
+          style.id = 'durability-notification-styles';
+          style.textContent = '@keyframes fadeInOut{0%{opacity:0;transform:translateX(-50%) scale(0.8)}20%{opacity:1;transform:translateX(-50%) scale(1)}80%{opacity:1;transform:translateX(-50%) scale(1)}100%{opacity:0;transform:translateX(-50%) scale(0.8)}}';
+          document.head.appendChild(style);
+        }
+        const notification = document.createElement('div');
+        notification.textContent = isDiceBased
+          ? `${weaponName} chips on the fumble! Degraded to ${newDurability.toUpperCase()}`
+          : `${weaponName} chips on the fumble! -${durabilityLost} Durability`;
+        notification.style.cssText = 'position:fixed;top:20%;left:50%;transform:translateX(-50%);background:rgba(139,69,19,0.95);color:#ffcc80;padding:10px 18px;border-radius:6px;border:1px solid #d2691e;font-family:Cinzel,serif;font-size:14px;font-weight:600;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,0.5);animation:fadeInOut 2.5s ease-in-out forwards;';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 2600);
+      }
+      return { durabilityLost, newDurability, broken: isBroken };
+    } catch (e) {
+      return null;
+    }
   }
 
   /**
@@ -328,3 +402,4 @@ class EnhancedDiceService {
 const enhancedDiceService = new EnhancedDiceService();
 
 export default enhancedDiceService;
+export { DIFFICULTY_DIE_LADDER };

@@ -14,7 +14,6 @@ import { isOffHandDisabled } from '../../utils/equipmentUtils';
 import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
 import { getRaceList, getSubraceList, getRacialSavingThrowModifiers } from '../../data/raceData';
-import { ENHANCED_PATHS, getAllEnhancedPaths } from '../../data/enhancedPathData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
     import { selectRandomSpells, filterNewSpells, getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory, normalizeDisciplineAbility } from '../../utils/raceDisciplineSpellUtils';
 import { getPassiveAbilities } from '../../data/backgroundAbilities';
@@ -28,17 +27,9 @@ import useItemStore from '../../store/itemStore';
 import Languages from './Languages';
 
 const SECTIONS = {
-    character: {
-        title: 'Character Info',
-        icon: getCustomIconUrl('Nature/Stylized Tree', 'abilities')
-    },
     equipment: {
-        title: 'Equipment',
+        title: 'Equipment & Vitals',
         icon: getCustomIconUrl('Utility/Brown Shield', 'abilities')
-    },
-    resources: {
-        title: 'Resources',
-        icon: getIconUrl('Healing/Golden Heart', 'abilities')
     },
     passives: {
         title: 'Passives',
@@ -478,6 +469,201 @@ const ResourceBar = ({ current, max, temp = 0, className, label, resourceType, o
     );
 };
 
+/* Potion Bottle Resource - replaces bars with tilted fillable bottles */
+const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate, tooltipPosition, setTooltipPosition }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const [showControls, setShowControls] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [controlsPosition, setControlsPosition] = useState({ x: 0, y: 0 });
+    const percentage = Math.min((current / max) * 100, 100);
+
+    const handleMouseEnter = (e) => {
+        setIsHovered(true);
+        setTooltipPosition({
+            x: e.clientX + 15,
+            y: e.clientY - 10
+        });
+    };
+
+    const handleMouseMove = (e) => {
+        setTooltipPosition({
+            x: e.clientX + 15,
+            y: e.clientY - 10
+        });
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
+
+    const handleClick = (e) => {
+        if (!showControls) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = rect.left;
+            const y = rect.bottom + 8;
+            const popupWidth = 200;
+            const popupHeight = 100;
+            const adjustedX = Math.min(x, window.innerWidth - popupWidth - 20);
+            const adjustedY = Math.min(y, window.innerHeight - popupHeight - 20);
+            setControlsPosition({ x: adjustedX, y: adjustedY });
+        }
+        setShowControls(!showControls);
+    };
+
+    const handleAdjustment = (amount) => {
+        const newValue = current + amount;
+        const cappedValue = amount < 0 ? Math.max(0, newValue) : newValue;
+        onUpdate(resourceType, cappedValue, max);
+    };
+
+    const handleInputSubmit = () => {
+        const value = parseInt(inputValue);
+        if (!isNaN(value)) {
+            const newValue = Math.max(0, value);
+            onUpdate(resourceType, newValue, max);
+        }
+        setInputValue('');
+        setShowControls(false);
+    };
+
+    const handleInputKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleInputSubmit();
+        } else if (e.key === 'Escape') {
+            setInputValue('');
+            setShowControls(false);
+        }
+    };
+
+    const getTooltipContent = () => {
+        switch (resourceType) {
+            case 'health':
+                return {
+                    title: 'Health Points',
+                    description: 'Your life force. When reduced to 0, you enter the Dying state. Click to adjust.'
+                };
+            case 'mana':
+                return {
+                    title: 'Mana Points',
+                    description: 'Your magical energy used to cast spells and activate magical abilities. Click to adjust.'
+                };
+            case 'actionPoints':
+                return {
+                    title: 'Action Points',
+                    description: 'Points used to perform actions in combat. Refreshes at the start of your turn. Click to adjust.'
+                };
+            default:
+                return null;
+        }
+    };
+
+    const tooltipContent = getTooltipContent();
+
+    const bottleClass = resourceType === 'health' ? 'health-bottle' :
+                        resourceType === 'mana' ? 'mana-bottle' : 'ap-bottle';
+
+    return (
+        <>
+            <div
+                className="potion-bottle-wrapper"
+                onClick={handleClick}
+                onMouseEnter={handleMouseEnter}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+            >
+                <div className={`potion-bottle ${bottleClass}`}>
+                    <div className="bottle-neck"></div>
+                    <div className="bottle-cork"></div>
+                    <div className="bottle-shape">
+                        <div className="bottle-liquid" style={{ height: `${percentage}%` }}>
+                            <div className="bottle-bubbles">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="potion-info">
+                    <span className="potion-name">{label}</span>
+                    <span className="potion-values">
+                        {current} / {max}
+                        {temp > 0 && <span className="potion-temp"> +{temp}</span>}
+                    </span>
+                </div>
+            </div>
+
+            {showControls && ReactDOM.createPortal(
+                <div
+                    className="resource-controls"
+                    style={{
+                        left: controlsPosition.x,
+                        top: controlsPosition.y,
+                        pointerEvents: 'auto'
+                    }}
+                >
+                    <div className="resource-controls-header">
+                        <span className="resource-controls-title">Adjust {label}</span>
+                        <button
+                            className="resource-controls-close"
+                            onClick={() => setShowControls(false)}
+                        >
+                            ×
+                        </button>
+                    </div>
+                    <div className="resource-adjustment-buttons">
+                        <button onClick={() => handleAdjustment(-10)} className="adjust-btn">-10</button>
+                        <button onClick={() => handleAdjustment(-5)} className="adjust-btn">-5</button>
+                        <button onClick={() => handleAdjustment(-1)} className="adjust-btn">-1</button>
+                        <button onClick={() => handleAdjustment(1)} className="adjust-btn">+1</button>
+                        <button onClick={() => handleAdjustment(5)} className="adjust-btn">+5</button>
+                        <button onClick={() => handleAdjustment(10)} className="adjust-btn">+10</button>
+                    </div>
+                    <div className="resource-input-section">
+                        <input
+                            type="number"
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onKeyDown={handleInputKeyPress}
+                            placeholder={`Set to...`}
+                            className="resource-input"
+                            min="0"
+                            max={max}
+                        />
+                        <button onClick={handleInputSubmit} className="set-btn">Set</button>
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {isHovered && tooltipContent && (
+                <TooltipPortal>
+                    <div
+                        className="equipment-slot-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: tooltipPosition.x,
+                            top: tooltipPosition.y,
+                            transform: 'translate(10px, -50%)',
+                            pointerEvents: 'none',
+                            zIndex: 999999999
+                        }}
+                    >
+                        <div className="equipment-slot-name">
+                            {tooltipContent.title}
+                        </div>
+                        <div className="equipment-slot-description">
+                            {tooltipContent.description}
+                        </div>
+                    </div>
+                </TooltipPortal>
+            )}
+        </>
+    );
+};
+
 export default function CharacterPanel() {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
@@ -558,7 +744,7 @@ export default function CharacterPanel() {
     const spellLibrary = useSpellLibrary();
 
     // State for navigation
-    const [activeSection, setActiveSection] = useState('character');
+    const [activeSection, setActiveSection] = useState('equipment');
     const [showLabels, setShowLabels] = useState(false);
 
     // Inventory store for adding unequipped items back to inventory
@@ -583,6 +769,9 @@ export default function CharacterPanel() {
     const [lastCharacterId, setLastCharacterId] = useState(null);
     const [showOverhealModal, setShowOverhealModal] = useState(false);
     const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, currentValue, maxValue }
+
+    // Class resource config (shared across render functions)
+    const classResourceConfig = characterClass ? getClassResourceConfig(characterClass) : null;
 
     // Get current character ID from store
     const currentCharacterId = characterStore?.currentCharacterId || null;
@@ -782,77 +971,8 @@ export default function CharacterPanel() {
                 }
             });
 
-            if (path) {
-                const pathData = ENHANCED_PATHS[path];
-
-                // Get available spells from path abilities
-                let availableSpells = [];
-                if (pathData && pathData.abilities) {
-                    availableSpells = pathData.abilities;
-                }
-
-                if (availableSpells.length > 0 && selectedAbility) {
-                    const chosenSpell = availableSpells.find(s => s.id === selectedAbility);
-                    if (chosenSpell) {
-                        const normalized = normalizeDisciplineAbility(chosenSpell);
-                        const newSpells = filterNewSpells([normalized], spellLibrary.spells);
-                        newSpells.forEach(spell => {
-                            if (spell && spell.id) {
-                                libraryDispatch(libraryActionCreators.addSpell(spell));
-                            }
-                        });
-                    }
-                }
-
-                // Store passives from path and convert non-stat passives to spell cards
-                if (pathData && pathData.mechanicalBenefits) {
-                    // Store passives in character store
-                    updateCharacterInfo('pathPassives', pathData.mechanicalBenefits);
-
-                    // Convert non-stat passives to spell cards and add to library
-                    pathData.mechanicalBenefits.forEach(passive => {
-                        // Skip stat bonuses - they're applied automatically
-                        if (passive.type === 'stat') {
-                            return;
-                        }
-
-                        // Create spell card from passive
-                        const spellCard = {
-                            id: `passive_${passive.name?.toLowerCase().replace(/\s+/g, '_') || 'unknown'}`,
-                            name: passive.name || 'Unknown Passive',
-                            description: passive.description || '',
-                            level: 1,
-                            spellType: 'PASSIVE',
-                            tags: ['passive', 'discipline'],
-                            effectTypes: ['utility'],
-                            damageTypes: [],
-                            icon: passive.icon || 'Radiant/Divine Blessing',
-                            typeConfig: {
-                                school: 'divine',
-                                icon: passive.icon || 'Radiant/Divine Blessing',
-                                tags: ['passive', 'discipline']
-                            },
-                            targetingConfig: {
-                                targetingType: 'self'
-                            },
-                            resourceCost: {
-                                actionPoints: 0
-                            },
-                            resolution: 'AUTO',
-                            visualTheme: 'holy',
-                            categoryIds: ['Discipline Passives'],
-                            dateCreated: new Date().toISOString(),
-                            lastModified: new Date().toISOString()
-                        };
-
-                        // Add spell to library (old ones were already removed above)
-                        libraryDispatch(libraryActionCreators.addSpell(spellCard));
-                    });
-                }
-            } else {
-                // Path was removed, clear passives
-                updateCharacterInfo('pathPassives', []);
-            }
+            // Clear path passives since disciplines are removed from the system
+            updateCharacterInfo('pathPassives', []);
         }
     }, [race, subrace, path, inspectionData, libraryDispatch, updateCharacterInfo, lastRaceSubracePath]);
 
@@ -959,30 +1079,7 @@ export default function CharacterPanel() {
                                 </select>
                             </div>
 
-                            <div className="character-field">
-                                <label className="character-field-label">Discipline</label>
-                                <select
-                                    value={path || ''}
-                                    onChange={(e) => {
-                                        const selectedPath = e.target.value;
-                                        const pathData = selectedPath ? ENHANCED_PATHS[selectedPath] : null;
-                                        updateCharacterInfo('path', selectedPath);
-                                        if (pathData) {
-                                            updateCharacterInfo('pathDisplayName', pathData.name);
-                                        } else {
-                                            updateCharacterInfo('pathDisplayName', '');
-                                        }
-                                    }}
-                                    className="character-field-input"
-                                >
-                                    <option value="">Select a discipline</option>
-                                    {getAllEnhancedPaths().map(pathOption => (
-                                        <option key={pathOption.id} value={pathOption.id}>
-                                            {pathOption.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                            {/* Discipline selection removed */}
 
                             <div className="character-field">
                                 <label className="character-field-label">Level</label>
@@ -1079,15 +1176,49 @@ export default function CharacterPanel() {
     // Render equipment section
     const renderEquipment = () => (
         <div className="equipment-content">
+            {/* Floating Potion Strip — above the grid */}
+            <div className="floating-potion-strip">
+                <BottleResource
+                    current={health.current}
+                    max={health.max}
+                    temp={tempHealth}
+                    label="Health"
+                    resourceType="health"
+                    onUpdate={handleResourceUpdate}
+                    tooltipPosition={tooltipPosition}
+                    setTooltipPosition={setTooltipPosition}
+                />
+                <BottleResource
+                    current={mana.current}
+                    max={mana.max}
+                    temp={tempMana}
+                    label="Mana"
+                    resourceType="mana"
+                    onUpdate={handleResourceUpdate}
+                    tooltipPosition={tooltipPosition}
+                    setTooltipPosition={setTooltipPosition}
+                />
+                <BottleResource
+                    current={actionPoints.current}
+                    max={actionPoints.max}
+                    temp={tempActionPoints}
+                    label="Action Points"
+                    resourceType="actionPoints"
+                    onUpdate={handleResourceUpdate}
+                    tooltipPosition={tooltipPosition}
+                    setTooltipPosition={setTooltipPosition}
+                />
+            </div>
+
             <div className="equipment-layout">
-                {/* Left Equipment Column */}
+                {/* LEFT EQUIPMENT COLUMN */}
                 <div className="left-equipment">
                     {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
                         ['head', 'neck', 'shoulders', 'back', 'chest', 'shirt', 'tabard', 'wrists'].includes(slotName)
                     ).map(([slotName, config]) => renderSlot(slotName, config))}
                 </div>
 
-                {/* Character Portrait Section */}
+                {/* CHARACTER PORTRAIT CENTER */}
                 <div className="character-center-section">
                     <div className="character-image-container">
                         {lore?.characterImage ? (
@@ -1107,46 +1238,21 @@ export default function CharacterPanel() {
                     {/* Weapon Slots Below Image */}
                     <div className="weapon-slots-bottom">
                         {Object.entries(WEAPON_SLOTS).map(([slotName, config]) => {
-                            // Handle potential key mismatch: check both camelCase and snake_case
                             let item = equipment[slotName];
                             if (!item && slotName === 'offHand') {
-                                // Try snake_case version
                                 item = equipment['off_hand'] || equipment['offHand'];
                             }
                             const isEmpty = !item;
                             const isDisabled = slotName === 'offHand' && isOffHandDisabled(equipment);
 
-                            /*
-                            if (slotName === 'offHand') {
-                                console.log('🛡️ Off-hand slot debug:', {
-                                    slotName,
-                                    hasItem: !!item,
-                                    itemName: item?.name,
-                                    iconId: item?.iconId,
-                                    imageUrl: item?.imageUrl,
-                                    equipmentKeys: Object.keys(equipment),
-                                    offHandKey: 'offHand' in equipment,
-                                    off_handKey: 'off_hand_key' in equipment,
-                                    allEquipment: equipment
-                                });
-                            }
-                            */
-
-                            // Get the image source for the item
                             const getItemImageSrc = () => {
                                 if (!item) return config.icon;
-
-                                // First check for valid imageUrl (not WoW URL)
                                 if (item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) {
                                     return item.imageUrl;
                                 }
-
-                                // Then check for iconId
                                 if (item.iconId) {
                                     return getIconUrl(item.iconId, 'items', true);
                                 }
-
-                                // Fallback: Try to look up the item from item store if we have an ID
                                 if (item.id) {
                                     try {
                                         const itemStore = useItemStore.getState();
@@ -1155,16 +1261,12 @@ export default function CharacterPanel() {
                                             return getIconUrl(originalItem.iconId, 'items', true);
                                         }
                                     } catch (e) {
-                                        // Item store not available, continue to fallback
                                         console.warn('Could not look up item from store:', e);
                                     }
                                 }
-
-                                // Final fallback to question mark
                                 return getIconUrl('inv_misc_questionmark', 'items', true);
                             };
 
-                            // Weapon slot descriptions
                             const slotDescriptions = {
                                 mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
                                 offHand: isDisabled ?
@@ -1205,7 +1307,6 @@ export default function CharacterPanel() {
                                         }}
                                     />
 
-                                    {/* Red cross overlay for disabled off-hand */}
                                     {isDisabled && (
                                         <div className="disabled-overlay">
                                             <div className="red-cross">
@@ -1226,7 +1327,7 @@ export default function CharacterPanel() {
                                                     top: tooltipPosition.y,
                                                     transform: 'translate(10px, -50%)',
                                                     pointerEvents: 'none',
-                                                    zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
+                                                    zIndex: 999999999
                                                 }}
                                             >
                                                 <div className="equipment-slot-name">{config.info}</div>
@@ -1240,7 +1341,7 @@ export default function CharacterPanel() {
                     </div>
                 </div>
 
-                {/* Right Equipment Column */}
+                {/* RIGHT EQUIPMENT COLUMN */}
                 <div className="right-equipment">
                     {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
                         ['gloves', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
@@ -1436,45 +1537,113 @@ export default function CharacterPanel() {
 
     // Render resources section
     const renderResources = () => {
-        // Get class resource configuration
-        const classResourceConfig = characterClass ? getClassResourceConfig(characterClass) : null;
-
         return (
             <div className="resources-content">
+                {/* Vitals & Progression Section */}
+                <div className="vitals-progression-panel">
+                    <h3 className="vitals-progression-title">
+                        <i className="fas fa-heart-pulse"></i> Vitals & Progression
+                    </h3>
+                    <div className="vitals-grid">
+                        <div className="vital-item level-item">
+                            <label className="vital-label">Character Level</label>
+                            <div className="level-input-wrapper">
+                                <button 
+                                    type="button" 
+                                    className="level-adjust-btn"
+                                    onClick={() => updateCharacterInfo('level', Math.max(1, (level || 1) - 1))}
+                                    disabled={(level || 1) <= 1}
+                                >
+                                    -
+                                </button>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max="20"
+                                    value={level || 1}
+                                    onChange={(e) => updateCharacterInfo('level', Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
+                                    className="level-number-input"
+                                />
+                                <button 
+                                    type="button" 
+                                    className="level-adjust-btn"
+                                    onClick={() => updateCharacterInfo('level', Math.min(20, (level || 1) + 1))}
+                                    disabled={(level || 1) >= 20}
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div className="vital-item exhaustion-item">
+                            <label className="vital-label">Exhaustion Level</label>
+                            <select
+                                value={exhaustionLevel || 0}
+                                onChange={(e) => updateCharacterInfo('exhaustionLevel', parseInt(e.target.value) || 0)}
+                                className="exhaustion-select"
+                            >
+                                <option value="0">Level 0: Normal</option>
+                                <option value="1">Level 1: Disadvantage on checks</option>
+                                <option value="2">Level 2: Speed halved</option>
+                                <option value="3">Level 3: Disadvantage on attacks/saves</option>
+                                <option value="4">Level 4: Max HP halved</option>
+                                <option value="5">Level 5: Speed reduced to 0</option>
+                                <option value="6">Level 6: Death</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    {/* Exhaustion Warning Panel */}
+                    <div className={`exhaustion-effect-panel severity-${exhaustionLevel || 0}`}>
+                        <div className="panel-header">
+                            <i className={(exhaustionLevel || 0) >= 5 ? "fas fa-skull" : ((exhaustionLevel || 0) >= 1 ? "fas fa-exclamation-triangle" : "fas fa-heart")}></i>
+                            <span>Active Exhaustion Effect</span>
+                        </div>
+                        <div className="effect-description">
+                            {(exhaustionLevel || 0) === 0 && "Active and healthy. You suffer no exhaustion penalties."}
+                            {(exhaustionLevel || 0) === 1 && "Level 1: You have disadvantage on all ability checks."}
+                            {(exhaustionLevel || 0) === 2 && "Level 2: Your movement speed is halved (and disadvantage on checks)."}
+                            {(exhaustionLevel || 0) === 3 && "Level 3: You have disadvantage on attack rolls and saving throws."}
+                            {(exhaustionLevel || 0) === 4 && "Level 4: Your maximum hit points are halved."}
+                            {(exhaustionLevel || 0) === 5 && "Level 5: Your movement speed is reduced to 0."}
+                            {(exhaustionLevel || 0) === 6 && "Level 6: Instantaneous death (Death)."}
+                        </div>
+                    </div>
+                </div>
+
                 <div className="resource-bars-section">
-                    <ResourceBar
-                        current={health.current}
-                        max={health.max}
-                        temp={tempHealth}
-                        className="health"
-                        label="Health"
-                        resourceType="health"
-                        onUpdate={handleResourceUpdate}
-                        tooltipPosition={tooltipPosition}
-                        setTooltipPosition={setTooltipPosition}
-                    />
-                    <ResourceBar
-                        current={mana.current}
-                        max={mana.max}
-                        temp={tempMana}
-                        className="mana"
-                        label="Mana"
-                        resourceType="mana"
-                        onUpdate={handleResourceUpdate}
-                        tooltipPosition={tooltipPosition}
-                        setTooltipPosition={setTooltipPosition}
-                    />
-                    <ResourceBar
-                        current={actionPoints.current}
-                        max={actionPoints.max}
-                        temp={tempActionPoints}
-                        className="action-points"
-                        label="Action Points"
-                        resourceType="actionPoints"
-                        onUpdate={handleResourceUpdate}
-                        tooltipPosition={tooltipPosition}
-                        setTooltipPosition={setTooltipPosition}
-                    />
+                    <div className="potion-resource-row">
+                        <BottleResource
+                            current={health.current}
+                            max={health.max}
+                            temp={tempHealth}
+                            label="Health"
+                            resourceType="health"
+                            onUpdate={handleResourceUpdate}
+                            tooltipPosition={tooltipPosition}
+                            setTooltipPosition={setTooltipPosition}
+                        />
+                        <BottleResource
+                            current={mana.current}
+                            max={mana.max}
+                            temp={tempMana}
+                            label="Mana"
+                            resourceType="mana"
+                            onUpdate={handleResourceUpdate}
+                            tooltipPosition={tooltipPosition}
+                            setTooltipPosition={setTooltipPosition}
+                        />
+                        <BottleResource
+                            current={actionPoints.current}
+                            max={actionPoints.max}
+                            temp={tempActionPoints}
+                            label="Action Points"
+                            resourceType="actionPoints"
+                            onUpdate={handleResourceUpdate}
+                            tooltipPosition={tooltipPosition}
+                            setTooltipPosition={setTooltipPosition}
+                        />
+                    </div>
 
                     {/* Class Resource - Show if character has a class and class resource */}
                     {characterClass && classResource && classResourceConfig && (
@@ -1562,7 +1731,7 @@ export default function CharacterPanel() {
                 <div className="passive-summary-container">
                     <div className="passive-summary-empty">
                         <p>No passive abilities available.</p>
-                        <p>Select a race, subrace, discipline, or background to see passive abilities here.</p>
+                        <p>Select a race, subrace, or background to see passive abilities here.</p>
                     </div>
                 </div>
             );
@@ -1575,7 +1744,7 @@ export default function CharacterPanel() {
         } : null;
 
         const pathGroup = pathPassives && pathPassives.length > 0 ? {
-            name: 'Discipline Passives',
+            name: 'Path Passives',
             passives: pathPassives
         } : null;
 
@@ -1669,18 +1838,15 @@ export default function CharacterPanel() {
 
     const renderSectionContent = () => {
         switch (activeSection) {
-            case 'character':
-                return renderCharacterInfo();
+            case 'resources':
             case 'equipment':
                 return renderEquipment();
-            case 'resources':
-                return renderResources();
             case 'passives':
                 return renderPassives();
             case 'languages':
                 return <Languages />;
             default:
-                return renderCharacterInfo();
+                return renderEquipment();
         }
     };
 
@@ -1876,12 +2042,11 @@ export default function CharacterPanel() {
             </div>
 
             <div
-                className={`character-content-area ${activeSection === 'character' ? 'character-backdrop' :
-                    activeSection === 'equipment' ? 'equipment-backdrop' :
-                        activeSection === 'passives' ? 'passives-backdrop' :
-                            activeSection === 'languages' ? 'languages-backdrop' :
-                                activeSection === 'resources' ? 'resources-backdrop' :
-                                    ''
+                className={`character-content-area ${activeSection === 'equipment' ? 'equipment-backdrop' :
+                    activeSection === 'passives' ? 'passives-backdrop' :
+                        activeSection === 'languages' ? 'languages-backdrop' :
+                            activeSection === 'resources' ? 'resources-backdrop' :
+                                ''
                     }`}
                 style={{
                     ...(activeSection === 'passives' && {
@@ -1889,9 +2054,6 @@ export default function CharacterPanel() {
                     }),
                     ...(activeSection === 'languages' && {
                         backgroundImage: 'url(/assets/Backgrounds/Temple.png)'
-                    }),
-                    ...(activeSection === 'resources' && {
-                        backgroundImage: 'url(/assets/Backgrounds/Frost.png)'
                     })
                 }}
             >
@@ -1902,6 +2064,53 @@ export default function CharacterPanel() {
                         className="character-section-icon"
                     />
                     <h2 className="character-section-title">{SECTIONS[activeSection].title}</h2>
+
+                    {/* Compact Level & Exhaustion indicators */}
+                    {activeSection === 'equipment' && (
+                        <div className="header-vitals">
+                            {/* Level shield */}
+                            <div className="header-level" title={`Character Level ${level || 1}`}>
+                                <span className="header-level-num">{level || 1}</span>
+                                <div className="header-level-controls">
+                                    <button onClick={() => updateCharacterInfo('level', Math.min(20, (level || 1) + 1))} disabled={(level || 1) >= 20}>▲</button>
+                                    <button onClick={() => updateCharacterInfo('level', Math.max(1, (level || 1) - 1))} disabled={(level || 1) <= 1}>▼</button>
+                                </div>
+                            </div>
+
+                            {/* Exhaustion — icon + dot + dropdown with hover tooltip */}
+                            <div className={`header-exhaustion severity-${exhaustionLevel || 0}`}>
+                                <i className="fas fa-heart-pulse header-exhaustion-icon"></i>
+                                <span className="header-exhaustion-dot"></span>
+                                <select
+                                    value={exhaustionLevel || 0}
+                                    onChange={(e) => updateCharacterInfo('exhaustionLevel', parseInt(e.target.value) || 0)}
+                                    className="header-exhaustion-select"
+                                >
+                                    <option value="0">Healthy</option>
+                                    <option value="1">Tired</option>
+                                    <option value="2">Weary</option>
+                                    <option value="3">Drained</option>
+                                    <option value="4">Debilitated</option>
+                                    <option value="5">Broken</option>
+                                    <option value="6">Dead</option>
+                                </select>
+
+                                {/* Hover tooltip with full effect description */}
+                                <div className="exhaustion-hover-tooltip">
+                                    <div className="exhaustion-tooltip-title">Exhaustion Effect</div>
+                                    <div className="exhaustion-tooltip-text">
+                                        {(exhaustionLevel || 0) === 0 && "You are active and healthy. No exhaustion penalties apply."}
+                                        {(exhaustionLevel || 0) === 1 && "Level 1: Disadvantage on all ability checks."}
+                                        {(exhaustionLevel || 0) === 2 && "Level 2: Speed halved, disadvantage on ability checks."}
+                                        {(exhaustionLevel || 0) === 3 && "Level 3: Disadvantage on attack rolls and saving throws."}
+                                        {(exhaustionLevel || 0) === 4 && "Level 4: Maximum hit points are halved."}
+                                        {(exhaustionLevel || 0) === 5 && "Level 5: Movement speed reduced to 0."}
+                                        {(exhaustionLevel || 0) === 6 && "Level 6: Instant death."}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="character-fields">

@@ -16,6 +16,11 @@ export const PRIMALIST_DATA = {
   // 1. CLASS OVERVIEW (Lore & Identity)
   // ==========================================
   overview: {
+    originStory: `Kael the herd-ranger ran with the woolly-herds across the starless grasslands of the Sundrift Vale, tuning his spirit to the elemental totems of the steppe. He sat in the grass for three seasons without moving, letting the dust settle on his skin until the wind-spirits welcomed him as kin.
+
+This absolute wilderness alignment eroded his humanity. The Primalist periodically slips into a feral silence, losing the ability to speak or comprehend language when the totemic energy surges, his mind reverting to the simple, brutal instinct of the beast.
+
+Call the wild. The earth speaks through you, and the pack is waiting. Run with them.`,
     title: "The Primalist",
     subtitle: "Atavistic Horror and the Tragic Price of the Wilds",
     quickOverview: {
@@ -28,11 +33,48 @@ export const PRIMALIST_DATA = {
     },
     description: `A tragic conduit of the ancient, ruthless food chain. The Primalist does not cast magic; they undergo a grotesque physical mutilation, erupting bone, antler, and strangling root from their own flesh to manifest totems of calcified decay.`,
     roleplayIdentity: {
-      title: "The Flesh-Mutilation of the Wilds",
-      content: `**Atavistic Horror**: You are not a gentle druid whispering to the trees—you are a tinderbox of dry roots and splintered bone. Every totem you place is a literal piece of your skeletal structure torn free to act as a conduit. 
+      title: "Roleplay Identity",
+      content: `**HISTORY: THE GENESIS**
+The primalist's wild aspect was born in the starless grasslands of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. A human herd-ranger named **Kael** ran with the woolly-herds, letting his posture and breath adapt to the wilderness. The price of this wilderness alignment was a feral silence. Kael lost his civil speech, his mind periodically slipping into animalistic silence.
 
-**Tragic Folklore**: Heavily inspired by the crushing, atmospheric darkness of blackened thall and Witcher-esque folklore, the Primalist represents the visceral, unforgiving laws of nature. Power is never free; it is paid for in maximum HP, blood, and the slow unraveling of your sanity.`
+**CITIES & CIVIL RECEPTION**
+Primalists are viewed with caution in settled kingdoms, but they are highly respected as essential scouts in the nomadic camps of the steppe.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the nomadic Ordan humans and the <LoreLink termId="astril">Sylen Astril</LoreLink>.
+
+**NOTABLE FIGURES**
+* **Kael the Herd-Runner**: The ranger who lived as a wolf for ten years, forgetting how to speak human tongue.
+* **Maeve the Wolf-Mother**: An Astril primalist who led the steppe packs against the Gref invaders.`
     },
+    signatureQuote: {
+      text: '"I sat in the grass for three seasons. The wind forgot I was human. The earth forgot I was separate. When I finally stood, I was not the same person who sat down. I was better."',
+      speaker: 'Kael the Herd-Runner',
+      context: 'His account of the vigil that earned him the trust of the steppe-spirits'
+    },
+
+    philosophy: {
+      coreTenet: 'Civilization is a cage. It teaches you walls, roofs, boundaries, the lie of separation. The Primalist undoes this. They remember what it felt like to be part of the world, not separate from it. A Primalist does not command nature — they listen to it, and the listening changes them.',
+      relationship: 'A Primalist\'s totems are not constructed — they are grown. The bone, antler, and root that erupt from their flesh are extensions of the self, manifestations of the Primalist\'s connection to the natural world. Each totem is a piece of the Primalist given form and purpose. When a totem is destroyed, the Primalist feels it as a physical wound — a piece of them has been killed.',
+      paradox: 'The Primalist gains power by losing themselves. The Beast\'s Toll is a measure of how much of their human identity has eroded in exchange for primal connection. A Primalist at maximum Toll can communicate with any creature, survive any environment, and fight with the strength of a bear — but they cannot remember how to speak human languages, cannot recognize their own reflection, and cannot resist the instinct to flee from fire. They become everything they sought to connect with, and lose everything they sought to protect.'
+    },
+
+    currentCrisis: `The totems are becoming permanent. For centuries, a Primalist\'s totems would wither and retract when the battle ended, returning to the body. Now, for an increasing number of Primalists, the totems remain. Bone spurs that will not recede. Root-tendrils that continue to grow from the skin. Partial transformations that cannot be reversed.
+
+The Primalists of the Sundrift Vale call this the "Stuck-Shift." They do not know what causes it, but they know who it affects most: Primalists who have spent too long in urban environments, separated from the natural world. The theory is that their bodies are trying to compensate for the lack of nature by maintaining a permanent connection. If this is true, then Primalists who live in cities are slowly, irreversibly transforming into something non-human — one stuck totem at a time.`,
+
+    meaningfulTradeoffs: `To be a Primalist is to be uncomfortable in buildings. The walls feel wrong, the roof feels oppressive, the still air feels dead. Primalists need to touch the earth regularly — they sleep on the ground even when beds are available, they open windows in blizzards, they grow restless and irritable if confined for too long. Relationships with settled people are difficult; a Primalist partner will always choose a night under the stars over a night indoors. They are not being difficult. They are suffocating.`,
+
+    classSpecificLocations: [
+      {
+        name: 'Kael\'s Grass-Ring',
+        locationId: 'sundrift-vale',
+        description: 'A circular depression in the steppe grass where Kael the Herd-Runner sat for his three-season vigil. The grass inside the ring grows differently — thicker, greener, warmer to the touch. Primalists make pilgrimages here to sit in the ring and feel what Kael felt: the slow dissolution of the self into the world.',
+        purpose: 'Pilgrimage site for Primalist initiation',
+        status: 'Active — maintained by the Sylen Astril who guard the steppe'
+      }
+    ],
+
     combatRole: {
       title: "The Apex Isolator",
       content: `**Unavoidable Lockdown**: In battle, your role is to tear high-value targets away from their allies and drag them into the dark. Through towering barricades of thorn, mud, and rot, you isolate threats and subject them to savage lockdowns.

@@ -6,6 +6,11 @@ export const BLADEDANCER_DATA = {
   damageTypes: ["slashing", "necrotic", "piercing"],
 
   overview: {
+    originStory: `The first bladedancers were not warriors but desperate wood-wardens of the Frostwood Reach. During the fog-ambush of the First Winter, when a patrol was cornered in the frozen briars by face-stealing horrors, Sylvain realized that traditional shields and heavy iron plates were nothing but anchors dragging them to the frozen peat. He threw down his heavy gear, stripped to a single leather jerkin, and synchronized his strikes with the erratic, whipping motion of the wind-swept ironwoods. He flowed through the mist like a falling leaf, his twin hand-axes carving a path of absolute kinetic momentum through the beasts.
+
+This absolute speed demands a terrifying physical toll. To dance with Sylvain's grace, a practitioner must train their nervous system to exist in a state of permanent, high-velocity twitch. The constant contortion causes severe joint friction and myelin sheath decay. When the dance stops, the kinetic engine stalls instantly, locking their limbs in agonizing stiffness and leaving their physical senses temporarily dulled, as if they are trapped in a freezing vacuum.
+
+The wind does not tire. Your speed is your only shield, and the blade is your voice. Let the steel sing until the dance is done.`,
     title: "The Bladedancer",
     subtitle: "The Kinetic Dervish",
     illustration: "/assets/images/classes/bladedancer_illustration.png",
@@ -27,13 +32,50 @@ export const BLADEDANCER_DATA = {
     description: `A master of hyper-accelerated momentum, the Bladedancer is a swift tempest of steel. To achieve their incredible velocities, they undergo rigorous alchemical conditioning and joint flexibility training, allowing them to move at speeds that push the limits of mortal physiology in exchange for constant kinetic pressure.`,
 
     roleplayIdentity: {
-      title: "The Path of Velocity",
-      content: `In the world of Mythrill, the Kinetic Dervishes are feared for their absolute speed. They have pushed their physical bodies to the absolute limit, relying on special alchemical wraps to stabilize their joints during extreme movement. They live for the rush of battle, where their focus narrows entirely to the rhythm of combat.
+      title: "Roleplay Identity",
+      content: `**HISTORY: THE GENESIS**
+The bladedancer's fluid grace was first manifested in the mist-shrouded canopy of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. A wood-warden named <LoreLink termId="sylvain">Sylvain</LoreLink>, cornered by a pack of face-stealing horrors, abandoned his heavy stance and synchronized his strikes with the swaying ironwood branches. By letting his movements flow with the wind-swept mist, he cleared the pack in a blur of kinetic sweeps.
 
-- **The Agile Outcast**: A free-spirited duelist who rejected traditional martial schools to forge their own high-speed path.
-- **The Alchemic Prodigy**: An initiate who utilizes stabilizing alchemical extracts to accelerate their nervous system.
-- **The Doomed Sentinel**: A high-risk fighter who pushes their speed to protect their allies, ignoring the personal strain.`
+The price of this perfect physical momentum was absolute exhaustion. When the dance stopped, the kinetic strain locked his joints in agonizing fatigue, and his physical senses were temporarily dulled to the rest of the world.
+
+**CITIES & CIVIL RECEPTION**
+Bladedancers are highly celebrated as protectors and scouts across the frontier keeps of <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> and the canopy avenues of <LoreLink termId="atropolis">Atropolis</LoreLink>. They are treated with caution in settled towns like <LoreLink termId="merrowport">Merrowport</LoreLink>, where their high-velocity agility is viewed as unpredictable, volatile, and lethal.
+
+**RACES & CULTURAL AFFILIATION**
+The class is heavily practiced by the <LoreLink termId="mimir">Mist-Woven Mimir</LoreLink> and agile humans who have trained their bodies to flow through the fog-memory trees.
+
+**NOTABLE FIGURES**
+* **Sylvain the Wood-Warden**: The sentinel who saved his squad from face-stealing horrors by dancing through the branches.
+* **Kaelen the Swift**: A Mask-Borne Mimir aristocrat who adapted the canopy dance into a lethal style to clear the Shallows.`
     },
+
+    signatureQuote: {
+      text: '"The mist does not slow me. The cold does not stiffen me. The horror does not frighten me. I am already moving faster than any of them can think."',
+      speaker: 'Sylvain the Wood-Warden',
+      context: 'Spoken to his patrol moments before vanishing into the ironwood canopy to face the Gref alone'
+    },
+
+    philosophy: {
+      coreTenet: 'Speed is not a tactic. It is a philosophy. A Bladedancer does not outfight opponents — they outpace them. By the time the enemy has registered the first cut, the Bladedancer is already behind them, making the second.',
+      relationship: 'A Bladedancer\'s power comes from perfect synchronization with the natural world — the sway of branches, the rhythm of wind, the vibration of frost forming on ironwood. They do not learn this synchronization through discipline or training. They learn it through desperation. Corner a Bladedancer and they will move through gaps in reality that should not exist.',
+      paradox: 'The Bladedancer achieves perfect motion by destroying their own joints. The constant high-speed friction and torque erodes cartilage, frays tendons, and calcifies bone spurs. The greatest Bladedancers move like water in combat — and wake every morning barely able to stand. The dance is killing them, but stopping is death.'
+    },
+
+    currentCrisis: `The Mist-Woven Mimir, who have carried the Bladedancer tradition for generations, are dying out. Their unique biology — semi-crystalline skin and joint structure — allows them to withstand the friction damage that cripples human practitioners. But the fog of the Frostwood Reach is accelerating, and the Mimir are losing their connection to the canopy. They can no longer feel the branch-vibrations that guide the dance.
+
+Desperate, some young Bladedancers have begun experimenting with alchemical joint lubricants distilled from Gref oil. These lubricants work — temporarily — but they are addictive, toxic, and cause the user to hear the whispers of the Gref they killed to harvest the oil. A generation of Bladedancers is trading their sanity for mobility.`,
+
+    meaningfulTradeoffs: `Bladedancers trade their bodies for speed. The joint decay is inexorable — every Bladedancer knows they will eventually need canes, then chairs, then full immobility. The average practitioner gets eight to ten years of peak performance before the pain outweighs the benefit. After that, they either retire to become teachers (if they survive) or simply vanish into the mist on one last dance. It is considered a good death.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Canopy Dance-Floors',
+        locationId: 'scribes-tower',
+        description: 'Broad ironwood branches that have been polished smooth by generations of Bladedancer feet, suspended between the upper reaches of the scribes-tower and the surrounding canopy. Novices train here, learning to feel the branch-vibrations through bare feet before they ever pick up a blade.',
+        purpose: 'Training ground for novice Bladedancers',
+        status: 'Active — maintained by retired Bladedancers who can no longer dance but still teach'
+      }
+    ],
 
     combatRole: {
       title: "Combat Role",
