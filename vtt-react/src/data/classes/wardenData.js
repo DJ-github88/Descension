@@ -134,7 +134,7 @@ With a permanent +50% Psychic vulnerability, you must rely on your party's caste
 **Attack Roll 2**: d20+6 → Hit!
 **Damage**: 15 bludgeoning damage.
 **Tension Generated**: +1 (Tether strike) = **4/10**
-**Your Reaction**: "Iron Brace" (+2 Armor against the second hit, reducing the damage by 5). You manually pull the chain links, grinding them against your wrist bone to generate more tension.
+**Your Reaction**: "Iron Brace" (+2 DR against the second hit, reducing the damage by 5). You manually pull the chain links, grinding them against your wrist bone to generate more tension.
 **Tension Generated**: +1 (Iron Brace manual reel) = **5/10**
 
 *HP: 86 - 18 - 10 = 58/90. Your blood lubricates the rusted links, but your mind is focused. Tension is at 5. The chains are vibrating with raw kinetic force.*
@@ -147,7 +147,7 @@ With a permanent +50% Psychic vulnerability, you must rely on your party's caste
 **Shared Torment Recoil**: You are dragged 20 feet across the gravel, taking 2d10 bludgeoning damage → [5, 4] = 9 damage.
 **Your Action**: "Penitent Resolve" (4 Tether Tension spent).
 **Tension**: 5 - 4 = **1/10**
-**Effect**: Gain 50% damage resistance and +4 Armor for 2 rounds. Your physical mass doubles, stopping the golem's movement instantly.
+**Effect**: Gain 50% damage resistance and +4 DR for 2 rounds. Your physical mass doubles, stopping the golem's movement instantly.
 
 *You slam your heel into the dirt. The iron plate grinds into the stone. The golem is jerked to a violent halt, its shoulder socket popping under the strain of the chain. It is locked down.*
 
@@ -317,7 +317,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       {
         name: "Iron Brace",
         type: "Reaction",
-        desc: "+2 Armor against an attack. Miss or hit, gain 1 Tension."
+        desc: "+2 DR against an attack. Miss or hit, gain 1 Tension."
       },
       {
         name: "Barbed Lash",
@@ -665,7 +665,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
     { id : "warden_evasive_maneuvers",
       name: "Iron Brace",
-      description: "When targeted by an attack, brace your armor and brace the chains. Gain an Armor bonus. Whether the attack lands or misses, you gain 1 Tether Tension by reeling in.",
+      description: "When targeted by an attack, brace your armor and brace the chains. Gain a DR bonus. Whether the attack lands or misses, you gain 1 Tether Tension by reeling in.",
       spellType: "REACTION",
       icon: "Utility/Parry",
       level: 1,
@@ -704,7 +704,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         effects: [
           { id : "braced_defense",
             name: "Braced",
-            description: "Armor increased by +2 against the triggering attack.",
+            description: "DR increased by +2 against the triggering attack.",
             statModifier: {
               stat: "armor",
               magnitude: 2,
@@ -920,7 +920,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
     { id : "warden_hunters_resolve",
       name: "Penitent Resolve",
-      description: "Dig the grafted spine hooks deeper, welcoming the pain to brace your armor. Gain 50% damage resistance and Armor. The benefits are doubled if the tethered target is within 15 feet, anchoring you completely.",
+      description: "Dig the grafted spine hooks deeper, welcoming the pain to brace your armor. Gain 50% damage resistance and DR. The benefits are doubled if the tethered target is within 15 feet, anchoring you completely.",
       spellType: "ACTION",
       icon: "Utility/Deflecting Shield",
       level: 2,
@@ -958,7 +958,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         effects: [
           { id : "penitent_resist",
             name: "Enduring Meat",
-            description: "Gain 50% damage resistance and +4 Armor against all incoming physical damage.",
+            description: "Gain 50% damage resistance and +4 DR against all incoming physical damage.",
             statModifier: {
               stat: "armor",
               magnitude: 4,
@@ -1120,7 +1120,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       },
       specialMechanics: {
         armorPiercing: {
-          description: "This attack completely ignores the target's Armor value."
+          description: "This attack completely ignores the target's DR value."
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -1391,7 +1391,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
     { id : "warden_avatar_of_vengeance",
       name: "Flayed Ascendancy",
-      description: "Unleash all tension to fuse your flesh with your rusted iron grafts. Your chains burst outward, forming a cage of spikes around your bones. For 6 rounds, gain Armor, massive damage, and reel in all tethered targets helplessly.",
+      description: "Unleash all tension to fuse your flesh with your rusted iron grafts. Your chains burst outward, forming a cage of spikes around your bones. For 6 rounds, gain DR, massive damage, and reel in all tethered targets helplessly.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 5,
@@ -1429,7 +1429,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         effects: [
           { id : "flayed_transformation",
             name: "Ascendant Flesh",
-            description: "Gain +4 Armor, +2d6 bludgeoning damage, and generate +1 Tension on hit.",
+            description: "Gain +4 DR, +2d6 bludgeoning damage, and generate +1 Tension on hit.",
             statModifier: {
               stat: "armor",
               magnitude: 4,
@@ -2074,7 +2074,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
     { id : "warden_avatar_perfected",
       name: "Flayed Ascendancy Perfected",
-      description: "Transform into a god-like engine of rusted steel. Your chains expand to cover the sky. Gain Armor, absolute CC immunity, and automatically shred all tethered targets.",
+      description: "Transform into a god-like engine of rusted steel. Your chains expand to cover the sky. Gain DR, absolute CC immunity, and automatically shred all tethered targets.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 10,
@@ -2112,7 +2112,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         effects: [
           { id : "perfected_jailer_buff",
             name: "Iron God",
-            description: "Gain +6 Armor, CC immunity, 50% physical resistance, and shred all tethered targets.",
+            description: "Gain +6 DR, CC immunity, 50% physical resistance, and shred all tethered targets.",
             statModifier: {
               stat: "armor",
               magnitude: 6,

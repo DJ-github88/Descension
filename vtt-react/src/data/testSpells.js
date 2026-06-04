@@ -424,7 +424,7 @@ export const EFFECT_TYPE_TEST_SPELLS = [
           commandComplexity: 'any',
           maxCommands: 10,
           saveDC: 18,
-          saveType: 'wisdom',
+          saveType: 'spirit',
           saveOutcome: 'negates',
           saveTrigger: 'harmful',
           saveFrequency: 'end_of_turn'
@@ -437,7 +437,7 @@ export const EFFECT_TYPE_TEST_SPELLS = [
           magnitudeType: 'flat'
         }
       ],
-      savingThrow: 'wisdom',
+      savingThrow: 'spirit',
       difficultyClass: 18,
       saveOutcome: 'negates',
       stackingRule: 'replace',
@@ -654,7 +654,7 @@ export const EFFECT_TYPE_TEST_SPELLS = [
       duration: 10,
       durationUnit: 'minutes',
       retainsAbilities: false,
-      savingThrow: 'wisdom',
+      savingThrow: 'spirit',
       difficultyClass: 15
     },
     resourceCost: {
@@ -1969,7 +1969,7 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
           magnitudeType: 'percentage'
         }
       ],
-      savingThrow: 'wisdom',
+      savingThrow: 'spirit',
       difficultyClass: 20,
       saveOutcome: 'halves_duration',
       durationType: 'rounds',

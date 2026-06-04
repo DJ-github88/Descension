@@ -747,7 +747,7 @@ export const ACCESSORIES = [
             controlType: 'fear',
             controlDuration: 1,
             saveDC: 15,
-            saveType: 'wisdom',
+            saveType: 'spirit',
             knockbackDistance: 10,
             targetType: 'attacker',
             areaRadius: 0
@@ -935,7 +935,7 @@ export const ACCESSORIES = [
             controlType: 'fear',
             controlDuration: 2,
             saveDC: 17,
-            saveType: 'wisdom',
+            saveType: 'spirit',
             knockbackDistance: 10,
             targetType: 'attacker',
             areaRadius: 0

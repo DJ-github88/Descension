@@ -113,7 +113,7 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 *Because no bleeding targets or fresh corpses exist, your eyes are blind to the future. You pull your ritual flaying hook and drag it across your own left forearm, carving the first sign.*
 * **Self-Mutilation**: You take 1d6 slashing damage (4 HP lost) and suffer Bleed (1d4 damage at the start of your turn for 3 rounds). This generates +2 Malediction.
 * **Your Action**: Cast "Splintered Bone Portent" on the Executioner (8 Mana + 2 Malediction spent).
-* **Effect**: You scream the fracture you see. The executioner staggers as his femur cracks internally. He takes 2d6 psychic damage and suffers -2 Armor and -10ft speed for 3 rounds.
+* **Effect**: You scream the fracture you see. The executioner staggers as his femur cracks internally. He takes 2d6 psychic damage and suffers -2 DR and -10ft speed for 3 rounds.
 * **Mana**: 45 → 37/55.
 * **Malediction**: 2 → 0/15.
 * **Current State**: Malediction: 0/15 | Benediction: 0/5 | HP: 46/50 | Bleed Active (3 rounds)
@@ -235,7 +235,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
           "Splintered Bone Portent",
           "2 Malediction",
           "Target Crippling",
-          "Action: Cracks bones internally. Deals 2d6 psychic, -2 Armor, -10ft speed",
+          "Action: Cracks bones internally. Deals 2d6 psychic, -2 DR, -10ft speed",
         ],
       ],
     },
@@ -339,7 +339,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         strengths: [
           "Maximum resource caps set to 15 Benediction and 5 Malediction",
           "All healing spells restore 50% more HP",
-          "Benediction-fueled spells grant allies +2 Armor for 2 rounds",
+          "Benediction-fueled spells grant allies +2 DR for 2 rounds",
           "Can absorb 50% of all damage taken by nearby allies passively",
         ],
 
@@ -352,7 +352,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         specPassive: {
           name: "Searing Grace",
           description:
-            "15/5 dual resource caps. Healing increased by 50%. Benediction spells grant +2 Armor to allies.",
+            "15/5 dual resource caps. Healing increased by 50%. Benediction spells grant +2 DR to allies.",
         },
 
         keyAbilities: [
@@ -662,8 +662,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         effects: [
           { id : "splintered_bone_debuff",
             name: "Cracked Frame",
-            description: "Target has -2 Armor and their Agility is reduced by 2 for 3 rounds.",
-            mechanicsText: "-2 Armor and -2 Agility.",
+            description: "Target has -2 DR and their Agility is reduced by 2 for 3 rounds.",
+            mechanicsText: "-2 DR and -2 Agility.",
           },
         ],
         statPenalties: [
@@ -804,8 +804,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         effects: [
           { id : "congealed_aegis_buff",
             name: "Congealed Resolve",
-            description: "Grants +3 Armor and resistance to the next source of physical damage.",
-            mechanicsText: "+3 Armor, physical resistance (1 charge).",
+            description: "Grants +3 DR and resistance to the next source of physical damage.",
+            mechanicsText: "+3 DR, physical resistance (1 charge).",
           },
         ],
         durationType: "rounds",
@@ -1151,8 +1151,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         effects: [
           { id : "martyrs_shroud_buff",
             name: "Searing Shroud",
-            description: "Grants +2 Armor and absolute immunity to Charmed and Frightened conditions.",
-            mechanicsText: "+2 Armor, immune to Charmed/Frightened.",
+            description: "Grants +2 DR and absolute immunity to Charmed and Frightened conditions.",
+            mechanicsText: "+2 DR, immune to Charmed/Frightened.",
             statModifier: {
               stat: "armor",
               magnitude: 2,
@@ -1272,8 +1272,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         effects: [
           { id : "field_misfortune_debuff",
             name: "Splintered Stance",
-            description: "Enemies have -3 to all attack rolls and -3 to Armor while in the zone.",
-            mechanicsText: "-3 attack rolls, -3 Armor.",
+            description: "Enemies have -3 to all attack rolls and -3 to DR while in the zone.",
+            mechanicsText: "-3 attack rolls, -3 DR.",
           },
         ],
         statPenalties: [
@@ -1586,8 +1586,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         effects: [
           { id : "reality_allies_buff",
             name: "Fated Step",
-            description: "Allies have +2 to all d20 rolls and +2 Armor.",
-            mechanicsText: "+2 all rolls, +2 Armor.",
+            description: "Allies have +2 to all d20 rolls and +2 DR.",
+            mechanicsText: "+2 all rolls, +2 DR.",
             statModifier: {
               stat: "all_rolls",
               magnitude: 2,
@@ -1911,8 +1911,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         effects: [
           { id : "aurora_allies_buff",
             name: "Sky-Clad Flesh",
-            description: "Allies gain +3 Armor and immunity to psychic damage for the duration.",
-            mechanicsText: "+3 Armor, psychic immunity.",
+            description: "Allies gain +3 DR and immunity to psychic damage for the duration.",
+            mechanicsText: "+3 DR, psychic immunity.",
             statModifier: {
               stat: "armor",
               magnitude: 3,

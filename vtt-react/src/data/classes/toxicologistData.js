@@ -555,7 +555,7 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
           "2d6 necrotic damage",
           "-1d4 max HP (temporary)",
           "DC 15 CON",
-          "Gadgeteer: Also -1 Armor",
+          "Gadgeteer: Also -1 DR",
         ],
         [
           "Myotoxin",
@@ -1201,9 +1201,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           { id : "burned",
             name: "Burned",
             description:
-              "Armor reduced by 3 and takes 1d6 fire damage per round for 3 rounds.",
+              "DR reduced by 3 and takes 1d6 fire damage per round for 3 rounds.",
             mechanicsText:
-              "-3 Armor and 1d6 fire damage per round for 3 rounds",
+              "-3 DR and 1d6 fire damage per round for 3 rounds",
             statModifier: {
               stat: "armor",
               magnitude: -3,
@@ -2177,7 +2177,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
               concentration: false,
               controlType: "mental",
               abilities:
-                "Can attack for 6d10 damage, launch artillery for 8d8 in 30ft radius, or deploy shields for +5 Armor to allies",
+                "Can attack for 6d10 damage, launch artillery for 8d8 in 30ft radius, or deploy shields for +5 DR to allies",
             },
           },
         ],
@@ -2238,13 +2238,13 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           { id : "total_system_failure",
             name: "Total System Failure",
             description:
-              "All enemy magical items stop working. All buffs are removed. Cannot cast spells for 1 round. -10 Armor.",
+              "All enemy magical items stop working. All buffs are removed. Cannot cast spells for 1 round. -10 DR.",
             statPenalty: [
               { stat: "armor", value: -10 },
               { stat: "spellcasting", value: -99, magnitudeType: "blocked" },
             ],
             mechanicsText:
-              "All magic items stop working, buffs removed, no spells for 1 round, -10 Armor",
+              "All magic items stop working, buffs removed, no spells for 1 round, -10 DR",
           },
         ],
         durationValue: 3,
@@ -2728,7 +2728,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         debuffType: "statReduction",
         effects: [
           { id : "venom_blast_armor",
-            name: "Armor Corrosion",
+            name: "DR Corrosion",
             description: "-2 armor for 2 rounds",
             mechanicsText: "-2 armor for 2 rounds",
             statModifier: {

@@ -966,7 +966,7 @@ export const ARMOR = [
             controlType: 'fear',
             controlDuration: 1,
             saveDC: 14,
-            saveType: 'wisdom',
+            saveType: 'spirit',
             knockbackDistance: 10,
             targetType: 'attacker',
             areaRadius: 0
@@ -1254,7 +1254,7 @@ export const ARMOR = [
             controlType: 'fear',
             controlDuration: 2,
             saveDC: 16,
-            saveType: 'wisdom',
+            saveType: 'spirit',
             knockbackDistance: 10,
             targetType: 'attacker',
             areaRadius: 0

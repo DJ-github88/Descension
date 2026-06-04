@@ -2559,7 +2559,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_infernal_avatar",
       name: "Infernal Avatar",
       description:
-        "You stop being human and start being a furnace. For 10 rounds, you become an Infernal Avatar — a being of pure demonic fire, wreathed in Scathrach's essence. +5 fire spell power, +3 Armor, fire immunity, and a burning aura (2d6 fire to enemies within 10 feet). Your skin is gone. Your voice is gone. Only the fire remains. When it ends, you will feel every second of what you've become.",
+        "You stop being human and start being a furnace. For 10 rounds, you become an Infernal Avatar — a being of pure demonic fire, wreathed in Scathrach's essence. +5 fire spell power, +3 DR, fire immunity, and a burning aura (2d6 fire to enemies within 10 feet). Your skin is gone. Your voice is gone. Only the fire remains. When it ends, you will feel every second of what you've become.",
       level: 9,
       spellType: "CHANNELED",
       icon: "Fire/Fire Demon",
@@ -2856,7 +2856,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_demonic_ascension",
       name: "Demonic Ascension",
       description:
-        "You surrender completely. Demonic Ascension is the final act of the Damned Conduit — transforming into a true demon of fire with overwhelming power. +15 fire damage to all spells, +5 Armor, fire immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire at the start of their turn. **WARNING:** This spell requires Inferno Level 9. The death clock does NOT pause while transformed — you must still descend below Level 9 within 3 of your turns or Scathrach claims you. Permanently. This is not a power-up. It is a eulogy you perform while still alive.",
+        "You surrender completely. Demonic Ascension is the final act of the Damned Conduit — transforming into a true demon of fire with overwhelming power. +15 fire damage to all spells, +5 DR, fire immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire at the start of their turn. **WARNING:** This spell requires Inferno Level 9. The death clock does NOT pause while transformed — you must still descend below Level 9 within 3 of your turns or Scathrach claims you. Permanently. This is not a power-up. It is a eulogy you perform while still alive.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Fire Demon",
@@ -2892,12 +2892,12 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
           { id : "demonicAscension_power",
             name: "Demonic Ascension",
             description:
-              "+15 fire damage to all spells, +5 Armor, fire damage immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn. Requires Inferno Level 9. Death clock still ticks.",
+              "+15 fire damage to all spells, +5 DR, fire damage immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn. Requires Inferno Level 9. Death clock still ticks.",
             mechanicsText: "",
           },
           { id : "demonicAscension_armor",
-            name: "Demonic Armor",
-            description: "+5 Armor from demonic carapace",
+            name: "Demonic Carapace",
+            description: "+5 DR from demonic carapace",
             mechanicsText: "",
             statModifier: {
               stat: "armor",

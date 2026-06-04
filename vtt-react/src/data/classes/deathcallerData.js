@@ -266,7 +266,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         icon: "Slashing/Bloody Slash",
         items: [
           "Ritual Dagger (1d6 slashing, necrotic resonance — HP sacrificed with this weapon generates +1 Blood Token per strike)",
-          "Bloodstained Leather Armor (AC 12, no agility penalty)",
+          "Bloodstained Leather Armor (No agility penalty)",
           "Copper Chalice (ritual focus — reduces HP cost of first spell each combat by 1)",
         ],
         description:
@@ -277,7 +277,7 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         icon: "Necrotic/Necrotic Skull",
         items: [
           "Obsidian Staff (1d8 bludgeoning, +5 ft reach on necrotic spells)",
-          "Tattered Robes (AC 10, +1 necrotic damage to all spells)",
+          "Tattered Robes (+1 necrotic damage to all spells)",
           "Vial of Congealed Blood (consumable — restore 2d6 HP, once per long rest)",
         ],
         description:
@@ -1309,8 +1309,8 @@ You're not a mage who casts spells with manaâ€”you're a BLOOD MAGE who pays
         effects: [
           { id : "life_link_armor",
             name: "Linked Resolve",
-            description: "+2 Armor to both linked creatures while the link persists.",
-            mechanicsText: "+2 Armor to both linked creatures (10 rounds)",
+            description: "+2 DR to both linked creatures while the link persists.",
+            mechanicsText: "+2 DR to both linked creatures (10 rounds)",
             statModifier: {
               stat: "armor",
               magnitude: 2,

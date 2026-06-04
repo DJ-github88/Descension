@@ -132,7 +132,7 @@ The key to mastering the Huntress is generating and spending Quarry Marks effici
 **Companion Commands**:
 Your companion is a crucial part of your combat effectiveness. Use commands wisely:
 - **Attack**: When you need additional damage on priority targets
-- **Defend**: When you or an ally needs protection (+2 Armor)
+- **Defend**: When you or an ally needs protection (+2 DR)
 - **Support**: For tactical advantages (buffs/debuffs)
 
 **Glaive Positioning**:
@@ -227,7 +227,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 - **QM Generated**: +3 from 3 enemies hit (turn cap). 3 + 3 = **5 QM** (cap reached)
 
-- **Bonus Action**: Command Fang to Defend you (+2 Armor for 1 round)
+- **Bonus Action**: Command Fang to Defend you (+2 DR for 1 round)
   - **Your Armor**: 14 + 2 = **16** until start of your next turn
 
 *Fang positions himself protectively in front of you, snarling at the remaining bandits.*
@@ -537,7 +537,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
             name: "Shadow Veil",
             icon: "Utility/Hide",
             description:
-              "After using Shadowstep, you gain +2 Armor and advantage on Stealth checks for 1 round. You can hide for 1 AP during this time.",
+              "After using Shadowstep, you gain +2 DR and advantage on Stealth checks for 1 round. You can hide for 1 AP during this time.",
           },
           {
             name: "Lethal Precision",
@@ -787,7 +787,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         },
         bladestormUltimate: {
           description: "Bladestorm specialization ultimate ability",
-          additionalEffect: "Gain +2 Armor until end of next turn",
+          additionalEffect: "Gain +2 DR until end of next turn",
         },
       },
 
@@ -1001,9 +1001,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
             mechanicsText: "Companion deals +2d6 damage on all attacks",
           },
           { id : "companion_gains_4_armor",
-            name: "Companion gains +4 Armor",
-            description: "Companion gains +4 Armor",
-            mechanicsText: "Companion gains +4 Armor",
+            name: "Companion gains +4 DR",
+            description: "Companion gains +4 DR",
+            mechanicsText: "Companion gains +4 DR",
           },
           { id : "companion_has_advantage_on_all_atta",
             name: "Companion has advantage on all attacks",
@@ -1100,7 +1100,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       specialMechanics: {
         shadowbladePassive: {
           description:
-            "Shadowblade spec gains +2 Armor and advantage on Stealth for 1 round (Shadow Veil passive)",
+            "Shadowblade spec gains +2 DR and advantage on Stealth for 1 round (Shadow Veil passive)",
           additionalEffect: "Can hide for 1 AP after Shadowstep",
         },
         lethalPrecision: {
@@ -1429,9 +1429,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
             mechanicsText: "Gain advantage on Dexterity saving throws",
           },
           { id : "gain_2_armor",
-            name: "Gain +2 Armor",
-            description: "Gain +2 Armor",
-            mechanicsText: "Gain +2 Armor",
+            name: "Gain +2 DR",
+            description: "Gain +2 DR",
+            mechanicsText: "Gain +2 DR",
           },
           { id : "duration_until_start_of_your_next_t",
             name: "Duration: Until start of your next turn",
@@ -1583,7 +1583,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         },
         conditionalBuff: {
           condition: "If all 3 attacks hit",
-          effect: "+1 Armor until start of next turn",
+          effect: "+1 DR until start of next turn",
         },
       },
 
@@ -1595,7 +1595,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         },
         conditionalBonus: {
           description:
-            "If all attacks hit, gain +1 Armor until start of next turn",
+            "If all attacks hit, gain +1 DR until start of next turn",
         },
       },
 

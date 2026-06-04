@@ -189,7 +189,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'machine_song_kethrin',
                     name: 'Machine-Song',
-                    description: 'You sing the old maintenance song for the machine before you — a verse passed down through your guild for millennia, its syllables worn smooth by repetition, its meaning half-forgotten but its power intact. The machine responds. For 1 minute, one mechanical device, construct, or trap within 30 feet operates at peak efficiency: constructs gain +2 AC and +10ft speed, mechanical devices function perfectly regardless of damage, and traps gain +2 to their save DC. The song requires your voice uninterrupted — if you are silenced, the effect ends. When the song ends, the machine has been pushed past its limits: it takes 2d6 damage as the strain of perfect operation catches up. You cannot sing the same song to the same machine again until after a long rest — the machine needs time to recover from being reminded of what it once was.',
+                    description: 'You sing the old maintenance song for the machine before you — a verse passed down through your guild for millennia, its syllables worn smooth by repetition, its meaning half-forgotten but its power intact. The machine responds. For 1 minute, one mechanical device, construct, or trap within 30 feet operates at peak efficiency: constructs gain +10ft speed, mechanical devices function perfectly regardless of damage, and traps gain +2 to their save DC. The song requires your voice uninterrupted — if you are silenced, the effect ends. When the song ends, the machine has been pushed past its limits: it takes 2d6 damage as the strain of perfect operation catches up. You cannot sing the same song to the same machine again until after a long rest — the machine needs time to recover from being reminded of what it once was.',
                     level: 1,
                     icon: 'spell_arcane_masscharm',
                     spellType: 'ACTION',
@@ -202,7 +202,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                         effects: [{
                             id: 'peak_operation',
                             name: 'Peak Operation',
-                            description: 'One construct or mechanical device operates at peak: +2 AC, +10ft speed, traps +2 DC. Duration: 1 minute or until silenced.',
+                            description: 'One construct or mechanical device operates at peak: +10ft speed, traps +2 DC. Duration: 1 minute or until silenced.',
                             statusEffect: { level: 'major', description: 'The machine remembers what it once was' }
                         }],
                         durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false,

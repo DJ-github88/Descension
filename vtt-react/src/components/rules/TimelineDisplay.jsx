@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './TimelineDisplay.css';
 
 const E = [
   {
@@ -79,14 +80,13 @@ const E = [
       { date: '~60 BP', title: 'The Solbrand Begins to Dim', narrative: 'The **Solbrand** — the eternal ember believed to be Sol\'s last conscious fragment inside the Harath-Vault — begins to dim. The Korr priestly elite of the Emberth, desperate to maintain faith, conceal the decline from the outer Thrask clans. Elder **Thaeron**, the eldest Sun-Speaker, retreats into the inner basalt ring of the Harath-Vault, spending eleven years staring into the fading flame in absolute silence. He discovers that the Solbrand is not a closed ember, but a thermal feeding-line through which Keth-Amar is actively siphoning Sol\'s life, triggering a quiet three-way theological schism among the forge-clans.', dmHook: 'Thaeron is dying. He has been sustained for decades by proximity to the Solbrand, but the ember\'s fading is accelerating his decline. Before he dies, he wants to tell someone what he has seen. He will only speak to an outsider — someone unaffiliated with the forge-clans, someone who cannot be accused of factional bias. The party is summoned to the Harath-Vault. What Thaeron tells them will change everything.' },
       { date: '~30 BP', title: 'The Last Mimir Birth', narrative: 'The mother-flame — the sacred Mimir birthing fire maintained by midwives since before the Purge — gutters and goes out. The final Mimir birth occurs, but the child emerges **Unwoven**: a child whose mask cracked during the birthing ritual, leaving them without a stable face. Evolving a shifting parade of historical faces belonging to ancestors both living and dead, the child becomes a living archive of the Mimir race. The elders are paralyzed, unable to decide whether this child is a sign of their ultimate extinction or the first step toward a maskless rebirth.', dmHook: 'The Unwoven child is now thirty years old. They live in the deepest canopy-hold, hidden from the world. They have never worn a mask. Their face shifts constantly — a parade of strangers, some living, some dead, some who have never existed. The child can tell you who each face belongs to. Some of them are people who died centuries ago. One of them is someone who has not been born yet.' },
       { date: '~20 BP', title: 'The Monoliths Change Resonance', narrative: 'The **Sundered Monoliths** — the seven fragments of the original binding seal dormant since Keth-Amar\'s breach — begin to wake in sequence. The Deep-Born Myrathil Listeners feel the Iceheart Shard thrumming like a plucked string, while the Groven report the Shard beneath Frostmaw Crag has begun to sing, its vibrations cracking the calcified bridges of the Ancestor-Spans and making the stone weep. The Astril\'s constellation-spirits convulse in agony near any Monolith, realizing that the predator inside the vault has turned its attention to the fragments of its original victory.', dmHook: 'The seven Monoliths are not waking independently. They are waking in sequence — each one activating the next in a chain reaction that circles the world. The pattern traces a spiral that, when mapped, points to a single location: a point in the void directly above Emberspire\'s caldera. Whatever happens when the last Monolith wakes will happen there. The Astril Remnant — the last visible star — is positioned exactly at that point.' },
-      { date: '~5 BP', title: 'The Shifting of the Spawning Gales', narrative: 'The spawning gales — the oceanic storms that have created new Myrathil for centuries — shift north. The First Shore, the stretch of Iceheart coastline where Myrathil have spawned for millennia, grows quiet, its waves stilling and its foam thinning. The **sea mother** shifts her storms toward Nordhalla\'s frozen coast, positioned directly over the deepest oceanic trench. Evolving a desperate defensive intelligence, the sea mother is massing her Myrathil forces along the seabed to block Keth-Amar\'s geothermal hunger from breaching the ocean floor.', dmHook: 'The sea mother is repositioning her forces. She knows something the land-folk do not: Keth-Amar\'s influence is not limited to the Sundered Monoliths. It is spreading through the world\'s geothermal network, following the vents and volcanic channels that warm the surface. The sea mother is moving the Myrathil toward the point where the predator\'s influence will breach the ocean floor.' },
+      { date: '~5 BP', title: 'The Shifting of the Spawning Gales', narrative: 'The spawning gales — the oceanic storms that have created new Myrathil for centuries -- shift north. The First Shore, the stretch of Iceheart coastline where Myrathil have spawned for millennia, grows quiet, its waves stilling and its foam thinning. The **sea mother** shifts her storms toward Nordhalla\'s frozen coast, positioned directly over the deepest oceanic trench. Evolving a desperate defensive intelligence, the sea mother is massing her Myrathil forces along the seabed to block Keth-Amar\'s geothermal hunger from breaching the ocean floor.', dmHook: 'The sea mother is repositioning her forces. She knows something the land-folk do not: Keth-Amar\'s influence is not limited to the Sundered Monoliths. It is spreading through the world\'s geothermal network, following the vents and volcanic channels that warm the surface. The sea mother is moving the Myrathil toward the point where the predator\'s influence will breach the ocean floor.' },
       { date: 'Present', title: 'The Seventh Age Hangs in the Balance', narrative: 'The **Unwoven** Emberth, having ritually defaced their forge-marks, scour the continents for Sundered Monoliths, believing that sealing Keth-Amar\'s breach will allow Sol to complete the Deepening and be reborn. In the north, frost lords stir beneath Nordhalla\'s glaciers. In Atropolis, the **Neth** file seventeen urgent petitions to claim the Monolith pools as protected contract archives. Civil war brews between the Korr and Thrask forge-clans in Sundale, while **Covenbanes** hunt the mycelial-addicted Over-Lit across the margins of every settled capital. The powder keg is global. The fuse is lit.', dmHook: 'This is where your campaign begins. Every region\'s crisis is an adventure waiting to happen. Every Sundered Monolith is a dungeon with a boss at its heart. Every faction has an agenda. Every NPC has a secret. The seventh age of Mythrill does not have a predetermined ending — that\'s what the players are for. Start small: a frozen village in the Frostwood Reach, a missing child, a fog that whispers. Build toward the Monoliths. End at Emberspire.' },
     ]
   },
 ];
 
 const EVENT_ART_MAP = {
-  'The First Ignition': 'watercolor_tome.png',
   'Aex, Firstborn': 'watercolor_dragon.png',
   'Fexrick Carve': 'watercolor_anvil.png',
   'Thrumm Awaken': 'watercolor_tree.png',
@@ -102,7 +102,6 @@ const EVENT_ART_MAP = {
   'House Viridane Refuses': 'watercolor_seal.png',
   'Shattering of the Seal': 'watercolor_shackles.png',
   'First Exorcists': 'watercolor_staff.png',
-  'Myrathil Explosion': 'watercolor_compass.png',
   'Birth of the Groven': 'watercolor_flask.png',
   'Neth Bargain': 'watercolor_scroll.png',
   'Astril Are Born': 'watercolor_crystal.png',
@@ -112,7 +111,6 @@ const EVENT_ART_MAP = {
   'Solbrand Begins to Dim': 'watercolor_candle.png',
   'Last Mimir Birth': 'watercolor_sigil.png',
   'Monoliths Change Resonance': 'watercolor_d20.png',
-  'Shifting of the Spawning': 'watercolor_compass.png',
   'Seventh Age': 'watercolor_scales.png'
 };
 

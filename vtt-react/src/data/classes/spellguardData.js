@@ -461,7 +461,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
     { id : "sg_refract_kinetic",
       name: "Refract Kinetic",
       description:
-        "A desperate survival technique. You harden your physical shell by channeling radiation into your bones. For 1 round, your +50% physical vulnerability is suppressed, and you gain +2 Armor. However, the internal friction deals 1d4 necrotic damage to you instantly.",
+        "A desperate survival technique. You harden your physical shell by channeling radiation into your bones. For 1 round, your +50% physical vulnerability is suppressed, and you gain +2 DR. However, the internal friction deals 1d4 necrotic damage to you instantly.",
       level: 1,
       spellType: "ACTION",
       icon: "Slashing/Crushing Blow",
@@ -498,8 +498,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
         effects: [
           { id : "kinetic_hardening",
             name: "Kinetic Hardening",
-            description: "Suppresses physical vulnerability and grants +2 Armor.",
-            mechanicsText: "+2 Armor",
+            description: "Suppresses physical vulnerability and grants +2 DR.",
+            mechanicsText: "+2 DR",
             statModifier: {
               stat: "armor",
               magnitude: 2,

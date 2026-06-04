@@ -552,7 +552,7 @@ The Formbender's specializations are not schools of thought â€” they are di
         keyAbilities: [
           "Inferno Form: Your flesh ignites. You are a screaming pillar of fire. Deal 1d6 fire damage to adjacent enemies each round. Immune to fire. Vulnerable to frost. You cannot scream because you have no throat â€” but the fire screams for you.",
           "Tsunami Form: Your body dissolves into crushing water. Swim speed 60ft, breathe underwater, create water walls. Vulnerable to lightning. Drown your enemies in what used to be your circulatory system.",
-          "Avalanche Form: Your skeleton calcifies into living stone. +5 Armor, tremorsense 30ft, reshape earth. Vulnerable to lightning. Your heartbeat sounds like mountains grinding.",
+          "Avalanche Form: Your skeleton calcifies into living stone. +5 DR, tremorsense 30ft, reshape earth. Vulnerable to lightning. Your heartbeat sounds like mountains grinding.",
           "Tempest Form: Your lungs become wind chambers. Fly speed 60ft, create wind barriers. Vulnerable to being grounded. Your voice is the sound of a hurricane trying to remember words.",
         ],
 
@@ -1892,7 +1892,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     { id: "formbender_bone_carapace",
       name: "Bone Carapace",
       description:
-        "Your ribs crack and spread, pushing through skin to form overlapping plates of calcified nightmare. The plates grow, fuse, and interlock until your torso is a cage of bone armor that shouldn't exist outside a charnel pit. Gain +3 Armor and 50% resistance to physical damage for 10 minutes.",
+        "Your ribs crack and spread, pushing through skin to form overlapping plates of calcified nightmare. The plates grow, fuse, and interlock until your torso is a cage of bone armor that shouldn't exist outside a charnel pit. Gain +3 DR and 50% resistance to physical damage for 10 minutes.",
       spellType: "ACTION",
       icon: "Nature/Earth Shield",
       level: 3,
@@ -1927,7 +1927,7 @@ The Formbender's specializations are not schools of thought â€” they are di
           { id : "bone_carapace",
             name: "Bone Carapace",
             description:
-              "+3 Armor and 50% physical damage resistance for 10 minutes. Your ribs are on the outside now.",
+              "+3 DR and 50% physical damage resistance for 10 minutes. Your ribs are on the outside now.",
             statModifier: {
               stat: "armor",
               magnitude: 3,
@@ -2392,7 +2392,7 @@ The Formbender's specializations are not schools of thought â€” they are di
     { id: "formbender_titan_abomination",
       name: "Titan Abomination",
       description:
-        "Your skeleton detonates. Bones crack, multiply, and fuse into something Huge â€” a towering mass of calcified rage wrapped in hide thick enough to turn sword blows. Gain Huge size, +4 Strength, +3 Armor, and 50 temporary HP for 4 rounds. When it ends, you will remember what it felt like to be small. You will not forgive yourself for going back.",
+        "Your skeleton detonates. Bones crack, multiply, and fuse into something Huge â€” a towering mass of calcified rage wrapped in hide thick enough to turn sword blows. Gain Huge size, +4 Strength, +3 DR, and 50 temporary HP for 4 rounds. When it ends, you will remember what it felt like to be small. You will not forgive yourself for going back.",
       level: 6,
       form: null,
       spellType: "ACTION",
@@ -2423,8 +2423,8 @@ The Formbender's specializations are not schools of thought â€” they are di
             description: "Gain +4 to Strength attribute",
           },
           { id : "titan_armor",
-            name: "+3 Armor",
-            description: "Gain +3 armor from overlapping bone plates",
+            name: "+3 DR",
+            description: "Gain +3 DR from overlapping bone plates",
           },
           { id : "titan_hp",
             name: "+50 Temp HP",

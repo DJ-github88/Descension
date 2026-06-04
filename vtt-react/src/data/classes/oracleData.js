@@ -2647,7 +2647,7 @@ Use a distinct large token (a blood drop or hourglass). When you Chrono-Wound, p
         effects: [
           { id : "prophetic_shield_active",
             name: "Prophetic Shield",
-            description: "Gain +3 Armor and advantage on all saving throws for 4 rounds.",
+            description: "Gain +3 DR and advantage on all saving throws for 4 rounds.",
             statModifier: {
               stat: "armor",
               magnitude: 3,

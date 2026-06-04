@@ -28,7 +28,7 @@ Shine in the dark. The moon's light is cold, but it is the only guide left in a 
       title: "Quick Overview",
       content: `**What You Need to Know**: You did not choose this. An ancient celestial parasite has fused with your nervous system. Every three rounds it FORCEFULLY REWRITES your physiology -- dealing 2d6 necrotic damage as it feeds on a different aspect of your humanity. You are its host. Its hunger is your power.
 
-**Core Mechanic**: Parasitic Phase Cycle -- New Moon (Memory Eater: +3 Armor, immune to charm/fear, but -2 attacks, lose 1d4 mana/turn) â†’ Waxing Moon (Sensation Harvest: +1d6 damage, +10ft speed, but take 1d4 necrotic/turn, no healing) â†’ Full Moon (Sanity Erosion: +2d8 radiant, crit 19-20, ignores 50% armor, but Delirium rolls each turn, -5 max HP/round) â†’ Waning Moon (Vitality Drain: -3 mana costs, vampiric 25%, but -2 Armor, -10 max HP)
+**Core Mechanic**: Parasitic Phase Cycle -- New Moon (Memory Eater: +3 DR, immune to charm/fear, but -2 attacks, lose 1d4 mana/turn) â†’ Waxing Moon (Sensation Harvest: +1d6 damage, +10ft speed, but take 1d4 necrotic/turn, no healing) â†’ Full Moon (Sanity Erosion: +2d8 radiant, crit 19-20, ignores 50% DR, but Delirium rolls each turn, -5 max HP/round) â†’ Waning Moon (Vitality Drain: -3 mana costs, vampiric 25%, but -2 DR, -10 max HP)
 
 **Resource**: Mana + Flesh. Every natural cycle shift deals 2d6 necrotic. Manual shifts cost 8 mana + 1d8+2 necrotic. Roll on the Transition Shock Table (1d6) every time.
 
@@ -101,9 +101,9 @@ The elder parasites — those bonded to the first Lunarchs — are beginning to 
 
 **Combat Strengths**:
 - Unmatched battlefield control through phase contagion and round manipulation
-- Devastating burst damage during Full Moon (Sanity Erosion) -- +2d8 radiant, crit 19-20, ignores 50% armor
+- Devastating burst damage during Full Moon (Sanity Erosion) -- +2d8 radiant, crit 19-20, ignores 50% DR
 - Vampiric sustain during Waning Moon (Vitality Drain) -- 25% of damage dealt returns as healing
-- Extreme survivability during New Moon (Memory Eater) -- +3 Armor, immune to charm/fear
+- Extreme survivability during New Moon (Memory Eater) -- +3 DR, immune to charm/fear
 - Every phase shift creates a reality pulse that can be weaponized against nearby enemies
 
 **Combat Weaknesses (The Fatal Flaw)**:
@@ -122,10 +122,10 @@ Medium range (30-60 feet), close enough to spread phase contagion to enemies but
       content: `**Phase Management (Choose Your Suffering)**:
 The Lunarch does not choose whether to suffer -- only HOW. Each phase is a different flavor of horror:
 
-- **New Moon (Memory Eater)**: The parasite feeds on cognition. +3 Armor, immune to charm/fear, but -2 to attacks and lose 1d4 mana/turn. Use this when you're being targeted and need to survive. You are a passenger in your own body -- the parasite drives, and it has excellent reflexes but terrible aim.
+- **New Moon (Memory Eater)**: The parasite feeds on cognition. +3 DR, immune to charm/fear, but -2 to attacks and lose 1d4 mana/turn. Use this when you're being targeted and need to survive. You are a passenger in your own body -- the parasite drives, and it has excellent reflexes but terrible aim.
 - **Waxing Moon (Sensation Harvest)**: The parasite feeds on nerve endings. +1d6 damage, +10ft speed, advantage on perception, but take 1d4 necrotic/turn and CANNOT be healed by any means. Use this for aggressive repositioning and damage bursts when you're healthy enough to absorb the feeding.
-- **Full Moon (Sanity Erosion)**: The parasite floods your brain with cosmic signal. +2d8 radiant, crit 19-20, ignores 50% armor, but roll Delirium each turn and lose 5 max HP/round. This is your nuclear option -- devastating but self-destructive. Never stay here longer than you must.
-- **Waning Moon (Vitality Drain)**: The parasite drinks your life force. -3 mana costs, +10ft spell range, debuffs last +1 round, 25% vampiric healing, but -2 Armor, -10ft speed, -10 max HP. Use this to recover through vampirism while controlling the field.
+- **Full Moon (Sanity Erosion)**: The parasite floods your brain with cosmic signal. +2d8 radiant, crit 19-20, ignores 50% DR, but roll Delirium each turn and lose 5 max HP/round. This is your nuclear option -- devastating but self-destructive. Never stay here longer than you must.
+- **Waning Moon (Vitality Drain)**: The parasite drinks your life force. -3 mana costs, +10ft spell range, debuffs last +1 round, 25% vampiric healing, but -2 DR, -10ft speed, -10 max HP. Use this to recover through vampirism while controlling the field.
 
 **The Transition Shock Table**:
 Every shift (natural or manual), roll 1d6:
@@ -212,7 +212,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 *The Corpse-Weavers emerge from the darkness, their limbs clicking. You feel the parasite stir at the base of your skull -- cold, hungry, patient. New Moon. It is feeding on your memories. Your mother's face is already blurry.*
 
 **New Moon (Memory Eater) Active**:
-- +3 Armor (parasite controls motor function -- your body dodges before you think)
+- +3 DR (parasite controls motor function -- your body dodges before you think)
 - Immune to Charm and Fear
 - -2 to all attack rolls (you can barely remember how to aim)
 - Lose 1d4 mana at start of turn (the parasite eats thought)
@@ -266,7 +266,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **Full Moon Active**:
 - +2d8 radiant damage on all attacks
 - Critical hits on 19-20
-- Attacks ignore 50% of Armor
+- Attacks ignore 50% of DR
 - DELIRIUM: Roll on Delirium Table at start of each turn
 - -5 max HP per round in this phase
 
@@ -342,7 +342,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **WANING MOON -- THE VITALITY DRAIN Active**:
 - -3 mana costs
 - 25% vampiric healing on all damage dealt
-- -2 Armor, -10 max HP
+- -2 DR, -10 max HP
 - But you're at NEGATIVE HP. The vampirism kicks in as a death-sustaining reflex.
 
 **Your Action**: Cast "Void Rend" at Matriarch and nearby Weavers (reduced cost: 8-3 = 5 mana)
@@ -375,7 +375,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
     cards: [
       {
         title: "New Moon -- The Memory Eater",
-        stats: "+3 Armor | Immune: Charm/Fear | -2 Attacks | -1d4 Mana/turn",
+        stats: "+3 DR | Immune: Charm/Fear | -2 Attacks | -1d4 Mana/turn",
         details:
           "The parasite feeds on cognition. You lose memories, tactical awareness, and fine motor control. In exchange, the parasite drives your body autonomously -- reacting to threats faster than conscious thought. You are a passenger in your own flesh. You start every combat here.",
       },
@@ -387,13 +387,13 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
       },
       {
         title: "Full Moon -- The Sanity Erosion",
-        stats: "+2d8 Radiant | Crit 19-20 | Ignores 50% Armor | Delirium Roll/turn | -5 Max HP/round",
+        stats: "+2d8 Radiant | Crit 19-20 | Ignores 50% DR | Delirium Roll/turn | -5 Max HP/round",
         details:
           "The parasite floods your brain with cosmic signal. Reality fractures. Your attacks become terrifying -- raw stellar radiation channeled through a breaking mind. But each turn you must roll on the Delirium Table: attack an ally, lose AP, take psychic damage, or -- rarely -- nothing. Your max HP erodes every round you remain.",
       },
       {
         title: "Waning Moon -- The Vitality Drain",
-        stats: "-3 Mana Costs | 25% Vampiric | +10ft Range | +1 Rnd Debuffs | -2 Armor | -10 Max HP",
+        stats: "-3 Mana Costs | 25% Vampiric | +10ft Range | +1 Rnd Debuffs | -2 DR | -10 Max HP",
         details:
           "The parasite drinks raw life force. Your body withers -- skin grays, veins blacken, breath shallows. But the siphoned vitality is converted into arcane efficiency and vampiric healing. This is your only reliable self-sustain. The 25% vampirism on all damage dealt is how you survive.",
       },
@@ -422,9 +422,9 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
     usage: {
       momentum:
-        "Full Moon (Sanity Erosion) is your nuclear option. +2d8 radiant, crit 19-20, ignores half armor -- but the Delirium Table can force you to attack allies and your max HP bleeds away every round. Never stay longer than you must. Get in, unleash hell, get out.",
+        "Full Moon (Sanity Erosion) is your nuclear option. +2d8 radiant, crit 19-20, ignores half DR the Delirium Table can force you to attack allies and your max HP bleeds away every round. Never stay longer than you must. Get in, unleash hell, get out.",
       flourish:
-        "Waning Moon (Vitality Drain) is your survival phase. The 25% vampirism is your ONLY reliable self-heal. When you're dying -- and you will be dying often -- shift to Waning and deal AoE damage to pull yourself back from the brink. The -2 Armor hurts, but being dead hurts more.",
+        "Waning Moon (Vitality Drain) is your survival phase. The 25% vampirism is your ONLY reliable self-heal. When you're dying -- and you will be dying often -- shift to Waning and deal AoE damage to pull yourself back from the brink. The -2 DR hurts, but being dead hurts more.",
     },
 
     overheatRules: {
@@ -464,9 +464,9 @@ At the START of each turn during Full Moon (Sanity Erosion), roll 1d4:
 **The Bludgeoning Death Sentence**: Your starlight-infused organs are fragile. +25% vulnerability to Bludgeoning damage means a single critical hit from a mace, hammer, or slam attack can rupture your internal seams. Avoid. Blunt. Weapons. At. All. Costs.
 
 **Phase Triage (Choose Your Suffering)**:
-- Being focused by enemies? New Moon. The +3 Armor and charm/fear immunity might keep you alive. You'll hit like a toddler, but you'll be alive.
+- Being focused by enemies? New Moon. The +3 DR and charm/fear immunity might keep you alive. You'll hit like a toddler, but you'll be alive.
 - Healthy and need damage? Waxing Moon. +1d6 damage and +10ft speed. You'll take 1d4 necrotic/turn and can't be healed, but if you're healthy that's manageable.
-- Something needs to DIE right now? Full Moon. +2d8 radiant, crit 19-20, ignores half armor. You may hallucinate and stab your healer. Your max HP drops every round. Get in, kill, get out.
+- Something needs to DIE right now? Full Moon. +2d8 radiant, crit 19-20, ignores half DR. You may hallucinate and stab your healer. Your max HP drops every round. Get in, kill, get out.
 - Dying and need sustain? Waning Moon. -3 mana costs and 25% vampirism. Your body withers but you steal life from everything you damage. This is your emergency room.
 
 **Round Manipulation (Your Unique Edge)**:
@@ -532,7 +532,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           "Precision ranged assassin who must carefully manage Full Moon (Sanity Erosion) to land devastating armor-ignoring critical strikes while surviving the Delirium Table",
 
         strengths: [
-          "Ranged attacks ignore 25% of Armor (the parasite calculates weak points)",
+          "Ranged attacks ignore 25% of DR (the parasite calculates weak points)",
           "Critical hits during Full Moon deal additional 2d6 psychic damage -- the target glimpses the cosmos through the wound",
           "Can mark targets, making them visible through walls and immune to concealment",
           "Devastating single-target elimination potential",
@@ -558,7 +558,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             tier: "Specialization Passive",
             icon: "Piercing/On the Mark",
             description:
-              "Your ranged attacks ignore 25% of the target's Armor. The starlight in your eyes perceives structural weak points in any defense. During Full Moon (Sanity Erosion), critical hits deal an additional 2d6 psychic damage as the wound channels a glimpse of the cosmos directly into the target's mind.",
+              "Your ranged attacks ignore 25% of the target's DR. The starlight in your eyes perceives structural weak points in any defense. During Full Moon (Sanity Erosion), critical hits deal an additional 2d6 psychic damage as the wound channels a glimpse of the cosmos directly into the target's mind.",
             uniqueTo: "Hollow Sentinel",
           },
           {
@@ -682,7 +682,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             tier: "Specialization Passive",
             icon: "Healing/Prayer",
             description:
-              "During New Moon (Memory Eater), all allies within 15 feet gain +1 Armor as the parasite's defensive reflexes extend to protect nearby life signatures. During Waning Moon, allies healed by you also gain 1d6 temporary HP from the parasite's residue -- starlight-scabbed wounds that harden into protective barriers.",
+              "During New Moon (Memory Eater), all allies within 15 feet gain +1 DR as the parasite's defensive reflexes extend to protect nearby life signatures. During Waning Moon, allies healed by you also gain 1d6 temporary HP from the parasite's residue -- starlight-scabbed wounds that harden into protective barriers.",
             uniqueTo: "Sanguine Warden",
           },
         ],
@@ -811,7 +811,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: "Enemies within 10 ft lose 1d4 mana or take 1d4 psychic. Gain +1 Armor until next turn.",
+          newMoon: "Enemies within 10 ft lose 1d4 mana or take 1d4 psychic. Gain +1 DR until next turn.",
           waxingMoon: "Enemies within 10 ft take 1d4 extra radiant. Gain +10 ft speed until next turn.",
           fullMoon: "Enemies within 15 ft take 2d6 radiant. Gain +1d6 radiant on next attack.",
           waningMoon: "Enemies within 10 ft slowed 1 round (save negates). Heal 1d4 HP.",
@@ -1240,7 +1240,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           waxingMoon: "Healing +50%. Take 1d4 extra necrotic. Target gains 1d6 temp HP.",
           fullMoon: "Also cleanses one poison or disease from target.",
           waningMoon: "Recover 25% of healing dealt as self-healing (vampiric feedback).",
-          newMoon: "Target also gains +1 Armor for 1 round.",
+          newMoon: "Target also gains +1 DR for 1 round.",
         },
       },
 
@@ -1303,10 +1303,10 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         effects: [
           { id : "hollow_mark",
             name: "Hollow Mark",
-            description: "Marked by the parasite. Ignore 25% armor. +1d6 from next spell.",
+            description: "Marked by the parasite. Ignore 25% DR. +1d6 from next spell.",
             statusType: "marked",
             level: "moderate",
-            mechanicsText: "Ignore 25% armor, +1d6 next spell, 2 rounds",
+            mechanicsText: "Ignore 25% DR, +1d6 next spell, 2 rounds",
           },
         ],
       },
@@ -1643,8 +1643,8 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         effects: [
           { id : "new_moon_eclipse",
             name: "Memory Eater Eclipse",
-            description: "+2 Armor. Immune to charm and fear. -1 to attack rolls.",
-            mechanicsText: "+2 Armor, charm/fear immune, -1 attacks",
+            description: "+2 DR. Immune to charm and fear. -1 to attack rolls.",
+            mechanicsText: "+2 DR, charm/fear immune, -1 attacks",
           },
           { id : "full_moon_eclipse",
             name: "Sanity Erosion Eclipse",
@@ -1734,7 +1734,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         selfDamage: "Take 2d4 necrotic damage per target hit (parasite feeds on each bolt).",
         phaseAdvancement: 1,
         phaseInteraction: {
-          fullMoon: "Can target 6 enemies. Each bolt deals +1d8 radiant. Ignore 25% armor (Starlight Sockets).",
+          fullMoon: "Can target 6 enemies. Each bolt deals +1d8 radiant. Ignore 25% DR (Starlight Sockets).",
           waningMoon: "Heal 25% of total damage dealt. Mana cost reduced by 3.",
         },
       },
@@ -1881,7 +1881,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         phaseAdvancement: 1,
         phaseInteraction: {
           waxingMoon: "Direct healing +2d6. HOT +1d6. Allies gain 2d6 temp HP.",
-          newMoon: "All healed allies gain +2 Armor for 1 round.",
+          newMoon: "All healed allies gain +2 DR for 1 round.",
           waningMoon: "Recover 25% of total healing dealt as self-healing.",
         },
       },
@@ -1943,7 +1943,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         selfDamage: "Take 4d6 necrotic damage. The bolt is forged from your own vital essence.",
         phaseAdvancement: 1,
         phaseInteraction: {
-          fullMoon: "Damage +3d8 radiant. Crit range 18-20. Ignore 50% armor.",
+          fullMoon: "Damage +3d8 radiant. Crit range 18-20. Ignore 50% DR.",
           waningMoon: "Heal 25% of total damage. Mana cost reduced by 5.",
         },
       },
@@ -2086,7 +2086,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         selfDamage: "Take 2d6 necrotic when cast (the tendrils erupt violently from your flesh).",
         phaseAdvancement: 1,
         phaseInteraction: {
-          newMoon: "Absorption increases to 75. Allies within gain +2 Armor.",
+          newMoon: "Absorption increases to 75. Allies within gain +2 DR.",
           fullMoon: "Reflected damage increases to 75%. Bulwark deals 1d6 radiant to attackers.",
           waningMoon: "Duration 3 rounds. You heal for 25% of all reflected damage.",
         },
@@ -2204,11 +2204,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         grantedAbilities: [
           { id : "parasitic_stats",
             name: "Alien Physiology",
-            description: "+4 to all attributes, +5 Armor, immune to charm/fear/stun",
+            description: "+4 to all attributes, +5 DR, immune to charm/fear/stun",
           },
           { id : "parasitic_damage",
             name: "Cosmic Weapon",
-            description: "+3d8 radiant on all attacks. Attacks ignore 50% armor.",
+            description: "+3d8 radiant on all attacks. Attacks ignore 50% DR.",
           },
           { id : "parasitic_immunity",
             name: "Starlight Form",
@@ -2285,7 +2285,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         grantedAbilities: [
           { id : "lunar_stats",
             name: "Cosmic Form",
-            description: "+6 to all attributes, +8 Armor",
+            description: "+6 to all attributes, +8 DR",
           },
           { id : "lunar_damage",
             name: "Moonlight Incarnate",
@@ -2478,7 +2478,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         phaseInteraction: {
           fullMoon: "Enemy damage 5d8 radiant. Radius 40 ft.",
           waxingMoon: "Healing +2d6. Cleanses one condition per round.",
-          newMoon: "Allies gain +2 Armor while in zone.",
+          newMoon: "Allies gain +2 DR while in zone.",
           waningMoon: "Enemy damage applies 1-round slow. You heal 25% of ALL damage dealt by the zone.",
         },
       },

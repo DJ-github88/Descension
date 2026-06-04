@@ -229,7 +229,7 @@ She has gathered a small cadre of followers — the Deck-Burners — and they ar
         icon: "Arcane/Arcane Staff",
         items: [
           "Rune-etched Staff (1d8 psychic, channels probability energy through crystalline tip)",
-          "Reinforced Scholar's Robes (AC 11 + Agility, no mobility restriction)",
+          "Reinforced Scholar's Robes (No mobility restriction)",
           "Deck Pouch (holds 52 rune-etched cards, always at hip)",
           "Crystal Lens (grants advantage on first Arcana check each day)"
         ],
@@ -240,7 +240,7 @@ She has gathered a small cadre of followers — the Deck-Burners — and they ar
         icon: "Slashing/Razor Card",
         items: [
           "Pair of Card Blades (1d6 slashing each, razor-edged playing cards mounted on hilts)",
-          "Leather Duelist Coat (AC 12 + Agility, max +3 Agility bonus)",
+          "Leather Duelist Coat (Max +3 Agility bonus)",
           "Weighted Deck Tin (reinforced case, can be thrown as improvised weapon for 1d4 bludgeoning)",
           "Lucky Coin (flip once per rest; heads = recover 1 mana, tails = gain 1 Karmic Debt)"
         ],
@@ -911,7 +911,7 @@ She has gathered a small cadre of followers — the Deck-Burners — and they ar
     // ========================================
     { id: "solitaires-shield",
       name: "Solitaire Ward",
-      description: "Draw 4 cards and lay them in a defensive matrix around yourself. You gain temporary shield points equal to the total face value of the drawn cards (Kings/Queens/Jacks count as 10, Aces as 15, numbered as face value). If any card drawn is a Club, your Armor is increased by 2 for the duration. Lasts 3 rounds. Generates 1 Karmic Debt.",
+      description: "Draw 4 cards and lay them in a defensive matrix around yourself. You gain temporary shield points equal to the total face value of the drawn cards (Kings/Queens/Jacks count as 10, Aces as 15, numbered as face value). If any card drawn is a Club, your DR is increased by 2 for the duration. Lasts 3 rounds. Generates 1 Karmic Debt.",
       level: 4,
       spellType: "ACTION",
       icon: "Utility/Bound Shield",
@@ -939,8 +939,8 @@ She has gathered a small cadre of followers — the Deck-Burners — and they ar
           {
             id : "solitaire_ward",
             name: "Solitaire Ward",
-            description: "Gains shield points equal to card total. Club drawn increases Armor by 2.",
-            mechanicsText: "Draw 4 cards. Gain shield = total face value (Face=10, Ace=15, Number=face). Club drawn: +2 Armor. Lasts 3 rounds. Inflicts 1 Karmic Debt."
+            description: "Gains shield points equal to card total. Club drawn increases DR by 2.",
+            mechanicsText: "Draw 4 cards. Gain shield = total face value (Face=10, Ace=15, Number=face). Club drawn: +2 DR. Lasts 3 rounds. Inflicts 1 Karmic Debt."
           }
         ],
         durationValue: 3,
@@ -1647,7 +1647,7 @@ She has gathered a small cadre of followers — the Deck-Burners — and they ar
     // ========================================
     { id: "fate_weaver_grand_gambit",
       name: "Grand Gambit",
-      description: "Initiate a competitive card draw with every enemy within 40 feet. Draw 1 card for each enemy, and 1 for yourself. If your card is higher than the enemy's, they are instantly reduced to 1 HP. If your card is lower, they are fully healed and gain +2 Armor for 1 minute. Ties inflict no effect but generate 1 debt. Generates 3 baseline debt.",
+      description: "Initiate a competitive card draw with every enemy within 40 feet. Draw 1 card for each enemy, and 1 for yourself. If your card is higher than the enemy's, they are instantly reduced to 1 HP. If your card is lower, they are fully healed and gain +2 DR for 1 minute. Ties inflict no effect but generate 1 debt. Generates 3 baseline debt.",
       level: 9,
       spellType: "ACTION",
       icon: "Necrotic/Skull Explosion",
@@ -2107,7 +2107,7 @@ She has gathered a small cadre of followers — the Deck-Burners — and they ar
 
     { id: "fate_weaver_empty_hand",
       name: "Unmoored Void",
-      description: "When your Fate Reserve is empty and you have 0 Karmic Debt, your temporal anchor is dangerously unmoored. You have disadvantage on all saving throws and Dodge/Armor checks until you draw a card or gain 1 debt.",
+      description: "When your Fate Reserve is empty and you have 0 Karmic Debt, your temporal anchor is dangerously unmoored. You have disadvantage on all saving throws and Dodge checks until you draw a card or gain 1 debt.",
       level: 3,
       spellType: "PASSIVE",
       icon: "General/Broken Armor",
@@ -2128,8 +2128,8 @@ She has gathered a small cadre of followers — the Deck-Burners — and they ar
           {
             id : "unmoored_void_anchor",
             name: "Unmoored Anchor",
-            description: "Disadvantage on all saving throws and Dodge/Armor checks.",
-            mechanicsText: "While Fate Reserve is empty and Karmic Debt is 0: disadvantage on all saves and Dodge/Armor checks. Ends when you draw a card or gain 1 debt."
+            description: "Disadvantage on all saving throws and Dodge checks.",
+            mechanicsText: "While Fate Reserve is empty and Karmic Debt is 0: disadvantage on all saves and Dodge checks. Ends when you draw a card or gain 1 debt."
           }
         ],
         statPenalties: [

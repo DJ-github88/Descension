@@ -28,7 +28,7 @@ export const EXORCIST_DATA = {
         icon: "Radiant/Radiant Divinity",
         items: [
           "Rusted Iron Brand (1d8 radiant, melee touch, ignites salt on supernatural targets)",
-          "Chainmail of Salted Links (Armor 3, imposes disadvantage on supernatural fear effects)",
+          "Chainmail of Salted Links (DR 3, imposes disadvantage on supernatural fear effects)",
           "Pouch of Coarse Rock Salt (10 applications for purification rituals)",
           "Iron Stakes (4, for ward circles and binding anchors)"
         ],
@@ -39,7 +39,7 @@ export const EXORCIST_DATA = {
         icon: "Necrotic/Spectral Summoning",
         items: [
           "Spectral Chain Whip (1d6 radiant, reach 15 ft, applies Dominance pressure on hit)",
-          "Reinforced Leather Vest (Armor 1, no agility penalty, allows full range of motion for rituals)",
+          "Reinforced Leather Vest (DR 1, no agility penalty, allows full range of motion for rituals)",
           "Vial of Purified Brine (3 applications for enhanced binding rituals)",
           "Chalk & Iron Dust (for rapid ritual circles in the field)"
         ],
@@ -561,8 +561,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         effects: [
           { id : "iron_protection",
             name: "Rusted Resolve",
-            description: "Grants +2 Armor and halves any psychic damage taken while standing in the circle.",
-            mechanicsText: "+2 Armor, 50% psychic resistance.",
+            description: "Grants +2 DR and halves any psychic damage taken while standing in the circle.",
+            mechanicsText: "+2 DR, 50% psychic resistance.",
             statModifier: {
               stat: "armor",
               magnitude: 2,

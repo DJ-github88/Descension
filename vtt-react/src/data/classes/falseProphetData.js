@@ -406,7 +406,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         icon: "Void/Consumed by Void",
         items: [
           "Ritual Dagger (1d6 piercing + psychic channeling, acts as spell focus for void rites)",
-          "Shroud of the Preacher (Light armor, 10 + Dexterity mod AC, no agility penalty)",
+          "Shroud of the Preacher (Light armor, no agility penalty)",
           "Tome of Stolen Sermons (Spellbook, stores 2 additional cantrips from any school)",
           "Vial of Void Ink (Utility: inscribe temporary warding sigils on surfaces)",
         ],
@@ -417,7 +417,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         icon: "Necrotic/Death Mark",
         items: [
           "Staff of Congregations (1d8 bludgeoning, +1 to Madness generation rolls while held)",
-          "Ceremonial Vestments (Light armor, 11 + Dexterity mod AC, ritual focus bonus)",
+          "Ceremonial Vestments (Light armor, ritual focus bonus)",
           "Censer of Ash and Incense (Utility: creates 10ft cloud of obscuring smoke, 1/encounter)",
           "Set of Bone Tokens (Tracking tool: represents Madness Points physically at the table)",
         ],

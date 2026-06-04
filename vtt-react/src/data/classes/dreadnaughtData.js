@@ -224,7 +224,7 @@ However, they must watch the sky and the cold. A single spark of lightning will 
       title: "The Steam Release & Blowout",
       content: `A Dreadnaught who remains at 100 FP for too long is doomed to dissolve into a slag-pile of melted meat and iron. 
 
-If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell that vents or consumes at least 25 FP during that turn, your safety valves blow automatically. You release an involuntary **Steam Blowout**: all creatures within 10 feet (allies included) take 4d6 fire damage, you take 10 fire damage, and your FP drops to 0. Your armor is heavily dented, reducing your Armor stat by 2 until your next short rest.`,
+If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell that vents or consumes at least 25 FP during that turn, your safety valves blow automatically. You release an involuntary **Steam Blowout**: all creatures within 10 feet (allies included) take 4d6 fire damage, you take 10 fire damage, and your FP drops to 0. Your armor is heavily dented, reducing your DR stat by 2 until your next short rest.`,
     },
 
     pressureAbilitiesTable: {
@@ -310,7 +310,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         keyAbilities: [
           "Condensation Shield: Convert steam directly into emergency temporary HP.",
           "High-Pressure Flush: Instantly clear all physical debuffs by venting pressure.",
-          "Thermal Cloak: Allies standing within 5 feet gain +2 to armor from defensive steam.",
+          "Thermal Cloak: Allies standing within 5 feet gain +2 to DR from defensive steam.",
         ],
       },
       { id : "soul_stoker",
@@ -328,7 +328,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         ],
         weaknesses: [
           "Takes 50% more damage from self-inflicted heat at high pressure",
-          "Lower base armor than other specializations",
+          "Lower base DR than other specializations",
           "highly vulnerable if unable to reach melee range to siphon life",
         ],
         specPassive: {
@@ -382,7 +382,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         icon: "Bludgeoning/Hammer Crush",
         items: [
           "Heavy Iron Maul (2d8 bludgeoning, requires two hands, crushes light barriers on hit)",
-          "Full Boiler Plate (Armor 16, -15 ft movement speed, conductive: +100% Lightning/Cold vulnerability)",
+          "Full Boiler Plate (DR 16, -15 ft movement speed, conductive: +100% Lightning/Cold vulnerability)",
           "Coal Satchel (10 lbs of refined furnace coal, used for emergency stoking)",
         ],
         description:
@@ -392,8 +392,8 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         name: "Furnace Guardian Loadout",
         icon: "Fire/Flame Shield",
         items: [
-          "Superheated War Shield (1d8 bludgeoning + 1d6 fire, +2 Armor when blocking, heats on contact)",
-          "Reinforced Boiler Plate (Armor 17, -20 ft movement speed, conductive: +100% Lightning/Cold vulnerability)",
+          "Superheated War Shield (1d8 bludgeoning + 1d6 fire, +2 DR when blocking, heats on contact)",
+          "Reinforced Boiler Plate (DR 17, -20 ft movement speed, conductive: +100% Lightning/Cold vulnerability)",
           "Pressure Gauge (tracks current Furnace Pressure, audible hiss warns allies when nearing Meltdown)",
         ],
         description:
@@ -681,7 +681,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     { id: "dread_agonizing_servitude",
       name: "Agonizing Servitude",
       description:
-        "You are permanently bolted into an agonizing, oversized steam-prison. You gain a massive Armor stat and complete immunity to physical crowd control (roots, grapples, slows) while walking. However, your conductive plating makes you highly vulnerable to elemental forces, giving you 100% vulnerability to Lightning (bypasses Armor) and Cold (roots pistons). You are the slowest class in the game, completely incapable of stealth, swimming, or fitting through narrow spaces.",
+        "You are permanently bolted into an agonizing, oversized steam-prison. You gain a massive DR stat and complete immunity to physical crowd control (roots, grapples, slows) while walking. However, your conductive plating makes you highly vulnerable to elemental forces, giving you 100% vulnerability to Lightning (bypasses DR) and Cold (roots pistons). You are the slowest class in the game, completely incapable of stealth, swimming, or fitting through narrow spaces.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Necrotic/Grim Face Silence",
@@ -706,7 +706,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         effects: [
           { id : "iron_tomb_plates",
             name: "Conductive Iron Tomb",
-            description: "+4 Armor, permanent immunity to physical roots, grapples, and slows while moving.",
+            description: "+4 DR, permanent immunity to physical roots, grapples, and slows while moving.",
             statModifier: {
               stat: "armor",
               magnitude: 4,
@@ -825,7 +825,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     { id: "dread_superheated_shell",
       name: "Superheated Shell",
       description:
-        "You close all boiler vents and stoke the engines, intentionally heating your outer iron plating until it glows cherry red. Your armor increases significantly, and any creature that strikes you in melee takes automatic fire damage. However, the heat leaks inward, dealing minor fire damage to you every round. Generates Furnace Pressure.",
+        "You close all boiler vents and stoke the engines, intentionally heating your outer iron plating until it glows cherry red. Your DR increases significantly, and any creature that strikes you in melee takes automatic fire damage. However, the heat leaks inward, dealing minor fire damage to you every round. Generates Furnace Pressure.",
       level: 2,
       spellType: "ACTION",
       icon: "Fire/Flame Shield",
@@ -854,7 +854,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         effects: [
           { id : "superheated_plates",
             name: "Superheated Plating",
-            description: "Gain +3 Armor. Attackers in melee take 1d6 fire damage. You take 2 fire damage at start of turn.",
+            description: "Gain +3 DR. Attackers in melee take 1d6 fire damage. You take 2 fire damage at start of turn.",
             statModifier: {
               stat: "armor",
               magnitude: 3,
@@ -1627,7 +1627,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     { id: "dread_iron_bastion",
       name: "Iron Bastion",
       description:
-        "You lock all chassis hydraulics and bolt your boots directly into the bedrock. For 1 minute, you become an immovable iron fortress. Your movement speed is reduced to 0, but you gain complete immunity to all physical, magical, and psychic displacement, and your Armor is increased by 10. However, the locked engine rapidly generates 15 pressure per turn. Passive heat leaks out.",
+        "You lock all chassis hydraulics and bolt your boots directly into the bedrock. For 1 minute, you become an immovable iron fortress. Your movement speed is reduced to 0, but you gain complete immunity to all physical, magical, and psychic displacement, and your DR is increased by 10. However, the locked engine rapidly generates 15 pressure per turn. Passive heat leaks out.",
       level: 8,
       spellType: "ACTION",
       icon: "Force/Force Shield",
@@ -1656,7 +1656,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
         effects: [
           { id : "bastion_mode",
             name: "Immovable Iron Bastion",
-            description: "Armor increased by 10. Complete displacement immunity. Speed is 0. FP builds by +15/turn.",
+            description: "DR increased by 10. Complete displacement immunity. Speed is 0. FP builds by +15/turn.",
             statModifier: {
               stat: "armor",
               magnitude: 10,
@@ -2018,7 +2018,7 @@ If you start your turn in **Engine Meltdown (100 FP)** and do not cast a spell t
     { id: "dread_catastrophic_supernova",
       name: "Catastrophic Supernova",
       description:
-        "The absolute ultimate core blowout. You force a complete, total engine meltdown, detonating your entire boiler in a massive 100-foot sphere around you. The explosion deals catastrophic fire and force damage, instantly and permanently vaporizing all physical terrain, walls, and structures in the area. Slashes your armor in half permanently until your next long rest. Requires maximum pressure. Consumes all Furnace Pressure.",
+        "The absolute ultimate core blowout. You force a complete, total engine meltdown, detonating your entire boiler in a massive 100-foot sphere around you. The explosion deals catastrophic fire and force damage, instantly and permanently vaporizing all physical terrain, walls, and structures in the area. Slashes your DR in half permanently until your next long rest. Requires maximum pressure. Consumes all Furnace Pressure.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Flame Wave",

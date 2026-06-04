@@ -8,7 +8,7 @@
  * DESIGNER NOTES (v2.0 Surgical Overhaul):
  * - Tone: Heavy, tragic fantasy. Magic is a painful mutilation, power demands a toll of flesh and blood.
  * - Normalized spell properties to comply with UnifiedSpellCard and Spellcrafting Wizard.
- * - Removed 5e terminology (Bonus Actions -> AP/Reaction, AC -> Armor/Dodge, spell slots -> mana/virulence).
+ * - Removed 5e terminology (Bonus Actions -> AP/Reaction, AC -> DR/Dodge, spell slots -> mana/virulence).
  * - Fixed all damageTypes targets ('direct', 'area' -> 'necrotic', 'poison', 'psychic', 'acid').
  * - Fixed durationConfig.durationValue and durationUnit properties.
  * - Moved school into typeConfig.
@@ -147,9 +147,9 @@ The cause is unclear. Some blame the Void contamination spreading through the pe
 *The knight coughs, a dark ichor dripping from his visor. You advance the plague.*
 - **Action**: Cast "Enfeebling Fog" (4 mana, 1 AP) centering on the infected Knight.
 - **Agony Toll**: Your pores leak damp fog, slowing your movement speed by 5ft.
-- **Effect**: Cultivates Curse of Agony to **Stage 1 (Weaken)**. The Knight's Armor is reduced by 4. The fog clings to all three knights.
+- **Effect**: Cultivates Curse of Agony to **Stage 1 (Weaken)**. The Knight's DR is reduced by 4. The fog clings to all three knights.
 - **Virulence Generated**: +15 (Affliction cultivated).
-- **State**: Lead Knight at Stage 1 (Weaken). All knights in fog have Armor reduced. Virulence: 30 (Sprouting threshold met).
+- **State**: Lead Knight at Stage 1 (Weaken). All knights in fog have DR reduced. Virulence: 30 (Sprouting threshold met).
 
 **Turn 3 - The Bloom and Spread (Virulence: 30 → 55)**
 *The lead knight staggers under his rotting armor. The rot wants to spread.*
@@ -232,7 +232,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       title: "The Five Cultivation Categories",
       headers: ["Category", "Identity", "Stage Effect", "Best For"],
       rows: [
-        ["Weaken", "The Sap", "Reduces target Armor, Dodge, and physical attributes", "Softening heavily armored targets"],
+        ["Weaken", "The Sap", "Reduces target DR, Dodge, and physical attributes", "Softening heavily armored targets"],
         ["Torment", "The Whisper", "Inflicts psychic damage and crowd control (Confusion/Fear)", "Disrupting casters and breaking enemy lines"],
         ["Fester", "The Creep", "Spreads active diseases to adjacent healthy targets", "Clearing tightly packed groups of enemies"],
         ["Decay", "The Rot", "Deals necrotic damage and drains maximum HP and healing", "Sapping bosses and locking down healers"],
@@ -655,7 +655,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_mark_of_the_pestilent",
       effectTypes: ["damage", "debuff"],
       name: "Mark of the Pestilent",
-      description: "Brand a target with an agonizing sigil of rot, dealing 2d8 necrotic damage and reducing Armor by 5 for 3 rounds. Cultivates as a Weaken category spell.",
+      description: "Brand a target with an agonizing sigil of rot, dealing 2d8 necrotic damage and reducing DR by 5 for 3 rounds. Cultivates as a Weaken category spell.",
       spellType: "ACTION",
       icon: "Necrotic/Death Mark",
       level: 2,
@@ -703,7 +703,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         effects: [
           { id : "marked_pestilent",
             name: "Pestilent Brand",
-            description: "Flesh softens under the mark, reducing Armor by 5."
+            description: "Flesh softens under the mark, reducing DR by 5."
           }
         ],
         statPenalties: [
@@ -1209,7 +1209,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Operational Friction: The biological shock of the burst rattles the caster, reducing their Armor by 2 for 1 round."
+          description: "Operational Friction: The biological shock of the burst rattles the caster, reducing their DR by 2 for 1 round."
         },
         cultivation: {
           category: "Decay",

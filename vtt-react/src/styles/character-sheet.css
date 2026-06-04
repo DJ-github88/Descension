@@ -4625,63 +4625,83 @@
 
 /* Level badge — shield / medallion style */
 .header-level {
-    display: flex;
+    position: relative;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    width: 42px;
-    height: 48px;
-    background: linear-gradient(135deg, #c9a84c, #a07c2e);
-    border: 2px solid #7a5c1a;
-    border-radius: 50% 50% 45% 45% / 55% 55% 45% 45%;
-    box-shadow:
-        0 2px 6px rgba(139, 105, 20, 0.3),
-        inset 0 1px 2px rgba(255, 255, 255, 0.25);
-    cursor: default;
 }
 
 .header-level-num {
-    font-family: 'Cinzel', serif;
-    font-size: 17px;
-    font-weight: 700;
-    color: #3d2b1d;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-}
-
-/* Tiny up/down controls on the right edge */
-.header-level-controls {
-    position: absolute;
-    right: -8px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-}
-
-.header-level-controls button {
-    width: 15px;
-    height: 13px;
-    padding: 0;
-    border: none;
-    background: #e8ddd0;
-    color: #6b5344;
-    font-size: 8px;
-    line-height: 1;
-    border-radius: 3px;
-    cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #c9a84c, #a07c2e);
+    border: 2px solid #7a5c1a;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #3d2b1d;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.1s, box-shadow 0.1s;
 }
 
-.header-level-controls button:hover:not(:disabled) {
-    background: #d4c4a8;
+.header-level-num:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
-.header-level-controls button:disabled {
-    opacity: 0.4;
+.header-level-popup {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #2a1f14;
+    border: 1px solid #7a5c1a;
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 100;
+}
+
+.header-level-popup span {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #c9a84c;
+    min-width: 24px;
+    text-align: center;
+}
+
+.header-level-popup button {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #7a5c1a;
+    border-radius: 4px;
+    background: #3d2b1d;
+    color: #c9a84c;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+}
+
+.header-level-popup button:hover:not(:disabled) {
+    background: #5a4030;
+}
+
+.header-level-popup button:disabled {
+    opacity: 0.3;
     cursor: not-allowed;
 }
 

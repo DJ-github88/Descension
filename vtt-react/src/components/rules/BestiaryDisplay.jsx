@@ -20,7 +20,7 @@ const REGION_ICONS = {
 
 const ATTR_LABELS = { 
   strength: { short: 'STR', full: 'Strength', desc: 'Physical power and muscle' }, 
-  agility: { short: 'AGI', full: 'Agility', desc: 'Reflexes, speed, and dexterity' }, 
+  agility: { short: 'AGI', full: 'Agility', desc: 'Reflexes, speed, and precision' }, 
   constitution: { short: 'CON', full: 'Constitution', desc: 'Health, stamina, and resilience' }, 
   intelligence: { short: 'INT', full: 'Intelligence', desc: 'Reasoning, memory, and study' }, 
   spirit: { short: 'SPI', full: 'Spirit', desc: 'Awareness, willpower, and magical connection' }, 
@@ -71,10 +71,10 @@ const formatCombatMechanicsText = (text) => {
   
   // Regular expressions to catch:
   // 1. Damage rolls (e.g. 2d10+5, 1d6, 6d8, 10d10) plus optional elemental damage types
-  // 2. Difficulty Checks (e.g. DC 14 STR, DC 18 WIS, DC 16 CON)
+  // 2. Difficulty Checks (e.g. DC 14 STR, DC 18 SPI, DC 16 CON)
   // 3. Spacial Ranges and Radii (e.g. 30-ft radius, 60-ft, 30 ft, 60 ft)
-  // 4. Hit Points/Armor Class listings (e.g. 40 HP, AC 13)
-  const regex = /(\b\d+d\d+(?:\+\d+)?\b(?:\s+(?:piercing|bludgeoning|slashing|cold|fire|psychic|necrotic|radiant|poison|lightning|acid|physical))?|\bDC\s+\d+\s+[A-Z]{3,4}\b|\b\d+-ft\s+(?:radius|cone|range|diameter)?\b|\b\d+\s+HP,\s+AC\s+\d+\b)/gi;
+  // 4. Hit Points/DR listings (e.g. 40 HP, DR 5)
+  const regex = /(\b\d+d\d+(?:\+\d+)?\b(?:\s+(?:piercing|bludgeoning|slashing|cold|fire|psychic|necrotic|radiant|poison|lightning|acid|physical))?|\bDC\s+\d+\s+[A-Z]{3,4}\b|\b\d+-ft\s+(?:radius|cone|range|diameter)?\b|\b\d+\s+HP,\s+DR\s+\d+\b)/gi;
   
   const parts = text.split(regex);
   return parts.map((part, i) => {
@@ -83,7 +83,7 @@ const formatCombatMechanicsText = (text) => {
       let icon = "fa-dice-d20";
       
       const lowerPart = part.toLowerCase();
-      if (lowerPart.includes("hp") || lowerPart.includes("ac")) {
+      if (lowerPart.includes("hp") || lowerPart.includes("dr")) {
         cls += " stats-highlight";
         icon = "fa-heartbeat";
       } else if (lowerPart.includes("dc")) {

@@ -315,44 +315,48 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         }}
       >
         <header className="landing-header">
-          <div className="header-content">
-            <div className="logo">
-              <i className="fas fa-gem"></i>
-              <span>Mythrill</span>
-            </div>
+            <div className="header-content">
+              <div className="header-left">
+                <div className="logo">
+                  <i className="fas fa-gem"></i>
+                  <span>Mythrill</span>
+                </div>
+              </div>
 
-            <nav className="main-nav">
-              {navigation.map(item => (
-                <button
-                  key={item.id}
-                  className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
-                  onClick={() => handleNavClick(item.id)}
-                >
-                  <i className={item.icon}></i>
-                  {item.label}
-                </button>
-              ))}
-            </nav>
+              <div className="header-center">
+                <nav className="main-nav">
+                  {navigation.map(item => (
+                    <button
+                      key={item.id}
+                      className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
+                      onClick={() => handleNavClick(item.id)}
+                    >
+                      <i className={item.icon}></i>
+                      {item.label}
+                    </button>
+                  ))}
 
-            <div className="header-actions">
-              <button
-                className={`community-btn ${isInParty ? 'in-party' : ''} ${showCommunity ? 'active' : ''}`}
-                onClick={handleCommunityClick}
-                title={isInParty ? `Community Chat (In Party${isPartyLeader ? ' - Leader' : ''})` : "Community Chat"}
-              >
-                <i className="fas fa-users"></i>
-                {totalCommunityUnread > 0 && (
-                  <span className="community-notification-badge">
-                    {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
-                  </span>
-                )}
-                {isInParty && (
-                  <i className={`fas ${isPartyLeader ? 'fa-crown' : 'fa-shield-alt'} party-indicator`}
-                    title={isPartyLeader ? 'Party Leader' : 'In Party'}></i>
-                )}
-                Community
-              </button>
+                  <button
+                    className={`nav-item community-nav-btn ${isInParty ? 'in-party' : ''} ${showCommunity ? 'active' : ''}`}
+                    onClick={handleCommunityClick}
+                    title={isInParty ? `Community Chat (In Party${isPartyLeader ? ' - Leader' : ''})` : "Community Chat"}
+                  >
+                    <i className="fas fa-users"></i>
+                    {totalCommunityUnread > 0 && (
+                      <span className="community-notification-badge">
+                        {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
+                      </span>
+                    )}
+                    {isInParty && (
+                      <i className={`fas ${isPartyLeader ? 'fa-crown' : 'fa-shield-alt'} party-indicator`}
+                        title={isPartyLeader ? 'Party Leader' : 'In Party'}></i>
+                    )}
+                    Community
+                  </button>
+                </nav>
+              </div>
 
+              <div className="header-right header-actions">
               {authStoreIsAuthenticated && authStoreUser ? (
                 <>
                   <button

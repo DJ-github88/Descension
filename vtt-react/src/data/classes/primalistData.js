@@ -183,7 +183,7 @@ The Primalists of the Sundrift Vale call this the "Stuck-Shift." They do not kno
         ],
         specPassive: {
           name: "Calcified Skeleton",
-          description: "Gain +3 Armor. When a totem you placed is within 10 feet of you, you gain resistance to all physical damage types."
+          description: "Gain +3 DR. When a totem you placed is within 10 feet of you, you gain resistance to all physical damage types."
         },
         keyAbilities: [
           "Ribcage Prison: Trap a target inside a cage of calcified bone for 2 rounds.",
@@ -487,7 +487,7 @@ The Primalists of the Sundrift Vale call this the "Stuck-Shift." They do not kno
 
     { id : "prim_earth_totem",
       name: "Lithic Spine Totem",
-      description: "Shatter your knuckles to grow a pillar of jagged granite. Sacrificing 5 HP, it grants allies +2 Armor and resistance to non-magical bludgeoning damage.",
+      description: "Shatter your knuckles to grow a pillar of jagged granite. Sacrificing 5 HP, it grants allies +2 DR and resistance to non-magical bludgeoning damage.",
       level: 3,
       spellType: "ACTION",
       icon: "General/Increase Strength",
@@ -528,7 +528,7 @@ The Primalists of the Sundrift Vale call this the "Stuck-Shift." They do not kno
         effects: [
           { id : "earth_totem_buff",
             name: "Lithic Stature",
-            description: "Grants +2 Armor.",
+            description: "Grants +2 DR.",
             statModifier: {
               stat: "armor",
               magnitude: 2,
@@ -910,7 +910,7 @@ The Primalists of the Sundrift Vale call this the "Stuck-Shift." They do not kno
 
     { id : "prim_healing_sanctuary",
       name: "Tragic Sanctuary",
-      description: "When Grave-Root, Blood-Sap, Ribcage, and Lithic totems resonate, channel a tragic dome of protection. Sacrificing 10 HP, heals allies for 3d6, grants +3 Armor, and reduces damage taken by 25% for 2 rounds. You cannot receive this healing.",
+      description: "When Grave-Root, Blood-Sap, Ribcage, and Lithic totems resonate, channel a tragic dome of protection. Sacrificing 10 HP, heals allies for 3d6, grants +3 DR, and reduces damage taken by 25% for 2 rounds. You cannot receive this healing.",
       level: 5,
       spellType: "REACTION",
       icon: "Healing/Prayer",
@@ -956,7 +956,7 @@ The Primalists of the Sundrift Vale call this the "Stuck-Shift." They do not kno
         effects: [
           { id : "tragic_sanctuary_armor_buff",
             name: "Tragic Sanctuary Wards",
-            description: "+3 Armor and 25% damage reduction.",
+            description: "+3 DR and 25% damage reduction.",
             statModifier: {
               stat: "armor",
               magnitude: 3,
@@ -1486,7 +1486,7 @@ The Primalists of the Sundrift Vale call this the "Stuck-Shift." They do not kno
 
     { id: "primalist_earthen_shield",
       name: "Calcified Rib-Plate",
-      description: "Graft calcified spurs onto an ally, sacrificing 4 HP. Grants +4 Armor and physical resistance for 3 rounds. You cannot receive this ward.",
+      description: "Graft calcified spurs onto an ally, sacrificing 4 HP. Grants +4 DR and physical resistance for 3 rounds. You cannot receive this ward.",
       level: 2,
       spellType: "ACTION",
       icon: "Nature/Earth Shield",
@@ -1527,7 +1527,7 @@ The Primalists of the Sundrift Vale call this the "Stuck-Shift." They do not kno
         effects: [
           { id : "calcified_ribs_buff",
             name: "Rib-Plate Wards",
-            description: "+4 Armor and resistance to physical attacks.",
+            description: "+4 DR and resistance to physical attacks.",
             statModifier: {
               stat: "armor",
               magnitude: 4,

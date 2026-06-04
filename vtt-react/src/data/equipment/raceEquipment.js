@@ -464,7 +464,7 @@ export const FERRICK_BASE_ITEMS = [
         },
         baseStats: {
             intelligence: { value: 1, isPercentage: false },
-            dexterity: { value: 1, isPercentage: false }
+agility: { value: 1, isPercentage: false }
         },
         availableFor: {
             races: ['fexrick']
@@ -771,7 +771,7 @@ export const GROVEN_SUBRACE_ITEMS = [
         height: 1,
         slots: ['feet'],
         baseStats: {
-            dexterity: { value: 2, isPercentage: false }
+            agility: { value: 2, isPercentage: false }
         },
         availableFor: {
             subraces: ['ithran_groven']
@@ -1051,7 +1051,7 @@ export const MORTHEL_SUBRACE_ITEMS = [
         height: 2,
         slots: ['back'],
         baseStats: {
-            dexterity: { value: 1, isPercentage: false },
+            agility: { value: 1, isPercentage: false },
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
@@ -1119,7 +1119,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         slots: ['trinket1', 'trinket2'],
         baseStats: {
             intelligence: { value: 2, isPercentage: false },
-            wisdom: { value: 1, isPercentage: false }
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             subraces: ['sylen_astril', 'muren_astril']

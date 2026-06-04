@@ -339,7 +339,7 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
       },
       {
         title: "Radiant Sacrifice (Level 3â€“4)",
-        stats: "+1 Armor Aura | Resists for Allies",
+        stats: "+1 DR Aura | Resists for Allies",
         details:
           "Your pain becomes their armor. Allies within 10ft gain protection only because your wounds weep light. Every point of resistance you grant was bought with an incision in your own flesh. The divine does not give — it extracts.",
       },

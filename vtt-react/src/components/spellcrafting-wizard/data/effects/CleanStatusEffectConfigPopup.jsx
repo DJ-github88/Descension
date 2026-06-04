@@ -311,7 +311,7 @@ const CleanStatusEffectConfigPopup = ({
             <option value="agility">Agility</option>
             <option value="constitution">Constitution</option>
             <option value="intelligence">Intelligence</option>
-            <option value="wisdom">Wisdom</option>
+            <option value="spirit">Spirit</option>
             <option value="charisma">Charisma</option>
           </select>
         </div>
@@ -510,7 +510,7 @@ const CleanStatusEffectConfigPopup = ({
           onChange={(e) => updateEffectConfig('saveType', e.target.value)}
         >
           <option value="constitution">Constitution</option>
-          <option value="wisdom">Wisdom</option>
+          <option value="spirit">Spirit</option>
           <option value="charisma">Charisma</option>
           <option value="strength">Strength</option>
           <option value="agility">Agility</option>
@@ -1356,10 +1356,10 @@ const CleanStatusEffectConfigPopup = ({
         <div className="effect-config-option">
           <label>Save Type</label>
           <select
-            value={statusEffectData?.saveType || 'wisdom'}
+            value={statusEffectData?.saveType || 'spirit'}
             onChange={(e) => updateEffectConfig('saveType', e.target.value)}
           >
-            <option value="wisdom">Wisdom</option>
+            <option value="spirit">Spirit</option>
             <option value="charisma">Charisma</option>
             <option value="intelligence">Intelligence</option>
             <option value="constitution">Constitution</option>
@@ -1445,10 +1445,10 @@ const CleanStatusEffectConfigPopup = ({
         <div className="effect-config-option">
           <label>Save Type</label>
           <select
-            value={statusEffectData?.saveType || 'wisdom'}
+            value={statusEffectData?.saveType || 'spirit'}
             onChange={(e) => updateEffectConfig('saveType', e.target.value)}
           >
-            <option value="wisdom">Wisdom</option>
+            <option value="spirit">Spirit</option>
             <option value="charisma">Charisma</option>
             <option value="intelligence">Intelligence</option>
             <option value="constitution">Constitution</option>

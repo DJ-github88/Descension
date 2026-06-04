@@ -943,7 +943,7 @@ SPEC DISCOUNTS:
           { id : "warding_totem",
             name: "Warding Totem",
             description:
-              "A small totem that grants +1 to saving throws for allies within 10 ft. Can be destroyed (8 HP, 8 Armor).",
+              "A small totem that grants +1 to saving throws for allies within 10 ft. Can be destroyed (8 HP, 8 DR).",
             size: "Small",
             type: "construct",
             hp: 8,
@@ -1803,7 +1803,7 @@ SPEC DISCOUNTS:
           { id : "healing_totem",
             name: "Healing Totem",
             description:
-              "Totem that heals allies within 10 feet each turn. Can be destroyed (10 HP, 10 Armor).",
+              "Totem that heals allies within 10 feet each turn. Can be destroyed (10 HP, 10 DR).",
             size: "Small",
             type: "construct",
             hp: 10,
@@ -2714,7 +2714,7 @@ SPEC DISCOUNTS:
         elementType: "necrotic",
         damageTypes: ["necrotic"],
         savingThrow: {
-          ability: "dexterity",
+          ability: "agility",
           difficultyClass: 17,
           saveOutcome: "negates",
         },
@@ -2740,7 +2740,7 @@ SPEC DISCOUNTS:
         duration: 10,
         durationUnit: "rounds",
         savingThrow: {
-          ability: "dexterity",
+          ability: "agility",
           difficultyClass: 17,
           saveOutcome: "negates",
         },

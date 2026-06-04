@@ -769,6 +769,7 @@ export default function CharacterPanel() {
     const [lastCharacterId, setLastCharacterId] = useState(null);
     const [showOverhealModal, setShowOverhealModal] = useState(false);
     const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, currentValue, maxValue }
+    const [showLevelControls, setShowLevelControls] = useState(false);
 
     // Class resource config (shared across render functions)
     const classResourceConfig = characterClass ? getClassResourceConfig(characterClass) : null;
@@ -2068,13 +2069,16 @@ export default function CharacterPanel() {
                     {/* Compact Level & Exhaustion indicators */}
                     {activeSection === 'equipment' && (
                         <div className="header-vitals">
-                            {/* Level shield */}
-                            <div className="header-level" title={`Character Level ${level || 1}`}>
-                                <span className="header-level-num">{level || 1}</span>
-                                <div className="header-level-controls">
-                                    <button onClick={() => updateCharacterInfo('level', Math.min(20, (level || 1) + 1))} disabled={(level || 1) >= 20}>▲</button>
-                                    <button onClick={() => updateCharacterInfo('level', Math.max(1, (level || 1) - 1))} disabled={(level || 1) <= 1}>▼</button>
-                                </div>
+                            {/* Level square */}
+                            <div className="header-level" title="Click to adjust level">
+                                <span className="header-level-num" onClick={() => setShowLevelControls(!showLevelControls)}>{level || 1}</span>
+                                {showLevelControls && (
+                                    <div className="header-level-popup">
+                                        <button onClick={(e) => { e.stopPropagation(); updateCharacterInfo('level', Math.max(1, (level || 1) - 1)); }} disabled={(level || 1) <= 1}>−</button>
+                                        <span>{level || 1}</span>
+                                        <button onClick={(e) => { e.stopPropagation(); updateCharacterInfo('level', Math.min(20, (level || 1) + 1)); }} disabled={(level || 1) >= 20}>+</button>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Exhaustion — icon + dot + dropdown with hover tooltip */}

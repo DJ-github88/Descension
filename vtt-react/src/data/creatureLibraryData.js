@@ -4450,7 +4450,7 @@ export const LIBRARY_CREATURES = [
           durationUnit: 'rounds',
           canBeDispelled: true,
           saveDC: 12,
-          saveType: 'dexterity',
+          saveType: 'agility',
           saveOutcome: 'half_damage'
         },
         resourceCost: { actionPoints: 2 },

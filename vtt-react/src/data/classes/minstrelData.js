@@ -88,7 +88,7 @@ The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest cont
 
 **Cadence Architect**: No other class offers the Minstrel's note-building strategic depth. Through builder spells, they harvest musical notes from collapsing planes, then resolve them into devastating cadences — Perfect Cadence guarantees critical hits, Deceptive Cadence stuns enemies, Authentic Cadence heals the entire party. This is the ONLY combo-building support with cadence mechanics in existence.
 
-**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal — all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 Armor, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
+**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal — all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 DR, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
 
 **Strengths**:
 - Unmatched combo-building support with cadence resolution
@@ -100,7 +100,7 @@ The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest cont
 **Weaknesses**:
 - Requires an instrument to cast (Instrument Dependency — disarmed = no spells, no hope)
 - Cannot self-heal — all healing targets allies only, leaving the Minstrel to rot
-- -2 Armor while performing any active song — the music demands total vulnerability
+- -2 DR while performing any active song — the music demands total vulnerability
 - Combo system requires planning and foresight across multiple turns
 - Vulnerable to silence and interruption effects — rendered completely useless
 - Fragile without armor, fragile with it, fragile always
@@ -1287,8 +1287,8 @@ Before combat, decide which cadences you want to prioritize:
         buffType: "statEnhancement",
         effects: [
           { id : "armor_boost",
-            name: "Armor Boost",
-            description: "+2 Armor for 2 turns",
+            name: "DR Boost",
+            description: "+2 DR for 2 turns",
             statModifier: {
               stat: "armor",
               magnitude: 2,
@@ -2617,7 +2617,7 @@ Before combat, decide which cadences you want to prioritize:
               "Allies gain +20 ft movement speed and +2 Dexterity for 2 rounds.",
             statModifier: [
               { stat: "movement_speed", magnitude: 20, magnitudeType: "flat" },
-              { stat: "dexterity", magnitude: 2, magnitudeType: "flat" },
+              { stat: "agility", magnitude: 2, magnitudeType: "flat" },
             ],
             mechanicsText: "+20 ft speed, +2 Dex for 2 rounds",
           },
@@ -3283,7 +3283,7 @@ Before combat, decide which cadences you want to prioritize:
           { id : "entranced",
             name: "Entranced",
             description:
-              "Enemies have -4 Armor and disadvantage on saving throws for 4 rounds.",
+              "Enemies have -4 DR and disadvantage on saving throws for 4 rounds.",
             statPenalty: [
               { stat: "armor", value: -4 },
               {
@@ -3293,7 +3293,7 @@ Before combat, decide which cadences you want to prioritize:
               },
             ],
             mechanicsText:
-              "-4 Armor and disadvantage on saving throws for 4 rounds",
+              "-4 DR and disadvantage on saving throws for 4 rounds",
           },
         ],
         durationValue: 4,
@@ -3743,7 +3743,7 @@ Before combat, decide which cadences you want to prioritize:
           { id : "legendary_inspiration",
             name: "Legendary Inspiration",
             description:
-              "Allies gain +3 to attack rolls, +2 Armor, and immunity to fear and charm for 5 rounds.",
+              "Allies gain +3 to attack rolls, +2 DR, and immunity to fear and charm for 5 rounds.",
             statModifier: {
               stat: "all_rolls",
               magnitude: 3,
@@ -4017,7 +4017,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_songbird_fragility",
       name: "Songbird Fragility",
       description:
-        "While you are playing an active song or maintaining a cadence, your guard is lowered. You suffer -2 Armor for the duration of any actively maintained musical effect. This penalty stacks with other effects but cannot reduce Passive DR below 0.",
+        "While you are playing an active song or maintaining a cadence, your guard is lowered. You suffer -2 DR for the duration of any actively maintained musical effect. This penalty stacks with other effects but cannot reduce Passive DR below 0.",
       level: 1,
       spellType: "PASSIVE",
       icon: "General/Broken Armor",

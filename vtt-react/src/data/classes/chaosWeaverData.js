@@ -11,7 +11,7 @@
  * 1. Fully maps the non-spendable passive Mayhem gauge (0-100) across 4 strict tiers.
  * 2. Implements the complete d100 Master Wild Surge Table at 100 Mayhem (30/30/20/20% split).
  * 3. Injects high-pressure operational friction (misfires at 50+ Mayhem, gravity/molecular instability at 80+).
- * 4. Eliminates D&D skill checks and 5e terminology (AC -> Armor, Dexterity -> Agility, Spell Slots -> Mana/AP).
+ * 4. Eliminates D&D skill checks and 5e terminology (AC -> DR, Dexterity -> Agility, Spell Slots -> Mana/AP).
  * 5. Embeds all magic schools inside typeConfig.school.
  * 6. Fixes single-element damageType strings into array representation.
  */

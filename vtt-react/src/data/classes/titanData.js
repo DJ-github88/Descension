@@ -103,7 +103,7 @@ Their devastating fatal flaw is **Terminal Inertia**. As their mass grows, their
 
 **ATTUNEMENT MODES**:
 - **Marrow-Burn (Solara)**: Searing calcium heat, dealing bonus radiant damage but glowing blindingly and accepting total vulnerability.
-- **Pale Tomb (Lunara)**: Cadaverous defense shell, gaining Armor and self-healing at the cost of failing all Agility saves.
+- **Pale Tomb (Lunara)**: Cadaverous defense shell, gaining DR and self-healing at the cost of failing all Agility saves.
 - **Crushing Core (Astraeus)**: Gravitational field, dragging enemies close and dealing force damage while taking double damage from non-magical strikes.
 - **Fossilized Tomb (Terranox)**: Petrified muscle, giving massive HP and physical resistance at the cost of losing all movement speed.
 - **Flayed Gale (Zephyra)**: Splintered marrow spikes, dealing lightning damage and quick strikes with a constant risk of bone fracture knockbacks.
@@ -150,13 +150,13 @@ Their devastating fatal flaw is **Terminal Inertia**. As their mass grows, their
 
 **Action**: Cast **Agonizing Calcification** (16 mana, 0 AP)
 **Resource Change**: +25 Calcification Mass (Now 85/100)
-**Effect**: Gain +4 Armor for 5 rounds.
+**Effect**: Gain +4 DR for 5 rounds.
 **Terminal Inertia Trigger**: Because your Calcification is above 80, your movement speed is reduced by 10 ft, and your Dodge is locked at 0.
 
 *A sickening crunch echoes as a thick shell of calcified bone erupts through your chest. Your muscles petrify, locking your joints. You cannot evade.*
 
 **Ghoul #2's Attack**: Attacks you. Hits automatically due to your locked Dodge.
-**Armor Reduction**: Your new +4 Armor reduces the claw swipe to a mere tickle.
+**DR Reduction**: Your new +4 DR reduces the claw swipe to a mere tickle.
 **Damage Taken**: 4 physical damage.
 **HP**: 85 − 4 = 81/85
 
@@ -207,7 +207,7 @@ You begin with your attunement's **passive ability** (active automatically) and 
 
 **Step 5: Equip Starting Gear**
 - **Jagged Bone-Cleaver** (two-handed bludgeoning): 2d8 damage. A rusted, jagged iron slab designed to fracture armor.
-- **Studded Acolyte's Shroud** (medium armor): +4 Armor. Made of thick leather and stitched bone plates.
+- **Studded Acolyte's Shroud** (medium armor): +4 DR. Made of thick leather and stitched bone plates.
 - **Cracked Medallion** (trinket): A heavy copper disc displaying your attunement. +1 Spirit.
 - **Fossilized Beast Skull** (offhand): A dense skull acting as a focal point for localized gravity. +1 Strength.
 - **Phial of Marrow-Grease** (consumable, ×2): Restore 20 Mana by applying numbing grease to your fractured joints.
@@ -328,7 +328,7 @@ Your highest damage potential. Razor-sharp spurs shred flesh. Splinter-Burst Das
 \`\`\`
 CELESTIAL DEVOTIONS:
   Solara   | +1d6 radiant melee | Solar Flare (AoE blind) | Adv. on you in bright light
-  Lunara   | +2 Armor, 5 HP/turn | Lunar Shield (50 absorb) | Healing halved
+  Lunara   | +2 DR, 5 HP/turn | Lunar Shield (50 absorb) | Healing halved
   Astraeus | +10ft move, Agi adv | Starfall (stun target)  | +1d6 from non-magic
   Terranox | +20 HP, phys resist | Earthquake (20ft prone) | -10ft speed
   Zephyra  | +2 atk speed, +1d4 | Wind Dash (teleport AoE) | 10% knockback risk
@@ -364,7 +364,7 @@ ULTIMATE: 1/Long Rest (irreversible until next rest)
         strengths: [
           "Attunement passive benefits are increased by 50%.",
           "Can use your bone ultimate twice per long rest.",
-          "Allies within 10 feet gain 25% of your bone density (Armor +1).",
+          "Allies within 10 feet gain 25% of your bone density (DR +1).",
           "Unrivaled frontline defensive absorption.",
         ],
 
@@ -377,14 +377,14 @@ ULTIMATE: 1/Long Rest (irreversible until next rest)
 
         keyAbilities: [
           "Bone-Grafted Ascendancy: Attunement benefits increased by 50%.",
-          "Shared Density: Allies within 10 ft gain Armor +1.",
+          "Shared Density: Allies within 10 ft gain DR +1.",
           "Calcium Surge: Channel your ultimate twice per long rest.",
         ],
 
         specPassive: {
           name: "Bone-Grafted Ascendancy",
           description:
-            "Attunement passive benefits increased by 50%. Ultimate abilities can be used twice per long rest. Allies within 10 feet gain +1 Armor. Attunement restrictions are doubled (Solara's glow expands to 60 ft, Terranox speed reduction is 25 ft). Acid vulnerability is doubled to +100% damage taken. Cannot switch devotions mid-combat.",
+            "Attunement passive benefits increased by 50%. Ultimate abilities can be used twice per long rest. Allies within 10 feet gain +1 DR. Attunement restrictions are doubled (Solara's glow expands to 60 ft, Terranox speed reduction is 25 ft). Acid vulnerability is doubled to +100% damage taken. Cannot switch devotions mid-combat.",
         },
       },
       { id : "divine-conduit",

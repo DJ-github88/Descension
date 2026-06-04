@@ -565,8 +565,8 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
         },
         {
           name: `${resourceName} Harmony`,
-          formula: `(1d4 + WIS/2) * (ROUND <= 3 ? ROUND : 3)`,
-          description: 'Scales with wisdom and round number (max 3)'
+          formula: `(1d4 + SPI/2) * (ROUND <= 3 ? ROUND : 3)`,
+          description: 'Scales with spirit and round number (max 3)'
         }
       ]);
     } else if (resolutionType === 'CARDS') {

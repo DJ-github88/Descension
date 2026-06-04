@@ -3354,8 +3354,7 @@ export const PRIMALIST_ITEMS = [
             }
         },
         baseStats: {
-            wisdom: { value: 2, isPercentage: false },
-            spirit: { value: 1, isPercentage: false }
+            spirit: { value: 3, isPercentage: false }
         },
         availableFor: {
             classes: ['Primalist']
@@ -3433,8 +3432,7 @@ export const PRIMALIST_ITEMS = [
         slots: ['trinket1', 'trinket2'],
         baseStats: {
             intelligence: { value: 1, isPercentage: false },
-            wisdom: { value: 1, isPercentage: false },
-            spirit: { value: 1, isPercentage: false }
+            spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
             classes: ['Primalist']
