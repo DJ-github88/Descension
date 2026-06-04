@@ -1380,23 +1380,96 @@ body svg[data-icon] {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #d4af37, #b8941f);
-  border: 2px solid #8b4513;
+  width: 52px;
+  height: 52px;
+  background: radial-gradient(circle at 35% 35%, #ffe293 0%, #d4af37 40%, #a38020 75%, #594109 100%);
+  border: 3px double #8b4513;
   border-radius: 50%;
   color: #2c1810;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  transition: all 0.3s ease;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.4), 
+    inset 0 2px 3px rgba(255, 255, 255, 0.5), 
+    inset 0 -3px 6px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scroll-to-top::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px dashed rgba(61, 35, 20, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.8s ease;
+}
+
+.scroll-to-top i {
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3), 0 -1px 1px rgba(0, 0, 0, 0.7);
+  transition: transform 0.3s ease;
 }
 
 .scroll-to-top:hover {
-  background: linear-gradient(135deg, #f0c040, #d4af37);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  transform: translateY(-6px) scale(1.08);
+  box-shadow: 
+    0 15px 25px rgba(0, 0, 0, 0.5), 
+    0 0 15px rgba(212, 175, 55, 0.5), 
+    inset 0 2px 3px rgba(255, 255, 255, 0.6), 
+    inset 0 -3px 6px rgba(0, 0, 0, 0.5);
+  background: radial-gradient(circle at 35% 35%, #fff0b8 0%, #e5c158 40%, #b8922d 75%, #6e520d 100%);
+  border-color: #d4af37;
+}
+
+.scroll-to-top:hover::before {
+  transform: rotate(45deg);
+  border-color: rgba(61, 35, 20, 0.7);
+}
+
+.scroll-to-top:hover i {
+  animation: scroll-chevron-bob 1.2s ease-in-out infinite;
+}
+
+.scroll-to-top:active {
+  transform: translateY(-2px) scale(0.95);
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.5), 
+    inset 0 1px 2px rgba(0, 0, 0, 0.8),
+    inset 0 2px 5px rgba(0, 0, 0, 0.9);
+  transition: all 0.1s ease;
+}
+
+@keyframes scroll-chevron-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+    border-width: 2px;
+  }
+  .scroll-to-top::before {
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+  }
 }
 
 /* Responsive Design */

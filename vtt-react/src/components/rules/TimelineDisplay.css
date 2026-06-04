@@ -99,3 +99,31 @@
   color: #2b1c11;
   flex: 1;
 }
+
+.timeline-gm-hook {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: rgba(138, 26, 16, 0.03);
+  border-left: 3px solid #8a1a10;
+  border-radius: 0 4px 4px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.timeline-gm-hook-label {
+  font-size: 9px;
+  color: #8a1a10;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.timeline-gm-hook-text {
+  margin: 0 !important;
+  color: #6d4021 !important;
+  font-size: 0.98rem !important;
+  line-height: 1.6 !important;
+  font-style: italic !important;
+}
