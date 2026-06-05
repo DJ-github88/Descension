@@ -523,6 +523,229 @@ const getNotableFiguresForClass = (regionSection, className) => {
   return figures;
 };
 
+// Parsers to extract structured fields from markdown strings for the dashboard dossier
+const parseCombatRole = (content) => {
+  if (!content) return {};
+  const lines = content.split('\n');
+  const result = {
+    primaryRole: '',
+    whyBringMe: '',
+    howYouFight: [],
+    strengths: [],
+    weaknesses: []
+  };
+
+  let currentKey = '';
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    // Match markdown section headings
+    const primaryRoleMatch = trimmed.match(/^\*\*Primary Role\*\*:\s*(.*)/i);
+    const whyBringMeMatch = trimmed.match(/^\*\*Why Bring Me\??(?:\s*\([^)]+\))?\*\*:\s*(.*)/i);
+    const howYouFightMatch = trimmed.match(/^\*\*How You Fight\*\*:\s*(.*)/i);
+    const strengthsMatch = trimmed.match(/^\*\*Strengths\*\*:\s*(.*)/i);
+    const weaknessesMatch = trimmed.match(/^\*\*Weaknesses\*\*:\s*(.*)/i);
+
+    if (primaryRoleMatch) {
+      result.primaryRole = primaryRoleMatch[1];
+      currentKey = 'primaryRole';
+    } else if (whyBringMeMatch) {
+      result.whyBringMe = whyBringMeMatch[1];
+      currentKey = 'whyBringMe';
+    } else if (howYouFightMatch) {
+      result.howYouFight = [];
+      if (howYouFightMatch[1]) result.howYouFight.push(howYouFightMatch[1]);
+      currentKey = 'howYouFight';
+    } else if (strengthsMatch) {
+      result.strengths = [];
+      if (strengthsMatch[1]) result.strengths.push(strengthsMatch[1]);
+      currentKey = 'strengths';
+    } else if (weaknessesMatch) {
+      result.weaknesses = [];
+      if (weaknessesMatch[1]) result.weaknesses.push(weaknessesMatch[1]);
+      currentKey = 'weaknesses';
+    } else {
+      // Append bullet/numbered points or append to string
+      if (currentKey === 'howYouFight') {
+        const itemMatch = trimmed.match(/^\d+\.\s*(.*)/);
+        if (itemMatch) {
+          result.howYouFight.push(itemMatch[1]);
+        } else {
+          result.howYouFight.push(trimmed);
+        }
+      } else if (currentKey === 'strengths') {
+        const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
+        if (bulletMatch) {
+          result.strengths.push(bulletMatch[1]);
+        } else {
+          result.strengths.push(trimmed);
+        }
+      } else if (currentKey === 'weaknesses') {
+        const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
+        if (bulletMatch) {
+          result.weaknesses.push(bulletMatch[1]);
+        } else {
+          result.weaknesses.push(trimmed);
+        }
+      } else if (currentKey === 'whyBringMe') {
+        result.whyBringMe += (result.whyBringMe ? ' ' : '') + trimmed;
+      } else if (currentKey === 'primaryRole') {
+        result.primaryRole += (result.primaryRole ? ' ' : '') + trimmed;
+      }
+    }
+  });
+
+  return result;
+};
+
+const parseRoleplayIdentity = (content) => {
+  if (!content) return [];
+  const sections = [];
+  const paragraphs = content.split('\n\n');
+  let currentSection = null;
+
+  paragraphs.forEach(para => {
+    const trimmed = para.trim();
+    if (!trimmed) return;
+
+    const headerMatch = trimmed.match(/^\*\*(.*?)\*\*\s*\n*(.*)/s);
+    if (headerMatch) {
+      if (currentSection) {
+        sections.push(currentSection);
+      }
+      currentSection = {
+        title: headerMatch[1],
+        content: headerMatch[2] || ''
+      };
+    } else if (currentSection) {
+      currentSection.content += '\n\n' + trimmed;
+    } else {
+      currentSection = {
+        title: '',
+        content: trimmed
+      };
+    }
+  });
+
+  if (currentSection) {
+    sections.push(currentSection);
+  }
+  return sections;
+};
+
+// Map WoW icon IDs to local ability icons (matching UnifiedSpellCard)
+const mapSpellIcon = (wowIconId) => {
+  const iconMapping = {
+    // Combat/Attack icons
+    'ability_meleedamage': 'General/Combat Downward Strike',
+    'ability_warrior_savageblow': 'General/Combat Downward Strike',
+    'ability_warrior_charge': 'General/Combat Downward Strike',
+    'ability_warrior_revenge': 'General/Combat Downward Strike',
+    'ability_warrior_cleave': 'General/Combat Downward Strike',
+    'ability_warrior_riposte': 'Utility/Parry',
+    'ability_warrior_shieldbash': 'Utility/Shield',
+    'ability_rogue_evasion': 'Utility/Speed Dash',
+    'ability_rogue_feint': 'Utility/Parry',
+    'ability_rogue_sprint': 'Utility/Speed Dash',
+    'ability_rogue_tricksofthetrade': 'Utility/Speed Dash',
+    'ability_stealth': 'Utility/Hide',
+    'ability_hunter_snipershot': 'Utility/Target Crosshair',
+    'ability_hunter_markedshot': 'Utility/Target Crosshair',
+    'ability_hunter_markedfordeath': 'Utility/Target Crosshair',
+    
+    // Defensive icons
+    'inv_shield_05': 'Utility/Shield',
+    'inv_shield_04': 'Utility/Shield',
+    'ability_warrior_defensivestance': 'Utility/Shield',
+    'spell_holy_powerwordshield': 'Utility/Shield',
+    'spell_holy_devotionaura': 'Radiant/Divine Blessing',
+    
+    // Healing/Support icons
+    'spell_holy_greaterheal': 'Healing/Golden Heart',
+    'spell_holy_heal02': 'Healing/Golden Heart',
+    'spell_holy_flashheal': 'Healing/Golden Heart',
+    'spell_holy_renew': 'Healing/Renewal',
+    
+    // Utility icons
+    'spell_arcane_portaldalaran': 'Utility/Utility',
+    'spell_arcane_teleportundercity': 'Utility/Utility',
+    'spell_arcane_arcanetorrent': 'Arcane/Arcane Blast',
+    'inv_misc_questionmark': 'Utility/Utility',
+    'inv_misc_book_07': 'Utility/Utility',
+    'inv_misc_bag_08': 'Utility/Utility',
+    
+    // Magic/Damage icons
+    'spell_fire_fireball02': 'Fire/Swirling Fireball',
+    'spell_fire_flamebolt': 'Fire/Flame Burst',
+    'spell_frost_frostbolt02': 'Frost/Frozen in Ice',
+    'spell_arcane_blast': 'Arcane/Magical Sword',
+    'spell_shadow_shadowbolt': 'Shadow/Shadow Darkness',
+    'spell_holy_holysmite': 'Radiant/Divine Blessing',
+    'spell_nature_lightning': 'Lightning/Lightning Bolt',
+    
+    // Control icons
+    'spell_frost_chainsofice': 'Frost/Frozen in Ice',
+    'spell_shadow_curseofsargeras': 'Necrotic/Necrotic Skull',
+    
+    // Buff icons
+    'spell_holy_divineillumination': 'Radiant/Divine Blessing',
+    'spell_holy_blessingofprotection': 'Radiant/Divine Blessing',
+    
+    // Summoning icons
+    'spell_shadow_summonvoidwalker': 'Utility/Summon Minion',
+    'spell_shadow_summoninfernal': 'Utility/Summon Minion',
+    
+    // Transformation icons
+    'ability_druid_catform': 'Utility/Utility',
+    
+    // Trap icons
+    'spell_fire_selfdestruct': 'Utility/Explosive Detonation',
+    
+    // Wild magic icons
+    'spell_arcane_arcane04': 'Arcane/Magical Sword'
+  };
+  
+  return iconMapping[wowIconId] || null;
+};
+
+// Helper function to get spell icon URL (matching UnifiedSpellCard logic exactly)
+const getSpellIconUrl = (spell) => {
+  const iconId = spell?.icon || spell?.typeConfig?.icon;
+  
+  // If no icon is set, use default
+  if (!iconId) {
+    return getCustomIconUrl('Utility/Utility', 'abilities');
+  }
+  
+  // If it's already a full URL (ability icon), return as-is
+  if (typeof iconId === 'string' && iconId.startsWith('/assets/')) {
+    return iconId;
+  }
+  
+  // If it's already an ability icon path (e.g., "Fire/Flame Burst"), use it directly
+  if (iconId.includes('/') && !iconId.startsWith('http')) {
+    // Check if it's using the new folder structure (e.g., "Fire/Flame Burst")
+    if (iconId.match(/^[A-Z][a-zA-Z]+\/[A-Z]/)) {
+      return getCustomIconUrl(iconId, 'abilities');
+    }
+    // Otherwise try to use it as-is
+    return getCustomIconUrl(iconId, 'abilities');
+  }
+  
+  // If it's a WoW icon ID, try to map it to a local ability icon
+  if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
+    const mappedIcon = mapSpellIcon(iconId);
+    if (mappedIcon) {
+      return getCustomIconUrl(mappedIcon, 'abilities');
+    }
+    // If no mapping found, use default instead of getAbilityIconUrl (which adds creature- prefix)
+    return getCustomIconUrl('Utility/Utility', 'abilities');
+  }
+  
+  // Default fallback
+  return getCustomIconUrl('Utility/Utility', 'abilities');
+};
 
 /**
  * ClassDetailDisplay Component
@@ -540,6 +763,234 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   const [loadedImages, setLoadedImages] = useState(new Set());
   const [combatExampleOpen, setCombatExampleOpen] = useState(false);
   const contentContainerRef = useRef(null);
+
+  // Deep Tactical Dossier Fallbacks to guarantee content is never empty
+  const combatRoleData = useMemo(() => {
+    if (!classData) return null;
+    const overview = classData.overview || {};
+    const rawCombatRoleData = parseCombatRole(overview.combatRole?.content);
+    const data = { ...rawCombatRoleData };
+
+    // 1. Fallback for primaryRole
+    if (!data.primaryRole && classData.role) {
+      data.primaryRole = classData.role;
+    }
+
+    // 2. Fallback for whyBringMe (Promise)
+    if (!data.whyBringMe) {
+      if (overview.quickOverview?.content) {
+        // Extract What You Need to Know section or first sentences
+        const tlDrMatch = overview.quickOverview.content.match(/\*\*What You Need to Know\*\*:\s*([^\n]+)/i) || 
+                          overview.quickOverview.content.match(/\*\*TL;DR\*\*:\s*([^\n]+)/i);
+        if (tlDrMatch && tlDrMatch[1]) {
+          data.whyBringMe = tlDrMatch[1].replace(/\*\*/g, '').trim();
+        }
+      }
+      if (!data.whyBringMe && overview.combatRole?.content) {
+        const promiseMatch = overview.combatRole.content.match(/\*\*Why Bring Me\*\*:\s*([^\n]+)/i) ||
+                             overview.combatRole.content.match(/\*\*The Promise\*\*:\s*([^\n]+)/i);
+        if (promiseMatch && promiseMatch[1]) {
+          data.whyBringMe = promiseMatch[1].replace(/\*\*/g, '').trim();
+        }
+      }
+      if (!data.whyBringMe) {
+        data.whyBringMe = "Brings critical utility, tactical control, and specialized combat capabilities to the party.";
+      }
+    }
+
+    // 3. Fallback for strengths: aggregate from specs if empty
+    if (!data.strengths || data.strengths.length === 0) {
+      const specStrengths = [];
+      if (classData.specializations?.specs) {
+        classData.specializations.specs.forEach(spec => {
+          if (spec.strengths && Array.isArray(spec.strengths)) {
+            spec.strengths.forEach(str => {
+              const cleaned = str.replace(/\*\*/g, '').trim();
+              if (!specStrengths.includes(cleaned)) specStrengths.push(cleaned);
+            });
+          }
+        });
+      }
+      if (specStrengths.length > 0) {
+        data.strengths = specStrengths.slice(0, 4); // Take top 4
+      } else {
+        data.strengths = [
+          "High tactical adaptability to shifting threats",
+          "Strong team synergy and support capabilities",
+          "Specialized resource economy for high-impact turns"
+        ];
+      }
+    }
+
+    // 4. Fallback for weaknesses: aggregate from specs if empty
+    if (!data.weaknesses || data.weaknesses.length === 0) {
+      const specWeaknesses = [];
+      if (classData.specializations?.specs) {
+        classData.specializations.specs.forEach(spec => {
+          if (spec.weaknesses && Array.isArray(spec.weaknesses)) {
+            spec.weaknesses.forEach(weak => {
+              const cleaned = weak.replace(/\*\*/g, '').trim();
+              if (!specWeaknesses.includes(cleaned)) specWeaknesses.push(cleaned);
+            });
+          }
+        });
+      }
+      if (specWeaknesses.length > 0) {
+        data.weaknesses = specWeaknesses.slice(0, 4); // Take top 4
+      } else {
+        data.weaknesses = [
+          "Vulnerable to heavy crowd control or mobility locks",
+          "Demands careful resource planning to avoid stalling",
+          "Requires precise positioning to maximize spell effectiveness"
+        ];
+      }
+    }
+
+    // 5. Fallback for howYouFight: generate clean general steps if empty
+    if (!data.howYouFight || data.howYouFight.length === 0) {
+      if (overview.quickOverview?.content) {
+        const coreLoopMatch = overview.quickOverview.content.match(/\*\*Core Loop\*\*:\s*([^\n]+)/i) ||
+                              overview.quickOverview.content.match(/\*\*Core Mechanic\*\*:\s*([^\n]+)/i);
+        if (coreLoopMatch && coreLoopMatch[1]) {
+          const steps = coreLoopMatch[1].split('→').map(s => s.trim().replace(/\*\*/g, ''));
+          if (steps.length > 1) {
+            data.howYouFight = steps;
+          }
+        }
+      }
+      if (!data.howYouFight || data.howYouFight.length === 0) {
+        data.howYouFight = [
+          "Generate your unique class resources through targeted attacks and setups.",
+          "Monitor cooldowns and align precursor conditions before invoking massive powers.",
+          "Trigger devastating high-tier finishers while staying safely behind your frontliners."
+        ];
+      }
+    }
+
+    return data;
+  }, [classData]);
+
+  // Get and filter spells at component level
+  const processedSpells = useMemo(() => {
+    let spells = classData?.spells || classData?.exampleSpells || [];
+    
+    if (!spells || spells.length === 0) {
+      return [];
+    }
+
+    // Filter out buff effects that are part of other spells
+    const buffEffectIds = new Set();
+    spells.forEach(spell => {
+      if (spell.buffConfig?.effects) {
+        spell.buffConfig.effects.forEach(effect => {
+          if (effect.id) {
+            buffEffectIds.add(effect.id);
+          }
+        });
+      }
+      if (spell.debuffConfig?.effects) {
+        spell.debuffConfig.effects.forEach(effect => {
+          if (effect.id) {
+            buffEffectIds.add(effect.id);
+          }
+        });
+      }
+    });
+
+    return spells.filter(spell => !buffEffectIds.has(spell.id));
+  }, [classData]);
+
+  const selectedSpellIndex = selectedSpell
+    ? processedSpells.findIndex(s => s.id === selectedSpell.id)
+    : -1;
+
+  const navigateSpell = (direction) => {
+    if (processedSpells.length === 0) return;
+    const newIndex = selectedSpellIndex + direction;
+    if (newIndex >= 0 && newIndex < processedSpells.length) {
+      setSelectedSpell(processedSpells[newIndex]);
+    }
+  };
+
+  useEffect(() => {
+    if (!selectedSpell) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateSpell(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateSpell(1);
+      } else if (e.key === 'Escape') {
+        handleCloseSpellPopup();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedSpell, selectedSpellIndex, processedSpells]);
+
+  // Memoize icon URLs to prevent flickering
+  const spellIconUrls = useMemo(() => {
+    const urlMap = new Map();
+    processedSpells.forEach(spell => {
+      const url = getSpellIconUrl(spell);
+      urlMap.set(spell.id, url);
+    });
+    return urlMap;
+  }, [processedSpells]);
+
+  // Preload images for current page spells
+  useEffect(() => {
+    if (activeTab !== 'spells' || processedSpells.length === 0) {
+      return;
+    }
+
+    // Calculate page categories
+    const spellsByCategory = {
+      'Level 1': processedSpells.filter(s => s.level === 1),
+      'Level 2': processedSpells.filter(s => s.level === 2),
+      'Level 3': processedSpells.filter(s => s.level === 3),
+      'Level 4': processedSpells.filter(s => s.level === 4),
+      'Level 5': processedSpells.filter(s => s.level === 5),
+      'Level 6': processedSpells.filter(s => s.level === 6),
+      'Level 7': processedSpells.filter(s => s.level === 7),
+      'Level 8': processedSpells.filter(s => s.level === 8),
+      'Level 9': processedSpells.filter(s => s.level === 9),
+      'Level 10': processedSpells.filter(s => s.level === 10)
+    };
+
+    const categoryEntries = Object.entries(spellsByCategory).filter(([_, spells]) => spells.length > 0);
+    const categoriesPerPage = 2;
+    const startIdx = currentPage * categoriesPerPage;
+    const endIdx = startIdx + categoriesPerPage;
+    const pageCategories = categoryEntries.slice(startIdx, endIdx);
+
+    const preloadImages = () => {
+      const pageSpells = pageCategories.flatMap(([_, categorySpells]) => categorySpells || []);
+      pageSpells.forEach(spell => {
+        const url = spellIconUrls.get(spell.id);
+        if (url && !loadedImages.has(url)) {
+          const img = new Image();
+          img.onload = () => {
+            setLoadedImages(prev => new Set([...prev, url]));
+          };
+          img.onerror = () => {
+            const fallbackUrl = getCustomIconUrl('Utility/Utility', 'abilities');
+            if (!loadedImages.has(fallbackUrl)) {
+              const fallbackImg = new Image();
+              fallbackImg.onload = () => {
+                setLoadedImages(prev => new Set([...prev, fallbackUrl]));
+              };
+              fallbackImg.src = fallbackUrl;
+            }
+          };
+          img.src = url;
+        }
+      });
+    };
+
+    preloadImages();
+  }, [spellIconUrls, currentPage, activeTab, processedSpells, loadedImages]);
 
   // Handle click for spell details - show popup
   const handleSpellClick = (spell) => {
@@ -669,116 +1120,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     );
   };
 
-  // Parsers to extract structured fields from markdown strings for the dashboard dossier
-  const parseCombatRole = (content) => {
-    if (!content) return {};
-    const lines = content.split('\n');
-    const result = {
-      primaryRole: '',
-      whyBringMe: '',
-      howYouFight: [],
-      strengths: [],
-      weaknesses: []
-    };
 
-    let currentKey = '';
-    lines.forEach(line => {
-      const trimmed = line.trim();
-      if (!trimmed) return;
-
-      // Match markdown section headings
-      const primaryRoleMatch = trimmed.match(/^\*\*Primary Role\*\*:\s*(.*)/i);
-      const whyBringMeMatch = trimmed.match(/^\*\*Why Bring Me\??(?:\s*\([^)]+\))?\*\*:\s*(.*)/i);
-      const howYouFightMatch = trimmed.match(/^\*\*How You Fight\*\*:\s*(.*)/i);
-      const strengthsMatch = trimmed.match(/^\*\*Strengths\*\*:\s*(.*)/i);
-      const weaknessesMatch = trimmed.match(/^\*\*Weaknesses\*\*:\s*(.*)/i);
-
-      if (primaryRoleMatch) {
-        result.primaryRole = primaryRoleMatch[1];
-        currentKey = 'primaryRole';
-      } else if (whyBringMeMatch) {
-        result.whyBringMe = whyBringMeMatch[1];
-        currentKey = 'whyBringMe';
-      } else if (howYouFightMatch) {
-        result.howYouFight = [];
-        if (howYouFightMatch[1]) result.howYouFight.push(howYouFightMatch[1]);
-        currentKey = 'howYouFight';
-      } else if (strengthsMatch) {
-        result.strengths = [];
-        if (strengthsMatch[1]) result.strengths.push(strengthsMatch[1]);
-        currentKey = 'strengths';
-      } else if (weaknessesMatch) {
-        result.weaknesses = [];
-        if (weaknessesMatch[1]) result.weaknesses.push(weaknessesMatch[1]);
-        currentKey = 'weaknesses';
-      } else {
-        // Append bullet/numbered points or append to string
-        if (currentKey === 'howYouFight') {
-          const itemMatch = trimmed.match(/^\d+\.\s*(.*)/);
-          if (itemMatch) {
-            result.howYouFight.push(itemMatch[1]);
-          } else {
-            result.howYouFight.push(trimmed);
-          }
-        } else if (currentKey === 'strengths') {
-          const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
-          if (bulletMatch) {
-            result.strengths.push(bulletMatch[1]);
-          } else {
-            result.strengths.push(trimmed);
-          }
-        } else if (currentKey === 'weaknesses') {
-          const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
-          if (bulletMatch) {
-            result.weaknesses.push(bulletMatch[1]);
-          } else {
-            result.weaknesses.push(trimmed);
-          }
-        } else if (currentKey === 'whyBringMe') {
-          result.whyBringMe += (result.whyBringMe ? ' ' : '') + trimmed;
-        } else if (currentKey === 'primaryRole') {
-          result.primaryRole += (result.primaryRole ? ' ' : '') + trimmed;
-        }
-      }
-    });
-
-    return result;
-  };
-
-  const parseRoleplayIdentity = (content) => {
-    if (!content) return [];
-    const sections = [];
-    const paragraphs = content.split('\n\n');
-    let currentSection = null;
-
-    paragraphs.forEach(para => {
-      const trimmed = para.trim();
-      if (!trimmed) return;
-
-      const headerMatch = trimmed.match(/^\*\*(.*?)\*\*\s*\n*(.*)/s);
-      if (headerMatch) {
-        if (currentSection) {
-          sections.push(currentSection);
-        }
-        currentSection = {
-          title: headerMatch[1],
-          content: headerMatch[2] || ''
-        };
-      } else if (currentSection) {
-        currentSection.content += '\n\n' + trimmed;
-      } else {
-        currentSection = {
-          title: '',
-          content: trimmed
-        };
-      }
-    });
-
-    if (currentSection) {
-      sections.push(currentSection);
-    }
-    return sections;
-  };
 
   // Immersive parsed Actual Play logger for class combat examples
   const renderCombatExampleContent = (content) => {
@@ -1070,120 +1412,12 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       lunarch: { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Mask-Borne Mimir Lunarch, a vessel of the lunar parasite with cold starlight veins.' }
     };
 
-const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
+    const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
     const illustrationData = overview.illustration 
       ? { url: overview.illustration, caption: overview.illustrationCaption } 
       : classFallbacks[classId];
 
-    const rawCombatRoleData = parseCombatRole(overview.combatRole?.content);
     const roleplaySections = parseRoleplayIdentity(overview.roleplayIdentity?.content);
-
-    // Deep Tactical Dossier Fallbacks to guarantee content is never empty
-    const combatRoleData = useMemo(() => {
-      const data = { ...rawCombatRoleData };
-
-      // 1. Fallback for primaryRole
-      if (!data.primaryRole && classData.role) {
-        data.primaryRole = classData.role;
-      }
-
-      // 2. Fallback for whyBringMe (Promise)
-      if (!data.whyBringMe) {
-        if (overview.quickOverview?.content) {
-          // Extract What You Need to Know section or first sentences
-          const tlDrMatch = overview.quickOverview.content.match(/\*\*What You Need to Know\*\*:\s*([^\n]+)/i) || 
-                            overview.quickOverview.content.match(/\*\*TL;DR\*\*:\s*([^\n]+)/i);
-          if (tlDrMatch && tlDrMatch[1]) {
-            data.whyBringMe = tlDrMatch[1].replace(/\*\*/g, '').trim();
-          }
-        }
-        if (!data.whyBringMe && overview.combatRole?.content) {
-          // Use first paragraph of combatRole content
-          const paragraphs = overview.combatRole.content.split('\n\n');
-          if (paragraphs[0]) {
-            data.whyBringMe = paragraphs[0].replace(/\*\*/g, '').trim();
-          }
-        }
-        if (!data.whyBringMe && overview.description) {
-          data.whyBringMe = overview.description.replace(/\*\*/g, '').trim();
-        }
-        if (!data.whyBringMe) {
-          data.whyBringMe = `Play as the ${classData.name} and master their unique tactical mechanics to dominate the battlefield.`;
-        }
-      }
-
-      // 3. Fallback for strengths: aggregate from specs if empty
-      if (!data.strengths || data.strengths.length === 0) {
-        const specStrengths = [];
-        if (classData.specializations?.specs) {
-          classData.specializations.specs.forEach(spec => {
-            if (spec.strengths && Array.isArray(spec.strengths)) {
-              spec.strengths.forEach(str => {
-                const cleaned = str.replace(/\*\*/g, '').trim();
-                if (!specStrengths.includes(cleaned)) specStrengths.push(cleaned);
-              });
-            }
-          });
-        }
-        if (specStrengths.length > 0) {
-          data.strengths = specStrengths.slice(0, 4); // Take top 4
-        } else {
-          data.strengths = [
-            "High tactical adaptability to shifting threats",
-            "Strong team synergy and support capabilities",
-            "Specialized resource economy for high-impact turns"
-          ];
-        }
-      }
-
-      // 4. Fallback for weaknesses: aggregate from specs if empty
-      if (!data.weaknesses || data.weaknesses.length === 0) {
-        const specWeaknesses = [];
-        if (classData.specializations?.specs) {
-          classData.specializations.specs.forEach(spec => {
-            if (spec.weaknesses && Array.isArray(spec.weaknesses)) {
-              spec.weaknesses.forEach(weak => {
-                const cleaned = weak.replace(/\*\*/g, '').trim();
-                if (!specWeaknesses.includes(cleaned)) specWeaknesses.push(cleaned);
-              });
-            }
-          });
-        }
-        if (specWeaknesses.length > 0) {
-          data.weaknesses = specWeaknesses.slice(0, 4); // Take top 4
-        } else {
-          data.weaknesses = [
-            "Vulnerable to heavy crowd control or mobility locks",
-            "Demands careful resource planning to avoid stalling",
-            "Requires precise positioning to maximize spell effectiveness"
-          ];
-        }
-      }
-
-      // 5. Fallback for howYouFight: generate clean general steps if empty
-      if (!data.howYouFight || data.howYouFight.length === 0) {
-        if (overview.quickOverview?.content) {
-          const coreLoopMatch = overview.quickOverview.content.match(/\*\*Core Loop\*\*:\s*([^\n]+)/i) ||
-                                overview.quickOverview.content.match(/\*\*Core Mechanic\*\*:\s*([^\n]+)/i);
-          if (coreLoopMatch && coreLoopMatch[1]) {
-            const steps = coreLoopMatch[1].split('→').map(s => s.trim().replace(/\*\*/g, ''));
-            if (steps.length > 1) {
-              data.howYouFight = steps;
-            }
-          }
-        }
-        if (!data.howYouFight || data.howYouFight.length === 0) {
-          data.howYouFight = [
-            "Generate your unique class resources through targeted attacks and setups.",
-            "Monitor cooldowns and align precursor conditions before invoking massive powers.",
-            "Trigger devastating high-tier finishers while staying safely behind your frontliners."
-          ];
-        }
-      }
-
-      return data;
-    }, [rawCombatRoleData, classData, overview]);
-
 
     return (
       <div className="class-detail-section parchment-content">
@@ -2181,240 +2415,7 @@ const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s
     );
   };
 
-  // Get and filter spells at component level
-  const processedSpells = useMemo(() => {
-    let spells = classData?.spells || classData?.exampleSpells || [];
-    
-    if (!spells || spells.length === 0) {
-      return [];
-    }
 
-    // Filter out buff effects that are part of other spells
-    const buffEffectIds = new Set();
-    spells.forEach(spell => {
-      if (spell.buffConfig?.effects) {
-        spell.buffConfig.effects.forEach(effect => {
-          if (effect.id) {
-            buffEffectIds.add(effect.id);
-          }
-        });
-      }
-      if (spell.debuffConfig?.effects) {
-        spell.debuffConfig.effects.forEach(effect => {
-          if (effect.id) {
-            buffEffectIds.add(effect.id);
-          }
-        });
-      }
-    });
-
-    return spells.filter(spell => !buffEffectIds.has(spell.id));
-  }, [classData]);
-
-  const selectedSpellIndex = selectedSpell
-    ? processedSpells.findIndex(s => s.id === selectedSpell.id)
-    : -1;
-
-  const navigateSpell = (direction) => {
-    if (processedSpells.length === 0) return;
-    const newIndex = selectedSpellIndex + direction;
-    if (newIndex >= 0 && newIndex < processedSpells.length) {
-      setSelectedSpell(processedSpells[newIndex]);
-    }
-  };
-
-  useEffect(() => {
-    if (!selectedSpell) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        navigateSpell(-1);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        navigateSpell(1);
-      } else if (e.key === 'Escape') {
-        handleCloseSpellPopup();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedSpell, selectedSpellIndex, processedSpells]);
-
-  // Map WoW icon IDs to local ability icons (matching UnifiedSpellCard)
-  const mapSpellIcon = (wowIconId) => {
-    const iconMapping = {
-      // Combat/Attack icons
-      'ability_meleedamage': 'General/Combat Downward Strike',
-      'ability_warrior_savageblow': 'General/Combat Downward Strike',
-      'ability_warrior_charge': 'General/Combat Downward Strike',
-      'ability_warrior_revenge': 'General/Combat Downward Strike',
-      'ability_warrior_cleave': 'General/Combat Downward Strike',
-      'ability_warrior_riposte': 'Utility/Parry',
-      'ability_warrior_shieldbash': 'Utility/Shield',
-      'ability_rogue_evasion': 'Utility/Speed Dash',
-      'ability_rogue_feint': 'Utility/Parry',
-      'ability_rogue_sprint': 'Utility/Speed Dash',
-      'ability_rogue_tricksofthetrade': 'Utility/Speed Dash',
-      'ability_stealth': 'Utility/Hide',
-      'ability_hunter_snipershot': 'Utility/Target Crosshair',
-      'ability_hunter_markedshot': 'Utility/Target Crosshair',
-      'ability_hunter_markedfordeath': 'Utility/Target Crosshair',
-      
-      // Defensive icons
-      'inv_shield_05': 'Utility/Shield',
-      'inv_shield_04': 'Utility/Shield',
-      'ability_warrior_defensivestance': 'Utility/Shield',
-      'spell_holy_powerwordshield': 'Utility/Shield',
-      'spell_holy_devotionaura': 'Radiant/Divine Blessing',
-      
-      // Healing/Support icons
-      'spell_holy_greaterheal': 'Healing/Golden Heart',
-      'spell_holy_heal02': 'Healing/Golden Heart',
-      'spell_holy_flashheal': 'Healing/Golden Heart',
-      'spell_holy_renew': 'Healing/Renewal',
-      
-      // Utility icons
-      'spell_arcane_portaldalaran': 'Utility/Utility',
-      'spell_arcane_teleportundercity': 'Utility/Utility',
-      'spell_arcane_arcanetorrent': 'Arcane/Arcane Blast',
-      'inv_misc_questionmark': 'Utility/Utility',
-      'inv_misc_book_07': 'Utility/Utility',
-      'inv_misc_bag_08': 'Utility/Utility',
-      
-      // Magic/Damage icons
-      'spell_fire_fireball02': 'Fire/Swirling Fireball',
-      'spell_fire_flamebolt': 'Fire/Flame Burst',
-      'spell_frost_frostbolt02': 'Frost/Frozen in Ice',
-      'spell_arcane_blast': 'Arcane/Magical Sword',
-      'spell_shadow_shadowbolt': 'Shadow/Shadow Darkness',
-      'spell_holy_holysmite': 'Radiant/Divine Blessing',
-      'spell_nature_lightning': 'Lightning/Lightning Bolt',
-      
-      // Control icons
-      'spell_frost_chainsofice': 'Frost/Frozen in Ice',
-      'spell_shadow_curseofsargeras': 'Necrotic/Necrotic Skull',
-      
-      // Buff icons
-      'spell_holy_divineillumination': 'Radiant/Divine Blessing',
-      'spell_holy_blessingofprotection': 'Radiant/Divine Blessing',
-      
-      // Summoning icons
-      'spell_shadow_summonvoidwalker': 'Utility/Summon Minion',
-      'spell_shadow_summoninfernal': 'Utility/Summon Minion',
-      
-      // Transformation icons
-      'ability_druid_catform': 'Utility/Utility',
-      
-      // Trap icons
-      'spell_fire_selfdestruct': 'Utility/Explosive Detonation',
-      
-      // Wild magic icons
-      'spell_arcane_arcane04': 'Arcane/Magical Sword'
-    };
-    
-    return iconMapping[wowIconId] || null;
-  };
-
-  // Helper function to get spell icon URL (matching UnifiedSpellCard logic exactly)
-  const getSpellIconUrl = (spell) => {
-    const iconId = spell?.icon || spell?.typeConfig?.icon;
-    
-    // If no icon is set, use default
-    if (!iconId) {
-      return getCustomIconUrl('Utility/Utility', 'abilities');
-    }
-    
-    // If it's already a full URL (ability icon), return as-is
-    if (typeof iconId === 'string' && iconId.startsWith('/assets/')) {
-      return iconId;
-    }
-    
-    // If it's already an ability icon path (e.g., "Fire/Flame Burst"), use it directly
-    if (iconId.includes('/') && !iconId.startsWith('http')) {
-      // Check if it's using the new folder structure (e.g., "Fire/Flame Burst")
-      if (iconId.match(/^[A-Z][a-zA-Z]+\/[A-Z]/)) {
-        return getCustomIconUrl(iconId, 'abilities');
-      }
-      // Otherwise try to use it as-is
-      return getCustomIconUrl(iconId, 'abilities');
-    }
-    
-    // If it's a WoW icon ID, try to map it to a local ability icon
-    if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
-      const mappedIcon = mapSpellIcon(iconId);
-      if (mappedIcon) {
-        return getCustomIconUrl(mappedIcon, 'abilities');
-      }
-      // If no mapping found, use default instead of getAbilityIconUrl (which adds creature- prefix)
-      return getCustomIconUrl('Utility/Utility', 'abilities');
-    }
-    
-    // Default fallback
-    return getCustomIconUrl('Utility/Utility', 'abilities');
-  };
-
-  // Memoize icon URLs to prevent flickering
-  const spellIconUrls = useMemo(() => {
-    const urlMap = new Map();
-    processedSpells.forEach(spell => {
-      const url = getSpellIconUrl(spell);
-      urlMap.set(spell.id, url);
-    });
-    return urlMap;
-  }, [processedSpells]);
-
-  // Preload images for current page spells
-  useEffect(() => {
-    if (activeTab !== 'spells' || processedSpells.length === 0) {
-      return;
-    }
-
-    // Calculate page categories
-    const spellsByCategory = {
-      'Level 1': processedSpells.filter(s => s.level === 1),
-      'Level 2': processedSpells.filter(s => s.level === 2),
-      'Level 3': processedSpells.filter(s => s.level === 3),
-      'Level 4': processedSpells.filter(s => s.level === 4),
-      'Level 5': processedSpells.filter(s => s.level === 5),
-      'Level 6': processedSpells.filter(s => s.level === 6),
-      'Level 7': processedSpells.filter(s => s.level === 7),
-      'Level 8': processedSpells.filter(s => s.level === 8),
-      'Level 9': processedSpells.filter(s => s.level === 9),
-      'Level 10': processedSpells.filter(s => s.level === 10)
-    };
-
-    const categoryEntries = Object.entries(spellsByCategory).filter(([_, spells]) => spells.length > 0);
-    const categoriesPerPage = 2;
-    const startIdx = currentPage * categoriesPerPage;
-    const endIdx = startIdx + categoriesPerPage;
-    const pageCategories = categoryEntries.slice(startIdx, endIdx);
-
-    const preloadImages = () => {
-      const pageSpells = pageCategories.flatMap(([_, categorySpells]) => categorySpells || []);
-      pageSpells.forEach(spell => {
-        const url = spellIconUrls.get(spell.id);
-        if (url && !loadedImages.has(url)) {
-          const img = new Image();
-          img.onload = () => {
-            setLoadedImages(prev => new Set([...prev, url]));
-          };
-            img.onerror = () => {
-              const fallbackUrl = getCustomIconUrl('Utility/Utility', 'abilities');
-              if (!loadedImages.has(fallbackUrl)) {
-                const fallbackImg = new Image();
-                fallbackImg.onload = () => {
-                  setLoadedImages(prev => new Set([...prev, fallbackUrl]));
-                };
-                fallbackImg.src = fallbackUrl;
-              }
-            };
-          img.src = url;
-        }
-      });
-    };
-
-    preloadImages();
-  }, [spellIconUrls, currentPage, activeTab, processedSpells, loadedImages]);
 
   // Render spells tab
   const renderSpells = () => {

@@ -256,15 +256,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return t ? state.creatures?.find(c => c.id === t.creatureId) || t : null;
   });
 
-  // CRITICAL FIX: Gracefully handle missing creature data to prevent crashes
-  if (!creature || !creature.stats) {
-    if (token) {
-      // Only warn once per token to avoid console spam, or just return null silently
-      // console.warn(`⚠️ CreatureToken: Missing creature data for token ${tokenId} (creatureId: ${token?.creatureId})`);
-    }
-    return null;
-  }
-
   // Active condition effects mapped to visual overlays (MUST be above any early returns)
   const activeBuffs = useBuffStore(state => state.activeBuffs);
   const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
@@ -2046,6 +2037,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   };
   // Check if token should be hidden from players
   const isHiddenFromPlayers = token.state?.hiddenFromPlayers;
+  if (!creature || !creature.stats) {
+    return null;
+  }
+
   const shouldHideToken = isHiddenFromPlayers && !isGMMode;
 
   // Don't render the token if it should be hidden

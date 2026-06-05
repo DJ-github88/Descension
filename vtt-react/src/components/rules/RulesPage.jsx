@@ -1356,9 +1356,6 @@ const RulesPage = () => {
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'skills' && (
           <SkillsDisplay variant="advanced" />
         )}
-        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'simplified-skills' && (
-          <SkillsDisplay variant="simple" />
-        )}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'languages' && (
           <LanguagesDisplay />
         )}

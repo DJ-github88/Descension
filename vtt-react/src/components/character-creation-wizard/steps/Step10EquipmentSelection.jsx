@@ -233,13 +233,13 @@ const Step10EquipmentSelection = () => {
     const dispatch = useCharacterWizardDispatch();
     const { characterData } = state;
 
-    // Initialize starting currency and selected equipment
-    const [currentCurrency, setCurrentCurrency] = useState(null);
-    const [selectedEquipment, setSelectedEquipment] = useState([]);
+    // Initialize starting currency and selected equipment from context if available
+    const [currentCurrency, setCurrentCurrency] = useState(characterData.remainingCurrency || null);
+    const [selectedEquipment, setSelectedEquipment] = useState(characterData.selectedEquipment && characterData.selectedEquipment.length > 0 ? characterData.selectedEquipment : []);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
-    
+
     // Refs for measuring panel containers (parent of grids)
     const shopPanelRef = useRef(null);
     const cartPanelRef = useRef(null);
@@ -296,28 +296,33 @@ const Step10EquipmentSelection = () => {
         };
     }, []); // Empty deps - only run once on mount
 
-    // Calculate starting currency when relevant character data changes - reset completely
+    // Handle starting currency and equipment generation based on choices
     useEffect(() => {
-        if (characterData.background && characterData.path) {
+        const currencyChoices = characterData.currencyChoices;
+        const choicesChanged = !currencyChoices ||
+            currencyChoices.background !== characterData.background ||
+            currencyChoices.class !== characterData.class ||
+            currencyChoices.race !== characterData.race ||
+            currencyChoices.subrace !== characterData.subrace;
+
+        // Always recalculate when choices change OR when we don't have a currency yet
+        if (characterData.background && (choicesChanged || !currentCurrency)) {
             const startingCurrency = calculateStartingCurrency(
                 characterData.background,
-                characterData.path
+                characterData.path,
+                characterData.class,
+                characterData.race,
+                characterData.subrace
             );
             setCurrentCurrency(startingCurrency);
 
-            // Only preserve remaining currency if it's from the same character build
-            // For now, we'll reset currency when any choice changes to ensure consistency
+            // Only reset equipment if choices actually changed (not just a missing currency)
+            if (choicesChanged) {
+                const backgroundEquipment = getBackgroundEquipmentAsSelected(characterData);
+                setSelectedEquipment(backgroundEquipment);
+            }
         }
     }, [characterData.background, characterData.path, characterData.class, characterData.race, characterData.subrace]);
-
-    // Handle equipment when relevant character data changes - reset completely
-    useEffect(() => {
-        if (characterData.background) {
-            // Add new background equipment - start fresh when any choice changes
-            const backgroundEquipment = getBackgroundEquipmentAsSelected(characterData);
-            setSelectedEquipment(backgroundEquipment);
-        }
-    }, [characterData.background, characterData.class, characterData.race, characterData.subrace, characterData.path]);
 
     // Get available items based on character selections (excluding containers)
     const availableItems = useMemo(() => {
@@ -432,9 +437,9 @@ const Step10EquipmentSelection = () => {
 
         const item = selectedEquipment[index];
 
-        // Don't allow refunding background equipment (free items)
-        if (!item.value) {
-            alert('Background equipment cannot be refunded!');
+        // If it's background equipment or has no value, just remove it from the cart directly
+        if (!item.value || item.isBackgroundItem) {
+            setSelectedEquipment(selectedEquipment.filter((_, i) => i !== index));
             return;
         }
 
@@ -555,11 +560,251 @@ const Step10EquipmentSelection = () => {
 
     // Save to character data
     useEffect(() => {
-        dispatch(wizardActionCreators.updateBasicInfo({
-            selectedEquipment,
-            remainingCurrency: currentCurrency
-        }));
-    }, [selectedEquipment, currentCurrency, dispatch]);
+        if (currentCurrency) {
+            dispatch(wizardActionCreators.updateBasicInfo({
+                selectedEquipment,
+                remainingCurrency: currentCurrency,
+                currencyChoices: {
+                    background: characterData.background,
+                    class: characterData.class,
+                    race: characterData.race,
+                    subrace: characterData.subrace
+                }
+            }));
+        }
+    }, [selectedEquipment, currentCurrency, dispatch, characterData.background, characterData.class, characterData.race, characterData.subrace]);
+
+    const shopGridCells = useMemo(() => {
+        const COLS = shopCols;
+        const CELL_SIZE_LOCAL = CELL_SIZE;
+        const GAP_LOCAL = GAP;
+        const result = [];
+        const occupiedCells = new Map();
+
+        let currentRow = 0;
+        let currentCol = 0;
+
+        filteredItems.forEach((item) => {
+            const itemWidth = item.width || 1;
+            const itemHeight = item.height || 1;
+
+            let placed = false;
+            while (!placed) {
+                let fits = true;
+                for (let r = 0; r < itemHeight; r++) {
+                    for (let c = 0; c < itemWidth; c++) {
+                        const checkRow = currentRow + r;
+                        const checkCol = currentCol + c;
+                        if (checkCol >= COLS || occupiedCells.has(`${checkRow},${checkCol}`)) {
+                            fits = false;
+                            break;
+                        }
+                    }
+                    if (!fits) break;
+                }
+
+                if (fits) {
+                    for (let r = 0; r < itemHeight; r++) {
+                        for (let c = 0; c < itemWidth; c++) {
+                            occupiedCells.set(`${currentRow + r},${currentCol + c}`, {
+                                item,
+                                isOrigin: r === 0 && c === 0
+                            });
+                        }
+                    }
+                    placed = true;
+                }
+
+                currentCol++;
+                if (currentCol >= COLS) {
+                    currentCol = 0;
+                    currentRow++;
+                }
+            }
+        });
+
+        const maxRow = Math.max(...Array.from(occupiedCells.keys()).map(key => parseInt(key.split(',')[0])), -1);
+        const totalRows = Math.max(maxRow + 1, 8);
+
+        for (let row = 0; row < totalRows; row++) {
+            for (let col = 0; col < COLS; col++) {
+                const cellData = occupiedCells.get(`${row},${col}`);
+                const item = cellData?.item;
+                const isOrigin = cellData?.isOrigin;
+                const itemWidth = item?.width || 1;
+                const itemHeight = item?.height || 1;
+
+                result.push(
+                    <div
+                        key={`shop-${row}-${col}`}
+                        className={`inventory-cell ${item ? 'occupied' : ''} ${item && !canAfford(item) ? 'unaffordable' : ''}`}
+                    >
+                        {item && isOrigin && (
+                            <div
+                                className="item-icon-wrapper"
+                                style={{
+                                    width: `${itemWidth * CELL_SIZE_LOCAL + (itemWidth - 1) * GAP_LOCAL}px`,
+                                    height: `${itemHeight * CELL_SIZE_LOCAL + (itemHeight - 1) * GAP_LOCAL}px`,
+                                    zIndex: 2,
+                                    cursor: canAfford(item) ? 'pointer' : 'not-allowed',
+                                    opacity: canAfford(item) ? 1 : 0.5
+                                }}
+                                onClick={() => canAfford(item) && handlePurchaseItem(item)}
+                                onMouseEnter={(e) => handleItemMouseEnter(e, item)}
+                                onMouseMove={handleItemMouseMove}
+                                onMouseLeave={handleItemMouseLeave}
+                            >
+                                <div
+                                    className="equipment-item-icon"
+                                    style={{
+                                        backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
+                                        width: '100%',
+                                        height: '100%',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        backgroundRepeat: 'no-repeat',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </div>
+                );
+            }
+        }
+        return result;
+    }, [filteredItems, shopCols, canAfford, handlePurchaseItem, handleItemMouseEnter, handleItemMouseMove, handleItemMouseLeave]);
+
+    const cartGridCells = useMemo(() => {
+        const COLS = cartCols;
+        const CELL_SIZE_LOCAL = CELL_SIZE;
+        const GAP_LOCAL = GAP;
+        const result = [];
+        const occupiedCells = new Map();
+
+        let currentRow = 0;
+        let currentCol = 0;
+
+        selectedEquipment.forEach((item, itemIndex) => {
+            const itemWidth = item.width || 1;
+            const itemHeight = item.height || 1;
+
+            let placed = false;
+            while (!placed) {
+                let fits = true;
+                for (let r = 0; r < itemHeight; r++) {
+                    for (let c = 0; c < itemWidth; c++) {
+                        const checkRow = currentRow + r;
+                        const checkCol = currentCol + c;
+                        if (checkCol >= COLS || occupiedCells.has(`${checkRow},${checkCol}`)) {
+                            fits = false;
+                            break;
+                        }
+                    }
+                    if (!fits) break;
+                }
+
+                if (fits) {
+                    for (let r = 0; r < itemHeight; r++) {
+                        for (let c = 0; c < itemWidth; c++) {
+                            occupiedCells.set(`${currentRow + r},${currentCol + c}`, {
+                                item,
+                                isOrigin: r === 0 && c === 0,
+                                itemIndex
+                            });
+                        }
+                    }
+                    placed = true;
+                }
+
+                currentCol++;
+                if (currentCol >= COLS) {
+                    currentCol = 0;
+                    currentRow++;
+                }
+            }
+        });
+
+        const maxRow = occupiedCells.size > 0
+            ? Math.max(...Array.from(occupiedCells.keys()).map(key => parseInt(key.split(',')[0])))
+            : -1;
+        const totalRows = Math.max(maxRow + 1, 10);
+
+        for (let row = 0; row < totalRows; row++) {
+            for (let col = 0; col < COLS; col++) {
+                const cellData = occupiedCells.get(`${row},${col}`);
+                const item = cellData?.item;
+                const isOrigin = cellData?.isOrigin;
+                const originalIndex = cellData?.itemIndex;
+                const itemWidth = item?.width || 1;
+                const itemHeight = item?.height || 1;
+
+                result.push(
+                    <div
+                        key={`cart-${row}-${col}`}
+                        className={`inventory-cell ${item ? 'occupied' : ''}`}
+                    >
+                        {item && isOrigin && (
+                            <div
+                                className="item-icon-wrapper"
+                                style={{
+                                    width: `${itemWidth * CELL_SIZE_LOCAL + (itemWidth - 1) * GAP_LOCAL}px`,
+                                    height: `${itemHeight * CELL_SIZE_LOCAL + (itemHeight - 1) * GAP_LOCAL}px`,
+                                    zIndex: 2,
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => handleRefundItem(originalIndex)}
+                                onMouseEnter={(e) => handleItemMouseEnter(e, item)}
+                                onMouseMove={handleItemMouseMove}
+                                onMouseLeave={handleItemMouseLeave}
+                            >
+                                <div
+                                    className="equipment-item-icon"
+                                    style={{
+                                        backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
+                                        width: '100%',
+                                        height: '100%',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        backgroundRepeat: 'no-repeat',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0
+                                    }}
+                                />
+                                {item.quantity && item.quantity > 1 && (
+                                    <div
+                                        className="item-quantity"
+                                        style={{
+                                            position: 'absolute',
+                                            bottom: '2px',
+                                            right: '2px',
+                                            background: 'rgba(0, 0, 0, 0.8)',
+                                            color: 'white',
+                                            fontSize: '0.7rem',
+                                            padding: '2px 4px',
+                                            borderRadius: '4px',
+                                            minWidth: '16px',
+                                            textAlign: 'center',
+                                            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.5)',
+                                            fontWeight: 'bold',
+                                            pointerEvents: 'none',
+                                            zIndex: 3
+                                        }}
+                                    >
+                                        {item.quantity}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                );
+            }
+        }
+        return result;
+    }, [selectedEquipment, cartCols, handleRefundItem, handleItemMouseEnter, handleItemMouseMove, handleItemMouseLeave]);
 
     return (
         <div className="equipment-selection-container">
@@ -621,118 +866,7 @@ const Step10EquipmentSelection = () => {
 
                     {/* Item Grid - Inventory Style */}
                     <div className="equipment-shop-grid" style={{ '--grid-cols': shopCols }}>
-                        {(() => {
-                            const COLS = shopCols;
-                            const CELL_SIZE_LOCAL = CELL_SIZE;
-                            const GAP_LOCAL = GAP;
-                            const cells = [];
-                            const occupiedCells = new Map(); // Track occupied cells by "row,col" key
-
-                            let currentRow = 0;
-                            let currentCol = 0;
-
-                            // Place each item in the grid
-                            filteredItems.forEach((item, itemIndex) => {
-                                const itemWidth = item.width || 1;
-                                const itemHeight = item.height || 1;
-
-                                // Find next available position
-                                let placed = false;
-                                while (!placed) {
-                                    // Check if item fits at current position
-                                    let fits = true;
-                                    for (let r = 0; r < itemHeight; r++) {
-                                        for (let c = 0; c < itemWidth; c++) {
-                                            const checkRow = currentRow + r;
-                                            const checkCol = currentCol + c;
-                                            if (checkCol >= COLS || occupiedCells.has(`${checkRow},${checkCol}`)) {
-                                                fits = false;
-                                                break;
-                                            }
-                                        }
-                                        if (!fits) break;
-                                    }
-
-                                    if (fits) {
-                                        // Place the item
-                                        for (let r = 0; r < itemHeight; r++) {
-                                            for (let c = 0; c < itemWidth; c++) {
-                                                const placeRow = currentRow + r;
-                                                const placeCol = currentCol + c;
-                                                occupiedCells.set(`${placeRow},${placeCol}`, {
-                                                    item,
-                                                    isOrigin: r === 0 && c === 0
-                                                });
-                                            }
-                                        }
-                                        placed = true;
-                                    }
-
-                                    // Move to next position
-                                    currentCol++;
-                                    if (currentCol >= COLS) {
-                                        currentCol = 0;
-                                        currentRow++;
-                                    }
-                                }
-                            });
-
-                            // Calculate total rows needed (minimum 8 rows to fill the space)
-                            const maxRow = Math.max(...Array.from(occupiedCells.keys()).map(key => parseInt(key.split(',')[0])), -1);
-                            const totalRows = Math.max(maxRow + 1, 8);
-
-                            // Render the grid cells directly (no row wrappers)
-                            for (let row = 0; row < totalRows; row++) {
-                                for (let col = 0; col < COLS; col++) {
-                                    const cellData = occupiedCells.get(`${row},${col}`);
-                                    const item = cellData?.item;
-                                    const isOrigin = cellData?.isOrigin;
-
-                                    const itemWidth = item?.width || 1;
-                                    const itemHeight = item?.height || 1;
-                                    
-                                    cells.push(
-                                        <div
-                                            key={`${row}-${col}`}
-                                            className={`inventory-cell ${item ? 'occupied' : ''} ${item && !canAfford(item) ? 'unaffordable' : ''}`}
-                                        >
-                                            {item && isOrigin && (
-                                                <div
-                                                    className="item-icon-wrapper"
-                                                    style={{
-                                                        width: `${itemWidth * CELL_SIZE_LOCAL + (itemWidth - 1) * GAP_LOCAL}px`,
-                                                        height: `${itemHeight * CELL_SIZE_LOCAL + (itemHeight - 1) * GAP_LOCAL}px`,
-                                                        zIndex: 2,
-                                                        cursor: canAfford(item) ? 'pointer' : 'not-allowed',
-                                                        opacity: canAfford(item) ? 1 : 0.5
-                                                    }}
-                                                    onClick={() => canAfford(item) && handlePurchaseItem(item)}
-                                                    onMouseEnter={(e) => handleItemMouseEnter(e, item)}
-                                                    onMouseMove={handleItemMouseMove}
-                                                    onMouseLeave={handleItemMouseLeave}
-                                                >
-                                                    <div
-                                                        className="equipment-item-icon"
-                                                        style={{
-                                                            backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            backgroundSize: 'cover',
-                                                            backgroundPosition: 'center',
-                                                            backgroundRepeat: 'no-repeat',
-                                                            position: 'absolute',
-                                                            top: 0,
-                                                            left: 0
-                                                        }}
-                                                    />
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                }
-                            }
-                            return cells;
-                        })()}
+                        {shopGridCells}
                     </div>
                 </div>
 
@@ -756,150 +890,7 @@ const Step10EquipmentSelection = () => {
                                 <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Click items on the left to purchase them</div>
                             </div>
                         ) : (
-                            (() => {
-                                const COLS = cartCols;
-                                const grid = [];
-                                const occupiedCells = new Map(); // Track occupied cells by "row,col" key
-
-                                let currentRow = 0;
-                                let currentCol = 0;
-
-                                // Place each item in the grid
-                                selectedEquipment.forEach((item, itemIndex) => {
-                                    const itemWidth = item.width || 1;
-                                    const itemHeight = item.height || 1;
-
-                                    // Find next available position
-                                    let placed = false;
-                                    while (!placed) {
-                                        // Check if item fits at current position
-                                        let fits = true;
-                                        for (let r = 0; r < itemHeight; r++) {
-                                            for (let c = 0; c < itemWidth; c++) {
-                                                const checkRow = currentRow + r;
-                                                const checkCol = currentCol + c;
-                                                if (checkCol >= COLS || occupiedCells.has(`${checkRow},${checkCol}`)) {
-                                                    fits = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (!fits) break;
-                                        }
-
-                                        if (fits) {
-                                            // Place the item
-                                            for (let r = 0; r < itemHeight; r++) {
-                                                for (let c = 0; c < itemWidth; c++) {
-                                                    const placeRow = currentRow + r;
-                                                    const placeCol = currentCol + c;
-                                                    occupiedCells.set(`${placeRow},${placeCol}`, {
-                                                        item,
-                                                        isOrigin: r === 0 && c === 0,
-                                                        itemIndex
-                                                    });
-                                                }
-                                            }
-                                            placed = true;
-                                        }
-
-                                        // Move to next position
-                                        currentCol++;
-                                        if (currentCol >= COLS) {
-                                            currentCol = 0;
-                                            currentRow++;
-                                        }
-                                    }
-                                });
-
-                                // Calculate total rows needed (minimum 10 rows to fill the space)
-                                const maxRow = Math.max(...Array.from(occupiedCells.keys()).map(key => parseInt(key.split(',')[0])), -1);
-                                const totalRows = Math.max(maxRow + 1, 10);
-
-                                // Render the grid with minimum rows to fill space
-                                for (let row = 0; row < totalRows; row++) {
-                                    const gridRow = [];
-                                    for (let col = 0; col < COLS; col++) {
-                                        const cellData = occupiedCells.get(`${row},${col}`);
-                                        const item = cellData?.item;
-                                        const isOrigin = cellData?.isOrigin;
-                                        const originalIndex = cellData?.itemIndex;
-
-                                        const itemWidth = item?.width || 1;
-                                        const itemHeight = item?.height || 1;
-
-                                        const CELL_SIZE_LOCAL = CELL_SIZE;
-                                        const GAP_LOCAL = GAP;
-
-                                        gridRow.push(
-                                            <div
-                                                key={`${row}-${col}`}
-                                                className={`inventory-cell ${item ? 'occupied' : ''}`}
-                                            >
-                                                {item && isOrigin && (
-                                                    <div
-                                                        className="item-icon-wrapper"
-                                                        style={{
-                                                            width: `${itemWidth * CELL_SIZE_LOCAL + (itemWidth - 1) * GAP_LOCAL}px`,
-                                                            height: `${itemHeight * CELL_SIZE_LOCAL + (itemHeight - 1) * GAP_LOCAL}px`,
-                                                            zIndex: 2,
-                                                            cursor: 'pointer'
-                                                        }}
-                                                        onClick={() => handleRefundItem(originalIndex)}
-                                                        onMouseEnter={(e) => handleItemMouseEnter(e, item)}
-                                                        onMouseMove={handleItemMouseMove}
-                                                        onMouseLeave={handleItemMouseLeave}
-                                                    >
-                                                        <div
-                                                            className="equipment-item-icon"
-                                                            style={{
-                                                                backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
-                                                                width: '100%',
-                                                                height: '100%',
-                                                                backgroundSize: 'cover',
-                                                                backgroundPosition: 'center',
-                                                                backgroundRepeat: 'no-repeat',
-                                                                position: 'absolute',
-                                                                top: 0,
-                                                                left: 0
-                                                            }}
-                                                        />
-                                                        {/* Quantity display for stacked items */}
-                                                        {item.quantity && item.quantity > 1 && (
-                                                            <div
-                                                                className="item-quantity"
-                                                                style={{
-                                                                    position: 'absolute',
-                                                                    bottom: '2px',
-                                                                    right: '2px',
-                                                                    background: 'rgba(0, 0, 0, 0.8)',
-                                                                    color: 'white',
-                                                                    fontSize: '0.7rem',
-                                                                    padding: '2px 4px',
-                                                                    borderRadius: '4px',
-                                                                    minWidth: '16px',
-                                                                    textAlign: 'center',
-                                                                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.5)',
-                                                                    fontWeight: 'bold',
-                                                                    pointerEvents: 'none',
-                                                                    zIndex: 3
-                                                                }}
-                                                            >
-                                                                {item.quantity}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    }
-                                    grid.push(
-                                        <div key={row} className="inventory-row">
-                                            {gridRow}
-                                        </div>
-                                    );
-                                }
-                                return grid;
-                            })()
+                            cartGridCells
                         )}
                     </div>
 

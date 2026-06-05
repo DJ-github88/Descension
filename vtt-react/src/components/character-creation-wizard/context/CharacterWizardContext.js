@@ -6,69 +6,39 @@
  */
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoints } from '../../../utils/pointBuySystem';
+import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
 // import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
 import { applyRacialModifiers } from '../../../data/raceData';
 
 // Wizard steps configuration
 export const WIZARD_STEPS = {
-    BASIC_INFO: 1,
-    RACE_SELECTION: 2,
-    CLASS_SELECTION: 3,
-    SPELL_SELECTION: 4,
-    BACKGROUND_SELECTION: 5,
-    STAT_ALLOCATION: 6,
-    SKILLS_LANGUAGES: 7,
-    LORE_DETAILS: 8,
-    EQUIPMENT_SELECTION: 9,
-    CHARACTER_SUMMARY: 10
+    CORE_DRAFT: 1,
+    SKILLS_LANGUAGES: 2,
+    EQUIPMENT_SELECTION: 3,
+    LORE_DETAILS: 4,
+    CHARACTER_SUMMARY: 5
 };
 
 export const STEP_INFO = {
-    [WIZARD_STEPS.BASIC_INFO]: {
-        name: 'Basic Information',
-        description: 'Character name and basic details',
-        icon: 'fas fa-user'
-    },
-    [WIZARD_STEPS.RACE_SELECTION]: {
-        name: 'Race & Subrace',
-        description: 'Choose your character\'s heritage',
-        icon: 'fas fa-users'
-    },
-    [WIZARD_STEPS.CLASS_SELECTION]: {
-        name: 'Class',
-        description: 'Select your character\'s profession',
-        icon: 'fas fa-sword'
-    },
-    [WIZARD_STEPS.SPELL_SELECTION]: {
-        name: 'Starting Spells',
-        description: 'Choose your initial spells',
-        icon: 'fas fa-magic'
-    },
-    [WIZARD_STEPS.BACKGROUND_SELECTION]: {
-        name: 'Background',
-        description: 'Choose your character\'s history',
-        icon: 'fas fa-book'
-    },
-    [WIZARD_STEPS.STAT_ALLOCATION]: {
-        name: 'Ability Scores',
-        description: 'Allocate your character\'s stats',
-        icon: 'fas fa-chart-bar'
+    [WIZARD_STEPS.CORE_DRAFT]: {
+        name: 'Hero Draft',
+        description: 'Heritage, Calling, Stats & Spells',
+        icon: 'fas fa-shield-alt'
     },
     [WIZARD_STEPS.SKILLS_LANGUAGES]: {
         name: 'Skills & Languages',
         description: 'Choose proficiencies and languages',
         icon: 'fas fa-cogs'
     },
-    [WIZARD_STEPS.LORE_DETAILS]: {
-        name: 'Lore & Details',
-        description: 'Define backstory and personality',
-        icon: 'fas fa-scroll'
-    },
     [WIZARD_STEPS.EQUIPMENT_SELECTION]: {
         name: 'Starting Equipment',
         description: 'Purchase your starting gear',
         icon: 'fas fa-shopping-bag'
+    },
+    [WIZARD_STEPS.LORE_DETAILS]: {
+        name: 'Lore & Details',
+        description: 'Define backstory and personality',
+        icon: 'fas fa-scroll'
     },
     [WIZARD_STEPS.CHARACTER_SUMMARY]: {
         name: 'Summary',
@@ -80,7 +50,7 @@ export const STEP_INFO = {
 // Initial wizard state
 const initialState = {
     // Wizard navigation
-    currentStep: WIZARD_STEPS.BASIC_INFO,
+    currentStep: WIZARD_STEPS.CORE_DRAFT,
     totalSteps: Object.keys(WIZARD_STEPS).length,
     completedSteps: [],
 
@@ -464,15 +434,15 @@ const characterWizardReducer = (state, action) => {
                     startingCurrency: existingChar.inventory?.currency || null,
                     selectedEquipment: existingChar.inventory?.items || [],
                     remainingCurrency: existingChar.inventory?.currency || null,
-                    iconBackgroundColor: existingChar.iconBackgroundColor || '#f8f5eb',
-                    iconBorderColor: existingChar.iconBorderColor || '#d4af37',
-                    iconBackgroundImage: existingChar.iconBackgroundImage || null,
-                    iconScale: existingChar.iconScale || 1,
-                    iconOffsetX: existingChar.iconOffsetX || 0,
-                    iconOffsetY: existingChar.iconOffsetY || 0,
-                    iconBackgroundScale: existingChar.iconBackgroundScale || 1,
-                    iconBackgroundOffsetX: existingChar.iconBackgroundOffsetX || 0,
-                    iconBackgroundOffsetY: existingChar.iconBackgroundOffsetY || 0
+                    iconBackgroundColor: existingChar.lore?.iconBackgroundColor || existingChar.iconBackgroundColor || '#f8f5eb',
+                    iconBorderColor: existingChar.lore?.iconBorderColor || existingChar.iconBorderColor || '#d4af37',
+                    iconBackgroundImage: existingChar.lore?.iconBackgroundImage || existingChar.iconBackgroundImage || null,
+                    iconScale: existingChar.lore?.iconScale || existingChar.iconScale || 1,
+                    iconOffsetX: existingChar.lore?.iconOffsetX || existingChar.iconOffsetX || 0,
+                    iconOffsetY: existingChar.lore?.iconOffsetY || existingChar.iconOffsetY || 0,
+                    iconBackgroundScale: existingChar.lore?.iconBackgroundScale || existingChar.iconBackgroundScale || 2.5,
+                    iconBackgroundOffsetX: existingChar.lore?.iconBackgroundOffsetX || existingChar.iconBackgroundOffsetX || 0,
+                    iconBackgroundOffsetY: existingChar.lore?.iconBackgroundOffsetY || existingChar.iconBackgroundOffsetY || 0
                 },
                 // Mark all steps as completed for existing character
                 completedSteps: Object.values(WIZARD_STEPS)
@@ -489,7 +459,8 @@ const validateCurrentStep = (state) => {
     const { characterData, currentStep } = state;
 
     switch (currentStep) {
-        case WIZARD_STEPS.BASIC_INFO:
+        case WIZARD_STEPS.CORE_DRAFT:
+            // Name validation
             if (!characterData.name || characterData.name.trim().length === 0) {
                 errors.name = 'Character name is required';
             } else if (characterData.name.trim().length < 2) {
@@ -497,38 +468,38 @@ const validateCurrentStep = (state) => {
             } else if (characterData.name.trim().length > 50) {
                 errors.name = 'Character name must be 50 characters or less';
             }
-            break;
 
-        case WIZARD_STEPS.RACE_SELECTION:
+            // Race and subrace validation
             if (!characterData.race) {
                 errors.race = 'Please select a race';
             } else if (!characterData.subrace) {
-                // Only require subrace if a race is selected
                 errors.subrace = 'Please select a subrace';
             }
-            break;
 
-        case WIZARD_STEPS.CLASS_SELECTION:
+            // Class validation
             if (!characterData.class) {
                 errors.class = 'Please select a class';
             }
-            break;
 
-        case WIZARD_STEPS.BACKGROUND_SELECTION:
+            // Background validation
             if (!characterData.background) {
                 errors.background = 'Please select a background';
             }
-            break;
 
-        case WIZARD_STEPS.LORE_SKILLS:
-            // Skills, languages, and lore are optional, no validation needed
-            break;
-
-        case WIZARD_STEPS.STAT_ALLOCATION:
+            // Stats validation (must spend all available points)
             const bonusPoints = getTotalBonusPoints(characterData);
+            const availablePoints = calculateAvailablePoints(characterData.baseStats, bonusPoints);
             const statValidation = validateStats(characterData.baseStats, bonusPoints);
             if (!statValidation.isValid) {
                 errors.stats = statValidation.errors.join(', ');
+            } else if (availablePoints !== 0) {
+                errors.stats = `You have ${availablePoints} unspent ability points. Please allocate all points.`;
+            }
+
+            // Spells validation (must select 3 spells)
+            const knownSpells = characterData.class_spells?.known_spells || [];
+            if (knownSpells.length !== 3) {
+                errors.spells = `Please select exactly 3 starting spells (currently ${knownSpells.length} selected).`;
             }
             break;
 

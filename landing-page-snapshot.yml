@@ -1,0 +1,115 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 
+        - generic [ref=e8]: Mythrill
+      - navigation [ref=e9]:
+        - button " Home" [ref=e10] [cursor=pointer]:
+          - generic [ref=e11]: 
+          - text: Home
+        - button " Rules" [ref=e12] [cursor=pointer]:
+          - generic [ref=e13]: 
+          - text: Rules
+        - button " Membership" [ref=e14] [cursor=pointer]:
+          - generic [ref=e15]: 
+          - text: Membership
+      - generic [ref=e16]:
+        - button " Community" [ref=e17] [cursor=pointer]:
+          - generic [ref=e18]: 
+          - text: Community
+        - button " Account" [ref=e114] [cursor=pointer]:
+          - generic [ref=e20]: 
+          - text: Account
+        - button " Logout" [ref=e115] [cursor=pointer]:
+          - generic [ref=e22]: 
+          - text: Logout
+    - text:      
+  - main [ref=e23]:
+    - generic [ref=e25]:
+      - complementary [ref=e26]:
+        - navigation [ref=e27]:
+          - button "Search the Codex" [ref=e29] [cursor=pointer]:
+            - generic [ref=e30]: 
+          - button "" [ref=e33] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e36] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e39] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e42] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e45] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e48] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e51] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e54] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e57] [cursor=pointer]:
+            - generic: 
+          - button "" [ref=e60] [cursor=pointer]:
+            - generic: 
+      - main [ref=e61]:
+        - generic [ref=e62]:
+          - button "Navigate to Rules overview" [ref=e63] [cursor=pointer]: Rules
+          - generic [ref=e64]: 
+          - generic [ref=e65]: Core Rules
+          - generic [ref=e66]: 
+          - generic [ref=e67]: Game Overview
+        - generic [ref=e68]:
+          - generic [ref=e69]:
+            - generic [ref=e70]:
+              - generic [ref=e71]: 
+              - text: CORE RULES
+            - heading "Enter the Weave ✥" [level=2] [ref=e72]
+            - paragraph [ref=e73]: An entry into the modular rules of Mythrill, where stories are woven by hands of flesh and rolls of bone.
+          - generic [ref=e74]:
+            - button "How to Navigate" [ref=e75] [cursor=pointer]:
+              - generic [ref=e76]: How to Navigate
+            - generic [ref=e77]: ✦
+            - button "Core Principles" [ref=e78] [cursor=pointer]:
+              - generic [ref=e79]: Core Principles
+            - generic [ref=e80]: ✦
+            - button "Session Structure" [ref=e81] [cursor=pointer]:
+              - generic [ref=e82]: Session Structure
+            - generic [ref=e83]: ✦
+            - button "Collaborative Storytelling" [ref=e84] [cursor=pointer]:
+              - generic [ref=e85]: Collaborative Storytelling
+            - generic [ref=e86]: ✦
+            - button "Modular Rules System" [ref=e87] [cursor=pointer]:
+              - generic [ref=e88]: Modular Rules System
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - generic [ref=e91]: 
+              - text: AT A GLANCE
+            - list [ref=e92]:
+              - listitem [ref=e93]: ✦ The Sacred Difficulty-Dice Ladder replaces static DCs, chosen dynamically by the Game Master.
+              - listitem [ref=e94]: "✦ Combat is swift: weapon dice handle both the strike and the damage in a single, fluid roll."
+              - listitem [ref=e95]: ✦ Modular frameworks let GMs tailor settlement downtime, magic corruption, and exploration to their table.
+          - generic [ref=e98]:
+            - generic [ref=e99]:
+              - generic [ref=e100]: 
+              - text: How to Navigate This Rulebook
+            - generic [ref=e102]:
+              - paragraph [ref=e103]: Welcome to the Mythrill rulebook. This interactive guide lives inside the VTT itself. If you are brand new, start at [Getting Started] before reading the core rules.
+              - paragraph [ref=e104]: "Throughout this guide:"
+              - list [ref=e105]:
+                - listitem [ref=e106]:
+                  - text: ✦
+                  - strong [ref=e107]: Blue Links
+                  - text: jump directly to related sections — click them freely.
+                - listitem [ref=e108]:
+                  - text: ✦
+                  - strong [ref=e109]: Quick Facts Tiles
+                  - text: at the top of each section give you the most important numbers at a glance.
+                - listitem [ref=e110]:
+                  - text: ✦
+                  - strong [ref=e111]: Tables
+                  - text: are paginated — use the arrows to browse large tables.
+              - paragraph
+              - paragraph [ref=e112]:
+                - strong [ref=e113]: Recommended Reading Order
+                - text: ": [Welcome] → [Dice System] → [Character Statistics] → [Combat Basics] → [Your Class]."
+          - text: ✦ Mythrill VTT Codex • Folio LXXVI ✦

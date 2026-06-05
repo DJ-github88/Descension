@@ -510,7 +510,7 @@ const CharacterManagement = ({ user }) => {
                       <div className="character-equipment-preview">
                         {character.equippedWeapon && (
                           <div className="equipment-item">
-                            <i className="fas fa-sword"></i>
+                            <i className="fas fa-shield-alt"></i>
                             <span>{character.equippedWeapon.name}</span>
                           </div>
                         )}

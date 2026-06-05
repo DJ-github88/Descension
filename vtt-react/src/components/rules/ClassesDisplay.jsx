@@ -116,7 +116,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                     </div>
                     <div className="classes-intro-col">
                         <h4><i className="fas fa-bolt"></i> Resource Systems</h4>
-                        <p>Every tradition channels power through a unique resource. A Berserker builds Rage by being struck. A Gambler bends probability with Fortune Points. A Deathcaller pays for forbidden power in blood. Understanding your resource loop is understanding your tradition.</p>
+                        <p>Every class channels power through a unique resource. A Berserker builds Rage by being struck. A Gambler bends probability with Fortune Points. A Deathcaller pays for forbidden power in blood. Understanding your resource loop is understanding your class.</p>
                     </div>
                 </div>
             </div>
@@ -163,7 +163,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                 </div>
 
                 <div className="classes-filter-info">
-                    Showing {filteredClasses.length} of {CLASS_DATA.length} traditions
+                    Showing {filteredClasses.length} of {CLASS_DATA.length} classes
                 </div>
             </div>
 
@@ -208,7 +208,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                                 ))}
                             </div>
                             <div className="class-row-cta">
-                                <span>View Tradition <i className="fas fa-arrow-right"></i></span>
+                                <span>View Class <i className="fas fa-arrow-right"></i></span>
                             </div>
                         </div>
                     </div>
@@ -217,7 +217,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                 {filteredClasses.length === 0 && (
                     <div className="classes-empty">
                         <i className="fas fa-search"></i>
-                        <p>No traditions match the selected filters.</p>
+                        <p>No classes match the selected filters.</p>
                     </div>
                 )}
             </div>

@@ -72,7 +72,143 @@ export const BACKGROUND_STARTING_CURRENCY = {
         silver: 0,
         copper: 0,
         description: 'Profits from successful cons'
+    },
+    
+    entertainer: {
+        platinum: 0,
+        gold: 15,
+        silver: 0,
+        copper: 0,
+        description: 'Tips from appreciative audiences'
+    },
+    
+    guildArtisan: {
+        platinum: 0,
+        gold: 15,
+        silver: 0,
+        copper: 0,
+        description: 'Earnings from guild craft sales'
+    },
+    
+    hermit: {
+        platinum: 0,
+        gold: 5,
+        silver: 0,
+        copper: 0,
+        description: 'Humble savings from isolation'
+    },
+    
+    sailor: {
+        platinum: 0,
+        gold: 10,
+        silver: 0,
+        copper: 0,
+        description: 'Wages from merchant ship voyages'
+    },
+    
+    merchant: {
+        platinum: 0,
+        gold: 25,
+        silver: 0,
+        copper: 0,
+        description: 'Starting trade capital'
+    },
+    
+    urchin: {
+        platinum: 0,
+        gold: 10,
+        silver: 0,
+        copper: 0,
+        description: 'Hidden stash from streets'
+    },
+    
+    scholar: {
+        platinum: 0,
+        gold: 10,
+        silver: 0,
+        copper: 0,
+        description: 'Academic stipend'
     }
+};
+
+// Calling (Class) starting gold modifiers
+export const CLASS_STARTING_CURRENCY = {
+    'Arcanoneer': { gold: 15 },
+    'Berserker': { gold: 10 },
+    'Bladedancer': { gold: 15 },
+    'Chaos Weaver': { gold: 12 },
+    'Chronarch': { gold: 15 },
+    'Covenbane': { gold: 10 },
+    'Deathcaller': { gold: 12 },
+    'Dreadnaught': { gold: 10 },
+    'Exorcist': { gold: 15 },
+    'False Prophet': { gold: 20 },
+    'Fate Weaver': { gold: 15 },
+    'Formbender': { gold: 12 },
+    'Gambler': { gold: 25 },
+    'Huntress': { gold: 12 },
+    'Inscriptor': { gold: 15 },
+    'Lichborne': { gold: 10 },
+    'Lunarch': { gold: 12 },
+    'Martyr': { gold: 8 },
+    'Minstrel': { gold: 15 },
+    'Oracle': { gold: 15 },
+    'Plaguebringer': { gold: 12 },
+    'Primalist': { gold: 10 },
+    'Pyrofiend': { gold: 12 },
+    'Spellguard': { gold: 15 },
+    'Titan': { gold: 10 },
+    'Toxicologist': { gold: 15 },
+    'Warden': { gold: 12 },
+    'Witch Doctor': { gold: 10 },
+    'Augur': { gold: 15 },
+    'Doomsayer': { gold: 10 }
+};
+
+// Subrace/Heritage starting gold modifiers
+export const SUBRACE_STARTING_CURRENCY = {
+    breaker_myrathil: { gold: 10 },
+    deep_myrathil: { gold: 15 },
+    river_myrathil: { gold: 12 },
+    unshorn_briaran: { gold: 5 },
+    smoothskinned_briaran: { gold: 8 },
+    korr_emberth: { gold: 5 },
+    thrask_emberth: { gold: 10 },
+    kethrin_fexric: { gold: 5 },
+    drall_fexric: { gold: 8 },
+    morgh_groven: { gold: 8 },
+    ithran_groven: { gold: 12 },
+    maskborne_mimir: { gold: 12 },
+    mistwoven_mimir: { gold: 10 },
+    unwoven_mimir: { gold: 8 },
+    velun_morthel: { gold: 10 },
+    kessen_morthel: { gold: 8 },
+    drun_morthel: { gold: 5 },
+    sylen_astril: { gold: 12 },
+    muren_astril: { gold: 10 },
+    clean_vreken: { gold: 15 },
+    marked_vreken: { gold: 5 },
+    thalren_human: { gold: 10 },
+    skald_human: { gold: 8 },
+    tessen_human: { gold: 12 },
+    solvarn_human: { gold: 20 },
+    merryn_human: { gold: 10 },
+    ordan_human: { gold: 8 },
+    morren_human: { gold: 12 }
+};
+
+// Parent race backup starting gold
+export const RACE_STARTING_CURRENCY = {
+    myrathil: { gold: 10 },
+    mimir: { gold: 10 },
+    briaran: { gold: 5 },
+    groven: { gold: 8 },
+    emberth: { gold: 5 },
+    vreken: { gold: 10 },
+    morthel: { gold: 8 },
+    astril: { gold: 10 },
+    fexrick: { gold: 5 },
+    human: { gold: 10 }
 };
 
 // Path-based currency modifiers (added to background base)
@@ -154,9 +290,12 @@ export const PATH_CURRENCY_MODIFIERS = {
  * Calculate total starting currency for a character
  * @param {string} background - Character's background ID
  * @param {string} path - Character's path ID
+ * @param {string} className - Character's Calling class name
+ * @param {string} raceId - Character's heritage race ID
+ * @param {string} subraceId - Character's heritage subrace ID
  * @returns {Object} Total starting currency { platinum, gold, silver, copper }
  */
-export const calculateStartingCurrency = (background, path) => {
+export const calculateStartingCurrency = (background, path, className, raceId, subraceId) => {
     const baseCurrency = BACKGROUND_STARTING_CURRENCY[background] || {
         platinum: 0,
         gold: 10,
@@ -171,12 +310,26 @@ export const calculateStartingCurrency = (background, path) => {
         copper: 0
     };
 
-    // Combine base and modifier currency
+    const classModifier = CLASS_STARTING_CURRENCY[className] || {
+        platinum: 0,
+        gold: 0,
+        silver: 0,
+        copper: 0
+    };
+
+    const subraceModifier = SUBRACE_STARTING_CURRENCY[subraceId] || RACE_STARTING_CURRENCY[raceId] || {
+        platinum: 0,
+        gold: 0,
+        silver: 0,
+        copper: 0
+    };
+
+    // Combine base, path, class, and subrace currency
     const totalCurrency = {
-        platinum: (baseCurrency.platinum || 0) + (pathModifier.platinum || 0),
-        gold: (baseCurrency.gold || 0) + (pathModifier.gold || 0),
-        silver: (baseCurrency.silver || 0) + (pathModifier.silver || 0),
-        copper: (baseCurrency.copper || 0) + (pathModifier.copper || 0)
+        platinum: (baseCurrency.platinum || 0) + (pathModifier.platinum || 0) + (classModifier.platinum || 0) + (subraceModifier.platinum || 0),
+        gold: (baseCurrency.gold || 0) + (pathModifier.gold || 0) + (classModifier.gold || 0) + (subraceModifier.gold || 0),
+        silver: (baseCurrency.silver || 0) + (pathModifier.silver || 0) + (classModifier.silver || 0) + (subraceModifier.silver || 0),
+        copper: (baseCurrency.copper || 0) + (pathModifier.copper || 0) + (classModifier.copper || 0) + (subraceModifier.copper || 0)
     };
 
     // Auto-convert upward (100 copper = 1 silver, etc.)

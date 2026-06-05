@@ -22,11 +22,6 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
     const camX = cameraX || 0;
     const camY = cameraY || 0;
 
-    // Safety check for valid coordinates and values
-    if (!Number.isFinite(gridX) || !Number.isFinite(gridY) || !Number.isFinite(brushSize) || !Number.isFinite(gs)) {
-        return null;
-    }
-
     // For fog tools, update preview immediately without throttling for instant feedback
     // Use useMemo to optimize calculations but keep updates immediate
     const previewPos = useMemo(() => {
@@ -35,6 +30,11 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
         }
         return { screenX: undefined, screenY: undefined };
     }, [isFog, screenX, screenY]);
+
+    // Safety check for valid coordinates and values
+    if (!Number.isFinite(gridX) || !Number.isFinite(gridY) || !Number.isFinite(brushSize) || !Number.isFinite(gs)) {
+        return null;
+    }
 
     // Convert grid coordinates to screen coordinates using the same system as InfiniteGridSystem
     const gridToScreen = (gx, gy) => {

@@ -10,19 +10,12 @@ import { Analytics } from '../../services/analyticsService';
 import { CharacterWizardProvider, useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators, WIZARD_STEPS, STEP_INFO } from './context/CharacterWizardContext';
 
 // Import wizard steps
-import Step1BasicInfo from './steps/Step1BasicInfo';
-import Step2RaceSelection from './steps/Step2RaceSelection';
-import Step3ClassSelection from './steps/Step3ClassSelection';
-import Step4SpellSelection from './steps/Step4SpellSelection';
-import Step5BackgroundSelection from './steps/Step4BackgroundSelection';
-import Step6StatAllocation from './steps/Step6StatAllocation';
-import Step7SkillsLanguages from './steps/Step7SkillsLanguages';
-import Step8LoreDetails from './steps/Step8LoreDetails';
-import Step9EquipmentSelection from './steps/Step10EquipmentSelection';
-import Step10CharacterSummary from './steps/Step9CharacterSummary';
+import Step1CoreDraft from './steps/Step1CoreDraft';
+import Step2SkillsLanguages from './steps/Step7SkillsLanguages';
+import Step3EquipmentSelection from './steps/Step10EquipmentSelection';
+import Step4LoreDetails from './steps/Step8LoreDetails';
+import Step5CharacterSummary from './steps/Step9CharacterSummary';
 
-// Import components
-import AnimatedChatBubble from './components/AnimatedChatBubble';
 
 // Import styles
 import './styles/CharacterCreationWizard.css';
@@ -31,17 +24,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
 
-    // Chat bubble state
-    const [chatBubblePosition, setChatBubblePosition] = useState(null);
-    const [chatBubbleVisible, setChatBubbleVisible] = useState(true);
 
-    const resetChatBubble = () => {
-        setChatBubblePosition(null);
-    };
-
-    const toggleChatBubble = () => {
-        setChatBubbleVisible(!chatBubbleVisible);
-    };
 
     // Load existing character data when editing
     useEffect(() => {
@@ -54,28 +37,18 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
     // Render the current step
     const renderStep = () => {
         switch (state.currentStep) {
-            case WIZARD_STEPS.BASIC_INFO:
-                return <Step1BasicInfo />;
-            case WIZARD_STEPS.RACE_SELECTION:
-                return <Step2RaceSelection />;
-            case WIZARD_STEPS.CLASS_SELECTION:
-                return <Step3ClassSelection />;
-            case WIZARD_STEPS.SPELL_SELECTION:
-                return <Step4SpellSelection />;
-            case WIZARD_STEPS.BACKGROUND_SELECTION:
-                return <Step5BackgroundSelection />;
-            case WIZARD_STEPS.STAT_ALLOCATION:
-                return <Step6StatAllocation />;
+            case WIZARD_STEPS.CORE_DRAFT:
+                return <Step1CoreDraft />;
             case WIZARD_STEPS.SKILLS_LANGUAGES:
-                return <Step7SkillsLanguages />;
-            case WIZARD_STEPS.LORE_DETAILS:
-                return <Step8LoreDetails />;
+                return <Step2SkillsLanguages />;
             case WIZARD_STEPS.EQUIPMENT_SELECTION:
-                return <Step9EquipmentSelection />;
+                return <Step3EquipmentSelection />;
+            case WIZARD_STEPS.LORE_DETAILS:
+                return <Step4LoreDetails />;
             case WIZARD_STEPS.CHARACTER_SUMMARY:
-                return <Step10CharacterSummary />;
+                return <Step5CharacterSummary />;
             default:
-                return <Step1BasicInfo />;
+                return <Step1CoreDraft />;
         }
     };
 
@@ -121,7 +94,11 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 iconBorderColor: state.characterData.iconBorderColor,
                 iconBackgroundImage: state.characterData.iconBackgroundImage,
                 iconScale: state.characterData.iconScale,
+                iconOffsetX: state.characterData.iconOffsetX,
+                iconOffsetY: state.characterData.iconOffsetY,
                 iconBackgroundScale: state.characterData.iconBackgroundScale,
+                iconBackgroundOffsetX: state.characterData.iconBackgroundOffsetX,
+                iconBackgroundOffsetY: state.characterData.iconBackgroundOffsetY,
                 class_spells: state.characterData.class_spells,
                 selectedEquipment: state.characterData.selectedEquipment || [],
                 remainingCurrency: state.characterData.remainingCurrency || {
@@ -160,19 +137,28 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
 
     const isFirstStep = state.currentStep === 1;
     const isLastStep = state.currentStep === state.totalSteps;
-    const canProceed = true; // Always allow navigation between steps
+    const { iconBackgroundImage } = state.characterData;
+    const backdropValue = iconBackgroundImage
+        ? `linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.18)), url(/assets/Backgrounds/${encodeURIComponent(iconBackgroundImage)})`
+        : 'linear-gradient(135deg, #e8e2d2 0%, #d8cdb5 100%)'; // Darker sepia beige parchment
+
+    const wizardStyle = {
+        '--wizard-backdrop': backdropValue
+    };
 
     return (
-        <div className="character-wizard-container">
-            {/* Top Header with Exit, Progress, and User Info */}
+        <div className="character-wizard-container" style={wizardStyle}>
+            {/* Top Header with Cancel, Progress, and Navigation */}
             <div className="wizard-top-header">
                 <div className="header-left">
                     <button
-                        className="exit-wizard-btn"
+                        type="button"
+                        className="wizard-btn wizard-btn-cancel"
                         onClick={handleCancel}
-                        title="Exit Character Creation"
+                        disabled={isLoading}
+                        title="Cancel Character Creation"
                     >
-                        <i className="fas fa-arrow-left"></i>
+                        <i className="fas fa-times"></i> Cancel
                     </button>
                 </div>
 
@@ -206,102 +192,53 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 </div>
 
                 <div className="header-right">
-                    <div className="chat-control-bubble">
+                    {!isFirstStep && (
                         <button
-                            className="chat-control-btn"
-                            onClick={toggleChatBubble}
-                            title={chatBubbleVisible ? "Hide chat bubble" : "Show chat bubble"}
+                            type="button"
+                            className="wizard-btn wizard-btn-secondary"
+                            onClick={handlePrevious}
+                            disabled={isLoading}
                         >
-                            💬 {chatBubbleVisible ? "Hide" : "Show"}
+                            <i className="fas fa-arrow-left"></i> Previous
                         </button>
-                        {chatBubbleVisible && (
-                            <button
-                                className="chat-control-btn chat-reset-btn"
-                                onClick={resetChatBubble}
-                                title="Reset chat bubble position"
-                            >
-                                ↺ Reset
-                            </button>
-                        )}
-                    </div>
+                    )}
+
+                    {isLastStep ? (
+                        <button
+                            type="button"
+                            className="wizard-btn wizard-btn-primary"
+                            onClick={handleComplete}
+                            disabled={!state.isValid || isLoading}
+                        >
+                            {isLoading ? (
+                                <>
+                                    <i className="fas fa-spinner fa-spin"></i> Creating...
+                                </>
+                            ) : (
+                                <>
+                                    <i className="fas fa-check"></i> {isEditing ? 'Update' : 'Create'}
+                                </>
+                            )}
+                        </button>
+                    ) : (
+                        <button
+                            type="button"
+                            className="wizard-btn wizard-btn-primary"
+                            onClick={handleNext}
+                            disabled={isLoading}
+                        >
+                            Next <i className="fas fa-arrow-right"></i>
+                        </button>
+                    )}
                 </div>
             </div>
 
             {/* Main content area */}
-            <div className="wizard-content">
-                <div className="wizard-step-container" style={{ minHeight: '800px' }}>
+            <div className={`wizard-content step-${state.currentStep}`}>
+                <div className="wizard-step-container">
                     {renderStep()}
                 </div>
             </div>
-
-            {/* Footer with navigation */}
-            <div className="wizard-footer">
-                <div className="wizard-navigation">
-                    <button
-                        type="button"
-                        className="wizard-btn wizard-btn-cancel"
-                        onClick={handleCancel}
-                        disabled={isLoading}
-                    >
-                        Cancel
-                    </button>
-
-                    <div className="nav-buttons">
-                        {!isFirstStep && (
-                            <button
-                                type="button"
-                                className="wizard-btn wizard-btn-secondary"
-                                onClick={handlePrevious}
-                                disabled={isLoading}
-                            >
-                                <i className="fas fa-arrow-left"></i>
-                                Previous
-                            </button>
-                        )}
-
-                        {isLastStep ? (
-                            <button
-                                type="button"
-                                className="wizard-btn wizard-btn-primary"
-                                onClick={handleComplete}
-                                disabled={!state.isValid || isLoading}
-                            >
-                                {isLoading ? (
-                                    <>
-                                        <i className="fas fa-spinner fa-spin"></i>
-                                        Creating...
-                                    </>
-                                ) : (
-                                    <>
-                                        <i className="fas fa-check"></i>
-                                        {isEditing ? 'Update Character' : 'Create Character'}
-                                    </>
-                                )}
-                            </button>
-                        ) : (
-                            <button
-                                type="button"
-                                className="wizard-btn wizard-btn-primary"
-                                onClick={handleNext}
-                                disabled={isLoading}
-                            >
-                                Next
-                                <i className="fas fa-arrow-right"></i>
-                            </button>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            {/* Chat Bubble Overlay */}
-            {chatBubbleVisible && (
-                <AnimatedChatBubble
-                    currentStep={state.currentStep}
-                    isEditing={isEditing}
-                    customPosition={chatBubblePosition}
-                    onPositionChange={setChatBubblePosition}
-                />
-            )}
         </div>
     );
 };

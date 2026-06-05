@@ -1524,49 +1524,8 @@ Under this rule, a player who rolled a 3–6 can immediately choose to push thei
         }
       },
       {
-        id: 'simplified-skills',
-        name: 'Simplified Skills (Quick Play)',
-        icon: 'fas fa-dice-four',
-        theme: 'mechanic',
-        summary: [
-          'An alternative, streamlined skill system for fast-paced or tabletop play.',
-          'Skills use a fixed die size (default d4) that upgrades through extraordinary actions.',
-          'Low DCs, exploding dice, and manual rank switching give players full control.'
-        ],
-        content: {
-          title: 'Simplified Skills — Quick Play & Tabletop Mode',
-          description: 'For groups who prefer a fast, tangible skill system without deep mechanics. Perfect for new players, one-shots, or people playing around a physical table using the VTT as a lightweight companion.',
-          sections: [
-            {
-              title: 'The Core Idea — Your Skill Die',
-              content: `In the simplified system, every skill is represented by a single die size — written directly on your character sheet as a number: **4** for a d4, **6** for a d6, **8** for a d8, and so on.\n\n• **Default Die**: Every character starts with a d4 (written as "4") in all skills. This is your baseline — you can always attempt anything.\n• **Starting Upgrades**: Your race, background, and discipline choices during character creation may grant you a higher starting die in certain skills. A hardy Skald might start with a d8 in Athletics. A silver-tongued Neth might begin with a d6 in Persuasion.\n• **Organic Advancement**: When you do something extraordinary that showcases genuine learning or creative application of a skill, the GM — or the table consensus — may award you a die upgrade. Your d8 Athletics might become a d10 after you successfully scale a sheer cliff in a blizzard to save a fallen ally.\n• **Manual Switching**: You can change your skill die at any time from your character sheet's Skills tab. The dropdown on each skill lets you set it from d4 through d20. This means advancement is a conversation, not a calculation.`
-            },
-            {
-              title: 'Difficulty Classes (DCs) — Low & Friendly',
-              content: `Unlike the full Mythrill Ladder of Trials (where the GM assigns a Difficulty Die you must beat), the simplified system uses fixed **Difficulty Classes** — simple target numbers you roll against.\n\n• **DC 2** — Trivial. Climbing a short ladder. Recalling a common historical fact. Lighting a campfire on dry kindling.\n• **DC 4** — Easy. Picking a rusty lock. Persuading a friendly NPC. Tracking a large creature through soft mud.\n• **DC 6** — Moderate. Climbing a rope with knots. Deceiving a suspicious guard. Identifying a rare herb.\n• **DC 8** — Challenging. Scaling a stone wall with handholds. Calming a frightened horse in a storm. Disarming a simple trap.\n• **DC 10** — Hard. Climbing a steep, icy mountainside. Convincing a hostile chieftain to parley. Performing surgery in the field.\n• **DC 12+** — Legendary. Tasks that border on the impossible — but not quite.\n\nDCs are deliberately low to encourage players to try things. The philosophy is simple: **failure should be dramatic, not punishing**. A character with a d4 (4) can still hit a DC 4 and a DC 6 with some luck — and exploding dice make even DC 10 reachable.`
-            },
-            {
-              title: 'Exploding Dice — Rolling the Maximum',
-              content: `**Rolling the maximum value on your die is NOT a critical success.** It is an **exploding roll** — you get to roll your die again and add the results together!\n\n• **Example**: You have a d8 (8) in Athletics and attempt to climb a steep mountain (DC 10). You roll an 8 — you roll again! Your second roll is a 5. Your total is **8 + 5 = 13**. Success!\n• **Exploding Stacks**: If your explosive roll is also the maximum, you keep exploding! A d4 that explodes three times (4 → 4 → 4 → 3) = 15. Even the humblest die can achieve legendary results.\n• **No Critical Failures on a 1**: Rolling a 1 simply means a 1. It is not a critical failure. The low DCs already make failure meaningful without adding punitive layers.\n• **No Critical Success on Max**: The explosion IS the reward — you get another roll. This keeps the tension alive: you never know if the explosion will be enough.`
-            },
-            {
-              title: 'Success & Failure — GM Suggestions Only',
-              content: `Every skill in the full Mythrill system includes **rollable tables** with colour-coded outcomes for each possible roll result. These are rich, narrative suggestions — but they are **suggestions only**.\n\nIn the simplified system, the rollable tables serve as inspiration:\n\n• **Bright Blue** — The GM might narrate an exceptional triumph with bonus effects.\n• **Teal/Green** — A clean success. You did the thing.\n• **Amber/Yellow** — Partial success. You succeed, but at a cost or with a complication.\n• **Red-Orange** — Failure. The attempt fails without catastrophic consequences.\n• **Dark Red** — Total failure. Something goes terribly wrong.\n\nThe GM always has final authority over what happens. The tables exist to spark ideas — ignore them freely when the story demands it.`
-            },
-            {
-              title: 'Switching Between Systems',
-              content: `The simplified and full skill systems coexist in the same VTT. Your skill rank (UNTRAINED through MASTER) still maps to a die size in the simplified view:\n\n• **UNTRAINED → d4 (4)**\n• **NOVICE → d6 (6)**\n• **TRAINED → d8 (8)**\n• **APPRENTICE → d10 (10)**\n• **ADEPT → d12 (12)**\n• **EXPERT → d20 (20)**\n• **MASTER → d20 (20)**\n\nYou can switch a skill's rank at any time from the Skills tab in your character sheet. This is stored in your character data and syncs with your party — so your GM always sees your current dice.\n\n**For Tabletop Players**: If you are using the VTT alongside a physical table, the simplified system is ideal. Your character sheet on screen shows your die sizes as plain numbers. The VTT chat log will show your rolls and results. You can use physical dice and type the results, or let the VTT handle everything digitally.`
-            },
-            {
-              title: 'Quick Reference — Die Sizes & Probabilities',
-              content: `To help you gauge your chances (with exploding dice factored in):\n\n• **d4 (4)**: Average ~3.3, 25% chance to explode. Can realistically hit DCs up to 6 with one explosion.\n• **d6 (6)**: Average ~4.2, 16.7% chance to explode. Can reliably handle DC 4-6.\n• **d8 (8)**: Average ~5.1, 12.5% chance to explode. Comfortable up to DC 8.\n• **d10 (10)**: Average ~6.1, 10% chance to explode. Handles DC 8-10 reliably.\n• **d12 (12)**: Average ~7.1, 8.3% chance to explode. Strong at DC 10.\n• **d20 (20)**: Average ~11.0, 5% chance to explode. Can tackle DC 12+.\n\nRemember: exploding dice mean even a d4 can theoretically reach any DC. The smaller dice actually explode *more often* — a d4 has a 25% chance to explode, while a d20 only has a 5% chance. This creates a beautiful tension: smaller dice are more volatile, larger dice are more consistent.`
-            }
-          ]
-        }
-      },
-      {
         id: 'classes',
-        name: 'Traditions of Power',
+        name: 'Classes',
         icon: 'fas fa-hat-wizard',
         hasDetailPages: true,
         useCustomComponent: true,

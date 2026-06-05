@@ -8,7 +8,7 @@ import { getIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
 import './BackgroundSelector.css';
 
 const SkillsDisplay = ({ variant = 'advanced' }) => {
-    const isSimple = variant === 'simple';
+    const [isSimple, setIsSimple] = useState(variant === 'simple');
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedDie, setSelectedDie] = useState('d20'); // Default to d20 (hardest)
@@ -718,6 +718,24 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                 {/* Skills Guide — full width, stacked */}
                 <div className="skills-guide-section">
                     <div className="premium-parchment-scroll">
+                        <div className="skills-rules-toggle" style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '20px', borderBottom: '1px dashed #d4af37', paddingBottom: '15px' }}>
+                            <button
+                                type="button"
+                                className={`rpg-btn ${isSimple ? 'active' : ''}`}
+                                onClick={() => setIsSimple(true)}
+                                style={{ padding: '8px 16px', fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', letterSpacing: '1px', border: '1px solid #d4af37', background: isSimple ? '#d4af37' : 'transparent', color: isSimple ? '#000' : '#d4af37', borderRadius: '4px', transition: 'all 0.2s ease' }}
+                            >
+                                Standard Rules
+                            </button>
+                            <button
+                                type="button"
+                                className={`rpg-btn ${!isSimple ? 'active' : ''}`}
+                                onClick={() => setIsSimple(false)}
+                                style={{ padding: '8px 16px', fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', letterSpacing: '1px', border: '1px solid #d4af37', background: !isSimple ? '#d4af37' : 'transparent', color: !isSimple ? '#000' : '#d4af37', borderRadius: '4px', transition: 'all 0.2s ease' }}
+                            >
+                                Advanced Rules
+                            </button>
+                        </div>
                         <div className="scroll-title-header">
                             <span className="scroll-tag">
                                 <i className={isSimple ? "fas fa-dice-four" : "fas fa-cogs"}></i>
@@ -899,9 +917,29 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
     if (selectedSkill) {
         return (
             <div className="background-selector">
-                <button className="back-button" onClick={handleBackClick}>
-                    <i className="fas fa-arrow-left"></i> Back to {selectedCategory}
-                </button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                    <button className="back-button" onClick={handleBackClick} style={{ margin: 0 }}>
+                        <i className="fas fa-arrow-left"></i> Back to {selectedCategory}
+                    </button>
+                    <div className="skills-rules-toggle" style={{ display: 'flex', gap: '8px' }}>
+                        <button
+                            type="button"
+                            className={`rpg-btn ${isSimple ? 'active' : ''}`}
+                            onClick={() => setIsSimple(true)}
+                            style={{ padding: '6px 12px', fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', border: '1px solid #d4af37', background: isSimple ? '#d4af37' : 'transparent', color: isSimple ? '#000' : '#d4af37', borderRadius: '4px' }}
+                        >
+                            Standard
+                        </button>
+                        <button
+                            type="button"
+                            className={`rpg-btn ${!isSimple ? 'active' : ''}`}
+                            onClick={() => setIsSimple(false)}
+                            style={{ padding: '6px 12px', fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', border: '1px solid #d4af37', background: !isSimple ? '#d4af37' : 'transparent', color: !isSimple ? '#000' : '#d4af37', borderRadius: '4px' }}
+                        >
+                            Advanced
+                        </button>
+                    </div>
+                </div>
 
                 <div className="skill-detail-view">
                     {/* Simple Clean Header */}

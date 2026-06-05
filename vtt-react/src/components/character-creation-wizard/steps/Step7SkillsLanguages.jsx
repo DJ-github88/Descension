@@ -1,7 +1,7 @@
 /**
- * Step 7: Skills & Languages
+ * Step 2: Skills & Languages (Step 7 Internally)
  *
- * Choose skills and languages for your character
+ * Choose skills and languages for your character in a split-pane, interactive layout.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -21,13 +21,13 @@ import {
     getUpgradeCost,
     getDowngradeRefund
 } from '../../../constants/skillPointSystem';
-import SkillRankUpgrade from '../components/SkillRankUpgrade';
 import UnifiedTooltip from '../../common/UnifiedTooltip';
 import { useUnifiedTooltip } from '../../common/useUnifiedTooltip';
 import { getIconUrl } from '../../../utils/assetManager';
 
-// Mapping from D&D 5e skill names (used in backgrounds) to custom skill IDs
-// Now maps directly to D&D skill IDs since we have all 18 D&D skills
+import '../styles/Step7SkillsLanguages.css';
+
+// Mapping from D&D 5e skill names to custom skill IDs
 const DND_TO_CUSTOM_SKILL_MAP = {
     'Acrobatics': 'acrobatics',
     'Animal Handling': 'animalHandling',
@@ -49,59 +49,70 @@ const DND_TO_CUSTOM_SKILL_MAP = {
     'Survival': 'survival'
 };
 
-// Get all available skills from SKILL_DEFINITIONS
-// Convert the skill definitions object into an array for display
+// Map expertise rank keys to die sizes for standard skills
+const mapRankToDie = (rankKey) => {
+    const mapping = {
+        UNTRAINED: 'd4',
+        NOVICE: 'd6',
+        TRAINED: 'd8',
+        APPRENTICE: 'd10',
+        ADEPT: 'd12',
+        EXPERT: 'd20',
+        MASTER: 'd20'
+    };
+    return mapping[rankKey] || 'd4';
+};
+
+
+// All available skills from SKILL_DEFINITIONS
 const ALL_SKILLS = Object.entries(SKILL_DEFINITIONS).map(([skillId, skillData]) => ({
     id: skillId,
     name: skillData.name,
     icon: skillData.icon,
     description: skillData.description,
-    category: skillData.category
+    category: skillData.category,
+    primaryStat: skillData.primaryStat,
+    secondaryStat: skillData.secondaryStat
 }));
 
-// All available languages (expanded to include race-specific and thematic languages)
+// All available languages
 const COMMON_LANGUAGES = [
-    // Standard Common Languages
     { name: 'Common', icon: 'fa-users', category: 'standard', description: 'The universal trade language spoken by most civilized races across the realm.' },
-    { name: 'Dwarvish', icon: 'fa-hammer', category: 'standard', description: 'The guttural language of dwarves, filled with hard consonants and references to stone and metal.' },
+    { name: 'Dwarvish', icon: 'fa-hammer', category: 'standard', description: 'The guttural language of dwarves, filled with hard consonants and stone references.' },
     { name: 'Elvish', icon: 'fa-tree', category: 'standard', description: 'A fluid, melodic language spoken by elves, known for its beauty and complexity.' },
-    { name: 'Giant', icon: 'fa-mountain', category: 'standard', description: 'The booming language of giants and their kin, simple but powerful in expression.' },
-    { name: 'Gnomish', icon: 'fa-gears', category: 'standard', description: 'A technical language full of compound words, reflecting gnomish love of invention and detail.' },
+    { name: 'Giant', icon: 'fa-mountain', category: 'standard', description: 'The booming language of giants and their kin, simple but powerful.' },
+    { name: 'Gnomish', icon: 'fa-gears', category: 'standard', description: 'A technical language full of compound words, reflecting gnomish love of detail.' },
     { name: 'Goblin', icon: 'fa-spider', category: 'standard', description: 'A harsh, grating language spoken by goblins and related creatures.' },
-    { name: 'Halfling', icon: 'fa-house', category: 'standard', description: 'A warm, friendly language that reflects the halfling love of comfort and community.' },
+    { name: 'Halfling', icon: 'fa-house', category: 'standard', description: 'A warm, friendly language reflecting halfling community values.' },
 
-    // Exotic/Planar Languages
-    { name: 'Abyssal', icon: 'fa-fire', category: 'exotic', description: 'The chaotic language of demons, filled with harsh sounds that seem to corrupt the air itself.' },
+    { name: 'Abyssal', icon: 'fa-fire', category: 'exotic', description: 'The chaotic language of demons, filled with harsh, corruptive sounds.' },
     { name: 'Celestial', icon: 'fa-sun', category: 'exotic', description: 'The harmonious language of angels and celestial beings, carrying divine authority.' },
-    { name: 'Draconic', icon: 'fa-dragon', category: 'exotic', description: 'The ancient language of dragons, powerful and precise, used in many magical incantations.' },
-    { name: 'Deep Speech', icon: 'fa-brain', category: 'exotic', description: 'The alien language of aberrations and mind flayers, incomprehensible to most mortal minds.' },
-    { name: 'Infernal', icon: 'fa-fire-flame-curved', category: 'exotic', description: 'The lawful language of devils, structured and binding, often used in contracts and pacts.' },
+    { name: 'Draconic', icon: 'fa-dragon', category: 'exotic', description: 'The ancient, precise language of dragons, used in magical incantations.' },
+    { name: 'Deep Speech', icon: 'fa-brain', category: 'exotic', description: 'The alien language of aberrations, incomprehensible to most mortal minds.' },
+    { name: 'Infernal', icon: 'fa-fire-flame-curved', category: 'exotic', description: 'The structured, binding language of devils, used in dark contracts.' },
     { name: 'Primordial', icon: 'fa-wind', category: 'exotic', description: 'The ancient language of elementals, encompassing all elemental dialects.' },
-    { name: 'Sylvan', icon: 'fa-seedling', category: 'exotic', description: 'The language of fey creatures and nature spirits, whimsical and ever-changing.' },
-    { name: 'Undercommon', icon: 'fa-dungeon', category: 'exotic', description: 'The trade language of the Underdark, spoken by drow, duergar, and other subterranean races.' },
+    { name: 'Sylvan', icon: 'fa-seedling', category: 'exotic', description: 'The whimsical, ever-changing language of fey creatures and nature spirits.' },
+    { name: 'Undercommon', icon: 'fa-dungeon', category: 'exotic', description: 'The trade language of the Underdark, spoken by subterranean races.' },
 
-    // Race-Specific Languages
     { name: 'Old Nord', icon: 'fa-mountain', category: 'racial', description: 'The ancestral language of the Skald people, filled with tales of ice and endurance.' },
-    { name: 'Corvid', icon: 'fa-crow', category: 'racial', description: 'The mysterious language of the Corvani, incorporating clicks and whistles like bird calls.' },
-    { name: 'Terran', icon: 'fa-gem', category: 'racial', description: 'The language of earth elementals and stone-touched races, slow and grinding like shifting rock.' },
-    { name: 'Ethereal', icon: 'fa-ghost', category: 'racial', description: 'The whispered language of spirits and the Veilborn, barely audible to mortal ears.' },
-    { name: 'Changeling', icon: 'fa-masks-theater', category: 'racial', description: 'The secretive language of changelings, designed to convey hidden meanings and identities.' },
-    { name: 'Druidic', icon: 'fa-leaf', category: 'racial', description: 'The secret language of druids, forbidden to non-druids, used to leave hidden messages in nature.' },
-    { name: 'Ignan', icon: 'fa-fire', category: 'racial', description: 'The crackling language of fire elementals and flame-touched beings, hot and volatile.' },
-    { name: 'Beast Speech', icon: 'fa-paw', category: 'racial', description: 'The primal language that allows communication with animals and beasts.' },
-    { name: 'Necril', icon: 'fa-skull', category: 'racial', description: 'The dark language of the undead, cold and lifeless, used in necromantic rituals.' },
-    { name: 'Orcish', icon: 'fa-axe-battle', category: 'racial', description: 'The war-tongue of orcs, aggressive and direct, perfect for battle commands and tribal communication.' },
+    { name: 'Corvid', icon: 'fa-crow', category: 'racial', description: 'The mysterious language of the Corvani, incorporating clicks and whistles.' },
+    { name: 'Terran', icon: 'fa-gem', category: 'racial', description: 'The slow, grinding language of earth elementals and stone-touched races.' },
+    { name: 'Ethereal', icon: 'fa-ghost', category: 'racial', description: 'The whispered language of spirits and the Veilborn, barely audible.' },
+    { name: 'Changeling', icon: 'fa-masks-theater', category: 'racial', description: 'The secretive language of changelings, designed to convey hidden meanings.' },
+    { name: 'Druidic', icon: 'fa-leaf', category: 'racial', description: 'The secret code language of druids, forbidden to non-druids.' },
+    { name: 'Ignan', icon: 'fa-fire', category: 'racial', description: 'The crackling, volatile language of fire elementals and flame-touched beings.' },
+    { name: 'Beast Speech', icon: 'fa-paw', category: 'racial', description: 'The primal tongue that allows communication with animals.' },
+    { name: 'Necril', icon: 'fa-skull', category: 'racial', description: 'The cold, lifeless tongue of the undead, used in necromantic rituals.' },
+    { name: 'Orcish', icon: 'fa-axe-battle', category: 'racial', description: 'The aggressive, direct war-tongue of orcs, used for battle commands.' },
 
-    // Elemental Languages
-    { name: 'Elemental', icon: 'fa-wind', category: 'elemental', description: 'The general language of all elementals, bridging the four elemental planes.' },
-    { name: 'Primal', icon: 'fa-leaf-oak', category: 'elemental', description: 'The raw language of nature itself, understood by primal beings and wild creatures.' },
-    { name: 'Auran', icon: 'fa-cloud', category: 'elemental', description: 'The airy language of air elementals and sky-dwelling creatures, light and breezy.' },
-    { name: 'Aquan', icon: 'fa-water', category: 'elemental', description: 'The flowing language of water elementals, fluid and ever-changing like the tides.' },
+    { name: 'Elemental', icon: 'fa-wind', category: 'elemental', description: 'The general language of elementals, bridging all elemental planes.' },
+    { name: 'Primal', icon: 'fa-leaf-oak', category: 'elemental', description: 'The raw language of nature, understood by wild and ancient beings.' },
+    { name: 'Auran', icon: 'fa-cloud', category: 'elemental', description: 'The light, airy language of sky-dwelling and wind elementals.' },
+    { name: 'Aquan', icon: 'fa-water', category: 'elemental', description: 'The fluid, flowing language of water elementals and sea-folk.' },
 
-    // Special Languages
-    { name: 'Thieves\' Cant', icon: 'fa-mask', category: 'special', description: 'A secret code language used by criminals and rogues to communicate covertly in public.' },
-    { name: 'Sign Language', icon: 'fa-hands', category: 'special', description: 'A universal gestural language allowing silent communication across language barriers.' },
-    { name: 'All Ancient Languages', icon: 'fa-scroll', category: 'special', description: 'Comprehensive knowledge of all dead and ancient languages, granted only to eternal scholars.' }
+    { name: 'Thieves\' Cant', icon: 'fa-mask', category: 'special', description: 'A secret code jargon used by rogues to communicate covertly in public.' },
+    { name: 'Sign Language', icon: 'fa-hands', category: 'special', description: 'A universal gestural language allowing silent communication.' },
+    { name: 'All Ancient Languages', icon: 'fa-scroll', category: 'special', description: 'Comprehensive knowledge of dead and ancient tongues, granted to scholars.' }
 ];
 
 const Step7SkillsLanguages = () => {
@@ -109,17 +120,20 @@ const Step7SkillsLanguages = () => {
     const dispatch = useCharacterWizardDispatch();
     const { characterData } = state;
 
+    const [activeTab, setActiveTab] = useState('skills'); // 'skills' or 'languages'
+    const [skillFilter, setSkillFilter] = useState('standard'); // 'standard' or 'advanced'
+    const [inspectedSkillId, setInspectedSkillId] = useState(null);
+
     const [selectedSkills, setSelectedSkills] = useState(characterData.selectedSkills || []);
     const [selectedLanguages, setSelectedLanguages] = useState(characterData.selectedLanguages || []);
     const [skillRanks, setSkillRanks] = useState(characterData.skillRanks || {});
-    const [expandedSkills, setExpandedSkills] = useState(new Set());
 
     // Calculate skill points
     const totalSkillPoints = calculateTotalSkillPoints(characterData);
     const pointsSpent = calculatePointsSpent(skillRanks);
     const availablePoints = totalSkillPoints - pointsSpent;
 
-    // Use unified tooltip system
+    // Tooltip system
     const {
         tooltipState,
         handleMouseEnter,
@@ -127,7 +141,7 @@ const Step7SkillsLanguages = () => {
         handleMouseMove
     } = useUnifiedTooltip();
 
-    // Get data from previous selections
+    // Fetch previous selections
     const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
     const raceData = characterData.race ? getRaceData(characterData.race) : null;
     const subraceData = characterData.race && characterData.subrace
@@ -135,42 +149,32 @@ const Step7SkillsLanguages = () => {
         : null;
     const pathData = characterData.path ? getPathData(characterData.path) : null;
 
-    // Get racial languages (automatically granted)
     const racialLanguages = React.useMemo(() => subraceData?.languages || [], [subraceData]);
 
-    // Calculate how many skills and languages the character can choose
-    // Convert D&D skill names from background to custom skill IDs
     const backgroundSkills = React.useMemo(() => {
         const dndSkills = backgroundData?.skillProficiencies || [];
-        return dndSkills
-            .map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill])
-            .filter(Boolean);
+        return dndSkills.map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill]).filter(Boolean);
     }, [backgroundData]);
 
-    // Convert D&D skill names from path to custom skill IDs
     const pathSkills = React.useMemo(() => {
         const dndSkills = pathData?.skillProficiencies || [];
-        return dndSkills
-            .map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill])
-            .filter(Boolean);
+        return dndSkills.map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill]).filter(Boolean);
     }, [pathData]);
 
-    // Combine background and path skills as automatically granted
     const grantedSkills = React.useMemo(() =>
         [...new Set([...backgroundSkills, ...pathSkills])],
         [backgroundSkills, pathSkills]
     );
 
-    const classSkillCount = 1; // Reduced to balance skill proficiencies - characters get 1 skill choice
+    const classSkillCount = 1; 
     const languageCount = (backgroundData?.languages || 0) + (pathData?.languages || 0);
 
-    // Update context when selections change
+    // Sync state to Context
     useEffect(() => {
         dispatch(wizardActionCreators.setSkills(selectedSkills));
     }, [selectedSkills, dispatch]);
 
     useEffect(() => {
-        // Combine racial languages (automatic) with selected languages (chosen)
         const allLanguages = [...new Set([...racialLanguages, ...selectedLanguages])];
         dispatch(wizardActionCreators.setLanguages(allLanguages));
     }, [selectedLanguages, racialLanguages, dispatch]);
@@ -179,12 +183,11 @@ const Step7SkillsLanguages = () => {
         dispatch(wizardActionCreators.setSkillRanks(skillRanks));
     }, [skillRanks, dispatch]);
 
-    // Initialize skill ranks for granted skills
+    // Initialize skill ranks
     useEffect(() => {
         const updatedRanks = { ...skillRanks };
         let hasChanges = false;
 
-        // Set granted skills to at least NOVICE if not already set
         grantedSkills.forEach(skillId => {
             if (!updatedRanks[skillId]) {
                 updatedRanks[skillId] = 'NOVICE';
@@ -192,7 +195,6 @@ const Step7SkillsLanguages = () => {
             }
         });
 
-        // Initialize all other skills to UNTRAINED if not set
         Object.keys(SKILL_DEFINITIONS).forEach(skillId => {
             if (!updatedRanks[skillId]) {
                 updatedRanks[skillId] = 'UNTRAINED';
@@ -205,27 +207,46 @@ const Step7SkillsLanguages = () => {
         }
     }, [grantedSkills]);
 
-    const handleSkillToggle = (skill) => {
-        if (selectedSkills.includes(skill)) {
-            setSelectedSkills(selectedSkills.filter(s => s !== skill));
+    // Auto-inspect first skill on mount
+    useEffect(() => {
+        if (!inspectedSkillId) {
+            const defaultId = grantedSkills[0] || selectedSkills[0] || ALL_SKILLS[0]?.id;
+            if (defaultId) {
+                setInspectedSkillId(defaultId);
+            }
+        }
+    }, [grantedSkills, selectedSkills, inspectedSkillId]);
+
+    // Handlers
+    const handleSkillToggle = (skillId) => {
+        if (selectedSkills.includes(skillId)) {
+            setSelectedSkills(selectedSkills.filter(s => s !== skillId));
+            // Reset downgraded ranks if deselected and was untrained
+            if (!isSkillGranted(skillId)) {
+                setSkillRanks(prev => ({ ...prev, [skillId]: 'UNTRAINED' }));
+            }
         } else {
             if (selectedSkills.length < classSkillCount) {
-                setSelectedSkills([...selectedSkills, skill]);
+                setSelectedSkills([...selectedSkills, skillId]);
+                // Set default rank of class skill to novice
+                setSkillRanks(prev => ({
+                    ...prev,
+                    [skillId]: prev[skillId] === 'UNTRAINED' ? 'NOVICE' : prev[skillId]
+                }));
             }
         }
     };
 
-    const handleLanguageToggle = (language) => {
-        if (selectedLanguages.includes(language)) {
-            setSelectedLanguages(selectedLanguages.filter(l => l !== language));
+    const handleLanguageToggle = (languageName) => {
+        if (selectedLanguages.includes(languageName)) {
+            setSelectedLanguages(selectedLanguages.filter(l => l !== languageName));
         } else {
             if (selectedLanguages.length < languageCount) {
-                setSelectedLanguages([...selectedLanguages, language]);
+                setSelectedLanguages([...selectedLanguages, languageName]);
             }
         }
     };
 
-    // Skill rank upgrade/downgrade handlers
     const handleSkillUpgrade = (skillId) => {
         const currentRank = skillRanks[skillId] || 'UNTRAINED';
         const nextRank = getNextRank(currentRank);
@@ -253,69 +274,43 @@ const Step7SkillsLanguages = () => {
         }
     };
 
-    const isSkillGranted = (skill) => grantedSkills.includes(skill);
-    const isSkillDisabled = (skill) => {
-        return isSkillGranted(skill) || (!selectedSkills.includes(skill) && selectedSkills.length >= classSkillCount);
+    const isSkillGranted = (skillId) => grantedSkills.includes(skillId);
+    const isSkillDisabled = (skillId) => {
+        return isSkillGranted(skillId) || (!selectedSkills.includes(skillId) && selectedSkills.length >= classSkillCount);
     };
 
-    const isLanguageDisabled = (language) => {
-        // Disable if it's a racial language or if selection limit is reached
-        return racialLanguages.includes(language) ||
-            (!selectedLanguages.includes(language) && selectedLanguages.length >= languageCount);
+    const isLanguageDisabled = (languageName) => {
+        return racialLanguages.includes(languageName) ||
+            (!selectedLanguages.includes(languageName) && selectedLanguages.length >= languageCount);
     };
 
-    // Get skill rank from state
-    const getSkillRank = (skillId) => {
+    const getSkillRankData = (skillId) => {
         const rankKey = skillRanks[skillId] || 'UNTRAINED';
         return { key: rankKey, ...SKILL_RANKS[rankKey] };
     };
 
-    // Check if a skill is proficient (NOVICE or higher)
-    const isProficient = (skillId) => {
-        return isSkillProficient(skillId, skillRanks);
-    };
-
-    // Get available quests for a skill
     const getAvailableQuests = (skillId) => {
         const skillQuests = SKILL_QUESTS[skillId] || [];
-        const currentRank = getSkillRank(skillId);
+        const currentRank = getSkillRankData(skillId);
 
-        // Show quests for NOVICE rank (first few quests)
         return skillQuests.filter(quest => {
             const rankIndex = Object.keys(SKILL_RANKS).indexOf(quest.rank);
             const currentRankIndex = Object.keys(SKILL_RANKS).indexOf(currentRank.key);
+            // Show quests up to current rank index + 1
             return rankIndex <= currentRankIndex + 1;
-        }).slice(0, 3); // Show first 3 quests
+        }).slice(0, 3);
     };
 
-    // Toggle skill expansion
-    const toggleSkillExpansion = (skillId) => {
-        setExpandedSkills(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(skillId)) {
-                newSet.delete(skillId);
-            } else {
-                newSet.add(skillId);
-            }
-            return newSet;
-        });
-    };
-
-    // Get current rollable table for skill
     const getCurrentRollableTable = (skillId) => {
         const skill = SKILL_DEFINITIONS[skillId];
         if (!skill) return null;
 
-        const rank = getSkillRank(skillId);
+        const rank = getSkillRankData(skillId);
         if (skill.rollableTables) {
-            // Handle multi-dimensional table structure (rank -> die type -> tableId)
             const rankTables = skill.rollableTables[rank.key] || skill.rollableTables.UNTRAINED;
             if (typeof rankTables === 'object' && rankTables.d20) {
-                // Use d20 table as default for character creation preview
-                const tableId = rankTables.d20;
-                return ROLLABLE_TABLES[tableId];
+                return ROLLABLE_TABLES[rankTables.d20];
             } else if (typeof rankTables === 'string') {
-                // Handle old single table structure
                 return ROLLABLE_TABLES[rankTables];
             }
         } else if (skill.rollableTable) {
@@ -324,517 +319,452 @@ const Step7SkillsLanguages = () => {
         return null;
     };
 
+    // Filtered skills - no longer filtered, all skills are visible
+    const filteredSkills = ALL_SKILLS;
+
+    // Grouping calculations
+    const SKILLS_BY_CATEGORY = React.useMemo(() => {
+        const grouped = {
+            'Combat Mastery': [],
+            'Exploration & Survival': [],
+            'Social & Influence': [],
+            'Arcane Studies': []
+        };
+        filteredSkills.forEach(skill => {
+            const cat = skill.category || 'Arcane Studies';
+            if (!grouped[cat]) grouped[cat] = [];
+            grouped[cat].push(skill);
+        });
+        return grouped;
+    }, [filteredSkills]);
+
+    const LANGUAGES_BY_CATEGORY = React.useMemo(() => {
+        const grouped = {
+            standard: { name: 'Standard Languages', icon: 'fa-globe', list: [] },
+            exotic: { name: 'Exotic & Planar Languages', icon: 'fa-sun', list: [] },
+            racial: { name: 'Ancestral & Racial Languages', icon: 'fa-dna', list: [] },
+            elemental: { name: 'Elemental Tongues', icon: 'fa-wind', list: [] },
+            special: { name: 'Specialized & Coded Jargon', icon: 'fa-mask', list: [] }
+        };
+        COMMON_LANGUAGES.forEach(lang => {
+            const cat = lang.category || 'standard';
+            if (grouped[cat]) {
+                grouped[cat].list.push(lang);
+            }
+        });
+        return grouped;
+    }, []);
+
+    // Helper to get outcome quality classes
+    const getOutcomeClass = (rollRange) => {
+        const avg = (rollRange[0] + rollRange[1]) / 2;
+        if (avg >= 18) return 'critical-success';
+        if (avg >= 11) return 'success';
+        if (avg >= 6) return 'partial';
+        return 'failure';
+    };
+
+    // Setup active skill details
+    const activeSkill = inspectedSkillId ? SKILL_DEFINITIONS[inspectedSkillId] : null;
+    const activeSkillQuests = inspectedSkillId ? getAvailableQuests(inspectedSkillId) : [];
+    const activeSkillTable = inspectedSkillId ? getCurrentRollableTable(inspectedSkillId) : null;
+    const activeSkillRank = inspectedSkillId ? getSkillRankData(inspectedSkillId) : null;
+
+    const currentRankKey = inspectedSkillId ? (skillRanks[inspectedSkillId] || 'UNTRAINED') : 'UNTRAINED';
+    const isInspectedGranted = inspectedSkillId ? isSkillGranted(inspectedSkillId) : false;
+    const isInspectedSelected = inspectedSkillId ? selectedSkills.includes(inspectedSkillId) : false;
+
+    const nextRank = getNextRank(currentRankKey);
+    const prevRank = getPreviousRank(currentRankKey);
+    const upgradeCost = getUpgradeCost(currentRankKey);
+    const downgradeRefund = getDowngradeRefund(currentRankKey);
+    const canUpgrade = nextRank && (availablePoints >= upgradeCost);
+    const canDowngrade = prevRank && currentRankKey !== 'UNTRAINED' && (!isInspectedGranted || prevRank !== 'UNTRAINED');
+
     return (
         <div className="wizard-step-content">
-            <div className="skills-languages-container">
-                {/* Skills Section */}
-                <div className="selection-section">
-                    <div className="section-header">
-                        <h3><i className="fas fa-cogs"></i> Skill Proficiencies</h3>
-                        <div className="selection-info">
-                            <span className={selectedSkills.length === classSkillCount ? 'complete' : 'incomplete'}>
-                                {selectedSkills.length} / {classSkillCount} Selected
-                            </span>
-                        </div>
+            <div className="skills-languages-layout">
+                
+                {/* Left Selection Column */}
+                <div className="selection-pane-left">
+                    <div className="pane-tabs-navigation">
+                        <button
+                            type="button"
+                            className={`pane-tab-btn ${activeTab === 'skills' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('skills')}
+                        >
+                            <i className="fas fa-cogs"></i> Skills
+                            <span className="badge-count">{selectedSkills.length} / {classSkillCount}</span>
+                        </button>
+                        <button
+                            type="button"
+                            className={`pane-tab-btn ${activeTab === 'languages' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('languages')}
+                        >
+                            <i className="fas fa-language"></i> Languages
+                            {languageCount > 0 && <span className="badge-count">{selectedLanguages.length} / {languageCount}</span>}
+                        </button>
                     </div>
 
-                    {grantedSkills.length > 0 && (
-                        <div className="granted-info">
-                            <i className="fas fa-gift"></i> Granted Skills: <strong>
-                                {grantedSkills.map(skillId => SKILL_DEFINITIONS[skillId]?.name || skillId).join(', ')}
-                            </strong>
-                            {backgroundSkills.length > 0 && pathSkills.length > 0 && (
-                                <span className="source-breakdown">
-                                    ({backgroundSkills.length} from background, {pathSkills.length} from path)
-                                </span>
-                            )}
-                        </div>
-                    )}
-
-                    <div className="button-grid">
-                        {ALL_SKILLS.map((skill) => {
-                            const isGranted = isSkillGranted(skill.id);
-                            const isSelected = selectedSkills.includes(skill.id);
-                            const isDisabled = isSkillDisabled(skill.id);
-
-                            return (
-                                <button
-                                    key={skill.id}
-                                    type="button"
-                                    className={`selection-button ${isSelected ? 'selected' : ''} ${isGranted ? 'granted' : ''} ${isDisabled ? 'disabled' : ''} ${isProficient(skill.id) ? 'proficient' : ''}`}
-                                    onClick={() => !isGranted && !isDisabled && handleSkillToggle(skill.id)}
-                                    onMouseEnter={handleMouseEnter(skill.description)}
-                                    onMouseLeave={handleMouseLeave}
-                                    onMouseMove={handleMouseMove}
-                                    disabled={isDisabled && !isSelected && !isGranted}
-                                >
-                                    <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-icon" />
-                                    <span>{skill.name}</span>
-                                    {(isSelected || isGranted) && <i className="fas fa-check check-icon"></i>}
-                                    {isProficient(skill.id) && <span className="proficient-tag" title="Proficient - Unlocks skill-based abilities">Proficient</span>}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-
-                {/* Languages Section */}
-                <div className="selection-section">
-                    <div className="section-header">
-                        <h3><i className="fas fa-language"></i> Languages</h3>
-                        {languageCount > 0 && (
-                            <div className="selection-info">
-                                <span className={selectedLanguages.length === languageCount ? 'complete' : 'incomplete'}>
-                                    {selectedLanguages.length} / {languageCount} Selected
-                                </span>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Racial Languages */}
-                    {racialLanguages.length > 0 && (
-                        <div className="granted-section">
-                            <div className="granted-header">
-                                <i className="fas fa-star"></i> Racial Languages
-                            </div>
-                            <div className="background-grid">
-                                {racialLanguages.map((language) => {
-                                    const langData = COMMON_LANGUAGES.find(l => l.name === language);
-                                    return (
-                                        <div
-                                            key={language}
-                                            className="background-card granted selected"
-                                            title={langData?.description || 'A racial language.'}
-                                        >
-                                            <div className="background-card-header-section">
-                                                <div className="language-icon">
-                                                    <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
-                                                </div>
-                                                <div className="background-card-title-section">
-                                                    <h4 className="background-card-name" style={{ marginTop: 0 }}>{language}</h4>
-                                                    <p className="background-card-description">{langData?.description}</p>
-                                                </div>
-                                            </div>
-                                            <div className="language-compact-badge">
-                                                <i className="fas fa-star"></i>
-                                                <span>Racial</span>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Additional Languages */}
-                    {languageCount > 0 && (
-                        <div className="selectable-section">
-                            <div className="selectable-header">
-                                <i className="fas fa-book"></i> Additional Languages ({selectedLanguages.length} / {languageCount} from background & path)
-                            </div>
-                            <div className="background-grid">
-                                {COMMON_LANGUAGES.map((language) => {
-                                    const isSelected = selectedLanguages.includes(language.name);
-                                    const isRacial = racialLanguages.includes(language.name);
-                                    const isDisabled = isLanguageDisabled(language.name);
-
-                                    return (
-                                        <div
-                                            key={language.name}
-                                            className={`background-card ${isSelected || isRacial ? 'selected' : ''} ${isRacial ? 'granted' : ''} ${isDisabled && !isSelected && !isRacial ? 'disabled' : ''}`}
-                                            onClick={() => !isRacial && !isDisabled && handleLanguageToggle(language.name)}
-                                        >
-                                            <div className="background-card-header-section">
-                                                <div className="language-icon">
-                                                    <i className={`fas ${language.icon}`}></i>
-                                                </div>
-                                                <div className="background-card-title-section">
-                                                    <h4 className="background-card-name" style={{ marginTop: 0 }}>{language.name}</h4>
-                                                    <p className="background-card-description">{language.description}</p>
-                                                </div>
-                                            </div>
-                                            {(isSelected || isRacial) && (
-                                                <div className="language-compact-badge">
-                                                    <i className={`fas ${isRacial ? 'fa-star' : 'fa-check'}`}></i>
-                                                    <span>{isRacial ? 'Racial' : 'Selected'}</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* Skill Point Allocation Section */}
-                <div className="selection-section skill-points-section">
-                    <div className="section-header">
-                        <h3><i className="fas fa-chart-line"></i> Skill Rank Allocation</h3>
-                        <div className="skill-points-display">
-                            <span className={`points-available ${availablePoints === 0 ? 'complete' : availablePoints < 0 ? 'over-budget' : 'incomplete'}`}>
-                                <i className="fas fa-coins"></i> {availablePoints} / {totalSkillPoints} Points Available
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="skill-points-info">
-                        <p>
-                            <i className="fas fa-info-circle"></i> Spend skill points to increase your proficiency in skills.
-                            Each upgrade costs more than the last. Granted skills start at <strong>Novice</strong> rank.
-                        </p>
-                        <div className="points-breakdown">
-                            <span><strong>Base Points:</strong> 15</span>
-                            {characterData.finalStats?.intelligence > 10 && (
-                                <span><strong>Intelligence Bonus:</strong> +{Math.floor((characterData.finalStats.intelligence - 10) / 2) * 2}</span>
-                            )}
-                            {characterData.background && (
-                                <span><strong>Background:</strong> {characterData.background}</span>
-                            )}
-                            {characterData.race && (
-                                <span><strong>Race:</strong> {characterData.race}</span>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="skill-ranks-list">
-                        {/* Show granted skills first */}
-                        {grantedSkills.length > 0 && (
+                    <div className="pane-scrollable-content">
+                        {activeTab === 'skills' ? (
                             <>
-                                <h4 className="skill-group-header"><i className="fas fa-gift"></i> Granted Skills</h4>
-                                {grantedSkills.map(skillId => {
-                                    const skill = SKILL_DEFINITIONS[skillId];
-                                    if (!skill) return null;
+                                {/* Available Points Banner */}
+                                <div className="step-summary-banner" 
+                                     onMouseEnter={handleMouseEnter(`Base points: 10 + Intelligence Modifier Bonus + Race/Background bonuses. Granted skills start at Novice level for free.`, 'Skill Points Breakdown', 'fas fa-info-circle')}
+                                     onMouseLeave={handleMouseLeave}
+                                     onMouseMove={handleMouseMove}>
+                                    <div className="summary-banner-points">
+                                        <i className="fas fa-coins"></i> Training Points Available: 
+                                        <span className="points-pill">{availablePoints} / {totalSkillPoints}</span>
+                                    </div>
+                                    <div className="summary-banner-choices">
+                                        Class Specializations: <span>{selectedSkills.length} / {classSkillCount}</span>
+                                    </div>
+                                </div>
+
+                                {/* Standard/Advanced Toggle Filter */}
+                                <div className="skills-filter-toggle">
+                                    <button
+                                        type="button"
+                                        className={`filter-btn ${skillFilter === 'standard' ? 'active' : ''}`}
+                                        onClick={() => setSkillFilter('standard')}
+                                    >
+                                        <i className="fas fa-scroll"></i> Standard Rules
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`filter-btn ${skillFilter === 'advanced' ? 'active' : ''}`}
+                                        onClick={() => setSkillFilter('advanced')}
+                                    >
+                                        <i className="fas fa-wand-magic-sparkles"></i> Advanced Rules
+                                    </button>
+                                </div>
+
+                                {/* Skill Category Lists */}
+                                {Object.entries(SKILLS_BY_CATEGORY).map(([categoryName, skills]) => {
+                                    if (skills.length === 0) return null;
+
+                                    const categorySlug = categoryName.toLowerCase().split(' ')[0];
+                                    const categoryIcons = {
+                                        combat: 'fa-shield-halved',
+                                        exploration: 'fa-compass',
+                                        social: 'fa-comments',
+                                        arcane: 'fa-wand-magic-sparkles'
+                                    };
 
                                     return (
-                                        <SkillRankUpgrade
-                                            key={skillId}
-                                            skill={skill}
-                                            currentRank={skillRanks[skillId] || 'NOVICE'}
-                                            onUpgrade={() => handleSkillUpgrade(skillId)}
-                                            onDowngrade={() => handleSkillDowngrade(skillId)}
-                                            availablePoints={availablePoints}
-                                            isGranted={true}
-                                        />
+                                        <div key={categoryName} className={`skill-category-group ${categorySlug}`}>
+                                            <div className="skill-category-header">
+                                                <i className={`fas ${categoryIcons[categorySlug] || 'fa-star'}`}></i>
+                                                <span>{categoryName}</span>
+                                            </div>
+                                            <div className="category-skills-grid">
+                                                {skills.map(skill => {
+                                                    const isGranted = isSkillGranted(skill.id);
+                                                    const isSelected = selectedSkills.includes(skill.id);
+                                                    const isDisabled = isSkillDisabled(skill.id);
+                                                    const isInspected = inspectedSkillId === skill.id;
+                                                    const rankData = getSkillRankData(skill.id);
+                                                    const isProf = isSkillProficient(skill.id, skillRanks);
+
+                                                    return (
+                                                        <div
+                                                            key={skill.id}
+                                                            className={`premium-skill-card ${isInspected ? 'active-inspected' : ''} ${isGranted ? 'granted-skill' : ''} ${isSelected ? 'selected-skill' : ''} ${isDisabled && !isSelected && !isGranted ? 'disabled' : ''}`}
+                                                            onClick={(e) => {
+                                                                setInspectedSkillId(skill.id);
+                                                                // Toggle if clicked check icon or was already inspected
+                                                                const isCheckIconClick = e.target.closest('.selection-indicator');
+                                                                if (isCheckIconClick || isInspected) {
+                                                                    if (!isGranted && !isDisabled) {
+                                                                        handleSkillToggle(skill.id);
+                                                                    }
+                                                                }
+                                                            }}
+                                                            onMouseEnter={handleMouseEnter(skill.description, skill.name)}
+                                                            onMouseLeave={handleMouseLeave}
+                                                            onMouseMove={handleMouseMove}
+                                                        >
+                                                            <div className="skill-card-icon-container">
+                                                                <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-card-icon" />
+                                                            </div>
+                                                            <div className="skill-card-info">
+                                                                <span className="skill-card-name">{skill.name}</span>
+                                                                <span className="skill-card-rank" style={{ color: rankData.color }}>
+                                                                    {rankData.name}
+                                                                </span>
+                                                            </div>
+                                                            {isProf && <span className="proficient-tag" title="Proficient">Proficient</span>}
+                                                            <div className="selection-indicator">
+                                                                {(isSelected || isGranted) ? <i className="fas fa-check"></i> : null}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
                                     );
                                 })}
                             </>
-                        )}
+                        ) : (
+                            /* Languages Tab */
+                            <div className="languages-tab-container">
+                                {/* Racial Languages (Granted automatically) */}
+                                {racialLanguages.length > 0 && (
+                                    <div className="language-pane-group">
+                                        <h4 className="language-pane-header">
+                                            <i className="fas fa-dna"></i> Native Ancestral Tongues
+                                        </h4>
+                                        <div className="languages-masonry-grid">
+                                            {racialLanguages.map(langName => {
+                                                const langData = COMMON_LANGUAGES.find(l => l.name === langName);
+                                                return (
+                                                    <div
+                                                        key={langName}
+                                                        className="premium-language-card granted"
+                                                        onMouseEnter={handleMouseEnter(langData?.description || 'Your character knows this native racial tongue.', langName, `fas ${langData?.icon || 'fa-language'}`)}
+                                                        onMouseLeave={handleMouseLeave}
+                                                        onMouseMove={handleMouseMove}
+                                                    >
+                                                        <div className="lang-icon-circle">
+                                                            <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
+                                                        </div>
+                                                        <span className="lang-name">{langName}</span>
+                                                        <span className="lang-status-badge">Racial</span>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
 
-                        {/* Show selected skills */}
-                        {selectedSkills.length > 0 && (
-                            <>
-                                <h4 className="skill-group-header"><i className="fas fa-check-circle"></i> Selected Skills</h4>
-                                {selectedSkills.map(skillId => {
-                                    const skill = SKILL_DEFINITIONS[skillId];
-                                    if (!skill || grantedSkills.includes(skillId)) return null;
+                                {/* Selectable Languages by Category */}
+                                {Object.entries(LANGUAGES_BY_CATEGORY).map(([catKey, catData]) => {
+                                    if (catData.list.length === 0) return null;
 
                                     return (
-                                        <SkillRankUpgrade
-                                            key={skillId}
-                                            skill={skill}
-                                            currentRank={skillRanks[skillId] || 'UNTRAINED'}
-                                            onUpgrade={() => handleSkillUpgrade(skillId)}
-                                            onDowngrade={() => handleSkillDowngrade(skillId)}
-                                            availablePoints={availablePoints}
-                                            isGranted={false}
-                                        />
+                                        <div key={catKey} className="language-pane-group">
+                                            <h4 className="language-pane-header">
+                                                <i className={`fas ${catData.icon}`}></i> {catData.name}
+                                            </h4>
+                                            <div className="languages-masonry-grid">
+                                                {catData.list.map(language => {
+                                                    const isSelected = selectedLanguages.includes(language.name);
+                                                    const isRacial = racialLanguages.includes(language.name);
+                                                    const isDisabled = isLanguageDisabled(language.name);
+
+                                                    return (
+                                                        <div
+                                                            key={language.name}
+                                                            className={`premium-language-card ${isSelected ? 'selected' : ''} ${isRacial ? 'granted' : ''} ${isDisabled && !isSelected && !isRacial ? 'disabled' : ''}`}
+                                                            onClick={() => !isRacial && !isDisabled && handleLanguageToggle(language.name)}
+                                                            onMouseEnter={handleMouseEnter(language.description, language.name, `fas ${language.icon}`)}
+                                                            onMouseLeave={handleMouseLeave}
+                                                            onMouseMove={handleMouseMove}
+                                                        >
+                                                            <div className="lang-icon-circle">
+                                                                <i className={`fas ${language.icon}`}></i>
+                                                            </div>
+                                                            <span className="lang-name">{language.name}</span>
+                                                            {isSelected && <span className="lang-status-badge">Learned</span>}
+                                                            {isRacial && <span className="lang-status-badge">Racial</span>}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
                                     );
                                 })}
-                            </>
-                        )}
-
-                        {/* Show other skills that have been upgraded */}
-                        {Object.keys(skillRanks).filter(skillId =>
-                            !grantedSkills.includes(skillId) &&
-                            !selectedSkills.includes(skillId) &&
-                            skillRanks[skillId] !== 'UNTRAINED'
-                        ).length > 0 && (
-                                <>
-                                    <h4 className="skill-group-header"><i className="fas fa-star"></i> Other Upgraded Skills</h4>
-                                    {Object.keys(skillRanks)
-                                        .filter(skillId =>
-                                            !grantedSkills.includes(skillId) &&
-                                            !selectedSkills.includes(skillId) &&
-                                            skillRanks[skillId] !== 'UNTRAINED'
-                                        )
-                                        .map(skillId => {
-                                            const skill = SKILL_DEFINITIONS[skillId];
-                                            if (!skill) return null;
-
-                                            return (
-                                                <SkillRankUpgrade
-                                                    key={skillId}
-                                                    skill={skill}
-                                                    currentRank={skillRanks[skillId]}
-                                                    onUpgrade={() => handleSkillUpgrade(skillId)}
-                                                    onDowngrade={() => handleSkillDowngrade(skillId)}
-                                                    availablePoints={availablePoints}
-                                                    isGranted={false}
-                                                />
-                                            );
-                                        })}
-                                </>
-                            )}
-
-                        {grantedSkills.length === 0 && selectedSkills.length === 0 && (
-                            <div className="no-skills-message">
-                                <i className="fas fa-arrow-up"></i>
-                                <p>Select skills above to allocate skill points</p>
                             </div>
                         )}
                     </div>
                 </div>
 
-
-
-                {/* Skill Details - Quests and Rollable Tables */}
-                {(selectedSkills.length > 0 || grantedSkills.length > 0) && (
-                    <div className="selection-section skill-details-section">
-                        <div className="section-header">
-                            <h3><i className="fas fa-scroll"></i> Skills Preview</h3>
-                            <p className="section-description">
-                                Below are the quests and rollable tables for your granted and selected skills.
-                                Complete quests during gameplay to unlock higher skill ranks and better outcomes!
-                            </p>
-                        </div>
-
-                        {/* Show granted skills first */}
-                        {grantedSkills.map((skillId) => {
-                            // Get skill definition
-                            const skill = SKILL_DEFINITIONS[skillId];
-                            if (!skill) return null;
-
-                            const quests = getAvailableQuests(skillId);
-                            const rollableTable = getCurrentRollableTable(skillId);
-                            const rank = getSkillRank(skillId);
-
-                            const isExpanded = expandedSkills.has(skillId);
-
-                            return (
-                                <div key={skillId} className="skill-detail-card granted-skill-card">
-                                    <div className="skill-detail-header collapsible" onClick={() => toggleSkillExpansion(skillId)}>
-                                        <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
-                                        <div className="skill-detail-info">
-                                            <h4>{skill.name} <span className="granted-badge">Granted</span></h4>
-                                            <p>{skill.description}</p>
-                                            <span className="skill-rank-badge" style={{ color: rank.color }}>
-                                                {rank.name}
+                {/* Right Interactive Inspector Panel */}
+                <div className="inspector-pane-right">
+                    {activeSkill ? (
+                        <div className="skill-grimoire-inspector">
+                            {/* Grimoire Header */}
+                            <div className="grimoire-header">
+                                <div className="grimoire-icon-wrapper">
+                                    <img src={getIconUrl(activeSkill.icon, 'abilities')} alt={activeSkill.name} className="grimoire-large-icon" />
+                                </div>
+                                <div className="grimoire-details">
+                                    <h3>
+                                        {activeSkill.name}
+                                        <span className={`grimoire-category-badge ${activeSkill.category.toLowerCase().split(' ')[0]}`}>
+                                            {activeSkill.category}
+                                        </span>
+                                    </h3>
+                                    <div className="grimoire-attributes">
+                                        {activeSkill.primaryStat && (
+                                            <span className="grimoire-attribute-pill" title={`Primary Stat: ${activeSkill.primaryStat}`}>
+                                                <i className="fas fa-dumbbell"></i> {activeSkill.primaryStat}
+                                                {characterData.finalStats?.[activeSkill.primaryStat] && ` (${characterData.finalStats[activeSkill.primaryStat]})`}
                                             </span>
-                                        </div>
-                                        <div className={`skill-toggle-icon ${isExpanded ? 'expanded' : ''}`}>
-                                            <i className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}></i>
+                                        )}
+                                        {activeSkill.secondaryStat && (
+                                            <span className="grimoire-attribute-pill" title={`Secondary Stat: ${activeSkill.secondaryStat}`}>
+                                                <i className="fas fa-shield"></i> {activeSkill.secondaryStat}
+                                                {characterData.finalStats?.[activeSkill.secondaryStat] && ` (${characterData.finalStats[activeSkill.secondaryStat]})`}
+                                            </span>
+                                        )}
+                                        {isInspectedGranted && (
+                                            <span className="grimoire-attribute-pill" style={{ color: '#4a7c59', background: 'rgba(74, 124, 89, 0.12)' }}>
+                                                <i className="fas fa-gift"></i> Granted by Heritage
+                                            </span>
+                                        )}
+                                        {isInspectedSelected && (
+                                            <span className="grimoire-attribute-pill" style={{ color: '#d4af37', background: 'rgba(212, 175, 55, 0.12)' }}>
+                                                <i className="fas fa-check-circle"></i> Class Specialization
+                                            </span>
+                                        )}
+                                    </div>
+                                    <p className="grimoire-description">{activeSkill.description}</p>
+                                </div>
+                            </div>
+
+                            {/* Training Controls */}
+                            <div className="grimoire-training-section">
+                                <h4 className="grimoire-training-title">
+                                    <span>{skillFilter === 'standard' ? 'Skill Die' : 'Expertise Level'}</span>
+                                    <span className="current-rank-label" style={{ color: activeSkillRank.color }}>
+                                        {skillFilter === 'standard' ? `${mapRankToDie(currentRankKey).toUpperCase()} (${activeSkillRank.name})` : activeSkillRank.name} (Bonus: +{activeSkillRank.statBonus})
+                                    </span>
+                                </h4>
+
+                                <div className="training-controls-row">
+                                    <button
+                                        type="button"
+                                        className="training-btn downgrade"
+                                        disabled={!canDowngrade}
+                                        onClick={() => handleSkillDowngrade(inspectedSkillId)}
+                                        title={canDowngrade ? `Downgrade rank (refund ${downgradeRefund} points)` : 'Cannot downgrade rank'}
+                                    >
+                                        <i className="fas fa-minus"></i>
+                                    </button>
+
+                                    <div className="grimoire-pip-bar">
+                                        <div className="grimoire-pips-container">
+                                            {Object.keys(SKILL_RANKS).map((rank, idx) => {
+                                                const isActive = Object.keys(SKILL_RANKS).indexOf(currentRankKey) >= idx;
+                                                const rColor = SKILL_RANKS[rank].color;
+                                                return (
+                                                    <div
+                                                        key={rank}
+                                                        className={`grimoire-pip ${isActive ? 'active' : ''}`}
+                                                        style={{ '--pip-color': rColor }}
+                                                        title={skillFilter === 'standard' ? `${mapRankToDie(rank).toUpperCase()} (${SKILL_RANKS[rank].name})` : SKILL_RANKS[rank].name}
+                                                    />
+                                                );
+                                            })}
                                         </div>
                                     </div>
 
-                                    {isExpanded && (
-                                        <div className="skill-expanded-content">
-                                            {quests.length > 0 ? (
-                                                <div className="quest-preview-section">
-                                                    <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                    <div className="quest-preview-list">
-                                                        {quests.map(quest => (
-                                                            <div key={quest.id} className="quest-preview-item">
-                                                                <img src={getIconUrl(quest.icon, 'abilities')} alt={quest.name} className="quest-preview-icon" />
-                                                                <div className="quest-preview-info">
-                                                                    <strong>{quest.name}</strong>
-                                                                    <p>{quest.description}</p>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="quest-preview-section">
-                                                    <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                    <div className="no-quests-message">
-                                                        <i className="fas fa-info-circle"></i>
-                                                        <p>Quests for this skill are still being developed. Check back later!</p>
-                                                    </div>
-                                                </div>
-                                            )}
+                                    <button
+                                        type="button"
+                                        className="training-btn upgrade"
+                                        disabled={!canUpgrade}
+                                        onClick={() => handleSkillUpgrade(inspectedSkillId)}
+                                        title={canUpgrade ? `Upgrade rank (costs ${upgradeCost} points)` : nextRank ? 'Not enough points' : 'Maximum rank reached'}
+                                    >
+                                        <i className="fas fa-plus"></i>
+                                    </button>
+                                </div>
 
-                                            {rollableTable ? (
-                                                <div className="table-preview-section">
-                                                    <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
-                                                    <p className="table-description">{rollableTable.description}</p>
-                                                    <div className="table-preview-entries">
-                                                        {rollableTable.table.slice(0, 8).map((entry, index) => (
-                                                            <div key={index} className={`table-preview-entry ${entry.type}`}>
-                                                                <span className="roll-range">
-                                                                    {entry.roll[0] === entry.roll[1]
-                                                                        ? entry.roll[0]
-                                                                        : `${entry.roll[0]}-${entry.roll[1]}`}
-                                                                </span>
-                                                                <span className="roll-result">{entry.result}</span>
-                                                            </div>
-                                                        ))}
-                                                        {rollableTable.table.length > 8 && (
-                                                            <div className="table-preview-more">
-                                                                ... and {rollableTable.table.length - 8} more outcomes
-                                                            </div>
-                                                        )}
+                                <div className="grimoire-training-info">
+                                    {nextRank ? (
+                                        <span className="cost-tag">
+                                            Next Rank: <strong>{skillFilter === 'standard' ? mapRankToDie(nextRank).toUpperCase() : SKILL_RANKS[nextRank].name}</strong> (Upgrade Cost: {upgradeCost} pts)
+                                        </span>
+                                    ) : (
+                                        <span className="max-tag">
+                                            <i className="fas fa-crown"></i> Master Expertise Reached
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Starting Quests */}
+                            {skillFilter !== 'standard' && (
+                                <div className="grimoire-quests-section">
+                                    <h4 className="grimoire-section-title">
+                                        <i className="fas fa-scroll"></i> Active & Unlocking Quests
+                                    </h4>
+                                    {activeSkillQuests.length > 0 ? (
+                                        <div className="grimoire-quests-list">
+                                            {activeSkillQuests.map(quest => (
+                                                <div key={quest.id} className="grimoire-quest-card">
+                                                    <img src={getIconUrl(quest.icon, 'abilities')} alt={quest.name} className="grimoire-quest-icon" />
+                                                    <div className="grimoire-quest-details">
+                                                        <strong>{quest.name}</strong>
+                                                        <p>{quest.description}</p>
+                                                        <span className="quest-badge" style={{ color: SKILL_RANKS[quest.rank]?.color }}>
+                                                            {SKILL_RANKS[quest.rank]?.name} Quest
+                                                        </span>
                                                     </div>
                                                 </div>
-                                            ) : (
-                                                <div className="table-preview-section">
-                                                    <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
-                                                    <div className="no-quests-message">
-                                                        <i className="fas fa-info-circle"></i>
-                                                        <p>Rollable table for this skill is still being developed. Check back later!</p>
-                                                    </div>
-                                                </div>
-                                            )}
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="no-quests-message">
+                                            <i className="fas fa-circle-info"></i>
+                                            <p>No quests found for this rank. Continue training to unlock milestones!</p>
                                         </div>
                                     )}
                                 </div>
-                            );
-                        })}
+                            )}
 
-                        {/* Show selected skills */}
-                        {selectedSkills.map((skillId) => {
-                            // Get skill definition
-                            const skill = SKILL_DEFINITIONS[skillId];
-                            if (!skill) return null;
-
-                            const quests = getAvailableQuests(skillId);
-                            const rollableTable = getCurrentRollableTable(skillId);
-                            const rank = getSkillRank(skillId);
-                            const isExpanded = expandedSkills.has(skillId);
-
-                            return (
-                                <div key={skillId} className="skill-detail-card">
-                                    <div className="skill-detail-header collapsible" onClick={() => toggleSkillExpansion(skillId)}>
-                                        <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
-                                        <div className="skill-detail-info">
-                                            <h4>{skill.name}</h4>
-                                            <p>{skill.description}</p>
-                                            <span className="skill-rank-badge" style={{ color: rank.color }}>
-                                                {rank.name}
-                                            </span>
-                                        </div>
-                                        <div className={`skill-toggle-icon ${isExpanded ? 'expanded' : ''}`}>
-                                            <i className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}></i>
-                                        </div>
-                                    </div>
-
-                                    {isExpanded && (
-                                        <div className="skill-expanded-content">
-                                            {quests.length > 0 ? (
-                                                <div className="quest-preview-section">
-                                                    <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                    <div className="quest-preview-list">
-                                                        {quests.map(quest => (
-                                                            <div key={quest.id} className="quest-preview-item">
-                                                                <img src={getIconUrl(quest.icon, 'abilities')} alt={quest.name} className="quest-preview-icon" />
-                                                                <div className="quest-preview-info">
-                                                                    <strong>{quest.name}</strong>
-                                                                    <p>{quest.description}</p>
-                                                                </div>
-                                                            </div>
-                                                        ))}
+                            {/* Outcomes Roll Table */}
+                            {skillFilter !== 'standard' && (
+                                <div className="grimoire-outcomes-section">
+                                    <h4 className="grimoire-section-title">
+                                        <i className="fas fa-dice-d20"></i> Roll Outcomes Preview ({activeSkillRank.name})
+                                    </h4>
+                                    {activeSkillTable ? (
+                                        <div className="grimoire-outcomes-table">
+                                            <div className="outcomes-table-header">
+                                                <span>Roll Range</span>
+                                                <span>Outcome Result</span>
+                                            </div>
+                                            {activeSkillTable.table.slice(0, 8).map((entry, index) => {
+                                                const outcomeClass = getOutcomeClass(entry.roll);
+                                                return (
+                                                    <div key={index} className={`outcomes-table-row ${outcomeClass}`}>
+                                                        <span className="roll-value">
+                                                            {entry.roll[0] === entry.roll[1] ? entry.roll[0] : `${entry.roll[0]}-${entry.roll[1]}`}
+                                                        </span>
+                                                        <span className="outcome-result">{entry.result}</span>
                                                     </div>
-                                                </div>
-                                            ) : (
-                                                <div className="quest-preview-section">
-                                                    <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                    <div className="no-quests-message">
-                                                        <i className="fas fa-info-circle"></i>
-                                                        <p>Quests for this skill are still being developed. Check back later!</p>
-                                                    </div>
+                                                );
+                                            })}
+                                            {activeSkillTable.table.length > 8 && (
+                                                <div className="outcomes-table-row" style={{ fontStyle: 'italic', color: '#8b7355', display: 'block', textAlign: 'center' }}>
+                                                    ... and {activeSkillTable.table.length - 8} more outcomes
                                                 </div>
                                             )}
-
-                                            {rollableTable ? (
-                                                <div className="table-preview-section">
-                                                    <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
-                                                    <p className="table-description">{rollableTable.description}</p>
-                                                    <div className="table-preview-entries">
-                                                        {rollableTable.table.slice(0, 8).map((entry, index) => (
-                                                            <div key={index} className={`table-preview-entry ${entry.type}`}>
-                                                                <span className="roll-range">
-                                                                    {entry.roll[0] === entry.roll[1]
-                                                                        ? entry.roll[0]
-                                                                        : `${entry.roll[0]}-${entry.roll[1]}`}
-                                                                </span>
-                                                                <span className="roll-result">{entry.result}</span>
-                                                            </div>
-                                                        ))}
-                                                        {rollableTable.table.length > 8 && (
-                                                            <div className="table-preview-more">
-                                                                ... and {rollableTable.table.length - 8} more outcomes
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="table-preview-section">
-                                                    <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
-                                                    <div className="no-quests-message">
-                                                        <i className="fas fa-info-circle"></i>
-                                                        <p>Rollable table for this skill is still being developed. Check back later!</p>
-                                                    </div>
-                                                </div>
-                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="no-quests-message">
+                                            <i className="fas fa-triangle-exclamation"></i>
+                                            <p>Roll table is currently being forged. Standard d20 rules apply.</p>
                                         </div>
                                     )}
                                 </div>
-                            );
-                        })}
-                    </div>
-                )}
-
-                {/* Languages Preview Section */}
-                {(racialLanguages.length > 0 || selectedLanguages.length > 0) && (
-                    <div className="selection-section language-preview-section">
-                        <div className="section-header">
-                            <h3><i className="fas fa-comments"></i> Languages Summary</h3>
-                            <p className="section-description">
-                                Your character knows the following languages.
-                            </p>
-                        </div>
-
-                        <div className="language-summary-grid">
-                            {/* Racial Languages */}
-                            {racialLanguages.length > 0 && (
-                                <div className="language-category">
-                                    <h4><i className="fas fa-star"></i> Racial Languages</h4>
-                                    <div className="language-list">
-                                        {racialLanguages.map(lang => {
-                                            const langData = COMMON_LANGUAGES.find(l => l.name === lang);
-                                            return (
-                                                <div key={lang} className="language-item racial">
-                                                    <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
-                                                    <span className="language-name">{lang}</span>
-                                                    <span className="language-source">Racial</span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Selected Languages */}
-                            {selectedLanguages.length > 0 && (
-                                <div className="language-category">
-                                    <h4><i className="fas fa-book"></i> Additional Languages</h4>
-                                    <div className="language-list">
-                                        {selectedLanguages.map(lang => {
-                                            const langData = COMMON_LANGUAGES.find(l => l.name === lang);
-                                            return (
-                                                <div key={lang} className="language-item selected">
-                                                    <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
-                                                    <span className="language-name">{lang}</span>
-                                                    <span className="language-source">Learned</span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
                             )}
                         </div>
-                    </div>
-                )}
+                    ) : (
+                        <div className="skill-grimoire-inspector">
+                            <div className="grimoire-empty-state">
+                                <i className="fas fa-compass empty-icon"></i>
+                                <h3>Inspect a Skill</h3>
+                                <p>Select any skill from the left list to inspect its attributes, quests, and roll outcome previews.</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
             </div>
 
             {/* Unified Tooltip */}
@@ -852,4 +782,3 @@ const Step7SkillsLanguages = () => {
 };
 
 export default Step7SkillsLanguages;
-

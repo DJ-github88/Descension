@@ -41,7 +41,7 @@ import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
 // Maps class names to their data files for dynamic loading
-const CLASS_DATA_MAP = {
+export const CLASS_DATA_MAP = {
   'Arcanoneer': ARCANONEER_DATA,
   'Berserker': BERSERKER_DATA,
   'Bladedancer': BLADEDANCER_DATA,

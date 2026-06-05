@@ -8007,17 +8007,13 @@ const MultiplayerGameContent = ({
     }
   }, [denyRewardDelivery, socket, activeRewardDelivery]);
 
-  if (!currentRoom) {
-    return null;
-  }
-
-  // Note: We now use the actualPlayerCount prop passed from the parent which tracks server updates
-  // const actualPlayerCount = (currentRoom.players ? currentRoom.players.length : 0) + 1; 
-
-  // Memoize transition complete handler to prevent re-triggering effect in overlay
   const handleTransitionComplete = useCallback(() => {
     setMapTransition({ isActive: false, mapName: '', transferredByGM: false });
   }, [setMapTransition]);
+
+  if (!currentRoom) {
+    return null;
+  }
 
   return (
     <div className="multiplayer-vtt">

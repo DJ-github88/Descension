@@ -94,46 +94,44 @@ const Step8LoreDetails = () => {
 
     return (
         <div className="wizard-step-content">
-            <div className="step-body">
-                <div className="lore-details-layout">
-                    <div className="lore-section">
-                        <div className="lore-header">
-                            <h2>
-                                <i className="fas fa-scroll"></i>
-                                Character Lore &amp; Personality
-                            </h2>
-                            <p className="lore-description">
-                                Bring your character to life by defining their backstory, personality, and motivations.
-                                All fields are optional — but the more you add, the more memorable your hero becomes.
-                            </p>
-                        </div>
-
-                        {LORE_GROUPS.map((group) => (
-                            <div key={group.key} className="lore-group">
-                                <div className="lore-group-header">
-                                    <i className={group.icon}></i>
-                                    {group.label}
-                                </div>
-                                <div className={`lore-group-fields${group.twoCol ? ' two-col' : ''}`}>
-                                    {group.fields.map((field) => (
-                                        <div key={field.key} className="lore-field-container">
-                                            <label className="lore-field-label">
-                                                <i className={field.icon}></i>
-                                                {field.label}
-                                            </label>
-                                            <textarea
-                                                className="lore-field-input"
-                                                placeholder={field.placeholder}
-                                                value={loreData[field.key] || ''}
-                                                onChange={(e) => handleLoreChange(field.key, e.target.value)}
-                                                rows={field.rows}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
+            <div className="lore-details-layout">
+                <div className="lore-section">
+                    <div className="lore-header">
+                        <h2>
+                            <i className="fas fa-scroll"></i>
+                            Character Lore &amp; Personality
+                        </h2>
+                        <p className="lore-description">
+                            Bring your character to life by defining their backstory, personality, and motivations.
+                            All fields are optional — but the more you add, the more memorable your hero becomes.
+                        </p>
                     </div>
+
+                    {LORE_GROUPS.map((group) => (
+                        <div key={group.key} className="lore-group">
+                            <div className="lore-group-header">
+                                <i className={group.icon}></i>
+                                {group.label}
+                            </div>
+                            <div className={`lore-group-fields${group.twoCol ? ' two-col' : ''}`}>
+                                {group.fields.map((field) => (
+                                    <div key={field.key} className="lore-field-container">
+                                        <label className="lore-field-label">
+                                            <i className={field.icon}></i>
+                                            {field.label}
+                                        </label>
+                                        <textarea
+                                            className="lore-field-input"
+                                            placeholder={field.placeholder}
+                                            value={loreData[field.key] || ''}
+                                            onChange={(e) => handleLoreChange(field.key, e.target.value)}
+                                            rows={field.rows}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

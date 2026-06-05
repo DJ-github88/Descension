@@ -238,7 +238,7 @@ const CharacterAppearanceModal = ({
         backgroundColor: characterData.iconBackgroundColor || '#f8f5eb',
         borderColor: characterData.iconBorderColor || '#d4af37',
         backgroundImage: characterData.iconBackgroundImage
-            ? `url(/assets/backgrounds/${characterData.iconBackgroundImage})`
+            ? `url(/assets/Backgrounds/${characterData.iconBackgroundImage})`
             : 'none',
         backgroundSize: characterData.iconBackgroundImage
             ? `${(characterData.iconBackgroundScale || 2.5) * 100}%`
@@ -397,7 +397,7 @@ const CharacterAppearanceModal = ({
                                     <div
                                         key={bg}
                                         className={`pw-bg-item ${characterData.iconBackgroundImage === bg ? 'pw-bg-active' : ''}`}
-                                        style={{ backgroundImage: `url(/assets/backgrounds/${encodeURIComponent(bg)})` }}
+                                        style={{ backgroundImage: `url(/assets/Backgrounds/${encodeURIComponent(bg)})` }}
                                         onClick={() => onUpdate({ iconBackgroundImage: bg })}
                                         title={bg.replace('.png', '').replace(/([A-Z])/g, ' $1').trim()}
                                     />
