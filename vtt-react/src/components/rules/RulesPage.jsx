@@ -129,8 +129,11 @@ const normalizeClassName = (text) => {
 const processMarkdown = (text) => {
   if (!text) return text;
 
+  // Strip blockquote markers ("> ") from the start of lines so they don't render literally
+  let processed = text.replace(/^>\s?/gm, '');
+
   // Process **bold** text
-  let processed = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  processed = processed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
   // Process *italic* text
   processed = processed.replace(/\*(.*?)\*/g, '<em>$1</em>');
@@ -144,13 +147,8 @@ const processMarkdown = (text) => {
     return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="rules-external-link">${linkText}</a>`;
   });
 
-  // Process bullet points (• at start of line)
-  processed = processed.replace(/^• (.+)$/gm, '<li>$1</li>');
-
-  // Wrap consecutive list items in <ul> and strip inter-item newlines to prevent invalid <br> injections
-  processed = processed.replace(/(<li>(?:(?!<\/li>)[\s\S])*<\/li>(?:\s*<li>(?:(?!<\/li>)[\s\S])*<\/li>)*)/g, (match) => {
-    return `<ul>${match.trim().replace(/\n/g, '')}</ul>`;
-  });
+  // Process bullet points (• at start of line) — strip the literal bullet so the CSS pseudo-element handles it
+  processed = processed.replace(/^•\s*/gm, '');
 
   // Process line breaks
   processed = processed.replace(/\n\n/g, '</p><p>');
@@ -1292,7 +1290,7 @@ const RulesPage = () => {
           title={currentContent.title}
           subtitle={currentContent.description}
           badge={breadcrumbs.category?.toUpperCase()}
-          badgeIcon="fas fa-book-open"
+          badgeIcon={currentSubcategory?.icon || currentCategory?.icon || 'fas fa-book-open'}
           theme={sectionTheme}
           quickTiles={currentSubcategory?.quickFacts}
         />

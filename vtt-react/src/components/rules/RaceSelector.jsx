@@ -6,6 +6,7 @@ import { getIconUrl } from '../../utils/assetManager';
 import RaceEpicLore from './RaceEpicLore';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
+import { useFlavorTooltip } from './FlavorTooltip';
 import './RaceSelector.css';
 
 // Parses lore text to render recognised dictionary terms as interactive LoreLink popups
@@ -743,45 +744,88 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
       : displayText
     : null;
 
+  // Build concise hover flavor: short flavor line (under 280 chars)
+  const hoverFlavor = displayText
+    ? (displayText.length > 280 ? displayText.substring(0, 280).trim() + '…' : displayText)
+    : null;
+
+  const { triggerProps, tooltip } = useFlavorTooltip({
+    title: race.name,
+    flavor: hoverFlavor,
+    essence: race.essence,
+    icon: race.icon
+  });
+
   return (
-    <div
-      className={`race-card ${isSelected ? 'selected' : ''}`}
-      onClick={() => onSelect(race.id)}
-      style={{ '--race-gradient': race.gradient }}
-    >
-      <div className="race-card-header">
-        <div className="race-card-icon">
-          <i className={race.icon}></i>
+    <>
+      <div
+        className={`race-card ${isSelected ? 'selected' : ''}`}
+        onClick={() => onSelect(race.id)}
+        style={{ '--race-gradient': race.gradient }}
+        {...triggerProps}
+      >
+        <div className="race-card-header">
+          <div className="race-card-icon">
+            <i className={race.icon}></i>
+          </div>
+          <div className="race-card-title-area">
+            <h4 className="race-card-name">{race.name}</h4>
+            {race.essence && <p className="race-card-essence">{race.essence}</p>}
+          </div>
         </div>
-        <div className="race-card-title-area">
-          <h4 className="race-card-name">{race.name}</h4>
-          {race.essence && <p className="race-card-essence">{race.essence}</p>}
+        {truncatedDesc && (
+          <p className="race-card-description">{truncatedDesc}</p>
+        )}
+        <div className="race-card-info">
+          <span className="info-badge">
+            <i className="fas fa-users"></i>
+            {race.variantCount} {race.variantCount === 1 ? 'Variant' : 'Variants'}
+          </span>
         </div>
       </div>
-      {truncatedDesc && (
-        <p className="race-card-description">{truncatedDesc}</p>
-      )}
-      <div className="race-card-info">
-        <span className="info-badge">
-          <i className="fas fa-users"></i>
-          {race.variantCount} {race.variantCount === 1 ? 'Variant' : 'Variants'}
-        </span>
-      </div>
-    </div>
+      {tooltip}
+    </>
   );
 });
 
 // Memoized Variant Card Component
-const VariantCard = React.memo(({ variantId, variant, isSelected, onSelect }) => (
-  <div
-    className={`variant-card ${isSelected ? 'selected' : ''}`}
-    onClick={() => onSelect(variantId)}
-  >
-    <h4 className="variant-card-name">{variant.name}</h4>
-    <p className="variant-card-description">{variant.description}</p>
-    <StatModifiersMini statModifiers={variant.statModifiers} />
-  </div>
-));
+const VariantCard = React.memo(({ variantId, variant, isSelected, onSelect }) => {
+  // Build concise hover flavor from the subrace's description
+  const hoverFlavor = variant.description
+    ? (variant.description.length > 280
+        ? variant.description.substring(0, 280).trim() + '…'
+        : variant.description)
+    : null;
+
+  // Compose essence line: stat modifiers as a short flavor
+  const statLine = variant.statModifiers
+    ? Object.entries(variant.statModifiers)
+        .filter(([, v]) => v !== 0)
+        .map(([stat, v]) => `${stat.substring(0, 3).toUpperCase()} ${v > 0 ? '+' : ''}${v}`)
+        .join(' · ')
+    : null;
+
+  const { triggerProps, tooltip } = useFlavorTooltip({
+    title: variant.name,
+    flavor: hoverFlavor,
+    essence: statLine || undefined
+  });
+
+  return (
+    <>
+      <div
+        className={`variant-card ${isSelected ? 'selected' : ''}`}
+        onClick={() => onSelect(variantId)}
+        {...triggerProps}
+      >
+        <h4 className="variant-card-name">{variant.name}</h4>
+        <p className="variant-card-description">{variant.description}</p>
+        <StatModifiersMini statModifiers={variant.statModifiers} />
+      </div>
+      {tooltip}
+    </>
+  );
+});
 
 // Memoized Stat Modifiers Mini Component
 const StatModifiersMini = React.memo(({ statModifiers }) => (

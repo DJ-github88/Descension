@@ -122,6 +122,7 @@ const Step7SkillsLanguages = () => {
 
     const [activeTab, setActiveTab] = useState('skills'); // 'skills' or 'languages'
     const [skillFilter, setSkillFilter] = useState('standard'); // 'standard' or 'advanced'
+    const [expandedCategory, setExpandedCategory] = useState('Combat Mastery');
     const [inspectedSkillId, setInspectedSkillId] = useState(null);
 
     const [selectedSkills, setSelectedSkills] = useState(characterData.selectedSkills || []);
@@ -423,25 +424,7 @@ const Step7SkillsLanguages = () => {
                                     </div>
                                 </div>
 
-                                {/* Standard/Advanced Toggle Filter */}
-                                <div className="skills-filter-toggle">
-                                    <button
-                                        type="button"
-                                        className={`filter-btn ${skillFilter === 'standard' ? 'active' : ''}`}
-                                        onClick={() => setSkillFilter('standard')}
-                                    >
-                                        <i className="fas fa-scroll"></i> Standard Rules
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`filter-btn ${skillFilter === 'advanced' ? 'active' : ''}`}
-                                        onClick={() => setSkillFilter('advanced')}
-                                    >
-                                        <i className="fas fa-wand-magic-sparkles"></i> Advanced Rules
-                                    </button>
-                                </div>
-
-                                {/* Skill Category Lists */}
+                                {/* Skill Category Lists (Accordion) */}
                                 {Object.entries(SKILLS_BY_CATEGORY).map(([categoryName, skills]) => {
                                     if (skills.length === 0) return null;
 
@@ -452,57 +435,65 @@ const Step7SkillsLanguages = () => {
                                         social: 'fa-comments',
                                         arcane: 'fa-wand-magic-sparkles'
                                     };
+                                    const isExpanded = expandedCategory === categoryName;
 
                                     return (
-                                        <div key={categoryName} className={`skill-category-group ${categorySlug}`}>
-                                            <div className="skill-category-header">
+                                        <div key={categoryName} className={`skill-category-group ${categorySlug} ${isExpanded ? 'expanded' : ''}`}>
+                                            <div
+                                                className="skill-category-header"
+                                                onClick={() => setExpandedCategory(isExpanded ? null : categoryName)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
                                                 <i className={`fas ${categoryIcons[categorySlug] || 'fa-star'}`}></i>
                                                 <span>{categoryName}</span>
+                                                <span className="category-skill-count">{skills.length} skills</span>
+                                                <i className={`fas fa-chevron-${isExpanded ? 'up' : 'down'} category-chevron`}></i>
                                             </div>
-                                            <div className="category-skills-grid">
-                                                {skills.map(skill => {
-                                                    const isGranted = isSkillGranted(skill.id);
-                                                    const isSelected = selectedSkills.includes(skill.id);
-                                                    const isDisabled = isSkillDisabled(skill.id);
-                                                    const isInspected = inspectedSkillId === skill.id;
-                                                    const rankData = getSkillRankData(skill.id);
-                                                    const isProf = isSkillProficient(skill.id, skillRanks);
+                                            {isExpanded && (
+                                                <div className="category-skills-grid">
+                                                    {skills.map(skill => {
+                                                        const isGranted = isSkillGranted(skill.id);
+                                                        const isSelected = selectedSkills.includes(skill.id);
+                                                        const isDisabled = isSkillDisabled(skill.id);
+                                                        const isInspected = inspectedSkillId === skill.id;
+                                                        const rankData = getSkillRankData(skill.id);
+                                                        const isProf = isSkillProficient(skill.id, skillRanks);
 
-                                                    return (
-                                                        <div
-                                                            key={skill.id}
-                                                            className={`premium-skill-card ${isInspected ? 'active-inspected' : ''} ${isGranted ? 'granted-skill' : ''} ${isSelected ? 'selected-skill' : ''} ${isDisabled && !isSelected && !isGranted ? 'disabled' : ''}`}
-                                                            onClick={(e) => {
-                                                                setInspectedSkillId(skill.id);
-                                                                // Toggle if clicked check icon or was already inspected
-                                                                const isCheckIconClick = e.target.closest('.selection-indicator');
-                                                                if (isCheckIconClick || isInspected) {
-                                                                    if (!isGranted && !isDisabled) {
-                                                                        handleSkillToggle(skill.id);
+                                                        return (
+                                                            <div
+                                                                key={skill.id}
+                                                                className={`premium-skill-card ${isInspected ? 'active-inspected' : ''} ${isGranted ? 'granted-skill' : ''} ${isSelected ? 'selected-skill' : ''} ${isDisabled && !isSelected && !isGranted ? 'disabled' : ''}`}
+                                                                onClick={(e) => {
+                                                                    setInspectedSkillId(skill.id);
+                                                                    const isCheckIconClick = e.target.closest('.selection-indicator');
+                                                                    if (isCheckIconClick || isInspected) {
+                                                                        if (!isGranted && !isDisabled) {
+                                                                            handleSkillToggle(skill.id);
+                                                                        }
                                                                     }
-                                                                }
-                                                            }}
-                                                            onMouseEnter={handleMouseEnter(skill.description, skill.name)}
-                                                            onMouseLeave={handleMouseLeave}
-                                                            onMouseMove={handleMouseMove}
-                                                        >
-                                                            <div className="skill-card-icon-container">
-                                                                <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-card-icon" />
+                                                                }}
+                                                                onMouseEnter={handleMouseEnter(skill.description, skill.name)}
+                                                                onMouseLeave={handleMouseLeave}
+                                                                onMouseMove={handleMouseMove}
+                                                            >
+                                                                <div className="skill-card-icon-container">
+                                                                    <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-card-icon" />
+                                                                </div>
+                                                                <div className="skill-card-info">
+                                                                    <span className="skill-card-name">{skill.name}</span>
+                                                                    <span className="skill-card-rank" style={{ color: rankData.color }}>
+                                                                        {rankData.name}
+                                                                    </span>
+                                                                </div>
+                                                                {isProf && <span className="proficient-tag" title="Proficient">Proficient</span>}
+                                                                <div className="selection-indicator">
+                                                                    {(isSelected || isGranted) ? <i className="fas fa-check"></i> : null}
+                                                                </div>
                                                             </div>
-                                                            <div className="skill-card-info">
-                                                                <span className="skill-card-name">{skill.name}</span>
-                                                                <span className="skill-card-rank" style={{ color: rankData.color }}>
-                                                                    {rankData.name}
-                                                                </span>
-                                                            </div>
-                                                            {isProf && <span className="proficient-tag" title="Proficient">Proficient</span>}
-                                                            <div className="selection-indicator">
-                                                                {(isSelected || isGranted) ? <i className="fas fa-check"></i> : null}
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 })}
@@ -753,6 +744,101 @@ const Step7SkillsLanguages = () => {
                                     )}
                                 </div>
                             )}
+
+                            {/* Rules Reference Section */}
+                            <div className="grimoire-rules-section">
+                                <div className="grimoire-rules-toggle">
+                                    <button
+                                        type="button"
+                                        className={`rules-toggle-btn ${skillFilter === 'standard' ? 'active' : ''}`}
+                                        onClick={() => setSkillFilter('standard')}
+                                    >
+                                        <i className="fas fa-scroll"></i> Standard Rules
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`rules-toggle-btn ${skillFilter === 'advanced' ? 'active' : ''}`}
+                                        onClick={() => setSkillFilter('advanced')}
+                                    >
+                                        <i className="fas fa-wand-magic-sparkles"></i> Advanced Rules
+                                    </button>
+                                </div>
+
+                                {skillFilter === 'standard' ? (
+                                    <div className="rules-content-block">
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-magic"></i> The Core Idea</h5>
+                                            <p>Every skill is represented by a single die size, written directly on your character sheet: <strong>4</strong> for a d4, <strong>6</strong> for a d6, <strong>8</strong> for a d8, and so on.</p>
+                                            <ul>
+                                                <li><strong>d4 Baseline</strong>: All characters start with a d4 (written as "4") in all skills. Baseline attempt is always possible.</li>
+                                                <li><strong>Organic Upgrades</strong>: Successful learning or extraordinary actions trigger dynamic upgrades awarded by the GM.</li>
+                                                <li><strong>Conversation Driven</strong>: Set your die size manually under your sheet as your character grows.</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-crosshairs"></i> Difficulty Classes (DCs)</h5>
+                                            <p>Instead of assigned difficulty dice, roll against fixed target numbers:</p>
+                                            <div className="dc-ref-grid">
+                                                <div className="dc-ref-row"><span>DC 2</span><strong>Trivial</strong><span>Climbing a ladder, lighting campfire</span></div>
+                                                <div className="dc-ref-row"><span>DC 4</span><strong>Easy</strong><span>Picking a rusty lock, tracking in mud</span></div>
+                                                <div className="dc-ref-row"><span>DC 6</span><strong>Moderate</strong><span>Climbing a knotted rope, deceiving guards</span></div>
+                                                <div className="dc-ref-row"><span>DC 8</span><strong>Challenging</strong><span>Scaling wall handholds, disarming traps</span></div>
+                                                <div className="dc-ref-row"><span>DC 10</span><strong>Hard</strong><span>Climbing steep mountains, field surgery</span></div>
+                                                <div className="dc-ref-row"><span>DC 12+</span><strong>Legendary</strong><span>Tasks bordering on the impossible</span></div>
+                                            </div>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-bolt"></i> Exploding Dice</h5>
+                                            <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong> — roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
+                                            <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="rules-content-block">
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
+                                            <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery — trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
+                                            <ul>
+                                                <li>Each skill is tied to a <strong>primary and secondary attribute</strong>.</li>
+                                                <li>The GM assigns a <strong>Difficulty Die</strong> — from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
+                                                <li>If your primary or secondary attribute modifier reaches <strong>+5 or higher</strong>, your mastery steps the difficulty die down by one size.</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-layer-group"></i> Skill Ranks &amp; Progression</h5>
+                                            <p>Skills advance through seven ranks:</p>
+                                            <div className="dc-ref-grid">
+                                                <div className="dc-ref-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline — no bonus</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#2563eb'}}>Adept</span><span>d12</span><span>+4 to checks, 9 quests</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#7a3b2e'}}>Expert</span><span>d20</span><span>+5 to checks, 11 quests</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#9d4edd'}}>Master</span><span>d20</span><span>+6 to checks, 12 quests</span></div>
+                                            </div>
+                                            <p style={{marginTop:'8px', fontSize:'0.85rem'}}><strong>Skill Quests</strong> are narrative milestones that unlock as you use abilities in the world. Completing them advances your rank and opens new proficient ability options.</p>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-dice-d20"></i> Critical Success &amp; Failure</h5>
+                                            <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong> — the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
+                                            <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank — complications arise, and the GM determines how badly the moment turns.</p>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
+                                            <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     ) : (
                         <div className="skill-grimoire-inspector">
@@ -760,6 +846,101 @@ const Step7SkillsLanguages = () => {
                                 <i className="fas fa-compass empty-icon"></i>
                                 <h3>Inspect a Skill</h3>
                                 <p>Select any skill from the left list to inspect its attributes, quests, and roll outcome previews.</p>
+                            </div>
+
+                            {/* Rules Reference Section (shown even when no skill selected) */}
+                            <div className="grimoire-rules-section">
+                                <div className="grimoire-rules-toggle">
+                                    <button
+                                        type="button"
+                                        className={`rules-toggle-btn ${skillFilter === 'standard' ? 'active' : ''}`}
+                                        onClick={() => setSkillFilter('standard')}
+                                    >
+                                        <i className="fas fa-scroll"></i> Standard Rules
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`rules-toggle-btn ${skillFilter === 'advanced' ? 'active' : ''}`}
+                                        onClick={() => setSkillFilter('advanced')}
+                                    >
+                                        <i className="fas fa-wand-magic-sparkles"></i> Advanced Rules
+                                    </button>
+                                </div>
+
+                                {skillFilter === 'standard' ? (
+                                    <div className="rules-content-block">
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-magic"></i> The Core Idea</h5>
+                                            <p>Every skill is represented by a single die size, written directly on your character sheet: <strong>4</strong> for a d4, <strong>6</strong> for a d6, <strong>8</strong> for a d8, and so on.</p>
+                                            <ul>
+                                                <li><strong>d4 Baseline</strong>: All characters start with a d4 (written as "4") in all skills. Baseline attempt is always possible.</li>
+                                                <li><strong>Organic Upgrades</strong>: Successful learning or extraordinary actions trigger dynamic upgrades awarded by the GM.</li>
+                                                <li><strong>Conversation Driven</strong>: Set your die size manually under your sheet as your character grows.</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-crosshairs"></i> Difficulty Classes (DCs)</h5>
+                                            <p>Instead of assigned difficulty dice, roll against fixed target numbers:</p>
+                                            <div className="dc-ref-grid">
+                                                <div className="dc-ref-row"><span>DC 2</span><strong>Trivial</strong><span>Climbing a ladder, lighting campfire</span></div>
+                                                <div className="dc-ref-row"><span>DC 4</span><strong>Easy</strong><span>Picking a rusty lock, tracking in mud</span></div>
+                                                <div className="dc-ref-row"><span>DC 6</span><strong>Moderate</strong><span>Climbing a knotted rope, deceiving guards</span></div>
+                                                <div className="dc-ref-row"><span>DC 8</span><strong>Challenging</strong><span>Scaling wall handholds, disarming traps</span></div>
+                                                <div className="dc-ref-row"><span>DC 10</span><strong>Hard</strong><span>Climbing steep mountains, field surgery</span></div>
+                                                <div className="dc-ref-row"><span>DC 12+</span><strong>Legendary</strong><span>Tasks bordering on the impossible</span></div>
+                                            </div>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-bolt"></i> Exploding Dice</h5>
+                                            <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong> — roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
+                                            <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="rules-content-block">
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
+                                            <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery — trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
+                                            <ul>
+                                                <li>Each skill is tied to a <strong>primary and secondary attribute</strong>.</li>
+                                                <li>The GM assigns a <strong>Difficulty Die</strong> — from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
+                                                <li>If your primary or secondary attribute modifier reaches <strong>+5 or higher</strong>, your mastery steps the difficulty die down by one size.</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-layer-group"></i> Skill Ranks &amp; Progression</h5>
+                                            <p>Skills advance through seven ranks:</p>
+                                            <div className="dc-ref-grid">
+                                                <div className="dc-ref-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline — no bonus</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#2563eb'}}>Adept</span><span>d12</span><span>+4 to checks, 9 quests</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#7a3b2e'}}>Expert</span><span>d20</span><span>+5 to checks, 11 quests</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#9d4edd'}}>Master</span><span>d20</span><span>+6 to checks, 12 quests</span></div>
+                                            </div>
+                                            <p style={{marginTop:'8px', fontSize:'0.85rem'}}><strong>Skill Quests</strong> are narrative milestones that unlock as you use abilities in the world. Completing them advances your rank and opens new proficient ability options.</p>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-dice-d20"></i> Critical Success &amp; Failure</h5>
+                                            <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong> — the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
+                                            <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank — complications arise, and the GM determines how badly the moment turns.</p>
+                                        </div>
+
+                                        <div className="rules-subsection">
+                                            <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
+                                            <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

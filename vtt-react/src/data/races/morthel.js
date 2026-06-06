@@ -153,7 +153,7 @@ The argument they presented was three pages long. Its central claim: the Keeper'
 
 The Keeper accepted.
 
-The surviving clan-members rose from the bog with skin that caught the canopy-light like mother-of-pearl. Their breath stilled — they no longer needed air except to speak. Their eyes darkened into pools that reflected the bioluminescent trees like captive skies. And in the heartwood of the oldest ironwood tree in the forest, the First Contract appeared — not written, but *grown*, the text visible through the living wood like a fossil in amber, in a language that both parties understood and neither had invented.
+The surviving clan-members rose from the bog with skin that caught the canopy-light like pure-silver. Their breath stilled — they no longer needed air except to speak. Their eyes darkened into pools that reflected the bioluminescent trees like captive skies. And in the heartwood of the oldest ironwood tree in the forest, the First Contract appeared — not written, but *grown*, the text visible through the living wood like a fossil in amber, in a language that both parties understood and neither had invented.
 
 The first century was spent building Atropolis — coaxing the ancient ironwood into cathedral-shapes, weaving the canopy into an archive that was also a city. The pact's terms were tested and refined. Copies of the First Contract were created and placed at the edges of Neth expansion: the Iceheart Sea outpost that would become Ironjaw Port, the Frostwood Reach trade-embassy, the Sundale crossroads where the ashland merchants met the forest. Each copy was a slightly weaker anchor, but together they created a network that allowed the Neth to stretch beyond the Gloom without Fading.
 
@@ -230,7 +230,7 @@ Vaelis was the eldest of the dying clan of scribes who walked into the deep wood
 
 The argument she drafted was three pages long. She wrote it in three hours while her youngest grandchild — a girl named Thira, seven years old, already silver-mottled with frostbite — slept in her lap. The argument was not a prayer. It was not a supplication. It was a legal brief addressed to an entity with no known jurisdiction, citing precedents from a civilization that no longer existed, demanding terms that had never been negotiated before.
 
-When the Keeper accepted — when the silver bloomed across Vaelis's skin and her breath stopped in her chest — she did not weep. She did not celebrate. She looked at her granddaughter, whose frostbite had vanished, whose skin now shimmered with the same mother-of-pearl luminescence, whose dark eyes reflected the canopy-light like a mirror, and she said: *"The terms are binding. We must begin the archive."*
+When the Keeper accepted — when the silver bloomed across Vaelis's skin and her breath stopped in her chest — she did not weep. She did not celebrate. She looked at her granddaughter, whose frostbite had vanished, whose skin now shimmered with the same pure-silver luminescence, whose dark eyes reflected the canopy-light like a mirror, and she said: *"The terms are binding. We must begin the archive."*
 
 Vaelis lived for another one hundred and forty-seven years. She personally wrote the first three thousand contracts in the Atropolis archive. She established the formatting conventions that the Neth still use — clause numbering, witness requirements, enforcement mechanisms. She refused to take a title. She refused to be called the founder. She insisted, until her final return, that she had simply been the scribe on duty when the argument needed to be written.
 
@@ -340,6 +340,7 @@ The Neth do not love the Keeper. They respect it the way a debtor respects a cre
             name: 'Velun',
             illustration: '/assets/images/races/velun_illustration.png',
             illustrationCaption: 'A Velun arcanist in layered ghost-silk robes, silver skin catching canopy-light, dark eyes reflecting the contract-glyph that spirals around the pupil.',
+            tooltipSummary: 'Tongue-bound contract-lords whose binding words carry legal weight, commanding authority through the Pact\'s absolute truth-sense.',
             description: 'The inheritors of the Keeper\'s authority. When a Velun speaks the pact\'s words, the universe listens — their voice carries the Keeper\'s cosmic weight, and their contracts are enforceable by the same entity that preserves their species. In exchange, their tongue is bound: they cannot lie, cannot break a spoken promise, cannot speak in hypotheticals without the pact treating it as a potential contract under review.',
             culturalBackground: `The Velun trace their bloodline to the original scribes who presented the First Contract to the Keeper — Vaelis the Scribe's direct descendants, generation by generation, clause by clause. They run Atropolis. They write the contracts that govern Neth society. They negotiate with the Emberth, the humans, the Mimir, anyone who needs Neth preservation-craft or Neth memory-glass — and their negotiations are always, always binding.
 
@@ -477,6 +478,7 @@ They view the Kessen with a mixture of admiration and unease — the Kessen see 
             name: 'Kessen',
             illustration: '/assets/images/races/kessen_illustration.png',
             illustrationCaption: 'A Kessen weaver in close-fitting silver-grey silks, eyes unfocused on the obligation-web, probability-glyphs visible only to them tracing the air around their fingers.',
+            tooltipSummary: 'Fate-thread readers who weave probability from the temporal ledger, riding the razor edge between insight and temporal paralysis.',
             description: 'The inheritors of the Keeper\'s sight. Where the Velun see the text, the Kessen see the implications — the web of obligation connecting every signatory across time, the probability-tendrils of contracts not yet signed, the future clauses that will exist if certain choices are made. They manipulate fate by tugging the right thread at the right moment. Every tug snaps something elsewhere.',
             culturalBackground: `The Kessen are the Neth who read between the lines. Their bloodline inherited the Keeper's sight — not the authority to enforce contracts, but the perception to see what contracts *imply.* They perceive the obligation-web: a visible, shimmering network of debt-threads connecting every living thing who has ever promised anything to anyone. The web extends across time — a Kessen can see the ghost-threads of promises not yet made, the probability-tendrils of contracts that will exist if certain choices are taken.
 
@@ -622,6 +624,7 @@ They view the Velun with a mixture of respect and pity — the Velun have power,
             name: 'Drun',
             illustration: '/assets/images/races/drun_illustration.png',
             illustrationCaption: 'A Drun outcast in simple, unmarked fabrics, silver skin slightly dulled from distance to the pact, dark eyes watching something the pact-bound cannot perceive.',
+            tooltipSummary: 'Severed void-walkers who cut their pact-seals to gain magic immunity, becoming legally nonexistent silence-walkers who bear the pact-sickness as their price.',
             description: 'The inheritors of the Keeper\'s silence. Through the Severing — a traumatic fire-ritual that burns their name from every active copy of the First Contract — the Drun have removed themselves from the pact entirely. They are magic-resistant, debt-null, invisible to the Keeper\'s enforcement. They are also legally non-existent: no property, no marriage, no testimony in a Neth court. Their freedom is absolute. Their vulnerability is absolute.',
             culturalBackground: `The Drun were not meant to exist. The original pact made no provision for Neth who might wish to leave it — the terms were binding in perpetuity, and "perpetuity," in Neth contract law, means "until the Keeper releases you, and the Keeper has never released anyone."
 

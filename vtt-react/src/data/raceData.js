@@ -21,6 +21,7 @@ import { morthel } from './races/morthel';
 import { astril } from './races/astril';
 import { fexrick } from './races/fexrick';
 import { human } from './races/human';
+import { corvani } from './races/corvani';
 
 export const RACE_DATA = {
     myrathil,
@@ -32,7 +33,8 @@ export const RACE_DATA = {
     morthel,
     astril,
     fexrick,
-    human
+    human,
+    corvani
 };
 
 export const getRaceList = () => {

@@ -12024,9 +12024,7 @@ const UnifiedSpellCard = ({
                               // If description already has both magnitude and stat name, don't add mechanicsText
                               const descriptionHasStatReduction = hasMagnitude && hasStatName;
                               
-                              // Build mechanics text - suppress if description already explains the effect
-                              // For Dodge reaction, show total Dodge Rating (e.g., "+2 Dodge Rating" = 1 base + 1 from reaction)
-                              const sign = (isDodgeReaction && magnitude > 0) ? '+' : (magnitude >= 0 ? '' : '');
+                              const sign = magnitude >= 0 ? '+' : '';
                               mechanicsText = descriptionHasStatReduction ? '' : `${sign}${cleanFormula(magnitude)}${typeText} ${statName}`;
                               
                               // Build description with duration and save

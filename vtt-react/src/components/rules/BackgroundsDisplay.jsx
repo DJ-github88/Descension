@@ -1,8 +1,55 @@
 import React, { useState } from 'react';
 import { getAllBackgrounds } from '../../data/backgroundData';
+import { useFlavorTooltip } from './FlavorTooltip';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './BackgroundSelector.css';
+
+const BackgroundCard = ({ background, isSelected, onSelect }) => {
+    // Build a concise hover flavor: short description + feature name if present
+    const featureName = background.feature?.name;
+    const hoverFlavor = background.description
+        ? (background.description.length > 260
+            ? background.description.substring(0, 260).trim() + '…'
+            : background.description)
+        : null;
+    const hoverEssence = featureName
+        ? `Feature: ${featureName}`
+        : `${background.skillProficiencies.length} skills${background.languages > 0 ? ` · ${background.languages} lang` : ''}`;
+
+    const { triggerProps, tooltip } = useFlavorTooltip({
+        title: background.name,
+        flavor: hoverFlavor,
+        essence: hoverEssence,
+        icon: 'fas fa-id-badge'
+    });
+
+    return (
+        <>
+            <div
+                className={`background-card ${isSelected ? 'selected' : ''}`}
+                onClick={() => onSelect(background.id)}
+                {...triggerProps}
+            >
+                <h4 className="background-card-name">{background.name}</h4>
+                <p className="background-card-description">{background.description}</p>
+                <div className="background-card-info">
+                    <span className="info-badge">
+                        <i className="fas fa-cogs"></i>
+                        {background.skillProficiencies.length} Skills
+                    </span>
+                    {background.languages > 0 && (
+                        <span className="info-badge">
+                            <i className="fas fa-language"></i>
+                            {background.languages} Lang
+                        </span>
+                    )}
+                </div>
+            </div>
+            {tooltip}
+        </>
+    );
+};
 
 const BackgroundsDisplay = () => {
     const [selectedBackground, setSelectedBackground] = useState(null);
@@ -33,26 +80,12 @@ const BackgroundsDisplay = () => {
                 </p>
                 <div className="background-grid">
                     {backgrounds.map(background => (
-                        <div
+                        <BackgroundCard
                             key={background.id}
-                            className={`background-card ${selectedBackground === background.id ? 'selected' : ''}`}
-                            onClick={() => handleBackgroundSelect(background.id)}
-                        >
-                            <h4 className="background-card-name">{background.name}</h4>
-                            <p className="background-card-description">{background.description}</p>
-                            <div className="background-card-info">
-                                <span className="info-badge">
-                                    <i className="fas fa-cogs"></i>
-                                    {background.skillProficiencies.length} Skills
-                                </span>
-                                {background.languages > 0 && (
-                                    <span className="info-badge">
-                                        <i className="fas fa-language"></i>
-                                        {background.languages} Lang
-                                    </span>
-                                )}
-                            </div>
-                        </div>
+                            background={background}
+                            isSelected={selectedBackground === background.id}
+                            onSelect={handleBackgroundSelect}
+                        />
                     ))}
                 </div>
             </div>

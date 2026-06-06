@@ -983,9 +983,24 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
     return url;
   }
 
+  // Defensive check: If it's a Bestiary icon that is not in our 17 unique ones, redirect to placeholder
+  if (typeof iconId === 'string' && iconId.startsWith('Bestiary/')) {
+    const uniqueSketches = new Set([
+      'gref', 'vetch', 'moot', 'gallows-wood', 'gambrel',
+      'rimor', 'kjarn',
+      'cinder', 'ashwen', 'nekh', 'emberveil', 'croon',
+      'spume', 'orun', 'thalass', 'pelagos', 'brine',
+      'placeholder'
+    ]);
+    const creatureName = iconId.split('/')[1];
+    if (!uniqueSketches.has(creatureName)) {
+      iconId = 'Bestiary/placeholder';
+    }
+  }
+
   // Known creature icon folders - these are actual creature icon paths
   const creatureFolders = [
-    'Dark Elf', 'Demon', 'Dwarf', 'Elves', 'Fairy', 'Halfling', 'Human',
+    'Bestiary', 'Dark Elf', 'Demon', 'Dwarf', 'Elves', 'Fairy', 'Halfling', 'Human',
     'Kobolds', 'Monsters', 'More Demons', 'More Elves', 'More Humans',
     'More Monsters', 'More Undead', 'Orc and Goblins', 'Pirates', 'Undead'
   ];

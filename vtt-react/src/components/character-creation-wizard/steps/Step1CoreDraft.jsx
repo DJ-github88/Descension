@@ -375,6 +375,24 @@ const formatDescriptionText = (text) => {
     return <span dangerouslySetInnerHTML={{ __html: formatted }} />;
 };
 
+const truncateForTooltip = (text, maxSentences = 2) => {
+    if (!text) return '';
+    const plain = text.replace(/\*\*/g, '').replace(/\*/g, '');
+    const sentences = plain.match(/[^.!?]+[.!?]+/g) || [plain];
+    if (sentences.length <= maxSentences) return text;
+    let length = 0;
+    let end = 0;
+    for (let i = 0; i < maxSentences; i++) {
+        length += sentences[i].length;
+    }
+    let count = 0;
+    for (let i = 0; i < text.length; i++) {
+        if (text[i] !== '*' && text[i] !== '\n') count++;
+        if (count >= length) { end = i + 1; break; }
+    }
+    return text.substring(0, end).trim() + '...';
+};
+
 const Step1CoreDraft = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
@@ -492,11 +510,13 @@ const Step1CoreDraft = () => {
             name: raceData.name,
             description: raceData.description,
             essence: raceData.essence || raceData.name,
+            cardFlavor: raceData.cardFlavor,
             icon: getRaceIcon(raceData.name),
             subraces: Object.entries(raceData.subraces).map(([subraceKey, subraceData]) => ({
                 id: subraceData.id,
                 name: subraceData.name,
                 description: subraceData.description,
+                tooltipSummary: subraceData.tooltipSummary,
                 statModifiers: subraceData.statModifiers
             }))
         }));
@@ -636,6 +656,18 @@ const Step1CoreDraft = () => {
                             <div className="race-buttons-grid">
                                 {getRaceList().map((raceObj) => {
                                     const isSelectedRace = race === raceObj.id;
+                                    const raceTooltipContent = (
+                                        <div className="race-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
+                                            {raceObj.essence && (
+                                                <div style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                                    {raceObj.essence}
+                                                </div>
+                                            )}
+                                            <p style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
+                                                {raceObj.cardFlavor}
+                                            </p>
+                                        </div>
+                                    );
                                     return (
                                         <div
                                             key={raceObj.id}
@@ -649,6 +681,9 @@ const Step1CoreDraft = () => {
                                                 setActiveGrimoireTab('heritage');
                                                 setFocusedSection('race');
                                             }}
+                                            onMouseEnter={handleMouseEnter(raceTooltipContent, { title: raceObj.name })}
+                                            onMouseLeave={handleMouseLeave}
+                                            onMouseMove={handleMouseMove}
                                         >
                                             <i className={`${raceObj.icon} race-token-icon`}></i>
                                             <span className="race-token-label">{raceObj.name}</span>
@@ -673,11 +708,29 @@ const Step1CoreDraft = () => {
                                 <div className="subrace-buttons-grid">
                                     {(RACE_DATA[activeRaceSelection]?.subraces ? Object.values(RACE_DATA[activeRaceSelection].subraces) : []).map((subObj) => {
                                         const isSelectedSubrace = subrace === subObj.id;
+                                        const subraceTooltipContent = (
+                                            <div className="subrace-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
+                                                {subObj.statModifiers && (
+                                                    <div style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', marginBottom: '4px' }}>
+                                                        {Object.entries(subObj.statModifiers)
+                                                            .filter(([_, mod]) => mod !== 0)
+                                                            .map(([st, md]) => `${st.slice(0, 3).toUpperCase()}${md >= 0 ? '+' : ''}${md}`)
+                                                            .join(', ')}
+                                                    </div>
+                                                )}
+                                                <p style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
+                                                    {subObj.tooltipSummary}
+                                                </p>
+                                            </div>
+                                        );
                                         return (
                                             <div
                                                 key={subObj.id}
                                                 className={`subrace-button-token ${isSelectedSubrace ? 'selected' : ''}`}
                                                 onClick={() => handleSubraceSelect(activeRaceSelection, subObj.id)}
+                                                onMouseEnter={handleMouseEnter(subraceTooltipContent, { title: subObj.name })}
+                                                onMouseLeave={handleMouseLeave}
+                                                onMouseMove={handleMouseMove}
                                             >
                                                 <span className="subrace-token-title">{subObj.name}</span>
                                                 {subObj.statModifiers && (
@@ -758,17 +811,33 @@ const Step1CoreDraft = () => {
                         {validationErrors.background && <span className="section-error-msg">{validationErrors.background}</span>}
                         
                         <div className="background-buttons-grid">
-                            {Object.values(BACKGROUND_DATA).map((bg) => (
-                                <div
-                                    key={bg.id}
-                                    className={`background-button-token ${background === bg.id ? 'selected' : ''}`}
-                                    onClick={() => handleBackgroundChange(bg.id)}
-                                    title={bg.name}
-                                >
-                                    <i className={`${BACKGROUND_ICONS[bg.id] || 'fas fa-compass'} background-token-icon`}></i>
-                                    <span className="background-token-label">{bg.name}</span>
-                                </div>
-                            ))}
+                            {Object.values(BACKGROUND_DATA).map((bg) => {
+                                const bgTooltipContent = (
+                                    <div className="bg-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
+                                        {bg.feature?.name && (
+                                            <div style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                                Feature: {bg.feature.name}
+                                            </div>
+                                        )}
+                                        <p style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
+                                            {bg.description}
+                                        </p>
+                                    </div>
+                                );
+                                return (
+                                    <div
+                                        key={bg.id}
+                                        className={`background-button-token ${background === bg.id ? 'selected' : ''}`}
+                                        onClick={() => handleBackgroundChange(bg.id)}
+                                        onMouseEnter={handleMouseEnter(bgTooltipContent, { title: bg.name })}
+                                        onMouseLeave={handleMouseLeave}
+                                        onMouseMove={handleMouseMove}
+                                    >
+                                        <i className={`${BACKGROUND_ICONS[bg.id] || 'fas fa-compass'} background-token-icon`}></i>
+                                        <span className="background-token-label">{bg.name}</span>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
 

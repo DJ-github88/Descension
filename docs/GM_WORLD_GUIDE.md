@@ -1,8 +1,10 @@
 # MYTHRILL
 ## Game Master's World Guide
 
+> **THE ELEVATOR PITCH**
+> **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
+
 > *"The sun did not die. It was buried. And the thing that buried it is still hungry."*
->
 > — Elder Thaeron, Keeper of the Dimming Flame, spoken to no one, recorded by none
 
 ---
@@ -49,11 +51,17 @@ Each of Mythrill's seven continents was shaped by a dark bargain struck between 
 
 ## 1. Frostwood Reach — The Fog-Choked Cradle
 
+> [!NOTE]
+> ### Key Terms in Frostwood Reach
+> - **The Reach:** A dense, freezing ironwood forest wreathed in protective, memory-erasing fog.
+> - **House Thalreth:** The ruling human lineage that bargained away their memories to keep the forests from freezing.
+> - **Greymark Keep:** The central peat-stone sanctuary and archive-fortress of the Thalren humans.
+> - **The Mimir:** A shape-shifting people who wear carved masks to lock their identity against the fog.
+> - **The Briaran:** Hidden, thorn-marked outcasts descended from the house that refused the Sun-Eater's bargain.
+
 **The Regional Landscape & Current Vibe**
 
 The Frostwood Reach is a continent of dense, transitional fog where warm volcanic air from the south collides aggressively with the creeping northern frost. Ancient ironwood forests stretch beneath a perpetual grey canopy, their petrified trunks hardened by centuries of cold until the wood mimics iron. Settlements cluster along mist-choked trails, their inhabitants never quite certain what lies beyond the next bend — or whether they will remember it by the time they arrive.
-
-> *"The fog keeps the timber from shattering in the cold. The fog also eats what you remember of yourself. The Reach has always been a place where survival and identity are the same transaction."*
 
 **The Dark Bargain:** The noble family of House Thalreth traded the region's **absolute spatial clarity** for an insulating, protective mist to keep the ancient forests and wildlife from freezing into glass. The price was the steady, inexorable decay of historical memory over generations.
 
@@ -77,29 +85,41 @@ The Wyrd, that formless spiritual rot unleashed by Emberspire's eruption, finds 
 
 The Shard of the Monolith is interred deep within the Greymark lineage-tapestry archive, its silent hum vibrating through the parchment vaults.
 
+**Daily Life, Trade & Food**
+
+Common people in the Reach survive on a sparse diet of pine-needle tea, bog-cranberry pemmican, and smoked gref-hare, supplemented by gref-rye—a hardy, frost-tolerant grain grown in cleared mist-beds. The local economy revolves around the export of petrified ironwood timber (which is as hard as tempered steel), pine oil, and moss-wax, in exchange for cold-iron tools, southern geothermal coal, and grain.
+
+In Greymark Keep, a typical tavern is a low-ceilinged stone cellar thick with tallow smoke and pine oil. Patrons sit in near-silence, writing diligently in their personal journals to record the day's transactions and memories before the fog takes them. Drinks are served in heavy wooden tankards chained to the tables. Barter of diary-key steel and memory-glass fragments often replaces coin.
+
 ---
 
 ## 2. Nordhalla & The Valley of Ymir — The Frozen Throne
 
+> [!NOTE]
+> ### Key Terms in Nordhalla
+> - **Nordhalla:** A freezing northern wilderness of black fjords and towering glaciers halted mid-advance.
+> - **House Skalvyr:** The unyielding noble family that accepted eternal winter to stop the glaciers.
+> - **The Frozen Archive:** A clockwork and runic city-library carved inside a mile-high glacier.
+> - **The Rime-Born:** The frost-touched, stone-skinned survivors of the ancestral Hunger Pact.
+> - **The Milk-Grief:** A supernatural birth-cold that drains mothers, producing blue-skinned Frostbound infants.
+
 **The Regional Landscape & Current Vibe**
 
-Nordhalla is a brutalist cathedral of ice and stone — a blinding-white tundra sliced by towering black fjords where the temperature never rises above freezing. The glaciers were halted mid-advance by the dark bargain, frozen in place like a wave that will never break. The sky is a pale, washed-out grey that has not seen true sunlight in eight centuries. Wind-carved ice sculptures — the flash-frozen dead of a civilization that perished before the Skald were a people — stand in silent streets beneath the glacier walls.
-
-> *"The south calls this place a wasteland. The south has never understood that some things grow best in the cold."*
+Nordhalla is a brutalist cathedral of ice and stone — a blinding-white tundra sliced by towering black fjords where the temperature never rises above freezing. The glaciers were halted mid-advance by the dark bargain, frozen in place like a wave that will never break. The sky is a pale, washed-out grey that has not seen true sunlight in eight centuries. Wind-carved ice sculptures — the flash-frozen dead of a civilization that perished before the Rime-Born were a people — stand in silent streets beneath the glacier walls.
 
 **The Dark Bargain:** House Skalvyr bargained to halt the grinding advance of massive glaciers that threatened to crush their mountain keeps. Keth-Amar froze the ice sheets permanently in place — but decreed that **summer would never return to the north**.
 
 **The Seat of Power: The Frozen Archive**
 
-Carved into the sheer face of a titanic, mile-high glacier in the Valley of Ymir sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead ten-thousand-year-old civilization. The city is a masterpiece of prehistoric clockwork and runic engineering, its monumental brass domes, vaulted archways, and basalt streets preserved perfectly inside the deep ice sheets. It was discovered and reclaimed by the Skald Rune Keepers three centuries ago. The Archive is not a traditional city of trade; it is a massive, echoing library-fortress where machines built by hands that predate human memory continue their ten-thousand-year labor towards mysterious, cold calculations.
+Carved into the sheer face of a titanic, mile-high glacier in the Valley of Ymir sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead ten-thousand-year-old civilization. The city is a masterpiece of prehistoric clockwork and runic engineering, its monumental brass domes, vaulted archways, and basalt streets preserved perfectly inside the deep ice sheets. It was discovered and reclaimed by the Rime-Born Rune Keepers three centuries ago. The Archive is not a traditional city of trade; it is a massive, echoing library-fortress where machines built by hands that predate human memory continue their ten-thousand-year labor towards mysterious, cold calculations.
 
-Within the Archive, the air is freezing, dry, and smells of old brass and ozone. High walkways of green-patinated copper span the icy chasms between glacier walls. In the **Runic Vaults**, scholars scrape away sheets of frost to read the rotating brass cylinders and light-scrolls preserved in the ice. At the city's gates is **The Fjord-Gate**, a massive basalt fortification carved directly into the black cliffs to guard the sea lanes. Deep below, in the geothermal trenches known as **The Bloodhammer Sump**, Berserkers and Fexric engineers maintain roaring coal-furnaces that power the Archive's heating pipes, belching thick black soot into the cold air.
+Within the Archive, the air is freezing, dry, and smells of old brass and ozone. High walkways of green-patinated copper span the icy chasms between glacier walls. In the **Runic Vaults**, scholars scrape away sheets of frost to read the rotating brass cylinders and light-scrolls preserved in the ice. At the city's gates is **The Fjord-Gate**, a massive basalt fortification carved directly into the black cliffs to guard the sea lanes. Deep below, in the geothermal trenches known as **The Bloodhammer Sump**, Bloodhammer warriors and Fexric engineers maintain roaring coal-furnaces that power the Archive's heating pipes, belching thick black soot into the cold air.
 
 **The Subrace Friction**
 
-The **Skald Humans** of House Skalvyr — endurance-purists who measure worth in cold-resistance and unbroken bloodlines — rule the fjord-keeps. They view the frost-touched **Skald** with a complicated mixture of respect, debt, and simmering resentment. 
+The **Skald Humans** of House Skalvyr — endurance-purists who measure worth in cold-resistance and unbroken bloodlines — rule the fjord-keeps. They view the frost-touched **Rime-Born** with a complicated mixture of respect, debt, and simmering resentment. 
 
-The Skald themselves are divided by three bloodlines. The **Rune Keepers** occupy the libraries of the Frozen Archive, devoting their lives to learning the ancient technology. They cover their bodies in inscribed runes, each rune representing a personal memory traded to the Archive in exchange for knowledge. The **Bloodhammer** are the warriors who inhabit the lower sumps. Evolving from the first survivors of the Hunger Pact, they carry the Pact as a burning physical rage, channeling ancestral starvation into frontline combat. They view the Rune Keepers as cold, memoryless shells who have traded away their souls for dead machines. Pushed to the freezing margins of both are the **Frostbound** — gelid-born infants who survived the Milk-Grief (an inherited cold that drains mothers during childbirth) but emerged permanently colder, their flesh turning pale blue and brittle. They live in the Gelid-Caverns, suspicious of both libraries and forge-halls.
+The Rime-Born themselves are divided by three bloodlines. The **Rune Keepers** occupy the libraries of the Frozen Archive, devoting their lives to learning the ancient technology. They cover their bodies in inscribed runes, each rune representing a personal memory traded to the Archive in exchange for knowledge. The **Bloodhammer** are the warriors who inhabit the lower sumps. Evolving from the first survivors of the Hunger Pact, they carry the Pact as a burning physical rage, channeling ancestral starvation into frontline combat. They view the Rune Keepers as cold, memoryless shells who have traded away their souls for dead machines. Pushed to the freezing margins of both are the **Frostbound** — gelid-born infants who survived the Milk-Grief (an inherited cold that drains mothers during childbirth) but emerged permanently colder, their flesh turning pale blue and brittle. They live in the Gelid-Caverns, suspicious of both libraries and forge-halls.
 
 **Localized Threats & Daily Realities**
 
@@ -107,15 +127,27 @@ Nordhalla's Wyrd draws from Norse and Alpine folklore, producing creatures of fr
 
 The Sundered Monolith of the region rests within the sealed, lightless central hall of the Frozen Archive, humming an increasingly erratic frequency that makes the ancient brass cylinders rattle in their sockets.
 
+**Daily Life, Trade & Food**
+
+Commoners in Nordhalla survive on dried fjord-cod, salted mammoth fat, and lichen-mash. The local beverage is frost-mead, a heavy, fermented honey-drink brewed in deep geothermal caves where the cold cannot penetrate. The economy depends on exporting high-grade iron ore, whale blubber, and intricate runic carvings in exchange for southern grains, timber, salt, and spirits.
+
+Taverns in fjord-keeps (such as *The Hearth-Glow*) are built directly over steaming volcanic vents to maximize heat, resulting in crowded, loud, and sweat-slicked spaces. Patrons engage in physical tests of endurance, such as gripping frozen iron bars, to establish lineage status. Currency consists of copper chits known as spits or geothermal coal-receipts, though direct barter of dried fish and furs remains dominant.
+
 ---
 
 ## 3. Sundale & Emberspire — The World-Heart
 
+> [!NOTE]
+> ### Key Terms in Sundale
+> - **Sundale:** A volcanic ashland desert surrounding the tomb of the buried sun-god.
+> - **House Solvan:** The tragic ruling house whose heirs were sacrificed to bind the star beneath the earth.
+> - **Emberspire:** The world-heart volcano and breach-site where the cosmic predator feeds on the sun's embers.
+> - **The Harath-Vault:** The massive underground forge-city of the Emberth clans.
+> - **The Solbrand:** A sacred thermal current and last ember of the sun, tended in holy silence.
+
 **The Regional Landscape & Current Vibe**
 
 Sundale is a volcanic desert of ashfall, obsidian rivers, and smoldering badlands surrounding Emberspire — the world-heart volcano, the tomb and cradle of Sol itself. The air is thick with particulate, the sky a permanent rust-orange smear. Lava-flows cut through the landscape like slow, deliberate arteries. The **Shyr**, a ninety-mile scar of cooling basalt, serves as the Emberth's primary thoroughfare — a road of stone that walks itself as the lava cools and contracts into predictable fracture-patterns.
-
-> *"We were already underground when the surface froze. We emerged when the mountain erupted. We are still waiting for Sol to speak again."*
 
 **The Dark Bargain:** Sundale's bargain is the ur-bargain — the original sin from which all others descend. Sol was bound beneath this continent. Emberspire is the wound through which Keth-Amar breached the seal. The predator now feeds on Sol's embers from inside the binding, and the region's noble family, House Solvan, watches their ancestral lands slowly die beneath ashfall.
 
@@ -137,15 +169,27 @@ Sundale's Wyrd draws from Mesopotamian and Egyptian folklore, producing beings o
 
 The region's Sundered Monolith is embedded deep within the primary throat of Emberspire itself, visible only during the annual vent-calm when the volcanic smoke clears for a single hour.
 
+**Daily Life, Trade & Food**
+
+Staples in Sundale include ash-baked lizard tail, roasted volcanic beetles, and sulfur-cleansed fern-bulbs. Patrons wash this down with cinder-brew, a hot, fiery liquor distilled from soot-tolerant tubers. The economy is driven by exporting raw obsidian tools, high-temperature alloys, volcanic sulfur, and Solbrand-cured steel, while importing ice-melt water, woolly herd-hides, and timber.
+
+Taverns in the Harath-Vault are steel-grate cages suspended directly over active magma channels. The atmosphere is dry, blisteringly hot, and filled with the deafening clank of anvils and bellows. Currency takes the form of heavy brass coins minted by the forge-clans, or raw pieces of copper and blood-ore.
+
 ---
 
 ## 4. The Iceheart Sea — The Restless Deep
 
+> [!NOTE]
+> ### Key Terms in the Iceheart Sea
+> - **Iceheart Sea:** A churning, violent ocean of cities-sized icebergs and perpetual storms.
+> - **House Mereval:** The maritime family that traded calm waters for ice-free shipping lanes.
+> - **Merrowport:** A lawless, floating city of lashed ships anchored to a volcanic seamount.
+> - **Ironjaw Port:** A monumental cold-iron and petrified timber gateway run by the silver-skinned Neth.
+> - **The Myrathil:** A foam-born, amphibious people split between Breakers-Born diplomats and Deep-Born mystics.
+
 **The Regional Landscape & Current Vibe**
 
 The Iceheart Sea is not a frozen wasteland — it is a violent, churning fury of freezing waves and thick, icy foam, where true sailors test their mettle against an ocean that never sleeps. Storms outnumber still days ten to one. Icebergs the size of cities drift through shipping lanes, calved from glaciers that groan and shift along northern coastlines. The sea is a living adversary, and the people who work it have learned to treat every voyage as a wager.
-
-> *"The sea mother does not bargain. She endures. And in her endurance, she grows curious."*
 
 **The Dark Bargain:** House Mereval traded calm seas for **navigable routes** — certain currents always flow, certain channels between the ice sheets never freeze. The price: the sea never sleeps. Every voyage is a gamble the Iceheart intends to collect.
 
@@ -171,17 +215,34 @@ The Iceheart's Wyrd draws from Greek and West African/Yoruba folklore, producing
 
 The regional Sundered Monolith rests at the bottom of the Treakous Oceanic Rift, thrumming a deep, low frequency that causes the teeth of every Deep-Born Myrathil within a hundred miles to ache.
 
+**Daily Life, Trade & Food**
+
+Seafarers on the Iceheart live on salted sea-herring, kelp-cakes, and pickled brine-grass. They drink drowned-rum, a potent, volatile spirit fermented from deep-sea sap. The local trade focuses on exporting whale oil, whalebone spars, carved sea-glass, and dried kelp, while importing cold-iron, grain, and copper.
+
+In Merrowport, taverns (like *The Pitching Hull*) are constructed within the cargo decks of lashed ships. Hammocks hang from the rafters and the floor rolls continuously with the ocean's motion, while sailors gamble away their wages using dice carved from whalebone. Trade-tattoos on the skin or whalebone receipts serve as currency, bypassing paper ledger sheets that would rot in the sea spray.
+
 ---
 
 ## 5. Cragjaw Peaks — The Vertical Labyrinth
+
+> [!NOTE]
+> ### Key Terms in Cragjaw Peaks
+> - **Cragjaw Peaks:** A vertical wilderness of razor ridges and bottomless chasms wreathed in an eternal blizzard.
+> - **House Tesshan:** The keeps' lords who traded visibility for a perpetual snow-veil to hide from lowlanders.
+> - **The Ancestor-Spans:** Titanic bridges grown from the calcified bones of the Groven's dead.
+> - **Frostmaw Holdfast:** A lightless subterranean vertical city descending around geothermal vents.
+> - **The Groven:** Stone-troll descendants alchemically created by Fexrick engineers who rebelled for freedom.
+> - **The Corvani:** Raven-marked highlanders who dwell above the blizzard line where the fog meets the snow.
 
 **The Regional Landscape & Current Vibe**
 
 The Cragjaw Peaks are a vertical wilderness — razor mountain ridges and bottomless wind-gaps cloaked in perpetual, howling blizzard. The snow has not stopped falling since the dark bargain was sealed, burying every natural landmark, every ancient trail, every surface route under centuries of drift. The only visible shapes above the whiteout are the **Ancestor-Spans** — bridges grown from the calcified bodies of the Groven's willing dead, dark against the endless grey sky.
 
-> *"Without the spans, crossing the Cragjaw Peaks is death by exposure. The toll is not greed. The toll is the price of survival."*
+Far above the blizzard line, where the fog from the Frostwood Reach collides with the perpetual snow, live the **Corvani** — a rare, raven-marked people who dwell in the highest aeries. They are the only beings who can navigate the space between the fog and the snow, serving as messengers and guides for those brave enough to cross the Peaks.
 
 **The Dark Bargain:** House Tesshan traded **visibility for the eternal snow-veil** — a perpetual blizzard to hide their keeps from the starving hordes that swept across the lowlands when the world froze. The keeps survived because nothing could find them. The price: every landmark was buried. The Tessen have not seen the sky in eight generations.
+
+The Corvani are tied to this bargain indirectly. When House Tesshan sealed the snow-veil, a splinter group of highland dwellers refused to descend into the buried keeps. They remained above the blizzard line, where the fog-memory of the Reach meets the eternal snow. Over generations, they became marked by the raven — a creature that can navigate both the fog and the whiteout. They are the only people who can cross the Peaks without the Ancestor-Spans, but the cost is their connection to the physical world grows thinner with each passing year.
 
 **The Seat of Power: Frostmaw Holdfast & The Spans**
 
@@ -199,21 +260,37 @@ The **Groven** themselves are divided by the **Ladder of Purity**, an unspoken c
 
 The **Fexrick** are split between the **Kethrin** (hereditary guild engineers who hoard oral maintenance songs) and the **Drall** (self-taught scrap-folk who survive on alchemical runoff).
 
+The **Corvani** live apart from all of these conflicts, in the highest aeries above the blizzard line. They trade with no one regularly, but both the Groven and the Fexrick seek their services as messengers when the Spans are iced over. The Corvani view the wars below as the squabbles of children.
+
 **Localized Threats & Daily Realities**
 
 The Cragjaw's Wyrd draws from Japanese Yokai and Andean/Incan folklore, producing creatures born from the fear of thresholds, the fear of debt, and the fear of what the mountain remembers: the **Scrab**, a metal-eater that consumes the very tools the Fexrick depend on for survival; **the Yawn**, an incomplete bridge-creature that builds itself toward settlements, never arriving but never stopping; and **the Thrum**, the mountain's own consciousness — a vast, slow intelligence that predates all the races and has only recently begun to stir.
 
 The region's Sundered Monolith is sealed within a lightless alchemical chamber deep beneath Frostmaw Crag.
 
+**Daily Life, Trade & Food**
+
+Inhabitants of the Peaks subsist on lichen-stew, dried ram-meat, and flat moss-bread, drinking whiteout-distillate—a burning, clear liquor distilled from high-altitude roots. The economy depends on exporting alchemical reagents, ram-wool, and cold-iron gear systems, while importing coal, volcanic sulfur, and salt.
+
+Taverns on the Spans are drafty wooden structures bolted directly to the bone bridges. The wind howls constantly through the planks, and patrons cluster around a single central copper charcoal brazier. Currency is rarely used on the heights; trade is conducted via barter of wool, bone tools, and climbing spurs.
+
+The Corvani eat little — thin high-altitude broth, dried raven-berries, and frost-moth meat. They do not trade in goods but in information: a Corvani messenger can carry a sealed message across the Peaks in three days, a journey that takes a Groven caravan three weeks. Their price is always the same: a memory, freely given, recorded in their shifting raven-markings.
+
 ---
 
 ## 6. Sundrift Vale — The Starless Steppe
 
+> [!NOTE]
+> ### Key Terms in Sundrift Vale
+> - **Sundrift Vale:** A wind-swept, starless steppe of dead grass where nomads follow great woolly herds.
+> - **House Ordavan:** The nomadic noble house that traded the sky's stars to ensure the steppe's grass always returns.
+> - **The Synod-Hold:** A shimmering cathedral of crystal-lattice built by the crystalline Astril.
+> - **The Astril:** Crystalline-skinned guardians nesting the spirits of the sun-god's celestial ministers.
+> - **The Unlit:** Astril born without star-glow who act as spies because they can lie without their skin flashing.
+
 **The Regional Landscape & Current Vibe**
 
 The Sundrift Vale is a wind-swept expanse of dead tundra grass stretching endlessly beneath a sky that contains nothing. No stars. No constellations. No navigable heavens. The ancestors who once mapped the firmament now navigate by memory alone, and memory is the first thing the steppe takes. Nomadic clans follow the endless herds across a landscape where the only constants are the wind and the ancestor-mounds — burial sites that still hum with the throat-sung histories of the dead.
-
-> *"We watched the stars go dark one by one and understood what was happening: the predator was eating the celestial court. Our gods were being consumed."*
 
 **The Dark Bargain:** House Ordavan traded **fertile soil for the endless migration** — the herds never stop, the grass always returns, no matter how many mouths feed upon it. The price: the sky went dark. The constellations were erased from the firmament above them.
 
@@ -237,15 +314,27 @@ Sundrift's Wyrd draws from Mongol/Turkic and Chinese folklore, producing creatur
 
 The regional Sundered Monolith is buried deep within the oldest Ancestor Mound, its location erased from memory.
 
+**Daily Life, Trade & Food**
+
+Nomadic Ordan clans feed primarily on fermented mare's milk (kumis), dried mutton, and wild steppe-turnips harvested during migrations. The steppe economy runs on the export of wool, hides, steppe-horses, and dried meat, and the import of metal tools, salt, and spirits.
+
+Taverns in the Mound-Camps are large, multi-family yurt structures that smell heavily of mutton fat and woodsmoke. Nomads sit in circles on wool carpets, drinking kumis and singing throat-sung ballads about ancestral lineages. Transactions are completed using horse-chits or via direct barter of sheep and leather.
+
 ---
 
 ## 7. The Bryngloom Forest — The Living Archive
 
+> [!NOTE]
+> ### Key Terms in Bryngloom Forest
+> - **Bryngloom Forest:** A twilight canopy of ironwood trees growing above bottomless peat-sinking bogs.
+> - **Keeper of the Last Threshold:** An ancient, legalistic boundary entity (the Root-Veil) that governs the bog's decay.
+> - **Atropolis:** A quiet, contract-governed canopy-city of branch walkways and memory-glass.
+> - **The Neth:** An immortal, silver-skinned people who cannot tell direct lies due to their survival contract.
+> - **The Vreken:** A lantern-eyed people who dwell in the inverted Sunken Spire, worshiping the bog-wrapped dead.
+
 **The Regional Landscape & Current Vibe**
 
 The Bryngloom Forest is a continent of contradictions: semi-frozen sinking bogs give way to ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood coaxed into shape over a thousand years. The forest does not simply grow here — it is governed. An entity called the **Keeper of the Last Threshold** (the same being the Vreken call the Root-Veil) decides what the Gloom preserves and what the Gloom consumes. This is not myth. This is legal precedent.
-
-> *"We did not pray. We presented a case. The Keeper had never been reasoned with — only feared, prayed to, or fed."*
 
 **The Dark Bargain:** The Bryngloom's dark bargain is unique among the seven regions: it was not struck by a noble family but by the Neth's own ancestors — a dying clan of scribes who walked into the deep wood and presented a legal argument to the Keeper for their own survival. The argument was accepted. The Neth rose from the bog with silver skin, stilled breath, and a pact written in the blood of every descendant. They would be preserved in exchange for serving as the Keeper's living archive. Death became a renegotiated clause, not an ending.
 
@@ -271,6 +360,12 @@ The Bryngloom's Wyrd draws from Slavic/Carpathian and Hindu/Vedic folklore, prod
 
 The regional Sundered Monolith rests at the bottom of a bog-pool that has no bottom, leaking the memories of drowned divers into the peat.
 
+**Daily Life, Trade & Food**
+
+Common food in the Bryngloom includes bog-mushroom stew, roasted peat-truffles, and dried river-eel, accompanied by bioluminescent tea brewed from glowing fungal spores. The local trade economy is built on exporting memory-glass, bog-preserved ironwood, fungal-lights, and alchemical moss, while importing cold-iron implements, southern coal, and salt.
+
+In Atropolis, taverns are open-air branch platforms suspended high in the canopy. The atmosphere is quiet, formal, and strictly transactional. Merchants and pact-mages negotiate details of shipping covenants over tea. Currency is recorded on ledger-tablets and verified by Velun pact-clerks.
+
 ---
 
 # PART III: THE DIASPORA — RACIAL & CULTURAL ORIGINS
@@ -291,17 +386,15 @@ Humanity is not united and never has been. The Thalren view the Skald as savages
 
 Yet they trade. Human merchant networks span the continents, not because humans trust each other but because the Thalren need Nordhalla iron, the Solvarn need Iceheart timber, the Tessen need Sundrift herd-hides, and survival has always been more persuasive than pride.
 
-The eighth house — **House Viridane** — is the wound in human history. The family that refused the Warden's bargain. The name struck from every record. Every human culture deals with this differently: the Thalren have forgotten them (the fog took that memory), the Skald despise them as cowards, the Solvarn envy their courage to say no, and the Morren know the truth because the Neth told them.
+The eighth house — **House Viridane** — is the wound in human history. The family that refused Keth-Amar's bargain. The name struck from every record. Every human culture deals with this differently: the Thalren have forgotten them (the fog took that memory), the Skald despise them as cowards, the Solvarn envy their courage to say no, and the Morren know the truth because the Neth told them.
 
 **Proximal Relations**
 
-Humans are the connective tissue of Mythrill's economy — not because they are beloved, but because they are everywhere and they never stop moving. Thalren merchants trade with Mimir canopy-holds through intermediaries. Skald fjord-keeps maintain an uneasy cold-war detente with the Skald. Tessen keep-dwellers purchase geothermal heat from the Fexric through pipes they have never seen. Merryn pirates trade at Ironjaw Port under Neth supervision. Morren villages owe contracts to Neth archive-houses. Ordan nomads pass through Astril territory during the migration season, exchanging herd-meat for spirit-blessed water.
+Humans are the connective tissue of Mythrill's economy — not because they are beloved, but because they are everywhere and they never stop moving. Thalren merchants trade with Mimir canopy-holds through intermediaries. Skald fjord-keeps maintain an uneasy cold-war detente with the Rime-Born. Tessen keep-dwellers purchase geothermal heat from the Fexric through pipes they have never seen. Merryn pirates trade at Ironjaw Port under Neth supervision. Morren villages owe contracts to Neth archive-houses. Ordan nomads pass through Astril territory during the migration season, exchanging herd-meat for spirit-blessed water.
 
 ---
 
 ## The Mimir — The Mask-Bound
-
-> *"We have never shown you our faces. Not because we are hiding something monstrous — but because the fog devours memory, and eleven generations ago we stopped being certain what our faces looked like, so we have been wearing the answer ever since."*
 
 **The Current State**
 
@@ -321,8 +414,6 @@ The Thalren humans of the Reach fear the Mimir's faceshifting abilities — a pa
 
 ## The Emberth — The Forge-Clans of Sundale
 
-> *"We are not forge-people because fire is in our blood. We are forge-people because Sol gave us the Solbrand and we do not know what else to do with our hands."*
-
 **The Current State**
 
 The Emberth are a bulky, powerful people of Sundale — broad-shouldered and deliberate, with skin deep brown to near-black, cross-hatched with deliberate burn-scars that encode clan affiliation, trade specialization, and ancestor-lineage in a visual language read at a glance. Their eyes are too large for their faces — a legacy of the lightless thermal caverns where they sheltered during the centuries of underground exile. Sol's chosen people, forewarned by prophecy of the sun's death, they excavated vast tunnel networks and were already underground when the surface froze.
@@ -335,13 +426,11 @@ The crisis of the Dimming has produced three ideological factions: the **Risen**
 
 **Proximal Relations**
 
-The Emberth and the frost-touched clans of the **Skald** share a deep, unspoken kinship — both were shaped by opposite extremes of the same catastrophe, one forged by volcanic fire, the other frozen by its absence. An Emberth in Nordhalla is as out of place as a Skald in Sundale, and both recognize in the other the shape of their own survival. The **Astril** are a theological crisis for the Emberth: the Astril carry Sol's celestial ministers in their blood, and some Emberth revere them as sacred vessels while others despise them as servants who fled while Sol was entombed. The **Vreken** are silent kindred — the Solbrand and the Root-Veil are fragments of the same dying consciousness. The **Solvarn** humans share the ashlands in an uneasy dependency; the Fexrick trade gear-work for obsidian through deep-tunnel intermediaries.
+The Emberth and the frost-touched clans of the **Rime-Born** share a deep, unspoken kinship — both were shaped by opposite extremes of the same catastrophe, one forged by volcanic fire, the other frozen by its absence. An Emberth in Nordhalla is as out of place as a Rime-Born in Sundale, and both recognize in the other the shape of their own survival. The **Astril** are a theological crisis for the Emberth: the Astril carry Sol's celestial ministers in their blood, and some Emberth revere them as sacred vessels while others despise them as servants who fled while Sol was entombed. The **Vreken** are silent kindred — the Solbrand and the Root-Veil are fragments of the same dying consciousness. The **Solvarn** humans share the ashlands in an uneasy dependency; the Fexrick trade gear-work for obsidian through deep-tunnel intermediaries.
 
 ---
 
 ## The Fexrick — The Holdfast Clans
-
-> *"We were here before the mountain had a name. Before the Thrumm crawled through the deep crags. Before the noble families built their keeps on the surface and made their bargains with the dark."*
 
 **The Current State**
 
@@ -351,7 +440,7 @@ The Fexrick are the oldest continuous civilization on Mythrill — three millenn
 
 The Guild Wall divides Fexric society absolutely. The **Guild-Bound (Kethrin)** are hereditary members of the great craft guilds, hoarding oral maintenance songs as jealously as dragons hoard gold — because knowledge is the only currency that matters in the holdfasts and sharing it means losing it. The **Clan-Free (Drall)** are self-taught outsiders, descendants of exiles and collapsed holdfasts, surviving on salvage, ingenuity, and spite.
 
-The deeper fracture is the schism between the **Deep Alchemists** (who believe the answer to machine-decay lies in radical experimentation — pushing the boundaries, creating new things from old principles) and the **Orthodoxy** (who believe the answer lies in preservation — singing the songs exactly as they were sung, never deviating, never innovating). The Alchemists created the Groven and the Fexrick. The Orthodoxy still hasn't forgiven them.
+The deeper fracture is the schism between the **Deep Alchemists** (who believe the answer to machine-decay lies in radical experimentation — pushing the boundaries, creating new things from old principles) and the **Orthodoxy** (who believe the answer lies in preservation — singing the songs exactly as they were sung, never deviating, never innovating). The Alchemists created the Groven from the Thrumm. The Orthodoxy still hasn't forgiven them.
 
 **Proximal Relations**
 
@@ -375,13 +464,11 @@ The silent generational war between young Neth (still fluid, still capable of su
 
 **Proximal Relations**
 
-The Neth and the **Vreken** share the Bryngloom and barely speak — one views the other as spiritually bankrupt, the other views the first as sentimental. Their relationship is functional: fungal-light exports from Vreken crypt-cathedrals in exchange for bog-preserved goods and cold-iron tools from Neth outposts. The **Skald** Rune Keepers trade Archive access for Neth knowledge — the only outsiders the Skald trust near the old machines. The **Morren** humans are generations deep in debt to Neth contract-houses, their relationships managed entirely through ledger balance-sheets.
+The Neth and the **Vreken** share the Bryngloom and barely speak — one views the other as spiritually bankrupt, the other views the first as sentimental. Their relationship is functional: fungal-light exports from Vreken crypt-cathedrals in exchange for bog-preserved goods and cold-iron tools from Neth outposts. The **Rime-Born** Rune Keepers of Nordhalla trade Archive access for Neth knowledge — the only outsiders the Rime-Born trust near the old machines. The **Morren** humans are generations deep in debt to Neth contract-houses, their relationships managed entirely through ledger balance-sheets.
 
 ---
 
 ## The Groven — The Bridge-Keepers
-
-> *"We are the children of the vats and the crags. We are what the forge built and the mountain claimed."*
 
 **The Current State**
 
@@ -413,13 +500,11 @@ Three bloodlines descend from the original clan structure: the **Bloodhammer** c
 
 **Proximal Relations**
 
-The Skald view the volcanic eruption of Emberspire not as a miracle but as an ecological threat — the heat that saved the south is melting their sacred glaciers. They regard the **Emberth** with a complex mixture of recognition and resentment: two peoples shaped by opposite extremes of the same catastrophe. The **Skald** humans owe them blood-debts from the War of Thousand Screams that have never been paid, and the guilty silence poisons every diplomatic exchange. The **Neth** Rune Keepers trade knowledge for Archive access — the only outsiders the Skald trust near the old machines. The **Astril** are viewed with deep suspicion: voluntarily inviting a spirit into one's own flesh strikes the Skald as either madness or corruption, too close to the Wyrd-creatures they have spent centuries fighting.
+The Skald view the volcanic eruption of Emberspire not as a miracle but as an ecological threat — the heat that saved the south is melting their sacred glaciers. They regard the **Emberth** with a complex mixture of recognition and resentment: two peoples shaped by opposite extremes of the same catastrophe. The **Skald humans** of House Skalvyr owe them blood-debts from the War of Thousand Screams that have never been paid, and the guilty silence poisons every diplomatic exchange. The **Neth** trade knowledge for Archive access — the only outsiders the Skald trust near the old machines. The **Astril** are viewed with deep suspicion: voluntarily inviting a spirit into one's own flesh strikes the Skald as either madness or corruption, too close to the Wyrd-creatures they have spent centuries fighting.
 
 ---
 
 ## The Myrathil — The Free-Born
-
-> *"We were never born. We were concluded."*
 
 **The Current State**
 
@@ -433,13 +518,11 @@ The spawning gales are shifting north — further north each season — and the 
 
 **Proximal Relations**
 
-In port cities from Sundale to the Frostwood Reach, the Myrathil are exotic celebrities — poets write of their eyes, collectors pay fortunes for their sea-glass, nobles keep Myrathil lovers they will never marry. The **Merryn** humans trade with them at Salt-Hinge, the only port where land-folk and sea-folk conduct commerce as equals. The **Skald** view them with suspicion — anything that does not freeze cannot be trusted. The **Neth**, ever pragmatic, simply ask what the Myrathil want to trade. The Myrathil themselves know the location of a Sundered Monolith in the Treakous Oceanic Rift and keep it secret — a decision that grows more difficult to justify as the Shard's resonance changes and the Deep-Born Listeners hear new voices in the abyss.
+In port cities from Sundale to the Frostwood Reach, the Myrathil are exotic celebrities — poets write of their eyes, collectors pay fortunes for their sea-glass, nobles keep Myrathil lovers they will never marry. The **Merryn** humans trade with them at Salt-Hinge, the only port where land-folk and sea-folk conduct commerce as equals. The **Rime-Born** view them with suspicion — anything that does not freeze cannot be trusted. The **Neth**, ever pragmatic, simply ask what the Myrathil want to trade. The Myrathil themselves know the location of a Sundered Monolith in the Treakous Oceanic Rift and keep it secret — a decision that grows more difficult to justify as the Shard's resonance changes and the Deep-Born Listeners hear new voices in the abyss.
 
 ---
 
 ## The Astril — The Star-Carried
-
-> *"We carry them still. When we die, the spirit does not fade — it seeks the nearest Astril with the purest faith and enters them."*
 
 **The Current State**
 
@@ -453,13 +536,11 @@ The **Unlit** are born without a constellation — no patterns, no whisper, no v
 
 **Proximal Relations**
 
-The Astril's relationship with the **Emberth** is the deepest theological schism in the known world — some Emberth revere them as sacred vessels of Sol's court, others despise them as servants who fled while Sol was entombed. The **Skald** distrust them — spirits in the flesh are too close to the Wyrd. The **Neth** have petitioned for access to Astril bloodline records for three centuries. The **Vreken** feel an unspoken kinship — both peoples are inhabited by something older than themselves. And Keth-Amar knows the Astril exist: when the predator's influence stirs, Astril patterns writhe and recoil. The spirit remembers what ate its kin.
+The Astril's relationship with the **Emberth** is the deepest theological schism in the known world — some Emberth revere them as sacred vessels of Sol's court, others despise them as servants who fled while Sol was entombed. The **Rime-Born** distrust them — spirits in the flesh are too close to the Wyrd. The **Neth** have petitioned for access to Astril bloodline records for three centuries. The **Vreken** feel an unspoken kinship — both peoples are inhabited by something older than themselves. And Keth-Amar knows the Astril exist: when the predator's influence stirs, Astril patterns writhe and recoil. The spirit remembers what ate its kin.
 
 ---
 
 ## The Vreken — The Gloom-Lit
-
-> *"There were eyes in the Gloom Forest before the sun died. We were already there, tending our phosphorescent fungi in the deep bog-caves."*
 
 **The Current State**
 
@@ -481,7 +562,7 @@ The Vreken and the **Neth** share the Bryngloom in cold, functional coexistence 
 
 **The Current State**
 
-The Briaran are the descendants of House Viridane — the eighth noble family, struck from history by the seven houses that sealed the Warden's bargain. When the other families marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their bodies now grow fine briar thorns where other races grow hair — a permanent physical inheritance of the old contract.
+The Briaran are the descendants of House Viridane — the eighth noble family, struck from history by the seven houses that sealed Keth-Amar's bargain. When the other families marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their bodies now grow fine briar thorns where other races grow hair — a permanent physical inheritance of the old contract.
 
 **The Internal Fractures**
 
@@ -489,13 +570,29 @@ Two answers to a single question — how do you survive when the world has erase
 
 **Proximal Relations**
 
-The Briaran's thorns migrate slowly across their bodies over a lifetime, drifting toward the site of the oldest unfulfilled promise their bloodline carries — a physical archive of unfinished business stretching back eight centuries. This trait makes them uniquely valuable as oath-witnesses and uniquely dangerous to anyone who has broken a promise. The **Mimir** recognize them with wary kinship — both are hunted peoples hiding in the same mist. The **Skald** humans despise them as cowards. The **Solvarn** humans envy their courage to say no. The **Skald** regard them with contempt — the Briaran fled while the Skald stayed and fought. And the seven noble houses still fund quiet expeditions into the groves to finish what the erasure started.
+The Briaran's thorns migrate slowly across their bodies over a lifetime, drifting toward the site of the oldest unfulfilled promise their bloodline carries — a physical archive of unfinished business stretching back eight centuries. This trait makes them uniquely valuable as oath-witnesses and uniquely dangerous to anyone who has broken a promise. The **Mimir** recognize them with wary kinship — both are hunted peoples hiding in the same mist. The **Skald** humans despise them as cowards. The **Solvarn** humans envy their courage to say no. The **Rime-Born** regard them with contempt — the Briaran fled while the Rime-Born stayed and fought. And the seven noble houses still fund quiet expeditions into the groves to finish what the erasure started.
+
+---
+
+## The Corvani — The Raven-Marked
+
+> *"We do not read the future. We read the space between the fog and the snow, and the future reads us back."*
+
+**The Current State**
+
+The Corvani are a rare, raven-marked people who dwell in the highest aeries of the Cragjaw Peaks, above the blizzard line where the fog of the Frostwood Reach meets the eternal snow. When House Tesshan sealed the snow-veil eight centuries ago, a splinter group of highland dwellers refused to descend into the buried keeps. They remained above the whiteout, and over generations became marked by the raven — a creature that navigates both fog and snow. Their raven-black markings shift and change with their moods and the fate-tides they sense. The Corvani serve as messengers and guides for those crossing the Peaks, trading information for memories.
+
+**The Internal Fractures**
+
+The Corvani are split by calling. The **Oracles** accept the heavy mental strain of fate-sight, listening to the constant whispering of the flock in their minds, their skin growing pale from monastic seclusion in the highest aeries. The **Scouts** are the agile patrollers who range the freezing peaks and guard the wind-gaps, navigating the space between fog and snow without the Ancestor-Spans. While Oracles seek to understand the threads of destiny, the Scouts demand action — warning that isolation above the blizzard line is a slow death.
+
+**Proximal Relations**
+
+The Corvani have a cautious, mutual respect for the **Mimir** and the **Briaran**, who also refused the Sun-Eater's compromises, though they trade warily. The **Groven** and **Fexrick** both seek Corvani messengers when the Spans are iced over, but neither fully trusts a people who can cross the Peaks without their bridges. The **Skald** humans view them with suspicion, equating their fate-markings with Wyrd-corruption. Their obsidian eyes cannot bear direct, bright sunlight or intense forge-glare, making them avoid the volcanic calderas of Sundale.
 
 ---
 
 ## The Thrumm — The Ancient Stones
-
-> *"They speak with minimal language, live in loose family packs, and possess a brutish intelligence rooted in instinct rather than reason. They are the mountain's first children."*
 
 **The Current State**
 
@@ -714,10 +811,10 @@ Beneath the damp canopy of the **Bryngloom Forest**, the lantern-eyed **Vreken**
 A world sunless for eight centuries does not heal cleanly. The survival strategies of the past have left deep, systemic scars across the continents — plagues of the mind, spiritual winters in the blood, and dangerous trade corridors where the price of passage is written in ash.
 
 ### The Milk-Grief of Nordhalla
-The ancestral bargain of House Skalvyr saved **Nordhalla** from the glaciers, but it left a freezing, spiritual draft in the very blood of the **Skald**. This inheritance is known as the **Milk-Grief**.
-The Milk-Grief is an inherited, supernatural cold that manifests during childbirth. As a Skald mother of the frost-touched bloodline begins labor, the ambient temperature in the room plummets, frost crawling across the walls and freezing water in its basins. The grief drains the mother’s natural warmth, pulling her life-force into the child. In three out of ten births, the mother freezes to death during delivery.
+The ancestral bargain of House Skalvyr saved **Nordhalla** from the glaciers, but it left a freezing, spiritual draft in the very blood of the **Rime-Born**. This inheritance is known as the **Milk-Grief**.
+The Milk-Grief is an inherited, supernatural cold that manifests during childbirth. As a Rime-Born mother of the frost-touched bloodline begins labor, the ambient temperature in the room plummets, frost crawling across the walls and freezing water in its basins. The grief drains the mother’s natural warmth, pulling her life-force into the child. In three out of ten births, the mother freezes to death during delivery.
 The surviving infants emerge permanently altered. Known as the **Frostbound**, their skin is pale blue, brittle as thin ice, and their blood flows gelid and slow. They cannot feel warmth, and physical heat causes them intense, blistering pain.
-To cope with this epidemic, the frost-touched have developed the **Cradle-Forges**: deep, copper-lined chambers heated by geothermal vents where Frostbound infants are kept in suspended, warm sand-boxes for their first year. The tragedy has deeply strained relations between the frost-touched bloodlines and the warm-blooded Skald clans. The Skald, who do not suffer from the Milk-Grief, are often accused of hoarding geothermal coal, while the frost-touched view the warm-bloods' survival as an insult to the mothers who froze to secure the north.
+To cope with this epidemic, the frost-touched have developed the **Cradle-Forges**: deep, copper-lined chambers heated by geothermal vents where Frostbound infants are kept in suspended, warm sand-boxes for their first year. The tragedy has deeply strained relations between the frost-touched bloodlines and the warm-blooded Skald clans. The Skald humans, who do not suffer from the Milk-Grief, are often accused of hoarding geothermal coal, while the frost-touched view the warm-blooded humans' survival as an insult to the mothers who froze to secure the north.
 
 ### The Fungal Hush of the Bryngloom
 Deep within the bogs of the **Bryngloom Forest** grows the **Ghost-Mycelium**, a parasitic fungus that emits a soft, silver-blue phosphorescence. This fungus is the source of the **Fungal Hush** — the most pervasive and tragic addiction in the sunless world.
@@ -754,6 +851,27 @@ Because Wyrd-creatures are made of conceptual fear, standard blades and arrows a
 
 ---
 
-> *"The world is dying. Sol is being eaten. The Wyrd seeps through cracks in reality. The Sundered Monoliths hum their urgent frequency into the dark. And yet — heroes walk the Ancestor-Spans, brave the Iceheart storms, and probe the deep places where ancient predators stir. The seventh age of Mythrill hangs in the balance."*
->
-> — From the forbidden prophecies of the Harath-Vault, attributed to the first Sun-Speaker, authenticity contested by the Synod of Atropolis
+---
+
+# PART VI: SESSION ZERO: YOUR FIRST ADVENTURE
+
+This section provides a concrete starter scenario designed for a Game Master to run a Session Zero or first session with level-1 characters. It introduces street-level stakes, local NPCs, and immediate survival concerns to anchor the players in the reality of Mythrill before introducing cosmic threats.
+
+## Starter Scenario: "The Frozen Sledge"
+
+### The Hook & Setup
+The adventurers begin in **Timber-Post Nine**, a tiny, frost-bitten logging outpost on the margins of the Frostwood Reach. The community is in crisis: their monthly thermal-sledge, carrying geothermal coal-casks from the Sundale border, has failed to arrive. Without this coal, the outpost's central heater-forge will die within forty-eight hours, and Timber-Post Nine will freeze solid.
+
+The local village elder, **Marra of the Nine**, offers a simple bounty: recover the sledge and bring back the coal-casks. She cannot offer gold, but she promises shelter, cold-iron nails, and a map through the local mist-vales.
+
+### Street-Level NPCs
+* **Marra of the Nine:** The cynical human village elder, her hands heavily scarred from frostbite, desperate to save her grandchildren from the creeping cold.
+* **Jad the Stoker:** A retired Ithran Groven smith who tends the outpost's central heater-forge, coughing soot and warning that the furnace is on its last coal-shavings.
+* **Orl the Scout:** A young Corvani scout who saw the sledge's tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.
+
+### The Encounter & Stakes
+The adventurers track the sledge into a freezing, mist-veiled gorge. They find the sledge abandoned, its draft-beasts frozen, and two casks of coal remaining. The rest of the cargo has been dragged into a shallow basalt cave by a pack of **Gref-Spawn** — minor, faceless Wyrd-creatures born from the local loggers' fear of losing their names to the fog.
+
+1. **The Choice:** The cave is structurally unstable. Retrieving the remaining casks requires either an Athletics challenge to clear the basalt debris silently, or fighting the Gref-Spawn under the threat of a rockfall.
+2. **The Twist:** A dying driver, **Toma**, is trapped under the sledge. If they save him, they must leave one cask behind due to weight limits on their makeshift litter. If they leave him, they retrieve all the coal but return to the village with the burden of his death.
+3. **The Consequence:** Returning to Timber-Post Nine with the coal saves the village, establishing the adventurers as local heroes and earning the trust of the logging guilds. Leaving Toma behind, however, leaves his ghost to haunt the trail, attracting a Gambrel that will stalk the party in future sessions.

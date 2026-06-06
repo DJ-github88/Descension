@@ -17,19 +17,19 @@
     /* Multiply blends white → transparent against any background */
     mix-blend-mode: multiply;
     filter: contrast(1.1) brightness(1.1);
-    /* Radial mask: fades out the parchment edges and white box border */
+    /* Radial mask: subtle edge fade only */
     -webkit-mask-image: radial-gradient(
         circle at center,
-        black 45%,
-        rgba(0,0,0,0.85) 55%,
-        rgba(0,0,0,0.5) 68%,
-        transparent 78%
+        black 70%,
+        rgba(0,0,0,0.9) 80%,
+        rgba(0,0,0,0.5) 90%,
+        transparent 97%
     );
     mask-image: radial-gradient(
         circle at center,
-        black 45%,
-        rgba(0,0,0,0.85) 55%,
-        rgba(0,0,0,0.5) 68%,
-        transparent 78%
+        black 70%,
+        rgba(0,0,0,0.9) 80%,
+        rgba(0,0,0,0.5) 90%,
+        transparent 97%
     );
 }

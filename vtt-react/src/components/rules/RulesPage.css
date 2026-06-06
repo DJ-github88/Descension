@@ -684,7 +684,7 @@
     6px 6px 0px #e7d4a6,
     7px 7px 0px rgba(100, 60, 30, 0.22),
     8px 8px 16px rgba(0, 0, 0, 0.45);
-  padding: 50px 70px 80px 70px;
+  padding: 50px 70px 120px 70px;
   position: relative;
   overflow-x: hidden;
 }
@@ -1625,7 +1625,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     border-radius: 0 !important;
     box-shadow: none !important;
     background: #faf6ee !important;
-    padding: 20px var(--pf-space-mobile-4) 60px var(--pf-space-mobile-4) !important;
+    padding: 20px var(--pf-space-mobile-4) 100px var(--pf-space-mobile-4) !important;
     flex: 1;
     overflow-y: auto !important;
     overflow-x: hidden !important;

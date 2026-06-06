@@ -24,7 +24,7 @@ export const LORE_DICTIONARY = {
     region: 'nordhalla',
     summary: 'A brutalist cathedral of frozen black fjords and towering glaciers in the northern reaches, warmed only by deep geothermal sumps.',
     fullEntry: 'Nordhalla is a freezing wilderness where the advance of titanic, mountain-crushing glaciers was halted mid-stride by the desperate bargain of House Skalvyr. The tundra is a flat black mirror beneath a washed-out sky that has not seen true sunlight in eight centuries. Wind-carved ice sculptures stand as monuments to the ancient dead, and keeps are dug into geothermal volcanic vents. Survival here is an endurance-purist\'s trial, where bloodlines are fiercely guarded and the heat determines a family\'s status.',
-    relatedTerms: ['house_skalvyr', 'frozen_archive', 'skald', 'bloodhammer', 'stel', 'skreika']
+    relatedTerms: ['house_skalvyr', 'frozen_archive', 'rime_born', 'bloodhammer', 'stel', 'skreika']
   },
   'sundale': {
     id: 'sundale',
@@ -581,5 +581,32 @@ export const LORE_DICTIONARY = {
     summary: 'A spirit-surgeon who navigates the boundary between the living and the ancestral dead, performing interventions on both that neither domain can perform alone.',
     fullEntry: 'The Witch Doctor tradition is the Bryngloom Forest\'s most socially central practice — the person who speaks to both the Vreken\'s luminous dead and the living, mediating disputes that span generations. A Witch Doctor performs spirit-surgery: the removal of lingering ancestral trauma from the living, the anchoring of unstable death-song spirits in the dead, and the negotiation of the Keeper of the Last Threshold\'s claims when they come due unexpectedly. They are healers in the deepest sense — they heal relationships between the dead and the living that would otherwise fester into haunting.',
     relatedTerms: ['bryngloom-forest', 'vreken', 'neth']
+  },
+  'corvani': {
+    id: 'corvani',
+    term: 'Corvani',
+    type: 'race',
+    region: 'frostwood-reach',
+    summary: 'Highland seer-scouts bound to the Corvid Fate-Spirits, carrying destiny on raven wings and shifting markings.',
+    fullEntry: 'The Corvani are the resilient survivors of the Frostwood Reach\'s highest ridges, dwelling in stone eyries carved directly into sheer basalt cliffs above the tree line. Refusing to succumb to Keth-Amar\'s capitulation or noble rule, their ancestors struck a fate-bond with the ancient Corvid Fate-Spirits to preserve their memories against the memory-erasing fog. In exchange, they accepted the spirits\' mark: shifting, raven-feather markings on their skin, obsidian-dark eyes sensitive to intense light, and premonitive sight that reveals threads of shifting destiny.',
+    relatedTerms: ['frostwood-reach', 'mimir', 'corvid_speech']
+  },
+  'corvid_speech': {
+    id: 'corvid_speech',
+    term: 'Corvid-Speech',
+    type: 'cultural_practice',
+    region: 'frostwood-reach',
+    summary: 'The complex, polyphonic throat-signed language of the Corvani, utilizing both clicks and whispers.',
+    fullEntry: 'Corvid-Speech is the ancestral language of the Corvani, born from imitation of the Corvid Fate-Spirits and the howling winds of the mountain passes. It is a polyphonic tongue that combines soft clicks, whistling, and low-frequency throat vibrations with subtle shifting of their fate-spun markings. This structure makes the language incredibly dense and near-impossible for other races to speak fluently without magical aid, but permits the Corvani to communicate silently and across vast distances in the high basalt spires.',
+    relatedTerms: ['corvani', 'frostwood-reach']
+  },
+  'rime_born': {
+    id: 'rime_born',
+    term: 'Rime-Born',
+    type: 'race',
+    region: 'nordhalla',
+    summary: 'The frost-touched, non-human survivors of Nordhalla\'s eternal winter, carrying the freezing stasis of the Hunger Pact.',
+    fullEntry: 'The Rime-Born (historically referred to as the Breath-Takers or Hrym) are a stoic, formidable people of Nordhalla\'s frozen fjords. Evolving from refugees of the Hunger Pact who consumed their own dead during a three-winter blizzard, they carry a supernatural cold in their blood. Their skin feels like stone left in shadow, their breath freezes even in southern heat, and they suffer from the Milk-Grief—a supernatural labor-cold that drains a mother\'s warmth to save the child. They are divided into the library-dwelling Rune Keepers, the fury-driven Bloodhammers, and the blue-skinned Frostbound.',
+    relatedTerms: ['nordhalla', 'house_skalvyr', 'bloodhammer', 'stel', 'skreika']
   }
 };

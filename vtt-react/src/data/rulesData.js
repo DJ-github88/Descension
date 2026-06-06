@@ -7,8 +7,7 @@ export const RULES_CATEGORIES = [
     name: 'World Lore',
     icon: 'fas fa-globe',
     description: 'The mythic history of Mythrill — from the theft of the sun to the fractured continents',
-    subcategories: [
-      {
+    subcategories: [      {
         id: 'cosmic-mythos',
         name: 'The Deepening & The Breach',
         icon: 'fas fa-sun',
@@ -20,43 +19,38 @@ export const RULES_CATEGORIES = [
         ],
         content: {
           title: 'The Deepening & The Great Breach',
-          description: 'Before noble houses, before dark bargains, there was a law older than any deity: the Deepening, the death-rebirth cycle of every star. When Sol entered this vulnerable trance, an ancient predator descended. The desperate acts that followed — a binding ritual soaked in sacrifice, a whispered bargain, a seal shattered by children — are the foundation of everything.',
+          description: 'The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.',
           sections: [
             {
               title: 'The Deepening & The Binding',
-              content: `Before there were noble houses, before there was a frozen world, there was a law older than any deity. It is called the **Deepening**: the ancient death-rebirth cycle by which every celestial body sheds its exhausted light and rekindles from within. Every star that has ever burned has entered the Deepening. Every star has emerged.
+              content: `> **THE ELEVATOR PITCH**
+> **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
+
+Before there were noble houses, before there was a frozen world, there was a law older than any deity. It is called the **Deepening**: the ancient death-rebirth cycle by which every star sheds its exhausted light and rekindles from within. Every star that has ever burned has entered the Deepening. Every star has emerged.
 
 But the Deepening carries a fatal flaw: it attracts predators. The dimming light broadcasts across the void: *here is something vulnerable.*
 
-When the sun-god **Sol** entered its own Deepening, the **[Augurs](world-lore/classes)** of the seven noble houses were the first to read the signs in the cooling light. Their rune-scarred forearms burned with visions traded from personal memory. The **[Oracles](world-lore/classes)** of Sol's celestial court — constellation-spirits who would later flee into willing vessels among the **[Astril](world-lore/races-overview)** — screamed warnings. The **[Doomsayers](world-lore/classes)** recorded the approaching darkness.
+When the sun-god **Sol** entered its own Deepening, the star-watchers of the seven noble families were the first to read the signs. Their rune-scarred forearms burned with visions. The constellation-spirits of Sol's celestial court screamed warnings. An abyssal entity called **Keth-Amar** — the Sun-Eater, the First Hunger — was already here.
 
-An abyssal entity called **Keth-Amar** — the Sun-Eater, the First Hunger — was already here.
+To protect Sol, the seven families pooled their bloodlines to entomb the dying star beneath the volcanic crust of **Sundale**. They used as the seal's vessel the hide of **Aex**, Sol's own firstborn — a living entity of pure radiance whose body still remembered the warmth of the sun. The binding was absolute: a vault with no key, protecting Sol from Keth-Amar at the cost of locking its warmth underground forever.
 
-To protect Sol, the seven families pooled their bloodlines to entomb the dying star beneath **[Sundale](world-lore/regions)**. **[Inscriptors](world-lore/classes)** encoded the binding terms into burn-scar and memory-glass. **[Titans](world-lore/classes)** of the **[Emberth](world-lore/races-overview)** Korr stood sentinel. **[Wardens](world-lore/classes)** guarded the approaches.
-
-What the histories burned from every account is the seal's substance. Ritual alone cannot bind a star. The families needed a vessel woven from living radiance: a hide that remembered the warmth of the sun. The oldest name for such a vessel is **Aex** — the firstborn of Sol, a living entity of pure solar fire. The fragments that survived the purge record a hunt. Aex did not volunteer. Aex was taken — the first being to eat fire so others would not burn. The **[Spellguards](world-lore/classes)** of later ages trace their origin to this moment.
-
-The result: a one-way seal, a vault with no key. The binding exhausted the families — and the world began to freeze.`
+> *"The official histories record a ritual of pure blood and will. The unofficial ones — the fragments that survived the purge — record a hunt."*
+>
+> — from the forbidden archives of House Thalreth`
             },
             {
               title: 'Keth-Amar & The Breach',
-              content: `Without Sol's light, the surface world began to die. Frost crept south. Crops failed. Children froze. Every people dug into the earth for residual warmth.
+              content: `Without Sol's light, the surface world began to die. Darkness spread. Frost crept south. Crops failed. Children froze. The peoples of every region dug into the earth for residual warmth — temporary refuge, nothing more.
 
-Keth-Amar, denied its prey, turned to the starving. It whispered to the desperate nobles — not in words but impressions: *warmth, vents cracking frozen earth.* The price: **firstborn heirs.**
+Keth-Amar, denied its prey, turned its attention to the starving. It whispered to the desperate nobles who had doomed their own people — promises of volcanic warmth, of vents that would crack the frozen earth and bleed heat back to the surface. The price: the **firstborn heirs** of each noble house.
 
-Pressed to extinction — **[Doomsayers](world-lore/classes)** recording deaths that were no longer prophecy but arithmetic — six families capitulated. The first **[Martyr](world-lore/classes)** was a Solvarn mother named **Sera Solvan**, who carved her sacrificed child's name into her forearm. The scar still glows in the presence of Sundered Monoliths.
-
-They marched their heirs north. Keth-Amar consumed them as **vessels** — the children's bloodlines were the keys to the seal. The seal shattered into **7 Sundered Monoliths.** **[Emberspire](world-lore/regions)** erupted. The **Wyrd** bled through the cracks. The first **[Exorcists](world-lore/classes)** were active within months. **[Huntresses](world-lore/classes)** began tracking Wyrd-sign. **[Deathcallers](world-lore/classes)** discovered the Wyrd's victims were not silent. **[Covenbanes](world-lore/classes)** were written in that first bleeding of spiritual rot.`
+Pressed to extinction, **six of the seven families capitulated**. They marched their children to the northern peaks. Keth-Amar consumed them — not as mere sacrifice, but as **vessels**: the children's bloodlines were the original keys to the binding seal, and by devouring them, Keth-Amar cracked the vault from within. The seal shattered into **seven Sundered Monoliths**, each screaming with the echo of a sacrificed heir. The breach unleashed the eruption of **Emberspire**, the world-heart volcano. The **Wyrd** — a formless, primordial spiritual rot sealed in the deep earth since before human memory — bled through the cracks into the surface air.`
             },
             {
               title: 'The Slow Feast',
-              content: `Keth-Amar is now inside the binding — inside the vault it was never meant to enter. It feeds on Sol's embers, growing stronger as the world grows colder. Sol cannot wake. Sol cannot die. Sol is being eaten — the slowest meal in cosmic history.
+              content: `Keth-Amar is now inside the binding — inside the vault it was never meant to enter. It feeds on Sol's slumbering embers through the fractured seal, growing incrementally stronger as the world grows incrementally colder. Sol cannot wake. Sol cannot die. Sol is being eaten from within.
 
-The **7 Sundered Monoliths** are the only way to close the breach. **[Huntresses](world-lore/classes)** track Shard-sign through every biome. **[Oracles](world-lore/classes)** receive warnings when a Shard wakes. **[Doomsayers](world-lore/classes)** record each awakening. (Full locations in [The Age of the Dimming](world-lore/world-state).)
-
-But closing a wound is not the same as healing it.
-
-**The Refusal:** There was an **eighth house** — House Viridane. They refused, fled south through the **[Frostwood Reach](world-lore/regions)**, and made a counter-bargain with fae entities. The **[Briaran](world-lore/races-overview)** carry that refusal — their **[Lunarchs](world-lore/classes)** are living memory of the burned contract, their **[Bladedancers](world-lore/classes)** are its sharp edge, their **[Martyrs](world-lore/classes)** carry the ancestral debt in thorn and flesh.`
+**The Refusal:** There was an **eighth house** — House Viridane. When the other families marched their firstborn north, Viridane refused and fled south through the **Frostwood Reach**, making a counter-bargain with fae entities in the groves. The seven families spent centuries erasing every record of Viridane's existence. Their hidden descendants — the **Briaran** — carry the weight of that refusal through every generation, branded oathbreakers by a history written to justify capitulation.`
             }
           ]
         }
@@ -83,33 +77,33 @@ This is the world your adventurers were born into. Not a post-apocalypse — an 
             },
             {
               title: 'The Dimming of the Solbrand',
-              content: `In the volcanic heart of **[Sundale](world-lore/regions)**, beneath the Harath-Vault, the **[Emberth](world-lore/races-overview)** have tended the **Solbrand** — believed to be Sol's last conscious fragment — for eight centuries. **[Titans](world-lore/classes)** of the Korr stand six-hour sentinel shifts. **[Oracles](world-lore/classes)** listen for a voice that has not spoken since the binding.
+              content: `In the volcanic heart of **[Sundale](world-lore/regions)**, beneath the Harath-Vault, the **[Emberth](world-lore/races-overview)** have tended the **Solbrand** — believed to be Sol's last conscious fragment — for eight centuries. Guards of the Korr stand six-hour shifts. Sun-Speakers listen for a voice that has not spoken since the binding.
 
 The Solbrand is dimming. The tending-clan has known for three generations and concealed it. Three factions have emerged: the **Risen** (old faith), the **Sunderer** (heretics who believe the Solbrand is Keth-Amar's feeding-line), and the **Unwoven** (who deface their forge-marks and scour the world for Shards). Civil war brews.
 
-The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every morning a sun-priest climbs the highest tower: *not today. Perhaps tomorrow.* Their **[Doomsayers](world-lore/classes)** record the Dimming's progression. Their **[Martyrs](world-lore/classes)** stay, wounds glowing faintly near the dying ember.`
+The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every morning a sun-priest climbs the highest tower: *not today. Perhaps tomorrow.* Their seers record the Dimming's progression. Their faithful stay, wounds glowing faintly near the dying ember.`
             },
             {
               title: 'The Stirring of the Shards',
-              content: `The seven **Sundered Monoliths** have been dormant for centuries. No longer. The **[Myrathil](world-lore/races-overview)** Deep-Born Listeners feel the Iceheart Shard thrumming. The **[Astril](world-lore/races-overview)** spirits convulse. The **[Groven](world-lore/races-overview)** report the Shard beneath Frostmaw Crag has begun to sing — vibrations cracking older Ancestor-Spans. **[Huntresses](world-lore/classes)** track Shard-sign through every biome. **[Exorcists](world-lore/classes)** contain the Wyrd-creatures drawn to Shard-resonance. **[Oracles](world-lore/classes)** receive fragments of warning.`
+              content: `The seven **Sundered Monoliths** have been dormant for centuries. No longer. The foam-born Deep-Born Listeners feel the Iceheart Shard thrumming. The spirit-bearers convulse. The troll-kin report the Shard beneath Frostmaw Crag has begun to sing — vibrations cracking older Ancestor-Spans. Hunters track Shard-sign through every biome. Cleansers contain the Wyrd-creatures drawn to Shard-resonance. Seers receive fragments of warning.`
             },
             {
               title: 'The Regional Powder Kegs',
               content: `Each region faces its own crisis — and each threatens to spill.
 
-**In [Sundale](world-lore/regions)** — Civil war brews between forge-clans. **[Pyrofiends](world-lore/classes)** burn with a fire the Emberth revere but cannot trust.
+**In [Sundale](world-lore/regions)** — Civil war brews between forge-clans. Pyrofiend heretics burn with a fire the Emberth revere but cannot trust.
 
-**In [Nordhalla](world-lore/regions)** — Frost lords stir. Rune Keeper **[Augurs](world-lore/classes)** record irregular vibrations in the Archive. Skreika besiege the **[Skald](world-lore/races-overview)** fjord-keeps in numbers not seen in centuries.
+**In [Nordhalla](world-lore/regions)** — Frost lords stir. Rune Keepers record irregular vibrations in the Archive. Skreika besiege the Skald human fjord-keeps in numbers not seen in centuries.
 
-**In the [Cragjaw Peaks](world-lore/regions)** — Ancestor-Spans crack. **[Fexrick](world-lore/races-overview)** machines fail. **[Chronarchs](world-lore/classes)** extend lifespans while **[Formbenders](world-lore/classes)** search for the Lost Brood.
+**In the [Cragjaw Peaks](world-lore/regions)** — Ancestor-Spans crack. Subterranean machines fail. Chronarchs extend lifespans while Formbenders search for the Lost Brood.
 
-**In the [Bryngloom](world-lore/regions)** — The **[Neth](world-lore/races-overview)** have filed seventeen petitions. The Keeper has not ruled. Over-Lit epidemic worsens. **[Covenbanes](world-lore/classes)** stretched to their limits.
+**In the [Bryngloom](world-lore/regions)** — The **[Neth](world-lore/races-overview)** have filed seventeen petitions. The Keeper has not ruled. Over-Lit epidemic worsens. Covenbanes stretched to their limits.
 
 **On the [Iceheart Sea](world-lore/regions)** — Spawning gales shift north. The First Shore grows quiet. The Rift Shard thrums.
 
 **In the [Sundrift Vale](world-lore/regions)** — Ancestor-mounds hum louder. The Astril assassination economy intensifies.
 
-**In the [Frostwood Reach](world-lore/regions)** — Fog thickens. **[Mimir](world-lore/races-overview)** mother-flame flickers. Noble houses fund fresh expeditions. The **[Briaran](world-lore/races-overview)** run out of places to hide.`
+**In the [Frostwood Reach](world-lore/regions)** — Fog thickens. The Mimir mother-flame flickers. Noble houses fund fresh expeditions. The thorn-marked Briaran run out of places to hide.`
             },
             {
               title: 'The Seven Sundered Monoliths',
@@ -150,13 +144,13 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
               content: `The Wyrd is a formless, ancient spiritual energy that cannot manifest on its own. It must occupy something — and what it occupies is the collective imagination. When a settlement whispers cautionary tales around a hearth, they draw an accidental blueprint. The Wyrd slips inside, turning folklore into living horrors.
 
 **Why Each Continent Has Unique Monsters:**
-• **[Frostwood Reach](world-lore/regions)** (Germanic/Celtic) — face-stealing Gref, oath-hunting Gambrels. Exorcists cross-reference journals; Bladedancers navigate the Revel's circle.
-• **[Nordhalla](world-lore/regions)** (Norse/Alpine) — glacier-memory Stels, hearth-parasite Rimors. Berserkers wade into fjord-surf; Augurs extract prophecies from frozen victims.
-• **[Sundale](world-lore/regions)** (Mesopotamian/Egyptian) — the burning Cinder, the Husque. Pyrofiends alone approach a Husque without immediate consumption.
-• **[Iceheart Sea](world-lore/regions)** (Greek/Yoruba) — the Spume of the Drowned, the Writ of Passage. Deathcallers separate voices; Arcanoneers study the Writ.
-• **[Cragjaw Peaks](world-lore/regions)** (Yokai/Andean) — metal-eating Scrabs, the mountain's consciousness. Formbenders develop deterrents; Fate Weavers read the Thrum's approach.
-• **[Sundrift Vale](world-lore/regions)** (Mongol/Chinese) — debt-tracking Lien, the Hungry Child. Martyrs assume debts into flesh; Oracles tell stories of a sky the Child has never seen.
-• **[Bryngloom Forest](world-lore/regions)** (Slavic/Hindu) — the Grandmother of the Bog, the Cycle-Eater. Witch Doctors treat memory-wounds; Covenbanes track Debt-Revenants.
+• **[Frostwood Reach](world-lore/regions)** (Germanic/Celtic) — face-stealing Gref, oath-hunting Gambrels. Cleansers cross-reference journals; swift defenders navigate the Revel's circle.
+• **[Nordhalla](world-lore/regions)** (Norse/Alpine) — glacier-memory Stels, hearth-parasite Rimors. Warriors wade into fjord-surf; seers extract prophecies from frozen victims.
+• **[Sundale](world-lore/regions)** (Mesopotamian/Egyptian) — the burning Cinder, the Husque. Fire-mages alone approach a Husque without immediate consumption.
+• **[Iceheart Sea](world-lore/regions)** (Greek/Yoruba) — the Spume of the Drowned, the Writ of Passage. Soul-listeners separate voices; runic cannons study the Writ.
+• **[Cragjaw Peaks](world-lore/regions)** (Yokai/Andean) — metal-eating Scrabs, the mountain's consciousness. Alchemists develop deterrents; destiny weavers read the Thrum's approach.
+• **[Sundrift Vale](world-lore/regions)** (Mongol/Chinese) — debt-tracking Lien, the Hungry Child. The dedicated assume debts into flesh; storytellers tell stories of a sky the Child has never seen.
+• **[Bryngloom Forest](world-lore/regions)** (Slavic/Hindu) — the Grandmother of the Bog, the Cycle-Eater. Healers treat memory-wounds; oath-bound hunters track Debt-Revenants.
 
 **Key Principles:**
 • The Wyrd cannot invent — only occupy. Every creature was born when the Wyrd found an empty shape in a culture's imagination.
@@ -167,14 +161,14 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
         }
       },
       {
-        id: 'regions',
-        name: 'The Continents',
-        icon: 'fas fa-mountain',
+        id: 'regional-overview',
+        name: 'The Seven Continents',
+        icon: 'fas fa-globe-americas',
         theme: 'narrative',
         summary: [
-          'Each region blends two distinct real-world folklore traditions to produce unique Wyrd-creatures.',
-          'The Frostwood Reach serves as the official starting zone for adventurers.',
-          'Seven major regions detailed with their dark bargains, native races, folklore anchors, and Wyrd-creatures.'
+          'Seven continents shaped by desperate bargains with Keth-Amar, the Sun-Eater.',
+          'Each region hosts unique subrace frictions, threats, and Wyrd-spawned horrors.',
+          'Every region conceals one of the seven Sundered Monoliths that shattered the binding seal.'
         ],
         content: {
           title: 'The Seven Continents',
@@ -182,64 +176,306 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
           sections: [
             {
               title: 'Frostwood Reach (Starting Zone)',
-              content: `The air tastes of wet iron and old pine — a forest dying for eight centuries that refuses to finish. The fog is not weather. It is the permanent condition.
+              content: `> **Key Terms in Frostwood Reach:**
+> • **The Reach:** A dense, freezing ironwood forest wreathed in protective, memory-erasing fog.
+> • **House Thalreth:** The ruling human lineage that bargained away their memories to keep the forests from freezing.
+> • **Greymark Keep:** The central peat-stone sanctuary and archive-fortress of the Thalren humans.
+> • **The Mimir:** A shape-shifting people who wear carved masks to lock their identity against the fog.
+> • **The Briaran:** Hidden, thorn-marked outcasts descended from the house that refused the Sun-Eater's bargain.
 
-> *"The fog keeps the timber from shattering. It also eats what you remember — slowly, starting with the faces of the dead."*
+**The Regional Landscape & Current Vibe**
 
-**The Dark Bargain:** House Thalreth traded spatial clarity for protective fog. Price: memory decays.
+The Frostwood Reach is a continent of dense, transitional fog where warm volcanic air from the south collides aggressively with the creeping northern frost. Ancient ironwood forests stretch beneath a perpetual grey canopy, their petrified trunks hardened by centuries of cold until the wood mimics iron. Settlements cluster along mist-choked trails, their inhabitants never quite certain what lies beyond the next bend — or whether they will remember it by the time they arrive.
 
-**The Land & Its People:** The **[Thalren](world-lore/races-overview)** dominate from Greymark, a library of forty thousand names. The **[Mimir](world-lore/races-overview)** — mask-bound faceshifters — hide in canopy-holds; the art of mask-forging was lost ninety years ago. The **[Briaran](world-lore/races-overview)** — thorn-born descendants of House Viridane — live in moonlit groves. **[Exorcists](world-lore/classes)** cross-reference journals against Wyrd-manifestations. **[Huntresses](world-lore/classes)** read the fog. **[Bladedancers](world-lore/classes)** patrol with speed born of necessity. **[Lunarchs](world-lore/classes)** draw power from lunar cycles. **[Witch Doctors](world-lore/classes)** practice spore-based medicine.
+**The Dark Bargain:** The noble family of House Thalreth traded the region's **absolute spatial clarity** for an insulating, protective mist to keep the ancient forests and wildlife from freezing into glass. The price was the steady, inexorable decay of historical memory over generations.
 
-**What Hunts Here:**
-• The **Gref** — A face-trader. Huntresses track Gref-sign; Exorcists identify which face in the village no longer belongs.
-• The **Gambrel** — Born from broken oaths. Lunarchs, whose thorns prickle at oathbreakers, sense them first.
-• The **Revel** — A fae court whose celebration began before the sun died. Bladedancers navigate its circle.
+**The Seat of Power: Greymark Keep**
 
-**The Shard:** Sealed within the Greymark lineage-tapestry archive.`
+Nestled in the center of the Reach is **Greymark Keep**, a sprawling, imposing fortress carved from wet grey peat-stone and walled in titanic, petrified ironwood trunks. Founded during the second century of the sunless era to shield the human lineages of House Thalreth, the keep serves as a sanctuary and an archive. Because the fog slowly consumes memory, Greymark has developed into a culture of desperate record-keeping. Scribe-sentinels patrol the catwalks, heavy leather-bound journals chained directly to their iron belts, their quills constantly scratching out lineage logs, tax records, and personal histories before the creeping fog hollows their minds. 
+
+Within the high-arched halls of the keep, the air is thick with the scent of pine oil, damp paper, and raw tallow candles. In the **Ledger Halls**, the central quarter of the city, citizens queue before the archivists to have their identities, marriages, and debts verified against the great family tapestries. To lose your journal in Greymark is to lose your legal existence. At the city's highest point sits the **Scribe's Tower**, where the grand tapestries of House Thalreth are tended. Beneath the keep, in the damp vaults known as **The Shallows**, the **Unwoven Mimir** and human outcasts operate a black market, exchanging bottled memories, stolen diary keys, and secret lineages in the shadow of wet stone.
+
+**The Subrace Friction**
+
+Three distinct peoples share the Reach, and their coexistence is a study in armed paranoia. The **Thalren Humans** dominate Greymark Keep, clinging to their written chains and viewing anyone without a recorded lineage as a potential threat. 
+
+Living in the high branches above are the Mimir. The **Mask-Borne Mimir** are the high canopy aristocrats. They wear pristine, beautifully carved heartwood or storm-glass masks that they never remove in public, viewing shape-shifting as a private, highly ritualized statecraft reserved for nobility. They look down on the **Unwoven Mimir** of the forest floor, who wear cracked, salvaged masks made of pine or birch, or go completely maskless with painted skin. The Unwoven run the black markets of the Shallows, trading in memories and memories' absence, completely rejecting the high-born purity laws of the canopy. The **Mist-Woven Mimir** of the mountain aeries are the sentinels—wearing stone masks, they use their shape-shifting as a lethal tool of guerrilla warfare, acting as the eyes and ears of the Reach. 
+
+**Briaran** — the hidden descendants of House Viridane — are the shadow beneath both. They live in the deepest moonlit groves where the protective fog thins and fae old laws still hold.
+
+**Localized Threats & Daily Realities**
+
+The Wyrd, that formless spiritual rot unleashed by Emberspire's eruption, finds rich material in the Frostwood Reach's folkloric imagination. Drawing from Germanic and Celtic traditions, it manifests as creatures born from the specific fears whispered around local hearths: the **Gref**, a face-trader that wears the stolen visages of its victims; the **Gambrel**, a creature born from broken oaths that hunts those who made promises they did not intend to keep; and **the Revel**, a fae court whose celebration began before the sun died and has never ended, whose dancers pull travelers into a revelry that consumes decades in a single night.
+
+**The Shard:** Sealed within the Greymark lineage-tapestry archive.
+
+**Daily Life, Trade & Food**
+
+Common people in the Reach survive on a sparse diet of pine-needle tea, bog-cranberry pemmican, and smoked gref-hare, supplemented by gref-rye—a hardy, frost-tolerant grain grown in cleared mist-beds. The local economy revolves around the export of petrified ironwood timber (which is as hard as tempered steel), pine oil, and moss-wax, in exchange for cold-iron tools, southern geothermal coal, and grain.
+
+In Greymark Keep, a typical tavern is a low-ceilinged stone cellar thick with tallow smoke and pine oil. Patrons sit in near-silence, writing diligently in their personal journals to record the day's transactions and memories before the fog takes them. Drinks are served in heavy wooden tankards chained to the tables. Barter of diary-key steel and memory-glass fragments often replaces coin.`
             },
             {
               title: 'Nordhalla & The Valley of Ymir',
-              content: `A brutal tundra sliced by black fjords. Beneath glacier walls, the flash-frozen dead of an unknown civilization stand in silent streets — the Frozen Archive, machines humming for ten thousand years.
+              content: `> **Key Terms in Nordhalla:**
+> • **Nordhalla:** A freezing northern wilderness of black fjords and towering glaciers halted mid-advance.
+> • **House Skalvyr:** The unyielding noble family that accepted eternal winter to stop the glaciers.
+> • **The Frozen Archive:** A clockwork and runic city-library carved inside a mile-high glacier.
+> • **The Rime-Born:** The frost-touched, stone-skinned survivors of the ancestral Hunger Pact.
+> • **The Milk-Grief:** A supernatural birth-cold that drains mothers, producing blue-skinned Frostbound infants.
 
-> *"The south owes us blood-debts from the War of Thousand Screams that they have never paid."*
+**The Regional Landscape & Current Vibe**
 
-**The Dark Bargain:** House Skalvyr halted the glaciers. Price: summer never returned.
+Nordhalla is a brutalist cathedral of ice and stone — a blinding-white tundra sliced by towering black fjords where the temperature never rises above freezing. The glaciers were halted mid-advance by the dark bargain, frozen in place like a wave that will never break. The sky is a pale, washed-out grey that has not seen true sunlight in eight centuries. Wind-carved ice sculptures — the flash-frozen dead of a civilization that perished before the Rime-Born were a people — stand in silent streets beneath the glacier walls.
 
-**The Land & Its People:** The **[Skald](world-lore/races-overview)** rule fjord-keeps, encasing dead in glacier-tombs. The frost-touched Skald bloodlines — still marked by the Hunger Pact — do not ask "Who is your mother?" (the Milk-Grief kills nearly half). Bloodhammer **[Berserkers](world-lore/classes)** channel ancestral fury. **[Dreadnaughts](world-lore/classes)** seal themselves in Archive-forged iron. Rune Keeper **[Augurs](world-lore/classes)** trade memories for prophecy. **[Spellguards](world-lore/classes)** absorb enemy magic into flesh. Frostbound **[Oracles](world-lore/classes)** listen to the ice.
+**The Dark Bargain:** House Skalvyr bargained to halt the grinding advance of massive glaciers that threatened to crush their mountain keeps. Keth-Amar froze the ice sheets permanently in place — but decreed that **summer would never return to the north**.
 
-**What Hunts Here:**
-• The **Skreika** — Drowned warriors. Berserkers meet them in the surf.
-• The **Rimor** — A hearth-parasite. Augurs detect it by frost-pattern absence.
-• The **Stel** — A glacier's memory. Augurs extract prophecies from frozen victims.
+**The Seat of Power: The Frozen Archive**
 
-**The Shard:** Deep within a sealed hall of the Frozen Archive. Rune Keepers hear it humming.`
+Carved into the sheer face of a titanic, mile-high glacier in the Valley of Ymir sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead ten-thousand-year-old civilization. The city is a masterpiece of prehistoric clockwork and runic engineering, its monumental brass domes, vaulted archways, and basalt streets preserved perfectly inside the deep ice sheets. It was discovered and reclaimed by the Rime-Born Rune Keepers three centuries ago. The Archive is not a traditional city of trade; it is a massive, echoing library-fortress where machines built by hands that predate human memory continue their ten-thousand-year labor towards mysterious, cold calculations.
+
+Within the Archive, the air is freezing, dry, and smells of old brass and ozone. High walkways of green-patinated copper span the icy chasms between glacier walls. In the **Runic Vaults**, scholars scrape away sheets of frost to read the rotating brass cylinders and light-scrolls preserved in the ice. At the city's gates is **The Fjord-Gate**, a massive basalt fortification carved directly into the black cliffs to guard the sea lanes. Deep below, in the geothermal trenches known as **The Bloodhammer Sump**, Bloodhammer warriors and Fexric engineers maintain roaring coal-furnaces that power the Archive's heating pipes, belching thick black soot into the cold air.
+
+**The Subrace Friction**
+
+The **Skald Humans** of House Skalvyr — endurance-purists who measure worth in cold-resistance and unbroken bloodlines — rule the fjord-keeps. They view the frost-touched **Rime-Born** with a complicated mixture of respect, debt, and simmering resentment. 
+
+The Rime-Born themselves are divided by three bloodlines. The **Rune Keepers** occupy the libraries of the Frozen Archive, devoting their lives to learning the ancient technology. They cover their bodies in inscribed runes, each rune representing a personal memory traded to the Archive in exchange for knowledge. The **Bloodhammer** are the warriors who inhabit the lower sumps. Evolving from the first survivors of the Hunger Pact, they carry the Pact as a burning physical rage, channeling ancestral starvation into frontline combat. They view the Rune Keepers as cold, memoryless shells who have traded away their souls for dead machines. Pushed to the freezing margins of both are the **Frostbound** — gelid-born infants who survived the Milk-Grief (an inherited cold that drains mothers during childbirth) but emerged permanently colder, their flesh turning pale blue and brittle. They live in the Gelid-Caverns, suspicious of both libraries and forge-halls.
+
+**Localized Threats & Daily Realities**
+
+Nordhalla's Wyrd draws from Norse and Alpine folklore, producing creatures of frozen terror: the **Skreika**, blue-fleshed drowned warriors who crawl from the black fjords to drag the living into the icy tides; the **Rimor**, a hearth-parasite that infests the one warm place in a Nordhallan home and slowly consumes the family's ability to feel warmth; the **Stel**, a glacier's memory given form — a creature of compacted ice and stolen moments that replays the last seconds of everyone who ever died inside it.
+
+The Sundered Monolith of the region rests within the sealed, lightless central hall of the Frozen Archive, humming an increasingly erratic frequency that makes the ancient brass cylinders rattle in their sockets.
+
+**Daily Life, Trade & Food**
+
+Commoners in Nordhalla survive on dried fjord-cod, salted mammoth fat, and lichen-mash. The local beverage is frost-mead, a heavy, fermented honey-drink brewed in deep geothermal caves where the cold cannot penetrate. The economy depends on exporting high-grade iron ore, whale blubber, and intricate runic carvings in exchange for southern grains, timber, salt, and spirits.
+
+Taverns in fjord-keeps (such as *The Hearth-Glow*) are built directly over steaming volcanic vents to maximize heat, resulting in crowded, loud, and sweat-slicked spaces. Patrons engage in physical tests of endurance, such as gripping frozen iron bars, to establish lineage status. Currency consists of copper chits known as spits or geothermal coal-receipts, though direct barter of dried fish and furs remains dominant.`
             },
             {
               title: 'Sundale & Emberspire',
-              content: `A volcanic desert of ashfall, obsidian rivers, and smoldering badlands surrounding the world-heart volcano — the tomb and cradle of Sol itself.\n\n**Folklore Blend:** Mesopotamian/Zoroastrian + Egyptian. Fire as dual-god — creator and consumer. The volcano is a dying pharaoh entombed in ash. Lava-djinn write prophecy in cooling stone. Death is passage through flame, and scribes of the underworld weigh hearts against obsidian.\n\n**The Dark Bargain:** Sol slumbers beneath Sundale's crust — not dead, not dying, but entombed within the Deepening trance by the seven noble families' binding ritual. Emberspire is the wound through which Keth-Amar breached the seal, using the sacrificed heirs of six noble houses as vessels to crack the vault from within. The predator now feeds on Sol's embers from inside the binding, growing stronger with each passing year as the world grows colder. The region's noble family — whose heirs were among those consumed — watches their ancestral lands slowly die beneath ashfall.\n\n**Culture & What They Cherish:** The Emberth were Sol's chosen — a sun-revering people whose Sun-Speakers received cryptic prophecy from the dying god centuries before the binding. Forewarned by visions of darkness and descent, they excavated vast tunnel networks beneath Sundale and were already underground when the surface froze. They emerged generations later, following Emberspire's eruption, to reclaim their ancestral ashlands. They cherish **the Solbrand** — the last eternal ember, believed to be Sol's final conscious fragment — and **thermal rights**, the legal ownership of a geothermal vent or lava-flow that forms the basis of all Sundale law. Warmth is property. Cold is poverty.\n\n**The Crafts:**\n• *Obsidian-Forging*: Volcanic glass shaped into blades sharper than steel but brittle, requiring constant ritual replacement — a blade is worn for a season and then shattered at the solstice fire.\n• *Ash-Glass*: Sand and ash fused at volcanic vents into pale grey panes used for greenhouses and thermal-capture architecture.\n\n**Native Races:** The sun-revering **Emberth**, the subterranean gear-engineers **Fexric** who maintain the deep thermal pipelines, and the undying merchant-lords **Neth** who operate trade-posts at the volcanic frontier.\n\n**Shard Location:** The Volcanic Caldera — one of the seven Sundered Monoliths is embedded in the throat of Emberspire itself, visible only during the annual vent-calm when the smoke clears for a single hour. The Emberth regard it with a mixture of reverence and terror: it is both Sol's cage and Keth-Amar's tooth.\n\n**Wyrd-Creatures:**\n• *The Ash-Scribe*: A figure of compacted ash and cooling obsidian that walks the badlands after eruptions, carving tally marks into stone. Each mark is a death — past, present, or impending. Following the Ash-Scribe leads to the dying. Stopping it requires offering a memory written in your own blood on obsidian.\n• *The Ember-Judge*: Appears at the mouth of lava-tubes on nights when the vents glow red. It wears the face of someone you wronged and asks one question: what do you owe? Those who answer truthfully are permitted to leave. Those who lie are found the next morning, turned to obsidian statues at the lava-tube's mouth, their face frozen in the act of speaking.`
+              content: `> **Key Terms in Sundale:**
+> • **Sundale:** A volcanic ashland desert surrounding the tomb of the buried sun-god.
+> • **House Solvan:** The tragic ruling house whose heirs were sacrificed to bind the star beneath the earth.
+> • **Emberspire:** The world-heart volcano and breach-site where the cosmic predator feeds on the sun's embers.
+> • **The Harath-Vault:** The massive underground forge-city of the Emberth clans.
+> • **The Solbrand:** A sacred thermal current and last ember of the sun, tended in holy silence.
+
+**The Regional Landscape & Current Vibe**
+
+Sundale is a volcanic desert of ashfall, obsidian rivers, and smoldering badlands surrounding Emberspire — the world-heart volcano, the tomb and cradle of Sol itself. The air is thick with particulate, the sky a permanent rust-orange smear. Lava-flows cut through the landscape like slow, deliberate arteries. The **Shyr**, a ninety-mile scar of cooling basalt, serves as the Emberth's primary thoroughfare — a road of stone that walks itself as the lava cools and contracts into predictable fracture-patterns.
+
+**The Dark Bargain:** Sundale's bargain is the ur-bargain — the original sin from which all others descend. Sol was bound beneath this continent. Emberspire is the wound through which Keth-Amar breached the seal. The predator now feeds on Sol's embers from inside the binding, and the region's noble family, House Solvan, watches their ancestral lands slowly die beneath ashfall.
+
+**The Seat of Power: The Harath-Vault**
+
+Carved radially into the volcanic throat of a dormant secondary caldera three miles from Emberspire sits **The Harath-Vault**, the massive subterranean capital of the Emberth forge-clans. Carved out by the Sun-Speakers centuries before the sun's death, the Vault is a titanic, sprawling underground city of craftsman, miners, and priests. Grated catwalks are suspended above hot, molten metal rivers that rush through the center of the pathways, acting as both the source of the city's immense heat and its primary defensive barrier. The sounds of hammers falling rings out through the hustle and bustle of the stone avenues.
+
+At the Vault's absolute center is **The Great Forge**, where oversized obsidian anvils are worked diligently by craftsmen who barely break a sweat under the unbearable heat. In the inner ring sits **The Harath-Chamber**, a massive monastic sanctuary of pure basalt where the **Korr Sun-Speakers** kneel in six-hour shifts, practicing the Vault-Breath in absolute silence around the **Solbrand** — the stone bowl containing the last eternal ember of Sol. The outer rings contain the residential sectors and the alchemical laboratories of the **Fexric**, who trade alchemical reagents and gear-work for Emberth obsidian.
+
+**The Subrace Friction**
+
+The **Solvarn Humans** of House Solvan share the ashlands with the Emberth in an uneasy coexistence, staying in the dying surface capital because leaving would mean admitting their ancestors' sacrifice to Keth-Amar was meaningless. 
+
+The **Emberth** themselves are split by a deep geological and philosophical chasm. The **Korr** of the Deep-Vault are the priestly elite. Evolving pitch-charcoal skin, elongated lungs to sip thin air, and bulbous eyes sensitive to heat, they have tended the Solbrand for eight centuries. They believe Sol's silence is a sacred language, and they advocate for absolute patience, conservative faith, and silent devotion. The **Thrask** of the surface badlands are the rangers, hunters, and miners. Evolving bronze, wind-scarred skin and thick muscle, they live in the volcanic frontier calderas. They are pragmatic, swift, and highly skeptical of the Korr's wait-and-see policy. Having noticed that the volcanic vents are cooling and the ash-growth is changing, the Thrask view the Korr's holy vigil as a stagnant, self-destructive lie that will freeze them all. The **Unwoven** — heretical Emberth who have ritually defaced their forge-marks — scour the wastes for Sundered Monoliths, believing that only by sealing the breach can Sol be reborn.
+
+**Localized Threats & Daily Realities**
+
+Sundale's Wyrd draws from Mesopotamian and Egyptian folklore, producing beings of fire and judgment: **the Cinder**, a lost Sun-Speaker child who walked into Emberspire's caldera and emerged as something that burns truth into the flesh of liars; the **Ash-Woven Oracle**, a creature of compacted ash and prophecy that speaks in the voices of every person it has consumed; and the **Husque**, a sympathy-wound of Keth-Amar's breach — a mobile fissure in reality that leaks the predator's hunger into the surrounding landscape.
+
+The region's Sundered Monolith is embedded deep within the primary throat of Emberspire itself, visible only during the annual vent-calm when the volcanic smoke clears for a single hour.
+
+**Daily Life, Trade & Food**
+
+Staples in Sundale include ash-baked lizard tail, roasted volcanic beetles, and sulfur-cleansed fern-bulbs. Patrons wash this down with cinder-brew, a hot, fiery liquor distilled from soot-tolerant tubers. The economy is driven by exporting raw obsidian tools, high-temperature alloys, volcanic sulfur, and Solbrand-cured steel, while importing ice-melt water, woolly herd-hides, and timber.
+
+Taverns in the Harath-Vault are steel-grate cages suspended directly over active magma channels. The atmosphere is dry, blisteringly hot, and filled with the deafening clank of anvils and bellows. Currency takes the form of heavy brass coins minted by the forge-clans, or raw pieces of copper and blood-ore.`
             },
             {
               title: 'The Iceheart Sea',
-              content: `Churning, freezing waves and heavy icy foam where true sailors test their mettle against the elements.\n\n**Folklore Blend:** Greek/Aegean + West African/Yoruba. Shipwreck-epic meets crossroads-spirit. Sea-foam births borrowed faces. The sirens are trickster-gods who offer passage at a price you don't understand until you've paid it. Ocean rifts are thresholds between worlds, and drum-language carries across the waves when the wind fails.\n\n**The Dark Bargain:** The noble family traded calm seas for navigable routes — certain currents always flow, certain channels between the ice sheets never freeze. The price: the sea never sleeps. Storms outnumber still days ten to one. Every voyage is a wager, and the Iceheart collects its toll in ships and sailors.\n\n**Culture & What They Cherish:** The human pirates who work these waters cherish **luck, boldness, and a good death**. They tattoo their contracts onto their skin — every deal, every debt, every oath — because paper rots at sea. The Myrathill, born of the churning foam, cherish **the song of the deep** — a frequency only they can hear, which guides them to the ocean rifts where their kind are born.\n\n**The Crafts:**\n• *Foam-Glass*: Hollow glass spheres blown from volcanic sand and sealed with whale-fat, used as flotation aids and message-buoys.\n• *Leviathan-Bone Shipcraft*: The ribs and spine of the ice-leviathans are carved into hull-reinforcements — ships with bone-keels are said to remember the way home.\n\n**Native Races:** The ethereal foam-born **Myrathill**, human pirate fleets of House Mereval (the Merryn — storm-chasers and luck-worshippers whose tattooed bodies are legal documents), and the **Neth** trade-network centered on **Ironjaw Port** — a living ironwood dock-complex coaxed from the frozen cliff-face over three centuries, the only structure that can withstand the Iceheart's perpetual storm-cycle.\n\n**Shard Location:** Treakous Oceanic Rift — a fissure in the seafloor that glows with pale blue light, visible from the surface only during the deepest winter when the ice thins.\n\n**Wyrd-Creatures:**\n• *The Eshu-of-the-Waves*: A trickster-spirit that appears on the bow of a ship during storms, offering the captain a deal — safe passage for something the captain does not yet know they possess. The price is always personal. The Eshu collects years later, walking into a portside tavern and asking for the captain's name — literally. Those who give it forget who they were.\n• *The Foam-Born Siren*: Not a singer but a mimic. It rises from the churning foam wearing the face of someone the sailor loved, calling in their voice. Those who dive in after it are found days later, floating, their skin pale as sea-foam, their eyes open and filled with salt. The Myrathill claim these are failed births — Wyrd-corrupted foam that tried to become Myrathill and became this instead.`
+              content: `> **Key Terms in the Iceheart Sea:**
+> • **Iceheart Sea:** A churning, violent ocean of cities-sized icebergs and perpetual storms.
+> • **House Mereval:** The maritime family that traded calm waters for ice-free shipping lanes.
+> • **Merrowport:** A lawless, floating city of lashed ships anchored to a volcanic seamount.
+> • **Ironjaw Port:** A monumental cold-iron and petrified timber gateway run by the silver-skinned Neth.
+> • **The Myrathil:** A foam-born, amphibious people split between Breakers-Born diplomats and Deep-Born mystics.
+
+**The Regional Landscape & Current Vibe**
+
+The Iceheart Sea is not a frozen wasteland — it is a violent, churning fury of freezing waves and thick, icy foam, where true sailors test their mettle against an ocean that never sleeps. Storms outnumber still days ten to one. Icebergs the size of cities drift through shipping lanes, calved from glaciers that groan and shift along northern coastlines. The sea is a living adversary, and the people who work it have learned to treat every voyage as a wager.
+
+**The Dark Bargain:** House Mereval traded calm seas for **navigable routes** — certain currents always flow, certain channels between the ice sheets never freeze. The price: the sea never sleeps. Every voyage is a gamble the Iceheart intends to collect.
+
+**The Seat of Power: Merrowport & Ironjaw Port**
+
+The Iceheart has two distinct hearts: **Merrowport** and **Ironjaw Port**. 
+
+**Merrowport** is a shifting, lawless, floating city of lashed-together galleon hulls, merchant ships, and derelict barges anchored to a massive, warm subterranean volcanic seamount. Because the seamount heats the water from below, Merrowport is the only major harbor that never freezes. It is a city of pirates, storm-chasers, and luck-worshippers where wealth is measured in survived voyages. The streets are wooden gangplanks that shift with the tide, lit by copper lanterns and the bioluminescent veins of the Myrathil who live in the berths below.
+
+**Ironjaw Port** is the opposite — a monumental, cold-iron dock-complex grown directly out of the frozen northern cliffs over three centuries by the Neth pact-mages. Walled in petrified ironwood and fortified with colossal brass cranes, Ironjaw is a clinical, hyper-organized fortress of commerce. It is the only structure that can withstand the Iceheart's perpetual storm-cycle, serving as the primary trade gateway between the northern keeps and the southern calderas.
+
+**The Subrace Friction**
+
+The human fleets of House Mereval (the **Merryn**) dominate Merrowport, tattooing their contracts directly onto their skin because paper rots at sea. 
+
+They share the waters with the **Myrathil**, who are split by the waters that birth them. The **Breakers-Born Myrathil** (spawned where waves hammer the shore) are the diplomats, merchants, and poets who navigate Merrowport, serving as the face the land-folk see. The **Deep-Born Myrathil** (spawned in open ocean) are the mystics and sea-herders who live in the abyssal rifts. Evolving low-frequency communication, they find land-folk exhausting and are deeply troubled by the new thrumming of the sea-shard. The **River-Fed Myrathil** (spawned in brackish estuaries) are the inland scouts who follow freshwater rivers, often disguising themselves as human to explore cities the other subraces cannot reach. 
+
+The **Neth Velun** pact-lords run Ironjaw Port with legalistic coldness, frequently clashing with the chaotic Merryn captains over port-taxes and contract enforcement.
+
+**Localized Threats & Daily Realities**
+
+The Iceheart's Wyrd draws from Greek and West African/Yoruba folklore, producing creatures born from the fear of drowning, the fear of bad bargains, and the fear of what watches from below: the **Spume of the Drowned**, a memory-colony formed from the final thoughts of every sailor who ever went under; the **Brine**, a ghost-ferryman who offers passage to any port for a price the passenger does not understand until they've paid it; and **the Writ of Passage**, a sentient contract that drifts on the currents, binding anyone who reads it to terms written in a language that pre-dates human speech.
+
+The regional Sundered Monolith rests at the bottom of the Treakous Oceanic Rift, thrumming a deep, low frequency that causes the teeth of every Deep-Born Myrathil within a hundred miles to ache.
+
+**Daily Life, Trade & Food**
+
+Seafarers on the Iceheart live on salted sea-herring, kelp-cakes, and pickled brine-grass. They drink drowned-rum, a potent, volatile spirit fermented from deep-sea sap. The local trade focuses on exporting whale oil, whalebone spars, carved sea-glass, and dried kelp, while importing cold-iron, grain, and copper.
+
+In Merrowport, taverns (like *The Pitching Hull*) are constructed within the cargo decks of lashed ships. Hammocks hang from the rafters and the floor rolls continuously with the ocean's motion, while sailors gamble away their wages using dice carved from whalebone. Trade-tattoos on the skin or whalebone receipts serve as currency, bypassing paper ledger sheets that would rot in the sea spray.`
             },
             {
               title: 'Cragjaw Peaks',
-              content: `Razor mountain ridges and deep mining shafts carved into living stone, cloaked in perpetual snow.\n\n**Folklore Blend:** Japanese Yōkai + Andean/Incan. Sacred thresholds and hungry peaks. Bridges are tsukumogami waiting to wake — the tools and cables abandoned for a century become hostile, grieving things. The yuki-onna breathes death in the high passes. The Apu demands blood for passage. The mountain is a living god, and every crossing is a negotiation. The Wyrd learned that peaks remember debt.\n\n**The Dark Bargain:** The local noble family bargained for the eternal snow to hide them — when the world froze and starving hordes swept across the lowlands seeking shelter, the Warden made the Cragjaw Peaks a permanent whiteout. Blizzards cloak the mountains, bury the passes, swallow sound and sight and direction. The keeps survived because nothing could find them. The price: every landmark was buried under centuries of drift. The only visible route through the crags is the web of Ancestor-Spans — living bridges grown from the calcified dead of the Groven.\n\n**Culture & What They Cherish:** The Groven control the passes and charge tolls for bridge-crossing — not out of greed, but because without the spans, crossing the Peaks is death by exposure. They cherish **bridge-craft, woven fiberwork, and the Still-Claimed dead** whose bodies became the spans they walk upon. The Fexric, dwelling in the deep tunnels, cherish **geothermal rights, gear-work, and mineral extraction** — a constant source of friction with the Groven, whose bridges they mine for rare crystallized bone.\n\n**The Crafts:**\n• *Span-Weaving*: Bridge-cables woven from stone-lichen fiber and cliff-ram wool, treated with ram-tallow against the frost, stronger than iron and older than any living Groven.\n• *Obsidian Scale-Mail*: Volcanic glass plates drilled and corded into armor that sheds blows by shattering one scale at a time.\n\n**Native Races:** The Groven — humanoid troll-kin bridge-keepers of the spans, the Fexric — goblinoid deep-engineers who first created the Groven and now share the peaks in cold tension, the Thrumm — the Groven's parent race, hulking bestial stone-trolls dwelling in the deepest crags, and the Ferrick — small quicksilver-blooded scrap-folk born from the Fexric's alchemical runoff, who scattered from the sumps into every corner of the known world.\n\n**Shard Location:** Subterranean Vault — a chamber deep beneath Frostmaw Crag where the snow does not fall and the original contract between the noble family and the Warden is written on walls that have never seen frost.\n\n**Wyrd-Creatures:**\n• *The Yuki-onna of the Pass*: A tall woman of living snow who drifts through the high passes during the worst blizzards. She does not attack — she stands at the edge of the bridge and breathes. Her breath freezes rope, cracks stone, and stills the heart. Those who survive say she asked them a question. None can remember what.\n• *The Tsukumogami Span*: A bridge-cable abandoned for more than a century, animated by the Wyrd into a hostile, grieving thing. It slithers like a snake and coils around ankles. A dropped chisel carves warning-runes into stone by itself. The Groven call them *the Unremembered* — things their ancestors made that the living forgot to honor.\n• *The Apu-Hungry*: A peak that demands blood — not coin, but living essence. Certain passes grow slick with frost no matter how often they're tended. The Wyrd has convinced the mountain that sacrifices are still owed, and anyone who crosses without bleeding on the stone receives a curse: their next bridge-crossing will fail.`
+              content: `> **Key Terms in Cragjaw Peaks:**
+> • **Cragjaw Peaks:** A vertical wilderness of razor ridges and bottomless chasms wreathed in an eternal blizzard.
+> • **House Tesshan:** The keeps' lords who traded visibility for a perpetual snow-veil to hide from lowlanders.
+> • **The Ancestor-Spans:** Titanic bridges grown from the calcified bones of the Groven's dead.
+> • **Frostmaw Holdfast:** A lightless subterranean vertical city descending around geothermal vents.
+> • **The Groven:** Stone-troll descendants alchemically created by Fexrick engineers who rebelled for freedom.
+> • **The Corvani:** Raven-marked highlanders who dwell above the blizzard line where the fog meets the snow.
+
+**The Regional Landscape & Current Vibe**
+
+The Cragjaw Peaks are a vertical wilderness — razor mountain ridges and bottomless wind-gaps cloaked in perpetual, howling blizzard. The snow has not stopped falling since the dark bargain was sealed, burying every natural landmark, every ancient trail, every surface route under centuries of drift. The only visible shapes above the whiteout are the **Ancestor-Spans** — bridges grown from the calcified bodies of the Groven's willing dead, dark against the endless grey sky.
+
+Far above the blizzard line, where the fog from the Frostwood Reach collides with the perpetual snow, live the **Corvani** — a rare, raven-marked people who dwell in the highest aeries. They are the only beings who can navigate the space between the fog and the snow, serving as messengers and guides for those brave enough to cross the Peaks.
+
+**The Dark Bargain:** House Tesshan traded **visibility for the eternal snow-veil** — a perpetual blizzard to hide their keeps from the starving hordes that swept across the lowlands when the world froze. The keeps survived because nothing could find them. The price: every landmark was buried. The Tessen have not seen the sky in eight generations.
+
+The Corvani are tied to this bargain indirectly. When House Tesshan sealed the snow-veil, a splinter group of highland dwellers refused to descend into the buried keeps. They remained above the blizzard line, where the fog-memory of the Reach meets the eternal snow. Over generations, they became marked by the raven — a creature that can navigate both the fog and the whiteout. They are the only people who can cross the Peaks without the Ancestor-Spans, but the cost is their connection to the physical world grows thinner with each passing year.
+
+**The Seat of Power: Frostmaw Holdfast & The Spans**
+
+The Peaks are governed from **Frostmaw Holdfast** and the precarious settlements of **The Spans**.
+
+**Frostmaw Holdfast** is a colossal, lightless subterranean vertical city of the Fexrick, descending thousands of feet around roaring geothermal chimneys. The city is a masterpiece of alchemical sumps and clockwork galleries, lit by volcanic soot-glow and the green hum of mineral furnaces. It is a hyper-industrial, paranoid fortress guarded by massive alchemical traps and subterranean gates. The Fexrick clans live in stratified tiers: the hereditary Kethrin guilds occupying the comfortable upper galleries, while the Clan-Free Drall salvage-folk live in the sumps below.
+
+**The Spans** are the opposite — vertical shanty-towns, toll-posts, and rope-bridges built directly onto the Ancestor-Spans by the Groven. Strung across bottomless whiteout chasms and anchored to the sheer mountain cliffs, these wooden and bone-woven settlements are the only surface thoroughfares in the region. They are cold, wind-blasted, and smell of ram-tallow and lichen-brew.
+
+**The Subrace Friction**
+
+The relationship between the **Groven** and the **Fexrick** is a frozen standoff. The Fexrick alchemically created the Groven in their vats centuries ago and lost control of them during the Vat-Breakers' rebellion. 
+
+The **Groven** themselves are divided by the **Ladder of Purity**, an unspoken caste system. The heavier-scaled, deep-chested **Morgh Groven** are the bridge-builders, warriors, and laborers who live in the mid-crag warrens. The finer-scaled, longer-limbed **Ithran Groven** are the diplomats, toll-keepers, and councilors who live in the comfortable span-settlements. A Morgh cannot rise to council, and an Ithran rarely descends to the warrens. The mixed-caste **Murmur-Blooded** are outcasts belonging to neither, often serving as the most trusted bridge-tenders because they have no political allegiance. 
+
+The **Fexrick** are split between the **Kethrin** (hereditary guild engineers who hoard oral maintenance songs) and the **Drall** (self-taught scrap-folk who survive on alchemical runoff).
+
+The **Corvani** live apart from all of these conflicts, in the highest aeries above the blizzard line. They trade with no one regularly, but both the Groven and the Fexrick seek their services as messengers when the Spans are iced over. The Corvani view the wars below as the squabbles of children.
+
+**Localized Threats & Daily Realities**
+
+The Cragjaw's Wyrd draws from Japanese Yokai and Andean/Incan folklore, producing creatures born from the fear of thresholds, the fear of debt, and the fear of what the mountain remembers: the **Scrab**, a metal-eater that consumes the very tools the Fexrick depend on for survival; **the Yawn**, an incomplete bridge-creature that builds itself toward settlements, never arriving but never stopping; and **the Thrum**, the mountain's own consciousness — a vast, slow intelligence that predates all the races and has only recently begun to stir.
+
+The region's Sundered Monolith is sealed within a lightless alchemical chamber deep beneath Frostmaw Crag.
+
+**Daily Life, Trade & Food**
+
+Inhabitants of the Peaks subsist on lichen-stew, dried ram-meat, and flat moss-bread, drinking whiteout-distillate—a burning, clear liquor distilled from high-altitude roots. The economy depends on exporting alchemical reagents, ram-wool, and cold-iron gear systems, while importing coal, volcanic sulfur, and salt.
+
+Taverns on the Spans are drafty wooden structures bolted directly to the bone bridges. The wind howls constantly through the planks, and patrons cluster around a single central copper charcoal brazier. Currency is rarely used on the heights; trade is conducted via barter of wool, bone tools, and climbing spurs.
+
+The Corvani eat little — thin high-altitude broth, dried raven-berries, and frost-moth meat. They do not trade in goods but in information: a Corvani messenger can carry a sealed message across the Peaks in three days, a journey that takes a Groven caravan three weeks. Their price is always the same: a memory, freely given, recorded in their shifting raven-markings.`
             },
             {
               title: 'Sundrift Vale',
-              content: `Wind-swept steppe and dead tundra grass stretching endlessly beneath the starless sky.\n\n**Folklore Blend:** Mongol/Turkic + Chinese. The eternal horizon meets celestial bureaucracy. Wind-hungry ghosts ride with the herds. Ancestor mounds are audit-halls where the dead reconcile debts across generations. The starless sky is a ledger with pages torn out. Throat-singing wakes things that should sleep.\n\n**The Dark Bargain:** The noble family traded fertile soil for the endless migration — the herds never stop, the grass always returns, no matter how many mouths feed upon it. The price: the sky went dark. No stars. No constellations. No navigable heavens. The ancestors who navigated by stars that are no longer there are now navigating by memory alone, and memory is the first thing the steppe takes.\n\n**Culture & What They Cherish:** The nomadic human clans cherish **the migration route, the herd, and the ancestor-song** — throat-sung histories that map the steppe by sound rather than sight. The Astril, who carry the surviving constellation-spirits in their very blood, cherish **the spirits themselves** — the last living fragments of Sol's celestial court, preserved in mortal flesh.\n\n**The Crafts:**\n• *Wind-Leather*: Horsehide cured in the constant steppe wind until it becomes as hard as wood but light as cloth, used for armor, tents, and ancestor-scrolls.\n• *Spirit-Binding*: The Astril practice ritual scarification and throat-singing to soothe, bind, or commune with the constellation-spirits they carry — their bodies are living star-charts, their voices the language the spirits remember from before the sky was erased.\n\n**Native Races:** The nomadic human clans of House Ordavan (the Ordan — herders and throat-singers who follow the endless migration) and the spirit-inhabited **Astril** — farmers and herders who volunteered to carry the last fragments of Sol's celestial court in their blood.\n\n**Shard Location:** Ancient Burial Mound — the Sundered Monolith is interred with the first khan, whose name has been deliberately forgotten to keep the shard hidden.\n\n**Wyrd-Creatures:**\n• *The Wind-Hungry*: Ghosts of warriors who died without an heir to sing their name. They ride the steppe winds as screaming, semi-visible shapes, latching onto travelers who carry unresolved debts. They do not kill — they *follow*. The only way to banish one is to complete the dead warrior's unfinished business, which the ghost communicates through nightmares that grow more detailed each night.\n• *The Ledger-Keeper*: A figure of compacted dust and horsehair that sits at crossroads in the steppe, writing in a book of pressed grass. It records every debt, every broken oath, every unpaid toll across generations. If your ancestor owed something, the Ledger-Keeper knows — and it charges interest.\n• *The Empty Sky-Thing*: On certain windless nights, something vast and dark eclipses the already-empty sky. No one has seen its shape. Those caught beneath it report a crushing sense of being *accounted for* — as if something above was tallying their life and finding it insufficient. The Astren have theories. None of them are comforting.`
+              content: `> **Key Terms in Sundrift Vale:**
+> • **Sundrift Vale:** A wind-swept, starless steppe of dead grass where nomads follow great woolly herds.
+> • **House Ordavan:** The nomadic noble house that traded the sky's stars to ensure the steppe's grass always returns.
+> • **The Synod-Hold:** A shimmering cathedral of crystal-lattice built by the crystalline Astril.
+> • **The Astril:** Crystalline-skinned guardians nesting the spirits of the sun-god's celestial ministers.
+> • **The Unlit:** Astril born without star-glow who act as spies because they can lie without their skin flashing.
+
+**The Regional Landscape & Current Vibe**
+
+The Sundrift Vale is a wind-swept expanse of dead tundra grass stretching endlessly beneath a sky that contains nothing. No stars. No constellations. No navigable heavens. The ancestors who once mapped the firmament now navigate by memory alone, and memory is the first thing the steppe takes. Nomadic clans follow the endless herds across a landscape where the only constants are the wind and the ancestor-mounds — burial sites that still hum with the throat-sung histories of the dead.
+
+**The Dark Bargain:** House Ordavan traded **fertile soil for the endless migration** — the herds never stop, the grass always returns, no matter how many mouths feed upon it. The price: the sky went dark. The constellations were erased from the firmaint above them.
+
+**The Seat of Power: The Synod-Hold & Mound-Camps**
+
+The Vale has no permanent stone cities; its seats of power are the **Mound-Camps** and **The Synod-Hold**.
+
+**The Mound-Camps** are massive, moving yurt-metropolises of the Ordan humans. They migrate continuously in the wake of the massive woolly-herd migrations, congregating seasonal-style around the giant, grass-covered **Ancestor Mounds** — ancient burial sites where the dead are left, and whose mounds hum with throat-sung chronicles. When the camps gather, the steppe is filled with the scent of fermented mare's milk, mutton fat, and the thunderous, miles-wide resonance of throat-singing.
+
+**The Synod-Hold** is the only static structure — a magnificent, shimmering sanctuary of pure, light-refracting crystal-lattice constructed in the steppe's geographic center by the Astril. Lit from within by the luminous skin-patterns of the Astril priests, the Synod-Hold is a quiet, sacred observatory designed to preserve the lineages of the constellation-spirits carried in their blood.
+
+**The Subrace Friction**
+
+The **Ordan Humans** are herders and nomads who navigate by throat-sung ancestor-maps, viewing all settled peoples as weak and housebound. 
+
+They share the starless grasslands with the **Astril**, who are split by how they live with the constellation-spirits of Sol's celestial court nesting in their blood. The **Sylen Astril (The Open)** embrace the spirit within at the risk of being **Over-Sung** (consumed entirely by the cosmic mind). The **Muren Astril (The Bound)** suppress the spirit through strict meditation, containing the star-light behind mental walls, though they risk catastrophic physical explosions of light. Pushed to the margins of both are the **Unlit** — Astril born without a constellation, carrying no patterns, no whisper, and no star-glow. The Synod views them as cursed, but because they are the only Astril who can lie without their skin glowing to betray them, the Unlit are used as the Synod's eyes, ears, and spies across the steppe.
+
+**Localized Threats & Daily Realities**
+
+Sundrift's Wyrd draws from Mongol/Turkic and Chinese folklore, producing creatures born from the fear of debt across generations and the fear of a sky that will never be full again: the **Lien**, a debt-tracker that remembers every broken promise made within a hundred miles and collects on terms the debtor did not know they had agreed to; the **Hungry Child**, the Wyrd-occupied echo of a lost Ordan girl who appears at campfires asking for stories about stars — and consuming those who have none to tell; and the **Sere-Khan**, a guilt-ridden judge who was once a mortal khan and now rides the steppe, trying cases brought by the dead against the living.
+
+The regional Sundered Monolith is buried deep within the oldest Ancestor Mound, its location erased from memory.
+
+**Daily Life, Trade & Food**
+
+Nomadic Ordan clans feed primarily on fermented mare's milk (kumis), dried mutton, and wild steppe-turnips harvested during migrations. The steppe economy runs on the export of wool, hides, steppe-horses, and dried meat, and the import of metal tools, salt, and spirits.
+
+Taverns in the Mound-Camps are large, multi-family yurt structures that smell heavily of mutton fat and woodsmoke. Nomads sit in circles on wool carpets, drinking kumis and singing throat-sung ballads about ancestral lineages. Transactions are completed using horse-chits or via direct barter of sheep and leather.`
             },
             {
               title: 'The Bryngloom Forest',
-              content: `Sinking, semi-frozen bogs and swamps — but also ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood — where the silver-skinned Neth and the lantern-eyed Vreken share the continent in cold, functional silence.\n\n**Folklore Blend:** Slavic/Carpathian + Hindu/Vedic. Corpse-debt meets cosmic cycle. Grandmother-witches trade in reincarnation — not rebirth, but re-use. The Neth conduct cold business with souls that have died eight times and are owed a ninth. The Vreken's lantern-eyes gave rise to the strigoi myth — the Romanian folkloric belief that glowing eyes in the dark are the risen dead returning to drain the living — a superstition that still follows them into regions that have never seen a Vreken but have heard the stories.\n\n**The Dark Bargain:** The Neth's ancestors — a dying clan of scribes, archivists, and merchant-brokers — made their own bargain separate from the noble families. They walked into the boundary where the ancient woods meet the preserving bog and presented a legal argument to the **Keeper of the Last Threshold** (the same entity the Vreken call the Root-Veil): *preserve us, and we will be your living archive — every contract we write carries your authority, every debt we record is a name you helped remember.* The Keeper accepted. The price: the pact must be honored in perpetuity through the physical **First Contract** preserved in Atropolis's heartwood. The Neth cannot stray far from copies of this document without beginning the **Fading** — a slow unraveling of mind and body that ends in a silver-skinned husk. Death became a renegotiated clause, not an ending. Every Neth remembers every near-death return. Every broken contract is enforced by the Keeper itself.\n\n**Culture & What They Cherish:** The Neth cherish **contracts, precedent, and the silence between terms**. They operate from their living canopy-city of **Atropolis** — a cathedral-grove of ancient ironwood coaxed into shape over a thousand years — and the frozen dock-outpost of **Ironjaw Port** on the Iceheart Sea. Their society is divided into three bloodlines: the **Velun** (arcanists and pact-mages, cannot lie), the **Kessen** (probability-weavers who read the obligation-web connecting every living thing), and the **Drun** (severed from the pact through a traumatic fire-ritual, magic-resistant but legally non-existent under Neth law). They view survival as a binding agreement — and they have been in contract for eight centuries.\n\n**The Crafts:**\n• *Memory-Glass* (Neth): Thin, translucent sheets of crystallized tree-sap that store information in refracted light patterns, releasing full sensory experience — the scribe\'s voice, the smell of the chamber, the temperature of that day — directly into the reader\'s mind. The oldest tablets in the Canopy-Ledger are two thousand years old and still legible.\n• *Ghost-Silk* (Neth): Pale, iridescent fiber harvested from domesticated silk-moths that feed on bioluminescent lichen. Woven into impossibly fine garments that float around the body like mist given form. The Velun wear layered robes inscribed with contract-clauses along the hems. The Kessen wear close-fitting garments marked with probability-glyphs only they can read.
-• *Fungal-Weave* (Vreken): Luminescent fungal filaments woven into fabric — dark monastic cassocks with thread-embroidery marking bloodline and vocation, rust-amber for the Clean, silver-white for the Marked. The cloth glows faintly in darkness, just enough to find each other.
-• *Crypt-Engraving* (Vreken): Records etched into compressed fungal-wood tablets using Ghost-Mycelium residue. The carved grooves retain a faint bioluminescence for centuries — the oldest tablets in the Hollow-Scriptorium are still legible after two thousand years.\n\n**Native Races:** The lantern-eyed **Vreken** — an ancient crepuscular people who cultivated phosphorescent fungi in the Bryngloom's deep bog-caves millennia before the sun died, organized around sunken gothic cathedrals lit by the perpetual glow of their entombed ancestors — the silver-skinned **Neth** (preserved by their pact with the Keeper of the Last Threshold, organized into three bloodlines: Velun arcanists, Kessen fate-weavers, and Drun covenant-severed), and frail human swamp-dwellers of House Morrath (the Morren — debtors who trade labor and memory to the Neth for protection) who trade their labor and their memories for Neth protection.\n\n**Shard Location:** Bottom of a Murky Pool — the Sundered Monolith rests in a bog-pool that has no bottom. Divers who descend come back up with water in their lungs and someone else's memories behind their eyes.\n\n**Wyrd-Creatures:**\n• *The Grandmother of the Bog*: An ancient, stooped figure of preserved moss and frozen peat who appears at the edge of dying settlements. She offers a trade — one life extended for one memory surrendered. The memory is never trivial. She deals in first loves, last words, the face of a child. The Wyrd has made her into a recurring thing — those who trade with her see her again at their death, collecting the rest.\n• *The Debt-Revenant*: When a Neth contract is broken by death, the debtor does not rest. They rise from the bog, preserved and aware, compelled to complete the terms of their agreement. They can speak, reason, and remember everything — but they cannot refuse the contract. Once the debt is fulfilled, they sink back into the bog. The Neth consider this a legitimate form of posthumous enforcement.\n• *The Cycle-Eater*: A creature that should not exist — a thing that hunts reincarnating souls. When it devours someone, that person does not return. Their thread in the cosmic cycle is severed. The Neth fear it above all things because the Neth have died many times and plan to die many more. A Cycle-Eater is the one thing their contracts cannot protect against.`
+              content: `> **Key Terms in Bryngloom Forest:**
+> • **Bryngloom Forest:** A twilight canopy of ironwood trees growing above bottomless peat-sinking bogs.
+> • **Keeper of the Last Threshold:** An ancient, legalistic boundary entity (the Root-Veil) that governs the bog's decay.
+> • **Atropolis:** A quiet, contract-governed canopy-city of branch walkways and memory-glass.
+> • **The Neth:** An immortal, silver-skinned people who cannot tell direct lies due to their survival contract.
+> • **The Vreken:** A lantern-eyed people who dwell in the inverted Sunken Spire, worshiping the bog-wrapped dead.
+
+**The Regional Landscape & Current Vibe**
+
+The Bryngloom Forest is a continent of contradictions: semi-frozen sinking bogs give way to ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood coaxed into shape over a thousand years. The forest does not simply grow here — it is governed. An entity called the **Keeper of the Last Threshold** (the same being the Vreken call the Root-Veil) decides what the Gloom preserves and what the Gloom consumes. This is not myth. This is legal precedent.
+
+**The Dark Bargain:** The Bryngloom's dark bargain is unique among the seven regions: it was not struck by a noble family but by the Neth's own ancestors — a dying clan of scribes who walked into the deep wood and presented a legal argument to the Keeper for their own survival. The argument was accepted. The Neth rose from the bog with silver skin, stilled breath, and a pact written in the blood of every descendant. They would be preserved in exchange for serving as the Keeper's living archive. Death became a renegotiated clause, not an ending.
+
+**The Seat of Power: Atropolis & The Sunken Spire**
+
+The Bryngloom's power is split between the canopy city of **Atropolis** and the subterranean chambers of **The Sunken Spire**.
+
+**Atropolis** is the magnificent canopy-city of the silver-skinned Neth, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. The streets are suspended walkways of living branch and ghost-silk, lit by the pale, cold glow of memory-glass tablets. It is a city of lawyers, pact-mages, and merchants who view survival as a legal agreement. The air is quiet, smells of petrichor and old paper, and is governed by strict, silent contract protocols.
+
+**The Sunken Spire** is the inverted capital of the Vreken — a colossal cathedral and crypt carved four hundred feet down into a natural peat-stone sinkhole. Lit solely by the soft phosphorescence of entombed ancestors wrapped in living fungal shrouds, the Spire is a place of shadows, moisture, and the continuous, overlapping chant of the Veil-Speakers who sing the names of the dead to keep their light from fading.
+
+**The Subrace Friction**
+
+The **Neth** and the **Vreken** share the forest in cold, functional silence, trading fungal-lights and cold-iron tools but keeping their cultures entirely separate. 
+
+The **Neth** are divided into three bloodlines. The **Velun** are the pact-lords and arcanists. Evolving pure-silver skin and unable to lie, they govern the high libraries of Atropolis. The **Kessen** are the gamblers and weavers, reading the probability-web of the forest floor to manipulate trade and politics. The **Drun** are the severed outcasts. Evolving dull, leaden-grey skin, they burned their names from the First Contract. Immune to magic but legally non-existent under Neth law, they live in the canopy-sumps as mercenaries and smugglers.
+
+The **Vreken** are split by their fungal bonds. The **Clean Vreken** (rust-amber eyes) are immune to the addictive, euphoric "hush" of the Ghost-Mycelium. They occupy every seat on the crypt-council and the scriptoriums. The **Marked Vreken** (silver-white eyes) carry the volatile Ghost-Mycelium strain, granting them terrifying trail-sight but leaving them vulnerable to the hush. They are segregated into the **Over-Shanties** at the Spire's entrance, treated as an underclass. The western Marked covens have begun an open rebellion (The Bright-Speaking) to demand equality.
+
+**Localized Threats & Daily Realities**
+
+The Bryngloom's Wyrd draws from Slavic/Carpathian and Hindu/Vedic folklore, producing creatures born from the fear of debt that outlasts death and the fear of cycles that never close: **the Grandmother of the Bog**, an ancient figure of preserved moss and frozen peat who offers extensions on life in exchange for memories; the **Debt-Revenant**, a deceased debtor who rises from the bog to complete the terms of a broken contract, fully aware and unable to refuse; and **the Cycle-Eater**, a creature that consumes the reincarnation cycle itself, devouring not just a life but every iteration of that soul across all its past and future existences.
+
+The regional Sundered Monolith rests at the bottom of a bog-pool that has no bottom, leaking the memories of drowned divers into the peat.
+
+**Daily Life, Trade & Food**
+
+Common food in the Bryngloom includes bog-mushroom stew, roasted peat-truffles, and dried river-eel, accompanied by bioluminescent tea brewed from glowing fungal spores. The local trade economy is built on exporting memory-glass, bog-preserved ironwood, fungal-lights, and alchemical moss, while importing cold-iron implements, southern coal, and salt.
+
+In Atropolis, taverns are open-air branch platforms suspended high in the canopy. The atmosphere is quiet, formal, and strictly transactional. Merchants and pact-mages negotiate details of shipping covenants over tea. Currency is recorded on ledger-tablets and verified by Velun pact-clerks.`
             }
           ]
         }
       },
-      {
+            {
         id: 'races-overview',
         name: 'The Peoples',
         icon: 'fas fa-users',
@@ -263,11 +499,11 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
             },
             {
               title: 'The Fexrick',
-              content: `The oldest continuous civilization on Mythrill — compact, gnomish subterranean engineers who carved their first holdfast into the Cragjaw Peaks eight millennia ago, before the Thrumm, before the noble families, before the sun's death. Their skin is pale, tinted green from alchemical exposure or darkened from mine-work; their eyes are droopy but eager, the perpetual look of a people who have been working too long and cannot stop because something still needs fixing. Every Fexric carries one subtle mechanical body replacement — a brass finger, a copper ear, a lens-eye — earned by mastering a craft, and every replacement is a lightning rod waiting for a storm. Divided between the Guild-Bound **Kethrin** (hereditary guild members who hoard ancient oral maintenance songs) and the Clan-Free **Drall** (self-taught outsiders who survive on salvage and improvisation), their society is built on three pillars: practical tinkering, mineral alchemy, and the goblin-gnome cunning that keeps their trap-laden holdfasts hidden from a surface world that barely knows they exist. They created the Groven (intentionally, and lost control) and the Fexrick (accidentally, and refuse to admit it). They are brilliant, ancient, paranoid, and slowly forgetting more than any other race has ever known.`
+              content: `The oldest continuous civilization on Mythrill — compact, gnomish subterranean engineers who carved their first holdfast into the Cragjaw Peaks eight millennia ago, before the Thrumm, before the noble families, before the sun's death. Their skin is pale, tinted green from alchemical exposure or darkened from mine-work; their eyes are droopy but eager, the perpetual look of a people who have been working too long and cannot stop because something still needs fixing. Every Fexric carries one subtle mechanical body replacement — a brass finger, a copper ear, a lens-eye — earned by mastering a craft, and every replacement is a lightning rod waiting for a storm. Divided between the Guild-Bound **Kethrin** (hereditary guild members who hoard ancient oral maintenance songs) and the Clan-Free **Drall** (self-taught outsiders who survive on salvage and improvisation), their society is built on three pillars: practical tinkering, mineral alchemy, and the goblin-gnome cunning that keeps their trap-laden holdfasts hidden from a surface world that barely knows they exist. They created the Groven from the Thrumm (intentionally, and lost control). They are brilliant, ancient, paranoid, and slowly forgetting more than any other race has ever known.`
             },
             {
               title: 'The Neth',
-              content: `A tall, beautiful, silver-skinned people — the Bryngloom Forest's immortal archivists. Their ancestors were a dying clan of scribes who walked into the deep wood and presented the **Keeper of the Last Threshold** (the same entity the Vreken call the Root-Veil and revere as sacred) with a legal argument for their own survival. The Keeper accepted. The Neth rose from the bog with stilled breath, mother-of-pearl skin, and a pact written in the blood of every descendant — death would be a clause to renegotiate, not an ending. In exchange, every Neth contract carries the Keeper's cosmic authority, and every broken contract is enforced by the same entity that preserves them.
+              content: `A tall, beautiful, silver-skinned people — the Bryngloom Forest's immortal archivists. Their ancestors were a dying clan of scribes who walked into the deep wood and presented the **Keeper of the Last Threshold** (the same entity the Vreken call the Root-Veil and revere as sacred) with a legal argument for their own survival. The Keeper accepted. The Neth rose from the bog with stilled breath, pure-silver skin, and a pact written in the blood of every descendant — death would be a clause to renegotiate, not an ending. In exchange, every Neth contract carries the Keeper's cosmic authority, and every broken contract is enforced by the same entity that preserves them.
 
 They are organized into three bloodlines: the **Velun** (who inherited the Keeper's authority — arcanists and pact-mages who cannot lie, whose every spoken word is binding on themselves), the **Kessen** (who inherited the Keeper's sight — weavers and gamblers who perceive the obligation-web connecting every living thing and manipulate probability by tugging its threads, though every tug snaps something elsewhere), and the **Drun** (who inherited the Keeper's silence — Neth who burned their names from the First Contract through a traumatic Severing ritual, becoming magic-resistant, debt-null, and legally non-existent under Neth law).
 
@@ -295,7 +531,11 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
             },
             {
               title: 'The Briaran',
-              content: `The descendants of House Viridane — the forgotten eighth noble family, struck from history by the seven houses that sealed the Warden's bargain. When the other families marched their firstborn to the northern peaks as sacrifice, House Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their bodies now grow fine briar thorns where other races grow hair — a permanent physical inheritance of the old contract. The seven families spent centuries erasing every record of Viridane's existence, and the Briaran have been hiding ever since, split between the Unshorn who remain in the deep groves and the Smooth-Skinned who shave their thorns and pass as human in the wider world. Their thorns migrate slowly across their bodies over a lifetime, drifting toward the site of the oldest unfulfilled promise their bloodline carries — a physical archive of unfinished business stretching back eight centuries.`
+              content: `The descendants of House Viridane — the forgotten eighth noble family, struck from history by the seven houses that sealed Keth-Amar's bargain. When the other families marched their firstborn to the northern peaks as sacrifice, House Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their bodies now grow fine briar thorns where other races grow hair — a permanent physical inheritance of the old contract. The seven families spent centuries erasing every record of Viridane's existence, and the Briaran have been hiding ever since, split between the Unshorn who remain in the deep groves and the Smooth-Skinned who shave their thorns and pass as human in the wider world. Their thorns migrate slowly across their bodies over a lifetime, drifting toward the site of the oldest unfulfilled promise their bloodline carries — a physical archive of unfinished business stretching back eight centuries.`
+            },
+            {
+              title: 'The Corvani',
+              content: `Raven-marked highlanders who dwell in the highest aeries of the Cragjaw Peaks, above the blizzard line where the fog of the Frostwood Reach meets the eternal snow. When House Tesshan sealed the snow-veil eight centuries ago, a splinter group of highland dwellers refused to descend into the buried keeps. They remained above the whiteout, and over generations became marked by the raven — a creature that navigates both fog and snow. Their raven-black markings shift and change with their moods and the fate-tides they sense. The Corvani serve as messengers and guides for those crossing the Peaks, trading information for memories. They are the only people who can navigate the space between the fog and the snow without the Ancestor-Spans, but the cost is their connection to the physical world grows thinner with each passing year. They are divided into two paths: the **Oracle Corvani** who peer deep into fate's threads, and the **Scout Corvani** who navigate the treacherous highland paths as swift messengers.`
             }
           ]
         }
@@ -348,8 +588,8 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
         useCustomComponent: true,
         summary: [
           '14 named present-day NPCs (2 per region) complete with goals, secrets, and regional conflicts.',
-          'Provides GMs with active, living actors driving the political and magical landscape of Mythrill.',
-          'Contains built-in adventure hooks and cross-NPC relationships to spark campaigns immediately.'
+          '21 street-level contacts (3 per region) that level 1-5 characters will actually interact with.',
+          'Provides GMs with active, living actors at every level of the world, from grand exemplars to tavern keepers.'
         ],
         content: {
           title: 'Notable Figures',
@@ -365,7 +605,7 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
             },
             {
               title: 'Sundale (The Ash-City of Korr)',
-              content: `• **Arch-Sun Speaker Kaelen:** The dogmatic leader of the orthodox Sol-Vigil in the city of Korr. **Goal:** To sacrifice a thousand Neth contract-slaves to feed the failing embers of the Solbrand. **Secret:** He no longer hears the voice of Sol; the whispers he receives come from Keth-Amar, commanding him to crack the Sundale seal wider. **Conflict:** Locked in a theological schism with the Church of the Golden Horizon.\n\n• **Mara of the Badlands:** A cynical Tessen ranger who patrols the border of the volcanic vents. **Goal:** To smuggle cooling basalt ore out of the Fexric mines to arm the underground rebellion in Korr. **Secret:** She carries a dormant Wyrd-parasite in her chest that flares with solar heat whenever she draws near the Solbrand. **Conflict:** Actively hunted by the alchemical wardens of Frostmaw Holdfast.`
+              content: `• **Arch-Sun Speaker Kaelen:** The dogmatic leader of the orthodox Sol-Vigil in the city of Korr. **Goal:** To sacrifice a thousand Neth contract-slaves to feed the failing embers of the Solbrand. **Secret:** He no longer hears the voice of Sol; the whispers he receives come from Keth-Amar, commanding him to crack the Sundale seal wider. **Conflict:** Locked in a theological schism with the Church of the Golden Horizon.\n\n• **Mara of the Badlands:** A cynical human ranger who patrols the border of the volcanic vents. **Goal:** To smuggle cooling basalt ore out of the Fexric mines to arm the underground rebellion in Korr. **Secret:** She carries a dormant Wyrd-parasite in her chest that flares with solar heat whenever she draws near the Solbrand. **Conflict:** Actively hunted by the alchemical wardens of Frostmaw Holdfast.`
             },
             {
               title: 'Iceheart Sea (Merrowport)',
@@ -382,6 +622,334 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
             {
               title: 'Bryngloom Forest (The Sunken Spire)',
               content: `• **Sister Vraka:** A Marked Vreken rebel who has turned her back on the Sunken Spire. **Goal:** To liberate the Vreken peat-cutters from their ancestral contracts with the Neth. **Secret:** Her lantern-eyes glow red rather than amber; she has accepted the Wyrd's gift of Somatic Echoes to gain the power to fight the Neth pact-mages. **Conflict:** Leads targeted raids against Matriarch Isara's scriptoriums.\n\n• **Matriarch Isara:** The ruler of the Sunken Spire's Clean Vreken. **Goal:** To maintain the absolute purity of the Vreken bloodlines and the sacred sanctity of their contracts with the Keeper of the Last Threshold. **Secret:** She has signed a secret treaty with Sister Vraka, supplying the rebels with alchemical weapons to eliminate rival Neth nobles. **Conflict:** Trying to prevent Sister Vraka's red-glowing corruption from spreading to the younger Vreken castes.`
+            },
+            {
+              title: 'Street-Level Contacts',
+              content: `These are the people your characters will actually meet in the first few sessions. They are not grand exemplars or guild masters. They are tavern keepers, merchants, and local figures who have their own problems and can offer work, information, or trouble.
+
+**Frostwood Reach:**
+• **Marta of the Ink & Ember:** Owner of Greymark's most popular tavern. Knows everyone's business. Sells information for the price of a drink. Her journal is the most complete record of the city's comings and goings.
+• **Pike the Ledger-Man:** A Thalren archivist who works the night shift in the Ledger Halls. He is deeply in debt to the Unwoven Mimir and will look the other way for the right price.
+• **Renn:** A young Unwoven Mimir who runs a stall in the Shallows selling bottled memories of questionable origin. He knows the black market better than anyone his age.
+
+**Nordhalla:**
+• **Bryn the Stoker:** A Bloodhammer veteran who tends the heating pipes in the lower sumps. He knows every tunnel in the Frozen Archive and will guide adventurers for a bottle of frost-mead.
+• **Old Kira:** A Frostbound herbalist who lives in the Gelid-Caverns. She brews remedies for the Milk-Grief and knows which runes are safe to touch.
+• **Haldor Spit-Chit:** A Skald human merchant who trades in copper chits and geothermal coal-receipts. He has a network of informants along the fjord-keeps.
+
+**Sundale:**
+• **Tarn the Ash-Walker:** A Thrask ranger who patrols the Shyr trade route. He knows every basalt shift and Husque-rift along the road. He charges a toll in blood-ore but will waive it for useful information.
+• **Sister Vess:** A Korr Sun-Speaker who has begun to doubt the Solbrand's silence. She secretly meets with Sunderer heretics and can provide access to the inner rings of the Harath-Vault.
+• **Dusk:** An Unwoven Emberth who has defaced her forge-marks. She scours the wastes for Sundered Monoliths and will hire adventurers as muscle for her expeditions.
+
+**Iceheart Sea:**
+• **Captain Jax:** A Merryn pirate whose skin is covered in ink-contracts. He runs a floating tavern in Merrowport and always needs crew for dangerous voyages.
+• **The Brine-Ferryman:** A Myrathil Deep-Born who offers passage across the ice-choked channels. His price is always something you do not understand until you have paid it.
+• **Nessa of the Docks:** A human smuggler who moves goods between Merrowport and Ironjaw Port. She knows every captain, every contract, and every secret in the Iceheart.
+
+**Cragjaw Peaks:**
+• **Murm the Bridge-Tender:** A Murmur-Blooded Groven who maintains a critical span. He trusts no one fully but will share news of the mountain for a fair trade.
+• **Drall Kess:** A Clan-Free Fexric scrap-dealer who operates a stall in the lower sumps. She sells salvaged gear-work and knows which tunnels are safe.
+• **Wind-Singer Cora:** A Corvani Scout who dwells in the highest aeries. She can carry messages across the Peaks in three days. Her price is always a memory.
+
+**Sundrift Vale:**
+• **Kumiss-Maker Dol:** An Ordan human who brews fermented mare's milk at the Mound-Camps. He knows every clan's movements and will share information for a good story.
+• **The Unlit Guide:** An Astril born without star-glow. He navigates the starless steppe by memory and will guide caravans for a price. No one trusts him, but everyone needs him.
+• **Mound-Watcher Tesa:** An Ordan elder who tends the ancestor-mounds. She knows the throat-sung histories and can interpret the mounds' hums for those who know how to listen.
+
+**Bryngloom Forest:**
+• **Peat-Cutter Jor:** A Clean Vreken who harvests bog-peat for the Neth. He knows every safe path through the sinking bogs and which pools have no bottom.
+• **The Hush-Dealer:** A Marked Vreken who sells Ghost-Mycelium spores in the Over-Shanties. He is addicted to his own supply and will trade information for more hush.
+• **Contract-Scribe Vell:** A Velun Neth who drafts agreements in Atropolis. He cannot lie, but he can find loopholes. He will review any contract for a fee.`
+            }
+          ]
+        }
+      }
+      ,{
+        id: 'player-agency',
+        name: 'Player Agency & Regional Threads',
+        icon: 'fas fa-project-diagram',
+        theme: 'narrative',
+        summary: [
+          'Concrete hooks for each region that players can influence and reshape.',
+          'Faction reputation systems with mechanical benefits and consequences.',
+          'Dynamic events that evolve based on player choices, making the world feel alive.'
+        ],
+        content: {
+          title: 'Player Agency & Regional Threads',
+          description: 'The world of Mythrill is not static. Every region has tensions, factions, and unresolved conflicts that players can influence. This section provides GMs with specific threads to pull on — hooks that are deeply immersed in the existing lore and give players genuine agency to shape the world.',
+          sections: [
+            {
+              title: 'How Player Agency Works in Mythrill',
+              content: `Player agency in Mythrill is not about changing the cosmic scale — you cannot unbury the sun or defeat Keth-Amar in a single campaign. Instead, agency operates at the **regional and faction level**. Players can:
+
+• **Shift faction balances** — Help one faction gain power, weaken another, or play them against each other.
+• **Resolve local crises** — Address the specific problems in each region (memory decay in Frostwood, glacier advance in Nordhalla, civil war in Sundale).
+• **Build assets** - Establish taverns, guilds, bridges, or trading posts that become permanent parts of the world.
+• **Influence NPC trajectories** — Help NPCs achieve their goals, thwart them, or redirect them toward new purposes.
+• **Uncover hidden truths** — Discover secrets that change how factions interact (e.g., the truth about House Viridane's refusal).
+
+Each region below has **3-4 specific threads** that GMs can introduce. These threads are designed to be **modular** — introduce one, two, or all of them depending on your campaign's scope.`
+            },
+            {
+              title: 'Frostwood Reach — Threads of Memory',
+              content: `**Thread 1: The Memory Market**
+The black market in the Shallows trades in bottled memories. Players can:
+- **Buy memories** to gain temporary skill proficiencies or lore knowledge (mechanical benefit: advantage on one check related to the memory's content).
+- **Sell their own memories** for gold (mechanical cost: lose proficiency in one skill until the memory is recovered).
+- **Investigate the source** — Who is harvesting these memories? Are they stolen, or freely given?
+
+**Consequence:** If players disrupt the memory market, the Unwoven Mimir lose their primary income source. They may become allies (grateful) or enemies (desperate).
+
+**Thread 2: The Lineage Crisis**
+Sentinel-Commander Vaelen Greymark is searching for a Briaran child to sit on the Greymark Throne. Players can:
+- **Help him find the child** — Gain Greymark's favor (mechanical benefit: free lodging, access to restricted archives).
+- **Protect the child** — Earn the Briaran's trust (mechanical benefit: safe passage through moonlit groves, access to fae bargains).
+- **Expose the truth** — Reveal that the "ancient lineage pact" was fabricated to justify Thalren rule (mechanical benefit: Unwoven Mimir and Briaran become permanent allies; Thalren humans become hostile).
+
+**Consequence:** This thread directly ties to the cosmic lore — the Briaran are descendants of House Viridane, the family that refused Keth-Amar. Helping them strengthens the "refusal" faction in the cosmic conflict.
+
+**Thread 3: The Fog's Edge**
+The fog is thickening. Players can:
+- **Investigate the cause** — Is it natural, or is something manipulating it? (Hook: Sylvain of the Unwoven is using fae-hush to accelerate memory decay.)
+- **Find a solution** — Ancient Thalren records mention a "Heart-Oak" that anchors the fog. Players can restore it, destroy it, or bargain with it.
+- **Exploit the chaos** — Use the thickening fog to smuggle goods, hide from enemies, or ambush rivals.
+
+**Consequence:** If the fog thickens too much, Greymark Keep becomes isolated. Trade routes close. The region's economy collapses. Players who helped cause this must now deal with the consequences.
+
+**Thread 4: The Revel's Invitation**
+The Revel — the fae court whose celebration never ended — is recruiting. Players can:
+- **Accept the invitation** — Gain powerful fae blessings (mechanical benefit: +2 to Charisma checks, resistance to charm effects) but lose track of time (mechanical cost: age 1d10 years instantly).
+- **Reject the invitation** — The Revel takes offense. Players gain a powerful enemy (the Revel will sabotage future social encounters in the Reach).
+- **Negotiate terms** — Use Persuasion or Intimidation to set boundaries. Success depends on the roll and the GM's discretion.
+
+**Consequence:** The Revel is tied to the cosmic lore — it began "before the sun died." Players who ally with it gain access to ancient knowledge about the Deepening and Keth-Amar, but at a cost.`
+            },
+            {
+              title: 'Nordhalla — Threads of Ice',
+              content: `**Thread 1: The Geothermal War**
+Jarl Eirik Skalvyr and the Archive wardens are fighting over ownership of the geothermal pipes. Players can:
+- **Side with Jarl Eirik** — Gain the fjord-keeps' support (mechanical benefit: free healing at fjord-keep infirmaries, access to Bloodhammer warriors as mercenaries).
+- **Side with the Archive** — Gain the Rune Keepers' knowledge (mechanical benefit: access to ancient technology, advantage on Arcana checks).
+- **Broker a compromise** — Share the geothermal resources. Both factions gain moderate respect (mechanical benefit: access to both, but neither fully trusts the party).
+
+**Consequence:** The geothermal pipes power the Frozen Archive's heating. If they shut down, the Archive freezes. Ancient machines stop. Knowledge is lost. This directly impacts the cosmic conflict — the Archive contains records about Keth-Amar's weaknesses.
+
+**Thread 2: The Milk-Grief Cure**
+High-Oracle Skari is trying to rewrite the history of the Milk-Grief. Players can:
+- **Help his research** — Gather rare ingredients, protect him from enemies, translate ancient texts. Reward: He shares prophecies about the Sundered Monoliths.
+- **Stop his excavation** — The elders of House Skalvyr view it as blasphemous. Reward: The elders grant political favors.
+- **Discover the truth** — The Milk-Grief is not a curse. It is a **symptom** of the Sundered Monolith's resonance. Cure the Monolith's influence, and the Milk-Grief ends.
+
+**Consequence:** If players cure the Milk-Grief, the Frostbound (blue-skinned outcasts) are no longer born. The Frostbound culture disappears. Players must decide: is ending a disease worth erasing a culture?
+
+**Thread 3: The Skreika Siege**
+The Skreika (blue-fleshed drowned warriors) are besieging the fjord-keeps in unprecedented numbers. Players can:
+- **Fight the Skreika** — Gain military honors (mechanical benefit: +1 to attack rolls against undead for 30 days).
+- **Investigate the cause** — Why are they attacking now? (Hook: High-Oracle Skari whispered the fjord-keep locations to them.)
+- **Negotiate with the Skreika** — They are not mindless. They have demands. What do they want?
+
+**Consequence:** The Skreika are tied to the Iceheart Sea's lore. If players discover they are being manipulated by a larger force (Keth-Amar's influence?), this thread connects to the cosmic conflict.
+
+**Thread 4: The Frozen Archive's Secret**
+The Archive contains a 10,000-year-old civilization's knowledge. Players can:
+- **Explore the deepest vaults** — Discover ancient technology (mechanical benefit: unique magic items, knowledge of forgotten spells).
+- **Awaken the machines** — The Archive's clockwork engines are still running. What do they do? (Hook: They are calculating Keth-Amar's weakness.)
+- **Steal the knowledge** — The Rune Keepers will hunt the party. The Neth will offer to buy the information.
+
+**Consequence:** The Archive's knowledge is a **weapon** in the cosmic conflict. Whoever controls it has an advantage against Keth-Amar. Players must decide: share it, sell it, or destroy it.`
+            },
+            {
+              title: 'Sundale — Threads of Ash',
+              content: `**Thread 1: The Solbrand's Dimming**
+The Solbrand (Sol's last ember) is fading. The Korr have concealed this for three generations. Players can:
+- **Expose the truth** — The Thrask and Unwoven factions will rally to the party. The Korr will become enemies.
+- **Help the Korr** — Find a way to reignite the Solbrand. (Hook: It requires a sacrifice — a willing soul, a Sundered Monolith fragment, or the party's own life force.)
+- **Side with the Sunderer** — They believe the Solbrand is Keth-Amar's feeding-line. Destroy it, and Keth-Amar starves. But Sol dies forever.
+
+**Consequence:** This is the **central cosmic conflict** made local. The Solbrand's fate determines whether Sol can be reborn. Players who resolve this thread directly impact the campaign's endgame.
+
+**Thread 2: The Civil War**
+Three factions are fighting for control of Sundale: the Risen (old faith), the Sunderer (heretics), and the Unwoven (seal the breach). Players can:
+- **Join a faction** — Gain their support (mechanical benefit: faction-specific abilities, access to their resources).
+- **Play factions against each other** — Weaken all three, then seize power. (Mechanical benefit: control of the Harath-Vault, but all factions become enemies.)
+- **Forge a fourth path** — Unite the factions against a common enemy. (Requires high Persuasion rolls and a compelling reason.)
+
+**Consequence:** Whoever controls Sundale controls Emberspire — the breach-site where Keth-Amar feeds. This thread determines who has power in the final confrontation.
+
+**Thread 3: The Shyr's Toll**
+The Shyr (the basalt trade route) is controlled by the Thrask, who demand heavy tolls. Players can:
+- **Pay the toll** — Safe passage, but expensive.
+- **Fight through** — Gain a reputation as rebels. The Thrask will hunt the party.
+- **Negotiate free passage** — Offer the Thrask something they want (information, weapons, alliance against the Korr).
+- **Find an alternate route** — Dangerous, but avoids the toll. (Hook: The alternate route passes through a Husque-rift — a tear in reality leaking Keth-Amar's hunger.)
+
+**Consequence:** The Shyr is the **only safe trade route** in Sundale. Controlling it means controlling the region's economy. Players who seize it become major political players.
+
+**Thread 4: The Emberth Schism**
+The Emberth are split between the Korr (priestly elite) and the Thrask (surface rangers). Players can:
+- **Unite the Emberth** — Resolve the schism. (Requires discovering why the Korr concealed the Solbrand's dimming.)
+- **Side with the Korr** — Gain access to the Harath-Vault's inner rings.
+- **Side with the Thrask** — Gain access to the surface badlands and the Shyr.
+
+**Consequence:** The Emberth are Sol's chosen people. Their unity (or disunity) affects the cosmic conflict. A united Emberth can reignite the Solbrand. A divided Emberth cannot.`
+            },
+            {
+              title: 'Iceheart Sea — Threads of Storm',
+              content: `**Thread 1: The Shipping Lanes**
+Synod-Broker Lyra (Neth) and Captain Mereval (Merryn pirate) are fighting over control of the shipping lanes. Players can:
+- **Side with Lyra** — Gain Neth support (mechanical benefit: access to memory-glass records, contract magic).
+- **Side with Mereval** — Gain pirate support (mechanical benefit: free passage on Merryn ships, access to black market goods).
+- **Broker peace** — Share the shipping lanes. Both factions gain moderate respect.
+
+**Consequence:** The shipping lanes connect all seven regions. Whoever controls them controls trade. This thread has **global consequences** — not just local to the Iceheart Sea.
+
+**Thread 2: The Oceanic Rift**
+The Sundered Monolith rests at the bottom of the Treakous Oceanic Rift. Players can:
+- **Retrieve it** — Requires deep-sea diving equipment, protection from the Rift's thrumming (which causes teeth to ache and minds to fracture), and a way to transport it.
+- **Seal it in place** — The Deep-Born Myrathil can help, but they want something in return.
+- **Destroy it** — The Rift will collapse. The Iceheart Sea's storms will intensify. Merrowport may be destroyed.
+
+**Consequence:** This is one of the **seven Sundered Monoliths**. Retrieving or destroying it directly impacts the cosmic conflict. The Iceheart Sea's shard is tied to the Deep-Born Myrathil's lore — they hear new voices in the abyss.
+
+**Thread 3: The Brine-Ferryman's Price**
+The Brine (ghost-ferryman) offers passage to any port for a price the passenger doesn't understand until they've paid. Players can:
+- **Accept the offer** — Gain safe passage, but pay a hidden cost (GM chooses: lose a memory, age 1d10 years, owe a debt to the Brine).
+- **Refuse the offer** — The Brine takes offense. Future sea travel becomes dangerous.
+- **Negotiate the price** — Use Persuasion or Intimidation. Success depends on the roll.
+
+**Consequence:** The Brine is tied to the Iceheart Sea's Wyrd-creatures. It is born from "the fear of bad bargains." Players who outsmart it gain a powerful ally. Players who fail become its permanent debtors.
+
+**Thread 4: The Myrathil's Secret**
+The Myrathil know the location of the Oceanic Rift Monolith and keep it secret. Players can:
+- **Earn their trust** — Help the Myrathil with a crisis (the spawning gales are shifting north, threatening their birthing grounds).
+- **Steal the information** — The Myrathil will hunt the party.
+- **Bargain for it** — Offer something the Myrathil want (protection, resources, alliance against a common enemy).
+
+**Consequence:** The Myrathil are the sea mother's experiment in personhood. Their loyalty is valuable. Players who earn it gain access to the Oceanic Rift and the Myrathil's unique abilities (weather-sensing, navigation, amphibious combat).`
+            },
+            {
+              title: 'Cragjaw Peaks — Threads of Stone',
+              content: `**Thread 1: The Bridge Toll**
+The Groven control the Ancestor-Spans and charge tolls. Players can:
+- **Pay the toll** — Safe passage, but expensive.
+- **Fight through** — Gain a reputation as rebels. The Groven will hunt the party.
+- **Negotiate free passage** — Offer the Groven something they want (help against the Fexrick, access to surface goods, alliance against a common enemy).
+- **Build an alternate route** — Dangerous, but avoids the toll. (Hook: The alternate route passes through Thrumm territory — the ancient parent race of the Groven.)
+
+**Consequence:** The Ancestor-Spans are the **only safe passage** through the Cragjaw Peaks. Controlling them means controlling trade between north and south. Players who seize them become major political players.
+
+**Thread 2: The Vat-Breakers' Legacy**
+The Groven were created by the Fexrick, then rebelled. The Fexrick still capture Thrumm broodlings and inject them with alchemical serums. Players can:
+- **Free the Lost Brood** — Rescue the Thrumm still being held in the Fexrick vats. (Mechanical benefit: The Thrumm become allies, but the Fexrick become permanent enemies.)
+- **Destroy the vats** — End the Fexrick's alchemical experiments. (Mechanical benefit: The Groven become permanent allies, but the Fexrick's technology is lost.)
+- **Negotiate a truce** — The Fexrick stop experimenting, the Groven stop raiding. (Requires high Persuasion rolls and a compelling reason.)
+
+**Consequence:** The Groven are tied to the Cragjaw Peaks' lore — they were created from the Thrumm. This thread explores the ethics of creation and rebellion. Players who resolve it shape the region's future.
+
+**Thread 3: The Corvani's Price**
+The Corvani (raven-marked highlanders) can carry messages across the Peaks in three days. Their price is always a memory. Players can:
+- **Pay the price** — Lose a memory (GM chooses: a skill proficiency, a language, a piece of lore).
+- **Refuse the price** — Find another way to send the message. (Hook: The alternate method is slower, dangerous, or unreliable.)
+- **Negotiate a different price** — Offer the Corvani something they want (information, protection, alliance against a common enemy).
+
+**Consequence:** The Corvani are tied to the Cragjaw Peaks' lore — they dwell above the blizzard line where the fog meets the snow. Their memories are valuable. Players who trade with them gain access to unique knowledge.
+
+**Thread 4: The Thrum's Awakening**
+The Thrum (the mountain's consciousness) is stirring. Players can:
+- **Investigate the cause** — Why is it waking now? (Hook: The Sundered Monolith's resonance is affecting it.)
+- **Communicate with it** — The Thrum is slow, ancient, and alien. It speaks in vibrations, not words.
+- **Exploit its awakening** — Use the Thrum's power to collapse tunnels, trigger avalanches, or crush enemies.
+
+**Consequence:** The Thrum is tied to the Cragjaw Peaks' Wyrd-creatures — it is born from "the fear of what the mountain remembers." Players who ally with it gain a powerful but unpredictable ally. Players who anger it face the mountain's wrath.`
+            },
+            {
+              title: 'Sundrift Vale — Threads of Stars',
+              content: `**Thread 1: The Astril Schism**
+The Astril are split between the Sylen (embrace the constellation-spirits) and the Muren (suppress them). Players can:
+- **Side with the Sylen** — Gain access to their celestial magic (mechanical benefit: +2 to Spirit checks, resistance to psychic damage).
+- **Side with the Muren** — Gain access to their defensive magic (mechanical benefit: +2 to Constitution checks, resistance to radiant damage).
+- **Unite the Astril** — Resolve the schism. (Requires discovering why the constellation-spirits fled to mortal vessels in the first place.)
+
+**Consequence:** The Astril carry Sol's celestial ministers in their blood. Their unity (or disunity) affects the cosmic conflict. A united Astril can communicate with Sol. A divided Astril cannot.
+
+**Thread 2: The Mound Monolith**
+The Sundered Monolith is buried in the oldest Ancestor Mound. Players can:
+- **Retrieve it** — Requires navigating the starless steppe, surviving the Hungry Child (Wyrd-creature that consumes those who have no stories about stars), and bargaining with the Sere-Khan (guilt-ridden judge who tries cases brought by the dead).
+- **Seal it in place** — The Ordan nomads can help, but they want something in return.
+- **Destroy it** — The Ancestor Mound will collapse. The throat-sung histories will be lost forever.
+
+**Consequence:** This is one of the **seven Sundered Monoliths**. Retrieving or destroying it directly impacts the cosmic conflict. The Sundrift Vale's shard is tied to the Astril's lore — they carry the constellation-spirits that Keth-Amar failed to eat.
+
+**Thread 3: The Starless Sky**
+The sky is dark. No stars. No constellations. Players can:
+- **Investigate the cause** — The constellations were erased when House Ordavan made their bargain. Can they be restored?
+- **Navigate without stars** — The Ordan nomads navigate by throat-sung ancestor-maps. Players can learn this technique. (Mechanical benefit: advantage on Survival checks in the steppe.)
+- **Exploit the darkness** — Use the starless sky to hide from enemies, ambush rivals, or smuggle goods.
+
+**Consequence:** The starless sky is tied to the Sundrift Vale's lore — it is the price of the endless migration. Players who restore the stars change the region forever. The Ordan nomads lose their unique navigation method, but gain the ability to see the heavens again.
+
+**Thread 4: The Unlit's Rebellion**
+The Unlit (Astril born without star-glow) are used as spies because they can lie without their skin flashing. Players can:
+- **Help the Unlit** — Gain their support (mechanical benefit: access to their spy network, advantage on Deception checks).
+- **Oppose the Unlit** — The Synod will reward the party. (Mechanical benefit: access to the Synod-Hold's resources, but the Unlit become enemies.)
+- **Unite the Unlit and the Synod** — Resolve the tension. (Requires high Persuasion rolls and a compelling reason.)
+
+**Consequence:** The Unlit are tied to the Astril's lore — they are born without constellation-spirits. Their rebellion explores themes of identity and belonging. Players who resolve it shape the Astril's future.`
+            },
+            {
+              title: 'Bryngloom Forest — Threads of Decay',
+              content: `**Thread 1: The Neth-Vreken Tension**
+The Neth and Vreken share the Bryngloom in cold, functional silence. Players can:
+- **Side with the Neth** — Gain access to their contract magic (mechanical benefit: advantage on Persuasion checks, access to memory-glass records).
+- **Side with the Vreken** — Gain access to their fungal magic (mechanical benefit: advantage on Medicine checks, access to Ghost-Mycelium remedies).
+- **Broker peace** — Unite the Neth and Vreken against a common enemy. (Requires high Persuasion rolls and a compelling reason.)
+
+**Consequence:** The Neth and Vreken are tied to the Bryngloom's lore — they worship/negotiated with the Keeper of the Last Threshold. Their unity (or disunity) affects the region's stability. A united Bryngloom can resist Keth-Amar's influence. A divided Bryngloom cannot.
+
+**Thread 2: The Hush Epidemic**
+The Ghost-Mycelium's addictive "hush" is spreading. Players can:
+- **Find a cure** — Investigate the source of the epidemic. (Hook: The Clean Vreken are immune, but they are not sharing their secret.)
+- **Contain the spread** — Quarantine infected areas. (Mechanical cost: The quarantined areas become dangerous, but the epidemic slows.)
+- **Exploit the epidemic** — Sell hush to addicts. (Mechanical benefit: Gold, but the party gains a powerful enemy — the Covenbane.)
+
+**Consequence:** The hush is tied to the Bryngloom's Wyrd-creatures — it is born from "the fear of cycles that never close." Players who resolve this thread shape the region's future. The Marked Vreken (addicted to hush) are a culture. Curing the epidemic may erase that culture.
+
+**Thread 3: The Keeper's Bargain**
+The Keeper of the Last Threshold (the Root-Veil) governs the Bryngloom. Players can:
+- **Negotiate with the Keeper** — It accepts legal arguments, not prayers. (Mechanical benefit: Access to the Keeper's power, but the party must fulfill a bargain.)
+- **Defy the Keeper** — The Keeper will hunt the party. (Mechanical cost: The Bryngloom becomes hostile, but the party gains freedom from the Keeper's contracts.)
+- **Replace the Keeper** — The Keeper is ancient, but not immortal. Can it be overthrown? (Hook: The Vreken's Root-Veil and the Neth's Keeper are the same entity. If players discover this, they can exploit it.)
+
+**Consequence:** The Keeper is tied to the Bryngloom's lore — it is the entity that preserves the Neth and governs the Vreken. Players who resolve this thread shape the region's future. The Keeper's power is a **weapon** in the cosmic conflict.
+
+**Thread 4: The Cycle-Eater's Hunger**
+The Cycle-Eater (Wyrd-creature that consumes reincarnation) is growing stronger. Players can:
+- **Investigate the cause** — Why is it growing stronger now? (Hook: The Sundered Monolith's resonance is affecting it.)
+- **Destroy it** — The Cycle-Eater is born from "the fear of cycles that never close." Players must address that fear to destroy it.
+- **Bargain with it** — The Cycle-Eater is intelligent. It may accept a trade. (Mechanical benefit: Access to its power, but the party owes a debt.)
+
+**Consequence:** The Cycle-Eater is tied to the Bryngloom's Wyrd-creatures. It consumes not just lives, but **every iteration of that soul across all its past and future existences**. Players who fail to stop it risk permanent death — not just for themselves, but for every version of themselves.`
+            },
+            {
+              title: 'Dynamic Events System',
+              content: `Player actions trigger dynamic events that evolve over time. These events are **not scripted** — they respond to player choices and create a living, breathing world.
+
+**Event Types:**
+
+1. **Faction Shifts** — When players help a faction gain power, that faction's influence grows. Example: If players help the Thrask in Sundale, the Thrask gain control of more territory. The Korr lose influence. This affects future encounters, quest availability, and NPC attitudes.
+
+2. **Regional Crises** — When players ignore a problem, it worsens. Example: If players ignore the hush epidemic in Bryngloom, it spreads. More Marked Vreken become addicted. The Clean Vreken become more oppressive. The Covenbane become more aggressive.
+
+3. **NPC Trajectories** — NPCs have goals. Players can help them achieve those goals, thwart them, or redirect them. Example: If players help High-Oracle Skari in Nordhalla, he completes his excavation. The Milk-Grief's history is rewritten. The Frostbound gain respect. If players stop him, he becomes an enemy. The elders of House Skalvyr gain influence.
+
+4. **World Changes** — Major player actions permanently change the world. Example: If players destroy the Solbrand in Sundale, Sol dies forever. The Emberth lose their purpose. The region becomes a wasteland. This is a **permanent change** — it cannot be undone.
+
+**GM Guidelines:**
+- Track player actions and their consequences.
+- Introduce dynamic events organically — don't force them.
+- Let players see the results of their choices. If they help a faction, show that faction's influence growing. If they ignore a problem, show it worsening.
+- Use dynamic events to create **moral dilemmas** — not every choice has a clear "right" answer. Sometimes helping one faction hurts another. Sometimes solving one problem creates another.`
             }
           ]
         }
@@ -430,6 +998,43 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
     "content": "<div class=\"class-lore-card\"> <div class=\"class-lore-card-header\"> <div class=\"class-lore-card-title-group\"> <i class=\"class-lore-icon fas fa-eye\"><\/i> <h3 class=\"class-lore-name\">Oracle<\/h3> <\/div> <span class=\"class-lore-role-badge\">Support/Utility (Foresight & Fate Manipulation)<\/span> <\/div> <div class=\"class-lore-card-content\"> <div class=\"class-lore-myth\"> <h4 class=\"class-lore-section-title\"><i class=\"fas fa-scroll\"><\/i> The Myth &amp; The Toll<\/h4> <div class=\"class-lore-paragraphs\"><p>Vala, the Astril star-watcher of the Sundrift Vale, stared into the black sky during Keth-Amar's descent and received a blinding vision of the stars' destruction. The constellation-spirits flooded her mind, searing her optical nerves and leaving her in a state of permanent temporal displacement.</p><p>The weight of this celestial foresight left her blind to the immediate present. The Oracle can see tomorrow's battles with perfect clarity, but she cannot see the stones at her feet, requiring allies to guide her steps through the physical world, her body wracked by warning seizures.</p><p>Glimpse the light. The future is written in starlight, and you are the lens. Read the thread before it burns away.</p><\/div> <\/div> <div class=\"class-lore-details\"><h4 class=\"class-lore-section-title\"><i class=\"fas fa-theater-masks\"><\/i> Roleplay Identity<\/h4><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">HISTORY: THE GENESIS</div> <div class=\"class-lore-detail-value\"><p>The oracle's warning flashes were born in the starless steppe of the <LoreLink termId=\"sundrift-vale\">Sundrift Vale</LoreLink>. An Astril star-watcher named **Vala** stared into the starless dark and received a vision of the stars' destruction. The price of this foresight was physical seizure. The warning flashes induced minor physical seizures, leaving her blind to the immediate present to see the future.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">CITIES &amp; CIVIL RECEPTION</div> <div class=\"class-lore-detail-value\"><p>Oracles are highly revered as vital spiritual guides in the yurt-camps of the steppe and the high halls of the <LoreLink termId=\"synod_hold\">Synod-Hold</LoreLink>.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">RACES &amp; CULTURAL AFFILIATION</div> <div class=\"class-lore-detail-value\"><p>The class is heavily practiced by the crystal-skinned <LoreLink termId=\"astril\">Sylen Astril</LoreLink> and nomadic humans.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">NOTABLE FIGURES</div> <div class=\"class-lore-detail-value\">**Notable Figures**\n* **Vala the Star-Eyed**: The Astril seer whose warning flashes left her blind to the dirt but clear to the future.\n* **Micah the Seer**: A nomad who mapped the starless sky by tracing the echoes of dead constellations.</div> </div><\/div> <\/div> <\/div><div class=\"class-lore-card\"> <div class=\"class-lore-card-header\"> <div class=\"class-lore-card-title-group\"> <i class=\"class-lore-icon fas fa-leaf\"><\/i> <h3 class=\"class-lore-name\">Primalist<\/h3> <\/div> <span class=\"class-lore-role-badge\">Support / Crowd Control / Defender (Atavistic Horror)<\/span> <\/div> <div class=\"class-lore-card-content\"> <div class=\"class-lore-myth\"> <h4 class=\"class-lore-section-title\"><i class=\"fas fa-scroll\"><\/i> The Myth &amp; The Toll<\/h4> <div class=\"class-lore-paragraphs\"><p>Kael the herd-ranger ran with the woolly-herds across the starless grasslands of the Sundrift Vale, tuning his spirit to the elemental totems of the steppe. He sat in the grass for three seasons without moving, letting the dust settle on his skin until the wind-spirits welcomed him as kin.</p><p>This absolute wilderness alignment eroded his humanity. The Primalist periodically slips into a feral silence, losing the ability to speak or comprehend language when the totemic energy surges, his mind reverting to the simple, brutal instinct of the beast.</p><p>Call the wild. The earth speaks through you, and the pack is waiting. Run with them.</p><\/div> <\/div> <div class=\"class-lore-details\"><h4 class=\"class-lore-section-title\"><i class=\"fas fa-theater-masks\"><\/i> Roleplay Identity<\/h4><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">HISTORY: THE GENESIS</div> <div class=\"class-lore-detail-value\"><p>The primalist's wild aspect was born in the starless grasslands of the <LoreLink termId=\"sundrift-vale\">Sundrift Vale</LoreLink>. A human herd-ranger named **Kael** ran with the woolly-herds, letting his posture and breath adapt to the wilderness. The price of this wilderness alignment was a feral silence. Kael lost his civil speech, his mind periodically slipping into animalistic silence.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">CITIES &amp; CIVIL RECEPTION</div> <div class=\"class-lore-detail-value\"><p>Primalists are viewed with caution in settled kingdoms, but they are highly respected as essential scouts in the nomadic camps of the steppe.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">RACES &amp; CULTURAL AFFILIATION</div> <div class=\"class-lore-detail-value\"><p>The class is heavily practiced by the nomadic Ordan humans and the <LoreLink termId=\"astril\">Sylen Astril</LoreLink>.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">NOTABLE FIGURES</div> <div class=\"class-lore-detail-value\">**Notable Figures**\n* **Kael the Herd-Runner**: The ranger who lived as a wolf for ten years, forgetting how to speak human tongue.\n* **Maeve the Wolf-Mother**: An Astril primalist who led the steppe packs against the Gref invaders.</div> </div><\/div> <\/div> <\/div><div class=\"class-lore-card\"> <div class=\"class-lore-card-header\"> <div class=\"class-lore-card-title-group\"> <i class=\"class-lore-icon fas fa-dice\"><\/i> <h3 class=\"class-lore-name\">Chaos Weaver<\/h3> <\/div> <span class=\"class-lore-role-badge\">Entropic Vector / Timeline Fracturer<\/span> <\/div> <div class=\"class-lore-card-content\"> <div class=\"class-lore-myth\"> <h4 class=\"class-lore-section-title\"><i class=\"fas fa-scroll\"><\/i> The Myth &amp; The Toll<\/h4> <div class=\"class-lore-paragraphs\"><p>Reality is a woven tapestry, but the nomad Xyris did not see beauty in the threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Breach. She gathered fragments of the Sundrift Monolith, fusing them into her own blood to thin the planar anchor that binds her to this world.</p><p>The price of this entropic friction is molecular instability. Her physical form is vulnerable to sudden, localized dissolution, her marrow humming with erratic void energy that threatens to tear her apart. Her spells are wild, unpredictable swings, risking catastrophic feedback loops that can consume her own flesh or damage allies as easily as enemies.</p><p>Embrace the void's friction. The lines of reality are fraying, and your hands are on the loom. Spin the madness before it unravels you.</p><\/div> <\/div> <div class=\"class-lore-details\"><h4 class=\"class-lore-section-title\"><i class=\"fas fa-theater-masks\"><\/i> Roleplay Identity<\/h4><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">HISTORY: THE GENESIS</div> <div class=\"class-lore-detail-value\"><p>The chaos weaver's volatile planar manipulation was first manifested in the starless steppe of the <LoreLink termId=\"sundrift-vale\">Sundrift Vale</LoreLink>. A nomadic star-watcher named **Xyris** sought to capture the energy of the dying constellations and accidentally spliced a thread of temporal friction directly into her blood.</p><p>The price of this planar thinning was severe molecular instability. By step-stepping through dimensional seams, Xyris permanently thinned her planar anchor, leaving her physical form vulnerable to sudden dissolution and requiring intense mental stamina to maintain stability.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">CITIES &amp; CIVIL RECEPTION</div> <div class=\"class-lore-detail-value\"><p>Chaos Weavers are viewed with intense suspicion and fear throughout the settled kingdoms, often forced to practice their volatile arts in the nomadic yurt-camps of the <LoreLink termId=\"sundrift-vale\">Sundrift Vale</LoreLink> or the deep subterranean sumps of <LoreLink termId=\"frostmaw_holdfast\">Frostmaw Holdfast</LoreLink>.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">RACES &amp; CULTURAL AFFILIATION</div> <div class=\"class-lore-detail-value\"><p>The class is heavily practiced by the crystal-skinned <LoreLink termId=\"astril\">Sylen Astril</LoreLink> who seek absolute symbiosis with their nesting spirits.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">NOTABLE FIGURES</div> <div class=\"class-lore-detail-value\">**Notable Figures**\n* **Xyris the Rift-Spanner**: The nomad who thinned her planar anchor to step through reality, risking physical dissolution.\n* **Zarek the Unstable**: An Astril chaos-weaver whose skin blazed with the light of three colliding stars.</div> </div><\/div> <\/div> <\/div><div class=\"class-lore-card\"> <div class=\"class-lore-card-header\"> <div class=\"class-lore-card-title-group\"> <i class=\"class-lore-icon fas fa-eye\"><\/i> <h3 class=\"class-lore-name\">False Prophet<\/h3> <\/div> <span class=\"class-lore-role-badge\">Caster/Controller<\/span> <\/div> <div class=\"class-lore-card-content\"> <div class=\"class-lore-myth\"> <h4 class=\"class-lore-section-title\"><i class=\"fas fa-scroll\"><\/i> The Myth &amp; The Toll<\/h4> <div class=\"class-lore-paragraphs\"><p>In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Micah followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where the sun-god Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.</p><p>Micah returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars. The False Prophet is physically blind, his skin pale and cracked, and his heart beating in erratic, asynchronous patterns. His words carry a hypnotic madness that drains the stamina of listeners, forcing them to see the phantom embers of dead stars.</p><p>Speak the void's gospel. The stars are dead, and the vacuum is the only truth left. Lead them into the dark.</p><\/div> <\/div> <div class=\"class-lore-details\"><h4 class=\"class-lore-section-title\"><i class=\"fas fa-theater-masks\"><\/i> Roleplay Identity<\/h4><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">HISTORY: THE GENESIS</div> <div class=\"class-lore-detail-value\"><p>The false prophet's blinding fervor was born in the starless steppe of the <LoreLink termId=\"sundrift-vale\">Sundrift Vale</LoreLink>. A nomadic herd-watcher named **Micah** stared into the empty, starless sky and surrendered his vision to the phantom lights of the steppe. The price of this revelation was physical blindness. Micah gouged his own physical sight to perceive the guiding embers, leaving his eyes blank and his mind permanently disoriented.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">CITIES &amp; CIVIL RECEPTION</div> <div class=\"class-lore-detail-value\"><p>False Prophets are viewed with profound suspicion in civilized kingdoms, often treated as dangerous heretics, though they lead small, devoted followings among the steppe nomads.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">RACES &amp; CULTURAL AFFILIATION</div> <div class=\"class-lore-detail-value\"><p>The class is practiced by desperate humans and the constellationless <LoreLink termId=\"astril\">Unlit Astril</LoreLink>.</p></div> </div><div class=\"class-lore-detail-block\"> <div class=\"class-lore-detail-label\">NOTABLE FIGURES</div> <div class=\"class-lore-detail-value\">**Notable Figures**\n* **Micah the Blind Prophet**: The herd-watcher who gouged his eyes to see the void's dead constellations.\n* **Seraphina the Silent**: An Unlit Astril who led a small cult of starless heretics across the steppe.</div> </div><\/div> <\/div> <\/div>"
   }
   ]
+        }
+      },
+      {
+        id: 'session-zero',
+        name: 'Your First Adventure',
+        icon: 'fas fa-shield-alt',
+        theme: 'narrative',
+        summary: [
+          'A level-1 starter scenario set in Timber-Post Nine on the margins of the Frostwood Reach.',
+          'Focuses on street-level stakes (geothermal coal recovery) and local NPCs rather than cosmic threats.',
+          'Presents a meaningful ethical choice that teaches players about consequences and the Wyrd.'
+        ],
+        content: {
+          title: 'Session Zero: The Frozen Sledge',
+          description: 'A starter adventure designed for level-1 characters to introduce players to the survival realities, localized Wyrd threats, and moral dilemmas of the sunless world.',
+          sections: [
+            {
+              title: 'The Hook & Setup',
+              content: `The adventurers begin in **Timber-Post Nine**, a tiny, frost-bitten logging outpost on the margins of the Frostwood Reach. The community is in crisis: their monthly thermal-sledge, carrying geothermal coal-casks from the Sundale border, has failed to arrive. Without this coal, the outpost's central heater-forge will die within forty-eight hours, and Timber-Post Nine will freeze solid.
+
+The local village elder, **Marra of the Nine**, offers a simple bounty: recover the sledge and bring back the coal-casks. She cannot offer gold, but she promises shelter, cold-iron nails, and a map through the local mist-vales.`
+            },
+            {
+              title: 'Street-Level NPCs',
+              content: `• **Marra of the Nine:** The cynical human village elder, her hands heavily scarred from frostbite, desperate to save her grandchildren from the creeping cold.
+• **Jad the Stoker:** A retired Ithran Groven smith who tends the outpost's central heater-forge, coughing soot and warning that the furnace is on its last coal-shavings.
+• **Orl the Scout:** A young Corvani scout who saw the sledge's tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.`
+            },
+            {
+              title: 'The Encounter & Stakes',
+              content: `The adventurers track the sledge into a freezing, mist-veiled gorge. They find the sledge abandoned, its draft-beasts frozen, and two casks of coal remaining. The rest of the cargo has been dragged into a shallow basalt cave by a pack of **Gref-Spawn** — minor, faceless Wyrd-creatures born from the local loggers' fear of losing their names to the fog.
+
+1. **The Choice:** The cave is structurally unstable. Retrieving the remaining casks requires either an Athletics challenge to clear the basalt debris silently, or fighting the Gref-Spawn under the threat of a rockfall.
+2. **The Twist:** A dying driver, **Toma**, is trapped under the sledge. If they save him, they must leave one cask behind due to weight limits on their makeshift litter. If they leave him, they retrieve all the coal but return to the village with the burden of his death.
+3. **The Consequence:** Returning to Timber-Post Nine with the coal saves the village, establishing the adventurers as local heroes and earning the trust of the logging guilds. Leaving Toma behind, however, leaves his ghost to haunt the trail, attracting a Gambrel that will stalk the party in future sessions.`
+            }
+          ]
         }
       }
       ,{
@@ -530,7 +1135,7 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
         theme: 'narrative',
         summary: [
           'Mythrill is a premium virtual tabletop platform built for immersive, tactile TTRPG play.',
-          'The system features 30 unique classes, 9 disciplines, 10+ races, and a custom spellcrafting wizard.',
+          'The system features 30 unique classes, 10+ races, and a custom spellcrafting wizard.',
           'This rules guide walks you from first login to running your first encounter.'
         ],
         content: {
@@ -547,11 +1152,118 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
             },
             {
               title: 'Your Four-Step Journey',
-              content: `Getting started with Mythrill follows a natural four-step path:\n\n**Step 1 — Create Your Character**: Using the Character Creation Wizard, you will spend 11 steps forging your hero. See [Creating Your First Character](getting-started/your-first-character).\n\n**Step 2 — Understand the Interface**: Familiarize yourself with the layout of the VTT. Read: [The Interface at a Glance](getting-started/interface-overview).\n\n**Step 3 — Join a Session**: Your Game Master (GM) will create a session room. Read: [Joining a Session](getting-started/joining-a-session).\n\n**Step 4 — Learn the Rules**: The rest of this guide covers every rule of the Mythrill TTRPG in detail — from the [Dice System](core-rules/dice-system) and [Character Statistics](core-rules/character-statistics) to [Combat](combat-system/combat-basics), [Magic](magic-system/magic-overview), and [Exploration](travel-exploration/travel-basics).`
+              content: `Getting started with Mythrill follows a natural four-step path:\n\n**Step 1 — Read the Quick Start**: Skip the deep lore. Read [Quick Start: Your First Session](getting-started/quick-start) to learn the world in one page and get a recommended first character.\n\n**Step 2 — Create Your Character**: Using the Character Creation Wizard, you will spend 5 focused steps forging your hero. See [Creating Your First Character](getting-started/your-first-character).\n\n**Step 3 — Understand the Interface**: Familiarize yourself with the layout of the VTT. Read: [The Interface at a Glance](getting-started/interface-overview).\n\n**Step 4 — Learn the Rules**: The rest of this guide covers every rule of the Mythrill TTRPG in detail — from the [Dice System](core-rules/dice-system) and [Character Statistics](core-rules/character-statistics) to [Combat](combat-system/combat-basics), [Magic](magic-system/magic-overview), and [Exploration](travel-exploration/travel-basics).`
             },
             {
               title: 'How to Use This Rulebook',
-              content: `This is a **living, interactive rulebook** built into the VTT itself:\n\n• **Clickable Cross-Links**: Blue underlined links throughout the rules jump you directly to related sections. Look for links like [Dice System](core-rules/dice-system) or [Attacks & Damage](combat-system/attacks-damage).\n• **Quick Summary Tiles**: At the top of most sections, three bullet points give you the most important takeaways at a glance.\n• **Tables with Pagination**: Large tables are paginated so you can browse without endless scrolling.\n\n**Recommended Reading Order for New Players**:\n1. [Welcome to Mythrill](getting-started/welcome) ← You are here\n2. [Transitioning from D&D 5e](getting-started/dnd-comparison)\n3. [The Interface at a Glance](getting-started/interface-overview)\n4. [Creating Your First Character](getting-started/your-first-character)\n5. [The Dice System](core-rules/dice-system)\n6. [Character Statistics](core-rules/character-statistics)\n7. [Combat Basics](combat-system/combat-basics)\n8. [Your Class](character-creation/classes)`
+              content: `This is a **living, interactive rulebook** built into the VTT itself:\n\n• **Clickable Cross-Links**: Blue underlined links throughout the rules jump you directly to related sections. Look for links like [Dice System](core-rules/dice-system) or [Attacks & Damage](combat-system/attacks-damage).\n• **Quick Summary Tiles**: At the top of most sections, three bullet points give you the most important takeaways at a glance.\n• **Tables with Pagination**: Large tables are paginated so you can browse without endless scrolling.\n\n**Recommended Reading Order for New Players**:\n1. [Quick Start: Your First Session](getting-started/quick-start) ← Start here for a one-page world primer\n2. [Welcome to Mythrill](getting-started/welcome)\n3. [Transitioning from D&D 5e](getting-started/dnd-comparison)\n4. [The Interface at a Glance](getting-started/interface-overview)\n5. [Creating Your First Character](getting-started/your-first-character)\n6. [The Dice System](core-rules/dice-system)\n7. [Character Statistics](core-rules/character-statistics)\n8. [Combat Basics](combat-system/combat-basics)\n9. [Your Class](character-creation/classes)`
+            }
+          ]
+        }
+      },
+      {
+        id: 'quick-start',
+        name: 'Quick Start: Your First Session',
+        icon: 'fas fa-rocket',
+        theme: 'narrative',
+        summary: [
+          'The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive.',
+          'You are an adventurer in the Frostwood Reach, the official starting zone. Here is what you need to know to begin.',
+          'Skip the deep lore for now. Learn it as you play.'
+        ],
+        content: {
+          title: 'The World in One Page',
+          description: 'Everything you need to know to start playing Mythrill right now.',
+          sections: [
+            {
+              title: 'The World Today',
+              content: `The sun has not risen in eight hundred years. It was buried beneath a volcano by a desperate ritual, and a cosmic predator is slowly eating it from inside its tomb. The world is freezing. Cities cluster around volcanic vents for warmth. Caravans cross snow-choked passes on bridges grown from the calcified dead. Every civilization that survives did so by making a dark bargain with the predator.
+
+That is all you need to know to start playing. The rest you will learn as you explore.`
+            },
+            {
+              title: 'Your Starting Zone: The Frostwood Reach',
+              content: `You begin in the **Frostwood Reach**, a continent of dense, fog-choked forests where warm volcanic air collides with creeping northern frost. The fog is not weather. It is permanent. It protects the forests from freezing, but it also eats memories. People here keep meticulous written records because the fog slowly steals their history.
+
+**The city of Greymark Keep** is your starting hub. It is a fortress of wet grey stone and petrified ironwood, where scribe-sentinels patrol the catwalks with journals chained to their belts. To lose your journal in Greymark is to lose your legal existence.
+
+**What you will encounter:**
+• **The Gref** — A face-stealing creature born from the fog. It wears the stolen visages of its victims.
+• **The Gambrel** — A creature born from broken oaths. It hunts those who made promises they did not keep.
+• **The Revel** — A fae court whose celebration began before the sun died and has never ended. Its dancers pull travelers into a revelry that consumes decades in a single night.
+
+**The people you will meet:**
+• **Thalren Humans** — The dominant culture. Journal-keepers, archivists, the most literate people in the world. They view anyone without a recorded lineage as a potential threat.
+• **The Mimir** — A secretive, rare people who wear carved wooden masks they never remove in public. They can shift their faces, which makes humans deeply paranoid.
+• **The Briaran** — Thorn-marked outcasts descended from the one noble family that refused to make a deal with the predator. They hide in the deepest moonlit groves.
+
+**Daily life in Greymark:**
+• **Food:** Smoked river-fish, pine-nut bread, and fermented root vegetables. Hot meals are a luxury reserved for those who can afford ember-coal.
+• **Currency:** Copper marks (common), silver ledgers (standard), and gold seals (rare). Most trade is barter.
+• **Taverns:** The **Ink & Ember** is the most popular gathering spot for adventurers. Warm, smoky, and lit by tallow candles. The owner, **Marta**, knows everyone's business and sells information for the price of a drink.
+• **Work:** Caravans hire guards to cross the fog-choked trails. Archivists pay for recovered journals. The black market in the Shallows trades in bottled memories and stolen lineage records.`
+            },
+            {
+              title: 'Your First Quest',
+              content: `**The Missing Journal**
+
+Marta at the Ink & Ember tells you that a scribe named **Elias** went missing three days ago. He was researching the old lineage tapestries in the Greymark archives. His journal was found in the Shallows, the black market district beneath the keep, but Elias himself is gone.
+
+**What you know:**
+• Elias was investigating a gap in the Thalren lineage records — a family that was erased from history.
+• The journal contains a map to a hidden grove in the Frostwood, marked with Briaran thorn-symbols.
+• The Unwoven Mimir in the Shallows are selling bottled memories that might contain clues.
+
+**Your choices:**
+1. **Investigate the archives** — Search Elias's workspace for more clues. (Investigation check)
+2. **Visit the Shallows** — Question the Unwoven Mimir about the bottled memories. (Persuasion or Intimidation)
+3. **Follow the map** — Head directly to the hidden grove. (Survival check to navigate the fog)
+
+**What you will learn:**
+• The erased family is House Viridane, the eighth noble house that refused the predator's bargain.
+• The Briaran are their descendants, hiding in the moonlit groves.
+• Something in the grove is calling to Elias, and it is not friendly.
+
+This quest introduces you to the core themes of Mythrill: memory, identity, and the cost of survival. It also teaches you the basic mechanics: skill checks, social encounters, and exploration.`
+            },
+            {
+              title: 'Recommended First Character',
+              content: `If you are new to Mythrill and do not want to parse 30 classes, 11 races, and 15 backgrounds, here is a safe, fun starting build:
+
+**The Fog Hunter**
+• **Race:** Human (Thalren) — You are from Greymark. You know the city, the fog, and the people.
+• **Class:** Huntress — You track Wyrd-creatures through the fog. You are deaf to human voices but can read the forest's vibrations.
+• **Background:** Hunter — You know the trails, the beasts, and the dangers of the Reach.
+
+**Why this works:**
+• The Huntress is straightforward: mark targets, strike with precision, pursue relentlessly.
+• The Thalren subrace ties you directly to the starting zone. You have contacts in Greymark, you understand the fog, and you have a reason to care about the missing scribe.
+
+**Alternative builds:**
+• **The Archive Guard:** Human (Thalren), Warden class. You protect the keep and its records.
+• **The Masked Stranger:** Mimir (Unwoven subrace), Bladedancer class. You are an outcast who fights with speed and deception.
+• **The Thorn-Born:** Briaran (Unshorn subrace), Martyr class. You carry the weight of the refusal. You suffer for your allies.`
+            },
+            {
+              title: 'The Rules You Need Right Now',
+              content: `You do not need to read the entire rulebook to start playing. Here are the essentials:
+
+**Rolling Dice:**
+• The GM assigns a **Difficulty Die** (d4 to d20) based on how hard the task is.
+• You roll that die and add your Skill Rank.
+• Rolling the maximum value is a **Critical Success**. Rolling a 1 is a **Critical Failure**.
+
+**Combat:**
+• You have **3 Action Points (AP)** per turn.
+• Moving costs 1 AP. Attacking costs 2 AP. Casting a spell costs 1-3 AP.
+• When you attack, roll your weapon's damage die once. That is both your hit roll and your damage.
+• Armor absorbs damage. When hit, roll your armor's **Soak Die** and subtract the result.
+
+**Dying:**
+• At 0 HP, you do not fall unconscious. You can still act, but heavy actions risk immediate death.
+• This is your **Heroic Last Stand**. Make it count.
+
+**That is it.** The rest of the rules are reference material. Learn them as you play.`
             }
           ]
         }
@@ -595,8 +1307,8 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
               content: `In D&D 5e, hitting 0 HP instantly knocks you unconscious, removing you from the game until someone heals you. You spend your turns doing nothing but rolling death saves, hoping you don't roll a natural 1. \n\nMythrill keeps you in the fight with **Conscious Dying**. When you hit 0 HP, you do **not** fall unconscious. You remain awake, on your feet, and fully aware—but you are teetering on the edge of the grave:\n\n• **Dying State**: You still roll a Death Save at the start of your turn, tracking successes and failures. \n• **Heroic Actions**: On your turn, you can still spend your Action Points (AP) to move, speak, or even attack. However, pushing your body in this state is extremely dangerous: performing heavy actions (like striking or casting spells) forces you to make an immediate, difficult Death Save or suffer internal bleeding.\n• **Dramatic Final Stands**: This allows for epic roleplay moments. Will you crawl to safety while coughing blood, use your last breath to cast a healing spell on a fallen ally, or execute one final, desperate strike to slay the boss before you collapse? The choice—and the tragedy—is yours.`
             },
             {
-              title: '6. Classes & Disciplines vs. Single Class Archetypes',
-              content: `In D&D, your class (like Fighter or Wizard) determines both your combat style and your roleplay identity, often requiring complex multiclassing to achieve specific character concepts. \n\nMythrill uses a unique **Dual-Identity System** that splits your combat mechanics from your philosophical identity:\n\n• **Your Class (Combat Role)**: Mythrill features **30 unique classes** (such as the iron-clad Dreadnaught, the time-bending Chronarch, the beast-taming Huntress, or the chaotic Gambler). Your class dictates your health pool, weapon proficiencies, combat resource (Mana, Rage, Fortune, Necrotic Ascension), and active combat abilities.\n• **Your Discipline (Philosophical Focus)**: You also choose one of **9 Philosophical Disciplines** (Sentinel, Trickster, Arcanist, Mystic, Zealot, Harrow, Hexer, Reaver, Mercenary). Your Discipline represents your philosophy, granting passive auras, utility skills, and narrative traits.\n• **Complete Creative Freedom**: These choices are completely independent. You do not need to multiclass to play a "Holy Knight"—you can simply pair the *Warden* class with the *Zealot* discipline. Want to play a stealthy hunter? Pair the *Huntress* class with the *Arcanist* discipline. With 270 combinations, your character is unique from level 1.`
+              title: '6. Classes vs. Single Class Archetypes',
+              content: `In D&D, your class (like Fighter or Wizard) determines both your combat style and your roleplay identity, often requiring complex multiclassing to achieve specific character concepts. \n\nMythrill features **30 unique classes** (such as the iron-clad Dreadnaught, the time-bending Chronarch, the beast-taming Huntress, or the chaotic Gambler). Your class dictates your health pool, weapon proficiencies, combat resource (Mana, Rage, Fortune, Necrotic Ascension), and active combat abilities. With 30 distinct classes, you can find an archetype that matches your vision without multiclassing.`
             },
             {
               title: '7. Spatial Grid Inventory vs. Numeric Carrying Capacity',
@@ -615,7 +1327,7 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
                 ['Action Economy', 'Movement + Action + Bonus Action + Reaction.', '3 Action Points (AP) pool refreshed every turn.', 'Complete tactical freedom to move, strike, cast, or defend in any combination.'],
                 ['Armor & Defense', 'Static AC. Attacks below AC miss entirely; attacks equal or higher hit.', 'Passive DR absorbs damage. Active Soak Die (d4 to d12) rolled via Defend action.', 'Defenders feel physically tanky; armor behaves realistically by absorbing force.'],
                 ['Zero Hit Points', 'Unconscious. Incapacitated, rolling death saves in place.', 'Conscious Dying. Awake and able to act, but heavy actions risk immediate death saves.', 'Enables epic final stands, dramatic sacrifices, and high-tension roleplay.'],
-                ['Character Setup', 'Single Class choosing a subclass at level 1-3.', 'Class (30 Combat Roles) + Discipline (9 Philosophical Focuses).', '270 unique archetypes at level 1 with zero complex multiclassing required.'],
+                ['Character Setup', 'Single Class choosing a subclass at level 1-3.', '30 unique classes with distinct resource systems.', 'Find your archetype without multiclassing.'],
                 ['Inventory Track', 'Numeric weight in pounds (often ignored).', 'Tactile Spatial Grid (diablo-style) with center-of-gravity encumbrance.', 'Visual, interactive inventory puzzle that adds realistic, satisfying survival weight.']
               ]
             }
@@ -681,8 +1393,8 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
         theme: 'narrative',
         summary: [
           'The Character Creation Wizard guides you through 11 sequential steps.',
-          'Choose your Race, Class, Discipline, Ability Scores, Skills, and starting Equipment.',
-          'Your choices are independent — any Race can take any Class or Discipline.'
+          'Choose your Race, Class, Ability Scores, Skills, and starting Equipment.',
+          'Your choices are independent — any Race can take any Class.'
         ],
         content: {
           title: 'Creating Your First Character',
@@ -690,19 +1402,19 @@ Operating from their living canopy-city of **Atropolis** — a cathedral-grove o
           sections: [
             {
               title: 'Opening the Character Creation Wizard',
-              content: `To begin, open the **Character Creation Wizard** from the main navigation. The wizard is a guided 11-step process taking you from a blank slate to a fully realized hero, ready for adventure. Your progress is automatically saved — you can pause and return at any time.`
+              content: `To begin, open the **Character Creation Wizard** from the main navigation. The wizard is a guided 5-step process taking you from a blank slate to a fully realized hero, ready for adventure. Your progress is automatically saved — you can pause and return at any time.`
             },
             {
-              title: 'The 11 Steps at a Glance',
-              content: `**Step 1 — Basic Information**: Name your hero, describe their appearance, age, height, and weight.\n\n**Step 2 — Race & Subrace**: Choose from 10 ancestral races with 2-3 subraces each, offering distinct stat modifiers and racial abilities. See [Races & Variants](character-creation/races).\n\n**Step 3 — Class**: Select your combat role and resource system from **30 unique classes**. See all classes at [Classes](character-creation/classes).\n\n**Step 4 — Starting Spells**: If your class uses magic, select your initial spells or abilities here. Learn to craft custom spells later at [Spellcrafting Wizard](magic-system/spellcrafting-wizard).\n\n**Step 5 — Background**: Select your pre-adventuring origin from 15 backgrounds (Sailor, Merchant, Soldier, etc.). Backgrounds grant skill proficiencies, languages, tools, and a unique feature. See [Backgrounds](character-creation/character-backgrounds).\n\n**Step 6 — Discipline**: Choose one of 9 Philosophical Disciplines (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel). See [Disciplines](character-creation/disciplines).\n\n**Step 7 — Ability Scores**: Allocate points across the six core attributes using a point-buy system. See [Character Statistics](core-rules/character-statistics).\n\n**Step 8 — Skills & Languages**: Select trained skill proficiencies and languages. Skills advance through gameplay quests. See [Skills](character-creation/skills).\n\n**Step 9 — Lore & Personal Seals**: Write your backstory, personality traits, ideals, bonds, and flaws. Upload a portrait for your token.\n\n**Step 10 — Starting Arsenal**: Purchase initial weapons, armor, and supplies. See [Weapons](equipment-system/weapons) and [Armor](equipment-system/armor).\n\n**Step 11 — Review & Finalize**: Review your full character sheet, make adjustments, and confirm. Your character is now live.`
+              title: 'The 5 Steps at a Glance',
+              content: `The wizard has been streamlined into five focused steps — every choice matters, no screens are filler.\n\n**Step 1 — Hero Draft**: Lay the foundations of your hero. Name them, choose your **Race & Subrace** (11 ancestral peoples, each with 2-3 unique subraces), pick your **Class** from 30 distinct callings, and allocate your **Ability Scores** using a tactile point-buy system. Spellcasters select their starting spells here. See [Races & Variants](character-creation/races), [Classes](character-creation/classes), and [Character Statistics](core-rules/character-statistics).\n\n**Step 2 — Skills & Languages**: Choose your trained skill proficiencies, tool masteries, and spoken dialects. Skills advance through gameplay quests. See [Skills](character-creation/skills).\n\n**Step 3 — Starting Equipment**: Purchase your initial weapons, armor, and traveling rations with your starting copper. See [Weapons](equipment-system/weapons) and [Armor](equipment-system/armor).\n\n**Step 4 — Lore & Details**: Write your backstory, personality traits, ideals, bonds, and flaws. Select your **Background** here — 15 pre-adventuring origins (Sailor, Merchant, Soldier, etc.) that grant passive benefits and unique features. Upload a portrait for your token. See [Backgrounds](character-creation/character-backgrounds).\n\n**Step 5 — Summary & Finalize**: Review your full character sheet, make any final adjustments, and confirm. Your character is now live and ready for the table.`
             },
             {
               title: 'Complete Creative Freedom',
-              content: `Your Race, Class, Background, and Discipline are **entirely independent choices**. There are no restrictions. You can build:\n\n• A noble **Soldier** background with a **Witch Doctor** class and a **Harrow** Discipline.\n• A street-smart **Urchin** background with a **Chronarch** class and a **Mystic** Discipline.\n• A wandering **Sailor** background with a **Gambler** class and a **Trickster** Discipline.\n\nEvery combination is viable. Every combination tells a unique story.`
+              content: `Your Race, Class, and Background are **entirely independent choices**. There are no restrictions. You can build:\n\n• A noble **Soldier** background with a **Witch Doctor** class.\n• A street-smart **Urchin** background with a **Chronarch** class.\n• A wandering **Sailor** background with a **Gambler** class.\n\nEvery combination is viable. Every combination tells a unique story.`
             },
             {
               title: 'New Player Archetype Recommendations',
-              content: `With 30 unique classes and 9 disciplines, starting character creation can feel like standing at the edge of a massive, beautiful ocean. To hold your hand on your first journey, we recommend these three classic archetypes which represent the peak of fun and mechanical clarity for new players:\n\n• **The Stout Vanguard (Classic Warrior)**\n  - **Class**: *Dreadnaught* or *Warden* (Excellent high-durability defense)\n  - **Discipline**: *Sentinel* (Provides powerful defensive aura shields for your allies)\n  - **Ability Focus**: Constitution & Strength\n  - **Background**: *Soldier* or *Blacksmith*\n\n• **The Shadow Stalker (Classic Rogue/Scout)**\n  - **Class**: *Huntress* or *Bladedancer* (Incredible mobility, single-target strikes, and stealth tactics)\n  - **Discipline**: *Trickster* (Provides illusions, teleport triggers, and critical combat leverage)\n  - **Ability Focus**: Agility & Charisma\n  - **Background**: *Urchin* or *Hunter*\n\n• **The Arcane Weaver (Classic Mage/Spellcaster)**\n  - **Class**: *Chronarch* (Time manipulation, extra AP tricks) or *Pyrofiend* (Visceral, explosive fire magic)\n  - **Discipline**: *Arcanist* (Improves resource recovery, spell efficiency, and raw elemental potency)\n  - **Ability Focus**: Intelligence & Spirit\n  - **Background**: *Scholar* or *Hermit*\n\nSelect any of these configurations during the creation steps to begin with a clear, synergistic mechanical direction!`
+              content: `With 30 unique classes, starting character creation can feel like standing at the edge of a massive, beautiful ocean. To hold your hand on your first journey, we recommend these three classic archetypes which represent the peak of fun and mechanical clarity for new players:\n\n• **The Stout Vanguard (Classic Warrior)**\n  - **Class**: *Dreadnaught* or *Warden* (Excellent high-durability defense)\n  - **Ability Focus**: Constitution & Strength\n  - **Background**: *Soldier* or *Blacksmith*\n\n• **The Shadow Stalker (Classic Rogue/Scout)**\n  - **Class**: *Huntress* or *Bladedancer* (Incredible mobility, single-target strikes, and stealth tactics)\n  - **Ability Focus**: Agility & Charisma\n  - **Background**: *Urchin* or *Hunter*\n\n• **The Arcane Weaver (Classic Mage/Spellcaster)**\n  - **Class**: *Chronarch* (Time manipulation, extra AP tricks) or *Pyrofiend* (Visceral, explosive fire magic)\n  - **Ability Focus**: Intelligence & Spirit\n  - **Background**: *Scholar* or *Hermit*\n\nSelect any of these configurations during the creation steps to begin with a clear, synergistic mechanical direction!`
             }
           ]
         }
@@ -1236,42 +1948,32 @@ Under this rule, a player who rolled a 3–6 can immediately choose to push thei
         name: 'Overview',
         icon: 'fas fa-list-check',
         theme: 'narrative',
-        summary: ['30 unique classes with flexible character building', '11-step guided creation process', 'Independent choices for race, class, background, and discipline'],
+        summary: ['30 unique classes with flexible character building', '5-step guided creation process', 'Independent choices for race, class, and background'],
         content: {
           title: 'Forging Your Legend',
           description: 'An introductory guide to carving your path through the Mythrill character creation engine.',
           sections: [
             {
               title: 'Introduction: The Call of Fate',
-              content: `Every hero who stands against the encroaching shadows is forged, not born. Mythrill presents a deeply flexible and comprehensive character creation system featuring **30 unique character classes**, 10 distinct ancestral races with diverse subraces, and independent background matrices. This open-ended architecture allows you to bring any concept to life, weaving a rich backstory directly into tactile mechanical assets. Your character's destiny unfolds across an 11-step journey, molding their physical lineage, occupational skills, philosophical disciplines, and personal lore.`
+              content: `Every hero who stands against the encroaching shadows is forged, not born. Mythrill presents a deeply flexible and comprehensive character creation system featuring **30 unique character classes**, 11 distinct ancestral races with diverse subraces, and 15 independent background origins. This open-ended architecture allows you to bring any concept to life, weaving a rich backstory directly into tactile mechanical assets. Your character's destiny unfolds across a 5-step journey, molding their physical lineage, occupational skills, and personal lore.`
             },
             {
-              title: 'The 11 Steps of Creation',
-              content: `Your adventurer takes shape by traversing these eleven sequential layers:
+              title: 'The 5 Steps of Creation',
+              content: `Your adventurer takes shape by traversing these five focused layers — every step matters, no screen is filler:
 
-1. **Basic Information** - Ink your character's name, identify their lineage, and define their visual characteristics.
-2. **Race & Subrace** - Claim your ancestral heritage, inheriting ancestral traits, passive resistance, and physical capacities.
-3. **Class selection** - Select your combat role, mechanical specialization, and unique resource system from **30 distinct classes**.
-4. **Starting Spells** - Call upon initial spells, incantations, or combat maneuvers (if your chosen class manipulates these forces).
-5. **Background Scars** - Select your pre-adventuring genesis, representing your life before you picked up the sword or focus.
-6. **Philosophical Discipline** - Choose your approach to power, struggle, and survival (Mystic, Zealot, Trickster, Harrow, etc.).
-7. **Ability Scores** - Allocate base stats using a tactile point-buy system, representing raw talent and physical limits.
-8. **Skills & Languages** - Select your trained proficiencies, tool masteries, and dialects spoken across the fractured realms.
-9. **Lore & Personal Seals** - Fleshing out motivations, deep-seated flaws, tragic bonds, and appearance quirks.
-10. **Starting Arsenal** - Purchase initial weaponry, armaments, and traveling rations with your starting copper.
-11. **Final Summary** - Review your completed ledger, seal your character's sheet, and prepare to step into the virtual tabletop.`
+1. **Hero Draft** - Ink your character's name, claim your ancestral heritage with **Race & Subrace**, select your combat role and resource system from **30 distinct classes**, allocate base stats using a tactile point-buy system, and (if your class wields magic) choose your starting spells.
+2. **Skills & Languages** - Select your trained proficiencies, tool masteries, and dialects spoken across the fractured realms.
+3. **Starting Arsenal** - Purchase initial weaponry, armaments, and traveling rations with your starting copper.
+4. **Lore & Personal Seals** - Select your pre-adventuring **Background** and flesh out your hero's motivations, deep-seated flaws, tragic bonds, and appearance quirks.
+5. **Final Summary** - Review your completed ledger, seal your character's sheet, and prepare to step into the virtual tabletop.`
             },
             {
               title: 'Class and Background Sovereignty',
               content: `In Mythrill, your past does not dictate your combat capabilities. Backgrounds and classes exist as independent choices. Your background represents the social scars, trained trades, and early life of your hero, granting passive benefits and unique utility. Your class, conversely, governs your tactical role, combat maneuvers, and class-specific resource systems. This means you are completely free to build a high-society Noble Berserker, a street-smart urchin Spellguard, or a battle-scarred Soldier Chronarch. Every combination is viable, encouraging rich storytelling.`
             },
             {
-              title: 'Disciplines: Approaches to Power',
-              content: `Disciplines represent the core philosophy and training method your hero employs to survive. The 9 central disciplines (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel) grant starting stat modifiers, additional point-buy capacity, and special class-agnostic abilities. While your background represents your origins and your class dictates your weapons, your discipline defines your mental approach to danger and mastery. Each discipline also offers legendary specializations to further refine your style.`
-            },
-            {
               title: 'Sovereign Combinatorial Freedom',
-              content: `The beauty of the Mythrill system lies in its limitless custom combinations. By separating race, class, background, and discipline, you can combine elements to create completely unique characters, such as a Trickster Lichborne, a Mystic Titan, or an Arcanist Toxicologist. These combinations are designed to feel distinct and provide exciting tactical and roleplaying opportunities at the table.`
+              content: `The beauty of the Mythrill system lies in its limitless custom combinations. By separating race, class, and background, you can combine elements to create completely unique characters, such as a Lichborne with an Urchin background, a Titan with a Soldier background, or a Toxicologist with a Scholar background. These combinations are designed to feel distinct and provide exciting tactical and roleplaying opportunities at the table.`
             }
           ]
         }
@@ -1303,168 +2005,6 @@ Under this rule, a player who rolled a 3–6 can immediately choose to push thei
             {
               title: 'Roleplaying Your Background',
               content: `Your background is not merely a list of statistics—it is your character's anchor to the setting. When crafting your origin, consider what historical scars your character carries. Did a betrayal during your mercantile years leave you cynical? Does a lingering physical mark from a military siege affect your posture? Use your background feature creatively: call on old contacts in shady taverns, leverage your academic standing at grand libraries, or utilize your guild membership to secure safe passage through occupied lands. In Mythrill, your past is never truly behind you.`
-            }
-          ]
-        }
-      },
-      {
-        id: 'disciplines',
-        name: 'Disciplines',
-        icon: 'fas fa-book',
-        useCustomComponent: true, // Flag to use BackgroundSelector component (shows disciplines)
-        theme: 'arcane',
-        content: {
-          title: 'Character Disciplines & Sub-disciplines',
-          description: '9 thematic disciplines (Mystic, Zealot, Trickster, etc.) with sub-disciplines, selectable abilities, and deep customization',
-          sections: [
-            {
-              title: 'Discipline System Overview',
-              content: `Your **Class** tells the battlefield who you are. Your **Discipline** tells the *world* who you are.\n\nA Discipline is your chosen philosophical approach to power, survival, and mastery — the framework through which your hero makes sense of violence, magic, and mortality. The nine Disciplines (**Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel**) each grant starting attribute adjustments, expanded point-buy capacity, and a set of class-agnostic abilities.\n\nUnlike your Background — which represents where you came from — and your Class — which defines your combat mechanics — your Discipline defines your **approach to danger**. It is the answer to the question: *when the moment turns desperate, what kind of person are you?*`
-            },
-            {
-              title: 'Discipline Abilities',
-              content: `Each Discipline grants a set of signature abilities formatted identically to class spells — effect types, AP costs, targeting, usage limits, and restrictions fully specified. These abilities are available regardless of your class, letting a Dreadnaught access the Trickster's cunning, or a Lunarch draw on the Zealot's divine fury.\n\nDiscipline abilities sit in your character sheet alongside your class spells. They do not require separate management. They are simply *more of what you can do*.`
-            },
-            {
-              title: 'Ability Formatting',
-              content: `All Discipline abilities follow the same formatting standard as spells from the Spellcrafting Wizard — effect type, targeting, AP cost, usage frequency, and any restrictions are always present, always in the same order. Once you know how to read a spell card, you know how to read a Discipline ability.`
-            }
-          ],
-          tabs: [
-            {
-              id: 'mystic',
-              name: 'Mystic',
-              tables: [
-                {
-                  title: 'Mystic Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Elemental Attunement', 'Passive', '1/Day', 'Attune to an elemental type once per day, gaining resistance and bonus damage.'],
-                    ['Mana Surge', 'Active', '1/Long Rest', 'Enter a Mana Surge state for 1 minute, reducing spell costs and casting one spell for free.'],
-                    ['Arcane Insight', 'Passive', 'Always Active', 'Identify magical effects and gain advantage on saves against illusions.']
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'arcanist',
-              name: 'Arcanist',
-              tables: [
-                {
-                  title: 'Arcanist Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Arcane Insight', 'Passive', 'Always Active', 'Cast Detect Magic at will and gain advantage on checks to identify spells and magical effects.'],
-                    ['Spell Adaptation', 'Active', '1/Short Rest', 'Modify a spell by changing its damage type, range, targets, or duration.'],
-                    ['Arcane Shield', 'Active', '1/Short Rest', 'Create a shield of arcane energy that can cause attacks to miss or reduce damage.']
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'trickster',
-              name: 'Trickster',
-              tables: [
-                {
-                  title: 'Trickster Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Fortune\'s Favor', 'Active', '3/Long Rest', 'Force a reroll on any d20 roll made by you or an ally within 30 feet.'],
-                    ['Chaos Surge', 'Active', '1/Combat', 'Roll on the Chaos Surge table for unpredictable effects on your first attack or ability.'],
-                    ['Lucky Break', 'Passive', '1/Long Rest', 'Once per long rest, remain at 1 hit point instead of being reduced to 0.']
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'zealot',
-              name: 'Zealot',
-              tables: [
-                {
-                  title: 'Zealot Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Divine Favor', 'Passive', '1/Long Rest', 'Gain resistance to radiant damage and advantage on one roll per long rest.'],
-                    ['Smite the Unfaithful', 'Active', '1/Short Rest', 'Imbue your weapon with divine energy for bonus radiant damage on your next attack.'],
-                    ['Zealous Presence', 'Active', '1/Long Rest', 'Inspire allies within 30 feet with a divine battle cry, granting temporary hit points and advantage.']
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'harrow',
-              name: 'Harrow',
-              tables: [
-                {
-                  title: 'Harrow Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Touch of Death', 'Passive', 'Always Active', 'Gain temporary hit points when you reduce a creature to 0 hit points.'],
-                    ['Spectral Sight', 'Active', 'At Will', 'See invisible creatures and into the Ethereal Plane for 1 minute.'],
-                    ['Death\'s Whisper', 'Active', '1/Long Rest', 'Cast Speak with Dead once per long rest, and the target cannot lie to you.']
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'hexer',
-              name: 'Hexer',
-              tables: [
-                {
-                  title: 'Hexer Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Primal Connection', 'Passive', 'Always Active', 'Communicate with beasts and plants, and gain advantage on Survival checks.'],
-                    ['Wild Shape', 'Active', '1/Long Rest', 'Transform part of your body to gain bestial benefits for 10 minutes.'],
-                    ['Nature\'s Wrath', 'Active', '1/Short Rest', 'Cause plants to sprout in a 20-foot radius, creating difficult terrain and potentially restraining enemies.']
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'reaver',
-              name: 'Reaver',
-              tables: [
-                {
-                  title: 'Reaver Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Adrenaline Rush', 'Active', '1/Short Rest', 'Enter an adrenaline-fueled state for 1 minute, gaining temporary hit points and increased speed.'],
-                    ['Unstoppable Force', 'Passive', 'Always Active', 'Count as one size larger for carrying capacity and resist being moved against your will.'],
-                    ['Devastating Strike', 'Active', '1/Short Rest', 'Add your Strength modifier to damage again and potentially knock the target prone.']
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'mercenary',
-              name: 'Mercenary',
-              tables: [
-                {
-                  title: 'Mercenary Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Combat Expertise', 'Passive', 'Always Active', 'Gain proficiency with three weapons of your choice or +1 to attack rolls with already proficient weapons.'],
-                    ['Tactical Assessment', 'Active', 'At Will', 'Assess a creature to learn its Armor, hit point percentage, and one damage vulnerability, resistance, or immunity.'],
-                    ['Dirty Fighting', 'Active', '1/Short Rest', 'Force a target to make a Constitution save or be blinded or immobilized until the end of your next turn.']
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'sentinel',
-              name: 'Sentinel',
-              tables: [
-                {
-                  title: 'Sentinel Abilities',
-                  headers: ['Ability', 'Type', 'Usage', 'Description'],
-                  rows: [
-                    ['Protective Aura', 'Passive', 'Always Active', 'Grant allies within 10 feet a +1 bonus to Armor and potentially increase it further as a reaction.'],
-                    ['Planar Sense', 'Passive', 'Always Active', 'Sense portals or weak points between planes and resist planar displacement effects.'],
-                    ['Ward of Protection', 'Active', '1/Long Rest', 'Create a 15-foot-radius ward that grants allies resistance to one damage type and damages enemies.']
-                  ]
-                }
-              ]
             }
           ]
         }
@@ -1514,7 +2054,7 @@ Under this rule, a player who rolled a 3–6 can immediately choose to push thei
             },
             {
               title: 'Learning Languages',
-              content: `Your race grants starting languages — always Common, plus one or two ancestral tongues. Your **Background** and **Discipline** may add more. Additional languages can be acquired through downtime training: a month of immersion, a patient teacher, or the right book.\n\n**Secret languages cannot be self-taught.** Druidic must be passed from druid to druid. Thieves' Cant is earned through the criminal underworld, not a library.`
+              content: `Your race grants starting languages — always Common, plus one or two ancestral tongues. Your **Background** may add more. Additional languages can be acquired through downtime training: a month of immersion, a patient teacher, or the right book.\n\n**Secret languages cannot be self-taught.** Druidic must be passed from druid to druid. Thieves' Cant is earned through the criminal underworld, not a library.`
             },
             {
               title: 'Using Languages',
@@ -1541,6 +2081,54 @@ Under this rule, a player who rolled a 3–6 can immediately choose to push thei
             {
               title: 'Resource Systems',
               content: `What separates a Berserker from a Spellguard isn't just what they carry — it's what they *fuel their power with*. Every class uses a unique resource system designed to reinforce its identity and create a distinct tactical rhythm. A **Berserker** builds Rage by being struck. A **Gambler** bends probability with Fortune Points. A **Deathcaller** sacrifices their own hit points for forbidden necrotic power. Understanding your resource loop is understanding how to play your class at its peak. See [Magic Resources](magic-system/magic-resources) for the full breakdown.`
+            },
+            {
+              title: 'Find Your Archetype',
+              content: `Thirty classes is a lot. If you are not sure where to start, here is the fastest way to narrow it down. Pick the archetype that sounds most like the character you want to play, then choose from the classes listed under it.
+
+**The Iron Wall (Tank)** — You stand between your allies and death. You absorb blows, hold the line, and make enemies regret targeting your party.
+• **Dreadnaught** — Steam-powered iron juggernaut. Converts damage taken into power.
+• **Martyr** — Self-sacrificing warrior. Earns power by suffering for allies.
+• **Spellguard** — Mage-tank. Layers magical shields and absorbs spell energy.
+• **Titan** — Gravity manipulator. Colossal strength and area control.
+
+**The Blade (Melee Damage)** — You are up close and personal. Your weapon is your voice.
+• **Berserker** — Fury warrior. Builds Rage from combat momentum.
+• **Bladedancer** — Finesse fighter. Zero armor, all speed and precision.
+• **Warden** — Relentless hunter. Glaive combat and spectral cages.
+
+**The Arrow (Ranged Damage)** — You strike from distance. You mark targets and end them.
+• **Huntress** — Tracker. Marks priority targets, strikes with precision.
+• **Pyrofiend** — Fire demon. Swallows demonic embers for explosive area damage.
+• **Chaos Weaver** — High-risk magic. Unpredictable, devastating, volatile.
+
+**The Mind (Control/Debuff)** — You reshape the battlefield. Enemies fight on your terms.
+• **Chronarch** — Time manipulator. Slows foes, accelerates allies.
+• **False Prophet** — Void preacher. Drives foes mad with false divine light.
+• **Inscriptor** — Rune master. Carves mathematical boundaries onto the battlefield.
+• **Augur** — Omen reader. Even/odd dice results fuel blessings and curses.
+• **Doomsayer** — Prophet of catastrophe. Places living bomb prophecies.
+• **Plaguebringer** — Plague gardener. Cultivates evolving diseases.
+• **Toxicologist** — Poison crafter. Chemical warfare and alchemical devices.
+
+**The Hand (Support/Healing)** — You keep your allies alive and make them stronger.
+• **Minstrel** — Musical spellcaster. Note combinations buff and heal.
+• **Oracle** — Seer. Foresight and divination to guide the party.
+• **Fate Weaver** — Destiny manipulator. Turns failures into power with card-based mechanics.
+• **Lunarch** — Lunar mage. Phase-based energy cycles for support and control.
+• **Primalist** — Totem master. Creates powerful synergies through sacred totems.
+• **Witch Doctor** — Voodoo practitioner. Invokes Loa spirits through curses and rituals.
+
+**The Shadow (Hybrid/Utility)** — You do not fit one box. You adapt.
+• **Arcanoneer** — Elemental sphere crafter. Combines elements for dynamic spell effects.
+• **Covenbane** — Anti-magic hunter. Disrupts spellcasting and nullifies corruption.
+• **Deathcaller** — Blood mage. Sacrifices health for forbidden necrotic power.
+• **Exorcist** — Demon binder. Commands bound fiends through sacred ritual.
+• **Formbender** — Shapeshifter. Masters four primal forms with adaptive combat.
+• **Gambler** — Risk-taker. Manipulates luck and probability with Fortune Points.
+• **Lichborne** — Frost undead. Life-draining aura and resurrection mechanics.
+
+**Still not sure?** Go to [Quick Start: Your First Session](getting-started/quick-start) for three recommended beginner builds.`
             }
           ],
           tables: [
@@ -1745,15 +2333,17 @@ The Myrathil cannot truly rest without submersion in water. Their vein-colors be
                   title: 'Complete Race List',
                   headers: ['Race', 'Description', 'Variants', 'Key Themes'],
                   rows: [
-                    ['Corvani', 'Raven-marked people from mist-shrouded highlands', '2', 'Prophecy, perception, fate manipulation'],
-                    ['Myrathil', 'Free-born sea children spawned from storm-foam', '3', 'Amphibious, weather-sensing, exploration, diplomacy'],
-                    ['Veilborn', 'Pale folk from borderlands where reality grows thin', '2', 'Ethereal sight, spirit communication, planar travel'],
-                    ['Mirrorkin', 'Shapeshifters who lost their original forms', '2', 'Shapeshifting, deception, identity crisis'],
-                    ['Thornkin', 'Fae-touched beings bound by ancient pacts', '1', 'Fae bargains, nature magic, supernatural rules'],
-                    ['Wildkin', 'Antlered forest dwellers bonded with wilderness', '1', 'Nature magic, grove bonds, primal power'],
-                    ['Ashmark', 'Fire-touched people from volcanic wastelands', '3', 'Fire immunity, crafting, inner flames'],
-                    ['Skinwalker', 'Cursed shamans wearing beast forms', '2', 'Transformation, tracking, beast nature'],
-                    ['Graveworn', 'Undead warriors guarding ancient treasures', '2', 'Undead resilience, immortality, obsessive duty']
+                    ['Human', 'Adaptable and resilient people divided into seven regional cultures.', '7 (Thalren, Skald, Tessen, Solvarn, Merryn, Ordan, Morren)', 'Adaptability, regional lineages, dark bargain legacy'],
+                    ['Corvani', 'Raven-marked people from mist-shrouded highlands.', '2 (Oracle, Scout)', 'Prophecy, fate manipulation, mist walking'],
+                    ['Myrathil', 'Free-born sea children spawned from storm-foam.', '3 (Breakers-Born, Deep-Born, River-Fed)', 'Amphibious, weather-sensing, navigation'],
+                    ['Mist-Woven Mimir', 'Secretive faceshifters who wear carved heartwood persona masks.', '3 (Mask-Borne, Unwoven, Mist-Woven)', 'Faceshifting, social deception, identity preservation'],
+                    ['Briaran', 'Thorn-born outcasts descended from the house that refused the Sun-Eater\'s bargain.', '2 (Unshorn, Smooth-Skinned)', 'Oath-binding, nature magic, historical memory'],
+                    ['Groven', 'Humanoid troll-kin bridge-keepers of the Cragjaw Peaks.', '2 (Morgh, Ithran)', 'Bridge-craft, cold-endurance, caste tension'],
+                    ['Emberth', 'Bulky, sun-reverent forge-clans of Sundale.', '2 (Korr, Thrask)', 'Fire-tending, geothermal affinity, religious schism'],
+                    ['Fexrick', 'Subterranean gnomish engineers and alchemists.', '2 (Kethrin, Drall)', 'Tinkering, alchemical crafting, trap design'],
+                    ['Neth', 'Tall, immortal, silver-skinned canopy archivists.', '3 (Velun, Kessen, Drun)', 'Contracts, memory-glass, probability weaving'],
+                    ['Vreken', 'Lantern-eyed bog-dwellers worshiping entombed ancestors.', '2 (Clean, Marked)', 'Bioluminescent fungi, spiritual cycles, crypt scriptorium'],
+                    ['Rime-Born', 'Stone-skinned survivors of Nordhalla carrying the Milk-Grief.', '3 (Rune Keepers, Bloodhammer, Frostbound)', 'Glacier-tombs, ancestral rage, thermal piping']
                   ]
                 }
               ]
@@ -2032,89 +2622,21 @@ This unified flow makes every single weapon swing incredibly fast-paced, keeping
               ]
             },
             {
-              id: 'soul-fragments',
-              name: 'Soul Fragments & Soulmonger',
-              sections: [
-                {
-                  title: 'When to Use',
-                  content: `The Soulmonger system is a **GM-enabled module** for campaigns where death carries true cosmic weight. In worlds where dark powers trade in souls and resurrection is never guaranteed, this system transforms dying from a temporary setback into a genuine reckoning. Enable it when your table wants that weight — when death should mean something.`
-                },
-                {
-                  title: 'Soul Fragments',
-                  content: `Death in Mythrill does not guarantee a clean end. A soul does not simply ascend — it **shatters**. In the moments after a character falls, their essence fractures into fragments that bleed into the material plane. These fragments are finite, perishable, and essential for resurrection. Allies who want their companion back have exactly **one minute** to collect them before they scatter beyond reach. The clock starts the moment the body hits the ground.`
-                }
-              ],
-              tabs: [
-                {
-                  id: 'soul-basics',
-                  name: 'Soul Fragments',
-                  tables: [
-                    {
-                      title: 'Soul Fragment Mechanics',
-                      headers: ['Aspect', 'Details'],
-                      rows: [
-                        ['Creation', 'Death shatters the soul into 1d6+3 fragments'],
-                        ['Collection', 'Must be collected within 1 minute of death'],
-                        ['Viability', 'Fragments remain viable for 7 days'],
-                        ['Degradation', '5% cumulative daily chance of fragment loss'],
-                        ['Requirement', 'Minimum 3 fragments needed for resurrection']
-                      ]
-                    },
-                    {
-                      title: 'Soul Anchor Types',
-                      headers: ['Type', 'Preservation Duration', 'Resurrection difficulty shift', 'Rarity'],
-                      rows: [
-                        ['Minor Anchor', '14 days', 'No change', 'Uncommon'],
-                        ['Major Anchor', '30 days', '-2', 'Rare'],
-                        ['Greater Anchor', 'Indefinite', '-5', 'Very Rare'],
-                        ['Soul Phylactery', 'Indefinite', 'Automatic success', 'Legendary']
-                      ]
-                    }
-                  ]
-                },
-                {
-                  id: 'soulmonger-services',
-                  name: 'Soulmonger Services',
-                  sections: [
-                    {
-                      title: 'The Soulmonger',
-                      content: `In Mythrill, a mysterious force known as the **Soulmonger** governs what happens to souls when they linger between death and resurrection. Soulmongers are entities — dealers, collectors, arbiters — who traffic in the raw material of existence. They offer services to those desperate or wealthy enough to pay.\n\n**Withered Essence** is the currency of this trade. Souls can be converted into Withered Essence at a rate of 1 Soul = 1,000 Essence. This Essence purchases services that range from removing exhaustion to buying a complete level — or resurrecting someone whose fragments are otherwise lost.\n\n**Warning**: Every transaction with a Soulmonger is a pact. The use of souls is irreversible, and the weight of that choice echoes forward through the campaign. These are not vendors — they are creditors.`
-                    }
-                  ],
-                  tables: [
-                    {
-                      title: 'Soulmonger Services (1 Soul = 1,000 Withered Essence)',
-                      headers: ['Service', 'Cost', 'Effect'],
-                      rowsPerPage: 12,
-                      rows: [
-                        ['Level Up', 'Level × 1 Soul', 'Character gains one level'],
-                        ['Minor Healing', 'Level × 150 Essence', 'Remove 1 level of exhaustion (1/day)'],
-                        ['Major Healing', 'Level × 500 Essence', 'Remove 3 levels of exhaustion (1/day)'],
-                        ['Full Healing', 'Level × 900 Essence', 'Remove 5 levels of exhaustion (1/day)'],
-                        ['Enchantment', 'Level × 1 Soul', 'Add magical properties to equipment'],
-                        ['Resurrection', 'Level × 10 Souls', 'Resurrect a character who failed normal resurrection']
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               id: 'resurrection',
               name: 'Resurrection',
-              description: `**Resurrection Methods:** Different spells have varying requirements for resurrection. The more powerful the spell, the more soul fragments required and the longer the time window.
+              description: `**Resurrection Methods:** Different spells have varying requirements for resurrection. The more powerful the spell, the longer the time window and the greater the cost.
 
 **Resurrection Challenges:** Resurrection is not guaranteed and comes with challenges. The ritual requires special components, takes time to perform, and may fail entirely.`,
               tables: [
                 {
                   title: 'Spell Requirements',
-                  headers: ['Spell', 'Time Limit', 'Fragments Required', 'Special Notes'],
+                  headers: ['Spell', 'Time Limit', 'Cost', 'Special Notes'],
                   rows: [
-                    ['Revivify', 'Within 1 minute', '1 fragment', 'Quick resurrection'],
-                    ['Raise Dead', 'Within 7 days', '3 fragments', 'Standard resurrection'],
-                    ['Resurrection', 'Within 100 years', '5 fragments', 'Powerful restoration'],
-                    ['True Resurrection', 'Any time', '7 fragments', 'Perfect restoration'],
-                    ['Reincarnation', 'Within 7 days', '3 fragments', 'New body, same soul']
+                    ['Revivify', 'Within 1 minute', '100 gp', 'Quick resurrection'],
+                    ['Raise Dead', 'Within 7 days', '500 gp', 'Standard resurrection'],
+                    ['Resurrection', 'Within 100 years', '5,000 gp', 'Powerful restoration'],
+                    ['True Resurrection', 'Any time', '25,000 gp', 'Perfect restoration'],
+                    ['Reincarnation', 'Within 7 days', '1,000 gp', 'New body, same soul']
                   ]
                 },
                 {
@@ -2124,8 +2646,7 @@ This unified flow makes every single weapon swing incredibly fast-paced, keeping
                     ['Resurrection Difficulty', 'Base difficulty die is d10; shift the die one size harder for each previous resurrection and for each day since death'],
                     ['Ritual Components', 'Special components worth at least 500 gp'],
                     ['Ritual Duration', 'Takes 1 hour to perform'],
-                    ['Failed Resurrection', 'Consumes the soul fragments but fails to restore life'],
-                    ['Soul Anchors', 'Special items that can improve resurrection chances']
+                    ['Failed Resurrection', 'Consumes the components but fails to restore life']
                   ]
                 }
               ]
@@ -2986,7 +3507,7 @@ Both dice use the weapon type to pick the correct outcome text.`
       {
         id: 'magic-overview',
         name: 'System Overview',
-        icon: 'fas fa-book-sparkles',
+        icon: 'fas fa-hat-wizard',
         theme: 'arcane',
         summary: ['Spellcasting uses mana as the primary resource', 'Spells are crafted through the spellcrafting system', 'Each class has unique magical abilities and resource mechanics'],
         content: {

@@ -169,7 +169,7 @@
   font-size: 1.1rem;
 }
 
-/* TTRPG Two-column balanced spread on desktop sizes */
+/* ===== TTRPG TWO-COLUMN BALANCED SPREAD ===== */
 .rules-section-card-content {
   font-family: 'Crimson Text', serif;
   font-size: 1.12rem;
@@ -193,14 +193,15 @@
 
 .rules-section-card-content p {
   margin: 0 0 16px 0;
-  break-inside: avoid; /* Prevents paragraph breaking awkwardly across columns */
+  break-inside: avoid;
 }
 .rules-section-card-content p:last-child { margin-bottom: 0; }
 
-.rules-section-card-content strong {
-  color: var(--section-theme-color, var(--rules-theme-mechanic));
-  font-weight: 700;
+/* Ensure last section in a container has extra margin to clear footer */
+.rules-section-card:last-child {
+  margin-bottom: 40px;
 }
+
 .rules-section-card-content em { color: #805333; font-style: italic; }
 
 /* Refined TTRPG Unordered Lists with gold star bullet */
@@ -226,11 +227,6 @@
   font-size: 0.75rem;
   opacity: 0.85;
 }
-.rules-section-card-content li strong {
-  color: #4a150b; /* Deep rich mahogany ink for bullet headings instead of yellow/gold */
-  font-weight: 700;
-  margin-right: 4px;
-}
 
 /* Medieval Illuminated Drop Caps - first letter of section */
 .rules-section-card-content > p:first-of-type::first-letter,
@@ -244,6 +240,110 @@
   color: var(--section-theme-color, var(--rules-theme-mechanic));
   text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8), 3px 3px 0px rgba(196, 160, 96, 0.15);
   font-weight: bold;
+}
+
+/* ===== TTRPG KEY TERMS CALLOUT BOX ===== */
+.rules-section-card-content blockquote {
+  margin: 20px 0 24px 0;
+  padding: 18px 22px 18px 52px;
+  background: linear-gradient(135deg, rgba(250, 246, 238, 0.95) 0%, rgba(240, 226, 204, 0.95) 100%);
+  border: 2px solid var(--rpg-dark-gold);
+  border-left: 5px solid var(--rpg-dark-gold);
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(100, 70, 40, 0.15);
+  break-inside: avoid;
+}
+
+.rules-section-card-content blockquote::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238f6f35'%3E%3Cpath d='M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+}
+
+.rules-section-card-content blockquote p {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.rules-section-card-content blockquote p:first-child {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--rpg-dark-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.rules-section-card-content blockquote p:first-child::first-letter {
+  display: none;
+}
+
+/* Style bullet points in blockquote (• character) */
+.rules-section-card-content blockquote p:not(:first-child) {
+  position: relative;
+  padding-left: 18px;
+  text-indent: 0;
+}
+
+.rules-section-card-content blockquote p:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background: var(--rpg-dark-gold);
+  border-radius: 50%;
+}
+
+.rules-section-card-content blockquote p strong {
+  color: var(--rules-theme-narrative);
+  font-weight: 700;
+}
+
+/* ===== TTRPG SECTION HEADERS ===== */
+/* Only style strong when it's the only content in a paragraph (standalone header) */
+.rules-section-card-content p > strong:only-child {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--rules-theme-narrative);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 24px 0 12px 0;
+  padding-bottom: 6px;
+  border-bottom: 2px solid rgba(196, 160, 96, 0.3);
+  break-after: avoid;
+}
+
+.rules-section-card-content p > strong:only-child:first-child {
+  margin-top: 0;
+}
+
+/* Inline strong (within paragraph text) keeps default styling */
+.rules-section-card-content strong {
+  color: var(--section-theme-color, var(--rules-theme-mechanic));
+  font-weight: 700;
+}
+
+/* ===== TTRPG SECTION DIVIDERS ===== */
+.rules-section-card-content hr {
+  margin: 32px 0;
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--rpg-dark-gold) 50%, transparent 100%);
+  opacity: 0.4;
 }
 
 /* ===== RPG TOME COLLAPSIBLE ===== */
@@ -712,7 +812,7 @@
 /* ===== IMMERSIVE ANTIQUE SCRIBE'S INDEX TABS ===== */
 .rpg-tabs-bar {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   justify-content: center;
   align-items: center;
   margin: -10px auto 32px auto;
@@ -720,8 +820,8 @@
   position: relative;
   width: 100%;
   max-width: 1200px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  overflow-x: visible;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -738,29 +838,31 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
+  padding: 6px 10px;
   transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   outline: none;
+  flex-shrink: 0;
 }
 
 /* Elegant gold-leaf divider between items */
 .rpg-tab-divider {
   color: var(--rpg-gold, #c4a060);
-  font-size: 0.85rem;
-  margin: 0 4px;
+  font-size: 0.7rem;
+  margin: 0 2px;
   opacity: 0.8;
   user-select: none;
   text-shadow: 0 0 2px rgba(196, 160, 96, 0.2);
+  flex-shrink: 0;
 }
 
 /* Cursive, untruncated serif title */
 .rpg-tab-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #6d4021;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   transition: all 0.25s ease;
   text-align: center;
@@ -816,6 +918,25 @@
     max-width: 280px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* Mobile Key Terms callout */
+  .rules-section-card-content blockquote {
+    padding: 14px 16px 14px 44px;
+    margin: 16px 0 20px 0;
+  }
+
+  .rules-section-card-content blockquote::before {
+    left: 12px;
+    top: 14px;
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Mobile section headers */
+  .rules-section-card-content p > strong:only-child {
+    font-size: 1.05rem;
+    margin: 20px 0 10px 0;
   }
 }
 
@@ -916,4 +1037,79 @@
   .rpg-tab-divider {
     margin: 0 1px;
   }
+}
+
+/* ===== FLAVOR TOOLTIP (Races, Subraces, Backgrounds, etc.) ===== */
+
+.flavor-tooltip-overlay {
+  font-family: 'Cinzel', 'Crimson Text', Georgia, serif;
+  animation: flavorTooltipFadeIn 160ms ease-out;
+}
+
+@keyframes flavorTooltipFadeIn {
+  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.flavor-tooltip-container {
+  position: relative;
+  background: linear-gradient(135deg, #fbf6eb 0%, #f4ecd6 100%);
+  border: 2px solid var(--rpg-dark-gold, #8f6f35);
+  border-radius: 6px;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.45),
+    0 2px 6px rgba(143, 111, 53, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  padding: 0.85rem 1rem;
+  color: #2b1c11;
+  pointer-events: auto;
+}
+
+.flavor-tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.flavor-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgba(143, 111, 53, 0.3);
+  margin-bottom: 0.15rem;
+}
+
+.flavor-tooltip-icon {
+  font-size: 1.1rem;
+  color: var(--rpg-gold, #c4a060);
+  flex-shrink: 0;
+}
+
+.flavor-tooltip-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2b1c11;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.flavor-tooltip-essence {
+  margin: 0;
+  font-size: 0.72rem;
+  font-style: italic;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--rpg-dark-gold, #8f6f35);
+  line-height: 1.3;
+}
+
+.flavor-tooltip-flavor {
+  margin: 0;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #3d2a17;
 }
