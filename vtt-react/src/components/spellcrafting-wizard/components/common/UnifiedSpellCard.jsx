@@ -10401,13 +10401,77 @@ const UnifiedSpellCard = ({
                                         </span>
                                           {/* Description removed - already shown in UnifiedSpellCard main description */}
                                         </div>
-                                        {effect.mechanicsText && (
-                                          <div className="healing-effect-details">
-                                            <div className="healing-effect-mechanics">
-                                              {effect.mechanicsText}
-                                            </div>
+                                  {effect.mechanicsText && (
+                                    <div className="healing-effect-details">
+                                      <div className="healing-effect-mechanics">
+                                        {effect.mechanicsText}
+                                      </div>
+                                    </div>
+                                  )}
+                                  {effect.abilities && effect.abilities.length > 0 && (
+                                    <div className="summon-creature-abilities" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                      {effect.abilities.map((ab, abIdx) => {
+                                        const apCost = ab.resourceCost?.actionPoints ?? ab.castingConfig?.actionPointCost ?? ab.actionPointCost;
+                                        const manaCost = ab.resourceCost?.resourceValues?.mana;
+                                        const metaParts = [];
+                                        if (apCost > 0) metaParts.push(`${apCost} AP`);
+                                        if (manaCost > 0) metaParts.push(`${manaCost} Mana`);
+                                        const effectParts = [];
+                                        if (ab.damageConfig?.formula) {
+                                          let dmgText = ab.damageConfig.formula;
+                                          if (ab.damageConfig.elementType) dmgText += ` ${ab.damageConfig.elementType}`;
+                                          effectParts.push(dmgText + ' damage');
+                                        }
+                                        if (ab.healingConfig?.formula) {
+                                          effectParts.push(ab.healingConfig.formula + ' healing');
+                                        }
+                                        if (ab.buffConfig?.effects?.length) {
+                                          const buffs = ab.buffConfig.effects.map(e => {
+                                            if (e.type === 'vulnerability' || e.type === 'resistance' || e.type === 'immunity') {
+                                              return `${e.type} to ${e.element || e.stat || 'damage'}`;
+                                            }
+                                            const val = e.magnitude > 0 ? `+${e.magnitude}` : e.magnitude;
+                                            return `${e.stat || 'stat'} ${val}`;
+                                          });
+                                          effectParts.push(buffs.join(', '));
+                                        }
+                                        if (ab.debuffConfig?.effects?.length) {
+                                          const debuffs = ab.debuffConfig.effects.map(e => {
+                                            if (e.type === 'vulnerability' || e.type === 'resistance' || e.type === 'immunity') {
+                                              return `${e.type} to ${e.element || e.stat || 'damage'}`;
+                                            }
+                                            const val = e.magnitude < 0 ? e.magnitude : `-${Math.abs(e.magnitude)}`;
+                                            return `${e.stat || 'stat'} ${val}`;
+                                          });
+                                          effectParts.push(debuffs.join(', '));
+                                          if (ab.debuffConfig.saveDC) {
+                                            effectParts.push(`DC ${ab.debuffConfig.saveDC} ${ab.debuffConfig.saveType || ''} save`);
+                                          }
+                                        }
+                                        if (ab.controlConfig) {
+                                          const ctrlMap = { forcedMovement: 'Push/Pull', incapacitation: 'Stun', restraint: 'Restrain', knockdown: 'Knockdown' };
+                                          effectParts.push(ctrlMap[ab.controlConfig.controlType] || ab.controlConfig.controlType || 'Control');
+                                          if (ab.controlConfig.saveDC) {
+                                            effectParts.push(`DC ${ab.controlConfig.saveDC} ${ab.controlConfig.saveType || ''} save`);
+                                          }
+                                        }
+                                        return (
+                                          <div key={abIdx} className="summon-ability-entry" style={{ fontSize: '0.88em', marginTop: abIdx > 0 ? '3px' : '0', display: 'flex', gap: '6px', alignItems: 'baseline', flexWrap: 'wrap' }}>
+                                            <span style={{ color: '#6b4226', fontWeight: 600, whiteSpace: 'nowrap' }}>{ab.name || 'Ability'}</span>
+                                            {metaParts.length > 0 && (
+                                              <span style={{ color: '#8b7355', fontSize: '0.9em' }}>[{metaParts.join(' \u2022 ')}]</span>
+                                            )}
+                                            {effectParts.length > 0 && (
+                                              <span style={{ color: '#5a4a3a' }}>{effectParts.join(' \u2022 ')}</span>
+                                            )}
+                                            {ab.description && (
+                                              <span style={{ color: '#5a4a3a', fontStyle: 'italic' }}>&#8212; {ab.description}</span>
+                                            )}
                                           </div>
-                                        )}
+                                        );
+                                      })}
+                                    </div>
+                                  )}
                                         {/* Conditional formulas with trigger display */}
                                         {/* Conditional formulas */}
                                         {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
@@ -13160,9 +13224,6 @@ const UnifiedSpellCard = ({
                             if (creature.stats?.maxAp || creature.stats?.ap) {
                               stats.push(`AP: ${creature.stats.maxAp || creature.stats.ap}`);
                             }
-                            if (creature.stats?.damageReduction) {
-                              stats.push(`DR: ${creature.stats.damageReduction}`);
-                            }
 
                             // Build enhanced mechanics text with proper hierarchy
                             let mechanicsText = '';
@@ -13255,7 +13316,8 @@ const UnifiedSpellCard = ({
                             effects.push({
                               name: `Summon ${creature.name}${quantityText}`,
                               description: inlineDetails.join(' - '),
-                              mechanicsText: mechanicsText || 'Summoned creature'
+                              mechanicsText: mechanicsText || 'Summoned creature',
+                              abilities: creature.abilities || []
                             });
                           });
                         }
@@ -13327,9 +13389,6 @@ const UnifiedSpellCard = ({
                           const creatureStats = summoningData.creatureStats || {};
                           if (creatureStats.health) {
                             stats.push(`HP: ${creatureStats.health}`);
-                          }
-                          if (creatureStats.damageReduction) {
-                            stats.push(`DR: ${creatureStats.damageReduction}`);
                           }
                           if (creatureStats.damage) {
                             stats.push(`Damage: ${creatureStats.damage}`);
@@ -13410,6 +13469,70 @@ const UnifiedSpellCard = ({
                                       <div className="healing-effect-mechanics">
                                         {effect.mechanicsText}
                                       </div>
+                                    </div>
+                                  )}
+                                  {effect.abilities && effect.abilities.length > 0 && (
+                                    <div className="summon-creature-abilities" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                      {effect.abilities.map((ab, abIdx) => {
+                                        const apCost = ab.resourceCost?.actionPoints ?? ab.castingConfig?.actionPointCost ?? ab.actionPointCost;
+                                        const manaCost = ab.resourceCost?.resourceValues?.mana;
+                                        const metaParts = [];
+                                        if (apCost > 0) metaParts.push(`${apCost} AP`);
+                                        if (manaCost > 0) metaParts.push(`${manaCost} Mana`);
+                                        const effectParts = [];
+                                        if (ab.damageConfig?.formula) {
+                                          let dmgText = ab.damageConfig.formula;
+                                          if (ab.damageConfig.elementType) dmgText += ` ${ab.damageConfig.elementType}`;
+                                          effectParts.push(dmgText + ' damage');
+                                        }
+                                        if (ab.healingConfig?.formula) {
+                                          effectParts.push(ab.healingConfig.formula + ' healing');
+                                        }
+                                        if (ab.buffConfig?.effects?.length) {
+                                          const buffs = ab.buffConfig.effects.map(e => {
+                                            if (e.type === 'vulnerability' || e.type === 'resistance' || e.type === 'immunity') {
+                                              return `${e.type} to ${e.element || e.stat || 'damage'}`;
+                                            }
+                                            const val = e.magnitude > 0 ? `+${e.magnitude}` : e.magnitude;
+                                            return `${e.stat || 'stat'} ${val}`;
+                                          });
+                                          effectParts.push(buffs.join(', '));
+                                        }
+                                        if (ab.debuffConfig?.effects?.length) {
+                                          const debuffs = ab.debuffConfig.effects.map(e => {
+                                            if (e.type === 'vulnerability' || e.type === 'resistance' || e.type === 'immunity') {
+                                              return `${e.type} to ${e.element || e.stat || 'damage'}`;
+                                            }
+                                            const val = e.magnitude < 0 ? e.magnitude : `-${Math.abs(e.magnitude)}`;
+                                            return `${e.stat || 'stat'} ${val}`;
+                                          });
+                                          effectParts.push(debuffs.join(', '));
+                                          if (ab.debuffConfig.saveDC) {
+                                            effectParts.push(`DC ${ab.debuffConfig.saveDC} ${ab.debuffConfig.saveType || ''} save`);
+                                          }
+                                        }
+                                        if (ab.controlConfig) {
+                                          const ctrlMap = { forcedMovement: 'Push/Pull', incapacitation: 'Stun', restraint: 'Restrain', knockdown: 'Knockdown' };
+                                          effectParts.push(ctrlMap[ab.controlConfig.controlType] || ab.controlConfig.controlType || 'Control');
+                                          if (ab.controlConfig.saveDC) {
+                                            effectParts.push(`DC ${ab.controlConfig.saveDC} ${ab.controlConfig.saveType || ''} save`);
+                                          }
+                                        }
+                                        return (
+                                          <div key={abIdx} className="summon-ability-entry" style={{ fontSize: '0.88em', marginTop: abIdx > 0 ? '3px' : '0', display: 'flex', gap: '6px', alignItems: 'baseline', flexWrap: 'wrap' }}>
+                                            <span style={{ color: '#6b4226', fontWeight: 600, whiteSpace: 'nowrap' }}>{ab.name || 'Ability'}</span>
+                                            {metaParts.length > 0 && (
+                                              <span style={{ color: '#8b7355', fontSize: '0.9em' }}>[{metaParts.join(' \u2022 ')}]</span>
+                                            )}
+                                            {effectParts.length > 0 && (
+                                              <span style={{ color: '#5a4a3a' }}>{effectParts.join(' \u2022 ')}</span>
+                                            )}
+                                            {ab.description && (
+                                              <span style={{ color: '#5a4a3a', fontStyle: 'italic' }}>&#8212; {ab.description}</span>
+                                            )}
+                                          </div>
+                                        );
+                                      })}
                                     </div>
                                   )}
                                   {/* Conditional formulas */}
@@ -13534,11 +13657,8 @@ const UnifiedSpellCard = ({
                             if (creature.stats?.maxAp || creature.stats?.ap) {
                               stats.push(`AP: ${creature.stats.maxAp || creature.stats.ap}`);
                             }
-                            if (creature.stats?.damageReduction) {
-                              stats.push(`DR: ${creature.stats.damageReduction}`);
-                            }
-                          }
-                          if (transformationData.maintainEquipment === true) {
+                           }
+                           if (transformationData.maintainEquipment === true) {
                             stats.push('Equipment maintained');
                           } else if (transformationData.maintainEquipment === false) {
                             stats.push('Equipment lost');

@@ -1,4 +1,4 @@
-/* ===== RULES COMPONENTS - TTRPG SOURCEBOOK DESIGN SYSTEM ===== */
+﻿/* ===== RULES COMPONENTS - TTRPG SOURCEBOOK DESIGN SYSTEM ===== */
 
 :root {
   --rules-theme-mechanic: #8a1a10; /* Dark rustic blood-red */
@@ -118,7 +118,7 @@
 
 /* Medieval Divider flourish under Hero Title */
 .rules-hero-title::after {
-  content: '✥';
+  content: '\2725';
   display: block;
   font-size: 0.9rem;
   color: var(--rpg-gold);
@@ -219,7 +219,7 @@
   line-height: 1.65;
 }
 .rules-section-card-content li::before {
-  content: '✦';
+  content: '\2726';
   position: absolute;
   left: 4px;
   top: 1px;
@@ -288,7 +288,7 @@
   display: none;
 }
 
-/* Style bullet points in blockquote (• character) */
+/* Style bullet points in blockquote (\u2022 character) */
 .rules-section-card-content blockquote p:not(:first-child) {
   position: relative;
   padding-left: 18px;
@@ -446,7 +446,7 @@
   line-height: 1.65;
 }
 .rules-collapsible-body li::before {
-  content: '✦';
+  content: '\2726';
   position: absolute;
   left: 4px;
   top: 1px;
@@ -535,7 +535,7 @@
 }
 
 .rules-summary-item::before {
-  content: '✦';
+  content: '\2726';
   position: absolute;
   left: 2px; top: 1px;
   color: var(--rpg-gold);
@@ -809,6 +809,33 @@
   transform: rotate(45deg);
 }
 
+/* Compact spacing inside tabbed content (e.g. Death & Dying) */
+.rules-tab-content .rules-divider {
+  margin: 18px auto;
+  width: 60%;
+}
+
+.rules-tab-content .rules-section-card {
+  margin: 0 15px 18px 15px;
+}
+
+.rules-tab-content .rules-section-card:last-child {
+  margin-bottom: 0;
+}
+
+.rules-tab-description {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--rpg-ink);
+  text-align: justify;
+  margin: 0 15px 12px 15px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(180, 150, 100, 0.2);
+  border-radius: 6px;
+}
+
 /* ===== IMMERSIVE ANTIQUE SCRIBE'S INDEX TABS ===== */
 .rpg-tabs-bar {
   display: flex;
@@ -1017,7 +1044,7 @@
   }
 }
 
-/* Extra small devices — further tighten tab sizing */
+/* Extra small devices â€” further tighten tab sizing */
 @media (max-width: 480px) {
   .rpg-tabs-bar {
     gap: 0px;

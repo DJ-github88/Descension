@@ -726,22 +726,10 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
         return 'Health';
       case 'mana':
         return 'Mana';
-      case 'inferno':
-        return 'Inferno';
       case 'action_points':
         return 'Action Points';
-      case 'rage':
-        return 'Rage';
-      case 'energy':
-        return 'Energy';
-      case 'focus':
-        return 'Focus';
-      case 'runic_power':
-        return 'Runic Power';
-      case 'astral_power':
-        return 'Astral Power';
       default:
-        return 'Resource';
+        return resourceType;
     }
   };
 
@@ -752,20 +740,8 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
         return 'CON';
       case 'mana':
         return 'INT';
-      case 'inferno':
-        return 'SPIR';
       case 'action_points':
         return 'AGI';
-      case 'rage':
-        return 'STR';
-      case 'energy':
-        return 'AGI';
-      case 'focus':
-        return 'WIS';
-      case 'runic_power':
-        return 'INT';
-      case 'astral_power':
-        return 'SPIR';
       default:
         return 'INT';
     }
@@ -788,73 +764,10 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
       reactIcon: FaDroplet
     },
     {
-      id: 'inferno',
-      name: 'Inferno',
-      description: 'Chaotic energy harnessed from the elemental planes',
-      icon: 'spell_fire_incinerate',
-      reactIcon: FaFire
-    },
-    {
       id: 'action_points',
       name: 'Action Points',
       description: 'Combat resources used for special abilities and attacks',
       icon: 'ability_rogue_quickrecovery',
-      reactIcon: FaBolt
-    },
-    {
-      id: 'rage',
-      name: 'Rage',
-      description: 'Fury generated in combat for powerful attacks',
-      icon: 'ability_warrior_rampage',
-      reactIcon: FaFire
-    },
-    {
-      id: 'energy',
-      name: 'Energy',
-      description: 'Resource used for quick, agile abilities',
-      icon: 'spell_nature_lightning',
-      reactIcon: FaBolt
-    },
-    {
-      id: 'focus',
-      name: 'Focus',
-      description: 'Concentration used for precise attacks',
-      icon: 'ability_hunter_mastermarksman',
-      reactIcon: FaGaugeHigh
-    },
-    {
-      id: 'runic_power',
-      name: 'Runic Power',
-      description: 'Ancient energy harnessed by death knights',
-      icon: 'spell_deathknight_runicpower',
-      reactIcon: FaGauge
-    },
-    {
-      id: 'astral_power',
-      name: 'Astral Power',
-      description: 'Celestial energy channeled from the cosmos',
-      icon: 'ability_druid_eclipseorange',
-      reactIcon: FaHeartPulse
-    },
-    {
-      id: 'soul_power',
-      name: 'Soul Power',
-      description: 'Spiritual essence used for divine magic',
-      icon: 'spell_holy_spiritualguidence',
-      reactIcon: FaHeartPulse
-    },
-    {
-      id: 'chi',
-      name: 'Chi',
-      description: 'Inner energy used for martial arts and balance',
-      icon: 'ability_monk_healthsphere',
-      reactIcon: FaGaugeHigh
-    },
-    {
-      id: 'arcane_power',
-      name: 'Arcane Power',
-      description: 'Raw magical energy from the arcane realm',
-      icon: 'spell_arcane_arcanepotency',
       reactIcon: FaBolt
     }
   ];
@@ -917,15 +830,13 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
 
         {/* Instant Restoration Toggle */}
         <div className="instant-restoration-toggle">
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={hasInstantRestoration}
-              onChange={(e) => handleInstantRestorationToggle(e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-          <span className="toggle-label">Enable instant restoration</span>
+          <label htmlFor="instant-restoration-cb">Enable instant restoration</label>
+          <input
+            id="instant-restoration-cb"
+            type="checkbox"
+            checked={hasInstantRestoration}
+            onChange={(e) => handleInstantRestorationToggle(e.target.checked)}
+          />
         </div>
 
         {hasInstantRestoration && (
@@ -1041,15 +952,13 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
       <div className="over-time-configuration section">
         <h3>Restoration Over Time</h3>
         <div className="over-time-toggle">
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={restorationConfig.isOverTime}
-              onChange={(e) => handleOverTimeToggle(e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-          <span className="toggle-label">Enable restoration over time</span>
+          <label htmlFor="over-time-cb">Enable restoration over time</label>
+          <input
+            id="over-time-cb"
+            type="checkbox"
+            checked={restorationConfig.isOverTime}
+            onChange={(e) => handleOverTimeToggle(e.target.checked)}
+          />
         </div>
 
         {restorationConfig.isOverTime && (

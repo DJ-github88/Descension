@@ -16,10 +16,12 @@ import {
   FaSkull,
   FaBolt,
   FaGear,
-  FaPaw
+  FaPaw,
+  FaTrash
 } from 'react-icons/fa6';
 import { FaSearch } from 'react-icons/fa';
 import CreatureSelectionWindow from '../../components/common/CreatureSelectionWindow';
+import BasicAbilityCreator from '../../../creature-wizard/components/windows/BasicAbilityCreator';
 
 // Pathfinder styles imported via main.css
 // Pathfinder styles imported via main.css
@@ -42,7 +44,8 @@ const DEFAULT_CREATURE_CONFIG = {
   concentration: false,
   controlType: 'verbal',
   controlRange: 60,
-  attachedEffects: {} // New: effects attached to the summoned creature
+  attachedEffects: {},
+  abilities: []
 };
 
 // Difficulty levels
@@ -78,6 +81,10 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
 
   // State for creature selection window
   const [showCreatureSelection, setShowCreatureSelection] = useState(false);
+
+  // State for BasicAbilityCreator modal
+  const [showAbilityCreator, setShowAbilityCreator] = useState(false);
+  const [abilityCreatorTargetId, setAbilityCreatorTargetId] = useState(null);
 
 
 
@@ -348,6 +355,20 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     }));
   };
 
+  const handleRemoveAbility = (creatureId, abilityId) => {
+    setSummonConfig(prev => ({
+      ...prev,
+      creatures: prev.creatures.map(creature =>
+        creature.id === creatureId
+          ? {
+              ...creature,
+              abilities: (creature.abilities || []).filter(ab => ab.id !== abilityId)
+            }
+          : creature
+      )
+    }));
+  };
+
   // Open creature selection window
   const openCreatureSelection = () => {
     setShowCreatureSelection(true);
@@ -356,6 +377,29 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
   // Close creature selection window
   const closeCreatureSelection = () => {
     setShowCreatureSelection(false);
+  };
+
+  const handleOpenAbilityCreator = (creatureId) => {
+    setAbilityCreatorTargetId(creatureId);
+    setShowAbilityCreator(true);
+  };
+
+  const handleAbilityCreated = (abilityData) => {
+    if (!abilityCreatorTargetId) return;
+    const ability = {
+      ...abilityData,
+      id: abilityData.id || `ability-${Date.now()}`
+    };
+    setSummonConfig(prev => ({
+      ...prev,
+      creatures: prev.creatures.map(creature =>
+        creature.id === abilityCreatorTargetId
+          ? { ...creature, abilities: [...(creature.abilities || []), ability] }
+          : creature
+      )
+    }));
+    setShowAbilityCreator(false);
+    setAbilityCreatorTargetId(null);
   };
 
   // Toggle duration on/off
@@ -523,13 +567,13 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                         )}
                       </div>
                       <div className="stat-item">
-                        <span className="stat-label">DR</span>
+                        <span className="stat-label">AP</span>
                         {creature.id?.startsWith('custom-summon') ? (
                           <input
                             type="number"
-                            min="0"
+                            min="1"
                             max="20"
-                            value={creature.stats?.damageReduction || 2}
+                            value={creature.stats?.maxAp || 6}
                             onChange={(e) => {
                               const updatedCreatures = summonConfig.creatures.map(c =>
                                 c.id === creature.id
@@ -537,7 +581,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                                       ...c,
                                       stats: {
                                         ...c.stats,
-                                        damageReduction: parseInt(e.target.value) || 2
+                                        maxAp: parseInt(e.target.value) || 6
                                       }
                                     }
                                   : c
@@ -550,7 +594,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                             className="stat-input"
                           />
                         ) : (
-                          <span className="stat-value">{creature.stats?.damageReduction || 'N/A'}</span>
+                          <span className="stat-value">{creature.stats?.maxAp || creature.stats?.ap || 'N/A'}</span>
                         )}
                       </div>
                       <div className="stat-item">
@@ -587,6 +631,85 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                       </div>
                     </div>
                   </div>
+
+                  {/* Creature Abilities - for custom summons */}
+                  {creature.id?.startsWith('custom-summon') && (
+                    <div className="creature-abilities-section">
+                      <div className="creature-config-header">
+                        <h6>Abilities</h6>
+                        <button
+                          className="pf-button pf-button-secondary pf-button-sm"
+                          onClick={() => handleOpenAbilityCreator(creature.id)}
+                        >
+                          <FaWandMagicSparkles /> Create Spell/Ability
+                        </button>
+                      </div>
+                      {(creature.abilities || []).length === 0 && (
+                        <div className="no-abilities-text">No abilities added yet.</div>
+                      )}
+                      {(creature.abilities || []).map((ability) => {
+                        const apCost = ability.resourceCost?.actionPoints
+                          ?? ability.castingConfig?.actionPointCost
+                          ?? ability.actionPointCost;
+                        const effectLabels = (ability.effectTypes || []).map(t => t.charAt(0).toUpperCase() + t.slice(1));
+                        const dmgFormula = ability.damageConfig?.formula;
+                        const healFormula = ability.healingConfig?.formula;
+                        const summaryParts = [];
+                        if (dmgFormula) summaryParts.push(dmgFormula + (ability.damageConfig?.elementType ? ` ${ability.damageConfig.elementType}` : '') + ' damage');
+                        if (healFormula) summaryParts.push(healFormula + ' healing');
+                        if (ability.buffConfig?.effects?.length) {
+                          const buffLabels = ability.buffConfig.effects.map(e => {
+                            if (['vulnerability', 'resistance', 'immunity'].includes(e.type)) return `${e.type} ${e.element || e.stat}`;
+                            return `+${e.magnitude} ${e.stat || 'stat'}`;
+                          });
+                          summaryParts.push(buffLabels.join(', '));
+                        }
+                        if (ability.debuffConfig?.effects?.length) {
+                          const debuffLabels = ability.debuffConfig.effects.map(e => {
+                            if (['vulnerability', 'resistance', 'immunity'].includes(e.type)) return `${e.type} ${e.element || e.stat}`;
+                            return `-${Math.abs(e.magnitude)} ${e.stat || 'stat'}`;
+                          });
+                          summaryParts.push(debuffLabels.join(', '));
+                        }
+                        if (ability.controlConfig) {
+                          const ctrlType = ability.controlConfig.controlType || 'control';
+                          summaryParts.push(ctrlType.replace(/([A-Z])/g, ' $1').trim());
+                        }
+
+                        return (
+                          <div key={ability.id} className="creature-ability-item">
+                            <div className="ability-summary-row">
+                              <div className="ability-summary-info">
+                                <span className="ability-summary-name">{ability.name || 'Unnamed Ability'}</span>
+                                {ability.spellType && (
+                                  <span className="ability-summary-badge">{ability.spellType}</span>
+                                )}
+                                {effectLabels.length > 0 && (
+                                  <span className="ability-summary-badge">{effectLabels.join(', ')}</span>
+                                )}
+                                {apCost != null && apCost > 0 && (
+                                  <span className="ability-summary-ap">{apCost} AP</span>
+                                )}
+                              </div>
+                              <button
+                                className="remove-ability-btn"
+                                onClick={() => handleRemoveAbility(creature.id, ability.id)}
+                                title="Remove ability"
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
+                            {ability.description && (
+                              <div className="ability-summary-desc">{ability.description}</div>
+                            )}
+                            {summaryParts.length > 0 && (
+                              <div className="ability-summary-effects">{summaryParts.join(' \u2022 ')}</div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
 
                   {/* Individual creature configuration */}
                   <div className="creature-config-section">
@@ -625,15 +748,14 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                           <option value="hours">Hours</option>
                         </select>
                       </div>
-                      <div className="creature-config-control">
-                        <label>
-                          <span>Requires Concentration</span>
-                          <input
-                            type="checkbox"
-                            checked={creature.config?.concentration || DEFAULT_CREATURE_CONFIG.concentration}
-                            onChange={(e) => handleCreatureConfigChange(creature.id, 'concentration', e.target.checked)}
-                          />
-                        </label>
+                      <div className="creature-config-control concentration-toggle">
+                        <label htmlFor={`concentration-${creature.id}`}>Concentration</label>
+                        <input
+                          id={`concentration-${creature.id}`}
+                          type="checkbox"
+                          checked={creature.config?.concentration || DEFAULT_CREATURE_CONFIG.concentration}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'concentration', e.target.checked)}
+                        />
                       </div>
                       <div className="creature-config-control">
                         <label>Control Type</label>
@@ -1359,9 +1481,10 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                 tokenIcon: 'spell_arcane_portalshattrath',
                 stats: {
                   maxHp: 50,
-                  damageReduction: 2,
-                  maxMana: 0
+                  maxMana: 0,
+                  maxAp: 6
                 },
+                abilities: [],
                 config: { ...DEFAULT_CREATURE_CONFIG }
               };
               setSummonConfig(prev => ({
@@ -1407,20 +1530,6 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
           </div>
         )}
 
-        {/* Advanced Settings - Collapsible */}
-        {(summonConfig.creatures || []).length > 0 && (
-          <div className="summon-advanced-settings">
-            <details className="settings-accordion">
-              <summary className="settings-accordion-header">
-                <FaGear style={{ marginRight: '8px' }} />
-                Advanced Control Settings
-              </summary>
-              <div className="settings-accordion-content">
-                {renderControlSettings()}
-              </div>
-            </details>
-          </div>
-        )}
       </div>
 
       {/* Tooltip */}
@@ -1434,6 +1543,13 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
         multiSelect={true}
         title="Select Creatures to Summon"
         effectType="summon"
+      />
+
+      {/* BasicAbilityCreator Modal */}
+      <BasicAbilityCreator
+        isOpen={showAbilityCreator}
+        onClose={() => { setShowAbilityCreator(false); setAbilityCreatorTargetId(null); }}
+        onCreateAbility={handleAbilityCreated}
       />
     </div>
   );

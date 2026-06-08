@@ -2263,7 +2263,78 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     }
 
     return (
-      <div className="class-detail-section parchment-content">
+      <div className="class-detail-section parchment-content" style={{ position: 'relative' }}>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 50,
+          background: 'linear-gradient(135deg, rgba(20,10,5,0.92) 0%, rgba(40,20,10,0.88) 50%, rgba(20,10,5,0.92) 100%)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 'inherit',
+          pointerEvents: 'all',
+        }}>
+          <div style={{
+            border: '2px solid rgba(255,180,60,0.5)',
+            borderRadius: '16px',
+            padding: '48px 56px',
+            textAlign: 'center',
+            background: 'rgba(30,15,5,0.6)',
+            maxWidth: '480px',
+          }}>
+            <div style={{ fontSize: '48px', marginBottom: '16px', opacity: 0.9 }}>
+              <i className="fas fa-hammer"></i>
+            </div>
+            <h2 style={{
+              color: '#ffb43c',
+              fontSize: '28px',
+              fontWeight: '700',
+              textTransform: 'uppercase',
+              letterSpacing: '3px',
+              margin: '0 0 12px 0',
+              textShadow: '0 0 20px rgba(255,180,60,0.4)',
+            }}>
+              Work in Progress
+            </h2>
+            <p style={{
+              color: 'rgba(255,220,170,0.8)',
+              fontSize: '15px',
+              lineHeight: '1.6',
+              margin: '0 0 20px 0',
+            }}>
+              The specialization system is being forged in the fires of creation.
+              This section will be available in a future update.
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+            }}>
+              {specializations.specs.map((spec) => (
+                <span key={spec.id} style={{
+                  background: `${spec.color}33`,
+                  border: `1px solid ${spec.color}66`,
+                  color: spec.color,
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  letterSpacing: '0.5px',
+                }}>
+                  {spec.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <div className="guide-badge-header">
           <span className="guide-badge">
             <i className="fas fa-medal"></i> SPECIALIZATIONS

@@ -9,10 +9,13 @@ import {
   FaPlus,
   FaCircleInfo,
   FaArrowRightLong,
-  FaCircleXmark
+  FaCircleXmark,
+  FaWandMagicSparkles,
+  FaTrash
 } from 'react-icons/fa6';
 import { FaSearch } from 'react-icons/fa';
 import CreatureSelectionWindow from '../../components/common/CreatureSelectionWindow';
+import BasicAbilityCreator from '../../../creature-wizard/components/windows/BasicAbilityCreator';
 
 // Pathfinder styles imported via main.css
 
@@ -145,6 +148,9 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
   const [customAbilities, setCustomAbilities] = useState(state.transformConfig?.grantedAbilities || []);
   const [newAbilityName, setNewAbilityName] = useState('');
   const [newAbilityDescription, setNewAbilityDescription] = useState('');
+
+  // State for BasicAbilityCreator modal
+  const [showAbilityCreator, setShowAbilityCreator] = useState(false);
 
   // State for tooltip
   const [showTooltip, setShowTooltip] = useState(false);
@@ -418,28 +424,21 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     dispatch(actionCreators.updateTransformConfig(newConfig));
   };
 
-  // Add custom ability
-  const handleAddCustomAbility = () => {
-    if (!newAbilityName.trim()) return;
-    
-    const newAbility = {
-      id: `custom_ability_${Date.now()}`,
-      name: newAbilityName.trim(),
-      description: newAbilityDescription.trim() || newAbilityName.trim()
+  const handleAbilityCreated = (abilityData) => {
+    const ability = {
+      ...abilityData,
+      id: abilityData.id || `custom_ability_${Date.now()}`
     };
-    
-    const updatedAbilities = [...customAbilities, newAbility];
+    const updatedAbilities = [...customAbilities, ability];
     setCustomAbilities(updatedAbilities);
-    setNewAbilityName('');
-    setNewAbilityDescription('');
-    
-    // Update config
+
     const newConfig = {
       ...transformConfig,
       isCustom: true,
       grantedAbilities: updatedAbilities
     };
     dispatch(actionCreators.updateTransformConfig(newConfig));
+    setShowAbilityCreator(false);
   };
 
   // Remove custom ability
@@ -648,91 +647,82 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
             </div>
 
             {/* Custom Granted Abilities */}
-            <div className="creature-config-section">
+            <div className="creature-abilities-section">
               <div className="creature-config-header">
                 <h6>Granted Abilities</h6>
+                <button
+                  className="pf-button pf-button-secondary pf-button-sm"
+                  onClick={() => setShowAbilityCreator(true)}
+                >
+                  <FaWandMagicSparkles /> Create Spell/Ability
+                </button>
               </div>
-              <div className="range-description" style={{ marginTop: '4px', marginBottom: '8px' }}>
-                Add custom abilities granted by this transformation.
-              </div>
-              
-              {/* Existing abilities list */}
-              {customAbilities.length > 0 && (
-                <div className="selected-abilities" style={{ marginBottom: '12px' }}>
-                  {customAbilities.map((ability, index) => (
-                    <div key={ability.id} className="selected-ability" style={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between', 
-                      alignItems: 'center',
-                      padding: '8px',
-                      background: 'var(--pf-bg-dark, #1a1a1a)',
-                      borderRadius: '4px',
-                      marginBottom: '4px'
-                    }}>
-                      <div>
-                        <span className="ability-number" style={{ marginRight: '8px', color: 'var(--pf-gold, #ffd100)' }}>{index + 1}.</span>
-                        <span className="ability-name" style={{ fontWeight: 'bold' }}>{ability.name}</span>
-                        {ability.description && ability.description !== ability.name && (
-                          <span style={{ marginLeft: '8px', opacity: 0.7 }}>- {ability.description}</span>
+
+              {customAbilities.length === 0 && (
+                <div className="no-abilities-text">No abilities added yet.</div>
+              )}
+
+              {customAbilities.map((ability) => {
+                const apCost = ability.resourceCost?.actionPoints
+                  ?? ability.castingConfig?.actionPointCost
+                  ?? ability.actionPointCost;
+                const effectLabels = (ability.effectTypes || []).map(t => t.charAt(0).toUpperCase() + t.slice(1));
+                const dmgFormula = ability.damageConfig?.formula;
+                const healFormula = ability.healingConfig?.formula;
+                const summaryParts = [];
+                if (dmgFormula) summaryParts.push(dmgFormula + (ability.damageConfig?.elementType ? ` ${ability.damageConfig.elementType}` : '') + ' damage');
+                if (healFormula) summaryParts.push(healFormula + ' healing');
+                if (ability.buffConfig?.effects?.length) {
+                  const buffLabels = ability.buffConfig.effects.map(e => {
+                    if (['vulnerability', 'resistance', 'immunity'].includes(e.type)) return `${e.type} ${e.element || e.stat}`;
+                    return `+${e.magnitude} ${e.stat || 'stat'}`;
+                  });
+                  summaryParts.push(buffLabels.join(', '));
+                }
+                if (ability.debuffConfig?.effects?.length) {
+                  const debuffLabels = ability.debuffConfig.effects.map(e => {
+                    if (['vulnerability', 'resistance', 'immunity'].includes(e.type)) return `${e.type} ${e.element || e.stat}`;
+                    return `-${Math.abs(e.magnitude)} ${e.stat || 'stat'}`;
+                  });
+                  summaryParts.push(debuffLabels.join(', '));
+                }
+                if (ability.controlConfig) {
+                  const ctrlType = ability.controlConfig.controlType || 'control';
+                  summaryParts.push(ctrlType.replace(/([A-Z])/g, ' $1').trim());
+                }
+
+                return (
+                  <div key={ability.id} className="creature-ability-item">
+                    <div className="ability-summary-row">
+                      <div className="ability-summary-info">
+                        <span className="ability-summary-name">{ability.name || 'Unnamed Ability'}</span>
+                        {ability.spellType && (
+                          <span className="ability-summary-badge">{ability.spellType}</span>
+                        )}
+                        {effectLabels.length > 0 && (
+                          <span className="ability-summary-badge">{effectLabels.join(', ')}</span>
+                        )}
+                        {apCost != null && apCost > 0 && (
+                          <span className="ability-summary-ap">{apCost} AP</span>
                         )}
                       </div>
                       <button
+                        className="remove-ability-btn"
                         onClick={() => handleRemoveCustomAbility(ability.id)}
-                        style={{
-                          background: 'transparent',
-                          border: 'none',
-                          color: '#ff4444',
-                          cursor: 'pointer',
-                          padding: '4px 8px'
-                        }}
+                        title="Remove ability"
                       >
-                        <FaCircleXmark />
+                        <FaTrash />
                       </button>
                     </div>
-                  ))}
-                </div>
-              )}
-              
-              {/* Add new ability form */}
-              <div className="creature-config-controls" style={{ marginTop: '8px' }}>
-                <div className="creature-config-control" style={{ flex: 1 }}>
-                  <label>Ability Name</label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Damage Bonus, Fear Immunity"
-                    value={newAbilityName}
-                    onChange={(e) => setNewAbilityName(e.target.value)}
-                  />
-                </div>
-                <div className="creature-config-control" style={{ flex: 2 }}>
-                  <label>Description</label>
-                  <input
-                    type="text"
-                    placeholder="e.g., +8 damage to all attacks"
-                    value={newAbilityDescription}
-                    onChange={(e) => setNewAbilityDescription(e.target.value)}
-                  />
-                </div>
-                <div className="creature-config-control" style={{ flex: 0, alignSelf: 'flex-end' }}>
-                  <button
-                    onClick={handleAddCustomAbility}
-                    disabled={!newAbilityName.trim()}
-                    style={{
-                      padding: '8px 16px',
-                      background: newAbilityName.trim() ? 'var(--pf-accent, #4a90d9)' : '#444',
-                      border: 'none',
-                      borderRadius: '4px',
-                      color: '#fff',
-                      cursor: newAbilityName.trim() ? 'pointer' : 'not-allowed',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px'
-                    }}
-                  >
-                    <FaPlus /> Add
-                  </button>
-                </div>
-              </div>
+                    {ability.description && (
+                      <div className="ability-summary-desc">{ability.description}</div>
+                    )}
+                    {summaryParts.length > 0 && (
+                      <div className="ability-summary-effects">{summaryParts.join(' \u2022 ')}</div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -992,6 +982,12 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
         multiSelect={false}
         title="Select Transformation Target"
         effectType="transform"
+      />
+
+      <BasicAbilityCreator
+        isOpen={showAbilityCreator}
+        onClose={() => setShowAbilityCreator(false)}
+        onCreateAbility={handleAbilityCreated}
       />
 
       <style>{`

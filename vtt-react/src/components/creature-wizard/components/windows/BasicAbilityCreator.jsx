@@ -32,11 +32,10 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
     hotFormula: '1d4',
     hotDuration: 3,
     // Buff/Debuff fields
-    statModifier: {
-      stat: 'armor',
-      magnitude: 2,
-      magnitudeType: 'flat'
-    },
+    buffEffectType: 'statBoost',
+    buffStat: 'strength',
+    buffMagnitude: 2,
+    buffElement: 'fire',
     durationValue: 1,
     durationType: 'rounds',
     durationUnit: 'rounds',
@@ -204,14 +203,27 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
     }
 
     if (formData.effectTypes.includes('buff')) {
+      const effect = {
+        id: generateUniqueId(),
+        type: formData.buffEffectType,
+        stat: formData.buffStat,
+        magnitude: Math.abs(formData.buffMagnitude),
+        durationValue: formData.durationValue,
+        durationUnit: formData.durationUnit
+      };
+
+      if (['vulnerability', 'resistance', 'immunity'].includes(formData.buffEffectType)) {
+        effect.element = formData.buffElement;
+        effect.name = `${formData.buffEffectType.charAt(0).toUpperCase() + formData.buffEffectType.slice(1)} to ${formData.buffElement}`;
+        effect.description = `Grant ${formData.buffEffectType} to ${formData.buffElement} damage for ${formData.durationValue} ${formData.durationUnit}`;
+      } else {
+        effect.name = `+${formData.buffMagnitude} ${formData.buffStat}`;
+        effect.description = `Gain +${formData.buffMagnitude} ${formData.buffStat} for ${formData.durationValue} ${formData.durationUnit}`;
+      }
+
       baseAbility.buffConfig = {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: generateUniqueId(),
-          name: `+${formData.statModifier.magnitude} ${formData.statModifier.stat}`,
-          description: `Gain +${formData.statModifier.magnitude} ${formData.statModifier.stat} for ${formData.durationValue} ${formData.durationType}`,
-          statModifier: formData.statModifier
-        }],
+        buffType: formData.buffEffectType === 'statBoost' ? 'statEnhancement' : formData.buffEffectType,
+        effects: [effect],
         durationValue: formData.durationValue,
         durationType: formData.durationType,
         durationUnit: formData.durationUnit
@@ -219,17 +231,27 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
     }
 
     if (formData.effectTypes.includes('debuff')) {
+      const effect = {
+        id: generateUniqueId(),
+        type: formData.buffEffectType,
+        stat: formData.buffStat,
+        magnitude: -Math.abs(formData.buffMagnitude),
+        durationValue: formData.durationValue,
+        durationUnit: formData.durationUnit
+      };
+
+      if (['vulnerability', 'resistance', 'immunity'].includes(formData.buffEffectType)) {
+        effect.element = formData.buffElement;
+        effect.name = `${formData.buffEffectType.charAt(0).toUpperCase() + formData.buffEffectType.slice(1)} to ${formData.buffElement}`;
+        effect.description = `Apply ${formData.buffEffectType} to ${formData.buffElement} damage for ${formData.durationValue} ${formData.durationUnit}`;
+      } else {
+        effect.name = `-${Math.abs(formData.buffMagnitude)} ${formData.buffStat}`;
+        effect.description = `Lose ${Math.abs(formData.buffMagnitude)} ${formData.buffStat} for ${formData.durationValue} ${formData.durationUnit}`;
+      }
+
       baseAbility.debuffConfig = {
-        debuffType: 'statReduction',
-        effects: [{
-          id: generateUniqueId(),
-          name: `-${formData.statModifier.magnitude} ${formData.statModifier.stat}`,
-          description: `Lose ${formData.statModifier.magnitude} ${formData.statModifier.stat} for ${formData.durationValue} ${formData.durationType}`,
-          statModifier: {
-            ...formData.statModifier,
-            magnitude: -Math.abs(formData.statModifier.magnitude)
-          }
-        }],
+        debuffType: formData.buffEffectType === 'statReduction' ? 'statReduction' : formData.buffEffectType,
+        effects: [effect],
         durationValue: formData.durationValue,
         durationType: formData.durationType,
         durationUnit: formData.durationUnit,
@@ -305,11 +327,10 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
       hasHotEffect: false,
       hotFormula: '1d4',
       hotDuration: 3,
-      statModifier: {
-        stat: 'armor',
-        magnitude: 2,
-        magnitudeType: 'flat'
-      },
+      buffEffectType: 'statBoost',
+      buffStat: 'strength',
+      buffMagnitude: 2,
+      buffElement: 'fire',
       durationValue: 1,
       durationType: 'rounds',
       durationUnit: 'rounds',
@@ -335,38 +356,43 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
   if (!isOpen) return null;
 
   const damageTypes = ['fire', 'frost', 'lightning', 'arcane', 'nature', 'poison', 'necrotic', 'radiant', 'psychic', 'chaos', 'void', 'bludgeoning', 'piercing', 'slashing'];
-  const stats = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'speed', 'maxHp', 'criticalChance'];
+  const stats = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'speed', 'maxHp', 'criticalChance'];
+  const buffEffectTypes = [
+    { value: 'statBoost', label: 'Stat Boost' },
+    { value: 'statReduction', label: 'Stat Reduction' },
+    { value: 'vulnerability', label: 'Vulnerability' },
+    { value: 'resistance', label: 'Resistance' },
+    { value: 'immunity', label: 'Immunity' }
+  ];
 
   return createPortal(
     <div className="basic-ability-creator-overlay">
       <div className="basic-ability-creator-modal">
         <div className="basic-ability-creator-header">
           <h2><i className="fas fa-magic"></i> Create Spell/Ability</h2>
+          <div className="ability-header-tabs">
+            <button type="button" className={`pf-tab ${activeTab === 'basic' ? 'active' : ''}`} onClick={() => setActiveTab('basic')}>
+              Basic
+            </button>
+            <button type="button" className={`pf-tab ${activeTab === 'effects' ? 'active' : ''}`} onClick={() => setActiveTab('effects')}>
+              Effects
+            </button>
+            <button type="button" className={`pf-tab ${activeTab === 'targeting' ? 'active' : ''}`} onClick={() => setActiveTab('targeting')}>
+              Target
+            </button>
+            <button type="button" className={`pf-tab ${activeTab === 'resources' ? 'active' : ''}`} onClick={() => setActiveTab('resources')}>
+              Costs
+            </button>
+          </div>
           <button type="button" className="pf-close-button" onClick={handleClose}>
             <i className="fas fa-times"></i>
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="basic-ability-creator-form">
-          <div className="ability-creator-main-body">
-            <div className="ability-sidebar-tabs">
-              <button type="button" className={`pf-tab ${activeTab === 'basic' ? 'active' : ''}`} onClick={() => setActiveTab('basic')}>
-                <i className="fas fa-info-circle"></i> Basic
-              </button>
-              <button type="button" className={`pf-tab ${activeTab === 'effects' ? 'active' : ''}`} onClick={() => setActiveTab('effects')}>
-                <i className="fas fa-fire"></i> Effects
-              </button>
-              <button type="button" className={`pf-tab ${activeTab === 'targeting' ? 'active' : ''}`} onClick={() => setActiveTab('targeting')}>
-                <i className="fas fa-crosshairs"></i> Target
-              </button>
-              <button type="button" className={`pf-tab ${activeTab === 'resources' ? 'active' : ''}`} onClick={() => setActiveTab('resources')}>
-                <i className="fas fa-flask"></i> Costs
-              </button>
-            </div>
-
-            <div className="pf-tab-content-wrapper">
-              {/* Basic Info Tab */}
-              <div className={`pf-tab-content ${activeTab !== 'basic' ? 'hidden' : ''}`}>
+          <div className="pf-tab-content-wrapper">
+            {/* Basic Info Tab */}
+            <div className={`pf-tab-content ${activeTab !== 'basic' ? 'hidden' : ''}`}>
                 <div className="pf-form-section">
                   <h3><i className="fas fa-id-card"></i> Identity</h3>
                   <div className="pf-form-group">
@@ -560,31 +586,20 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
 
                 {(formData.effectTypes.includes('buff') || formData.effectTypes.includes('debuff')) && (
                   <div className="pf-form-section">
-                    <h3><i className="fas fa-chart-line"></i> Modification</h3>
+                    <h3><i className="fas fa-chart-line"></i> {formData.effectTypes.includes('buff') ? 'Buff' : 'Debuff'} Effect</h3>
                     <div className="pf-form-row">
                       <div className="pf-form-group">
-                        <label>Stat</label>
+                        <label>Effect Type</label>
                         <select
-                          value={formData.statModifier.stat}
-                          onChange={(e) => handleNestedChange('statModifier', 'stat', e.target.value)}
+                          value={formData.buffEffectType}
+                          onChange={(e) => handleInputChange('buffEffectType', e.target.value)}
                           className="pf-select"
                         >
-                          {stats.map(stat => (
-                            <option key={stat} value={stat}>{stat.charAt(0).toUpperCase() + stat.slice(1)}</option>
+                          {buffEffectTypes.map(t => (
+                            <option key={t.value} value={t.value}>{t.label}</option>
                           ))}
                         </select>
                       </div>
-                      <div className="pf-form-group">
-                        <label>Value</label>
-                        <input
-                          type="number"
-                          value={formData.statModifier.magnitude}
-                          onChange={(e) => handleNestedChange('statModifier', 'magnitude', e.target.value)}
-                          className="pf-input"
-                        />
-                      </div>
-                    </div>
-                    <div className="pf-form-row">
                       <div className="pf-form-group">
                         <label>Duration</label>
                         <input
@@ -608,6 +623,49 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
                         </select>
                       </div>
                     </div>
+
+                    {(formData.buffEffectType === 'statBoost' || formData.buffEffectType === 'statReduction') && (
+                      <div className="pf-form-row">
+                        <div className="pf-form-group">
+                          <label>Stat</label>
+                          <select
+                            value={formData.buffStat}
+                            onChange={(e) => handleInputChange('buffStat', e.target.value)}
+                            className="pf-select"
+                          >
+                            {stats.map(stat => (
+                              <option key={stat} value={stat}>{stat.charAt(0).toUpperCase() + stat.slice(1)}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="pf-form-group">
+                          <label>Value</label>
+                          <input
+                            type="number"
+                            value={formData.buffMagnitude}
+                            onChange={(e) => handleInputChange('buffMagnitude', e.target.value)}
+                            className="pf-input"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {['vulnerability', 'resistance', 'immunity'].includes(formData.buffEffectType) && (
+                      <div className="pf-form-row">
+                        <div className="pf-form-group">
+                          <label>Damage Type</label>
+                          <select
+                            value={formData.buffElement}
+                            onChange={(e) => handleInputChange('buffElement', e.target.value)}
+                            className="pf-select"
+                          >
+                            {damageTypes.map(dt => (
+                              <option key={dt} value={dt}>{dt.charAt(0).toUpperCase() + dt.slice(1)}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -817,7 +875,6 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
                 </div>
               </div>
             </div>
-          </div>
 
           <div className="pf-form-actions">
             <button type="button" className="pf-button pf-button-secondary" onClick={handleClose}>

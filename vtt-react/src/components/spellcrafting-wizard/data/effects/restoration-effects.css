@@ -281,67 +281,30 @@
 }
 
 /* Over Time Configuration */
-.over-time-toggle {
+.over-time-toggle,
+.instant-restoration-toggle {
   display: flex;
   align-items: center;
   gap: var(--pf-space-3);
   margin-bottom: var(--pf-space-4);
 }
 
-.toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
-}
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #8b7355;
-  transition: 0.3s;
-  border-radius: 12px;
-  border: 1px solid #6b5635;
-}
-
-.toggle-slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 2px;
-  bottom: 2px;
-  background-color: #f5f0e8;
-  transition: 0.3s;
-  border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-input:checked + .toggle-slider {
-  background-color: #d4af37;
-  border-color: #b8941f;
-}
-
-input:checked + .toggle-slider:before {
-  transform: translateX(26px);
-  background-color: #2d1810;
-}
-
-.toggle-label {
+.over-time-toggle label,
+.instant-restoration-toggle label {
   color: var(--pf-text-primary);
   font-family: var(--pf-font-body);
   font-size: var(--pf-text-sm);
   font-weight: var(--pf-font-weight-medium);
+  cursor: pointer;
+}
+
+.over-time-toggle input[type="checkbox"],
+.instant-restoration-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #8b1a1a;
+  flex-shrink: 0;
 }
 
 /* Over Time Settings */
@@ -478,23 +441,6 @@ input:checked + .toggle-slider:before {
 .restoration-effects-container *[style*="background: linear-gradient(135deg, #7a3b2e, #5e2e23)"] {
   background: #f0ead6 !important;
   background-image: none !important;
-}
-
-/* Fix toggle styling issues */
-.restoration-effects-container .toggle-switch {
-  background: #d4c4a8 !important;
-  border: 1px solid #c4b494 !important;
-  border-radius: 12px !important;
-}
-
-.restoration-effects-container .toggle-switch.active {
-  background: #8b7355 !important;
-  border-color: #6b5635 !important;
-}
-
-.restoration-effects-container .toggle-slider {
-  background: white !important;
-  border: 1px solid #c4b494 !important;
 }
 
 /* Number Inputs */

@@ -347,7 +347,7 @@ const NAVIGATION_BUTTONS = [
     },
     {
         id: 'talents',
-        title: 'Talent Tree',
+        title: 'Talent Tree (Coming Soon)',
         shortcut: 'T',
         svg: <>
             <path d="M12 2L2 7l10 5 10-5-10-5z" />

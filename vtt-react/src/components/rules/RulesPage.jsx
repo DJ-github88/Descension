@@ -129,8 +129,11 @@ const normalizeClassName = (text) => {
 const processMarkdown = (text) => {
   if (!text) return text;
 
+  // Normalize line endings first
+  let processed = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
   // Strip blockquote markers ("> ") from the start of lines so they don't render literally
-  let processed = text.replace(/^>\s?/gm, '');
+  processed = processed.replace(/^>\s?/gm, '');
 
   // Process **bold** text
   processed = processed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -147,8 +150,11 @@ const processMarkdown = (text) => {
     return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="rules-external-link">${linkText}</a>`;
   });
 
-  // Process bullet points (• at start of line) — strip the literal bullet so the CSS pseudo-element handles it
-  processed = processed.replace(/^•\s*/gm, '');
+  // Convert bullet lines (bullet char or - at start of line) into proper <ul><li> elements
+  processed = processed.replace(/((?:^|\n)[\u2022\-]\s+[^\n]+(?:\n[\u2022\-]\s+[^\n]+)*)/g, (match) => {
+    const items = match.replace(/^[\u2022\-]\s*/gm, '').replace(/\n/g, '</li><li>');
+    return `<ul><li>${items}</li></ul>`;
+  });
 
   // Process line breaks
   processed = processed.replace(/\n\n/g, '</p><p>');
@@ -1235,6 +1241,9 @@ const RulesPage = () => {
           ))}
         </div>
         <div className="rules-tab-content">
+          {currentTabData?.description && (
+            <div className="rules-tab-description" dangerouslySetInnerHTML={{ __html: processMarkdown(currentTabData.description) }} />
+          )}
           {currentTabData?.sections && renderSections(currentTabData.sections, sectionTheme)}
           {currentTabData?.tables && currentTabData.tables.map((t, i) => renderTable(t, i, sectionTheme))}
         </div>

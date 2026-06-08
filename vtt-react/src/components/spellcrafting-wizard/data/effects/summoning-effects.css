@@ -1062,6 +1062,28 @@
   box-shadow: 0 0 0 1px rgba(139, 69, 19, 0.3);
 }
 
+.remove-effect-btn {
+  background: none;
+  border: none;
+  color: #a0522d;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.remove-effect-btn:hover {
+  color: #c0392b;
+  background: rgba(192, 57, 43, 0.1);
+  transform: scale(1.1);
+}
+
+.remove-effect-btn:active {
+  transform: scale(0.95);
+}
+
 .effect-buttons {
   display: flex;
   gap: var(--pf-space-2);
@@ -1186,6 +1208,98 @@
   transition: all var(--pf-transition-normal);
 }
 
+/* ===== CREATURE ABILITIES EDITOR ===== */
+.creature-abilities-section {
+  padding: 12px 16px;
+  border-top: 1px solid var(--pf-brown-light);
+  background: var(--pf-gradient-parchment);
+}
+
+.creature-abilities-section .creature-config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.creature-abilities-section .creature-config-header h6 {
+  margin: 0;
+  color: var(--pf-brown-dark);
+  font-family: var(--pf-font-display);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pf-button-sm {
+  font-size: 11px !important;
+  padding: 3px 10px !important;
+}
+
+.no-abilities-text {
+  font-size: 12px;
+  color: var(--pf-brown-medium);
+  font-style: italic;
+  padding: 6px 0;
+}
+
+.creature-ability-item {
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+}
+
+.ability-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.ability-summary-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.ability-summary-name {
+  color: var(--pf-brown-dark);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.ability-summary-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(101, 67, 33, 0.1);
+  color: var(--pf-brown-medium);
+  text-transform: capitalize;
+}
+
+.ability-summary-ap {
+  font-size: 11px;
+  color: #8b6914;
+  font-weight: 600;
+}
+
+.ability-summary-desc {
+  font-size: 12px;
+  color: var(--pf-brown-medium);
+  margin-top: 3px;
+  font-style: italic;
+}
+
+.ability-summary-effects {
+  font-size: 11px;
+  color: #6b4226;
+  margin-top: 2px;
+}
+
 .settings-accordion-header:hover {
   background: var(--pf-parchment-darker);
   color: var(--pf-text-primary);
@@ -1198,4 +1312,30 @@
 
 .settings-accordion[open] .settings-accordion-header {
   border-bottom: 2px solid var(--pf-brown-medium);
+}
+
+/* ===== CONCENTRATION TOGGLE ===== */
+.concentration-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-direction: row;
+}
+
+.concentration-toggle label {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-brown-medium);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.concentration-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #8b1a1a;
+  flex-shrink: 0;
 }
