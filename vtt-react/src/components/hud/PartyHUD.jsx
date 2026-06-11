@@ -838,22 +838,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             />
                         );
                     })()}
-                    {/* GM/Leader Crown */}
-                    {/* CRITICAL FIX: Show crown only for actual GM or real leaderId match */}
-                    {/* Avoid 'current-player' fallback triggering crown on non-GM players */}
-                    {(member.isGM ||
-                        (leaderId && leaderId !== 'current-player' && (
-                            member.id === leaderId ||
-                            member.socketId === leaderId ||
-                            member.userId === leaderId
-                        )) ||
-                        (isCurrentPlayer && leaderId === 'current-player' && member.isGM)
-                    ) && (
-
-                            <div className="leader-crown">
-                                <i className="fas fa-crown"></i>
-                            </div>
-                        )}
                 </div>
 
                 {/* Info Section */}
@@ -3083,7 +3067,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     for (let i = 0; i < index; i++) {
                         const prevMember = displayMembers[i];
                         const hasClassResource = prevMember.character?.class && prevMember.character?.classResource;
-                        const isComplexClass = ['Minstrel', 'Chaos Weaver', 'Gambler', 'Exorcist', 'Lichborne', 'Plaguebringer', 'Toxicologist', 'False Prophet'].includes(prevMember.character?.class);
+                        const isComplexClass = ['Minstrel', 'Harbinger', 'Gambit', 'Inquisitor', 'Revenant', 'Plaguebringer', 'Toxicologist', 'False Prophet'].includes(prevMember.character?.class);
 
                         if (hasClassResource && isComplexClass) {
                             yOffset += 112; // Reduced from 130

@@ -438,7 +438,7 @@ export const CONSUMABLES = [
       spellDamage: {
         types: {
           arcane: { value: 8, isPercentage: false, duration: 360 },
-          psychic: { value: 5, isPercentage: false, duration: 360 }
+          wyrd: {	 value: 5, isPercentage: false, duration: 360 }
         }
       }
     },
@@ -542,7 +542,7 @@ export const CONSUMABLES = [
     combatStats: {
       spellDamage: {
         types: {
-          poison: { value: 5, isPercentage: false, duration: 60 }
+          blight: {	 value: 5, isPercentage: false, duration: 60 }
         }
       }
     },
@@ -567,7 +567,7 @@ export const CONSUMABLES = [
     combatStats: {
       spellDamage: {
         types: {
-          poison: { value: 10, isPercentage: false, duration: 120 }
+          blight: {	 value: 10, isPercentage: false, duration: 120 }
         }
       }
     },
@@ -595,7 +595,7 @@ export const CONSUMABLES = [
     combatStats: {
       spellDamage: {
         types: {
-          poison: { value: 15, isPercentage: false, duration: 180 }
+          blight: {	 value: 15, isPercentage: false, duration: 180 }
         }
       }
     },

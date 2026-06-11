@@ -235,7 +235,7 @@ export const transformSpellForCard = (spell) => {
       buffType: 'Stat Boost',
       debuffType: 'Stat Reduction',
       damageAmount: '2d6',
-      damageType: 'Force',
+      damageType: 'storm',
       healAmount: '2d6',
       controlType: 'Stun'
     };
@@ -367,7 +367,7 @@ export const transformSpellForCard = (spell) => {
       buffType: 'Stat Boost',
       debuffType: 'Stat Reduction',
       damageAmount: '2d6',
-      damageType: 'Force',
+      damageType: 'storm',
       healAmount: '2d6',
       controlType: 'Stun',
       customEffects: []

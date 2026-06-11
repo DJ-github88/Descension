@@ -17,7 +17,7 @@ export const SPELLGUARD_DATA = {
   name: "Spellguard",
   icon: "fas fa-shield-alt",
   role: "Void-Scarred Aegis",
-  damageTypes: ["arcane", "force", "necrotic"],
+  damageTypes: ["arcane", "storm", "blight"],
 
   spellPools: {
     1: ["void-siphon", "entropic-aegis", "leyline-rift", "refract-kinetic"],
@@ -318,7 +318,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       icon: "Necrotic/Necrotic Decay 1",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Decay 1",
         tags: ["passive", "weakness", "radiation"],
       },
@@ -359,7 +359,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["damage", "utility"],
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Necrotic/Drain Soul",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -388,7 +388,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
 
       damageConfig: {
         formula: "1d8 + 1d8",
-        damageTypes: ["bludgeoning", "force"],
+        damageTypes: ["physical", "storm"],
         resolution: "DICE",
       },
 
@@ -415,7 +415,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["buff"],
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Field",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -468,7 +468,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["buff", "damage"],
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Slashing/Crushing Blow",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -514,7 +514,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       
       damageConfig: {
         formula: "1d4",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "AUTOMATIC",
       },
 
@@ -570,7 +570,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       
       damageConfig: {
         formula: "1d6",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "AUTOMATIC",
       },
 
@@ -590,7 +590,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["utility", "debuff"],
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Field",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -692,7 +692,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       
       damageConfig: {
         formula: "1d8",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "AUTOMATIC",
       },
 
@@ -712,7 +712,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["buff"],
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Necrotic/Drain Soul",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -767,7 +767,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["utility", "control"],
 
       typeConfig: {
-        school: "void",
+        school: "blight",
         icon: "Arcane/Magical Cross Emblem 2",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -837,7 +837,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Explosion Burst",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -867,7 +867,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
 
       damageConfig: {
         formula: "6d8",
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         resolution: "SAVE",
         savingThrow: {
           ability: "agility",
@@ -907,7 +907,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["buff", "damage"],
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Field",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -948,7 +948,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       
       damageConfig: {
         formula: "4d6",
-        damageTypes: ["slashing"],
+        damageTypes: ["physical"],
         resolution: "AUTOMATIC",
       },
 
@@ -965,7 +965,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Explosion Burst",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -995,7 +995,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
 
       damageConfig: {
         formula: "AEP * 1.5",
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         resolution: "DICE",
       },
 
@@ -1015,7 +1015,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["utility", "debuff"],
 
       typeConfig: {
-        school: "void",
+        school: "blight",
         icon: "Void/Black Hole",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -1081,7 +1081,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       effectTypes: ["utility", "damage"],
 
       typeConfig: {
-        school: "void",
+        school: "blight",
         icon: "Void/Black Hole",
         castTime: 3,
         castTimeType: "IMMEDIATE",
@@ -1121,7 +1121,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       
       damageConfig: {
         formula: "Current_HP - 1",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "AUTOMATIC",
       },
 

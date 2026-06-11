@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Class-Specific Starting Equipment
  * 
  * Items that are only available to specific character classes.
@@ -28,7 +28,7 @@ export const PYROFIEND_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'fire'
+                damageType: 'ember'
             }
         },
         baseStats: {
@@ -104,7 +104,7 @@ export const PYROFIEND_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'fire'
+                damageType: 'ember'
             }
         },
         availableFor: {
@@ -175,7 +175,7 @@ export const MINSTREL_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -252,7 +252,7 @@ export const MINSTREL_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -402,8 +402,8 @@ export const CHRONARCH_ITEMS = [
     }
 ];
 
-// Chaos Weaver - Reality bender
-export const CHAOS_WEAVER_ITEMS = [
+// Harbinger - Reality bender / Prophet of catastrophe
+export const HARBINGER_ITEMS = [
     {
         id: 'chaos-weaver-entropy-wand',
         name: 'Wand of Entropy',
@@ -423,7 +423,7 @@ export const CHAOS_WEAVER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'chaos'
+                damageType: 'wyrd'
             }
         },
         baseStats: {
@@ -519,7 +519,7 @@ export const CHAOS_WEAVER_ITEMS = [
 ];
 
 // Gambler - Fate manipulator
-export const GAMBLER_ITEMS = [
+export const GAMBIT_ITEMS = [
     {
         id: 'gambler-lucky-coin',
         name: 'Lucky Coin',
@@ -537,7 +537,7 @@ export const GAMBLER_ITEMS = [
             charisma: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Gambler']
+            classes: ['Gambit']
         }
     },
     
@@ -559,7 +559,7 @@ export const GAMBLER_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Gambler']
+            classes: ['Gambit']
         }
     },
     
@@ -582,14 +582,14 @@ export const GAMBLER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Gambler']
+            classes: ['Gambit']
         }
     },
     {
@@ -613,7 +613,7 @@ export const GAMBLER_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Gambler']
+            classes: ['Gambit']
         }
     },
     {
@@ -631,13 +631,13 @@ export const GAMBLER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Gambler']
+            classes: ['Gambit']
         }
     }
 ];
 
 // Fate Weaver - Destiny manipulator using cards and threads
-export const FATE_WEAVER_ITEMS = [
+export const GAMBIT_THREADS_ITEMS = [
     {
         id: 'fate-weaver-thread-staff',
         name: 'Thread-Bound Staff',
@@ -657,7 +657,7 @@ export const FATE_WEAVER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'psychic'
+                damageType: 'wyrd'
             }
         },
         baseStats: {
@@ -665,7 +665,7 @@ export const FATE_WEAVER_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Fate Weaver']
+            classes: ['Gambit']
         }
     },
     {
@@ -687,14 +687,14 @@ export const FATE_WEAVER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'psychic'
+                damageType: 'wyrd'
             }
         },
         baseStats: {
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Fate Weaver']
+            classes: ['Gambit']
         }
     },
     {
@@ -718,7 +718,7 @@ export const FATE_WEAVER_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Fate Weaver']
+            classes: ['Gambit']
         }
     },
     {
@@ -736,7 +736,7 @@ export const FATE_WEAVER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Fate Weaver']
+            classes: ['Gambit']
         }
     },
     {
@@ -754,7 +754,7 @@ export const FATE_WEAVER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Fate Weaver']
+            classes: ['Gambit']
         }
     },
     {
@@ -774,7 +774,7 @@ export const FATE_WEAVER_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Fate Weaver']
+            classes: ['Gambit']
         }
     },
     {
@@ -795,7 +795,7 @@ export const FATE_WEAVER_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Fate Weaver']
+            classes: ['Gambit']
         }
     }
 ];
@@ -805,9 +805,9 @@ export const INFERNAL_PATH_ITEMS = [
     ...PYROFIEND_ITEMS,
     ...MINSTREL_ITEMS,
     ...CHRONARCH_ITEMS,
-    ...CHAOS_WEAVER_ITEMS,
-    ...FATE_WEAVER_ITEMS,
-    ...GAMBLER_ITEMS
+    ...HARBINGER_ITEMS,
+    ...GAMBIT_THREADS_ITEMS,
+    ...GAMBIT_ITEMS
 ];
 
 // ===== ZEALOT PATH CLASSES =====
@@ -833,7 +833,7 @@ export const MARTYR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -885,7 +885,7 @@ export const MARTYR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'radiant'
+                damageType: 'ember'
             }
         },
         baseStats: {
@@ -894,7 +894,7 @@ export const MARTYR_ITEMS = [
         },
         combatStats: {
             spellDamage: {
-                radiant: { value: 15, isPercentage: true }
+                ember: { value: 15, isPercentage: true }
             }
         },
         availableFor: {
@@ -942,7 +942,7 @@ export const MARTYR_ITEMS = [
         combatStats: {
             armor: { value: 6, isPercentage: false },
             resistances: {
-                necrotic: { value: 10, isPercentage: false }
+                blight: { value: 10, isPercentage: false }
             }
         },
         baseStats: {
@@ -980,11 +980,11 @@ export const MARTYR_ITEMS = [
     }
 ];
 
-// Exorcist - Holy warrior banishing evil spirits
-export const EXORCIST_ITEMS = [
+// Inquisitor (Exorcist legacy) - Holy warrior banishing evil spirits
+export const INQUISITOR_ITEMS_EX = [
     {
         id: 'exorcist-holy-symbol',
-        name: 'Exorcist\'s Holy Symbol',
+        name: 'Inquisitor\'s Holy Symbol',
         type: 'accessory',
         subtype: 'NECKLACE',
         quality: 'uncommon',
@@ -1000,7 +1000,7 @@ export const EXORCIST_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Exorcist']
+            classes: ['Inquisitor']
         }
     },
     {
@@ -1022,14 +1022,14 @@ export const EXORCIST_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'radiant'
+                damageType: 'ember'
             }
         },
         baseStats: {
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Exorcist']
+            classes: ['Inquisitor']
         }
     },
     {
@@ -1048,7 +1048,7 @@ export const EXORCIST_ITEMS = [
         stackable: true,
         maxStackSize: 5,
         availableFor: {
-            classes: ['Exorcist']
+            classes: ['Inquisitor']
         }
     },
     {
@@ -1071,7 +1071,7 @@ export const EXORCIST_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Exorcist']
+            classes: ['Inquisitor']
         }
     },
     {
@@ -1092,12 +1092,13 @@ export const EXORCIST_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Exorcist']
+            classes: ['Inquisitor']
         }
     }
 ];
 
-// Oracle - Seer with prophetic visions
+// Oracle has been absorbed into Augur (Seer specialization)
+// Oracle's equipment is now available to Augur
 export const ORACLE_ITEMS = [
     {
         id: 'oracle-divination-staff',
@@ -1118,7 +1119,7 @@ export const ORACLE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'psychic'
+                damageType: 'wyrd'
             }
         },
         baseStats: {
@@ -1126,7 +1127,7 @@ export const ORACLE_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Oracle']
+            classes: ['Augur']
         }
     },
     {
@@ -1146,7 +1147,7 @@ export const ORACLE_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Oracle']
+            classes: ['Augur']
         }
     },
     {
@@ -1170,7 +1171,7 @@ export const ORACLE_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Oracle']
+            classes: ['Augur']
         }
     },
     {
@@ -1188,7 +1189,7 @@ export const ORACLE_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Oracle']
+            classes: ['Augur']
         }
     },
     {
@@ -1209,7 +1210,7 @@ export const ORACLE_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Oracle']
+            classes: ['Augur']
         }
     }
 ];
@@ -1235,7 +1236,7 @@ export const FALSE_PROPHET_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -1308,7 +1309,7 @@ export const FALSE_PROPHET_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -1402,7 +1403,7 @@ export const FACTIONIST_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -1498,7 +1499,7 @@ export const PLAGUEBRINGER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'poison'
+                damageType: 'blight'
             }
         },
         baseStats: {
@@ -1592,10 +1593,10 @@ export const PLAGUEBRINGER_ITEMS = [
     }
 ];
 
-// Lichborne - Undead spellcaster with phylactery power
-export const LICHBORNE_ITEMS = [
+// Revenant - Undead spellcaster with phylactery power (merged from Lichborne + Deathcaller as Phase 1.10 consolidation)
+export const REVENANT_ITEMS = [
     {
-        id: 'lichborne-phylactery',
+        id: 'revenant-phylactery',
         name: 'Phylactery',
         type: 'accessory',
         subtype: 'TRINKET',
@@ -1612,11 +1613,11 @@ export const LICHBORNE_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Lichborne']
+            classes: ['Revenant']
         }
     },
     {
-        id: 'lichborne-frost-staff',
+        id: 'revenant-frost-staff',
         name: 'Frost Staff',
         type: 'weapon',
         subtype: 'STAFF',
@@ -1634,7 +1635,7 @@ export const LICHBORNE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'frost'
+                damageType: 'rime'
             }
         },
         baseStats: {
@@ -1642,11 +1643,11 @@ export const LICHBORNE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Lichborne']
+            classes: ['Revenant']
         }
     },
     {
-        id: 'lichborne-undead-robes',
+        id: 'revenant-undead-robes',
         name: 'Undead Robes',
         type: 'armor',
         subtype: 'CLOTH',
@@ -1666,11 +1667,11 @@ export const LICHBORNE_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Lichborne']
+            classes: ['Revenant']
         }
     },
     {
-        id: 'lichborne-soul-gem',
+        id: 'revenant-soul-gem',
         name: 'Soul Gem',
         type: 'accessory',
         subtype: 'TRINKET',
@@ -1686,11 +1687,11 @@ export const LICHBORNE_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Lichborne']
+            classes: ['Revenant']
         }
     },
     {
-        id: 'lichborne-necromantic-tome',
+        id: 'revenant-necromantic-tome',
         name: 'Necromantic Tome',
         type: 'miscellaneous',
         subtype: 'TOOL',
@@ -1709,10 +1710,10 @@ export const LICHBORNE_ITEMS = [
     }
 ];
 
-// Death Caller - Necromancy and soul magic
-export const DEATH_CALLER_ITEMS = [
+// Revenant - Necromancy and soul magic (merged from Death Caller as Phase 1.10 consolidation)
+export const REVENANT_SOUL_ITEMS = [
     {
-        id: 'death-caller-bone-wand',
+        id: 'revenant-bone-wand',
         name: 'Bone Wand',
         type: 'weapon',
         subtype: 'WAND',
@@ -1730,19 +1731,19 @@ export const DEATH_CALLER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'necrotic'
+                damageType: 'blight'
             }
         },
         baseStats: {
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Deathcaller']
+            classes: ['Revenant']
         }
     },
 
     {
-        id: 'death-caller-soul-gem',
+        id: 'revenant-soul-catcher-gem',
         name: 'Soul Gem',
         type: 'accessory',
         subtype: 'TRINKET',
@@ -1758,11 +1759,11 @@ export const DEATH_CALLER_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Deathcaller']
+            classes: ['Revenant']
         }
     },
     {
-        id: 'death-caller-necromancer-robes',
+        id: 'revenant-necromancer-robes',
         name: 'Necromancer\'s Robes',
         type: 'armor',
         subtype: 'CLOTH',
@@ -1782,11 +1783,11 @@ export const DEATH_CALLER_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Deathcaller']
+            classes: ['Revenant']
         }
     },
     {
-        id: 'death-caller-skull-amulet',
+        id: 'revenant-skull-amulet',
         name: 'Skull Amulet',
         type: 'accessory',
         subtype: 'NECKLACE',
@@ -1803,11 +1804,11 @@ export const DEATH_CALLER_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Deathcaller']
+            classes: ['Revenant']
         }
     },
     {
-        id: 'death-caller-soul-catcher',
+        id: 'revenant-soul-catcher',
         name: 'Soul Catcher',
         type: 'miscellaneous',
         subtype: 'TOOL',
@@ -1821,14 +1822,14 @@ export const DEATH_CALLER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Deathcaller']
+            classes: ['Revenant']
         }
     }
 ];
 
 export const ZEALOT_PATH_ITEMS = [
     ...MARTYR_ITEMS,
-    ...EXORCIST_ITEMS,
+    ...INQUISITOR_ITEMS_EX,
     ...FALSE_PROPHET_ITEMS,
     ...ORACLE_ITEMS,
     ...FACTIONIST_ITEMS
@@ -1982,7 +1983,7 @@ export const INSCRIPTOR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -2213,7 +2214,7 @@ export const WITCH_DOCTOR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'nature'
+                damageType: 'primal'
             }
         },
         baseStats: {
@@ -2304,136 +2305,11 @@ export const WITCH_DOCTOR_ITEMS = [
     }
 ];
 
-// Formbender - Shapeshifting druid
-export const FORMBENDER_ITEMS = [
-    {
-        id: 'formbender-primal-staff',
-        name: 'Primal Staff',
-        type: 'weapon',
-        subtype: 'STAFF',
-        quality: 'uncommon',
-        description: 'A living wooden staff that seems to grow and shift. Channels primal energy.',
-        iconId: 'inv_staff_14',
-        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
-        weight: 4,
-        width: 1,
-        height: 3,
-        slots: ['mainHand'],
-        weaponSlot: 'TWO_HANDED',
-        hand: 'TWO_HAND',
-        weaponStats: {
-            baseDamage: {
-                diceCount: 1,
-                diceType: 6,
-                damageType: 'nature'
-            }
-        },
-        baseStats: {
-            spirit: { value: 1, isPercentage: false },
-            agility: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Formbender']
-        }
-    },
-
-    {
-        id: 'formbender-beast-fang-necklace',
-        name: 'Beast Fang Necklace',
-        type: 'accessory',
-        subtype: 'NECKLACE',
-        quality: 'common',
-        description: 'A necklace made from the fangs of various beasts. Enhances primal connection.',
-        iconId: 'inv_jewelry_necklace_15',
-        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
-        weight: 0.5,
-        width: 1,
-        height: 1,
-        slots: ['neck'],
-        baseStats: {
-            agility: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Formbender']
-        }
-    },
-    {
-        id: 'formbender-primal-leathers',
-        name: 'Primal Leathers',
-        type: 'armor',
-        subtype: 'LEATHER',
-        quality: 'common',
-        description: 'Leather armor that stretches and adapts when you shapeshift.',
-        iconId: 'inv_chest_leather_05',
-        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
-        weight: 10,
-        width: 2,
-        height: 2,
-        slots: ['chest'],
-        combatStats: {
-            armor: { value: 2, isPercentage: false }
-        },
-        baseStats: {
-            agility: { value: 2, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Formbender']
-        }
-    },
-    {
-        id: 'formbender-beast-claw',
-        name: 'Beast Claw',
-        type: 'weapon',
-        subtype: 'DAGGER',
-        quality: 'common',
-        description: 'A weapon shaped like a beast\'s claw, perfect for primal combat.',
-        iconId: 'inv_weapon_shortblade_25',
-        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
-        weight: 1,
-        width: 1,
-        height: 2,
-        slots: ['mainHand', 'offHand'],
-        weaponSlot: 'ONE_HANDED',
-        hand: 'ONE_HAND',
-        weaponStats: {
-            baseDamage: {
-                diceCount: 1,
-                diceType: 4,
-                damageType: 'slashing'
-            }
-        },
-        baseStats: {
-            agility: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Formbender']
-        }
-    },
-    {
-        id: 'formbender-shape-totem',
-        name: 'Shape Totem',
-        type: 'miscellaneous',
-        subtype: 'TOOL',
-        quality: 'uncommon',
-        description: 'A totem that stores the essence of various animal forms.',
-        iconId: 'inv_misc_bone_09',
-        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
-        weight: 1,
-        width: 1,
-        height: 1,
-        rotation: 0,
-        stackable: false,
-        availableFor: {
-            classes: ['Formbender']
-        }
-    }
-];
+// Formbender items removed (merged into Shaper)
 
 export const ARCANIST_PATH_ITEMS = [
     ...SPELLGUARD_ITEMS,
-    ...INSCRIPTOR_ITEMS,
-    ...ARCANOPHAGE_ITEMS,
-    ...WITCH_DOCTOR_ITEMS
+    ...ARCANOPHAGE_ITEMS
 ];
 
 // ===== REAVER PATH CLASSES =====
@@ -2459,7 +2335,7 @@ export const BERSERKER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 12,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -2532,7 +2408,7 @@ export const BERSERKER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -2562,257 +2438,10 @@ export const BERSERKER_ITEMS = [
     }
 ];
 
-// Dreadnaught - Fortress-style tank
-export const DREADNAUGHT_ITEMS = [
-    {
-        id: 'dreadnaught-tower-shield',
-        name: 'Tower Shield',
-        type: 'armor',
-        subtype: 'SHIELD',
-        quality: 'uncommon',
-        description: 'A massive shield that can protect you and allies behind you.',
-        iconId: 'inv_shield_06',
-        value: { platinum: 0, gold: 18, silver: 0, copper: 0 },
-        weight: 15,
-        width: 2,
-        height: 3,
-        slots: ['offHand'],
-        armor: 4,
-        baseStats: {
-            constitution: { value: 2, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Dreadnaught']
-        }
-    },
-
-    {
-        id: 'dreadnaught-warhammer',
-        name: 'Heavy Warhammer',
-        type: 'weapon',
-        subtype: 'MACE',
-        quality: 'common',
-        description: 'A one-handed warhammer for crushing foes.',
-        iconId: 'inv_hammer_05',
-        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
-        weight: 5,
-        width: 1,
-        height: 2,
-        slots: ['mainHand'],
-        weaponSlot: 'ONE_HANDED',
-        hand: 'ONE_HAND',
-        weaponStats: {
-            baseDamage: {
-                diceCount: 1,
-                diceType: 8,
-                damageType: 'bludgeoning'
-            }
-        },
-        baseStats: {
-            strength: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Dreadnaught']
-        }
-    },
-    {
-        id: 'dreadnaught-fortress-plate',
-        name: 'Fortress Plate',
-        type: 'armor',
-        subtype: 'PLATE',
-        quality: 'uncommon',
-        description: 'Heavy plate armor designed to make you an immovable fortress.',
-        iconId: 'inv_chest_plate_03',
-        value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
-        weight: 35,
-        width: 2,
-        height: 2,
-        slots: ['chest'],
-        combatStats: {
-            armor: { value: 6, isPercentage: false }
-        },
-        baseStats: {
-            constitution: { value: 2, isPercentage: false },
-            strength: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Dreadnaught']
-        }
-    },
-    {
-        id: 'dreadnaught-bastion-helmet',
-        name: 'Bastion Helmet',
-        type: 'armor',
-        subtype: 'HELMET',
-        quality: 'common',
-        description: 'A heavy helmet that provides maximum protection.',
-        iconId: 'inv_helmet_plate_03',
-        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
-        weight: 5,
-        width: 1,
-        height: 1,
-        slots: ['head'],
-        combatStats: {
-            armor: { value: 1, isPercentage: false }
-        },
-        baseStats: {
-            constitution: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Dreadnaught']
-        }
-    },
-    {
-        id: 'dreadnaught-siege-ram',
-        name: 'Siege Ram',
-        type: 'weapon',
-        subtype: 'MACE',
-        quality: 'uncommon',
-        description: 'A massive ramming weapon for breaking through enemy lines.',
-        iconId: 'inv_hammer_13',
-        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
-        weight: 8,
-        width: 2,
-        height: 3,
-        slots: ['mainHand'],
-        weaponSlot: 'TWO_HANDED',
-        hand: 'TWO_HAND',
-        weaponStats: {
-            baseDamage: {
-                diceCount: 2,
-                diceType: 6,
-                damageType: 'bludgeoning'
-            }
-        },
-        baseStats: {
-            strength: { value: 2, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Dreadnaught']
-        }
-    }
-];
-
-// Titan - Gravity manipulation warrior
-export const TITAN_ITEMS = [
-    {
-        id: 'titan-gravity-maul',
-        name: 'Gravity Maul',
-        type: 'weapon',
-        subtype: 'MACE',
-        quality: 'uncommon',
-        description: 'A massive maul that seems impossibly heavy. Channels gravitational force.',
-        iconId: 'inv_hammer_13',
-        value: { platinum: 0, gold: 16, silver: 0, copper: 0 },
-        weight: 10,
-        width: 2,
-        height: 3,
-        slots: ['mainHand'],
-        weaponSlot: 'TWO_HANDED',
-        hand: 'TWO_HAND',
-        weaponStats: {
-            baseDamage: {
-                diceCount: 2,
-                diceType: 6,
-                damageType: 'bludgeoning'
-            }
-        },
-        baseStats: {
-            strength: { value: 3, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Titan']
-        }
-    },
-    {
-        id: 'titan-gravity-plate',
-        name: 'Gravity Plate',
-        type: 'armor',
-        subtype: 'PLATE',
-        quality: 'uncommon',
-        description: 'Heavy plate armor that manipulates gravity around you.',
-        iconId: 'inv_chest_plate_03',
-        value: { platinum: 0, gold: 18, silver: 0, copper: 0 },
-        weight: 40,
-        width: 2,
-        height: 2,
-        slots: ['chest'],
-        combatStats: {
-            armor: { value: 5, isPercentage: false }
-        },
-        baseStats: {
-            strength: { value: 2, isPercentage: false },
-            constitution: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Titan']
-        }
-    },
-    {
-        id: 'titan-gravity-core',
-        name: 'Gravity Core',
-        type: 'accessory',
-        subtype: 'TRINKET',
-        quality: 'uncommon',
-        description: 'A dark crystal that pulses with gravitational energy.',
-        iconId: 'inv_misc_gem_azuredraenite_01',
-        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
-        weight: 1,
-        width: 1,
-        height: 1,
-        slots: ['trinket1', 'trinket2'],
-        baseStats: {
-            strength: { value: 2, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Titan']
-        }
-    },
-    {
-        id: 'titan-strain-brace',
-        name: 'Strain Brace',
-        type: 'accessory',
-        subtype: 'RING',
-        quality: 'common',
-        description: 'A ring that helps manage gravitational strain.',
-        iconId: 'inv_jewelry_ring_07',
-        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
-        weight: 0.1,
-        width: 1,
-        height: 1,
-        slots: ['ring1', 'ring2'],
-        baseStats: {
-            constitution: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Titan']
-        }
-    },
-    {
-        id: 'titan-gravity-tome',
-        name: 'Tome of Gravity',
-        type: 'miscellaneous',
-        subtype: 'TOOL',
-        quality: 'uncommon',
-        description: 'A book containing techniques for manipulating gravitational forces.',
-        iconId: 'inv_misc_book_09',
-        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
-        weight: 2,
-        width: 1,
-        height: 2,
-        rotation: 0,
-        stackable: false,
-        availableFor: {
-            classes: ['Titan']
-        }
-    }
-];
+// 'Dreadnaught' items removed (absorbed into Martyr as Ironclad specialization)
 
 export const REAVER_PATH_ITEMS = [
-    ...BERSERKER_ITEMS,
-    ...DREADNAUGHT_ITEMS,
-    ...TITAN_ITEMS,
-    ...FORMBENDER_ITEMS
+    ...BERSERKER_ITEMS
 ];
 
 // ===== MERCENARY PATH CLASSES =====
@@ -2838,7 +2467,7 @@ export const TOXICOLOGIST_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         specialEffect: 'When a weapon poison is active, the first attack each turn deals +1d4 poison damage.',
@@ -2954,8 +2583,8 @@ export const TOXICOLOGIST_ITEMS = [
     }
 ];
 
-// Covenbane - Anti-magic specialist
-export const COVENBANE_ITEMS = [
+// Inquisitor - Anti-magic specialist (formerly Covenbane)
+export const INQUISITOR_ITEMS = [
     {
         id: 'covenbane-nullifying-blade',
         name: 'Nullifying Blade',
@@ -2975,7 +2604,7 @@ export const COVENBANE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -2983,7 +2612,7 @@ export const COVENBANE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Covenbane']
+            classes: ['Inquisitor']
         }
     },
     {
@@ -3007,7 +2636,7 @@ export const COVENBANE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Covenbane']
+            classes: ['Inquisitor']
         }
     },
     {
@@ -3028,7 +2657,7 @@ export const COVENBANE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Covenbane']
+            classes: ['Inquisitor']
         }
     },
     {
@@ -3046,7 +2675,7 @@ export const COVENBANE_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Covenbane']
+            classes: ['Inquisitor']
         }
     },
     {
@@ -3066,15 +2695,15 @@ export const COVENBANE_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Covenbane']
+            classes: ['Inquisitor']
         }
     }
 ];
 
-// Bladedancer - Agility-based dual wielder
-export const BLADEDANCER_ITEMS = [
+// Shaper - Kinetic biology combatant (merged Bladedancer + Formbender)
+export const SHAPER_ITEMS = [
     {
-        id: 'bladedancer-twin-blades',
+        id: 'shaper-twin-blades',
         name: 'Twin Dancing Blades',
         type: 'weapon',
         subtype: 'SWORD',
@@ -3092,19 +2721,19 @@ export const BLADEDANCER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
             agility: { value: 3, isPercentage: false }
         },
         availableFor: {
-            classes: ['Bladedancer']
+            classes: ['Shaper']
         }
     },
 
     {
-        id: 'bladedancer-light-armor',
+        id: 'shaper-light-armor',
         name: 'Dancer\'s Leathers',
         type: 'armor',
         subtype: 'LEATHER',
@@ -3123,11 +2752,11 @@ export const BLADEDANCER_ITEMS = [
             agility: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Bladedancer']
+            classes: ['Shaper']
         }
     },
     {
-        id: 'bladedancer-grace-ring',
+        id: 'shaper-grace-ring',
         name: 'Ring of Grace',
         type: 'accessory',
         subtype: 'RING',
@@ -3143,11 +2772,11 @@ export const BLADEDANCER_ITEMS = [
             agility: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Bladedancer']
+            classes: ['Shaper']
         }
     },
     {
-        id: 'bladedancer-flourish-cloak',
+        id: 'shaper-flourish-cloak',
         name: 'Flourish Cloak',
         type: 'armor',
         subtype: 'CLOAK',
@@ -3163,11 +2792,11 @@ export const BLADEDANCER_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Bladedancer']
+            classes: ['Shaper']
         }
     },
     {
-        id: 'bladedancer-dance-manual',
+        id: 'shaper-dance-manual',
         name: 'Dance Manual',
         type: 'miscellaneous',
         subtype: 'TOOL',
@@ -3181,7 +2810,7 @@ export const BLADEDANCER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Bladedancer']
+            classes: ['Shaper']
         }
     }
 ];
@@ -3349,8 +2978,8 @@ export const PRIMALIST_ITEMS = [
         combatStats: {
             armor: { value: 2, isPercentage: false },
             resistances: {
-                fire: { value: 5, isPercentage: false },
-                cold: { value: 5, isPercentage: false }
+                ember: { value: 5, isPercentage: false },
+                rime: { value: 5, isPercentage: false }
             }
         },
         baseStats: {
@@ -3403,9 +3032,9 @@ export const PRIMALIST_ITEMS = [
         hand: 'ONE_HAND',
         combatStats: {
             spellDamage: {
-                fire: { value: 10, isPercentage: true },
-                cold: { value: 10, isPercentage: true },
-                lightning: { value: 10, isPercentage: true }
+                ember: { value: 10, isPercentage: true },
+                rime: { value: 10, isPercentage: true },
+                storm: { value: 10, isPercentage: true }
             }
         },
         baseStats: {
@@ -3442,10 +3071,9 @@ export const PRIMALIST_ITEMS = [
 
 export const MERCENARY_PATH_ITEMS = [
     ...TOXICOLOGIST_ITEMS,
-    ...COVENBANE_ITEMS,
-    ...BLADEDANCER_ITEMS,
-    ...ARCANONEER_ITEMS,
-    ...PRIMALIST_ITEMS
+    ...INQUISITOR_ITEMS,
+    ...SHAPER_ITEMS,
+    ...ARCANONEER_ITEMS
 ];
 
 // ===== SENTINEL PATH CLASSES =====
@@ -3471,7 +3099,7 @@ export const LUNARCH_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'radiant'
+                damageType: 'ember'
             }
         },
         baseStats: {
@@ -3566,10 +3194,10 @@ export const LUNARCH_ITEMS = [
     }
 ];
 
-// Huntress - Ranged tracker with quarry marks
-export const HUNTRESS_ITEMS = [
+// Apex - Ranged tracker with quarry marks
+export const APEX_ITEMS = [
     {
-        id: 'huntress-shadow-glaive',
+        id: 'apex-shadow-glaive',
         name: 'Shadow Glaive',
         type: 'weapon',
         subtype: 'POLEARM',
@@ -3587,7 +3215,7 @@ export const HUNTRESS_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 10,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -3595,11 +3223,11 @@ export const HUNTRESS_ITEMS = [
             strength: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Huntress']
+            classes: ['Apex']
         }
     },
     {
-        id: 'huntress-tracking-gear',
+        id: 'apex-tracking-gear',
         name: 'Tracker\'s Gear',
         type: 'armor',
         subtype: 'LEATHER',
@@ -3618,11 +3246,11 @@ export const HUNTRESS_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Huntress']
+            classes: ['Apex']
         }
     },
     {
-        id: 'huntress-tracking-kit',
+        id: 'apex-tracking-kit',
         name: 'Tracking Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
@@ -3639,11 +3267,11 @@ export const HUNTRESS_ITEMS = [
             perception: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Huntress']
+            classes: ['Apex']
         }
     },
     {
-        id: 'huntress-prey-mark',
+        id: 'apex-prey-mark',
         name: 'Prey Mark',
         type: 'accessory',
         subtype: 'TRINKET',
@@ -3659,16 +3287,16 @@ export const HUNTRESS_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Huntress']
+            classes: ['Apex']
         }
     },
     {
-        id: 'huntress-companion-bond-token',
+        id: 'apex-companion-bond-token',
         name: 'Companion Bond Token',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A carved bone token representing the bond between Huntress and companion. Your companion gains +5 maximum HP and +1 to attack rolls.',
+        description: 'A carved bone token representing the bond between Apex and companion. Your companion gains +5 maximum HP and +1 to attack rolls.',
         iconId: 'inv_misc_gem_pearl_04',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
@@ -3679,7 +3307,7 @@ export const HUNTRESS_ITEMS = [
             strength: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Huntress']
+            classes: ['Apex']
         }
     }
 ];
@@ -3705,7 +3333,7 @@ export const WARDEN_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -3827,7 +3455,7 @@ export const JUSTICAR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'radiant'
+                damageType: 'ember'
             }
         },
         baseStats: {
@@ -3946,7 +3574,7 @@ export const OATHKEEPER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -4044,7 +3672,7 @@ export const OATHKEEPER_ITEMS = [
 
 export const SENTINEL_PATH_ITEMS = [
     ...LUNARCH_ITEMS,
-    ...HUNTRESS_ITEMS,
+    ...APEX_ITEMS,
     ...WARDEN_ITEMS,
     ...JUSTICAR_ITEMS,
     ...OATHKEEPER_ITEMS
@@ -4073,7 +3701,7 @@ export const HEXER_PATH_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'necrotic'
+                damageType: 'blight'
             }
         },
         baseStats: {
@@ -4115,9 +3743,9 @@ export const HEXER_PATH_ITEMS = [
 
 // Harrow Path Classes
 export const HARROW_PATH_ITEMS = [
-    ...LICHBORNE_ITEMS,
+    ...REVENANT_ITEMS,
     ...PLAGUEBRINGER_ITEMS,
-    ...DEATH_CALLER_ITEMS,
+    ...REVENANT_SOUL_ITEMS,
     {
         id: 'harrow-hunting-bow',
         name: 'Hunter\'s Bow',
@@ -4137,7 +3765,7 @@ export const HARROW_PATH_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -4213,7 +3841,7 @@ export const AUGUR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'psychic'
+                damageType: 'wyrd'
             }
         },
         availableFor: {
@@ -4265,104 +3893,6 @@ export const AUGUR_ITEMS = [
     }
 ];
 
-// ===== DOOMSAYER - Prophet of Catastrophe =====
-
-export const DOOMSAYER_ITEMS = [
-    {
-        id: 'doomsayer-apocalypse-tome',
-        name: 'Apocrypha',
-        type: 'weapon',
-        subtype: 'TOME',
-        quality: 'uncommon',
-        description: 'A heavy iron-bound tome filled with catastrophic prophecies. Pages whisper doom to those who read them.',
-        iconId: 'inv_misc_book_06',
-        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
-        weight: 5,
-        width: 1,
-        height: 2,
-        slots: ['mainHand'],
-        weaponSlot: 'TWO_HANDED',
-        hand: 'TWO_HAND',
-        weaponStats: {
-            baseDamage: {
-                diceCount: 1,
-                diceType: 8,
-                damageType: 'necrotic'
-            }
-        },
-        baseStats: {
-            intelligence: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Doomsayer']
-        }
-    },
-    {
-        id: 'doomsayer-prophet-vestments',
-        name: "Prophet's Vestments",
-        type: 'armor',
-        subtype: 'CLOTH',
-        quality: 'uncommon',
-        description: 'Tattered robes stained with ash and prophecy ink. The fabric seems to shift with unseen catastrophes.',
-        iconId: 'inv_chest_cloth_24',
-        value: { platinum: 0, gold: 8, silver: 50, copper: 0 },
-        weight: 3,
-        width: 1,
-        height: 2,
-        slots: ['chest'],
-        armorStats: {
-            armor: { value: 2, isPercentage: false }
-        },
-        baseStats: {
-            spirit: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Doomsayer']
-        }
-    },
-    {
-        id: 'doomsayer-bone-dice',
-        name: 'Cast of Ruin',
-        type: 'trinket',
-        subtype: 'TRINKET',
-        quality: 'uncommon',
-        description: 'A pair of bone dice etched with prophecy runes. The numbers always seem to land on catastrophe.',
-        iconId: 'inv_misc_dice_02',
-        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
-        weight: 1,
-        width: 1,
-        height: 1,
-        slots: ['trinket'],
-        baseStats: {
-            spirit: { value: 1, isPercentage: false },
-            intelligence: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Doomsayer']
-        }
-    },
-    {
-        id: 'doomsayer-ashes-pouch',
-        name: 'Ashen Reagent Pouch',
-        type: 'trinket',
-        subtype: 'TRINKET',
-        quality: 'uncommon',
-        description: 'A scorched leather pouch containing grave dust, burnt offerings, and prophecy bones. The ashes shimmer with latent doom energy.',
-        iconId: 'inv_misc_bag_14',
-        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
-        weight: 1,
-        width: 1,
-        height: 1,
-        slots: ['trinket'],
-        baseStats: {
-            spirit: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            classes: ['Doomsayer']
-        }
-    }
-];
-
 // ===== COMBINED EXPORT =====
 
 export const ALL_CLASS_EQUIPMENT = [
@@ -4375,6 +3905,6 @@ export const ALL_CLASS_EQUIPMENT = [
     ...HEXER_PATH_ITEMS,
     ...HARROW_PATH_ITEMS,
     ...AUGUR_ITEMS,
-    ...DOOMSAYER_ITEMS
+    ...HARBINGER_ITEMS
 ];
 

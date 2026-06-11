@@ -264,7 +264,7 @@ const AppContent = ({ hideHeader = false }) => {
         // Use properly extracted damage types
         damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes : 
                     (wizardState.damageTypes || 
-                    (wizardState.damageConfig?.elementType ? [wizardState.damageConfig.elementType] : ['force'])),
+                    (wizardState.damageConfig?.elementType ? [wizardState.damageConfig.elementType] : ['arcane'])),
         tags: [
           ...(wizardState.typeConfig?.tags || []),
           ...(wizardState.effectTypes || []),
@@ -1090,7 +1090,7 @@ const SettingsModal = ({ onClose }) => {
 const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [spellName, setSpellName] = useState('');
-  const [damageType, setDamageType] = useState('fire');
+  const [damageType, setDamageType] = useState('ember');
 
   // Quick spell templates
   const quickTemplates = [
@@ -1118,19 +1118,19 @@ const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
   ];
 
   const damageTypes = [
-    { id: 'fire', name: 'Fire' },
-    { id: 'cold', name: 'Cold' },
-    { id: 'lightning', name: 'Lightning' },
-    { id: 'acid', name: 'Acid' },
-    { id: 'necrotic', name: 'Necrotic' },
-    { id: 'radiant', name: 'Radiant' },
-    { id: 'force', name: 'Force' },
-    { id: 'psychic', name: 'Psychic' },
-    { id: 'poison', name: 'Poison' },
-    { id: 'thunder', name: 'Thunder' },
-    { id: 'bludgeoning', name: 'Bludgeoning' },
-    { id: 'piercing', name: 'Piercing' },
-    { id: 'slashing', name: 'Slashing' }
+    { id: 'ember', name: 'ember' },
+    { id: 'rime', name: 'rime' },
+    { id: 'storm', name: 'storm' },
+    { id: 'blight', name: 'blight' },
+    { id: 'blight', name: 'blight' },
+    { id: 'ember', name: 'ember' },
+    { id: 'arcane', name: 'arcane' },
+    { id: 'wyrd', name: 'wyrd' },
+    { id: 'blight', name: 'blight' },
+    { id: 'storm', name: 'storm' },
+    { id: 'physical', name: 'physical' },
+    { id: 'physical', name: 'physical' },
+    { id: 'physical', name: 'physical' }
   ];
 
   const generateSpell = () => {

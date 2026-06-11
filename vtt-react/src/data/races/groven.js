@@ -15,7 +15,7 @@ The Groven are the children of the vats and the crags — humanoid troll-kin for
   integrationNotes: {
     actionPointSystem: 'Groven abilities emphasize bridge-craft, stone resilience, long-limbed reach, and the spiritual legacy of the Still-Claiming. Their troll-kin heritage balances physical endurance with predatory agility.',
     backgroundSynergy: 'Groven excel in backgrounds emphasizing high mountain survival, bridge-tending, toll-negotiation, stone-lichen weaving, and Fexric trade diplomacy.',
-    classCompatibility: 'The Morgh favor Primalists and Titans, calling upon their heavy stone-scales and raw Thrumm ancestry to serve as frontline juggernauts and immovable protectors of the warren-hearth. The Ithran favor Gamblers, Augurs, and Fate Weavers, utilizing their caste privilege as bridge-negotiators and diplomats to read the winds of probability, predict winter gales, and navigate the delicate threads of consequence as they bear the weight of the Lost Brood’s unresolved debt.'
+    classCompatibility: 'The Morgh favor Animists and Wardens (Monolith), calling upon their heavy stone-scales and raw Thrumm ancestry to serve as frontline juggernauts and immovable protectors of the warren-hearth. The Ithran favor Gambit and Augurs, utilizing their caste privilege as bridge-negotiators and diplomats to read the winds of probability, predict winter gales, and navigate the delicate threads of consequence as they bear the weight of the Lost Brood’s unresolved debt.'
   },
   meaningfulTradeoffs: 'Groven possess stone-scale armor and superior climbing reach, but their mineral hide betrays them to flame, their long limbs leave defensive gaps, and their bodies sink in deep water — the stone that protects them also drags them down.',
   baseTraits: {
@@ -132,6 +132,50 @@ Death comes for every Groven, and the Still-Claiming follows within hours — a 
 
 The toll is sacred. Every outsider who crosses an Ancestor-Span must pay something — coin if they carry it, goods if they have none, a story if they have nothing else, a breath of warmth if the story is insufficient. The Morgh collect the toll with heavy, patient hands. The Ithran set the rate with the cold, practiced precision of those who know exactly what a bridge is worth because they have spent their lives walking graves. Both castes know, in the unspoken kinship of shared purpose, that the toll is not about wealth. It is about acknowledgment. The bridges were made of Groven dead — calcified, willing, permanent. To cross without paying is to walk over a grave and pretend the body beneath you does not exist. No Groven forgives this. The mountain remembers what the traveler pretends to forget.
   `,
+  sharedTraits: [
+    {
+      id: 'vat_sleep',
+      name: 'Vat-Sleep',
+      description: 'Every Groven carries the Vat-Sleep in their blood — the monthly dream of warm fluid and cold glass, of blurred alchemists peering through their prison, of the first scream that has never stopped echoing through the stone of Frostmaw Crag. The dream arrives without warning, always the same, a tithe paid to an origin no Groven chose. But the serums that shaped you also preserved the memory of your ancestors — the Thrumm who walked the deep crags before the Fexric ever arrived. Once per long rest, when you make an Intelligence (History) check related to the Cragjaw Peaks, ancient Thrumm, Groven ancestors, or Fexric alchemy, you may roll with advantage as the Vat-Sleep surfaces fragments of ancestral knowledge. When you wake from the Vat-Sleep, you are Disoriented for 10 minutes (-2 to all Perception checks) as the boundary between dream and waking blurs — for those ten minutes, you are still half-submerged in glass.',
+      level: 1,
+      icon: 'spell_holy_innerfire',
+      spellType: 'PASSIVE',
+      effectTypes: ['buff', 'debuff'],
+      typeConfig: { category: 'racial', school: 'physical', tags: ['vat-sleep', 'ancestral', 'passive', 'shared'] },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{ id: 'vat_sleep_knowledge', name: 'Ancestral Memory', description: 'Once per long rest, advantage on Intelligence (History) checks related to the Cragjaw Peaks, ancient Thrumm, Groven ancestors, or Fexric alchemy.', statModifier: { stat: 'history', magnitude: 1, magnitudeType: 'advantage', conditions: { grovenLore: true, usesPerRest: 1 } } }],
+        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+      },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{ id: 'vat_sleep_hangover', name: 'Disoriented', description: '-2 to all Perception checks for 10 minutes upon waking from the Vat-Sleep.', statModifier: { stat: 'perception', magnitude: -2, magnitudeType: 'flat', duration: 10, durationUnit: 'minutes' } }],
+        durationValue: 10, durationType: 'timed', durationUnit: 'minutes', canBeDispelled: false
+      },
+      targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+      resourceCost: { actionPoints: 0, mana: 0, components: [] },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+    },
+    {
+      id: 'still_claiming',
+      name: 'Still-Claiming',
+      description: 'The mountain takes back what it gave. Every Groven knows this — feels it in the gradual stiffening of scales, the slow mineral creep at the joints, the way stone-scales grow thicker with age as the body prepares itself for the final calcification. When you are reduced to 0 hit points but not killed outright, you may choose to trigger the Still-Claiming early: your body calcifies into a temporary statue of living stone instead of falling Unconscious. While calcified, you are Petrified — immune to all damage but unable to move, speak, or act. Adjacent allies gain Half Cover (+2 AC) from your stone form. At the start of your next turn, the calcification cracks and crumbles, and you fall Unconscious at 0 HP (stable). This ability cannot be used again until you complete a long rest — the mountain will not be called lightly, and each premature calcification taxes the body more than the last.',
+      level: 1,
+      icon: 'spell_nature_stone',
+      spellType: 'REACTION',
+      effectTypes: ['buff', 'utility'],
+      typeConfig: { category: 'racial', school: 'physical', tags: ['still-claiming', 'calcification', 'defense', 'shared'] },
+      buffConfig: {
+        buffType: 'cover',
+        effects: [{ id: 'stone_body_cover', name: 'Stone Form', description: 'Your calcified body provides Half Cover (+2 AC) to adjacent allies until the start of your next turn.' }],
+        durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: false
+      },
+      utilityConfig: { utilityType: 'defense', selectedEffects: [{ id: 'death_delay_utility', name: 'Calcification', description: 'Petrified for 1 round instead of falling Unconscious at 0 HP. Cannot act but immune to damage. Stabilized when calcification ends.' }] },
+      targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+      resourceCost: { actionPoints: 0, mana: 0, components: [] },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+    }
+  ],
   subraces: {
     morgh: {
       id: 'morgh_groven',
@@ -342,8 +386,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         initiative: -1
       },
       savingThrowModifiers: {
-        advantage: ['paralyzed', 'grappled', 'forced_movement'],
-        disadvantage: ['fire_effects']
+        advantage: ['petrified', 'root', 'knockback'],
+        disadvantage: ['ember']
       }
     },
     ithran: {
@@ -406,7 +450,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 type: 'vat_restlessness',
                 triggerCondition: 'stationary_in_combat',
                 damagePerRound: 1,
-                damageType: 'psychic'
+                damageType: 'wyrd'
               }
             }],
             durationValue: 0,
@@ -527,7 +571,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 statusEffect: {
                   type: 'self_damage',
                   damage: 1,
-                  damageTypes: ['necrotic']
+                  damageTypes: ['blight']
                 }
               },
               {
@@ -572,8 +616,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         initiative: 2
       },
       savingThrowModifiers: {
-        advantage: ['fear', 'charmed', 'insight_checks'],
-        disadvantage: ['fire_effects']
+        advantage: ['fear', 'charm', 'intelligence'],
+        disadvantage: ['ember']
       }
     }
   }

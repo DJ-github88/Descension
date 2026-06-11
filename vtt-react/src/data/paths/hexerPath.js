@@ -12,7 +12,7 @@ export const HEXER_PATH = {
     integrationNotes: {
         actionPointSystem: 'Hexer abilities focus on curses, debuffs, and dark magic.',
         backgroundSynergy: 'Works well with Hermit or Outlander backgrounds.',
-        classCompatibility: 'Strong with Witch Doctor, Plaguebringer, or Covenbane classes.'
+        classCompatibility: 'Strong with Animist, Plaguebringer, or Inquisitor classes.'
     },
 
     roleplayingTips: [
@@ -112,7 +112,7 @@ export const HEXER_PATH = {
                         name: 'Reflected Curse',
                         description: 'The attacker receives their own curse effect. They take 2d6 necrotic damage and have disadvantage on their next attack roll.',
                         dotFormula: '2d6',
-                        dotDamageType: 'necrotic',
+                        dotDamageType: 'blight',
                         damagePerTurn: '2d6',
                         statPenalty: { stat: 'attack', value: -99, magnitudeType: 'disadvantage' },
                         mechanicsText: '2d6 necrotic damage and disadvantage on next attack roll'
@@ -326,7 +326,7 @@ export const HEXER_PATH = {
             spellType: 'ACTION',
             tags: ['action', 'damage', 'curse', 'spirit', 'ranged'],
             effectTypes: ['damage'],
-            damageTypes: ['necrotic', 'psychic'],
+            damageTypes: ['blight', 'wyrd'],
 
             damageConfig: {
                 damageType: 'direct',

@@ -1,4 +1,7 @@
 export const fexrick = {
+    // Naming convention: "Fexrick" = singular collective noun (the race as a whole).
+    // "Fexric" = adjective/plural form (the Fexric people, Fexric engineering, Fexric alchemy).
+    // The race file is "fexrick.js", the id is "fexrick", and the adjective form is "Fexric".
     id: 'fexrick',
     name: 'Fexrick',
     essence: 'The Cyber-Graft Guilds of the Cragjaw Sumps',
@@ -43,7 +46,7 @@ Their architecture is practical, exposed, and glowing. Nothing is hidden behind 
     integrationNotes: {
         actionPointSystem: 'Fexric abilities focus on tinkering, alchemical crafting, trap-setting, and lightning vulnerability from their conductive cybernetic replacements. Guild-Bound excel at precision and knowledge-based abilities. Clan-Free excel at improvisation and self-reliance.',
         backgroundSynergy: 'Fexric excel in backgrounds emphasizing craft, trade, survival, and hidden knowledge. Their isolationist culture and guild politics create deep roleplay hooks around hoarded secrets, forbidden experiments, and the weight of being the creators of both the Groven and the Fexrick.',
-        classCompatibility: 'The Guild-Bound favor Inscriptors, Arcanoneers, Spellguards, and Chronarchs, utilizing their formal education, precision gear-craft, and proprietary blueprints to control machinery, construct defensive arrays, and manipulate temporal gears. The Clan-Free favor Toxicologists, Formbenders, Gamblers, and Plaguebringers, relying on alchemical runoff, homebrew nerve-grafts, and reckless improvisation to survive in the sump-markets outside the guild protections.'
+        classCompatibility: 'The Guild-Bound favor Animists, Arcanoneers, Spellguards, and Chronarchs, utilizing their formal education, precision gear-craft, and proprietary blueprints to channel ancestral bindings, construct defensive arrays, and manipulate temporal gears. The Clan-Free favor Toxicologists, Shapers, Gambit, and Plaguebringers, relying on alchemical runoff, homebrew nerve-grafts, and reckless improvisation to survive in the sump-markets outside the guild protections.'
     },
 
     meaningfulTradeoffs: 'Fexric gain exceptional crafting abilities and the ancient knowledge of their oral traditions, but their conductive mechanical body parts make them catastrophically vulnerable to lightning. Their Still-Air Sense is invaluable underground but leaves them disoriented and anxious on the surface. And the weight of their history — the Groven rebellion, the Fexrick denial, the Deep Alchemists\' ongoing experiments — follows every Fexric who ventures beyond the holdfasts.',

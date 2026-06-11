@@ -13,6 +13,11 @@ const getQualityColor = (quality) => {
     return RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
 };
 
+const getQualityBorderColor = (quality) => {
+    const qualityLower = quality?.toLowerCase() || 'common';
+    return RARITY_COLORS[qualityLower]?.border || RARITY_COLORS.common.border;
+};
+
 const getDiceValue = (die) => {
     if (!die) return 0;
     if (typeof die === 'number') return die;
@@ -172,7 +177,7 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                         width: 60px;
                         height: 80px;
                         background-color: rgba(255, 255, 255, 0.9);
-                        border: 2px solid ${getQualityColor(item.quality)};
+                        border: 2px solid ${getQualityBorderColor(item.quality)};
                         border-radius: 6px;
                         display: flex;
                         flex-direction: column;
@@ -282,7 +287,7 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
             <div
                 ref={cardRef}
                 className={`item-card ${isSelected ? 'selected' : ''}`}
-                style={{ borderColor: getQualityColor(item.quality) }}
+                style={{ borderColor: getQualityBorderColor(item.quality) }}
                 onClick={(e) => onClick?.(e, item)}
                 onContextMenu={(e) => {
                     e.preventDefault();

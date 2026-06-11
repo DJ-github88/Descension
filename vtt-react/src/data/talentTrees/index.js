@@ -3,17 +3,9 @@
 // ============================================
 
 // Import all class talent trees
-export {
-  DREADNAUGHT_SHADOW_CITADEL,
-  DREADNAUGHT_SUFFERING_WEAVER,
-  DREADNAUGHT_DOOM_BRINGER
-} from './dreadnaught.js';
+// 'Dreadnaught' talent trees removed (absorbed into Martyr as Ironclad specialization)
 
-export {
-  TITAN_COLOSSAL_STRENGTH,
-  TITAN_EARTH_DOMINION,
-  TITAN_STRAIN_ENDURANCE
-} from './titan.js';
+// Titan talent trees removed (absorbed into Warden as Monolith specialization)
 
 export {
   TOXICOLOGIST_VENOMANCER,
@@ -40,23 +32,22 @@ export {
 } from './chronarch.js';
 
 export {
-  CHAOS_WEAVER_REALITY_BENDING,
-  CHAOS_WEAVER_ENTROPY_CONTROL,
-  CHAOS_WEAVER_CHAOS_DICE,
-  CHAOS_WEAVER_WILD_MAGIC
-} from './chaosweaver.js';
+  HARBINGER_WILD_PROPHET,
+  HARBINGER_DEATHS_SEER,
+  HARBINGER_FATE_RIFT
+} from './harbinger.js';
 
 export {
-  FATE_WEAVER_FORTUNE_TELLER,
-  FATE_WEAVER_CARD_MASTER,
-  FATE_WEAVER_THREAD_WEAVER
-} from './fateweaver.js';
+  GAMBIT_FORTUNE_TELLER,
+  GAMBIT_CARD_MASTER,
+  GAMBIT_THREAD_WEAVER
+} from './gambit.js';
 
 export {
-  GAMBLER_LUCK_MANIPULATION,
-  GAMBLER_RISK_MANAGEMENT,
-  GAMBLER_FATE_CONTROL
-} from './gambler.js';
+  GAMBIT_LUCK_MANIPULATION,
+  GAMBIT_RISK_MANAGEMENT,
+  GAMBIT_FATE_CONTROL
+} from './gambit.js';
 
 export {
   MARTYR_REDEMPTION,
@@ -70,17 +61,13 @@ export {
   FALSE_PROPHET_CULTIST
 } from './falseprophet.js';
 
+// Inquisitor talent trees (merged from Covenbane + Exorcist in Phase 1.9)
 export {
-  EXORCIST_DEMONOLOGIST,
-  EXORCIST_DEMON_LORD,
-  EXORCIST_POSSESSED
-} from './exorcist.js';
+  INQUISITOR_WITCH_HAMMER,
+  INQUISITOR_IRON_VERDICT,
+  INQUISITOR_HOLLOW_SAINT
+} from './inquisitor.js';
 
-export {
-  ORACLE_SEER,
-  ORACLE_TRUTHSEEKER,
-  ORACLE_FATESEER
-} from './oracle.js';
 
 export {
   PLAGUEBRINGER_VIRULENT_SPREADER,
@@ -88,11 +75,12 @@ export {
   PLAGUEBRINGER_DECAY_HARBINGER
 } from './plaguebringer.js';
 
+// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
 export {
-  LICHBORNE_FROSTBOUND_TYRANT,
-  LICHBORNE_SPECTRAL_REAPER,
-  LICHBORNE_PHYLACTERY_GUARDIAN
-} from './lichborne.js';
+  REVENANT_SANGUINE_HARVEST,
+  REVENANT_FROST_SOVEREIGN,
+  REVENANT_PHYLACTERY_ANCHOR
+} from './revenant.js';
 
 export {
   SPELLGUARD_ARCANE_WARDEN,
@@ -119,10 +107,10 @@ export {
 } from './witchdoctor.js';
 
 export {
-  FORMBENDER_METAMORPH,
-  FORMBENDER_FORM_THIEF,
-  FORMBENDER_PRIMORDIAL
-} from './formbender.js';
+  SHAPER_FLOW_MASTER,
+  SHAPER_IRON_DANCER,
+  SHAPER_PRIMAL_SHADOW
+} from './shaper.js';
 
 export {
   BERSERKER_PRIMAL_RAGE,
@@ -136,11 +124,12 @@ export {
   PRIMALIST_SPIRITCALLER
 } from './primalist.js';
 
+// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
 export {
-  DEATHCALLER_BLOOD_REAVER,
-  DEATHCALLER_SPECTRAL_MASTER,
-  DEATHCALLER_VOID_CALLER
-} from './deathcaller.js';
+  REVENANT_SANGUINE_HARVEST,
+  REVENANT_FROST_SOVEREIGN,
+  REVENANT_PHYLACTERY_ANCHOR
+} from './revenant.js';
 
 export {
   AUGUR_AUSPICE,
@@ -148,11 +137,7 @@ export {
   AUGUR_HIEROPHANT
 } from './augur.js';
 
-export {
-  DOOMSAYER_REQUIEM,
-  DOOMSAYER_ENDBRINGER,
-  DOOMSAYER_CATACLYSM
-} from './doomsayer.js';
+
 
 // Re-export all existing talent trees from the main file
 export {

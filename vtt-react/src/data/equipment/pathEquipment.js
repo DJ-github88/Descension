@@ -156,7 +156,7 @@ export const HARROW_PATH_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {

@@ -20,8 +20,8 @@
  */
 
 const LEGACY_DAMAGE_TYPE_MAP = {
-  cold: 'frost', ice: 'frost', shadow: 'necrotic', holy: 'radiant',
-  acid: 'poison', thunder: 'force', viscera: 'nature', electric: 'lightning',
+  cold: 'rime', ice: 'rime', shadow: 'blight', holy: 'ember',
+  acid: 'blight', thunder: 'storm', viscera: 'primal', electric: 'storm',
 };
 
 function _normalizeLegacyDamageType(type) {
@@ -287,7 +287,7 @@ function normalizeDamageTypes(spell) {
     if (spell.damageConfig?.elementType) {
       damageTypes.push(spell.damageConfig.elementType);
     } else if (spell.damageConfig?.damageType) {
-      // damageType in damageConfig (e.g., 'bludgeoning', 'piercing', 'slashing')
+      // damageType in damageConfig (e.g., 'physical', 'physical', 'physical')
       damageTypes.push(spell.damageConfig.damageType);
     }
   }
@@ -306,7 +306,7 @@ function normalizeDamageTypes(spell) {
     return spell.damageTypes;
   }
 
-  return damageTypes.length > 0 ? damageTypes : ['force'];
+  return damageTypes.length > 0 ? damageTypes : ['arcane'];
 }
 
 /**
@@ -376,7 +376,7 @@ function normalizeDamageConfig(spell) {
     const legacy = spell.effects.damage;
     const legacyConfig = {
       formula: legacy.formula || legacy.dice || '1d6',
-      elementType: legacy.damageType || legacy.elementType || spell.damageTypes?.[0] || 'force',
+      elementType: legacy.damageType || legacy.elementType || spell.damageTypes?.[0] || 'arcane',
       damageType: legacy.damageType === 'dot' ? 'dot' : 'direct',
       canCrit: legacy.canCrit !== false,
     };
@@ -794,7 +794,7 @@ function createEmptySpell() {
     icon: 'inv_misc_questionmark',
     effectTypes: ['utility'],
     effectType: 'utility',
-    damageTypes: ['force'],
+    damageTypes: ['storm'],
     typeConfig: {},
     targetingConfig: {
       targetingType: 'single',

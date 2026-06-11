@@ -344,8 +344,8 @@ const VirtualizedItemGrid = memo(({
         return () => observer.disconnect();
     }, []);
 
-    const COLUMN_WIDTH = 92;
-    const ROW_HEIGHT = 115;
+    const COLUMN_WIDTH = 100;
+    const ROW_HEIGHT = 125;
     const COLUMN_COUNT = dimensions ? Math.max(1, Math.floor(dimensions.width / COLUMN_WIDTH)) : 1;
     const ROW_COUNT = dimensions ? Math.ceil(items.length / COLUMN_COUNT) : 1;
 
@@ -399,8 +399,14 @@ const VirtualizedItemGrid = memo(({
     );
 });
 
-const ItemLibrary = ({ onClose, contentOnly = false }) => {
-    const [activeTab, setActiveTab] = useState('library');
+const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
+    const [activeTab, setActiveTab] = useState(initialTab || 'library');
+
+    useEffect(() => {
+        if (initialTab && initialTab !== activeTab) {
+            setActiveTab(initialTab);
+        }
+    }, [initialTab]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
     const [showCategoryDialog, setShowCategoryDialog] = useState(false);
@@ -1203,10 +1209,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         </div>
     );
 
-    if (contentOnly) {
-        return renderContent();
-    }
-
     const tabs = [
         {
             id: 'library',
@@ -1225,27 +1227,8 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         }
     ];
 
-    return (
-        <WowWindow
-            isOpen={true}
-            onClose={onClose}
-            defaultPosition={position}
-            defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : activeTab === 'community' ? { width: 1100, height: 750 } : { width: 1000, height: 700 }}
-            zIndex={1000}
-            customHeader={
-                <div className="spellbook-tab-container">
-                    {tabs.map((tab) => (
-                        <SmartTabButton
-                            key={tab.id}
-                            title={tab.label}
-                            active={activeTab === tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                        />
-                    ))}
-                </div>
-            }
-        >
-            {renderContent()}
+    const modalsContent = (
+        <>
             {showItemWizard && (
                 <ItemWizard
                     onComplete={handleItemWizardComplete}
@@ -1380,6 +1363,40 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     />
                 );
             })}
+        </>
+    );
+
+    if (contentOnly) {
+        return (
+            <>
+                {renderContent()}
+                {modalsContent}
+            </>
+        );
+    }
+
+    return (
+        <WowWindow
+            isOpen={true}
+            onClose={onClose}
+            defaultPosition={position}
+            defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : activeTab === 'community' ? { width: 1100, height: 750 } : { width: 1000, height: 700 }}
+            zIndex={1000}
+            customHeader={
+                <div className="spellbook-tab-container">
+                    {tabs.map((tab) => (
+                        <SmartTabButton
+                            key={tab.id}
+                            title={tab.label}
+                            active={activeTab === tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                        />
+                    ))}
+                </div>
+            }
+        >
+            {renderContent()}
+            {modalsContent}
         </WowWindow>
     );
 };

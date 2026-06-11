@@ -152,7 +152,7 @@
     width: 100%;
 }
 
-.formbender-container {
+.shaper-container {
     position: relative;
     display: flex;
     align-items: center;
@@ -234,7 +234,7 @@
 /* WI Menu - OBSOLETE: Now uses unified-context-menu.css */
 /* All menu styles removed - now using unified-context-menu.css system */
 
-/* Size variations for Formbender */
+/* Size variations for Shaper */
 .class-resource-bar.wild-instinct-forms.small .wi-bar-wrapper {
     height: 14px;
 }

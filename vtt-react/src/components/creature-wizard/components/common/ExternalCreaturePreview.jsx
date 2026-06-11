@@ -1,13 +1,24 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import SimpleCreatureTooltip from './SimpleCreatureTooltip';
-import useCreatureStore from '../../../../store/creatureStore';
 import useSettingsStore from '../../../../store/settingsStore';
 
-// External Creature Preview Component that renders outside the creature wizard window
+// External Creature Preview Component that renders attached to the creature wizard window
 const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
-  const { windowPosition, windowSize } = useCreatureStore();
   const windowScale = useSettingsStore(state => state.windowScale);
+  const mountRef = useRef(null);
+  const [portalTarget, setPortalTarget] = useState(null);
+  const [showOnLeft, setShowOnLeft] = useState(false);
+
+  // Find the closest draggable-window container on mount
+  useEffect(() => {
+    if (mountRef.current) {
+      const draggableWindow = mountRef.current.closest('.draggable-window');
+      if (draggableWindow) {
+        setPortalTarget(draggableWindow);
+      }
+    }
+  }, [isOpen]); // Re-run if open state changes to ensure we bind properly
 
   // Create a complete creature object for the tooltip using real-time data
   // This must be called before any early returns to follow Rules of Hooks
@@ -102,62 +113,75 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
     return previewCreature;
   }, [creatureData]);
 
+  // Track parent window position in screen coordinates to flip left/right dynamically
+  useEffect(() => {
+    if (!portalTarget) return;
+
+    let rafId;
+    const checkBoundaries = () => {
+      const rect = portalTarget.getBoundingClientRect();
+      const tooltipWidth = 320;
+      const margin = 10;
+      const spaceRight = window.innerWidth - rect.right;
+      const neededSpace = (tooltipWidth * windowScale) + margin;
+
+      // If not enough space on the right, show on the left
+      const shouldShowOnLeft = spaceRight < neededSpace;
+      setShowOnLeft(shouldShowOnLeft);
+
+      rafId = requestAnimationFrame(checkBoundaries);
+    };
+
+    rafId = requestAnimationFrame(checkBoundaries);
+    return () => cancelAnimationFrame(rafId);
+  }, [portalTarget, windowScale]);
+
   // Only show when the wizard is open, we have creature data, AND we're in wizard/create mode (not library or community)
   if (!isOpen || !creatureData || Object.keys(creatureData).length === 0 || activeView === 'library' || activeView === 'community') {
-    return null;
+    return <span ref={mountRef} style={{ display: 'none' }} />;
   }
 
-  // Calculate position with fallback values and live updates - REACTIVE
-  // Use correct width based on activeView (library/wizard = 900px, community = 1100px)
-  const defaultWidth = activeView === 'community' ? 1100 : 900;
-  const wizardX = windowPosition?.x ?? ((window.innerWidth - defaultWidth) / 2);
-  const wizardY = windowPosition?.y ?? ((window.innerHeight - 800) / 2);
+  const tooltipWidth = 320;
+  const tooltipGap = 10;
 
-  // Position tooltip very close to the creature window and responsive to width changes
-  const baseWindowX = windowPosition?.x ?? wizardX;
-  const baseWindowY = windowPosition?.y ?? wizardY;
-  const baseWindowWidth = (windowSize?.width || defaultWidth) * windowScale;
-  const windowRightEdge = baseWindowX + baseWindowWidth;
-
-  const tooltipGap = 10; // Small gap next to window edge
-  const tooltipWidth = 320; // matches tooltip max-width; we clamp using scaled width
-  const margin = 10;
-
-  let left = windowRightEdge + tooltipGap;
-  const scaledTooltipWidth = tooltipWidth * windowScale;
-
-  // If tooltip would go off-screen to the right, flip to the left of the window.
-  if (left + scaledTooltipWidth > window.innerWidth - margin) {
-    left = baseWindowX - scaledTooltipWidth - tooltipGap;
-  }
-
-  // Final clamp to viewport
-  left = Math.max(margin, Math.min(left, window.innerWidth - scaledTooltipWidth - margin));
-
-  const position = {
-    left, // Responsive to window position/size/scale
-    top: baseWindowY + 80, // Aligned with window content area
-    position: 'fixed',
-    zIndex: 99999,
+  // Position relative to the parent window container
+  const positionStyle = {
+    position: 'absolute',
+    top: '80px', // Aligned with the wizard content area
     width: `${tooltipWidth}px`,
+    zIndex: 99999,
     maxHeight: 'none',
-    overflow: 'visible'
+    overflow: 'visible',
+    pointerEvents: 'auto',
+    // Apply scale translation origin depending on which side it renders
+    transformOrigin: showOnLeft ? 'top right' : 'top left'
   };
 
-  return ReactDOM.createPortal(
-    <div
-      className="external-creature-preview-portal"
-      style={{
-        ...position,
-        transform: `scale(${windowScale})`,
-        transformOrigin: 'top left'
-      }}
-    >
-      <div className="external-creature-preview-interactive">
-        <SimpleCreatureTooltip creature={createPreviewCreature} />
-      </div>
-    </div>,
-    document.body
+  if (showOnLeft) {
+    positionStyle.right = `calc(100% + ${tooltipGap}px)`;
+    positionStyle.left = 'auto';
+  } else {
+    positionStyle.left = `calc(100% + ${tooltipGap}px)`;
+    positionStyle.right = 'auto';
+  }
+
+  return (
+    <>
+      {/* Hidden element in the React tree to query the closest .draggable-window */}
+      <span ref={mountRef} style={{ display: 'none' }} />
+
+      {portalTarget && ReactDOM.createPortal(
+        <div
+          className="external-creature-preview-portal-custom"
+          style={positionStyle}
+        >
+          <div className="external-creature-preview-interactive">
+            <SimpleCreatureTooltip creature={createPreviewCreature} />
+          </div>
+        </div>,
+        portalTarget
+      )}
+    </>
   );
 };
 

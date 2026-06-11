@@ -1692,7 +1692,7 @@ export const TRIGGER_EXAMPLES = {
    */
   AUTO_CLEANSE_POISON: buildTriggerFromTemplate('effect_applied', [
     { name: 'effectType', value: 'specific' },
-    { name: 'specificEffect', value: 'poison' },
+    { name: 'specificEffect', value: 'blight' },
     { name: 'sourceCriteria', value: 'any' }
   ]),
   

@@ -43,7 +43,7 @@ export const LIBRARY_CREATURES = [
       "darkvision": 60
     },
     "resistances": {
-      "poison": "resistant"
+      "blight": "resistant"
     },
     "vulnerabilities": {},
     "abilities": [
@@ -313,7 +313,7 @@ export const LIBRARY_CREATURES = [
       "darkvision": 60
     },
     "resistances": {
-      "poison": "immune"
+      "blight": "immune"
     },
     "vulnerabilities": {},
     "abilities": [
@@ -906,1976 +906,6 @@ export const LIBRARY_CREATURES = [
     "lastModified": "2026-06-06T20:28:54.318Z"
   },
   {
-    "id": "veteran-guard",
-    "name": "Veteran Guard",
-    "description": "A battle-hardened human guard with scars and a determined expression. Wears worn but serviceable armor and carries a reliable blade.",
-    "type": CREATURE_TYPES.HUMANOID,
-    "size": CREATURE_SIZES.MEDIUM,
-    "tags": [
-      "human",
-      "warrior",
-      "guard",
-      "soldier"
-    ],
-    "tokenIcon": "inv_misc_head_human_01",
-    "tokenBorder": "#8B4513",
-    "stats": {
-      "strength": 15,
-      "agility": 12,
-      "constitution": 14,
-      "intelligence": 10,
-      "spirit": 11,
-      "charisma": 10,
-      "maxHp": 65,
-      "currentHp": 65,
-      "maxMana": 15,
-      "currentMana": 15,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 1,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 15,
-      "sightRange": 60,
-      "darkvision": 0
-    },
-    "resistances": {},
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Sword Strike",
-        "description": "A basic sword attack.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_warrior_cleave",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 8,
-          "bonus": 3,
-          "damageType": "slashing"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "slashing",
-            "formula": "1d8+3"
-          }
-        ]
-      },
-      {
-        "name": "Shield Bash",
-        "description": "Bashes with shield, potentially knocking enemy prone.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_warrior_shieldbash",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 4,
-          "bonus": 2,
-          "damageType": "bludgeoning"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 2,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "bludgeoning",
-            "formula": "1d4+2"
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "strength",
-            "dc": 13,
-            "onFail": {
-              "type": CREATURE_TYPES.CONDITION,
-              "condition": "prone",
-              "duration": 1
-            }
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 2,
-          "max": 8
-        },
-        "silver": {
-          "min": 10,
-          "max": 25
-        },
-        "copper": {
-          "min": 20,
-          "max": 50
-        }
-      },
-      "items": [
-        {
-          "itemId": "wanderers-edge",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "weathered-hide",
-          "dropChance": 20,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "crimson-tears",
-          "dropChance": 30,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "orc-berserker",
-    "name": "Orc Berserker",
-    "description": "A massive orc warrior with bulging muscles and a bloodthirsty grin. Wields a massive axe and fights with reckless abandon.",
-    "type": CREATURE_TYPES.HUMANOID,
-    "size": CREATURE_SIZES.MEDIUM,
-    "tags": [
-      "orc",
-      "warrior",
-      "berserker",
-      "aggressive"
-    ],
-    "tokenIcon": "inv_misc_head_orc_01",
-    "tokenBorder": "#8B0000",
-    "stats": {
-      "strength": 18,
-      "agility": 13,
-      "constitution": 16,
-      "intelligence": 8,
-      "spirit": 10,
-      "charisma": 9,
-      "maxHp": 85,
-      "currentHp": 85,
-      "maxMana": 10,
-      "currentMana": 10,
-      "maxActionPoints": 6,
-      "currentActionPoints": 6,
-      "initiative": 2,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 15,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "physical": 25
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Axe Cleave",
-        "description": "A powerful cleaving attack with a greataxe.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_warrior_cleave",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 12,
-          "bonus": 4,
-          "damageType": "slashing"
-        },
-        "range": 5,
-        "actionPointCost": 3,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "slashing",
-            "formula": "1d12+4"
-          }
-        ]
-      },
-      {
-        "name": "Rage",
-        "description": "Enters a berserker rage, increasing damage but reducing defense.",
-        "type": CREATURE_TYPES.SPECIAL,
-        "icon": "spell_nature_bloodlust",
-        "range": 0,
-        "actionPointCost": 2,
-        "cooldown": 4,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.BUFF,
-            "target": "self",
-            "stat": "strength",
-            "value": 3,
-            "duration": 3
-          },
-          {
-            "type": CREATURE_TYPES.DEBUFF,
-            "target": "self",
-            "stat": "armor",
-            "value": -2,
-            "duration": 3
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 3,
-          "max": 12
-        },
-        "silver": {
-          "min": 15,
-          "max": 40
-        },
-        "copper": {
-          "min": 30,
-          "max": 80
-        }
-      },
-      "items": [
-        {
-          "itemId": "grave-axe",
-          "dropChance": 35,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "rusted-sorrow",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "blood-remembrance",
-          "dropChance": 15,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "elven-archer",
-    "name": "Elven Archer",
-    "description": "A graceful elven archer with keen eyes and steady hands. Moves silently through the forest, striking from a distance.",
-    "type": CREATURE_TYPES.HUMANOID,
-    "size": CREATURE_SIZES.MEDIUM,
-    "tags": [
-      "elf",
-      "ranger",
-      "archer",
-      "stealthy"
-    ],
-    "tokenIcon": "inv_misc_head_elf_02",
-    "tokenBorder": "#228B22",
-    "stats": {
-      "strength": 12,
-      "agility": 17,
-      "constitution": 13,
-      "intelligence": 14,
-      "spirit": 15,
-      "charisma": 13,
-      "maxHp": 55,
-      "currentHp": 55,
-      "maxMana": 30,
-      "currentMana": 30,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 4,
-      "speed": 35,
-      "flying": 0,
-      "swimming": 20,
-      "sightRange": 90,
-      "darkvision": 60
-    },
-    "resistances": {
-      "charm": "immune"
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Precise Shot",
-        "description": "A well-aimed arrow that deals extra damage.",
-        "type": CREATURE_TYPES.RANGED,
-        "icon": "ability_hunter_aimedshot",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 8,
-          "bonus": 4,
-          "damageType": "piercing"
-        },
-        "range": 60,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "piercing",
-            "formula": "1d8+4"
-          }
-        ]
-      },
-      {
-        "name": "Multi-Shot",
-        "description": "Fires multiple arrows at nearby targets.",
-        "type": CREATURE_TYPES.RANGED,
-        "icon": "ability_hunter_multishot",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 6,
-          "bonus": 3,
-          "damageType": "piercing"
-        },
-        "range": 50,
-        "actionPointCost": 3,
-        "cooldown": 3,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "piercing",
-            "formula": "1d6+3"
-          },
-          {
-            "type": CREATURE_TYPES.AREA,
-            "shape": "cone",
-            "size": 30
-          }
-        ]
-      },
-      {
-        "name": "Hide",
-        "description": "Moves into cover, becoming harder to detect.",
-        "type": CREATURE_TYPES.SPECIAL,
-        "icon": "ability_stealth",
-        "range": 0,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.BUFF,
-            "target": "self",
-            "stat": "stealth",
-            "value": 10,
-            "duration": 2
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 2,
-          "max": 10
-        },
-        "silver": {
-          "min": 10,
-          "max": 30
-        },
-        "copper": {
-          "min": 20,
-          "max": 60
-        }
-      },
-      "items": [
-        {
-          "itemId": "hunters-whisper",
-          "dropChance": 30,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "threadbare-sorrow",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "azure-sorrow",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "goblin-rogue",
-    "name": "Goblin Rogue",
-    "description": "A small, sneaky goblin with quick fingers and a cruel smile. Prefers to strike from the shadows and retreat quickly.",
-    "type": CREATURE_TYPES.HUMANOID,
-    "size": CREATURE_SIZES.SMALL,
-    "tags": [
-      "goblin",
-      "rogue",
-      "sneaky",
-      "cowardly"
-    ],
-    "tokenIcon": "inv_misc_head_orc_01",
-    "tokenBorder": "#4CAF50",
-    "stats": {
-      "strength": 8,
-      "agility": 16,
-      "constitution": 10,
-      "intelligence": 11,
-      "spirit": 8,
-      "charisma": 9,
-      "maxHp": 35,
-      "currentHp": 35,
-      "maxMana": 15,
-      "currentMana": 15,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 4,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 15,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {},
-    "vulnerabilities": {
-      "fire": 50
-    },
-    "abilities": [
-      {
-        "name": "Dagger Stab",
-        "description": "A quick stab with a dagger, dealing extra damage if the target is surprised.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_rogue_daggersofexpertise",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 4,
-          "bonus": 3,
-          "damageType": "piercing"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "piercing",
-            "formula": "1d4+3"
-          }
-        ]
-      },
-      {
-        "name": "Backstab",
-        "description": "A devastating attack from behind.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_rogue_backstab",
-        "damage": {
-          "diceCount": 2,
-          "diceType": 6,
-          "bonus": 3,
-          "damageType": "piercing"
-        },
-        "range": 5,
-        "actionPointCost": 3,
-        "cooldown": 3,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "piercing",
-            "formula": "2d6+3"
-          }
-        ]
-      },
-      {
-        "name": "Disengage",
-        "description": "Quickly moves away from danger without provoking attacks.",
-        "type": CREATURE_TYPES.SPECIAL,
-        "icon": "ability_rogue_feint",
-        "range": 0,
-        "actionPointCost": 1,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.SPECIAL,
-            "description": "Can move up to speed without provoking opportunity attacks."
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 1,
-          "max": 4
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
-          "min": 10,
-          "max": 30
-        }
-      },
-      "items": [
-        {
-          "itemId": "soulthirst",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "tattered-memories",
-          "dropChance": 30,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "crimson-tears",
-          "dropChance": 20,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "human-mage",
-    "name": "Human Mage",
-    "description": "A robed human mage with a staff and arcane symbols. Channels magical energy to cast destructive spells.",
-    "type": CREATURE_TYPES.HUMANOID,
-    "size": CREATURE_SIZES.MEDIUM,
-    "tags": [
-      "human",
-      "mage",
-      "spellcaster",
-      "arcane"
-    ],
-    "tokenIcon": "inv_staff_13",
-    "tokenBorder": "#4169E1",
-    "stats": {
-      "strength": 8,
-      "agility": 12,
-      "constitution": 11,
-      "intelligence": 17,
-      "spirit": 15,
-      "charisma": 13,
-      "maxHp": 50,
-      "currentHp": 50,
-      "maxMana": 80,
-      "currentMana": 80,
-      "maxActionPoints": 4,
-      "currentActionPoints": 4,
-      "initiative": 2,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 15,
-      "sightRange": 60,
-      "darkvision": 0
-    },
-    "resistances": {
-      "arcane": 25
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Magic Missile",
-        "description": "Launches bolts of force energy that always hit.",
-        "type": CREATURE_TYPES.SPELL,
-        "spellType": "EVOCATION",
-        "level": 1,
-        "icon": "spell_arcane_arcane01",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 4,
-          "bonus": 1,
-          "damageType": "force"
-        },
-        "range": 60,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "force",
-            "formula": "1d4+1"
-          }
-        ]
-      },
-      {
-        "name": "Firebolt",
-        "description": "A bolt of fire that ignites flammable objects.",
-        "type": CREATURE_TYPES.SPELL,
-        "spellType": "EVOCATION",
-        "level": 1,
-        "icon": "spell_fire_firebolt",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 10,
-          "bonus": 0,
-          "damageType": "fire"
-        },
-        "range": 60,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "fire",
-            "formula": "1d10"
-          }
-        ]
-      },
-      {
-        "name": "Mage Armor",
-        "description": "Creates a protective magical barrier.",
-        "type": CREATURE_TYPES.SPELL,
-        "spellType": "ABJURATION",
-        "level": 1,
-        "icon": "spell_holy_magicalsentry",
-        "range": 0,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.BUFF,
-            "target": "self",
-            "stat": "armor",
-            "value": 3,
-            "duration": 8
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 3,
-          "max": 12
-        },
-        "silver": {
-          "min": 10,
-          "max": 30
-        },
-        "copper": {
-          "min": 20,
-          "max": 60
-        }
-      },
-      "items": [
-        {
-          "itemId": "gnarled-sorrow",
-          "dropChance": 30,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "threadbare-sorrow",
-          "dropChance": 20,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "azure-sorrow",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 3
-          }
-        },
-        {
-          "itemId": "arcane-dust",
-          "dropChance": 35,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "dire-wolf",
-    "name": "Dire Wolf",
-    "description": "A massive wolf with matted fur and glowing eyes. Stands nearly as tall as a human and hunts in packs.",
-    "type": CREATURE_TYPES.BEAST,
-    "size": CREATURE_SIZES.LARGE,
-    "tags": [
-      "wolf",
-      "predator",
-      "pack",
-      "beast"
-    ],
-    "tokenIcon": "ability_mount_whitetiger",
-    "tokenBorder": "#696969",
-    "stats": {
-      "strength": 17,
-      "agility": 15,
-      "constitution": 15,
-      "intelligence": 3,
-      "spirit": 12,
-      "charisma": 7,
-      "maxHp": 75,
-      "currentHp": 75,
-      "maxMana": 0,
-      "currentMana": 0,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 2,
-      "speed": 50,
-      "flying": 0,
-      "swimming": 20,
-      "sightRange": 60,
-      "darkvision": 30
-    },
-    "resistances": {},
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Bite",
-        "description": "A powerful bite that can knock enemies prone.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_druid_ferociousbite",
-        "damage": {
-          "diceCount": 2,
-          "diceType": 6,
-          "bonus": 3,
-          "damageType": "piercing"
-        },
-        "range": 5,
-        "actionPointCost": 3,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "piercing",
-            "formula": "2d6+3"
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "strength",
-            "dc": 13,
-            "onFail": {
-              "type": CREATURE_TYPES.CONDITION,
-              "condition": "prone",
-              "duration": 1
-            }
-          }
-        ]
-      },
-      {
-        "name": "Pack Tactics",
-        "description": "Has advantage on attack rolls if an ally is within 5 feet of the target.",
-        "type": CREATURE_TYPES.SPECIAL,
-        "icon": "ability_hunter_pet_wolf",
-        "range": 0,
-        "actionPointCost": 0,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.SPECIAL,
-            "description": "Advantage on attack rolls when an ally is within 5 feet of the target."
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 0,
-          "max": 0
-        },
-        "silver": {
-          "min": 0,
-          "max": 0
-        },
-        "copper": {
-          "min": 0,
-          "max": 0
-        }
-      },
-      "items": [
-        {
-          "itemId": "light-hide",
-          "dropChance": 55,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        },
-        {
-          "itemId": "thick-hide",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "beast-sinew",
-          "dropChance": 35,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "giant-spider",
-    "name": "Giant Spider",
-    "description": "A massive arachnid with eight glowing eyes and venomous fangs. Spins webs to trap prey.",
-    "type": CREATURE_TYPES.BEAST,
-    "size": CREATURE_SIZES.LARGE,
-    "tags": [
-      "spider",
-      "venomous",
-      "web",
-      "beast"
-    ],
-    "tokenIcon": "inv_misc_head_dragon_black",
-    "tokenBorder": "#8B0000",
-    "stats": {
-      "strength": 14,
-      "agility": 16,
-      "constitution": 12,
-      "intelligence": 2,
-      "spirit": 10,
-      "charisma": 4,
-      "maxHp": 50,
-      "currentHp": 50,
-      "maxMana": 0,
-      "currentMana": 0,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 3,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {},
-    "vulnerabilities": {
-      "fire": 50
-    },
-    "abilities": [
-      {
-        "name": "Bite",
-        "description": "A venomous bite that poisons the target.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_creature_poison_01",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 8,
-          "bonus": 2,
-          "damageType": "piercing"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "piercing",
-            "formula": "1d8+2"
-          },
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "poison",
-            "formula": "2d8"
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "constitution",
-            "dc": 11,
-            "onFail": {
-              "type": CREATURE_TYPES.CONDITION,
-              "condition": "poisoned",
-              "duration": 3
-            }
-          }
-        ]
-      },
-      {
-        "name": "Web",
-        "description": "Shoots a web that restrains the target.",
-        "type": CREATURE_TYPES.RANGED,
-        "icon": "spell_nature_web",
-        "range": 30,
-        "actionPointCost": 3,
-        "cooldown": 2,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "agility",
-            "dc": 12,
-            "onFail": {
-              "type": CREATURE_TYPES.CONDITION,
-              "condition": "restrained",
-              "duration": 2
-            }
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 0,
-          "max": 0
-        },
-        "silver": {
-          "min": 0,
-          "max": 0
-        },
-        "copper": {
-          "min": 0,
-          "max": 0
-        }
-      },
-      "items": [
-        {
-          "itemId": "light-hide",
-          "dropChance": 45,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        },
-        {
-          "itemId": "beast-sinew",
-          "dropChance": 30,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "skeleton-warrior",
-    "name": "Skeleton Warrior",
-    "description": "An animated skeleton clad in rusted armor, wielding a notched blade. Its empty eye sockets glow with an eerie light.",
-    "type": CREATURE_TYPES.UNDEAD,
-    "size": CREATURE_SIZES.MEDIUM,
-    "tags": [
-      "skeleton",
-      "undead",
-      "warrior",
-      "mindless"
-    ],
-    "tokenIcon": "inv_misc_bone_skull_01",
-    "tokenBorder": "#C0C0C0",
-    "stats": {
-      "strength": 14,
-      "agility": 12,
-      "constitution": 15,
-      "intelligence": 6,
-      "spirit": 8,
-      "charisma": 5,
-      "maxHp": 45,
-      "currentHp": 45,
-      "maxMana": 0,
-      "currentMana": 0,
-      "maxActionPoints": 4,
-      "currentActionPoints": 4,
-      "initiative": 1,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "poison": "immune",
-      "physical": 25
-    },
-    "vulnerabilities": {
-      "bludgeoning": 50
-    },
-    "abilities": [
-      {
-        "name": "Sword Slash",
-        "description": "A basic sword attack.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_warrior_cleave",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 6,
-          "bonus": 2,
-          "damageType": "slashing"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "slashing",
-            "formula": "1d6+2"
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
-          "min": 10,
-          "max": 30
-        }
-      },
-      "items": [
-        {
-          "itemId": "ironweep",
-          "dropChance": 20,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "bone-plates",
-          "dropChance": 40,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "zombie",
-    "name": "Zombie",
-    "description": "A shambling corpse with rotting flesh and vacant eyes. Moves slowly but is relentless in its pursuit.",
-    "type": CREATURE_TYPES.UNDEAD,
-    "size": CREATURE_SIZES.MEDIUM,
-    "tags": [
-      "zombie",
-      "undead",
-      "slow",
-      "mindless"
-    ],
-    "tokenIcon": "inv_misc_head_human_01",
-    "tokenBorder": "#556B2F",
-    "stats": {
-      "strength": 13,
-      "agility": 6,
-      "constitution": 16,
-      "intelligence": 3,
-      "spirit": 6,
-      "charisma": 5,
-      "maxHp": 55,
-      "currentHp": 55,
-      "maxMana": 0,
-      "currentMana": 0,
-      "maxActionPoints": 3,
-      "currentActionPoints": 3,
-      "initiative": -2,
-      "speed": 20,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "poison": "immune"
-    },
-    "vulnerabilities": {
-      "fire": 50
-    },
-    "abilities": [
-      {
-        "name": "Slam",
-        "description": "A clumsy but powerful slam attack.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_warrior_shieldbreak",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 6,
-          "bonus": 1,
-          "damageType": "bludgeoning"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "bludgeoning",
-            "formula": "1d6+1"
-          }
-        ]
-      },
-      {
-        "name": "Undead Fortitude",
-        "description": "If reduced to 0 HP, makes a constitution save to stay at 1 HP instead.",
-        "type": CREATURE_TYPES.SPECIAL,
-        "icon": "spell_shadow_raisedead",
-        "range": 0,
-        "actionPointCost": 0,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.SPECIAL,
-            "description": "When reduced to 0 HP, makes a DC 5 + damage taken Constitution save. On success, drops to 1 HP instead."
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 0,
-          "max": 2
-        },
-        "silver": {
-          "min": 2,
-          "max": 10
-        },
-        "copper": {
-          "min": 5,
-          "max": 20
-        }
-      },
-      "items": [
-        {
-          "itemId": "bone-plates",
-          "dropChance": 30,
-          "quantity": {
-            "min": 1,
-            "max": 1
-          }
-        },
-        {
-          "itemId": "ground-bone",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "fire-elemental",
-    "name": "Fire Elemental",
-    "description": "A swirling vortex of flame and smoke in a vaguely humanoid shape. Radiates intense heat and leaves scorched ground in its wake.",
-    "type": CREATURE_TYPES.ELEMENTAL,
-    "size": CREATURE_SIZES.LARGE,
-    "tags": [
-      "fire",
-      "elemental",
-      "burning",
-      "magical"
-    ],
-    "tokenIcon": "spell_fire_fire",
-    "tokenBorder": "#FF4500",
-    "stats": {
-      "strength": 10,
-      "agility": 17,
-      "constitution": 16,
-      "intelligence": 6,
-      "spirit": 10,
-      "charisma": 7,
-      "maxHp": 120,
-      "currentHp": 120,
-      "maxMana": 50,
-      "currentMana": 50,
-      "maxActionPoints": 6,
-      "currentActionPoints": 6,
-      "initiative": 3,
-      "speed": 50,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "fire": 100,
-      "physical": 50
-    },
-    "vulnerabilities": {
-      "water": 100,
-      "frost": 50
-    },
-    "abilities": [
-      {
-        "name": "Touch of Flame",
-        "description": "A burning touch that ignites flammable objects.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "spell_fire_fireball",
-        "damage": {
-          "diceCount": 2,
-          "diceType": 8,
-          "bonus": 3,
-          "damageType": "fire"
-        },
-        "range": 5,
-        "actionPointCost": 3,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "fire",
-            "formula": "2d8+3"
-          },
-          {
-            "type": CREATURE_TYPES.CONDITION,
-            "condition": "burning",
-            "duration": 2,
-            "damageFormula": "1d6"
-          }
-        ]
-      },
-      {
-        "name": "Fire Nova",
-        "description": "An explosion of flame that damages all nearby creatures.",
-        "type": CREATURE_TYPES.SPELL,
-        "spellType": "EVOCATION",
-        "level": 4,
-        "icon": "spell_fire_soulburn",
-        "damage": {
-          "diceCount": 4,
-          "diceType": 6,
-          "bonus": 0,
-          "damageType": "fire"
-        },
-        "range": 0,
-        "actionPointCost": 5,
-        "cooldown": 3,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "fire",
-            "formula": "4d6"
-          },
-          {
-            "type": CREATURE_TYPES.AREA,
-            "shape": "circle",
-            "size": 15
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "agility",
-            "dc": 15,
-            "success": "half"
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 5,
-          "max": 15
-        },
-        "silver": {
-          "min": 10,
-          "max": 30
-        },
-        "copper": {
-          "min": 20,
-          "max": 50
-        }
-      },
-      "items": [
-        {
-          "itemId": "fire-essence",
-          "dropChance": 100,
-          "quantity": {
-            "min": 2,
-            "max": 4
-          }
-        },
-        {
-          "itemId": "ember-ore",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "young-red-dragon",
-    "name": "Young Red Dragon",
-    "description": "A young but already formidable red dragon with gleaming scales and eyes that burn with avarice. Breathes fire and hoards treasure.",
-    "type": CREATURE_TYPES.DRAGON,
-    "size": CREATURE_SIZES.LARGE,
-    "tags": [
-      "dragon",
-      "red",
-      "fire",
-      "greedy"
-    ],
-    "tokenIcon": "inv_misc_head_dragon_red",
-    "tokenBorder": "#DC143C",
-    "stats": {
-      "strength": 19,
-      "agility": 10,
-      "constitution": 17,
-      "intelligence": 14,
-      "spirit": 13,
-      "charisma": 15,
-      "maxHp": 178,
-      "currentHp": 178,
-      "maxMana": 60,
-      "currentMana": 60,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 0,
-      "speed": 40,
-      "flying": 80,
-      "swimming": 40,
-      "sightRange": 60,
-      "darkvision": 120
-    },
-    "resistances": {
-      "fire": 100
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Bite",
-        "description": "A vicious bite with sharp teeth.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_racial_cannibalize",
-        "damage": {
-          "diceCount": 2,
-          "diceType": 10,
-          "bonus": 5,
-          "damageType": "piercing"
-        },
-        "range": 10,
-        "actionPointCost": 3,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "piercing",
-            "formula": "2d10+5"
-          }
-        ]
-      },
-      {
-        "name": "Claw",
-        "description": "A slash with sharp claws.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_druid_lacerate",
-        "damage": {
-          "diceCount": 2,
-          "diceType": 6,
-          "bonus": 5,
-          "damageType": "slashing"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "slashing",
-            "formula": "2d6+5"
-          }
-        ]
-      },
-      {
-        "name": "Fire Breath",
-        "description": "The dragon exhales a cone of fire.",
-        "type": CREATURE_TYPES.SPELL,
-        "spellType": "EVOCATION",
-        "level": 6,
-        "icon": "spell_fire_fireball",
-        "damage": {
-          "diceCount": 6,
-          "diceType": 6,
-          "bonus": 0,
-          "damageType": "fire"
-        },
-        "range": 30,
-        "actionPointCost": 4,
-        "cooldown": 3,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "fire",
-            "formula": "6d6"
-          },
-          {
-            "type": CREATURE_TYPES.AREA,
-            "shape": "cone",
-            "size": 30
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "agility",
-            "dc": 16,
-            "success": "half"
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 50,
-          "max": 200
-        },
-        "silver": {
-          "min": 100,
-          "max": 400
-        },
-        "copper": {
-          "min": 200,
-          "max": 800
-        }
-      },
-      "items": [
-        {
-          "itemId": "drake-scale",
-          "dropChance": 100,
-          "quantity": {
-            "min": 3,
-            "max": 6
-          }
-        },
-        {
-          "itemId": "fire-essence",
-          "dropChance": 45,
-          "quantity": {
-            "min": 2,
-            "max": 5
-          }
-        },
-        {
-          "itemId": "sun-gold",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 3
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "stone-golem",
-    "name": "Stone Golem",
-    "description": "A massive construct of stone and magic, animated to serve as a guardian. Moves slowly but hits with devastating force.",
-    "type": CREATURE_TYPES.CONSTRUCT,
-    "size": CREATURE_SIZES.LARGE,
-    "tags": [
-      "golem",
-      "construct",
-      "guardian",
-      "slow"
-    ],
-    "tokenIcon": "inv_misc_head_dwarf_01",
-    "tokenBorder": "#708090",
-    "stats": {
-      "strength": 20,
-      "agility": 9,
-      "constitution": 20,
-      "intelligence": 3,
-      "spirit": 11,
-      "charisma": 1,
-      "maxHp": 178,
-      "currentHp": 178,
-      "maxMana": 0,
-      "currentMana": 0,
-      "maxActionPoints": 4,
-      "currentActionPoints": 4,
-      "initiative": -1,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "physical": 50,
-      "poison": "immune",
-      "psychic": "immune"
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Slam",
-        "description": "A powerful slam attack with stone fists.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_warrior_shieldbreak",
-        "damage": {
-          "diceCount": 2,
-          "diceType": 8,
-          "bonus": 6,
-          "damageType": "bludgeoning"
-        },
-        "range": 5,
-        "actionPointCost": 3,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "bludgeoning",
-            "formula": "2d8+6"
-          }
-        ]
-      },
-      {
-        "name": "Slow",
-        "description": "The golem's presence slows nearby creatures.",
-        "type": CREATURE_TYPES.SPECIAL,
-        "icon": "spell_nature_slow",
-        "range": 10,
-        "actionPointCost": 2,
-        "cooldown": 3,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.AREA,
-            "shape": "circle",
-            "size": 10
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "agility",
-            "dc": 15,
-            "onFail": {
-              "type": CREATURE_TYPES.DEBUFF,
-              "target": "enemies",
-              "stat": "speed",
-              "value": -10,
-              "duration": 2
-            }
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 10,
-          "max": 30
-        },
-        "silver": {
-          "min": 20,
-          "max": 60
-        },
-        "copper": {
-          "min": 40,
-          "max": 120
-        }
-      },
-      "items": [
-        {
-          "itemId": "rough-stone",
-          "dropChance": 55,
-          "quantity": {
-            "min": 5,
-            "max": 10
-          }
-        },
-        {
-          "itemId": "cut-granite",
-          "dropChance": 35,
-          "quantity": {
-            "min": 2,
-            "max": 5
-          }
-        },
-        {
-          "itemId": "focus-crystal",
-          "dropChance": 20,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "treant",
-    "name": "Treant",
-    "description": "An ancient tree that has awakened to sentience. Moves slowly but is incredibly durable, protecting the forest with its massive limbs.",
-    "type": CREATURE_TYPES.PLANT,
-    "size": CREATURE_SIZES.HUGE,
-    "tags": [
-      "treant",
-      "plant",
-      "forest",
-      "guardian"
-    ],
-    "tokenIcon": "ability_druid_treeoflife",
-    "tokenBorder": "#228B22",
-    "stats": {
-      "strength": 23,
-      "agility": 8,
-      "constitution": 21,
-      "intelligence": 12,
-      "spirit": 16,
-      "charisma": 12,
-      "maxHp": 138,
-      "currentHp": 138,
-      "maxMana": 50,
-      "currentMana": 50,
-      "maxActionPoints": 4,
-      "currentActionPoints": 4,
-      "initiative": -1,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
-    },
-    "resistances": {
-      "physical": 50,
-      "bludgeoning": 25
-    },
-    "vulnerabilities": {
-      "fire": 50
-    },
-    "abilities": [
-      {
-        "name": "Slam",
-        "description": "Slams with massive branch-like arms.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_warrior_shieldbreak",
-        "damage": {
-          "diceCount": 3,
-          "diceType": 6,
-          "bonus": 6,
-          "damageType": "bludgeoning"
-        },
-        "range": 10,
-        "actionPointCost": 3,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "bludgeoning",
-            "formula": "3d6+6"
-          }
-        ]
-      },
-      {
-        "name": "Rock Throw",
-        "description": "Hurls a large rock at a distant target.",
-        "type": CREATURE_TYPES.RANGED,
-        "icon": "spell_nature_earthquake",
-        "damage": {
-          "diceCount": 4,
-          "diceType": 6,
-          "bonus": 0,
-          "damageType": "bludgeoning"
-        },
-        "range": 60,
-        "actionPointCost": 3,
-        "cooldown": 2,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "bludgeoning",
-            "formula": "4d6"
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 5,
-          "max": 20
-        },
-        "silver": {
-          "min": 10,
-          "max": 40
-        },
-        "copper": {
-          "min": 20,
-          "max": 80
-        }
-      },
-      "items": [
-        {
-          "itemId": "wooden-haft",
-          "dropChance": 55,
-          "quantity": {
-            "min": 3,
-            "max": 6
-          }
-        },
-        {
-          "itemId": "fieldleaf",
-          "dropChance": 45,
-          "quantity": {
-            "min": 5,
-            "max": 10
-          }
-        },
-        {
-          "itemId": "bitterroot",
-          "dropChance": 35,
-          "quantity": {
-            "min": 3,
-            "max": 7
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "imp",
-    "name": "Imp",
-    "description": "A small, malicious fiend with leathery wings and a barbed tail. Prefers to attack from range with magic and poison.",
-    "size": CREATURE_SIZES.TINY,
-    "tags": [
-      "imp",
-      "fiend",
-      "devil",
-      "flying"
-    ],
-    "tokenIcon": "inv_misc_head_dragon_black",
-    "tokenBorder": "#8B0000",
-    "stats": {
-      "strength": 6,
-      "agility": 17,
-      "constitution": 13,
-      "intelligence": 11,
-      "spirit": 12,
-      "charisma": 14,
-      "maxHp": 20,
-      "currentHp": 20,
-      "maxMana": 30,
-      "currentMana": 30,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 3,
-      "speed": 20,
-      "flying": 40,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 120
-    },
-    "resistances": {
-      "fire": 50,
-      "poison": "immune"
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Sting",
-        "description": "A poisonous sting from the imp's tail.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_creature_poison_01",
-        "damage": {
-          "diceCount": 1,
-          "diceType": 4,
-          "bonus": 1,
-          "damageType": "piercing"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "piercing",
-            "formula": "1d4+1"
-          },
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "poison",
-            "formula": "3d6"
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "constitution",
-            "dc": 11,
-            "success": "half"
-          }
-        ]
-      },
-      {
-        "name": "Invisibility",
-        "description": "The imp magically turns invisible until it attacks or uses an ability.",
-        "type": CREATURE_TYPES.SPELL,
-        "spellType": "ILLUSION",
-        "level": 2,
-        "icon": "ability_rogue_shadowstep",
-        "range": 0,
-        "actionPointCost": 2,
-        "cooldown": 3,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.CONDITION,
-            "condition": "invisible",
-            "duration": 3
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
-          "min": 10,
-          "max": 30
-        }
-      },
-      "items": [
-        {
-          "itemId": "shadow-residue",
-          "dropChance": 35,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        },
-        {
-          "itemId": "arcane-ash",
-          "dropChance": 25,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
     "id": "vetch",
     "name": "Vetch",
     "description": "A small woodland spirit shaped by the natural game trails of the Frostwood Reach. A quick, scurrying sprite made of twigs and dry leaves. It runs ahead of travelers, mimicking animal trails to guide them safely through the fog.",
@@ -2911,10 +941,10 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "psychic": 75
+      "wyrd": 75
     },
     "vulnerabilities": {
-      "bludgeoning": 100
+      "physical": 100
     },
     "abilities": [
       {
@@ -2985,7 +1015,7 @@ export const LIBRARY_CREATURES = [
           "control"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "aoe",
           "death-trigger"
         ],
@@ -3008,10 +1038,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d6 + spirit",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2.5,
@@ -3145,10 +1175,10 @@ export const LIBRARY_CREATURES = [
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 50
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 50
+      "ember": 50
     },
     "abilities": [
       {
@@ -3164,7 +1194,7 @@ export const LIBRARY_CREATURES = [
           "debuff"
         ],
         "tags": [
-          "bludgeoning",
+          "physical",
           "law",
           "melee"
         ],
@@ -3183,7 +1213,7 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d8 + 4",
           "damageTypes": [
-            "bludgeoning"
+            "physical"
           ],
           "damageType": "direct",
           "elementType": "physical",
@@ -3231,7 +1261,7 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "cone",
           "stun"
         ],
@@ -3254,10 +1284,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "3d6",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2,
@@ -3486,12 +1516,12 @@ export const LIBRARY_CREATURES = [
     },
     "resistances": {
       "physical": 50,
-      "poison": "immune",
-      "psychic": 75
+      "blight": "immune",
+      "wyrd": 75
     },
     "vulnerabilities": {
-      "fire": 100,
-      "radiant": 50
+      "ember": 100,
+      "ember": 50
     },
     "abilities": [
       {
@@ -3506,7 +1536,7 @@ export const LIBRARY_CREATURES = [
           "control"
         ],
         "tags": [
-          "bludgeoning",
+          "physical",
           "restraint",
           "ranged"
         ],
@@ -3525,7 +1555,7 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d10 + 5",
           "damageTypes": [
-            "bludgeoning"
+            "physical"
           ],
           "damageType": "direct",
           "elementType": "physical",
@@ -3573,7 +1603,7 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "bludgeoning",
+          "physical",
           "area",
           "knockdown"
         ],
@@ -3596,7 +1626,7 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "4d8",
           "damageTypes": [
-            "bludgeoning"
+            "physical"
           ],
           "damageType": "direct",
           "elementType": "physical",
@@ -3675,11 +1705,11 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "fear",
           "area"
         ],
-        "flavorText": "\"I didn't do it.\" / \"Please.\" / \"I forgive you.\" — the bark remembers them all.",
+        "flavorText": "\"I didn't do it.\" / \"Please.\" / \"I forgive you.\" â€” the bark remembers them all.",
         "resolution": "COINS",
         "specialMechanics": {
           "coinFlip": {
@@ -3732,10 +1762,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "3d8",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "COINS",
           "canCrit": true,
           "critMultiplier": 2,
@@ -3818,7 +1848,7 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d6",
           "damageTypes": [
-            "piercing"
+            "physical"
           ],
           "damageType": "direct",
           "elementType": "physical",
@@ -3925,8 +1955,8 @@ export const LIBRARY_CREATURES = [
       "elemental",
       "nordhalla",
       "wyrd-creature",
-      "cold",
-      "frost"
+      "rime",
+      "rime"
     ],
     "tokenIcon": "Bestiary/kjarn",
     "tokenBorder": "#87CEEB",
@@ -3951,11 +1981,11 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
+      "rime": 100,
       "physical": 75
     },
     "vulnerabilities": {
-      "fire": 100
+      "ember": 100
     },
     "abilities": [
       {
@@ -3971,7 +2001,7 @@ export const LIBRARY_CREATURES = [
           "healing"
         ],
         "tags": [
-          "cold",
+          "rime",
           "drain",
           "melee"
         ],
@@ -3990,10 +2020,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d4",
           "damageTypes": [
-            "cold"
+            "rime"
           ],
           "damageType": "direct",
-          "elementType": "cold",
+          "elementType": "rime",
           "resolution": "DICE",
           "canCrit": false,
           "critMultiplier": 2,
@@ -4052,7 +2082,7 @@ export const LIBRARY_CREATURES = [
           "damage"
         ],
         "tags": [
-          "cold",
+          "rime",
           "area",
           "slow"
         ],
@@ -4076,11 +2106,11 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d4",
           "damageTypes": [
-            "cold",
-            "piercing"
+            "rime",
+            "physical"
           ],
           "damageType": "direct",
-          "elementType": "cold",
+          "elementType": "rime",
           "resolution": "AUTOMATIC",
           "canCrit": false,
           "critMultiplier": 2,
@@ -4182,17 +2212,17 @@ export const LIBRARY_CREATURES = [
       "darkvision": 120
     },
     "resistances": {
-      "cold": 100,
-      "psychic": 50
+      "rime": 100,
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "fire": 75
+      "ember": 75
     },
     "abilities": [
       {
         "id": "huld_archive_pulse",
         "name": "Archive Pulse",
-        "description": "Emits a burst of Archive memory that burns neural pathways. Fail and be stunned — succeed and the Huld absorbs your knowledge.",
+        "description": "Emits a burst of Archive memory that burns neural pathways. Fail and be stunned â€” succeed and the Huld absorbs your knowledge.",
         "level": 3,
         "spellType": "ENCHANTMENT",
         "icon": "spell_arcane_arcane01",
@@ -4202,7 +2232,7 @@ export const LIBRARY_CREATURES = [
           "buff"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "cone",
           "stun"
         ],
@@ -4225,10 +2255,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "3d6 + intelligence",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2,
@@ -4375,7 +2405,7 @@ export const LIBRARY_CREATURES = [
           "debuff"
         ],
         "tags": [
-          "bludgeoning",
+          "physical",
           "armor-break",
           "melee"
         ],
@@ -4394,7 +2424,7 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d10 + 5",
           "damageTypes": [
-            "bludgeoning"
+            "physical"
           ],
           "damageType": "direct",
           "elementType": "physical",
@@ -4517,13 +2547,13 @@ export const LIBRARY_CREATURES = [
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "piercing": 100,
-      "slashing": 100
+      "rime": 100,
+      "physical": 100,
+      "physical": 100
     },
     "vulnerabilities": {
-      "bludgeoning": 75,
-      "fire": 50
+      "physical": 75,
+      "ember": 50
     },
     "abilities": [
       {
@@ -4538,7 +2568,7 @@ export const LIBRARY_CREATURES = [
           "control"
         ],
         "tags": [
-          "cold",
+          "rime",
           "grapple",
           "melee"
         ],
@@ -4557,11 +2587,11 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d8 + 5",
           "damageTypes": [
-            "cold",
-            "piercing"
+            "rime",
+            "physical"
           ],
           "damageType": "direct",
-          "elementType": "cold",
+          "elementType": "rime",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2.5,
@@ -4633,7 +2663,7 @@ export const LIBRARY_CREATURES = [
           "debuff"
         ],
         "tags": [
-          "cold",
+          "rime",
           "aura",
           "passive"
         ],
@@ -4656,10 +2686,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d6",
           "damageTypes": [
-            "cold"
+            "rime"
           ],
           "damageType": "direct",
-          "elementType": "cold",
+          "elementType": "rime",
           "resolution": "AUTOMATIC",
           "canCrit": false,
           "critMultiplier": 2,
@@ -4739,12 +2769,12 @@ export const LIBRARY_CREATURES = [
           "summoning"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "death-trigger",
           "fear",
           "summon"
         ],
-        "flavorText": "\"I remember being warm.\" — the last word of every Skrei.",
+        "flavorText": "\"I remember being warm.\" â€” the last word of every Skrei.",
         "resolution": "COINS",
         "specialMechanics": {
           "coinFlip": {
@@ -4796,10 +2826,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d6",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "COINS",
           "canCrit": true,
           "critMultiplier": 3,
@@ -4957,12 +2987,12 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "fire": 100,
+      "ember": 100,
       "physical": 100
     },
     "vulnerabilities": {
-      "cold": 100,
-      "frost": 100
+      "rime": 100,
+      "rime": 100
     },
     "abilities": [
       {
@@ -4976,7 +3006,7 @@ export const LIBRARY_CREATURES = [
           "damage"
         ],
         "tags": [
-          "fire",
+          "ember",
           "aura",
           "passive"
         ],
@@ -4999,10 +3029,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d8",
           "damageTypes": [
-            "fire"
+            "ember"
           ],
           "damageType": "direct",
-          "elementType": "fire",
+          "elementType": "ember",
           "resolution": "AUTOMATIC",
           "canCrit": false,
           "critMultiplier": 2,
@@ -5011,7 +3041,7 @@ export const LIBRARY_CREATURES = [
             "enabled": true,
             "damagePerTick": "1d4",
             "damageTypes": [
-              "fire"
+              "ember"
             ],
             "tickFrequency": "round",
             "duration": 2,
@@ -5130,12 +3160,12 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "poison": "immune",
-      "psychic": "immune",
-      "necrotic": "immune"
+      "blight": "immune",
+      "wyrd": "immune",
+      "blight": "immune"
     },
     "vulnerabilities": {
-      "bludgeoning": 50
+      "physical": 50
     },
     "abilities": [
       {
@@ -5150,7 +3180,7 @@ export const LIBRARY_CREATURES = [
           "control"
         ],
         "tags": [
-          "bludgeoning",
+          "physical",
           "knockdown",
           "melee"
         ],
@@ -5173,7 +3203,7 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d8 + 3",
           "damageTypes": [
-            "bludgeoning"
+            "physical"
           ],
           "damageType": "direct",
           "elementType": "physical",
@@ -5351,10 +3381,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d4",
           "damageTypes": [
-            "necrotic"
+            "blight"
           ],
           "damageType": "direct",
-          "elementType": "necrotic",
+          "elementType": "blight",
           "resolution": "DICE",
           "canCrit": false,
           "critMultiplier": 2,
@@ -5499,14 +3529,14 @@ export const LIBRARY_CREATURES = [
       "darkvision": 120
     },
     "resistances": {
-      "fire": 100,
-      "cold": 100,
-      "radiant": 100,
+      "ember": 100,
+      "rime": 100,
+      "ember": 100,
       "physical": 25
     },
     "vulnerabilities": {
-      "void": 75,
-      "shadow": 75
+      "blight": 75,
+      "blight": 75
     },
     "abilities": [
       {
@@ -5521,7 +3551,7 @@ export const LIBRARY_CREATURES = [
           "debuff"
         ],
         "tags": [
-          "fire",
+          "ember",
           "ranged",
           "burn"
         ],
@@ -5540,11 +3570,11 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "3d10",
           "damageTypes": [
-            "fire",
-            "piercing"
+            "ember",
+            "physical"
           ],
           "damageType": "direct",
-          "elementType": "fire",
+          "elementType": "ember",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 3,
@@ -5617,7 +3647,7 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "radiant",
+          "ember",
           "area",
           "blind"
         ],
@@ -5640,10 +3670,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "4d8 + spirit",
           "damageTypes": [
-            "radiant"
+            "ember"
           ],
           "damageType": "direct",
-          "elementType": "radiant",
+          "elementType": "ember",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2.5,
@@ -5870,20 +3900,20 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "fire": 100,
+      "rime": 100,
+      "ember": 100,
       "physical": 100,
-      "radiant": 50
+      "ember": 50
     },
     "vulnerabilities": {
-      "bludgeoning": 100,
-      "force": 100
+      "physical": 100,
+      "storm": 100
     },
     "abilities": [
       {
         "id": "orun_stellar_vision",
         "name": "Stellar Vision",
-        "description": "Touching the Orun forces a vision of the pre-Dimming sky — beautiful and devastating.",
+        "description": "Touching the Orun forces a vision of the pre-Dimming sky â€” beautiful and devastating.",
         "level": 3,
         "spellType": "ENCHANTMENT",
         "icon": "ability_priest_leapoffaith",
@@ -5893,7 +3923,7 @@ export const LIBRARY_CREATURES = [
           "buff"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "vision",
           "touch"
         ],
@@ -5955,10 +3985,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d6",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "CARDS",
           "canCrit": true,
           "critMultiplier": 3,
@@ -6096,13 +4126,13 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "poison": 100,
-      "necrotic": 50
+      "rime": 100,
+      "blight": 100,
+      "blight": 50
     },
     "vulnerabilities": {
-      "fire": 75,
-      "radiant": 50
+      "ember": 75,
+      "ember": 50
     },
     "abilities": [
       {
@@ -6117,7 +4147,7 @@ export const LIBRARY_CREATURES = [
           "control"
         ],
         "tags": [
-          "bludgeoning",
+          "physical",
           "water",
           "melee"
         ],
@@ -6136,7 +4166,7 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d8 + 4",
           "damageTypes": [
-            "bludgeoning"
+            "physical"
           ],
           "damageType": "direct",
           "elementType": "water",
@@ -6256,7 +4286,7 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "sonic",
           "area"
         ],
@@ -6279,10 +4309,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d6 + spirit",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2,
@@ -6390,355 +4420,105 @@ export const LIBRARY_CREATURES = [
     "dateCreated": "2026-06-06T20:28:54.319Z",
     "lastModified": "2026-06-06T20:28:54.319Z"
   },
-  {
+    {
     "id": "pelagos",
-    "name": "Reef Hound",
-    "description": "An amphibious mammal native to the shallow reefs. A playful, seal-like hunter that swims in coastal waters, catching fish.",
-    "type": CREATURE_TYPES.ELEMENTAL,
-    "size": CREATURE_SIZES.HUGE,
+    "name": "Pelagos",
+    "description": "A sleek, hound-like sea hunter with smooth indigo-green shark skin, webbed paws, a shark tail, and glowing whiskers that sense vibrations in freezing currents.",
+    "type": CREATURE_TYPES.BEAST,
+    "size": CREATURE_SIZES.MEDIUM,
     "tags": [
-      "elemental",
+      "beast",
       "iceheart",
       "wyrd-creature",
-      "current",
-      "ocean",
-      "boss"
+      "hound",
+      "bioluminescent",
+      "guardian"
     ],
     "tokenIcon": "Bestiary/pelagos",
     "tokenBorder": "#00CED1",
     "stats": {
-      "strength": 20,
-      "agility": 14,
-      "constitution": 20,
-      "intelligence": 14,
-      "spirit": 14,
+      "strength": 14,
+      "agility": 18,
+      "constitution": 12,
+      "intelligence": 10,
+      "spirit": 12,
       "charisma": 12,
-      "maxHp": 300,
-      "currentHp": 300,
-      "maxMana": 0,
-      "currentMana": 0,
+      "maxHp": 85,
+      "currentHp": 85,
+      "maxMana": 10,
+      "currentMana": 10,
       "maxActionPoints": 4,
       "currentActionPoints": 4,
-      "initiative": 2,
-      "speed": 20,
+      "initiative": 3,
+      "speed": 40,
       "flying": 0,
-      "swimming": 60,
-      "sightRange": 120,
-      "darkvision": 0
+      "swimming": 50,
+      "sightRange": 60,
+      "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "physical": 75,
-      "piercing": 75,
-      "slashing": 75
+      "rime": 100,
+      "physical": 50,
+      "physical": 50
     },
-    "vulnerabilities": {
-      "fire": 100
-    },
+    "vulnerabilities": {},
     "abilities": [
       {
-        "id": "pelagos_shipbreaker",
-        "name": "Shipbreaker",
-        "description": "Forms a focused jet of water under immense pressure that shatters hulls and crushes bone.",
-        "level": 5,
+        "name": "Bioluminescent Flash",
+        "description": "Emits a sharp flash of light from its eyes, blinding a target.",
+        "type": "spell",
         "spellType": "EVOCATION",
-        "icon": "spell_nature_earthquake",
-        "effectTypes": [
-          "damage",
-          "control"
-        ],
-        "tags": [
-          "bludgeoning",
-          "ranged",
-          "heavy"
-        ],
-        "flavorText": "It has broken a thousand ships. You are no different.",
-        "resolution": "DICE",
-        "targetingConfig": {
-          "targetingType": "single",
-          "rangeType": "ranged",
-          "rangeDistance": 60,
-          "targetRestrictions": [
-            "enemy",
-            "creature"
-          ],
-          "requiresLineOfSight": true
-        },
-        "damageConfig": {
-          "formula": "4d12",
-          "damageTypes": [
-            "bludgeoning"
-          ],
-          "damageType": "direct",
-          "elementType": "water",
-          "resolution": "DICE",
-          "canCrit": true,
-          "critMultiplier": 2.5,
-          "critDiceOnly": false
-        },
-        "knockbackConfig": {
-          "distance": 20
-        },
-        "controlConfig": {
-          "controlType": "forcedMovement",
-          "strength": "strong",
-          "duration": 0,
-          "durationUnit": "instant",
-          "saveDC": 16,
-          "saveType": "agility",
-          "savingThrow": true,
-          "saveOutcome": "half_damage",
-          "effects": [
-            {
-              "id": "jet_push",
-              "name": "Hurled Back",
-              "description": "Launched backward by water pressure.",
-              "mechanicsText": "Pushed 20 ft and knocked prone on failed Agility DC 16 save. Half damage on success."
-            }
-          ]
-        },
-        "resourceCost": {
-          "actionPoints": 4
-        },
-        "cooldownConfig": {
-          "cooldownType": "turn_based",
-          "cooldownValue": 2
-        }
-      },
-      {
-        "id": "pelagos_warm_calm",
-        "name": "Warm Calm",
-        "description": "The water within the Pelagos ring radiates unnatural warmth, healing all living creatures within.",
         "level": 2,
-        "spellType": "PASSIVE",
-        "icon": "ability_druid_treeoflife",
-        "effectTypes": [
-          "healing"
-        ],
-        "tags": [
-          "healing",
-          "aura",
-          "passive"
-        ],
-        "flavorText": "The only warm water in the Iceheart. Creatures gather near it and forget to leave.",
-        "resolution": "AUTOMATIC",
-        "targetingConfig": {
-          "targetingType": "area",
-          "rangeType": "self_centered",
-          "rangeDistance": 0,
-          "targetRestrictions": [
-            "ally",
-            "creature"
-          ],
-          "requiresLineOfSight": false,
-          "aoeShape": "circle",
-          "aoeParameters": {
-            "radius": 20
-          }
-        },
-        "healingConfig": {
-          "formula": "1d6",
-          "healingType": "direct",
-          "resolution": "AUTOMATIC",
-          "hasHotEffect": false
-        },
-        "triggerConfig": {
-          "global": {
-            "enabled": true,
-            "logicType": "OR",
-            "compoundTriggers": [
-              {
-                "id": "pelagos_warm_passive",
-                "category": "health",
-                "name": "Always Active",
-                "parameters": {
-                  "perspective": "self",
-                  "percentage": 100,
-                  "comparison": "greater_than",
-                  "triggerChance": 100
-                }
-              }
-            ]
-          },
-          "triggerRole": {
-            "mode": "CONDITIONAL",
-            "activationDelay": 0,
-            "requiresLOS": false
-          }
-        },
-        "resourceCost": {
-          "actionPoints": 0
-        },
-        "cooldownConfig": {
-          "cooldownType": "turn_based",
-          "cooldownValue": 0
-        }
-      },
-      {
-        "id": "pelagos_undertow",
-        "name": "Crushing Depths",
-        "description": "Water-pressure within the ring increases exponentially, dragging hostile creatures down.",
-        "level": 5,
-        "spellType": "EVOCATION",
-        "icon": "spell_shadow_grasp",
-        "effectTypes": [
-          "control",
-          "damage",
-          "aoe"
-        ],
-        "tags": [
-          "grapple",
-          "crush",
-          "area"
-        ],
-        "flavorText": "The depth does not care what you need to breathe.",
-        "resolution": "DICE",
-        "targetingConfig": {
-          "targetingType": "area",
-          "rangeType": "self_centered",
-          "rangeDistance": 0,
-          "targetRestrictions": [
-            "enemy",
-            "creature"
-          ],
-          "requiresLineOfSight": false,
-          "aoeShape": "circle",
-          "aoeParameters": {
-            "radius": 20
-          }
-        },
-        "damageConfig": {
-          "formula": "2d10",
-          "damageTypes": [
-            "bludgeoning"
-          ],
-          "damageType": "direct",
-          "elementType": "water",
-          "resolution": "DICE",
-          "canCrit": false,
-          "critMultiplier": 2,
-          "critDiceOnly": false,
-          "dotConfig": {
-            "enabled": true,
-            "damagePerTick": "2d6",
-            "damageTypes": [
-              "bludgeoning"
-            ],
-            "tickFrequency": "round",
-            "duration": 3,
-            "canStack": false,
-            "maxStacks": 1
-          }
-        },
-        "controlConfig": {
-          "controlType": "restraint",
-          "strength": "strong",
-          "duration": 1,
-          "durationUnit": "rounds",
-          "saveDC": 18,
-          "saveType": "strength",
-          "savingThrow": true,
-          "saveOutcome": "negates",
-          "effects": [
-            {
-              "id": "depth_crush",
-              "name": "Restrained & Crushing",
-              "description": "Crushed by deep-water pressure.",
-              "mechanicsText": "Restrained for 1 round on failed Strength DC 18 save. 2d6 bludgeoning per round while restrained."
+        "icon": "spell_holy_mindvision",
+        "range": 30,
+        "actionPointCost": 2,
+        "cooldown": 1,
+        "effects": [
+          {
+            "type": "SAVE",
+            "attribute": "agility",
+            "dc": 13,
+            "onFail": {
+              "type": "CONDITION",
+              "condition": "blinded",
+              "duration": 1
             }
-          ]
-        },
-        "summoningConfig": {
-          "creatureType": "elemental",
-          "creatures": [
-            {
-              "id": "depth_current",
-              "name": "Depth Current",
-              "description": "A self-contained ring of crushing water.",
-              "size": CREATURE_SIZES.MEDIUM,
-              "type": CREATURE_TYPES.ELEMENTAL,
-              "tokenIcon": "spell_shadow_drain",
-              "stats": {
-                "maxHp": 30,
-                "maxMana": 0
-              },
-              "config": {
-                "quantity": 1,
-                "duration": 4,
-                "durationUnit": "rounds",
-                "hasDuration": true,
-                "concentration": false,
-                "controlType": "autonomous",
-                "controlRange": 30,
-                "abilities": "Grapples one creature at a time. 2d10 bludgeoning per round while grappling."
-              }
-            }
-          ],
-          "duration": 4,
-          "durationUnit": "rounds",
-          "hasDuration": true,
-          "concentration": false,
-          "controlRange": 30,
-          "controlType": "autonomous",
-          "maxSummons": 2
-        },
-        "resourceCost": {
-          "actionPoints": 3
-        },
-        "cooldownConfig": {
-          "cooldownType": "turn_based",
-          "cooldownValue": 2
-        }
+          }
+        ]
       }
     ],
     "lootTable": {
       "currency": {
         "platinum": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "gold": {
-          "min": 20,
-          "max": 80
+          "min": 0,
+          "max": 3
         },
         "silver": {
-          "min": 60,
-          "max": 200
+          "min": 5,
+          "max": 15
         },
         "copper": {
-          "min": 100,
-          "max": 400
+          "min": 10,
+          "max": 30
         }
       },
       "items": [
         {
-          "itemId": "water-essence",
-          "dropChance": 100,
+          "itemId": "glowing-whisker",
+          "dropChance": 30,
           "quantity": {
-            "min": 3,
-            "max": 6
-          }
-        },
-        {
-          "itemId": "bone-plates",
-          "dropChance": 35,
-          "quantity": {
-            "min": 2,
-            "max": 5
-          }
-        },
-        {
-          "itemId": "wooden-haft",
-          "dropChance": 40,
-          "quantity": {
-            "min": 3,
-            "max": 6
+            "min": 1,
+            "max": 2
           }
         }
       ]
     },
-    "dateCreated": "2026-06-06T20:28:54.319Z",
-    "lastModified": "2026-06-06T20:28:54.319Z"
+    "dateCreated": "2026-06-11T20:20:00Z",
+    "lastModified": "2026-06-11T20:20:00Z"
   },
   {
     "id": "qalpa",
@@ -6776,12 +4556,12 @@ export const LIBRARY_CREATURES = [
       "darkvision": 60
     },
     "resistances": {
-      "fire": 100,
-      "poison": 100
+      "ember": 100,
+      "blight": 100
     },
     "vulnerabilities": {
-      "cold": 50,
-      "frost": 50
+      "rime": 50,
+      "rime": 50
     },
     "abilities": [
       {
@@ -6795,7 +4575,7 @@ export const LIBRARY_CREATURES = [
           "damage"
         ],
         "tags": [
-          "piercing",
+          "physical",
           "melee",
           "mining"
         ],
@@ -6814,7 +4594,7 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d6 + 3",
           "damageTypes": [
-            "piercing"
+            "physical"
           ],
           "damageType": "direct",
           "elementType": "physical",
@@ -6826,7 +4606,7 @@ export const LIBRARY_CREATURES = [
             "enabled": true,
             "damagePerTick": "1",
             "damageTypes": [
-              "piercing"
+              "physical"
             ],
             "tickFrequency": "round",
             "duration": 3,
@@ -6855,7 +4635,7 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "fire",
+          "ember",
           "cone",
           "breath"
         ],
@@ -6878,10 +4658,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d8 + 2",
           "damageTypes": [
-            "fire"
+            "ember"
           ],
           "damageType": "direct",
-          "elementType": "fire",
+          "elementType": "ember",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2,
@@ -7014,16 +4794,16 @@ export const LIBRARY_CREATURES = [
     },
     "resistances": {
       "physical": 100,
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
-      "radiant": 75
+      "ember": 75
     },
     "abilities": [
       {
         "id": "kintsu_name_toll",
         "name": "Name-Toll",
-        "description": "Forces the target to forget their own name for three days. The toll is always paid — the only question is how much.",
+        "description": "Forces the target to forget their own name for three days. The toll is always paid â€” the only question is how much.",
         "level": 4,
         "spellType": "ENCHANTMENT",
         "icon": "spell_shadow_silence",
@@ -7032,7 +4812,7 @@ export const LIBRARY_CREATURES = [
           "control"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "charisma",
           "fate"
         ],
@@ -7217,7 +4997,7 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "area",
           "confusion"
         ],
@@ -7240,10 +5020,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d6 + charisma",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2.5,
@@ -7354,12 +5134,12 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
+      "rime": 100,
       "physical": 50,
-      "psychic": 75
+      "wyrd": 75
     },
     "vulnerabilities": {
-      "fire": 100
+      "ember": 100
     },
     "abilities": [
       {
@@ -7393,11 +5173,11 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d8",
           "damageTypes": [
-            "cold",
-            "necrotic"
+            "rime",
+            "blight"
           ],
           "damageType": "direct",
-          "elementType": "void",
+          "elementType": "blight",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2,
@@ -7443,7 +5223,7 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "vision",
           "area",
           "passive"
@@ -7513,10 +5293,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d4",
           "damageTypes": [
-            "psychic"
+            "wyrd"
           ],
           "damageType": "direct",
-          "elementType": "psychic",
+          "elementType": "wyrd",
           "resolution": "CARDS",
           "canCrit": true,
           "critMultiplier": 3,
@@ -7605,7 +5385,7 @@ export const LIBRARY_CREATURES = [
           "debuff"
         ],
         "tags": [
-          "necrotic",
+          "blight",
           "passive",
           "drain"
         ],
@@ -7628,10 +5408,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d8",
           "damageTypes": [
-            "necrotic"
+            "blight"
           ],
           "damageType": "direct",
-          "elementType": "necrotic",
+          "elementType": "blight",
           "resolution": "AUTOMATIC",
           "canCrit": false,
           "critMultiplier": 2,
@@ -7783,12 +5563,12 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
+      "rime": 100,
       "physical": 100
     },
     "vulnerabilities": {
-      "radiant": 100,
-      "fire": 100
+      "ember": 100,
+      "ember": 100
     },
     "abilities": [
       {
@@ -7966,7 +5746,7 @@ export const LIBRARY_CREATURES = [
       "wyrd-creature",
       "sky",
       "starless",
-      "void"
+      "blight"
     ],
     "tokenIcon": "Bestiary/placeholder",
     "tokenBorder": "#191970",
@@ -7991,13 +5771,13 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
+      "rime": 100,
       "physical": 100,
-      "psychic": 50
+      "wyrd": 50
     },
     "vulnerabilities": {
-      "radiant": 75,
-      "fire": 50
+      "ember": 75,
+      "ember": 50
     },
     "abilities": [
       {
@@ -8013,8 +5793,8 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "cold",
-          "void",
+          "rime",
+          "blight",
           "area",
           "passive"
         ],
@@ -8037,10 +5817,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d6",
           "damageTypes": [
-            "cold"
+            "rime"
           ],
           "damageType": "direct",
-          "elementType": "cold",
+          "elementType": "rime",
           "resolution": "AUTOMATIC",
           "canCrit": false,
           "critMultiplier": 2,
@@ -8120,7 +5900,7 @@ export const LIBRARY_CREATURES = [
         ],
         "tags": [
           "paralyze",
-          "void",
+          "blight",
           "area"
         ],
         "flavorText": "Look up. See what isn't there. See what will never be there again.",
@@ -8314,15 +6094,15 @@ export const LIBRARY_CREATURES = [
       "darkvision": 0
     },
     "resistances": {
-      "cold": 100,
-      "poison": 100,
-      "psychic": 100,
-      "piercing": 100,
-      "slashing": 100
+      "rime": 100,
+      "blight": 100,
+      "wyrd": 100,
+      "physical": 100,
+      "physical": 100
     },
     "vulnerabilities": {
-      "fire": 100,
-      "bludgeoning": 75
+      "ember": 100,
+      "physical": 75
     },
     "abilities": [
       {
@@ -8337,7 +6117,7 @@ export const LIBRARY_CREATURES = [
           "control"
         ],
         "tags": [
-          "cold",
+          "rime",
           "melee",
           "crush"
         ],
@@ -8360,11 +6140,11 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "3d10 + 6",
           "damageTypes": [
-            "cold",
-            "bludgeoning"
+            "rime",
+            "physical"
           ],
           "damageType": "direct",
-          "elementType": "cold",
+          "elementType": "rime",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 2.5,
@@ -8410,12 +6190,12 @@ export const LIBRARY_CREATURES = [
           "summoning"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "fear",
           "area",
           "summon"
         ],
-        "flavorText": "\"I was warm once.\" \"My children...\" \"Don't look back.\" — a chorus of the consumed.",
+        "flavorText": "\"I was warm once.\" \"My children...\" \"Don't look back.\" â€” a chorus of the consumed.",
         "resolution": "COINS",
         "specialMechanics": {
           "coinFlip": {
@@ -8539,7 +6319,7 @@ export const LIBRARY_CREATURES = [
         ],
         "tags": [
           "blind",
-          "cold",
+          "rime",
           "area",
           "passive"
         ],
@@ -8562,10 +6342,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "1d4",
           "damageTypes": [
-            "cold"
+            "rime"
           ],
           "damageType": "direct",
-          "elementType": "cold",
+          "elementType": "rime",
           "resolution": "AUTOMATIC",
           "canCrit": false,
           "critMultiplier": 2,
@@ -8710,7 +6490,7 @@ export const LIBRARY_CREATURES = [
       "bryngloom",
       "wyrd-creature",
       "darkness",
-      "shadow"
+      "blight"
     ],
     "tokenIcon": "Bestiary/placeholder",
     "tokenBorder": "#0A0A0A",
@@ -8736,13 +6516,13 @@ export const LIBRARY_CREATURES = [
     },
     "resistances": {
       "physical": 100,
-      "cold": 100,
-      "necrotic": 100,
-      "psychic": 100
+      "rime": 100,
+      "blight": 100,
+      "wyrd": 100
     },
     "vulnerabilities": {
-      "radiant": 200,
-      "fire": 200
+      "ember": 200,
+      "ember": 200
     },
     "abilities": [
       {
@@ -8757,7 +6537,7 @@ export const LIBRARY_CREATURES = [
           "debuff"
         ],
         "tags": [
-          "necrotic",
+          "blight",
           "drain",
           "touch"
         ],
@@ -8776,10 +6556,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "2d6",
           "damageTypes": [
-            "necrotic"
+            "blight"
           ],
           "damageType": "direct",
-          "elementType": "necrotic",
+          "elementType": "blight",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 3,
@@ -8864,424 +6644,94 @@ export const LIBRARY_CREATURES = [
     "dateCreated": "2026-06-06T20:28:54.320Z",
     "lastModified": "2026-06-06T20:28:54.320Z"
   },
-  {
+      {
     "id": "vatra",
-    "name": "Fungal Nymph",
-    "description": "A forest spirit wrapped in glowing mushrooms and vines. A glowing sprite that guides travelers through the swamp paths.",
-    "type": CREATURE_TYPES.UNDEAD,
-    "size": CREATURE_SIZES.MEDIUM,
+    "name": "Vatra",
+    "description": "A tiny, scurrying wood sprite with mossy swamp hair that nests in hollow trees. It carries a highly prized, warm glowing sap and communicates in wooden clicks.",
+    "type": CREATURE_TYPES.FEY,
+    "size": CREATURE_SIZES.TINY,
     "tags": [
-      "undead",
+      "fey",
       "bryngloom",
       "wyrd-creature",
-      "neth",
-      "drun",
-      "names"
+      "woodland",
+      "sprite",
+      "scurry"
     ],
-    "tokenIcon": "Bestiary/placeholder",
-    "tokenBorder": "#C0C0C0",
+    "tokenIcon": "Bestiary/vatra",
+    "tokenBorder": "#00FF00",
     "stats": {
-      "strength": 12,
-      "agility": 10,
-      "constitution": 16,
-      "intelligence": 14,
-      "spirit": 16,
-      "charisma": 14,
-      "maxHp": 80,
-      "currentHp": 80,
-      "maxMana": 20,
-      "currentMana": 20,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 2,
-      "speed": 25,
+      "strength": 6,
+      "agility": 18,
+      "constitution": 10,
+      "intelligence": 12,
+      "spirit": 14,
+      "charisma": 12,
+      "maxHp": 45,
+      "currentHp": 45,
+      "maxMana": 10,
+      "currentMana": 10,
+      "maxActionPoints": 4,
+      "currentActionPoints": 4,
+      "initiative": 4,
+      "speed": 40,
       "flying": 0,
-      "swimming": 20,
-      "sightRange": 40,
+      "swimming": 10,
+      "sightRange": 60,
       "darkvision": 60
     },
     "resistances": {
-      "necrotic": 100,
-      "poison": 50
+      "blight": 50,
+      "blight": 50
     },
     "vulnerabilities": {
-      "fire": 50,
-      "radiant": 50
+      "ember": 50
     },
     "abilities": [
       {
-        "id": "vatra_fungal_thread",
-        "name": "Fungal Thread",
-        "description": "A glowing thread extends and binds the target, draining vitality while asking: \"May I borrow your name?\"",
-        "level": 3,
-        "spellType": "EVOCATION",
-        "icon": "spell_nature_stranglevines",
-        "effectTypes": [
-          "damage",
-          "control",
-          "debuff"
-        ],
-        "tags": [
-          "piercing",
-          "grapple",
-          "ranged"
-        ],
-        "flavorText": "\"May I borrow your name?\" — the question is always the same. The answer never matters.",
-        "resolution": "COINS",
-        "specialMechanics": {
-          "coinFlip": {
-            "heads": {
-              "effect": "name_weakened",
-              "description": "Heads: Thread drains a fragment of identity. -2 Charisma for 2 rounds."
-            },
-            "tails": {
-              "effect": "vitality_drain",
-              "description": "Tails: Thread drains life force. 1d6 necrotic damage and -1 Constitution for 1 round."
-            }
-          },
-          "gamblingGame": {
-            "gameType": "coin_flip",
-            "resolution": "COINS",
-            "rules": {
-              "flipCount": 1
-            },
-            "outcomeTiers": [
-              {
-                "condition": "heads",
-                "name": "Name Thread",
-                "charismaDrain": 2,
-                "charismaDuration": 2
-              },
-              {
-                "condition": "tails",
-                "name": "Life Thread",
-                "damage": "1d6 necrotic",
-                "conDrain": 1
-              }
-            ]
-          }
-        },
-        "targetingConfig": {
-          "targetingType": "single",
-          "rangeType": "ranged",
-          "rangeDistance": 10,
-          "targetRestrictions": [
-            "enemy",
-            "creature"
-          ],
-          "requiresLineOfSight": true
-        },
-        "damageConfig": {
-          "formula": "1d8 + 3",
-          "damageTypes": [
-            "piercing"
-          ],
-          "damageType": "direct",
-          "elementType": "physical",
-          "resolution": "COINS",
-          "canCrit": true,
-          "critMultiplier": 2,
-          "critDiceOnly": false
-        },
-        "controlConfig": {
-          "controlType": "restraint",
-          "strength": "moderate",
-          "duration": 2,
-          "durationUnit": "rounds",
-          "saveDC": 14,
-          "saveType": "spirit",
-          "savingThrow": true,
-          "saveOutcome": "negates",
-          "effects": [
-            {
-              "id": "fungal_restraint",
-              "name": "Restrained",
-              "description": "Bound by glowing fungal threads.",
-              "mechanicsText": "Restrained for 2 rounds on failed Spirit DC 14 save."
-            }
-          ]
-        },
-        "resourceCost": {
-          "actionPoints": 3
-        },
-        "cooldownConfig": {
-          "cooldownType": "turn_based",
-          "cooldownValue": 0
-        }
-      },
-      {
-        "id": "vatra_burning_regen",
-        "name": "Burning Regeneration",
-        "description": "When below half HP, fungal threads ignite with cold fire — healing her while searing everything nearby.",
-        "level": 4,
-        "spellType": "PASSIVE",
-        "icon": "spell_fire_fire",
-        "effectTypes": [
-          "damage",
-          "healing",
-          "buff",
-          "aoe"
-        ],
-        "tags": [
-          "fire",
-          "regen",
-          "passive",
-          "trigger"
-        ],
-        "flavorText": "The fungus does not choose between growth and burning. It does both, always.",
-        "resolution": "AUTOMATIC",
-        "targetingConfig": {
-          "targetingType": "area",
-          "rangeType": "self_centered",
-          "rangeDistance": 0,
-          "targetRestrictions": [
-            "enemy",
-            "ally",
-            "creature"
-          ],
-          "requiresLineOfSight": false,
-          "aoeShape": "circle",
-          "aoeParameters": {
-            "radius": 10
-          }
-        },
-        "damageConfig": {
-          "formula": "1d6 + 2",
-          "damageTypes": [
-            "fire"
-          ],
-          "damageType": "direct",
-          "elementType": "fire",
-          "resolution": "AUTOMATIC",
-          "canCrit": false,
-          "critMultiplier": 2,
-          "critDiceOnly": false
-        },
-        "healingConfig": {
-          "formula": "2d6",
-          "healingType": "direct",
-          "resolution": "AUTOMATIC",
-          "hasHotEffect": true,
-          "hotFormula": "1d4",
-          "hotDuration": 3,
-          "hotTickType": "round"
-        },
-        "buffConfig": {
-          "buffType": "statEnhancement",
-          "effects": [
-            {
-              "id": "fungal_fortitude",
-              "name": "Burning Fortitude",
-              "description": "Ignited fungal threads harden into armor.",
-              "mechanicsText": "+4 Constitution while below half HP.",
-              "statModifier": {
-                "stat": "constitution",
-                "magnitude": 4,
-                "magnitudeType": "flat"
-              }
-            }
-          ],
-          "durationValue": 99,
-          "durationType": "rounds",
-          "durationUnit": "rounds",
-          "concentrationRequired": false,
-          "canBeDispelled": false
-        },
-        "triggerConfig": {
-          "global": {
-            "enabled": true,
-            "logicType": "OR",
-            "compoundTriggers": [
-              {
-                "id": "vatra_below_half",
-                "category": "health",
-                "name": "Below Half HP",
-                "parameters": {
-                  "perspective": "self",
-                  "percentage": 50,
-                  "comparison": "less_than",
-                  "triggerChance": 100
-                }
-              }
-            ]
-          },
-          "triggerRole": {
-            "mode": "CONDITIONAL",
-            "activationDelay": 0,
-            "requiresLOS": false
-          }
-        },
-        "resourceCost": {
-          "actionPoints": 0
-        },
-        "cooldownConfig": {
-          "cooldownType": "turn_based",
-          "cooldownValue": 0
-        }
-      },
-      {
-        "id": "vatra_name_question",
-        "name": "Name-Question",
-        "description": "\"May I borrow your name?\" — those who answer yes lose their identity. Those who refuse take psychic damage from the rejection of hospitality.",
-        "level": 4,
-        "spellType": "ENCHANTMENT",
-        "icon": "ability_priest_leapoffaith",
-        "effectTypes": [
-          "debuff",
-          "damage",
-          "summoning"
-        ],
-        "tags": [
-          "psychic",
-          "identity",
-          "summon"
-        ],
-        "flavorText": "Saying no to a Drun Neth is worse than saying yes. She remembers every refusal.",
-        "resolution": "DICE",
-        "targetingConfig": {
-          "targetingType": "single",
-          "rangeType": "ranged",
-          "rangeDistance": 10,
-          "targetRestrictions": [
-            "enemy",
-            "creature"
-          ],
-          "requiresLineOfSight": true
-        },
-        "debuffConfig": {
-          "debuffType": "statReduction",
-          "effects": [
-            {
-              "id": "identity_erased",
-              "name": "Nameless",
-              "description": "Your name is gone. Without it, who are you?",
-              "mechanicsText": "-8 Charisma for 6 rounds. Cannot be dispelled.",
-              "statusEffect": {
-                "penaltyType": "flat_penalty",
-                "affectedStats": [
-                  "charisma"
-                ]
-              }
-            }
-          ],
-          "statPenalties": [
-            {
-              "stat": "charisma",
-              "magnitude": -8,
-              "magnitudeType": "flat"
-            }
-          ],
-          "durationValue": 6,
-          "durationType": "rounds",
-          "durationUnit": "rounds",
-          "canBeDispelled": false,
-          "saveDC": 14,
-          "saveType": "spirit",
-          "saveOutcome": "negates"
-        },
-        "damageConfig": {
-          "formula": "2d6",
-          "damageTypes": [
-            "psychic"
-          ],
-          "damageType": "direct",
-          "elementType": "psychic",
-          "resolution": "DICE",
-          "canCrit": true,
-          "critMultiplier": 2,
-          "critDiceOnly": false
-        },
-        "summoningConfig": {
-          "creatureType": "undead",
-          "creatures": [
-            {
-              "id": "ash_child",
-              "name": "Ash Child",
-              "description": "A small figure of fungal thread and ash, wearing a stolen name.",
-              "size": CREATURE_SIZES.SMALL,
-              "type": CREATURE_TYPES.UNDEAD,
-              "tokenIcon": "spell_fire_fire",
-              "stats": {
-                "maxHp": 10,
-                "maxMana": 0
-              },
-              "config": {
-                "quantity": 3,
-                "duration": 4,
-                "durationUnit": "rounds",
-                "hasDuration": true,
-                "concentration": false,
-                "controlType": "autonomous",
-                "controlRange": 20,
-                "abilities": "Seeks the named target, dealing 1d4 psychic damage per round. Ignores other creatures."
-              }
-            }
-          ],
-          "duration": 4,
-          "durationUnit": "rounds",
-          "hasDuration": true,
-          "concentration": false,
-          "controlRange": 20,
-          "controlType": "autonomous",
-          "maxSummons": 6
-        },
-        "resourceCost": {
-          "actionPoints": 2
-        },
-        "cooldownConfig": {
-          "cooldownType": "turn_based",
-          "cooldownValue": 4
-        }
+        "name": "Scurry",
+        "description": "Moves rapidly without triggering opportunity attacks.",
+        "type": "spell",
+        "spellType": "CONJURATION",
+        "level": 1,
+        "icon": "spell_nature_strengthofearth",
+        "range": 50,
+        "actionPointCost": 1,
+        "cooldown": 1
       }
     ],
     "lootTable": {
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 5,
-          "max": 20
+          "min": 0,
+          "max": 1
         },
         "silver": {
-          "min": 15,
-          "max": 50
+          "min": 2,
+          "max": 8
         },
         "copper": {
-          "min": 30,
-          "max": 80
+          "min": 5,
+          "max": 20
         }
       },
       "items": [
         {
-          "itemId": "fieldleaf",
-          "dropChance": 35,
-          "quantity": {
-            "min": 2,
-            "max": 5
-          }
-        },
-        {
-          "itemId": "bitterroot",
-          "dropChance": 25,
+          "itemId": "warm-gold-sap",
+          "dropChance": 60,
           "quantity": {
             "min": 1,
-            "max": 3
-          }
-        },
-        {
-          "itemId": "wooden-haft",
-          "dropChance": 20,
-          "quantity": {
-            "min": 2,
-            "max": 4
+            "max": 2
           }
         }
       ]
     },
-    "dateCreated": "2026-06-06T20:28:54.320Z",
-    "lastModified": "2026-06-06T20:28:54.320Z"
+    "dateCreated": "2026-06-11T20:22:00Z",
+    "lastModified": "2026-06-11T20:22:00Z"
   },
   {
     "id": "vyraj",
@@ -9320,12 +6770,12 @@ export const LIBRARY_CREATURES = [
     },
     "resistances": {
       "physical": 75,
-      "psychic": 100,
-      "necrotic": 50
+      "wyrd": 100,
+      "blight": 50
     },
     "vulnerabilities": {
-      "radiant": 75,
-      "void": 75
+      "ember": 75,
+      "blight": 75
     },
     "abilities": [
       {
@@ -9340,7 +6790,7 @@ export const LIBRARY_CREATURES = [
           "control"
         ],
         "tags": [
-          "force",
+          "storm",
           "stun",
           "melee"
         ],
@@ -9359,10 +6809,10 @@ export const LIBRARY_CREATURES = [
         "damageConfig": {
           "formula": "3d10 + 6",
           "damageTypes": [
-            "force"
+            "storm"
           ],
           "damageType": "direct",
-          "elementType": "force",
+          "elementType": "storm",
           "resolution": "DICE",
           "canCrit": true,
           "critMultiplier": 3,
@@ -9397,7 +6847,7 @@ export const LIBRARY_CREATURES = [
       {
         "id": "vyraj_paradox_field",
         "name": "Paradox Field",
-        "description": "Creates a zone where logic breaks down — coordination becomes impossible and agreements are unmade.",
+        "description": "Creates a zone where logic breaks down â€” coordination becomes impossible and agreements are unmade.",
         "level": 6,
         "spellType": "ENCHANTMENT",
         "icon": "spell_shadow_silence",
@@ -9407,7 +6857,7 @@ export const LIBRARY_CREATURES = [
           "aoe"
         ],
         "tags": [
-          "psychic",
+          "wyrd",
           "area",
           "confuse",
           "paradox"
@@ -9728,147 +7178,6 @@ export const LIBRARY_CREATURES = [
     "lastModified": "2026-06-06T20:28:54.320Z"
   },
   {
-    "id": "mind-flayer",
-    "name": "Mind Flayer",
-    "description": "A terrifying aberration with a squid-like head and psionic powers. Feeds on the brains of intelligent creatures.",
-    "type": CREATURE_TYPES.ABERRATION,
-    "size": CREATURE_SIZES.MEDIUM,
-    "tags": [
-      "mind-flayer",
-      "aberration",
-      "psionic",
-      "intelligent"
-    ],
-    "tokenIcon": "inv_misc_head_dragon_black",
-    "tokenBorder": "#9370DB",
-    "stats": {
-      "strength": 11,
-      "agility": 12,
-      "constitution": 12,
-      "intelligence": 19,
-      "spirit": 17,
-      "charisma": 17,
-      "maxHp": 71,
-      "currentHp": 71,
-      "maxMana": 100,
-      "currentMana": 100,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 2,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 120,
-      "darkvision": 120
-    },
-    "resistances": {
-      "psychic": 50
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "name": "Tentacles",
-        "description": "Grasps with tentacles, dealing psychic damage.",
-        "type": CREATURE_TYPES.MELEE,
-        "icon": "ability_creature_poison_01",
-        "damage": {
-          "diceCount": 2,
-          "diceType": 6,
-          "bonus": 0,
-          "damageType": "psychic"
-        },
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "psychic",
-            "formula": "2d6"
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "intelligence",
-            "dc": 15,
-            "onFail": {
-              "type": CREATURE_TYPES.CONDITION,
-              "condition": "stunned",
-              "duration": 1
-            }
-          }
-        ]
-      },
-      {
-        "name": "Mind Blast",
-        "description": "A cone of psionic energy that stuns creatures.",
-        "type": CREATURE_TYPES.SPELL,
-        "spellType": "ENCHANTMENT",
-        "level": 5,
-        "icon": "spell_shadow_soulleech",
-        "range": 0,
-        "actionPointCost": 4,
-        "cooldown": 3,
-        "effects": [
-          {
-            "type": CREATURE_TYPES.AREA,
-            "shape": "cone",
-            "size": 30
-          },
-          {
-            "type": CREATURE_TYPES.SAVE,
-            "attribute": "intelligence",
-            "dc": 15,
-            "onFail": {
-              "type": CREATURE_TYPES.CONDITION,
-              "condition": "stunned",
-              "duration": 2
-            }
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 10,
-          "max": 30
-        },
-        "silver": {
-          "min": 20,
-          "max": 60
-        },
-        "copper": {
-          "min": 40,
-          "max": 120
-        }
-      },
-      "items": [
-        {
-          "itemId": "soul-fragment",
-          "dropChance": 35,
-          "quantity": {
-            "min": 2,
-            "max": 4
-          }
-        },
-        {
-          "itemId": "arcane-dust",
-          "dropChance": 30,
-          "quantity": {
-            "min": 3,
-            "max": 6
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.320Z",
-    "lastModified": "2026-06-06T20:28:54.320Z"
-  },
-  {
     "id": "pooka",
     "name": "Pooka",
     "description": "A wild fey creature of Celtic-Grimm folklore. A mischievous shapeshifting sprite that takes the form of a sleek black pony or a wild hare. It enjoys leading travelers on wild, fast chases through the woods but avoids causing direct harm.",
@@ -9904,7 +7213,7 @@ export const LIBRARY_CREATURES = [
       "darkvision": 60
     },
     "resistances": {
-      "psychic": 50
+      "wyrd": 50
     },
     "vulnerabilities": {},
     "abilities": [
@@ -9967,7 +7276,7 @@ export const LIBRARY_CREATURES = [
       "nordhalla",
       "wyrd-creature",
       "serpent",
-      "cold"
+      "rime"
     ],
     "tokenIcon": "Bestiary/placeholder",
     "tokenBorder": "#4682B4",
@@ -9992,11 +7301,11 @@ export const LIBRARY_CREATURES = [
       "darkvision": 60
     },
     "resistances": {
-      "cold": 100,
-      "poison": 50
+      "rime": 100,
+      "blight": 50
     },
     "vulnerabilities": {
-      "fire": 50
+      "ember": 50
     },
     "abilities": [
       {
@@ -10012,12 +7321,12 @@ export const LIBRARY_CREATURES = [
         "effects": [
           {
             "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "cold",
+            "damageType": "rime",
             "formula": "2d6"
           },
           {
             "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "poison",
+            "damageType": "blight",
             "formula": "1d6"
           }
         ]
@@ -10092,8 +7401,8 @@ export const LIBRARY_CREATURES = [
       "darkvision": 60
     },
     "resistances": {
-      "fire": 100,
-      "necrotic": 100
+      "ember": 100,
+      "blight": 100
     },
     "vulnerabilities": {},
     "abilities": [
@@ -10191,10 +7500,10 @@ export const LIBRARY_CREATURES = [
     },
     "resistances": {
       "physical": 50,
-      "cold": 50
+      "rime": 50
     },
     "vulnerabilities": {
-      "thunder": 50
+      "storm": 50
     },
     "abilities": [
       {
@@ -10371,8 +7680,8 @@ export const LIBRARY_CREATURES = [
       "darkvision": 120
     },
     "resistances": {
-      "radiant": 100,
-      "cold": 100
+      "ember": 100,
+      "rime": 100
     },
     "vulnerabilities": {},
     "abilities": [
@@ -10389,7 +7698,7 @@ export const LIBRARY_CREATURES = [
         "effects": [
           {
             "type": CREATURE_TYPES.DAMAGE,
-            "damageType": "radiant",
+            "damageType": "ember",
             "formula": "4d8"
           },
           {
@@ -10477,7 +7786,7 @@ export const LIBRARY_CREATURES = [
       "physical": 50
     },
     "vulnerabilities": {
-      "fire": 100
+      "ember": 100
     },
     "abilities": [
       {
@@ -10528,6 +7837,199 @@ export const LIBRARY_CREATURES = [
     },
     "dateCreated": "2026-06-06T20:28:54.320Z",
     "lastModified": "2026-06-06T20:28:54.320Z"
+  },
+  {
+    "id": "udu",
+    "name": "Udu",
+    "description": "A soot-sweeping desert rodent seeking geothermal warmth. It is covered in soft, dusty ash-colored fur and has a basalt horn and smoldering tail.",
+    "type": CREATURE_TYPES.BEAST,
+    "size": CREATURE_SIZES.TINY,
+    "tags": [
+      "beast",
+      "sundale",
+      "wyrd-creature",
+      "soot",
+      "hearth",
+      "imp"
+    ],
+    "tokenIcon": "Bestiary/udu",
+    "tokenBorder": "#FF8C00",
+    "stats": {
+      "strength": 4,
+      "agility": 16,
+      "constitution": 10,
+      "intelligence": 6,
+      "spirit": 12,
+      "charisma": 10,
+      "maxHp": 25,
+      "currentHp": 25,
+      "maxMana": 10,
+      "currentMana": 10,
+      "maxActionPoints": 3,
+      "currentActionPoints": 3,
+      "initiative": 3,
+      "speed": 40,
+      "flying": 0,
+      "swimming": 0,
+      "sightRange": 60,
+      "darkvision": 60
+    },
+    "resistances": {
+      "ember": 50
+    },
+    "vulnerabilities": {
+      "rime": 50
+    },
+    "abilities": [
+      {
+        "name": "Soot Cloud",
+        "description": "Kicks up a cloud of ash to blind nearby creatures.",
+        "type": "spell",
+        "spellType": "CONJURATION",
+        "level": 1,
+        "icon": "spell_shadow_mindsteal",
+        "range": 10,
+        "actionPointCost": 2,
+        "cooldown": 1,
+        "effects": [
+          {
+            "type": "SAVE",
+            "attribute": "agility",
+            "dc": 12,
+            "onFail": {
+              "type": "CONDITION",
+              "condition": "blinded",
+              "duration": 1
+            }
+          }
+        ]
+      }
+    ],
+    "lootTable": {
+      "currency": {
+        "platinum": {
+          "min": 0,
+          "max": 0
+        },
+        "gold": {
+          "min": 0,
+          "max": 2
+        },
+        "silver": {
+          "min": 5,
+          "max": 15
+        },
+        "copper": {
+          "min": 10,
+          "max": 30
+        }
+      },
+      "items": [
+        {
+          "itemId": "sulfur-salt",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        }
+      ]
+    },
+    "dateCreated": "2026-06-11T20:00:00Z",
+    "lastModified": "2026-06-11T20:00:00Z"
+  },
+  {
+    "id": "skerry",
+    "name": "Skerry",
+    "description": "A stout, greedy, dwarf-like water sprite that repairs or sabotages ships along the frozen fjord coasts, obsessed with salvaging sunken gold and copper.",
+    "type": CREATURE_TYPES.FEY,
+    "size": CREATURE_SIZES.SMALL,
+    "tags": [
+      "fey",
+      "nordhalla",
+      "wyrd-creature",
+      "dwarf",
+      "shipwright",
+      "greedy"
+    ],
+    "tokenIcon": "Bestiary/skerry",
+    "tokenBorder": "#4682B4",
+    "stats": {
+      "strength": 16,
+      "agility": 12,
+      "constitution": 16,
+      "intelligence": 12,
+      "spirit": 14,
+      "charisma": 8,
+      "maxHp": 120,
+      "currentHp": 120,
+      "maxMana": 20,
+      "currentMana": 20,
+      "maxActionPoints": 4,
+      "currentActionPoints": 4,
+      "initiative": 2,
+      "speed": 25,
+      "flying": 0,
+      "swimming": 30,
+      "sightRange": 60,
+      "darkvision": 60
+    },
+    "resistances": {
+      "rime": 100,
+      "physical": 25
+    },
+    "vulnerabilities": {
+      "ember": 50
+    },
+    "abilities": [
+      {
+        "name": "Rivet Hammer",
+        "description": "Strikes with a heavy iron mallet, ignoring partial armor.",
+        "type": "melee",
+        "icon": "ability_physical_taunt",
+        "damage": {
+          "diceCount": 2,
+          "diceType": 8,
+          "bonus": 4,
+          "damageType": "physical"
+        },
+        "range": 5,
+        "actionPointCost": 2,
+        "cooldown": 0
+      }
+    ],
+    "lootTable": {
+      "currency": {
+        "platinum": {
+          "min": 0,
+          "max": 0
+        },
+        "gold": {
+          "min": 2,
+          "max": 10
+        },
+        "silver": {
+          "min": 10,
+          "max": 40
+        },
+        "copper": {
+          "min": 20,
+          "max": 80
+        }
+      },
+      "items": [
+        {
+          "itemId": "salvaged-copper",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 4
+          }
+        }
+      ]
+    },
+    "dateCreated": "2026-06-11T20:15:00Z",
+    "lastModified": "2026-06-11T20:15:00Z"
   }
 ];
 

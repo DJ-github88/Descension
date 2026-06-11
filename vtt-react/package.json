@@ -33,6 +33,7 @@
     "react-scripts": "5.0.1",
     "react-tooltip": "^5.28.0",
     "react-window": "^2.2.7",
+    "react-zoom-pan-pinch": "^4.0.3",
     "recharts": "^2.15.1",
     "socket.io-client": "^4.7.4",
     "stream-browserify": "^3.0.0",
@@ -92,11 +93,5 @@
     "glob": ">=10.5.0",
     "node-forge": ">=1.3.2"
   },
-  "sideEffects": [
-    "*.css",
-    "*.scss",
-    "./src/polyfills.js",
-    "./src/index.js",
-    "./src/serviceWorkerRegistration.js"
-  ]
+  "sideEffects": true
 }

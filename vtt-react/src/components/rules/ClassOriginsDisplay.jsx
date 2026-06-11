@@ -4,7 +4,6 @@ import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import './ClassDetailDisplay.css'; // Leverage existing parchment and detail styles
 import './ClassOriginsDisplay.css'; // Add specialized styles for origins and tabs
-
 // Regions configuration
 const REGIONS = [
   {
@@ -17,7 +16,7 @@ const REGIONS = [
     glowColor: 'rgba(160, 64, 0, 0.12)',
     description: 'A volcanic ash-desert of smoldering badlands and obsidian rivers surrounding the Emberspire caldera. Here, the Emberth and Solvarn humans live in constant, desperate proximity to the dying star Solbound. Survival is a transaction paid in heat, and power is a combustion that devours the practitioner.',
     darkBargain: 'House Skalvyr and the forge-clans sealed Solbound beneath the crust to save it from Keth-Amar. The price is constant watchfulness, basalt-cracking skin, and the Agony of the Flame.',
-    classIds: ['pyrofiend', 'berserker', 'titan', 'spellguard', 'martyr']
+    classIds: ['pyrofiend', 'berserker', 'warden', 'spellguard', 'martyr']
   },
   {
     id: 'nordhalla',
@@ -29,7 +28,7 @@ const REGIONS = [
     glowColor: 'rgba(31, 95, 135, 0.12)',
     description: 'The frozen vigil keeps and fjord-settlements of Nordhalla. In this continent of absolute ice, summer is a myth told to children, and the dead are encased upright in glacier-tombs to stand as silent witnesses. Here, the Skald humans and their frost-touched bloodlines measure worth by endurance.',
     darkBargain: 'House Skalvyr traded summer for survival, halting the glaciers at the cost of eternal winter and the shameful history of the Hunger Winter.',
-    classIds: ['augur', 'doomsayer', 'inscriptor', 'warden']
+    classIds: ['augur', 'harbinger', 'animist', 'warden']
   },
   {
     id: 'frostwood-reach',
@@ -41,7 +40,7 @@ const REGIONS = [
     glowColor: 'rgba(25, 111, 61, 0.12)',
     description: 'A pine forest of perpetual fog where the mist eats memories and births conceptual Wyrd-horrors from human fear. The Thalren humans keep journals chained to their belts to preserve their pasts, while the mask-bound Mimir and Briaran hide in the mist-shrouded canopies.',
     darkBargain: 'House Viridane refused the Warden\'s sacrifice and fled south, making a counter-bargain with fae entities that left their descendants with physical thorns.',
-    classIds: ['huntress', 'bladedancer', 'lunarch', 'exorcist', 'toxicologist']
+    classIds: ['apex', 'shaper', 'lunarch', 'inquisitor', 'toxicologist']
   },
   {
     id: 'bryngloom-forest',
@@ -53,7 +52,7 @@ const REGIONS = [
     glowColor: 'rgba(17, 120, 100, 0.12)',
     description: 'Sinking, semi-frozen bogs and bioluminescent ironwood groves where the Neth and lantern-eyed Vreken coexist in functional silence. Here, death is a renegotiated contract with the Keeper of the Last Threshold, and the bogs preserve both memories and ancestral debts.',
     darkBargain: 'The Neth negotiated the First Contract with the Keeper: preserve us, and we will be your living archive. The price: Neth cannot lie, and their blood crystallizes into volatile shards.',
-    classIds: ['covenbane', 'deathcaller', 'witch_doctor', 'plaguebringer', 'lichborne', 'arcanoneer']
+    classIds: ['inquisitor', 'revenant', 'animist', 'plaguebringer', 'arcanoneer']
   },
   {
     id: 'cragjaw-peaks',
@@ -65,7 +64,7 @@ const REGIONS = [
     glowColor: 'rgba(108, 52, 131, 0.12)',
     description: 'A vertical labyrinth of razor-sharp ridges, deep steam-shafts, and ancient holdfasts buried under blizzards. The only passage across the chasms are the Ancestor-Spans — living bridges grown from the calcified bones of the Groven.',
     darkBargain: 'House Tessen keeps have lived in absolute isolation for eight generations, developing Byzantine politics to distract from their frozen imprisonment.',
-    classIds: ['dreadnaught', 'formbender', 'fate_weaver', 'chronarch']
+    classIds: ['martyr', 'gambit', 'chronarch']
   },
   {
     id: 'iceheart-sea',
@@ -77,7 +76,6 @@ const REGIONS = [
     glowColor: 'rgba(44, 62, 80, 0.12)',
     description: 'A freezing, storm-lashed ocean dotted with floating ice-keeps and pirate channels. Here, the Merryn humans live as storm-chasers and gamblers, mapping their lives on their tattooed skin, navigating tides that freeze in real-time.',
     darkBargain: 'A maritime pact that grants luck and storm-navigation at the cost of tidal synchronization, forcing practitioners to live in perpetual motion.',
-    classIds: ['gambler', 'minstrel']
   },
   {
     id: 'sundrift-vale',
@@ -89,44 +87,39 @@ const REGIONS = [
     glowColor: 'rgba(74, 35, 90, 0.12)',
     description: 'A starless grassland steppe of gravity anomalies and silt-tides. Here, the nomadic Ordan humans migrate along ancient songs under a black sky, while the light-bearing Astril Synod maintains the Luminarchy.',
     darkBargain: 'The Astril carrying constellation-spirits in their skin to hide them from Keth-Amar, trading their physical sight and sanity for inherited light.',
-    classIds: ['oracle', 'primalist', 'chaos_weaver', 'false_prophet']
+    classIds: ['augur', 'animist', 'harbinger', 'false_prophet']
   }
 ];
-
 // Programmatic mapping of class database names to the keys in ALL_CLASSES_DATA
 const CLASS_DB_MAP = {
   arcanoneer: 'Arcanoneer',
   berserker: 'Berserker',
-  bladedancer: 'Bladedancer',
-  chaos_weaver: 'Chaos Weaver',
+  shaper: 'Shaper',
+  chaos_weaver: 'Harbinger',
   chronarch: 'Chronarch',
-  covenbane: 'Covenbane',
-  deathcaller: 'Deathcaller',
-  dreadnaught: 'Dreadnaught',
-  exorcist: 'Exorcist',
+  inquisitor: 'Inquisitor',
+  revenant: 'Revenant',
+  // 'dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+
   false_prophet: 'False Prophet',
-  fate_weaver: 'Fate Weaver',
-  formbender: 'Formbender',
-  gambler: 'Gambler',
-  huntress: 'Huntress',
-  inscriptor: 'Inscriptor',
-  lichborne: 'Lichborne',
+  gambit: 'Gambit',
+  apex: 'Apex',
+  animist: 'Animist',
+  // REMOVED: lichborne merged into Revenant as Phase 1.10 consolidation
+  // lichborne: 'Lichborne',
   lunarch: 'Lunarch',
   martyr: 'Martyr',
   minstrel: 'Minstrel',
-  oracle: 'Oracle',
+  // oracle removed (absorbed into Augur)
   plaguebringer: 'Plaguebringer',
-  primalist: 'Primalist',
   pyrofiend: 'Pyrofiend',
   spellguard: 'Spellguard',
-  titan: 'Titan',
+  // titan removed (absorbed into Warden as Monolith specialization)
   toxicologist: 'Toxicologist',
   warden: 'Warden',
-  witch_doctor: 'Witch Doctor',
   augur: 'Augur',
-  doomsayer: 'Doomsayer'
+  doomsayer: 'Harbinger'
 };
-
 // Parse the roleplayIdentity content which has sections like:
 // **HISTORY: THE GENESIS**
 // ... text ...
@@ -136,15 +129,12 @@ const CLASS_DB_MAP = {
 // ... text ...
 const parseRoleplayIdentity = (content) => {
   if (!content) return { history: '', cities: '', races: '', notable: '' };
-
   const sections = { history: '', cities: '', races: '', notable: '' };
   const lines = content.split('\n');
   let currentSection = null;
-
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const trimmed = line.trim();
-
     if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
       const header = trimmed.replace(/\*/g, '').toUpperCase();
       if (header.includes('HISTORY') || header.includes('GENESIS')) {
@@ -161,37 +151,30 @@ const parseRoleplayIdentity = (content) => {
         continue;
       }
     }
-
     if (currentSection) {
       sections[currentSection] += (sections[currentSection] ? '\n' : '') + line;
     }
   }
-
   return sections;
 };
-
 // Parse text containing <LoreLink termId="...">label</LoreLink> and **bold** markers
 const parseTextWithLoreLinks = (text, skipAutoLink = false) => {
   if (!text || typeof text !== 'string') return null;
-
   let processedText;
   try {
     processedText = skipAutoLink ? text : autoLinkTerminology(text);
   } catch (e) {
     processedText = text;
   }
-
   const result = [];
   const regex = /(<LoreLink termId="([^"]+)">([^<]*)<\/LoreLink>|\*\*(.*?)\*\*)/g;
   let lastIndex = 0;
   let match;
   let key = 0;
-
   while ((match = regex.exec(processedText)) !== null) {
     if (match.index > lastIndex) {
       result.push(processedText.substring(lastIndex, match.index));
     }
-
     if (match[2]) {
       const termId = match[2];
       const label = match[3];
@@ -209,14 +192,11 @@ const parseTextWithLoreLinks = (text, skipAutoLink = false) => {
     }
     lastIndex = regex.lastIndex;
   }
-
   if (lastIndex < processedText.length) {
     result.push(processedText.substring(lastIndex));
   }
-
   return result.length > 0 ? result : text;
 };
-
 // Render a block of text with paragraph breaks
 const renderTextBlock = (text) => {
   if (!text) return null;
@@ -224,7 +204,6 @@ const renderTextBlock = (text) => {
     <p key={idx} className="co-text-para">{parseTextWithLoreLinks(line.trim())}</p>
   ));
 };
-
 // Parse a list of notable figures
 const parseNotableFiguresList = (notableText) => {
   if (!notableText) return [];
@@ -252,31 +231,24 @@ const parseNotableFiguresList = (notableText) => {
   }
   return figures;
 };
-
 const ClassOriginsDisplay = () => {
   const [activeRegionId, setActiveRegionId] = useState('sundale');
   const [expandedClassId, setExpandedClassId] = useState(null);
   const [activeDetailTab, setActiveDetailTab] = useState('chronicles');
-
   const activeRegion = useMemo(() => {
     return REGIONS.find(r => r.id === activeRegionId) || REGIONS[0];
   }, [activeRegionId]);
-
   const classesInRegion = useMemo(() => {
     return activeRegion.classIds.map(classId => {
       const dbName = CLASS_DB_MAP[classId];
       const data = ALL_CLASSES_DATA[dbName];
       if (!data) return null;
-
       const originStory = data.overview?.originStory || '';
       const roleplayContent = data.overview?.roleplayIdentity?.content || '';
-
       // Parse origin story paragraphs
       const storyParagraphs = originStory.split('\n\n').filter(p => p.trim());
-
       // Parse roleplay identity sections
       const { history, cities, races, notable } = parseRoleplayIdentity(roleplayContent);
-
       return {
         id: classId,
         name: data.name,
@@ -296,20 +268,17 @@ const ClassOriginsDisplay = () => {
       };
     }).filter(Boolean);
   }, [activeRegion]);
-
   const handleRegionTabClick = (regionId) => {
     setActiveRegionId(regionId);
     setExpandedClassId(null);
     setActiveDetailTab('chronicles');
   };
-
   const handleClassCardClick = (classId) => {
     if (expandedClassId !== classId) {
       setActiveDetailTab('chronicles');
     }
     setExpandedClassId(expandedClassId === classId ? null : classId);
   };
-
   return (
     <div className="class-origins-container">
       <style>{`
@@ -323,7 +292,6 @@ const ClassOriginsDisplay = () => {
           justify-content: center !important; /* Centered tabs */
           margin-bottom: 20px !important;
         }
-
         div.class-origins-container button.region-tab-btn {
           background: #ebdcb8 !important;
           border: 1px solid rgba(139, 69, 19, 0.4) !important;
@@ -342,7 +310,6 @@ const ClassOriginsDisplay = () => {
           transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
           box-shadow: 0 2px 4px rgba(139, 69, 19, 0.08) !important;
         }
-
         div.class-origins-container button.region-tab-btn:hover {
           background: #fffbf2 !important;
           border-color: var(--tab-accent-color) !important;
@@ -350,7 +317,6 @@ const ClassOriginsDisplay = () => {
           transform: translateY(-2px) !important;
           box-shadow: 0 4px 8px rgba(139, 69, 19, 0.15) !important;
         }
-
         div.class-origins-container button.region-tab-btn.active {
           background: #5a1e12 !important;
           border-color: var(--tab-accent-color) !important;
@@ -358,18 +324,15 @@ const ClassOriginsDisplay = () => {
           box-shadow: 0 0 12px var(--tab-glow-color), 0 3px 6px rgba(90, 30, 18, 0.3) !important;
           text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
         }
-
         div.class-origins-container button.region-tab-btn i {
           font-size: 0.95rem !important;
           color: #8b4513 !important;
           transition: transform 0.3s ease !important;
         }
-
         div.class-origins-container button.region-tab-btn.active i {
           color: #fffbf2 !important;
           transform: scale(1.1) !important;
         }
-
         div.class-origins-container div.region-header-card {
           padding: 24px !important;
           border-radius: 8px !important;
@@ -380,18 +343,15 @@ const ClassOriginsDisplay = () => {
           background-color: #faf6eb !important;
           margin-bottom: 24px !important;
         }
-
         div.class-origins-container div.region-badge-area {
           display: flex !important;
           align-items: center !important;
           gap: 12px !important;
           margin-bottom: 12px !important;
         }
-
         div.class-origins-container div.region-badge-area i {
           font-size: 1.5rem !important;
         }
-
         div.class-origins-container div.region-badge-area h3 {
           font-family: 'Cinzel', 'Georgia', serif !important;
           font-size: 1.4rem !important;
@@ -399,7 +359,6 @@ const ClassOriginsDisplay = () => {
           letter-spacing: 0.08em !important;
           margin: 0 !important;
         }
-
         div.class-origins-container p.region-description {
           font-size: 0.98rem !important;
           line-height: 1.65 !important;
@@ -407,7 +366,6 @@ const ClassOriginsDisplay = () => {
           margin: 0 0 16px 0 !important;
           font-weight: 500 !important;
         }
-
         div.class-origins-container div.region-dark-bargain {
           font-size: 0.95rem !important;
           line-height: 1.55 !important;
@@ -419,29 +377,24 @@ const ClassOriginsDisplay = () => {
           font-style: italic !important;
           box-shadow: inset 0 1px 2px rgba(0,0,0,0.02) !important;
         }
-
         div.class-origins-container .co-depth-grid {
           display: grid !important;
           grid-template-columns: 1fr 1fr !important;
           gap: 20px !important;
           margin-top: 16px !important;
         }
-
         @media (max-width: 768px) {
           div.class-origins-container .co-depth-grid {
             grid-template-columns: 1fr !important;
           }
         }
-
         div.class-origins-container .co-philosophy-item {
           margin-bottom: 12px !important;
           line-height: 1.6 !important;
         }
-
         div.class-origins-container .co-philosophy-item:last-child {
           margin-bottom: 0 !important;
         }
-
         div.class-origins-container .co-philosophy-item strong {
           font-family: 'Cinzel', serif !important;
           font-size: 0.85rem !important;
@@ -449,24 +402,20 @@ const ClassOriginsDisplay = () => {
           display: inline-block !important;
           margin-right: 4px !important;
         }
-
         div.class-origins-container .co-expanded-body {
           display: flex !important;
           flex-direction: column !important;
           gap: 24px !important;
         }
-
         div.class-origins-container .co-expanded-body blockquote.co-pull-quote {
           font-family: 'Crimson Text', serif !important;
         }
-
         /* TTRPG Overrides for Notable Figures & Sites (Un-boxing) */
         div.class-origins-container .co-notable-list {
           display: flex !important;
           flex-direction: column !important;
           gap: 24px !important;
         }
-
         div.class-origins-container .co-notable-item {
           background: transparent !important;
           border: none !important;
@@ -479,7 +428,6 @@ const ClassOriginsDisplay = () => {
           gap: 20px !important;
           position: relative !important;
         }
-
         div.class-origins-container .co-notable-item::after {
           content: '' !important;
           position: absolute !important;
@@ -489,11 +437,9 @@ const ClassOriginsDisplay = () => {
           height: 1px !important;
           background: linear-gradient(to right, rgba(139, 69, 19, 0.15) 0%, rgba(139, 69, 19, 0.02) 100%) !important;
         }
-
         div.class-origins-container .co-notable-item:last-child::after {
           display: none !important;
         }
-
         /* Wax Seal Medallion Style */
         div.class-origins-container .co-wax-seal {
           width: 52px !important;
@@ -517,7 +463,6 @@ const ClassOriginsDisplay = () => {
           transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
           transform: rotate(-3deg) !important;
         }
-
         div.class-origins-container .co-notable-item:hover .co-wax-seal {
           transform: scale(1.08) rotate(5deg) !important;
           box-shadow: 
@@ -526,7 +471,6 @@ const ClassOriginsDisplay = () => {
             inset -1px -1px 3px rgba(0, 0, 0, 0.4),
             0 0 0 5px rgba(139, 69, 19, 0.12) !important;
         }
-
         /* Notebook Snippet Style for Sacred Sites */
         div.class-origins-container .co-site-entry {
           background: linear-gradient(to right, rgba(235, 220, 184, 0.06) 0%, rgba(253, 250, 242, 0.18) 100%) !important;
@@ -539,11 +483,9 @@ const ClassOriginsDisplay = () => {
           display: flex !important;
           gap: 16px !important;
         }
-
         div.class-origins-container .co-site-entry:last-child {
           margin-bottom: 0 !important;
         }
-
         div.class-origins-container .co-site-icon {
           width: 36px !important;
           height: 36px !important;
@@ -556,7 +498,6 @@ const ClassOriginsDisplay = () => {
           color: var(--co-border) !important;
           flex-shrink: 0 !important;
         }
-
         /* Hand-stamped Ink Seal for Status */
         div.class-origins-container .co-ink-stamp {
           border: 1px solid rgba(184, 15, 10, 0.5) !important;
@@ -577,7 +518,6 @@ const ClassOriginsDisplay = () => {
           text-shadow: none !important;
           font-weight: 600 !important;
         }
-
         /* TTRPG Pathfinder Tabs Styling */
         div.class-origins-container .co-ttrpg-tabs-bar {
           display: flex !important;
@@ -589,7 +529,6 @@ const ClassOriginsDisplay = () => {
           padding-bottom: 10px !important;
           padding-left: 0 !important;
         }
-
         div.class-origins-container .co-ttrpg-tab-btn {
           background: transparent !important;
           border: none !important;
@@ -609,18 +548,15 @@ const ClassOriginsDisplay = () => {
           position: relative !important;
           opacity: 0.6 !important;
         }
-
         div.class-origins-container .co-ttrpg-tab-btn:hover {
           color: var(--co-accent) !important;
           opacity: 1 !important;
         }
-
         div.class-origins-container .co-ttrpg-tab-btn.active {
           color: var(--co-accent) !important;
           opacity: 1 !important;
           background: transparent !important;
         }
-
         /* Thematic gold/accent underline aligned with the tab bar's border */
         div.class-origins-container .co-ttrpg-tab-btn.active::after {
           content: '' !important;
@@ -633,7 +569,6 @@ const ClassOriginsDisplay = () => {
           border-radius: 2px !important;
           box-shadow: 0 0 6px var(--co-glow) !important;
         }
-
         div.class-origins-container .co-ttrpg-content-pane {
           background: transparent !important;
           border: none !important;
@@ -647,29 +582,24 @@ const ClassOriginsDisplay = () => {
           flex-direction: column !important;
           gap: 20px !important;
         }
-
         /* Multi-column Rulebook Spreads */
         div.class-origins-container .co-ttrpg-spread {
           display: grid !important;
           grid-template-columns: 1.15fr 0.85fr !important;
           gap: 32px !important;
         }
-
         @media (max-width: 800px) {
           div.class-origins-container .co-ttrpg-spread {
             grid-template-columns: 1fr !important;
             gap: 24px !important;
           }
         }
-
         div.class-origins-container .co-ttrpg-section {
           margin-bottom: 12px !important;
         }
-
         div.class-origins-container .co-ttrpg-section:last-of-type {
           margin-bottom: 0 !important;
         }
-
         div.class-origins-container .co-ttrpg-heading {
           display: flex !important;
           align-items: center !important;
@@ -683,12 +613,10 @@ const ClassOriginsDisplay = () => {
           padding-bottom: 6px !important;
           border-bottom: 1px solid rgba(139, 69, 19, 0.15) !important;
         }
-
         div.class-origins-container .co-ttrpg-heading i {
           font-size: 0.95rem !important;
           opacity: 0.95 !important;
         }
-
         div.class-origins-container .co-ttrpg-divider {
           display: flex !important;
           align-items: center !important;
@@ -696,7 +624,6 @@ const ClassOriginsDisplay = () => {
           margin: 16px 0 !important;
           position: relative !important;
         }
-
         div.class-origins-container .co-ttrpg-divider::before,
         div.class-origins-container .co-ttrpg-divider::after {
           content: "" !important;
@@ -704,7 +631,6 @@ const ClassOriginsDisplay = () => {
           flex: 1 !important;
           background: linear-gradient(to right, transparent, var(--co-border) 50%, transparent) !important;
         }
-
         div.class-origins-container .co-ttrpg-divider-symbol {
           color: var(--co-border) !important;
           font-size: 0.9rem !important;
@@ -730,7 +656,6 @@ const ClassOriginsDisplay = () => {
           </button>
         ))}
       </div>
-
       <div
         className="region-header-card"
         style={{
@@ -753,7 +678,6 @@ const ClassOriginsDisplay = () => {
           </div>
         )}
       </div>
-
       <div className="class-origins-list">
         {classesInRegion.map(cls => {
           const border = activeRegion.borderColor;
@@ -785,7 +709,6 @@ const ClassOriginsDisplay = () => {
                   <i className={`fas ${expandedClassId === cls.id ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
                 </div>
               </div>
-
               {expandedClassId === cls.id && (
                 <div className="co-expanded-body">
                   {/* Tabs navigation bar */}
@@ -819,7 +742,6 @@ const ClassOriginsDisplay = () => {
                       <span>Atlas</span>
                     </button>
                   </div>
-
                   {/* Content Pane */}
                   <div className="co-ttrpg-content-pane">
                     {/* Chronicles Tab */}
@@ -851,13 +773,11 @@ const ClassOriginsDisplay = () => {
                             </div>
                           </div>
                         )}
-
                         {cls.storyParagraphs && cls.storyParagraphs.length > 0 && cls.history && (
                           <div className="co-ttrpg-divider">
                             <span className="co-ttrpg-divider-symbol">❖</span>
                           </div>
                         )}
-
                         {cls.history && (
                           <div className="co-ttrpg-section">
                             <div className="co-ttrpg-heading" style={{ color: accent }}>
@@ -871,7 +791,6 @@ const ClassOriginsDisplay = () => {
                         )}
                       </>
                     )}
-
                     {/* Society Tab */}
                     {activeDetailTab === 'society' && (
                       <>
@@ -886,13 +805,11 @@ const ClassOriginsDisplay = () => {
                             </div>
                           </div>
                         )}
-
                         {cls.cities && cls.races && (
                           <div className="co-ttrpg-divider">
                             <span className="co-ttrpg-divider-symbol">❖</span>
                           </div>
                         )}
-
                         {cls.races && (
                           <div className="co-ttrpg-section">
                             <div className="co-ttrpg-heading" style={{ color: accent }}>
@@ -906,7 +823,6 @@ const ClassOriginsDisplay = () => {
                         )}
                       </>
                     )}
-
                     {/* Beliefs Tab */}
                     {activeDetailTab === 'beliefs' && (
                       <>
@@ -938,13 +854,11 @@ const ClassOriginsDisplay = () => {
                             </div>
                           </div>
                         )}
-
                         {cls.philosophy && (cls.meaningfulTradeoffs || cls.currentCrisis) && (
                           <div className="co-ttrpg-divider">
                             <span className="co-ttrpg-divider-symbol">❖</span>
                           </div>
                         )}
-
                         {cls.meaningfulTradeoffs && (
                           <div className="co-ttrpg-section">
                             <div className="co-ttrpg-heading" style={{ color: accent }}>
@@ -956,13 +870,11 @@ const ClassOriginsDisplay = () => {
                             </div>
                           </div>
                         )}
-
                         {cls.meaningfulTradeoffs && cls.currentCrisis && (
                           <div className="co-ttrpg-divider">
                             <span className="co-ttrpg-divider-symbol">❖</span>
                           </div>
                         )}
-
                         {cls.currentCrisis && (
                           <div className="co-ttrpg-section">
                             <div className="co-ttrpg-heading" style={{ color: '#c0392b' }}>
@@ -976,7 +888,6 @@ const ClassOriginsDisplay = () => {
                         )}
                       </>
                     )}
-
                     {/* Atlas Tab */}
                     {activeDetailTab === 'atlas' && (
                       <>
@@ -1002,13 +913,11 @@ const ClassOriginsDisplay = () => {
                             </div>
                           </div>
                         )}
-
                         {cls.classSpecificLocations && cls.classSpecificLocations.length > 0 && cls.notable && cls.notable.length > 0 && (
                           <div className="co-ttrpg-divider">
                             <span className="co-ttrpg-divider-symbol">❖</span>
                           </div>
                         )}
-
                         {cls.notable && cls.notable.length > 0 && (
                           <div className="co-ttrpg-section">
                             <div className="co-ttrpg-heading" style={{ color: accent }}>
@@ -1044,5 +953,4 @@ const ClassOriginsDisplay = () => {
     </div>
   );
 };
-
 export default ClassOriginsDisplay;

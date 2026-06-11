@@ -218,7 +218,7 @@ export const ACCESSORIES = [
       spellDamage: {
         types: {
           arcane: { value: 2, isPercentage: false },
-          psychic: { value: 2, isPercentage: false }
+          wyrd: {	 value: 2, isPercentage: false }
         }
       }
     }
@@ -292,7 +292,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          necrotic: { value: 3, isPercentage: false },
+          blight: {	 value: 3, isPercentage: false },
           shadow: { value: 2, isPercentage: false }
         }
       }
@@ -320,7 +320,7 @@ export const ACCESSORIES = [
     },
     combatStats: {
       resistances: {
-        necrotic: { value: 3, isPercentage: false }
+        blight: {	 value: 3, isPercentage: false }
       },
       conditionModifiers: {
         diseased: {
@@ -456,7 +456,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          fire: { value: 3, isPercentage: false }
+          ember: {	 value: 3, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -475,7 +475,7 @@ export const ACCESSORIES = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d6',
-            damageType: 'fire',
+            damageType: 'ember',
             isDot: true,
             dotDuration: 2,
             dotTickFrequency: 'round',
@@ -561,7 +561,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          lightning: { value: 3, isPercentage: false }
+          storm: {	 value: 3, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -580,7 +580,7 @@ export const ACCESSORIES = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d6',
-            damageType: 'lightning',
+            damageType: 'storm',
             isDot: false,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -617,7 +617,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          necrotic: { value: 5, isPercentage: false }
+          blight: {	 value: 5, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -671,7 +671,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          lightning: { value: 6, isPercentage: false },
+          storm: {	 value: 6, isPercentage: false },
           arcane: { value: 3, isPercentage: false }
         }
       },
@@ -691,7 +691,7 @@ export const ACCESSORIES = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d8',
-            damageType: 'lightning',
+            damageType: 'storm',
             isDot: false,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -726,7 +726,7 @@ export const ACCESSORIES = [
       spellDamage: {
         types: {
           shadow: { value: 5, isPercentage: false },
-          psychic: { value: 3, isPercentage: false }
+          wyrd: {	 value: 3, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -799,7 +799,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          fire: { value: 10, isPercentage: false }
+          ember: {	 value: 10, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -818,7 +818,7 @@ export const ACCESSORIES = [
           effectType: 'damage',
           effectConfig: {
             formula: '2d6',
-            damageType: 'fire',
+            damageType: 'ember',
             isDot: true,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -828,7 +828,7 @@ export const ACCESSORIES = [
         }
       },
       resistances: {
-        fire: { value: 10, isPercentage: false }
+        ember: {	 value: 10, isPercentage: false }
       }
     }
   },
@@ -855,7 +855,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          lightning: { value: 10, isPercentage: false },
+          storm: {	 value: 10, isPercentage: false },
           arcane: { value: 5, isPercentage: false }
         }
       },
@@ -875,7 +875,7 @@ export const ACCESSORIES = [
           effectType: 'damage',
           effectConfig: {
             formula: '2d8',
-            damageType: 'lightning',
+            damageType: 'storm',
             isDot: false,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -885,7 +885,7 @@ export const ACCESSORIES = [
         }
       },
       resistances: {
-        lightning: { value: 10, isPercentage: false }
+        storm: {	 value: 10, isPercentage: false }
       }
     }
   },
@@ -913,7 +913,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          necrotic: { value: 10, isPercentage: false },
+          blight: {	 value: 10, isPercentage: false },
           shadow: { value: 7, isPercentage: false }
         }
       },
@@ -944,7 +944,7 @@ export const ACCESSORIES = [
       },
       maxHealth: { value: 25, isPercentage: false },
       resistances: {
-        necrotic: { value: 10, isPercentage: false },
+        blight: {	 value: 10, isPercentage: false },
         shadow: { value: 8, isPercentage: false }
       }
     }

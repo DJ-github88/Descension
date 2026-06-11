@@ -42,7 +42,7 @@ const SEEDED_EVENTS = [
       'The sun-god Sol entered its ancient death-rebirth cycle called the Deepening. Its light began to dim. The Augurs of the seven noble houses were the first to read the signs in the cooling light.',
     locationIds: ['sundale'],
     factionIds: ['house-thalreth', 'house-skalvyr', 'house-solvan', 'house-ordavan'],
-    classIds: ['augur', 'doomsayer', 'oracle'],
+    classIds: ['augur', 'harbinger'],
     causes: [],
     effects: ['event-entombment', 'event-fog-compact']
   },
@@ -55,7 +55,7 @@ const SEEDED_EVENTS = [
       'The seven noble families pooled their bloodlines to entomb the dying sun beneath Sundale. They used the hide of Aex — Sol\'s firstborn, a living entity of pure solar fire — to weave the binding seal. The ritual exhausted the families and the world began to freeze.',
     locationIds: ['sundale', 'emberspire'],
     factionIds: ['house-thalreth', 'house-skalvyr', 'house-solvan', 'house-mereval', 'house-ordavan', 'house-tesshan', 'house-viridane'],
-    classIds: ['inscriptor', 'titan', 'warden', 'spellguard'],
+    classIds: ['animist', 'warden', 'spellguard'],
     causes: ['event-sol-deepening'],
     effects: ['event-fog-compact', 'event-glacier-bargain', 'event-steppe-migration', 'event-iceheart-storm']
   },
@@ -68,7 +68,7 @@ const SEEDED_EVENTS = [
       'House Thalreth sealed the Fog Compact, trading the Frostwood Reach\'s spatial clarity for an insulating fog that would prevent the ironwood forests and their native beasts from freezing into glass. The first Scribe-Sentinels were founded to maintain the ledgers.',
     locationIds: ['greymark-keep', 'scribes-tower'],
     factionIds: ['house-thalreth', 'scribe-sentinels'],
-    classIds: ['inscriptor'],
+    classIds: ['animist'],
     causes: ['event-entombment'],
     effects: ['event-ledger-collapse']
   },
@@ -81,7 +81,7 @@ const SEEDED_EVENTS = [
       'As titanic glaciers advanced to grind Nordhalla\'s mountain keeps into dust, House Skalvyr bargained with the Cosmic Warden to freeze the ice sheets in place. The Warden capitulated but decreed that summer would never return to the north.',
     locationIds: ['frozen-archive', 'fjord-gate'],
     factionIds: ['house-skalvyr'],
-    classIds: ['skald', 'doomsayer'],
+    classIds: ['skald', 'harbinger'],
     causes: ['event-entombment'],
     effects: ['event-nordhalla-freeze']
   },
@@ -94,7 +94,7 @@ const SEEDED_EVENTS = [
       'The cosmic predator Keth-Amar, denied its prey, whispered to the starving nobles of warmth in exchange for their firstborn heirs. Six desperate families capitulated. Keth-Amar consumed the children as vessel-keys, shattering the seal into seven Sundered Monoliths. The Wyrd bled through the cracks.',
     locationIds: ['emberspire', 'sundrift-vale'],
     factionIds: ['house-solvan', 'house-ordavan', 'house-mereval', 'house-tesshan'],
-    classIds: ['martyr', 'exorcist', 'huntress', 'deathcaller', 'covenbane'],
+    classIds: ['martyr', 'inquisitor', 'apex', 'revenant'],
     causes: ['event-entombment'],
     effects: ['event-wyrd-emergence', 'event-church-founding']
   },
@@ -104,9 +104,9 @@ const SEEDED_EVENTS = [
     title: 'Founding of the Church of the Holy Light',
     type: 'founding',
     description:
-      'In the first year after Sol\'s entombment, the Church of the Holy Light was formally established at Greymark Keep. The first priests were not theologians — they were parents who discovered that holding a dying child and refusing to accept their death could kindle a warmth with no physical source.',
+      'In the first year after Sol\'s entombment, the surviving noble houses formally reorganized their territories and obligations at Greymark Keep. The first Scribe-Sentinels were appointed — Thalreth family members who volunteered to have their memories erased before taking their vows, ensuring objective record-keeping against the fog.',
     locationIds: ['greymark-keep'],
-    factionIds: ['church-of-the-holy-light', 'house-thalreth'],
+    factionIds: ['house-thalreth', 'scribe-sentinels'],
     classIds: ['martyr'],
     causes: ['event-entombment', 'event-wyrd-emergence'],
     effects: ['event-northern-schism']
@@ -120,33 +120,33 @@ const SEEDED_EVENTS = [
       'A catastrophic structural failure buried the original Ledger Halls beneath petrified roots. Hundreds of irreplaceable records were lost. The Scribe-Sentinels\' authority was permanently weakened, and the first gaps in the Reach\'s collective memory appeared.',
     locationIds: ['ledger-halls', 'scribes-tower'],
     factionIds: ['house-thalreth', 'scribe-sentinels'],
-    classIds: ['inscriptor'],
+    classIds: ['animist'],
     causes: ['event-fog-compact'],
     effects: ['event-memory-editing']
   },
   {
     id: 'event-northern-schism',
     date: { year: 89, eraId: 'dimming' },
-    title: 'Aldren Thalreth\'s Self-Entombment',
+    title: 'The Ledger Purge',
     type: 'political',
     description:
-      'High Confessor Aldren Thalreth, the Church\'s founding leader, sealed himself in meditative stasis within the Frozen Archive. His stated purpose was to preserve himself until the sun returned. His true motive — discovered centuries later in hidden correspondence — was to escape the knowledge that the Light and the Void are a single entity split in two.',
-    locationIds: ['frozen-archive'],
-    factionIds: ['church-of-the-holy-light', 'house-thalreth'],
-    classIds: ['martyr'],
+      'Lord Aldren Thalreth, overwhelmed by the fog\'s erosion of House Thalreth\'s collective memory, ordered the consolidation of all family ledgers into a single sealed vault beneath Greymark Keep. He chose to entrust the location to no one — not even his own heirs — creating a dangerous dependency on his own continued survival.',
+    locationIds: ['greymark-keep'],
+    factionIds: ['house-thalreth'],
+    classIds: [],
     causes: ['event-church-founding'],
     effects: ['event-council-elders']
   },
   {
     id: 'event-cult-founding',
     date: { year: 412, eraId: 'dimming' },
-    title: 'Founding of the Cult of Forgotten Shadow',
+    title: 'Establishment of the Over-Shanty Black Market',
     type: 'founding',
     description:
-      'Natalie Seline, a priestess who had been excommunicated for studying forbidden Void texts, wandered into the peat-bogs of Bryngloom and returned three days later with blank white eyes and knowledge of Shadow magic no mortal should possess. She dictated the Shadow Catechism and founded the Cult in the Over-Shanty.',
-    locationIds: ['over-shanty', 'peat-bog-sinks'],
-    factionIds: ['cult-of-forgotten-shadow', 'church-of-the-holy-light'],
-    classIds: ['falseProphet', 'lichborne'],
+      'As the Bryngloom\'s influence spread, a permanent black market settlement — the Over-Shanty — coalesced at the edge of the peat-bogs. Smugglers, Drun outcasts, and desperate merchants from every region built a lawless trading post where Neth contracts held no authority and conventional currency was worthless.',
+    locationIds: ['over-shanty'],
+    factionIds: ['drun-outcasts'],
+    classIds: ['falseProphet', 'revenant'],
     causes: ['event-church-founding', 'event-wyrd-emergence'],
     effects: ['event-void-contact']
   },
@@ -159,7 +159,7 @@ const SEEDED_EVENTS = [
       'Senior Scribe-Sentinels, having discovered that the fog makes memory malleable, began systematically editing the ledger-libraries. Entire family lines were erased. Noble houses that once existed were written out. The "Great Revision" continues to this day, with each generation of Sentinels believing they are the first to discover the power.',
     locationIds: ['scribes-tower', 'ledger-halls'],
     factionIds: ['scribe-sentinels', 'house-thalreth'],
-    classIds: ['inscriptor'],
+    classIds: ['animist'],
     causes: ['event-ledger-collapse'],
     effects: []
   },
@@ -172,20 +172,20 @@ const SEEDED_EVENTS = [
       'The remaining noble houses formalized the system of dark bargains that would define the Age of the Dimming. Each house carved its sacrifice into a memory-glass tablet and sealed it in the Council Chamber. The tablets are still there. Three of them have been altered.',
     locationIds: ['greymark-keep'],
     factionIds: ['house-thalreth', 'house-skalvyr', 'house-solvan', 'house-mereval', 'house-ordavan', 'house-tesshan', 'house-viridane'],
-    classIds: ['inscriptor'],
+    classIds: ['animist'],
     causes: ['event-keth-amar-breach'],
     effects: []
   },
   {
     id: 'event-void-contact',
     date: { year: 598, eraId: 'dimming' },
-    title: 'The Silence Between Stars Speaks',
+    title: 'The Keeper Distracts',
     type: 'discovery',
     description:
-      'Natalie Seline\'s inner circle made contact with the entity calling itself "the Silence Between Stars" — a chorus of every consciousness consumed by the Void. The Cult began developing Void-heat technology, offering warmth without the Light.',
-    locationIds: ['over-shanty'],
-    factionIds: ['cult-of-forgotten-shadow'],
-    classIds: ['falseProphet', 'lichborne'],
+      'The eldest Neth — those who have crossed the threshold many times — report that the Keeper of the Last Threshold has become distant and cold, as if something else has its attention. The pact\'s preservation weakens subtly, and the Unraveling accelerates.',
+    locationIds: ['bryngloom-forest'],
+    factionIds: [],
+    classIds: ['falseProphet', 'revenant'],
     causes: ['event-cult-founding'],
     effects: ['event-skalyvr-void']
   },
@@ -195,10 +195,10 @@ const SEEDED_EVENTS = [
     title: 'Skalvyr\'s Desperate Bargain',
     type: 'conspiracy',
     description:
-      'With Nordhalla\'s geothermal sumps failing, House Skalvyr\'s younger generation made clandestine contact with the Cult of Forgotten Shadow. Construction began on the first Void-heat engine, sealed beneath the Frozen Archive.',
+      'With Nordhalla\'s geothermal sumps failing, House Skalvyr\'s younger generation made clandestine contact with outcast Emberth pyrofiends. Construction began on a volatile heat-engine powered by Emberspire obsidian, sealed beneath the Frozen Archive.',
     locationIds: ['frozen-archive'],
-    factionIds: ['house-skalvyr', 'cult-of-forgotten-shadow'],
-    classIds: ['martyr', 'doomsayer'],
+    factionIds: ['house-skalvyr'],
+    classIds: ['martyr', 'harbinger'],
     causes: ['event-void-contact'],
     effects: []
   },
@@ -211,7 +211,7 @@ const SEEDED_EVENTS = [
       'The Unshorn Briaran, rejecting the Fog Compact, launched a series of raids against timber caravans and ledger-shrines. House Thalreth responded with a brutal suppression campaign that drove the Briaran deep into the Ironwood Heart. The conflict has smoldered for generations.',
     locationIds: ['ironwood-heart', 'the-shallows'],
     factionIds: ['unshorn-briaran', 'house-thalreth', 'mist-sentinels'],
-    classIds: ['primalist', 'huntress'],
+    classIds: ['animist', 'apex'],
     causes: ['event-fog-compact'],
     effects: []
   }

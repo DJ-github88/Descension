@@ -850,7 +850,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                                   <div className="config-field">
                                     <label>Element:</label>
                                     <select
-                                      value={effectData.elementType || 'force'}
+                                      value={effectData.elementType || 'arcane'}
                                       onChange={(e) => {
                                         const updatedEffects = { ...creature.config.attachedEffects };
                                         updatedEffects[effectKey] = { ...effectData, elementType: e.target.value };
@@ -1252,7 +1252,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                           onClick={() => handleAttachedEffectChange(creature.id, `auraDamage_${Date.now()}`, {
                             effectType: 'damage',
                             formula: '2d6',
-                            elementType: 'force',
+                            elementType: 'arcane',
                             damageType: 'direct',
                             areaShape: 'circle',
                             areaRadius: 15,

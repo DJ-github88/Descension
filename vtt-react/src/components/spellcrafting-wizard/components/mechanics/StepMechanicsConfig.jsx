@@ -134,13 +134,13 @@ const STEP_MECHANICS_SYSTEMS = {
     toxicTypes: [
       // Core Toxic Types
       { id: 'disease', name: 'Disease', description: 'Biological afflictions that weaken the target over time', icon: faVirus, color: '#8B008B', wowIcon: 'ability_creature_disease_01' },
-      { id: 'poison', name: 'Poison', description: 'Toxic substances that cause immediate and ongoing damage', icon: faFlask, color: '#00AA00', wowIcon: 'ability_creature_poison_06' },
+      { id: 'blight', name: 'blight', description: 'Toxic substances that cause immediate and ongoing damage', icon: faFlask, color: '#00AA00', wowIcon: 'ability_creature_poison_06' },
       { id: 'curse', name: 'Curse', description: 'Magical afflictions that reduce effectiveness and luck', icon: faGhost, color: '#4B0082', wowIcon: 'spell_shadow_curseofsargeras' },
       { id: 'venom', name: 'Venom', description: 'Injected toxins that cause severe damage and paralysis', icon: faSpider, color: '#228B22', wowIcon: 'ability_creature_poison_03' },
 
       // Advanced Toxic Types
       { id: 'blight', name: 'Blight', description: 'Corrupting force that spreads to nearby targets', icon: faSkull, color: '#8B0000', wowIcon: 'spell_shadow_creepingplague' },
-      { id: 'acid', name: 'Acid', description: 'Corrosive substance that dissolves armor and flesh', icon: faFlask, color: '#FFD700', wowIcon: 'spell_nature_acid_01' },
+      { id: 'blight', name: 'blight', description: 'Corrosive substance that dissolves armor and flesh', icon: faFlask, color: '#FFD700', wowIcon: 'spell_nature_acid_01' },
       { id: 'necrosis', name: 'Necrosis', description: 'Death magic that causes tissue decay and weakness', icon: faSkullCrossbones, color: '#2F4F4F', wowIcon: 'spell_shadow_deathcoil' },
       { id: 'miasma', name: 'Miasma', description: 'Toxic cloud that impairs vision and breathing', icon: faSmog, color: '#696969', wowIcon: 'spell_shadow_plaguecloud' },
 
@@ -562,11 +562,11 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
         </div>
         <div className="tooltip-flavor">
           {toxicType.id === 'disease' && "\"A biological affliction that weakens its victims from within.\""}
-          {toxicType.id === 'poison' && "\"A toxic substance that causes immediate and ongoing damage.\""}
+          {toxicType.id === 'blight' && "\"A toxic substance that causes immediate and ongoing damage.\""}
           {toxicType.id === 'curse' && "\"A magical affliction that brings misfortune and suffering.\""}
           {toxicType.id === 'venom' && "\"A potent toxin delivered directly into the bloodstream.\""}
           {toxicType.id === 'blight' && "\"A corrupting force that spreads decay to nearby targets.\""}
-          {toxicType.id === 'acid' && "\"A corrosive substance that dissolves armor and flesh.\""}
+          {toxicType.id === 'blight' && "\"A corrosive substance that dissolves armor and flesh.\""}
           {toxicType.id === 'necrosis' && "\"Death magic that causes tissue decay and weakness.\""}
           {toxicType.id === 'miasma' && "\"A toxic cloud that impairs vision and breathing.\""}
           {toxicType.id === 'parasites' && "\"Living organisms that drain health and mana.\""}
@@ -805,7 +805,7 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
       case 'focus': return '#27ae60';
       case 'runic': return '#8e44ad';
       case 'astral': return '#2980b9';
-      case 'holy': return '#f39c12';
+      case 'ember': return '#f39c12';
       default: return '#4a8ef9';
     }
   };

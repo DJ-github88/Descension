@@ -30,7 +30,7 @@ const TableEntryEditor = ({
       effectType: 'damage', // damage, healing, summoning, buff
       effectConfig: {
         damageFormula: '2d6',
-        damageType: 'fire',
+        damageType: 'ember',
         healingFormula: '2d8',
         creatures: [], // Array of selected creatures for summoning
         quantity: 1,
@@ -64,7 +64,7 @@ const TableEntryEditor = ({
       ...entry,
       effectConfig: {
         damageFormula: '2d6',
-        damageType: 'fire',
+        damageType: 'ember',
         healingFormula: '2d8',
         creatures: [],
         quantity: 1,
@@ -203,7 +203,7 @@ const TableEntryEditor = ({
                 <span className="effect-type-badge">{entry.effectType || 'effect'}</span>
                 {entry.effectType === 'damage' && entry.effectConfig && (
                   <span className="effect-detail">
-                    {entry.effectConfig.damageFormula || '2d6'} {entry.effectConfig.damageType || 'fire'}
+                    {entry.effectConfig.damageFormula || '2d6'} {entry.effectConfig.damageType || 'ember'}
                   </span>
                 )}
                 {entry.effectType === 'healing' && entry.effectConfig && (
@@ -394,7 +394,7 @@ const TableEntryEditor = ({
                       <div className="form-group">
                         <label>Damage Type</label>
                         <select
-                          value={editingEntry.effectConfig?.damageType || 'fire'}
+                          value={editingEntry.effectConfig?.damageType || 'ember'}
                           onChange={(e) => updateEffectConfig('damageType', e.target.value)}
                           className="wow-settings-input"
                         >
@@ -661,7 +661,7 @@ const TableEntryEditor = ({
                           <div className="form-group">
                             <label>Damage Type</label>
                             <select
-                              value={editingEntry.effectConfig?.resistanceType || 'fire'}
+                              value={editingEntry.effectConfig?.resistanceType || 'ember'}
                               onChange={(e) => updateEffectConfig('resistanceType', e.target.value)}
                               className="wow-settings-input"
                             >

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import WowWindow from './WowWindow';
 import useSpellbookStore from '../../store/spellbookStore';
 import useGameStore from '../../store/gameStore';
 import { LIBRARY_SPELLS } from '../../data/spellLibraryData';
-import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators, SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import { SpellWizardProvider } from '../spellcrafting-wizard/context/spellWizardContext';
 import CollectionContextMenu from '../spellcrafting-wizard/components/library/CollectionContextMenu';
 import CollectionViewWindow from '../spellcrafting-wizard/components/library/CollectionViewWindow';
 import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrary';
@@ -225,4 +226,21 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
   );
 };
 
-export default SpellbookWindow;
+const ExternalLivePreview = lazy(() => import('../spellcrafting-wizard/ExternalLivePreview'));
+
+const SpellbookWindowWrapper = (props) => {
+  return (
+    <SpellLibraryProvider>
+      <SpellWizardProvider>
+        <SpellbookWindow {...props} />
+        {props.isOpen && (
+          <Suspense fallback={null}>
+            <ExternalLivePreview />
+          </Suspense>
+        )}
+      </SpellWizardProvider>
+    </SpellLibraryProvider>
+  );
+};
+
+export default SpellbookWindowWrapper;

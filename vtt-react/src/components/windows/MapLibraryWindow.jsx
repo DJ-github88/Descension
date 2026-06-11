@@ -15,7 +15,7 @@ import { ALL_BACKGROUND_ASSETS, getBackgroundUrl } from '../../data/backgroundAs
 import './styles/MapLibraryWindow.css';
 import '../character-creation-wizard/styles/CharacterAppearanceModal.css'; // Reuse background grid styles
 
-const MapLibraryWindow = ({ isOpen, onClose }) => {
+const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
     const [selectedMapId, setSelectedMapId] = useState(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [pendingMapDelete, setPendingMapDelete] = useState(null);
@@ -1017,22 +1017,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         });
     };
 
-    return (
-        <>
-            <WowWindow
-                isOpen={isOpen}
-                onClose={onClose}
-                defaultSize={{ width: 900, height: 700 }}
-                defaultPosition={{ x: 100, y: 100 }}
-                customHeader={
-                    <div className="spellbook-tab-container">
-                        <button className="spellbook-tab-button active">
-                            <i className="fas fa-map" style={{ marginRight: '8px' }}></i>
-                            <span>MAP LIBRARY</span>
-                        </button>
-                    </div>
-                }
-            >
+    const mapLibraryContent = (
                 <div className="map-library-window">
                     {/* Map Grid with Create Button */}
                     <div
@@ -1208,7 +1193,30 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         })}
                     </div>
                 </div>
-            </WowWindow>
+            );
+
+            return (
+                <>
+                    {contentOnly ? (
+                        mapLibraryContent
+                    ) : (
+                        <WowWindow
+                            isOpen={isOpen}
+                            onClose={onClose}
+                            defaultSize={{ width: 900, height: 700 }}
+                            defaultPosition={{ x: 100, y: 100 }}
+                            customHeader={
+                                <div className="spellbook-tab-container">
+                                    <button className="spellbook-tab-button active">
+                                        <i className="fas fa-map" style={{ marginRight: '8px' }}></i>
+                                        <span>MAP LIBRARY</span>
+                                    </button>
+                                </div>
+                            }
+                        >
+                            {mapLibraryContent}
+                        </WowWindow>
+                    )}
 
             {/* Map Creation Wizard */}
             {mapCreationWizard.isOpen && (

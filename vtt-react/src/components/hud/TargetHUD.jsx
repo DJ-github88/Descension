@@ -2346,9 +2346,14 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
                                                 const tooltipContent = {
                                                     title: buff.name,
+                                                    type: 'buff',
+                                                    color: buff.color || '#32CD32',
                                                     effectSummary: effectSummary,
                                                     description: buff.description,
-                                                    duration: formatTime(remainingTime, buff.durationType)
+                                                    effects: buff.effects,
+                                                    duration: formatTime(remainingTime, buff.durationType),
+                                                    durationType: buff.durationType,
+                                                    remainingSeconds: remainingTime,
                                                 };
                                                 return (
                                                     <div
@@ -2408,9 +2413,14 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
                                                 const tooltipContent = {
                                                     title: debuff.name,
+                                                    type: 'debuff',
+                                                    color: debuff.color || '#DC143C',
                                                     effectSummary: effectSummary,
                                                     description: debuff.description,
-                                                    duration: formatTime(remainingTime, debuff.durationType)
+                                                    effects: debuff.effects,
+                                                    duration: formatTime(remainingTime, debuff.durationType),
+                                                    durationType: debuff.durationType,
+                                                    remainingSeconds: remainingTime,
                                                 };
                                                 return (
                                                     <div
@@ -2969,36 +2979,108 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         top: tooltip.position.y,
                         transform: 'translate(-50%, -100%)',
                         zIndex: 10000,
-                        pointerEvents: 'none'
+                        pointerEvents: 'none',
+                        backgroundColor: '#2c1810',
+                        backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
+                        border: '2px solid #8b6f47',
+                        borderRadius: '6px',
+                        padding: '10px 14px',
+                        minWidth: '200px',
+                        maxWidth: '320px',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.6)',
+                        fontFamily: "'Bookman Old Style', 'Garamond', serif",
                     }}
                 >
-                    <div className="equipment-slot-name">{tooltip.content.title}</div>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        marginBottom: '6px',
+                        paddingBottom: '6px',
+                        borderBottom: `2px solid ${tooltip.content.color || '#8b6f47'}`,
+                    }}>
+                        <div style={{
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '50%',
+                            backgroundColor: tooltip.content.color || '#8b6f47',
+                            flexShrink: 0,
+                        }}></div>
+                        <div style={{
+                            fontSize: '14px',
+                            fontWeight: 'bold',
+                            color: '#f0e6d2',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.5px',
+                        }}>
+                            {tooltip.content.title}
+                        </div>
+                        <div style={{
+                            fontSize: '10px',
+                            color: tooltip.content.color || '#8b6f47',
+                            marginLeft: 'auto',
+                            fontStyle: 'italic',
+                            textTransform: 'uppercase',
+                        }}>
+                            {tooltip.content.type}
+                        </div>
+                    </div>
+                    {tooltip.content.description && (
+                        <div style={{
+                            fontSize: '12px',
+                            color: '#d4c5b9',
+                            marginBottom: '8px',
+                            lineHeight: '1.4',
+                            fontStyle: 'italic',
+                        }}>
+                            {tooltip.content.description}
+                        </div>
+                    )}
                     {tooltip.content.effectSummary && (
                         <div style={{
                             fontSize: '12px',
-                            color: '#ffffff !important',
+                            color: '#a0d995',
                             fontWeight: '600',
-                            marginTop: '4px',
-                            padding: '4px 8px',
-                            backgroundColor: 'rgba(122, 59, 46, 0.1)',
+                            marginBottom: '8px',
+                            padding: '6px 10px',
+                            backgroundColor: 'rgba(122, 59, 46, 0.15)',
                             borderRadius: '4px',
-                            borderLeft: '3px solid #7a3b2e'
+                            borderLeft: '3px solid #7a3b2e',
+                            lineHeight: '1.5',
                         }}>
                             {tooltip.content.effectSummary}
                         </div>
                     )}
-                    {tooltip.content.description && (
-                        <div className="equipment-slot-description" style={{ marginTop: '6px' }}>
-                            {tooltip.content.description}
+                    {tooltip.content.effects && typeof tooltip.content.effects === 'object' && !tooltip.content.effectSummary && (
+                        <div style={{
+                            fontSize: '11px',
+                            color: '#a0d995',
+                            marginBottom: '6px',
+                        }}>
+                            {Object.entries(tooltip.content.effects).map(([stat, val]) => {
+                                if (!val) return null;
+                                const statName = stat.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')
+                                    .split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').trim();
+                                const isPositive = Number(val) > 0;
+                                return (
+                                    <div key={stat} style={{ color: isPositive ? '#a0d995' : '#e57373' }}>
+                                        {isPositive ? '+' : ''}{val} {statName}
+                                    </div>
+                                );
+                            })}
                         </div>
                     )}
                     <div style={{
-                        marginTop: '8px',
-                        fontSize: '12px',
-                        color: '#ffffff !important',
-                        fontWeight: 'bold'
+                        marginTop: '6px',
+                        fontSize: '11px',
+                        color: '#8b6f47',
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
                     }}>
-                        Duration: {tooltip.content.duration}
+                        <i className="fas fa-hourglass-half" style={{ fontSize: '10px' }}></i>
+                        {tooltip.content.remainingSeconds <= 0 ? 'Expired' : `Duration: ${tooltip.content.duration}`}
                     </div>
                 </div>
             )}

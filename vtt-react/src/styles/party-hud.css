@@ -1568,21 +1568,14 @@
 
 /* For complex class resource displays that need more space */
 .party-member-frame.class-minstrel,
-.party-member-frame.class-chaos-weaver,
-.party-member-frame.class-gambler,
-.party-member-frame.class-exorcist,
-.party-member-frame.class-lichborne,
+.party-member-frame.class-harbinger,
+.party-member-frame.class-gambit,
+.party-member-frame.class-revenant,
 .party-member-frame.class-plaguebringer,
 .party-member-frame.class-toxicologist,
 .party-member-frame.class-false-prophet {
     min-height: 110px;
     /* Extra height for complex displays with menus */
-}
-
-/* Deathcaller needs extra height for dual bars display */
-.party-member-frame.class-deathcaller {
-    min-height: 145px;
-    /* Extra height for dual bars display with breathing room */
 }
 
 /* Chronarch needs extra height for dual bars */

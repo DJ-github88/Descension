@@ -135,34 +135,31 @@ export const BACKGROUND_STARTING_CURRENCY = {
 export const CLASS_STARTING_CURRENCY = {
     'Arcanoneer': { gold: 15 },
     'Berserker': { gold: 10 },
-    'Bladedancer': { gold: 15 },
-    'Chaos Weaver': { gold: 12 },
+    // 'Bladedancer' and 'Formbender' merged into Shaper as Phase 1.8 consolidation
+    'Shaper': { gold: 13 },
+    'Harbinger': { gold: 11 },
     'Chronarch': { gold: 15 },
-    'Covenbane': { gold: 10 },
-    'Deathcaller': { gold: 12 },
-    'Dreadnaught': { gold: 10 },
-    'Exorcist': { gold: 15 },
+    // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
+    'Inquisitor': { gold: 10 },
+    // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+    'Revenant': { gold: 11 },
     'False Prophet': { gold: 20 },
-    'Fate Weaver': { gold: 15 },
-    'Formbender': { gold: 12 },
-    'Gambler': { gold: 25 },
-    'Huntress': { gold: 12 },
+
+    'Apex': { gold: 12 },
     'Inscriptor': { gold: 15 },
-    'Lichborne': { gold: 10 },
+    // REMOVED: 'Lichborne' merged into Revenant as Phase 1.10 consolidation
     'Lunarch': { gold: 12 },
     'Martyr': { gold: 8 },
     'Minstrel': { gold: 15 },
-    'Oracle': { gold: 15 },
     'Plaguebringer': { gold: 12 },
     'Primalist': { gold: 10 },
     'Pyrofiend': { gold: 12 },
     'Spellguard': { gold: 15 },
-    'Titan': { gold: 10 },
+    // 'Titan' removed (absorbed into Warden as Monolith specialization)
     'Toxicologist': { gold: 15 },
     'Warden': { gold: 12 },
     'Witch Doctor': { gold: 10 },
     'Augur': { gold: 15 },
-    'Doomsayer': { gold: 10 }
 };
 
 // Subrace/Heritage starting gold modifiers
@@ -181,9 +178,9 @@ export const SUBRACE_STARTING_CURRENCY = {
     maskborne_mimir: { gold: 12 },
     mistwoven_mimir: { gold: 10 },
     unwoven_mimir: { gold: 8 },
-    velun_morthel: { gold: 10 },
-    kessen_morthel: { gold: 8 },
-    drun_morthel: { gold: 5 },
+    velun_neth: { gold: 10 },
+    kessen_neth: { gold: 8 },
+    drun_neth: { gold: 5 },
     sylen_astril: { gold: 12 },
     muren_astril: { gold: 10 },
     clean_vreken: { gold: 15 },
@@ -205,7 +202,7 @@ export const RACE_STARTING_CURRENCY = {
     groven: { gold: 8 },
     emberth: { gold: 5 },
     vreken: { gold: 10 },
-    morthel: { gold: 8 },
+neth: { gold: 8 },
     astril: { gold: 10 },
     fexrick: { gold: 5 },
     human: { gold: 10 }

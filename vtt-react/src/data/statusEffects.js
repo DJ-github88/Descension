@@ -132,7 +132,7 @@ const STATUS_EFFECTS = {
       name: 'Poison',
       description: 'Target takes poison damage over time and may have reduced stats.',
       type: 'dot',
-      damageType: 'poison',
+      damageType: 'blight',
       severity: 'moderate',
       color: '#006400', // Dark green
       icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_deadlybrew.jpg',
@@ -142,7 +142,7 @@ const STATUS_EFFECTS = {
       name: 'Burning',
       description: 'Target takes fire damage over time.',
       type: 'dot',
-      damageType: 'fire',
+      damageType: 'ember',
       severity: 'moderate',
       color: '#FF4500', // Orange red
       icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_elemental_primal_fire.jpg',
@@ -152,7 +152,7 @@ const STATUS_EFFECTS = {
       name: 'Disease',
       description: 'Target takes damage over time and has reduced healing.',
       type: 'dot',
-      damageType: 'necrotic',
+      damageType: 'blight',
       severity: 'moderate',
       color: '#556B2F', // Dark olive green
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_plaguecloud.jpg',
@@ -214,6 +214,17 @@ const STATUS_EFFECTS = {
       severity: 'moderate',
       color: '#CD5C5C', // Indian red
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg',
+      oppositeOf: ['immune']
+    },
+
+    // Petrified (Groven Still-Claiming)
+    petrified: {
+      name: 'Petrified',
+      description: 'Target is turned to stone — immune to all damage but unable to move, speak, or act. Incapacitated and weight is multiplied by 10.',
+      type: 'control',
+      severity: 'severe',
+      color: '#A9A9A9',
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneformtotem.jpg',
       oppositeOf: ['immune']
     },
 
@@ -281,6 +292,7 @@ const STATUS_EFFECTS = {
     mental: ['fear', 'charm', 'confuse', 'sleep'],
     dot: ['bleed', 'poison', 'burning', 'disease'],
     debuff: ['weakness', 'vulnerability', 'curse', 'disoriented', 'marked', 'taunt'],
+    control: ['stun', 'slow', 'root', 'knockback', 'pull', 'silence', 'disarm', 'blind', 'petrified'],
     buff: ['haste', 'strengthened', 'resistance', 'immune', 'regen', 'shielded']
   };
 

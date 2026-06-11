@@ -50,7 +50,7 @@ export const CARD_SUITS = {
       opposingSuit: CARD_SUITS.SPADES
     },
     [CARD_SUITS.DIAMONDS]: {
-      element: 'fire',
+      element: 'ember',
       quality: 'enhancement',
       color: '#ff9955',
       icon: '♦',
@@ -104,23 +104,23 @@ export const CARD_SUITS = {
     { id: 1, name: 'The Magician', element: 'air', meaning: 'Manifestation, resourcefulness, power', reversed: 'Manipulation, untapped talents' },
     { id: 2, name: 'The High Priestess', element: 'water', meaning: 'Intuition, unconscious, inner voice', reversed: 'Secrets, disconnection, withdrawal' },
     { id: 3, name: 'The Empress', element: 'earth', meaning: 'Fertility, nurturing, abundance', reversed: 'Dependence, smothering, emptiness' },
-    { id: 4, name: 'The Emperor', element: 'fire', meaning: 'Authority, structure, control', reversed: 'Domination, excessive control, rigidity' },
+    { id: 4, name: 'The Emperor', element: 'ember', meaning: 'Authority, structure, control', reversed: 'Domination, excessive control, rigidity' },
     { id: 5, name: 'The Hierophant', element: 'earth', meaning: 'Tradition, conformity, morality', reversed: 'Rebellion, subversion, unorthodoxy' },
     { id: 6, name: 'The Lovers', element: 'air', meaning: 'Union, choice, alignment of values', reversed: 'Disharmony, imbalance, misalignment' },
     { id: 7, name: 'The Chariot', element: 'water', meaning: 'Direction, control, willpower', reversed: 'Lack of control, opposition, lack of direction' },
-    { id: 8, name: 'Strength', element: 'fire', meaning: 'Courage, persuasion, influence', reversed: 'Self-doubt, weakness, insecurity' },
+    { id: 8, name: 'Strength', element: 'ember', meaning: 'Courage, persuasion, influence', reversed: 'Self-doubt, weakness, insecurity' },
     { id: 9, name: 'The Hermit', element: 'earth', meaning: 'Soul-searching, introspection, guidance', reversed: 'Isolation, loneliness, withdrawal' },
-    { id: 10, name: 'Wheel of Fortune', element: 'fire', meaning: 'Change, cycles, fate', reversed: 'Bad luck, resistance to change, breaking cycles' },
+    { id: 10, name: 'Wheel of Fortune', element: 'ember', meaning: 'Change, cycles, fate', reversed: 'Bad luck, resistance to change, breaking cycles' },
     { id: 11, name: 'Justice', element: 'air', meaning: 'Fairness, truth, cause and effect', reversed: 'Unfairness, dishonesty, lack of accountability' },
     { id: 12, name: 'The Hanged Man', element: 'water', meaning: 'Pause, surrender, letting go', reversed: 'Stalling, indecision, resistance' },
     { id: 13, name: 'Death', element: 'water', meaning: 'Endings, change, transformation', reversed: 'Resistance to change, stagnation, decay' },
-    { id: 14, name: 'Temperance', element: 'fire', meaning: 'Balance, moderation, patience', reversed: 'Imbalance, excess, lack of long-term vision' },
+    { id: 14, name: 'Temperance', element: 'ember', meaning: 'Balance, moderation, patience', reversed: 'Imbalance, excess, lack of long-term vision' },
     { id: 15, name: 'The Devil', element: 'earth', meaning: 'Shadow self, attachment, addiction', reversed: 'Releasing limiting beliefs, detachment, freedom' },
-    { id: 16, name: 'The Tower', element: 'fire', meaning: 'Sudden change, revelation, disruption', reversed: 'Avoiding disaster, delaying the inevitable' },
+    { id: 16, name: 'The Tower', element: 'ember', meaning: 'Sudden change, revelation, disruption', reversed: 'Avoiding disaster, delaying the inevitable' },
     { id: 17, name: 'The Star', element: 'air', meaning: 'Hope, faith, purpose, renewal', reversed: 'Lack of faith, despair, discouragement' },
     { id: 18, name: 'The Moon', element: 'water', meaning: 'Illusion, fear, anxiety, intuition', reversed: 'Release of fear, repressed emotion, confusion' },
-    { id: 19, name: 'The Sun', element: 'fire', meaning: 'Success, radiance, joy, vitality', reversed: 'Temporary depression, lack of success' },
-    { id: 20, name: 'Judgement', element: 'fire', meaning: 'Reflection, reckoning, awakening', reversed: 'Self-doubt, refusal of self-examination' },
+    { id: 19, name: 'The Sun', element: 'ember', meaning: 'Success, radiance, joy, vitality', reversed: 'Temporary depression, lack of success' },
+    { id: 20, name: 'Judgement', element: 'ember', meaning: 'Reflection, reckoning, awakening', reversed: 'Self-doubt, refusal of self-examination' },
     { id: 21, name: 'The World', element: 'earth', meaning: 'Completion, integration, accomplishment', reversed: 'Lack of closure, incomplete goals' }
   ];
   
@@ -139,7 +139,7 @@ export const CARD_SUITS = {
    */
   export const TAROT_SUIT_PROPERTIES = {
     [TAROT_SUITS.WANDS]: {
-      element: 'fire',
+      element: 'ember',
       quality: 'energy',
       domain: 'passion',
       color: '#ff7700',
@@ -1696,7 +1696,7 @@ export const CARD_SUITS = {
       // For standard cards, map suits to elements
       if (card.suit) {
         if (card.suit === CARD_SUITS.HEARTS) return 'water';
-        if (card.suit === CARD_SUITS.DIAMONDS) return 'fire';
+        if (card.suit === CARD_SUITS.DIAMONDS) return 'ember';
         if (card.suit === CARD_SUITS.CLUBS) return 'earth';
         if (card.suit === CARD_SUITS.SPADES) return 'air';
       }

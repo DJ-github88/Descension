@@ -34,9 +34,9 @@ export function isPassiveStatModifier(trait) {
     // Defensive catch-all: any passive trait that clearly represents a resistance/vulnerability
     // should be treated as a stat modifier even if its tags are incomplete
     const idIndicatesResistance =
-        traitId.includes('resistance') || traitId.includes('vulnerability') || traitId.includes('immunity');
+        (trait.id || '').toLowerCase().includes('resistance') || (trait.id || '').toLowerCase().includes('vulnerability') || (trait.id || '').toLowerCase().includes('immunity');
     const nameIndicatesResistance =
-        traitName.includes('resistance') || traitName.includes('vulnerability') || traitName.includes('immunity');
+        (trait.name || '').toLowerCase().includes('resistance') || (trait.name || '').toLowerCase().includes('vulnerability') || (trait.name || '').toLowerCase().includes('immunity');
     if ((trait.spellType === 'PASSIVE' || !trait.spellType) && (idIndicatesResistance || nameIndicatesResistance)) {
         return true;
     }
@@ -52,6 +52,7 @@ export function isPassiveStatModifier(trait) {
     }
     
     // Also check trait name and description for immunity/resistance/vulnerability keywords
+    const traitName = (trait.name || '').toLowerCase();
     const traitDesc = (trait.description || '').toLowerCase();
     const hasImmunityKeywords = (
         traitName.includes('immunity') || traitName.includes('immune') ||

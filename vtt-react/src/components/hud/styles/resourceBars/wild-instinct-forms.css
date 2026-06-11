@@ -7,7 +7,7 @@
     width: 100%;
 }
 
-.formbender-container {
+.shaper-container {
     position: relative;
     display: flex;
     align-items: center;
@@ -105,4 +105,4 @@
 }
 
 
-/* Size variations for Formbender */
+/* Size variations for Shaper */

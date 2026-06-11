@@ -26,7 +26,7 @@ const TableEntryEditor = ({
       effectConfig: {
         // Damage config
         damageFormula: '2d6',
-        damageType: 'fire',
+        damageType: 'ember',
         // Healing config
         healingFormula: '2d8',
         // Summoning config

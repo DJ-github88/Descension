@@ -38,7 +38,7 @@ const REELS = [
   {
     label: "Form", icon: ICON("Status/physical/humanoid-figure-character.png"), items: [
       { value: "Humanoid", icon: ICON("Status/physical/humanoid-figure-character.png") },
-      { value: "Goblin Stack", icon: ICON("abilities/Dual Knife Goblin.png") },
+      { value: "Fexric Scrap-Gang", icon: ICON("abilities/Dual Knife Goblin.png") },
       { value: "Wild Gnome", icon: ICON("Status/utility/paw-print-glowing.png") },
       { value: "Undead", icon: ICON("Status/debuff/undead-bone.png") },
       { value: "Beastkin", icon: ICON("abilities/Nature/Claw.png") },
@@ -567,7 +567,7 @@ function generateName(type, disp, form, quirk) {
   
 
   const formNames = {
-    "Goblin Stack": ["Gruk", "Snag", "Zonk", "Borg", "Kuz", "Brak", "Grit"],
+    "Fexric Scrap-Gang": ["Gruk", "Snag", "Zonk", "Borg", "Kuz", "Brak", "Grit"],
     "Orcish": ["Gruush", "Balgor", "Vrak", "Urzal", "Thokk", "Morg"],
     "Wild Gnome": ["Fuzzle", "Pip", "Glimmer", "Sprocket", "Fizzle", "Tink"],
     "Fey": ["Thorn", "Moss", "Oberon", "Elara", "Puck", "Nim"],
@@ -790,10 +790,10 @@ function analyzeEncounter(type, disp, resultArr) {
 
   const realities = [];
 
-  if (form === "Goblin Stack")
+  if (form === "Fexric Scrap-Gang")
     realities.push({
       title: "Unstable Architecture",
-      desc: "They are literally three goblins in a coat. Their physical coordination is terrible, and a solid strike to the middle goblin will cause the entire entity to collapse into a chaotic scramble.",
+      desc: "They are literally three Fexric standing on each other's shoulders in a salvaged greatcoat. Their physical coordination is terrible, and a solid strike to the middle Fexric will cause the entire entity to collapse into a chaotic scramble of copper wire and indignation.",
     });
   else if (form === "Wild Gnome")
     realities.push({
@@ -851,7 +851,7 @@ function analyzeEncounter(type, disp, resultArr) {
     "a half-eaten ration", "a marked map", "a tarnished silver ring", "a cryptic ledger",
     "a vial of strange liquid", "3d6 loose coins", "a loaded die", "a broken compass",
   ];
-  if (form === "Goblin Stack") lootItems.push("three left shoes", "a suspiciously long trenchcoat");
+  if (form === "Fexric Scrap-Gang") lootItems.push("three mismatched boots", "a suspiciously long greatcoat", "a handful of loose gears");
   if (form === "Wild Gnome") lootItems.push("a pouch of glowing, pungent mushrooms", "a jittery clockwork toy");
   if (form === "Undead") lootItems.push("a locket with a faded portrait", "grave dirt");
   if (form === "Construct") lootItems.push("a leaking oil flask", "spare brass cogs");

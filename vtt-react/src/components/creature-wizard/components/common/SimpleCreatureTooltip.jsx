@@ -522,7 +522,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(2, 1fr)',
             gap: '5px',
             marginBottom: '10px'
           }}
@@ -554,36 +554,6 @@ const SimpleCreatureTooltip = ({ creature }) => {
               lineHeight: '1.3'
             }}>
               {creature.stats?.currentHp ?? creature.stats?.maxHp ?? 0}/{creature.stats?.maxHp ?? 0}
-            </div>
-          </div>
-
-          {/* Armor */}
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(108, 117, 125, 0.4) 0%, rgba(64, 64, 64, 0.3) 100%)',
-            border: '2px solid #6c757d',
-            borderRadius: '8px',
-            padding: '8px 6px',
-            textAlign: 'center',
-            position: 'relative'
-          }}>
-            <div style={{
-              fontSize: '11px',
-              color: '#2d1810',
-              fontWeight: '700',
-              marginBottom: '4px',
-              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
-              lineHeight: '1.2'
-            }}>
-              ARMOR
-            </div>
-            <div style={{
-              fontSize: '15px',
-              color: '#2d1810',
-              fontWeight: 'bold',
-              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
-              lineHeight: '1.3'
-            }}>
-              {creature.stats?.armor ?? 0}
             </div>
           </div>
 

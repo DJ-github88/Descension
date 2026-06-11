@@ -11,7 +11,7 @@ export const MINSTREL_DATA = {
   name: "Minstrel",
   icon: "fas fa-music",
   role: "Support",
-  damageTypes: ["psychic", "force"],
+  damageTypes: ["wyrd", "storm"],
 
   // Overview section
   overview: {
@@ -972,7 +972,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "1d6",
-        elementType: "lightning",
+        elementType: "storm",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -1027,7 +1027,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "1d8",
-        elementType: "bludgeoning",
+        elementType: "physical",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -1244,7 +1244,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 1,
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Radiant/Radiant Warrior",
         tags: [
           "builder",
@@ -1332,7 +1332,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 3,
 
       typeConfig: {
-        school: "lightning",
+        school: "storm",
         icon: "Arcane/Orb Manipulation",
         tags: ["resolver", "cadence", "damage", "simple", "level 3"],
         castTime: 1,
@@ -1362,7 +1362,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "1d8 + spirit",
-        elementType: "lightning",
+        elementType: "storm",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -1390,7 +1390,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 1,
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Reaching Hand",
         tags: [
           "resolver",
@@ -1434,7 +1434,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "1d8 + spirit",
-        elementType: "radiant",
+        elementType: "ember",
         damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
@@ -1480,7 +1480,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 2,
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Golden Heart",
         tags: [
           "builder",
@@ -1522,7 +1522,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "2d6 + spirit",
-        elementType: "radiant",
+        elementType: "ember",
         damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
@@ -1573,7 +1573,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 2,
 
       typeConfig: {
-        school: "lightning",
+        school: "storm",
         icon: "Utility/Overlords Command",
         tags: [
           "builder",
@@ -1615,7 +1615,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "2d6 + spirit",
-        elementType: "lightning",
+        elementType: "storm",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -1657,7 +1657,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 3,
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Agonizing Scream",
         tags: [
           "builder",
@@ -1697,7 +1697,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "3d6 + spirit",
-        elementType: "psychic",
+        elementType: "wyrd",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -1755,7 +1755,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 4,
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Radiant/Radiant Bolt",
         tags: [
           "resolver",
@@ -1841,7 +1841,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 5,
 
       typeConfig: {
-        school: "lightning",
+        school: "storm",
         icon: "Fire/Dragon Breath",
         tags: ["resolver", "cadence", "dot", "aoe", "battlechoir", "level 5"],
         castTime: 1,
@@ -1877,7 +1877,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "3d6 + spirit",
-        elementType: "lightning",
+        elementType: "storm",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -1906,7 +1906,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 5,
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Prayer",
         tags: [
           "resolver",
@@ -1955,7 +1955,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "4d6 + spirit",
-        elementType: "radiant",
+        elementType: "ember",
         damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
@@ -2025,7 +2025,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 6,
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Strike",
         tags: [
           "resolver",
@@ -2117,7 +2117,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 6,
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Divine Radiance",
         tags: [
           "resolver",
@@ -2164,7 +2164,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "6d6 + spirit",
-        elementType: "radiant",
+        elementType: "ember",
         damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
@@ -2234,7 +2234,7 @@ Before combat, decide which cadences you want to prioritize:
       level: 3,
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Psychic/Mind Control",
         tags: ["utility", "ritual", "healing", "rest", "soulsinger", "level 3"],
         castTime: 10,
@@ -2275,7 +2275,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "2d8",
-        elementType: "radiant",
+        elementType: "ember",
         damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
@@ -2354,7 +2354,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "1d6 + spirit/4",
-        elementType: "psychic",
+        elementType: "wyrd",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -2652,7 +2652,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Force/Force Field",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Field",
         tags: [
           "resolver",
@@ -2694,8 +2694,8 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "2d6 + spirit",
-        elementType: "force",
-        damageTypes: ["force"],
+        elementType: "storm",
+        damageTypes: ["storm"],
         shieldConfig: {
           shieldType: "absorption",
           shieldValueFormula: "2d6 + spirit",
@@ -2925,7 +2925,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: "evocation",
         icon: "Nature/Earth Shatter",
-        tags: ["damage", "aoe", "lightning", "resolver", "level 7"],
+        tags: ["damage", "aoe", "storm", "resolver", "level 7"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2953,7 +2953,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "10d6 + spirit",
-        elementType: "lightning",
+        elementType: "storm",
         damageTypes: ["direct"],
         criticalConfig: {
           enabled: true,
@@ -2994,7 +2994,7 @@ Before combat, decide which cadences you want to prioritize:
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ["damage", "aoe", "lightning", "resolver", "level 7"],
+      tags: ["damage", "aoe", "storm", "resolver", "level 7"],
     },
 
     { id: "minstrel_song_of_heroes",
@@ -3079,7 +3079,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: "enchantment",
         icon: "Psychic/Agonizing Scream",
-        tags: ["damage", "control", "psychic", "dissonance", "level 7"],
+        tags: ["damage", "control", "wyrd", "dissonance", "level 7"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3105,7 +3105,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "10d6 + spirit",
-        elementType: "psychic",
+        elementType: "wyrd",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -3146,7 +3146,7 @@ Before combat, decide which cadences you want to prioritize:
         ],
       },
 
-      tags: ["damage", "control", "psychic", "level 7"],
+      tags: ["damage", "control", "wyrd", "level 7"],
     },
 
     // ========================================
@@ -3208,7 +3208,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "12d6 + spirit",
-        elementType: "radiant",
+        elementType: "ember",
         damageTypes: ["direct"],
         savingThrowConfig: {
           enabled: true,
@@ -3514,7 +3514,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "15d6 + spirit",
-        elementType: "necrotic",
+        elementType: "blight",
         damageTypes: ["direct"],
         savingThrowConfig: {
           enabled: true,
@@ -3720,7 +3720,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "20d6 + spirit",
-        elementType: "radiant",
+        elementType: "ember",
         damageTypes: ["direct"],
         savingThrowConfig: {
           enabled: true,
@@ -3914,7 +3914,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "25d6 + spirit",
-        elementType: "force",
+        elementType: "storm",
         damageTypes: ["direct"],
         criticalConfig: {
           enabled: true,
@@ -3952,7 +3952,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: "evocation",
         icon: "Psychic/Mind Control",
-        tags: ["damage", "force", "note generation", "universal"],
+        tags: ["damage", "storm", "note generation", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3968,7 +3968,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: "5d6 + spirit",
-        elementType: "force",
+        elementType: "storm",
         damageTypes: ["direct"],
         resolution: "DICE",
       },
@@ -3993,7 +3993,7 @@ Before combat, decide which cadences you want to prioritize:
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       resolution: "DICE",
-      tags: ["damage", "force", "note generation", "universal"],
+      tags: ["damage", "storm", "note generation", "universal"],
     },
     // ===== PASSIVE ABILITIES =====
     { id: "minstrel_instrument_dependency",

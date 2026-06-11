@@ -31,6 +31,7 @@ import DialogueControls from "./components/dialogue/DialogueControls";
 import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 import ErrorBoundary from "./components/common/ErrorBoundary";
+import WorldMapImmerse from "./components/world-map/WorldMapImmerse";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
 import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
@@ -1102,6 +1103,8 @@ const AppContent = ({
         }
     }, [isAuthenticated, user]);
 
+    const [worldMapState, setWorldMapState] = useState(null); // null | 'active' | 'exiting'
+
     const handleEnterSinglePlayer = async () => {
         // Clear any existing room flags - this is world builder mode (sandbox/testing)
         localStorage.removeItem('isLocalRoom');
@@ -1152,6 +1155,8 @@ const AppContent = ({
                         onShowLogin={handleShowLogin}
                         onShowRegister={handleShowRegister}
                         onShowUserProfile={handleShowUserProfile}
+                        onImmerse={() => setWorldMapState('active')}
+                        isWorldMapActive={worldMapState === 'active'}
                         isAuthenticated={isAuthenticated}
                         user={user}
                     />
@@ -1257,6 +1262,14 @@ const AppContent = ({
                 {/* Redirect unknown routes to home */}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
+
+             {/* Interactive World Map */}
+            {worldMapState !== null && (
+              <WorldMapImmerse 
+                onClose={() => setWorldMapState(null)} 
+                onClosing={() => setWorldMapState('exiting')}
+              />
+            )}
 
             {/* Global modals */}
             <AuthModal

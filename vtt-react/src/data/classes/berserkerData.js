@@ -10,7 +10,7 @@ export const BERSERKER_DATA = {
   name: "Berserker",
   icon: "fas fa-skull",
   role: "Damage",
-  damageTypes: ["slashing", "bludgeoning"],
+  damageTypes: ["physical"],
 
   // Overview section (Oppressive & Tragic Lore)
   overview: {
@@ -354,7 +354,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Slashing/Cross Slash",
 
       typeConfig: {
-        school: "slashing",
+        school: "physical",
         icon: "Slashing/Cross Slash",
         tags: ["melee", "damage", "rage generation", "starter", "self-damage"],
         castTime: 1,
@@ -384,7 +384,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "1d12 + strength",
-        damageTypes: ["slashing"],
+        damageTypes: ["physical"],
         resolution: "DICE",
         description: "A brutal, agonizing swing. Deals massive slashing damage, but the recoil snaps your own muscle fibers.",
       },
@@ -457,7 +457,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Utility/Deflecting Shield",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Utility/Deflecting Shield",
         tags: ["defense", "buff", "stance", "toggleable", "starter"],
         toggleable: true,
@@ -542,7 +542,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Slashing/Bloody Slash",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Slashing/Bloody Slash",
         tags: ["damage", "buff", "stance", "toggleable", "starter", "self-damage"],
         toggleable: true,
@@ -678,7 +678,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Slashing/Cleave",
 
       typeConfig: {
-        school: "slashing",
+        school: "physical",
         icon: "Slashing/Cleave",
         tags: ["melee", "damage", "rage cost", "self-damage"],
         castTime: 1,
@@ -707,7 +707,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "2d6 + strength",
-        damageTypes: ["slashing"],
+        damageTypes: ["physical"],
         resolution: "DICE",
       },
 
@@ -768,7 +768,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Utility/Overlords Command",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Utility/Overlords Command",
         tags: ["aoe", "debuff", "buff", "shout", "rage cost"],
         castTime: 1,
@@ -876,7 +876,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Utility/Speed Dash",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Utility/Speed Dash",
         tags: ["aoe", "damage", "control", "rage generation", "self-damage"],
         castTime: 1,
@@ -907,7 +907,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "2d8 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE",
       },
 
@@ -1021,7 +1021,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Bludgeoning/Mortal Strike",
 
       typeConfig: {
-        school: "slashing",
+        school: "physical",
         icon: "Bludgeoning/Mortal Strike",
         tags: ["melee", "damage", "execute", "rage cost", "self-damage"],
         castTime: 1,
@@ -1050,7 +1050,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "3d12 + strength",
-        damageTypes: ["slashing"],
+        damageTypes: ["physical"],
         resolution: "DICE",
       },
 
@@ -1110,7 +1110,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Utility/Shield",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Utility/Shield",
         tags: ["buff", "temp hp", "defense", "rage cost"],
         castTime: 1,
@@ -1213,7 +1213,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Bludgeoning/Mortal Strike",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Bludgeoning/Mortal Strike",
         tags: ["melee", "damage", "control", "rage cost", "self-damage"],
         castTime: 1,
@@ -1243,7 +1243,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "4d10 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE",
       },
 
@@ -1424,7 +1424,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Slashing/Cleave",
 
       typeConfig: {
-        school: "slashing",
+        school: "physical",
         icon: "Slashing/Cleave",
         tags: ["melee", "damage", "execute", "rage cost", "self-damage"],
         castTime: 1,
@@ -1454,7 +1454,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "5d12 + strength",
-        damageTypes: ["slashing"],
+        damageTypes: ["physical"],
         resolution: "DICE",
       },
 
@@ -1619,7 +1619,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Necrotic/Blood Skull",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Necrotic/Blood Skull",
         tags: ["buff", "damage", "toggleable", "rage cost", "self-damage"],
         toggleable: true,
@@ -1820,7 +1820,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Bludgeoning/Mortal Strike",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Bludgeoning/Mortal Strike",
         tags: ["aoe", "damage", "control", "rage cost", "self-damage"],
         castTime: 1,
@@ -1851,7 +1851,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "5d8 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1936,7 +1936,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Arcane/Missile",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Arcane/Missile",
         tags: ["aoe", "damage", "rage cost", "self-damage"],
         castTime: 1,
@@ -1967,7 +1967,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "6d10 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -2129,7 +2129,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Fire/Fiery Comet",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Fire/Fiery Comet",
         tags: ["aoe", "damage", "execute", "rage cost", "self-damage"],
         castTime: 1,
@@ -2160,7 +2160,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
       damageConfig: {
         formula: "8d12 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -2235,7 +2235,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       icon: "Bludgeoning/Blood Punch",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Bludgeoning/Blood Punch",
         tags: ["transformation", "buff", "rage cost", "self-damage"],
         castTime: 1,

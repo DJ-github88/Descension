@@ -4,8 +4,8 @@
  * Items that are only available to specific character backgrounds.
  */
 
-// ===== ACOLYTE =====
-export const ACOLYTE_ITEMS = [
+// ===== EMBERSPIRE PILGRIM =====
+export const EMBERSPIRE_PILGRIM_ITEMS = [
     {
         id: 'acolyte-prayer-book',
         name: 'Acolyte\'s Prayer Book',
@@ -21,7 +21,7 @@ export const ACOLYTE_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['acolyte']
+            backgrounds: ['emberspirePilgrim']
         }
     },
     
@@ -46,7 +46,7 @@ export const ACOLYTE_ITEMS = [
             spirit: { value: 1, isPercentage: false } // +1 Spirit when burned (represents calming effect)
         },
         availableFor: {
-            backgrounds: ['acolyte']
+            backgrounds: ['emberspirePilgrim']
         }
     },
     
@@ -70,13 +70,13 @@ export const ACOLYTE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['acolyte']
+            backgrounds: ['emberspirePilgrim']
         }
     }
 ];
 
-// ===== CRIMINAL =====
-export const CRIMINAL_ITEMS = [
+// ===== SHYR RUNNER =====
+export const SHYR_RUNNER_ITEMS = [
     {
         id: 'criminal-crowbar',
         name: 'Crowbar',
@@ -92,7 +92,7 @@ export const CRIMINAL_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['criminal']
+            backgrounds: ['shyrRunner']
         }
     },
     
@@ -116,7 +116,7 @@ export const CRIMINAL_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['criminal']
+            backgrounds: ['shyrRunner']
         }
     },
     
@@ -135,7 +135,7 @@ export const CRIMINAL_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['criminal']
+            backgrounds: ['shyrRunner']
         }
     },
 
@@ -155,13 +155,13 @@ export const CRIMINAL_ITEMS = [
         stackable: true,
         maxStackSize: 5,
         availableFor: {
-            backgrounds: ['criminal']
+            backgrounds: ['shyrRunner']
         }
     }
 ];
 
-// ===== FOLK HERO =====
-export const FOLK_HERO_ITEMS = [
+// ===== LEDGER KEEPER =====
+export const LEDGER_KEEPER_ITEMS = [
     {
         id: 'folk-hero-artisan-tools',
         name: 'Artisan\'s Tools',
@@ -177,7 +177,7 @@ export const FOLK_HERO_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['folkHero']
+            backgrounds: ['ledgerKeeper']
         }
     },
 
@@ -196,7 +196,7 @@ export const FOLK_HERO_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['folkHero']
+            backgrounds: ['ledgerKeeper']
         }
     },
     
@@ -217,7 +217,7 @@ export const FOLK_HERO_ITEMS = [
             armor: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['folkHero']
+            backgrounds: ['ledgerKeeper']
         }
     },
 
@@ -240,13 +240,13 @@ export const FOLK_HERO_ITEMS = [
             healthRestore: { value: 10, isPercentage: false } // Restores 10 HP when consumed
         },
         availableFor: {
-            backgrounds: ['folkHero']
+            backgrounds: ['ledgerKeeper']
         }
     }
 ];
 
-// ===== NOBLE =====
-export const NOBLE_ITEMS = [
+// ===== BLOODLINE HEIR =====
+export const BLOODLINE_HEIR_ITEMS = [
     {
         id: 'noble-signet-ring',
         name: 'Signet Ring',
@@ -264,7 +264,7 @@ export const NOBLE_ITEMS = [
             charisma: { value: 2, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['noble']
+            backgrounds: ['bloodlineHeir']
         }
     },
     
@@ -288,7 +288,7 @@ export const NOBLE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['noble']
+            backgrounds: ['bloodlineHeir']
         }
     },
     
@@ -307,7 +307,7 @@ export const NOBLE_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['noble']
+            backgrounds: ['bloodlineHeir']
         }
     },
 
@@ -330,13 +330,13 @@ export const NOBLE_ITEMS = [
             charisma: { value: 1, isPercentage: false } // +1 Charisma when applied
         },
         availableFor: {
-            backgrounds: ['noble']
+            backgrounds: ['bloodlineHeir']
         }
     }
 ];
 
-// ===== SAGE =====
-export const SAGE_ITEMS = [
+// ===== SYNOD ACADEMIC =====
+export const SYNOD_ACADEMIC_ITEMS = [
     {
         id: 'sage-research-journal',
         name: 'Research Journal',
@@ -352,7 +352,7 @@ export const SAGE_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['sage']
+            backgrounds: ['synodAcademic']
         }
     },
 
@@ -371,7 +371,7 @@ export const SAGE_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['sage']
+            backgrounds: ['synodAcademic']
         }
     },
     
@@ -395,7 +395,7 @@ export const SAGE_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['sage']
+            backgrounds: ['synodAcademic']
         }
     },
 
@@ -415,13 +415,13 @@ export const SAGE_ITEMS = [
         stackable: true,
         maxStackSize: 10,
         availableFor: {
-            backgrounds: ['sage']
+            backgrounds: ['synodAcademic']
         }
     }
 ];
 
-// ===== SOLDIER =====
-export const SOLDIER_ITEMS = [
+// ===== SUMPS VETERAN =====
+export const SUMPS_VETERAN_ITEMS = [
     {
         id: 'soldier-military-insignia',
         name: 'Military Insignia',
@@ -439,7 +439,7 @@ export const SOLDIER_ITEMS = [
             strength: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['soldier']
+            backgrounds: ['sumpsVeteran']
         }
     },
     
@@ -458,7 +458,7 @@ export const SOLDIER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['soldier']
+            backgrounds: ['sumpsVeteran']
         }
     },
     
@@ -482,7 +482,7 @@ export const SOLDIER_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['soldier']
+            backgrounds: ['sumpsVeteran']
         }
     },
 
@@ -508,13 +508,13 @@ export const SOLDIER_ITEMS = [
             constitution: { value: 1, isPercentage: false } // +1 Constitution (represents the sustaining effect)
         },
         availableFor: {
-            backgrounds: ['soldier']
+            backgrounds: ['sumpsVeteran']
         }
     }
 ];
 
-// ===== MERCHANT =====
-export const MERCHANT_ITEMS = [
+// ===== GLOOMWAY TRADER =====
+export const GLOOMWAY_TRADER_ITEMS = [
     {
         id: 'merchant-scale',
         name: 'Merchant\'s Scale',
@@ -530,7 +530,7 @@ export const MERCHANT_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['merchant']
+            backgrounds: ['gloomwayTrader']
         }
     },
 
@@ -549,7 +549,7 @@ export const MERCHANT_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['merchant']
+            backgrounds: ['gloomwayTrader']
         }
     },
 
@@ -568,13 +568,13 @@ export const MERCHANT_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['merchant']
+            backgrounds: ['gloomwayTrader']
         }
     }
 ];
 
-// ===== URCHIN =====
-export const URCHIN_ITEMS = [
+// ===== SHANTY RAT =====
+export const SHANTY_RAT_ITEMS = [
     {
         id: 'urchin-small-knife',
         name: 'Small Knife',
@@ -594,11 +594,11 @@ export const URCHIN_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         availableFor: {
-            backgrounds: ['urchin']
+            backgrounds: ['shantyRat']
         }
     },
 
@@ -617,7 +617,7 @@ export const URCHIN_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['urchin']
+            backgrounds: ['shantyRat']
         }
     },
 
@@ -636,7 +636,7 @@ export const URCHIN_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['urchin']
+            backgrounds: ['shantyRat']
         }
     },
 
@@ -655,13 +655,13 @@ export const URCHIN_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['urchin']
+            backgrounds: ['shantyRat']
         }
     }
 ];
 
-// ===== SAILOR =====
-export const SAILOR_ITEMS = [
+// ===== MERROW SAILOR =====
+export const MERROW_SAILOR_ITEMS = [
     {
         id: 'sailor-belaying-pin',
         name: 'Belaying Pin',
@@ -681,11 +681,11 @@ export const SAILOR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         availableFor: {
-            backgrounds: ['sailor']
+            backgrounds: ['merrowSailor']
         }
     },
 
@@ -704,7 +704,7 @@ export const SAILOR_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['sailor']
+            backgrounds: ['merrowSailor']
         }
     },
 
@@ -725,13 +725,13 @@ export const SAILOR_ITEMS = [
             spirit: { value: 1, isPercentage: false } // +1 Spirit (represents luck/morale)
         },
         availableFor: {
-            backgrounds: ['sailor']
+            backgrounds: ['merrowSailor']
         }
     }
 ];
 
-// ===== OUTLANDER =====
-export const OUTLANDER_ITEMS = [
+// ===== PEAK TRACKER =====
+export const PEAK_TRACKER_ITEMS = [
     {
         id: 'outlander-hunting-trap',
         name: 'Hunting Trap',
@@ -747,7 +747,7 @@ export const OUTLANDER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['outlander']
+            backgrounds: ['peakTracker']
         }
     },
 
@@ -771,7 +771,7 @@ export const OUTLANDER_ITEMS = [
         demandLevel: 'Low',
         qualityGrade: 'Standard',
         availableFor: {
-            backgrounds: ['outlander']
+            backgrounds: ['peakTracker']
         }
     },
     
@@ -795,7 +795,7 @@ export const OUTLANDER_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['outlander']
+            backgrounds: ['peakTracker']
         }
     },
 
@@ -818,13 +818,13 @@ export const OUTLANDER_ITEMS = [
             healthRestore: { value: 5, isPercentage: false } // Restores 5 HP when drunk
         },
         availableFor: {
-            backgrounds: ['outlander']
+            backgrounds: ['peakTracker']
         }
     }
 ];
 
-// ===== CHARLATAN =====
-export const CHARLATAN_ITEMS = [
+// ===== DEBT NEGOTIATOR =====
+export const DEBT_NEGOTIATOR_ITEMS = [
     {
         id: 'charlatan-weighted-dice',
         name: 'Weighted Dice',
@@ -840,7 +840,7 @@ export const CHARLATAN_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['charlatan']
+            backgrounds: ['debtNegotiator']
         }
     },
 
@@ -859,7 +859,7 @@ export const CHARLATAN_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['charlatan']
+            backgrounds: ['debtNegotiator']
         }
     },
     
@@ -883,7 +883,7 @@ export const CHARLATAN_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            backgrounds: ['charlatan']
+            backgrounds: ['debtNegotiator']
         }
     },
 
@@ -906,13 +906,13 @@ export const CHARLATAN_ITEMS = [
             charisma: { value: 1, isPercentage: false } // +1 Charisma when used for disguises
         },
         availableFor: {
-            backgrounds: ['charlatan']
+            backgrounds: ['debtNegotiator']
         }
     }
 ];
 
-// ===== ENTERTAINER =====
-export const ENTERTAINER_ITEMS = [
+// ===== FROST CHANTER =====
+export const FROST_CHANTER_ITEMS = [
     {
         id: 'entertainer-musical-instrument',
         name: 'Musical Instrument',
@@ -928,7 +928,7 @@ export const ENTERTAINER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['entertainer']
+            backgrounds: ['frostChanter']
         }
     },
 
@@ -947,7 +947,7 @@ export const ENTERTAINER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['entertainer']
+            backgrounds: ['frostChanter']
         }
     },
 
@@ -966,7 +966,7 @@ export const ENTERTAINER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['entertainer']
+            backgrounds: ['frostChanter']
         }
     },
 
@@ -989,13 +989,13 @@ export const ENTERTAINER_ITEMS = [
             charisma: { value: 1, isPercentage: false } // +1 Charisma when applied
         },
         availableFor: {
-            backgrounds: ['entertainer']
+            backgrounds: ['frostChanter']
         }
     }
 ];
 
-// ===== HERMIT =====
-export const HERMIT_ITEMS = [
+// ===== HUSH SURVIVOR =====
+export const HUSH_SURVIVOR_ITEMS = [
     {
         id: 'hermit-herbalism-kit',
         name: 'Herbalism Kit',
@@ -1011,7 +1011,7 @@ export const HERMIT_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['hermit']
+            backgrounds: ['hushSurvivor']
         }
     },
 
@@ -1030,7 +1030,7 @@ export const HERMIT_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['hermit']
+            backgrounds: ['hushSurvivor']
         }
     },
 
@@ -1049,7 +1049,7 @@ export const HERMIT_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['hermit']
+            backgrounds: ['hushSurvivor']
         }
     },
 
@@ -1075,13 +1075,13 @@ export const HERMIT_ITEMS = [
             spirit: { value: 1, isPercentage: false } // +1 Spirit (represents the solitary sustenance)
         },
         availableFor: {
-            backgrounds: ['hermit']
+            backgrounds: ['hushSurvivor']
         }
     }
 ];
 
-// ===== SCHOLAR =====
-export const SCHOLAR_ITEMS = [
+// ===== MONOLITH HUNTER =====
+export const MONOLITH_HUNTER_ITEMS = [
     {
         id: 'scholar-bottle-ink',
         name: 'Bottle of Ink',
@@ -1098,7 +1098,7 @@ export const SCHOLAR_ITEMS = [
         stackable: true,
         maxStackSize: 5,
         availableFor: {
-            backgrounds: ['scholar']
+            backgrounds: ['monolithHunter']
         }
     },
 
@@ -1117,7 +1117,7 @@ export const SCHOLAR_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['scholar']
+            backgrounds: ['monolithHunter']
         }
     },
 
@@ -1137,7 +1137,7 @@ export const SCHOLAR_ITEMS = [
         stackable: true,
         maxStackSize: 10,
         availableFor: {
-            backgrounds: ['scholar']
+            backgrounds: ['monolithHunter']
         }
     },
 
@@ -1156,7 +1156,7 @@ export const SCHOLAR_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['scholar']
+            backgrounds: ['monolithHunter']
         }
     },
 
@@ -1175,7 +1175,7 @@ export const SCHOLAR_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            backgrounds: ['scholar']
+            backgrounds: ['monolithHunter']
         }
     }
 ];
@@ -1183,65 +1183,65 @@ export const SCHOLAR_ITEMS = [
 // ===== COMBINED EXPORT =====
 
 export const ALL_BACKGROUND_EQUIPMENT = [
-    ...ACOLYTE_ITEMS,
-    ...CRIMINAL_ITEMS,
-    ...FOLK_HERO_ITEMS,
-    ...MERCHANT_ITEMS,
-    ...NOBLE_ITEMS,
-    ...SAGE_ITEMS,
-    ...SAILOR_ITEMS,
-    ...SOLDIER_ITEMS,
-    ...URCHIN_ITEMS,
-    ...OUTLANDER_ITEMS,
-    ...CHARLATAN_ITEMS,
-    ...ENTERTAINER_ITEMS,
-    ...HERMIT_ITEMS,
-    ...SCHOLAR_ITEMS,
+    ...EMBERSPIRE_PILGRIM_ITEMS,
+    ...SHYR_RUNNER_ITEMS,
+    ...LEDGER_KEEPER_ITEMS,
+    ...GLOOMWAY_TRADER_ITEMS,
+    ...BLOODLINE_HEIR_ITEMS,
+    ...SYNOD_ACADEMIC_ITEMS,
+    ...MERROW_SAILOR_ITEMS,
+    ...SUMPS_VETERAN_ITEMS,
+    ...SHANTY_RAT_ITEMS,
+    ...PEAK_TRACKER_ITEMS,
+    ...DEBT_NEGOTIATOR_ITEMS,
+    ...FROST_CHANTER_ITEMS,
+    ...HUSH_SURVIVOR_ITEMS,
+    ...MONOLITH_HUNTER_ITEMS,
 
     // ===== CUSTOM BACKGROUND ITEMS =====
 
-    // MYSTIC ITEMS
+    // VESSEL ITEMS
     {
         id: 'mystic-crystal-focus',
-        name: 'Crystal Focus',
+        name: 'Stelequarts Lens',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A polished crystal used to focus arcane energies and aid in mystical rituals.',
+        description: 'A ground and polished Stelequarts crystal that refracts starlight into focused resonance patterns, used to commune with your Astril constellation-spirit.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['mystic']
+            backgrounds: ['vessel']
         }
     },
 
     {
         id: 'mystic-tome-mysteries',
-        name: 'Tome of Mysteries',
+        name: 'Astril Concordance',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'An ancient tome containing mystical knowledge and arcane secrets.',
+        description: 'A star-chart tome mapping the celestial resonances between your dual consciousness and your Astril constellation-spirit.',
         iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
         value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
         weight: 3,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['mystic']
+            backgrounds: ['vessel']
         }
     },
 
     {
         id: 'mystic-incense-candles',
-        name: 'Incense and Candles',
+        name: 'Throat-Singing Cords',
         type: 'consumable',
         subtype: 'UTILITY',
         quality: 'common',
-        description: 'Sacred incense and candles used in mystical rituals and meditation.',
+        description: 'Resonant fiber cords tuned to harmonic frequencies, used in throat-singing meditations to align with your constellation-spirit.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,
@@ -1250,17 +1250,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         stackable: true,
         maxStackSize: 10,
         availableFor: {
-            backgrounds: ['mystic']
+            backgrounds: ['vessel']
         }
     },
 
     {
         id: 'mystic-ritual-pouch',
-        name: 'Ritual Components Pouch',
+        name: 'Star-Glow Component Pouch',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A pouch containing various mystical components for rituals and spellcasting.',
+        description: 'A lined pouch for holding crystal shards and resonance components used in celestial communion.',
         iconId: 'Container/Pouch/beige-tied-pouch',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 1,
@@ -1272,17 +1272,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['mystic']
+            backgrounds: ['vessel']
         }
     },
 
     {
         id: 'mystic-travelers-robes',
-        name: 'Traveler\'s Robes',
+        name: 'Crystal-Pattern Robes',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Comfortable robes designed for long journeys, with pockets for mystical components.',
+        description: 'Soft robes woven with subtle Stelequarts thread, the crystal-skin patterns shimmering faintly with stored starlight.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 4,
@@ -1293,52 +1293,52 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 10
         },
         availableFor: {
-            backgrounds: ['mystic']
+            backgrounds: ['vessel']
         }
     },
 
-    // ZEALOT ITEMS
+    // BOUND ITEMS
     {
         id: 'zealot-holy-symbol',
-        name: 'Holy Symbol',
+        name: 'Keeper\'s Clause-Scroll',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A sacred symbol representing your divine faith and devotion.',
+        description: 'A tightly wound scroll bearing your sworn Keeper\'s oath, sealed with bog-iron ink.',
         iconId: 'Armor/Neck/spiky-teal-gem-pendant',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['zealot']
+            backgrounds: ['bound']
         }
     },
 
     {
         id: 'zealot-prayer-beads',
-        name: 'Prayer Beads',
+        name: 'Memory-Glass Beads',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A string of beads used to count prayers and maintain focus during devotion.',
+        description: 'A strand of small memory-glass beads, each one holding a fragment of a sworn oath or Neth contract term.',
         iconId: 'Armor/Neck/spiky-teal-gem-pendant',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['zealot']
+            backgrounds: ['bound']
         }
     },
 
     {
         id: 'zealot-ceremonial-weapon',
-        name: 'Ceremonial Weapon',
+        name: 'Contract-Sealed Mace',
         type: 'weapon',
         subtype: 'MACE',
         quality: 'common',
-        description: 'A beautifully crafted ceremonial weapon, more symbolic than practical.',
+        description: 'A bog-iron mace engraved with Neth contract-clauses, its surface sealed with Keeper\'s devotional marks.',
         iconId: 'Weapons/Mace/mace-wooden-club-brown-primitive',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 4,
@@ -1351,21 +1351,21 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         availableFor: {
-            backgrounds: ['zealot']
+            backgrounds: ['bound']
         }
     },
 
     {
         id: 'zealot-religious-vestments',
-        name: 'Religious Vestments',
+        name: 'Contract-Sealed Vestments',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Formal religious clothing worn during ceremonies and worship.',
+        description: 'Formal vestments inscribed with Neth contract-seals and Keeper oaths in bog-iron ink.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 4,
@@ -1376,52 +1376,52 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 10
         },
         availableFor: {
-            backgrounds: ['zealot']
+            backgrounds: ['bound']
         }
     },
 
-    // TRICKSTER ITEMS
+    // UNSEEN ITEMS
     {
         id: 'trickster-thieves-tools',
-        name: 'Thieves\' Tools',
+        name: 'Veil-Bypass Tools',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A set of lockpicks and tools for bypassing locks and traps.',
+        description: 'Precision tools favored by Drun outcasts for bypassing locks and wards undetected.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['trickster']
+            backgrounds: ['unseen']
         }
     },
 
     {
         id: 'trickster-disguise-kit',
-        name: 'Disguise Kit',
+        name: 'Mimir Shifting Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Cosmetics and accessories for creating disguises and altering appearance.',
+        description: 'A kit of memory-crystal pigments and sculpting compounds used by Mimir shape-shifters to alter appearance.',
         iconId: 'Container/Bag/brown-satchel-messenger',
         value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
         weight: 3,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['trickster']
+            backgrounds: ['unseen']
         }
     },
 
     {
         id: 'trickster-fine-clothes',
-        name: 'Set of Fine Clothes',
+        name: 'Unlit Courtier\'s Garb',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Elegant clothing suitable for social occasions and deception.',
+        description: 'Elegant, nondescript clothing woven with Unlit veil-fibers, designed to blur the wearer\'s outline.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 6,
@@ -1432,69 +1432,69 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 10
         },
         availableFor: {
-            backgrounds: ['trickster']
+            backgrounds: ['unseen']
         }
     },
 
     {
         id: 'trickster-fake-signet-ring',
-        name: 'Signet Ring (Fake)',
+        name: 'False Signet Ring',
         type: 'miscellaneous',
         subtype: 'ACCESSORY',
         quality: 'common',
-        description: 'A convincing fake signet ring for impersonating nobility or officials.',
+        description: 'A finely crafted false signet ring, used by Unlit agents to impersonate officials across the Veil.',
         iconId: 'Armor/Finger/finger-simple-teal-diamond-ring',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['trickster']
+            backgrounds: ['unseen']
         }
     },
 
     {
         id: 'trickster-marked-cards',
-        name: 'Deck of Marked Cards',
+        name: 'Drun Cipher-Tiles',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A deck of playing cards with subtle markings for cheating at games.',
+        description: 'A set of gaming tiles with Drun outcast cipher-marks, readable only by those trained in Unlit patterns.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['trickster']
+            backgrounds: ['unseen']
         }
     },
 
-    // HARROW ITEMS
+    // SCARRED ITEMS
     {
         id: 'harrow-memento-loss',
-        name: 'Memento of Loss',
+        name: 'Vat-Glass Shard',
         type: 'miscellaneous',
         subtype: 'ACCESSORY',
         quality: 'common',
-        description: 'A personal item that reminds you of someone or something you lost.',
+        description: 'A jagged shard of vat-glass carried as a reminder of the breaking. Its edges still hold a faint resonance.',
         iconId: 'Armor/Neck/spiky-teal-gem-pendant',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['harrow']
+            backgrounds: ['scarred']
         }
     },
 
     {
         id: 'harrow-weathered-cloak',
-        name: 'Weathered Cloak',
+        name: 'Wind-Leather Cloak',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'A durable cloak that has seen better days but provides good protection from the elements.',
+        description: 'A cloak of weathered wind-leather, scarred by Wyrd-storms but still offering solid protection.',
         iconId: 'Armor/Cloak/cloak-simple-brown-cape',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 2,
@@ -1505,51 +1505,51 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 10
         },
         availableFor: {
-            backgrounds: ['harrow']
+            backgrounds: ['scarred']
         }
     },
 
     {
         id: 'harrow-survival-gear',
-        name: 'Survival Gear',
+        name: 'Wyrd-Survivor\'s Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Basic gear for surviving in the wilderness, including a knife and tinderbox.',
+        description: 'Essential survival gear assembled by a Wyrd-survivor: a blade, tinderbox, and dried rations in a vat-glass-lined pouch.',
         iconId: 'Container/Bag/brown-backpack-simple',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 4,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['harrow']
+            backgrounds: ['scarred']
         }
     },
 
     {
         id: 'harrow-herbalism-kit',
-        name: 'Herbalism Kit',
+        name: 'Scar-Tissue Salve Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Tools for identifying and collecting herbs, useful for survival and healing.',
+        description: 'A kit of salves and unguents made from Wyrd-scar tissue extractions, useful for treating Over-Sung ailments.',
         iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-classic-squat-bulbous-rounded-body-narrower-neck-diagonal-bright-deep-red-liquid-two-thirds-light-beige-cream-glass-dark-brown-cylindrical-cork',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 3,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['harrow']
+            backgrounds: ['scarred']
         }
     },
 
     {
         id: 'harrow-worn-clothes',
-        name: 'Common Clothes (Worn)',
+        name: 'Vat-Breaker\'s Wraps',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Simple, well-worn clothing suitable for everyday wear.',
+        description: 'Well-worn wraps and layers typical of Vat-Breakers, patched with scavenged vat-glass fiber.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 3,
@@ -1560,35 +1560,35 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 10
         },
         availableFor: {
-            backgrounds: ['harrow']
+            backgrounds: ['scarred']
         }
     },
 
-    // ARCANIST ITEMS
+    // ARCHIVE_SWORN ITEMS
     {
         id: 'arcanist-spellbook',
-        name: 'Spellbook',
+        name: 'Canopy-Ledger',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A leather-bound book containing arcane spells and magical knowledge.',
+        description: 'A thick Canopy-Ledger bound in preservative wax, its pages inscribed with Frozen Archive catalog entries.',
         iconId: 'Misc/Books/book-open-teal-swirl-cream-pages',
         value: { platinum: 0, gold: 50, silver: 0, copper: 0 },
         weight: 3,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['arcanist']
+            backgrounds: ['archive_sworn']
         }
     },
 
     {
         id: 'arcanist-component-pouch',
-        name: 'Component Pouch',
+        name: 'Memory-Glass Tablet Pouch',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A pouch containing various spell components for casting spells.',
+        description: 'A padded pouch for carrying inscribed memory-glass tablets used in Archive research and cataloging.',
         iconId: 'Container/Pouch/beige-tied-pouch',
         value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
         weight: 2,
@@ -1600,34 +1600,34 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['arcanist']
+            backgrounds: ['archive_sworn']
         }
     },
 
     {
         id: 'arcanist-ink-quill',
-        name: 'Ink and Quill',
+        name: 'Canopy-Quill and Bog-Iron Ink',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Writing implements for transcribing spells and magical research.',
+        description: 'A canopy-quill and pot of archival bog-iron ink, standard-issue for Frozen Archive scribes.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['arcanist']
+            backgrounds: ['archive_sworn']
         }
     },
 
     {
         id: 'arcanist-scholarly-robes',
-        name: 'Scholarly Robes',
+        name: 'Archive-Sworn Vestments',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Comfortable robes designed for study and magical research.',
+        description: 'Preservative-waxed robes marked with Frozen Archive sigils, fitted with pockets for memory-glass tablets.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 4,
@@ -1638,52 +1638,52 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 10
         },
         availableFor: {
-            backgrounds: ['arcanist']
+            backgrounds: ['archive_sworn']
         }
     },
 
     {
         id: 'arcanist-reading-glasses',
-        name: 'Reading Glasses',
+        name: 'Archive-Access Lenses',
         type: 'miscellaneous',
         subtype: 'ACCESSORY',
         quality: 'common',
-        description: 'Specialized glasses for reading ancient texts and spellbooks.',
+        description: 'Ground memory-glass lenses that reveal hidden Archive catalog-marks and inscribed references.',
         iconId: 'Armor/Head/head-brown-tan-banded-helmet',
         value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
         weight: 0.1,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['arcanist']
+            backgrounds: ['archive_sworn']
         }
     },
 
-    // HEXER ITEMS
+    // INDEBTED ITEMS
     {
         id: 'hexer-cursed-trinket',
-        name: 'Cursed Trinket',
+        name: 'Keth-Amar Cursed Trinket',
         type: 'miscellaneous',
         subtype: 'ACCESSORY',
         quality: 'uncommon',
-        description: 'A mysterious trinket imbued with dark magical energies.',
+        description: 'A trinket bound with Keth-Amar dark-bargain resonance, still pulsing with the creditor\'s claim.',
         iconId: 'Armor/Neck/spiky-teal-gem-pendant',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['hexer']
+            backgrounds: ['indebted']
         }
     },
 
     {
         id: 'hexer-ritual-dagger',
-        name: 'Ritual Dagger',
+        name: 'Scathrach Ritual Dagger',
         type: 'weapon',
         subtype: 'DAGGER',
         quality: 'common',
-        description: 'A ceremonial dagger used in dark rituals and hexes.',
+        description: 'A ceremonial dagger etched with Scathrach bargain-glyphs, used to seal dark deals in bog-iron ink.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,
@@ -1696,38 +1696,38 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         availableFor: {
-            backgrounds: ['hexer']
+            backgrounds: ['indebted']
         }
     },
 
     {
         id: 'hexer-dark-tome',
-        name: 'Dark Tome',
+        name: 'Creditor\'s Ledger',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A forbidden book containing knowledge of curses and dark magic.',
+        description: 'A ledger of outstanding debts and dark bargains, its pages written in bog-iron ink that shifts when read.',
         iconId: 'Misc/Books/book-fiery-demonic-face-cover',
         value: { platinum: 0, gold: 30, silver: 0, copper: 0 },
         weight: 3,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['hexer']
+            backgrounds: ['indebted']
         }
     },
 
     {
         id: 'hexer-hooded-cloak',
-        name: 'Hooded Cloak',
+        name: 'Bargain-Sealed Cloak',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'A dark cloak with a hood, perfect for concealing identity and dark dealings.',
+        description: 'A hooded cloak stitched with Keth-Amar contract-seals, its fabric darkened by repeated exposure to bargain-rituals.',
         iconId: 'Armor/Cloak/cloak-simple-brown-cape',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 2,
@@ -1738,17 +1738,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 10
         },
         availableFor: {
-            backgrounds: ['hexer']
+            backgrounds: ['indebted']
         }
     },
 
     {
         id: 'hexer-strange-liquid',
-        name: 'Vial of Strange Liquid',
+        name: 'Vial of Scathrach Bog-Iron Ink',
         type: 'consumable',
         subtype: 'POTION',
         quality: 'common',
-        description: 'A mysterious potion with unknown properties, possibly magical in nature.',
+        description: 'A vial of Scathrach-refined bog-iron ink, used to inscribe new bargains or alter existing debts.',
         iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-classic-squat-bulbous-rounded-body-narrower-neck-diagonal-bright-deep-red-liquid-two-thirds-light-beige-cream-glass-dark-brown-cylindrical-cork',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 0.5,
@@ -1757,18 +1757,18 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         stackable: true,
         maxStackSize: 5,
         availableFor: {
-            backgrounds: ['hexer']
+            backgrounds: ['indebted']
         }
     },
 
-    // REAVER ITEMS
+    // FROSTBORN ITEMS
     {
         id: 'reaver-battle-worn-weapon',
-        name: 'Battle-worn Weapon',
+        name: 'Glacier-Tempered Greatsword',
         type: 'weapon',
         subtype: 'GREATSWORD',
         quality: 'common',
-        description: 'A heavily used weapon that has seen many battles and bears the scars to prove it.',
+        description: 'A greatsword tempered in glacier ice by Bloodhammer smiths, its blade bearing frost-crack patterns from the process.',
         iconId: 'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt-simple',
         value: { platinum: 0, gold: 50, silver: 0, copper: 0 },
         weight: 6,
@@ -1781,38 +1781,38 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             baseDamage: {
                 diceCount: 2,
                 diceType: 6,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         availableFor: {
-            backgrounds: ['reaver']
+            backgrounds: ['frostborn']
         }
     },
 
     {
         id: 'reaver-trophy',
-        name: 'Trophy from Defeated Foe',
+        name: 'Nordhalla Trophy',
         type: 'miscellaneous',
         subtype: 'ACCESSORY',
         quality: 'common',
-        description: 'A grisly trophy taken from a defeated enemy, a reminder of past victories.',
+        description: 'A trophy taken from a worthy foe, displayed in the Skald tradition of Nordhalla.',
         iconId: 'Misc/Monster Parts/Skull',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['reaver']
+            backgrounds: ['frostborn']
         }
     },
 
     {
         id: 'reaver-studded-leather',
-        name: 'Studded Leather Armor',
+        name: 'Heavy Wind-Leather Armor',
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'Reinforced leather armor with metal studs for added protection.',
+        description: 'Heavy wind-leather armor reinforced with frost-cracked rivets, standard Bloodhammer battle-wear.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 45, silver: 0, copper: 0 },
         weight: 13,
@@ -1823,138 +1823,138 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 12
         },
         availableFor: {
-            backgrounds: ['reaver']
+            backgrounds: ['frostborn']
         }
     },
 
     {
         id: 'reaver-whetstone',
-        name: 'Whetstone',
+        name: 'Frost-Cracked Whetstone',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A stone used for sharpening weapons and maintaining their deadly edge.',
+        description: 'A frost-cracked whetstone from Nordhalla peaks, ideal for maintaining glacier-tempered edges.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['reaver']
+            backgrounds: ['frostborn']
         }
     },
 
-    // MERCENARY ITEMS
+    // WAYFARER ITEMS
     {
         id: 'mercenary-military-insignia',
-        name: 'Military Insignia',
+        name: 'Toll-Token of Service',
         type: 'miscellaneous',
         subtype: 'ACCESSORY',
         quality: 'common',
-        description: 'A badge or insignia showing your service in mercenary companies.',
+        description: 'A carved toll-token proving completed service along the Ancestor-Span toll-ways.',
         iconId: 'Armor/Neck/spiky-teal-gem-pendant',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['mercenary']
+            backgrounds: ['wayfarer']
         }
     },
 
     {
         id: 'mercenary-service-contract',
-        name: 'Contract of Service',
+        name: 'Throat-Sung Cord-Record',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Official documents proving your mercenary status and completed contracts.',
+        description: 'A fiber-cord record of completed contracts, encoded in throat-sung knot-patterns readable by Ordan nomads.',
         iconId: 'Misc/Books/book-bundle-papers-tied-string',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['mercenary']
+            backgrounds: ['wayfarer']
         }
     },
 
     {
         id: 'mercenary-gaming-set',
-        name: 'Gaming Set',
+        name: 'Waystation Dice',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Dice or cards used for gambling, a common pastime among mercenaries.',
+        description: 'Bone dice carved with Ancestor-Span waymarks, used for wagering at waystations along the toll-roads.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['mercenary']
+            backgrounds: ['wayfarer']
         }
     },
 
     {
         id: 'mercenary-maintenance-kit',
-        name: 'Weapon Maintenance Kit',
+        name: 'Wayfarer\'s Maintenance Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Tools and supplies for maintaining and repairing weapons and armor.',
+        description: 'A compact kit of Ordan-made tools for maintaining weapons and gear on the Ancestor-Span roads.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 2,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['mercenary']
+            backgrounds: ['wayfarer']
         }
     },
 
-    // SENTINEL ITEMS
+    // THRESHOLD_WATCHER ITEMS
     {
         id: 'sentinel-guardian-badge',
-        name: 'Guardian\'s Badge',
+        name: 'Muren Guardian\'s Badge',
         type: 'miscellaneous',
         subtype: 'ACCESSORY',
         quality: 'common',
-        description: 'An official badge signifying your status as a guardian or sentinel.',
+        description: 'A badge of Spellguard authority forged in Muren, marking you as a threshold guardian.',
         iconId: 'Armor/Neck/spiky-teal-gem-pendant',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
         height: 1,
         availableFor: {
-            backgrounds: ['sentinel']
+            backgrounds: ['threshold_watcher']
         }
     },
 
     {
         id: 'sentinel-signal-horn',
-        name: 'Signal Horn',
+        name: 'Muren Signal Horn',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A horn used to signal allies, raise alarms, or coordinate defensive actions.',
+        description: 'A fortress-grade signal horn used by Muren Spellguard to coordinate threshold defenses.',
         iconId: 'Instruments/Horn/horn-curved-segmented',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 2,
         width: 1,
         height: 2,
         availableFor: {
-            backgrounds: ['sentinel']
+            backgrounds: ['threshold_watcher']
         }
     },
 
     {
         id: 'sentinel-chain-mail',
-        name: 'Chain Mail',
+        name: 'Fexric-Reforged Chain',
         type: 'armor',
         subtype: 'MAIL',
         quality: 'common',
-        description: 'Flexible metal armor made of interlocking chains, providing good protection.',
+        description: 'Chain mail reforged with Fexric steel by Muren armorers, interlocking links providing Spellguard-standard protection.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 75, silver: 0, copper: 0 },
         weight: 55,
@@ -1965,24 +1965,24 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             armor: 16
         },
         availableFor: {
-            backgrounds: ['sentinel']
+            backgrounds: ['threshold_watcher']
         }
     },
 
     {
         id: 'sentinel-rope',
-        name: 'Rope (50 feet)',
+        name: 'Fiber-Cord Rope (50 feet)',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A sturdy hemp rope, 50 feet long, useful for climbing, securing, or rescue operations.',
+        description: '50 feet of braided fiber-cord rope, standard issue for Muren Spellguard patrol and rescue operations.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 10,
         width: 1,
         height: 3,
         availableFor: {
-            backgrounds: ['sentinel']
+            backgrounds: ['threshold_watcher']
         }
     },
 
@@ -2005,18 +2005,18 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['acolyte']
+            backgrounds: ['emberspirePilgrim']
         }
     },
 
     // Custom background currency pouches
     {
         id: 'mystic-currency-pouch',
-        name: 'Mystic Pouch with 20g',
+        name: 'Vessel Pouch with 20g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A mystical pouch containing 20 gold pieces from arcane dealings. Can be sold for its full value.',
+        description: 'A star-glow-lined pouch containing 20 gold pieces from celestial dealings. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
         weight: 1,
@@ -2028,17 +2028,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['mystic']
+            backgrounds: ['vessel']
         }
     },
 
     {
         id: 'zealot-currency-pouch',
-        name: 'Zealot Pouch with 15g',
+        name: 'Bound Pouch with 15g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A blessed pouch containing 15 gold pieces from religious offerings. Can be sold for its full value.',
+        description: 'A contract-sealed pouch containing 15 gold pieces from Keeper offerings. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 1,
@@ -2050,17 +2050,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['zealot']
+            backgrounds: ['bound']
         }
     },
 
     {
         id: 'trickster-currency-pouch',
-        name: 'Trickster Pouch with 25g',
+        name: 'Unlit Pouch with 25g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A cunningly concealed pouch containing 25 gold pieces from various schemes. Can be sold for its full value.',
+        description: 'A cunningly concealed pouch containing 25 gold pieces from Unlit schemes. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
         weight: 1,
@@ -2072,17 +2072,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['trickster']
+            backgrounds: ['unseen']
         }
     },
 
     {
         id: 'harrow-currency-pouch',
-        name: 'Harrow Pouch with 10g',
+        name: 'Scarred Pouch with 10g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A worn pouch containing 10 gold pieces from hard-earned survival. Can be sold for its full value.',
+        description: 'A vat-glass-reinforced pouch containing 10 gold pieces from hard-earned survival. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 1,
@@ -2094,17 +2094,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['harrow']
+            backgrounds: ['scarred']
         }
     },
 
     {
         id: 'arcanist-currency-pouch',
-        name: 'Arcanist Pouch with 30g',
+        name: 'Archive Pouch with 30g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A scholarly pouch containing 30 gold pieces from magical research and teaching. Can be sold for its full value.',
+        description: 'A wax-sealed pouch containing 30 gold pieces from Frozen Archive stipends. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 30, silver: 0, copper: 0 },
         weight: 1,
@@ -2116,17 +2116,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['arcanist']
+            backgrounds: ['archive_sworn']
         }
     },
 
     {
         id: 'hexer-currency-pouch',
-        name: 'Hexer Pouch with 15g',
+        name: 'Indebted Pouch with 15g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A mysterious pouch containing 15 gold pieces from dark dealings. Can be sold for its full value.',
+        description: 'A bargain-sealed pouch containing 15 gold pieces from dark dealings. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 1,
@@ -2138,17 +2138,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['hexer']
+            backgrounds: ['indebted']
         }
     },
 
     {
         id: 'reaver-currency-pouch',
-        name: 'Reaver Pouch with 20g',
+        name: 'Frostborn Pouch with 20g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A battle-scarred pouch containing 20 gold pieces from mercenary work. Can be sold for its full value.',
+        description: 'A frost-cracked pouch containing 20 gold pieces from Bloodhammer work. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
         weight: 1,
@@ -2160,17 +2160,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['reaver']
+            backgrounds: ['frostborn']
         }
     },
 
     {
         id: 'mercenary-currency-pouch',
-        name: 'Mercenary Pouch with 25g',
+        name: 'Wayfarer Pouch with 25g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A well-used pouch containing 25 gold pieces from mercenary contracts. Can be sold for its full value.',
+        description: 'A cord-bound pouch containing 25 gold pieces from Ancestor-Span toll-work. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
         weight: 1,
@@ -2182,17 +2182,17 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['mercenary']
+            backgrounds: ['wayfarer']
         }
     },
 
     {
         id: 'sentinel-currency-pouch',
-        name: 'Sentinel Pouch with 15g',
+        name: 'Threshold Pouch with 15g',
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A sturdy pouch containing 15 gold pieces from guardian duties. Can be sold for its full value.',
+        description: 'A Muren-stamped pouch containing 15 gold pieces from Spellguard duties. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 1,
@@ -2204,7 +2204,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['sentinel']
+            backgrounds: ['threshold_watcher']
         }
     },
 
@@ -2226,7 +2226,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['criminal']
+            backgrounds: ['shyrRunner']
         }
     },
 
@@ -2248,7 +2248,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['folkHero']
+            backgrounds: ['ledgerKeeper']
         }
     },
 
@@ -2270,7 +2270,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['sage']
+            backgrounds: ['synodAcademic']
         }
     },
 
@@ -2292,7 +2292,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['soldier']
+            backgrounds: ['sumpsVeteran']
         }
     },
 
@@ -2314,7 +2314,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
             items: []
         },
         availableFor: {
-            backgrounds: ['sailor']
+            backgrounds: ['merrowSailor']
         }
     }
 

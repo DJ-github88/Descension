@@ -220,8 +220,8 @@ const useCharacterStore = create((set, get) => ({
         slots: [], // For slot-based systems like Inscriptor glyphs
         charges: 0, // For charge-based systems
         spheres: [], // For sphere systems like Arcanoneer (array of element IDs)
-        strain: 0, // For strain systems like Titan
-        risk: 0, // For risk systems like Gambler
+        strain: 0, // For strain systems
+        risk: 0, // For risk systems like Gambit
         // Visual state tracking
         activeEffects: [], // For tracking active visual effects
         lastUpdate: Date.now()
@@ -1093,37 +1093,36 @@ const useCharacterStore = create((set, get) => ({
 
                 // Helper function to get class data by name
                 const getClassData = (className) => {
-                    const classDataMap = {
-                        'Arcanoneer': () => require('../data/classes/arcanoneerData').ARCANONEER_DATA,
-                        'Berserker': () => require('../data/classes/berserkerData').BERSERKER_DATA,
-                        'Bladedancer': () => require('../data/classes/bladedancerData').BLADEDANCER_DATA,
-                        'Chaos Weaver': () => require('../data/classes/chaosWeaverData').CHAOS_WEAVER_DATA,
-                        'Chronarch': () => require('../data/classes/chronarchData').CHRONARCH_DATA,
-                        'Covenbane': () => require('../data/classes/covenbaneData').COVENBANE_DATA,
-                        'Deathcaller': () => require('../data/classes/deathcallerData').DEATHCALLER_DATA,
-                        'Dreadnaught': () => require('../data/classes/dreadnaughtData').DREADNAUGHT_DATA,
-                        'Exorcist': () => require('../data/classes/exorcistData').EXORCIST_DATA,
-                        'False Prophet': () => require('../data/classes/falseProphetData').FALSE_PROPHET_DATA,
-                        'Fate Weaver': () => require('../data/classes/fateWeaverData').FATE_WEAVER_DATA,
-                        'Formbender': () => require('../data/classes/formbenderData').FORMBENDER_DATA,
-                        'Gambler': () => require('../data/classes/gamblerData').GAMBLER_DATA,
-                        'Huntress': () => require('../data/classes/huntressData').HUNTRESS_DATA,
-                        'Inscriptor': () => require('../data/classes/inscriptorData').INSCRIPTOR_DATA,
-                        'Lichborne': () => require('../data/classes/lichborneData').LICHBORNE_DATA,
-                        'Lunarch': () => require('../data/classes/lunarchData').LUNARCH_DATA,
-                        'Martyr': () => require('../data/classes/martyrData').MARTYR_DATA,
-                        'Minstrel': () => require('../data/classes/minstrelData').MINSTREL_DATA,
-                        'Oracle': () => require('../data/classes/oracleData').ORACLE_DATA,
-                        'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
-                        'Primalist': () => require('../data/classes/primalistData').PRIMALIST_DATA,
-                        'Pyrofiend': () => require('../data/classes/pyrofiendData').PYROFIEND_DATA,
-                        'Spellguard': () => require('../data/classes/spellguardData').SPELLGUARD_DATA,
-                        'Titan': () => require('../data/classes/titanData').TITAN_DATA,
-                        'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
-                        'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
-                        'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA,
-                        'Augur': () => require('../data/classes/augurData').AUGUR_DATA,
-                        'Doomsayer': () => require('../data/classes/doomsayerData').DOOMSAYER_DATA
+            const classDataMap = {
+                'Arcanoneer': () => require('../data/classes/arcanoneerData').ARCANONEER_DATA,
+                'Berserker': () => require('../data/classes/berserkerData').BERSERKER_DATA,
+                'Shaper': () => require('../data/classes/shaperData').SHAPER_DATA,
+                'Harbinger': () => require('../data/classes/harbingerData').HARBINGER_DATA,
+                'Chronarch': () => require('../data/classes/chronarchData').CHRONARCH_DATA,
+                        'Inquisitor': () => require('../data/classes/inquisitorData').INQUISITOR_DATA,
+                        // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+                        'Revenant': () => require('../data/classes/revenantData').REVENANT_DATA,
+                        // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+                        // 'Exorcist' removed (merged with Covenbane into Inquisitor)
+                        // 'Covenbane' removed (merged with Exorcist into Inquisitor)
+                'False Prophet': () => require('../data/classes/falseProphetData').FALSE_PROPHET_DATA,
+                'Gambit': () => require('../data/classes/gambitData').GAMBIT_DATA,
+                'Apex': () => require('../data/classes/apexData').APEX_DATA,
+                'Animist': () => require('../data/classes/animistData').ANIMIST_DATA,
+                // REMOVED: 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+                'Lunarch': () => require('../data/classes/lunarchData').LUNARCH_DATA,
+                'Martyr': () => require('../data/classes/martyrData').MARTYR_DATA,
+                'Minstrel': () => require('../data/classes/minstrelData').MINSTREL_DATA,
+                                'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
+                
+                'Pyrofiend': () => require('../data/classes/pyrofiendData').PYROFIEND_DATA,
+                'Spellguard': () => require('../data/classes/spellguardData').SPELLGUARD_DATA,
+                // 'Titan' removed (absorbed into Warden as Monolith specialization)
+                'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
+                'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
+                
+                'Augur': () => require('../data/classes/augurData').AUGUR_DATA,
+
                     };
                     const loader = classDataMap[className];
                     if (loader) {
@@ -1283,7 +1282,7 @@ const useCharacterStore = create((set, get) => ({
 
                 // Clear old passives and resistances when race changes
                 // Reset all resistances to normal
-                const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
+                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
                 const resetResistances = {};
                 damageTypes.forEach(type => {
                     resetResistances[type] = { level: 100, multiplier: 1.0 };
@@ -1320,7 +1319,7 @@ const useCharacterStore = create((set, get) => ({
                     let updatedImmunities = [...(state.immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
+                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -1359,17 +1358,31 @@ const useCharacterStore = create((set, get) => ({
 
                                     // Map resistance stat names to resistance types
                                     const resistanceMap = {
-                                        'frost_resistance': 'frost',
-                                        'cold_resistance': 'frost', // Legacy support
-                                        'fire_resistance': 'fire',
-                                        'lightning_resistance': 'lightning',
-                                        'acid_resistance': 'poison',
-                                        'force_resistance': 'force',
-                                        'necrotic_resistance': 'necrotic',
-                                        'radiant_resistance': 'radiant',
-                                        'poison_resistance': 'poison',
-                                        'psychic_resistance': 'psychic',
-                                        'thunder_resistance': 'force'
+                                        'physical_resistance': 'physical',
+                                        'bludgeoning_resistance': 'physical',
+                                        'piercing_resistance': 'physical',
+                                        'slashing_resistance': 'physical',
+                                        'ember_resistance': 'ember',
+                                        'fire_resistance': 'ember',
+                                        'radiant_resistance': 'ember',
+                                        'rime_resistance': 'rime',
+                                        'frost_resistance': 'rime',
+                                        'cold_resistance': 'rime',
+                                        'storm_resistance': 'storm',
+                                        'lightning_resistance': 'storm',
+                                        'force_resistance': 'storm',
+                                        'thunder_resistance': 'storm',
+                                        'arcane_resistance': 'arcane',
+                                        'primal_resistance': 'primal',
+                                        'nature_resistance': 'primal',
+                                        'blight_resistance': 'blight',
+                                        'necrotic_resistance': 'blight',
+                                        'void_resistance': 'blight',
+                                        'poison_resistance': 'blight',
+                                        'acid_resistance': 'blight',
+                                        'wyrd_resistance': 'wyrd',
+                                        'psychic_resistance': 'wyrd',
+                                        'chaos_resistance': 'wyrd'
                                     };
 
                                     const resistanceType = resistanceMap[statName];
@@ -1418,26 +1431,33 @@ const useCharacterStore = create((set, get) => ({
 
                                         // Map immunity names to damage types or conditions
                                         const immunityMap = {
-                                            'poison': 'poison',
-                                            'disease': 'disease',
-                                            'exhaustion': 'exhaustion',
-                                            'frost': 'frost',
-                                            'cold': 'frost', // Legacy support
-                                            'fire': 'fire',
-                                            'lightning': 'lightning',
-                                            'acid': 'poison',
-                                            'force': 'force',
-                                            'necrotic': 'necrotic',
-                                            'radiant': 'radiant',
-                                            'psychic': 'psychic',
-                                            'thunder': 'force',
-                                            'chaos': 'chaos',
-                                            'void': 'void',
-                                            'nature': 'nature',
+                                            'physical': 'physical',
+                                            'bludgeoning': 'physical',
+                                            'piercing': 'physical',
+                                            'slashing': 'physical',
+                                            'ember': 'ember',
+                                            'fire': 'ember',
+                                            'radiant': 'ember',
+                                            'rime': 'rime',
+                                            'frost': 'rime',
+                                            'cold': 'rime',
+                                            'storm': 'storm',
+                                            'lightning': 'storm',
+                                            'force': 'storm',
+                                            'thunder': 'storm',
                                             'arcane': 'arcane',
-                                            'bludgeoning': 'bludgeoning',
-                                            'piercing': 'piercing',
-                                            'slashing': 'slashing'
+                                            'primal': 'primal',
+                                            'nature': 'primal',
+                                            'blight': 'blight',
+                                            'necrotic': 'blight',
+                                            'void': 'blight',
+                                            'poison': 'blight',
+                                            'acid': 'blight',
+                                            'wyrd': 'wyrd',
+                                            'psychic': 'wyrd',
+                                            'chaos': 'wyrd',
+                                            'disease': 'disease',
+                                            'exhaustion': 'exhaustion'
                                         };
 
                                         // Try to match by name
@@ -1496,9 +1516,18 @@ const useCharacterStore = create((set, get) => ({
                                     let vulnerabilityType = effect.statusEffect.vulnerabilityType;
                                     const vulnerabilityPercent = effect.statusEffect.vulnerabilityPercent || 0;
 
-                                    // Map legacy 'cold' to 'frost' for vulnerabilities
-                                    if (vulnerabilityType === 'cold') {
-                                        vulnerabilityType = 'frost';
+                                    // Map legacy damage type names to new types for vulnerabilities
+                                    const vulnerabilityLegacyMap = {
+                                        'cold': 'rime', 'frost': 'rime',
+                                        'fire': 'ember', 'radiant': 'ember',
+                                        'lightning': 'storm', 'force': 'storm', 'thunder': 'storm',
+                                        'acid': 'blight', 'poison': 'blight', 'necrotic': 'blight', 'void': 'blight',
+                                        'nature': 'primal',
+                                        'psychic': 'wyrd', 'chaos': 'wyrd',
+                                        'bludgeoning': 'physical', 'piercing': 'physical', 'slashing': 'physical'
+                                    };
+                                    if (vulnerabilityLegacyMap[vulnerabilityType]) {
+                                        vulnerabilityType = vulnerabilityLegacyMap[vulnerabilityType];
                                     }
 
                                     // Initialize resistance if it doesn't exist
@@ -1541,7 +1570,7 @@ const useCharacterStore = create((set, get) => ({
                 let updatedImmunities = [...(state.immunities || [])];
 
                 // Initialize all damage type resistances if they don't exist
-                const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
+                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
                 damageTypes.forEach(type => {
                     if (!updatedResistances[type]) {
                         updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -2147,7 +2176,7 @@ const useCharacterStore = create((set, get) => ({
         }
 
         // Initialize spell power types if they don't exist (needed for buff effects)
-        const spellDamageTypes = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'poison', 'force', 'chaos', 'necrotic', 'radiant'];
+        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
         spellDamageTypes.forEach(type => {
             const spellPowerKey = `${type}SpellPower`;
             if (!totalStats.hasOwnProperty(spellPowerKey)) {
@@ -2866,7 +2895,7 @@ const useCharacterStore = create((set, get) => ({
                     let updatedImmunities = [...(get().immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
+                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -2886,17 +2915,31 @@ const useCharacterStore = create((set, get) => ({
 
                                     // Map resistance stat names to resistance types
                                     const resistanceMap = {
-                                        'frost_resistance': 'frost',
-                                        'cold_resistance': 'frost', // Legacy support
-                                        'fire_resistance': 'fire',
-                                        'lightning_resistance': 'lightning',
-                                        'acid_resistance': 'poison',
-                                        'force_resistance': 'force',
-                                        'necrotic_resistance': 'necrotic',
-                                        'radiant_resistance': 'radiant',
-                                        'poison_resistance': 'poison',
-                                        'psychic_resistance': 'psychic',
-                                        'thunder_resistance': 'force'
+                                        'physical_resistance': 'physical',
+                                        'bludgeoning_resistance': 'physical',
+                                        'piercing_resistance': 'physical',
+                                        'slashing_resistance': 'physical',
+                                        'ember_resistance': 'ember',
+                                        'fire_resistance': 'ember',
+                                        'radiant_resistance': 'ember',
+                                        'rime_resistance': 'rime',
+                                        'frost_resistance': 'rime',
+                                        'cold_resistance': 'rime',
+                                        'storm_resistance': 'storm',
+                                        'lightning_resistance': 'storm',
+                                        'force_resistance': 'storm',
+                                        'thunder_resistance': 'storm',
+                                        'arcane_resistance': 'arcane',
+                                        'primal_resistance': 'primal',
+                                        'nature_resistance': 'primal',
+                                        'blight_resistance': 'blight',
+                                        'necrotic_resistance': 'blight',
+                                        'void_resistance': 'blight',
+                                        'poison_resistance': 'blight',
+                                        'acid_resistance': 'blight',
+                                        'wyrd_resistance': 'wyrd',
+                                        'psychic_resistance': 'wyrd',
+                                        'chaos_resistance': 'wyrd'
                                     };
 
                                     const resistanceType = resistanceMap[statName];
@@ -2945,26 +2988,33 @@ const useCharacterStore = create((set, get) => ({
 
                                         // Map immunity names to damage types or conditions
                                         const immunityMap = {
-                                            'poison': 'poison',
-                                            'disease': 'disease',
-                                            'exhaustion': 'exhaustion',
-                                            'frost': 'frost',
-                                            'cold': 'frost', // Legacy support
-                                            'fire': 'fire',
-                                            'lightning': 'lightning',
-                                            'acid': 'poison',
-                                            'force': 'force',
-                                            'necrotic': 'necrotic',
-                                            'radiant': 'radiant',
-                                            'psychic': 'psychic',
-                                            'thunder': 'force',
-                                            'chaos': 'chaos',
-                                            'void': 'void',
-                                            'nature': 'nature',
+                                            'physical': 'physical',
+                                            'bludgeoning': 'physical',
+                                            'piercing': 'physical',
+                                            'slashing': 'physical',
+                                            'ember': 'ember',
+                                            'fire': 'ember',
+                                            'radiant': 'ember',
+                                            'rime': 'rime',
+                                            'frost': 'rime',
+                                            'cold': 'rime',
+                                            'storm': 'storm',
+                                            'lightning': 'storm',
+                                            'force': 'storm',
+                                            'thunder': 'storm',
                                             'arcane': 'arcane',
-                                            'bludgeoning': 'bludgeoning',
-                                            'piercing': 'piercing',
-                                            'slashing': 'slashing'
+                                            'primal': 'primal',
+                                            'nature': 'primal',
+                                            'blight': 'blight',
+                                            'necrotic': 'blight',
+                                            'void': 'blight',
+                                            'poison': 'blight',
+                                            'acid': 'blight',
+                                            'wyrd': 'wyrd',
+                                            'psychic': 'wyrd',
+                                            'chaos': 'wyrd',
+                                            'disease': 'disease',
+                                            'exhaustion': 'exhaustion'
                                         };
 
                                         // Try to match by name
@@ -3424,16 +3474,15 @@ const useCharacterStore = create((set, get) => ({
                     const availableLevel1Spells = level1Spells.filter(s => !known.includes(s.id));
 
                     let starter = [];
-                    if (className === 'Chaos Weaver') {
-                        // Prefer spells that showcase chaos rollable tables
+                    if (className === 'Harbinger') {
                         const withTables = availableLevel1Spells.filter(s => (s.rollableTable && s.rollableTable.enabled) || (s.mechanicsConfig && s.mechanicsConfig.rollableTable && s.mechanicsConfig.rollableTable.enabled));
-                        const ec = availableLevel1Spells.filter(s => s.specialization === 'entropy_control');
-                        const rb = availableLevel1Spells.filter(s => s.specialization === 'reality_bending');
-                        const cd = availableLevel1Spells.filter(s => s.specialization === 'chaos_dice');
+                        const ds = availableLevel1Spells.filter(s => s.specialization === 'deaths_seer');
+                        const wp = availableLevel1Spells.filter(s => s.specialization === 'wild_prophet');
+                        const fr = availableLevel1Spells.filter(s => s.specialization === 'fate_rift');
                         starter = (withTables.slice(0, 3).length === 3
                             ? withTables.slice(0, 3)
-                            : [...cd, ...ec, ...rb].filter(s => withTables.includes(s) || s.rollableTable?.enabled).slice(0, 3));
-                    } else if (className === 'Fate Weaver') {
+                            : [...fr, ...ds, ...wp].filter(s => withTables.includes(s) || s.rollableTable?.enabled).slice(0, 3));
+                    } else if (className === 'Gambit') {
                         // Prefer card-based spells with rollable tables
                         const withCards = availableLevel1Spells.filter(s => (s.resolution === 'CARDS') || (s.mechanicsConfig?.cards) || (s.rollableTable?.resolutionType === 'CARDS'));
                         const withTables = withCards.filter(s => s.rollableTable?.enabled);
@@ -3479,34 +3528,33 @@ const useCharacterStore = create((set, get) => ({
                     const classDataMap = {
                         'Arcanoneer': () => require('../data/classes/arcanoneerData').ARCANONEER_DATA,
                         'Berserker': () => require('../data/classes/berserkerData').BERSERKER_DATA,
-                        'Bladedancer': () => require('../data/classes/bladedancerData').BLADEDANCER_DATA,
-                        'Chaos Weaver': () => require('../data/classes/chaosWeaverData').CHAOS_WEAVER_DATA,
+                        'Shaper': () => require('../data/classes/shaperData').SHAPER_DATA,
+                        'Harbinger': () => require('../data/classes/harbingerData').HARBINGER_DATA,
                         'Chronarch': () => require('../data/classes/chronarchData').CHRONARCH_DATA,
-                        'Covenbane': () => require('../data/classes/covenbaneData').COVENBANE_DATA,
-                        'Deathcaller': () => require('../data/classes/deathcallerData').DEATHCALLER_DATA,
-                        'Dreadnaught': () => require('../data/classes/dreadnaughtData').DREADNAUGHT_DATA,
-                        'Exorcist': () => require('../data/classes/exorcistData').EXORCIST_DATA,
+                        'Inquisitor': () => require('../data/classes/inquisitorData').INQUISITOR_DATA,
+                        // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+                        'Revenant': () => require('../data/classes/revenantData').REVENANT_DATA,
+                        // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+                        // 'Exorcist' removed (merged with Covenbane into Inquisitor)
+                        // 'Covenbane' removed (merged with Exorcist into Inquisitor)
                         'False Prophet': () => require('../data/classes/falseProphetData').FALSE_PROPHET_DATA,
-                        'Fate Weaver': () => require('../data/classes/fateWeaverData').FATE_WEAVER_DATA,
-                        'Formbender': () => require('../data/classes/formbenderData').FORMBENDER_DATA,
-                        'Gambler': () => require('../data/classes/gamblerData').GAMBLER_DATA,
-                        'Huntress': () => require('../data/classes/huntressData').HUNTRESS_DATA,
-                        'Inscriptor': () => require('../data/classes/inscriptorData').INSCRIPTOR_DATA,
-                        'Lichborne': () => require('../data/classes/lichborneData').LICHBORNE_DATA,
+                        'Gambit': () => require('../data/classes/gambitData').GAMBIT_DATA,
+                        'Apex': () => require('../data/classes/apexData').APEX_DATA,
+                        'Animist': () => require('../data/classes/animistData').ANIMIST_DATA,
+                        // REMOVED: 'Lichborne' merged into Revenant as Phase 1.10 consolidation
                         'Lunarch': () => require('../data/classes/lunarchData').LUNARCH_DATA,
                         'Martyr': () => require('../data/classes/martyrData').MARTYR_DATA,
                         'Minstrel': () => require('../data/classes/minstrelData').MINSTREL_DATA,
-                        'Oracle': () => require('../data/classes/oracleData').ORACLE_DATA,
-                        'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
-                        'Primalist': () => require('../data/classes/primalistData').PRIMALIST_DATA,
+                                                'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
+                        
                         'Pyrofiend': () => require('../data/classes/pyrofiendData').PYROFIEND_DATA,
                         'Spellguard': () => require('../data/classes/spellguardData').SPELLGUARD_DATA,
-                        'Titan': () => require('../data/classes/titanData').TITAN_DATA,
+                        // 'Titan' removed (absorbed into Warden as Monolith specialization)
                         'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
                         'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
-                        'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA,
+                        
                         'Augur': () => require('../data/classes/augurData').AUGUR_DATA,
-                        'Doomsayer': () => require('../data/classes/doomsayerData').DOOMSAYER_DATA
+
                     };
                     const loader = classDataMap[name];
                     if (loader) {
@@ -3725,7 +3773,7 @@ const useCharacterStore = create((set, get) => ({
         let updatedImmunities = [...(state.immunities || [])];
 
         // Initialize all damage type resistances if they don't exist
-        const damageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'bludgeoning', 'piercing', 'slashing', 'arcane', 'nature', 'void'];
+        const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
         damageTypes.forEach(type => {
             if (!updatedResistances[type]) {
                 updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -4011,34 +4059,32 @@ const useCharacterStore = create((set, get) => ({
             const classDataMap = {
                 'Arcanoneer': () => require('../data/classes/arcanoneerData').ARCANONEER_DATA,
                 'Berserker': () => require('../data/classes/berserkerData').BERSERKER_DATA,
-                'Bladedancer': () => require('../data/classes/bladedancerData').BLADEDANCER_DATA,
-                'Chaos Weaver': () => require('../data/classes/chaosWeaverData').CHAOS_WEAVER_DATA,
+                'Shaper': () => require('../data/classes/shaperData').SHAPER_DATA,
+                'Harbinger': () => require('../data/classes/harbingerData').HARBINGER_DATA,
                 'Chronarch': () => require('../data/classes/chronarchData').CHRONARCH_DATA,
-                'Covenbane': () => require('../data/classes/covenbaneData').COVENBANE_DATA,
-                'Deathcaller': () => require('../data/classes/deathcallerData').DEATHCALLER_DATA,
-                'Dreadnaught': () => require('../data/classes/dreadnaughtData').DREADNAUGHT_DATA,
-                'Exorcist': () => require('../data/classes/exorcistData').EXORCIST_DATA,
-                'False Prophet': () => require('../data/classes/falseProphetData').FALSE_PROPHET_DATA,
-                'Fate Weaver': () => require('../data/classes/fateWeaverData').FATE_WEAVER_DATA,
-                'Formbender': () => require('../data/classes/formbenderData').FORMBENDER_DATA,
-                'Gambler': () => require('../data/classes/gamblerData').GAMBLER_DATA,
-                'Huntress': () => require('../data/classes/huntressData').HUNTRESS_DATA,
-                'Inscriptor': () => require('../data/classes/inscriptorData').INSCRIPTOR_DATA,
-                'Lichborne': () => require('../data/classes/lichborneData').LICHBORNE_DATA,
-                'Lunarch': () => require('../data/classes/lunarchData').LUNARCH_DATA,
-                'Martyr': () => require('../data/classes/martyrData').MARTYR_DATA,
-                'Minstrel': () => require('../data/classes/minstrelData').MINSTREL_DATA,
-                'Oracle': () => require('../data/classes/oracleData').ORACLE_DATA,
-                'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
-                'Primalist': () => require('../data/classes/primalistData').PRIMALIST_DATA,
-                'Pyrofiend': () => require('../data/classes/pyrofiendData').PYROFIEND_DATA,
-                'Spellguard': () => require('../data/classes/spellguardData').SPELLGUARD_DATA,
-                'Titan': () => require('../data/classes/titanData').TITAN_DATA,
-                'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
-                'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
-                'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA,
-                'Augur': () => require('../data/classes/augurData').AUGUR_DATA,
-                'Doomsayer': () => require('../data/classes/doomsayerData').DOOMSAYER_DATA
+                        'Inquisitor': () => require('../data/classes/inquisitorData').INQUISITOR_DATA,
+                        // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+                        'Revenant': () => require('../data/classes/revenantData').REVENANT_DATA,
+                        // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+                        // 'Exorcist' removed (merged with Covenbane into Inquisitor)
+                        // 'Covenbane' removed (merged with Exorcist into Inquisitor)
+                        'False Prophet': () => require('../data/classes/falseProphetData').FALSE_PROPHET_DATA,
+                        'Gambit': () => require('../data/classes/gambitData').GAMBIT_DATA,
+                        'Apex': () => require('../data/classes/apexData').APEX_DATA,
+                        'Animist': () => require('../data/classes/animistData').ANIMIST_DATA,
+                        // REMOVED: 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+                        'Lunarch': () => require('../data/classes/lunarchData').LUNARCH_DATA,
+                        'Martyr': () => require('../data/classes/martyrData').MARTYR_DATA,
+                        'Minstrel': () => require('../data/classes/minstrelData').MINSTREL_DATA,
+                                                'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
+                        
+                        'Pyrofiend': () => require('../data/classes/pyrofiendData').PYROFIEND_DATA,
+                        'Spellguard': () => require('../data/classes/spellguardData').SPELLGUARD_DATA,
+                        // 'Titan' removed (absorbed into Warden as Monolith specialization)
+                        'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
+                        'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
+                        
+                        'Augur': () => require('../data/classes/augurData').AUGUR_DATA,
             };
             const loader = classDataMap[name];
             if (loader) {

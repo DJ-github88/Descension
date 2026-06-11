@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import UnifiedSpellCard from './UnifiedSpellCard';
+const UnifiedSpellCard = React.lazy(() => import('./UnifiedSpellCard'));
 
 const SpellTooltip = ({
   spell,
@@ -58,6 +58,7 @@ const SpellTooltip = ({
             pointerEvents: 'auto' // Re-enable pointer events for the spell card
           }}
         >
+          <React.Suspense fallback={null}>
           <UnifiedSpellCard
             spell={spell}
             variant="wizard"
@@ -67,6 +68,7 @@ const SpellTooltip = ({
             showStats={true}
             showTags={true}
           />
+        </React.Suspense>
         </div>
       </div>
     );
@@ -132,6 +134,7 @@ const SpellTooltip = ({
       }}>
         {/* Tooltip content */}
         <div className="spell-tooltip-content">
+          <React.Suspense fallback={null}>
           <UnifiedSpellCard
             spell={spell}
             variant="wizard"
@@ -141,6 +144,7 @@ const SpellTooltip = ({
             showStats={true}
             showTags={true}
           />
+        </React.Suspense>
         </div>
       </div>
     </div>

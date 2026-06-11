@@ -6,7 +6,7 @@ import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
 import './styles/LandingPage.css';
 
-const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, isAuthenticated, user }) => {
+const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
 
   const [activeSection, setActiveSection] = useState(() => {
     return localStorage.getItem('landingActiveSection') || 'home';
@@ -133,6 +133,16 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               <span className="btn-text">
                 <span className="btn-title">Play Online</span>
                 <span className="btn-subtitle">Adventure with friends</span>
+              </span>
+            </button>
+            <button
+              className="immersive-action-btn"
+              onClick={onImmerse}
+            >
+              <i className="fas fa-map"></i>
+              <span className="btn-text">
+                <span className="btn-title">Immerse</span>
+                <span className="btn-subtitle">Explore the world map</span>
               </span>
             </button>
             <button
@@ -309,7 +319,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   return (
     <>
       <div
-        className="landing-page map-background"
+        className={`landing-page map-background ${isWorldMapActive ? 'immersing' : ''}`}
         style={{
           '--map-background-url': `url("${mapImagePath}")`
         }}

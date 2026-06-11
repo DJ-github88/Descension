@@ -12,7 +12,7 @@ export const RACE_NAMES = {
         'Bjorn', 'Astrid', 'Erik', 'Sigrid', 'Olaf', 'Ingrid', 'Thorstein', 'Gudrun', 'Harald', 'Svea',
         'Ragnar', 'Freya', 'Leif', 'Brynhild', 'Gunnar', 'Helga', 'Ivar', 'Solveig', 'Ulf', 'Thyra'
     ],
-    corvani: [
+    corvani: [ // Subfolk NPC names
         'Corvus', 'Malakor', 'Nocturne', 'Vespera', 'Draven', 'Morwenna', 'Kaelum', 'Nyxia', 'Berylla', 'Thalric',
         'Valerius', 'Silvanus', 'Lysithea', 'Tartarus', 'Erebus', 'Nyx', 'Moros', 'Nemesis', 'Thanatos', 'Acheron'
     ],
@@ -20,9 +20,10 @@ export const RACE_NAMES = {
         'Luneth', 'Brekka', 'Saelith', 'Ulvir', 'Venn', 'Coralli', 'Thalael', 'Myrith', 'Riveth', 'Saltis',
         'Tideborn', 'Spindrift', 'Shellsong', 'Galechild', 'Foamrise', 'Deepwell', 'Stormeye', 'Current', 'Shorelight', 'Seamark'
     ],
-    vheil: [
-        'Valerius', 'Aetheris', 'Pharis', 'Lyris', 'Kaelis', 'Vheila', 'Zeryn', 'Elowen', 'Xylo', 'Venya',
-        'Aethelred', 'Iolanthe', 'Vhelios', 'Border', 'Thin', 'Veil', 'Misty', 'Ghost', 'Pale', 'Etherea'
+    rime_born: [
+        'Hrym', 'Frost', 'Glacier', 'Shard', 'Rime', 'Winter', 'Storm', 'Ice', 'Crystal', 'Skalde',
+        'Svala', 'Thora', 'Bryn', 'Kael', 'Dren', 'Varg', 'Halden', 'Skadi', 'Ymir', 'Frode',
+        'Runa', 'Sigrid'
     ],
     mimir: [
         'Mimeo', 'Protea', 'Reflex', 'Lumina', 'Echo', 'Sync', 'Fluidis', 'Mallea', 'Chroma', 'Versa',
@@ -44,18 +45,11 @@ export const RACE_NAMES = {
         'Fang', 'Claw', 'Talon', 'Swift', 'Hunter', 'Slink', 'Prowl', 'Gnasher', 'Skitter', 'Vrek',
         'Ripper', 'Slasher', 'Snarl', 'Bite', 'Shadow', 'Stalker', 'Leap', 'Grip', 'Maul', 'Vicious'
     ],
-    morthel: [
-        'Mortis', 'Lazarus', 'Grave', 'Relic', 'Blight', 'Crypta', 'Cadaver', 'Ossein', 'Wraith', 'Skell',
-        'Necros', 'Thanatos', 'Bone', 'Dust', 'Pale', 'Hollow', 'Grim', 'Spirit', 'Ghost', 'Remnant'
+    neth: [
+        'Saren', 'Lyra', 'Orven', 'Vaelis', 'Thira', 'Kaelen', 'Miren', 'Dervan', 'Solyn', 'Ilyth',
+        'Vel-Sen', 'Aran-Kel', 'Mirth-Vel', 'Toris', 'Nessa', 'Caelum', 'Luren', 'Drith-Vel', 'Sylen', 'Veris'
     ],
-    volketh: [
-        'Volt', 'Spark', 'Jolt', 'Surge', 'Static', 'Lightning', 'Thunder', 'Blitz', 'Arc', 'Shock',
-        'Tesla', 'Galvan', 'Bolt', 'Zap', 'Storm', 'Thunderbolt', 'Energi', 'Flash', 'Strike', 'Current'
-    ],
-    drennar: [
-        'Abyss', 'Crush', 'Heavy', 'Depths', 'Trench', 'Pressure', 'Gorge', 'Sink', 'Weight', 'Benthic',
-        'Anchor', 'Deep', 'Crushing', 'Bent', 'Warped', 'Stone', 'Core', 'Tension', 'Force', 'Abyssal'
-    ],
+
     astril: [
         'Nova', 'Cosmos', 'Vesta', 'Rigel', 'Lyra', 'Altair', 'Vega', 'Eclipser', 'Stella', 'Nebula',
         'Orion', 'Sirius', 'Star', 'Space', 'Void', 'Galaxy', 'Astral', 'Starlight', 'Celestial', 'Infinite'

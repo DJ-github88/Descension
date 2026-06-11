@@ -545,25 +545,20 @@ import {
           const damageType = config.damageConfig.damageTypes[0];
 
           switch (damageType) {
-            case 'fire':
+            case 'ember':
               return 'spell_fire_fireball02';
-            case 'frost':
-            case 'cold':
+            case 'rime':
               return 'spell_frost_frostbolt02';
-            case 'lightning':
+            case 'storm':
               return 'spell_lightning_lightningbolt01';
-            case 'poison':
+            case 'blight':
               return 'spell_nature_corrosivebreath';
-            case 'acid':
-              return 'spell_nature_acid_01';
-            case 'necrotic':
-              return 'spell_shadow_shadowbolt';
-            case 'radiant':
-              return 'spell_holy_holysmite';
-            case 'force':
+            case 'arcane':
               return 'spell_arcane_blast';
-            case 'psychic':
+            case 'wyrd':
               return 'spell_shadow_mindflay';
+            case 'physical':
+              return 'spell_fire_flamebolt';
             default:
               return 'spell_fire_flamebolt';
           }
@@ -659,7 +654,7 @@ import {
       params.damageTypes = {
         type: 'array',
         description: 'Damage types',
-        default: config.damageConfig.damageTypes || ['fire'],
+        default: config.damageConfig.damageTypes || ['ember'],
         options: DAMAGE_TYPES.map(dt => ({ value: dt.id, label: dt.name }))
       };
 

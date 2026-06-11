@@ -195,7 +195,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
     { destinationId: 'fjord-gate', distance: '3 miles', travelTime: '2 hours', route: 'Frozen fjord-path, marked by rune-stones' },
     { destinationId: 'rimors-hearth', distance: '5 miles', travelTime: '3 hours', route: 'Geothermal vent-trail through ice tunnels' }
   ],
-  classPresence: ['skald', 'doomsayer', 'warden', 'inscriptor'],
+  classPresence: ['skald', 'harbinger', 'warden', 'inscriptor'],
   npcs: ['sigurd-skalvyr', 'frigga-skalvyr', 'valeria-the-grim']
 };
 
@@ -281,13 +281,13 @@ DEEP_LOCATIONS['over-shanty'] = {
   factionPresence: [
     { factionId: 'cult-of-forgotten-shadow', influence: 'strong', description: 'The Cult runs the memory trade and provides "spiritual services"' },
     { factionId: 'drun-outcasts', influence: 'strong', description: 'The original inhabitants — control the rope-bridges and peat-harvesting' },
-    { factionId: 'zhentarim-network', influence: 'moderate', description: 'Competing for control of the black market; tense coexistence' }
+    { factionId: 'unlit-veil', influence: 'moderate', description: 'Unlit Astril brokers competing for control of the memory-trade; tense coexistence with the Drun' }
   ],
   travelConnections: [
     { destinationId: 'atropolis', distance: '200 feet up', travelTime: '10 min', route: 'Cargo elevators and rope-ladders up to Atropolis\'s platforms' },
     { destinationId: 'peat-bog-sinks', distance: 'half mile', travelTime: '30 min', route: 'Treacherous bog-boardwalks marked by glow-moss stakes' }
   ],
-  classPresence: ['falseProphet', 'lichborne', 'deathcaller', 'toxicologist'],
+  classPresence: ['falseProphet', 'revenant', 'toxicologist'],
   npcs: ['natalie-seline', 'korrin-the-shade']
 };
 
@@ -307,7 +307,7 @@ DEEP_LOCATIONS['synod-hold'] = {
     title: 'Steppe-Lord',
     leaderId: 'loras-ordavan',
     description:
-      'House Ordavan nominally rules from Synod Hold, but every trade minister has a Zhentarim "advisor" at their elbow. Lord Loras Ordavan is a well-meaning man who has not yet realized that every decision he makes was suggested to him by someone else.'
+      'House Ordavan nominally rules from Synod Hold, but every trade minister has an Unlit Veil "advisor" at their elbow. Lord Loras Ordavan is a well-meaning man who has not yet realized that every decision he makes was suggested to him by someone else.'
   },
   defenses: {
     militiaSize: 30,
@@ -317,12 +317,12 @@ DEEP_LOCATIONS['synod-hold'] = {
   },
   economy: {
     primary: 'Trade nexus — all steppe trade routes converge at Synod Hold',
-    secondary: ['Wool and hide from the great herds', 'Zhentarim caravan services', 'Oracle-readings from the ancestral mounds'],
+    secondary: ['Wool and hide from the great herds', 'Unlit Veil message-routing services', 'Oracle-readings from the ancestral mounds'],
     status: 'controlled_by_external'
   },
   atmosphere: {
     mood:
-      'Anxious prosperity. The Hold\'s markets are busy, its storehouses full — but there is an undercurrent of unease. The ancestral mounds are falling silent. The Zhentarim presence grows bolder by the season. The Steppe-Lord smiles but his eyes flick toward his advisors before answering questions.',
+      'Anxious prosperity. The Hold\'s markets are busy, its storehouses full — but there is an undercurrent of unease. The ancestral mounds are falling silent. The Unlit Veil presence grows bolder by the season. The Steppe-Lord smiles but his eyes flick toward his advisors before answering questions.',
     architecture:
       'Low, circular stone buildings arranged in concentric rings around a central gathering field. The stone is pale limestone, quarried from the single ridge that breaks the monotony of the steppe. Every building entrance faces east — toward where Sol once rose.',
     sounds:
@@ -335,11 +335,11 @@ DEEP_LOCATIONS['synod-hold'] = {
     founded: 'Year 30 of the Dimming',
     foundedBy: 'House Ordavan',
     foundingStory:
-      'Originally a seasonal gathering site for nomadic clans, Synod Hold grew into a permanent settlement when the Ordavan realized that the steppe\'s trade value exceeded its grazing value. The Zhentarim arrived within a generation and never left.',
+      'Originally a seasonal gathering site for nomadic clans, Synod Hold grew into a permanent settlement when the Ordavan realized that the steppe\'s trade value exceeded its grazing value. The Unlit Veil arrived within a generation and never left.',
 
     significantEvents: [
       { date: 'Year 30, Dimming', event: 'Synod Hold established as a permanent trade post' },
-      { date: 'Year 150, Dimming', event: 'The first Zhentarim caravan arrived — offering "trade consultation services"' },
+      { date: 'Year 150, Dimming', event: 'The first Unlit Veil couriers arrived — offering "trade consultation services"' },
       { date: 'Year 500, Dimming', event: 'Three ancestral mounds fell silent in a single season; cause still unknown' }
     ]
   },
@@ -349,10 +349,10 @@ DEEP_LOCATIONS['synod-hold'] = {
       name: 'The Steppe Market',
       type: 'market',
       description:
-        'A sprawling open-air market where nomadic herders trade wool, hide, and meat for imported goods. The Zhentarim maintain the largest stalls — they sell iron tools, whale oil, parchment, and "information consultation." Their prices are always fair. Too fair.',
-      proprietor: 'Zhentarim Network (unofficially) / House Ordavan (nominally)',
+        'A sprawling open-air market where nomadic herders trade wool, hide, and meat for imported goods. The Unlit Veil maintain the largest stalls — they sell navigation charts, memory-crystals, and "information consultation." Their prices are always fair. Too fair.',
+      proprietor: 'Unlit Veil (unofficially) / House Ordavan (nominally)',
       notableFeatures: [
-        'The Notice-Spire: a tall stone pillar where traders post messages; controlled by Zhentarim clerks who "help" people write their notices',
+        'The Notice-Spire: a tall stone pillar where traders post messages; controlled by Unlit Veil clerks who "help" people write their notices',
         'The Astril Enclosure: a quiet corner where Unlit Astril sell constellation-readings — fragments of dying stars glimpsed in their crystalline blood'
       ]
     }
@@ -360,12 +360,12 @@ DEEP_LOCATIONS['synod-hold'] = {
   connectedMaps: [],
   factionPresence: [
     { factionId: 'house-ordavan', influence: 'nominal', description: 'The official rulers — but everyone knows who really runs the Hold' },
-    { factionId: 'zhentarim-network', influence: 'dominant', description: 'Control trade policy, information flow, and security contracts' }
+    { factionId: 'unlit-veil', influence: 'dominant', description: 'Control trade policy, information flow, and consultation contracts' }
   ],
   travelConnections: [
     { destinationId: 'emberspire', distance: '80 miles', travelTime: '3 days', route: 'The Ash-Road — a caravan trail marked by charcoal cairns' }
   ],
-  classPresence: ['oracle', 'falseProphet', 'fateWeaver', 'gambler'],
+  classPresence: ['augur', 'falseProphet', 'gambit', 'gambit'],
   npcs: ['loras-ordavan', 'the-factotum']
 };
 

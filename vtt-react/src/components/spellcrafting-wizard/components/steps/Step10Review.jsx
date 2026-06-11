@@ -257,13 +257,13 @@ const Step10Review = ({
               spellState.damageConfig.diceNotation ||
               spellState.effectResolutions?.damage?.config?.formula,
         flat: spellState.damageConfig.flatBonus || 0,
-        type: spellState.damageConfig.elementType || spellState.typeConfig?.school || 'force'
+        type: spellState.damageConfig.elementType || spellState.typeConfig?.school || 'arcane'
       } : null,
 
       // Damage types - Use the properly extracted array from above (lines 110-140)
       damageTypes: damageTypes.length > 0 ? damageTypes : 
                   (spellState.damageConfig?.elementType ? [spellState.damageConfig.elementType] :
-                  spellState.typeConfig?.school ? [spellState.typeConfig.school] : ['force']),
+                  spellState.typeConfig?.school ? [spellState.typeConfig.school] : ['arcane']),
 
       // Saving throw information for damage effects
       damageConfig: {
@@ -420,7 +420,7 @@ const Step10Review = ({
         buffType: spellState.damageConfig?.criticalConfig?.buffType || spellState.healingConfig?.criticalConfig?.buffType || spellState.criticalConfig?.buffType || 'Stat Boost',
         debuffType: spellState.damageConfig?.criticalConfig?.debuffType || spellState.healingConfig?.criticalConfig?.debuffType || spellState.criticalConfig?.debuffType || 'Stat Reduction',
         damageAmount: spellState.damageConfig?.criticalConfig?.damageAmount || spellState.healingConfig?.criticalConfig?.damageAmount || spellState.criticalConfig?.damageAmount || '2d6',
-        damageType: spellState.damageConfig?.criticalConfig?.damageType || spellState.healingConfig?.criticalConfig?.damageType || spellState.criticalConfig?.damageType || 'Force',
+        damageType: spellState.damageConfig?.criticalConfig?.damageType || spellState.healingConfig?.criticalConfig?.damageType || spellState.criticalConfig?.damageType || 'arcane',
         healAmount: spellState.damageConfig?.criticalConfig?.healAmount || spellState.healingConfig?.criticalConfig?.healAmount || spellState.criticalConfig?.healAmount || '2d6',
         controlType: spellState.damageConfig?.criticalConfig?.controlType || spellState.healingConfig?.criticalConfig?.controlType || spellState.criticalConfig?.controlType || 'Stun'
       },
@@ -562,7 +562,7 @@ const Step10Review = ({
         buffType: spellState.damageConfig?.chanceOnHitConfig?.buffType || spellState.healingConfig?.chanceOnHitConfig?.buffType || spellState.procConfig?.buffType || 'Stat Boost',
         debuffType: spellState.damageConfig?.chanceOnHitConfig?.debuffType || spellState.healingConfig?.chanceOnHitConfig?.debuffType || spellState.procConfig?.debuffType || 'Stat Reduction',
         damageAmount: spellState.damageConfig?.chanceOnHitConfig?.damageAmount || spellState.healingConfig?.chanceOnHitConfig?.damageAmount || spellState.procConfig?.damageAmount || '2d6',
-        damageType: spellState.damageConfig?.chanceOnHitConfig?.damageType || spellState.healingConfig?.chanceOnHitConfig?.damageType || spellState.procConfig?.damageType || 'Force',
+        damageType: spellState.damageConfig?.chanceOnHitConfig?.damageType || spellState.healingConfig?.chanceOnHitConfig?.damageType || spellState.procConfig?.damageType || 'arcane',
         healAmount: spellState.damageConfig?.chanceOnHitConfig?.healAmount || spellState.healingConfig?.chanceOnHitConfig?.healAmount || spellState.procConfig?.healAmount || '2d6',
         controlType: spellState.damageConfig?.chanceOnHitConfig?.controlType || spellState.healingConfig?.chanceOnHitConfig?.controlType || spellState.procConfig?.controlType || 'Stun',
         customEffects: spellState.damageConfig?.chanceOnHitConfig?.customEffects || spellState.healingConfig?.chanceOnHitConfig?.customEffects || spellState.procConfig?.customEffects || []
@@ -1599,7 +1599,7 @@ const Step10Review = ({
         effects.push({
           effectType: 'damage',
           effectName: isTriggerBased ? 'Trigger-Based Damage over Time' : 'Damage over Time',
-          damageType: spellState.damageConfig.elementType || 'force',
+          damageType: spellState.damageConfig.elementType || 'arcane',
           damageAmount: spellState.damageConfig.dotConfig?.dotFormula ||
                        spellState.damageConfig.dotFormula ||
                        spellState.damageConfig.formula ||
@@ -1631,7 +1631,7 @@ const Step10Review = ({
         effects.push({
           effectType: 'damage',
           effectName: 'Damage',
-          damageType: spellState.typeConfig?.school || spellState.damageConfig.elementType || 'force',
+          damageType: spellState.typeConfig?.school || spellState.damageConfig.elementType || 'arcane',
           damageAmount: damageAmount,
         });
       }
@@ -1671,7 +1671,7 @@ const Step10Review = ({
         const dotEffect = {
           effectType: 'damage',
           effectName: isTriggerBased ? 'Trigger-Based Damage over Time' : 'Damage over Time',
-          damageType: spellState.damageConfig.elementType || 'force',
+          damageType: spellState.damageConfig.elementType || 'arcane',
           damageAmount: spellState.damageConfig.dotConfig?.dotFormula || spellState.damageConfig.dotFormula || '1d4',
           duration: `${spellState.damageConfig.dotConfig?.duration || 3} ${spellState.damageConfig.dotConfig?.tickFrequency || 'rounds'}`,
           scalingType: spellState.damageConfig.dotScalingType || 'flat',
@@ -2651,7 +2651,7 @@ const Step10Review = ({
         // Damage types - use properly extracted array
         damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes : 
                     (spellState.damageTypes || 
-                    (spellState.damageConfig?.elementType ? [spellState.damageConfig.elementType] : ['force'])),
+                    (spellState.damageConfig?.elementType ? [spellState.damageConfig.elementType] : ['arcane'])),
         
         tags: [
           ...(spellState.typeConfig?.tags || []),

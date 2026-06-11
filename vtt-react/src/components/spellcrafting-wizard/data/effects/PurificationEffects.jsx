@@ -58,26 +58,26 @@ const DISPEL_TYPES = [
 
 // Specific physical effect types
 const PHYSICAL_EFFECT_TYPES = [
-  { id: 'bludgeoning', name: 'Bludgeoning', icon: 'inv_mace_2h_pvp410_c_01', description: 'Remove bludgeoning effects' },
-  { id: 'piercing', name: 'Piercing', icon: 'inv_sword_31', description: 'Remove piercing effects' },
-  { id: 'slashing', name: 'Slashing', icon: 'ability_warrior_cleave', description: 'Remove slashing effects' },
-  { id: 'poison', name: 'Poison', icon: 'spell_nature_nullifypoison', description: 'Remove poison effects' },
+  { id: 'physical', name: 'physical', icon: 'inv_mace_2h_pvp410_c_01', description: 'Remove bludgeoning effects' },
+  { id: 'physical', name: 'physical', icon: 'inv_sword_31', description: 'Remove piercing effects' },
+  { id: 'physical', name: 'physical', icon: 'ability_warrior_cleave', description: 'Remove slashing effects' },
+  { id: 'blight', name: 'blight', icon: 'spell_nature_nullifypoison', description: 'Remove poison effects' },
   { id: 'disease', name: 'Disease', icon: 'spell_holy_nullifydisease', description: 'Remove disease effects' },
   { id: 'bleed', name: 'Bleed', icon: 'ability_warrior_bloodfrenzy', description: 'Remove bleeding effects' }
 ];
 
 // Specific magical effect types
 const MAGICAL_EFFECT_TYPES = [
-  { id: 'acid', name: 'Acid', icon: 'spell_nature_acid_01', description: 'Remove acid effects' },
-  { id: 'cold', name: 'Cold', icon: 'spell_frost_frostbolt02', description: 'Remove cold effects' },
-  { id: 'fire', name: 'Fire', icon: 'spell_fire_flamebolt', description: 'Remove fire effects' },
-  { id: 'force', name: 'Force', icon: 'spell_arcane_blast', description: 'Remove force effects' },
-  { id: 'lightning', name: 'Lightning', icon: 'spell_nature_lightning', description: 'Remove lightning effects' },
-  { id: 'necrotic', name: 'Necrotic', icon: 'spell_shadow_shadowbolt', description: 'Remove necrotic effects' },
-  { id: 'psychic', name: 'Psychic', icon: 'spell_shadow_mindtwisting', description: 'Remove psychic effects' },
-  { id: 'radiant', name: 'Radiant', icon: 'spell_holy_holybolt', description: 'Remove radiant effects' },
-  { id: 'thunder', name: 'Thunder', icon: 'spell_nature_thunderclap', description: 'Remove thunder effects' },
-  { id: 'void', name: 'Void', icon: 'spell_shadow_shadowfury', description: 'Remove void effects' }
+  { id: 'blight', name: 'blight', icon: 'spell_nature_acid_01', description: 'Remove acid effects' },
+  { id: 'rime', name: 'rime', icon: 'spell_frost_frostbolt02', description: 'Remove cold effects' },
+  { id: 'ember', name: 'ember', icon: 'spell_fire_flamebolt', description: 'Remove fire effects' },
+  { id: 'arcane', name: 'arcane', icon: 'spell_arcane_blast', description: 'Remove force effects' },
+  { id: 'storm', name: 'storm', icon: 'spell_nature_lightning', description: 'Remove lightning effects' },
+  { id: 'blight', name: 'blight', icon: 'spell_shadow_shadowbolt', description: 'Remove necrotic effects' },
+  { id: 'wyrd', name: 'wyrd', icon: 'spell_shadow_mindtwisting', description: 'Remove psychic effects' },
+  { id: 'ember', name: 'ember', icon: 'spell_holy_holybolt', description: 'Remove radiant effects' },
+  { id: 'storm', name: 'storm', icon: 'spell_nature_thunderclap', description: 'Remove thunder effects' },
+  { id: 'blight', name: 'blight', icon: 'spell_shadow_shadowfury', description: 'Remove void effects' }
 ];
 
 // Resurrection configuration

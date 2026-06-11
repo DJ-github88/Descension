@@ -13490,4 +13490,60 @@ button.gender-option.selected {
         position: relative;
         top: auto;
     }
+}
+
+/* ============================================
+   CORE DRAFT STEP - RESPONSIVE LAYOUT
+   ============================================ */
+
+@media (max-width: 1100px) {
+    .core-draft-panels-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        overflow-y: auto;
+    }
+
+    .core-draft-column:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .core-draft-panels-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0.5rem;
+        overflow-y: auto;
+        height: auto;
+        max-height: 100%;
+    }
+
+    .core-draft-column {
+        padding: 1rem;
+        gap: 1rem;
+        max-height: none;
+        height: auto;
+    }
+
+    .core-draft-step-layout {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 480px) {
+    .core-draft-column {
+        padding: 0.75rem;
+        border-width: 2px !important;
+    }
+
+    .section-headline {
+        font-size: 0.95rem;
+    }
+
+    .core-draft-panels-container {
+        gap: 0.75rem;
+        padding: 0.25rem;
+    }
 }

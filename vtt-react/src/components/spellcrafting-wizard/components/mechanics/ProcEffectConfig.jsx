@@ -73,7 +73,7 @@ const ProcEffectConfig = ({ procConfig, onChange }) => {
     // Add default configuration based on effect type
     switch (selectedEffect) {
       case 'damage_proc':
-        newEffect.damageType = 'fire';
+        newEffect.damageType = 'ember';
         newEffect.damageAmount = '40% of spell damage';
         newEffect.damageScaling = 'percentage';
         break;
@@ -289,7 +289,7 @@ const ProcEffectConfig = ({ procConfig, onChange }) => {
                               <div className="config-row">
                                 <label>Damage Type:</label>
                                 <select
-                                  value={effect.damageType || 'fire'}
+                                  value={effect.damageType || 'ember'}
                                   onChange={(e) => handleEffectConfigChange(index, 'damageType', e.target.value)}
                                 >
                                   <option value="physical">Physical</option>

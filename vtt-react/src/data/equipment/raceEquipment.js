@@ -28,7 +28,7 @@ export const HUMAN_BASE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         availableFor: {
@@ -349,10 +349,10 @@ export const VREKEN_BASE_ITEMS = [
     }
 ];
 
-// Morthel base items
-export const MORTHEL_BASE_ITEMS = [
+// Neth base items
+export const NETH_BASE_ITEMS = [
     {
-        id: 'morthel-death-ring',
+        id: 'neth-death-ring',
         name: 'Soul Echo Ring',
         type: 'accessory',
         subtype: 'RING',
@@ -369,12 +369,12 @@ export const MORTHEL_BASE_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['morthel']
+            races: ['neth']
         }
     },
 
     {
-        id: 'morthel-grave-boots',
+        id: 'neth-grave-boots',
         name: 'Gravewalker Boots',
         type: 'armor',
         subtype: 'LEATHER',
@@ -391,7 +391,7 @@ export const MORTHEL_BASE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['morthel']
+            races: ['neth']
         }
     }
 ];
@@ -585,7 +585,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['doppel_mimir']
+            subraces: ['maskborne_mimir']
         }
     },
     {
@@ -607,7 +607,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['broken_mimir']
+            subraces: ['mistwoven_mimir']
         }
     },
     {
@@ -628,7 +628,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['glass_mimir']
+            subraces: ['maskborne_mimir']
         }
     },
     {
@@ -648,7 +648,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['hollow_mimir']
+            subraces: ['unwoven_mimir']
         }
     }
 ];
@@ -673,7 +673,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['courtly_briaran']
+            subraces: ['smoothskinned_briaran']
         }
     },
     {
@@ -697,7 +697,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['wild_briaran']
+            subraces: ['unshorn_briaran']
         }
     },
     {
@@ -719,7 +719,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -727,7 +727,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['dusk_briaran']
+            subraces: ['unshorn_briaran']
         }
     }
 ];
@@ -796,7 +796,7 @@ export const GROVEN_SUBRACE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -829,7 +829,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -883,7 +883,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         baseStats: {
@@ -919,7 +919,7 @@ export const VREKEN_SUBRACE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['hunter_vreken']
+            subraces: ['marked_vreken']
         }
     },
     {
@@ -940,7 +940,7 @@ export const VREKEN_SUBRACE_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['penitent_vreken']
+            subraces: ['clean_vreken']
         }
     },
     {
@@ -963,7 +963,7 @@ export const VREKEN_SUBRACE_ITEMS = [
             constitution: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['hollow_vreken']
+            subraces: ['clean_vreken']
         }
     },
     {
@@ -987,13 +987,13 @@ export const VREKEN_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['bloodgiven_vreken']
+            subraces: ['marked_vreken']
         }
     }
 ];
 
-// Morthel subrace items
-export const MORTHEL_SUBRACE_ITEMS = [
+// Neth subrace items
+export const NETH_SUBRACE_ITEMS = [
     {
         id: 'vault-keeper-seal',
         name: 'Vault Keeper\'s Seal',
@@ -1012,7 +1012,7 @@ export const MORTHEL_SUBRACE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['kessen_morthel']
+            subraces: ['kessen_neth']
         }
     },
     {
@@ -1034,7 +1034,7 @@ export const MORTHEL_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['velun_morthel']
+            subraces: ['velun_neth']
         }
     },
     {
@@ -1055,7 +1055,7 @@ export const MORTHEL_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['drun_morthel']
+            subraces: ['drun_neth']
         }
     }
 ];
@@ -1194,7 +1194,7 @@ export const HUMAN_SUBRACE_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['imperial_human']
+            subraces: ['thalren_human']
         }
     },
     {
@@ -1215,7 +1215,7 @@ export const HUMAN_SUBRACE_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['hearthorn_human']
+            subraces: ['tessen_human']
         }
     },
     {
@@ -1235,7 +1235,7 @@ export const HUMAN_SUBRACE_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['paleborn_human']
+            subraces: ['merryn_human']
         }
     }
 ];
@@ -1250,7 +1250,7 @@ export const ALL_RACE_EQUIPMENT = [
     ...GROVEN_BASE_ITEMS,
     ...EMBERTH_BASE_ITEMS,
     ...VREKEN_BASE_ITEMS,
-    ...MORTHEL_BASE_ITEMS,
+    ...NETH_BASE_ITEMS,
     ...ASTREN_BASE_ITEMS,
     ...FERRICK_BASE_ITEMS,
     ...MYRATHIL_SUBRACE_ITEMS,
@@ -1259,7 +1259,7 @@ export const ALL_RACE_EQUIPMENT = [
     ...GROVEN_SUBRACE_ITEMS,
     ...EMBERTH_SUBRACE_ITEMS,
     ...VREKEN_SUBRACE_ITEMS,
-    ...MORTHEL_SUBRACE_ITEMS,
+    ...NETH_SUBRACE_ITEMS,
     ...ASTREN_SUBRACE_ITEMS,
     ...FERRICK_SUBRACE_ITEMS,
     ...HUMAN_SUBRACE_ITEMS

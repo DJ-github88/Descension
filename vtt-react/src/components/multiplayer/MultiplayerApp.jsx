@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import RoomLobby from './RoomLobby';
@@ -42,7 +42,7 @@ import './styles/MultiplayerApp.css';
 // Import main game components
 import Grid from "../Grid";
 import Navigation from "../Navigation";
-import HUDContainer from "../hud/HUDContainer";
+const HUDContainer = lazy(() => import("../hud/HUDContainer"));
 import GridItemsManager from "../grid/GridItemsManager";
 
 import DynamicFogManager from "../level-editor/DynamicFogManager";
@@ -8021,7 +8021,9 @@ const MultiplayerGameContent = ({
       <div className="vtt-game-screen">
         <Grid />
         <GridItemsManager />
-        <HUDContainer />
+        <Suspense fallback={null}>
+          <HUDContainer />
+        </Suspense>
         <ActionBar />
         <CombatSelectionWindow />
         <CombatTimeline />

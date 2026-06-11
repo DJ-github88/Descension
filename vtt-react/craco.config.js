@@ -48,14 +48,19 @@ module.exports = {
         // We use a filesystem cache with a specific version to ensure consistency.
         webpackConfig.cache = {
           type: 'filesystem',
-          version: '1.0.0',
+          version: '2.2.0',
           buildDependencies: {
             config: [__filename],
           },
         };
         
-        // Let CRA handle chunk splitting defaults - don't override
-        // React.lazy() works correctly with CRA's default webpack configuration
+        // Disable concatenateModules (scope hoisting) to prevent TDZ errors
+        // ("Cannot access '__WEBPACK_DEFAULT_EXPORT__' before initialization")
+        // caused by webpack reordering large modules in concatenated scope
+        webpackConfig.optimization = {
+          ...webpackConfig.optimization,
+          concatenateModules: false,
+        };
       }
       if (env === 'production') {
         // Configure CSS minification with safer settings
@@ -79,9 +84,10 @@ module.exports = {
         webpackConfig.optimization = {
           ...webpackConfig.optimization,
           usedExports: true,
-          sideEffects: false,
-          // Enable module concatenation for better tree shaking
-          concatenateModules: true,
+          // NOTE: sideEffects: false + concatenateModules: true causes
+          // "Cannot access '__WEBPACK_DEFAULT_EXPORT__' before initialization"
+          // in chunks with large imported modules (ClassResourceBar 9k+ lines).
+          // Removing both avoids TDZ errors from incorrect scope-hoisted module ordering.
         };
 
         // Enhanced bundle splitting for better caching and smaller initial bundle

@@ -91,7 +91,7 @@ const ResourceCostDisplay = ({
       case 'cooldown': return 'hourglass-half';
       case 'comboPoints': return 'layer-group';
       case 'charges': return 'battery-full';
-      case 'rage': return 'fire';
+      case 'rage': return 'ember';
       case 'energy': return 'bolt';
       case 'focus': return 'eye';
       default: return 'circle';

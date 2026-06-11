@@ -10,9 +10,11 @@ import useCreatureStore from '../../store/creatureStore';
 const CLASS_COLORS = {
   primalist: '#4ade80', exorcist: '#a855f7', formbender: '#f59e0b',
   witchdoctor: '#06b6d4', toxicologist: '#84cc16', falseprophet: '#8b5cf6',
-  oracle: '#3b82f6', chaosweaver: '#ec4899', chronarch: '#6366f1',
-  minstrel: '#f472b6', lichborne: '#60a5fa', inscriptor: '#fbbf24',
-  deathcaller: '#6b7280', huntress: '#22c55e', pyrofiend: '#ef4444',
+    harbinger: '#ec4899', chronarch: '#6366f1',
+  minstrel: '#f472b6', revenant: '#2D1B69', inscriptor: '#fbbf24',
+  // REMOVED: deathcaller merged into Revenant as Phase 1.10 consolidation
+  // deathcaller: '#6b7280',
+  apex: '#22c55e', pyrofiend: '#ef4444',
   warden: '#14b8a6', race: '#f97316',
 };
 

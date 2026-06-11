@@ -364,41 +364,52 @@ export function getSuggestedMaterialComponent(spellConfig) {
   // Damage spells
   if (effectTypes.includes('damage') && damageConfig) {
     switch (damageConfig.elementType) {
-      case 'fire':
+      case 'ember':
         return {
           name: 'Sulfur and Bat Guano',
           description: 'A tiny ball of bat guano and sulfur',
           cost: 0,
           consumed: true
         };
-      case 'frost':
-      case 'ice':
+      case 'rime':
         return {
           name: 'Crystal Shard',
           description: 'A small crystal shard',
           cost: 0,
           consumed: true
         };
-      case 'lightning':
-      case 'thunder':
+      case 'storm':
         return {
           name: 'Fur and Amber Rod',
           description: 'A bit of fur and an amber, crystal, or glass rod',
           cost: 0,
           consumed: true
         };
-      case 'acid':
+      case 'blight':
         return {
           name: 'Powdered Rhubarb Leaf and Adder Stomach',
           description: 'Powdered rhubarb leaf and an adder\'s stomach',
           cost: 0,
           consumed: true
         };
-      case 'necrotic':
-      case 'shadow':
+      case 'arcane':
+        return {
+          name: 'Iron Filings',
+          description: 'A pinch of iron filings',
+          cost: 0,
+          consumed: true
+        };
+      case 'wyrd':
         return {
           name: 'Grave Dirt',
           description: 'A pinch of dirt from a grave',
+          cost: 0,
+          consumed: true
+        };
+      case 'physical':
+        return {
+          name: 'Iron Filings',
+          description: 'A pinch of iron filings',
           cost: 0,
           consumed: true
         };

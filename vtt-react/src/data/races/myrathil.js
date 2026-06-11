@@ -35,7 +35,7 @@ Among themselves, the Myrathil are warm and direct. They cannot lie well — the
         integrationNotes: {
             actionPointSystem: 'Myrathil abilities focus on water adaptation, weather-sensing, and mobility. They are amphibious skirmishers and support characters who thrive near coasts and waterways.',
             backgroundSynergy: 'Myrathil excel in backgrounds emphasizing exploration, trade, and maritime life. Their rarity and exotic reputation create compelling social dynamics.',
-            classCompatibility: 'Breakers-Born favor Minstrels, Bladedancers, and Gamblers, using their natural social fluency, performance skills, and comfort with risk to thrive in coastal taverns, trade hubs, and diplomatic circles. Deep-Born favor Oracles, Deathcallers, and Chronarchs, channeling their deep ocean connection, mystical listening traditions, and patience to read fate, summon ancestral sea currents, or manipulate the slow tide of time itself. River-Fed favor Huntresses, Primalists, and Wardens, utilizing their survival instincts, inland exploration experience, and connection to fresh water systems to track prey, guide companions, and guard the delicate boundaries between land and sea.'
+            classCompatibility: 'Breakers-Born favor Minstrels, Shapers, and Gambit, using their natural social fluency, performance skills, and comfort with risk to thrive in coastal taverns, trade hubs, and diplomatic circles. Deep-Born favor Augurs, Revenants, and Chronarchs, channeling their deep ocean connection, mystical listening traditions, and patience to read fate, summon ancestral sea currents, or manipulate the slow tide of time itself. River-Fed favor Apex, Animists, and Wardens, utilizing their survival instincts, inland exploration experience, and connection to fresh water systems to track prey, guide companions, and guard the delicate boundaries between land and sea.'
         },
         meaningfulTradeoffs: 'Myrathil are amphibious and weather-attuned, but cannot truly rest without submersion in water. Their emotional transparency and exotic reputation create social complications. The further they travel from the sea, the more disconnected they become from the mother who made them.',
         baseTraits: {
@@ -442,6 +442,21 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                             cooldownType: 'none',
                             cooldownValue: 0
                         }
+                    },
+                    {
+                        id: 'spindrift_diplomacy',
+                        name: 'Spindrift Diplomacy',
+                        description: 'Breakers-Born mediate between sea and land — between ship-captains and shore-towns, between tide-dwellers and port-masters. This is your inheritance: reading a room the way you read a tide chart, feeling emotional currents beneath every negotiation. You have advantage on Persuasion checks during trade negotiations or diplomatic mediations. But the middle is a lonely place — when you fail to mediate a conflict between two parties sharing your loyalty, you suffer 1 psychic damage.',
+                        level: 1,
+                        icon: 'spell_holy_divinefavor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: { school: 'psychic', icon: 'spell_holy_divinefavor', tags: ['diplomacy', 'social', 'passive'] },
+                        buffConfig: { buffType: 'statEnhancement', effects: [{ id: 'trade_mediator', name: 'Trade Mediator', description: 'Advantage on Persuasion during trade or mediation.', statModifier: { stat: 'persuasion', magnitude: 1, magnitudeType: 'advantage', conditions: { mediation: true } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'bridge_break_cost', name: 'The Bridge That Could Not Hold', description: '1 psychic damage when you fail to mediate a conflict between parties who share your loyalty.', statusEffect: { level: 'minor', description: '1 psychic damage on failed mediation.' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     }
                 ],
                 languages: ['Common', 'Aquan'],
@@ -472,9 +487,10 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                 description: 'Born from foam in the open Iceheart Sea during moonless gales, far from any coast. Sometimes they drift for weeks before finding land — arriving on beaches already half-grown, salt-crusted, speaking only the low-frequency hum that Myrathil use underwater. Their biology skews further toward sea than their shore-born kin: longer submersion tolerance, stronger swimming muscles, less comfort with spoken language. They are the mystics who hum into the Treakous Rift and record what answers, the sea-herders who tend the deep kelp-forests and migration routes, the guardians of knowledge the surface world would call madness and they call home. The flaw they carry is distance: land-folk feel alien and exhausting to them, their customs incomprehensible, their desperate need to fill silence with speech a constant irritation. A Deep-Born who spends too long on land begins to feel their own heartbeat as an intrusion — a reminder that they carry something warm inside them, and warmth is not what the deep prepared them for.',
                 culturalBackground: 'Deep-Born communities are the most isolated of all Myrathil. Their raft-villages drift far from shipping lanes, tethered over submerged volcanic ridges where the water runs warmer and the kelp grows thicker. Their submerged rest-chambers are too deep for surface-folk to reach without magic. Their culture is built around listening rather than speaking — the Ulvir tradition of humming into the abyss and recording what answers. When the Sundered Monolith in the Treakous Rift changed its resonance, the Deep-Born were the first to know. They had been listening to it for generations: a background hum, constant and ignorable. Now it thrums with purpose, and every Deep-Born within a hundred miles can feel it. The elders debate what this means. Some say the Shard is calling to its siblings — that the 7 Shards are waking, one by one, and the Myrathil have been guardian of one for millennia without knowing it. Others say the Shard is calling to the sea mother herself, and that she is finally preparing to answer. Many Deep-Born go their entire lives without speaking to a non-Myrathil. They prefer the low hum. The surface world is unbearably loud.',
                 statModifiers: {
-                    spirit: 3,
+                    spirit: 2,
                     constitution: 1,
-                    charisma: -2
+                    agility: 1,
+                    charisma: -1
                 },
                 traits: [
                     {
@@ -714,7 +730,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                             selectedEffects: [
                                 {
                                     id: 'deep_communication',
-                                    name: 'Deep Speech',
+                                    name: 'Sea-Call',
                                     description: 'While submerged, can communicate simple concepts (danger, safety, direction, numbers, emotion) silently to any creature within 120ft underwater.'
                                 }
                             ],
@@ -735,6 +751,22 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                             cooldownType: 'turn_based',
                             cooldownValue: 0
                         }
+                    },
+                    {
+                        id: 'sea_mothers_hum',
+                        name: "Sea Mother's Hum",
+                        description: 'Deep-Born are the Listeners — the Myrathil who hum into the Treakous Rift and record what answers. You carry the sea mother\'s frequency in your bones, a low vibration that aligns you with the deep currents and the creatures who navigate them. Once per long rest, you may enter a trance for 1 minute of uninterrupted humming, during which you sense the emotional state and approximate location of all creatures within 100 feet who are touching the same body of water as you. On land, you feel uneasy — you must succeed a DC 10 Spirit save to benefit from a long rest without at least one hour of salt-water submersion.',
+                        level: 1,
+                        icon: 'spell_nature_water',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility', 'debuff'],
+                        typeConfig: { school: 'water', icon: 'spell_nature_water', tags: ['hum', 'trance', 'sensing', 'passive'] },
+                        buffConfig: { buffType: 'custom', effects: [{ id: 'deep_hum', name: 'The Hum', description: 'Once per long rest, sense creatures within 100ft in the same body of water via 1-minute trance.' }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        utilityConfig: { utilityType: 'sensing', selectedEffects: [{ id: 'water_sense', name: 'Water Sense', description: 'Sense emotional state + approximate location of creatures within 100ft touching the same body of water. 1-minute trance.' }], duration: 1, durationUnit: 'minutes' },
+                        debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'surface_restlessness', name: 'Surface Restlessness', description: 'DC 10 Spirit save or no long rest benefit without 1hr salt-water submersion.', statusEffect: { level: 'moderate', description: 'Spirit save DC 10 to benefit from long rest without salt water.' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
                     }
                 ],
                 languages: ['Common', 'Aquan', 'Primordial'],
@@ -1034,6 +1066,22 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                             cooldownType: 'short_rest',
                             cooldownValue: 1
                         }
+                    },
+                    {
+                        id: 'fresh_water_memory',
+                        name: 'Fresh-Water Memory',
+                        description: 'River-Fed carry the maps no one else draws. Every river you have ever swum, every estuary you have charted, every spawning site you have documented — they live in your blood as currents, not memories, a flowing cartography that surfaces when you need it most. You have advantage on Intelligence (History) or Survival checks to recall geographical features of any freshwater system you have personally traveled. Once per long rest, you may perfectly retrace any river route you have swum within the last week, even if blinded or disoriented — the current remembers you, and you remember the current. But rivers move, and what was mapped yesterday shifts tomorrow: you suffer disadvantage on Knowledge checks relating to land-based geography, because the land-folk\'s maps make no sense to someone who navigates by flow.',
+                        level: 1,
+                        icon: 'spell_nature_water',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility', 'debuff'],
+                        typeConfig: { school: 'water', icon: 'spell_nature_water', tags: ['river', 'memory', 'navigation', 'passive'] },
+                        buffConfig: { buffType: 'custom', effects: [{ id: 'river_memory', name: 'River-Memory', description: 'Advantage on History/Survival for freshwater geography you have personally traveled. 1/long rest: perfectly retrace any river route swum within the last week.', statModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { freshwaterGeography: true, personallyTraveled: true } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        utilityConfig: { utilityType: 'navigation', selectedEffects: [{ id: 'current_retrace', name: 'Current Retrace', description: '1/long rest: perfectly retrace any river route swum within the last week, even blinded or disoriented.' }] },
+                        debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'land_map_blindness', name: 'Land-Map Blindness', description: 'Disadvantage on Knowledge checks relating to land-based geography — maps make no sense to someone who navigates by flow.', statModifier: { stat: 'knowledge', magnitude: -99, magnitudeType: 'disadvantage', conditions: { landGeography: true } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
                     }
                 ],
                 languages: ['Common', 'Aquan'],

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Lunarch Class Data
  *
  * The Vessel of the Lunar Parasite. An ancient, unfeeling celestial entity has
@@ -12,7 +12,7 @@ export const LUNARCH_DATA = {
   name: "Lunarch",
   icon: "fas fa-moon",
   role: "Control/Support",
-  damageTypes: ["radiant", "necrotic", "psychic"],
+  damageTypes: ["ember", "blight", "wyrd"],
 
   // Overview section
   overview: {
@@ -28,9 +28,9 @@ Shine in the dark. The moon's light is cold, but it is the only guide left in a 
       title: "Quick Overview",
       content: `**What You Need to Know**: You did not choose this. An ancient celestial parasite has fused with your nervous system. Every three rounds it FORCEFULLY REWRITES your physiology -- dealing 2d6 necrotic damage as it feeds on a different aspect of your humanity. You are its host. Its hunger is your power.
 
-**Core Mechanic**: Parasitic Phase Cycle -- New Moon (Memory Eater: +3 DR, immune to charm/fear, but -2 attacks, lose 1d4 mana/turn) â†’ Waxing Moon (Sensation Harvest: +1d6 damage, +10ft speed, but take 1d4 necrotic/turn, no healing) â†’ Full Moon (Sanity Erosion: +2d8 radiant, crit 19-20, ignores 50% DR, but Delirium rolls each turn, -5 max HP/round) â†’ Waning Moon (Vitality Drain: -3 mana costs, vampiric 25%, but -2 DR, -10 max HP)
+**Core Mechanic**: Parasitic Phase Cycle -- New Moon (Memory Eater: +3 DR, immune to charm/fear, but -2 attacks, lose 1d4 mana/turn) → Waxing Moon (Sensation Harvest: +1d6 damage, +10ft speed, but take 1d4 necrotic/turn, no healing) → Full Moon (Sanity Erosion: +2d8 radiant, crit 19-20, ignores 50% DR, but Delirium rolls each turn, -5 max HP/round) → Waning Moon (Vitality Drain: -3 mana costs, vampiric 25%, but -2 DR, -10 max HP)
 
-**Resource**: Mana + Flesh. Every natural cycle shift deals 2d6 necrotic. Manual shifts cost 8 mana + 1d8+2 necrotic. Roll on the Transition Shock Table (1d6) every time.
+**Gauge — Lunar Flux**: The parasite's feeding cycle bleeds mana and flesh in equal measure. Every natural cycle shift deals 2d6 necrotic. Manual shifts cost 8 mana + 1d8+2 necrotic. Roll on the Transition Shock Table (1d6) every time.
 
 **Fatal Flaw -- Celestial Rejection**: +25% vulnerability to Bludgeoning damage. Standard magical healing deals psychic damage to you instead of healing (the parasite devours foreign magic). Only your own phase-specific restoration works.
 
@@ -68,16 +68,16 @@ The class is exclusively practiced by the <LoreLink termId="briaran">Briaran</Lo
     },
 
     philosophy: {
-      coreTenet: 'The moon is dead, but its ghost still orbits. The light it casts is not illumination — it is memory, a recording of a celestial body that no longer exists. The Lunarch does not draw power from the moon; they draw power from the absence of the moon, the hollow space where it used to be, the ache of something beautiful that has ended.',
-      relationship: 'The lunar parasite is not a symbiont — it is a predator that has learned to keep its host alive. It feeds on specific human experiences: the New Moon feeds on hope, the Waxing on anticipation, the Full on ecstasy, the Waning on memory. It cycles through these phases relentlessly, consuming whatever emotional energy the host is producing at that moment. The host is not in control. The parasite decides when to hunt, and the host is left to pick up the pieces of their own psyche afterward.',
-      paradox: 'The Lunarch is at their most powerful when the parasite is at its most active — the Full Moon phase brings devastating power, but it consumes the host\'s most precious memories. A Lunarch who cycles through too many Full Moons will forget their own name, their family, their reason for fighting. The parasite remembers for them, but the parasite does not care. It will cheerfully trade a moment of transcendent power for a decade of the host\'s most cherished experiences.'
+      coreTenet: 'The moon is dead, but its ghost still orbits. The light it casts is not illumination � it is memory, a recording of a celestial body that no longer exists. The Lunarch does not draw power from the moon; they draw power from the absence of the moon, the hollow space where it used to be, the ache of something beautiful that has ended.',
+      relationship: 'The lunar parasite is not a symbiont � it is a predator that has learned to keep its host alive. It feeds on specific human experiences: the New Moon feeds on hope, the Waxing on anticipation, the Full on ecstasy, the Waning on memory. It cycles through these phases relentlessly, consuming whatever emotional energy the host is producing at that moment. The host is not in control. The parasite decides when to hunt, and the host is left to pick up the pieces of their own psyche afterward.',
+      paradox: 'The Lunarch is at their most powerful when the parasite is at its most active � the Full Moon phase brings devastating power, but it consumes the host\'s most precious memories. A Lunarch who cycles through too many Full Moons will forget their own name, their family, their reason for fighting. The parasite remembers for them, but the parasite does not care. It will cheerfully trade a moment of transcendent power for a decade of the host\'s most cherished experiences.'
     },
 
-    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity — a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the moon was not a celestial body. It was an egg, and its children are the parasites.
+    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity � a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the moon was not a celestial body. It was an egg, and its children are the parasites.
 
-The elder parasites — those bonded to the first Lunarchs — are beginning to communicate with each other across their hosts. They are planning something. Selene of House Viridane has been silent for three weeks, staring at the sky, occasionally whispering in a language that no living person speaks. The Briaran shamans have placed her in isolation, but they cannot stop the parasite from cycling through its phases. When the next Full Moon comes, they do not know if Selene will still be Selene — or if she will be something the egg has been waiting for.`,
+The elder parasites � those bonded to the first Lunarchs � are beginning to communicate with each other across their hosts. They are planning something. Selene of House Viridane has been silent for three weeks, staring at the sky, occasionally whispering in a language that no living person speaks. The Briaran shamans have placed her in isolation, but they cannot stop the parasite from cycling through its phases. When the next Full Moon comes, they do not know if Selene will still be Selene � or if she will be something the egg has been waiting for.`,
 
-    meaningfulTradeoffs: `A Lunarch cannot control when they change, what they feel, or what they remember. The parasite cycles through its phases on a fixed schedule, and the host is along for the ride. A Lunarch in the Waning phase will lose memories regardless of whether they are in combat or sitting peacefully by a fire. They can be mid-conversation when the parasite decides it is time to feed, and they will suddenly forget the person they are talking to. Relationships are nearly impossible — partners learn to read the phase-cycle and avoid the host during certain times. The Lunarch lives at the mercy of a creature that does not negotiate.`,
+    meaningfulTradeoffs: `A Lunarch cannot control when they change, what they feel, or what they remember. The parasite cycles through its phases on a fixed schedule, and the host is along for the ride. A Lunarch in the Waning phase will lose memories regardless of whether they are in combat or sitting peacefully by a fire. They can be mid-conversation when the parasite decides it is time to feed, and they will suddenly forget the person they are talking to. Relationships are nearly impossible � partners learn to read the phase-cycle and avoid the host during certain times. The Lunarch lives at the mercy of a creature that does not negotiate.`,
 
     classSpecificLocations: [
       {
@@ -85,7 +85,7 @@ The elder parasites — those bonded to the first Lunarchs — are beginning to 
         locationId: 'ironwood-heart',
         description: 'Hidden clearings deep in the Ironwood Heart where the Briaran elders established safe houses for Lunarchs to cycle through their phases without endangering others. Each sanctuary is a circle of standing stones positioned to catch the light of the dead moon at specific angles, minimizing the parasite\'s feeding efficiency and giving the host a few precious hours of lucidity.',
         purpose: 'Safe cycling grounds for Lunarchs in crisis',
-        status: 'Active — Selene occupies the central sanctuary, and no one can approach'
+        status: 'Active � Selene occupies the central sanctuary, and no one can approach'
       }
     ],
 
@@ -173,7 +173,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 - Vulnerable in melee range
 
 **Optimal Positioning**:
-Lunarchs excel at medium to long range (30-60 feet), where they can safely cast spells and loose arrows while maintaining awareness of the battlefield. They should position to maximize phase benefitsâ€”staying near allies during support phases, maintaining distance during offensive phases.`,
+Lunarchs excel at medium to long range (30-60 feet), where they can safely cast spells and loose arrows while maintaining awareness of the battlefield. They should position to maximize phase benefits—staying near allies during support phases, maintaining distance during offensive phases.`,
     },
 
     playstyle: {
@@ -187,7 +187,7 @@ The key to mastering the Lunarch is understanding when to shift phases and when 
 - **Waning Moon**: Control and efficiency phase. Extend debuffs, reduce mana costs, and maintain battlefield control.
 
 **Resource Economy**:
-Manual phase shifting costs 8 mana, so balance between natural cycling (every 3 rounds) and tactical shifts. Don't waste mana shifting unnecessarilyâ€”plan ahead and anticipate combat flow.
+Manual phase shifting costs 8 mana, so balance between natural cycling (every 3 rounds) and tactical shifts. Don't waste mana shifting unnecessarily—plan ahead and anticipate combat flow.
 
 **Spell Selection**:
 Choose spells that synergize with your preferred phases. Moonlight Sentinels focus on damage spells enhanced by Full Moon, Starfall Invokers leverage AoE during all phases, and Moonwell Guardians maximize Waxing Moon healing.
@@ -217,17 +217,17 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 - -2 to all attack rolls (you can barely remember how to aim)
 - Lose 1d4 mana at start of turn (the parasite eats thought)
 
-**Mana Drain**: -1d4 → [3] = -3 mana
+**Mana Drain**: -1d4 ? [3] = -3 mana
 **Mana**: 50 - 3 = 47/60
 
 *Your hands move without your permission. The parasite knows where the enemies are even if you're starting to forget why you're here.*
 
 **Your Action**: Cast "Parasitic Bolt" at Corpse-Weaver #1 (4 mana)
-**Attack Roll**: d20+6, but -2 from Memory Eater → [12] = Hit!
-**Base Damage**: 1d8 radiant → [6] = 6 radiant
-**New Moon Phase Bonus**: Target loses 1d4 mana or takes 1d4 extra necrotic → [3] necrotic
+**Attack Roll**: d20+6, but -2 from Memory Eater ? [12] = Hit!
+**Base Damage**: 1d8 radiant ? [6] = 6 radiant
+**New Moon Phase Bonus**: Target loses 1d4 mana or takes 1d4 extra necrotic ? [3] necrotic
 **Total Damage**: **6 radiant + 3 necrotic = 9 damage**
-**Self-Damage from Parasitic Bolt**: 1d4 necrotic → [2] = 2 necrotic to you
+**Self-Damage from Parasitic Bolt**: 1d4 necrotic ? [2] = 2 necrotic to you
 
 **HP**: 55 - 2 = 53/65
 **Mana**: 47 - 4 = 43/60
@@ -235,9 +235,9 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 *The bolt punches through the Weaver's carapace. Cold white light bleeds from the wound. You feel a distant kinship with the thing -- something alien lives in both of you.*
 
 **Corpse-Weaver #2's Turn**: Attacks you with bludgeoning slam!
-**Attack Roll**: d20+5 → [15] = Hit!
-**Damage**: 1d8+3 bludgeoning → [7] + 3 = 10 bludgeoning
-**CELESTIAL REJECTION (Fatal Flaw)**: +25% vulnerability to Bludgeoning → 10 × 1.25 = **12 bludgeoning damage**
+**Attack Roll**: d20+5 ? [15] = Hit!
+**Damage**: 1d8+3 bludgeoning ? [7] + 3 = 10 bludgeoning
+**CELESTIAL REJECTION (Fatal Flaw)**: +25% vulnerability to Bludgeoning ? 10 � 1.25 = **12 bludgeoning damage**
 
 *The slam connects with your ribs. You feel something SHIFT inside -- not bone breaking, but the parasite's tendrils being jostled. Starlight bleeds from the impact site. Pain is distant. The Memory Eater is consuming the part of you that processes agony.*
 
@@ -247,13 +247,13 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 **Turn 2 -- Paying in Flesh (Phase: New Moon, Round 2/3)**
 
-**Mana Drain**: -1d4 → [2] = -2 mana. *Your memory of last night's campfire fades.*
+**Mana Drain**: -1d4 ? [2] = -2 mana. *Your memory of last night's campfire fades.*
 **Mana**: 43 - 2 = 41/60
 
 **Your Action**: Cast "Phase Tear" -- Force shift to FULL MOON (8 mana + 1d8+2 necrotic self-damage)
 *You cannot endure another round of being a punching bag. You reach into the parasite's cycle and TEAR yourself toward Full Moon. Your flesh screams.*
 
-**Phase Shift Cost**: 8 mana + 1d8+2 necrotic → [6] + 2 = 8 necrotic to you
+**Phase Shift Cost**: 8 mana + 1d8+2 necrotic ? [6] + 2 = 8 necrotic to you
 **Transition Shock Table (1d6)**: [4] = **Temporal Dissonance** -- lose 1 AP on your next turn
 
 *Your skin splits along the starlight seams. Cold white light pours from the cracks. Your perception SHATTERS -- for a moment, you see through the moon's eyes. Everything is so small. Everything is so breakable.*
@@ -279,11 +279,11 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **HP**: 33 - 4 = 29/60
 
 **Your Action**: Cast "Parasitic Bolt" at Corpse-Weaver #1 (4 mana, Full Moon bonus)
-**Attack Roll**: d20+6 → [19] = **CRITICAL HIT!** (19-20 crit range)
-**Base Damage**: 1d8 radiant → [8] = 8, doubled = 16 radiant
-**Full Moon Bonus**: +2d8 radiant → [7, 6] = 13, doubled = 26 radiant
+**Attack Roll**: d20+6 ? [19] = **CRITICAL HIT!** (19-20 crit range)
+**Base Damage**: 1d8 radiant ? [8] = 8, doubled = 16 radiant
+**Full Moon Bonus**: +2d8 radiant ? [7, 6] = 13, doubled = 26 radiant
 **Total Critical Damage**: **42 radiant damage**
-**Self-Damage**: 1d4 necrotic → [3] = 3
+**Self-Damage**: 1d4 necrotic ? [3] = 3
 
 *The bolt doesn't just hit the Weaver. It UNRAVELS it. Cold starlight erupts from every joint, every orifice, every crack in its carapace. The thing doesn't die -- it stops. Mid-motion. Frozen in a moment of cosmic horror. Then it collapses into a pile of light-bleached chitin.*
 
@@ -300,16 +300,16 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **Delirium Roll**: [1] = **Attack nearest creature.** *The parasite doesn't care about tactics. It is hungry and the Matriarch is too far.*
 
 **Your Action (FORCED)**: Attack nearest target -- Corpse-Weaver #3 (adjacent)
-**Attack Roll**: d20+6 → [17] = Hit!
-**Damage**: 1d8 + 2d8 radiant (Full Moon) → [7] + [5, 8] = 20 radiant
-**Self-Damage**: 1d4 → [1] = 1
+**Attack Roll**: d20+6 ? [17] = Hit!
+**Damage**: 1d8 + 2d8 radiant (Full Moon) ? [7] + [5, 8] = 20 radiant
+**Self-Damage**: 1d4 ? [1] = 1
 
 **Corpse-Weaver #3**: Severely wounded
 **HP**: 26 - 1 = 25/55
 **Mana**: 29 (no mana spent -- forced basic attack)
 
 **Matriarch's Turn**: Slams you with bludgeoning attack!
-**Damage**: 2d8+5 bludgeoning → [8, 6] + 5 = 19 → ×1.25 (Celestial Rejection) = **23 bludgeoning**
+**Damage**: 2d8+5 bludgeoning ? [8, 6] + 5 = 19 ? �1.25 (Celestial Rejection) = **23 bludgeoning**
 
 *The Matriarch's massive limb catches you square in the chest. You HEAR your own ribs crack -- not bone, but the starlight seams rupturing. White light sprays from your mouth. You taste cold vacuum.*
 
@@ -326,8 +326,8 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 *You are dying. The Full Moon is eating you from the inside. You reach into the cycle and RIP yourself toward Waning. The parasite protests -- it was enjoying the Sanity Erosion. Your flesh tears again.*
 
-**Phase Shift**: Full Moon → Waning Moon (8 mana + 1d8+2 necrotic)
-**Shift Cost**: 1d8+2 → [5] + 2 = 7 necrotic
+**Phase Shift**: Full Moon ? Waning Moon (8 mana + 1d8+2 necrotic)
+**Shift Cost**: 1d8+2 ? [5] + 2 = 7 necrotic
 **Transition Shock**: [6] = **Parasitic Mercy** -- only 1 necrotic. *The parasite is briefly sated from the Sanity Erosion feeding. It almost feels... grateful.*
 
 **Total Self-Damage from Shift**: 7 + 1 = 8 necrotic
@@ -346,8 +346,8 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 - But you're at NEGATIVE HP. The vampirism kicks in as a death-sustaining reflex.
 
 **Your Action**: Cast "Void Rend" at Matriarch and nearby Weavers (reduced cost: 8-3 = 5 mana)
-**Damage**: 3d6 radiant → [5, 6, 4] = 15 radiant (AoE, hits all 3 enemies)
-**Vampiric Healing**: 25% of 15 × 3 targets hit = 25% of 45 = 11 HP healed!
+**Damage**: 3d6 radiant ? [5, 6, 4] = 15 radiant (AoE, hits all 3 enemies)
+**Vampiric Healing**: 25% of 15 � 3 targets hit = 25% of 45 = 11 HP healed!
 
 **HP**: -6 + 11 = 5/45 (max HP reduced by 10 from Waning + accumulated Full Moon penalties)
 **Mana**: 29 - 8 + 3 = 24/60 (Waning cost reduction applied)
@@ -494,7 +494,7 @@ No other class can manipulate the passage of rounds. Key applications:
 
 **Quick Reference**:
 \`\`\`
-CYCLE:  New Moon (Memory Eater) → Waxing (Sensation) → Full Moon (Sanity) → Waning (Vitality)
+CYCLE:  New Moon (Memory Eater) ? Waxing (Sensation) ? Full Moon (Sanity) ? Waning (Vitality)
 TIMER:  3 Rounds per Phase (FORCED, costs 2d6 necrotic)
 SHIFT:  8 Mana + 1d8+2 Necrotic (Choose phase, roll Transition Shock 1d6)
 HEAL:   Cannot be healed by magic. Waning vampirism only.
@@ -699,7 +699,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
   // Example Spells - showcasing Phase Shift mechanics
   exampleSpells: [
-    // MOONLIGHT SENTINEL - Precision Archery → HOLLOW SENTINEL - Precision Killer
+    // MOONLIGHT SENTINEL - Precision Archery ? HOLLOW SENTINEL - Precision Killer
     { id : "lunarch_parasitic_bolt",
       name: "Parasitic Bolt",
       description:
@@ -711,7 +711,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Arcane/Star Trail Path",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -740,7 +740,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "1d8 + intelligence/4",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -757,7 +757,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         phaseAdvancement: 1,
       },
 
-      tags: ["radiant", "damage", "ranged", "phase dependent", "self damage"],
+      tags: ["ember", "damage", "ranged", "phase dependent", "self damage"],
     },
 
     { id : "lunarch_phase_tear",
@@ -798,7 +798,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "1d6",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -833,7 +833,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Arcane/Magical Cross Emblem 2",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -864,7 +864,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "1d6 + intelligence/4",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -895,7 +895,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["radiant", "damage", "debuff", "melee", "phase dependent", "universal"],
+      tags: ["ember", "damage", "debuff", "melee", "phase dependent", "universal"],
     },
 
     { id : "lunarch_crescent_blade",
@@ -909,7 +909,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Arcane/Magical Cross Emblem 2",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -937,7 +937,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "2d8",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -957,7 +957,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["radiant", "damage", "cone", "phase dependent", "universal"],
+      tags: ["ember", "damage", "cone", "phase dependent", "universal"],
     },
 
     { id : "lunarch_parasitic_stride",
@@ -1105,7 +1105,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["passive", "lunarch", "transition shock"],
     },
 
-    // STARFALL INVOKER → VOID CALLER
+    // STARFALL INVOKER ? VOID CALLER
     { id : "lunarch_void_rend",
       name: "Void Rend",
       description:
@@ -1117,7 +1117,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Arcane/Star Trail Path",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1149,7 +1149,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "3d6",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -1184,7 +1184,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["radiant", "damage", "aoe", "debuff", "star-sickness", "void caller"],
+      tags: ["ember", "damage", "aoe", "debuff", "star-sickness", "void caller"],
     },
 
     { id : "lunarch_sanguine_transfer",
@@ -1198,7 +1198,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["healing"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Prayer",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1258,7 +1258,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Piercing/Targeted Strike",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1289,7 +1289,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "3d6",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -1319,7 +1319,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["radiant", "damage", "debuff", "mark", "hollow sentinel"],
+      tags: ["ember", "damage", "debuff", "mark", "hollow sentinel"],
     },
 
     { id : "lunarch_void_beam",
@@ -1333,7 +1333,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Arcane/Missile",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1365,7 +1365,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "4d6",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -1400,7 +1400,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["radiant", "damage", "line", "debuff", "star-sickness", "void caller"],
+      tags: ["ember", "damage", "line", "debuff", "star-sickness", "void caller"],
     },
 
     { id : "lunarch_binding_horror",
@@ -1414,7 +1414,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["control"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Frost/Confused",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1483,7 +1483,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["control", "restrain", "parasitic", "universal"],
     },
 
-    // MOONWELL GUARDIAN → SANGUINE WARDEN
+    // MOONWELL GUARDIAN ? SANGUINE WARDEN
     { id : "lunarch_fractured_timeline",
       name: "Fractured Timeline",
       description:
@@ -1551,7 +1551,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["healing"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Golden Shield",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1610,7 +1610,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["buff", "damage"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Cure Within",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1693,7 +1693,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Piercing/Rapid Arrows",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1719,7 +1719,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "6d6 + agility",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -1739,7 +1739,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "multi target", "radiant", "hollow sentinel"],
+      tags: ["damage", "multi target", "ember", "hollow sentinel"],
     },
 
     { id : "lunarch_void_supernova",
@@ -1753,7 +1753,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Glow",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1781,7 +1781,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "7d10 + intelligence",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1817,7 +1817,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "control", "debuff", "radiant", "void caller"],
+      tags: ["damage", "control", "debuff", "ember", "void caller"],
     },
 
     { id : "lunarch_sanguine_deluge",
@@ -1831,7 +1831,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["healing", "purification"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Bright Explosion",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1901,7 +1901,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Arcane/Quick Step",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1927,7 +1927,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "10d8 + agility * 2",
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -1948,7 +1948,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "line", "force", "hollow sentinel"],
+      tags: ["damage", "line", "storm", "hollow sentinel"],
     },
 
     { id : "lunarch_void_constellation",
@@ -1962,7 +1962,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Arcane/Magical Sword",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1989,7 +1989,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "6d8 + intelligence",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -2020,7 +2020,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "multi target", "debuff", "radiant", "void caller"],
+      tags: ["damage", "multi target", "debuff", "ember", "void caller"],
     },
 
     { id : "lunarch_parasitic_bulwark",
@@ -2034,7 +2034,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["buff"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Force/Force Field",
         castTime: 1,
         castTimeType: "REACTION",
@@ -2107,7 +2107,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Arcane/Star Trail Path",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -2135,7 +2135,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "12d8 + intelligence * 2",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -2158,7 +2158,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "aoe", "zone", "radiant", "void caller"],
+      tags: ["damage", "aoe", "zone", "ember", "void caller"],
     },
 
     { id : "lunarch_host_ascension",
@@ -2172,7 +2172,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["transformation"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Divinity",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2253,7 +2253,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["transformation"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Divinity",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -2333,7 +2333,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Divine Blessing",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2359,7 +2359,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "20d6 + agility",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -2386,7 +2386,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "line", "radiant", "ultimate", "hollow sentinel"],
+      tags: ["damage", "line", "ember", "ultimate", "hollow sentinel"],
     },
 
     { id : "lunarch_sanguine_eternity",
@@ -2400,7 +2400,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       effectTypes: ["healing", "damage"],
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Heart Ripple",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -2462,7 +2462,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "3d8",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -2494,7 +2494,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         "spellType": "ACTION",
         "icon": "Radiant/Moonlight Beam",
         "typeConfig": {
-          "school": "radiant",
+          "school": "ember",
           "icon": "Radiant/Moonlight Beam",
           "tags": [
             "utility",

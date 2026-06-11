@@ -1,4 +1,4 @@
-﻿/* ===== RULES COMPONENTS - TTRPG SOURCEBOOK DESIGN SYSTEM ===== */
+/* ===== RULES COMPONENTS - TTRPG SOURCEBOOK DESIGN SYSTEM ===== */
 
 :root {
   --rules-theme-mechanic: #8a1a10; /* Dark rustic blood-red */
@@ -176,6 +176,8 @@
   line-height: 1.7;
   color: var(--rpg-ink);
   text-align: justify;
+  overflow: visible;
+  padding-bottom: 4px;
 }
 
 @media (min-width: 769px) {
@@ -183,6 +185,7 @@
     column-count: 2;
     column-gap: 36px;
     column-rule: 1px dashed rgba(196, 160, 96, 0.25);
+    column-fill: balance;
   }
 }
 
@@ -194,6 +197,8 @@
 .rules-section-card-content p {
   margin: 0 0 16px 0;
   break-inside: avoid;
+  orphans: 3;
+  widows: 3;
 }
 .rules-section-card-content p:last-child { margin-bottom: 0; }
 
@@ -204,7 +209,7 @@
 
 .rules-section-card-content em { color: #805333; font-style: italic; }
 
-/* Refined TTRPG Unordered Lists with gold star bullet */
+/* Refined TTRPG Unordered Lists — elegant serif dash marker */
 .rules-section-card-content ul {
   margin: 16px 0;
   padding-left: 0;
@@ -213,19 +218,20 @@
 }
 .rules-section-card-content li {
   position: relative;
-  padding-left: 24px;
-  margin: 10px 0;
+  padding-left: 20px;
+  margin: 8px 0;
   color: var(--rpg-ink);
   line-height: 1.65;
 }
 .rules-section-card-content li::before {
-  content: '\2726';
+  content: '\2014'; /* em-dash — clean, readable, period-appropriate */
   position: absolute;
-  left: 4px;
-  top: 1px;
+  left: 0;
+  top: 0;
   color: var(--rpg-dark-gold);
-  font-size: 0.75rem;
-  opacity: 0.85;
+  font-size: 1rem;
+  opacity: 0.7;
+  font-family: 'Crimson Text', serif;
 }
 
 /* Medieval Illuminated Drop Caps - first letter of section */
@@ -253,6 +259,9 @@
   position: relative;
   box-shadow: 0 2px 8px rgba(100, 70, 40, 0.15);
   break-inside: avoid;
+  display: inline-block; /* Forces blockquote to not split across columns */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .rules-section-card-content blockquote::before {
@@ -274,7 +283,7 @@
   line-height: 1.6;
 }
 
-.rules-section-card-content blockquote p:first-child {
+.rules-section-card-content blockquote p.rules-standalone-header {
   font-family: 'Cinzel', serif;
   font-size: 1.05rem;
   font-weight: 700;
@@ -284,11 +293,25 @@
   margin-bottom: 12px;
 }
 
-.rules-section-card-content blockquote p:first-child::first-letter {
+.rules-section-card-content blockquote p.rules-standalone-header > strong {
+  display: inline !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+  text-transform: inherit !important;
+  letter-spacing: inherit !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin: 0 !important;
+}
+
+.rules-section-card-content blockquote p.rules-standalone-header::first-letter {
   display: none;
 }
 
-/* Style bullet points in blockquote (\u2022 character) */
+/* Commented out to prevent unwanted bullet dots on normal paragraphs in blockquotes */
+/*
 .rules-section-card-content blockquote p:not(:first-child) {
   position: relative;
   padding-left: 18px;
@@ -305,6 +328,7 @@
   background: var(--rpg-dark-gold);
   border-radius: 50%;
 }
+*/
 
 .rules-section-card-content blockquote p strong {
   color: var(--rules-theme-narrative);
@@ -312,8 +336,8 @@
 }
 
 /* ===== TTRPG SECTION HEADERS ===== */
-/* Only style strong when it's the only content in a paragraph (standalone header) */
-.rules-section-card-content p > strong:only-child {
+/* Only style strong when it's part of a designated standalone header paragraph (direct child of section card content) */
+.rules-section-card-content > p.rules-standalone-header > strong {
   display: block;
   font-family: 'Cinzel', serif;
   font-size: 1.15rem;
@@ -327,7 +351,7 @@
   break-after: avoid;
 }
 
-.rules-section-card-content p > strong:only-child:first-child {
+.rules-section-card-content > p.rules-standalone-header > strong:first-child {
   margin-top: 0;
 }
 
@@ -431,7 +455,7 @@
 .rules-collapsible-body strong { color: var(--section-theme-color, var(--rules-theme-mechanic)); font-weight: 700; }
 .rules-collapsible-body em { color: #805333; font-style: italic; }
 
-/* Refined TTRPG Unordered Lists with gold star bullet */
+/* Refined TTRPG Unordered Lists — elegant serif dash marker */
 .rules-collapsible-body ul {
   margin: 16px 0;
   padding-left: 0;
@@ -440,22 +464,23 @@
 }
 .rules-collapsible-body li {
   position: relative;
-  padding-left: 24px;
-  margin: 10px 0;
+  padding-left: 20px;
+  margin: 8px 0;
   color: var(--rpg-ink);
   line-height: 1.65;
 }
 .rules-collapsible-body li::before {
-  content: '\2726';
+  content: '\2014'; /* em-dash — clean, readable, period-appropriate */
   position: absolute;
-  left: 4px;
-  top: 1px;
+  left: 0;
+  top: 0;
   color: var(--rpg-dark-gold);
-  font-size: 0.75rem;
-  opacity: 0.85;
+  font-size: 1rem;
+  opacity: 0.7;
+  font-family: 'Crimson Text', serif;
 }
 .rules-collapsible-body li strong {
-  color: #4a150b; /* Deep rich mahogany ink for bullet headings instead of yellow/gold */
+  color: #4a150b; /* Deep rich mahogany ink for bullet headings */
   font-weight: 700;
   margin-right: 4px;
 }
@@ -961,52 +986,51 @@
   }
 
   /* Mobile section headers */
-  .rules-section-card-content p > strong:only-child {
+  .rules-section-card-content > p.rules-standalone-header > strong {
     font-size: 1.05rem;
     margin: 20px 0 10px 0;
   }
 }
 
-/* ===== WOW CLASSIC EPIC ITEM LINK VIBE ===== */
+/* ===== INTERNAL NAVIGATION LINKS — Parchment Amber ===== */
 .rules-link {
-  color: #a335ee !important; /* WoW Classic Epic Purple */
-  font-weight: 700;
+  color: #a07840 !important; /* Warm parchment amber — matches sourcebook aesthetic */
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   display: inline;
   position: relative;
   padding: 0 1px;
-  border-bottom: 1px dashed rgba(163, 53, 238, 0.25);
+  border-bottom: 1px dotted rgba(160, 120, 64, 0.45);
+  font-style: italic;
 }
 
 .rules-link::before {
-  content: '[';
-  font-weight: 700;
-  margin-right: 1px;
-  color: #a335ee;
-  transition: all 0.2s ease;
+  content: '';
 }
 
 .rules-link::after {
-  content: ']';
-  font-weight: 700;
-  margin-left: 1px;
-  color: #a335ee;
-  transition: all 0.2s ease;
+  content: '';
 }
 
 .rules-link:hover {
-  color: #b95dff !important; /* Lighter glowing epic purple */
-  text-shadow: 
-    0 0 8px rgba(163, 53, 238, 0.5),
-    0 0 15px rgba(163, 53, 238, 0.2);
-  border-bottom: 1px solid #b95dff;
+  color: #6d4021 !important; /* Deeper leather-brown on hover */
+  text-shadow: none;
+  border-bottom-color: rgba(109, 64, 33, 0.7);
+  border-bottom-style: solid;
 }
 
-.rules-link:hover::before,
-.rules-link:hover::after {
-  color: #b95dff;
-  text-shadow: 0 0 8px rgba(163, 53, 238, 0.5);
+/* Lore links inside rules content sections — ensure consistent amber tone */
+.rules-section-card-content .lore-link,
+.rules-collapsible-body .lore-link {
+  color: #9b7840 !important;
+  border-bottom-color: rgba(155, 120, 64, 0.4) !important;
+}
+
+.rules-section-card-content .lore-link:hover,
+.rules-collapsible-body .lore-link:hover {
+  color: #6d4021 !important;
+  border-bottom-color: rgba(109, 64, 33, 0.7) !important;
 }
 
 /* ===== MOBILE FIXES FOR RPG TABS BAR ===== */

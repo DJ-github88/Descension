@@ -80,7 +80,7 @@ const ExternalLivePreview = () => {
         // Use properly extracted damage types
         damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes :
           (state.damageTypes ||
-            (state.damageConfig?.elementType ? [state.damageConfig.elementType] : ['force'])),
+            (state.damageConfig?.elementType ? [state.damageConfig.elementType] : ['arcane'])),
         targetingConfig: fullTargetingConfig,
         tags: [
           ...(state.typeConfig?.tags || []),
@@ -101,7 +101,7 @@ const ExternalLivePreview = () => {
         restorationConfig: state.restorationConfig || null
       };
 
-      // Transform Prophecy Options to prophecyConfig (Doomsayer)
+      // Transform Prophecy Options to prophecyConfig (Harbinger)
       if (state.prophecyOptions) {
         const po = state.prophecyOptions;
         const parseRangeDice = (dice) => {
@@ -417,11 +417,11 @@ const ExternalLivePreview = () => {
           spellState.effectResolutions?.damage?.config?.formula ||
           '6d6',
         flat: spellState.damageConfig.flatBonus || 0,
-        type: spellState.damageConfig.elementType || spellState.typeConfig?.school || 'force'
+        type: spellState.damageConfig.elementType || spellState.typeConfig?.school || 'arcane'
       } : null,
 
       // Damage types - CRITICAL: Use the same logic as Step10Review
-      damageTypes: damageTypes.length > 0 ? damageTypes : ['force'],
+      damageTypes: damageTypes.length > 0 ? damageTypes : ['arcane'],
 
       // Damage config
       damageConfig: {
@@ -547,7 +547,7 @@ const ExternalLivePreview = () => {
       ].filter(Boolean),
       effectTypes: spellState.effectTypes || [],
 
-      // Prophecy configuration (Doomsayer) - same transformation as Step10Review
+      // Prophecy configuration (Harbinger) - same transformation as Step10Review
       prophecyConfig: spellState.prophecyOptions ? (() => {
         const po = spellState.prophecyOptions;
         const parseRangeDice = (dice) => {

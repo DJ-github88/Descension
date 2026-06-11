@@ -12,7 +12,7 @@ export const REAVER_PATH = {
     integrationNotes: {
         actionPointSystem: 'Reaver abilities focus on raw damage and berserker rage.',
         backgroundSynergy: 'Works well with Soldier or Outlander backgrounds.',
-        classCompatibility: 'Strong with Berserker, Dreadnaught, or Huntress classes.'
+        classCompatibility: 'Strong with Berserker, Dreadnaught, or Apex classes.'
     },
 
     roleplayingTips: [
@@ -85,7 +85,7 @@ export const REAVER_PATH = {
             spellType: 'REACTION',
             tags: ['reaction', 'damage', 'counter', 'melee'],
             effectTypes: ['damage'],
-            damageTypes: ['slashing'],
+            damageTypes: ['physical'],
 
             typeConfig: {
                 school: 'physical',
@@ -95,7 +95,7 @@ export const REAVER_PATH = {
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'slashing',
+                elementType: 'physical',
                 formula: '2d8 + strength',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -229,11 +229,11 @@ export const REAVER_PATH = {
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'aoe', 'physical'],
             effectTypes: ['damage'],
-            damageTypes: ['slashing'],
+            damageTypes: ['physical'],
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'slashing',
+                elementType: 'physical',
                 formula: '2d8 + STR',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -294,11 +294,11 @@ export const REAVER_PATH = {
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'finisher', 'physical'],
             effectTypes: ['damage'],
-            damageTypes: ['slashing'],
+            damageTypes: ['physical'],
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'slashing',
+                elementType: 'physical',
                 formula: '6d10 + STR',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -465,11 +465,11 @@ export const REAVER_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'physical', 'reckless', 'high risk'],
                     effectTypes: ['damage'],
-                    damageTypes: ['slashing'],
+                    damageTypes: ['physical'],
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'slashing',
+                        elementType: 'physical',
                         formula: '8d10 + STR',
                         resolution: 'DICE',
                         hasDotEffect: false,
@@ -543,11 +543,11 @@ export const REAVER_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'healing', 'lifesteal', 'blood'],
                     effectTypes: ['damage', 'healing'],
-                    damageTypes: ['slashing'],
+                    damageTypes: ['physical'],
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'slashing',
+                        elementType: 'physical',
                         formula: '3d8 + STR',
                         resolution: 'DICE',
                         hasDotEffect: false,

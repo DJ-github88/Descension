@@ -100,7 +100,7 @@ export const PROC_EFFECTS = {
     icon: 'spell_fire_fireball',
     examples: ['Ignite', 'Deep Wounds', 'Divine Smite', 'Sneak Attack'],
     configOptions: {
-      damageType: ['physical', 'fire', 'frost', 'arcane', 'nature', 'shadow', 'holy'],
+      damageType: ['physical', 'ember', 'rime', 'arcane', 'nature', 'blight', 'ember'],
       damageAmount: 'formula',
       damageScaling: ['flat', 'percentage', 'weapon_damage', 'spell_power']
     }
@@ -302,19 +302,19 @@ export function generateProcConfig(spellConfig) {
   // Damage spells often have damage procs
   if (effectTypes.includes('damage') && damageConfig) {
     // Elemental damage often has elemental procs
-    if (damageConfig.elementType === 'fire') {
+    if (damageConfig.elementType === 'ember') {
       procConfig.enabled = true;
       procConfig.triggers.push('critical_strike');
       procConfig.effects.push({
         type: 'damage_proc',
-        damageType: 'fire',
+        damageType: 'ember',
         damageAmount: '40% of spell damage',
         damageScaling: 'percentage',
         description: 'Your critical strikes with Fire spells cause the target to burn for additional Fire damage over 4 sec.'
       });
       procConfig.chanceType = 'guaranteed';
       procConfig.chanceValue = 100;
-    } else if (damageConfig.elementType === 'frost') {
+    } else if (damageConfig.elementType === 'rime') {
       procConfig.enabled = true;
       procConfig.triggers.push('on_hit');
       procConfig.effects.push({

@@ -413,12 +413,12 @@ export default function Lore() {
             );
         } else if (field.type === 'classSelect') {
             const classesList = [
-                "Pyrofiend", "Minstrel", "Chronarch", "Chaos Weaver", "Fate Weaver",
-                "Gambler", "Martyr", "False Prophet", "Exorcist", "Oracle",
-                "Plaguebringer", "Lichborne", "Deathcaller", "Spellguard", "Inscriptor",
-                "Arcanoneer", "Witch Doctor", "Formbender", "Primalist", "Berserker",
-                "Dreadnaught", "Titan", "Toxicologist", "Covenbane", "Bladedancer",
-                "Lunarch", "Huntress", "Warden", "Augur", "Doomsayer"
+                "Pyrofiend", "Minstrel", "Chronarch", "Harbinger", "Gambit",
+                "Martyr", "False Prophet", "Augur",
+                "Plaguebringer", "Revenant", "Spellguard", "Animist",
+                "Arcanoneer", "Shaper", "Berserker",
+                "Toxicologist", "Inquisitor",
+                "Lunarch", "Apex", "Warden"
             ];
             return (
                 <div key={field.key} className="lore-field">

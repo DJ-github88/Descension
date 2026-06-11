@@ -2857,7 +2857,7 @@ const StatusEffectConfigPopup = ({
               <div className="effect-config-option">
                 <label>Damage Type</label>
                 <select
-                  value={statusEffectData?.thornsDamageType || 'piercing'}
+                  value={statusEffectData?.thornsDamageType || 'physical'}
                   onChange={(e) => updateEffectConfig('thornsDamageType', e.target.value)}
                 >
                   <option value="piercing">Piercing</option>
@@ -4284,7 +4284,7 @@ const StatusEffectConfigPopup = ({
       return renderBurningConfig();
     } else if (effect.id === 'frightened' || effect.id === 'fear') {
       return renderFearConfig();
-    } else if (effect.id === 'poisoned' || effect.id === 'poison') {
+    } else if (effect.id === 'poisoned' || effect.id === 'blight') {
       return renderPoisonConfig();
     } else if (effect.id === 'blinded' || effect.id === 'blind') {
       return renderBlindConfig();

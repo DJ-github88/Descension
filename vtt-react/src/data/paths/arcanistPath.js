@@ -175,7 +175,7 @@ export const ARCANIST_PATH = {
             spellType: 'ACTION',
             tags: ['action', 'damage', 'elemental', 'blast', 'aoe'],
             effectTypes: ['damage'],
-            damageTypes: ['fire'],
+            damageTypes: ['ember'],
 
             typeConfig: {
                 school: 'fire',
@@ -252,7 +252,7 @@ export const ARCANIST_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'elemental', 'blast', 'aoe'],
                     effectTypes: ['damage'],
-                    damageTypes: ['fire', 'frost', 'lightning'],
+                    damageTypes: ['ember', 'rime', 'storm'],
 
                     typeConfig: {
                         school: 'fire',

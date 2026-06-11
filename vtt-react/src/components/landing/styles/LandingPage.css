@@ -18,6 +18,24 @@ body.landing-mode *::after {
 }
 
 /* Ensure landing page elements maintain their intended styling */
+.landing-page.immersing .landing-header {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.landing-page.immersing .hero-content,
+.landing-page.immersing .action-buttons,
+.landing-page.immersing .mobile-hamburger {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.landing-page.immersing.map-background {
+  animation-play-state: paused !important;
+}
+
 body.landing-mode .landing-page,
 body.landing-mode .landing-header,
 body.landing-mode .header-content,
@@ -199,7 +217,8 @@ body svg[data-icon] {
   position: sticky;
   top: 0;
   z-index: 1000;
-  transition: all 0.3s ease;
+  transform: translateY(0);
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease, background 0.3s ease;
 }
 
 .header-content {
@@ -594,7 +613,8 @@ body svg[data-icon] {
 }
 
 .primary-action-btn,
-.secondary-action-btn {
+.secondary-action-btn,
+.immersive-action-btn {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -608,7 +628,8 @@ body svg[data-icon] {
 }
 
 .primary-action-btn i,
-.secondary-action-btn i {
+.secondary-action-btn i,
+.immersive-action-btn i {
   font-size: 1.5rem;
   flex-shrink: 0;
 }
@@ -1561,7 +1582,8 @@ body svg[data-icon] {
   }
 
   .primary-action-btn,
-  .secondary-action-btn {
+  .secondary-action-btn,
+  .immersive-action-btn {
     min-width: 250px;
   }
 
@@ -1783,4 +1805,28 @@ body svg[data-icon] {
   .header-actions {
     display: none !important;
   }
+}
+
+.immersive-action-btn {
+  background: linear-gradient(135deg, #1b3a60, #0f223c); /* Solid deep royal blue gradient */
+  border-color: #8b4513; /* rustic brown border matching Sandbox */
+  color: #ffe082; /* gold text color matching Pathfinder style */
+  box-shadow: 0 4px 15px rgba(27, 58, 96, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.immersive-action-btn:hover {
+  background: linear-gradient(135deg, #254d7d, #143054); /* Solid hover blue */
+  border-color: #d4af37; /* Gold border hover matching primary-action-btn */
+  color: #ffe082;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(27, 58, 96, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.immersive-action-btn .btn-subtitle {
+  color: rgba(240, 230, 210, 0.8);
+}
+
+.immersive-action-btn:hover .btn-subtitle {
+  color: rgba(212, 175, 55, 0.9);
 }

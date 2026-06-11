@@ -40,84 +40,52 @@ const CONDITION_ICONS = {
     unconscious: getCustomIconUrl('Utility/Sleep', 'abilities')
 };
 
-// Damage types for resistances and spell power (alphabetically ordered)
+// Damage types for resistances and spell power
 const DAMAGE_TYPES = {
-    // Magical damage types (alphabetical)
+    physical: {
+        name: 'Physical',
+        icon: getCustomIconUrl('Bludgeoning/Hammer Crush', 'abilities'),
+        color: '#6B4226'
+    },
+    ember: {
+        name: 'Ember',
+        icon: getCustomIconUrl('Fire/Volcanic Corruption', 'abilities'),
+        color: '#D4380D'
+    },
+    rime: {
+        name: 'Rime',
+        icon: getCustomIconUrl('Frost/Frostbite Variant 2', 'abilities'),
+        color: '#2C5F7C'
+    },
+    storm: {
+        name: 'Storm',
+        icon: getCustomIconUrl('Lightning/Thunderstorm', 'abilities'),
+        color: '#8B7328'
+    },
     arcane: {
         name: 'Arcane',
-        icon: getCustomIconUrl('Arcane/Orb Manipulation', 'abilities'),
-        color: '#9370DB'
+        icon: getCustomIconUrl('Arcane/Ebon Blaze', 'abilities'),
+        color: '#5B3A8C'
     },
-    chaos: {
-        name: 'Chaos',
-        icon: getCustomIconUrl('Chaos/Chaotic Shuffle', 'abilities'),
-        color: '#ec4899'
+    primal: {
+        name: 'Primal',
+        icon: getCustomIconUrl('Nature/Nature Natural 11', 'abilities'),
+        color: '#2D5A1E'
     },
-    fire: {
-        name: 'Fire',
-        icon: getCustomIconUrl('Fire/Flame Burst', 'abilities'),
-        color: '#FF4500'
+    blight: {
+        name: 'Blight',
+        icon: getCustomIconUrl('Necrotic/Necrotic Wither', 'abilities'),
+        color: '#3D1F4E'
     },
-    force: {
-        name: 'Force',
-        icon: getCustomIconUrl('Force/Force Touch', 'abilities'),
-        color: '#9370DB'
+    wyrd: {
+        name: 'Wyrd',
+        icon: getCustomIconUrl('Psychic/Psychic Telepathy', 'abilities'),
+        color: '#7A2040'
     },
-    frost: {
-        name: 'Frost',
-        icon: getCustomIconUrl('Frost/Dripping Ice', 'abilities'),
-        color: '#87CEEB'
-    },
-    lightning: {
-        name: 'Lightning',
-        icon: getCustomIconUrl('Lightning/Lightning Bolt', 'abilities'),
-        color: '#b8860b'
-    },
-    nature: {
-        name: 'Nature',
-        icon: getCustomIconUrl('Nature/Nature Natural', 'abilities'),
-        color: '#228B22'
-    },
-    necrotic: {
-        name: 'Necrotic',
-        icon: getCustomIconUrl('Necrotic/Necrotic Skull', 'abilities'),
-        color: '#8B008B'
-    },
-    poison: {
-        name: 'Poison',
-        icon: getCustomIconUrl('Poison/Poison Venom', 'abilities'),
-        color: '#228B22'
-    },
-    psychic: {
-        name: 'Psychic',
-        icon: getCustomIconUrl('Psychic/Brain Psionics', 'abilities'),
-        color: '#FF1493'
-    },
-    radiant: {
-        name: 'Radiant',
-        icon: getCustomIconUrl('Radiant/Radiant Sunburst', 'abilities'),
-        color: '#b8860b'
-    },
-    void: {
-        name: 'Void',
-        icon: getCustomIconUrl('Void/Black Hole', 'abilities'),
-        color: '#1a1a2e'
-    },
-    // Physical damage types (alphabetical)
-    bludgeoning: {
-        name: 'Bludgeoning',
-        icon: getCustomIconUrl('Bludgeoning/Hammer', 'abilities'),
-        color: '#8B4513'
-    },
-    piercing: {
-        name: 'Piercing',
-        icon: getCustomIconUrl('Piercing/Scatter Shot', 'abilities'),
-        color: '#708090'
-    },
-    slashing: {
-        name: 'Slashing',
-        icon: getCustomIconUrl('Slashing/Bloody Meat Cleaver', 'abilities'),
-        color: '#B22222'
+    healing: {
+        name: 'Healing',
+        icon: getCustomIconUrl('Healing/Golden Heart', 'abilities'),
+        color: '#2E8B57'
     }
 };
 
@@ -437,7 +405,7 @@ export default function CharacterStats() {
         }
 
         // Initialize spell power types if they don't exist (needed for buff effects)
-        const spellDamageTypes = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'acid', 'force', 'thunder', 'chaos', 'necrotic', 'radiant'];
+        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
         spellDamageTypes.forEach(type => {
             const spellPowerKey = `${type}SpellPower`;
             if (!totalStats.hasOwnProperty(spellPowerKey)) {

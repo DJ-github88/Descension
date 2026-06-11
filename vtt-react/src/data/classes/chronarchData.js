@@ -25,7 +25,7 @@ export const CHRONARCH_DATA = {
   name: "Chronarch",
   icon: "fas fa-clock",
   role: "Control",
-  damageTypes: ["force", "arcane"],
+  damageTypes: ["storm", "arcane"],
 
   classIdentity: {
     title: "The Accidental Anchor",
@@ -391,7 +391,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Arcane/Missile",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Arcane/Missile",
         tags: ["ranged", "damage", "slow", "stasis"],
         castTime: 1,
@@ -419,8 +419,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       effectTypes: ["damage", "debuff"],
       damageConfig: {
         formula: "1d8 + intelligence",
-        elementType: "force",
-        damageTypes: ["force"],
+        elementType: "storm",
+        damageTypes: ["storm"],
         canCrit: true,
         critMultiplier: 2,
         resolution: "DICE"
@@ -564,7 +564,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
             mechanicsText: "Gain 50% vulnerability to Void and Necrotic damage.",
             statusEffect: {
               type: "vulnerability",
-              vulnerabilityTypes: ["void", "necrotic"],
+              vulnerabilityTypes: ["blight", "blight"],
               percentage: 50
             }
           },
@@ -595,7 +595,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       icon: "Arcane/Spiral Vortex",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Arcane/Spiral Vortex",
         tags: ["passive", "backlash", "anomaly"],
         castTime: 0,
@@ -899,7 +899,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Force/Force Shield",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Shield",
         tags: ["stasis", "shield", "support"],
         castTime: 1,
@@ -1033,7 +1033,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Force/Force Wave",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Wave",
         tags: ["stasis", "damage", "aoe", "pull"],
         castTime: 1,
@@ -1063,8 +1063,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       effectTypes: ["damage", "debuff"],
       damageConfig: {
         formula: "3d6 + intelligence",
-        elementType: "force",
-        damageTypes: ["force"],
+        elementType: "storm",
+        damageTypes: ["storm"],
         canCrit: true,
         critMultiplier: 2,
         savingThrow: {
@@ -1259,7 +1259,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Force/Force Shield",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Shield",
         tags: ["stasis", "protection", "support", "debuff"],
         castTime: 1,
@@ -1441,7 +1441,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Force/Energy Blast 1",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Energy Blast 1",
         tags: ["stasis", "damage", "debuff"],
         castTime: 1,
@@ -1469,8 +1469,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       effectTypes: ["damage", "debuff"],
       damageConfig: {
         formula: "4d8 + intelligence",
-        elementType: "force",
-        damageTypes: ["force"],
+        elementType: "storm",
+        damageTypes: ["storm"],
         canCrit: true,
         critMultiplier: 2,
         resolution: "DICE"
@@ -1623,7 +1623,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Force/Force Wave",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Wave",
         tags: ["flux", "damage", "aoe", "stasis"],
         castTime: 1,
@@ -1654,8 +1654,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       effectTypes: ["damage", "debuff"],
       damageConfig: {
         formula: "6d6 + intelligence",
-        elementType: "force",
-        damageTypes: ["force"],
+        elementType: "storm",
+        damageTypes: ["storm"],
         canCrit: true,
         critMultiplier: 2,
         savingThrow: {
@@ -1751,7 +1751,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Force/Force Field",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Field",
         tags: ["flux", "control", "aoe", "displacement"],
         castTime: 1,
@@ -1995,7 +1995,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Force/Force Wave",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Wave",
         tags: ["flux", "damage", "aoe", "stasis"],
         castTime: 2,
@@ -2025,8 +2025,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       effectTypes: ["damage", "debuff"],
       damageConfig: {
         formula: "8d10 + intelligence",
-        elementType: "force",
-        damageTypes: ["force"],
+        elementType: "storm",
+        damageTypes: ["storm"],
         canCrit: true,
         critMultiplier: 2,
         savingThrow: {
@@ -2071,9 +2071,9 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Arcane/Spiral Vortex",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Arcane/Spiral Vortex",
-        tags: ["flux", "damage", "aoe", "void"],
+        tags: ["flux", "damage", "aoe", "blight"],
         castTime: 2,
         castTimeType: "IMMEDIATE"
       },
@@ -2103,8 +2103,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       effectTypes: ["damage"],
       damageConfig: {
         formula: "6d12",
-        elementType: "force",
-        damageTypes: ["force"],
+        elementType: "storm",
+        damageTypes: ["storm"],
         canCrit: true,
         critMultiplier: 2,
         resolution: "DICE"
@@ -2115,7 +2115,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
         duration: "long_rest",
         description: "Lose 3 max HP until next Long Rest as the temporal strain impacts your cells."
       },
-      tags: ["flux", "damage", "aoe", "void", "chronarch"]
+      tags: ["flux", "damage", "aoe", "blight", "chronarch"]
     },
 
     { id: "chronal_paradox",
@@ -2287,7 +2287,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       spellType: "ACTION",
       icon: "Force/Force Wave",
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Wave",
         tags: ["flux", "damage", "control", "aoe", "stasis"],
         castTime: 2,
@@ -2317,8 +2317,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       effectTypes: ["damage", "debuff"],
       damageConfig: {
         formula: "10d10 + intelligence",
-        elementType: "force",
-        damageTypes: ["force"],
+        elementType: "storm",
+        damageTypes: ["storm"],
         canCrit: true,
         critMultiplier: 2,
         resolution: "DICE"

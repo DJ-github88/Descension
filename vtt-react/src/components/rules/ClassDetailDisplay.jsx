@@ -23,7 +23,7 @@ const buildDemoClassResource = (className) => {
 
   const m = cfg.mechanics;
 
-  // Bladedancer: momentum + flourish + stance
+  // Shaper: momentum + flourish + stance
   if (cfg.type === 'dual-resource' && m.momentum && m.flourish) {
     return {
       current: 8,
@@ -67,13 +67,13 @@ const buildDemoClassResource = (className) => {
     };
   }
 
-  // Inscriptor: runes + inscriptions
-  if (m.runes && m.inscriptions) {
+  // Animist: ancestral resonance
+  if (m.resonance && m.spirits) {
     return {
-      current: 3,
-      max: m.runes.max || 8,
-      current2: 1,
-      max2: m.inscriptions.max || 3,
+      current: 1,
+      max: m.resonance.max || 20,
+      current2: 0,
+      max2: 0,
       spheres: []
     };
   }
@@ -119,7 +119,7 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(22, 160, 133, 0.15)',
     icon: 'fas fa-tree'
   },
-  deathcaller: {
+  revenant: {
     regionId: 'bryngloom-forest',
     regionName: 'Bryngloom Forest',
     accentColor: '#16a085',
@@ -128,23 +128,14 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(22, 160, 133, 0.15)',
     icon: 'fas fa-ghost'
   },
-  covenbane: {
+  inquisitor: {
     regionId: 'bryngloom-forest',
     regionName: 'Bryngloom Forest',
     accentColor: '#16a085',
     bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
     borderColor: '#16a085',
     glowColor: 'rgba(22, 160, 133, 0.15)',
-    icon: 'fas fa-crosshairs'
-  },
-  witch_doctor: {
-    regionId: 'bryngloom-forest',
-    regionName: 'Bryngloom Forest',
-    accentColor: '#16a085',
-    bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
-    borderColor: '#16a085',
-    glowColor: 'rgba(22, 160, 133, 0.15)',
-    icon: 'fas fa-mortar-pestle'
+    icon: 'fas fa-gavel'
   },
   plaguebringer: {
     regionId: 'bryngloom-forest',
@@ -155,15 +146,16 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(22, 160, 133, 0.15)',
     icon: 'fas fa-vial'
   },
-  lichborne: {
-    regionId: 'bryngloom-forest',
-    regionName: 'Bryngloom Forest',
-    accentColor: '#16a085',
-    bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
-    borderColor: '#16a085',
-    glowColor: 'rgba(22, 160, 133, 0.15)',
-    icon: 'fas fa-skull'
-  },
+  // REMOVED: lichborne merged into Revenant as Phase 1.10 consolidation
+  // lichborne: {
+  //   regionId: 'bryngloom-forest',
+  //   regionName: 'Bryngloom Forest',
+  //   accentColor: '#16a085',
+  //   bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
+  //   borderColor: '#16a085',
+  //   glowColor: 'rgba(22, 160, 133, 0.15)',
+  //   icon: 'fas fa-skull'
+  // },
   pyrofiend: {
     regionId: 'sundale',
     regionName: 'Sundale Badlands',
@@ -182,15 +174,7 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(211, 84, 0, 0.15)',
     icon: 'fas fa-gavel'
   },
-  titan: {
-    regionId: 'sundale',
-    regionName: 'Sundale Badlands',
-    accentColor: '#d35400',
-    bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
-    borderColor: '#d35400',
-    glowColor: 'rgba(211, 84, 0, 0.15)',
-    icon: 'fas fa-mountain'
-  },
+  // 'titan' removed (absorbed into Warden as Monolith specialization)
   spellguard: {
     regionId: 'sundale',
     regionName: 'Sundale Badlands',
@@ -218,23 +202,15 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(41, 128, 185, 0.15)',
     icon: 'fas fa-eye'
   },
-  doomsayer: {
-    regionId: 'nordhalla',
-    regionName: 'Nordhalla Tundra',
-    accentColor: '#2980b9',
-    bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
-    borderColor: '#2980b9',
-    glowColor: 'rgba(41, 128, 185, 0.15)',
-    icon: 'fas fa-hourglass-end'
-  },
-  inscriptor: {
-    regionId: 'nordhalla',
-    regionName: 'Nordhalla Tundra',
-    accentColor: '#2980b9',
-    bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
-    borderColor: '#2980b9',
-    glowColor: 'rgba(41, 128, 185, 0.15)',
-    icon: 'fas fa-pen-fancy'
+
+  animist: {
+    regionId: 'bryngloom-forest',
+    regionName: 'Bryngloom Forest',
+    accentColor: '#2e8b57',
+    bgGradient: 'linear-gradient(135deg, rgba(46, 139, 87, 0.06) 0%, rgba(80, 200, 120, 0.02) 100%)',
+    borderColor: '#2e8b57',
+    glowColor: 'rgba(46, 139, 87, 0.15)',
+    icon: 'fas fa-wind'
   },
   warden: {
     regionId: 'nordhalla',
@@ -245,7 +221,7 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(41, 128, 185, 0.15)',
     icon: 'fas fa-compass'
   },
-  huntress: {
+  apex: {
     regionId: 'frostwood-reach',
     regionName: 'Frostwood Reach',
     accentColor: '#27ae60', // ancient pine
@@ -254,14 +230,14 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(39, 174, 96, 0.15)',
     icon: 'fas fa-leaf'
   },
-  bladedancer: {
+  shaper: {
     regionId: 'frostwood-reach',
     regionName: 'Frostwood Reach',
     accentColor: '#27ae60',
     bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
     borderColor: '#27ae60',
     glowColor: 'rgba(39, 174, 96, 0.15)',
-    icon: 'fas fa-wind'
+    icon: 'fas fa-yin-yang'
   },
   lunarch: {
     regionId: 'frostwood-reach',
@@ -272,14 +248,11 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(39, 174, 96, 0.15)',
     icon: 'fas fa-moon'
   },
-  exorcist: {
-    regionId: 'frostwood-reach',
-    regionName: 'Frostwood Reach',
-    accentColor: '#27ae60',
-    bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
-    borderColor: '#27ae60',
-    glowColor: 'rgba(39, 174, 96, 0.15)',
-    icon: 'fas fa-bell'
+  inquisitor: {
+    primaryColor: '#8B0000',
+    secondaryColor: '#4F2F2F',
+    gradientFrom: '#2F0F0F',
+    gradientTo: '#0F0F2F',
   },
   toxicologist: {
     regionId: 'frostwood-reach',
@@ -290,24 +263,10 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(39, 174, 96, 0.15)',
     icon: 'fas fa-skull-crossbones'
   },
-  formbender: {
-    regionId: 'cragjaw-peaks',
-    regionName: 'Cragjaw Peaks',
-    accentColor: '#8e44ad', // slate purple
-    bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
-    borderColor: '#8e44ad',
-    glowColor: 'rgba(142, 68, 173, 0.15)',
-    icon: 'fas fa-hammer'
-  },
-  dreadnaught: {
-    regionId: 'cragjaw-peaks',
-    regionName: 'Cragjaw Peaks',
-    accentColor: '#8e44ad',
-    bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
-    borderColor: '#8e44ad',
-    glowColor: 'rgba(142, 68, 173, 0.15)',
-    icon: 'fas fa-shield-alt'
-  },
+
+  // 'formbender' removed (consolidated into Shaper)
+
+  // 'dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
   fate_weaver: {
     regionId: 'cragjaw-peaks',
     regionName: 'Cragjaw Peaks',
@@ -344,32 +303,15 @@ const CLASS_REGIONS = {
     glowColor: 'rgba(44, 62, 80, 0.15)',
     icon: 'fas fa-music'
   },
-  oracle: {
-    regionId: 'sundrift-vale',
-    regionName: 'Sundrift Vale',
-    accentColor: '#6c5ce7', // twilight purple
-    bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
-    borderColor: '#6c5ce7',
-    glowColor: 'rgba(108, 92, 231, 0.15)',
-    icon: 'fas fa-star'
-  },
-  primalist: {
+  // oracle config removed (absorbed into Augur)
+  harbinger: {
     regionId: 'sundrift-vale',
     regionName: 'Sundrift Vale',
     accentColor: '#6c5ce7',
     bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
     borderColor: '#6c5ce7',
     glowColor: 'rgba(108, 92, 231, 0.15)',
-    icon: 'fas fa-paw'
-  },
-  chaos_weaver: {
-    regionId: 'sundrift-vale',
-    regionName: 'Sundrift Vale',
-    accentColor: '#6c5ce7',
-    bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
-    borderColor: '#6c5ce7',
-    glowColor: 'rgba(108, 92, 231, 0.15)',
-    icon: 'fas fa-atom'
+    icon: 'fas fa-hourglass-half'
   },
   false_prophet: {
     regionId: 'sundrift-vale',
@@ -1383,22 +1325,21 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       arcanoneer: { url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Neth Vault Keeper Arcanoneer.' },
       berserker: { url: '/assets/images/classes/berserker_illustration.png', caption: 'A Mimir Face Thief Berserker.' },
       false_prophet: { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Vreken Starved False Prophet.' },
-      bladedancer: { url: '/assets/images/classes/bladedancer_illustration.png', caption: 'An Emberth Ash-Born Bladedancer wielding dual curved swords trailing kinetic sparks.' },
-      dreadnaught: { url: '/assets/images/classes/dreadnaught_illustration.png', caption: 'A Groven Dreadnaught stone-troll sentinel with a massive stone shield.' },
-      deathcaller: { url: '/assets/images/classes/deathcaller_illustration.png', caption: 'A Briaran Deathcaller commanding the natural cycle of decay with delicate leaves in their hair.' },
-      lichborne: { url: '/assets/images/classes/lichborne_illustration.png', caption: 'A Fexrick Lichborne deep-gnome tinkerer with alchemical clockwork grafts.' },
-      inscriptor: { url: '/assets/images/classes/inscriptor_illustration.png', caption: 'A Mask-Borne Mimir Inscriptor sitting stationary and carving a bleeding rune into the stone.' },
-      primalist: { url: '/assets/images/classes/primalist_illustration.png', caption: 'A Groven Primalist, a stone-troll channeling blue crackling lightning.' },
+      shaper: { url: '/assets/images/classes/shaper_illustration.png', caption: 'A Shaper wielding dual curved swords, bone-frame erupting with kinetic and nature energy.' },
+      // 'dreadnaught' illustration removed (absorbed into Martyr as Ironclad specialization)
+      revenant: { url: '/assets/images/classes/revenant_illustration.png', caption: 'A Vreken Revenant standing at the edge of the Bryngloom peat-bogs, blood-frost crackling between their fingers.' },
+      // REMOVED: lichborne illustration merged into Revenant as Phase 1.10 consolidation
+      // lichborne: { url: '/assets/images/classes/lichborne_illustration.png', caption: 'A Fexrick Lichborne deep-gnome tinkerer with alchemical clockwork grafts.' },
+      animist: { url: '/assets/images/classes/animist_illustration.png', caption: 'A Bryngloom Animist channeling ancestral spirits through ritual totems in the mist.' },
       pyrofiend: { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'An Emberth Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning demon embers.' },
-      titan: { url: '/assets/images/classes/titan_illustration.png', caption: 'A Groven Titan, a slender stone-troll with rough slate plates fused to their joints.' },
-      oracle: { url: '/assets/images/classes/oracle_illustration.png', caption: 'An Astril Oracle, a starlight-aligned cosmic conduit of starry revelations.' },
+      // titan entry removed (absorbed into Warden as Monolith specialization)
+      // oracle entry removed (absorbed into Augur)
       martyr: { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Vreken Martyr flagellant in tattered rags radiating divine light.' },
       toxicologist: { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mimir Toxicologist, a mysterious alchemist wearing a flat reflective silver mask and a tattered bark-hide cloak.' },
       plaguebringer: { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'An Unwoven Mimir Plaguebringer holding a bubbling vial of toxic green corruption.' },
-      witchdoctor: { url: '/assets/images/classes/witchdoctor_illustration.png', caption: 'A Briaran Witch Doctor mixing marrow-blood in a cracked bone flask.' },
       minstrel: { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A Myrathil Minstrel channeling living melody with a delicate lute.' },
-      covenbane: { url: '/assets/images/classes/covenbane_illustration.png', caption: 'An Emberth Covenbane in dark steel plate wielding a hex-cleaving battleaxe.' },
-      huntress: { url: '/assets/images/classes/huntress_illustration.png', caption: 'A Mist-Woven Mimir Huntress pulling back a recurve bow with thorny arrows.' },
+      inquisitor: { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Vreken Inquisitor wreathed in cold iron chains and spectral demon-fire, standing over a broken summoning circle.' },
+      apex: { url: '/assets/images/classes/apex_illustration.png', caption: 'A Mist-Woven Mimir Apex pulling back a recurve bow with thorny arrows.' },
       warden: { url: '/assets/images/classes/warden_illustration.png', caption: 'A Briaran Warden forest scout tracing boundary paths with a brass compass.' },
       gambler: { url: '/assets/images/classes/gambler_illustration.png', caption: 'A Neth Gambler dancing on the scales of blind fortune, flipping a glowing coin.' },
       chronarch: { url: '/assets/images/classes/chronarch_illustration.png', caption: 'An Astril Chronarch using starlight sand to stabilize a bleeding timeline.' },
@@ -1407,8 +1348,9 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       doomsayer: { url: '/assets/images/classes/doomsayer_illustration.png', caption: 'A Skald Doomsayer clutching an ancient, decaying scroll shouting warnings of decay.' },
       fate_weaver: { url: '/assets/images/classes/fate_weaver_illustration.png', caption: 'An Astril Fate Weaver spinning starlight destiny from golden threads.' },
       chaos_weaver: { url: '/assets/images/classes/chaos_weaver_illustration.png', caption: 'A Vreken Chaos Weaver casting erratic fragmented purple void circles.' },
-      formbender: { url: '/assets/images/classes/formbender_illustration.png', caption: 'A Briaran Formbender shapeshifting with erupting wooden bone frames.' },
-      exorcist: { url: '/assets/images/classes/exorcist_illustration.png', caption: 'A Vreken Exorcist zealot warding off shadows with bronze bells and sigils.' },
+      // 'formbender' illustration removed (consolidated into Shaper)
+
+
       lunarch: { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Mask-Borne Mimir Lunarch, a vessel of the lunar parasite with cold starlight veins.' }
     };
 
@@ -2216,8 +2158,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
         {resourceSystem.toxinVialRecipesTable && renderResourceTable(resourceSystem.toxinVialRecipesTable, 'toxinVialRecipesTable')}
         {resourceSystem.contraptionTypesTable && renderResourceTable(resourceSystem.contraptionTypesTable, 'contraptionTypesTable')}
         {resourceSystem.poisonWeaponEffectsTable && renderResourceTable(resourceSystem.poisonWeaponEffectsTable, 'poisonWeaponEffectsTable')}
-        {resourceSystem.hexbreakerChargesTable && renderResourceTable(resourceSystem.hexbreakerChargesTable, 'hexbreakerChargesTable')}
-        {resourceSystem.hexbreakerAbilitiesTable && renderResourceTable(resourceSystem.hexbreakerAbilitiesTable, 'hexbreakerAbilitiesTable')}
+
         {resourceSystem.detectionTrackingTable && renderResourceTable(resourceSystem.detectionTrackingTable, 'detectionTrackingTable')}
         {resourceSystem.manaCostTable && renderResourceTable(resourceSystem.manaCostTable, 'manaCostTable')}
 
@@ -2504,33 +2445,32 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     const classIcons = {
       'pyrofiend': 'fas fa-fire',
       'minstrel': 'fas fa-music',
-      'gambler': 'fas fa-dice',
+      'gambit': 'fas fa-dice',
       'chaos-weaver': 'fas fa-dice',
       'martyr': 'fas fa-heart',
       'chronarch': 'fas fa-clock',
       'fate-weaver': 'fas fa-cards',
-      'lichborne': 'fas fa-snowflake',
-      'inscriptor': 'fas fa-scroll',
-      'covenbane': 'fas fa-cross',
+      // REMOVED: lichborne icon merged into Revenant as Phase 1.10 consolidation
+      // 'lichborne': 'fas fa-snowflake',
+      'animist': 'fas fa-wind',
+      'inquisitor': 'fas fa-gavel',
       'arcanoneer': 'fas fa-atom',
-      'witch-doctor': 'fas fa-skull',
-      'deathcaller': 'fas fa-skull',
+      'revenant': 'fas fa-skull-crossbones',
       'spellguard': 'fas fa-shield-alt',
-      'exorcist': 'fas fa-cross',
+
       'false-prophet': 'fas fa-eye',
       'false_prophet': 'fas fa-eye',
       'plaguebringer': 'fas fa-biohazard',
-      'formbender': 'fas fa-paw',
-      'primalist': 'fas fa-mountain',
+      'shaper': 'fas fa-yin-yang',
       'berserker': 'fas fa-axe-battle',
-      'bladedancer': 'fas fa-wind',
-      'dreadnaught': 'fas fa-shield',
-      'titan': 'fas fa-sun',
+      // 'bladedancer' removed (consolidated into Shaper)
+      // 'dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+      // 'titan' removed (absorbed into Warden as Monolith specialization)
       'toxicologist': 'fas fa-flask',
       'lunarch': 'fas fa-moon',
-      'huntress': 'fas fa-crosshairs',
+      'apex': 'fas fa-crosshairs',
       'warden': 'fas fa-gavel',
-      'oracle': 'fas fa-eye'
+      'augur': 'fas fa-skull-crossbones'
     };
     
     let categoryIcon = classIcons[classData.id] || 'fas fa-magic';

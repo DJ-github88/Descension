@@ -143,10 +143,10 @@ const getSubraceImage = (subraceId, raceId) => {
         maskborne_mimir: 'maskborne_illustration.png',
         mistwoven_mimir: 'mistwoven_illustration.png',
         unwoven_mimir: 'unwoven_illustration.png',
-        // Morthel
-        velun_morthel: 'velun_illustration.png',
-        kessen_morthel: 'kessen_illustration.png',
-        drun_morthel: 'drun_illustration.png',
+        // Neth
+        velun_neth: 'velun_illustration.png',
+        kessen_neth: 'kessen_illustration.png',
+        drun_neth: 'drun_illustration.png',
         // Astril
         sylen_astril: 'sylen_illustration.png',
         muren_astril: 'muren_illustration.png',

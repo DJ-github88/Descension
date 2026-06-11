@@ -89,17 +89,13 @@ const CompactCreatureCard = ({ creature }) => {
         </div>
       </div>
 
-      {/* Main stats (HP, Armor, Initiative) */}
+      {/* Main stats (HP, Initiative) */}
       <div className="compact-creature-main-stats">
         <div className="compact-main-stat">
           <div className="compact-main-stat-value">
             {creature.stats?.currentHp || creature.stats?.maxHp || 0}/{creature.stats?.maxHp || 0}
           </div>
           <div className="compact-main-stat-label">HP</div>
-        </div>
-        <div className="compact-main-stat">
-          <div className="compact-main-stat-value">{creature.stats?.armor || 10}</div>
-          <div className="compact-main-stat-label">Armor</div>
         </div>
         <div className="compact-main-stat">
           <div className="compact-main-stat-value">{formatModifier(creature.stats?.initiative || 0)}</div>

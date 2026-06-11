@@ -1,23 +1,17 @@
-import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
+﻿import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
 import TooltipPortal from '../tooltips/TooltipPortal';
-import DemonConfigModal from './DemonConfigModal';
 import useChatStore from '../../store/chatStore';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import ResourceCanvasBar from './canvas/ResourceCanvasBar';
 import PlaguebringerResourceBar from '../../data/classes/plaguebringer/components/PlaguebringerResourceBar';
-import PrimalistResourceBar from '../../data/classes/primalist/components/PrimalistResourceBar';
 import PyrofiendResourceBar from '../../data/classes/pyrofiend/components/PyrofiendResourceBar';
 import SpellguardResourceBar from '../../data/classes/spellguard/components/SpellguardResourceBar';
-import TitanResourceBar from '../../data/classes/titan/components/TitanResourceBar';
 import ToxicologistResourceBar from '../../data/classes/toxicologist/components/ToxicologistResourceBar';
 import WardenResourceBar from '../../data/classes/warden/components/WardenResourceBar';
-import WitchDoctorResourceBar from '../../data/classes/witchdoctor/components/WitchDoctorResourceBar';
 import AugurResourceBar from '../../data/classes/augur/components/AugurResourceBar';
-import DoomsayerResourceBar from '../../data/classes/doomsayer/components/DoomsayerResourceBar';
-import GamblerResourceBar from '../../data/classes/gambler/components/GamblerResourceBar';
 import '../../styles/unified-context-menu.css';
 
 const ClassResourceBar = ({
@@ -103,19 +97,19 @@ const ClassResourceBar = ({
     const berserkerRage = classResource?.current ?? 0;
     const berserkerRageMax = classResource?.max ?? 100;
 
-    const [bladedancerState, setBladedancerState] = useState({
+    const [shaperState, setShaperState] = useState({
         currentStance: 'Flowing Water',
         showStanceMenu: false,
         showMomentumMenu: false,
         showFlourishMenu: false,
         momentumInputValue: '',
-        bladedancerHoverSection: null, // 'momentum' | 'flourish' | 'stance' | null
+        shaperHoverSection: null, // 'momentum' | 'flourish' | 'stance' | null
         showSpecPassiveMenu: false,
-        selectedSpecialization: 'Flow Master' // 'Blade Dancer' | 'Duelist' | 'Shadow Dancer'
+        selectedSpecialization: 'Flow Master' // 'Flow Master' | 'Duelist' | 'Shadow Dancer'
     });
-    // BLADEDANCER FIX: Read directly from classResource prop
-    const bladedancerMomentum = classResource?.momentum?.current ?? classResource?.momentum ?? 0;
-    const bladedancerFlourish = classResource?.flourish?.current ?? classResource?.flourish ?? 3;
+    // SHAPER FIX: Read directly from classResource prop
+    const shaperMomentum = classResource?.momentum?.current ?? classResource?.momentum ?? 0;
+    const shaperFlourish = classResource?.flourish?.current ?? classResource?.flourish ?? 3;
 
     const [chronarchState, setChronarchState] = useState({
         showTimeShardsMenu: false,
@@ -181,23 +175,7 @@ const ClassResourceBar = ({
     });
     const threadsBarRef = useRef(null);
 
-    const [formbenderState, setFormbenderState] = useState({
-        localWildInstinct: 8, // Start with 8 for demo
-        currentForm: 'nightstalker', // Start in Nightstalker form
-        showWIMenu: false,
-        showFormMenu: false,
-        formbenderHoverSection: null, // 'wi' | 'form' | null
-        formbenderSpec: 'feral-hunter' // Default to Feral Hunter
-    });
-    const wiBarRef = useRef(null);
-
-    const [primalistState, setPrimalistState] = useState({
-        localSynergy: 45, // Start with 45 for demo
-        activeTotems: 5, // Start with 5 totems for demo
-        showSynergyMenu: false,
-        primalistSpec: 'earthwarden' // Default to Earthwarden
-    });
-    const synergyBarRef = useRef(null);
+    // Formbender state removed (merged into Shaper)
     const momentumBarRef = useRef(null);
     const flourishBarRef = useRef(null);
     const stanceBarRef = useRef(null);
@@ -232,16 +210,7 @@ const ClassResourceBar = ({
     };
 
     const qmBarRef = useRef(null);
-
-    const [inscriptorState, setInscriptorState] = useState({
-        localRunes: 3, // Start with 3 for demo (Enchanter max)
-        localInscriptions: 1, // Start with 1 for demo
-        inscriptorSpec: 'enchanter', // 'runebinder' | 'enchanter' | 'glyphweaver'
-        showRunesMenu: false,
-        showInscriptorSpecMenu: false,
-        inscriptorHoverSection: null // 'runes' | 'inscriptions' | null
-    });
-    const inscriptorBarRef = useRef(null);
+    const wiBarRef = useRef(null); // Wild Instinct (Formbender merged into Shaper - JSX removed, ref kept for legacy position calcs)
 
     const [lichborneState, setLichborneState] = useState({
         localPhylacteryHP: 25, // Start with 25 for demo
@@ -290,9 +259,7 @@ const ClassResourceBar = ({
     const [threadsPositions, setThreadsPositions] = useState({});
     const [fortunePointsPositions, setFortunePointsPositions] = useState({});
     const [wildInstinctPositions, setWildInstinctPositions] = useState({});
-    const [totemicSynergyPositions, setTotemicSynergyPositions] = useState({});
     const [quarryMarksPositions, setQuarryMarksPositions] = useState({});
-    const [runesInscriptionsPositions, setRunesInscriptionsPositions] = useState({});
 
     const [oracleState, setOracleState] = useState({
         localVisions: 6, // Start with 6 for demo
@@ -324,10 +291,10 @@ const ClassResourceBar = ({
         showMomentumMenu,
         showFlourishMenu,
         momentumInputValue,
-        bladedancerHoverSection,
+        shaperHoverSection,
         showSpecPassiveMenu,
         selectedSpecialization
-    } = bladedancerState;
+    } = shaperState;
 
     const {
         showTimeShardsMenu,
@@ -380,22 +347,6 @@ const ClassResourceBar = ({
     } = fateWeaverState;
 
     const {
-        localWildInstinct,
-        currentForm,
-        formbenderSpec,
-        showWIMenu,
-        showFormMenu,
-        formbenderHoverSection
-    } = formbenderState;
-
-    const {
-        localSynergy,
-        activeTotems,
-        primalistSpec,
-        showSynergyMenu
-    } = primalistState;
-
-    const {
         localFortunePoints,
         gamblerSpec,
         showFPMenu,
@@ -413,16 +364,6 @@ const ClassResourceBar = ({
         showHuntressSpecMenu,
         huntressHoverSection
     } = huntressState;
-
-    const {
-        localRunes,
-        localInscriptions,
-        inscriptorSpec,
-        showRunesMenu,
-        showInscriptionsMenu,
-        showInscriptorSpecMenu,
-        inscriptorHoverSection
-    } = inscriptorState;
 
     const {
         localPhylacteryHP,
@@ -464,13 +405,13 @@ const ClassResourceBar = ({
     const setMinstrelSpec = (value) => setMinstrelState(prev => ({ ...prev, minstrelSpec: value }));
 
     // Setter functions for menu toggles in class-specific states
-    const setShowStanceMenu = (value) => setBladedancerState(prev => ({ ...prev, showStanceMenu: value }));
-    const setShowMomentumMenu = (value) => setBladedancerState(prev => ({ ...prev, showMomentumMenu: value }));
-    const setShowFlourishMenu = (value) => setBladedancerState(prev => ({ ...prev, showFlourishMenu: value }));
-    const setShowSpecPassiveMenu = (value) => setBladedancerState(prev => ({ ...prev, showSpecPassiveMenu: value }));
+    const setShowStanceMenu = (value) => setShaperState(prev => ({ ...prev, showStanceMenu: value }));
+    const setShowMomentumMenu = (value) => setShaperState(prev => ({ ...prev, showMomentumMenu: value }));
+    const setShowFlourishMenu = (value) => setShaperState(prev => ({ ...prev, showFlourishMenu: value }));
+    const setShowSpecPassiveMenu = (value) => setShaperState(prev => ({ ...prev, showSpecPassiveMenu: value }));
 
 
-    const setCurrentStance = (value) => setBladedancerState(prev => ({ ...prev, currentStance: value }));
+    const setCurrentStance = (value) => setShaperState(prev => ({ ...prev, currentStance: value }));
     // BERSERKER FIX: Removed setLocalRage - now reading from props. Using setShowRageMenu from uiState.
     const setShowTimeShardsMenu = (value) => setChronarchState(prev => ({ ...prev, showTimeShardsMenu: value }));
     const setShowTemporalStrainMenu = (value) => setChronarchState(prev => ({ ...prev, showTemporalStrainMenu: value }));
@@ -498,9 +439,6 @@ const ClassResourceBar = ({
     const setDemonConfigInitialData = (value) => setExorcistState(prev => ({ ...prev, demonConfigInitialData: value }));
     const setShowMadnessMenu = (value) => setFalseProphetState(prev => ({ ...prev, showMadnessMenu: value }));
     const setLocalMadness = (value) => setFalseProphetState(prev => ({ ...prev, localMadness: value }));
-    const setShowWIMenu = (value) => setFormbenderState(prev => ({ ...prev, showWIMenu: value }));
-    const setShowFormMenu = (value) => setFormbenderState(prev => ({ ...prev, showFormMenu: value }));
-    const setShowSynergyMenu = (value) => setPrimalistState(prev => ({ ...prev, showSynergyMenu: value }));
     const setShowFPMenu = (value) => setGamblerState(prev => ({ ...prev, showFPMenu: value }));
     const setShowSpecMenu = (value) => setGamblerState(prev => ({ ...prev, showSpecMenu: value }));
     const setGamblerSpec = (value) => setGamblerState(prev => ({ ...prev, gamblerSpec: value }));
@@ -573,8 +511,6 @@ const ClassResourceBar = ({
 
     const setShowQMMenu = (value) => setHuntressState(prev => ({ ...prev, showQMMenu: value }));
     const setShowHuntressSpecMenu = (value) => setHuntressState(prev => ({ ...prev, showHuntressSpecMenu: value }));
-    const setShowRunesMenu = (value) => setInscriptorState(prev => ({ ...prev, showRunesMenu: value }));
-    const setShowInscriptorSpecMenu = (value) => setInscriptorState(prev => ({ ...prev, showInscriptorSpecMenu: value }));
     const setShowPhylacteryMenu = (value) => setLichborneState(prev => ({ ...prev, showPhylacteryMenu: value }));
     const setShowLunarPhaseMenu = (value) => setLunarchState(prev => ({ ...prev, showLunarPhaseMenu: value }));
     const setCurrentLunarPhase = useCallback((value) => setLunarchState(prev => ({ ...prev, currentLunarPhase: value })), []);
@@ -591,10 +527,9 @@ const ClassResourceBar = ({
     const setLastVisionGain = (value) => setOracleState(prev => ({ ...prev, lastVisionGain: value }));
     const setPredictionAccuracy = (value) => setOracleState(prev => ({ ...prev, predictionAccuracy: value }));
     const setShowChargesMenu = (value) => setCovenbaneState(prev => ({ ...prev, showChargesMenu: value }));
-    const setShowInscriptionsMenu = (value) => setInscriptorState(prev => ({ ...prev, showInscriptionsMenu: value }));
 
     // Setter functions for hover sections in class-specific states
-    const setBladedancerHoverSection = (value) => setBladedancerState(prev => ({ ...prev, bladedancerHoverSection: value }));
+    const setShaperHoverSection = (value) => setShaperState(prev => ({ ...prev, shaperHoverSection: value }));
     const setChronarchHoverSection = (value) => setChronarchState(prev => ({ ...prev, chronarchHoverSection: value }));
     const setCovenbaneHoverSection = (value) => setCovenbaneState(prev => ({ ...prev, covenbaneHoverSection: value }));
     const setDeathcallerHoverSection = (value) => setDeathcallerState(prev => ({ ...prev, deathcallerHoverSection: value }));
@@ -605,10 +540,8 @@ const ClassResourceBar = ({
     const setSelectedFateWeaverSpec = (value) => setFateWeaverState(prev => ({ ...prev, selectedFateWeaverSpec: value }));
     const setShowThreadsMenu = (value) => setFateWeaverState(prev => ({ ...prev, showThreadsMenu: value }));
     const setLocalThreads = (value) => setFateWeaverState(prev => ({ ...prev, localThreads: value }));
-    const setFormbenderHoverSection = (value) => setFormbenderState(prev => ({ ...prev, formbenderHoverSection: value }));
     const setGamblerHoverSection = (value) => setGamblerState(prev => ({ ...prev, gamblerHoverSection: value }));
     const setHuntressHoverSection = (value) => setHuntressState(prev => ({ ...prev, huntressHoverSection: value }));
-    const setInscriptorHoverSection = (value) => setInscriptorState(prev => ({ ...prev, inscriptorHoverSection: value }));
     const setLichborneHoverSection = (value) => setLichborneState(prev => ({ ...prev, lichborneHoverSection: value }));
     const setLocalPhylacteryHP = (value) => setLichborneState(prev => ({ ...prev, localPhylacteryHP: value }));
     const setEternalFrostActive = (value) => setLichborneState(prev => ({ ...prev, eternalFrostActive: value }));
@@ -886,7 +819,7 @@ const ClassResourceBar = ({
             }
         };
 
-    }, [showTooltip, berserkerRage, bladedancerMomentum, bladedancerFlourish, bladedancerHoverSection, chaosWeaverHoverSection, chronarchHoverSection, chronarchTimeShards, chronarchTemporalStrain, covenbaneHoverSection, covenbaneHexbreakerCharges, covenbaneAttackCounter, dreadnaughtHoverSection, localDRP, selectedResistanceType, size, minstrelHoverSection, oracleHoverSection, gamblerHoverSection, huntressHoverSection, inscriptorHoverSection, lichborneHoverSection, lunarchHoverSection, fateWeaverHoverSection, formbenderHoverSection, falseProphetHoverSection, exorcistHoverSection, deathcallerHoverSection, arcanoneerState.showRollTooltip]);
+    }, [showTooltip, berserkerRage, shaperMomentum, shaperFlourish, shaperHoverSection, chaosWeaverHoverSection, chronarchHoverSection, chronarchTimeShards, chronarchTemporalStrain, covenbaneHoverSection, covenbaneHexbreakerCharges, covenbaneAttackCounter, size, minstrelHoverSection, gamblerHoverSection, huntressHoverSection, lunarchHoverSection, fateWeaverHoverSection, falseProphetHoverSection, deathcallerHoverSection, arcanoneerState.showRollTooltip]);
 
     // Dedicated Martyr tooltip positioning (avoids TooltipPortal render delay)
     useEffect(() => {
@@ -978,7 +911,7 @@ const ClassResourceBar = ({
             count: 13,
             arrangement: 'horizontal',
             segmentBorder: '#2d1b4e',
-            cardSuits: ['♠', '♥', '♦', '♣'],
+            cardSuits: ['â™ ', 'â™¥', 'â™¦', 'â™£'],
             icon: 'fas fa-scroll',
             effects: ['mystical', 'fate', 'tarot'],
             maxThreads: 13, // Base maximum
@@ -994,7 +927,7 @@ const ClassResourceBar = ({
                     shimmerColor: '#BA55D3', // Medium orchid
                     accentColor: '#8A2BE2', // Blue violet
                     glowColor: '#DA70D6', // Orchid
-                    crystalSymbols: ['♠', '♥', '♦', '♣'],
+                    crystalSymbols: ['â™ ', 'â™¥', 'â™¦', 'â™£'],
                     icon: 'fas fa-eye',
                     effects: ['mystical', 'crystal', 'divination'],
                     maxThreads: 13, // Standard
@@ -1009,7 +942,7 @@ const ClassResourceBar = ({
                     shimmerColor: '#F0E68C', // Pale goldenrod
                     accentColor: '#DAA520', // Goldenrod
                     glowColor: '#FFA500', // Orange
-                    cardSymbols: ['♠', '♥', '♦', '♣'],
+                    cardSymbols: ['â™ ', 'â™¥', 'â™¦', 'â™£'],
                     icon: 'fas fa-cards',
                     effects: ['golden', 'deck', 'cards'],
                     maxThreads: 13, // Standard Threads
@@ -1023,7 +956,7 @@ const ClassResourceBar = ({
                     shimmerColor: '#FF69B4', // Hot pink
                     accentColor: '#DC143C', // Crimson
                     glowColor: '#FF6347', // Tomato
-                    webSymbols: ['♠', '♥', '♦', '♣'],
+                    webSymbols: ['â™ ', 'â™¥', 'â™¦', 'â™£'],
                     icon: 'fas fa-spider',
                     effects: ['thread', 'web', 'weaver'],
                     maxThreads: 13, // Standard maximum
@@ -1159,33 +1092,11 @@ const ClassResourceBar = ({
         }
     }, []);
 
-    // Calculate and store Totemic Synergy menu positions
-    const updateTotemicSynergyPositions = useCallback(() => {
-        if (synergyBarRef.current) {
-            const rect = synergyBarRef.current.getBoundingClientRect();
-            setTotemicSynergyPositions({
-                top: rect.bottom + 8,
-                left: rect.left + (rect.width / 2) // Center under the bar
-            });
-        }
-    }, []);
-
     // Calculate and store Quarry Marks menu positions
     const updateQuarryMarksPositions = useCallback(() => {
         if (qmBarRef.current) {
             const rect = qmBarRef.current.getBoundingClientRect();
             setQuarryMarksPositions({
-                top: rect.bottom + 8,
-                left: rect.left + (rect.width / 2) // Center under the bar
-            });
-        }
-    }, []);
-
-    // Calculate and store Runes & Inscriptions menu positions
-    const updateRunesInscriptionsPositions = useCallback(() => {
-        if (inscriptorBarRef.current) {
-            const rect = inscriptorBarRef.current.getBoundingClientRect();
-            setRunesInscriptionsPositions({
                 top: rect.bottom + 8,
                 left: rect.left + (rect.width / 2) // Center under the bar
             });
@@ -1202,9 +1113,7 @@ const ClassResourceBar = ({
         updateThreadsPositions();
         updateFortunePointsPositions();
         updateWildInstinctPositions();
-        updateTotemicSynergyPositions();
         updateQuarryMarksPositions();
-        updateRunesInscriptionsPositions();
         const handleResize = () => {
             updateMinstrelPositions();
             updateChronarchPositions();
@@ -1214,13 +1123,11 @@ const ClassResourceBar = ({
             updateThreadsPositions();
             updateFortunePointsPositions();
             updateWildInstinctPositions();
-            updateTotemicSynergyPositions();
             updateQuarryMarksPositions();
-            updateRunesInscriptionsPositions();
         };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [updateMinstrelPositions, updateChronarchPositions, updateMayhemPositions, updateDominancePositions, updateMadnessPositions, updateThreadsPositions, updateFortunePointsPositions, updateWildInstinctPositions, updateTotemicSynergyPositions, updateQuarryMarksPositions, updateRunesInscriptionsPositions]);
+    }, [updateMinstrelPositions, updateChronarchPositions, updateMayhemPositions, updateDominancePositions, updateMadnessPositions, updateThreadsPositions, updateFortunePointsPositions, updateWildInstinctPositions, updateQuarryMarksPositions]);
 
     // Apply specialization-specific visual and mechanical config for Fate Weaver
     const modifiedConfig = characterClass === 'Fate Weaver' ? {
@@ -1236,7 +1143,7 @@ const ClassResourceBar = ({
         }
     } : finalConfig;
 
-    // Define stance value for Bladedancer tooltips (needs to be accessible to renderTooltip)
+    // Define stance value for Shaper tooltips (needs to be accessible to renderTooltip)
     const stanceValue = context === 'account'
         ? (finalClassResource?.stance?.current ?? 'Flowing Water')
         : currentStance;
@@ -1344,14 +1251,12 @@ const ClassResourceBar = ({
                 return renderMadnessGauge();
             case 'threads-of-destiny':
                 return renderThreadsOfDestiny();
-            case 'wild-instinct-forms':
-                return renderWildInstinctForms();
             case 'fortune-points-gambling':
-                return <GamblerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+                return renderProgressBar();
             case 'quarry-marks-companion':
                 return renderQuarryMarksCompanion();
-            case 'runes-inscriptions':
-                return renderRunesInscriptions();
+            case 'ancestral-resonance':
+                return renderProgressBar();
             case 'eternal-frost-phylactery':
                 return renderEternalFrostPhylactery();
             case 'lunar-phases':
@@ -1369,19 +1274,39 @@ const ClassResourceBar = ({
             case 'arcane-absorption':
                 return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'celestial-devotion':
-                return <TitanResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+                return renderProgressBar();
             case 'alchemical-arsenal':
                 return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'vengeance-points':
                 return <WardenResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
-            case 'totemic-synergy':
-                return renderTotemicSynergy();
-            case 'voodoo-essence':
-                return <WitchDoctorResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+            case 'mayhem-gauge':
+                return (
+                    <div className={`class-resource-bar mayhem-gauge ${size}`} ref={mayhemBarRef}>
+                        <div className="bar-background" style={{ background: `linear-gradient(90deg, #1a0a1a 0%, #2D0A3E 100%)`, border: '1px solid #4A0E4E', borderRadius: '4px', position: 'relative', height: '100%' }}>
+                            <div
+                                className="bar-fill"
+                                style={{
+                                    width: `${percentage}%`,
+                                    background: 'linear-gradient(90deg, #8B0000, #9333EA, #7C3AED)',
+                                    boxShadow: '0 0 10px rgba(147, 51, 234, 0.6), 0 0 20px rgba(139, 0, 0, 0.4)',
+                                    borderRadius: '4px',
+                                    transition: 'width 0.3s ease-out',
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    height: '100%'
+                                }}
+                            />
+                            <div className="bar-text" style={{ position: 'relative', zIndex: 1, textAlign: 'center', fontSize: '11px', fontWeight: 'bold', color: '#E0C0FF', textShadow: '0 0 6px #9333EA' }}>
+                                {finalClassResource.current}/{finalClassResource.max} Mayhem
+                            </div>
+                        </div>
+                    </div>
+                );
             case 'dual-omen':
                 return <AugurResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'havoc':
-                return <DoomsayerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+                return renderProgressBar();
             case 'progress-bar':
                 return renderProgressBar();
             default:
@@ -3262,7 +3187,7 @@ const ClassResourceBar = ({
 
     // Card deck display (Fate Weaver)
     const renderCardDeck = () => {
-        const suits = ['♠', '♥', '♦', '♣'];
+        const suits = ['â™ ', 'â™¥', 'â™¦', 'â™£'];
         const currentResource = finalClassResource.current ?? 0;
         const maxResource = finalClassResource.max ?? 13;
         const deckCount = Math.max(0, maxResource - currentResource);
@@ -3280,7 +3205,7 @@ const ClassResourceBar = ({
                     <div className="hand-display">
                         {Array.from({ length: currentResource }, (_, i) => {
                             const suit = suits[i % 4];
-                            const isRed = suit === '♥' || suit === '♦';
+                            const isRed = suit === 'â™¥' || suit === 'â™¦';
                             return (
                                 <div 
                                     key={i} 
@@ -3323,7 +3248,7 @@ const ClassResourceBar = ({
                 <div className="pain-charges">
                     {Array.from({ length: classResource.current }, (_, i) => (
                         <div key={i} className="pain-charge" style={{ color: config.visual.activeColor }}>
-                            ✚
+                            âœš
                         </div>
                     ))}
                 </div>
@@ -3354,7 +3279,7 @@ const ClassResourceBar = ({
         <div className={`class-resource-bar medallion-display ${size}`}>
             <div className="medallion-container">
                 <div className="holy-medallion" style={{ color: finalConfig.visual.activeColor }}>
-                    {finalConfig.visual.icon || '⛤'}
+                    {finalConfig.visual.icon || 'â›¤'}
                 </div>
                 <div className="spirit-gems">
                     {Array.from({ length: finalClassResource.max }, (_, i) => (
@@ -3408,7 +3333,7 @@ const ClassResourceBar = ({
 
         // Get DD label and demon name
         const getDemonDisplay = () => {
-            if (!currentDemon) return { name: 'No demon bound to this slot', ddLabel: '—' };
+            if (!currentDemon) return { name: 'No demon bound to this slot', ddLabel: 'â€”' };
             if (currentDD === 0) return { name: 'No demon bound to this slot', ddLabel: 'ESCAPED' };
             return { name: currentDemon.name, ddLabel: `d${currentDD}` };
         };
@@ -3955,16 +3880,16 @@ const ClassResourceBar = ({
         const getCardSuit = (index) => {
             const spec = selectedFateWeaverSpec;
             if (spec === 'fortune-teller') {
-                const crystalSymbols = modifiedConfig.visual.crystalSymbols || ['💎', '🔮', '✨', '🌟'];
+                const crystalSymbols = modifiedConfig.visual.crystalSymbols || ['ðŸ’Ž', 'ðŸ”®', 'âœ¨', 'ðŸŒŸ'];
                 return crystalSymbols[index % crystalSymbols.length];
             } else if (spec === 'card-master') {
-                const cardSymbols = modifiedConfig.visual.cardSymbols || ['🃏', '♠', '♥', '♦', '♣'];
+                const cardSymbols = modifiedConfig.visual.cardSymbols || ['ðŸƒ', 'â™ ', 'â™¥', 'â™¦', 'â™£'];
                 return cardSymbols[index % cardSymbols.length];
             } else if (spec === 'thread-weaver') {
-                const webSymbols = modifiedConfig.visual.webSymbols || ['🕸️', '🕷️', '✨', '🌐'];
+                const webSymbols = modifiedConfig.visual.webSymbols || ['ðŸ•¸ï¸', 'ðŸ•·ï¸', 'âœ¨', 'ðŸŒ'];
                 return webSymbols[index % webSymbols.length];
             } else {
-                const suits = modifiedConfig.visual.cardSuits || ['♠', '♥', '♦', '♣'];
+                const suits = modifiedConfig.visual.cardSuits || ['â™ ', 'â™¥', 'â™¦', 'â™£'];
                 return suits[index % suits.length];
             }
         };
@@ -4199,728 +4124,8 @@ const ClassResourceBar = ({
         );
     };
 
-    // Wild Instinct Forms display (Formbender)
-    const renderWildInstinctForms = () => {
-        const maxWI = finalConfig.mechanics?.max || 15;
-        const wiValue = localWildInstinct;
-        const forms = finalConfig.visual?.forms || {};
-        const activeForm = forms[currentForm] || forms.human;
+    // Wild Instinct Forms rendering removed (Formbender merged into Shaper)
 
-        // Get form color based on current form
-        const getFormColor = () => activeForm.activeColor;
-        const getFormGlow = () => activeForm.glowColor;
-        const getFormBorder = () => activeForm.borderColor;
-
-        // Handle bar click to toggle WI menu
-        const handleBarClick = (e) => {
-            e.stopPropagation();
-            setShowWIMenu(!showWIMenu);
-            setShowFormMenu(false);
-        };
-
-        // Handle form indicator click to toggle form menu
-        const handleFormClick = (e) => {
-            e.stopPropagation();
-            setShowFormMenu(!showFormMenu);
-            setShowWIMenu(false);
-        };
-
-        // Handle WI bar hover
-        const handleWIBarEnter = (e) => {
-            setFormbenderHoverSection('wi');
-            const rect = e.currentTarget.getBoundingClientRect();
-            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-            setShowTooltip(true);
-        };
-
-        // Handle form indicator hover
-        const handleFormEnter = (e) => {
-            setFormbenderHoverSection('form');
-            const rect = e.currentTarget.getBoundingClientRect();
-            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-            setShowTooltip(true);
-        };
-
-        const handleLeave = () => {
-            setFormbenderHoverSection(null);
-            setShowTooltip(false);
-        };
-
-        // Form transformation handler
-        const handleTransform = (formId) => {
-            if (formId !== currentForm && formId !== 'human') {
-                // Cost 1 WI to transform (unless it's the first transform)
-                if (wiValue >= 1) {
-                    setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 1) }));
-                }
-            }
-            setFormbenderState(prev => ({ ...prev, currentForm: formId }));
-            setShowFormMenu(false);
-        };
-
-        return (
-            <div className={`class-resource-bar wild-instinct-forms ${size}`}>
-                <div className="formbender-container">
-                    {/* Wild Instinct Segmented Bar */}
-                    <div
-                        className="wi-bar-wrapper"
-                        ref={wiBarRef}
-                        onMouseEnter={handleWIBarEnter}
-                        onMouseLeave={handleLeave}
-                        onClick={handleBarClick}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <div className="wi-segments">
-                            {Array.from({ length: maxWI }, (_, index) => (
-                                <div
-                                    key={index}
-                                    className={`wi-segment ${index < wiValue ? 'filled' : 'empty'}`}
-                                    style={{
-                                        backgroundColor: index < wiValue ? getFormColor() : '#2D2D2D',
-                                        borderColor: index < wiValue ? getFormBorder() : '#1A1A1A',
-                                        boxShadow: index < wiValue ? `0 0 4px ${getFormGlow()}` : 'none'
-                                    }}
-                                />
-                            ))}
-                        </div>
-                        <div className="wi-value" style={{ color: getFormGlow() }}>
-                            {wiValue}/{maxWI} WI
-                        </div>
-                    </div>
-
-                    {/* WI Adjustment Menu */}
-                    {showWIMenu && wiBarRef.current && ReactDOM.createPortal(
-                        <div
-                            className={`unified-context-menu compact formbender-wi-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                            onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                            style={{
-                                position: 'fixed',
-                                top: (() => {
-                                    if (!wiBarRef.current) return '50%';
-                                    const rect = wiBarRef.current.getBoundingClientRect();
-                                    let hudContainer = wiBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                                    let hudBottom = rect.bottom;
-                                    if (hudContainer) {
-                                        const hudRect = hudContainer.getBoundingClientRect();
-                                        hudBottom = hudRect.bottom;
-                                    }
-                                    return hudBottom + 8;
-                                })(),
-                                left: (() => {
-                                    if (!wiBarRef.current) return '50%';
-                                    const rect = wiBarRef.current.getBoundingClientRect();
-                                    return rect.left + (rect.width / 2);
-                                })(),
-                                transform: 'translateX(-50%)',
-                                zIndex: 100000
-                            }}
-                        >
-                            <div className="context-menu-main">
-                                <div className="menu-title">Wild Instinct: {wiValue}/{maxWI}</div>
-
-                                {/* Gain Actions */}
-                                <div className="context-menu-section">
-                                    <div className="context-menu-section-header">Gain</div>
-                                    <div className="formbender-action-grid gain-grid">
-                                        <button
-                                            className="context-menu-button gain"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const newValue = Math.min(maxWI, wiValue + 1);
-                                                const amount = newValue - wiValue;
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Wild Instinct', amount, true, 'wildInstinct');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                }
-                                            }}
-                                            title="Gain 1 WI (Combat)"
-                                        >
-                                            <i className="fas fa-plus"></i> +1
-                                        </button>
-                                        <button
-                                            className="context-menu-button gain"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const newValue = Math.min(maxWI, wiValue + 2);
-                                                const amount = newValue - wiValue;
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Wild Instinct', amount, true, 'wildInstinct');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                }
-                                            }}
-                                            title="Gain 2 WI (Action)"
-                                        >
-                                            <i className="fas fa-plus-circle"></i> +2
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {/* Spend Actions */}
-                                <div className="context-menu-section">
-                                    <div className="context-menu-section-header">Spend</div>
-                                    <div className="formbender-action-grid">
-                                        <button
-                                            className="context-menu-button spend"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const newValue = Math.max(0, wiValue - 1);
-                                                const amount = wiValue - newValue;
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Wild Instinct', amount, false, 'wildInstinct');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                }
-                                            }}
-                                            title="Spend 1 WI (Transform)"
-                                        >
-                                            <i className="fas fa-minus"></i> -1
-                                        </button>
-                                        <button
-                                            className="context-menu-button spend"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const newValue = Math.max(0, wiValue - 3);
-                                                const amount = wiValue - newValue;
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Wild Instinct', amount, false, 'wildInstinct');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                }
-                                            }}
-                                            title="Spend 3 WI (Ability)"
-                                        >
-                                            <i className="fas fa-minus-circle"></i> -3
-                                        </button>
-                                        <button
-                                            className="context-menu-button spend"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const newValue = Math.max(0, wiValue - 5);
-                                                const amount = wiValue - newValue;
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Wild Instinct', amount, false, 'wildInstinct');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                }
-                                            }}
-                                            title="Spend 5 WI (Ultimate)"
-                                        >
-                                            <i className="fas fa-star"></i> -5
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {/* Specialization Selection */}
-                                <div className="formbender-spec-section">
-                                    <div className="formbender-spec-buttons">
-                                        {Object.entries(finalConfig.visual?.specializations || {}).map(([specKey, spec]) => (
-                                            <button
-                                                key={specKey}
-                                                className={`formbender-spec-btn ${formbenderSpec === specKey ? 'active' : ''}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setFormbenderState(prev => ({ ...prev, formbenderSpec: specKey }));
-                                                }}
-                                                title={spec.name}
-                                            >
-                                                <i className={spec.icon}></i>
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Quick Actions */}
-                                <div className="formbender-quick-actions">
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setFormbenderState(prev => ({ ...prev, localWildInstinct: 0 }));
-                                            setShowWIMenu(false);
-                                        }}
-                                        className="context-menu-button"
-                                        title="Reset to 0"
-                                    >
-                                        <i className="fas fa-undo"></i>
-                                        <span>Reset</span>
-                                    </button>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setShowWIMenu(false);
-                                        }}
-                                        className="context-menu-button"
-                                        title="Close"
-                                    >
-                                        <i className="fas fa-times"></i>
-                                        <span>Close</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>,
-                        document.body
-                    )}
-
-                    {/* Form Selection Menu */}
-                    {showFormMenu && wiBarRef.current && ReactDOM.createPortal(
-                        <div
-                            className={`unified-context-menu compact formbender-form-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                            onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                            style={{
-                                position: 'fixed',
-                                top: (() => {
-                                    if (!wiBarRef.current) return '50%';
-                                    const rect = wiBarRef.current.getBoundingClientRect();
-                                    let hudContainer = wiBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                                    let hudBottom = rect.bottom;
-                                    if (hudContainer) {
-                                        const hudRect = hudContainer.getBoundingClientRect();
-                                        hudBottom = hudRect.bottom;
-                                    }
-                                    return hudBottom + 8;
-                                })(),
-                                left: (() => {
-                                    if (!wiBarRef.current) return '50%';
-                                    const rect = wiBarRef.current.getBoundingClientRect();
-                                    return rect.left + (rect.width / 2);
-                                })(),
-                                transform: 'translateX(-50%)',
-                                zIndex: 100000
-                            }}
-                        >
-                            <div className="context-menu-main">
-                                <div className="menu-title">Transform (1 WI)</div>
-
-                                <div className="formbender-forms-grid">
-                                    {Object.entries(forms).map(([formId, form]) => (
-                                        <button
-                                            key={formId}
-                                            className={`formbender-form-btn ${currentForm === formId ? 'active' : ''}`}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleTransform(formId);
-                                            }}
-                                            title={form.name}
-                                        >
-                                            <i className={form.icon}></i>
-                                            <span className="formbender-form-name">{form.name}</span>
-                                        </button>
-                                    ))}
-                                </div>
-
-                                <div className="formbender-quick-actions">
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setShowFormMenu(false);
-                                        }}
-                                        className="context-menu-button"
-                                        title="Close"
-                                    >
-                                        <i className="fas fa-times"></i>
-                                        <span>Close</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>,
-                        document.body
-                    )}
-                </div>
-            </div>
-        );
-    };
-
-    // Totemic Synergy (Primalist)
-    const renderTotemicSynergy = () => {
-        const maxSynergy = finalConfig.mechanics?.max || 100;
-        const synergyValue = localSynergy;
-        const maxTotems = finalConfig.mechanics?.totems?.max || 8;
-        const totemCount = activeTotems;
-        const synergyThreshold = finalConfig.mechanics?.synergyThreshold || 4;
-        const specs = finalConfig.visual?.specializations || {};
-        const currentSpec = specs[primalistSpec] || specs['earthwarden'];
-        const canActivateSynergy = totemCount >= synergyThreshold;
-
-        // Handle bar click to toggle synergy menu
-        const handleBarClick = (e) => {
-            e.stopPropagation();
-            setShowSynergyMenu(!showSynergyMenu);
-        };
-
-        // Handle synergy bar hover
-        const handleSynergyEnter = (e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-            setShowTooltip(true);
-        };
-
-        const handleLeave = () => {
-            setShowTooltip(false);
-        };
-
-        return (
-            <div className={`class-resource-bar totemic-synergy ${size}`}>
-                {/* Primal Energy Display - 2 Rows */}
-                <div className="primal-energy-container">
-                    {/* Row 1: Synergy Energy Flow */}
-                    <div
-                        className="primal-energy-row synergy-row"
-                        ref={synergyBarRef}
-                        onMouseEnter={handleSynergyEnter}
-                        onMouseLeave={handleLeave}
-                        onClick={handleBarClick}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <div className="energy-flow-background">
-                            {/* Primal Energy Waves */}
-                            <div className="energy-waves">
-                                {Array.from({ length: 3 }, (_, waveIndex) => (
-                                    <div
-                                        key={waveIndex}
-                                        className="energy-wave"
-                                        style={{
-                                            background: `linear-gradient(90deg, transparent, ${currentSpec.activeColor}40, ${currentSpec.glowColor}60, transparent)`,
-                                            animationDelay: `${waveIndex * 0.5}s`,
-                                            opacity: synergyValue > 0 ? 1 : 0
-                                        }}
-                                    />
-                                ))}
-                            </div>
-
-                            {/* Energy Fill */}
-                            <div
-                                className="energy-fill"
-                                style={{
-                                    width: `${(synergyValue / maxSynergy) * 100}%`,
-                                    background: `linear-gradient(90deg, ${currentSpec.activeColor}, ${currentSpec.glowColor}, ${currentSpec.activeColor})`,
-                                    boxShadow: canActivateSynergy ? `0 0 15px ${currentSpec.glowColor}, inset 0 0 10px rgba(255,255,255,0.3)` : `0 0 8px ${currentSpec.activeColor}`,
-                                    animation: canActivateSynergy ? 'energyPulse 1.5s infinite' : 'none'
-                                }}
-                            >
-                                {/* Energy Particles */}
-                                {canActivateSynergy && Array.from({ length: 5 }, (_, particleIndex) => (
-                                    <div
-                                        key={particleIndex}
-                                        className="energy-particle"
-                                        style={{
-                                            left: `${20 + particleIndex * 15}%`,
-                                            background: currentSpec.glowColor,
-                                            animation: `particleFloat 2s infinite ${particleIndex * 0.3}s`
-                                        }}
-                                    />
-                                ))}
-                            </div>
-
-                            {/* Tribal Energy Markings */}
-                            <div className="energy-markings">
-                                {Array.from({ length: 8 }, (_, markIndex) => (
-                                    <div
-                                        key={markIndex}
-                                        className="energy-mark"
-                                        style={{
-                                            left: `${markIndex * 12.5}%`,
-                                            opacity: synergyValue / maxSynergy > markIndex / 8 ? 0.8 : 0.2,
-                                            background: synergyValue / maxSynergy > markIndex / 8 ? currentSpec.glowColor : '#666'
-                                        }}
-                                    />
-                                ))}
-                            </div>
-
-                            {/* Elemental Spheres on top of the bar */}
-                            <div className="elemental-spheres-overlay">
-                                {Array.from({ length: maxTotems }, (_, index) => {
-                                    const sphereElements = ['fire', 'frost', 'storm', 'earth', 'healing', 'protection', 'spirit', 'nature'];
-                                    const element = sphereElements[index] || 'unknown';
-                                    const isActive = index < totemCount; // Show spheres based on active totems
-
-                                    return (
-                                        <div
-                                            key={index}
-                                            className={`elemental-sphere ${element} ${isActive ? 'active' : 'inactive'}`}
-                                        >
-                                            <div className="sphere-icon">
-                                                {/* No letters - spheres are just visual indicators */}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Totem Bubbles integrated into the bar */}
-                            <div className="totem-symbols-overlay">
-                                {Array.from({ length: maxTotems }, (_, index) => {
-                                    const isActive = index < totemCount;
-
-                                    return (
-                                        <div
-                                            key={index}
-                                            className={`totem-bubble ${isActive ? 'active' : 'inactive'}`}
-                                            style={{
-                                                left: `${(index * (100 / maxTotems)) + (50 / maxTotems)}%`
-                                            }}
-                                        ></div>
-                                    );
-                                })}
-                            </div>
-
-                            <div className={`energy-value ${canActivateSynergy ? 'awakened' : ''}`} style={{
-                                color: '#FFFFFF',
-                                textShadow: '2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)',
-                                fontWeight: 'bold',
-                                fontFamily: 'serif'
-                            }}>
-                                {synergyValue}/{maxSynergy}
-                            </div>
-                        </div>
-                        {canActivateSynergy && (
-                            <div className="synergy-spirit-awakened" style={{
-                                background: `linear-gradient(45deg, ${currentSpec.glowColor}, ${currentSpec.activeColor})`,
-                                color: '#FFFFFF',
-                                textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-                                fontWeight: 'bold',
-                                border: `2px solid ${currentSpec.glowColor}`,
-                                animation: 'spiritAwaken 1s infinite alternate'
-                            }}>
-                                ⚡ AWAKENED ⚡
-                            </div>
-                        )}
-                    </div>
-
-                </div>
-
-                {/* Synergy Adjustment Menu */}
-                {showSynergyMenu && synergyBarRef.current && ReactDOM.createPortal(
-                    <div
-                        className={`unified-context-menu compact primalist-synergy-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                        onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                        style={{
-                            position: 'fixed',
-                            top: (() => {
-                                if (!synergyBarRef.current) return '50%';
-                                const rect = synergyBarRef.current.getBoundingClientRect();
-                                let hudContainer = synergyBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                                let hudBottom = rect.bottom;
-                                if (hudContainer) {
-                                    const hudRect = hudContainer.getBoundingClientRect();
-                                    hudBottom = hudRect.bottom;
-                                }
-                                return hudBottom + 8;
-                            })(),
-                            left: (() => {
-                                if (!synergyBarRef.current) return '50%';
-                                const rect = synergyBarRef.current.getBoundingClientRect();
-                                return rect.left + (rect.width / 2);
-                            })(),
-                            transform: 'translateX(-50%)',
-                            zIndex: 100000
-                        }}
-                    >
-                        <div className="context-menu-main">
-                            <div className="menu-title">Synergy: {synergyValue}/{maxSynergy}</div>
-
-                            {/* Gain Actions */}
-                            <div className="context-menu-section">
-                                <div className="context-menu-section-header">Gain</div>
-                                <div className="primalist-action-grid">
-                                    <button
-                                        className="context-menu-button gain"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            const newValue = Math.min(maxSynergy, synergyValue + 5);
-                                            const amount = newValue - synergyValue;
-                                            setPrimalistState(prev => ({ ...prev, localSynergy: newValue }));
-                                            if (amount > 0) {
-                                                logClassResourceChange('Synergy', amount, true, 'synergy');
-                                                if (onClassResourceUpdate) {
-                                                    onClassResourceUpdate('current', newValue);
-                                                }
-                                            }
-                                        }}
-                                        title="Gain 5 Synergy"
-                                    >
-                                        <i className="fas fa-plus"></i> +5
-                                    </button>
-                                    <button
-                                        className="context-menu-button gain"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            const newValue = Math.min(maxSynergy, synergyValue + 10);
-                                            const amount = newValue - synergyValue;
-                                            setPrimalistState(prev => ({ ...prev, localSynergy: newValue }));
-                                            if (amount > 0) {
-                                                logClassResourceChange('Synergy', amount, true, 'synergy');
-                                                if (onClassResourceUpdate) {
-                                                    onClassResourceUpdate('current', newValue);
-                                                }
-                                            }
-                                        }}
-                                        title="Gain 10 Synergy"
-                                    >
-                                        <i className="fas fa-plus-circle"></i> +10
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Spend Actions */}
-                            <div className="context-menu-section">
-                                <div className="context-menu-section-header">Spend</div>
-                                <div className="primalist-action-grid">
-                                    <button
-                                        className="context-menu-button spend"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            const newValue = Math.max(0, synergyValue - 5);
-                                            const amount = synergyValue - newValue;
-                                            setPrimalistState(prev => ({ ...prev, localSynergy: newValue }));
-                                            if (amount > 0) {
-                                                logClassResourceChange('Synergy', amount, false, 'synergy');
-                                                if (onClassResourceUpdate) {
-                                                    onClassResourceUpdate('current', newValue);
-                                                }
-                                            }
-                                        }}
-                                        title="Spend 5 Synergy"
-                                    >
-                                        <i className="fas fa-minus"></i> -5
-                                    </button>
-                                    <button
-                                        className="context-menu-button spend"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            const newValue = Math.max(0, synergyValue - 10);
-                                            const amount = synergyValue - newValue;
-                                            setPrimalistState(prev => ({ ...prev, localSynergy: newValue }));
-                                            if (amount > 0) {
-                                                logClassResourceChange('Synergy', amount, false, 'synergy');
-                                                if (onClassResourceUpdate) {
-                                                    onClassResourceUpdate('current', newValue);
-                                                }
-                                            }
-                                        }}
-                                        title="Spend 10 Synergy"
-                                    >
-                                        <i className="fas fa-minus-circle"></i> -10
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Totems Section */}
-                            <div className="context-menu-section">
-                                <div className="context-menu-section-header">Totems: {totemCount}/{maxTotems}</div>
-                                <div className="primalist-totem-controls">
-                                    <button
-                                        className="context-menu-button"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            const newValue = Math.max(0, totemCount - 1);
-                                            const amount = totemCount - newValue;
-                                            setPrimalistState(prev => ({ ...prev, activeTotems: newValue }));
-                                            if (amount > 0) {
-                                                logClassResourceChange('Totem', amount, false, 'totems');
-                                                if (onClassResourceUpdate) {
-                                                    onClassResourceUpdate('totems', newValue);
-                                                }
-                                            }
-                                        }}
-                                        title="Remove 1 Totem"
-                                    >
-                                        <i className="fas fa-minus"></i> -1
-                                    </button>
-                                    <button
-                                        className="context-menu-button"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            const newValue = Math.min(maxTotems, totemCount + 1);
-                                            const amount = newValue - totemCount;
-                                            setPrimalistState(prev => ({ ...prev, activeTotems: newValue }));
-                                            if (amount > 0) {
-                                                logClassResourceChange('Totem', amount, true, 'totems');
-                                                if (onClassResourceUpdate) {
-                                                    onClassResourceUpdate('totems', newValue);
-                                                }
-                                            }
-                                        }}
-                                        title="Add 1 Totem"
-                                    >
-                                        <i className="fas fa-plus"></i> +1
-                                    </button>
-                                </div>
-                                <div className={`primalist-synergy-status ${canActivateSynergy ? 'ready' : ''}`}>
-                                    {canActivateSynergy ? `⚡ READY` : `Need ${synergyThreshold - totemCount} more`}
-                                </div>
-                            </div>
-
-                            {/* Specialization Selection */}
-                            <div className="primalist-spec-section">
-                                <div className="primalist-spec-buttons">
-                                    {Object.entries(specs).map(([specKey, spec]) => (
-                                        <button
-                                            key={specKey}
-                                            className={`primalist-spec-btn ${primalistSpec === specKey ? 'active' : ''}`}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setPrimalistState(prev => ({ ...prev, primalistSpec: specKey }));
-                                            }}
-                                            title={spec.name}
-                                        >
-                                            <i className={spec.icon}></i>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Quick Actions */}
-                            <div className="primalist-quick-actions">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        const synergyReset = synergyValue;
-                                        const totemsReset = totemCount;
-                                        setPrimalistState(prev => ({ ...prev, localSynergy: 0, activeTotems: 0 }));
-                                        setShowSynergyMenu(false);
-                                        // Log resets
-                                        if (synergyReset > 0) {
-                                            logClassResourceChange('Synergy', synergyReset, false, 'synergy');
-                                        }
-                                        if (totemsReset > 0) {
-                                            logClassResourceChange('Totem', totemsReset, false, 'totems');
-                                        }
-                                        if (onClassResourceUpdate) {
-                                            onClassResourceUpdate('current', 0);
-                                            onClassResourceUpdate('totems', 0);
-                                        }
-                                    }}
-                                    className="context-menu-button"
-                                    title="Reset All"
-                                >
-                                    <i className="fas fa-undo"></i>
-                                    <span>Reset</span>
-                                </button>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setShowSynergyMenu(false);
-                                    }}
-                                    className="context-menu-button"
-                                    title="Close"
-                                >
-                                    <i className="fas fa-times"></i>
-                                    <span>Close</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>,
-                    document.body
-                )}
-            </div>
-        );
-    };
-
-    // Fortune Points Gambling (Gambler)
     const renderFortunePointsGambling = () => {
         const specs = finalConfig.visual?.specializations || {};
         const currentSpec = specs[gamblerSpec] || specs['high-roller'];
@@ -5557,398 +4762,6 @@ const ClassResourceBar = ({
                                             title="Close"
                                         >
                                             <i className="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>,
-                            document.body
-                        )}
-                    </div>
-                </div>
-            </div>
-        );
-    };
-
-    // Runes & Inscriptions display (Inscriptor)
-    const renderRunesInscriptions = () => {
-        // Get specialization config
-        const specs = finalConfig.visual;
-        const currentSpec = specs[inscriptorSpec] || specs.enchanter;
-        const maxRunes = currentSpec.maxRunes;
-        const maxInscriptions = currentSpec.maxInscriptions;
-        const specColor = currentSpec.color;
-        const specGlow = currentSpec.glow;
-        const specIcon = currentSpec.icon;
-
-        const runesValue = localRunes;
-        const inscriptionsValue = localInscriptions;
-
-        // Handlers
-        const handleBarClick = () => {
-            setShowRunesMenu(!showRunesMenu);
-            // Hide tooltip when menu opens
-            if (!showRunesMenu) {
-                setShowTooltip(false);
-                setInscriptorHoverSection(null);
-            }
-        };
-
-        const handleRunesBarEnter = (e) => {
-            if (showRunesMenu) return; // Don't show tooltip if menu is open
-            setInscriptorHoverSection('runes');
-            const rect = e.currentTarget.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-            const viewportWidth = window.innerWidth;
-            const spaceBelow = viewportHeight - rect.bottom;
-            const spaceAbove = rect.top;
-            const spaceRight = viewportWidth - rect.right;
-            const spaceLeft = rect.left;
-
-            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-
-            if (spaceBelow > 300) {
-                setTooltipPlacement('below');
-            } else if (spaceAbove > 300) {
-                setTooltipPlacement('above');
-            } else if (spaceRight > 300) {
-                setTooltipPlacement('right');
-            } else if (spaceLeft > 300) {
-                setTooltipPlacement('left');
-            } else {
-                setTooltipPlacement('below');
-            }
-
-            setShowTooltip(true);
-        };
-
-        const handleInscriptionsBarEnter = (e) => {
-            if (showRunesMenu) return; // Don't show tooltip if menu is open
-            setInscriptorHoverSection('inscriptions');
-            const rect = e.currentTarget.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-            const viewportWidth = window.innerWidth;
-            const spaceBelow = viewportHeight - rect.bottom;
-            const spaceAbove = rect.top;
-            const spaceRight = viewportWidth - rect.right;
-            const spaceLeft = rect.left;
-
-            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-
-            if (spaceBelow > 300) {
-                setTooltipPlacement('below');
-            } else if (spaceAbove > 300) {
-                setTooltipPlacement('above');
-            } else if (spaceRight > 300) {
-                setTooltipPlacement('right');
-            } else if (spaceLeft > 300) {
-                setTooltipPlacement('left');
-            } else {
-                setTooltipPlacement('below');
-            }
-
-            setShowTooltip(true);
-        };
-
-        const handleBarLeave = () => {
-            if (showRunesMenu) return;
-            setInscriptorHoverSection(null);
-            setShowTooltip(false);
-        };
-
-        return (
-            <div className={`class-resource-bar runes-inscriptions ${size}`} style={{ width: '100%' }}>
-                <div className="inscriptor-container" style={{ width: '100%' }}>
-                    {/* Combined Runes & Inscriptions Bar */}
-                    <div className="ri-bar-wrapper" ref={inscriptorBarRef} style={{ width: '100%', minWidth: 0 }}>
-                        <div className="ri-bar-content" style={{ width: '100%', minWidth: 0 }}>
-                            {/* Runes Section */}
-                            <div
-                                className="runes-section"
-                                onClick={handleBarClick}
-                                onMouseEnter={handleRunesBarEnter}
-                                onMouseLeave={handleBarLeave}
-                                style={{
-                                    cursor: 'pointer',
-                                    flex: maxRunes > maxInscriptions ? '3' : '1'
-                                }}
-                            >
-                                {/* Runes Value Display - Centered */}
-                                <div className="ri-section-value runes-value">
-                                    {runesValue}/{maxRunes}
-                                </div>
-                                <div className="runes-segments">
-                                    {Array.from({ length: Math.min(maxRunes, maxRunes > maxInscriptions ? 12 : 8) }, (_, index) => {
-                                        const runeSymbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ']; // Elder Futhark runes
-                                        const maxVisualRunes = maxRunes > maxInscriptions ? 12 : 8;
-                                        return (
-                                            <div
-                                                key={`rune-${index}`}
-                                                className={`rune-segment ${index < Math.min(runesValue, maxVisualRunes) ? 'filled' : 'empty'}`}
-                                                style={{
-                                                    backgroundColor: index < Math.min(runesValue, maxVisualRunes) ? specs.runes.activeColor : specs.runes.baseColor,
-                                                    borderColor: specs.runes.segmentBorder,
-                                                    boxShadow: index < Math.min(runesValue, maxVisualRunes) ? `0 0 6px ${specs.runes.glowColor}` : 'none',
-                                                    fontSize: maxRunes > maxInscriptions ? '12px' : '14px',
-                                                    fontWeight: 'bold',
-                                                    color: index < Math.min(runesValue, maxVisualRunes) ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
-                                                }}
-                                            >
-                                                {runeSymbols[index % runeSymbols.length]}
-                                            </div>
-                                        );
-                                    })}
-                                    {maxRunes > (maxRunes > maxInscriptions ? 12 : 8) && (
-                                        <div className="runes-overflow-indicator" style={{
-                                            color: '#FFD700',
-                                            fontSize: '10px',
-                                            fontWeight: 'bold',
-                                            marginLeft: '2px'
-                                        }}>
-                                            +{Math.max(0, Math.min(runesValue, maxRunes) - (maxRunes > maxInscriptions ? 12 : 8))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Separator */}
-                            <div className="ri-separator" style={{ borderColor: specColor }}></div>
-
-                            {/* Inscriptions Section */}
-                            <div
-                                className="inscriptions-section"
-                                onClick={handleBarClick}
-                                onMouseEnter={handleInscriptionsBarEnter}
-                                onMouseLeave={handleBarLeave}
-                                style={{
-                                    cursor: 'pointer',
-                                    flex: maxInscriptions > maxRunes ? '3' : '1'
-                                }}
-                            >
-                                {/* Inscriptions Value Display - Centered */}
-                                <div className="ri-section-value inscriptions-value">
-                                    {inscriptionsValue}/{maxInscriptions}
-                                </div>
-                                <div className="inscriptions-segments">
-                                    {Array.from({ length: Math.min(maxInscriptions, maxRunes > maxInscriptions ? 2 : 6) }, (_, index) => {
-                                        const inscriptionSymbols = ['◈', '◆', '◇', '◉', '○', '●']; // Mystical geometric symbols
-                                        const maxVisualInscriptions = maxRunes > maxInscriptions ? 2 : 6;
-                                        return (
-                                            <div
-                                                key={`inscription-${index}`}
-                                                className={`inscription-segment ${index < Math.min(inscriptionsValue, maxVisualInscriptions) ? 'filled' : 'empty'}`}
-                                                style={{
-                                                    backgroundColor: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? specs.inscriptions.activeColor : specs.inscriptions.baseColor,
-                                                    borderColor: specs.inscriptions.segmentBorder,
-                                                    boxShadow: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? `0 0 6px ${specs.inscriptions.glowColor}` : 'none',
-                                                    fontSize: maxRunes > maxInscriptions ? '8px' : '12px',
-                                                    fontWeight: 'bold',
-                                                    color: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
-                                                }}
-                                            >
-                                                {inscriptionSymbols[index]}
-                                            </div>
-                                        );
-                                    })}
-                                    {maxInscriptions > (maxRunes > maxInscriptions ? 2 : 6) && (
-                                        <div className="inscriptions-overflow-indicator" style={{
-                                            color: '#FFD700',
-                                            fontSize: '9px',
-                                            fontWeight: 'bold',
-                                            marginLeft: '2px'
-                                        }}>
-                                            +{Math.max(0, Math.min(inscriptionsValue, maxInscriptions) - (maxRunes > maxInscriptions ? 2 : 6))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                        </div>
-
-                        {/* Adjustment Menu */}
-                        {showRunesMenu && ReactDOM.createPortal(
-                            <div
-                                className="unified-context-menu compact"
-                                onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                style={{
-                                    position: 'fixed',
-                                    top: (() => {
-                                        if (!inscriptorBarRef.current) return '50%';
-                                        const rect = inscriptorBarRef.current.getBoundingClientRect();
-                                        let hudContainer = inscriptorBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                                        let hudBottom = rect.bottom;
-                                        if (hudContainer) {
-                                            const hudRect = hudContainer.getBoundingClientRect();
-                                            hudBottom = hudRect.bottom;
-                                        }
-                                        return hudBottom + 8;
-                                    })(),
-                                    left: (() => {
-                                        if (!inscriptorBarRef.current) return '50%';
-                                        const rect = inscriptorBarRef.current.getBoundingClientRect();
-                                        return rect.left + (rect.width / 2);
-                                    })(),
-                                    transform: 'translateX(-50%)',
-                                    zIndex: 100000
-                                }}
-                            >
-                                <div className="context-menu-main">
-                                    <div className="menu-title">Runes: {runesValue}/{maxRunes} | Inscriptions: {inscriptionsValue}/{maxInscriptions}</div>
-
-                                    {/* Specialization Selection */}
-                                    <div className="inscriptor-spec-section">
-                                        <div className="inscriptor-spec-buttons">
-                                            {Object.entries(specs).filter(([key]) =>
-                                                key === 'runebinder' || key === 'enchanter' || key === 'glyphweaver'
-                                            ).map(([key, spec]) => (
-                                                <button
-                                                    key={key}
-                                                    className={`inscriptor-spec-btn ${inscriptorSpec === key ? 'active' : ''}`}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setInscriptorState(prev => ({
-                                                            ...prev,
-                                                            inscriptorSpec: key,
-                                                            localRunes: Math.min(localRunes, spec.maxRunes),
-                                                            localInscriptions: Math.min(localInscriptions, spec.maxInscriptions)
-                                                        }));
-                                                    }}
-                                                    title={spec.name}
-                                                >
-                                                    <i className={`fas ${spec.icon}`}></i>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Runes Section */}
-                                    <div className="context-menu-section">
-                                        <div className="context-menu-section-header">Runes</div>
-                                        <div className="inscriptor-action-grid">
-                                            <button
-                                                className="context-menu-button gain"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    const newValue = Math.min(maxRunes, runesValue + 1);
-                                                    const amount = newValue - runesValue;
-                                                    setInscriptorState(prev => ({ ...prev, localRunes: newValue }));
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Rune', amount, true, 'runes');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
-                                                    }
-                                                }}
-                                                title="+1 Place"
-                                            >
-                                                <i className="fas fa-plus"></i> +1
-                                            </button>
-                                            <button
-                                                className="context-menu-button gain"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    const newValue = Math.min(maxRunes, runesValue + 3);
-                                                    const amount = newValue - runesValue;
-                                                    setInscriptorState(prev => ({ ...prev, localRunes: newValue }));
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Rune', amount, true, 'runes');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
-                                                    }
-                                                }}
-                                                title="+3 Zone"
-                                            >
-                                                <i className="fas fa-plus"></i> +3
-                                            </button>
-                                            <button
-                                                className="context-menu-button spend"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    const newValue = Math.max(0, runesValue - 1);
-                                                    const amount = runesValue - newValue;
-                                                    setInscriptorState(prev => ({ ...prev, localRunes: newValue }));
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Rune', amount, false, 'runes');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
-                                                    }
-                                                }}
-                                                title="-1 Detonate"
-                                            >
-                                                <i className="fas fa-minus"></i> -1
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Inscriptions Section */}
-                                    <div className="context-menu-section">
-                                        <div className="context-menu-section-header">Inscriptions</div>
-                                        <div className="inscriptor-action-grid inscriptions-grid">
-                                            <button
-                                                className="context-menu-button gain"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    const newValue = Math.min(maxInscriptions, inscriptionsValue + 1);
-                                                    const amount = newValue - inscriptionsValue;
-                                                    setInscriptorState(prev => ({ ...prev, localInscriptions: newValue }));
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Inscription', amount, true, 'inscriptions');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('inscriptions', newValue);
-                                                    }
-                                                }}
-                                                title="+1 Inscribe"
-                                            >
-                                                <i className="fas fa-plus"></i> +1
-                                            </button>
-                                            <button
-                                                className="context-menu-button spend"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    const newValue = Math.max(0, inscriptionsValue - 1);
-                                                    const amount = inscriptionsValue - newValue;
-                                                    setInscriptorState(prev => ({ ...prev, localInscriptions: newValue }));
-                                                    if (amount > 0) {
-                                                        logClassResourceChange('Inscription', amount, false, 'inscriptions');
-                                                        if (onClassResourceUpdate) onClassResourceUpdate('inscriptions', newValue);
-                                                    }
-                                                }}
-                                                title="-1 Remove"
-                                            >
-                                                <i className="fas fa-minus"></i> -1
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Quick Actions */}
-                                    <div className="inscriptor-quick-actions">
-                                        <button
-                                            className="context-menu-button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setInscriptorState(prev => ({ ...prev, localRunes: 0, localInscriptions: 0 }));
-                                            }}
-                                            title="Reset All"
-                                        >
-                                            <i className="fas fa-undo"></i>
-                                            <span>Reset</span>
-                                        </button>
-                                        <button
-                                            className="context-menu-button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setInscriptorState(prev => ({ ...prev, localRunes: maxRunes, localInscriptions: maxInscriptions }));
-                                            }}
-                                            title="Set to Max"
-                                        >
-                                            <i className="fas fa-crown"></i>
-                                            <span>Max</span>
-                                        </button>
-                                        <button
-                                            className="context-menu-button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setShowRunesMenu(false);
-                                            }}
-                                            title="Close"
-                                        >
-                                            <i className="fas fa-times"></i>
-                                            <span>Close</span>
                                         </button>
                                     </div>
                                 </div>
@@ -8283,15 +7096,15 @@ const ClassResourceBar = ({
         return 'Smoldering';
     };
 
-    // Stance Flow display (Bladedancer) - Icon centered, bars on sides
+    // Stance Flow display (Shaper) - Icon centered, bars on sides
     const renderStanceFlow = () => {
         // Use actual character resource values for account context, local state for HUD
         const momentumValue = context === 'account'
             ? (finalClassResource?.momentum?.current ?? finalClassResource?.current ?? 0)
-            : bladedancerMomentum;
+            : shaperMomentum;
         const flourishValue = context === 'account'
             ? (finalClassResource?.flourish?.current ?? 0)
-            : bladedancerFlourish;
+            : shaperFlourish;
         const momentumMax = finalConfig.mechanics?.momentum?.max || 20;
         const flourishMax = finalConfig.mechanics?.flourish?.max || 5;
         const momentumPercentage = (momentumValue / momentumMax) * 100;
@@ -8431,16 +7244,16 @@ const ClassResourceBar = ({
                         }}
                         onElementHover={(hit) => {
                             if (!hit) {
-                                setBladedancerHoverSection(null);
+                                setShaperHoverSection(null);
                                 setShowTooltip(false);
                                 return;
                             }
                             if (hit.zone === 'momentum') {
-                                setBladedancerHoverSection('momentum');
+                                setShaperHoverSection('momentum');
                             } else if (hit.zone === 'stance') {
-                                setBladedancerHoverSection('stance');
+                                setShaperHoverSection('stance');
                             } else if (hit.zone === 'flourish') {
-                                setBladedancerHoverSection('flourish');
+                                setShaperHoverSection('flourish');
                             }
                         }}
                     />
@@ -8458,13 +7271,13 @@ const ClassResourceBar = ({
                             setShowSpecPassiveMenu(false);
                         }}
                         onMouseEnter={(e) => {
-                            setBladedancerHoverSection('stance');
+                            setShaperHoverSection('stance');
                             const rect = e.currentTarget.getBoundingClientRect();
                             setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
                             setShowTooltip(true);
                         }}
                         onMouseLeave={() => {
-                            setBladedancerHoverSection(null);
+                            setShaperHoverSection(null);
                             setShowTooltip(false);
                         }}
                     >
@@ -8502,8 +7315,8 @@ const ClassResourceBar = ({
                             <div className="context-menu-main">
                                 <div className="menu-title">Momentum: {momentumValue}/{momentumMax}</div>
 
-                                <div className="bladedancer-actions">
-                                    <div className="bladedancer-action-row">
+                                <div className="shaper-actions">
+                                    <div className="shaper-action-row">
                                         <button
                                             className="context-menu-button gain"
                                             onClick={() => {
@@ -8527,7 +7340,7 @@ const ClassResourceBar = ({
                                             <span>+2</span>
                                         </button>
                                     </div>
-                                    <div className="bladedancer-action-row">
+                                    <div className="shaper-action-row">
                                         <button
                                             className="context-menu-button spend"
                                             onClick={() => {
@@ -8553,7 +7366,7 @@ const ClassResourceBar = ({
                                     </div>
                                 </div>
 
-                                <div className="bladedancer-quick-actions">
+                                <div className="shaper-quick-actions">
                                     <button
                                         onClick={() => { 
                                             if (onClassResourceUpdate) onClassResourceUpdate('momentum', 0);
@@ -8618,8 +7431,8 @@ const ClassResourceBar = ({
                             <div className="context-menu-main">
                                 <div className="menu-title">Flourish: {flourishValue}/{flourishMax}</div>
 
-                                <div className="bladedancer-actions">
-                                    <div className="bladedancer-action-row">
+                                <div className="shaper-actions">
+                                    <div className="shaper-action-row">
                                         <button
                                             className="context-menu-button gain"
                                             onClick={() => {
@@ -8647,7 +7460,7 @@ const ClassResourceBar = ({
                                     </div>
                                 </div>
 
-                                <div className="bladedancer-quick-actions">
+                                <div className="shaper-quick-actions">
                                     <button
                                         onClick={() => { 
                                             if (onClassResourceUpdate) onClassResourceUpdate('flourish', 0);
@@ -8724,7 +7537,7 @@ const ClassResourceBar = ({
                                     )}
                                 </div>
 
-                                <div className="bladedancer-stances">
+                                <div className="shaper-stances">
                                     {availableTransitions.map((stanceName) => {
                                         const stanceData = stances[stanceName];
                                         const cost = getTransitionCost(stanceValue, stanceName);
@@ -8734,7 +7547,7 @@ const ClassResourceBar = ({
                                         return (
                                             <button
                                                 key={stanceName}
-                                                className={`bladedancer-stance-btn ${isCurrent ? 'active' : ''}`}
+                                                className={`shaper-stance-btn ${isCurrent ? 'active' : ''}`}
                                                 onClick={() => canAfford && transitionToStance(stanceName)}
                                                 disabled={!canAfford}
                                                 title={`${stanceName} - Cost: ${cost} Momentum`}
@@ -8744,14 +7557,14 @@ const ClassResourceBar = ({
                                                 }}
                                             >
                                                 <i className={stanceData.icon} style={{ color: stanceData.color }}></i>
-                                                <span className="bladedancer-stance-name">{stanceName}</span>
-                                                <span className="bladedancer-stance-cost" style={{ color: stanceData.color }}>{cost}</span>
+                                                <span className="shaper-stance-name">{stanceName}</span>
+                                                <span className="shaper-stance-cost" style={{ color: stanceData.color }}>{cost}</span>
                                             </button>
                                         );
                                     })}
                                 </div>
 
-                                <div className="bladedancer-quick-actions">
+                                <div className="shaper-quick-actions">
                                     <button
                                         onClick={() => setShowStanceMenu(false)}
                                         className="context-menu-button"
@@ -8782,7 +7595,7 @@ const ClassResourceBar = ({
                                             key={spec}
                                             className={`menu-buttons`}
                                             onClick={() => {
-                                                setBladedancerState(prev => ({ ...prev, selectedSpecialization: spec }));
+                                                setShaperState(prev => ({ ...prev, selectedSpecialization: spec }));
                                                 setShowSpecPassiveMenu(false);
                                             }}
                                             style={{
@@ -8881,25 +7694,26 @@ const ClassResourceBar = ({
         // Classes that handle their own tooltips don't need finalConfig.tooltip
         const handlesOwnTooltips = finalConfig.visual?.type === 'musical-notes-combo' ||
             finalConfig.visual?.type === 'time-shards-strain' ||
-            finalConfig.visual?.type === 'mayhem-modifiers' ||
+            finalConfig.visual?.type === 'mayhem-gauge' ||
             finalConfig.visual?.type === 'ascension-blood' ||
             finalConfig.visual?.type === 'hexbreaker-charges' ||
-            finalConfig.visual?.type === 'drp-resilience' ||
-            finalConfig.visual?.type === 'dominance-die' ||
             finalConfig.visual?.type === 'madness-gauge' ||
             finalConfig.visual?.type === 'threads-of-destiny' ||
             finalConfig.visual?.type === 'fortune-points-gambling' ||
             finalConfig.visual?.type === 'quarry-marks-companion' ||
-            finalConfig.visual?.type === 'runes-inscriptions' ||
-            finalConfig.visual?.type === 'eternal-frost-phylactery' ||
             finalConfig.visual?.type === 'lunar-phases' ||
-            finalConfig.visual?.type === 'prophetic-visions' ||
             finalConfig.visual?.type === 'virulence-bar' ||
             finalConfig.visual?.type === 'dual-resource' ||
-            finalConfig.visual?.type === 'vengeance-points';
+            finalConfig.visual?.type === 'vengeance-points' ||
+            finalConfig.visual?.type === 'ancestral-resonance' ||
+            finalConfig.visual?.type === 'dual-omen' ||
+            finalConfig.visual?.type === 'inferno-veil' ||
+            finalConfig.visual?.type === 'arcane-absorption' ||
+            finalConfig.visual?.type === 'devotion-gauge' ||
+            finalConfig.visual?.type === 'elemental-spheres';
 
         // Hide tooltip when menus are open to prevent conflicts
-        if (showWIMenu || showSynergyMenu) return null;
+        if (false) return null; // Placeholder: was showWIMenu
 
         if (!showTooltip) return null;
         if (!handlesOwnTooltips && !finalConfig.tooltip) return null;
@@ -8932,26 +7746,19 @@ const ClassResourceBar = ({
 
         // Check if there's any content to show in the tooltip
         const hasTooltipContent =
-            (modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'runes-inscriptions' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.tooltip?.description) ||
+            (modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-gauge' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'ancestral-resonance' && modifiedConfig.visual?.type !== 'dual-omen' && modifiedConfig.visual?.type !== 'inferno-veil' && modifiedConfig.visual?.type !== 'arcane-absorption' && modifiedConfig.visual?.type !== 'devotion-gauge' && modifiedConfig.visual?.type !== 'lunar-phases' && modifiedConfig.visual?.type !== 'elemental-spheres' && modifiedConfig.tooltip?.description) ||
             (finalConfig.type === 'spheres') ||
-            (finalConfig.type === 'dual-resource' && bladedancerHoverSection) ||
+            (finalConfig.type === 'dual-resource' && shaperHoverSection) ||
             (finalConfig.visual?.type === 'time-shards-strain' && chronarchHoverSection) ||
             (finalConfig.visual?.type === 'hexbreaker-charges' && covenbaneHoverSection) ||
             (finalConfig.visual?.type === 'ascension-blood' && deathcallerHoverSection) ||
-            (finalConfig.visual?.type === 'drp-resilience' && dreadnaughtHoverSection === 'drp') ||
-            (finalConfig.visual?.type === 'dominance-die' && exorcistHoverSection === 'dominance') ||
             (finalConfig.visual?.type === 'madness-gauge' && falseProphetHoverSection === 'madness') ||
             (finalConfig.visual?.type === 'threads-of-destiny' && fateWeaverHoverSection) ||
-            (finalConfig.visual?.type === 'wild-instinct-forms' && formbenderHoverSection) ||
             (finalConfig.visual?.type === 'fortune-points-gambling' && gamblerHoverSection === 'fp') ||
             (finalConfig.visual?.type === 'quarry-marks-companion' && huntressHoverSection) ||
-            (finalConfig.visual?.type === 'runes-inscriptions' && inscriptorHoverSection) ||
-            (finalConfig.visual?.type === 'eternal-frost-phylactery' && lichborneHoverSection === 'phylactery' && lichborneHoverSection !== 'aura') ||
             (finalConfig.visual?.type === 'lunar-phases' && lunarchHoverSection) ||
-            (finalConfig.visual?.type === 'prophetic-visions' && oracleHoverSection) ||
-            (finalConfig.visual?.type === 'mayhem-modifiers' && chaosWeaverHoverSection) ||
+            (finalConfig.visual?.type === 'mayhem-gauge' && chaosWeaverHoverSection) ||
             (finalConfig.visual?.type === 'musical-notes-combo' && minstrelHoverSection && minstrelHoverSection.startsWith('note-')) ||
-            (finalConfig.visual?.type === 'totemic-synergy') ||
             (finalConfig.type === 'rage' && finalConfig.rageStates);
 
         if (!hasTooltipContent) {
@@ -8965,7 +7772,7 @@ const ClassResourceBar = ({
                     className="unified-resourcebar-tooltip pathfinder-tooltip"
                     style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
                 >
-                    {modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'runes-inscriptions' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.tooltip?.description && (
+                    {modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.tooltip?.description && (
                         <>
                             <div className="tooltip-header">{tooltipTitle || modifiedConfig.visual?.name || 'Class Resource'}</div>
                             <div className="tooltip-section">
@@ -9009,15 +7816,15 @@ const ClassResourceBar = ({
                         </>
                     )}
 
-                    {/* Bladedancer Tooltips */}
-                    {finalConfig.type === 'dual-resource' && bladedancerHoverSection && (
+                    {/* Shaper Tooltips */}
+                    {finalConfig.type === 'dual-resource' && shaperHoverSection && (
                         <div>
-                            {bladedancerHoverSection === 'momentum' && (
+                            {shaperHoverSection === 'momentum' && (
                                 <>
                                     <div className="tooltip-header">Momentum</div>
                                     <div className="tooltip-section">
                                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {bladedancerMomentum}/20
+                                            <strong>Current:</strong> {shaperMomentum}/20
                                         </div>
                                     </div>
                                     <div className="tooltip-divider"></div>
@@ -9035,12 +7842,12 @@ const ClassResourceBar = ({
                                 </>
                             )}
 
-                            {bladedancerHoverSection === 'flourish' && (
+                            {shaperHoverSection === 'flourish' && (
                                 <>
                                     <div className="tooltip-header">Flourish</div>
                                     <div className="tooltip-section">
                                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {bladedancerFlourish}/5
+                                            <strong>Current:</strong> {shaperFlourish}/5
                                         </div>
                                     </div>
                                     <div className="tooltip-divider"></div>
@@ -9062,7 +7869,7 @@ const ClassResourceBar = ({
                                 </>
                             )}
 
-                            {bladedancerHoverSection === 'stance' && (() => {
+                            {shaperHoverSection === 'stance' && (() => {
                                 const stances = finalConfig.visual?.stances || {};
                                 const currentStanceData = stances[stanceValue] || {};
                                 const details = {
@@ -9117,7 +7924,7 @@ const ClassResourceBar = ({
                                                     background: 'rgba(160, 82, 45, 0.1)',
                                                     borderRadius: '3px'
                                                 }}>
-                                                    ⭐ {specBonus}
+                                                    â­ {specBonus}
                                                 </div>
                                             )}
                                         </div>
@@ -9525,34 +8332,6 @@ const ClassResourceBar = ({
                         </>
                     )}
 
-                    {/* Totemic Synergy Tooltip */}
-                    {finalConfig.visual?.type === 'totemic-synergy' && (
-                        <>
-                            <div className="tooltip-header">Totemic Synergy</div>
-
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                    <strong>Current:</strong> {localSynergy}/100 Synergy
-                                </div>
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    <strong>Totems:</strong> {activeTotems}/8 active
-                                </div>
-                            </div>
-
-                            <div className="tooltip-divider"></div>
-
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">Synergy Management</div>
-                                <div className="level-management">
-                                    <strong>Gain:</strong>
-                                    <span>+1 per totem placed, +1 per totem per turn</span>
-                                    <strong>Spend:</strong>
-                                    <span>Variable (4-10 per synergy effect)</span>
-                                </div>
-                            </div>
-                        </>
-                    )}
-
                     {/* Exorcist Dominance Tooltip */}
                     {finalConfig.visual?.type === 'dominance-die' && exorcistHoverSection === 'dominance' && (
                         <div>
@@ -9623,7 +8402,7 @@ const ClassResourceBar = ({
                                         <div className="tooltip-section">
                                             <div className="tooltip-label">DD Progression</div>
                                             <div style={{ fontSize: '0.85rem' }}>
-                                                <strong>Progression:</strong> d12 → d10 → d8 → d6 → 0
+                                                <strong>Progression:</strong> d12 â†’ d10 â†’ d8 â†’ d6 â†’ 0
                                             </div>
                                             <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
                                                 Decreases per action/hit
@@ -9813,67 +8592,6 @@ const ClassResourceBar = ({
                         </>
                     )}
 
-                    {/* Formbender Wild Instinct Tooltips */}
-                    {finalConfig.visual?.type === 'wild-instinct-forms' && formbenderHoverSection && (
-                        <div>
-                            {formbenderHoverSection === 'wi' && (
-                                <>
-                                    <div className="tooltip-header">Wild Instinct</div>
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {localWildInstinct}/15
-                                        </div>
-                                        <div style={{ fontSize: '0.9rem' }}>
-                                            Primal energy for shapeshifting and feral abilities.
-                                        </div>
-                                    </div>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Wild Instinct Management</div>
-                                        <div className="level-management">
-                                            <strong>Gain:</strong>
-                                            <span>Combat actions, stealth, taunting, scouting, tracking</span>
-                                            <strong>Spend:</strong>
-                                            <span>Transform (1 WI), Abilities (1-5 WI), First transform free</span>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-
-                            {formbenderHoverSection === 'form' && (
-                                <>
-                                    <div className="tooltip-header">
-                                        {finalConfig.visual.forms[currentForm]?.name || 'Human'} Form
-                                    </div>
-
-                                    <div className="tooltip-section">
-                                        <div style={{ fontSize: '0.85rem', marginBottom: '4px' }}>
-                                            {finalConfig.visual.forms[currentForm]?.description || 'Human form with no special abilities.'}
-                                        </div>
-                                    </div>
-
-                                    <div className="tooltip-divider"></div>
-
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Wild Instinct Generation</div>
-                                        <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                            {finalConfig.visual.forms[currentForm]?.generation || 'None'}
-                                        </div>
-                                    </div>
-
-                                    <div className="tooltip-divider"></div>
-
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Form Passive</div>
-                                        <div className="passive-desc">
-                                            {finalConfig.visual.forms[currentForm]?.passive || 'No bonuses'}
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    )}
-
                     {/* Gambler Fortune Points Tooltip */}
                     {finalConfig.visual?.type === 'fortune-points-gambling' && gamblerHoverSection === 'fp' && (() => {
                         const specs = finalConfig.visual?.specializations || {};
@@ -9901,7 +8619,7 @@ const ClassResourceBar = ({
                                         <strong>Gain:</strong>
                                         <span>Successful attacks/spells (+1), crits (+2)</span>
                                         <strong>Spend:</strong>
-                                        <span>Adjust rolls (±1 per point)</span>
+                                        <span>Adjust rolls (Â±1 per point)</span>
                                     </div>
                                 </div>
 
@@ -10001,100 +8719,6 @@ const ClassResourceBar = ({
                                                 Generates marks on hit. Telepathic bond (100ft). Shares your initiative.
                                             </div>
                                         </div>
-                                    </>
-                                );
-                            })()}
-                        </div>
-                    )}
-
-                    {/* Inscriptor Runes & Inscriptions Tooltip */}
-                    {finalConfig.visual?.type === 'runes-inscriptions' && inscriptorHoverSection && (
-                        <div>
-                            {inscriptorHoverSection === 'runes' && (() => {
-                                const specs = finalConfig.visual;
-                                const currentSpec = specs[inscriptorSpec] || specs.enchanter;
-                                const specName = currentSpec.name;
-                                const maxRunes = currentSpec.maxRunes;
-
-                                return (
-                                    <>
-                                        <div className="tooltip-header">Runes</div>
-
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Current:</strong> {localRunes}/{maxRunes} runes
-                                            </div>
-                                            <div style={{ fontSize: '0.9rem' }}>
-                                                <strong>Style:</strong> {specName}
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Rune Management</div>
-                                            <div className="level-management">
-                                                <strong>Place:</strong>
-                                                <span>3 mana per rune (1 action, 1 min)</span>
-                                                <strong>Activate:</strong>
-                                                <span>3+ runes form zone</span>
-                                            </div>
-                                        </div>
-
-                                        {inscriptorSpec === 'glyphweaver' && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label">Volatile Runes</div>
-                                                    <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                        Auto-detonate after 30s (+3d8 damage)
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </>
-                                );
-                            })()}
-
-                            {inscriptorHoverSection === 'inscriptions' && (() => {
-                                const specs = finalConfig.visual;
-                                const currentSpec = specs[inscriptorSpec] || specs.enchanter;
-                                const specName = currentSpec.name;
-                                const maxInscriptions = currentSpec.maxInscriptions;
-
-                                return (
-                                    <>
-                                        <div className="tooltip-header">Inscriptions: {localInscriptions}/{maxInscriptions} {specName.toUpperCase()}</div>
-
-                                        <div className="tooltip-section">
-                                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                                <strong>Current:</strong> {localInscriptions}/{maxInscriptions} inscriptions
-                                            </div>
-                                        </div>
-
-                                        <div className="tooltip-divider"></div>
-
-                                        <div className="tooltip-section">
-                                            <div className="tooltip-label">Inscription Management</div>
-                                            <div className="level-management">
-                                                <strong>Generate:</strong>
-                                                <span>At combat start, choose slots{inscriptorSpec === 'enchanter' ? ' (lasts day)' : ' (lasts combat)'}</span>
-                                                <strong>Use:</strong>
-                                                <span>Enhance equipment{inscriptorSpec === 'enchanter' ? ' (double effect)' : ''}</span>
-                                            </div>
-                                        </div>
-
-                                        {inscriptorSpec === 'enchanter' && (
-                                            <>
-                                                <div className="tooltip-divider"></div>
-                                                <div className="tooltip-section">
-                                                    <div className="tooltip-label" style={{ color: '#FFD700' }}>Master Enchanter</div>
-                                                    <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
-                                                        All 6 slots. Double bonuses. Can inscribe allies (1 item).
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
                                     </>
                                 );
                             })()}
@@ -10254,7 +8878,7 @@ const ClassResourceBar = ({
                                             <strong>Duration:</strong>
                                             <span>3 rounds per phase</span>
                                             <strong>Cycle Order:</strong>
-                                            <span>New → Waxing → Full → Waning</span>
+                                            <span>New â†’ Waxing â†’ Full â†’ Waning</span>
                                             <strong>Auto-Advance:</strong>
                                             <span>After round 3 completes</span>
                                         </div>
@@ -10355,7 +8979,7 @@ const ClassResourceBar = ({
                                             <div className="passive-desc">
                                                 {oracleSpec === 'seer' && 'Gain +1 Vision per correct prediction. Predictions cost no action points. Advantage on initiative.'}
                                                 {oracleSpec === 'truthseeker' && 'Detect lies and illusions. Uncover hidden knowledge for +1 Vision each.'}
-                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, ±1d6, or advantage/disadvantage) related to that prediction.'}
+                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, Â±1d6, or advantage/disadvantage) related to that prediction.'}
                                             </div>
                                         </div>
                                     </>
@@ -10423,8 +9047,8 @@ const ClassResourceBar = ({
                         </div>
                     )}
 
-                    {/* Chaos Weaver Tooltips */}
-                    {finalConfig.visual?.type === 'mayhem-modifiers' && chaosWeaverHoverSection && (
+                    {/* Harbinger Tooltips */}
+                    {finalConfig.visual?.type === 'mayhem-gauge' && chaosWeaverHoverSection && (
                         <div>
                             {chaosWeaverHoverSection === 'modifiers' && (
                                 <>
@@ -10435,7 +9059,7 @@ const ClassResourceBar = ({
                                             <strong>Current:</strong> {localModifiers}/20 modifiers
                                         </div>
                                         <div style={{ fontSize: '0.9rem' }}>
-                                            <strong>Each modifier:</strong> ±1 to chaos table results
+                                            <strong>Each modifier:</strong> Â±1 to chaos table results
                                         </div>
                                     </div>
 
@@ -10447,7 +9071,7 @@ const ClassResourceBar = ({
                                             <strong>Generate:</strong>
                                             <span>Chaotic spells (1d4-2d4 per spell)</span>
                                             <strong>Spend:</strong>
-                                            <span>Adjust chaos table results (±1 each)</span>
+                                            <span>Adjust chaos table results (Â±1 each)</span>
                                         </div>
                                     </div>
                                 </>
@@ -10499,35 +9123,26 @@ const ClassResourceBar = ({
         );
     };
 
-    // Don't show wrapper tooltip for Arcanoneer (spheres have individual tooltips)
-    // Rage, Bladedancer, Chronarch, Chaos Weaver, Deathcaller, Dreadnaught, Exorcist, False Prophet, Fate Weaver, Gambler, Huntress, Inscriptor, Lichborne, Lunarch, Martyr, Minstrel, Oracle, Plaguebearer, Primalist, Pyrofiend, Spellguard, Titan, Warden, and Witch Doctor handle their own tooltips internally
     const isArcanoneer = finalConfig.visual.type === 'elemental-spheres';
-    const isBladedancer = finalConfig.type === 'dual-resource';
+    const isShaper = finalConfig.type === 'dual-resource';
     const isBerserker = finalConfig.type === 'rage';
-    const isChaosWeaver = finalConfig.visual?.type === 'mayhem-modifiers';
+    const isHarbinger = finalConfig.visual?.type === 'mayhem-gauge';
     const isChronarch = finalConfig.visual?.type === 'time-shards-strain';
-    const isDeathcaller = finalConfig.visual?.type === 'ascension-blood';
-    const isDreadnaught = finalConfig.visual?.type === 'drp-resilience';
-    const isExorcist = finalConfig.visual?.type === 'dominance-die';
+    const isRevenant = finalConfig.visual?.type === 'ascension-blood';
     const isFalseProphet = finalConfig.visual?.type === 'madness-gauge';
-    const isFateWeaver = modifiedConfig.visual?.type === 'threads-of-destiny';
-    const isGambler = finalConfig.visual?.type === 'fortune-points-gambling';
-    const isHuntress = finalConfig.visual?.type === 'quarry-marks-companion';
-    const isInscriptor = finalConfig.visual?.type === 'runes-inscriptions';
-    const isLichborne = finalConfig.visual?.type === 'eternal-frost-phylactery';
+    const isGambitThreads = modifiedConfig.visual?.type === 'threads-of-destiny';
+    const isGambit = finalConfig.visual?.type === 'fortune-points-gambling';
+    const isApex = finalConfig.visual?.type === 'quarry-marks-companion';
+    const isAnimist = finalConfig.visual?.type === 'ancestral-resonance';
+    const isInquisitor = finalConfig.visual?.type === 'hexbreaker-charges';
     const isLunarch = finalConfig.visual?.type === 'lunar-phases';
     const isMartyr = finalConfig.visual?.type === 'devotion-gauge';
     const isMinstrel = finalConfig.visual?.type === 'musical-notes-combo';
-    const isOracle = finalConfig.visual?.type === 'prophetic-visions';
-    const isPlaguebearer = finalConfig.visual?.type === 'virulence-bar';
-    const isPrimalist = finalConfig.visual?.type === 'totemic-synergy';
+    const isPlaguebringer = finalConfig.visual?.type === 'virulence-bar';
     const isPyrofiend = finalConfig.visual?.type === 'inferno-veil';
     const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';
     const isWarden = finalConfig.visual?.type === 'vengeance-points';
-    const isWitchDoctor = finalConfig.visual?.type === 'voodoo-essence';
-    const isTitan = finalConfig.visual?.type === 'celestial-devotion';
     const isAugur = finalConfig.visual?.type === 'dual-omen';
-    const isDoomsayer = finalConfig.visual?.type === 'havoc';
 
     // Hide CR bar if class has no resource system (max === 0)
     // This prevents showing "0/0" bars for GMs or characters without class resources
@@ -10540,32 +9155,24 @@ const ClassResourceBar = ({
             <div
                 ref={resourceBarWrapperRef}
                 className={`class-resource-wrapper ${isGMMode ? 'clickable' : ''}`}
-                onMouseEnter={!isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseEnter : undefined}
-                onMouseLeave={!isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseLeave : undefined}
-                onMouseMove={!isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isWarden && !isWitchDoctor && !isAugur && !isDoomsayer ? handleMouseMove : undefined}
+                onMouseEnter={!isBerserker && !isShaper && !isHarbinger && !isChronarch && !isRevenant && !isFalseProphet && !isGambitThreads && !isGambit && !isApex && !isAnimist && !isInquisitor && !isLunarch && !isMartyr && !isMinstrel && !isPlaguebringer && !isPyrofiend && !isSpellguard && !isWarden && !isAugur ? handleMouseEnter : undefined}
+                onMouseLeave={!isBerserker && !isShaper && !isHarbinger && !isChronarch && !isRevenant && !isFalseProphet && !isGambitThreads && !isGambit && !isApex && !isAnimist && !isInquisitor && !isLunarch && !isMartyr && !isMinstrel && !isPlaguebringer && !isPyrofiend && !isSpellguard && !isWarden && !isAugur ? handleMouseLeave : undefined}
+                onMouseMove={!isBerserker && !isShaper && !isHarbinger && !isChronarch && !isRevenant && !isFalseProphet && !isGambitThreads && !isGambit && !isApex && !isAnimist && !isInquisitor && !isLunarch && !isMartyr && !isMinstrel && !isPlaguebringer && !isWarden && !isAugur ? handleMouseMove : undefined}
                 onClick={handleClick}
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}
             >
                 {renderResourceDisplay()}
-                {!isMartyr && !isAugur && !isDoomsayer && !(isArcanoneer && arcanoneerState.hoveredElement) && renderTooltip()}
+                {!isMartyr && !isAugur && !(isArcanoneer && arcanoneerState.hoveredElement) && renderTooltip()}
                 {isArcanoneer && renderArcanoneerRollTooltip()}
                 {isArcanoneer && renderArcanoneerHoverTooltip()}
             </div>
 
-            {/* Demon Config Modal for Exorcist */}
-            {finalConfig.visual?.type === 'dominance-die' && (
-                <DemonConfigModal
-                    show={showDemonConfigModal}
-                    onClose={() => setShowDemonConfigModal(false)}
-                    onSave={handleDemonConfigSave}
-                    mode={demonConfigMode}
-                    initialData={demonConfigInitialData}
-                />
-            )}
         </>
     );
 };
 
 export default ClassResourceBar;
+
+
 
 

@@ -18,13 +18,24 @@ const DEFAULT_ACCENT = { color: '#8b4513', bg: 'rgba(139,69,19,0.08)', icon: 'fa
 
 const parseNpcBlock = (rawText) => {
   if (!rawText) return [];
-  const bullets = rawText.split(/\n\n/).filter(b => b.trim().startsWith('\u2022'));
-  return bullets.map(bullet => {
-    const text = bullet.replace(/^\u2022\s*/, '').trim();
+  // Data uses markdown-style "- **Name:**" bullets, may be separated by \n\n or \n
+  // Split on lines starting with '- '
+  const lines = rawText.split('\n');
+  const bullets = [];
+  let current = null;
+  for (const line of lines) {
+    if (line.trim().startsWith('- **')) {
+      if (current !== null) bullets.push(current);
+      current = line.trim().replace(/^-\s*/, '');
+    } else if (current !== null && line.trim()) {
+      current += ' ' + line.trim();
+    }
+  }
+  if (current !== null) bullets.push(current);
 
+  return bullets.map(text => {
     const nameMatch = text.match(/^\*\*(.+?):\*\*/);
     const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
-
     const remainder = nameMatch ? text.slice(nameMatch[0].length).trim() : text;
 
     const extractField = (fieldName) => {
@@ -43,8 +54,37 @@ const parseNpcBlock = (rawText) => {
       secret:   extractField('Secret'),
       conflict: extractField('Conflict'),
     };
-  });
+  }).filter(npc => npc.goal || npc.secret || npc.conflict); // only keep full NPC cards
 };
+
+// Parse the Street-Level Contacts block into region groups
+const parseContactsBlock = (rawText) => {
+  if (!rawText) return [];
+  const groups = [];
+  let currentGroup = null;
+
+  const lines = rawText.split('\n');
+  for (const line of lines) {
+    const regionMatch = line.match(/^\*\*(.+?):\*\*\s*$/);
+    if (regionMatch) {
+      if (currentGroup) groups.push(currentGroup);
+      currentGroup = { region: regionMatch[1], contacts: [] };
+      continue;
+    }
+    if (line.trim().startsWith('- **') && currentGroup) {
+      const text = line.trim().replace(/^-\s*/, '');
+      const nameMatch = text.match(/^\*\*(.+?):\*\*/);
+      if (nameMatch) {
+        const name = nameMatch[1].trim();
+        const desc = text.slice(nameMatch[0].length).trim();
+        currentGroup.contacts.push({ name, desc });
+      }
+    }
+  }
+  if (currentGroup) groups.push(currentGroup);
+  return groups;
+};
+
 
 const renderLore = (text) => {
   if (!text) return null;
@@ -119,6 +159,39 @@ const NpcCard = ({ npc, accent }) => {
     </div>
   );
 };
+// Street-Level Contacts compact renderer
+const StreetContactsSection = ({ content }) => {
+  const groups = useMemo(() => parseContactsBlock(content), [content]);
+  if (!groups.length) return null;
+
+  return (
+    <div className="dp-contacts-section">
+      <div className="dp-contacts-header">
+        <i className="fas fa-handshake" />
+        <h3>Street-Level Contacts</h3>
+        <span className="dp-contacts-badge">First Sessions</span>
+      </div>
+      <p className="dp-contacts-intro">
+        These are the people your characters will actually meet in the first few sessions — not grand exemplars or guild masters, but tavern keepers, merchants, and local figures who have their own problems and can offer work, information, or trouble.
+      </p>
+      <div className="dp-contacts-grid">
+        {groups.map(group => (
+          <div key={group.region} className="dp-contacts-group">
+            <h4 className="dp-contacts-region">{group.region}</h4>
+            <ul className="dp-contacts-list">
+              {group.contacts.map((c, i) => (
+                <li key={i} className="dp-contact-item">
+                  <span className="dp-contact-name">{c.name}</span>
+                  <span className="dp-contact-desc">{renderLore(c.desc)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const DramatisPersonaeDisplay = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -128,17 +201,22 @@ const DramatisPersonaeDisplay = () => {
 
   const worldLore = RULES_CATEGORIES.find(c => c.id === 'world-lore');
   const sub = worldLore?.subcategories?.find(s => s.id === 'dramatis-personae');
-  const sections = sub?.content?.sections || [];
+  const allSections = sub?.content?.sections || [];
+
+  // Separate the street-level contacts section from named NPC sections
+  const contactsSection = allSections.find(s => s.title === 'Street-Level Contacts');
+  const npcSections = allSections.filter(s => s.title !== 'Street-Level Contacts');
 
   const regionData = useMemo(() => {
-    return sections.map((section, index) => {
+    return npcSections.map((section, index) => {
       const regionName = section.title.replace(/\s*\(.*?\)/, '').trim();
       const subtitle = (() => { const m = section.title.match(/\((.+?)\)/); return m ? m[1] : null; })();
       const accent = REGION_ACCENTS[regionName] || DEFAULT_ACCENT;
       const npcs = parseNpcBlock(section.content);
       return { regionName, subtitle, accent, npcs, index };
     });
-  }, [sections]);
+  }, [npcSections]);
+
 
   const filteredRegions = useMemo(() => {
     if (!searchQuery.trim()) return regionData;
@@ -249,6 +327,11 @@ const DramatisPersonaeDisplay = () => {
               </div>
             </div>
           ))}
+
+          {/* Street-Level Contacts — rendered below all NPC cards */}
+          {contactsSection && !searchQuery && (
+            <StreetContactsSection content={contactsSection.content} />
+          )}
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ export const HARROW_PATH = {
     integrationNotes: {
         actionPointSystem: 'Harrow abilities focus on endurance, fear, and survival.',
         backgroundSynergy: 'Works well with Haunted One or Soldier backgrounds.',
-        classCompatibility: 'Strong with Dreadnaught, Deathcaller, or Lichborne classes.'
+        classCompatibility: 'Strong with Martyr or Revenant classes.'
     },
 
     roleplayingTips: [
@@ -179,7 +179,7 @@ export const HARROW_PATH = {
             spellType: 'ACTION',
             tags: ['action', 'debuff', 'fear', 'aura', 'mental'],
             effectTypes: ['debuff'],
-            damageTypes: ['psychic'],
+            damageTypes: ['wyrd'],
 
             typeConfig: {
                 school: 'necrotic',
@@ -245,7 +245,7 @@ export const HARROW_PATH = {
             spellType: 'ACTION',
             tags: ['damage', 'disease', 'dot', 'necrotic'],
             effectTypes: ['damage'],
-            damageTypes: ['necrotic'],
+            damageTypes: ['blight'],
 
             damageConfig: {
                 damageType: 'dot',
@@ -543,7 +543,7 @@ export const HARROW_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'necrotic', 'sacrifice', 'high damage'],
                     effectTypes: ['damage'],
-                    damageTypes: ['necrotic'],
+                    damageTypes: ['blight'],
 
                     damageConfig: {
                         damageType: 'direct',
@@ -619,7 +619,7 @@ export const HARROW_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'disease', 'dot', 'debuff'],
                     effectTypes: ['damage', 'debuff'],
-                    damageTypes: ['poison', 'necrotic'],
+                    damageTypes: ['blight'],
 
                     damageConfig: {
                         damageType: 'dot',
@@ -653,7 +653,7 @@ export const HARROW_PATH = {
                                 name: 'Diseased',
                                 description: 'Suffering from virulent plague, taking damage over time.',
                                 dotFormula: '1d6',
-                                dotDamageType: 'poison',
+                                dotDamageType: 'blight',
                                 damagePerTurn: '1d6',
                                 mechanicsText: 'Taking poison damage over time from virulent plague'
                             }
@@ -706,7 +706,7 @@ export const HARROW_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'disease', 'spread', 'aoe'],
                     effectTypes: ['damage'],
-                    damageTypes: ['poison'],
+                    damageTypes: ['blight'],
 
                     damageConfig: {
                         damageType: 'dot',

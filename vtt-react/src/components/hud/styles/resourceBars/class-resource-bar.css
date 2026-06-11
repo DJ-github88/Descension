@@ -42,18 +42,6 @@
     min-height: 14px !important;
 }
 
-/* DRP Resilience */
-.character-card .drp-resilience,
-.character-card-compact .drp-resilience {
-    min-height: 14px !important;
-}
-
-/* Dominance Die Display */
-.character-card .dominance-die-display,
-.character-card-compact .dominance-die-display {
-    min-height: 14px !important;
-}
-
 /* Madness Gauge */
 .character-card .madness-gauge,
 .character-card-compact .madness-gauge {
@@ -85,7 +73,7 @@
     font-size: 0.6rem !important;
 }
 
-/* Quarry Marks & Companion (Huntress) */
+/* Quarry Marks & Companion (Apex) */
 .character-card .quarry-marks-companion,
 .character-card-compact .quarry-marks-companion {
     min-height: 14px !important;
@@ -94,12 +82,6 @@
 /* Runes & Inscriptions */
 .character-card .runes-inscriptions,
 .character-card-compact .runes-inscriptions {
-    min-height: 14px !important;
-}
-
-/* Eternal Frost Phylactery (Lichborn) */
-.character-card .eternal-frost-phylactery,
-.character-card-compact .eternal-frost-phylactery {
     min-height: 14px !important;
 }
 
@@ -115,7 +97,7 @@
     min-height: 14px !important;
 }
 
-/* Stance Flow (Bladedancer) */
+/* Shaper Stance (Shaper) */
 .character-card .stance-flow,
 .character-card-compact .stance-flow {
     min-height: 14px !important;

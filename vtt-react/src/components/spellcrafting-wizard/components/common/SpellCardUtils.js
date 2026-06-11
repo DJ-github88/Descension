@@ -698,7 +698,7 @@ export const formatEffectComponent = (spell, effectType, subType = null) => {
     if (!damageConfig) return null;
 
     const damageType = damageConfig.damageType || 'direct';
-    const elementType = damageConfig.elementType || 'fire';
+    const elementType = damageConfig.elementType || 'ember';
     const elementName = elementType.charAt(0).toUpperCase() + elementType.slice(1);
     
     // Get damage types array
@@ -971,13 +971,13 @@ export const getSpellSchoolColor = (school) => {
   if (!school) return '';
 
   const schoolLower = school.toLowerCase();
-  if (schoolLower === 'fire') return 'spell-fire';
-  if (schoolLower === 'frost' || schoolLower === 'cold') return 'spell-frost';
+  if (schoolLower === 'ember') return 'spell-fire';
+  if (schoolLower === 'rime' || schoolLower === 'rime') return 'spell-frost';
   if (schoolLower === 'arcane') return 'spell-arcane';
   if (schoolLower === 'nature') return 'spell-nature';
-  if (schoolLower === 'shadow') return 'spell-shadow';
-  if (schoolLower === 'holy') return 'spell-holy';
-  if (schoolLower === 'lightning') return 'spell-lightning';
+  if (schoolLower === 'blight') return 'spell-shadow';
+  if (schoolLower === 'ember') return 'spell-holy';
+  if (schoolLower === 'storm') return 'spell-lightning';
   return 'spell-physical';
 };
 

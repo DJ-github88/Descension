@@ -408,41 +408,41 @@ export const BESTIARY_DATA = {
             "A Bloodhammer elder recognizes a Skrei as his grandfather. He wants to perform the return-ritual personally. But his grandfather's name-song was never recorded — it was traded to the Archive decades ago. The party must find the cylinder that holds the song before the next freeze."
           ]
         },
-        {
-          "id": "stel",
-          "name": "Frost Lizard",
+                {
+          "id": "skerry",
+          "name": "Skerry",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Frost Lizard",
-          "role": "Cold reptile",
-          "origin": "A cold-blooded reptile adapted to the freezing temperatures of the valley.",
-          "nature": "A thick-scaled lizard that camouflages against the ice, hunting small insects.",
-          "habitat": "Ice sheets and glacial runoffs.",
-          "combat": "140 HP. Resistance to all physical damage except fire. Generates a 60-ft radius of extreme cold (DC 14 CON each round or 1d6 cold and slowed). Melee slam (3d6+5 bludgeoning + 2d6 cold). Can release a blast of ancient air in a 30-ft cone (DC 16 CON, 6d8 cold, frozen solid if failed by 5+).",
+          "illustration": "/assets/images/creatures/skerry.png",
+          "illustrationCaption": "A Skerry clinging to a frozen dock piling, its eyes gleaming with the reflection of stolen gold",
+          "role": "The drowned-greed shipwright",
+          "origin": "Born from Norse myths of Andvari—the treasure-hoarding water dwarf—and maritime tales of the Klabautermann. The Skerries are stout, dwarf-like sea sprites driven by an insatiable greed for salvaged metal and gold.",
+          "nature": "A stout, broad water-sprite with waterlogged blue-grey skin like wet oak. It wears a coat of salvaged sailcloth and copper sheeting. Its webbed fingers end in chisel-like claws of copper. Highly skilled in shipbuilding, it listens to the stresses in ship hulls and demands silver or gold to make repairs; if cheated, it actively sabotages the vessel.",
+          "habitat": "Frozen bays, ice-locked docks, and sunken shipwrecks in Nordhalla.",
+          "combat": "120 HP. Rivet Hammer (melee, 2d8+4 bludgeoning, ignores 4 points of physical damage reduction). Pry Timber (damages ships or structural defenses, deals double damage to wooden objects). Gild-Grip (target's movement speed is reduced by 10 ft for each piece of metal equipment or coin purse they carry, DC 13 CON negates). Vulnerable to fire.",
           "stats": {
-            "strength": 18,
-            "agility": 10,
+            "strength": 16,
+            "agility": 12,
             "constitution": 16,
-            "intelligence": 8,
-            "spirit": 12,
-            "charisma": 6,
-            "maxHp": 140,
-            "maxMana": 0,
+            "intelligence": 12,
+            "spirit": 14,
+            "charisma": 8,
+            "maxHp": 120,
+            "maxMana": 20,
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "physical": 50,
-              "cold": 100
+              "cold": 100,
+              "physical": 25
             },
             "vulnerabilities": {
-              "fire": 100
+              "fire": 50
             }
           },
-          "depth": "Harmless unless stepped on.",
+          "depth": "Sailors and shipwrights in Nordhalla keeps respect the Skerries. They throw copper coins into the icy water before docking, as the cost of a clean repair is far cheaper than a sudden hull breach in the freezing open sea.",
           "hooks": [
-            "A Stel is approaching a settlement. Redirect it using mirrors and sustained heat-sources to melt its leading edge — but this requires a coordinated effort and a source of fuel.",
-            "The Skald know a ritual that can communicate with the Stel's ice-core. It may answer questions about the time before the bargain — including the location of things buried by the original glaciers.",
-            "The Stel's path crosses the entrance to an ancient ruin. The party must either divert it (risking angering the ice) or time their entry between its passes (a narrow window)."
+            "A wealthy trading cog sank just outside the harbor. The local Skerries have blockaded the wreck, claiming the cargo as their sovereign hoard and dragging salvage divers down.",
+            "A Skerry was cheated of its pay by a corrupt harbormaster. In revenge, it has begun systematically loosening the hull rivets of every boat in the harbor.",
+            "An ancient, titanic Skerry has surfaced near the fjord mouth, dragging driftwood and sunken anchors to build a massive, gold-adorned shore-shrine that blockades the shipping lanes."
           ]
         },
         {
@@ -784,6 +784,42 @@ export const BESTIARY_DATA = {
             "Track a Ba-Spirit at night. The gold ash it weeps leaves a glowing trail that leads directly to a buried vault containing Solvarn artifacts.",
             "Reconstruct a sun-hymn. A scholar needs the party to record three different songs sung by Ba-Spirits at three separate ruins."
           ]
+        },
+        {
+          "id": "udu",
+          "name": "Udu",
+          "dangerLevel": "Low",
+          "illustration": "/assets/images/creatures/udu.png",
+          "illustrationCaption": "An Udu perched on a warm basalt pipe, its long ears perked for shifting stones",
+          "role": "The soot-sweeper hearth imp",
+          "origin": "Formed from Mesopotamian myths of the Udug—spirits that slip through narrow cracks—and Zoroastrian beliefs in hearth-guardians. The Udu are small, soot-furred desert rodents that seek geothermal warmth in the cold, sunless valleys.",
+          "nature": "A long-eared, large-eyed jerboa-like rodent covered in soft, charcoal-grey fur that sheds ash. It has a single basalt horn on its forehead for chipping minerals. Its tail ends in a smoldering, orange-glowing tuft that acts as a natural light source. Highly inquisitive and peaceful, but prone to stealing hot embers for its nest.",
+          "habitat": "Geothermal crevices, longhouse ovens, and volcanic mine shafts in Sundale.",
+          "combat": "25 HP. Cannot deal direct damage. Soot Cloud (AoE, 10-ft radius, DC 12 CON save or blinded for 1 round as it kicks up a cloud of ash). Spark Flash (emits a bright flash from its tail tuft, DC 10 AGI save or target has disadvantage on their next attack). Scurry (can leap 20 ft as a bonus action, avoiding opportunity attacks). Vulnerable to cold.",
+          "stats": {
+            "strength": 4,
+            "agility": 16,
+            "constitution": 10,
+            "intelligence": 6,
+            "spirit": 12,
+            "charisma": 10,
+            "maxHp": 25,
+            "maxMana": 10,
+            "maxActionPoints": 3,
+            "speed": 40,
+            "resistances": {
+              "fire": 50
+            },
+            "vulnerabilities": {
+              "cold": 50
+            }
+          },
+          "depth": "Emberth miners welcome the Udu because they consume dangerous soot deposits in chimneys and warn of cave-ins by sensing low-frequency vibrations with their large ears. However, their hoarding of hot coals makes them minor household pests.",
+          "hooks": [
+            "A colony of Udu has nested in the primary air shaft of a Neth furnace, choking it with their glowing coal hoard. Retrieve the coal and relocate the colony safely.",
+            "An Udu has stolen a rare glowing ember-stone meant for a Solvarn ritual. Track its glowing tail trail to find its warm burrow.",
+            "Miners report that the local Udu have all suddenly fled the lower levels of a mine, suggesting an imminent collapse or something far worse waking in the dark."
+          ]
         }
       ]
     },
@@ -904,43 +940,39 @@ export const BESTIARY_DATA = {
             "The Thalass surfaced near Ironjaw Port and began pounding on the sea-wall with wave-fists. The Neth believe it is trying to deliver a message from the sea-shard. The message, if decoded, may reveal the shard's exact depth and location."
           ]
         },
-        {
+                {
           "id": "pelagos",
-          "name": "Reef Hound",
-          "dangerLevel": "High",
+          "name": "Pelagos",
+          "dangerLevel": "Medium",
           "illustration": "/assets/images/creatures/pelagos.png",
-          "illustrationCaption": "A sketch of Reef Hound in its natural environment",
-          "role": "Amphibious beast",
-          "origin": "An amphibious mammal native to the shallow reefs.",
-          "nature": "A playful, seal-like hunter that swims in coastal waters, catching fish.",
-          "habitat": "Shallow reefs and rocky islands.",
-          "combat": "300 HP. Immune to physical, piercing, and slashing — it is water. Immune to cold — it is the sea. Each round, the Pelagos generates a Warm Calm (20 ft radius within its ring — all allies within heal 1d6 HP per round). Undertow (any creature within the ring that the Pelagos considers hostile is dragged toward its center, DC 18 STR or restrained by water-pressure for 1 round). Shipbreaker (the Pelagos can form a focused jet of water, 4d12 bludgeoning, 60 ft range, DC 16 AGI half). Current Memory (1/round, the Pelagos speaks a phrase in debris-clicks — DC 14 INT to interpret, success reveals the location of the nearest shipwreck within 10 miles). Vulnerable to fire and evaporation — sustained heat damage causes it to lose form, dealing double damage. At 0 HP, it dissipates and reforms in 1d6 days elsewhere.",
+          "illustrationCaption": "A Pelagos bounding through the icy spray, its bioluminescent whiskers twitching",
+          "role": "The spume-hound pack hunter",
+          "origin": "Inspired by Yoruba maritime tales of Olokun's Sea Dogs—guardians of deep waters—and the Greek Hippocampus. Fused by the Wyrd, the Pelagos are highly intelligent, amphibious pack hunters tracking deep currents.",
+          "nature": "A sleek hound resembling a greyhound but covered in smooth, rubbery shark skin with deep indigo and sea-foam green countershading. It has webbed paws, a dolphin-like dorsal fin, and a powerful shark tail. Its chin features soft, glowing sensory whiskers that detect movement under freezing waters, and its eyes emit a soft green bioluminescence.",
+          "habitat": "Coastal reefs, ice shelves, and kelp forests in the Iceheart Sea.",
+          "combat": "85 HP. Spume Bite (melee, 2d6+4 piercing, plus DC 12 CON save or bleeds for 1d6 physical damage per round for 3 rounds). Bioluminescent Flash (emits a sharp flash of light from its eyes, 30 ft range, DC 13 AGI save or blinded for 1 round). Slipstream (moves 50 ft, ignoring difficult terrain in water). Immune to cold, resistant to piercing and slashing.",
           "stats": {
-            "strength": 20,
-            "agility": 14,
-            "constitution": 20,
-            "intelligence": 14,
-            "spirit": 14,
+            "strength": 14,
+            "agility": 18,
+            "constitution": 12,
+            "intelligence": 10,
+            "spirit": 12,
             "charisma": 12,
-            "maxHp": 300,
-            "maxMana": 0,
+            "maxHp": 85,
+            "maxMana": 10,
             "maxActionPoints": 4,
-            "speed": 20,
+            "speed": 40,
             "resistances": {
               "cold": 100,
-              "physical": 75,
-              "piercing": 75,
-              "slashing": 75
-            },
-            "vulnerabilities": {
-              "fire": 100
+              "piercing": 50,
+              "slashing": 50
             }
           },
-          "depth": "Highly friendly and trainable.",
+          "depth": "Highly intelligent and trainable companions. Coastal fishers and Deep-Born divers domesticate them to guide ships through rocky shoals, retrieve dropped anchors, and alert crews to low-frequency underwater vibrations.",
           "hooks": [
-            "The party's ship is caught in a storm and a Pelagos appears, offering temporary refuge. But the Pelagos is moving toward a known ship-graveyard and will not change course. Stay and reach the graveyard safely, or brave the storm to escape.",
-            "The Pelagos has absorbed the cargo of a ship that sank three centuries ago carrying a letter addressed to House Mereval. The letter may contain evidence that the original bargain was not what the histories record. Recover the letter from within the Pelagos — but it can only be accessed by entering the ring and convincing the sea to release it.",
-            "A Deep-Born Myrathil claims the Pelagos is dying — the ring is shrinking. She believes the sea-shard is draining the ocean's consciousness. If the Pelagos dies, the Iceheart will forget everything it ever witnessed, including the coordinates of every shipwreck within a hundred miles."
+            "A pack of feral Pelagos has begun harrying fishing boats near the reefs. The local fishers want them driven off, but a Deep-Born elder claims they are fleeing a far larger predator waking in the trench.",
+            "An albino Pelagos, sacred to Olokun, was captured by a Neth merchant for sale. The Myrathil reef-keepers hire the party to break into the merchant's warehouse and rescue it before it is shipped off.",
+            "A diver lost their copper navigational compass in a deep trench. The party must bribe a domesticated Pelagos with raw reef-crabs to dive down and track the metallic scent."
           ]
         },
         {
@@ -1655,42 +1687,41 @@ export const BESTIARY_DATA = {
             "The Morok has stained a party member. The stain will not heal, and it is spreading — slowly, over days, the dark patch is growing. The Vreken Clean know a fungal poultice that can halt the spread, but the Morok-stain must be exposed to living fungal light for a full day. The party must find a safe place with continuous fungal glow — the Synod-Hold's crystal lattice, perhaps."
           ]
         },
-        {
+                        {
           "id": "vatra",
-          "name": "Fungal Nymph",
+          "name": "Vatra",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Fungal Nymph",
-          "role": "Gloomwood sprite",
-          "origin": "A forest spirit wrapped in glowing mushrooms and vines.",
-          "nature": "A glowing sprite that guides travelers through the swamp paths.",
-          "habitat": "Fungal groves.",
-          "combat": "80 HP. Immune to necrotic — she has already died once. Fungal Thread Attack (melee, reach 10 ft, 1d8 piercing + DC 14 SPI save or the target must answer the Vatra's question. \"May I borrow your name?\" — saying no deals 2d6 psychic damage from the rejection; saying yes causes the name-loss effect for 3 days). Thread-Binding (30 ft range, DC 14 AGI save or restrained by fungal threads for 2 rounds — the threads are flammable, fire damage frees the target instantly). Burning Regeneration (when the Vatra is reduced below half HP, her fungal threads ignite, dealing 1d6 fire damage to all creatures within 10 ft per round, but she regenerates 10 HP per round from the burning mycelium. Fire vulnerability can be exploited — sustained fire damage prevents regeneration).",
+          "illustration": "/assets/images/creatures/vatra.png",
+          "illustrationCaption": "A Vatra sprite scurrying inside a hollow tree, its mossy mane carrying a miniature swamp",
+          "role": "The scurrying moss-sprite",
+          "origin": "Formed from Slavic myths of the Leshachiks—tiny tree-dwelling helpers of the Leshy—and Carpathian tales of the warm Vatra-sap. These wood-sprites carry a highly prized, glowing hot resin in their veins, making them prey for alchemists seeking warmth in the sunless world.",
+          "nature": "A tiny, cute bark-skinned sprite (about 1.5 feet tall) with long, spindly twig limbs that let it climb and scurry rapidly. Its head is crowned with a thick mane of damp moss, ferns, and mushrooms. When threatened, it crawls into hollow logs or tree knots, tucking in its limbs to disguise itself perfectly as a natural wooden burl. It speaks in a secretive clicking and rustling language.",
+          "habitat": "Damp ironwood hollows and deep peat-bogs in the Bryngloom Forest.",
+          "combat": "45 HP. Scurry (moves 50 ft as a bonus action, avoiding opportunity attacks). Needleshot (ranged, 30 ft range, 1d6+3 piercing + DC 12 CON save or poisoned for 2 rounds). Bark Disguise (as an action, blends into wood to gain total concealment). Warm Sap Leak (when reduced to 0 HP, its warm gold sap leaks out; any creature within 5 ft gains temporary fire resistance for 3 rounds). Vulnerable to fire.",
           "stats": {
-            "strength": 12,
-            "agility": 10,
-            "constitution": 16,
-            "intelligence": 14,
-            "spirit": 16,
-            "charisma": 14,
-            "maxHp": 80,
-            "maxMana": 20,
-            "maxActionPoints": 5,
-            "speed": 25,
+            "strength": 6,
+            "agility": 18,
+            "constitution": 10,
+            "intelligence": 12,
+            "spirit": 14,
+            "charisma": 12,
+            "maxHp": 45,
+            "maxMana": 10,
+            "maxActionPoints": 4,
+            "speed": 40,
             "resistances": {
-              "necrotic": 100,
-              "poison": 50
+              "poison": 50,
+              "necrotic": 50
             },
             "vulnerabilities": {
-              "fire": 50,
-              "radiant": 50
+              "fire": 50
             }
           },
-          "depth": "Entirely peaceful.",
+          "depth": "They are clever undergrowth hunters, preying on insects and small frogs. They are relentlessly hunted by Drun and Neth alchemists for their glowing gold sap, which serves as a long-lasting, smokeless heat source for lanterns and hearths.",
           "hooks": [
-            "A Neth Velun arcanist wants the Vatra captured alive. The names woven into her threads include three that belong to clauses in the First Contract — names that could rewrite the terms of Neth immortality. The Vatra will not come willingly. The Drun will fight to protect her.",
-            "The Vatra has borrowed the name of a party member. For three days, nothing they say or sign carries legal weight. This is catastrophic — they are in the middle of negotiating with a Vreken crypt-council. Find a way to accelerate the fungal thread's decay or replace the borrowed name temporarily.",
-            "A Drun elder says the Vatra is close to writing a complete name onto herself — her own original name, lost when she burned it from the Contract. If she succeeds, she will become the first Drun to regain legal existence. But the name she is writing is also the name of a Neth noble who is currently alive and using it. Two Neth cannot share a name. One must lose it."
+            "A group of Neth alchemists has set up traps in a sacred grove to harvest Vatra sap. The local Drun want the party to dismantle the traps and drive the harvesters out before the forest's balance is broken.",
+            "A Vatra has nested in the hollow leg of a noble's wooden desk, hiding from collectors. It has been stealing small items and documents to line its nest. Find the sprite and recover the items without harming it.",
+            "The party needs high-grade warm sap to survive a passage through a freezing mountain pass. They must locate a colony of scurrying Vatras and convince them to trade their sap for a rare swamp-fly delicacy."
           ]
         },
         {

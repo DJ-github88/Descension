@@ -12,7 +12,7 @@ export const MYSTIC_PATH = {
     integrationNotes: {
         actionPointSystem: 'Mystic abilities focus on energy manipulation and spiritual balance.',
         backgroundSynergy: 'Works well with Hermit or Sage backgrounds.',
-        classCompatibility: 'Strong with Oracle, Martyr, or Primalist classes.'
+        classCompatibility: 'Strong with Augur (Seer), Martyr, or Animist classes.'
     },
 
     roleplayingTips: [
@@ -178,7 +178,7 @@ export const MYSTIC_PATH = {
             spellType: 'ACTION',
             tags: ['action', 'damage', 'healing', 'drain', 'soul'],
             effectTypes: ['damage', 'healing'],
-            damageTypes: ['necrotic'],
+            damageTypes: ['blight'],
 
             typeConfig: {
                 school: 'necrotic',

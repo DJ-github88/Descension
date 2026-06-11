@@ -428,3 +428,79 @@
     color: #5a3a1a;
     margin-bottom: 0.5rem;
 }
+
+/* ============================================
+   RESPONSIVE - EQUIPMENT SELECTION
+   ============================================ */
+
+@media (max-width: 1100px) {
+    .equipment-selection-main {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .equipment-shop-panel,
+    .equipment-cart-panel {
+        max-height: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .equipment-shop-grid {
+        --cell-size: 44px;
+        --grid-cols: 8;
+    }
+
+    .equipment-cart-grid {
+        --cell-size: 44px;
+        --grid-cols: 8;
+    }
+
+    .equipment-category-filter {
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+
+    .equipment-category-filter button {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.78rem;
+    }
+
+    .shop-panel-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .equipment-shop-panel,
+    .equipment-cart-panel {
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .equipment-shop-grid {
+        --cell-size: 40px;
+        --grid-cols: 7;
+    }
+
+    .equipment-cart-grid {
+        --cell-size: 40px;
+        --grid-cols: 7;
+    }
+
+    .equipment-shop-panel,
+    .equipment-cart-panel {
+        padding: 0.4rem;
+        border-width: 2px !important;
+    }
+
+    .equipment-category-filter button {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.72rem;
+    }
+
+    .cart-empty-message {
+        padding: 1.5rem 1rem;
+        font-size: 0.95rem;
+    }
+}

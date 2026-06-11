@@ -544,3 +544,122 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ─────────────────────────────────────────
+   STREET-LEVEL CONTACTS SECTION
+───────────────────────────────────────── */
+.dp-contacts-section {
+  margin-top: 2.5rem;
+  border-top: 1px dashed rgba(196, 160, 96, 0.4);
+  padding-top: 2rem;
+}
+
+.dp-contacts-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.dp-contacts-header i {
+  color: #8f6f35;
+  font-size: 1rem;
+}
+
+.dp-contacts-header h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4a381f;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0;
+}
+
+.dp-contacts-badge {
+  margin-left: auto;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8b6a10;
+  background: rgba(196, 160, 96, 0.12);
+  border: 1px solid rgba(196, 160, 96, 0.35);
+  padding: 3px 10px;
+  border-radius: 10px;
+}
+
+.dp-contacts-intro {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #6d4f2e;
+  line-height: 1.55;
+  margin: 0 0 1.5rem 0;
+  padding: 10px 14px;
+  background: rgba(251, 247, 238, 0.6);
+  border-left: 3px solid rgba(196, 160, 96, 0.4);
+  border-radius: 0 4px 4px 0;
+}
+
+.dp-contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.dp-contacts-group {
+  background: linear-gradient(145deg, rgba(251, 247, 238, 0.7) 0%, rgba(240, 228, 208, 0.4) 100%);
+  border: 1px solid rgba(196, 160, 96, 0.3);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.dp-contacts-region {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6d4021;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 10px 0;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(196, 160, 96, 0.3);
+}
+
+.dp-contacts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.dp-contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dp-contact-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #2b1c11;
+  letter-spacing: 0.2px;
+}
+
+.dp-contact-desc {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.88rem;
+  color: #5a3a1e;
+  line-height: 1.45;
+}
+
+@media (max-width: 640px) {
+  .dp-contacts-grid {
+    grid-template-columns: 1fr;
+  }
+}

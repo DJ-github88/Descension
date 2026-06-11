@@ -43,7 +43,7 @@ const BASE_TEMPLATE = {
       description: 'A quick direct damage spell that deals immediate damage to a single target.',
       category: 'damage',
       subtype: 'direct',
-      damageTypes: ['fire'],
+      damageTypes: ['ember'],
       primaryDamage: {
         dice: '2d6',
         flat: 4,
@@ -69,7 +69,7 @@ const BASE_TEMPLATE = {
       targetingMode: 'aoe',
       aoeShape: 'circle',
       aoeSize: 8,
-      damageTypes: ['frost'],
+      damageTypes: ['rime'],
       primaryDamage: {
         dice: '3d6',
         flat: 6,
@@ -94,7 +94,7 @@ const BASE_TEMPLATE = {
       description: 'Afflicts the target with a condition that deals damage over time.',
       category: 'damage',
       subtype: 'dot',
-      damageTypes: ['necrotic'],
+      damageTypes: ['blight'],
       isDot: true,
       dotDuration: 4,
       dotTick: '1d6',
@@ -457,11 +457,9 @@ const BASE_TEMPLATE = {
     // Adjust resource costs based on class resource systems
     const classResourceMapping = {
       'pyrofiend': 'inferno',
-      'gambler': 'fortune',
-      'fateweaver': 'fortune',
       'primalist': 'totemicSynergy',
       'berserker': 'rage',
-      'covenbane': 'hexbreakerCharges',
+      'inquisitor': 'righteousAuthority',
       'dreadnaught': 'darkResilience',
       'warden': 'vengeance',
       'elementalist': 'elementalHarmony',
@@ -475,7 +473,7 @@ const BASE_TEMPLATE = {
       'druid': 'naturalHarmony',
       'stormbringer': 'stormIntensity',
       'spellblade': 'arcaneCharges',
-      'oracle': 'divineInsight',
+      'augur': 'divineInsight',
       'artificer': 'innovationPoints',
       'necromancer': 'deathEssence',
       'illusionist': 'mirageEnergy',

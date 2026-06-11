@@ -1525,13 +1525,6 @@
   padding: 0;
 }
 
-.class-detail-display.premium-theme .class-header-resource .deathcaller-dual-bars {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  gap: 2px !important;
-}
 
 .class-detail-display.premium-theme .class-header-resource > * {
   pointer-events: auto;
@@ -3643,15 +3636,6 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   min-width: 100% !important;
   max-width: 100% !important;
   flex: 1 1 100%;
-}
-
-/* Fix dual-bars layout in the showcase if needed */
-.rules-resource-bar-container .deathcaller-dual-bars {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  gap: 2px !important;
 }
 
 .resource-bar-hint {

@@ -51,19 +51,16 @@ export const DURATION_TYPES = [
   'permanent'
 ];
 
-// Damage Types (D&D standard)
+// Damage Types (Mythrill canonical)
 export const DAMAGE_TYPES = [
-  'bludgeoning',
-  'fire',
-  'force',
-  'frost',
-  'lightning',
-  'necrotic',
-  'piercing',
-  'poison',
-  'psychic',
-  'radiant',
-  'slashing'
+  'physical',
+  'ember',
+  'rime',
+  'storm',
+  'arcane',
+  'primal',
+  'blight',
+  'wyrd'
 ];
 
 // AOE Shapes
@@ -89,7 +86,7 @@ export const POSITIVE_STATUS_EFFECTS = [
 export const NEGATIVE_STATUS_EFFECTS = [
   'slow',
   'stun',
-  'poison',
+  'blight',
   'blind',
   'silence',
   'weakness'
@@ -151,18 +148,15 @@ export const SPELL_TEMPLATES = [
 
 // Enhanced Effect Types - a collection of all specific effect types
 export const ENHANCED_EFFECT_TYPES_DATA = [
-  // Damage types (D&D standard)
-  { id: 'poison', name: 'Poison', category: 'damage', description: 'Corrosive and toxic damage from venom, toxins, and dissolving materials' },
-  { id: 'bludgeoning', name: 'Bludgeoning', category: 'damage', description: 'Blunt force trauma damage' },
-  { id: 'frost', name: 'Frost', category: 'damage', description: 'Freezing damage from extreme low temperatures' },
-  { id: 'fire', name: 'Fire', category: 'damage', description: 'Burning damage from flames and heat' },
-  { id: 'force', name: 'Force', category: 'damage', description: 'Pure magical energy damage' },
-  { id: 'lightning', name: 'Lightning', category: 'damage', description: 'Electrical damage from lightning and electricity' },
-  { id: 'necrotic', name: 'Necrotic', category: 'damage', description: 'Life-draining damage that withers matter' },
-  { id: 'piercing', name: 'Piercing', category: 'damage', description: 'Damage from puncturing and impaling' },
-  { id: 'psychic', name: 'Psychic', category: 'damage', description: 'Mental damage that affects the mind' },
-  { id: 'radiant', name: 'Radiant', category: 'damage', description: 'Divine energy that burns and purifies' },
-  { id: 'slashing', name: 'Slashing', category: 'damage', description: 'Damage from cutting and tearing' },
+  // Damage types (Mythrill canonical)
+  { id: 'physical', name: 'Physical', category: 'damage', description: 'Kinetic damage from weapons, impacts, and raw force' },
+  { id: 'ember', name: 'Ember', category: 'damage', description: 'Burning damage from flame, heat, and the Emberspire\'s fire' },
+  { id: 'rime', name: 'Rime', category: 'damage', description: 'Freezing damage from extreme cold, frost, and glaciation' },
+  { id: 'storm', name: 'Storm', category: 'damage', description: 'Electrical and concussive damage from lightning and thunder' },
+  { id: 'arcane', name: 'Arcane', category: 'damage', description: 'Pure magical energy — the structured power of the Wyrd' },
+  { id: 'primal', name: 'Primal', category: 'damage', description: 'Raw life-force energy — the unshaped power of the natural world' },
+  { id: 'blight', name: 'Blight', category: 'damage', description: 'Life-draining damage that withers flesh and corrodes matter' },
+  { id: 'wyrd', name: 'Wyrd', category: 'damage', description: 'Mind-rending damage that fractures consciousness and memory' },
   // End of damage types
 
   // Area shapes
@@ -250,8 +244,8 @@ export const DURATION_TYPES_DATA = [
 // Reflection Damage Types
 export const REFLECTION_DAMAGE_TYPES_DATA = [
   { id: 'same', name: 'Same Type', description: 'Reflect damage of the same type' },
-  { id: 'force', name: 'Force', description: 'Reflect damage as force damage' },
-  { id: 'radiant', name: 'Radiant', description: 'Reflect damage as radiant damage' }
+  { id: 'arcane', name: 'Arcane', description: 'Reflect damage as arcane energy' },
+  { id: 'ember', name: 'Ember', description: 'Reflect damage as ember fire' }
 ];
 
 // Resource Interactions
@@ -275,7 +269,7 @@ export const SPELL_TEMPLATES_DATA = [
         primaryEffect: 'damage',
         damageConfig: {
           damageFormula: '1d6',
-          damageTypes: ['force']
+          damageTypes: ['storm']
         }
       },
       targetingConfig: {

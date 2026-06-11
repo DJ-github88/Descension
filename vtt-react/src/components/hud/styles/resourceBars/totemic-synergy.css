@@ -507,8 +507,8 @@
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Bladedancer Tooltips */
-.bladedancer-tooltip-header {
+/* Shaper Tooltips */
+.shaper-tooltip-header {
     font-weight: 600;
     font-size: 12px;
     color: #3498DB;
@@ -517,7 +517,7 @@
 }
 
 /* Chaos Weaver Tooltip Columns */
-.chaos-weaver-tooltip .bladedancer-tooltip-header {
+.chaos-weaver-tooltip .shaper-tooltip-header {
     color: #D946EF;
 }
 
@@ -532,67 +532,67 @@
     min-width: 0;
 }
 
-.chaos-tooltip-column .bladedancer-tooltip-label {
+.chaos-tooltip-column .shaper-tooltip-label {
     color: #9333EA;
     font-weight: 700;
     margin-bottom: 4px;
 }
 
-.chaos-tooltip-column .bladedancer-tooltip-mechanics {
+.chaos-tooltip-column .shaper-tooltip-mechanics {
     display: flex;
     flex-direction: column;
     gap: 3px;
 }
 
-.bladedancer-tooltip-section {
+.shaper-tooltip-section {
     margin-bottom: 8px;
 }
 
-.bladedancer-tooltip-section:last-child {
+.shaper-tooltip-section:last-child {
     margin-bottom: 0;
 }
 
-.bladedancer-tooltip-label {
+.shaper-tooltip-label {
     font-weight: 600;
     font-size: 10px;
     color: #5a3825;
     margin-bottom: 2px;
 }
 
-.bladedancer-tooltip-value {
+.shaper-tooltip-value {
     font-size: 10px;
     line-height: 1.4;
     color: #4a3020;
 }
 
-.bladedancer-tooltip-mechanics {
+.shaper-tooltip-mechanics {
     display: flex;
     flex-direction: column;
     gap: 4px;
     margin-top: 4px;
 }
 
-.bladedancer-tooltip-mechanic {
+.shaper-tooltip-mechanic {
     font-size: 10px;
     line-height: 1.3;
     color: #4a3020;
 }
 
-.bladedancer-tooltip-mechanic strong {
+.shaper-tooltip-mechanic strong {
     color: #5a3825;
     font-weight: 600;
 }
 
-.bladedancer-stance-bonuses {
+.shaper-stance-bonuses {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
     margin-top: 4px;
 }
 
-/* Note: Obsolete bladedancer-stance-bonus-col classes removed - all tooltips now use Pathfinder style */
+/* Note: Obsolete shaper-stance-bonus-col classes removed - all tooltips now use Pathfinder style */
 
-.bladedancer-stance-type {
+.shaper-stance-type {
     font-size: 10px;
     color: #7a6a4a;
     font-style: italic;

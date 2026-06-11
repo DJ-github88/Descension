@@ -153,25 +153,25 @@ const ACTION_RESTRICTION_TYPES = [
 
 // Melee damage subtypes
 const MELEE_DAMAGE_SUBTYPES = [
-  { id: 'bludgeoning_damage', name: 'Bludgeoning', icon: 'inv_mace_2h_pvp410_c_01', description: 'Restrict bludgeoning damage from hammers, clubs, etc.' },
-  { id: 'piercing_damage', name: 'Piercing', icon: 'inv_sword_31', description: 'Restrict piercing damage from spears, arrows, etc.' },
-  { id: 'slashing_damage', name: 'Slashing', icon: 'ability_warrior_cleave', description: 'Restrict slashing damage from swords, axes, etc.' }
+  { id: 'bludgeoning_damage', name: 'physical', icon: 'inv_mace_2h_pvp410_c_01', description: 'Restrict bludgeoning damage from hammers, clubs, etc.' },
+  { id: 'piercing_damage', name: 'physical', icon: 'inv_sword_31', description: 'Restrict piercing damage from spears, arrows, etc.' },
+  { id: 'slashing_damage', name: 'physical', icon: 'ability_warrior_cleave', description: 'Restrict slashing damage from swords, axes, etc.' }
 ];
 
 // Magic damage subtypes - All D&D 5e damage types
 const MAGIC_DAMAGE_SUBTYPES = [
-  { id: 'acid_damage', name: 'Acid', icon: 'ability_creature_poison_03', description: 'Restrict acid damage specifically.' },
-  { id: 'cold_damage', name: 'Cold', icon: 'spell_frost_frostbolt02', description: 'Restrict cold/frost damage specifically.' },
-  { id: 'fire_damage', name: 'Fire', icon: 'spell_fire_flamebolt', description: 'Restrict fire damage specifically.' },
-  { id: 'force_damage', name: 'Force', icon: 'spell_arcane_blast', description: 'Restrict force damage specifically.' },
-  { id: 'lightning_damage', name: 'Lightning', icon: 'spell_nature_lightning', description: 'Restrict lightning/electric damage specifically.' },
-  { id: 'necrotic_damage', name: 'Necrotic', icon: 'spell_shadow_shadowbolt', description: 'Restrict necrotic/shadow damage specifically.' },
-  { id: 'poison_damage', name: 'Poison', icon: 'ability_rogue_poisonousblades', description: 'Restrict poison damage specifically.' },
-  { id: 'psychic_damage', name: 'Psychic', icon: 'spell_shadow_mindtwisting', description: 'Restrict psychic damage specifically.' },
-  { id: 'radiant_damage', name: 'Radiant', icon: 'spell_holy_holybolt', description: 'Restrict radiant/holy damage specifically.' },
-  { id: 'thunder_damage', name: 'Thunder', icon: 'spell_nature_thunderclap', description: 'Restrict thunder/sonic damage specifically.' },
+  { id: 'acid_damage', name: 'blight', icon: 'ability_creature_poison_03', description: 'Restrict acid damage specifically.' },
+  { id: 'cold_damage', name: 'rime', icon: 'spell_frost_frostbolt02', description: 'Restrict cold/frost damage specifically.' },
+  { id: 'fire_damage', name: 'ember', icon: 'spell_fire_flamebolt', description: 'Restrict fire damage specifically.' },
+  { id: 'force_damage', name: 'arcane', icon: 'spell_arcane_blast', description: 'Restrict force damage specifically.' },
+  { id: 'lightning_damage', name: 'storm', icon: 'spell_nature_lightning', description: 'Restrict lightning/electric damage specifically.' },
+  { id: 'necrotic_damage', name: 'blight', icon: 'spell_shadow_shadowbolt', description: 'Restrict necrotic/shadow damage specifically.' },
+  { id: 'poison_damage', name: 'blight', icon: 'ability_rogue_poisonousblades', description: 'Restrict poison damage specifically.' },
+  { id: 'psychic_damage', name: 'wyrd', icon: 'spell_shadow_mindtwisting', description: 'Restrict psychic damage specifically.' },
+  { id: 'radiant_damage', name: 'ember', icon: 'spell_holy_holybolt', description: 'Restrict radiant/holy damage specifically.' },
+  { id: 'thunder_damage', name: 'storm', icon: 'spell_nature_thunderclap', description: 'Restrict thunder/sonic damage specifically.' },
   { id: 'arcane_damage', name: 'Arcane', icon: 'spell_arcane_arcane01', description: 'Restrict arcane damage specifically.' },
-  { id: 'void_damage', name: 'Void', icon: 'spell_shadow_seedofdestruction', description: 'Restrict void/chaos damage specifically.' },
+  { id: 'void_damage', name: 'blight', icon: 'spell_shadow_seedofdestruction', description: 'Restrict void/chaos damage specifically.' },
   { id: 'healing_effect', name: 'Healing', icon: 'spell_holy_sealofsacrifice', description: 'Restrict healing effects specifically.' }
 ];
 
@@ -558,7 +558,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
               ...(activeControlType === 'forced_movement' && {
                 distance: 10,
                 movementType: 'push',
-                movementFlavor: 'force'
+                movementFlavor: 'arcane'
               }),
               ...(activeControlType === 'restraint' && {
                 restraintType: 'physical'
@@ -1687,7 +1687,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                     <div className="effect-config-field">
                       <label>Movement Flavor</label>
                       <select
-                        value={selectedEffectForPopupConfig.config?.movementFlavor || 'force'}
+                        value={selectedEffectForPopupConfig.config?.movementFlavor || 'arcane'}
                         onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'movementFlavor', e.target.value)}
                       >
                         <option value="force">Magical Force</option>

@@ -730,73 +730,48 @@ const COMBAT_STATS = {
         icon: 'Piercing/Scatter Shot',
         description: 'Bonus to initiative rolls'
     },
-    damageReduction: {
-        name: 'Damage Reduction',
-        icon: 'Utility/Golden Shield',
-        description: 'Bonus to damage reduction'
-    }
 };
 
 const DAMAGE_TYPES = {
-    fire: {
-        name: 'Fire',
-        icon: 'Fire/Flame Burst',
-        color: '#ff4400'
+    physical: {
+        name: 'Physical',
+        icon: 'Bludgeoning/Hammer Crush',
+        color: '#6B4226'
     },
-    frost: {
-        name: 'Frost',
-        icon: 'Frost/Dripping Ice',
-        color: '#3399ff'
+    ember: {
+        name: 'Ember',
+        icon: 'Fire/Volcanic Corruption',
+        color: '#D4380D'
     },
-    lightning: {
-        name: 'Lightning',
-        icon: 'Lightning/Lightning Bolt',
-        color: '#ffff00'
+    rime: {
+        name: 'Rime',
+        icon: 'Frost/Frostbite Variant 2',
+        color: '#2C5F7C'
+    },
+    storm: {
+        name: 'Storm',
+        icon: 'Lightning/Thunderstorm',
+        color: '#8B7328'
     },
     arcane: {
         name: 'Arcane',
-        icon: 'Arcane/Orb Manipulation',
-        color: '#9370DB'
+        icon: 'Arcane/Ebon Blaze',
+        color: '#5B3A8C'
     },
-    nature: {
-        name: 'Nature',
-        icon: 'Nature/Nature Natural',
-        color: '#228B22'
+    primal: {
+        name: 'Primal',
+        icon: 'Nature/Nature Natural 11',
+        color: '#2D5A1E'
     },
-    force: {
-        name: 'Force',
-        icon: 'Force/Force Touch',
-        color: '#ff66ff'
+    blight: {
+        name: 'Blight',
+        icon: 'Necrotic/Necrotic Wither',
+        color: '#3D1F4E'
     },
-    necrotic: {
-        name: 'Necrotic',
-        icon: 'Necrotic/Necrotic Skull',
-        color: '#4B0082'
-    },
-    radiant: {
-        name: 'Radiant',
-        icon: 'Radiant/Radiant Sunburst',
-        color: '#FFFACD'
-    },
-    poison: {
-        name: 'Poison',
-        icon: 'Poison/Poison Venom',
-        color: '#008000'
-    },
-    psychic: {
-        name: 'Psychic',
-        icon: 'Psychic/Brain Psionics',
-        color: '#FF00FF'
-    },
-    chaos: {
-        name: 'Chaos',
-        icon: 'Chaos/Chaotic Shuffle',
-        color: '#ec4899'
-    },
-    void: {
-        name: 'Void',
-        icon: 'Void/Void Portal Mage',
-        color: '#1a1a2e'
+    wyrd: {
+        name: 'Wyrd',
+        icon: 'Psychic/Psychic Telepathy',
+        color: '#7A2040'
     }
 };
 
@@ -887,21 +862,17 @@ const DAMAGE_ICONS = {
 };
 
 const damageTypeColors = {
+    physical: '#6B4226',
+    ember: '#D4380D',
+    rime: '#2C5F7C',
+    storm: '#8B7328',
+    arcane: '#5B3A8C',
+    primal: '#2D5A1E',
+    blight: '#3D1F4E',
+    wyrd: '#7A2040',
     bludgeoning: '#8B4513',
-    chaos: '#ec4899',
-    frost: '#87CEEB',
-    fire: '#FF4500',
-    arcane: '#9370DB',
-    nature: '#228B22',
-    force: '#ff66ff',
-    lightning: '#FFD700',
-    necrotic: '#4B0082',
     piercing: '#C0C0C0',
-    poison: '#008000',
-    psychic: '#FF69B4',
-    radiant: '#FFFACD',
-    slashing: '#A52A2A',
-    void: '#1a1a2e'
+    slashing: '#A52A2A'
 };
 
 const QUALITY_TYPES = {
@@ -1258,6 +1229,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     }
 
     const [currentStep, setCurrentStep] = useState(STEPS.ITEM_TYPE);
+    const [openCategories, setOpenCategories] = useState(new Set());
     const [itemData, setItemData] = useState(() => {
         const defaultData = {
             type: '',
@@ -1339,6 +1311,29 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
             return defaultData;
         });
+
+    const mergeDeep = (target, source) => {
+        const result = { ...target };
+        for (const key of Object.keys(source)) {
+            if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+                target[key] && typeof target[key] === 'object' && !Array.isArray(target[key])) {
+                result[key] = mergeDeep(target[key], source[key]);
+            } else {
+                result[key] = source[key];
+            }
+        }
+        return result;
+    };
+
+    useEffect(() => {
+        if (Object.keys(initialData).length > 0) {
+            setItemData(prev => mergeDeep(prev, initialData));
+        }
+    }, []);
+
+    const updateItemData = useCallback((updates) => {
+        setItemData(prev => ({ ...prev, ...updates }));
+    }, []);
 
     const renderStepNavigation = () => {
         const maxStep = Math.max(...Object.values(STEPS));
@@ -4222,6 +4217,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 );
 
             case STEPS.VALUE:
+                if (!itemData.value) {
+                    updateItemData({
+                        value: { platinum: 0, gold: 0, silver: 0, copper: 0 }
+                    });
+                    return null;
+                }
                 return (
                     <>
                         <h3 className="wow-heading quality-text">Item Value</h3>

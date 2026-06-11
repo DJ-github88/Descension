@@ -22,26 +22,20 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
   // Define element categories with ability icons
   const elementCategories = {
     physical: [
-      { id: 'bludgeoning', name: 'Bludgeoning', description: 'Blunt force trauma from hammers, maces, or falling', iconPath: 'Bludgeoning/Hammer', iconCategory: 'abilities' },
-      { id: 'piercing', name: 'Piercing', description: 'Puncture wounds from spears, arrows, or teeth', iconPath: 'Piercing/Scatter Shot', iconCategory: 'abilities' },
-      { id: 'slashing', name: 'Slashing', description: 'Cutting damage from swords, axes, or claws', iconPath: 'Slashing/Bloody Meat Cleaver', iconCategory: 'abilities' }
+      { id: 'physical', name: 'Physical', description: 'Martial damage from weapons, claws, and brute force (Bludgeoning, Piercing, Slashing)', iconPath: 'Slashing/Bloody Meat Cleaver', iconCategory: 'abilities' }
     ],
     elemental: [
-      { id: 'fire', name: 'Fire', description: 'Destructive flames that burn and consume', iconPath: 'Fire/Flame Burst', iconCategory: 'abilities' },
-      { id: 'frost', name: 'Frost', description: 'Freezing cold that slows and damages', iconPath: 'Frost/Dripping Ice', iconCategory: 'abilities' },
-      { id: 'lightning', name: 'Lightning', description: 'Electrical energy that shocks and stuns', iconPath: 'Lightning/Lightning Bolt', iconCategory: 'abilities' },
-      { id: 'nature', name: 'Nature', description: 'Primal magic drawn from the elements and living world', iconPath: 'Nature/Nature Natural', iconCategory: 'abilities' }
+      { id: 'ember', name: 'Ember', description: 'Destructive flames that burn and consume', iconPath: 'Fire/Flame Burst', iconCategory: 'abilities' },
+      { id: 'rime', name: 'Rime', description: 'Freezing cold that slows and damages', iconPath: 'Frost/Dripping Ice', iconCategory: 'abilities' },
+      { id: 'storm', name: 'Storm', description: 'Electrical energy that shocks and stuns', iconPath: 'Lightning/Lightning Bolt', iconCategory: 'abilities' },
+      { id: 'primal', name: 'Primal', description: 'Primal magic drawn from nature, growth, and the living world', iconPath: 'Nature/Nature Natural', iconCategory: 'abilities' }
     ],
     arcane: [
-      { id: 'force', name: 'Force', description: 'Pure magical energy that bypasses normal defenses', iconPath: 'Force/Force Touch', iconCategory: 'abilities' },
-      { id: 'psychic', name: 'Psychic', description: 'Mind-based magic that confuses and terrifies', iconPath: 'Psychic/Brain Psionics', iconCategory: 'abilities' },
-      { id: 'radiant', name: 'Radiant', description: 'Holy light that purifies and damages the unholy', iconPath: 'Radiant/Radiant Sunburst', iconCategory: 'abilities' },
-      { id: 'arcane', name: 'Arcane', description: 'Pure magical energy that manipulates the fabric of reality', iconPath: 'Arcane/Orb Manipulation', iconCategory: 'abilities' }
+      { id: 'arcane', name: 'Arcane', description: 'Pure magical energy that bypasses normal defenses and manipulates reality', iconPath: 'Arcane/Orb Manipulation', iconCategory: 'abilities' }
     ],
     otherworldly: [
-      { id: 'necrotic', name: 'Necrotic', description: 'Death magic that drains life and corrupts', iconPath: 'Necrotic/Necrotic Skull', iconCategory: 'abilities' },
-      { id: 'poison', name: 'Poison', description: 'Toxic substances that sicken and weaken', iconPath: 'Poison/Poison Venom', iconCategory: 'abilities' },
-      { id: 'void', name: 'Void', description: 'Magic from the spaces between realities', iconPath: 'Void/Void Portal Mage', iconCategory: 'abilities' },
+      { id: 'wyrd', name: 'Wyrd', description: 'Mind-based magic that confuses and terrifies', iconPath: 'Psychic/Brain Psionics', iconCategory: 'abilities' },
+      { id: 'blight', name: 'Blight', description: 'Death magic, toxic poison, and void corruption that drains life', iconPath: 'Necrotic/Necrotic Skull', iconCategory: 'abilities' },
       { id: 'chaos', name: 'Chaos', description: 'Unpredictable magic that defies categorization and creates random effects', iconPath: 'Chaos/Chaotic Shuffle', iconCategory: 'abilities' }
     ]
   };

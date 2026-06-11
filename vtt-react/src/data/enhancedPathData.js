@@ -470,7 +470,7 @@ const ZEALOT_PATH = {
                         spellType: 'ACTION',
                         tags: ['buff', 'aura', 'divine', 'inspiration'],
                         effectTypes: ['buff'],
-                        damageTypes: ['radiant'],
+                        damageTypes: ['ember'],
 
                         buffConfig: {
                             duration: 5,
@@ -550,7 +550,7 @@ const ZEALOT_PATH = {
                         spellType: 'ACTION',
                         tags: ['damage', 'radiant', 'divine', 'control'],
                         effectTypes: ['damage', 'debuff'],
-                        damageTypes: ['radiant'],
+                        damageTypes: ['ember'],
 
                         damageConfig: {
                             damageType: 'direct',
@@ -735,7 +735,7 @@ const ZEALOT_PATH = {
                         spellType: 'ACTION',
                         tags: ['damage', 'radiant', 'divine', 'aoe', 'cone'],
                         effectTypes: ['damage', 'debuff'],
-                        damageTypes: ['radiant'],
+                        damageTypes: ['ember'],
 
                         damageConfig: {
                             damageType: 'direct',
@@ -827,7 +827,7 @@ const ZEALOT_PATH = {
                         spellType: 'ACTION',
                         tags: ['buff', 'divine', 'blessing', 'combat'],
                         effectTypes: ['buff'],
-                        damageTypes: ['radiant'],
+                        damageTypes: ['ember'],
 
                         buffConfig: {
                             duration: 10,
@@ -1133,7 +1133,7 @@ const ZEALOT_PATH = {
                         spellType: 'ACTION',
                         tags: ['damage', 'radiant', 'divine', 'smite', 'judgment'],
                         effectTypes: ['damage'],
-                        damageTypes: ['radiant'],
+                        damageTypes: ['ember'],
 
                         damageConfig: {
                             damageType: 'direct',
@@ -1278,7 +1278,7 @@ const ZEALOT_PATH = {
                         spellType: 'REACTION',
                         tags: ['damage', 'radiant', 'divine', 'reaction', 'aoe', 'retribution'],
                         effectTypes: ['damage'],
-                        damageTypes: ['radiant'],
+                        damageTypes: ['ember'],
 
                         damageConfig: {
                             damageType: 'direct',
@@ -1412,7 +1412,7 @@ const ZEALOT_PATH = {
                         spellType: 'ACTION',
                         tags: ['damage', 'energy', 'cone', 'spiritual'],
                         effectTypes: ['damage'],
-                        damageTypes: ['force'],
+                        damageTypes: ['storm'],
 
                         damageConfig: {
                             damageType: 'direct',

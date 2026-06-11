@@ -560,51 +560,18 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
             }
         >
             <div className="talent-tree-container" style={{ position: 'relative' }}>
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    zIndex: 100,
-                    background: 'linear-gradient(135deg, rgba(10,5,2,0.88) 0%, rgba(25,12,5,0.85) 50%, rgba(10,5,2,0.88) 100%)',
-                    backdropFilter: 'blur(5px)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    pointerEvents: 'all',
-                    cursor: 'default',
-                }}>
-                    <div style={{
-                        border: '1px solid rgba(255,180,60,0.35)',
-                        borderRadius: '16px',
-                        padding: '44px 52px',
-                        background: 'rgba(20,10,5,0.6)',
-                        maxWidth: '420px',
-                        textAlign: 'center',
-                    }}>
-                        <div style={{ fontSize: '40px', marginBottom: '16px', color: '#ffb43c', opacity: 0.85 }}>
+                <div className="talent-coming-soon-overlay">
+                    <div className="talent-coming-soon-content">
+                        <div className="talent-coming-soon-icon">
                             <i className="fas fa-seedling"></i>
                         </div>
-                        <h2 style={{
-                            color: '#ffb43c',
-                            fontSize: '22px',
-                            fontWeight: '700',
-                            textTransform: 'uppercase',
-                            letterSpacing: '3px',
-                            margin: '0 0 10px 0',
-                            textShadow: '0 0 20px rgba(255,180,60,0.4)',
-                        }}>
-                            Coming Soon
-                        </h2>
-                        <p style={{
-                            color: 'rgba(255,220,170,0.7)',
-                            fontSize: '13px',
-                            lineHeight: '1.7',
-                            margin: '0',
-                        }}>
-                            The Talent Tree is growing its roots. This feature is under active development and will be unlocked in a future update.
+                        <h2 className="talent-coming-soon-title">Forging Your Path</h2>
+                        <p className="talent-coming-soon-flavor">
+                            Deep within the hidden roots of the world tree, ancient powers stir — waiting to be claimed by those worthy of their gift. The branches of destiny have not yet fully grown, but soon, the talents of old will awaken.
+                        </p>
+                        <div className="talent-coming-soon-divider"></div>
+                        <p className="talent-coming-soon-status">
+                            This feature is currently being forged. Check back in a future update to unlock your character's unique talent tree.
                         </p>
                     </div>
                 </div>

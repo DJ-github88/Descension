@@ -12,7 +12,7 @@ export const PYROFIEND_DATA = {
   name: "Pyrofiend",
   icon: "fas fa-fire",
   role: "Damage",
-  damageTypes: ["fire"],
+  damageTypes: ["ember"],
 
   classIdentity: {
     title: "The Damned Conduit",
@@ -800,9 +800,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Flame Burst",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Flame Burst",
-        tags: ["fire", "damage", "dot", "starter"],
+        tags: ["ember", "damage", "dot", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -829,12 +829,12 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "1d6",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -853,7 +853,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "dot", "starter"],
+      tags: ["ember", "damage", "dot", "starter"],
     },
 
     { id: "pyro_smoldering_touch",
@@ -865,9 +865,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fire Bolt",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fire Bolt",
-        tags: ["fire", "damage", "touch", "dot", "starter"],
+        tags: ["ember", "damage", "touch", "dot", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -892,12 +892,12 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "1d8 + intelligence/3",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -916,7 +916,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "touch", "dot", "starter"],
+      tags: ["ember", "damage", "touch", "dot", "starter"],
     },
 
     { id: "pyro_flicker",
@@ -928,9 +928,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fiery Symbol",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fiery Symbol",
-        tags: ["fire", "damage", "starter"],
+        tags: ["ember", "damage", "starter"],
         castTime: 0,
         castTimeType: "IMMEDIATE",
       },
@@ -955,7 +955,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "1d6 + intelligence/4",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -964,7 +964,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "starter"],
+      tags: ["ember", "damage", "starter"],
     },
 
     { id: "pyro_cooling_ember",
@@ -976,9 +976,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Dragon Breath",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Dragon Breath",
-        tags: ["fire", "healing", "utility", "starter"],
+        tags: ["ember", "healing", "utility", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1011,7 +1011,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "healing", "utility", "starter"],
+      tags: ["ember", "healing", "utility", "starter"],
     },
 
     { id: "pyro_heat_shield",
@@ -1023,9 +1023,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Radiant/Radiant Divinity",
-        tags: ["fire", "buff", "defensive", "starter"],
+        tags: ["ember", "buff", "defensive", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1074,7 +1074,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "buff", "defensive", "starter"],
+      tags: ["ember", "buff", "defensive", "starter"],
     },
 
     // ========================================
@@ -1089,9 +1089,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Scorching Rune",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Scorching Rune",
-        tags: ["fire", "damage", "touch"],
+        tags: ["ember", "damage", "touch"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1116,12 +1116,12 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "2d8 + intelligence/2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -1140,7 +1140,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "touch"],
+      tags: ["ember", "damage", "touch"],
     },
 
     { id: "pyro_flame_lash",
@@ -1152,9 +1152,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Sun Symbol",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Sun Symbol",
-        tags: ["fire", "damage", "control"],
+        tags: ["ember", "damage", "control"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1180,7 +1180,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "2d6 + intelligence/3",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -1212,7 +1212,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "control"],
+      tags: ["ember", "damage", "control"],
     },
 
     { id: "pyro_cinder_bolt",
@@ -1224,9 +1224,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Swirling Fireball",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Swirling Fireball",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1254,7 +1254,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "2d6 + intelligence/2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -1263,7 +1263,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     // ========================================
@@ -1278,9 +1278,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Swirling Fireball",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Swirling Fireball",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1308,7 +1308,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "3d6 + intelligence",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -1331,7 +1331,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_burning_hands",
@@ -1343,9 +1343,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Flame Burst",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Flame Burst",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1372,7 +1372,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "3d6 + intelligence",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         chanceOnHitConfig: {
           enabled: true,
@@ -1395,7 +1395,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_flame_step",
@@ -1407,9 +1407,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Burning Ember",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Burning Ember",
-        tags: ["fire", "utility", "teleport"],
+        tags: ["ember", "utility", "teleport"],
         castTime: 0,
         castTimeType: "IMMEDIATE",
       },
@@ -1447,7 +1447,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "1d6",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "AUTOMATIC",
       },
 
@@ -1468,7 +1468,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 2,
       },
 
-      tags: ["fire", "utility", "teleport"],
+      tags: ["ember", "utility", "teleport"],
     },
 
     // ========================================
@@ -1483,9 +1483,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Infernal Fire",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Infernal Fire",
-        tags: ["fire", "damage"],
+        tags: ["ember", "damage"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1511,7 +1511,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "5d6 + intelligence",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -1552,7 +1552,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage"],
+      tags: ["ember", "damage"],
     },
 
     { id: "pyro_searing_chains",
@@ -1564,9 +1564,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Scorching Rune",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Scorching Rune",
-        tags: ["fire", "damage", "chain"],
+        tags: ["ember", "damage", "chain"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1592,19 +1592,19 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "3d6 + intelligence",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         chainConfig: {
           enabled: true,
           maxChains: 3,
           chainRange: 15,
           damageMultiplier: 0.75,
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
         },
         dotConfig: {
           enabled: true,
           damagePerTick: "1d6",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -1625,7 +1625,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 1,
       },
 
-      tags: ["fire", "damage", "chain"],
+      tags: ["ember", "damage", "chain"],
     },
 
     { id: "pyro_fiery_aura",
@@ -1637,9 +1637,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fire Orb",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fire Orb",
-        tags: ["fire", "damage", "channeled"],
+        tags: ["ember", "damage", "channeled"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
         maxChannelDuration: 3,
@@ -1668,7 +1668,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "2d6",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         triggerCondition: "area_entry",
         triggerDescription:
@@ -1694,7 +1694,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "channeled"],
+      tags: ["ember", "damage", "channeled"],
     },
 
     // ========================================
@@ -1709,9 +1709,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fiery Symbol",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fiery Symbol",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1738,7 +1738,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "8d6 + intelligence",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -1747,7 +1747,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_immolation",
@@ -1759,9 +1759,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Enveloping Fire",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Enveloping Fire",
-        tags: ["fire", "damage", "dot"],
+        tags: ["ember", "damage", "dot"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1787,12 +1787,12 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "6d8 + intelligence/2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d6 + intelligence/4",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 3,
           canStack: false,
@@ -1811,7 +1811,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "dot"],
+      tags: ["ember", "damage", "dot"],
     },
 
     { id: "pyro_fire_whip",
@@ -1823,9 +1823,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Sun Symbol",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Sun Symbol",
-        tags: ["fire", "damage"],
+        tags: ["ember", "damage"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1851,7 +1851,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "7d6 + intelligence",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         chanceOnHitConfig: {
           enabled: true,
@@ -1878,7 +1878,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 2,
       },
 
-      tags: ["fire", "damage"],
+      tags: ["ember", "damage"],
     },
 
     // ========================================
@@ -1893,9 +1893,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Dripping Lava",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Dripping Lava",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1924,7 +1924,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "9d6 + intelligence",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -1947,7 +1947,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_flame_storm",
@@ -1959,9 +1959,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Swirling Fireball",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Swirling Fireball",
-        tags: ["fire", "damage", "aoe", "dot"],
+        tags: ["ember", "damage", "aoe", "dot"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1989,12 +1989,12 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "8d6 + intelligence",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "2d6 + intelligence/2",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 3,
           canStack: false,
@@ -2013,7 +2013,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 3,
       },
 
-      tags: ["fire", "damage", "aoe", "dot"],
+      tags: ["ember", "damage", "aoe", "dot"],
     },
 
     { id: "pyro_infernal_brand_advanced",
@@ -2025,9 +2025,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fiery Symbol",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fiery Symbol",
-        tags: ["fire", "damage", "dot", "debuff"],
+        tags: ["ember", "damage", "dot", "debuff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2053,12 +2053,12 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "4d6 + intelligence/3",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "2d6 + intelligence/2",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 4,
           canStack: false,
@@ -2098,7 +2098,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "dot", "debuff"],
+      tags: ["ember", "damage", "dot", "debuff"],
     },
 
     // ========================================
@@ -2113,9 +2113,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Flowing Lava",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Flowing Lava",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2144,7 +2144,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "12d6 + intelligence * 2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -2207,7 +2207,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 2,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_hellfire_breath",
@@ -2219,9 +2219,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Flame Burst",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Flame Burst",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2248,7 +2248,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "10d6 + intelligence * 2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -2272,7 +2272,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 3,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_demonic_empowerment",
@@ -2284,9 +2284,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Utility/Powerful Warrior",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Utility/Powerful Warrior",
-        tags: ["fire", "buff"],
+        tags: ["ember", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2362,7 +2362,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 5,
       },
 
-      tags: ["fire", "buff"],
+      tags: ["ember", "buff"],
     },
 
     // ========================================
@@ -2377,9 +2377,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fiery Comet",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fiery Comet",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -2407,7 +2407,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "14d6 + intelligence * 2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -2434,7 +2434,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 4,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_infernal_nova",
@@ -2446,9 +2446,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Swirling Fireball",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Swirling Fireball",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2475,7 +2475,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "14d6 + intelligence * 2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -2484,7 +2484,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 5,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_phoenix_flame",
@@ -2496,9 +2496,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Rising Inferno",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Rising Inferno",
-        tags: ["fire", "damage", "aoe", "dot"],
+        tags: ["ember", "damage", "aoe", "dot"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2526,12 +2526,12 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "12d6 + intelligence * 2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "3d6 + intelligence/2",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 4,
           canStack: false,
@@ -2550,7 +2550,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 6,
       },
 
-      tags: ["fire", "damage", "aoe", "dot"],
+      tags: ["ember", "damage", "aoe", "dot"],
     },
 
     // ========================================
@@ -2565,9 +2565,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fire Demon",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fire Demon",
-        tags: ["fire", "transformation"],
+        tags: ["ember", "transformation"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2602,7 +2602,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
           { stat: "fire_spell_power", magnitude: 5, magnitudeType: "flat" },
           { stat: "armor", magnitude: 3, magnitudeType: "flat" },
         ],
-        resistances: [{ damageType: "fire", resistanceType: "immunity" }],
+        resistances: [{ damageType: "ember", resistanceType: "immunity" }],
         specialAbilities: [
           {
             name: "Burning Aura",
@@ -2628,7 +2628,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 10,
       },
 
-      tags: ["fire", "transformation"],
+      tags: ["ember", "transformation"],
     },
 
     { id: "pyro_apocalypse",
@@ -2640,9 +2640,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Utility/Explosive Detonation",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Utility/Explosive Detonation",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -2670,7 +2670,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "16d10 + intelligence * 2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -2687,7 +2687,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 10,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     { id: "pyro_hellfire_ritual",
@@ -2699,9 +2699,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Radiant/Radiant Divinity",
-        tags: ["fire", "buff"],
+        tags: ["ember", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2779,7 +2779,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 12,
       },
 
-      tags: ["fire", "buff"],
+      tags: ["ember", "buff"],
     },
 
     // ========================================
@@ -2794,9 +2794,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Burning Ember",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Burning Ember",
-        tags: ["fire", "utility", "teleport", "damage"],
+        tags: ["ember", "utility", "teleport", "damage"],
         castTime: 0,
         castTimeType: "IMMEDIATE",
       },
@@ -2835,7 +2835,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "6d6 + intelligence * 2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -2850,7 +2850,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 3,
       },
 
-      tags: ["fire", "utility", "teleport", "damage"],
+      tags: ["ember", "utility", "teleport", "damage"],
     },
 
     { id: "pyro_demonic_ascension",
@@ -2862,9 +2862,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fire Demon",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fire Demon",
-        tags: ["fire", "buff", "transformation"],
+        tags: ["ember", "buff", "transformation"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2925,7 +2925,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "3d6",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "AUTOMATIC",
       },
 
@@ -2940,7 +2940,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 15,
       },
 
-      tags: ["fire", "buff", "transformation"],
+      tags: ["ember", "buff", "transformation"],
     },
 
     { id: "pyro_inferno_mastery",
@@ -2952,9 +2952,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Fire Orb",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fire Orb",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2982,7 +2982,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
       damageConfig: {
         formula: "20d10 + intelligence * 2",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -3033,7 +3033,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         cooldownValue: 12,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
     // ===== PASSIVE ABILITIES =====
     { id: "pyrofiend_burnout",
@@ -3045,7 +3045,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Flame Shield",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Flame Shield",
         tags: ["passive", "pyrofiend", "weakness"],
       },
@@ -3063,7 +3063,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Frost/Icy Shield",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Frost/Icy Shield",
         tags: ["passive", "pyrofiend", "weakness"],
       },
@@ -3081,7 +3081,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
       icon: "Fire/Eruption",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Eruption",
         tags: ["passive", "pyrofiend", "weakness"],
       },

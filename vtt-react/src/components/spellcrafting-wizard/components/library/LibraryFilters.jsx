@@ -383,19 +383,19 @@ const LibraryFilters = () => {
         {!collapsedSections.damageTypes && (
           <div className="filter-section-content">
             {[
-              'acid',
-              'bludgeoning',
-              'cold',
-              'fire',
-              'force',
-              'lightning',
-              'necrotic',
-              'piercing',
-              'poison',
-              'psychic',
-              'radiant',
-              'slashing',
-              'thunder'
+              'blight',
+              'physical',
+              'rime',
+              'ember',
+              'arcane',
+              'storm',
+              'blight',
+              'physical',
+              'blight',
+              'wyrd',
+              'ember',
+              'physical',
+              'storm'
             ].map(damageType => (
               <label key={damageType} className="filter-checkbox">
                 <input
@@ -447,7 +447,7 @@ const LibraryFilters = () => {
 // Helper function to get icon for effect type
 function getEffectIcon(effectType) {
   switch(effectType.toLowerCase()) {
-    case 'damage': return 'fire';
+    case 'damage': return 'ember';
     case 'healing': return 'heart';
     case 'buff': return 'arrow-up';
     case 'debuff': return 'arrow-down';

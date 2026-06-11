@@ -12,7 +12,7 @@ export const TRICKSTER_PATH = {
     integrationNotes: {
         actionPointSystem: 'Trickster abilities focus on mobility, stealth, and misdirection.',
         backgroundSynergy: 'Works well with Criminal or Charlatan backgrounds.',
-        classCompatibility: 'Strong with Bladedancer, Minstrel, or Huntress classes.'
+        classCompatibility: 'Strong with Shaper, Minstrel, or Apex classes.'
     },
 
     roleplayingTips: [
@@ -489,7 +489,7 @@ export const TRICKSTER_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'illusion', 'fear', 'psychic'],
                     effectTypes: ['damage', 'debuff'],
-                    damageTypes: ['psychic'],
+                    damageTypes: ['wyrd'],
 
                     damageConfig: {
                         damageType: 'direct',
@@ -595,7 +595,7 @@ export const TRICKSTER_PATH = {
                     spellType: 'ACTION',
                     tags: ['buff', 'poison', 'weapon', 'damage over time'],
                     effectTypes: ['buff'],
-                    damageTypes: ['poison'],
+                    damageTypes: ['blight'],
 
                     buffConfig: {
                         duration: 10,
@@ -617,7 +617,7 @@ export const TRICKSTER_PATH = {
                                 duration: 10,
                                 effects: {
                                     bonusDamage: '1d6',
-                                    damageType: 'poison',
+                                    damageType: 'blight',
                                     dotDamage: '1d4',
                                     dotDuration: 3
                                 }
@@ -669,7 +669,7 @@ export const TRICKSTER_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'poison', 'aoe', 'dot'],
                     effectTypes: ['damage'],
-                    damageTypes: ['poison'],
+                    damageTypes: ['blight'],
 
                     damageConfig: {
                         damageType: 'dot',

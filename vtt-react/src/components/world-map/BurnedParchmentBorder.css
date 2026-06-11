@@ -1,0 +1,96 @@
+.burned-parchment-border {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.burned-parchment-border.visible {
+  opacity: 1;
+}
+
+.burned-parchment-edge-container {
+  position: absolute;
+  top: -12px; /* Extends past viewport to hide flat outer edges */
+  left: -12px;
+  right: -12px;
+  bottom: -12px;
+  border: 28px solid; /* Use border-image for mottled parchment texture */
+  border-image: linear-gradient(
+    135deg, 
+    #ede4d3 0%, 
+    #d5cbb0 12%, 
+    #e8dcc6 28%, 
+    #ede4d3 45%, 
+    #d5cbb0 62%, 
+    #e8dcc6 78%, 
+    #ede4d3 90%, 
+    #d5cbb0 100%
+  ) 28;
+  box-shadow: 
+    inset 0 0 0 2.5px #d44511, /* Smoldering red-orange glowing ember line */
+    inset 0 0 8px 3px #1c0f0a, /* Charred black/brown soot edge */
+    inset 0 0 15px rgba(22, 11, 5, 0.75); /* Dark smoke shadow */
+  filter: url(#burned-parchment-filter);
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(0, 0, 0); /* Force GPU rasterization */
+}
+
+.ember-glow {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: emberPulse 5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.ember-glow-tl {
+  top: -12px;
+  left: -12px;
+  background: radial-gradient(circle, rgba(212, 100, 20, 0.35), transparent 70%);
+  animation-delay: 0s;
+}
+
+.ember-glow-tr {
+  top: -12px;
+  right: -12px;
+  background: radial-gradient(circle, rgba(180, 80, 10, 0.3), transparent 70%);
+  animation-delay: 1.2s;
+}
+
+.ember-glow-bl {
+  bottom: -12px;
+  left: -12px;
+  background: radial-gradient(circle, rgba(212, 100, 20, 0.3), transparent 70%);
+  animation-delay: 2.5s;
+}
+
+.ember-glow-br {
+  bottom: -12px;
+  right: -12px;
+  background: radial-gradient(circle, rgba(180, 80, 10, 0.35), transparent 70%);
+  animation-delay: 3.8s;
+}
+
+@keyframes emberPulse {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.18);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+}

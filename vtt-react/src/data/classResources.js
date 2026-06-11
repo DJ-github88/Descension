@@ -277,7 +277,7 @@ export const CLASS_RESOURCE_TYPES = {
     },
 
     // TRICKSTER PATH
-    'Chaos Weaver': {
+    'Harbinger': {
         id: 'mayhemGauge',
         name: 'Mayhem Gauge',
         shortName: 'Mayhem',
@@ -285,44 +285,44 @@ export const CLASS_RESOURCE_TYPES = {
         description: 'Passive chaos pressure gauge — CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.',
         visual: {
             type: 'mayhem-gauge',
-            count: 100, // Max 100 pressure
+            count: 100,
             arrangement: 'pressure-bar',
-            baseColor: '#4A0E4E', // Deep purple base
-            activeColor: '#9333EA', // Bright purple
-            glowColor: '#D946EF', // Magenta glow
-            vortexColor: '#7C3AED', // Violet vortex
-            icon: 'fas fa-fire',
-            effects: ['chaos', 'reality-distortion', 'pressure'],
+            baseColor: '#4A0E4E',
+            activeColor: '#9333EA',
+            glowColor: '#D946EF',
+            vortexColor: '#7C3AED',
+            icon: 'fas fa-hourglass-half',
+            effects: ['chaos', 'entropy', 'prophetic-doom', 'pressure'],
             specializations: {
-                'reality-bending': {
+                'wild_prophet': {
                     color: '#9B59B6',
                     particleColor: '#BB8FCE',
-                    theme: 'spatial'
+                    theme: 'prophetic'
                 },
-                'entropy-weaver': {
-                    color: '#E91E63',
-                    particleColor: '#F48FB1',
-                    theme: 'pure-chaos'
+                'deaths_seer': {
+                    color: '#4B0082',
+                    particleColor: '#7B68EE',
+                    theme: 'necrotic-doom'
                 },
-                'pandemonium': {
-                    color: '#C2185B',
-                    particleColor: '#F06292',
-                    theme: 'wild-magic'
+                'fate_rift': {
+                    color: '#e67e22',
+                    particleColor: '#F0E68C',
+                    theme: 'probability-storm'
                 }
             }
         },
         mechanics: {
-            max: 100, // Pressure gauge max
+            max: 100,
             current: 0,
             regen: 0,
             consumeVerb: 'release',
             gainVerb: 'accumulate',
             unspendable: true,
-            description: 'Mayhem CANNOT be spent. It passively amplifies all spells — more targets, bigger dice, wider AoE. At 100, triggers Wild Surge (uncontrollable release). There is no safety valve.'
+            description: 'Mayhem CANNOT be spent. It passively amplifies all spells — more targets, bigger dice, wider AoE. At 100, triggers Wild Surge (uncontrollable release).'
         },
         tooltip: {
             title: 'Mayhem Pressure: {current}/{max}',
-            description: 'Passive chaos pressure — CANNOT be spent. Amplifies all spells as it rises. Only release: Wild Surge at 100.',
+            description: 'Passive entropy pressure — CANNOT be spent. Amplifies all spells as it rises. Only release: Wild Surge at 100.',
             mechanics: [
                 'Mayhem CANNOT be spent — it is passive pressure only',
                 'Higher Mayhem = more spell targets, bigger dice, wider AoE',
@@ -335,7 +335,7 @@ export const CLASS_RESOURCE_TYPES = {
         }
     },
 
-    'Fate Weaver': {
+    'Gambit (Threads)': {
         id: 'threadsOfDestiny',
         name: 'Threads of Destiny',
         shortName: 'Threads',
@@ -422,7 +422,7 @@ export const CLASS_RESOURCE_TYPES = {
         ]
     },
 
-    'Gambler': {
+    'Gambit': {
         id: 'fortunePoints',
         name: 'Fortune Points',
         shortName: 'FP',
@@ -485,12 +485,13 @@ export const CLASS_RESOURCE_TYPES = {
         }
     },
 
-    'Deathcaller': {
+    // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+    'Revenant': {
         id: 'necroticAscension',
         name: 'Necrotic Ascension & Blood Tokens',
         shortName: 'NA/BT',
         type: 'ascension-blood',
-        description: 'Dual resource system: Necrotic Ascension Paths (permanent power/curses) and Blood Tokens (VOLATILE ticking time bombs with escalating self-damage)',
+        description: 'Dual resource system: Necrotic Ascension Paths (permanent power/curses) and Blood Tokens (VOLATILE ticking time bombs with escalating self-damage). The Revenant combines volatile blood magic with methodical frost harvesting.',
         visual: {
             type: 'ascension-blood',
             ascensionPaths: {
@@ -524,7 +525,7 @@ export const CLASS_RESOURCE_TYPES = {
             regen: 0,
             consumeVerb: 'activate',
             gainVerb: 'unlock',
-            volatilityNote: 'Blood Tokens are VOLATILE. 6+ = self-damage/turn. 11+ = cannot be healed. 16+ = nuclear detonation on death. The Deathcaller rides a chain reaction, not a battery.'
+            volatilityNote: 'Blood Tokens are VOLATILE. 6+ = self-damage/turn. 11+ = cannot be healed. 16+ = nuclear detonation on death. The Revenant rides a chain reaction, not a battery.'
         },
         tooltip: {
             title: 'Necrotic Ascension & Blood Tokens',
@@ -604,7 +605,7 @@ export const CLASS_RESOURCE_TYPES = {
         name: 'Devotion Gauge',
         shortName: 'Devotion',
         type: 'devotion-gauge',
-        description: 'ACTIVE sacrifice required — bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 2 rounds without damage/sacrifice. The Martyr BLEEDS; the Dreadnaught absorbs.',
+        description: 'ACTIVE sacrifice required — bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 2 rounds without damage/sacrifice. The Martyr BLEEDS; the Ironclad endures.',
         visual: {
             type: 'devotion-gauge',
             count: 6,
@@ -640,7 +641,7 @@ export const CLASS_RESOURCE_TYPES = {
             thresholds: [0, 10, 20, 40, 60, 80, 100],
             decay: 'Lose 1 Devotion level after 2 consecutive rounds without taking damage or using Voluntary Offering',
             voluntaryOffering: 'Free action: sacrifice 1d8 HP to gain Devotion progress (counts as damage for decay prevention)',
-            differentiationNote: 'NOT passive absorption like Dreadnaught. The Martyr must ACTIVELY choose to bleed.'
+            differentiationNote: 'NOT passive absorption. The Martyr must ACTIVELY choose to bleed. The Ironclad specialization adds furnace-plate armor but still requires willing sacrifice.'
         },
         tooltip: {
             title: 'Devotion Level {current}',
@@ -779,16 +780,15 @@ export const CLASS_RESOURCE_TYPES = {
         ]
     },
 
-    'Exorcist': {
-        id: 'divineDominance',
-        name: 'Divine Dominance',
-        shortName: 'Dominance',
-        type: 'demon_control',
-        description: 'Control over bound demons through Dominance Dice — maintain divine authority or demons escape',
+    'Inquisitor': {
+        id: 'righteousAuthority',
+        name: 'Righteous Authority',
+        shortName: 'Authority',
+        type: 'hexbreaker-charges',
+        description: 'Unified anti-magic friction and demonic binding authority (0-8). Built through supernatural contact, spent on negation and command.',
         visual: {
-            type: 'dominance-die',
-            count: 1, // Single bar showing selected demon
-            arrangement: 'horizontal',
+            type: 'hexbreaker-charges',
+            arrangement: 'hexbreaker',
             baseColor: '#2d0a0a',
             activeColor: '#FFD700',
             glowColor: '#FFF8DC',
@@ -796,42 +796,20 @@ export const CLASS_RESOURCE_TYPES = {
             dangerColor: '#DC143C',
             criticalColor: '#8B0000',
             icon: 'fas fa-link',
-            effects: ['binding', 'control', 'dominance']
+            effects: ['binding', 'control', 'anti-magic', 'negation']
         },
         mechanics: {
-            max: 12, // d12 represented as 12
-            current: 10, // d10 represented as 10
+            max: 8,
+            current: 0,
             regen: 0,
-            consumeVerb: 'command',
-            gainVerb: 'restore',
-            demonCapacity: 2, // Base: 2 demons, Demonologist: 4, Demon Lord: 1
-            selectedDemon: 0 // Index of currently displayed demon
+            consumeVerb: 'spend',
+            gainVerb: 'absorb',
+            demonCapacity: 2,
         },
         tooltip: {
-            title: 'Dominance System',
-            description: 'Control bound demons through Dominance Dice',
-            showDominanceDie: true,
-            showDemonInfo: true,
-            showWarning: true
+            title: 'Righteous Authority',
+            description: 'Anti-magic friction and demon command authority',
         },
-        dominanceDice: {
-            progression: ['d12', 'd10', 'd8', 'd6', '0'],
-            values: [12, 10, 8, 6, 0],
-            description: 'DD decreases by 1 step per demon action or hit taken'
-        },
-        demonTiers: [
-            { tier: 1, name: 'Imp', startingDD: 12, difficulty: 'Easy', saveDC: 12 },
-            { tier: 2, name: 'Shadow Hound', startingDD: 10, difficulty: 'Medium', saveDC: 14 },
-            { tier: 2, name: 'Wraith', startingDD: 10, difficulty: 'Medium', saveDC: 14 },
-            { tier: 3, name: 'Abyssal Brute', startingDD: 8, difficulty: 'Hard', saveDC: 16 },
-            { tier: 3, name: 'Banshee', startingDD: 8, difficulty: 'Hard', saveDC: 15 },
-            { tier: 4, name: 'Greater Demon', startingDD: 6, difficulty: 'Very Hard', saveDC: 18 }
-        ],
-        replenishmentSpells: [
-            { name: 'Reassert Dominance', cost: '5 mana', effect: 'Restore DD to maximum' },
-            { name: 'Chain of Command', cost: '4 mana', effect: '+1 DD size for 3 actions' },
-            { name: 'Divine Bond', cost: '6 mana', effect: 'Restore DD by 2 steps' }
-        ]
     },
 
     // HARROW PATH
@@ -915,86 +893,11 @@ export const CLASS_RESOURCE_TYPES = {
         }
     },
 
-    'Lichborne': {
-        id: 'eternalFrostPhylactery',
-        name: 'Eternal Frost Aura & Phylactery',
-        shortName: 'Phylactery',
-        type: 'frost_undead',
-        description: 'Phylactery stores HP for resurrection. ⚠️ PHYLACTERY FRAGMENTS: 5 permanent achievement-based upgrades that make the Phylactery progressively more powerful. Unlike the Deathcaller (volatile chaos), the Lichborne METHODICALLY BUILDS toward immortality.',
-        visual: {
-            type: 'eternal-frost-phylactery',
-            arrangement: 'horizontal-segmented',
-            baseColor: '#2D1B69',
-            activeColor: '#4A90E2',
-            glowColor: '#00FFFF',
-            icon: 'fa-gem',
-            frostbound_tyrant: {
-                name: 'Frostbound Tyrant',
-                maxPhylactery: 50,
-                segments: 10,
-                color: '#4A90E2',
-                glow: '#87CEEB',
-                icon: 'fa-snowflake'
-            },
-            spectral_reaper: {
-                name: 'Spectral Reaper',
-                maxPhylactery: 50,
-                segments: 10,
-                color: '#9370DB',
-                glow: '#BA55D3',
-                icon: 'fa-skull'
-            },
-            phylactery_guardian: {
-                name: 'Phylactery Guardian',
-                maxPhylactery: 75,
-                segments: 15,
-                color: '#2D1B69',
-                glow: '#8A2BE2',
-                icon: 'fa-shield-alt'
-            }
-        },
-        mechanics: {
-            aura: {
-                active: false,
-                bonusDamage: '1d6',
-                healthDrain: '1d6 per turn',
-                chillingDC: 17,
-                chillingEffect: '-10 ft movement'
-            },
-            phylactery: {
-                max: 50,
-                current: 0,
-                resurrectionCost: 'all_stored',
-                resurrectionHP: 'stored_value',
-                limitPerCombat: 1,
-                rechargePerRest: 10
-            },
-            fragments: {
-                total: 5,
-                earned: 0,
-                slots: [
-                    { id: 'first_frost', name: 'Fragment of First Frost', requirement: 'Freeze 3 enemies in 1 combat', bonus: '+5 max Phylactery HP', earned: false },
-                    { id: 'harvest', name: 'Fragment of the Harvest', requirement: 'Kill 10 enemies with frost total', bonus: '+1 frost spell DC', earned: false },
-                    { id: 'resurrection', name: 'Fragment of Resurrection', requirement: 'Resurrect via Phylactery once', bonus: '+5 max Phylactery HP', earned: false },
-                    { id: 'abyss', name: 'Fragment of the Abyss', requirement: '5 turns Aura without <25% HP', bonus: 'Aura drain reduced by 1 die size', earned: false },
-                    { id: 'eternity', name: 'Fragment of Eternity', requirement: 'Reach Level 10', bonus: 'Phylactery indestructible (always rez at 10+)', earned: false }
-                ],
-                completeBonus: 'At 5/5 Fragments, Phylactery becomes indestructible — always resurrect at minimum 10 HP even if pool was empty'
-            },
-            consumeVerb: 'spend',
-            gainVerb: 'store'
-        },
-        tooltip: {
-            title: 'Eternal Frost Aura & Phylactery',
-            description: 'Phylactery stores HP for resurrection. 5 Fragments earned through achievements grant permanent bonuses.',
-            showAuraStatus: true,
-            showPhylacteryHP: true,
-            showFragments: true
-        }
-    }
+    // REMOVED: 'Lichborne' section merged into Revenant as Phase 1.10 consolidation
+    // Original Lichborne resource: Eternal Frost Aura & Phylactery (frost_undead)
+    // Key mechanics preserved in Revenant's combined resource system
 };
 
-// Helper function to get class resource configuration
 export const getClassResourceConfig = (className) => {
     return CLASS_RESOURCE_TYPES[className] || null;
 };
@@ -1073,35 +976,28 @@ export const initializeClassResource = (className, characterStats) => {
         const conMod = Math.floor((characterStats.constitution - 10) / 2);
 
         switch (className) {
-            case 'Chaos Weaver':
+            case 'Harbinger':
                 baseResource.max = Math.max(5, intMod + Math.floor(level / 5));
                 break;
-            case 'Gambler':
+            case 'Gambit':
             case 'False Prophet':
                 baseResource.max = Math.max(1, chaMod + 5);
                 break;
-            case 'Exorcist':
-                baseResource.max = Math.max(1, spirMod + 3);
-                break;
+            // 'Exorcist' removed (merged with Covenbane into Inquisitor)
             case 'Martyr':
                 baseResource.max = Math.max(1, conMod + 3);
                 break;
             case 'Spellguard':
                 baseResource.max = Math.max(1, intMod + 5);
                 break;
-            case 'Inscriptor':
-                baseResource.max = Math.max(3, 3 + intMod);
-                break;
-            case 'Witch Doctor':
+            case 'Animist':
                 baseResource.max = Math.max(1, 5 + spirMod);
                 break;
-            case 'Dreadnaught':
-                baseResource.max = Math.max(1, 5 + conMod);
-                break;
+            // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
             case 'Toxicologist':
                 baseResource.max = Math.max(1, intMod + 3);
                 break;
-            case 'Covenbane':
+            case 'Inquisitor':
                 baseResource.max = Math.max(1, spirMod + 5);
                 break;
             case 'Lunarch':
@@ -1166,139 +1062,66 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
     }
 };
 
-CLASS_RESOURCE_TYPES['Titan'] = {
-    id: 'celestialDevotion',
-    name: 'Celestial Devotion',
-    shortName: 'Divine Charge',
-    type: 'devotion',
-    description: 'Attune to one of five celestial beings each day, channeling divine power through combat and devotion fulfillment',
+// ANIMIST PATH
+CLASS_RESOURCE_TYPES['Animist'] = {
+    id: 'ancestralResonance',
+    name: 'Ancestral Resonance',
+    shortName: 'AR',
+    type: 'ancestral_resonance',
+    description: 'Channel ancestral spirits to build resonance. Spend resonance to invoke spirit abilities and empower totems.',
     visual: {
-        type: 'celestial-devotion',
-        baseColor: '#FFD700',
-        activeColor: '#FFA500',
-        glowColor: '#FFFF00',
-        icon: 'fa-sun',
-        effects: ['celestial', 'devotion', 'divine']
-    },
-    mechanics: {
-        max: 100, // Maximum 100 Divine Charge
-        current: 60,
-        regen: 0, // Builds through combat and devotion fulfillment
-        decay: 0, // No decay
-        consumeVerb: 'channel',
-        gainVerb: 'build'
-    },
-    tooltip: {
-        title: 'Celestial Devotion: {current}/{max}',
-        description: 'Divine charge built through combat. Attune to Solara, Lunara, Astraeus, Terranox, or Zephyra.',
-        showCharge: true,
-        showDevotion: true,
-        showUltimate: true
-    }
-};
-
-CLASS_RESOURCE_TYPES['Inscriptor'] = {
-    id: 'runesInscriptions',
-    name: 'Runes & Resonance',
-    shortName: 'R&R',
-    type: 'dual-runic',
-    description: 'Place runes on the battlefield (3-4 mana each) to build Runic Resonance. Spend Resonance at thresholds (3/5/7) to empower inscriptions and spells. At 10 Resonance, all runes passively refresh.',
-    visual: {
-        type: 'runes-inscriptions',
-        arrangement: 'horizontal-split',
-        runes: {
-            baseColor: '#1A0F2E',
-            activeColor: '#4169E1',
-            glowColor: '#6495ED',
-            segmentBorder: '#2E1A5E',
-            icon: 'fa-scroll'
+        type: 'ancestral-resonance',
+        count: 20,
+        arrangement: 'segmented',
+        baseColor: '#1A3C2E',
+        activeColor: '#2E8B57',
+        glowColor: '#50C878',
+        icon: 'fas fa-spiral',
+        effects: ['ancestral', 'spiritual', 'resonance'],
+        stages: {
+            dormant: { range: [0, 5], description: 'Spirits slumber' },
+            awakening: { range: [6, 12], description: 'Ancestors stir' },
+            awakened: { range: [13, 20], description: 'Spirit convergence' }
         },
-        inscriptions: {
-            baseColor: '#2E1A0A',
-            activeColor: '#FFD700',
-            glowColor: '#FFA500',
-            segmentBorder: '#4A2C1A',
-            icon: 'fa-feather-alt'
-        },
-        resonance: {
-            baseColor: '#1A0F2E',
-            activeColor: '#9B59B6',
-            glowColor: '#BB77DD',
-            icon: 'fa-bolt',
-            max: 10
-        },
-        runebinder: {
-            name: 'Runebinder',
-            maxRunes: 10,
-            maxInscriptions: 3,
-            color: '#4169E1',
-            glow: '#6495ED',
-            icon: 'fa-circle-nodes'
-        },
-        enchanter: {
-            name: 'Enchanter',
-            maxRunes: 6,
-            maxInscriptions: 5,
-            color: '#FFD700',
-            glow: '#FFA500',
-            icon: 'fa-wand-magic-sparkles'
-        },
-        glyphweaver: {
-            name: 'Glyphweaver',
-            maxRunes: 8,
-            maxInscriptions: 4,
-            color: '#DC143C',
-            glow: '#FF6347',
-            icon: 'fa-burst'
-        },
-        base: {
-            name: 'Base Inscriptor',
-            maxRunes: 8,
-            maxInscriptions: 3,
-            color: '#6495ED',
-            glow: '#87CEEB',
-            icon: 'fa-scroll'
+        specializations: {
+            'thornwarden': {
+                name: 'Thornwarden',
+                icon: 'fas fa-tree',
+                baseColor: '#1A3C2E',
+                activeColor: '#228B22',
+                glowColor: '#32CD32',
+                theme: 'Nature spirits and thorn barriers'
+            },
+            'spirit_binder': {
+                name: 'Spirit Binder',
+                icon: 'fas fa-link',
+                baseColor: '#2E1A3E',
+                activeColor: '#9370DB',
+                glowColor: '#BB77DD',
+                theme: 'Binding ancestral spirits into vessels'
+            },
+            'stormscribe': {
+                name: 'Stormscribe',
+                icon: 'fas fa-wind',
+                baseColor: '#1A2E3E',
+                activeColor: '#4169E1',
+                glowColor: '#6495ED',
+                theme: 'Scribing storms through ritual inscription'
+            }
         }
     },
     mechanics: {
-        runes: {
-            max: 8,
-            current: 0,
-            cost: '3-4 mana per rune (varies by type)',
-            actionCost: 1,
-            zoneThreshold: 3,
-            generation: 'Place for 3-4 mana, 1 action each. +1 Resonance per rune placed.',
-            usage: '3+ runes form zone, detonate for burst + Resonance'
-        },
-        inscriptions: {
-            max: 3,
-            current: 0,
-            timing: 'At combat start or during downtime',
-            slots: ['weapon', 'armor', 'boots', 'cape', 'belt', 'pants'],
-            generation: '4 mana or 3 Resonance per inscription',
-            usage: 'Enhance equipment, cannot stack same slot'
-        },
-        resonance: {
-            max: 10,
-            current: 0,
-            generation: '+1 per rune placed, +1 per rune detonated (+2 for Glyphweaver)',
-            decay: 'Lose 1 per round when no runes active',
-            thresholds: {
-                3: 'Spend 3: Your next inscription costs no mana',
-                5: 'Spend 5: Your next spell in a zone deals +2d6 bonus damage',
-                7: 'Spend 7: Your next detonation affects all enemies in the zone',
-                10: 'Passive: All runes refresh duration and trigger. Resonance resets to 0.'
-            }
-        },
-        consumeVerb: 'detonate/remove',
-        gainVerb: 'place/inscribe'
+        max: 20,
+        current: 0,
+        regen: 0,
+        consumeVerb: 'invoke',
+        gainVerb: 'channel'
     },
     tooltip: {
-        title: 'Runes: {runes}/{maxRunes} | Resonance: {resonance}/10 | Inscriptions: {inscriptions}/{maxInscriptions}',
-        description: 'Build Resonance by placing runes. Spend on inscriptions, empowered spells, and enhanced detonations.',
-        showRunes: true,
-        showInscriptions: true,
+        title: 'Ancestral Resonance: {current}/{max}',
+        description: 'Channel ancestral spirits to build resonance. Spend to invoke spirit abilities and empower totems.',
         showResonance: true,
+        showSpirits: true,
         showSpecialization: true
     }
 };
@@ -1413,258 +1236,156 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
     ]
 };
 
-// HEXER PATH
-CLASS_RESOURCE_TYPES['Witch Doctor'] = {
-    id: 'voodooEssence',
-    name: 'Voodoo Essence',
-    shortName: 'VE',
-    type: 'spiritual',
-    description: 'Generate Voodoo Essence through curses, poisons, totems, and rituals. Spend essence to invoke powerful loa spirits.',
+// SHAPER PATH (merged Bladedancer + Formbender)
+CLASS_RESOURCE_TYPES['Shaper'] = {
+    id: 'kineticFluxBodyToll',
+    name: 'Kinetic Flux & Body Toll',
+    shortName: 'KF/BT',
+    type: 'dual-resource',
+    description: 'Dual resource system: Kinetic Flux (combat rhythm, 0-20) and Body Toll (transformation cost, 0-10)',
     visual: {
-        type: 'voodoo-essence',
-        count: 15,
-        arrangement: 'segmented',
-        baseColor: '#2D1B4E',
-        activeColor: '#8B008B',
-        glowColor: '#9370DB',
-        icon: 'fas fa-skull',
-        effects: ['spiritual', 'ritualistic', 'loa'],
-        stages: {
-            dim: { range: [0, 5], description: 'Dim and inert' },
-            glow: { range: [6, 10], description: 'Glyphs glow faintly' },
-            flicker: { range: [11, 15], description: 'Humming with voodoo energy' }
+        type: 'stance-flow',
+        momentum: {
+            max: 20,
+            baseColor: '#1a4d6d',
+            activeColor: '#3498DB',
+            glowColor: '#5DADE2',
+            icon: 'fas fa-bolt',
+            effects: ['flow', 'rhythm']
         },
-        loaColors: {
-            samedi: '#4B0082',
-            erzulie: '#DAA520',
-            ogoun: '#DC143C',
-            simbi: '#40E0D0',
-            legba: '#FFB347'
+        flourish: {
+            max: 5,
+            baseColor: '#34495E',
+            activeColor: '#F39C12',
+            glowColor: '#F8C471',
+            icon: 'fas fa-star',
+            effects: ['mastery', 'finesse']
         },
-        specializations: {
-            'bokor': {
-                name: 'Bokor',
-                icon: 'fas fa-skull',
-                baseColor: '#2D1B4E',
-                activeColor: '#8B008B',
-                glowColor: '#9370DB',
-                theme: 'Necromancy & Death Magic'
+        stances: {
+            'Flowing Water': {
+                icon: 'fas fa-water',
+                color: '#3498DB',
+                type: 'Defensive/Evasive'
             },
-            'mambo': {
-                name: 'Mambo',
-                icon: 'fas fa-hand-holding-heart',
-                baseColor: '#1A472A',
-                activeColor: '#32CD32',
-                glowColor: '#98FB98',
-                theme: 'Totems & Protection'
+            'Striking Serpent': {
+                icon: 'fas fa-dragon',
+                color: '#27AE60',
+                type: 'Offensive/Precision'
             },
-            'houngan': {
-                name: 'Houngan',
-                icon: 'fas fa-fire',
-                baseColor: '#4A1C1C',
-                activeColor: '#DC143C',
-                glowColor: '#FF6347',
-                theme: 'Aggressive Channeling'
-            }
-        }
-    },
-    mechanics: {
-        max: 15,
-        current: 0,
-        regen: 0,
-        consumeVerb: 'invoke',
-        gainVerb: 'channel'
-    },
-    tooltip: {
-        title: 'Voodoo Essence: {current}/{max}',
-        description: 'Generate through curses, poisons, totems, and rituals. Spend to invoke loa spirits.',
-        showEssence: true,
-        showLoa: true,
-        showSpecialization: true
-    }
-};
-
-CLASS_RESOURCE_TYPES['Formbender'] = {
-    id: 'wildInstinct',
-    name: 'Wild Instinct',
-    shortName: 'WI',
-    type: 'primal',
-    description: 'Primal energy for shapeshifting and wild abilities',
-    visual: {
-        type: 'wild-instinct-forms',
-        count: 15,
-        arrangement: 'segmented',
-        baseColor: '#2D2D2D',
-        icon: 'fas fa-paw',
-        effects: ['primal', 'transformation', 'shapeshifting'],
-        forms: {
-            human: {
-                id: 'human',
-                name: 'Human',
-                icon: 'fas fa-user',
-                color: '#808080',
-                activeColor: '#A0A0A0',
-                glowColor: '#C0C0C0',
-                borderColor: '#FFFFFF',
-                description: 'Not Transformed',
-                generation: 'Cannot generate WI in human form',
-                passive: 'No form bonuses'
+            'Whirling Wind': {
+                icon: 'fas fa-wind',
+                color: '#95A5A6',
+                type: 'AoE/Multi-target'
             },
-            nightstalker: {
-                id: 'nightstalker',
-                name: 'Nightstalker',
-                icon: 'fas fa-cat',
-                color: '#2D1B4E',
-                activeColor: '#4B2D7A',
-                glowColor: '#7B4FBD',
-                borderColor: '#9370DB',
-                description: 'Stealth & Burst Damage',
-                generation: '+1 WI per round in stealth, +2 WI from Ambush',
-                passive: '+2 to stealth, advantage on ambush attacks'
+            'Rooted Stone': {
+                icon: 'fas fa-mountain',
+                color: '#7F8C8D',
+                type: 'Defensive/Counter'
             },
-            ironhide: {
-                id: 'ironhide',
-                name: 'Ironhide',
-                icon: 'fas fa-shield',
-                color: '#5C4033',
-                activeColor: '#8B6F47',
-                glowColor: '#A0826D',
-                borderColor: '#8B4513',
-                description: 'Tank & Durability',
-                generation: '+1 WI per enemy taunted, +2 WI from protecting allies',
-                passive: '+20 max HP (instant heal on entry, safe exit on leave), 25% resistance to physical damage'
-            },
-            skyhunter: {
-                id: 'skyhunter',
-                name: 'Skyhunter',
-                icon: 'fas fa-dove',
-                color: '#4682B4',
-                activeColor: '#5F9EA0',
-                glowColor: '#87CEEB',
-                borderColor: '#00BFFF',
-                description: 'Mobility & Aerial Control',
-                generation: '+1 WI from scouting, +2 WI from Dive Attack',
-                passive: 'Flight speed 60ft, advantage on Perception'
-            },
-            frostfang: {
-                id: 'frostfang',
-                name: 'Frostfang',
-                icon: 'fas fa-paw',
-                color: '#4F7CAC',
-                activeColor: '#6B9BD1',
-                glowColor: '#B0E0E6',
-                borderColor: '#ADD8E6',
-                description: 'Pack Tactics & Tracking',
-                generation: '+1 WI from tracking, +2 WI from Pack Tactics',
-                passive: 'Advantage when ally is within 5ft, enhanced tracking'
-            }
-        },
-        specializations: {
-            'metamorph': {
-                name: 'Metamorph',
-                icon: 'fas fa-dna',
-                baseColor: '#9932CC',
-                activeColor: '#B060E0',
-                glowColor: '#D090FF',
-                theme: 'Chimeric hybrid forms and adaptive evolution'
-            },
-            'form-thief': {
-                name: 'Form Thief',
-                icon: 'fas fa-mask',
-                baseColor: '#8B0000',
-                activeColor: '#B02020',
-                glowColor: '#E04040',
-                theme: 'Form theft and enemy mimicry'
-            },
-            'primordial': {
-                name: 'Primordial',
-                icon: 'fas fa-fire',
-                baseColor: '#FF4500',
-                activeColor: '#FF6A30',
-                glowColor: '#FF9060',
-                theme: 'Ancient elemental transformations'
-            }
-        }
-    },
-    mechanics: {
-        max: 15,
-        current: 0,
-        currentForm: 'human',
-        regen: 0,
-        consumeVerb: 'shift',
-        gainVerb: 'attune',
-        transformCost: 1,
-        freeFirstTransform: true,
-        betweenCombatDecay: 'half'
-    },
-    tooltip: {
-        title: 'Wild Instinct: {current}/{max}',
-        showInstinct: true,
-        showForm: true,
-        showGeneration: true,
-        showPassive: true
-    }
-};
-
-CLASS_RESOURCE_TYPES['Primalist'] = {
-    id: 'totemicSynergy',
-    name: 'Totemic Synergy',
-    shortName: 'TS',
-    type: 'totemic',
-    description: 'Totemic energy used to cast Primalist spells. Built through totem placement and synergy activation. Now serves as the primary casting resource alongside mana.',
-    visual: {
-        type: 'totemic-synergy',
-        baseColor: '#4A2C0A',
-        activeColor: '#8B4513',
-        glowColor: '#CD853F',
-        icon: 'fas fa-torii-gate',
-        effects: ['elemental', 'totemic', 'synergy'],
-        specializations: {
-            'earthwarden': {
-                name: 'Earthwarden',
-                icon: 'fas fa-shield-alt',
-                baseColor: '#5C4033',
-                activeColor: '#8B6F47',
-                glowColor: '#A0826D',
-                theme: 'Defensive totems and protection'
-            },
-            'stormbringer': {
-                name: 'Stormbringer',
+            'Dancing Blade': {
                 icon: 'fas fa-bolt',
-                baseColor: '#4169E1',
-                activeColor: '#5F9EA0',
-                glowColor: '#87CEEB',
-                theme: 'Elemental damage and lower synergy threshold'
+                color: '#9B59B6',
+                type: 'Balanced/Hub'
             },
-            'spiritcaller': {
-                name: 'Spiritcaller',
-                icon: 'fas fa-ghost',
-                baseColor: '#4B0082',
-                activeColor: '#9370DB',
-                glowColor: '#DDA0DD',
-                theme: 'Spirit bonds and totem repositioning'
+            'Shadow Step': {
+                icon: 'fas fa-user-ninja',
+                color: '#2C3E50',
+                type: 'Stealth/Burst'
             }
         }
     },
     mechanics: {
-        max: 100,
-        current: 0,
-        totems: {
-            max: 8,
-            current: 0
+        momentum: {
+            max: 20,
+            current: 0,
+            generation: {
+                hit: 1,
+                crit: 2,
+                dodge: 1,
+                parry: 1
+            },
+            decay: {
+                onMiss: 1,
+                onDamage: 1
+            },
+            consumption: {
+                stanceChange: '2-4',
+                abilities: '3-6'
+            },
+            regen: 0,
+            consumeVerb: 'spend',
+            gainVerb: 'build'
         },
-        synergyThreshold: 4, // Default, Stormbringer uses 3
-        regen: 0,
-        consumeVerb: 'spend',
-        gainVerb: 'harmonize',
-        spellCost: 'Primalist spells spend Totemic Synergy (2-20) as a casting cost alongside mana'
+        flourish: {
+            max: 5,
+            current: 0,
+            generation: {
+                signatureMove: 1
+            },
+            decay: 0,
+            consumption: {
+                ultimates: '2-5'
+            },
+            consumeVerb: 'expend',
+            gainVerb: 'earn'
+        },
+        stance: {
+            current: 'Flowing Water',
+            available: [
+                'Flowing Water',
+                'Striking Serpent',
+                'Whirling Wind',
+                'Rooted Stone',
+                'Dancing Blade',
+                'Shadow Step'
+            ]
+        }
     },
     tooltip: {
-        title: 'Totemic Synergy',
-        description: '',
-        showSynergy: true,
-        showTotems: true,
-        showThreshold: true
+        title: 'Momentum: {momentum}/20 | Flourish: {flourish}/5 | Stance: {stance}',
+        description: 'Build Kinetic Flux through combat, earn Flourish through mastery',
+        showMomentum: true,
+        showFlourish: true,
+        showStance: true
+    },
+    stanceNetwork: {
+        'Flowing Water': ['Striking Serpent', 'Shadow Step', 'Dancing Blade'],
+        'Striking Serpent': ['Whirling Wind', 'Rooted Stone', 'Flowing Water'],
+        'Whirling Wind': ['Dancing Blade', 'Rooted Stone'],
+        'Rooted Stone': ['Striking Serpent', 'Flowing Water'],
+        'Dancing Blade': ['Flowing Water', 'Striking Serpent', 'Whirling Wind', 'Rooted Stone', 'Shadow Step'],
+        'Shadow Step': ['Striking Serpent', 'Dancing Blade']
+    },
+    transitionCosts: {
+        'Flowing Water': {
+            'Striking Serpent': 2,
+            'Shadow Step': 2,
+            'Dancing Blade': 2
+        },
+        'Striking Serpent': {
+            'Whirling Wind': 2,
+            'Rooted Stone': 2,
+            'Flowing Water': 2
+        },
+        'Whirling Wind': {
+            'Dancing Blade': 3,
+            'Rooted Stone': 3
+        },
+        'Rooted Stone': {
+            'Striking Serpent': 2,
+            'Flowing Water': 2
+        },
+        'Dancing Blade': {
+            'Flowing Water': 4,
+            'Striking Serpent': 4,
+            'Whirling Wind': 4,
+            'Rooted Stone': 4,
+            'Shadow Step': 4
+        },
+        'Shadow Step': {
+            'Striking Serpent': 2,
+            'Dancing Blade': 2
+        }
     }
 };
 
@@ -1782,81 +1503,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
     ]
 };
 
-CLASS_RESOURCE_TYPES['Dreadnaught'] = {
-    id: 'darkResiliencePoints',
-    name: 'Dark Resilience Points',
-    shortName: 'DRP',
-    type: 'resilience',
-    description: 'Convert damage taken into dark power (1 DRP per 4 damage)',
-    visual: {
-        type: 'drp-resilience',
-        count: 50,
-        arrangement: 'horizontal',
-        baseColor: '#1a0033',
-        activeColor: '#4B0082',
-        glowColor: '#8B00FF',
-        icon: '🛡️',
-        effects: ['necrotic', 'resilience', 'absorption']
-    },
-    mechanics: {
-        max: 50,
-        current: 0,
-        regen: 0,
-        generation: {
-            damageTaken: '1 DRP per 4 damage',
-            soulreaverBonus: '1 DRP per 3 damage',
-            necroticDamageDealt: '1 DRP (Soulreaver only)'
-        },
-        passiveEffects: {
-            darkResistance: {
-                threshold: 10,
-                effect: 'Resistance to one damage type',
-                voidwardenBonus: 'Two damage types'
-            },
-            regeneration: {
-                threshold: 10,
-                effect: '1 HP per 10 DRP at turn start',
-                voidwardenBonus: '× 1.5 regeneration'
-            }
-        },
-        consumeVerb: 'spend',
-        gainVerb: 'absorb'
-    },
-    tooltip: {
-        title: 'DRP: {current}/50 | Regen: {regen} HP/turn',
-        description: '',
-        showDRP: true,
-        showRegen: true,
-        showResistance: true
-    },
-    abilities: [
-        {
-            name: 'Shadow Shield',
-            cost: 'variable',
-            effect: 'Absorb 2× DRP spent (2.5× for Voidwarden)'
-        },
-        {
-            name: 'Wraith Strike',
-            cost: '5/10/15/20',
-            effect: '+1d6/2d6/3d6/4d6 necrotic damage'
-        },
-        {
-            name: 'Unholy Fortitude',
-            cost: '5/10/15/20',
-            effect: '+1/+2/+3/+4 Armor for 1 minute'
-        },
-        {
-            name: 'Necrotic Aura',
-            cost: '15 (10 for Doomguard)',
-            effect: 'Enemies have disadvantage on attacks for 1 minute'
-        },
-        {
-            name: 'Dark Rebirth',
-            cost: 'All remaining',
-            effect: 'Revive with 2× DRP as HP when reaching 0 HP'
-        }
-    ]
-};
+// 'Dreadnaught' CLASS_RESOURCE_TYPES removed (absorbed into Martyr as Ironclad specialization)
 
 // MERCENARY PATH
 CLASS_RESOURCE_TYPES['Toxicologist'] = {
@@ -1948,233 +1595,8 @@ CLASS_RESOURCE_TYPES['Toxicologist'] = {
     }
 };
 
-CLASS_RESOURCE_TYPES['Covenbane'] = {
-    id: 'hexbreakerCharges',
-    name: 'Hexbreaker Charges',
-    shortName: 'HB',
-    type: 'charges',
-    description: 'Anti-magic energy accumulated ONLY through magical confrontation — being targeted by spells, dispelling enchantments, witnessing spell failure, and destroying evil magic users. Mundane combat generates NOTHING.',
-    visual: {
-        type: 'hexbreaker-charges',
-        count: 6,
-        arrangement: 'horizontal',
-        baseColor: '#2C2C2C',
-        activeColor: '#C0C0C0',
-        glowColor: '#E8E8E8',
-        icon: '⬢',
-        effects: ['dark-energy', 'anti-magic'],
-        diceType: 'd6'
-    },
-    mechanics: {
-        max: 6,
-        current: 0,
-        generation: {
-            targetedBySpell: 1,
-            allyTargetedBySpellWithin30ft: 1,
-            successfulDispelOrCounterspell: 2,
-            witnessSpellFailOrFizzle: 1,
-            castCovenbaneSpellAtMagicTarget: 1,
-            defeatEvilMagicUser: 3,
-            weaponAttackMundaneTarget: 0,
-            defeatMundaneEnemy: 0
-        },
-        decay: {
-            noMagicalEventPerRound: -1,
-            description: 'The Hunter\'s Curse — charges decay -1 per round when no magical event occurs'
-        },
-        consumption: {
-            curseEater: 2,
-            darkPursuit: 3,
-            spiritShackle: 4,
-            hexbreakerFury: 6
-        },
-        passiveBonuses: {
-            0: 'No bonuses',
-            1: '+1d4 damage, +5ft speed',
-            2: '+1d6 damage, +10ft speed',
-            3: '+2d6 damage, +15ft speed, crit 19-20',
-            4: '+3d6 damage, +20ft speed, crit 19-20',
-            5: '+4d6 damage, +25ft speed, crit 18-20',
-            6: '+5d6 damage, +30ft speed, crit 18-20, ultimate available'
-        },
-        regen: 0,
-        consumeVerb: 'spend',
-        gainVerb: 'accumulate'
-    },
-    tooltip: {
-        title: 'Hexbreaker Charges: {current}/6',
-        description: 'Anti-magic power. Generated ONLY through magical confrontation. Decays -1/round without magic. Mundane combat = NO charges.',
-        showCharges: true,
-        showPassiveBonuses: true,
-        showNextThreshold: true,
-        showDecayWarning: true
-    },
-    witchHunterPrecision: {
-        trigger: 'every_third_attack',
-        baseDamage: '5% max HP',
-        scaling: '+1% per charge',
-        damageType: 'true',
-        description: 'Every third attack vs evil magic users deals % max HP true damage'
-    },
-    chargeScaling: {
-        damage: ['0', '+1d4', '+1d6', '+2d6', '+3d6', '+4d6', '+5d6'],
-        speed: ['+0ft', '+5ft', '+10ft', '+15ft', '+20ft', '+25ft', '+30ft'],
-        critRange: ['20', '20', '20', '19-20', '19-20', '18-20', '18-20'],
-        trueDamage: ['0%', '6%', '7%', '8%', '9%', '10%', '11%']
-    }
-};
-
-CLASS_RESOURCE_TYPES['Bladedancer'] = {
-    id: 'momentumFlourish',
-    name: 'Momentum & Flourish',
-    shortName: 'MF',
-    type: 'dual-resource',
-    description: 'Dual resource system: Momentum (combat rhythm) and Flourish (mastery tokens)',
-    visual: {
-        type: 'stance-flow',
-        momentum: {
-            max: 20,
-            baseColor: '#1a4d6d',
-            activeColor: '#3498DB',
-            glowColor: '#5DADE2',
-            icon: 'fas fa-bolt',
-            effects: ['flow', 'rhythm']
-        },
-        flourish: {
-            max: 5,
-            baseColor: '#34495E',
-            activeColor: '#F39C12',
-            glowColor: '#F8C471',
-            icon: 'fas fa-star',
-            effects: ['mastery', 'finesse']
-        },
-        stances: {
-            'Flowing Water': {
-                icon: 'fas fa-water',
-                color: '#3498DB',
-                type: 'Defensive/Evasive'
-            },
-            'Striking Serpent': {
-                icon: 'fas fa-dragon',
-                color: '#27AE60',
-                type: 'Offensive/Precision'
-            },
-            'Whirling Wind': {
-                icon: 'fas fa-wind',
-                color: '#95A5A6',
-                type: 'AoE/Multi-target'
-            },
-            'Rooted Stone': {
-                icon: 'fas fa-mountain',
-                color: '#7F8C8D',
-                type: 'Defensive/Counter'
-            },
-            'Dancing Blade': {
-                icon: 'fas fa-bolt',
-                color: '#9B59B6',
-                type: 'Balanced/Hub'
-            },
-            'Shadow Step': {
-                icon: 'fas fa-user-ninja',
-                color: '#2C3E50',
-                type: 'Stealth/Burst'
-            }
-        }
-    },
-    mechanics: {
-        momentum: {
-            max: 20,
-            current: 0,
-            generation: {
-                hit: 1,
-                crit: 2,
-                dodge: 1,
-                parry: 1
-            },
-            decay: {
-                onMiss: 1,
-                onDamage: 1
-            },
-            consumption: {
-                stanceChange: '2-4',
-                abilities: '3-6'
-            },
-            regen: 0,
-            consumeVerb: 'spend',
-            gainVerb: 'build'
-        },
-        flourish: {
-            max: 5,
-            current: 0,
-            generation: {
-                signatureMove: 1
-            },
-            decay: 0, // No decay
-            consumption: {
-                ultimates: '2-5'
-            },
-            consumeVerb: 'expend',
-            gainVerb: 'earn'
-        },
-        stance: {
-            current: 'Flowing Water',
-            available: [
-                'Flowing Water',
-                'Striking Serpent',
-                'Whirling Wind',
-                'Rooted Stone',
-                'Dancing Blade',
-                'Shadow Step'
-            ]
-        }
-    },
-    tooltip: {
-        title: 'Momentum: {momentum}/20 | Flourish: {flourish}/5 | Stance: {stance}',
-        description: 'Build Momentum through combat, earn Flourish through mastery',
-        showMomentum: true,
-        showFlourish: true,
-        showStance: true
-    },
-    stanceNetwork: {
-        'Flowing Water': ['Striking Serpent', 'Shadow Step', 'Dancing Blade'],
-        'Striking Serpent': ['Whirling Wind', 'Rooted Stone', 'Flowing Water'],
-        'Whirling Wind': ['Dancing Blade', 'Rooted Stone'],
-        'Rooted Stone': ['Striking Serpent', 'Flowing Water'],
-        'Dancing Blade': ['Flowing Water', 'Striking Serpent', 'Whirling Wind', 'Rooted Stone', 'Shadow Step'], // Can go anywhere
-        'Shadow Step': ['Striking Serpent', 'Dancing Blade']
-    },
-    transitionCosts: {
-        'Flowing Water': {
-            'Striking Serpent': 2,
-            'Shadow Step': 2,
-            'Dancing Blade': 2
-        },
-        'Striking Serpent': {
-            'Whirling Wind': 2,
-            'Rooted Stone': 2,
-            'Flowing Water': 2
-        },
-        'Whirling Wind': {
-            'Dancing Blade': 3,
-            'Rooted Stone': 3
-        },
-        'Rooted Stone': {
-            'Striking Serpent': 2,
-            'Flowing Water': 2
-        },
-        'Dancing Blade': {
-            'Flowing Water': 4,
-            'Striking Serpent': 4,
-            'Whirling Wind': 4,
-            'Rooted Stone': 4,
-            'Shadow Step': 4
-        },
-        'Shadow Step': {
-            'Striking Serpent': 2,
-            'Dancing Blade': 2
-        }
-    }
-};
+// Covenbane Hexbreaker Charges removed (Covenbane merged with Exorcist into Inquisitor — now uses Righteous Authority)
+// See CLASS_RESOURCE_TYPES['Inquisitor'] for the merged resource
 
 // LUNARCH - LUNAR PHASES
 CLASS_RESOURCE_TYPES['Lunarch'] = {
@@ -2254,7 +1676,7 @@ CLASS_RESOURCE_TYPES['Lunarch'] = {
     }
 };
 
-CLASS_RESOURCE_TYPES['Huntress'] = {
+CLASS_RESOURCE_TYPES['Apex'] = {
     id: 'quarryMarksCompanion',
     name: 'Quarry Marks & Companion',
     shortName: 'QM',
@@ -2360,95 +1782,12 @@ export const getResourceDisplayText = (classResource, config) => {
     }
 };
 
-CLASS_RESOURCE_TYPES['Oracle'] = {
-    id: 'propheticVisions',
-    name: 'Prophetic Visions',
-    shortName: 'PV',
-    type: 'divination',
-    description: 'Mystic insight gained through accurate predictions, spent on REVEALING hidden information. ⚠️ The Oracle does NOT reroll dice — that is the Fate Weaver\'s exclusive domain. The Oracle SEES and REVEALS.',
-    visual: {
-        type: 'prophetic-visions',
-        max: 10,
-        baseColor: '#1A0F2E',
-        emptyColor: '#0D0718',
-        segmentBorder: '#2E1A5E',
-        seer: {
-            name: 'Seer',
-            activeColor: '#9370DB',
-            glowColor: '#DDA0DD',
-            icon: 'fa-eye',
-            theme: 'Future Sight & Prediction Mastery'
-        },
-        truthseeker: {
-            name: 'Truthseeker',
-            activeColor: '#4682B4',
-            glowColor: '#87CEEB',
-            icon: 'fa-book-open',
-            theme: 'Past Sight & Hidden Knowledge'
-        },
-        fateseer: {
-            name: 'Fateseer',
-            activeColor: '#DAA520',
-            glowColor: '#FFD700',
-            icon: 'fa-eye',
-            theme: 'Fate Reading & Information Warfare'
-        }
-    },
-    mechanics: {
-        visions: {
-            max: 10,
-            current: 3,
-            generation: {
-                passivePerTurn: 1,
-                simpleCorrectPrediction: 1,
-                moderateCorrectPrediction: 2,
-                complexCorrectPrediction: 3,
-                grandCorrectPrediction: 3,
-                revelation: 1,
-                fulfilledProphecy: 2,
-                witnessCritical: 1
-            },
-            spending: {
-                revealEnemyStats: 1,
-                revealHiddenThreat: 1,
-                revealEnemyIntent: 2,
-                revealWeakness: 2,
-                revealTrapLocation: 1,
-                divinationSpell: 'varies',
-                prophecyActivation: 'varies'
-            },
-            persistence: 'Visions persist between combats, reset to 3 on long rest'
-        },
-        predictionTracking: {
-            totalPredictions: 0,
-            correctPredictions: 0,
-            accuracyChain: 0,
-            lastPredictionType: null
-        },
-        revelations: {
-            secretsRevealed: 0,
-            liesDetected: 0,
-            illusionsExposed: 0,
-            weaknessesRevealed: 0,
-            trapsDiscovered: 0,
-            enemyIntentionsForeseen: 0
-        },
-        forbiddenNote: 'The Oracle CANNOT force rerolls or manipulate dice. That is the Fate Weaver\'s EXCLUSIVE domain. The Oracle reveals information; the Fate Weaver changes outcomes.'
-    },
-    tooltip: {
-        title: 'Prophetic Visions: {current}/10',
-        description: 'Mystic insight for REVEALING hidden information — NOT for rerolling dice',
-        showVisions: true,
-        showSpecPassive: true,
-        showPredictionAccuracy: true,
-        noRerollWarning: '⚠️ No reroll abilities. Reveal information to let your party act with perfect knowledge.'
-    }
-};
+
 
 CLASS_RESOURCE_TYPES['Warden'] = {
     id: 'vengeance-points',
-    name: 'Vengeance Points',
-    shortName: 'VP',
+    name: 'Tether Tension',
+    shortName: 'TT',
     type: 'vengeance-points',
     description: 'Build power through attacks, evasions, and critical hits to unleash devastating abilities. Pursuit Movement: +5ft speed per VP toward marked target (max +50ft). The Warden does NOT teleport.',
     visual: {
@@ -2597,70 +1936,4 @@ CLASS_RESOURCE_TYPES['Augur'] = {
     ]
 };
 
-CLASS_RESOURCE_TYPES['Doomsayer'] = {
-    id: 'havoc',
-    name: 'Havoc',
-    shortName: 'HV',
-    type: 'havoc',
-    description: 'Chaotic energy earned by fulfilling prophecies. Spend Havoc to cast stronger spells, widen prophecy ranges, and fuel devastating abilities.',
-    visual: {
-        type: 'havoc',
-        max: 15,
-        baseColor: '#1a0a0a',
-        activeColor: '#FF4500',
-        glowColor: '#FF6347',
-        emptyColor: '#2a0a0a',
-        segmentBorder: '#8B0000',
-        icon: '💀',
-        effects: ['chaos', 'doom', 'prophecy', 'fire']
-    },
-    mechanics: {
-        max: 15,
-        current: 0,
-        generation: {
-            prophesied: { base: 2, spellBonus: 'variable' },
-            baseOutcome: 1,
-            outsideOutcome: 0,
-            doomCountdownTick: 1,
-            doomCountdownDetonation: { base: 3, bonus: 'variable' },
-            areaPerTarget: 1
-        },
-        spending: {
-            widenRange: { cost: 1, effect: '+1 to each boundary of prophecy range' },
-            spellCost: 'variable (3-15)',
-            prophecyManipulation: 'variable'
-        },
-        prophecyRange: {
-            mechanic: 'Roll 2 dice (type per spell) to create range. Inside = Prophesied, On boundary = Base, Outside = Backlash',
-            backlash: 'Self-damage or negative effects when rolling outside range'
-        },
-        specOverrides: {
-            requiem: { bonusHavocSingleTarget: 2, maxStackedProphecies: 3 },
-            endbringer: { escalatingHavocPerRound: 1, doomAuraPenalty: -1 },
-            cataclysm: { havocPerAreaTarget: 1, maxSimultaneousAreas: 3 }
-        },
-        persistence: 'Havoc persists between combats but resets on long rest'
-    },
-    tooltip: {
-        title: 'Havoc: {current}/15',
-        description: 'Earned from fulfilled prophecies. Spend to widen ranges or cast powerful spells.',
-        showGeneration: true,
-        showSpending: true,
-        showSpecPassive: true,
-        showProphecyBacklash: true
-    },
-    generation: [
-        { action: 'Prophesied (inside range)', havoc: '2-5', notes: 'Base 2 + spell bonus' },
-        { action: 'Base (on boundary)', havoc: 1, notes: 'Prophecy partially fulfilled' },
-        { action: 'Outside (backlash)', havoc: 0, notes: 'No Havoc earned' },
-        { action: 'Doom Countdown tick', havoc: 1, notes: 'Per round ticking' },
-        { action: 'Area per target hit', havoc: 1, notes: 'Per target in area' }
-    ],
-    spending: [
-        { cost: '1 Havoc', ability: 'Widen Range', effect: '+1 to each boundary of prophecy range' },
-        { cost: '2-5 Havoc', ability: 'Spell Amplification', effect: 'Power up spell effects' },
-        { cost: '5-8 Havoc', ability: 'Strong Spells', effect: 'Cast powerful prophecy spells' },
-        { cost: '8-12 Havoc', ability: 'Ultimate Spells', effect: 'Devastating area or single-target prophecies' },
-        { cost: '15 Havoc', ability: 'Supreme Abilities', effect: 'Class-defining ultimate abilities' }
-    ]
-};
+// Doomsayer resource removed (merged into Harbinger as Mayhem gauge)

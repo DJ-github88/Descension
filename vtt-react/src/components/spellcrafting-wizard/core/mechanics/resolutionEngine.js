@@ -111,7 +111,7 @@ export const getVariablesForResolutionType = (resolutionType) => {
 /**
  * Get default formula for any resolution type
  * @param {string} resolutionType - Type of resolution
- * @param {string} element - Element code for damage (e.g., 'fire', 'frost')
+ * @param {string} element - Element code for damage (e.g., 'ember', 'rime')
  * @returns {string} - Default formula string
  */
 export const getDefaultFormula = (resolutionType, element) => {
@@ -134,7 +134,7 @@ export const getDefaultFormula = (resolutionType, element) => {
 /**
  * Get default DoT formula for any resolution type
  * @param {string} resolutionType - Type of resolution
- * @param {string} element - Element code for damage (e.g., 'fire', 'frost')
+ * @param {string} element - Element code for damage (e.g., 'ember', 'rime')
  * @returns {string} - Default DoT formula string
  */
 export const getDefaultDotFormula = (resolutionType, element) => {
@@ -298,7 +298,7 @@ export const getDotFormulaExamples = (resolutionType, element) => {
           description: 'Standard damage over time'
         },
         {
-          name: 'Poison',
+          name: 'blight',
           formula: `1d4 + ${elementCode}`,
           description: 'Potent DoT with stat scaling'
         },

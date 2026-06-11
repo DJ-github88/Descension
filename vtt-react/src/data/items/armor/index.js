@@ -894,7 +894,7 @@ export const ARMOR = [
     },
     combatStats: {
       resistances: {
-        fire: { value: 5, isPercentage: false }
+        ember: {	 value: 5, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,
@@ -912,7 +912,7 @@ export const ARMOR = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d6',
-            damageType: 'fire',
+            damageType: 'ember',
             isDot: false,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -1006,7 +1006,7 @@ export const ARMOR = [
     },
     combatStats: {
       resistances: {
-        lightning: { value: 5, isPercentage: false }
+        storm: {	 value: 5, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,
@@ -1024,7 +1024,7 @@ export const ARMOR = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d6',
-            damageType: 'lightning',
+            damageType: 'storm',
             isDot: false,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -1061,7 +1061,7 @@ export const ARMOR = [
     },
     combatStats: {
       resistances: {
-        necrotic: { value: 8, isPercentage: false },
+        blight: {	 value: 8, isPercentage: false },
         physical: { value: 3, isPercentage: false }
       },
       onHitEffects: {
@@ -1116,7 +1116,7 @@ export const ARMOR = [
     },
     combatStats: {
       resistances: {
-        lightning: { value: 8, isPercentage: false },
+        storm: {	 value: 8, isPercentage: false },
         arcane: { value: 5, isPercentage: false }
       },
       onHitEffects: {
@@ -1135,7 +1135,7 @@ export const ARMOR = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d8',
-            damageType: 'lightning',
+            damageType: 'storm',
             isDot: false,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -1146,7 +1146,7 @@ export const ARMOR = [
       },
       spellDamage: {
         types: {
-          lightning: { value: 3, isPercentage: false }
+          storm: {	 value: 3, isPercentage: false }
         }
       }
     },
@@ -1177,7 +1177,7 @@ export const ARMOR = [
     },
     combatStats: {
       resistances: {
-        fire: { value: 15, isPercentage: false },
+        ember: {	 value: 15, isPercentage: false },
         physical: { value: 5, isPercentage: false }
       },
       onHitEffects: {
@@ -1196,7 +1196,7 @@ export const ARMOR = [
           effectType: 'damage',
           effectConfig: {
             formula: '2d6',
-            damageType: 'fire',
+            damageType: 'ember',
             isDot: true,
             dotDuration: 2,
             dotTickFrequency: 'round',
@@ -1233,7 +1233,7 @@ export const ARMOR = [
     combatStats: {
       resistances: {
         shadow: { value: 15, isPercentage: false },
-        psychic: { value: 10, isPercentage: false },
+        wyrd: {	 value: 10, isPercentage: false },
         arcane: { value: 8, isPercentage: false }
       },
       onHitEffects: {

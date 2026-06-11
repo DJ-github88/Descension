@@ -192,7 +192,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           baseFormula = state.damageConfig?.formula || '1d6 + INT';
           baseSettings = {
             damageType: state.damageConfig?.damageType || 'direct',
-            elementType: state.damageConfig?.elementType || 'fire'
+            elementType: state.damageConfig?.elementType || 'ember'
           };
           break;
         case 'healing':
@@ -646,7 +646,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
           // Initialize damage type settings
           updateConditionalSettings(selectedEffect, trigger.id, 'elementType',
-            state.damageConfig?.elementType || 'Fire');
+            state.damageConfig?.elementType || 'ember');
           updateConditionalSettings(selectedEffect, trigger.id, 'damageType', 'dot');
 
           // Initialize duration settings
@@ -666,7 +666,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
           // Initialize damage type settings
           updateConditionalSettings(selectedEffect, trigger.id, 'elementType',
-            state.damageConfig?.elementType || 'Fire');
+            state.damageConfig?.elementType || 'ember');
           updateConditionalSettings(selectedEffect, trigger.id, 'damageType',
             state.damageConfig?.damageType || 'direct');
         }
@@ -890,7 +890,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         console.log('Using damage formula:', baseFormula);
         baseSettings = {
           damageType: state.damageConfig?.damageType || 'direct',
-          elementType: state.damageConfig?.elementType || 'fire'
+          elementType: state.damageConfig?.elementType || 'ember'
         };
         break;
       case 'damage_dot':
@@ -899,7 +899,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         console.log('Using damage_dot formula:', baseFormula);
         baseSettings = {
           damageType: 'dot',
-          elementType: state.damageConfig?.elementType || 'fire',
+          elementType: state.damageConfig?.elementType || 'ember',
           dotDuration: state.damageConfig?.dotDuration || 3,
           dotDurationUnit: state.damageConfig?.dotDurationUnit || 'rounds',
           duration: state.damageConfig?.dotDuration || 3,
@@ -912,7 +912,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         console.log('Using damage_combined formula:', baseFormula);
         baseSettings = {
           damageType: 'combined',
-          elementType: state.damageConfig?.elementType || 'fire',
+          elementType: state.damageConfig?.elementType || 'ember',
           dotFormula: state.damageConfig?.dotFormula || '1d4 + INT/2',
           dotDuration: state.damageConfig?.dotDuration || 3,
           dotDurationUnit: state.damageConfig?.dotDurationUnit || 'rounds'
@@ -1193,13 +1193,13 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         case 'damage_direct':
           baseSettings = {
             damageType: state.damageConfig?.damageType || 'direct',
-            elementType: state.damageConfig?.elementType || 'fire'
+            elementType: state.damageConfig?.elementType || 'ember'
           };
           break;
         case 'damage_dot':
           baseSettings = {
             damageType: 'dot',
-            elementType: state.damageConfig?.elementType || 'fire',
+            elementType: state.damageConfig?.elementType || 'ember',
             dotDuration: state.damageConfig?.dotDuration || 3,
             dotDurationUnit: state.damageConfig?.dotDurationUnit || 'rounds',
             duration: state.damageConfig?.dotDuration || 3,
@@ -1209,7 +1209,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         case 'damage_combined':
           baseSettings = {
             damageType: 'combined',
-            elementType: state.damageConfig?.elementType || 'fire',
+            elementType: state.damageConfig?.elementType || 'ember',
             dotFormula: state.damageConfig?.dotFormula || '1d4 + INT/2',
             dotDuration: state.damageConfig?.dotDuration || 3,
             dotDurationUnit: state.damageConfig?.dotDurationUnit || 'rounds'
@@ -1806,15 +1806,15 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                 </span>
                                 <span className="wow-effect-detail-value">
                                   <img
-                                    src={getCustomIconUrl(`${state.damageConfig.elementType || 'Fire'}/${state.damageConfig.elementType === 'fire' ? 'Flame Burst' : state.damageConfig.elementType === 'frost' ? 'Dripping Ice' : state.damageConfig.elementType === 'lightning' ? 'Lightning Bolt' : 'Flame Burst'}`, 'abilities')}
-                                    alt={state.damageConfig.elementType || 'Fire'}
+                                    src={getCustomIconUrl(`${state.damageConfig.elementType || 'ember'}/${state.damageConfig.elementType === 'ember' ? 'Flame Burst' : state.damageConfig.elementType === 'rime' ? 'Dripping Ice' : state.damageConfig.elementType === 'storm' ? 'Lightning Bolt' : 'Flame Burst'}`, 'abilities')}
+                                    alt={state.damageConfig.elementType || 'ember'}
                                     className="wow-element-icon"
                                     onError={(e) => {
                                       e.target.onerror = null;
                                       e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
                                     }}
                                   />
-                                  {state.damageConfig.elementType || 'Fire'} ({state.damageConfig.damageType === 'dot' ? 'DoT' :
+                                  {state.damageConfig.elementType || 'ember'} ({state.damageConfig.damageType === 'dot' ? 'DoT' :
                                     state.damageConfig.damageType?.charAt(0).toUpperCase() + state.damageConfig.damageType?.slice(1) || 'Direct'})
                                 </span>
                               </div>
@@ -3657,7 +3657,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                       // Also set elementType and damageType if not already set
                                       if (!newConditionalEffects[selectedEffect].conditionalSettings[trigger.id].elementType) {
                                         newConditionalEffects[selectedEffect].conditionalSettings[trigger.id].elementType =
-                                          state.damageConfig?.elementType || 'Fire';
+                                          state.damageConfig?.elementType || 'ember';
                                       }
                                       if (!newConditionalEffects[selectedEffect].conditionalSettings[trigger.id].damageType) {
                                         newConditionalEffects[selectedEffect].conditionalSettings[trigger.id].damageType = 'dot';

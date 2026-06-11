@@ -358,8 +358,8 @@ export const UTILITY_EFFECT_TYPES = [
       },
       barrierSize: { min: 5, max: 60, default: 15, unit: 'feet' },
       barrierMaterial: { 
-        options: ['force', 'fire', 'ice', 'earth', 'water', 'necrotic'], 
-        default: 'force' 
+        options: ['arcane', 'ember', 'ice', 'earth', 'water', 'blight'], 
+        default: 'arcane' 
       },
       barrierHP: { min: 5, max: 200, default: 30 },
       barrierDealsDamage: { type: 'boolean', default: false, actionPointModifier: 1 },
@@ -407,7 +407,7 @@ export const UTILITY_EFFECT_TYPES = [
       },
       sizeMultiplier: { min: 0.1, max: 5, default: 1, unit: 'factor' },
       elementType: {
-        options: ['fire', 'water', 'earth', 'air', 'shadow', 'light'],
+        options: ['ember', 'water', 'earth', 'air', 'blight', 'light'],
         default: 'earth'
       },
       transformPercent: { min: 10, max: 100, default: 50, unit: 'percent' },
@@ -417,7 +417,7 @@ export const UTILITY_EFFECT_TYPES = [
     // Weather parameters
     weather: {
       weatherType: {
-        options: ['fog', 'rain', 'snow', 'wind', 'storm', 'heat', 'cold'],
+        options: ['fog', 'rain', 'snow', 'wind', 'storm', 'heat', 'rime'],
         default: 'fog'
       },
       intensity: { min: 1, max: 10, default: 5 },
@@ -436,8 +436,8 @@ export const UTILITY_EFFECT_TYPES = [
     // Enchantment parameters
     enchantment: {
       enchantmentType: {
-        options: ['fire', 'frost', 'lightning', 'holy', 'shadow', 'nature', 'arcane'],
-        default: 'fire'
+        options: ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'],
+        default: 'ember'
       },
       power: { min: 1, max: 10, default: 3 },
       duration: { min: 1, max: 60, default: 10, unit: 'minutes' },

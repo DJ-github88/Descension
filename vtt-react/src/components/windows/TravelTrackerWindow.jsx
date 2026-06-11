@@ -973,7 +973,7 @@ function BroadcastTab() {
   );
 }
 
-const TravelTrackerWindow = ({ isOpen, onClose }) => {
+export const TravelTrackerContent = () => {
   const currentBiome = useTravelStore(s => s.currentBiome);
   const activeTab = useTravelStore(s => s.activeTab);
   const setActiveTab = useTravelStore(s => s.setActiveTab);
@@ -1000,6 +1000,28 @@ const TravelTrackerWindow = ({ isOpen, onClose }) => {
   }, [activeTab]);
 
   return (
+    <div className="tt-window" style={biomeStyle}>
+      <div className="tt-tab-bar">
+        {visibleTabs.map((tab) => (
+          <button
+            key={tab.id}
+            className={`tt-tab ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            <span className="tt-tab-step">{tab.step}</span>
+            <span className="tt-tab-label">{tab.label}</span>
+          </button>
+        ))}
+      </div>
+      <div className="tt-tab-content-area">
+        {tabContent}
+      </div>
+    </div>
+  );
+};
+
+const TravelTrackerWindow = ({ isOpen, onClose }) => {
+  return (
     <WowWindow
       title="Travel Tracker"
       isOpen={isOpen}
@@ -1008,23 +1030,7 @@ const TravelTrackerWindow = ({ isOpen, onClose }) => {
       minConstraints={[660, 560]}
       maxConstraints={[900, 960]}
     >
-      <div className="tt-window" style={biomeStyle}>
-        <div className="tt-tab-bar">
-          {visibleTabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={`tt-tab ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              <span className="tt-tab-step">{tab.step}</span>
-              <span className="tt-tab-label">{tab.label}</span>
-            </button>
-          ))}
-        </div>
-        <div className="tt-tab-content-area">
-          {tabContent}
-        </div>
-      </div>
+      <TravelTrackerContent />
     </WowWindow>
   );
 };

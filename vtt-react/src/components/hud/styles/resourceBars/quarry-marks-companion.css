@@ -5,7 +5,7 @@
     padding: 0;
 }
 
-.huntress-container {
+.apex-container {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -312,7 +312,7 @@
 
 /* ===== FLAVOR VS MECHANIC TEXT DISTINCTION ===== */
 
-.huntress-flavor-text {
+.apex-flavor-text {
     font-style: italic;
     color: rgba(200, 190, 170, 0.85);
     border-left: 2px solid rgba(139, 115, 85, 0.4);
@@ -320,7 +320,7 @@
     margin: 8px 0;
 }
 
-.huntress-mechanic-text {
+.apex-mechanic-text {
     font-weight: 600;
     color: #f8f4e6;
     background: rgba(60, 50, 40, 0.3);

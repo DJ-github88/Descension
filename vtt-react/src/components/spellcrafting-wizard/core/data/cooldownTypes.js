@@ -400,7 +400,7 @@ export const COOLDOWN_CATEGORIES = [
     sharesResetWith: ['elemental_abilities'],
     priority: 3,
     displayGroup: 'elemental',
-    tags: ['fire', 'frost', 'arcane', 'nature']
+    tags: ['ember', 'rime', 'arcane', 'nature']
   },
   {
     id: 'shared_defensive',

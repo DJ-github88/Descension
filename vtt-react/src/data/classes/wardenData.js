@@ -10,7 +10,7 @@ export const WARDEN_DATA = {
   name: "Warden",
   icon: "fas fa-link",
   role: "Melee Lockdown / Heavy Sentinel",
-  damageTypes: ["slashing", "bludgeoning", "necrotic"],
+  damageTypes: ["physical", "blight"],
 
   // Overview section
   overview: {
@@ -57,6 +57,8 @@ Wardens are stoic, grim, and utterly hollowed out by their duty. They speak in h
       relationship: 'A Warden\'s power comes from the Flesh Tether — a chain physically grafted through their own body and anchored to their target. The tether is not magical; it is a medical fact. The hooks are driven through the bone. The chain is anchored to the skeleton. The pain is the source of the Warden\'s Tension, and the Tension is the source of their power.',
       paradox: 'The Warden controls their enemy by giving up control of themselves. They cannot release the tether at will — the hooks are too deep, the tension too great. Once anchored, the Warden is committed. They must win or die.'
     },
+
+    originStory: `The first Warden was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. When the Deep Alchemists' vat-laboratories collapsed during the Vat-Breakers' revolt, the containment wards shattered and the experiments — things with too many limbs and not enough skin — poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving a ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his own body as the pin. He held it for three days. When rescue finally arrived, the chain had rusted into his bone and the creature had died of exhaustion, unable to break free. The Fexric Drall smiths who cut him free noted that the pattern of scar tissue around the graft points had fused with the iron, creating a permanent bond. They asked if he wanted the chain removed. He said no. He spent the next decade refining the technique — grafting thicker chains, developing the tether-and-reel system, training others to do the same. The order he founded still operates from the Forge of Alaric in Frostmaw Holdfast, where new Wardens drive their first hook under the supervision of Fexric Drall chain-smiths. The tradition has spread beyond the Groven — Neth archivists tether themselves to forbidden texts, Skald berserkers chain themselves to glacier-wyrms, and Vreken penitents anchor themselves to the horrors that crawl from the deep bogs. But every Warden's first chain is still forged at Alaric's anvil.`,
 
     currentCrisis: `The chains are breaking. The iron used for traditional Flesh Tethers is failing — the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fexric Drall have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Wardens who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
 
@@ -328,7 +330,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
 
     specializationChoice: {
       level: 3,
-      description: "At 3rd level, choose your path of penance: Flayed Stalker (stealth/bleed), Iron Gaoler (mass lockdown/cages), or Relentless Tormentor (inescapable drag/crush)."
+      description: "At 3rd level, choose your path of penance: Flayed Stalker (stealth/bleed), Iron Gaoler (mass lockdown/cages), Relentless Tormentor (inescapable drag/crush), or Monolith (gravitational immovability/calcified defense)."
     },
 
     levelProgression: {
@@ -352,7 +354,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
   // Specializations
   specializations: {
     title: "Warden Paths of Penance",
-    subtitle: "Three Modes of Torment",
+    subtitle: "Four Modes of Torment",
 
     description: "Every Warden chooses a path of physical penance, tuning their iron grafts to perform specific, terrifying functions of lockdown, execution, or stealth.",
 
@@ -476,6 +478,44 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           "Flayed Ascendancy - Long-lasting ultimate engine of chains",
           "Flesh Tether - Absolutely mandatory for all mobility"
         ]
+      },
+      { id : "monolith",
+        name: "Monolith",
+        icon: "Nature/Grasp",
+        color: "#533C33",
+        theme: "Gravitational Immovability",
+        description: "The Monolith Warden grafts volcanic iron into their skeletal structure, fusing the penitent jailer tradition with the calcified juggernaut arts of the Emberspire forge-clans. Their chains do not merely tether enemies; they anchor the Monolith to the earth itself, weaponizing bone density and localized gravity to become an immovable stone sentinel.",
+        playstyle: "Extreme defensive body-blocking and gravitational control, sacrificing all mobility to become an unbreakable battlefield anchor.",
+        strengths: [
+          "Converts Tether Tension into Calcified Armor at a 1:1 ratio (up to +10 DR)",
+          "Tethered targets cannot drag the Monolith due to gravitational anchoring",
+          "Absorbs 75% of AoE damage directed at tethered targets instead of 50%",
+          "Unrivaled chokepoint defense and damage interception"
+        ],
+        weaknesses: [
+          "Movement speed is permanently reduced by 15 ft due to calcified joints",
+          "Cannot benefit from Dodge while calcified",
+          "Catastrophic vulnerability to Acid damage (+50% damage, dissolves Calcified Armor)",
+          "Zero ranged capability and cannot chase fleeing enemies"
+        ],
+        passiveAbilities: [
+          {
+            name: "Ossified Anchor",
+            icon: "Nature/Grasp",
+            description: "When you spend Tether Tension, convert the spent amount into temporary Calcified Armor (DR bonus, max +10). Calcified Armor decays by 2 at the start of each turn. You cannot be dragged by tethered targets while you have Calcified Armor active."
+          },
+          {
+            name: "Terminal Density",
+            icon: "Force/Force Shield",
+            description: "Your physical mass is doubled. You have advantage on saving throws against being moved, pushed, or knocked prone. However, your Dodge is locked at 0 while you have any Calcified Armor active, and Acid damage deals +50% damage to you and immediately dissolves all Calcified Armor."
+          }
+        ],
+        recommendedSpells: [
+          "Flesh Tether - Anchor the target and begin calcifying",
+          "Penitent Resolve - Stack with Calcified Armor for devastating damage reduction",
+          "Iron Gaol - Trap enemies near your immovable form",
+          "Sweeping Chains - Control the area around your anchored position"
+        ]
       }
     ]
   },
@@ -494,9 +534,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "shadowblade",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Utility/Hide",
-        tags: ["necrotic", "damage", "stealth", "shadowblade"],
+        tags: ["blight", "damage", "stealth", "shadowblade"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -521,7 +561,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "1d8 + agility",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE"
       },
       specialMechanics: {
@@ -530,7 +570,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      tags: ["necrotic", "damage", "stealth", "shadowblade"]
+      tags: ["blight", "damage", "stealth", "shadowblade"]
     },
     { id : "warden_mark_of_the_hunt",
       name: "Flesh Tether",
@@ -541,9 +581,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "universal",
       effectTypes: ["debuff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Piercing/Targeted Strike",
-        tags: ["necrotic", "debuff", "tether", "universal"],
+        tags: ["blight", "debuff", "tether", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -582,7 +622,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
             ],
             statusEffect: {
               vulnerability: {
-                type: "psychic",
+                type: "wyrd",
                 percentage: 50
               }
             }
@@ -598,7 +638,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      tags: ["necrotic", "debuff", "tether", "universal"]
+      tags: ["blight", "debuff", "tether", "universal"]
     },
     { id : "warden_vengeful_strike",
       name: "Barbed Lash",
@@ -609,9 +649,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "universal",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "slashing",
+        school: "physical",
         icon: "Bludgeoning/Mortal Strike",
-        tags: ["slashing", "damage", "bleed", "universal"],
+        tags: ["physical", "damage", "bleed", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -636,12 +676,12 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "2d6 + agility",
-        damageTypes: ["slashing"],
+        damageTypes: ["physical"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageType: "necrotic",
+          damageType: "blight",
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -661,7 +701,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      tags: ["slashing", "damage", "bleed", "universal"]
+      tags: ["physical", "damage", "bleed", "universal"]
     },
     { id : "warden_evasive_maneuvers",
       name: "Iron Brace",
@@ -777,9 +817,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "shadowblade",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Piercing/Night Dagger",
-        tags: ["necrotic", "damage", "mobility", "shadowblade"],
+        tags: ["blight", "damage", "mobility", "shadowblade"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -804,7 +844,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "2d8 + agility",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE"
       },
       specialMechanics: {
@@ -813,7 +853,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-      tags: ["necrotic", "damage", "mobility", "shadowblade"]
+      tags: ["blight", "damage", "mobility", "shadowblade"]
     },
     { id : "warden_relentless_pursuit",
       name: "Cruel Drag",
@@ -824,9 +864,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["damage", "utility"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Nature/Sense",
-        tags: ["bludgeoning", "damage", "drag", "vengeance-seeker"],
+        tags: ["physical", "damage", "drag", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -850,7 +890,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "2d6 + constitution",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       utilityConfig: {
@@ -860,7 +900,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      tags: ["bludgeoning", "damage", "drag", "vengeance-seeker"]
+      tags: ["physical", "damage", "drag", "vengeance-seeker"]
     },
     { id : "warden_whirling_glaive",
       name: "Sweeping Chains",
@@ -871,9 +911,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "universal",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Piercing/Dagger Rain",
-        tags: ["bludgeoning", "damage", "aoe", "slow", "universal"],
+        tags: ["physical", "damage", "aoe", "slow", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -897,7 +937,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "2d6 + strength/2",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       debuffConfig: {
@@ -916,7 +956,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-      tags: ["bludgeoning", "damage", "aoe", "slow", "universal"]
+      tags: ["physical", "damage", "aoe", "slow", "universal"]
     },
     { id : "warden_hunters_resolve",
       name: "Penitent Resolve",
@@ -983,9 +1023,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control", "debuff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Crossed Bones",
-        tags: ["necrotic", "control", "cage", "jailer"],
+        tags: ["blight", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1032,7 +1072,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      tags: ["necrotic", "control", "cage", "jailer"]
+      tags: ["blight", "control", "cage", "jailer"]
     },
     { id : "warden_hunters_fury",
       name: "Spined Torment",
@@ -1043,9 +1083,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Slashing/Cross Slash",
-        tags: ["bludgeoning", "damage", "tether-synergy", "vengeance-seeker"],
+        tags: ["physical", "damage", "tether-synergy", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1069,7 +1109,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "4d6 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       specialMechanics: {
@@ -1078,7 +1118,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      tags: ["bludgeoning", "damage", "tether-synergy", "vengeance-seeker"]
+      tags: ["physical", "damage", "tether-synergy", "vengeance-seeker"]
     },
     { id : "warden_spectral_strike",
       name: "Necrotic Piercing",
@@ -1089,9 +1129,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Piercing/Night Dagger",
-        tags: ["necrotic", "damage", "armor-piercing", "universal"],
+        tags: ["blight", "damage", "armor-piercing", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1115,7 +1155,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "3d8 + spirit",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE"
       },
       specialMechanics: {
@@ -1124,7 +1164,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      tags: ["necrotic", "damage", "armor-piercing", "universal"]
+      tags: ["blight", "damage", "armor-piercing", "universal"]
     },
     { id : "warden_cage_trap",
       name: "Spiked Chain Trap",
@@ -1190,9 +1230,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Psychic/Mind Control",
-        tags: ["necrotic", "damage", "chain", "jailer"],
+        tags: ["blight", "damage", "chain", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1216,7 +1256,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "2d6 + spirit",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE"
       },
       propagation: {
@@ -1232,7 +1272,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      tags: ["necrotic", "damage", "chain", "jailer"]
+      tags: ["blight", "damage", "chain", "jailer"]
     },
     { id : "warden_vengeful_leap",
       name: "Vicious Reel",
@@ -1269,7 +1309,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "5d6 + agility",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       utilityConfig: {
@@ -1294,9 +1334,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "shadowblade",
       effectTypes: ["damage", "buff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Psychic/Mind Control",
-        tags: ["necrotic", "damage", "stealth", "shadowblade"],
+        tags: ["blight", "damage", "stealth", "shadowblade"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1320,7 +1360,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "6d8 + agility",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE"
       },
       buffConfig: {
@@ -1336,7 +1376,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-      tags: ["necrotic", "damage", "stealth", "shadowblade"]
+      tags: ["blight", "damage", "stealth", "shadowblade"]
     },
     { id : "warden_prison_of_eternity",
       name: "Coliseum of Iron",
@@ -1347,9 +1387,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["necrotic", "control", "cage", "jailer"],
+        tags: ["blight", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1387,7 +1427,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-      tags: ["necrotic", "control", "cage", "jailer"]
+      tags: ["blight", "control", "cage", "jailer"]
     },
     { id : "warden_avatar_of_vengeance",
       name: "Flayed Ascendancy",
@@ -1398,9 +1438,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "General/Fiery Rage",
-        tags: ["necrotic", "buff", "transformation", "vengeance-seeker"],
+        tags: ["blight", "buff", "transformation", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1439,7 +1479,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
-      tags: ["necrotic", "buff", "transformation", "vengeance-seeker"]
+      tags: ["blight", "buff", "transformation", "vengeance-seeker"]
     },
 
     // ==========================================
@@ -1454,9 +1494,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Piercing/Dagger Rain",
-        tags: ["bludgeoning", "damage", "aoe", "universal"],
+        tags: ["physical", "damage", "aoe", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1480,11 +1520,11 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "8d6 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      tags: ["bludgeoning", "damage", "aoe", "universal"]
+      tags: ["physical", "damage", "aoe", "universal"]
     },
     { id : "warden_cage_slam",
       name: "Gaol Shatter",
@@ -1495,9 +1535,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Psychic/Mind Control",
-        tags: ["bludgeoning", "damage", "cage-synergy", "jailer"],
+        tags: ["physical", "damage", "cage-synergy", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1521,7 +1561,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "6d10 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       specialMechanics: {
@@ -1530,7 +1570,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      tags: ["bludgeoning", "damage", "cage-synergy", "jailer"]
+      tags: ["physical", "damage", "cage-synergy", "jailer"]
     },
 
     // ==========================================
@@ -1545,9 +1585,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "slashing",
+        school: "physical",
         icon: "Piercing/Targeted Strike",
-        tags: ["slashing", "damage", "execute", "vengeance-seeker"],
+        tags: ["physical", "damage", "execute", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1571,7 +1611,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "8d10 + agility",
-        damageTypes: ["slashing"],
+        damageTypes: ["physical"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -1585,7 +1625,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      tags: ["slashing", "damage", "execute", "vengeance-seeker"]
+      tags: ["physical", "damage", "execute", "vengeance-seeker"]
     },
     { id : "warden_shadow_cage",
       name: "Grave-Iron Cage",
@@ -1596,9 +1636,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["necrotic", "control", "cage", "jailer"],
+        tags: ["blight", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1636,7 +1676,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
-      tags: ["necrotic", "control", "cage", "jailer"]
+      tags: ["blight", "control", "cage", "jailer"]
     },
     { id : "warden_hunters_wrath",
       name: "Torturer's Wrath",
@@ -1647,9 +1687,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "slashing",
+        school: "physical",
         icon: "Slashing/Cross Slash",
-        tags: ["slashing", "damage", "universal"],
+        tags: ["physical", "damage", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1673,11 +1713,11 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "10d6 + agility",
-        damageTypes: ["slashing"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      tags: ["slashing", "damage", "universal"]
+      tags: ["physical", "damage", "universal"]
     },
 
     // ==========================================
@@ -1692,9 +1732,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "General/Fiery Rage",
-        tags: ["necrotic", "buff", "transformation", "vengeance-seeker"],
+        tags: ["blight", "buff", "transformation", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1733,7 +1773,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
-      tags: ["necrotic", "buff", "transformation", "vengeance-seeker"]
+      tags: ["blight", "buff", "transformation", "vengeance-seeker"]
     },
     { id : "warden_eternal_cage",
       name: "Eternal Iron Tomb",
@@ -1744,9 +1784,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["necrotic", "control", "cage", "jailer"],
+        tags: ["blight", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1784,7 +1824,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
-      tags: ["necrotic", "control", "cage", "jailer"]
+      tags: ["blight", "control", "cage", "jailer"]
     },
     { id : "warden_relentless_assault",
       name: "Brutal Whipping",
@@ -1795,9 +1835,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Bludgeoning/Mortal Strike",
-        tags: ["bludgeoning", "damage", "universal"],
+        tags: ["physical", "damage", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1821,11 +1861,11 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "12d6 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      tags: ["bludgeoning", "damage", "universal"]
+      tags: ["physical", "damage", "universal"]
     },
 
     // ==========================================
@@ -1840,9 +1880,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "Slashing/Cross Slash",
-        tags: ["bludgeoning", "damage", "tether-synergy", "vengeance-seeker"],
+        tags: ["physical", "damage", "tether-synergy", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1866,11 +1906,11 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "15d6 + strength",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
-      tags: ["bludgeoning", "damage", "tether-synergy", "vengeance-seeker"]
+      tags: ["physical", "damage", "tether-synergy", "vengeance-seeker"]
     },
     { id : "warden_cage_mastery",
       name: "Mass Imprisonment",
@@ -1881,9 +1921,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Crossed Bones",
-        tags: ["necrotic", "control", "cage", "jailer"],
+        tags: ["blight", "control", "cage", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1921,7 +1961,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 10 },
-      tags: ["necrotic", "control", "cage", "jailer"]
+      tags: ["blight", "control", "cage", "jailer"]
     },
     { id : "warden_no_escape_strike",
       name: "Inescapable Shackle",
@@ -1932,9 +1972,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "shadowblade",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Piercing/Night Dagger",
-        tags: ["necrotic", "damage", "debuff", "shadowblade"],
+        tags: ["blight", "damage", "debuff", "shadowblade"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -1958,7 +1998,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "16d6 + agility",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE"
       },
       debuffConfig: {
@@ -1974,7 +2014,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      tags: ["necrotic", "damage", "debuff", "shadowblade"]
+      tags: ["blight", "damage", "debuff", "shadowblade"]
     },
 
     // ==========================================
@@ -1989,9 +2029,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "bludgeoning",
+        school: "physical",
         icon: "General/Fiery Rage",
-        tags: ["bludgeoning", "damage", "ultimate", "universal"],
+        tags: ["physical", "damage", "ultimate", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -2015,11 +2055,11 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "15d10 + strength * 2",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["physical"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 15 },
-      tags: ["bludgeoning", "damage", "ultimate", "universal"]
+      tags: ["physical", "damage", "ultimate", "universal"]
     },
     { id : "warden_prison_realm",
       name: "Iron Prison Realm",
@@ -2030,9 +2070,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["necrotic", "control", "cage", "ultimate", "jailer"],
+        tags: ["blight", "control", "cage", "ultimate", "jailer"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -2070,7 +2110,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 20 },
-      tags: ["necrotic", "control", "cage", "ultimate", "jailer"]
+      tags: ["blight", "control", "cage", "ultimate", "jailer"]
     },
     { id : "warden_avatar_perfected",
       name: "Flayed Ascendancy Perfected",
@@ -2081,9 +2121,9 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "General/Fiery Rage",
-        tags: ["necrotic", "buff", "transformation", "ultimate", "vengeance-seeker"],
+        tags: ["blight", "buff", "transformation", "ultimate", "vengeance-seeker"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
       },
@@ -2122,7 +2162,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         ]
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 20 },
-      tags: ["necrotic", "buff", "transformation", "ultimate", "vengeance-seeker"]
+      tags: ["blight", "buff", "transformation", "ultimate", "vengeance-seeker"]
     },
 
       {
@@ -2133,7 +2173,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         "spellType": "ACTION",
         "icon": "Nature/Nature Shield",
         "typeConfig": {
-          "school": "nature",
+          "school": "primal",
           "icon": "Nature/Nature Shield",
           "tags": [
             "utility",

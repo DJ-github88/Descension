@@ -13,7 +13,7 @@ import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
 import ProphecySummary from './ProphecySummary';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
-import SpellTooltip from './SpellTooltip';
+const SpellTooltip = React.lazy(() => import('./SpellTooltip'));
 import { calculateManaCost } from '../../core/mechanics/resourceManager';
 import { normalizeSpell } from '../../core/utils/spellNormalizer';
 import useCharacterStore from '../../../../store/characterStore';
@@ -394,7 +394,7 @@ const UnifiedSpellCard = ({
     const cleanedFormula = cleanFormula(formula);
 
     // Add damage type context for better readability
-    if (elementType && elementType !== 'force') {
+    if (elementType && elementType !== 'arcane') {
       const elementName = elementType.charAt(0).toUpperCase() + elementType.slice(1);
       return `${cleanedFormula} ${elementName} damage`;
     }
@@ -440,21 +440,21 @@ const UnifiedSpellCard = ({
 
   const getSpellSchoolClass = () => {
     const schoolMap = {
-      'fire': 'spell-fire',
-      'frost': 'spell-frost',
+      'ember': 'spell-fire',
+      'rime': 'spell-frost',
       'arcane': 'spell-arcane',
-      'force': 'spell-arcane',
+      'arcane': 'spell-arcane',
       'nature': 'spell-nature',
-      'necrotic': 'spell-shadow',
-      'radiant': 'spell-holy',
-      'lightning': 'spell-lightning',
-      'poison': 'spell-nature',
-      'psychic': 'spell-shadow',
+      'blight': 'spell-shadow',
+      'ember': 'spell-holy',
+      'storm': 'spell-lightning',
+      'blight': 'spell-nature',
+      'wyrd': 'spell-shadow',
       'chaos': 'spell-arcane',
-      'void': 'spell-shadow',
-      'bludgeoning': 'spell-physical',
-      'piercing': 'spell-physical',
-      'slashing': 'spell-physical',
+      'blight': 'spell-shadow',
+      'physical': 'spell-physical',
+      'physical': 'spell-physical',
+      'physical': 'spell-physical',
       'physical': 'spell-physical'
     };
     const school = spell?.typeConfig?.school || spell?.school || spell?.damageTypes?.[0] || spell?.elementType || 'arcane';
@@ -585,22 +585,14 @@ const UnifiedSpellCard = ({
     if (!resistanceName) return 'damage';
 
     const name = resistanceName.toLowerCase();
-    if (name.includes('fire')) return 'fire';
-    if (name.includes('frost') || name.includes('cold') || name.includes('ice')) return 'frost';
-    if (name.includes('lightning') || name.includes('electric')) return 'lightning';
+    if (name.includes('ember') || name.includes('ember') || name.includes('ember') || name.includes('ember')) return 'ember';
+    if (name.includes('rime') || name.includes('rime') || name.includes('ice') || name.includes('rime')) return 'rime';
+    if (name.includes('storm') || name.includes('electric') || name.includes('arcane') || name.includes('storm') || name.includes('storm')) return 'storm';
     if (name.includes('arcane')) return 'arcane';
-    if (name.includes('nature')) return 'nature';
-    if (name.includes('poison')) return 'poison';
-    if (name.includes('necrotic') || name.includes('death')) return 'necrotic';
-    if (name.includes('radiant') || name.includes('holy')) return 'radiant';
-    if (name.includes('psychic') || name.includes('mental')) return 'psychic';
-    if (name.includes('chaos')) return 'chaos';
-    if (name.includes('void')) return 'void';
-    if (name.includes('force')) return 'force';
-    if (name.includes('slashing')) return 'slashing';
-    if (name.includes('piercing')) return 'piercing';
-    if (name.includes('bludgeoning')) return 'bludgeoning';
-    if (name.includes('physical')) return 'physical';
+    if (name.includes('nature') || name.includes('primal')) return 'primal';
+    if (name.includes('blight') || name.includes('blight') || name.includes('blight') || name.includes('blight') || name.includes('death') || name.includes('blight') || name.includes('blight')) return 'blight';
+    if (name.includes('wyrd') || name.includes('mental') || name.includes('chaos') || name.includes('wyrd')) return 'wyrd';
+    if (name.includes('physical') || name.includes('physical') || name.includes('physical') || name.includes('physical')) return 'physical';
     if (name.includes('all')) return 'all damage';
 
     return 'damage';
@@ -2085,11 +2077,11 @@ const UnifiedSpellCard = ({
       // List of Formbender Wild Instinct types to skip (handled separately below)
       const wildInstinctTypes = ['wild_instinct', 'wild_instinct_generate', 'wild_instinct_cost'];
 
-      // List of Dreadnaught and Deathcaller types to skip (handled separately below)
+      // List of Dreadnaught and Revenant types to skip (handled separately below)
       const drpTypes = ['drp'];
-      const deathcallerTypes = ['bloodTokens', 'ascension_required'];
+      const revenantTypes = ['bloodTokens', 'ascension_required', 'deathToll'];
 
-      // List of Huntress Quarry Mark types to skip (handled separately below)
+      // List of Apex Quarry Mark types to skip (handled separately below)
       const quarryMarkTypes = ['quarry_marks', 'quarry_marks_generate', 'quarry_marks_cost'];
 
       // List of Warden Vengeance Point types to skip (handled separately below)
@@ -2146,8 +2138,8 @@ const UnifiedSpellCard = ({
           return;
         }
 
-        // Skip Deathcaller types - handled below
-        if (deathcallerTypes.includes(type)) {
+        // Skip Revenant types - handled below
+        if (revenantTypes.includes(type)) {
           return;
         }
 
@@ -2380,48 +2372,48 @@ const UnifiedSpellCard = ({
       Object.entries(sphereCounts).forEach(([sphereType, count]) => {
         const nameMap = {
           'Arcane': 'Arcane Sphere',
-          'Fire': 'Fire Sphere',
+          'ember': 'Fire Sphere',
           'Ice': isArcanoneer ? 'Frost Sphere' : 'Ice Sphere',
           'Healing': isArcanoneer ? 'Flesh Sphere' : 'Healing Sphere',
           'Nature': 'Nature Sphere',
-          'Shadow': isArcanoneer ? 'Necrotic Sphere' : 'Shadow Sphere',
+          'blight': isArcanoneer ? 'Necrotic Sphere' : 'Shadow Sphere',
           'Chaos': 'Chaos Sphere',
-          'Holy': isArcanoneer ? 'Radiant Sphere' : 'Holy Sphere',
+          'ember': isArcanoneer ? 'Radiant Sphere' : 'Holy Sphere',
           // Fallback direct keys if they are already translated
-          'Frost': 'Frost Sphere',
-          'Necrotic': 'Necrotic Sphere',
-          'Radiant': 'Radiant Sphere',
+          'rime': 'Frost Sphere',
+          'blight': 'Necrotic Sphere',
+          'ember': 'Radiant Sphere',
           'Flesh': 'Flesh Sphere'
         };
 
         const colorMap = {
           'Arcane': '#9370DB',
-          'Fire': '#FF4500',
+          'ember': '#FF4500',
           'Ice': '#4169E1',
-          'Frost': '#4169E1',
+          'rime': '#4169E1',
           'Healing': isArcanoneer ? '#C62828' : '#FFFF00',
           'Flesh': '#C62828',
           'Nature': '#32CD32',
-          'Shadow': '#1C1C1C',
-          'Necrotic': '#1C1C1C',
+          'blight': '#1C1C1C',
+          'blight': '#1C1C1C',
           'Chaos': '#FF00FF',
-          'Holy': '#FFD700',
-          'Radiant': '#FFD700'
+          'ember': '#FFD700',
+          'ember': '#FFD700'
         };
 
         const iconMap = {
           'Arcane': faAtom,
-          'Fire': faFire,
+          'ember': faFire,
           'Ice': faSnowflake,
-          'Frost': faSnowflake,
+          'rime': faSnowflake,
           'Healing': faHeart,
           'Flesh': faHeart,
           'Nature': faLeaf,
-          'Shadow': faMoon,
-          'Necrotic': faMoon,
+          'blight': faMoon,
+          'blight': faMoon,
           'Chaos': faBolt,
-          'Holy': faSun,
-          'Radiant': faSun
+          'ember': faSun,
+          'ember': faSun
         };
 
         // Check if already added to avoid duplicates
@@ -2856,7 +2848,7 @@ const UnifiedSpellCard = ({
       });
     }
 
-    // Add Huntress Quarry Marks (generate/cost)
+    // Add Apex Quarry Marks (generate/cost)
     if (spell.resourceCost && spell.resourceCost.resourceTypes) {
       const quarryMarkMap = {
         'quarry_marks_generate': { name: 'Quarry Marks', color: '#8B4513', icon: faCrosshairs, sign: '+' },
@@ -5293,15 +5285,15 @@ const UnifiedSpellCard = ({
           if (damageTypes !== 'all') {
             const typeText = damageTypes === 'physical' ? 'Physical' :
                             damageTypes === 'magical' ? 'Magical' :
-                            damageTypes === 'fire' ? 'Fire' :
-                            damageTypes === 'frost' ? 'Frost' :
-                            damageTypes === 'lightning' ? 'Lightning' :
+                            damageTypes === 'ember' ? 'ember' :
+                            damageTypes === 'rime' ? 'rime' :
+                            damageTypes === 'storm' ? 'storm' :
                             damageTypes === 'arcane' ? 'Arcane' :
                             damageTypes === 'nature' ? 'Nature' :
-                            damageTypes === 'poison' ? 'Poison' :
-                            damageTypes === 'necrotic' ? 'Necrotic' :
-                            damageTypes === 'radiant' ? 'Radiant' :
-                            damageTypes === 'force' ? 'Force' :
+                            damageTypes === 'blight' ? 'blight' :
+                            damageTypes === 'blight' ? 'blight' :
+                            damageTypes === 'ember' ? 'ember' :
+                            damageTypes === 'arcane' ? 'arcane' :
                             damageTypes.charAt(0).toUpperCase() + damageTypes.slice(1);
             shieldBullets.push(`${typeText} only`);
           }
@@ -5375,15 +5367,15 @@ const UnifiedSpellCard = ({
       if (damageTypes !== 'all') {
         const typeText = damageTypes === 'physical' ? 'physical damage' :
                         damageTypes === 'magical' ? 'magical damage' :
-                        damageTypes === 'fire' ? 'fire damage' :
-                        damageTypes === 'frost' ? 'frost damage' :
-                        damageTypes === 'lightning' ? 'lightning damage' :
+                        damageTypes === 'ember' ? 'fire damage' :
+                        damageTypes === 'rime' ? 'frost damage' :
+                        damageTypes === 'storm' ? 'lightning damage' :
                         damageTypes === 'arcane' ? 'arcane damage' :
                         damageTypes === 'nature' ? 'nature damage' :
-                        damageTypes === 'poison' ? 'poison damage' :
-                        damageTypes === 'necrotic' ? 'necrotic damage' :
-                        damageTypes === 'radiant' ? 'radiant damage' :
-                        damageTypes === 'force' ? 'force damage' :
+                        damageTypes === 'blight' ? 'poison damage' :
+                        damageTypes === 'blight' ? 'necrotic damage' :
+                        damageTypes === 'ember' ? 'radiant damage' :
+                        damageTypes === 'arcane' ? 'force damage' :
                         damageTypes;
         shieldText += ` (${typeText} only)`;
       }
@@ -5442,7 +5434,7 @@ const UnifiedSpellCard = ({
     }
 
     // Also check for singular damageType if no array found
-    // Check damageConfig.damageType (e.g., 'bludgeoning', 'piercing', 'slashing')
+    // Check damageConfig.damageType (e.g., 'physical', 'physical', 'physical')
     // Filter out 'direct' and 'dot' as they're not actual damage types
     if (damageTypesSet.size === 0 && spell.damageConfig?.damageType) {
       const damageType = spell.damageConfig.damageType;
@@ -5493,57 +5485,54 @@ const UnifiedSpellCard = ({
       // Check damage config for type hints
       if (spell.damageConfig?.formula) {
         const formula = spell.damageConfig.formula.toLowerCase();
-        if (formula.includes('fire')) damageTypesSet.add('fire');
-        else if (formula.includes('frost') || formula.includes('cold') || formula.includes('ice')) damageTypesSet.add('frost');
-        else if (formula.includes('lightning') || formula.includes('electric')) damageTypesSet.add('lightning');
+        if (formula.includes('ember') || formula.includes('ember') || formula.includes('ember')) damageTypesSet.add('ember');
+        else if (formula.includes('rime') || formula.includes('rime') || formula.includes('ice')) damageTypesSet.add('rime');
+        else if (formula.includes('storm') || formula.includes('electric') || formula.includes('arcane') || formula.includes('storm')) damageTypesSet.add('storm');
         else if (formula.includes('arcane')) damageTypesSet.add('arcane');
-        else if (formula.includes('nature')) damageTypesSet.add('nature');
-        else if (formula.includes('radiant') || formula.includes('holy')) damageTypesSet.add('radiant');
-        else if (formula.includes('necrotic')) damageTypesSet.add('necrotic');
-        else if (formula.includes('poison')) damageTypesSet.add('poison');
-        else if (formula.includes('psychic')) damageTypesSet.add('psychic');
-        else if (formula.includes('chaos')) damageTypesSet.add('chaos');
-        else if (formula.includes('void')) damageTypesSet.add('void');
-        else if (formula.includes('force')) damageTypesSet.add('force');
+        else if (formula.includes('nature')) damageTypesSet.add('primal');
+        else if (formula.includes('blight') || formula.includes('blight') || formula.includes('blight') || formula.includes('blight')) damageTypesSet.add('blight');
+        else if (formula.includes('wyrd') || formula.includes('chaos')) damageTypesSet.add('wyrd');
       }
 
       // Only check spell name and description for type hints if we have damage config
       const spellText = `${spell.name || ''} ${spell.description || ''}`.toLowerCase();
-      if (spellText.includes('fire') || spellText.includes('flame') || spellText.includes('burn')) damageTypesSet.add('fire');
-      else if (spellText.includes('frost') || spellText.includes('cold') || spellText.includes('ice')) damageTypesSet.add('frost');
-      else if (spellText.includes('lightning') || spellText.includes('electric')) damageTypesSet.add('lightning');
+      if (spellText.includes('ember') || spellText.includes('flame') || spellText.includes('burn') || spellText.includes('ember') || spellText.includes('ember') || spellText.includes('divine') || spellText.includes('light')) damageTypesSet.add('ember');
+      else if (spellText.includes('rime') || spellText.includes('rime') || spellText.includes('ice')) damageTypesSet.add('rime');
+      else if (spellText.includes('storm') || spellText.includes('electric') || spellText.includes('storm') || spellText.includes('arcane') || spellText.includes('storm')) damageTypesSet.add('storm');
       else if (spellText.includes('arcane')) damageTypesSet.add('arcane');
-      else if (spellText.includes('nature')) damageTypesSet.add('nature');
-      else if (spellText.includes('radiant') || spellText.includes('holy') || spellText.includes('divine') || spellText.includes('light')) damageTypesSet.add('radiant');
-      else if (spellText.includes('necrotic') || spellText.includes('death') || spellText.includes('decay')) damageTypesSet.add('necrotic');
-      else if (spellText.includes('poison') || spellText.includes('venom') || spellText.includes('toxic')) damageTypesSet.add('poison');
-      else if (spellText.includes('psychic') || spellText.includes('mind') || spellText.includes('mental')) damageTypesSet.add('psychic');
-      else if (spellText.includes('chaos')) damageTypesSet.add('chaos');
-      else if (spellText.includes('void')) damageTypesSet.add('void');
-      else if (spellText.includes('force') || spellText.includes('arcane')) damageTypesSet.add('force');
-      else if (spellText.includes('chaos') || spellText.includes('chaotic') || spellText.includes('unpredictable')) damageTypesSet.add('chaos');
+      else if (spellText.includes('nature') || spellText.includes('primal')) damageTypesSet.add('primal');
+      else if (spellText.includes('blight') || spellText.includes('death') || spellText.includes('decay') || spellText.includes('blight') || spellText.includes('blight') || spellText.includes('venom') || spellText.includes('toxic') || spellText.includes('blight') || spellText.includes('blight')) damageTypesSet.add('blight');
+      else if (spellText.includes('wyrd') || spellText.includes('mind') || spellText.includes('mental') || spellText.includes('chaos') || spellText.includes('chaotic') || spellText.includes('unpredictable') || spellText.includes('wyrd')) damageTypesSet.add('wyrd');
 
       // Check buff/debuff effects for damage type hints (only if we have damage)
       if (spell.buffConfig?.statusEffects) {
         spell.buffConfig?.statusEffects.forEach(effect => {
           const effectText = `${effect.name || ''} ${effect.description || ''}`.toLowerCase();
-          if (effectText.includes('radiant') || effectText.includes('holy')) damageTypesSet.add('radiant');
-          else if (effectText.includes('necrotic') || effectText.includes('shadow')) damageTypesSet.add('necrotic');
+          if (effectText.includes('ember') || effectText.includes('ember') || effectText.includes('ember')) damageTypesSet.add('ember');
+          else if (effectText.includes('blight') || effectText.includes('blight') || effectText.includes('blight')) damageTypesSet.add('blight');
         });
       }
     }
 
-    // Valid damage types (normalize cold/ice to frost)
-    const validDamageTypes = ['fire', 'frost', 'lightning', 'arcane', 'nature', 'poison', 'necrotic', 'radiant', 'psychic', 'chaos', 'void',
-                             'force', 'physical', 'slashing', 'piercing', 'bludgeoning',
-                             'electric', 'holy', 'magical', 'cold', 'ice'];
+    // Valid damage types (normalize old types to new 8-type schema)
+    const validDamageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd',
+                             'ember', 'rime', 'storm', 'arcane', 'storm', 'ember', 'nature',
+                             'blight', 'blight', 'blight', 'blight', 'wyrd', 'chaos',
+                             'physical', 'physical', 'physical',
+                             'electric', 'ember', 'magical', 'rime', 'ice', 'blight', 'viscera'];
 
-    // Normalize similar types
+    // Normalize similar types to new 8-type schema
     const normalizedTypes = Array.from(damageTypesSet).map(type => {
-      if (type === 'ice' || type === 'cold') return 'frost';
-      if (type === 'electric') return 'lightning';
-      if (type === 'holy') return 'radiant';
-      return type;
+      const legacyMap = {
+        'ember': 'ember', 'ember': 'ember', 'ember': 'ember',
+        'rime': 'rime', 'rime': 'rime', 'ice': 'rime',
+        'storm': 'storm', 'arcane': 'storm', 'storm': 'storm', 'electric': 'storm',
+        'nature': 'primal', 'viscera': 'primal',
+        'blight': 'blight', 'blight': 'blight', 'blight': 'blight', 'blight': 'blight', 'blight': 'blight',
+        'wyrd': 'wyrd', 'chaos': 'wyrd',
+        'physical': 'physical', 'physical': 'physical', 'physical': 'physical',
+      };
+      return legacyMap[type] || type;
     });
 
     // Filter valid types and remove duplicates again after normalization
@@ -5736,7 +5725,7 @@ const UnifiedSpellCard = ({
     else if (effectId === 'burning') {
       const diceCount = status.diceCount || 1;
       const diceType = status.diceType || 'd6';
-      const damageType = status.damageType || 'fire';
+      const damageType = status.damageType || 'ember';
       mechanicsParts.push(`${diceCount}${diceType} ${damageType} damage per round`);
 
       if (status.canSpread) mechanicsParts.push('Can spread to nearby targets');
@@ -5896,7 +5885,7 @@ const UnifiedSpellCard = ({
 
     // ELEMENTAL INFUSION EFFECT
     else if (effectId === 'elemental_infusion') {
-      const element = status.element || 'fire';
+      const element = status.element || 'ember';
       const bonusDamage = status.bonusDamage || '1d6';
       mechanicsParts.push(`Attacks deal +${bonusDamage} ${element} damage`);
     }
@@ -6323,22 +6312,22 @@ const UnifiedSpellCard = ({
         const isResistanceStat = stat.category === 'resistance' ||
                                 statName.includes('resistance') ||
                                 statName.includes('resist') ||
-                                statName.includes('psychic') ||
-                                statName.includes('fire') ||
-                                statName.includes('frost') ||
-                                statName.includes('cold') ||
-                                statName.includes('lightning') ||
+                                statName.includes('wyrd') ||
+                                statName.includes('ember') ||
+                                statName.includes('rime') ||
+                                statName.includes('rime') ||
+                                statName.includes('storm') ||
                                 statName.includes('arcane') ||
                                 statName.includes('nature') ||
-                                statName.includes('poison') ||
-                                statName.includes('necrotic') ||
-                                statName.includes('radiant') ||
+                                statName.includes('blight') ||
+                                statName.includes('blight') ||
+                                statName.includes('ember') ||
                                 statName.includes('chaos') ||
-                                statName.includes('void') ||
-                                statName.includes('force') ||
-                                statName.includes('slashing') ||
-                                statName.includes('piercing') ||
-                                statName.includes('bludgeoning') ||
+                                statName.includes('blight') ||
+                                statName.includes('arcane') ||
+                                statName.includes('physical') ||
+                                statName.includes('physical') ||
+                                statName.includes('physical') ||
                                 statName.includes('physical');
 
         const isAbsorptionStat = statName.includes('absorption');
@@ -6430,19 +6419,19 @@ const UnifiedSpellCard = ({
             if (percentage > 0) {
               // Positive resistance values - create thematic descriptions
               if (percentage < 25) {
-                statDisplay.value = `Minor ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Protection`;
+                statDisplay.value = `Minor ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Protection`;
               } else if (percentage < 50) {
-                statDisplay.value = `Moderate ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Resistance`;
+                statDisplay.value = `Moderate ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Resistance`;
               } else if (percentage < 75) {
-                statDisplay.value = `Strong ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Defense`;
+                statDisplay.value = `Strong ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Defense`;
               } else if (percentage < 100) {
-                statDisplay.value = `Major ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Guard`;
+                statDisplay.value = `Major ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Guard`;
               } else {
-                statDisplay.value = `Overwhelming ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Immunity`;
+                statDisplay.value = `Overwhelming ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Immunity`;
               }
             } else {
               // Negative resistance values (vulnerabilities)
-              statDisplay.value = `${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Vulnerability`;
+              statDisplay.value = `${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Vulnerability`;
             }
             statDisplay.class = 'thematic-resistance';
           }
@@ -6500,19 +6489,19 @@ const UnifiedSpellCard = ({
                 if (percentage > 0) {
                   // Positive resistance values - create thematic descriptions
                   if (percentage < 25) {
-                    statDisplay.value = `Minor ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Protection`;
+                    statDisplay.value = `Minor ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Protection`;
                   } else if (percentage < 50) {
-                    statDisplay.value = `Moderate ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Resistance`;
+                    statDisplay.value = `Moderate ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Resistance`;
                   } else if (percentage < 75) {
-                    statDisplay.value = `Strong ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Defense`;
+                    statDisplay.value = `Strong ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Defense`;
                   } else if (percentage < 100) {
-                    statDisplay.value = `Major ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Guard`;
+                    statDisplay.value = `Major ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Guard`;
                   } else {
-                    statDisplay.value = `Overwhelming ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Immunity`;
+                    statDisplay.value = `Overwhelming ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Immunity`;
                   }
                 } else {
                   // Negative resistance values (vulnerabilities)
-                  statDisplay.value = `${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Vulnerability`;
+                  statDisplay.value = `${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Vulnerability`;
                 }
                 statDisplay.class = 'thematic-resistance';
               }
@@ -6854,12 +6843,12 @@ const UnifiedSpellCard = ({
 
         } else if (effectData.id === 'elemental_infusion' || effectData.id === 'elemental_affinity') {
           // Elemental Infusion configuration details
-          const elementType = effectData.option || effectData.elementType || 'fire';
+          const elementType = effectData.option || effectData.elementType || 'ember';
 
           const elementMap = {
-            'fire': 'Fire infusion - weapon attacks deal fire damage',
-            'frost': 'Frost infusion - weapon attacks deal cold damage',
-            'lightning': 'Lightning infusion - weapon attacks deal lightning damage',
+            'ember': 'Fire infusion - weapon attacks deal fire damage',
+            'rime': 'Frost infusion - weapon attacks deal cold damage',
+            'storm': 'Lightning infusion - weapon attacks deal lightning damage',
             'earth': 'Earth infusion - weapon attacks deal earth damage',
             'air': 'Air infusion - weapon attacks deal air damage',
             'water': 'Water infusion - weapon attacks deal water damage'
@@ -6888,11 +6877,11 @@ const UnifiedSpellCard = ({
             mechanicsParts.push(`chains to ${effectData.chainTargets} targets`);
           }
 
-          if (effectData.setOnFire && elementType === 'fire') {
+          if (effectData.setOnFire && elementType === 'ember') {
             mechanicsParts.push('sets targets on fire');
           }
 
-          if (effectData.freezeTarget && elementType === 'frost') {
+          if (effectData.freezeTarget && elementType === 'rime') {
             mechanicsParts.push('reduces target speed to 0');
           }
 
@@ -6961,7 +6950,7 @@ const UnifiedSpellCard = ({
           if (effectData.resistanceValue) {
             mechanicsParts.push(`${effectData.resistanceValue}% reduction`);
           }
-        } else if (effectData.id === 'poisoned' || effectData.id === 'poison') {
+        } else if (effectData.id === 'poisoned' || effectData.id === 'blight') {
           // Poison configuration details
           if (effectData.diceCount && effectData.diceType) {
             mechanicsParts.push(`${effectData.diceCount}${effectData.diceType} poison damage per round`);
@@ -7312,9 +7301,9 @@ const UnifiedSpellCard = ({
               // Add specific physical damage types
               if (effectData.affectsPhysical && !effectData.affectsAllDamageTypes) {
                 const physicalTypes = [];
-                if (effectData.affectsBludgeoning) physicalTypes.push('bludgeoning');
-                if (effectData.affectsPiercing) physicalTypes.push('piercing');
-                if (effectData.affectsSlashing) physicalTypes.push('slashing');
+                if (effectData.affectsBludgeoning) physicalTypes.push('physical');
+                if (effectData.affectsPiercing) physicalTypes.push('physical');
+                if (effectData.affectsSlashing) physicalTypes.push('physical');
                 if (physicalTypes.length > 0 && physicalTypes.length < 3) {
                   mechanicsParts.push(`(${physicalTypes.join(', ')})`);
                 }
@@ -7323,10 +7312,10 @@ const UnifiedSpellCard = ({
               // Add specific magical damage types
               if (effectData.affectsMagical && !effectData.affectsAllDamageTypes) {
                 const magicalTypes = [];
-                if (effectData.affectsFire) magicalTypes.push('fire');
-                if (effectData.affectsCold) magicalTypes.push('cold');
-                if (effectData.affectsLightning) magicalTypes.push('lightning');
-                if (effectData.affectsVoid) magicalTypes.push('void');
+                if (effectData.affectsFire) magicalTypes.push('ember');
+                if (effectData.affectsCold) magicalTypes.push('rime');
+                if (effectData.affectsLightning) magicalTypes.push('storm');
+                if (effectData.affectsVoid) magicalTypes.push('blight');
                 if (effectData.affectsArcane) magicalTypes.push('arcane');
                 if (magicalTypes.length > 0 && magicalTypes.length < 5) {
                   mechanicsParts.push(`(${magicalTypes.join(', ')})`);
@@ -7427,7 +7416,7 @@ const UnifiedSpellCard = ({
 
         } else if (effectData.id === 'elemental_affinity') {
           // Elemental Affinity configuration details
-          const elements = effectData.elements || ['fire'];
+          const elements = effectData.elements || ['ember'];
           const affinityType = effectData.affinityType || 'damage_bonus';
           const bonusAmount = effectData.bonusAmount || 2;
 
@@ -7880,22 +7869,22 @@ const UnifiedSpellCard = ({
         const isResistanceStat = stat.category === 'resistance' ||
                                 statName.includes('resistance') ||
                                 statName.includes('resist') ||
-                                statName.includes('psychic') ||
-                                statName.includes('fire') ||
-                                statName.includes('frost') ||
-                                statName.includes('cold') ||
-                                statName.includes('lightning') ||
+                                statName.includes('wyrd') ||
+                                statName.includes('ember') ||
+                                statName.includes('rime') ||
+                                statName.includes('rime') ||
+                                statName.includes('storm') ||
                                 statName.includes('arcane') ||
                                 statName.includes('nature') ||
-                                statName.includes('poison') ||
-                                statName.includes('necrotic') ||
-                                statName.includes('radiant') ||
+                                statName.includes('blight') ||
+                                statName.includes('blight') ||
+                                statName.includes('ember') ||
                                 statName.includes('chaos') ||
-                                statName.includes('void') ||
-                                statName.includes('force') ||
-                                statName.includes('slashing') ||
-                                statName.includes('piercing') ||
-                                statName.includes('bludgeoning') ||
+                                statName.includes('blight') ||
+                                statName.includes('arcane') ||
+                                statName.includes('physical') ||
+                                statName.includes('physical') ||
+                                statName.includes('physical') ||
                                 statName.includes('physical');
 
         const isAbsorptionStat = statName.includes('absorption');
@@ -7968,19 +7957,19 @@ const UnifiedSpellCard = ({
             if (percentage > 0) {
               // Positive resistance values - create thematic descriptions
               if (percentage < 25) {
-                statDisplay.value = `Minor ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Protection`;
+                statDisplay.value = `Minor ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Protection`;
               } else if (percentage < 50) {
-                statDisplay.value = `Moderate ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Resistance`;
+                statDisplay.value = `Moderate ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Resistance`;
               } else if (percentage < 75) {
-                statDisplay.value = `Strong ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Defense`;
+                statDisplay.value = `Strong ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Defense`;
               } else if (percentage < 100) {
-                statDisplay.value = `Major ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Guard`;
+                statDisplay.value = `Major ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Guard`;
               } else {
-                statDisplay.value = `Overwhelming ${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Immunity`;
+                statDisplay.value = `Overwhelming ${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Immunity`;
               }
             } else {
               // Negative resistance values (vulnerabilities)
-              statDisplay.value = `${damageType === 'lightning' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Vulnerability`;
+              statDisplay.value = `${damageType === 'storm' ? 'Storm' : damageType.charAt(0).toUpperCase() + damageType.slice(1)} Vulnerability`;
             }
             statDisplay.class = 'thematic-resistance';
           }
@@ -8628,6 +8617,7 @@ const UnifiedSpellCard = ({
 
       {/* Tooltip */}
       {showTooltip && (
+        <React.Suspense fallback={null}>
         <SpellTooltip
           spell={spell}
           rollableTableData={rollableTableData}
@@ -8641,6 +8631,7 @@ const UnifiedSpellCard = ({
           }}
           onMouseLeave={handleMouseLeave}
         />
+        </React.Suspense>
       )}
     </>
     );
@@ -11332,19 +11323,19 @@ const UnifiedSpellCard = ({
                             const isResistanceStat = modifier.category === 'resistance' ||
                                                     modifierName.includes('resistance') ||
                                                     modifierName.includes('resist') ||
-                                                    modifierName.includes('fire') ||
-                                                    modifierName.includes('cold') ||
-                                                    modifierName.includes('lightning') ||
-                                                    modifierName.includes('acid') ||
-                                                    modifierName.includes('poison') ||
-                                                    modifierName.includes('necrotic') ||
-                                                    modifierName.includes('radiant') ||
-                                                    modifierName.includes('psychic') ||
-                                                    modifierName.includes('thunder') ||
-                                                    modifierName.includes('force') ||
-                                                    modifierName.includes('slashing') ||
-                                                    modifierName.includes('piercing') ||
-                                                    modifierName.includes('bludgeoning') ||
+                                                    modifierName.includes('ember') ||
+                                                    modifierName.includes('rime') ||
+                                                    modifierName.includes('storm') ||
+                                                    modifierName.includes('blight') ||
+                                                    modifierName.includes('blight') ||
+                                                    modifierName.includes('blight') ||
+                                                    modifierName.includes('ember') ||
+                                                    modifierName.includes('wyrd') ||
+                                                    modifierName.includes('storm') ||
+                                                    modifierName.includes('arcane') ||
+                                                    modifierName.includes('physical') ||
+                                                    modifierName.includes('physical') ||
+                                                    modifierName.includes('physical') ||
                                                     modifierName.includes('physical');
 
                             if (isResistanceStat) {
@@ -11837,19 +11828,19 @@ const UnifiedSpellCard = ({
                             const isResistanceStat = penalty.category === 'resistance' ||
                                                     penaltyName.includes('resistance') ||
                                                     penaltyName.includes('resist') ||
-                                                    penaltyName.includes('fire') ||
-                                                    penaltyName.includes('cold') ||
-                                                    penaltyName.includes('lightning') ||
-                                                    penaltyName.includes('acid') ||
-                                                    penaltyName.includes('poison') ||
-                                                    penaltyName.includes('necrotic') ||
-                                                    penaltyName.includes('radiant') ||
-                                                    penaltyName.includes('psychic') ||
-                                                    penaltyName.includes('thunder') ||
-                                                    penaltyName.includes('force') ||
-                                                    penaltyName.includes('slashing') ||
-                                                    penaltyName.includes('piercing') ||
-                                                    penaltyName.includes('bludgeoning') ||
+                                                    penaltyName.includes('ember') ||
+                                                    penaltyName.includes('rime') ||
+                                                    penaltyName.includes('storm') ||
+                                                    penaltyName.includes('blight') ||
+                                                    penaltyName.includes('blight') ||
+                                                    penaltyName.includes('blight') ||
+                                                    penaltyName.includes('ember') ||
+                                                    penaltyName.includes('wyrd') ||
+                                                    penaltyName.includes('storm') ||
+                                                    penaltyName.includes('arcane') ||
+                                                    penaltyName.includes('physical') ||
+                                                    penaltyName.includes('physical') ||
+                                                    penaltyName.includes('physical') ||
                                                     penaltyName.includes('physical');
 
                             if (isResistanceStat) {
@@ -11922,19 +11913,19 @@ const UnifiedSpellCard = ({
                             const isResistanceStat = modifier.category === 'resistance' ||
                                                     modifierName.includes('resistance') ||
                                                     modifierName.includes('resist') ||
-                                                    modifierName.includes('fire') ||
-                                                    modifierName.includes('cold') ||
-                                                    modifierName.includes('lightning') ||
-                                                    modifierName.includes('acid') ||
-                                                    modifierName.includes('poison') ||
-                                                    modifierName.includes('necrotic') ||
-                                                    modifierName.includes('radiant') ||
-                                                    modifierName.includes('psychic') ||
-                                                    modifierName.includes('thunder') ||
-                                                    modifierName.includes('force') ||
-                                                    modifierName.includes('slashing') ||
-                                                    modifierName.includes('piercing') ||
-                                                    modifierName.includes('bludgeoning') ||
+                                                    modifierName.includes('ember') ||
+                                                    modifierName.includes('rime') ||
+                                                    modifierName.includes('storm') ||
+                                                    modifierName.includes('blight') ||
+                                                    modifierName.includes('blight') ||
+                                                    modifierName.includes('blight') ||
+                                                    modifierName.includes('ember') ||
+                                                    modifierName.includes('wyrd') ||
+                                                    modifierName.includes('storm') ||
+                                                    modifierName.includes('arcane') ||
+                                                    modifierName.includes('physical') ||
+                                                    modifierName.includes('physical') ||
+                                                    modifierName.includes('physical') ||
                                                     modifierName.includes('physical');
 
                             if (isResistanceStat) {
@@ -12317,7 +12308,7 @@ const UnifiedSpellCard = ({
                             'frighten': 'Frighten',
                             'charm': 'Charm',
                             'confusion': 'Confusion',
-                            'poison': 'Poison',
+                            'blight': 'blight',
                             'disease': 'Disease',
                             'exhaustion': 'Exhaustion',
                             'weaken': 'Weaken',
@@ -13246,7 +13237,7 @@ const UnifiedSpellCard = ({
                               let attachedText = '';
                               switch (effectData.effectType) {
                                 case 'damage':
-                                  attachedText = `${effectData.formula} ${effectData.elementType || 'force'} damage in ${effectData.areaRadius || 10}ft radius`;
+                                  attachedText = `${effectData.formula} ${effectData.elementType || 'arcane'} damage in ${effectData.areaRadius || 10}ft radius`;
                                   if (effectData.tickRate && effectData.tickRate > 1) {
                                     attachedText += ` every ${effectData.tickRate} ${effectData.tickUnit || 'rounds'}`;
                                   }
@@ -14586,7 +14577,7 @@ const UnifiedSpellCard = ({
                 );
               })()}
 
-              {/* Prophecy Summary (Doomsayer) */}
+              {/* Prophecy Summary (Harbinger) */}
               {(() => {
                 // Support both top-level prophecyConfig and mechanicsConfig-nested prophecy
                 const prophecyData = spell?.prophecyConfig || 
@@ -14606,7 +14597,7 @@ const UnifiedSpellCard = ({
                     <div className="healing-effects-section">
                       <ProphecySummary 
                         prophecyData={prophecyData} 
-                        damageType={getDamageTypes()[0] || 'necrotic'}
+                        damageType={getDamageTypes()[0] || 'blight'}
                       />
                     </div>
                   </div>

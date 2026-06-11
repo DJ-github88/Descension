@@ -31,7 +31,7 @@ Their society is a meritocracy of craft and endurance, not birth. Those who work
     integrationNotes: {
         actionPointSystem: 'Emberth abilities focus on endurance, forge-craft, and patient combat. Their underground ancestry grants them stillness, ash-resistance, and dark-adapted senses — not fire magic, but the hard-earned adaptations of a people who survived the deep.',
         backgroundSynergy: 'Emberth excel in backgrounds emphasizing crafting, endurance, and spiritual devotion. Their sun-reverent culture and clan-mark identity complement paths of tradition, craft, and unyielding patience.',
-        classCompatibility: 'The Korr favor Titans, Inscriptors, and Oracles because their deep-vault isolation and practice of the Vault-Breath align with absolute physical stillness, the recording of fading lineages, and the quiet shamans who interpret the Solbrand\'s silent dimming. The Thrask favor Huntresses, Wardens, and Pyrofiends, using their cold-hardened bodies and surface mobility to range the frozen badlands, patrol volcanic border outposts, and harness raw lava-flow heat as a weapon.'
+        classCompatibility: 'The Korr favor Wardens (Monolith), Animists, and Augurs because their deep-vault isolation and practice of the Vault-Breath align with absolute physical stillness, the recording of fading lineages, and the quiet shamans who interpret the Solbrand\'s silent dimming. The Thrask favor Apex, Wardens, and Pyrofiends, using their cold-hardened bodies and surface mobility to range the frozen badlands, patrol volcanic border outposts, and harness raw lava-flow heat as a weapon.'
     },
 
     meaningfulTradeoffs: 'Emberth possess formidable physical endurance and ash-resistance but suffer fatigue in clean air and are deeply vulnerable to the cold — not because they are "fire people," but because their bodies adapted to geothermal heat and cannot shed warmth efficiently. Their dark-adapted eyes struggle in daylight. Their stillness is a cultural strength and a social liability among faster, more fidget-prone races.',
@@ -417,7 +417,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                 initiative: -1
             },
             savingThrowModifiers: {
-                disadvantage: ['exhaustion'],
+                disadvantage: ['constitution'],
                 advantage: ['charm', 'fear']
             }
         },

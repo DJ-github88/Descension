@@ -346,7 +346,7 @@ export const COMBAT_ADVANTAGES = [
       ],
       defaultParameters: {
         effectDice: '1d6',
-        damageType: 'fire',
+        damageType: 'ember',
         damageDice: '1d4',
         affectsMelee: true,
         affectsRanged: true,
@@ -579,6 +579,20 @@ export const NEGATIVE_STATUS_EFFECTS = [
       counters: ['spellcasting', 'verbal communication'],
       saveType: 'charisma'
     },
+    {
+      id: 'petrified',
+      name: 'Petrified',
+      description: 'Target is turned to stone — immune to all damage but unable to move, speak, or act.',
+      category: 'physical',
+      duration: '1 round',
+      effects: {
+        attackModifier: -100,
+        defenseModifier: 100,
+        speedModifier: -100
+      },
+      counterable: true,
+      dispellable: false
+    },
 
 
 
@@ -673,10 +687,8 @@ export const COMBAT_DISADVANTAGES = [
         { id: 'magical', name: 'Magical Vulnerability', description: 'Take increased damage from all magical attacks' }
       ],
       defaultParameters: {
-        slashing: true,
-        piercing: true,
-        bludgeoning: true,
-        primaryElement: 'fire',
+        physical: true,
+        primaryElement: 'ember',
         primaryStrength: 100, // percent (100% = double damage)
         duration: 3 // rounds
       }
@@ -873,8 +885,8 @@ export function getStatusEffectCounters(effectId) {
       // Negative effects countered by positive effects
       'poisoned': ['regeneration', 'purify'],
       'blinded': ['truesight', 'purify'],
-      'burning': ['frost', 'water'],
-      'frozen': ['fire', 'heat'],
+      'burning': ['rime', 'water'],
+      'frozen': ['ember', 'heat'],
       'paralyzed': ['freedom'],
       'stunned': ['freedom'],
       'restrained': ['freedom'],

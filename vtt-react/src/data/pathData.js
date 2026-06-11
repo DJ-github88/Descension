@@ -2,21 +2,22 @@
  * Character Path Data Module
  *
  * Defines the 9 character paths for the character creation wizard:
- * Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel
+ * The Vessel, The Bound, The Unseen, The Scarred, The Archive-Sworn,
+ * The Indebted, The Frostborn, The Wayfarer, The Threshold-Watcher
  *
  * Each path provides:
  * - Stat modifiers (point allocation bonuses)
  * - Skill proficiencies
  * - Starting equipment
  * - Special features
- * - Thematic description
+ * - Thematic description tied to Mythrill's lore
  */
 
 export const PATH_DATA = {
-    mystic: {
-        id: 'mystic',
-        name: 'Mystic',
-        description: 'You have delved into the mysteries of the cosmos, studying ancient texts and communing with otherworldly forces. Your understanding of the arcane and divine grants you insight beyond mortal comprehension.',
+    vessel: {
+        id: 'vessel',
+        name: 'The Vessel',
+        description: 'You have been entered by something older than yourself — a constellation-spirit, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Neth call it a breach of contract. Both are correct.',
         icon: 'fas fa-eye',
         statModifiers: {
             intelligence: 1,
@@ -27,52 +28,52 @@ export const PATH_DATA = {
         toolProficiencies: ['Alchemist\'s supplies'],
         languages: 2,
         startingEquipment: [
-            'Crystal focus',
-            'Tome of mysteries',
-            'Incense and candles',
-            'Ritual components pouch',
-            'Traveler\'s robes',
+            'Throat-singing cord',
+            'Stelequarts lens-shard',
+            'Star-patterned felt wrap',
+            'Memory-crystal (blank)',
+            'Wind-leather satchel',
             'Belt pouch with 20g'
         ],
         feature: {
-            name: 'Mystical Insight',
-            description: 'You can sense magical auras and identify the nature of supernatural phenomena. Once per day, you can gain advantage on any Intelligence (Arcana) or Wisdom (Insight) check.'
+            name: 'Passenger\'s Whisper',
+            description: 'The presence inside you grants glimpses beyond mortal perception. Once per day, you can gain advantage on any Spirit check or sense magical auras within 30 feet. The passenger may also offer unsolicited advice — not all of it helpful.'
         },
-        startingPoints: 2 // Extra points for stat allocation
+        startingPoints: 2
     },
 
-    zealot: {
-        id: 'zealot',
-        name: 'Zealot',
-        description: 'Driven by unwavering faith and righteous fury, you have dedicated your life to a divine cause. Your fervor grants you strength in battle and the ability to inspire others through your conviction.',
-        icon: 'fas fa-cross',
+    bound: {
+        id: 'bound',
+        name: 'The Bound',
+        description: 'You have sworn a binding oath — to the Keeper, to the Luminarchy, to the Solbrand, or to a personal vow so deep it has become metaphysical. A contract is the most sincere form of love because it says you are willing to be bound in a way the world must enforce. Your word is iron. Your debt is eternal.',
+        icon: 'fas fa-scroll',
         statModifiers: {
             strength: 1,
             constitution: 1,
             spirit: 2
         },
         skillProficiencies: ['Intimidation', 'Religion'],
-        toolProficiencies: ['Smith\'s tools'],
+        toolProficiencies: ['Calligrapher\'s supplies'],
         languages: 1,
         startingEquipment: [
-            'Holy symbol',
-            'Prayer beads',
-            'Ceremonial weapon',
-            'Religious vestments',
-            'Traveler\'s clothes',
+            'Memory-glass tablet (blank)',
+            'Keeper\'s clause-scroll',
+            'Bog-iron ink pot',
+            'Contract-sealed vestments',
+            'Wind-leather cloak',
             'Belt pouch with 15g'
         ],
         feature: {
-            name: 'Divine Fervor',
-            description: 'Your faith grants you resilience. Once per day, when you would be reduced to 0 hit points, you can choose to drop to 1 hit point instead.'
+            name: 'Keeper\'s Clause',
+            description: 'Your binding oath protects you at the threshold between life and death. Once per day, when you would be reduced to 0 hit points, you can choose to drop to 1 hit point instead — but you incur a debt that must be honored before the next moon or suffer the Keeper\'s attention.'
         },
         startingPoints: 1
     },
 
-    trickster: {
-        id: 'trickster',
-        name: 'Trickster',
-        description: 'You live by your wits and charm, using cunning and deception to navigate the world. Whether through sleight of hand, clever words, or elaborate schemes, you always find a way to come out ahead.',
+    unseen: {
+        id: 'unseen',
+        name: 'The Unseen',
+        description: 'You operate in the gaps of the system — where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Astril can lie without their skin betraying them. The Fexrick Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
         icon: 'fas fa-mask',
         statModifiers: {
             agility: 2,
@@ -83,24 +84,24 @@ export const PATH_DATA = {
         toolProficiencies: ['Thieves\' tools', 'Disguise kit'],
         languages: 1,
         startingEquipment: [
-            'Thieves\' tools',
-            'Disguise kit',
+            'Unlit veil-mask',
+            'False signet ring',
+            'Memory-crystal (stolen)',
             'Set of fine clothes',
-            'Signet ring (fake)',
-            'Deck of marked cards',
+            'Fiber-cord garrote',
             'Belt pouch with 25g'
         ],
         feature: {
-            name: 'Silver Tongue',
-            description: 'You excel at misdirection and fast talk. You can attempt to convince someone of a minor falsehood or distract them for a few moments, even if they\'re initially suspicious.'
+            name: 'Exposure Track',
+            description: 'You can attempt to convince, distract, or misdirect even initially suspicious targets. However, each use advances an internal Exposure counter — when maxed, your presence becomes known to the systems you\'ve been evading. Lay low to reset.'
         },
         startingPoints: 1
     },
 
-    harrow: {
-        id: 'harrow',
-        name: 'Harrow',
-        description: 'You have walked through darkness and emerged scarred but unbroken. Your experiences with loss, tragedy, or supernatural horror have hardened your resolve and granted you insight into the nature of fear and despair.',
+    scarred: {
+        id: 'scarred',
+        name: 'The Scarred',
+        description: 'You survived something that should have destroyed you — a vat, a Wyrd-attack, the Fading, the Over-Sung. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Morren debtors carry this. You carry this.',
         icon: 'fas fa-skull',
         statModifiers: {
             constitution: 2,
@@ -111,8 +112,8 @@ export const PATH_DATA = {
         toolProficiencies: ['Herbalism kit'],
         languages: 1,
         startingEquipment: [
-            'Memento of loss',
-            'Weathered cloak',
+            'Memento of survival (vat-glass shard, burned contract fragment, or Wyrd-scar tissue)',
+            'Weathered wind-leather cloak',
             'Survival gear',
             'Herbalism kit',
             'Common clothes (worn)',
@@ -120,43 +121,43 @@ export const PATH_DATA = {
         ],
         feature: {
             name: 'Hardened Soul',
-            description: 'Your experiences have made you resistant to fear and despair. You have advantage on saving throws against being frightened, and you can help others overcome their fears through your presence.'
+            description: 'Your brush with annihilation has made you resistant to fear and despair. You have advantage on saving throws against being frightened, and you can help others overcome their fears through your presence — though your muted affect makes this feel hollow.'
         },
         startingPoints: 0
     },
 
-    arcanist: {
-        id: 'arcanist',
-        name: 'Arcanist',
-        description: 'You are a scholar of the arcane arts, having spent years studying magical theory and practice. Your deep understanding of spellcraft and magical phenomena makes you invaluable in matters of mystical importance.',
-        icon: 'fas fa-magic',
+    archive_sworn: {
+        id: 'archive_sworn',
+        name: 'The Archive-Sworn',
+        description: 'You are a scholar who has gained knowledge through direct neural transmission — memory-glass, celestial frequency, or monolith-resonance — not through books. The Neth Canopy-Ledger holds contracts in crystallized tree-sap. The Emberth sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
+        icon: 'fas fa-book',
         statModifiers: {
-            intelligence: 3,
-            spirit: 1
+            intelligence: 2,
+            spirit: 2
         },
         skillProficiencies: ['Arcana', 'History'],
         toolProficiencies: ['Calligrapher\'s supplies'],
         languages: 3,
         startingEquipment: [
-            'Spellbook',
-            'Component pouch',
-            'Ink and quill',
+            'Memory-glass tablet (inscribed)',
+            'Canopy-quill',
+            'Archive-access credential',
             'Scholarly robes',
-            'Reading glasses',
+            'Fiber-cord ledger',
             'Belt pouch with 30g'
         ],
         feature: {
-            name: 'Arcane Scholar',
-            description: 'Your extensive study grants you deep magical knowledge. You can identify most spells as they\'re being cast and have advantage on checks to understand magical phenomena or decipher magical writings.'
+            name: 'Archive-Trance',
+            description: 'Your direct knowledge-link grants deep insight into Mythrill\'s lore. You have advantage on checks to understand magical phenomena, decipher ancient writings, or recall regional history. You must spend 1 hour per day in trance or lose this benefit until your next rest.'
         },
         startingPoints: 3
     },
 
-    hexer: {
-        id: 'hexer',
-        name: 'Hexer',
-        description: 'You have made pacts with dark forces or learned forbidden arts that others fear to touch. Your knowledge of curses, hexes, and shadow magic comes at a price, but grants you power over your enemies.',
-        icon: 'fas fa-moon',
+    indebted: {
+        id: 'indebted',
+        name: 'The Indebted',
+        description: 'You have made a bargain with something dangerous — Keth-Amar, a Wyrd-entity, the Keeper, Scathrach — and the debt is still outstanding. Every region made a Dark Bargain. Yours was personal. Your power comes from the creditor, and the creditor is patient.',
+        icon: 'fas fa-handshake',
         statModifiers: {
             intelligence: 1,
             spirit: 1,
@@ -166,81 +167,81 @@ export const PATH_DATA = {
         toolProficiencies: ['Poisoner\'s kit'],
         languages: 2,
         startingEquipment: [
-            'Cursed trinket',
+            'Cursed trinket from the bargain',
             'Ritual dagger',
-            'Dark tome',
+            'Creditor\'s ledger (partial)',
             'Hooded cloak',
-            'Vial of strange liquid',
+            'Bog-iron ink pot',
             'Belt pouch with 15g'
         ],
         feature: {
-            name: 'Hex Sight',
-            description: 'You can sense curses, hexes, and dark magic. Once per day, you can place a minor hex on a target, giving them disadvantage on their next ability check or saving throw.'
+            name: 'Debt Track',
+            description: 'You can place a minor hex on a target, giving them disadvantage on their next check or saving throw. Each use advances your Debt Track — at certain thresholds, you lose HP, suffer max HP reduction, or trigger a creditor visitation that cannot be avoided.'
         },
         startingPoints: 2
     },
 
-    reaver: {
-        id: 'reaver',
-        name: 'Reaver',
-        description: 'You are a warrior who has lived by the sword, taking what you need through strength and violence. Your brutal experiences have made you tough and dangerous, but also isolated from civilized society.',
-        icon: 'fas fa-sword',
+    frostborn: {
+        id: 'frostborn',
+        name: 'The Frostborn',
+        description: 'You come from a warrior tradition shaped by extreme cold and survival against impossible odds. The Skald of Nordhalla encase their dead in glacier-tombs. The Bloodhammer clans forge weapons in geothermal sumps. The Morgh warriors of the Cragjaw Peaks grow bridges from their own calcified bones. Violence is not a choice where you come from. It is the climate.',
+        icon: 'fas fa-snowflake',
         statModifiers: {
             strength: 2,
             constitution: 2,
             charisma: -1
         },
-        skillProficiencies: ['Athletics', 'Intimidation'],
+        skillProficiencies: ['Athletics', 'Survival'],
         toolProficiencies: ['Smith\'s tools'],
         languages: 0,
         startingEquipment: [
-            'Battle-worn weapon',
-            'Trophy from defeated foe',
-            'Leather armor (studded)',
+            'Battle-worn weapon (glacier-tempered)',
+            'Glacier-tomb shard trophy',
+            'Heavy wind-leather armor',
             'Traveler\'s clothes',
-            'Whetstone',
+            'Whetstone (frost-cracked)',
             'Belt pouch with 20g'
         ],
         feature: {
             name: 'Battle Fury',
-            description: 'In combat, you can enter a state of controlled rage. Once per day, you can gain advantage on all melee attack rolls for one round, but you take a -2 penalty to Armor until your next turn.'
+            description: 'In combat, you can enter a state of cold fury. Once per day, you gain advantage on all melee attack rolls for one round, but you take a -2 penalty to Armor until your next turn. You also have resistance to rime damage while the fury is active.'
         },
         startingPoints: 0
     },
 
-    mercenary: {
-        id: 'mercenary',
-        name: 'Mercenary',
-        description: 'You are a professional soldier-for-hire, skilled in warfare and tactics. Your pragmatic approach to conflict and your network of contacts in the military world make you a valuable ally and dangerous enemy.',
-        icon: 'fas fa-coins',
+    wayfarer: {
+        id: 'wayfarer',
+        name: 'The Wayfarer',
+        description: 'You are a professional traveler, guide, or toll-keeper who knows the routes between regions. The Ordan nomads solved the problem of a starless sky by memorizing the ground. The Ancestor-Span toll-keepers charge passage in bones and promises. The River-Fed Myrathil explore freshwater routes no map records. Your value lies in knowing how to get from here to there alive.',
+        icon: 'fas fa-route',
         statModifiers: {
             strength: 1,
             agility: 1,
             constitution: 1,
             intelligence: 1
         },
-        skillProficiencies: ['Athletics', 'Persuasion'],
-        toolProficiencies: ['Gaming set', 'Vehicles (land)'],
+        skillProficiencies: ['Survival', 'Persuasion'],
+        toolProficiencies: ['Navigator\'s tools', 'Vehicles (land)'],
         languages: 1,
         startingEquipment: [
-            'Military insignia',
-            'Contract of service',
-            'Gaming set',
+            'Ancestor-map (throat-sung cord-record)',
+            'Toll-token from each region',
+            'Fiber-cord ledger',
             'Traveler\'s clothes',
-            'Weapon maintenance kit',
+            'Waystation credential',
             'Belt pouch with 25g'
         ],
         feature: {
-            name: 'Military Network',
-            description: 'You have contacts in mercenary companies and military organizations. You can find work as a hired sword and gain access to military equipment and information through your connections.'
+            name: 'Route Network',
+            description: 'You have contacts at toll-stations, ports, and waystations across the regions. You can find safe passage, locate guides, and access trade routes that are closed to outsiders. Your knowledge of terrain reduces overland travel time by 25% in any region you have previously visited.'
         },
         startingPoints: 1
     },
 
-    sentinel: {
-        id: 'sentinel',
-        name: 'Sentinel',
-        description: 'You have served as a guardian and protector, whether of a sacred place, important person, or vital secret. Your vigilance and dedication to duty have honed your senses and strengthened your resolve.',
+    threshold_watcher: {
+        id: 'threshold_watcher',
+        name: 'The Threshold-Watcher',
+        description: 'You guard a boundary — physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the void. A Muren who maintains their rituals is a fortress; a Muren who falters is a bomb. You do not falter.',
         icon: 'fas fa-shield-alt',
         statModifiers: {
             constitution: 1,
@@ -251,22 +252,21 @@ export const PATH_DATA = {
         toolProficiencies: ['Mason\'s tools'],
         languages: 1,
         startingEquipment: [
-            'Guardian\'s badge',
+            'Guardian\'s badge (region-specific)',
             'Signal horn',
-            'Chain mail',
+            'Chain mail (Fexric-reforged)',
             'Traveler\'s clothes',
-            'Rope (50 feet)',
+            'Fiber-cord rope (50 feet)',
             'Belt pouch with 15g'
         ],
         feature: {
-            name: 'Watchful Guardian',
-            description: 'Your training as a sentinel has sharpened your awareness. You cannot be surprised while conscious, and you can keep watch for twice as long as normal without suffering exhaustion.'
+            name: 'Threshold Seal',
+            description: 'Your training has sharpened your awareness beyond normal limits. You cannot be surprised while conscious, and you can keep watch for twice as long without suffering exhaustion. Once per day, you can seal a doorway or threshold for 1 minute, preventing passage by any means short of teleportation.'
         },
         startingPoints: 1
     }
 };
 
-// Helper functions
 export const getPathData = (pathId) => {
     return PATH_DATA[pathId] || null;
 };
@@ -299,7 +299,6 @@ export const getPathStartingPoints = (pathId) => {
     return path ? path.startingPoints : 0;
 };
 
-// Legacy exports for backward compatibility (will be removed)
 export const getCustomBackgroundData = getPathData;
 export const getAllCustomBackgrounds = getAllPaths;
 export const getCustomBackgroundNames = getPathNames;

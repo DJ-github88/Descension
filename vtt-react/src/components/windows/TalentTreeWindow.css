@@ -603,6 +603,96 @@
     }
 }
 
+/* ===== COMING SOON OVERLAY ===== */
+
+.talent-coming-soon-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    backdrop-filter: blur(6px) saturate(1.2);
+    background: rgba(248, 244, 230, 0.55);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
+    cursor: default;
+}
+
+.talent-coming-soon-content {
+    border: 3px solid var(--pf-brown-medium, #8B4513);
+    border-radius: 16px;
+    padding: 48px 56px;
+    background: linear-gradient(160deg, #f8f4e6 0%, #ede4d3 40%, #e8dcc6 70%, #f0e8d8 100%);
+    max-width: 440px;
+    text-align: center;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 4px 16px rgba(139, 69, 19, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+    animation: comingSoonFadeIn 0.6s ease-out;
+}
+
+@keyframes comingSoonFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.talent-coming-soon-icon {
+    font-size: 44px;
+    margin-bottom: 20px;
+    color: var(--pf-gold, #D4AF37);
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4));
+}
+
+.talent-coming-soon-title {
+    font-family: 'Cinzel', 'Trajan Pro', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--pf-brown-dark, #5C4033);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 0 0 16px 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+.talent-coming-soon-flavor {
+    font-family: 'Crimson Text', 'Bookman Old Style', 'Garamond', serif;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--pf-brown-medium, #8B4513);
+    margin: 0 0 20px 0;
+    font-style: italic;
+}
+
+.talent-coming-soon-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--pf-gold, #D4AF37), transparent);
+    margin: 0 auto 20px auto;
+    opacity: 0.5;
+}
+
+.talent-coming-soon-status {
+    font-family: 'Crimson Text', 'Times New Roman', serif;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--pf-brown-light, #A0522D);
+    margin: 0;
+    opacity: 0.85;
+}
+
 /* Print styles */
 @media print {
     .talent-controls {

@@ -106,7 +106,7 @@ export function generateGameSpecificSpell(baseConfig, gameSystem = 'CUSTOM') {
           spellLevel: spellConfig.level || 1,
           casterLevel: 1,
           primaryAttribute: gameSystem === 'WOW' ? 'INT' : 'INT',
-          damageType: spellConfig.damageConfig.elementType || 'fire',
+          damageType: spellConfig.damageConfig.elementType || 'ember',
           isAoe: spellConfig.targetingConfig?.targetingType === 'area',
           isSingleTarget: spellConfig.targetingConfig?.targetingType === 'single',
           isDot: spellConfig.damageConfig.damageType === 'over_time'

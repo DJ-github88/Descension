@@ -9,6 +9,7 @@ import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreato
 import { getBackgroundData } from '../../../data/backgroundData';
 import { getRaceData, getSubraceData } from '../../../data/raceData';
 import { getPathData } from '../../../data/pathData';
+import { LANGUAGES, LANGUAGE_CATEGORIES } from '../../../data/languages';
 import { SKILL_DEFINITIONS, SKILL_RANKS } from '../../../constants/skillDefinitions';
 import { SKILL_QUESTS } from '../../../constants/skillQuests';
 import { ROLLABLE_TABLES } from '../../../constants/rollableTables';
@@ -75,45 +76,8 @@ const ALL_SKILLS = Object.entries(SKILL_DEFINITIONS).map(([skillId, skillData]) 
     secondaryStat: skillData.secondaryStat
 }));
 
-// All available languages
-const COMMON_LANGUAGES = [
-    { name: 'Common', icon: 'fa-users', category: 'standard', description: 'The universal trade language spoken by most civilized races across the realm.' },
-    { name: 'Dwarvish', icon: 'fa-hammer', category: 'standard', description: 'The guttural language of dwarves, filled with hard consonants and stone references.' },
-    { name: 'Elvish', icon: 'fa-tree', category: 'standard', description: 'A fluid, melodic language spoken by elves, known for its beauty and complexity.' },
-    { name: 'Giant', icon: 'fa-mountain', category: 'standard', description: 'The booming language of giants and their kin, simple but powerful.' },
-    { name: 'Gnomish', icon: 'fa-gears', category: 'standard', description: 'A technical language full of compound words, reflecting gnomish love of detail.' },
-    { name: 'Goblin', icon: 'fa-spider', category: 'standard', description: 'A harsh, grating language spoken by goblins and related creatures.' },
-    { name: 'Halfling', icon: 'fa-house', category: 'standard', description: 'A warm, friendly language reflecting halfling community values.' },
-
-    { name: 'Abyssal', icon: 'fa-fire', category: 'exotic', description: 'The chaotic language of demons, filled with harsh, corruptive sounds.' },
-    { name: 'Celestial', icon: 'fa-sun', category: 'exotic', description: 'The harmonious language of angels and celestial beings, carrying divine authority.' },
-    { name: 'Draconic', icon: 'fa-dragon', category: 'exotic', description: 'The ancient, precise language of dragons, used in magical incantations.' },
-    { name: 'Deep Speech', icon: 'fa-brain', category: 'exotic', description: 'The alien language of aberrations, incomprehensible to most mortal minds.' },
-    { name: 'Infernal', icon: 'fa-fire-flame-curved', category: 'exotic', description: 'The structured, binding language of devils, used in dark contracts.' },
-    { name: 'Primordial', icon: 'fa-wind', category: 'exotic', description: 'The ancient language of elementals, encompassing all elemental dialects.' },
-    { name: 'Sylvan', icon: 'fa-seedling', category: 'exotic', description: 'The whimsical, ever-changing language of fey creatures and nature spirits.' },
-    { name: 'Undercommon', icon: 'fa-dungeon', category: 'exotic', description: 'The trade language of the Underdark, spoken by subterranean races.' },
-
-    { name: 'Old Nord', icon: 'fa-mountain', category: 'racial', description: 'The ancestral language of the Skald people, filled with tales of ice and endurance.' },
-    { name: 'Corvid', icon: 'fa-crow', category: 'racial', description: 'The mysterious language of the Corvani, incorporating clicks and whistles.' },
-    { name: 'Terran', icon: 'fa-gem', category: 'racial', description: 'The slow, grinding language of earth elementals and stone-touched races.' },
-    { name: 'Ethereal', icon: 'fa-ghost', category: 'racial', description: 'The whispered language of spirits and the Veilborn, barely audible.' },
-    { name: 'Changeling', icon: 'fa-masks-theater', category: 'racial', description: 'The secretive language of changelings, designed to convey hidden meanings.' },
-    { name: 'Druidic', icon: 'fa-leaf', category: 'racial', description: 'The secret code language of druids, forbidden to non-druids.' },
-    { name: 'Ignan', icon: 'fa-fire', category: 'racial', description: 'The crackling, volatile language of fire elementals and flame-touched beings.' },
-    { name: 'Beast Speech', icon: 'fa-paw', category: 'racial', description: 'The primal tongue that allows communication with animals.' },
-    { name: 'Necril', icon: 'fa-skull', category: 'racial', description: 'The cold, lifeless tongue of the undead, used in necromantic rituals.' },
-    { name: 'Orcish', icon: 'fa-axe-battle', category: 'racial', description: 'The aggressive, direct war-tongue of orcs, used for battle commands.' },
-
-    { name: 'Elemental', icon: 'fa-wind', category: 'elemental', description: 'The general language of elementals, bridging all elemental planes.' },
-    { name: 'Primal', icon: 'fa-leaf-oak', category: 'elemental', description: 'The raw language of nature, understood by wild and ancient beings.' },
-    { name: 'Auran', icon: 'fa-cloud', category: 'elemental', description: 'The light, airy language of sky-dwelling and wind elementals.' },
-    { name: 'Aquan', icon: 'fa-water', category: 'elemental', description: 'The fluid, flowing language of water elementals and sea-folk.' },
-
-    { name: 'Thieves\' Cant', icon: 'fa-mask', category: 'special', description: 'A secret code jargon used by rogues to communicate covertly in public.' },
-    { name: 'Sign Language', icon: 'fa-hands', category: 'special', description: 'A universal gestural language allowing silent communication.' },
-    { name: 'All Ancient Languages', icon: 'fa-scroll', category: 'special', description: 'Comprehensive knowledge of dead and ancient tongues, granted to scholars.' }
-];
+// All available languages (imported from shared data module)
+const COMMON_LANGUAGES = LANGUAGES;
 
 const Step7SkillsLanguages = () => {
     const state = useCharacterWizardState();

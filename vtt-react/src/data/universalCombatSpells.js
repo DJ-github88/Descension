@@ -307,7 +307,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       weaponDependent: true,
       usesWeaponDice: true,
       addAttributeModifier: true,
-      damageType: 'bludgeoning', // Default fallback, but weapon-dependent will override with actual weapon type
+      damageType: 'physical', // Default fallback, but weapon-dependent will override with actual weapon type
       canCrit: true,
       critMultiplier: 1,
       critDiceOnly: false
@@ -399,7 +399,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       weaponDependent: true,
       usesWeaponDice: true,
       addAttributeModifier: false,
-      damageType: 'bludgeoning', // Default fallback, but weapon-dependent will override with actual weapon type
+      damageType: 'physical', // Default fallback, but weapon-dependent will override with actual weapon type
       canCrit: true,
       critMultiplier: 1,
       critDiceOnly: false,

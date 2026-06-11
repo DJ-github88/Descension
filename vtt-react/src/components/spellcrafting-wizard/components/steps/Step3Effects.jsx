@@ -114,7 +114,7 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
     switch (effectType) {
       case 'damage':
         // Use damage types from Step 1 instead of defaulting to fire
-        const primaryElementType = state.typeConfig?.school || 'fire';
+        const primaryElementType = state.typeConfig?.school || 'ember';
         const secondaryElementType = state.typeConfig?.secondaryElement || null;
 
         dispatch(actionCreators.updateDamageConfig({

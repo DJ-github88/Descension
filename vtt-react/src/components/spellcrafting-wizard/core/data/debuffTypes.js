@@ -144,7 +144,7 @@ export const DEBUFF_SAVE_TYPES = [
     id: 'constitution',
     name: 'Constitution Save',
     description: 'Resist with physical fortitude and stamina',
-    relevantEffects: ['poison', 'disease', 'exhaustion', 'physical transformations'],
+    relevantEffects: ['blight', 'disease', 'exhaustion', 'physical transformations'],
     countered: 'Physical impairments, bodily effects',
     icon: 'spell_holy_devotionaura'
   },
@@ -608,7 +608,7 @@ export const DEBUFF_IMMUNITIES = [
     id: 'poisonImmunity',
     name: 'Poison Immunity',
     description: 'Immunity to poison effects',
-    affects: ['poison', 'disease'],
+    affects: ['blight', 'disease'],
     examples: 'Constructs, undead, certain elementals',
     partialEffect: false
   },

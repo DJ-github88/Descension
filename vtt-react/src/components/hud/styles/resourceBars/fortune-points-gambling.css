@@ -61,12 +61,12 @@
     box-sizing: border-box;
 }
 
-.fortune-points-gambling.party-context .gambler-container {
+.fortune-points-gambling.party-context .gambit-container {
     gap: 4px;
     min-height: 20px;
 }
 
-.gambler-container {
+.gambit-container {
     position: relative;
     display: flex;
     align-items: center;

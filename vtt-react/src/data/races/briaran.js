@@ -5,7 +5,7 @@ export const briaran = {
     illustration: '/assets/images/races/briaran_illustration.png',
     illustrationCaption: 'A resilient Briaran sentinel standing in a misty, moonlit grove, intricate thorns tracing along their forearms and shoulders.',
     cardFlavor: 'The exiled eighth house — thorn-blooded survivors who traded their humanity to the fae for a second chance.',
-    description: `**[The Fae-Thorned Exiles]** — *Deep in the moonlit groves of the Frostwood Reach, a Briaran huntress draws a bow of living oak, wood-thorns growing along her arms in place of hair, tracing her ancestral vows in flesh.*
+    description: `**[The Fae-Thorned Exiles]** — *Deep in the moonlit groves of the Frostwood Reach, a Briaran Apex draws a bow of living oak, wood-thorns growing along her arms in place of hair, tracing her ancestral vows in flesh.*
 
 There were eight houses, not seven. The histories — those written by the seven who sealed the dark bargain with the Keth-Amar and marched their firstborn to the northern peaks — will tell you otherwise. But the eighth house existed. House Viridane. They were the ones who looked at Keth-Amar's terms and said no. Not our children. Not this price. While the seven families lit the sacrifice fires that still burn in the nightmares of every culture that remembers that night, House Viridane was fleeing south through the Frostwood Reach, their children hidden beneath cloaks woven from the hair of their own dead, their future unwritten and their name already being sanded from every record. In the moonlit groves, starving and hunted by conscience if not by hounds, they made a counter-bargain with the fae entities who had watched the world's death from the mist — and in exchange for protection, they became something new. The Briaran are their heirs: a people whose very bodies carry the proof of a lineage the world pretends never existed.`,
     icon: 'fas fa-leaf',
@@ -38,7 +38,7 @@ Children are raised communally. The concept of a nuclear family withered during 
     integrationNotes: {
         actionPointSystem: 'Briaran abilities focus on oath-sensing, fae-contract enforcement, and identity protection. Their thorn-based traits emphasize insight and deception resistance.',
         backgroundSynergy: 'Briaran excel in backgrounds emphasizing deception, survival, and fae diplomacy. Their hidden history creates deep roleplay hooks around identity, erasure, and the weight of unfulfilled promises.',
-        classCompatibility: 'The Unshorn make natural Martyrs and Inscriptors because their visible thorns and oral oaths drive them to shoulder the wounds of others and record vows in blood, while their fae-bond makes them intuitive Lunarchs and Formbenders. The Smooth-Skinned favor Bladedancers, Huntresses, Oracles, and Minstrels — classes that rely on agility, hidden truths, and the subtle manipulation of identity to survive undetected in the human kingdoms.'
+        classCompatibility: 'The Unshorn make natural Martyrs and Animists because their visible thorns and oral oaths drive them to shoulder the wounds of others and channel ancestral bonds, while their fae-bond makes them intuitive Lunarchs and Shapers. The Smooth-Skinned favor Shapers, Apex, Augurs, and Minstrels — classes that rely on agility, hidden truths, and the subtle manipulation of identity to survive undetected in the human kingdoms.'
     },
 
     baseTraits: {

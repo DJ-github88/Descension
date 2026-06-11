@@ -197,7 +197,7 @@ export const ENHANCED_HEALING_TYPES = [
       description: 'Shield specialized against specific damage types',
       icon: 'spell_fire_firearmor',
       durability: 'average',
-      damageTypes: ['fire', 'cold', 'lightning', 'acid', 'thunder'],
+      damageTypes: ['ember', 'rime', 'storm', 'blight'],
       specializationMultiplier: 2.0, // multiplier for specialized damage type
       otherTypesMultiplier: 0.5, // multiplier for other damage types
       actionPointCost: 2
@@ -232,7 +232,7 @@ export const ENHANCED_HEALING_TYPES = [
       durability: 'average',
       explosionDamage: 'remainingCapacity', // damage depends on remaining capacity
       explosionRadius: 15, // feet
-      explosionDamageType: 'force',
+      explosionDamageType: 'storm',
       actionPointCost: 3
     }
   ];
@@ -626,7 +626,7 @@ export const ENHANCED_HEALING_TYPES = [
     const { 
       drainAmount, 
       conversionRate = 0.5,
-      damageType = 'necrotic'
+      damageType = 'blight'
     } = params;
     
     if (!drainAmount) {

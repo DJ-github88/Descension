@@ -3172,7 +3172,6 @@
 .character-card-compact .class-resource-full .primalist-resource-container,
 .character-card-compact .class-resource-full .toxicologist-resource-container,
 .character-card-compact .class-resource-full .pyrofiend-resource-container,
-.character-card-compact .class-resource-full .titan-resource-container,
 .character-card-compact .class-resource-full .spellguard-resource-container,
 .character-card-compact .class-resource-full .resource-bar-row {
   max-height: 32px !important;
@@ -3355,7 +3354,6 @@
 .character-card-compact .class-resource-full .rage-bar,
 .character-card-compact .class-resource-full .rage-bar-background,
 .character-card-compact .class-resource-full .rage-segments,
-.character-card-compact .class-resource-full .drp-bar-wrapper,
 .character-card-compact .class-resource-full .madness-bar-wrapper,
 .character-card-compact .class-resource-full .threads-bar-wrapper,
 .character-card-compact .class-resource-full .qm-bar-wrapper,
@@ -3368,8 +3366,7 @@
 
 /* Reduce padding in class resource bar containers for compact view */
 .character-card-compact .class-resource-full .class-resource-bar .bar-background,
-.character-card-compact .class-resource-full .deathcaller-dual-bars,
-.character-card-compact .class-resource-full .huntress-container {
+.character-card-compact .class-resource-full .apex-container {
   padding: 2px 4px !important;
 }
 

@@ -239,7 +239,7 @@ export const createWeaponAttackSpell = (weaponSlot = 'mainHand') => {
       name: 'Unarmed',
       type: 'UNARMED',
       damage: '1d4',
-      damageType: 'bludgeoning',
+      damageType: 'physical',
       range: 5,
       properties: []
     },

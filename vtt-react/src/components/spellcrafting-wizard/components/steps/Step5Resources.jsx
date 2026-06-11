@@ -241,7 +241,7 @@ const Step5Resources = () => {
     {
       id: 'quarry_marks',
       name: 'Quarry Marks',
-      description: 'Huntress tracking and coordination mechanics',
+      description: 'Apex tracking and coordination mechanics',
       icon: faCrosshairs,
       color: '#8B4513',
       subcategories: [

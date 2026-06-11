@@ -13,10 +13,10 @@ export const AUGUR_DATA = {
   name: "Augur",
   icon: "fas fa-skull-crossbones",
   role: "Visceral Haruspex (Omen Reading, Flesh Mutilation & Preemptive Evasion)",
-  damageTypes: ["psychic", "radiant"],
+  damageTypes: ["wyrd", "ember"],
 
   overview: {
-    originStory: `The future does not reveal itself to clean minds; it must be dragged, warm and steaming, from the belly of the dead. It is said that Cassia, the chief star-watcher of the Nordhalla Keeps, sat in the Frozen Archive when the star Solbound first darkened. With the astrolabes frozen solid, she did not look to the sky. Instead, she took a bronze scaling knife and opened the abdomen of a sacrificial glacier-elk, spilling its entrails across the icy stone. By tracing the steaming convolutions of the intestines and the purple mottling of the liver, she read the exact hour of the Deepening. She did not find a path to salvation, but a map of the deaths to come.
+    originStory: `The future does not reveal itself to clean minds; it must be dragged, warm and steaming, from the belly of the dead. It is said that Cassia, the chief star-watcher of the Nordhalla Keeps, sat in the Frozen Archive when the star Sol first darkened. With the astrolabes frozen solid, she did not look to the sky. Instead, she took a bronze scaling knife and opened the abdomen of a sacrificial glacier-elk, spilling its entrails across the icy stone. By tracing the steaming convolutions of the intestines and the purple mottling of the liver, she read the exact hour of the Deepening. She did not find a path to salvation, but a map of the deaths to come.
 
 The price of peering through the stargate feedback loops of fate was immediate and cruel. As the future flooded her mind, the temporal feedback loop burned away her past. The memories of her husband’s face, the warmth of the hearth, and the names of her children were incinerated to clear space for the mathematically precise coordinate chains of cosmic doom. To maintain this sight, the Augur must invite physical trauma. When the air is still and the future grows dim, she must carve deep runes into her own forearms, using the warm flow of her own blood to re-establish the connection to the stars. The viscera of her enemies and the split-open hides of beasts are her only ledger.
 
@@ -107,7 +107,7 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 
     immersiveCombatExample: {
       title: "Combat Example: The Haruspex's Toll",
-      content: `**The Setup**: You are an Augur (Harbinger specialization) creeping through a plague-blighted ruin with your party. A massive, iron-clad abominable executioner blocks the path. The room is quiet; no blood has been spilt. You have 0 Benediction and 0 Malediction. You must act.
+      content: `**The Setup**: You are an Augur creeping through a plague-blighted ruin with your party. A massive, iron-clad abominable executioner blocks the path. The room is quiet; no blood has been spilt. You have 0 Benediction and 0 Malediction. You must act.
 
 **Turn 1 - The First Incision**
 *Because no bleeding targets or fresh corpses exist, your eyes are blind to the future. You pull your ritual flaying hook and drag it across your own left forearm, carving the first sign.*
@@ -378,7 +378,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Ritual",
       effectTypes: ["debuff"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Necrotic/Ritual",
         tags: ["debuff", "haruspex", "vulnerability", "omen"],
         castTime: 1,
@@ -408,7 +408,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
             description: "Target has +50% vulnerability to psychic damage for 3 rounds.",
             mechanicsText: "Imposes 50% psychic vulnerability on the target.",
             statusEffect: {
-              vulnerabilityType: "psychic",
+              vulnerabilityType: "wyrd",
               vulnerabilityPercent: 50,
             },
           },
@@ -436,7 +436,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Nature/Ethereal Bear Spirit",
       effectTypes: ["buff", "utility"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Nature/Ethereal Bear Spirit",
         tags: ["reaction", "evasion", "preemptive", "omen"],
         castTime: 1,
@@ -496,7 +496,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Corruption",
       effectTypes: ["debuff", "damage"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Necrotic/Corruption",
         tags: ["debuff", "damage", "curse", "omen"],
         castTime: 1,
@@ -539,7 +539,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "1d6",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
       resolution: "DICE",
@@ -555,7 +555,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Divine Downward Sword",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Divine Downward Sword",
         tags: ["buff", "critical", "support", "omen"],
         castTime: 1,
@@ -604,7 +604,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Psychic/Mental Chaos",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mental Chaos",
         tags: ["passive", "debuff", "omen", "augur"],
         castTime: 0,
@@ -635,7 +635,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Bone Shards",
       effectTypes: ["debuff", "damage"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Necrotic/Bone Shards",
         tags: ["debuff", "damage", "crippling", "omen"],
         castTime: 1,
@@ -682,7 +682,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "2d6",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
       durationConfig: {
@@ -704,7 +704,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Corruption",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Corruption",
         tags: ["area", "damage", "debuff", "hazard", "omen"],
         castTime: 1,
@@ -749,7 +749,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "1d6",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: "1d6",
@@ -778,7 +778,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Divine Blessing",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Divine Blessing",
         tags: ["buff", "armor", "mitigation", "omen"],
         castTime: 1,
@@ -830,8 +830,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Radiant Sunburst",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "psychic",
-        secondaryElement: "radiant",
+        school: "wyrd",
+        secondaryElement: "ember",
         icon: "Radiant/Radiant Sunburst",
         tags: ["attack", "damage", "dual_element", "omen"],
         castTime: 1,
@@ -855,7 +855,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       damageConfig: {
         formula: "3d8",
-        damageTypes: ["psychic", "radiant"],
+        damageTypes: ["wyrd", "ember"],
         secondaryDamage: {
           formula: "1d8",
           condition: "If the damage roll total is even, deal additional radiant damage.",
@@ -875,7 +875,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Psychic/Psionic Boom",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Psionic Boom",
         tags: ["damage", "debuff", "fear", "omen"],
         castTime: 1,
@@ -899,7 +899,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: {
         formula: "3d6",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
       debuffConfig: {
@@ -939,7 +939,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Radiant Light Burst",
       effectTypes: ["healing", "damage"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Light Burst",
         tags: ["area", "healing", "damage", "consecrated", "omen"],
         castTime: 1,
@@ -974,7 +974,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "2d6",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: "1d6",
@@ -1007,7 +1007,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Death Mark",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Necrotic/Death Mark",
         tags: ["debuff", "damage", "paralyze", "omen"],
         castTime: 1,
@@ -1031,7 +1031,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: {
         formula: "4d8",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
       debuffConfig: {
@@ -1071,8 +1071,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Arcane/Portal Archway",
       effectTypes: ["healing", "damage"],
       typeConfig: {
-        school: "radiant",
-        secondaryElement: "psychic",
+        school: "ember",
+        secondaryElement: "wyrd",
         icon: "Arcane/Portal Archway",
         tags: ["area", "healing", "damage", "omen"],
         castTime: 1,
@@ -1106,7 +1106,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "3d8",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
       resolution: "DICE",
@@ -1122,7 +1122,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Radiant Golden Shield",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Golden Shield",
         tags: ["buff", "support", "armor", "omen"],
         castTime: 1,
@@ -1182,8 +1182,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Lightning/Thunderstorm",
       effectTypes: ["damage", "healing"],
       typeConfig: {
-        school: "psychic",
-        secondaryElement: "radiant",
+        school: "wyrd",
+        secondaryElement: "ember",
         icon: "Lightning/Thunderstorm",
         tags: ["area", "damage", "healing", "storm", "omen"],
         castTime: 1,
@@ -1212,7 +1212,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: {
         formula: "4d6",
-        damageTypes: ["psychic", "radiant"],
+        damageTypes: ["wyrd", "ember"],
         secondaryDamage: {
           formula: "2d6",
           condition: "If the damage roll total is even, deal additional radiant damage.",
@@ -1243,7 +1243,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Corruption",
       effectTypes: ["debuff", "damage"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Necrotic/Corruption",
         tags: ["area", "debuff", "damage", "hazard", "omen"],
         castTime: 1,
@@ -1287,7 +1287,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "3d6",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: "3d6",
@@ -1316,7 +1316,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Healing/Prayer",
       effectTypes: ["healing", "buff"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Prayer",
         tags: ["area", "healing", "buff", "sanctuary", "omen"],
         castTime: 1,
@@ -1391,8 +1391,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Bone Shards",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "psychic",
-        secondaryElement: "radiant",
+        school: "wyrd",
+        secondaryElement: "ember",
         icon: "Necrotic/Bone Shards",
         tags: ["damage", "aoe", "detonate", "omen"],
         castTime: 1,
@@ -1421,7 +1421,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: {
         formula: "5d8",
-        damageTypes: ["psychic", "radiant"],
+        damageTypes: ["wyrd", "ember"],
         resolution: "DICE",
       },
       resolution: "DICE",
@@ -1437,7 +1437,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Necrotic Death",
       effectTypes: ["debuff"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Necrotic/Necrotic Death",
         tags: ["debuff", "curse", "unlucky", "omen"],
         castTime: 1,
@@ -1496,7 +1496,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Golden Ring",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Golden Ring",
         tags: ["buff", "support", "elevate", "omen"],
         castTime: 1,
@@ -1553,8 +1553,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Arcane/Portal Archway",
       effectTypes: ["buff", "debuff"],
       typeConfig: {
-        school: "psychic",
-        secondaryElement: "radiant",
+        school: "wyrd",
+        secondaryElement: "ember",
         icon: "Arcane/Portal Archway",
         tags: ["area", "buff", "debuff", "split", "omen"],
         castTime: 1,
@@ -1636,7 +1636,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Psychic/Agonizing Scream",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Agonizing Scream",
         tags: ["damage", "debuff", "apocalypse", "omen"],
         castTime: 1,
@@ -1662,7 +1662,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {
         formula: "6d8",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
       debuffConfig: {
@@ -1696,7 +1696,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Radiant Light Burst",
       effectTypes: ["buff", "utility"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Light Burst",
         tags: ["area", "buff", "sanctuary", "omen"],
         castTime: 1,
@@ -1768,7 +1768,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Arcane/Spiral Vortex",
       effectTypes: ["utility"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Arcane/Spiral Vortex",
         tags: ["reaction", "manipulation", "fate", "omen"],
         castTime: 1,
@@ -1817,7 +1817,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Necrotic/Death Mark",
       effectTypes: ["debuff"],
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Death Mark",
         tags: ["debuff", "curse", "execute", "crows", "omen"],
         castTime: 1,
@@ -1872,7 +1872,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Radiant Sunburst",
       effectTypes: ["healing", "damage", "buff"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Sunburst",
         tags: ["area", "healing", "damage", "aurora", "omen"],
         castTime: 1,
@@ -1903,7 +1903,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "5d8",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
       buffConfig: {
@@ -1948,7 +1948,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Psychic/Psionic Boom",
       effectTypes: ["buff", "utility"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Psionic Boom",
         tags: ["buff", "manipulation", "fate", "omen"],
         castTime: 1,
@@ -2006,7 +2006,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Void/Red Energy Burst",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Void/Red Energy Burst",
         tags: ["damage", "debuff", "stun", "omen"],
         castTime: 1,
@@ -2032,7 +2032,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {
         formula: "8d8",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
       debuffConfig: {
@@ -2066,7 +2066,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Healing/Ressusitate",
       effectTypes: ["buff", "healing"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Ressusitate",
         tags: ["area", "buff", "healing", "immortality", "omen"],
         castTime: 1,
@@ -2133,8 +2133,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Arcane/Portal Archway",
       effectTypes: ["buff", "utility"],
       typeConfig: {
-        school: "radiant",
-        secondaryElement: "psychic",
+        school: "ember",
+        secondaryElement: "wyrd",
         icon: "Arcane/Portal Archway",
         tags: ["ultimate", "transformation", "fate", "sovereign", "omen"],
         castTime: 1,
@@ -2200,7 +2200,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Void/Black Hole",
       effectTypes: ["debuff", "damage"],
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Void/Black Hole",
         tags: ["ultimate", "transformation", "ash", "debuff", "omen"],
         castTime: 1,
@@ -2239,7 +2239,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "3d8",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: "3d8",
@@ -2268,7 +2268,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       icon: "Radiant/Radiant Sunburst",
       effectTypes: ["buff", "healing", "damage"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Sunburst",
         tags: ["ultimate", "transformation", "splinters", "buff", "omen"],
         castTime: 1,
@@ -2324,7 +2324,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       },
       damageConfig: {
         formula: "4d8",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: "4d8",
@@ -2352,7 +2352,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         "spellType": "ACTION",
         "icon": "Necrotic/Ritual",
         "typeConfig": {
-          "school": "psychic",
+          "school": "wyrd",
           "icon": "Necrotic/Ritual",
           "tags": [
             "utility",

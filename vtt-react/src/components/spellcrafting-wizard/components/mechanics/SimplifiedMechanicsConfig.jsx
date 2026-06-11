@@ -95,13 +95,13 @@ const MECHANICS_SYSTEMS = {
     toxicTypes: [
       // Core Toxic Types
       { id: 'disease', name: 'Disease', description: 'Biological afflictions that weaken the target over time', color: '#8B008B', wowIcon: 'ability_creature_disease_01' },
-      { id: 'poison', name: 'Poison', description: 'Toxic substances that cause immediate and ongoing damage', color: '#00AA00', wowIcon: 'ability_creature_poison_06' },
+      { id: 'blight', name: 'blight', description: 'Toxic substances that cause immediate and ongoing damage', color: '#00AA00', wowIcon: 'ability_creature_poison_06' },
       { id: 'curse', name: 'Curse', description: 'Magical afflictions that reduce effectiveness and luck', color: '#4B0082', wowIcon: 'spell_shadow_curseofsargeras' },
       { id: 'venom', name: 'Venom', description: 'Injected toxins that cause severe damage and paralysis', color: '#228B22', wowIcon: 'ability_creature_poison_03' },
 
       // Advanced Toxic Types
       { id: 'blight', name: 'Blight', description: 'Corrupting force that spreads to nearby targets', color: '#8B0000', wowIcon: 'spell_shadow_creepingplague' },
-      { id: 'acid', name: 'Acid', description: 'Corrosive substance that dissolves armor and flesh', color: '#FFD700', wowIcon: 'spell_nature_acid_01' },
+      { id: 'blight', name: 'blight', description: 'Corrosive substance that dissolves armor and flesh', color: '#FFD700', wowIcon: 'spell_nature_acid_01' },
       { id: 'necrosis', name: 'Necrosis', description: 'Death magic that causes tissue decay and weakness', color: '#2F4F4F', wowIcon: 'spell_shadow_deathcoil' },
       { id: 'miasma', name: 'Miasma', description: 'Toxic cloud that impairs vision and breathing', color: '#696969', wowIcon: 'spell_shadow_plaguecloud' },
 

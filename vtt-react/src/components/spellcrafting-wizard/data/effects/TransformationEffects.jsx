@@ -68,7 +68,7 @@ export const CUSTOM_TRANSFORMATION_TYPES = [
   { id: 'demonic', name: 'Demonic Form', icon: 'spell_shadow_metamorphosis', description: 'Take on demonic characteristics' },
   { id: 'divine', name: 'Divine Form', icon: 'spell_holy_holyprotection', description: 'Channel divine power through your form' },
   { id: 'primal', name: 'Primal Form', icon: 'ability_druid_primalprecision', description: 'Tap into primal, bestial energy' },
-  { id: 'shadow', name: 'Shadow Form', icon: 'spell_shadow_shadowform', description: 'Merge with shadows, becoming darkness' },
+  { id: 'blight', name: 'Shadow Form', icon: 'spell_shadow_shadowform', description: 'Merge with shadows, becoming darkness' },
   { id: 'arcane', name: 'Arcane Form', icon: 'spell_arcane_arcane04', description: 'Infuse your form with raw arcane energy' }
 ];
 

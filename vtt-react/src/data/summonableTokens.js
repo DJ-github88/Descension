@@ -1,9 +1,9 @@
 export const TOKEN_TEMPLATES = {
 
   // =========================================================================
-  // PRIMALIST (12 tokens)
+  // ANIMIST (12 tokens)
   // =========================================================================
-  primalist: [
+  animist: [
     {
       id: 'primalist_healing_totem',
       name: 'Healing Totem',
@@ -242,7 +242,8 @@ export const TOKEN_TEMPLATES = {
   // =========================================================================
   // EXORCIST (10 tokens)
   // =========================================================================
-  exorcist: [
+  // 'Exorcist' tokens now used by 'Inquisitor' (Phase 1.9 consolidation)
+  inquisitor: [
     {
       id: 'exorcist_imp',
       name: 'Imp',
@@ -435,173 +436,7 @@ export const TOKEN_TEMPLATES = {
     },
   ],
 
-  // =========================================================================
-  // FORMBENDER (5 tokens)
-  // =========================================================================
-  formbender: [
-    {
-      id: 'formbender_spectral_wolf',
-      name: 'Spectral Wolf',
-      description: "A spectral wolf summoned through Pack Leader's Call. Scales with tier.",
-      level: 4,
-      spellId: 'fb_pack_leaders_call',
-      creature: {
-        name: 'Spectral Wolf',
-        type: 'BEAST',
-        size: 'MEDIUM',
-        stats: { maxHp: 15, maxMana: 0, speed: 40 },
-        tokenIcon: 'ability_hunter_pet_wolf',
-        abilities: ['Bite (1d6+2)', 'Pack Tactics'],
-      },
-      quantity: 1,
-      duration: { value: 10, unit: 'rounds' },
-      controlType: 'mental',
-      resourceCost: { mana: 12, actionPoints: 1 },
-    },
-    {
-      id: 'formbender_spectral_hunters',
-      name: 'Spectral Hunters',
-      description: 'Ghostly wolves that aid in tracking and hunting.',
-      level: 4,
-      spellId: 'formbender_hunt_call',
-      creature: {
-        name: 'Spectral Hunter',
-        type: 'BEAST',
-        size: 'MEDIUM',
-        stats: { maxHp: 20, maxMana: 0, speed: 50 },
-        tokenIcon: 'ability_hunter_pet_wolf',
-        abilities: ['Tracking', 'Hunting assistance'],
-      },
-      quantity: 2,
-      duration: { value: 10, unit: 'rounds' },
-      controlType: 'mental',
-      resourceCost: { mana: 14, actionPoints: 1 },
-    },
-    {
-      id: 'formbender_pack_wolves',
-      name: 'Pack Wolves',
-      description: '3 spectral wolves with pack tactics - +2 attack when adjacent.',
-      level: 5,
-      spellId: 'formbender_pack_leader',
-      creature: {
-        name: 'Spectral Wolf',
-        type: 'BEAST',
-        size: 'MEDIUM',
-        stats: { maxHp: 35, maxMana: 0, speed: 40 },
-        tokenIcon: 'ability_hunter_pet_wolf',
-        abilities: ['Pack Tactics (+2 attack when adjacent)', 'Bite attack'],
-      },
-      quantity: 3,
-      duration: { value: 5, unit: 'rounds' },
-      controlType: 'mental',
-      resourceCost: { mana: 20, actionPoints: 2 },
-    },
-    {
-      id: 'formbender_wild_hunt_spirits',
-      name: 'Wild Hunt Spirits',
-      description: 'Spirits of the wild hunt that chase and destroy enemies.',
-      level: 8,
-      spellId: 'formbender_wild_hunt',
-      creature: {
-        name: 'Wild Hunt Spirit',
-        type: 'BEAST',
-        size: 'MEDIUM',
-        stats: { maxHp: 60, maxMana: 0, speed: 50 },
-        tokenIcon: 'ability_druid_disembowel',
-        abilities: ['12d6+Spirit nature damage', 'Chases enemies within 40ft'],
-      },
-      quantity: 5,
-      duration: { value: 5, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { mana: 30, actionPoints: 2 },
-    },
-    {
-      id: 'formbender_genesis_storm',
-      name: 'Genesis Storm',
-      description: 'A storm of creation - 10 primal beasts and 5 elemental guardians.',
-      level: 10,
-      spellId: 'formbender_genesis_storm',
-      creature: {
-        name: 'Primal Beast',
-        type: 'BEAST',
-        size: 'MEDIUM',
-        stats: { maxHp: 80, maxMana: 0, speed: 40 },
-        tokenIcon: 'ability_hunter_pet_bear',
-        abilities: ['Primal fury attacks'],
-      },
-      quantity: 15,
-      duration: { value: 10, unit: 'rounds' },
-      controlType: 'mental',
-      resourceCost: { mana: 50, actionPoints: 3 },
-      subTypes: [
-        { name: 'Primal Beast', stats: { maxHp: 80 }, size: 'MEDIUM', quantity: 10 },
-        { name: 'Elemental Guardian', stats: { maxHp: 120 }, size: 'LARGE', quantity: 5 },
-      ],
-    },
-  ],
 
-  // =========================================================================
-  // WITCH DOCTOR (3 tokens)
-  // =========================================================================
-  witchdoctor: [
-    {
-      id: 'witchdoctor_totem_of_warding',
-      name: 'Totem of Warding',
-      description: 'A totem that grants +1 saving throws to allies within 10ft.',
-      level: 2,
-      spellId: 'witch_doctor_totem_of_warding',
-      creature: {
-        name: 'Totem of Warding',
-        type: 'CONSTRUCT',
-        size: 'SMALL',
-        stats: { maxHp: 8, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_groundingtotem',
-        abilities: ['+1 saving throws to allies within 10ft'],
-      },
-      quantity: 1,
-      duration: { value: 5, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { mana: 8, voodoo_essence: 2, actionPoints: 1 },
-    },
-    {
-      id: 'witchdoctor_zombie_swarm',
-      name: 'Zombie Swarm',
-      description: '4 undead zombies under mental control.',
-      level: 5,
-      spellId: 'witch_doctor_zombie_swarm',
-      creature: {
-        name: 'Zombie',
-        type: 'UNDEAD',
-        size: 'MEDIUM',
-        stats: { maxHp: 25, maxMana: 0, speed: 20 },
-        tokenIcon: 'spell_nature_frequipmentset',
-        abilities: ['Slam attack', 'Mental control within 60ft'],
-      },
-      quantity: 4,
-      duration: { value: 5, unit: 'rounds' },
-      controlType: 'mental',
-      resourceCost: { mana: 20, voodoo_essence: 5, actionPoints: 2 },
-    },
-    {
-      id: 'witchdoctor_healing_totem',
-      name: 'Healing Totem',
-      description: 'A totem that heals allies within 10ft for 2d4 each turn.',
-      level: 6,
-      spellId: 'witch_doctor_healing_totem',
-      creature: {
-        name: 'Healing Totem',
-        type: 'CONSTRUCT',
-        size: 'SMALL',
-        stats: { maxHp: 10, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_healingtouch',
-        abilities: ['Heals allies within 10ft 2d4 HP per turn'],
-      },
-      quantity: 1,
-      duration: { value: 10, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { mana: 16, voodoo_essence: 3, actionPoints: 1 },
-    },
-  ],
 
   // =========================================================================
   // TOXICOLOGIST (9 tokens: 3 constructs + 6 contraptions)
@@ -825,59 +660,15 @@ export const TOKEN_TEMPLATES = {
   ],
 
   // =========================================================================
-  // ORACLE (2 tokens)
+  // HARBINGER (1 token - inherited Chaos Gate)
   // =========================================================================
-  oracle: [
+  harbinger: [
     {
-      id: 'oracle_timeline_duplicate',
-      name: 'Timeline Duplicate',
-      description: 'A perfect copy of yourself from another timeline.',
-      level: 9,
-      spellId: 'oracle_timeline_split',
-      creature: {
-        name: 'Timeline Duplicate',
-        type: 'HUMANOID',
-        size: 'MEDIUM',
-        stats: { maxHp: 'same_as_caster', maxMana: 'same_as_caster', speed: 30 },
-        tokenIcon: 'spell_arcane_portaldalaran',
-        abilities: ['Can take all your actions', 'Independent control'],
-      },
-      quantity: 1,
-      duration: { value: 3, unit: 'rounds' },
-      controlType: 'independent',
-      resourceCost: { visions: 8, actionPoints: 2 },
-    },
-    {
-      id: 'oracle_future_self',
-      name: 'Future Self',
-      description: 'A godlike version of yourself from the future.',
-      level: 10,
-      spellId: 'oracle_future_self',
-      creature: {
-        name: 'Future Self',
-        type: 'CELESTIAL',
-        size: 'MEDIUM',
-        stats: { maxHp: 200, maxMana: 100, speed: 30 },
-        tokenIcon: 'spell_holy_innerfire',
-        abilities: ['Can cast any spell at max power', '6d8 psychic attacks', 'Independent control'],
-      },
-      quantity: 1,
-      duration: { value: 5, unit: 'rounds' },
-      controlType: 'independent',
-      resourceCost: { visions: 10, actionPoints: 3 },
-    },
-  ],
-
-  // =========================================================================
-  // CHAOS WEAVER (1 token)
-  // =========================================================================
-  chaosweaver: [
-    {
-      id: 'chaosweaver_chaos_gate',
+      id: 'harbinger_chaos_gate',
       name: 'Chaos Gate Entities',
       description: '5 chaos entities from a random rollable table.',
       level: 7,
-      spellId: 'chaos_weaver-reality_bending-chaos_gate',
+      spellId: 'harbinger-fate_rift-chaos_gate',
       creature: {
         name: 'Chaos Entity',
         type: 'ELEMENTAL',
@@ -956,9 +747,9 @@ export const TOKEN_TEMPLATES = {
   // =========================================================================
   // LICHBORNE (1 token)
   // =========================================================================
-  lichborne: [
+  revenant: [
     {
-      id: 'lichborne_ice_wall',
+      id: 'revenant_ice_wall',
       name: 'Ice Wall',
       description: 'A 20ft x 10ft x 1ft ice wall. Blocks movement and projectiles. Vulnerable to fire, immune to frost.',
       level: 2,
@@ -976,176 +767,8 @@ export const TOKEN_TEMPLATES = {
       controlType: 'autonomous',
       resourceCost: { mana: 12, actionPoints: 2 },
     },
-  ],
-
-  // =========================================================================
-  // INSCRIPTOR (1 token)
-  // =========================================================================
-  inscriptor: [
     {
-      id: 'inscriptor_rune_marker_fire',
-      name: 'Fire Rune',
-      description: 'A small rune marker placed on the grid to represent a fire rune location.',
-      level: 1,
-      spellId: null,
-      creature: {
-        name: 'Fire Rune',
-        type: 'CONSTRUCT',
-        size: 'TINY',
-        stats: { maxHp: 1, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_fire_fireball',
-        abilities: [],
-      },
-      quantity: 1,
-      duration: { value: 99, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: {},
-    },
-    {
-      id: 'inscriptor_rune_marker_frost',
-      name: 'Frost Rune',
-      description: 'A small rune marker placed on the grid to represent a frost rune location.',
-      level: 1,
-      spellId: null,
-      creature: {
-        name: 'Frost Rune',
-        type: 'CONSTRUCT',
-        size: 'TINY',
-        stats: { maxHp: 1, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_frost_frostbolt',
-        abilities: [],
-      },
-      quantity: 1,
-      duration: { value: 99, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: {},
-    },
-    {
-      id: 'inscriptor_rune_marker_arcane',
-      name: 'Arcane Rune',
-      description: 'A small rune marker placed on the grid to represent an arcane rune location.',
-      level: 1,
-      spellId: null,
-      creature: {
-        name: 'Arcane Rune',
-        type: 'CONSTRUCT',
-        size: 'TINY',
-        stats: { maxHp: 1, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_arcane_arcane02',
-        abilities: [],
-      },
-      quantity: 1,
-      duration: { value: 99, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: {},
-    },
-    {
-      id: 'inscriptor_rune_marker_ward',
-      name: 'Ward Rune',
-      description: 'A small rune marker placed on the grid to represent a ward/protection rune.',
-      level: 1,
-      spellId: null,
-      creature: {
-        name: 'Ward Rune',
-        type: 'CONSTRUCT',
-        size: 'TINY',
-        stats: { maxHp: 1, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_holy_devotion',
-        abilities: [],
-      },
-      quantity: 1,
-      duration: { value: 99, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: {},
-    },
-    {
-      id: 'inscriptor_rune_marker_lightning',
-      name: 'Lightning Rune',
-      description: 'A small rune marker placed on the grid to represent a lightning rune location.',
-      level: 1,
-      spellId: null,
-      creature: {
-        name: 'Lightning Rune',
-        type: 'CONSTRUCT',
-        size: 'TINY',
-        stats: { maxHp: 1, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_lightning',
-        abilities: [],
-      },
-      quantity: 1,
-      duration: { value: 99, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: {},
-    },
-    {
-      id: 'inscriptor_rune_marker_void',
-      name: 'Void Rune',
-      description: 'A small rune marker placed on the grid to represent a void/dark rune location.',
-      level: 3,
-      spellId: null,
-      creature: {
-        name: 'Void Rune',
-        type: 'CONSTRUCT',
-        size: 'TINY',
-        stats: { maxHp: 1, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_shadow_twistedfaith',
-        abilities: [],
-      },
-      quantity: 1,
-      duration: { value: 99, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: {},
-    },
-    {
-      id: 'inscriptor_rune_marker_nature',
-      name: 'Nature Rune',
-      description: 'A small rune marker placed on the grid to represent a nature rune location.',
-      level: 1,
-      spellId: null,
-      creature: {
-        name: 'Nature Rune',
-        type: 'CONSTRUCT',
-        size: 'TINY',
-        stats: { maxHp: 1, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_abolishmagic',
-        abilities: [],
-      },
-      quantity: 1,
-      duration: { value: 99, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: {},
-    },
-    {
-      id: 'inscriptor_inscribed_titan',
-      name: 'Inscribed Titan',
-      description: 'A colossal construct of living runes. Counts as 2 runes for zone purposes.',
-      level: 10,
-      spellId: 'inscriptor_rune_of_creation',
-      creature: {
-        name: 'Inscribed Titan',
-        type: 'CONSTRUCT',
-        size: 'LARGE',
-        stats: { maxHp: 200, maxMana: 0, speed: 30 },
-        tokenIcon: 'spell_arcane_arcane02',
-        abilities: [
-          'Runic Slam: 3d8+STR force damage',
-          'Counts as 2 runes for zone threshold',
-          'Death detonation: 4d8 force in 15ft, +3 Resonance',
-        ],
-      },
-      quantity: 1,
-      duration: { value: 10, unit: 'rounds' },
-      controlType: 'mental',
-      resourceCost: { mana: 35, runic_resonance: 7, actionPoints: 3 },
-    },
-  ],
-
-  // =========================================================================
-  // DEATHCALLER (3 tokens)
-  // =========================================================================
-  deathcaller: [
-    {
-      id: 'deathcaller_soul_chain',
+      id: 'revenant_soul_chain',
       name: 'Spectral Ally (Soul Chain)',
       description: 'A spectral ally bound through health sacrifice.',
       level: 4,
@@ -1164,7 +787,7 @@ export const TOKEN_TEMPLATES = {
       resourceCost: { health: '2d8', actionPoints: 1 },
     },
     {
-      id: 'deathcaller_skeletal_archers',
+      id: 'revenant_skeletal_archers',
       name: 'Skeletal Archers',
       description: '2 skeletal archers raised from the dead.',
       level: 6,
@@ -1183,7 +806,7 @@ export const TOKEN_TEMPLATES = {
       resourceCost: { health: '3d6', actionPoints: 2 },
     },
     {
-      id: 'deathcaller_spectral_vanguard',
+      id: 'revenant_spectral_vanguard',
       name: 'Spectral Vanguard',
       description: 'A powerful spectral knight that protects allies.',
       level: 8,
@@ -1202,49 +825,41 @@ export const TOKEN_TEMPLATES = {
       resourceCost: { mana: 10, health: '4d8', actionPoints: 2 },
     },
   ],
+  // REMOVED: deathcaller merged into Revenant as Phase 1.10 consolidation
 
   // =========================================================================
-  // HUNTRESS (2 tokens)
-  // =========================================================================
-  huntress: [
+  // APEX (2 tokens)
+  apex: [
     {
-      id: 'huntress_beast_companion',
+      id: 'apex_beast_companion',
       name: 'Beast Companion',
-      description: 'Your bonded primal beast companion.',
-      level: 1,
-      spellId: null,
-      creature: {
-        name: 'Beast Companion',
-        type: 'BEAST',
-        size: 'MEDIUM',
-        stats: { maxHp: 25, maxMana: 0, speed: 40 },
-        tokenIcon: 'ability_hunter_pet_wolf',
-        abilities: ['Beast attacks', 'Loyal companion'],
-      },
-      quantity: 1,
-      duration: { value: 0, unit: 'permanent' },
-      controlType: 'mental',
-      resourceCost: { actionPoints: 0 },
+      description: 'A loyal beast that fights alongside the Apex.',
+      image: '/assets/images/tokens/apex_beast_companion.png',
+      type: 'ally',
+      tier: 'basic',
+      class: 'apex',
+      stats: { hp: 30, armor: 12, damage: '1d8+2' },
+      abilities: ['Pack Attack', 'Protective Instinct'],
+      apCost: 0,
+      summonTime: 'instant',
+      duration: 'permanent',
+      maxSummons: 1
     },
     {
-      id: 'huntress_primal_beast_spirits',
+      id: 'apex_primal_beast_spirits',
       name: 'Primal Beast Spirits',
-      description: '3 primal beast spirits that attack autonomously.',
-      level: 9,
-      spellId: null,
-      creature: {
-        name: 'Primal Beast Spirit',
-        type: 'BEAST',
-        size: 'MEDIUM',
-        stats: { maxHp: 50, maxMana: 0, speed: 40 },
-        tokenIcon: 'ability_hunter_pet_bear',
-        abilities: ['Autonomous attacks', '5 Quarry Marks cost'],
-      },
-      quantity: 3,
-      duration: { value: 5, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { quarry_marks: 5, actionPoints: 2 },
-    },
+      description: 'Three primal spirits that attack autonomously.',
+      image: '/assets/images/tokens/apex_primal_beast_spirits.png',
+      type: 'ally',
+      tier: 'ultimate',
+      class: 'apex',
+      stats: { hp: 50, armor: 15, damage: '2d6+4' },
+      abilities: ['Primal Fury', 'Savage Assault'],
+      apCost: 3,
+      summonTime: 'action',
+      duration: 3,
+      maxSummons: 3
+    }
   ],
 
   // =========================================================================
@@ -1365,12 +980,12 @@ export const TOKEN_TEMPLATES = {
       resourceCost: { actionPoints: 2 },
     },
     {
-      id: 'morthel_raven_scout',
+      id: 'neth_raven_scout',
       name: 'Phantom Raven',
       description: 'A phantom raven scout. See and hear through it up to 1 mile. Invisible.',
       level: 1,
       spellId: 'raven_scout',
-      race: 'morthel',
+      race: 'neth',
       subrace: 'wraith',
       creature: {
         name: 'Phantom Raven',
@@ -1396,37 +1011,33 @@ const CLASS_ID_MAP = {
   'arcanoneer': 'arcanoneer',
   'augur': 'augur',
   'berserker': 'berserker',
-  'bladedancer': 'bladedancer',
-  'chaos weaver': 'chaosweaver',
-  'chaosweaver': 'chaosweaver',
+  'shaper': 'shaper',
+  'harbinger': 'harbinger',
+  'harbinger': 'harbinger',
   'chronarch': 'chronarch',
-  'covenbane': 'covenbane',
-  'deathcaller': 'deathcaller',
-  'doomsayer': 'doomsayer',
-  'dreadnaught': 'dreadnaught',
-  'exorcist': 'exorcist',
+  // 'covenbane' merged into inquisitor as Phase 1.9 consolidation
+  'inquisitor': 'exorcist',
+  'revenant': 'revenant',
+
+  // 'dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+  // 'exorcist' merged into inquisitor as Phase 1.9 consolidation
   'false prophet': 'falseprophet',
   'falseprophet': 'falseprophet',
-  'fate weaver': 'fateweaver',
-  'fateweaver': 'fateweaver',
-  'formbender': 'formbender',
-  'gambler': 'gambler',
-  'huntress': 'huntress',
-  'inscriptor': 'inscriptor',
-  'lichborne': 'lichborne',
+
+  'apex': 'apex',
+  'animist': 'animist',
+  // REMOVED: lichborne merged into Revenant as Phase 1.10 consolidation
+  // 'lichborne': 'lichborne',
   'lunarch': 'lunarch',
   'martyr': 'martyr',
   'minstrel': 'minstrel',
-  'oracle': 'oracle',
   'plaguebringer': 'plaguebringer',
-  'primalist': 'primalist',
+  'animist': 'animist',
   'pyrofiend': 'pyrofiend',
   'spellguard': 'spellguard',
-  'titan': 'titan',
+  // 'titan' removed from CLASS_ID_MAP (absorbed into Warden as Monolith specialization)
   'toxicologist': 'toxicologist',
   'warden': 'warden',
-  'witch doctor': 'witchdoctor',
-  'witchdoctor': 'witchdoctor',
 };
 
 export const resolveClassId = (className) => {

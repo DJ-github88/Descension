@@ -3,20 +3,57 @@
  * 
  * Defines all available character backgrounds with their mechanical benefits,
  * skill proficiencies, equipment, and roleplay features.
+ * 
+ * Phase 4 (2026-06-10): All 15 D&D SRD backgrounds replaced with Mythrill-native backgrounds.
+ * Old entries preserved in comments for reference.
+ */
+
+/*
+ * ============================================================================
+ * OLD D&D SRD BACKGROUNDS (Phase 4 — commented out, replaced below)
+ * ============================================================================
+ * 
+ * export const BACKGROUND_DATA = {
+ *     acolyte: {
+ *         id: 'acolyte',
+ *         name: 'Acolyte',
+ *         description: 'You have spent your life in service to a temple, learning sacred rites and providing sacrifices to the god or gods you worship.',
+ *         skillProficiencies: ['Insight', 'Religion'],
+ *         languages: 2,
+ *         equipment: ['Holy symbol', 'Prayer book', 'Incense (5 sticks)', 'Vestments', 'Common clothes'],
+ *         startingCurrency: { gold: 12, silver: 8, copper: 0 },
+ *         feature: { name: 'Shelter of the Faithful', description: 'You and your companions can receive free healing and care at temples, shrines, and other religious establishments.' },
+ *         statModifiers: { spirit: 3, intelligence: -1 }
+ *     },
+ *     criminal: { ... },
+ *     folkHero: { ... },
+ *     noble: { ... },
+ *     sage: { ... },
+ *     soldier: { ... },
+ *     charlatan: { ... },
+ *     entertainer: { ... },
+ *     guildArtisan: { ... },
+ *     hermit: { ... },
+ *     outlander: { ... },
+ *     sailor: { ... },
+ *     merchant: { ... },
+ *     urchin: { ... },
+ *     scholar: { ... }
+ * };
  */
 
 export const BACKGROUND_DATA = {
-    acolyte: {
-        id: 'acolyte',
-        name: 'Acolyte',
-        description: 'You have spent your life in service to a temple, learning sacred rites and providing sacrifices to the god or gods you worship.',
+    emberspirePilgrim: {
+        id: 'emberspirePilgrim',
+        name: 'Emberspire Pilgrim',
+        description: 'You made the pilgrimage to Emberspire, standing at the wound through which Keth-Amar breached the seal. You have witnessed the Solbrand\'s fading light — the last eternal ember of the dying sun — and the experience left you with either unshakeable purpose or gnawing doubt.',
         skillProficiencies: ['Insight', 'Religion'],
-        languages: 2, // Choose 2 languages
+        languages: 2,
         equipment: [
-            'Holy symbol',
-            'Prayer book',
-            'Incense (5 sticks)',
-            'Vestments',
+            'Sealed Solbrand phial',
+            'Basalt prayer-beads',
+            'Ash-cloth robe',
+            'Pilgrim\'s rations (5 days)',
             'Common clothes'
         ],
         startingCurrency: {
@@ -25,8 +62,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Shelter of the Faithful',
-            description: 'You and your companions can receive free healing and care at temples, shrines, and other religious establishments.'
+            name: 'Solbrand\'s Ember',
+            description: 'You carry a sealed phial containing a trace of the Solbrand\'s light. Once per long rest, its faint warmth can calm a frightened ally (advantage on next save against fear) or illuminate a 15-foot radius for 10 minutes. The light attracts Wyrd-creatures if used openly.'
         },
         statModifiers: {
             spirit: 3,
@@ -34,17 +71,18 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    criminal: {
-        id: 'criminal',
-        name: 'Criminal',
-        description: 'You are an experienced criminal with a history of breaking the law. You have spent a lot of time among other criminals.',
+    shyrRunner: {
+        id: 'shyrRunner',
+        name: 'Shyr Runner',
+        description: 'You navigated the ninety-mile Basalt Shyr — the cooling lava trade route that never freezes — running caravans between Sundale\'s fortress-outposts. You learned when the basalt pillars shift, where Husque-rifts tear open, and exactly what the Thrask rangers demand in toll.',
         skillProficiencies: ['Deception', 'Stealth'],
         toolProficiencies: ['Thieves\' tools', 'Gaming set'],
-        languages: 1, // Underworld connections
+        languages: 1,
         equipment: [
-            'Crowbar',
-            'Dark Common Clothes',
-            'Lockpicks (5)'
+            'Climbing spikes',
+            'Heat-shield tarp',
+            'Cinder-goggles',
+            'Route-markers (10)'
         ],
         startingCurrency: {
             gold: 10,
@@ -52,8 +90,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Criminal Contact',
-            description: 'You have a reliable contact who acts as your liaison to a network of other criminals.'
+            name: 'Shyr-Sense',
+            description: 'You can predict when basalt pillars will shift or Husque-rifts will open. You and your companions gain advantage on Survival checks to navigate volcanic or geothermally-active terrain. You know the unspoken toll-rates of Thrask ranger-stations.'
         },
         statModifiers: {
             agility: 2,
@@ -62,19 +100,19 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    folkHero: {
-        id: 'folkHero',
-        name: 'Folk Hero',
-        description: 'You come from humble origins, but you are destined for so much more. The people of your home village regard you as their champion.',
+    ledgerKeeper: {
+        id: 'ledgerKeeper',
+        name: 'Ledger Keeper',
+        description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach. The protective fog — House Thalreth\'s ancient bargain — endlessly erases memory, and your exhaustive journals are the only proof that anyone existed. Your own personal ledger IS your legal identity; without it, the fog would claim you, too.',
         skillProficiencies: ['Animal Handling', 'Survival'],
         toolProficiencies: ['Artisan\'s tools', 'Vehicles (land)'],
-        languages: 1, // Folk heroes often travel and interact with diverse communities
+        languages: 1,
         equipment: [
-            'Artisan\'s tools',
-            'Shovel',
-            'Iron pot',
-            'Common clothes',
-            'Travel Rations (3 days)'
+            'Ironwood-bound journal',
+            'Ink-vial (peat-based)',
+            'Quill',
+            'Fog-ward charm',
+            'Identity-papers'
         ],
         startingCurrency: {
             gold: 8,
@@ -82,8 +120,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Rustic Hospitality',
-            description: 'Common folk will provide you with simple accommodations and food when needed.'
+            name: 'Ledger-Bound Identity',
+            description: 'Your personal journal serves as incontestable legal proof of your existence. When fog threatens to erase a memory, referencing your ledger allows you to recall it with perfect clarity. Common folk in the Frostwood Reach will provide simple accommodations to a recognized Ledger Keeper.'
         },
         statModifiers: {
             constitution: 3,
@@ -91,18 +129,18 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    noble: {
-        id: 'noble',
-        name: 'Noble',
-        description: 'You understand wealth, power, and privilege. You carry a noble title, and your family owns land, collects taxes, and wields political influence.',
+    bloodlineHeir: {
+        id: 'bloodlineHeir',
+        name: 'Bloodline Heir',
+        description: 'You descend from one of the seven noble houses that struck the Dark Bargains — Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, or Morrath. The weight of ancestral sacrifice shapes every decision you make, though your family\'s influence has long since fractured beneath the consequences of those bargains. (The Bryngloom\'s bargain was unique: it was struck not by House Morrath, but by the Neth\'s own ancestors — a fact the remaining houses prefer to forget.)',
         skillProficiencies: ['History', 'Persuasion'],
         toolProficiencies: ['Gaming set'],
         languages: 1,
         equipment: [
+            'House signet ring',
+            'Scroll of lineage',
             'Fine clothes',
-            'Signet ring',
-            'Scroll of pedigree',
-            'Perfume (vial)'
+            'Heirloom dagger'
         ],
         startingCurrency: {
             gold: 20,
@@ -110,8 +148,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Position of Privilege',
-            description: 'You are welcome in high society, and people assume you have the right to be wherever you are.'
+            name: 'Bloodline Authority',
+            description: 'The seven houses\' names still carry weight across the frozen world. You can invoke your lineage to gain audience with regional authorities, access restricted house archives, and demand shelter in house-holds. Be warned: naming your house also names its ancient enemies.'
         },
         statModifiers: {
             charisma: 2,
@@ -120,18 +158,18 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    sage: {
-        id: 'sage',
-        name: 'Sage',
-        description: 'You spent years learning the lore of the multiverse. You scoured manuscripts, studied scrolls, and listened to the greatest experts.',
+    synodAcademic: {
+        id: 'synodAcademic',
+        name: 'Synod Academic',
+        description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved in memory-glass. You learned to read the throat-sung ancestor-maps of the Ordan nomads and catalogued spirit-genealogies that predate the sky\'s erasure.',
         skillProficiencies: ['Arcana', 'History'],
         languages: 2,
         equipment: [
-            'Bottle of black ink',
-            'Quill',
-            'Small knife',
-            'Letter from colleague',
-            'Common clothes'
+            'Memory-glass shard',
+            'Crystal-lens',
+            'Star-chart scroll',
+            'Ritual chalk',
+            'Synod robes'
         ],
         startingCurrency: {
             gold: 8,
@@ -139,8 +177,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Researcher',
-            description: 'You know where and how to obtain information, including from libraries, universities, and sages.'
+            name: 'Constellation-Archive',
+            description: 'You memorized portions of the Synod\'s crystal-lattice archives that store spirit-lineages. You can recall obscure celestial history, identify constellation-spirit traces, and recognize the resonance-signatures of the seven Sundered Monoliths. Academic and religious institutions grant you research access.'
         },
         statModifiers: {
             intelligence: 4,
@@ -148,19 +186,19 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    soldier: {
-        id: 'soldier',
-        name: 'Soldier',
-        description: 'War has been your life for as long as you care to remember. You trained as a youth, studied the use of weapons and armor.',
+    sumpsVeteran: {
+        id: 'sumpsVeteran',
+        name: 'Sumps Veteran',
+        description: 'You fought in the Bloodhammer Sump\'s geothermal skirmishes, the War of Thousand Screams, or the endless defense of the Hunger Glaciers. The Hunger Pact lives in your blood — ancestral starvation channeled into combat fury — and the Milk-Grief may have taken someone you loved.',
         skillProficiencies: ['Athletics', 'Intimidation'],
         toolProficiencies: ['Gaming set', 'Vehicles (land)'],
-        languages: 1, // Military campaigns expose you to foreign tongues
+        languages: 1,
         equipment: [
-            'Insignia of rank',
+            'Insignia of rank (lava-forged)',
             'Trophy from fallen enemy',
-            'Deck of cards',
+            'Geothermal gauge',
             'Common clothes',
-            'Military Rations (5 days)'
+            'Field rations (5 days)'
         ],
         startingCurrency: {
             gold: 12,
@@ -168,8 +206,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Military Rank',
-            description: 'You have a military rank from your career as a soldier and can invoke your rank to gain access to military facilities.'
+            name: 'Sump-Hardened',
+            description: 'You fought in geothermal vents where the air itself burns and the cold above kills just as fast. You have advantage on Constitution saving throws against extreme heat and extreme cold. Military installations and Nordhalla holdfasts recognize your rank and grant you access.'
         },
         statModifiers: {
             strength: 2,
@@ -178,19 +216,19 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    charlatan: {
-        id: 'charlatan',
-        name: 'Charlatan',
-        description: 'You have always had a way with people. You know what makes them tick, you can tease out their hearts\' desires.',
+    debtNegotiator: {
+        id: 'debtNegotiator',
+        name: 'Debt Negotiator',
+        description: 'You learned the art of contractual negotiation studying the Neth\'s First Contract traditions in Ironjaw Port or the Atropolis canopy. Every agreement is binding, every clause a weapon, every handshake a potential trap. You understand that in Bryngloom, debt is a living thing that outlives the debtor.',
         skillProficiencies: ['Deception', 'Sleight of Hand'],
         toolProficiencies: ['Forgery kit', 'Disguise kit'],
-        languages: 1, // Worldly experience from traveling cons
+        languages: 1,
         equipment: [
-            'Disguise kit',
-            'Tools of con of choice',
+            'Contract-scroll case',
+            'Forgery kit',
+            'Measuring scales',
             'Fine clothes',
-            'Signet ring of imaginary person',
-            'Disguise accessories'
+            'Wax seals (10)'
         ],
         startingCurrency: {
             gold: 11,
@@ -198,8 +236,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'False Identity',
-            description: 'You have created a second identity that includes documentation, established acquaintances, and disguises.'
+            name: 'Contractual Eye',
+            description: 'You can spot loopholes, hidden clauses, and binding terms in any written agreement. You recognize a Neth contract by its silver-leaf binding and know the three fatal errors that void a First Contract clause. Merchants and officials treat your drafted agreements as legally sound.'
         },
         statModifiers: {
             charisma: 3,
@@ -207,18 +245,18 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    entertainer: {
-        id: 'entertainer',
-        name: 'Entertainer',
-        description: 'You thrive in front of an audience. You know how to entrance them, entertain them, and even inspire them.',
+    frostChanter: {
+        id: 'frostChanter',
+        name: 'Frost Chanter',
+        description: 'You trained in Nordhalla\'s oral-history traditions, where song preserves what the eternal cold would destroy. Your performances are literally history-keeping rituals — each verse an archive, each chorus a shield against the Milk-Grief\'s despair. In a land where the sky has not seen sunlight in eight centuries, the Frost Chanter\'s voice is a hearth.',
         skillProficiencies: ['Acrobatics', 'Performance'],
         toolProficiencies: ['Disguise kit', 'Musical instrument'],
-        languages: 1, // Traveling performers learn languages from diverse audiences
+        languages: 1,
         equipment: [
-            'Musical instrument',
-            'Favor of admirer',
-            'Costume',
-            'Theatrical makeup'
+            'Story-drum',
+            'Admirer\'s rune-token',
+            'Performance cloak',
+            'Voice-salve'
         ],
         startingCurrency: {
             gold: 13,
@@ -226,8 +264,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'By Popular Demand',
-            description: 'You can find a place to perform in any settlement, and receive modest lodging and food in return.'
+            name: 'Voice-Archive',
+            description: 'Your performances preserve history that the cold would otherwise destroy. Once per long rest, you can recount a buried tale so vividly that all who hear it gain advantage on their next History check related to that story. You can find a place to perform in any Nordhalla settlement and receive modest lodging in return.'
         },
         statModifiers: {
             charisma: 2,
@@ -236,17 +274,18 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    guildArtisan: {
-        id: 'guildArtisan',
-        name: 'Guild Artisan',
-        description: 'You are a member of an artisan\'s guild, skilled in a particular field and closely associated with other artisans.',
+    forgeWright: {
+        id: 'forgeWright',
+        name: 'Forge Wright',
+        description: 'You apprenticed in the Harath-Vault\'s great forges beneath Emberspire, the Bloodhammer Sump\'s geothermal foundries, or the iron-working halls of Ironjaw Port. You understand metal not as dead material but as living memory — every hammer-strike recorded, every alloy a conversation between elements.',
         skillProficiencies: ['Insight', 'Persuasion'],
         toolProficiencies: ['Artisan\'s tools'],
         languages: 1,
         equipment: [
-            'Artisan\'s tools',
-            'Letter of introduction from guild',
-            'Traveler\'s clothes'
+            'Smith\'s hammer',
+            'Forge-apron',
+            'Metal-sample kit',
+            'Guild letter of introduction'
         ],
         startingCurrency: {
             gold: 14,
@@ -254,8 +293,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Guild Membership',
-            description: 'Your guild provides lodging and food when needed, and will pay for your funeral if necessary.'
+            name: 'Forge-Sense',
+            description: 'You understand metal as a living memory. By touch, you can identify the origin-region and approximate age of any forged metal object, and you recognize the secret forge-marks of Harath-Vault, Bloodhammer Sump, and Ironjaw Port. Your guild provides lodging and burial rites if needed.'
         },
         statModifiers: {
             intelligence: 3,
@@ -263,16 +302,17 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    hermit: {
-        id: 'hermit',
-        name: 'Hermit',
-        description: 'You lived in seclusion for a formative part of your life. In your time apart from the clamor of society, you found quiet, solitude, and perhaps some answers.',
+    hushSurvivor: {
+        id: 'hushSurvivor',
+        name: 'Hush Survivor',
+        description: 'You lived in seclusion after witnessing the fungal hush claim someone you loved — watching Ghost-Mycelium darken their veins, dissolve their mind, and draw them into the Hush-Bogs as a mindless Spores-Born. You fortified your mind against the hush\'s seduction through isolation, but the mycelium\'s song never fully fades.',
         skillProficiencies: ['Medicine', 'Religion'],
         toolProficiencies: ['Herbalism kit'],
         languages: 1,
         equipment: [
-            'Herbalism kit',
-            'Scroll case with spiritual writings',
+            'Mycelium-testing kit',
+            'Herbal sedatives (3 doses)',
+            'Sealed journal',
             'Winter blanket',
             'Trail rations (5 days)'
         ],
@@ -282,8 +322,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Discovery',
-            description: 'You discovered a great truth about the cosmos, nature, or divine powers during your isolation.'
+            name: 'Hush-Fortified Mind',
+            description: 'Having resisted the fungal hush\'s pull, you built permanent mental defenses. You have advantage on saving throws against charm effects and psychic effects that would alter your perception or implant false memories. You can recognize the early physical signs of Ghost-Mycelium infection in others.'
         },
         statModifiers: {
             spirit: 3,
@@ -291,18 +331,19 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    outlander: {
-        id: 'outlander',
-        name: 'Outlander',
-        description: 'You grew up in the wilds, far from civilization and the comforts of town and technology.',
+    peakTracker: {
+        id: 'peakTracker',
+        name: 'Peak Tracker',
+        description: 'You navigated the Cragjaw Peaks\' vertical labyrinth — a world of perpetual blizzard where no one has seen the sky in eight generations. You learned to read the Ancestor-Spans (bridges grown from Groven calcified dead), interpret the blizzard\'s shifting moods, and survive where landmarks are buried within hours.',
         skillProficiencies: ['Athletics', 'Survival'],
         toolProficiencies: ['Musical instrument'],
         languages: 1,
         equipment: [
-            'Staff',
-            'Hunting trap',
-            'Traveler\'s clothes',
-            'Waterskin'
+            'Climbing rope (silk, 50ft)',
+            'Pitons (10)',
+            'Storm-cloak',
+            'Ancestor-Span chalk',
+            'Travel rations (5 days)'
         ],
         startingCurrency: {
             gold: 7,
@@ -310,8 +351,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Wanderer',
-            description: 'You have an excellent memory for maps and geography, and can find food and shelter for yourself and others in the wild.'
+            name: 'Ancestor-Span Reader',
+            description: 'You can read the calcified warnings left by Groven dead in the bridge-spans — stress fractures, toll-marks, and memorial grooves. You have advantage on Survival checks in mountainous and high-altitude terrain, and you can always find safe passage across an Ancestor-Span. The mountain has no mercy, only lessons you have already learned.'
         },
         statModifiers: {
             constitution: 2,
@@ -320,17 +361,18 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    sailor: {
-        id: 'sailor',
-        name: 'Sailor',
-        description: 'You sailed on a seagoing vessel for years. In that time, you faced down mighty storms, monsters of the deep, and those who wanted to sink your craft.',
+    merrowSailor: {
+        id: 'merrowSailor',
+        name: 'Merrow Sailor',
+        description: 'You sailed the Iceheart Sea from Merrowport — the lawless floating city of lashed ships anchored to a volcanic seamount. Your trade-tattoos are legal contracts inked on your skin because paper rots at sea. You have survived at least one wager with the Iceheart Sea, and you know the Brine\'s price, though you have refused to pay it — so far.',
         skillProficiencies: ['Athletics', 'Perception'],
         toolProficiencies: ['Navigator\'s tools', 'Vehicles (water)'],
-        languages: 1, // Port cities expose sailors to many tongues
+        languages: 1,
         equipment: [
             'Belaying pin',
             'Silk rope (50 feet)',
             'Lucky charm',
+            'Oilskin coat',
             'Common clothes'
         ],
         startingCurrency: {
@@ -339,8 +381,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Ship\'s Passage',
-            description: 'You can secure free passage on sailing ships for yourself and companions in exchange for work.'
+            name: 'Tattoo-Contract',
+            description: 'Your skin bears legal trade-tattoos recognized in every port on the Iceheart Sea. You can secure passage on any ship for yourself and companions in exchange for a tattoo of the debt, to be paid in labor. Port officials and Merryn captains honor tattoo-contracts as binding agreements.'
         },
         statModifiers: {
             agility: 3,
@@ -348,18 +390,19 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    merchant: {
-        id: 'merchant',
-        name: 'Merchant',
-        description: 'You have spent your life in the world of trade and commerce, buying and selling goods across distant lands. You understand the value of coin and the art of negotiation.',
+    gloomwayTrader: {
+        id: 'gloomwayTrader',
+        name: 'Gloomway Trader',
+        description: 'You traded goods across the Bryngloom Forest — dealing in memory-glass tablets, peat-bog preservations, fog-charms, and wyrd-warded curios. You learned the unspoken trade laws of the Over-Shanty\'s rope-bridges, the Drun\'s lawless mercy, and the Mist-Gate Market where memories are currency.',
         skillProficiencies: ['Insight', 'Persuasion'],
         toolProficiencies: ['Navigator\'s tools'],
-        languages: 2, // Merchants learn languages to conduct business
+        languages: 2,
         equipment: [
             'Merchant\'s scale',
-            'Sample goods',
-            'Traveler\'s clothes',
-            'Ledger'
+            'Sample goods (3)',
+            'Trade-ledger',
+            'Fog-charms (3)',
+            'Traveler\'s clothes'
         ],
         startingCurrency: {
             gold: 16,
@@ -367,8 +410,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Trade Network',
-            description: 'You have contacts in merchant guilds and trading posts across the land, allowing you to buy and sell goods at favorable prices and gather market information.'
+            name: 'Gloom-Market Pass',
+            description: 'You know the unspoken trade laws of the Over-Shanty, the Drun\'s peat-harvesting routes, and the Mist-Gate Market\'s fog-charm economy. You can find a buyer or seller for almost anything in the Bryngloom, and your trade-ledger is recognized by Neth contract-houses and Merryn tattoo-merchants alike.'
         },
         statModifiers: {
             charisma: 2,
@@ -377,19 +420,19 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    urchin: {
-        id: 'urchin',
-        name: 'Urchin',
-        description: 'You grew up on the streets alone, orphaned, and poor. You had no one to watch over you or provide for you, so you learned to provide for yourself.',
+    shantyRat: {
+        id: 'shantyRat',
+        name: 'Shanty Rat',
+        description: 'You grew up in the Over-Shanty — the hanging slum beneath Atropolis\'s canopy city of living ironwood and memory-glass. You survived among salvage, stolen identities, and the Cult of Forgotten Shadow\'s memory-trade. You learned which rope-bridges hold, which Drun toll-collectors can be avoided, and the precise value of a bottled childhood.',
         skillProficiencies: ['Sleight of Hand', 'Stealth'],
         toolProficiencies: ['Disguise kit', 'Thieves\' tools'],
-        languages: 1, // Street smarts include picking up local dialects
+        languages: 1,
         equipment: [
-            'Small knife',
-            'Map of home city',
-            'Pet mouse',
-            'Token of parents',
-            'Common clothes'
+            'Grappling hook',
+            'Rope (30ft)',
+            'Stolen signet',
+            'Shiv',
+            'Patched clothes'
         ],
         startingCurrency: {
             gold: 6,
@@ -397,8 +440,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'City Secrets',
-            description: 'You know the secret patterns and flow of cities and can find passages through the urban sprawl that others would miss.'
+            name: 'Shanty-Passage',
+            description: 'You know the secret patterns of the Over-Shanty\'s hanging slums — which rope-bridges hold weight, which Drun toll-collectors can be bribed, and where the Cult of Forgotten Shadow conducts its memory-extraction rituals. You can navigate any hanging or vertical settlement at twice the normal speed, and you can find safe passage through the Over-Shanty for yourself and companions.'
         },
         statModifiers: {
             agility: 3,
@@ -406,19 +449,19 @@ export const BACKGROUND_DATA = {
         }
     },
 
-    scholar: {
-        id: 'scholar',
-        name: 'Scholar',
-        description: 'You have dedicated your life to the pursuit of knowledge, studying in great libraries and academies. Your expertise in a particular field of study sets you apart.',
+    monolithHunter: {
+        id: 'monolithHunter',
+        name: 'Monolith Hunter',
+        description: 'You track the seven Sundered Monoliths — the shattered fragments of Sol\'s original binding seal — as their resonance shifts across the frozen world. The monoliths are waking up after centuries of silence, and their song is getting louder. You carry cold iron stakes to ground Wyrd-echoes and a journal of fragment-locations that certain powers would kill to obtain.',
         skillProficiencies: ['History', 'Investigation'],
         toolProficiencies: ['Calligrapher\'s supplies'],
-        languages: 2, // Scholars study ancient texts in various languages
+        languages: 2,
         equipment: [
-            'Bottle of ink',
-            'Quill',
-            'Parchment (10 sheets)',
-            'Academic robes',
-            'Research notes'
+            'Cold iron stakes (3)',
+            'Wyrd-detection lens',
+            'Monolith-rubbing kit',
+            'Field journal',
+            'Bog-salt pouch'
         ],
         startingCurrency: {
             gold: 12,
@@ -426,8 +469,8 @@ export const BACKGROUND_DATA = {
             copper: 0
         },
         feature: {
-            name: 'Academic Network',
-            description: 'You have connections with scholars, librarians, and academics across the realm who can provide you with access to knowledge and research materials.'
+            name: 'Wyrd-Grounding',
+            description: 'You carry cold iron stakes and know the ritual to ground Wyrd-echoes. Once per long rest, you can bind a minor Wyrd manifestation to a stake, suppressing its effects for 1 hour. You can sense the general direction of the nearest Sundered Monolith within 10 miles. Scholars and relic-hunters recognize your expertise and share fragment-lore.'
         },
         statModifiers: {
             intelligence: 4,

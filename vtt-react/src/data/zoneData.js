@@ -4,6 +4,10 @@
  * Houses TTRPG-styled points of interest for all seven regions of Mythrill,
  * complete with danger levels, factions, connections, and Wyrd-creature listings.
  * Written in the immersive Mythrill voice.
+ *
+ * CONVENTION: Zone IDs use hyphens (e.g., 'greymark-keep').
+ * The loreDictionary uses underscores for location termIds (e.g., 'greymark_keep').
+ * Cross-referencing code must convert between these formats.
  */
 
 export const ZONE_DATA = [
@@ -17,7 +21,7 @@ export const ZONE_DATA = [
     type: 'city',
     description: 'The ancient, towering stronghold of House Thalreth, constructed from wet grey peat-stone and massive petrified ironwood logs. It stands as the primary sanctuary in the Reach, its massive fireplaces fueled by resinous heartwood to ward off both the biting cold and the encroaching memory-eating fog.',
     dangerLevel: 'low',
-    factions: ['House Thalreth', 'Scribe-Sentinels'],
+    factions: ['house-thalreth', 'scribe-sentinels'],
     connections: ['the-shallows', 'scribes-tower'],
     wyrdCreatures: []
   },
@@ -39,7 +43,7 @@ export const ZONE_DATA = [
     type: 'settlement',
     description: 'A vertical cathedral of parchment and ink, built into the hollow shell of a dead, petrified ironwood. Here, archivists work in silent shifts, copying maps and genealogies onto heavy calfskin vellum to preserve their history before the mists erase their minds.',
     dangerLevel: 'low',
-    factions: ['Scribe-Sentinels', 'House Thalreth'],
+    factions: ['scribe-sentinels', 'house-thalreth'],
     connections: ['greymark-keep', 'ledger-halls'],
     wyrdCreatures: []
   },
@@ -61,7 +65,7 @@ export const ZONE_DATA = [
     type: 'wilderness',
     description: 'The deepest, darkest grove in the Frostwood Reach, where the ironwoods grow so dense that the mist forms a heavy, stagnant lake on the forest floor. At its center stands a titanic, glowing white tree whose sap remains warm, attracting both desperate survivalists and horrific predators.',
     dangerLevel: 'extreme',
-    factions: ['The Unshorn Briaran'],
+    factions: ['unshorn-briaran'],
     connections: ['the-shallows', 'ledger-halls'],
     wyrdCreatures: ['Gambrel', 'Gref']
   },
@@ -76,7 +80,7 @@ export const ZONE_DATA = [
     type: 'tomb',
     description: 'A subterranean cathedral of blue ice and basalt, carved deep beneath the Nordhalla glaciers. It serves as the ultimate resting place for the Skald clans, who chisel their ancestors\' histories into glacier walls so they will be preserved forever in stasis.',
     dangerLevel: 'medium',
-    factions: ['House Skalvyr', 'Skald Keepers'],
+    factions: ['house-skalvyr', 'Skald Keepers'],
     connections: ['fjord-gate', 'rimors-hearth'],
     wyrdCreatures: ['Stel']
   },
@@ -87,7 +91,7 @@ export const ZONE_DATA = [
     type: 'settlement',
     description: 'A deep, steam-venting volcanic crater that serves as the industrial heart of Nordhalla. Surrounded by towering walls of ice, the geothermal heat is channeled into massive iron smelters where the Berserkers forge their runic cold-iron axes.',
     dangerLevel: 'medium',
-    factions: ['Bloodhammer Clan', 'House Skalvyr'],
+    factions: ['Bloodhammer Clan', 'house-skalvyr'],
     connections: ['fjord-gate', 'hunger-glaciers'],
     wyrdCreatures: []
   },
@@ -98,7 +102,7 @@ export const ZONE_DATA = [
     type: 'settlement',
     description: 'A massive coastal harbor nestled inside a deep black fjord, guarded by towering stone doors that slide shut to block sea-storms. It is the primary trade hub of the north, linking Nordhalla to the Iceheart Sea.',
     dangerLevel: 'low',
-    factions: ['House Skalvyr', 'Sea-Guard'],
+    factions: ['house-skalvyr', 'Sea-Guard'],
     connections: ['frozen-archive', 'bloodhammer-sump'],
     wyrdCreatures: []
   },
@@ -135,7 +139,7 @@ export const ZONE_DATA = [
     type: 'city',
     description: 'The primary fortress of House Tesshan, built into a titanic cavern high on the mountain peaks. Protected from the eternal blizzards by heavy iron blast-gates, the city is a vertical network of stone arches, smelting galleries, and steam-ducts.',
     dangerLevel: 'low',
-    factions: ['House Tesshan', 'Sump-Miners'],
+    factions: ['house-tesshan', 'Sump-Miners'],
     connections: ['the-spans', 'sump-galleries'],
     wyrdCreatures: []
   },
@@ -192,7 +196,7 @@ export const ZONE_DATA = [
     regionId: 'sundale',
     name: 'The Harath-Vault',
     type: 'ruin',
-    description: 'The titanic, iron-sealed vault constructed beneath Sundale by the seven noble families to bind the dying star Sol. Though the seal was shattered during the Great Breach, the vault remains a massive, basalt cathedral of heat, glowing with dying solar embers.',
+    description: 'The massive subterranean capital of the Emberth forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun\'s death. It serves as both sacred temple to the Solbrand and industrial forge-caldera where the Korr Emberth tend the eternal ember in holy silence.',
     dangerLevel: 'extreme',
     factions: ['Solvarn Martyrs', 'Emberth Watchers'],
     connections: ['great-forge', 'emberspire-caldera'],
@@ -205,7 +209,7 @@ export const ZONE_DATA = [
     type: 'city',
     description: 'A sprawling city of black iron and basalt built inside a volcanic cavern. Warmed by a branch of the world\'s magma-core, the Emberth forge-masters maintain the massive, geothermal bellows that power the world\'s largest smelting operations, producing refined cold-iron for all seven continents.',
     dangerLevel: 'low',
-    factions: ['Emberth Forge-Clans', 'House Solvan'],
+    factions: ['Emberth Forge-Clans', 'house-solvan'],
     connections: ['harath-vault', 'basalt-shyr'],
     wyrdCreatures: []
   },
@@ -227,7 +231,7 @@ export const ZONE_DATA = [
     type: 'settlement',
     description: 'A trade outpost built atop a series of cooling basalt columns on the border between Sundale and the Gloom Forest. It serves as the primary trade gateway, exchanging refined metal and volcanic coal for Bryngloom fungal-lights and timber.',
     dangerLevel: 'medium',
-    factions: ['House Solvan', 'Kessen Merchants'],
+    factions: ['house-solvan', 'Kessen Merchants'],
     connections: ['great-forge', 'cinder-badlands'],
     wyrdCreatures: []
   },
@@ -251,9 +255,9 @@ export const ZONE_DATA = [
     regionId: 'iceheart-sea',
     name: 'Merrowport',
     type: 'city',
-    description: 'A magnificent, floating city of wood and iron, anchored to a series of giant, non-melting ice-shelves. Warmed by deep geothermal ocean vents, Merrowport is the primary maritime trade hub, filled with Merryn captains, Neth brokers, and northern sailors.',
+    description: 'A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Neth brokers, and northern sailors.',
     dangerLevel: 'low',
-    factions: ['House Mereval', 'Merryn Cartographers'],
+    factions: ['house-mereval', 'Merryn Cartographers'],
     connections: ['ironjaw-port', 'gale-storm-shallows'],
     wyrdCreatures: []
   },
@@ -312,7 +316,7 @@ export const ZONE_DATA = [
     type: 'city',
     description: 'The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes.',
     dangerLevel: 'low',
-    factions: ['House Ordavan', 'Synod Scribes'],
+    factions: ['house-ordavan', 'Synod Scribes'],
     connections: ['mound-camps', 'ancestor-mounds'],
     wyrdCreatures: []
   },

@@ -177,7 +177,7 @@ const ConditionalDisplay = ({ triggerName, settings, formulas, effectType, isDeb
   // Determine damage/element type based on effect type and settings
   const getDamageTypeDisplay = () => {
     if (baseType === 'damage') {
-      const elementType = settings?.elementType || 'Fire';
+      const elementType = settings?.elementType || 'ember';
       const damageType = settings?.damageType === 'dot' ? 'DoT' :
         (settings?.damageType?.charAt(0).toUpperCase() + settings?.damageType?.slice(1) ||
           (subType === 'dot' ? 'DoT' : 'Direct'));
@@ -249,7 +249,7 @@ const ConditionalDisplay = ({ triggerName, settings, formulas, effectType, isDeb
   // Get the appropriate icon for the damage/element type
   const getDamageTypeIcon = () => {
     if (baseType === 'damage') {
-      const elementType = settings?.elementType?.toLowerCase() || 'fire';
+      const elementType = settings?.elementType?.toLowerCase() || 'ember';
       return `effect-icon-${elementType}`;
     }
     return null;
@@ -518,7 +518,7 @@ const EnhancedEffectPreview = ({
                   value={<span className="effect-preview-formula">{baseConfig.formula || '1d6 + INT'}</span>}
                 />
                 <PropertyDisplay
-                  icon={`effect-icon-${baseConfig.elementType?.toLowerCase() || 'fire'}`}
+                  icon={`effect-icon-${baseConfig.elementType?.toLowerCase() || 'ember'}`}
                   label={
                     <>
                       <img
@@ -536,14 +536,14 @@ const EnhancedEffectPreview = ({
                     <>
                       <img
                         src={getAbilityIconUrl('Fire/Flame Burst', 'abilities')}
-                        alt={baseConfig.elementType || 'Fire'}
+                        alt={baseConfig.elementType || 'ember'}
                         className="wow-element-icon"
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = getAbilityIconUrl('Utility/Utility', 'abilities');
                         }}
                       />
-                      {baseConfig.elementType || 'Fire'} ({baseConfig.damageType === 'dot' ? 'DoT' :
+                      {baseConfig.elementType || 'ember'} ({baseConfig.damageType === 'dot' ? 'DoT' :
                         baseConfig.damageType?.charAt(0).toUpperCase() + baseConfig.damageType?.slice(1) || 'Direct'})
                     </>
                   }

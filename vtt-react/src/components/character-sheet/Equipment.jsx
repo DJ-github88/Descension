@@ -9,7 +9,7 @@ import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import UnequipContextMenu from '../equipment/UnequipContextMenu';
-import ClassResourceBar from '../hud/ClassResourceBar';
+const ClassResourceBar = React.lazy(() => import('../hud/ClassResourceBar'));
 import { isOffHandDisabled } from '../../utils/equipmentUtils';
 import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
@@ -1050,34 +1050,29 @@ export default function CharacterPanel() {
                                     <option value="Pyrofiend">Pyrofiend</option>
                                     <option value="Minstrel">Minstrel</option>
                                     <option value="Chronarch">Chronarch</option>
-                                    <option value="Chaos Weaver">Chaos Weaver</option>
-                                    <option value="Fate Weaver">Fate Weaver</option>
-                                    <option value="Gambler">Gambler</option>
+                                     <option value="Harbinger">Harbinger</option>
+                                    <option value="Gambit">Gambit</option>
                                     <option value="Martyr">Martyr</option>
                                     <option value="False Prophet">False Prophet</option>
-                                    <option value="Exorcist">Exorcist</option>
-                                    <option value="Oracle">Oracle</option>
+                                     <option value="Inquisitor">Inquisitor</option>
+
+                                    <option value="Augur">Augur</option>
                                     <option value="Plaguebringer">Plaguebringer</option>
-                                    <option value="Lichborne">Lichborne</option>
-                                    <option value="Deathcaller">Deathcaller</option>
+                                    <option value="Revenant">Revenant</option>
                                     <option value="Spellguard">Spellguard</option>
-                                    <option value="Inscriptor">Inscriptor</option>
+                                    <option value="Animist">Animist</option>
                                     <option value="Arcanoneer">Arcanoneer</option>
-                                    <option value="Witch Doctor">Witch Doctor</option>
-                                    <option value="Formbender">Formbender</option>
-                                    <option value="Primalist">Primalist</option>
+                                    <option value="Shaper">Shaper</option>
                                     <option value="Berserker">Berserker</option>
-                                    <option value="Dreadnaught">Dreadnaught</option>
-                                    <option value="Titan">Titan</option>
+                                    {/* 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization) */}
+                                    {/* Titan removed (absorbed into Warden) */}
                                     <option value="Toxicologist">Toxicologist</option>
-                                    <option value="Covenbane">Covenbane</option>
-                                    <option value="Bladedancer">Bladedancer</option>
+
                                     <option value="Lunarch">Lunarch</option>
-                                    <option value="Huntress">Huntress</option>
+                                    <option value="Apex">Apex</option>
                                     <option value="Warden">Warden</option>
                                     <option value="Augur">Augur</option>
-                                    <option value="Doomsayer">Doomsayer</option>
-                                </select>
+                                 </select>
                             </div>
 
                             {/* Discipline selection removed */}
@@ -1651,13 +1646,15 @@ export default function CharacterPanel() {
                         <div className="class-resource-section">
                             <h4 className="resource-section-title">{classResourceConfig.name}</h4>
                             <div className="class-resource-display">
-                                <ClassResourceBar
-                                    characterClass={characterClass}
-                                    classResource={classResource}
-                                    character={{ health, mana, actionPoints }}
-                                    size="large"
-                                    onClassResourceUpdate={dataSource.updateClassResource || null}
-                                />
+                                <React.Suspense fallback={<div className="class-resource-loading">Loading...</div>}>
+                                    <ClassResourceBar
+                                        characterClass={characterClass}
+                                        classResource={classResource}
+                                        character={{ health, mana, actionPoints }}
+                                        size="large"
+                                        onClassResourceUpdate={dataSource.updateClassResource || null}
+                                    />
+                                </React.Suspense>
                             </div>
                             <div className="class-resource-details">
                                 <div className="resource-description">

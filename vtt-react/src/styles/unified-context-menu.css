@@ -1,4 +1,4 @@
-/* Unified Context Menu - Inscriptor-Inspired Warm Theme */
+/* Unified Context Menu - Animist-Inspired Warm Theme */
 /* Clean, readable, and professional design with warm beige/cream colors */
 
 .unified-context-menu {
@@ -37,7 +37,7 @@
 }
 
 /* Extra compact for Fateweaver menu */
-.unified-context-menu.compact.fateweaver-menu-container {
+.unified-context-menu.compact.gambit-menu-container {
   width: 200px;
   min-width: 180px;
 }
@@ -54,26 +54,14 @@
   min-width: 180px;
 }
 
-/* Extra compact for Exorcist menu */
-.unified-context-menu.compact.exorcist-menu-container {
-  width: 200px;
-  min-width: 180px;
-}
-
-/* Extra compact for Oracle menu */
-.unified-context-menu.compact.oracle-menu-container {
-  width: 200px;
-  min-width: 180px;
-}
-
 /* Extra compact for Berserker menu */
 .unified-context-menu.compact.berserker-menu-container {
   width: 200px;
   min-width: 180px;
 }
 
-/* Extra compact for Bladedancer menu */
-.unified-context-menu.compact.bladedancer-menu-container {
+/* Extra compact for Shaper menu */
+.unified-context-menu.compact.shaper-menu-container {
   width: 200px;
   min-width: 180px;
 }
@@ -84,33 +72,28 @@
   min-width: 180px;
 }
 
-.unified-context-menu.compact.dreadnaught-drp-menu-container {
+.unified-context-menu.compact.shaper-wi-menu-container {
   width: 200px;
   min-width: 180px;
 }
 
-.unified-context-menu.compact.formbender-wi-menu-container {
+.unified-context-menu.compact.shaper-form-menu-container {
   width: 200px;
   min-width: 180px;
 }
 
-.unified-context-menu.compact.formbender-form-menu-container {
-  width: 200px;
-  min-width: 180px;
-}
-
-.unified-context-menu.compact.primalist-synergy-menu-container {
+.unified-context-menu.compact.animist-synergy-menu-container {
   width: 180px;
   min-width: 160px;
 }
 
-.unified-context-menu.compact.gambler-fp-menu-container {
+.unified-context-menu.compact.gambit-fp-menu-container {
   width: 200px;
   min-width: 180px;
 }
 
 /* Extra compact for Gambler menu */
-.unified-context-menu.compact.gambler-menu-container {
+.unified-context-menu.compact.gambit-menu-container {
   width: 240px;
   min-width: 220px;
 }
@@ -121,29 +104,18 @@
   min-width: 200px;
 }
 
-/* Extra compact for Deathcaller menu */
-.unified-context-menu.compact.deathcaller-menu-container {
-  width: 240px;
-  min-width: 220px;
-}
-
 /* Extra compact for Spellguard menu */
 .unified-context-menu.compact.spellguard-menu-container {
   width: 240px;
   min-width: 220px;
 }
 
-.unified-context-menu.compact.huntress-qm-menu-container {
+.unified-context-menu.compact.apex-qm-menu-container {
   width: 200px;
   min-width: 180px;
 }
 
-.unified-context-menu.compact.inscriptor-menu-container {
-  width: 200px;
-  min-width: 180px;
-}
-
-.unified-context-menu.compact.lichborne-menu-container {
+.unified-context-menu.compact.animist-menu-container {
   width: 200px;
   min-width: 180px;
 }
@@ -800,31 +772,31 @@
 }
 
 /* Compact Fateweaver Menu Styles */
-.unified-context-menu .fateweaver-menu {
+.unified-context-menu .gambit-menu {
   padding: 8px;
 }
 
-.unified-context-menu .fateweaver-menu .menu-title {
+.unified-context-menu .gambit-menu .menu-title {
   font-size: 10px;
   margin-bottom: 6px;
   padding-bottom: 4px;
 }
 
-.fateweaver-actions {
+.gambit-actions {
   margin-bottom: 6px;
 }
 
-.fateweaver-action-row {
+.gambit-action-row {
   display: flex;
   gap: 4px;
   margin-bottom: 4px;
 }
 
-.fateweaver-action-row:last-child {
+.gambit-action-row:last-child {
   margin-bottom: 0;
 }
 
-.fateweaver-action-btn {
+.gambit-action-btn {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -844,43 +816,43 @@
   min-height: 36px;
 }
 
-.fateweaver-action-btn:hover {
+.gambit-action-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.fateweaver-action-btn.gain {
+.gambit-action-btn.gain {
   background: rgba(230, 255, 230, 0.6);
   border-color: rgba(34, 139, 34, 0.5);
 }
 
-.fateweaver-action-btn.gain:hover {
+.gambit-action-btn.gain:hover {
   background: rgba(204, 255, 204, 0.8);
   border-color: #228b22;
 }
 
-.fateweaver-action-btn.spend {
+.gambit-action-btn.spend {
   background: rgba(255, 240, 230, 0.6);
   border-color: rgba(178, 34, 34, 0.5);
 }
 
-.fateweaver-action-btn.spend:hover {
+.gambit-action-btn.spend:hover {
   background: rgba(255, 204, 204, 0.8);
   border-color: #b22222;
 }
 
-.fateweaver-action-btn i {
+.gambit-action-btn i {
   font-size: 12px;
 }
 
-.fateweaver-action-btn span {
+.gambit-action-btn span {
   font-size: 10px;
   font-weight: 600;
 }
 
-.fateweaver-specs {
+.gambit-specs {
   display: flex;
   gap: 4px;
   justify-content: center;
@@ -889,7 +861,7 @@
   border-top: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.fateweaver-spec-btn {
+.gambit-spec-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -905,14 +877,14 @@
   min-height: 32px;
 }
 
-.fateweaver-spec-btn:hover {
+.gambit-spec-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.fateweaver-spec-btn.active {
+.gambit-spec-btn.active {
   background: rgba(213, 203, 176, 0.9);
   border-color: #8b7355;
   border-width: 2px;
@@ -920,7 +892,7 @@
   font-weight: 600;
 }
 
-.fateweaver-quick-actions {
+.gambit-quick-actions {
   display: flex;
   gap: 4px;
   justify-content: center;
@@ -928,7 +900,7 @@
   border-top: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.fateweaver-quick-btn {
+.gambit-quick-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -944,7 +916,7 @@
   min-height: 28px;
 }
 
-.fateweaver-quick-btn:hover {
+.gambit-quick-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
@@ -1250,520 +1222,6 @@
   border-color: #b22222;
 }
 
-/* Compact Exorcist Menu Styles */
-.unified-context-menu .exorcist-menu {
-  padding: 8px;
-}
-
-.unified-context-menu .exorcist-menu .menu-title {
-  font-size: 10px;
-  margin-bottom: 6px;
-  padding-bottom: 4px;
-}
-
-.exorcist-slot-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.exorcist-control-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-}
-
-.exorcist-control-btn:hover:not(:disabled) {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.exorcist-control-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.exorcist-slot-display {
-  font-size: 11px;
-  font-weight: 600;
-  color: #3a3a3a;
-  min-width: 50px;
-  text-align: center;
-}
-
-.exorcist-dominance-controls {
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.exorcist-dominance-row {
-  display: flex;
-  gap: 4px;
-}
-
-.exorcist-action-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: 4px 6px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 9px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 36px;
-}
-
-.exorcist-action-btn:hover:not(:disabled) {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.exorcist-action-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.exorcist-action-btn.decrease {
-  background: rgba(255, 240, 230, 0.6);
-  border-color: rgba(178, 34, 34, 0.5);
-}
-
-.exorcist-action-btn.decrease:hover:not(:disabled) {
-  background: rgba(255, 204, 204, 0.8);
-  border-color: #b22222;
-}
-
-.exorcist-action-btn.increase {
-  background: rgba(230, 255, 230, 0.6);
-  border-color: rgba(34, 139, 34, 0.5);
-}
-
-.exorcist-action-btn.increase:hover:not(:disabled) {
-  background: rgba(204, 255, 204, 0.8);
-  border-color: #228b22;
-}
-
-.exorcist-action-btn.restore {
-  background: rgba(255, 255, 200, 0.6);
-  border-color: rgba(218, 165, 32, 0.5);
-}
-
-.exorcist-action-btn.restore:hover:not(:disabled) {
-  background: rgba(255, 255, 180, 0.8);
-  border-color: #daa520;
-}
-
-.exorcist-action-btn i {
-  font-size: 12px;
-}
-
-.exorcist-action-btn span {
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.exorcist-demon-management {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.exorcist-demon-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 32px;
-}
-
-.exorcist-demon-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.exorcist-demon-btn.danger {
-  background: rgba(255, 230, 230, 0.6);
-  border-color: rgba(178, 34, 34, 0.5);
-  color: #8b3a2e;
-}
-
-.exorcist-demon-btn.danger:hover {
-  background: rgba(255, 204, 204, 0.8);
-  border-color: #b22222;
-}
-
-.exorcist-slots-controls {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.exorcist-slot-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 28px;
-}
-
-.exorcist-slot-btn:hover:not(:disabled) {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.exorcist-slot-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.exorcist-slot-btn.danger {
-  background: rgba(255, 230, 230, 0.6);
-  border-color: rgba(178, 34, 34, 0.5);
-  color: #8b3a2e;
-}
-
-.exorcist-slot-btn.danger:hover:not(:disabled) {
-  background: rgba(255, 204, 204, 0.8);
-  border-color: #b22222;
-}
-
-.exorcist-quick-actions {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  padding-top: 4px;
-}
-
-.exorcist-quick-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 28px;
-}
-
-.exorcist-quick-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Compact Oracle Menu Styles */
-.unified-context-menu .oracle-menu {
-  padding: 8px;
-}
-
-.unified-context-menu .oracle-menu .menu-title {
-  font-size: 10px;
-  margin-bottom: 6px;
-  padding-bottom: 4px;
-}
-
-.oracle-specs {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.oracle-spec-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 32px;
-}
-
-.oracle-spec-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.oracle-spec-btn.active {
-  background: rgba(213, 203, 176, 0.9);
-  border-color: #8b7355;
-  border-width: 2px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-.oracle-adjust-controls {
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.oracle-adjust-row {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 4px;
-}
-
-.oracle-action-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: 4px 6px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 9px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 36px;
-}
-
-.oracle-action-btn:hover:not(:disabled) {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.oracle-action-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.oracle-action-btn.decrease {
-  background: rgba(255, 240, 230, 0.6);
-  border-color: rgba(178, 34, 34, 0.5);
-}
-
-.oracle-action-btn.decrease:hover:not(:disabled) {
-  background: rgba(255, 204, 204, 0.8);
-  border-color: #b22222;
-}
-
-.oracle-action-btn.increase {
-  background: rgba(230, 255, 230, 0.6);
-  border-color: rgba(34, 139, 34, 0.5);
-}
-
-.oracle-action-btn.increase:hover:not(:disabled) {
-  background: rgba(204, 255, 204, 0.8);
-  border-color: #228b22;
-}
-
-.oracle-action-btn.special {
-  background: rgba(255, 255, 200, 0.6);
-  border-color: rgba(218, 165, 32, 0.5);
-}
-
-.oracle-action-btn.special:hover:not(:disabled) {
-  background: rgba(255, 255, 180, 0.8);
-  border-color: #daa520;
-}
-
-.oracle-action-btn i {
-  font-size: 12px;
-}
-
-.oracle-action-btn span {
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.oracle-quick-adjust-row {
-  display: flex;
-  gap: 4px;
-}
-
-.oracle-quick-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 28px;
-}
-
-.oracle-quick-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.oracle-predictions {
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.oracle-prediction-row {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 4px;
-}
-
-.oracle-prediction-row:last-child {
-  margin-bottom: 0;
-}
-
-.oracle-prediction-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: 4px 6px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 9px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 36px;
-}
-
-.oracle-prediction-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.oracle-prediction-btn.success {
-  background: rgba(230, 255, 230, 0.6);
-  border-color: rgba(34, 139, 34, 0.5);
-}
-
-.oracle-prediction-btn.success:hover {
-  background: rgba(204, 255, 204, 0.8);
-  border-color: #228b22;
-}
-
-.oracle-prediction-btn.danger {
-  background: rgba(255, 240, 230, 0.6);
-  border-color: rgba(178, 34, 34, 0.5);
-}
-
-.oracle-prediction-btn.danger:hover {
-  background: rgba(255, 204, 204, 0.8);
-  border-color: #b22222;
-}
-
-.oracle-prediction-btn i {
-  font-size: 12px;
-}
-
-.oracle-prediction-btn span {
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.oracle-other-actions {
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.oracle-other-actions .oracle-action-btn {
-  width: 100%;
-}
-
-.oracle-quick-actions {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  padding-top: 4px;
-}
-
-.oracle-quick-actions .oracle-quick-btn {
-  flex: 1;
-}
-
 /* Compact Berserker Menu Styles */
 .unified-context-menu .berserker-menu {
   padding: 8px;
@@ -1923,32 +1381,32 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Compact Bladedancer Menu Styles */
-.unified-context-menu .bladedancer-menu {
+/* Compact Shaper Menu Styles */
+.unified-context-menu .shaper-menu {
   padding: 8px;
 }
 
-.unified-context-menu .bladedancer-menu .menu-title {
+.unified-context-menu .shaper-menu .menu-title {
   font-size: 10px;
   margin-bottom: 6px;
   padding-bottom: 4px;
 }
 
-.bladedancer-actions {
+.shaper-actions {
   margin-bottom: 6px;
 }
 
-.bladedancer-action-row {
+.shaper-action-row {
   display: flex;
   gap: 4px;
   margin-bottom: 4px;
 }
 
-.bladedancer-action-row:last-child {
+.shaper-action-row:last-child {
   margin-bottom: 0;
 }
 
-.bladedancer-action-btn {
+.shaper-action-btn {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1968,48 +1426,48 @@
   min-height: 36px;
 }
 
-.bladedancer-action-btn:hover:not(:disabled) {
+.shaper-action-btn:hover:not(:disabled) {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.bladedancer-action-btn:disabled {
+.shaper-action-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.bladedancer-action-btn.gain {
+.shaper-action-btn.gain {
   background: rgba(230, 255, 230, 0.6);
   border-color: rgba(34, 139, 34, 0.5);
 }
 
-.bladedancer-action-btn.gain:hover:not(:disabled) {
+.shaper-action-btn.gain:hover:not(:disabled) {
   background: rgba(204, 255, 204, 0.8);
   border-color: #228b22;
 }
 
-.bladedancer-action-btn.spend {
+.shaper-action-btn.spend {
   background: rgba(255, 240, 230, 0.6);
   border-color: rgba(178, 34, 34, 0.5);
 }
 
-.bladedancer-action-btn.spend:hover:not(:disabled) {
+.shaper-action-btn.spend:hover:not(:disabled) {
   background: rgba(255, 204, 204, 0.8);
   border-color: #b22222;
 }
 
-.bladedancer-action-btn i {
+.shaper-action-btn i {
   font-size: 12px;
 }
 
-.bladedancer-action-btn span {
+.shaper-action-btn span {
   font-size: 10px;
   font-weight: 600;
 }
 
-.bladedancer-stances {
+.shaper-stances {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
@@ -2018,7 +1476,7 @@
   border-bottom: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.bladedancer-stance-btn {
+.shaper-stance-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2038,34 +1496,34 @@
   position: relative;
 }
 
-.bladedancer-stance-btn:hover:not(:disabled) {
+.shaper-stance-btn:hover:not(:disabled) {
   background: rgba(213, 203, 176, 0.8);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.bladedancer-stance-btn:disabled {
+.shaper-stance-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.bladedancer-stance-btn.active {
+.shaper-stance-btn.active {
   background: rgba(213, 203, 176, 0.9);
   border-width: 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.bladedancer-stance-btn i {
+.shaper-stance-btn i {
   font-size: 14px;
 }
 
-.bladedancer-stance-name {
+.shaper-stance-name {
   font-size: 8px;
   text-align: center;
   line-height: 1.2;
 }
 
-.bladedancer-stance-cost {
+.shaper-stance-cost {
   position: absolute;
   top: 2px;
   right: 2px;
@@ -2073,14 +1531,14 @@
   font-weight: bold;
 }
 
-.bladedancer-quick-actions {
+.shaper-quick-actions {
   display: flex;
   gap: 4px;
   justify-content: center;
   padding-top: 4px;
 }
 
-.bladedancer-quick-btn {
+.shaper-quick-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -2096,7 +1554,7 @@
   min-height: 28px;
 }
 
-.bladedancer-quick-btn:hover {
+.shaper-quick-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
@@ -2236,17 +1694,17 @@
 }
 
 /* Compact Gambler Menu Styles */
-.unified-context-menu .gambler-menu {
+.unified-context-menu .gambit-menu {
   padding: 8px;
 }
 
-.unified-context-menu .gambler-menu .menu-title {
+.unified-context-menu .gambit-menu .menu-title {
   font-size: 10px;
   margin-bottom: 6px;
   padding-bottom: 4px;
 }
 
-.gambler-specs {
+.gambit-specs {
   display: flex;
   gap: 4px;
   margin-bottom: 8px;
@@ -2254,7 +1712,7 @@
   border-bottom: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.gambler-spec-btn {
+.gambit-spec-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -2270,35 +1728,35 @@
   min-height: 32px;
 }
 
-.gambler-spec-btn:hover {
+.gambit-spec-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.gambler-spec-btn.active {
+.gambit-spec-btn.active {
   background: rgba(255, 215, 0, 0.3);
   border-color: rgba(255, 200, 0, 0.8);
   color: #8b6914;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
 }
 
-.gambler-actions {
+.gambit-actions {
   margin-bottom: 6px;
 }
 
-.gambler-action-row {
+.gambit-action-row {
   display: flex;
   gap: 4px;
   margin-bottom: 4px;
 }
 
-.gambler-action-row:last-child {
+.gambit-action-row:last-child {
   margin-bottom: 0;
 }
 
-.gambler-action-btn {
+.gambit-action-btn {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -2318,45 +1776,45 @@
   min-height: 36px;
 }
 
-.gambler-action-btn:hover {
+.gambit-action-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.gambler-action-btn.gain {
+.gambit-action-btn.gain {
   background: rgba(255, 250, 240, 0.7);
   border-color: rgba(255, 200, 0, 0.6);
 }
 
-.gambler-action-btn.gain:hover {
+.gambit-action-btn.gain:hover {
   background: rgba(255, 240, 200, 0.9);
   border-color: rgba(255, 200, 0, 0.8);
   box-shadow: 0 2px 6px rgba(255, 200, 0, 0.3);
 }
 
-.gambler-action-btn.spend {
+.gambit-action-btn.spend {
   background: rgba(255, 240, 230, 0.7);
   border-color: rgba(220, 20, 60, 0.5);
 }
 
-.gambler-action-btn.spend:hover {
+.gambit-action-btn.spend:hover {
   background: rgba(255, 204, 204, 0.8);
   border-color: rgba(220, 20, 60, 0.7);
   box-shadow: 0 2px 6px rgba(220, 20, 60, 0.3);
 }
 
-.gambler-action-btn i {
+.gambit-action-btn i {
   font-size: 12px;
 }
 
-.gambler-action-btn span {
+.gambit-action-btn span {
   font-size: 10px;
   font-weight: 600;
 }
 
-.gambler-quick-actions {
+.gambit-quick-actions {
   display: flex;
   gap: 4px;
   justify-content: center;
@@ -2364,7 +1822,7 @@
   border-top: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.gambler-quick-btn {
+.gambit-quick-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -2380,7 +1838,7 @@
   min-height: 28px;
 }
 
-.gambler-quick-btn:hover {
+.gambit-quick-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
@@ -2500,229 +1958,6 @@
   border-color: #8b7355;
   border-width: 2px;
   box-shadow: 0 0 8px rgba(139, 115, 85, 0.4);
-}
-
-/* Compact Deathcaller Menu Styles */
-.unified-context-menu .deathcaller-menu {
-  padding: 8px;
-}
-
-.unified-context-menu .deathcaller-menu .menu-title {
-  font-size: 10px;
-  margin-bottom: 6px;
-  padding-bottom: 4px;
-}
-
-.deathcaller-paths-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  margin-bottom: 6px;
-}
-
-.deathcaller-path-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 6px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 8px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  text-align: left;
-  min-height: 32px;
-}
-
-.deathcaller-path-btn:hover:not(:disabled) {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.deathcaller-path-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.deathcaller-path-btn.active {
-  background: rgba(160, 140, 112, 0.4);
-  border-color: #8b7355;
-  border-width: 2px;
-  box-shadow: 0 0 8px rgba(139, 115, 85, 0.4);
-}
-
-.deathcaller-path-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  background: rgba(160, 140, 112, 0.2);
-  border: 1px solid rgba(160, 140, 112, 0.4);
-  border-radius: 3px;
-  font-size: 8px;
-  font-weight: 700;
-  color: #3a3a3a;
-  flex-shrink: 0;
-}
-
-.deathcaller-path-btn.active .deathcaller-path-number {
-  background: rgba(139, 115, 85, 0.4);
-  border-color: #8b7355;
-  color: #8b7355;
-}
-
-.deathcaller-path-btn i {
-  font-size: 12px;
-  color: #3a3a3a;
-  flex-shrink: 0;
-  width: 14px;
-  text-align: center;
-}
-
-.deathcaller-path-btn.active i {
-  color: #8b7355;
-}
-
-.deathcaller-path-name {
-  flex: 1;
-  font-size: 8px;
-  font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.deathcaller-quick-actions {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  padding-top: 4px;
-  border-top: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.deathcaller-quick-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 5px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 9px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 28px;
-}
-
-.deathcaller-quick-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.deathcaller-menu-section-label {
-  font-size: 9px;
-  color: #8b7355;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-}
-
-.deathcaller-tokens-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  margin-bottom: 4px;
-}
-
-.deathcaller-token-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 5px 6px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 9px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-  min-height: 32px;
-}
-
-.deathcaller-token-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.deathcaller-token-btn.gain {
-  background: rgba(255, 250, 240, 0.7);
-  border-color: rgba(34, 139, 34, 0.5);
-}
-
-.deathcaller-token-btn.gain:hover {
-  background: rgba(230, 255, 230, 0.8);
-  border-color: rgba(34, 139, 34, 0.7);
-  box-shadow: 0 2px 6px rgba(34, 139, 34, 0.3);
-}
-
-.deathcaller-token-btn.spend {
-  background: rgba(255, 240, 230, 0.7);
-  border-color: rgba(220, 20, 60, 0.5);
-}
-
-.deathcaller-token-btn.spend:hover {
-  background: rgba(255, 204, 204, 0.8);
-  border-color: rgba(220, 20, 60, 0.7);
-  box-shadow: 0 2px 6px rgba(220, 20, 60, 0.3);
-}
-
-.deathcaller-token-btn.danger {
-  background: rgba(255, 230, 230, 0.7);
-  border-color: rgba(178, 34, 34, 0.6);
-  color: #8b3a2e;
-}
-
-.deathcaller-token-btn.danger:hover {
-  background: rgba(255, 204, 204, 0.9);
-  border-color: #b22222;
-  box-shadow: 0 2px 8px rgba(178, 34, 34, 0.4);
-}
-
-.deathcaller-token-btn i {
-  font-size: 11px;
-}
-
-.deathcaller-token-btn span {
-  font-size: 9px;
-  font-weight: 600;
-}
-
-.deathcaller-quick-btn i {
-  font-size: 11px;
-}
-
-.deathcaller-quick-btn span {
-  font-size: 9px;
 }
 
 /* Compact Spellguard Menu Styles */
@@ -2857,29 +2092,29 @@
   border-color: rgba(150, 60, 60, 0.8);
 }
 
-/* Compact Inscriptor Menu Styles */
-.unified-context-menu .inscriptor-menu {
+/* Compact Animist Menu Styles */
+.unified-context-menu .animist-menu {
   padding: 8px;
 }
 
-.unified-context-menu .inscriptor-menu .menu-title {
+.unified-context-menu .animist-menu .menu-title {
   font-size: 10px;
   margin-bottom: 6px;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.inscriptor-spec-section {
+.animist-spec-section {
   margin-bottom: 8px;
 }
 
-.inscriptor-spec-buttons {
+.animist-spec-buttons {
   display: flex;
   gap: 4px;
   justify-content: center;
 }
 
-.inscriptor-spec-btn {
+.animist-spec-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2895,21 +2130,21 @@
   transition: all 0.2s ease;
 }
 
-.inscriptor-spec-btn:hover {
+.animist-spec-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.inscriptor-spec-btn.active {
+.animist-spec-btn.active {
   background: rgba(160, 140, 112, 0.4);
   border-color: #8b7355;
   border-width: 2px;
   box-shadow: 0 0 8px rgba(139, 115, 85, 0.4);
 }
 
-.inscriptor-action-grid {
+.animist-action-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
@@ -2917,11 +2152,11 @@
 }
 
 /* Inscriptions section uses 2 columns */
-.inscriptor-action-grid.inscriptions-grid {
+.animist-action-grid.inscriptions-grid {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.inscriptor-quick-actions {
+.animist-quick-actions {
   display: flex;
   gap: 4px;
   justify-content: center;
@@ -2930,7 +2165,7 @@
   margin-top: 4px;
 }
 
-.inscriptor-quick-btn {
+.animist-quick-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -2948,57 +2183,57 @@
   transition: all 0.2s ease;
 }
 
-.inscriptor-quick-btn:hover {
+.animist-quick-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.inscriptor-quick-btn i {
+.animist-quick-btn i {
   font-size: 11px;
 }
 
-.inscriptor-quick-btn span {
+.animist-quick-btn span {
   font-size: 9px;
 }
 
-/* Gain/Spend button variants for Inscriptor */
-.inscriptor-action-grid .context-menu-button.gain {
+/* Gain/Spend button variants for Animist */
+.animist-action-grid .context-menu-button.gain {
   background: rgba(139, 200, 115, 0.3);
   border-color: rgba(85, 150, 60, 0.6);
   color: #2d5a1f;
 }
 
-.inscriptor-action-grid .context-menu-button.gain:hover {
+.animist-action-grid .context-menu-button.gain:hover {
   background: rgba(139, 200, 115, 0.5);
   border-color: rgba(85, 150, 60, 0.8);
 }
 
-.inscriptor-action-grid .context-menu-button.spend {
+.animist-action-grid .context-menu-button.spend {
   background: rgba(200, 115, 115, 0.3);
   border-color: rgba(150, 60, 60, 0.6);
   color: #5a1f1f;
 }
 
-.inscriptor-action-grid .context-menu-button.spend:hover {
+.animist-action-grid .context-menu-button.spend:hover {
   background: rgba(200, 115, 115, 0.5);
   border-color: rgba(150, 60, 60, 0.8);
 }
 
-/* Compact Formbender Menu Styles */
-.unified-context-menu .formbender-menu {
+/* Compact Shaper Menu Styles */
+.unified-context-menu .shaper-menu {
   padding: 8px;
 }
 
-.unified-context-menu .formbender-menu .menu-title {
+.unified-context-menu .shaper-menu .menu-title {
   font-size: 10px;
   margin-bottom: 6px;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.formbender-action-grid {
+.shaper-action-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
@@ -3006,23 +2241,23 @@
 }
 
 /* Gain section uses 2 columns */
-.formbender-action-grid.gain-grid {
+.shaper-action-grid.gain-grid {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.formbender-spec-section {
+.shaper-spec-section {
   margin-bottom: 8px;
   padding-top: 4px;
   border-top: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.formbender-spec-buttons {
+.shaper-spec-buttons {
   display: flex;
   gap: 4px;
   justify-content: center;
 }
 
-.formbender-spec-btn {
+.shaper-spec-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3038,28 +2273,28 @@
   transition: all 0.2s ease;
 }
 
-.formbender-spec-btn:hover {
+.shaper-spec-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.formbender-spec-btn.active {
+.shaper-spec-btn.active {
   background: rgba(160, 140, 112, 0.4);
   border-color: #8b7355;
   border-width: 2px;
   box-shadow: 0 0 8px rgba(139, 115, 85, 0.4);
 }
 
-.formbender-forms-grid {
+.shaper-forms-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 4px;
   margin-top: 4px;
 }
 
-.formbender-form-btn {
+.shaper-form-btn {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -3076,33 +2311,33 @@
   text-align: left;
 }
 
-.formbender-form-btn:hover {
+.shaper-form-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.formbender-form-btn.active {
+.shaper-form-btn.active {
   background: rgba(160, 140, 112, 0.4);
   border-color: #8b7355;
   border-width: 2px;
   box-shadow: 0 0 8px rgba(139, 115, 85, 0.4);
 }
 
-.formbender-form-btn i {
+.shaper-form-btn i {
   font-size: 12px;
   width: 16px;
   text-align: center;
 }
 
-.formbender-form-name {
+.shaper-form-name {
   flex: 1;
   font-size: 9px;
   font-weight: 500;
 }
 
-.formbender-quick-actions {
+.shaper-quick-actions {
   display: flex;
   gap: 4px;
   justify-content: center;
@@ -3111,7 +2346,7 @@
   margin-top: 4px;
 }
 
-.formbender-quick-btn {
+.shaper-quick-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -3129,87 +2364,87 @@
   transition: all 0.2s ease;
 }
 
-.formbender-quick-btn:hover {
+.shaper-quick-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.formbender-quick-btn i {
+.shaper-quick-btn i {
   font-size: 11px;
 }
 
-.formbender-quick-btn span {
+.shaper-quick-btn span {
   font-size: 9px;
 }
 
-/* Gain/Spend button variants for Formbender */
-.formbender-action-grid .context-menu-button.gain {
+/* Gain/Spend button variants for Shaper */
+.shaper-action-grid .context-menu-button.gain {
   background: rgba(139, 200, 115, 0.3);
   border-color: rgba(85, 150, 60, 0.6);
   color: #2d5a1f;
 }
 
-.formbender-action-grid .context-menu-button.gain:hover {
+.shaper-action-grid .context-menu-button.gain:hover {
   background: rgba(139, 200, 115, 0.5);
   border-color: rgba(85, 150, 60, 0.8);
 }
 
-.formbender-action-grid .context-menu-button.spend {
+.shaper-action-grid .context-menu-button.spend {
   background: rgba(200, 115, 115, 0.3);
   border-color: rgba(150, 60, 60, 0.6);
   color: #5a1f1f;
 }
 
-.formbender-action-grid .context-menu-button.spend:hover {
+.shaper-action-grid .context-menu-button.spend:hover {
   background: rgba(200, 115, 115, 0.5);
   border-color: rgba(150, 60, 60, 0.8);
 }
 
-/* Compact Primalist Menu Styles */
-.unified-context-menu .primalist-menu {
+/* Compact Animist Menu Styles */
+.unified-context-menu .animist-menu {
   padding: 6px;
 }
 
-.unified-context-menu .primalist-menu .menu-title {
+.unified-context-menu .animist-menu .menu-title {
   font-size: 9px;
   margin-bottom: 4px;
   padding-bottom: 3px;
   border-bottom: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.unified-context-menu .primalist-menu .context-menu-section {
+.unified-context-menu .animist-menu .context-menu-section {
   margin-bottom: 4px;
 }
 
-.unified-context-menu .primalist-menu .context-menu-section-header {
+.unified-context-menu .animist-menu .context-menu-section-header {
   font-size: 8px;
   margin-bottom: 3px;
   padding: 0;
 }
 
-.unified-context-menu .primalist-menu .context-menu-button {
+.unified-context-menu .animist-menu .context-menu-button {
   padding: 4px 6px;
   font-size: 8px;
   margin: 1px 0;
 }
 
-.primalist-action-grid {
+.animist-action-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 3px;
   margin-top: 3px;
 }
 
-.primalist-totem-controls {
+.animist-totem-controls {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 3px;
   margin-top: 3px;
 }
 
-.primalist-synergy-status {
+.animist-synergy-status {
   font-size: 7px;
   color: #5a3a2a;
   margin-top: 3px;
@@ -3221,25 +2456,25 @@
   line-height: 1.2;
 }
 
-.primalist-synergy-status.ready {
+.animist-synergy-status.ready {
   background: rgba(139, 200, 115, 0.2);
   color: #2d5a1f;
   border: 1px solid rgba(85, 150, 60, 0.4);
 }
 
-.primalist-spec-section {
+.animist-spec-section {
   margin-bottom: 4px;
   padding-top: 3px;
   border-top: 1px solid rgba(160, 140, 112, 0.3);
 }
 
-.primalist-spec-buttons {
+.animist-spec-buttons {
   display: flex;
   gap: 3px;
   justify-content: center;
 }
 
-.primalist-spec-btn {
+.animist-spec-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3255,21 +2490,21 @@
   transition: all 0.2s ease;
 }
 
-.primalist-spec-btn:hover {
+.animist-spec-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.primalist-spec-btn.active {
+.animist-spec-btn.active {
   background: rgba(160, 140, 112, 0.4);
   border-color: #8b7355;
   border-width: 2px;
   box-shadow: 0 0 8px rgba(139, 115, 85, 0.4);
 }
 
-.primalist-quick-actions {
+.animist-quick-actions {
   display: flex;
   gap: 3px;
   justify-content: center;
@@ -3278,7 +2513,7 @@
   margin-top: 3px;
 }
 
-.primalist-quick-btn {
+.animist-quick-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -3296,171 +2531,42 @@
   transition: all 0.2s ease;
 }
 
-.primalist-quick-btn:hover {
+.animist-quick-btn:hover {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.primalist-quick-btn i {
+.animist-quick-btn i {
   font-size: 10px;
 }
 
-.primalist-quick-btn span {
+.animist-quick-btn span {
   font-size: 8px;
 }
 
-/* Gain/Spend button variants for Primalist */
-.primalist-action-grid .context-menu-button.gain {
+/* Gain/Spend button variants for Animist */
+.animist-action-grid .context-menu-button.gain {
   background: rgba(139, 200, 115, 0.3);
   border-color: rgba(85, 150, 60, 0.6);
   color: #2d5a1f;
 }
 
-.primalist-action-grid .context-menu-button.gain:hover {
+.animist-action-grid .context-menu-button.gain:hover {
   background: rgba(139, 200, 115, 0.5);
   border-color: rgba(85, 150, 60, 0.8);
 }
 
-.primalist-action-grid .context-menu-button.spend {
+.animist-action-grid .context-menu-button.spend {
   background: rgba(200, 115, 115, 0.3);
   border-color: rgba(150, 60, 60, 0.6);
   color: #5a1f1f;
 }
 
-.primalist-action-grid .context-menu-button.spend:hover {
+.animist-action-grid .context-menu-button.spend:hover {
   background: rgba(200, 115, 115, 0.5);
   border-color: rgba(150, 60, 60, 0.8);
-}
-
-/* Compact Dreadnaught Menu Styles */
-.unified-context-menu .dreadnaught-menu {
-  padding: 8px;
-}
-
-.unified-context-menu .dreadnaught-menu .menu-title {
-  font-size: 10px;
-  margin-bottom: 6px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.dreadnaught-action-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  margin-top: 4px;
-}
-
-.dreadnaught-damage-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  margin-top: 4px;
-}
-
-.dreadnaught-resistance-select {
-  width: 100%;
-  padding: 4px 6px;
-  margin-top: 4px;
-  background: rgba(240, 230, 210, 0.8);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 3px;
-  font-size: 9px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  color: #3a3a3a;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dreadnaught-resistance-select:hover {
-  background: rgba(213, 203, 176, 0.9);
-  border-color: #8b7355;
-}
-
-.dreadnaught-resistance-select:focus {
-  outline: none;
-  border-color: #8b7355;
-  box-shadow: 0 0 4px rgba(139, 115, 85, 0.4);
-}
-
-.dreadnaught-quick-actions {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  padding-top: 4px;
-  border-top: 1px solid rgba(160, 140, 112, 0.3);
-  margin-top: 4px;
-}
-
-.dreadnaught-quick-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 5px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 9px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-}
-
-.dreadnaught-quick-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.dreadnaught-quick-btn i {
-  font-size: 11px;
-}
-
-.dreadnaught-quick-btn span {
-  font-size: 9px;
-}
-
-/* Gain/Spend/Danger button variants for Dreadnaught */
-.dreadnaught-action-grid .context-menu-button.gain,
-.dreadnaught-damage-grid .context-menu-button.gain {
-  background: rgba(139, 200, 115, 0.3);
-  border-color: rgba(85, 150, 60, 0.6);
-  color: #2d5a1f;
-}
-
-.dreadnaught-action-grid .context-menu-button.gain:hover,
-.dreadnaught-damage-grid .context-menu-button.gain:hover {
-  background: rgba(139, 200, 115, 0.5);
-  border-color: rgba(85, 150, 60, 0.8);
-}
-
-.dreadnaught-action-grid .context-menu-button.spend {
-  background: rgba(200, 115, 115, 0.3);
-  border-color: rgba(150, 60, 60, 0.6);
-  color: #5a1f1f;
-}
-
-.dreadnaught-action-grid .context-menu-button.spend:hover {
-  background: rgba(200, 115, 115, 0.5);
-  border-color: rgba(150, 60, 60, 0.8);
-}
-
-.dreadnaught-damage-grid .context-menu-button.danger {
-  background: rgba(200, 60, 60, 0.4);
-  border-color: rgba(150, 30, 30, 0.7);
-  color: #5a0f0f;
-}
-
-.dreadnaught-damage-grid .context-menu-button.danger:hover {
-  background: rgba(200, 60, 60, 0.6);
-  border-color: rgba(150, 30, 30, 0.9);
 }
 
 /* Extra compact for Toxicologist menus */
@@ -3639,109 +2745,10 @@
   border-color: rgba(150, 60, 60, 0.8);
 }
 
-/* Extra compact for Covenbane menu */
+/* Extra compact for Inquisitor authority menu (was Covenbane) */
 .unified-context-menu.compact.covenbane-charges-menu-container {
   width: 200px;
   min-width: 180px;
-}
-
-/* Compact Covenbane Menu Styles */
-.unified-context-menu .covenbane-menu {
-  padding: 8px;
-}
-
-.unified-context-menu .covenbane-menu .menu-title {
-  font-size: 10px;
-  margin-bottom: 6px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.covenbane-action-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  margin-top: 4px;
-}
-
-.covenbane-action-grid.four-col {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.covenbane-quick-actions {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  padding-top: 4px;
-  border-top: 1px solid rgba(160, 140, 112, 0.3);
-  margin-top: 4px;
-}
-
-.covenbane-quick-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 5px;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 9px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  color: #3a3a3a;
-  transition: all 0.2s ease;
-}
-
-.covenbane-quick-btn:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.covenbane-quick-btn i {
-  font-size: 11px;
-}
-
-.covenbane-quick-btn span {
-  font-size: 9px;
-}
-
-/* Gain/Spend/Danger button variants for Covenbane */
-.covenbane-action-grid .context-menu-button.gain {
-  background: rgba(139, 200, 115, 0.3);
-  border-color: rgba(85, 150, 60, 0.6);
-  color: #2d5a1f;
-}
-
-.covenbane-action-grid .context-menu-button.gain:hover {
-  background: rgba(139, 200, 115, 0.5);
-  border-color: rgba(85, 150, 60, 0.8);
-}
-
-.covenbane-action-grid .context-menu-button.spend {
-  background: rgba(200, 115, 115, 0.3);
-  border-color: rgba(150, 60, 60, 0.6);
-  color: #5a1f1f;
-}
-
-.covenbane-action-grid .context-menu-button.spend:hover {
-  background: rgba(200, 115, 115, 0.5);
-  border-color: rgba(150, 60, 60, 0.8);
-}
-
-.covenbane-action-grid .context-menu-button.danger {
-  background: rgba(200, 60, 60, 0.4);
-  border-color: rgba(150, 30, 30, 0.7);
-  color: #5a0f0f;
-}
-
-.covenbane-action-grid .context-menu-button.danger:hover {
-  background: rgba(200, 60, 60, 0.6);
-  border-color: rgba(150, 30, 30, 0.9);
 }
 
 /* Extra compact for Warden menu */
@@ -3847,3 +2854,4 @@
   background: rgba(123, 44, 191, 0.6);
   border-color: rgba(123, 44, 191, 1);
 }
+

@@ -185,8 +185,8 @@ export const WOW_FORMS = {
         physicalDamageTaken: 0.85
       },
       resourceType: 'mana',
-      allowedSpellTypes: ['shadow', 'discipline', 'utility'],
-      restrictedSpellTypes: ['holy', 'healing'],
+      allowedSpellTypes: ['blight', 'discipline', 'utility'],
+      restrictedSpellTypes: ['ember', 'healing'],
       specialAbilities: [
         'mind_blast', 'mind_flay', 'vampiric_touch', 'shadow_word_pain'
       ]
@@ -208,7 +208,7 @@ export const CUSTOM_FORMS = {
         waterResistance: 0.7
       },
       resourceType: 'mana',
-      allowedSpellTypes: ['fire', 'elemental', 'utility'],
+      allowedSpellTypes: ['ember', 'elemental', 'utility'],
       restrictedSpellTypes: ['water', 'ice'],
       specialAbilities: [
         'fireball', 'flame_strike', 'fire_shield', 'heat_metal'
@@ -226,7 +226,7 @@ export const CUSTOM_FORMS = {
       },
       resourceType: 'mana',
       allowedSpellTypes: ['water', 'ice', 'elemental', 'utility'],
-      restrictedSpellTypes: ['fire', 'earth'],
+      restrictedSpellTypes: ['ember', 'earth'],
       specialAbilities: [
         'ice_lance', 'tidal_wave', 'frost_armor', 'water_breathing'
       ]
@@ -243,7 +243,7 @@ export const CUSTOM_FORMS = {
       },
       resourceType: 'mana',
       allowedSpellTypes: ['earth', 'elemental', 'utility'],
-      restrictedSpellTypes: ['air', 'lightning'],
+      restrictedSpellTypes: ['air', 'storm'],
       specialAbilities: [
         'stone_spike', 'earthquake', 'stoneskin', 'entangling_roots'
       ]
@@ -259,7 +259,7 @@ export const CUSTOM_FORMS = {
         fireResistance: 0.7
       },
       resourceType: 'mana',
-      allowedSpellTypes: ['air', 'lightning', 'elemental', 'utility'],
+      allowedSpellTypes: ['air', 'storm', 'elemental', 'utility'],
       restrictedSpellTypes: ['earth', 'water'],
       specialAbilities: [
         'lightning_bolt', 'gust_of_wind', 'chain_lightning', 'levitate'
@@ -523,10 +523,10 @@ export function generateFormRequirements(spellConfig) {
              spellTypes.some(type => ['battle', 'defensive', 'berserker', 'protection', 'fury', 'arms'].includes(type))) {
     className = 'WARRIOR';
   } else if (spellTypes.includes('rogue') || 
-             spellTypes.some(type => ['stealth', 'opener', 'finisher', 'poison'].includes(type))) {
+             spellTypes.some(type => ['stealth', 'opener', 'finisher', 'blight'].includes(type))) {
     className = 'ROGUE';
   } else if (spellTypes.includes('priest') || 
-             spellTypes.some(type => ['shadow', 'holy', 'discipline'].includes(type))) {
+             spellTypes.some(type => ['blight', 'ember', 'discipline'].includes(type))) {
     className = 'PRIEST';
   }
   

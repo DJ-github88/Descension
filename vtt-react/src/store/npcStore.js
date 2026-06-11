@@ -4,19 +4,19 @@ const NPC_DATA = {
   'aldren-thalreth': {
     id: 'aldren-thalreth',
     name: 'Aldren Thalreth',
-    title: 'Lord of Greymark, High Confessor of the Frozen Light (in stasis)',
+    title: 'Lord of Greymark',
     race: 'Thalren human',
     gender: 'Male',
-    factionIds: ['house-thalreth', 'church-of-the-holy-light', 'scribe-sentinels'],
-    locationIds: ['greymark-keep', 'frozen-archive'],
-    age: 'Unknown — entered stasis at 57, has been frozen for 700+ years',
-    status: 'In meditative stasis',
+    factionIds: ['house-thalreth', 'scribe-sentinels'],
+    locationIds: ['greymark-keep'],
+    age: 'Unknown — appears to be in his mid-sixties, though the fog may have aged him differently',
+    status: 'Active',
     appearance:
-      'A tall, gaunt man with sharp Thalren features, frozen in a seated meditation posture inside a block of translucent ice. His eyes are closed, his hands rest on his knees, and his lips are slightly parted — as if he is about to speak. He wears the ceremonial white-and-gold robes of the High Confessor, now brittle with age.',
+      'A tall, gaunt man with sharp Thalren features, carrying a worn leather journal everywhere. His eyes have the distant, unfocused quality of a man who can no longer trust his own memories.',
     personality:
-      'Before his stasis, Aldren was described as thoughtful, melancholic, and burdened by knowledge he could not share. He spoke rarely, chose words with surgical precision, and had a habit of staring at people for long moments before responding. Those who knew him best say he was already half-gone before he froze himself — as if something had hollowed him out from within.',
+      'Aldren is thoughtful, melancholic, and burdened by knowledge he can no longer verify. The fog has eaten so many of his memories that he cannot recall his own mother\'s face. He speaks rarely, chooses words with surgical precision, and carries his journal everywhere, re-reading entries about his own life that he no longer remembers writing.',
     backstory:
-      'Aldren Thalreth was the first High Confessor of the Church of the Holy Light, founded in Year 13 of the Dimming. He led the Church for 76 years, during which he discovered a terrible truth in the oldest sealed texts: the Light and the Void are not opposites — they are a single entity, split in two, and their reunification will end existence. Unable to reconcile this with his faith, and unwilling to share the knowledge, he arranged for his own meditative stasis in the deepest vault of the Frozen Archive. He has not spoken since Year 89 of the Dimming. Pilgrims still visit his frozen chamber, reporting that they receive impressions of profound sorrow and fragments of thought that feel like warnings.',
+      'Aldren Thalreth is the current Lord of Greymark Keep, the ancestral seat of House Thalreth. He inherited a house already crumbling under the weight of the Fog Compact — the insulating fog that protects the Frostwood Reach has slowly consumed his family\'s memories for generations. Aldren\'s tragedy is that he has forgotten the location of a critical ledger — the one recording the exact terms of the Compact. Without it, no one knows when the fog\'s price will be paid in full.',
     hooks: [
       'If awakened, Aldren would possess knowledge that could shatter the Church of the Holy Light',
       'The sealed texts he discovered are still hidden somewhere in the Frozen Archive — no one has found them since',
@@ -90,29 +90,6 @@ const NPC_DATA = {
     ]
   },
 
-  'natalie-seline': {
-    id: 'natalie-seline',
-    name: 'Natalie Seline',
-    title: 'First Shadow, Voice of the Silence',
-    race: 'Human (Morren)',
-    gender: 'Female',
-    factionIds: ['cult-of-forgotten-shadow'],
-    locationIds: ['over-shanty', 'peat-bog-sinks'],
-    age: 'Unknown — at least 400 years',
-    status: 'Active',
-    appearance:
-      'A woman with blank white eyes, pale skin stretched thin over sharp cheekbones, and long black hair streaked with silver. She wears dark robes stitched with silver thread in patterns that shift when viewed indirectly. Her voice has a dual quality — her own words carry a faint undertone of something deeper, a resonance just below hearing.',
-    personality:
-      'Natalie is calm, patient, and terrifyingly perceptive. She speaks in two voices — her own, and the Silence Between Stars, which communicates through implication rather than words. She has been possessed for so long that the boundaries between her identity and the Void entity have blurred. She no longer knows where her thoughts end and the Silence\'s begin.',
-    backstory:
-      'Natalie was a priestess of the Church of the Holy Light who was excommunicated for studying forbidden Void texts. In Year 412 of the Dimming, she walked into the peat-bogs of the Bryngloom intending to die. Instead, something found her. For three days and nights, the Silence Between Stars spoke through her, dictating the doctrines of what would become the Cult of Forgotten Shadow. She emerged with blank white eyes and knowledge no mortal should possess.',
-    hooks: [
-      'Natalie hears the voices of every consciousness consumed by the Void — including her dead mother',
-      'She believes the Silence is not malevolent, simply hungry, and that it can be negotiated with',
-      'The Void-heat engine beneath the Frozen Archive was built from her instructions — she is the only one who knows how to shut it down'
-    ]
-  },
-
   'thorn-speaker': {
     id: 'thorn-speaker',
     name: 'The Thorn-Speaker',
@@ -135,25 +112,25 @@ const NPC_DATA = {
     ]
   },
 
-  'the-factotum': {
-    id: 'the-factotum',
-    name: 'The Factotum',
+  'the-first-liar': {
+    id: 'the-first-liar',
+    name: 'The First Liar',
     title: 'Unknown',
-    race: 'Unknown',
+    race: 'Unlit Astril',
     gender: 'Unknown',
-    factionIds: ['zhentarim-network'],
+    factionIds: ['unlit-veil'],
     locationIds: ['synod-hold'],
     age: 'Unknown',
     status: 'Active — presumed multiple individuals',
     appearance:
-      'No one has seen the Factotum\'s face. Orders arrive in precise, impersonal handwriting on identical grey parchment, delivered by trained ravens. The handwriting is consistent, methodical, and utterly without identifying characteristics. Some believe the Factotum is an AI, a golem, or a council of seven people who each believe they are the sole Factotum.',
+      'No one has seen the First Liar\'s face. Orders arrive as memory-crystal fragments delivered by Unlit couriers who genuinely do not know what message they carry. The instructions are structured in perfect iambic meter — a signature no forger has ever replicated.',
     personality:
-      'The Factotum\'s orders are cold, efficient, and strategically brilliant. They never threaten — they simply present the logical consequences of non-compliance. They never demand — they offer choices, where one option is clearly advantageous and the others lead to ruin.',
+      'The First Liar\'s orders are cold, efficient, and strategically brilliant. They never threaten — they simply present the logical consequences of non-compliance. They never demand — they offer choices, where one option is clearly advantageous and the others lead to ruin.',
     backstory:
-      'The Zhentarim Network has existed for at least three centuries. The Factotum has been its leader for as long as anyone can remember — or at least, the title has. It is widely believed that "the Factotum" is a role passed down, but no one has ever documented a transition. The current Factotum may be the same one who founded the Network, or the identity may have changed hands dozens of times without anyone knowing.',
+      'The Unlit Veil has existed for at least three centuries. The First Liar has been its leader for as long as anyone can remember — or at least, the title has. It is widely believed that "the First Liar" is a role passed down, but no one has ever documented a transition. The current First Liar may be the same one who founded the Veil, or the identity may have changed hands dozens of times without anyone knowing. Because Unlit Astril have no light-patterns to betray them, and no star-glow to recognize, any Unlit could be the First Liar — and the Veil cultivates this ambiguity deliberately.',
     hooks: [
-      'If the Factotum is a council of seven, each member could be played against the others',
-      'The Factotum\'s ravens are trained and could be followed back to their roost — which might reveal the Factotum\'s location'
+      'If the First Liar is a council of seven, each member could be played against the others',
+      'The First Liar\'s memory-crystals carry residual star-sap traces that could be tracked back to their source'
     ]
   },
 
@@ -163,7 +140,7 @@ const NPC_DATA = {
     title: 'Doomsayer-Priestess of the Frozen Archive',
     race: 'Solvarn human',
     gender: 'Female',
-    factionIds: ['church-of-the-holy-light'],
+    factionIds: ['house-thalreth'],
     locationIds: ['frozen-archive'],
     age: 'Unknown — at least 200 years',
     status: 'Sealed in meditation',
@@ -182,10 +159,10 @@ const NPC_DATA = {
   'frigga-skalvyr': {
     id: 'frigga-skalvyr',
     name: 'Frigga Skalvyr',
-    title: 'Void Negotiator (Secret) / Jarl\'s Daughter (Public)',
+    title: 'Geothermal Negotiator / Jarl\'s Daughter',
     race: 'Skald human',
     gender: 'Female',
-    factionIds: ['house-skalvyr', 'cult-of-forgotten-shadow'],
+    factionIds: ['house-skalvyr'],
     locationIds: ['frozen-archive', 'over-shanty'],
     age: '24',
     status: 'Active — clandestine',
@@ -226,22 +203,22 @@ const NPC_DATA = {
   'korrin-the-shade': {
     id: 'korrin-the-shade',
     name: 'Korrin the Shade',
-    title: 'Shadow Confessor of the Cult of Forgotten Shadow',
+    title: 'Shadow Confessor of the Over-Shanty',
     race: 'Human (Morren)',
     gender: 'Male',
-    factionIds: ['cult-of-forgotten-shadow'],
-    locationIds: ['over-shanty', 'peat-bog-sinks'],
+    factionIds: [],
+    locationIds: ['over-shanty'],
     age: '39',
     status: 'Active',
     appearance:
-      'A lean, nervous man with hollow cheeks and eyes that dart constantly. He wears the dark robes of the Cult and keeps his hands hidden in his sleeves — his fingers are stained permanently black from handling Void-tainted peat.',
+      'A lean, nervous man with hollow cheeks and eyes that dart constantly. He wears dark robes and keeps his hands hidden in his sleeves — his fingers are stained permanently black from handling peat-bog ink.',
     personality:
-      'Korrin is genuinely terrified of the Silence Between Stars. He believes it is malevolent, that Natalie is deceived or compromised, and that the Cult is heading toward catastrophe. But he has nowhere else to go — the Church would execute him, and the surface-world offers nothing to a man who has already looked into the Void.',
+      'Korrin is genuinely terrified of the deep bog. He believes something ancient and hungry watches from beneath the peat, and that the Bryngloom is not done with its bargains. But he has nowhere else to go — the Neth control the only safe roads, and the surface-world offers nothing to a man who has already seen what lives in the deep water.',
     backstory:
-      'Korrin was a petty thief in Greymark who was caught and offered a choice: execution or service in the Cult\'s memory-extraction chambers. He chose service and discovered he had a talent for entering other people\'s minds. He has extracted hundreds of memories, and each one has left a scar. He now carries the emotional weight of dozens of lives he does not own.',
+      'Korrin was a petty thief in Greymark who fled into the Bryngloom after stealing from House Thalreth. He found work in the Over-Shanty as a memory-extraction specialist — a man who can enter other people\'s minds through bog-fumes and incense. He has extracted hundreds of memories, and each one has left a scar.',
     hooks: [
-      'Korrin knows the location of Natalie\'s hidden sanctum — the only place where the Silence Between Stars speaks directly',
-      'He is looking for a way to leave the Cult without being killed, and might help someone who offers an alternative'
+      'Korrin knows a hidden path through the Severing Bog that bypasses Neth patrols',
+      'He is looking for a way to leave the Over-Shanty without being killed, and might help someone who offers an alternative'
     ]
   },
 
@@ -258,11 +235,11 @@ const NPC_DATA = {
     appearance:
       'A handsome man in his middle years, dressed in fine steppe-leathers and silver jewelry. He has a warm smile and an easy manner, but his eyes flick toward his advisors before he answers any question of substance.',
     personality:
-      'Loras is well-meaning, charming, and completely unaware that he is a puppet. He believes the Zhentarim are reliable trade partners. He believes his trade ministers are loyal. He believes the ancestral mounds are falling silent for natural reasons. He is wrong about most of these things.',
+      'Loras is well-meaning, charming, and completely unaware that he is a puppet. He believes the Unlit Veil are reliable trade partners. He believes his trade ministers are loyal. He believes the ancestral mounds are falling silent for natural reasons. He is wrong about most of these things.',
     backstory:
-      'The Ordavan bloodline has ruled the Sundrift Vale for eight centuries, but Loras is the first Steppe-Lord who grew up with the Zhentarim already embedded in every level of governance. To him, their presence is normal. He has never known a time when his decisions were entirely his own.',
+      'The Ordavan bloodline has ruled the Sundrift Vale for eight centuries, but Loras is the first Steppe-Lord who grew up with the Unlit Veil already embedded in every level of governance. To him, their presence is normal. He has never known a time when his decisions were entirely his own.',
     hooks: [
-      'If someone could prove to Loras that he is being manipulated, he would be genuinely grateful — and genuinely dangerous to the Zhentarim',
+      'If someone could prove to Loras that he is being manipulated, he would be genuinely grateful — and genuinely dangerous to the Unlit Veil',
       'His wife, Lady Mira Ordavan, suspects the truth and has begun her own quiet investigation'
     ]
   }

@@ -1,169 +1,116 @@
 
 const DAMAGE_TYPES = [
-    // Physical types
     {
-      id: 'bludgeoning',
-      name: 'Bludgeoning',
-      description: 'Blunt force trauma from hammers, falling, constriction',
+      id: 'physical',
+      name: 'Physical',
+      description: 'Martial damage from weapons, claws, and brute force. Bludgeoning, piercing, and slashing are weapon properties.',
       icon: 'inv_mace_2h_blacksmithing_01',
       category: 'physical',
       commonResistance: 'heavy armor',
       commonVulnerability: 'constructs'
     },
     {
-      id: 'piercing',
-      name: 'Piercing',
-      description: 'Punctures and impalement from spears, arrows, bites',
-      icon: 'inv_sword_33',
-      category: 'physical',
-      commonResistance: 'medium armor',
-      commonVulnerability: 'unarmored'
-    },
-    {
-      id: 'slashing',
-      name: 'Slashing',
-      description: 'Cuts, gashes, and tears from swords, axes, claws',
-      icon: 'ability_warrior_cleave',
-      category: 'physical',
-      commonResistance: 'plate armor',
-      commonVulnerability: 'cloth armor'
-    },
-
-    // Elemental types
-    {
-      id: 'fire',
-      name: 'Fire',
-      description: 'Burning damage from flames, heat, and combustion',
+      id: 'ember',
+      name: 'Ember',
+      description: 'Scorching heat and divine light from Sol\'s buried warmth.',
       icon: 'spell_fire_fire',
       category: 'elemental',
       commonResistance: 'red dragons, fire elementals',
       commonVulnerability: 'undead, plants, ice creatures'
     },
     {
-      id: 'frost',
-      name: 'Frost',
-      description: 'Freezing damage from ice and extreme low temperatures',
+      id: 'rime',
+      name: 'Rime',
+      description: 'The frozen world\'s grip. Icy energy that slows, freezes, and shatters.',
       icon: 'spell_frost_frostbolt02',
       category: 'elemental',
       commonResistance: 'ice elementals, white dragons',
       commonVulnerability: 'fire creatures, water elementals'
     },
     {
-      id: 'lightning',
-      name: 'Lightning',
-      description: 'Electrical damage from lightning and electrical energy',
+      id: 'storm',
+      name: 'Storm',
+      description: 'Kinetic fury from lightning, thunder, and concussive force.',
       icon: 'spell_lightning_lightningbolt01',
       category: 'elemental',
       commonResistance: 'blue dragons, air elementals',
       commonVulnerability: 'creatures in metal armor, water-based creatures'
     },
-
-    // Magical types
     {
       id: 'arcane',
       name: 'Arcane',
-      description: 'Pure magical energy from arcane sources',
+      description: 'Pure magic. Binding ritual residue and raw arcane energy.',
       icon: 'spell_arcane_arcanepotency',
       category: 'arcane',
       commonResistance: 'arcane golems, magic-resistant creatures',
       commonVulnerability: 'non-magical creatures, constructs'
     },
     {
-      id: 'nature',
-      name: 'Nature',
-      description: 'Natural energy from the living world and primal forces',
+      id: 'primal',
+      name: 'Primal',
+      description: 'Living things and growth. The world\'s refusal to die.',
       icon: 'spell_nature_naturetouchgrow',
       category: 'elemental',
       commonResistance: 'nature-aligned creatures, druids',
       commonVulnerability: 'undead, constructs, corrupted beings'
     },
     {
-      id: 'force',
-      name: 'Force',
-      description: 'Pure magical energy forming invisible constructs',
-      icon: 'spell_arcane_blast',
-      category: 'arcane',
-      commonResistance: 'arcane golems',
-      commonVulnerability: 'ethereal creatures',
-      bypassesNormalResistance: true
-    },
-    {
-      id: 'necrotic',
-      name: 'Necrotic',
-      description: 'Life-draining decay and negative energy',
+      id: 'blight',
+      name: 'Blight',
+      description: 'Keth-Amar\'s corruption. Necrotic decay, void consumption, poison, and acid.',
       icon: 'spell_shadow_deathcoil',
       category: 'otherworldly',
       commonResistance: 'undead, constructs',
       commonVulnerability: 'living creatures, plants'
     },
     {
-      id: 'radiant',
-      name: 'Radiant',
-      description: 'Holy energy that burns the impure',
-      icon: 'spell_holy_holysmite',
-      category: 'otherworldly',
-      commonResistance: 'celestials, light elementals',
-      commonVulnerability: 'undead, fiends, shadows'
-    },
-    {
-      id: 'poison',
-      name: 'Poison',
-      description: 'Toxic substances that damage the body',
-      icon: 'ability_rogue_poisonousanimosity',
-      category: 'elemental',
-      commonResistance: 'undead, constructs, plants',
-      commonVulnerability: 'beasts, humanoids'
-    },
-    {
-      id: 'psychic',
-      name: 'Psychic',
-      description: 'Mental energy that damages the mind',
+      id: 'wyrd',
+      name: 'Wyrd',
+      description: 'Spiritual rot. Chaotic and psychic energy that warps minds and fractures reality.',
       icon: 'spell_shadow_mindtwisting',
       category: 'otherworldly',
       commonResistance: 'mindless creatures, constructs',
       commonVulnerability: 'intelligent creatures, psionic beings'
     },
     {
-      id: 'chaos',
-      name: 'Chaos',
-      description: 'Unpredictable magical energy that defies categorization and creates random effects',
-      icon: 'spell_shadow_charm',
-      category: 'otherworldly',
-      commonResistance: 'order-aligned creatures, constructs',
-      commonVulnerability: 'chaos-aligned creatures, wild magic users'
-    },
-    {
-      id: 'void',
-      name: 'Void',
-      description: 'The absence of existence, consuming all that it touches',
-      icon: 'spell_shadow_shadowwordpain',
-      category: 'otherworldly',
-      commonResistance: 'void-touched creatures, shadow beings',
-      commonVulnerability: 'light-aligned creatures, radiant beings'
-    },
-    {
       id: 'healing',
       name: 'Healing',
-      description: 'Restorative energy that repairs damage and restores vitality',
+      description: 'Restorative energy that repairs damage and restores vitality.',
       icon: 'spell_holy_greaterheal',
-      category: 'otherworldly',
+      category: 'restorative',
       commonResistance: 'undead (reversed)',
       commonVulnerability: 'living creatures'
     },
 ];
 
 const LEGACY_TYPE_MAP = {
-    cold: 'frost',
-    ice: 'frost',
-    shadow: 'necrotic',
-    holy: 'radiant',
-    electric: 'lightning',
-    acid: 'poison',
-    thunder: 'force',
-    viscera: 'nature',
+    cold: 'rime',
+    ice: 'rime',
+    frost: 'rime',
+    fire: 'ember',
+    radiant: 'ember',
+    holy: 'ember',
+    electric: 'storm',
+    lightning: 'storm',
+    force: 'storm',
+    thunder: 'storm',
+    shadow: 'blight',
+    necrotic: 'blight',
+    void: 'blight',
+    poison: 'blight',
+    acid: 'blight',
+    viscera: 'primal',
+    nature: 'primal',
+    chaos: 'wyrd',
+    psychic: 'wyrd',
+    bludgeoning: 'physical',
+    piercing: 'physical',
+    slashing: 'physical',
 };
 
-const PHYSICAL_TYPES = ['bludgeoning', 'piercing', 'slashing'];
+const PHYSICAL_TYPES = ['physical'];
+
+const WEAPON_PROPERTIES = ['bludgeoning', 'piercing', 'slashing'];
 
 
 const getDamageTypeById = (id) => {
@@ -193,10 +140,8 @@ const calculateResistance = (damageTypeId, targetResistances = {}, spellPenetrat
     const resistanceId = `${damageTypeId}_resistance`;
     let resistance = targetResistances[resistanceId] || 0;
 
-    // Apply spell penetration
     resistance = Math.max(0, resistance - spellPenetration);
 
-    // Cap at 75% unless specifically allowing higher
     return Math.min(75, resistance);
 };
 
@@ -210,6 +155,7 @@ export {
     DAMAGE_TYPES,
     LEGACY_TYPE_MAP,
     PHYSICAL_TYPES,
+    WEAPON_PROPERTIES,
     getDamageTypeById,
     getDamageTypesByCategory,
     getDamageTypesByIds,

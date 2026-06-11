@@ -7,38 +7,31 @@ import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
 import usePartyStore from '../store/partyStore';
 import useWindowManagerStore from '../store/windowManagerStore';
+import useWindowStore from '../store/windowStore';
 import usePresenceStore from '../store/presenceStore';
 import WowWindow from './windows/WowWindow';
-import SettingsWindow from './windows/SettingsWindow';
-import ExitGameConfirmDialog from './dialogs/ExitGameConfirmDialog';
 import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
 import useCreatureStore from '../store/creatureStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './ErrorBoundary';
-import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
-import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardContext';
 
-import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibraryContext';
-import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
+const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
+const ExitGameConfirmDialog = lazy(() => import('./dialogs/ExitGameConfirmDialog'));
 
 const CharacterPanel = lazy(() => import('./character-sheet/Equipment'));
-const CreatureLibrary = lazy(() => import('./creature-wizard/components/library/CreatureLibrary'));
-const CommunityCreaturesTab = lazy(() => import('./creature-wizard/components/library/CommunityCreaturesTab'));
-const CreatureWizardApp = lazy(() => import('./creature-wizard/CreatureWizardApp'));
 const CharacterStats = lazy(() => import('./character-sheet/CharacterStats'));
 const Skills = lazy(() => import('./character-sheet/Skills'));
 const Lore = lazy(() => import('./character-sheet/Lore'));
 const InventoryWindow = lazy(() => import('./windows/InventoryWindow'));
-const ItemLibraryWindow = lazy(() => import('./windows/ItemLibraryWindow'));
-const MapLibraryWindow = lazy(() => import('./windows/MapLibraryWindow'));
+const LibraryWindow = lazy(() => import('./windows/LibraryWindow'));
 const SocialEncounterGenerator = lazy(() => import('./gm-tools/SocialEncounterGenerator'));
 const JukeboxPanel = lazy(() => import('./jukebox/JukeboxPanel'));
+const Toolkit = lazy(() => import('./windows/Toolkit'));
 const SpellbookWindow = lazy(() => import('./windows/SpellbookWindow'));
 const CampaignManagerWindow = lazy(() => import('./windows/CampaignManagerWindow'));
 const PlayerJournalWindow = lazy(() => import('./windows/PlayerJournalWindow'));
 const PlayerDisplayOverlay = lazy(() => import('./dialogs/PlayerDisplayOverlay'));
-const ExternalLivePreview = lazy(() => import('./spellcrafting-wizard/ExternalLivePreview'));
 const TalentTreeWindow = lazy(() =>
     import('./windows/TalentTreeWindow').catch(err => {
         console.error('Failed to load TalentTreeWindow:', err);
@@ -109,135 +102,6 @@ const PlayerTravelDashboard = lazy(() =>
     })
 );
 
-// Creature Window Wrapper with spellbook-style tabs
-function CreatureWindowWrapper({ isOpen, onClose }) {
-    const [activeView, setActiveView] = useState('library');
-    const [editingCreatureId, setEditingCreatureId] = useState(null);
-    const { setWindowPosition, setWindowSize } = useCreatureStore();
-
-    const tabs = [
-        {
-            id: 'library',
-            label: 'Library',
-            icon: 'fas fa-book-open'
-        },
-        {
-            id: 'wizard',
-            label: 'Create New',
-            icon: 'fas fa-plus-circle'
-        },
-        {
-            id: 'community',
-            label: 'Community',
-            icon: 'fas fa-globe'
-        }
-    ];
-
-    const handleCreateNewCreature = () => {
-        setEditingCreatureId(null);
-        setActiveView('wizard');
-    };
-
-    const handleBackToLibrary = () => {
-        setActiveView('library');
-        setEditingCreatureId(null);
-    };
-
-    const handleEditCreature = (creatureId) => {
-        setEditingCreatureId(creatureId);
-        setActiveView('wizard');
-    };
-
-    // Handle window drag to update position in store
-    const handleWindowDrag = useCallback((position) => {
-        // Only save x and y coordinates to avoid circular references
-        setWindowPosition({ x: position.x, y: position.y });
-    }, [setWindowPosition]);
-
-    // Handle window resize to update size in store (only called on resize stop)
-    const handleWindowResize = useCallback((size) => {
-        setWindowSize(size);
-    }, [setWindowSize]);
-
-    // Calculate proper default position (centered)
-    const getDefaultPosition = useCallback(() => {
-        const { windowPosition } = useCreatureStore.getState();
-        if (windowPosition) {
-            return windowPosition;
-        }
-        // Center the window on screen
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        const windowWidth = 1200;
-        const windowHeight = 800;
-
-        return {
-            x: Math.max(0, (screenWidth - windowWidth) / 2),
-            y: Math.max(0, (screenHeight - windowHeight) / 2)
-        };
-    }, []);
-
-    return (
-        <WowWindow
-            isOpen={isOpen}
-            onClose={onClose}
-            title="Creature Library"
-            defaultSize={activeView === 'community' ? { width: 1100, height: 700 } : { width: 900, height: 650 }}
-            defaultPosition={getDefaultPosition()}
-            centered={false}
-            onDrag={handleWindowDrag}
-            onResize={handleWindowResize}
-            customHeader={
-                <div className="spellbook-tab-container">
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.id}
-                            className={`spellbook-tab-button ${activeView === tab.id ? 'active' : ''}`}
-                            onClick={() => tab.id === 'wizard' ? handleCreateNewCreature() : setActiveView(tab.id)}
-                        >
-                            <i className={tab.icon} style={{ marginRight: '8px', fontSize: '13px' }}></i>
-                            <span>{tab.label}</span>
-                        </button>
-                    ))}
-
-                </div>
-            }
-        >
-            <div className="creature-window">
-                <CreatureLibraryProvider>
-                    <CreatureWizardProvider>
-                        {/* Main content area - always render components for pre-loading */}
-                        <div className="creature-window-content">
-                            <div style={{ display: activeView === 'library' ? 'flex' : 'none', flex: 1, minHeight: 0, flexDirection: 'column' }}>
-                                <CreatureLibrary onEdit={handleEditCreature} />
-                            </div>
-                            <div style={{
-                                display: activeView === 'wizard' ? 'flex' : 'none',
-                                flex: 1,
-                                minHeight: 0,
-                                flexDirection: 'column'
-                            }}>
-                                <CreatureWizardApp
-                                    editMode={!!editingCreatureId}
-                                    creatureId={editingCreatureId}
-                                    onSave={handleBackToLibrary}
-                                    onCancel={handleBackToLibrary}
-                                    activeView={activeView}
-                                />
-                            </div>
-                            <div style={{ display: activeView === 'community' ? 'block' : 'none' }}>
-                                <CommunityCreaturesTab />
-                            </div>
-                        </div>
-                    </CreatureWizardProvider>
-                </CreatureLibraryProvider>
-            </div>
-        </WowWindow>
-    );
-}
-
-
-
 // Quest Log Window Wrapper - simplified to prevent double window loading
 function QuestLogWindowWrapper({ isOpen, onClose }) {
     // Use the QuestLogWindow directly without nesting it in another WowWindow
@@ -255,6 +119,19 @@ function QuestLogWindowWrapper({ isOpen, onClose }) {
 function SettingsWindowWrapper({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('interface');
     const isGMMode = useGameStore(state => state.isGMMode);
+    const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowStore();
+
+    const SETTINGS_ID = 'settings';
+    const savedPos = getWindowPosition(SETTINGS_ID, { x: 100, y: 100 });
+    const savedSize = getWindowSize(SETTINGS_ID, { width: 800, height: 600 });
+
+    const handleDrag = useCallback((pos) => {
+        setWindowPosition(SETTINGS_ID, { x: pos.x, y: pos.y });
+    }, [setWindowPosition]);
+
+    const handleResize = useCallback((size) => {
+        setWindowSize(SETTINGS_ID, size);
+    }, [setWindowSize]);
 
     // Tab definitions - filter based on GM/Player mode
     const getAllTabs = () => [
@@ -295,8 +172,10 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
             isOpen={isOpen}
             onClose={onClose}
             title="Settings"
-            defaultSize={{ width: 800, height: 600 }}
-            defaultPosition={{ x: 100, y: 100 }}
+            defaultSize={savedSize}
+            defaultPosition={savedPos}
+            onDrag={handleDrag}
+            onResize={handleResize}
             customHeader={
                 <div className="spellbook-tab-container">
                     {tabs.map(tab => (
@@ -311,7 +190,13 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
                 </div>
             }
         >
-            <SettingsWindow activeTab={activeTab} />
+            <Suspense fallback={
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#8b6f47', fontFamily: 'Bookman Old Style, serif' }}>
+                    Loading Settings...
+                </div>
+            }>
+                <SettingsWindow activeTab={activeTab} />
+            </Suspense>
         </WowWindow>
     );
 }
@@ -359,10 +244,16 @@ const NAVIGATION_BUTTONS = [
         </>
     },
     {
-        id: 'itemgen',
-        title: 'Item Library',
-        shortcut: 'I',
-        svg: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+        id: 'library',
+        title: 'Library',
+        shortcut: 'L',
+        svg: <>
+            <path d="M4 6h16M4 12h16M4 18h16" />
+            <path d="M8 6v12M16 6v12" />
+            <circle cx="12" cy="6" r="1" />
+            <circle cx="12" cy="12" r="1" />
+            <circle cx="12" cy="18" r="1" />
+        </>,
     },
     {
         id: 'quests',
@@ -399,15 +290,6 @@ const NAVIGATION_BUTTONS = [
     },
 
     {
-        id: 'creatures',
-        title: 'Creature Library',
-        shortcut: 'L',
-        svg: <>
-            <path d="M7 7h10M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z M12 11c-2.5 0-3.5 1.5-3.5 3s1 3 3.5 3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3" />
-            <path d="M9 17c-2.5 0-3.5-1.5-3.5-3s1-3 3.5-3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3" />
-        </>
-    },
-    {
         id: 'settings',
         title: 'Settings',
         shortcut: 'G',
@@ -424,6 +306,7 @@ const NAVIGATION_BUTTONS = [
         id: 'travel',
         title: 'Travel',
         shortcut: 'W',
+        playerOnly: true,
         svg: <>
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
             <path d="M12 11.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
@@ -440,15 +323,6 @@ const NAVIGATION_BUTTONS = [
         </>
     },
     {
-        id: 'maplibrary',
-        title: 'Map Library',
-        shortcut: 'M',
-        svg: <>
-            <path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 01.553-.894L9 2l6 3 5.447-2.724A1 1 0 0121 3.382v10.764a1 1 0 01-.553.894L15 18l-6-3z" />
-            <path d="M9 2v18M15 5v18" />
-        </>
-    },
-    {
         id: 'journal',
         title: 'Player Journal',
         shortcut: 'J',
@@ -459,31 +333,36 @@ const NAVIGATION_BUTTONS = [
         </>
     },
     {
-        id: 'encounters',
-        title: 'Social Encounter',
-        shortcut: 'N',
-        gmOnly: true,
-        svg: <>
-            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </>
-    },
-    {
-        id: 'jukebox',
-        title: 'Lutebox',
+        id: 'toolkit',
+        title: 'Toolkit',
         shortcut: 'K',
         gmOnly: true,
         svg: <>
-            <path d="M12 3v10M8 21h8M8 21c0-2 2-3 4-3s4 1 4 3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <ellipse cx="12" cy="17" rx="5" ry="4" fill="none" stroke="currentColor" strokeWidth="1.5"/>
-            <line x1="12" y1="13" x2="12" y2="3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="9" y1="5" x2="15" y2="5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-            <line x1="9" y1="8" x2="15" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+            <polygon points="12,2 13.5,10 12,8 10.5,10" fill="currentColor" opacity="0.6"/>
+            <polygon points="12,22 10.5,14 12,16 13.5,14" fill="currentColor" opacity="0.6"/>
+            <polygon points="2,12 10,10.5 8,12 10,13.5" fill="currentColor" opacity="0.4"/>
+            <polygon points="22,12 14,13.5 16,12 14,10.5" fill="currentColor" opacity="0.4"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor"/>
         </>
     },
 ];
 
 function CharacterSheetWindow({ isOpen, onClose, title }) {
     const [activeTab, setActiveTab] = useState('lore');
+    const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowStore();
+
+    const WINDOW_ID = 'character-sheet';
+    const savedPos = getWindowPosition(WINDOW_ID, { x: 100, y: 100 });
+    const savedSize = getWindowSize(WINDOW_ID, { width: 800, height: 600 });
+
+    const handleDrag = useCallback((pos) => {
+        setWindowPosition(WINDOW_ID, { x: pos.x, y: pos.y });
+    }, [setWindowPosition]);
+
+    const handleResize = useCallback((size) => {
+        setWindowSize(WINDOW_ID, size);
+    }, [setWindowSize]);
 
     // Ensure title is always defined with fallback
     const safeTitle = title || 'Character Sheet';
@@ -528,8 +407,10 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
             isOpen={isOpen}
             onClose={onClose}
             title={safeTitle}
-            defaultSize={{ width: 800, height: 600 }}
-            defaultPosition={{ x: 100, y: 100 }}
+            defaultSize={savedSize}
+            defaultPosition={savedPos}
+            onDrag={handleDrag}
+            onResize={handleResize}
             customHeader={
                 <div className="spellbook-tab-container">
                     {Object.entries(characterSections).map(([key, section]) => (
@@ -775,10 +656,8 @@ export default function Navigation({ onReturnToLanding }) {
     // Player restricted buttons set - memoized to avoid recreation every render
     const playerRestrictedButtonsSet = useMemo(() => new Set([
         'leveleditor',
-        'creatures',
-        'maplibrary',
+        'library',
         'campaign',
-        'itemgen',
         'combat',
         'encounters'
     ]), []);
@@ -1045,7 +924,12 @@ export default function Navigation({ onReturnToLanding }) {
                     </ErrorBoundary>
                 );
             case 'inventory':
-                return shouldRender && (
+                return shouldRender && (() => {
+                    const ws = useWindowStore.getState();
+                    const invId = 'inventory';
+                    const invPos = ws.getWindowPosition(invId, { x: 150, y: 150 });
+                    const invSize = ws.getWindowSize(invId, { width: 900, height: 550 });
+                    return (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={null}>
                             <WowWindow
@@ -1053,8 +937,10 @@ export default function Navigation({ onReturnToLanding }) {
                                 title={safeTitle}
                                 isOpen={true}
                                 onClose={() => handleButtonClick(button.id)}
-                                defaultSize={{ width: 900, height: 550 }}
-                                defaultPosition={{ x: 150, y: 150 }}
+                                defaultSize={invSize}
+                                defaultPosition={invPos}
+                                onDrag={(pos) => useWindowStore.getState().setWindowPosition(invId, { x: pos.x, y: pos.y })}
+                                onResize={(size) => useWindowStore.getState().setWindowSize(invId, size)}
                                 customHeader={
                                     <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                                         <button className="spellbook-tab-button active">
@@ -1072,7 +958,7 @@ export default function Navigation({ onReturnToLanding }) {
                             </WowWindow>
                         </Suspense>
                     </ErrorBoundary>
-                );
+                )})();
             case 'crafting':
                 return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
@@ -1089,13 +975,11 @@ export default function Navigation({ onReturnToLanding }) {
                 return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
-                            <SpellLibraryProvider>
-                                <SpellbookWindow
-                                    key={button.id}
-                                    isOpen={true}
-                                    onClose={() => handleButtonClick(button.id)}
-                                />
-                            </SpellLibraryProvider>
+                            <SpellbookWindow
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
                         </Suspense>
                     </ErrorBoundary>
                 );
@@ -1152,11 +1036,11 @@ export default function Navigation({ onReturnToLanding }) {
                 // Combat is handled as a toggle mode, not a window
                 return null;
 
-            case 'itemgen':
+            case 'library':
                 return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={null}>
-                            <ItemLibraryWindow
+                            <LibraryWindow
                                 key={button.id}
                                 isOpen={true}
                                 onClose={() => handleButtonClick(button.id)}
@@ -1172,29 +1056,8 @@ export default function Navigation({ onReturnToLanding }) {
                 return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
-                            {isGMMode ? (
-                                <TravelTrackerWindow
-                                    key={`${button.id}-gm`}
-                                    isOpen={true}
-                                    onClose={() => handleButtonClick(button.id)}
-                                />
-                            ) : (
-                                <PlayerTravelDashboard
-                                    key={`${button.id}-player`}
-                                    isOpen={true}
-                                    onClose={() => handleButtonClick(button.id)}
-                                />
-                            )}
-                        </Suspense>
-                    </ErrorBoundary>
-                );
-
-            case 'maplibrary':
-                return shouldRender && (
-                    <ErrorBoundary key={`${button.id}-error-boundary`}>
-                        <Suspense fallback={null}>
-                            <MapLibraryWindow
-                                key={button.id}
+                            <PlayerTravelDashboard
+                                key={`${button.id}-player`}
                                 isOpen={true}
                                 onClose={() => handleButtonClick(button.id)}
                             />
@@ -1202,49 +1065,15 @@ export default function Navigation({ onReturnToLanding }) {
                     </ErrorBoundary>
                 );
 
-            case 'creatures':
+            case 'toolkit':
                 return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={null}>
-                            <CreatureWindowWrapper
+                            <Toolkit
                                 key={button.id}
                                 isOpen={true}
                                 onClose={() => handleButtonClick(button.id)}
                             />
-                        </Suspense>
-                    </ErrorBoundary>
-                );
-            case 'encounters':
-                return shouldRender && (
-                    <ErrorBoundary key={`${button.id}-error-boundary`}>
-                        <Suspense fallback={null}>
-                            <WowWindow
-                                key={button.id}
-                                title={safeTitle || 'Social Encounter'}
-                                isOpen={true}
-                                onClose={() => handleButtonClick(button.id)}
-                                defaultSize={{ width: 560, height: 860 }}
-                                defaultPosition={{ x: 200, y: 30 }}
-                            >
-                                <SocialEncounterGenerator />
-                            </WowWindow>
-                        </Suspense>
-                    </ErrorBoundary>
-                );
-            case 'jukebox':
-                return shouldRender && (
-                    <ErrorBoundary key={`${button.id}-error-boundary`}>
-                        <Suspense fallback={null}>
-                            <WowWindow
-                                key={button.id}
-                                title={safeTitle || 'Lutebox'}
-                                isOpen={true}
-                                onClose={() => handleButtonClick(button.id)}
-                                defaultSize={{ width: 480, height: 640 }}
-                                defaultPosition={{ x: window.innerWidth - 520, y: 30 }}
-                            >
-                                <JukeboxPanel isGM={true} />
-                            </WowWindow>
                         </Suspense>
                     </ErrorBoundary>
                 );
@@ -1362,8 +1191,7 @@ export default function Navigation({ onReturnToLanding }) {
     };
 
     return (
-        <SpellWizardProvider>
-            <Fragment>
+        <Fragment>
                 {/* Mobile Navigation Button */}
                 {isMobile && (
                     <button
@@ -1794,6 +1622,8 @@ export default function Navigation({ onReturnToLanding }) {
                     );
                 })()}
 
+
+
                 {/* Coordinate Input Popup */}
                 {showCoordinatePopup && (
                     <div
@@ -1960,28 +1790,24 @@ export default function Navigation({ onReturnToLanding }) {
                         {getWindowContent(button)}
                     </React.Fragment>
                 ))}
-                {/* External Live Preview - only shows when spellbook is open and wizard tab is active */}
-                {openWindows.has('spellbook') && (
-                    <ExternalLivePreview />
-                )}
-
                 {/* Exit Game Confirmation Dialog */}
                 {showExitConfirm && (
-                    <ExitGameConfirmDialog
-                        gameName="Mythrill"
-                        onConfirm={() => {
-                            setShowExitConfirm(false);
-                            if (onReturnToLanding) {
-                                onReturnToLanding();
-                            }
-                        }}
-                        onCancel={() => setShowExitConfirm(false)}
-                    />
+                    <Suspense fallback={null}>
+                        <ExitGameConfirmDialog
+                            gameName="Mythrill"
+                            onConfirm={() => {
+                                setShowExitConfirm(false);
+                                if (onReturnToLanding) {
+                                    onReturnToLanding();
+                                }
+                            }}
+                            onCancel={() => setShowExitConfirm(false)}
+                        />
+                    </Suspense>
                 )}
 
                 {/* Player Display Overlay - Shows GM-shared content */}
                 <PlayerDisplayOverlay />
             </Fragment>
-        </SpellWizardProvider>
     );
 }

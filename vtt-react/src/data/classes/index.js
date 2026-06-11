@@ -1,63 +1,50 @@
 import { ARCANONEER_DATA } from "./arcanoneerData";
 import { BERSERKER_DATA } from "./berserkerData";
-import { BLADEDANCER_DATA } from "./bladedancerData";
-import { CHAOS_WEAVER_DATA } from "./chaosWeaverData";
+import { SHAPER_DATA } from "./shaperData";
+import { HARBINGER_DATA } from "./harbingerData";
 import { CHRONARCH_DATA } from "./chronarchData";
-import { COVENBANE_DATA } from "./covenbaneData";
-import { DEATHCALLER_DATA } from "./deathcallerData";
-import { DREADNAUGHT_DATA } from "./dreadnaughtData";
-import { EXORCIST_DATA } from "./exorcistData";
+// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+import { REVENANT_DATA } from "./revenantData";
+// 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+// 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
+import { INQUISITOR_DATA } from "./inquisitorData";
 import { FALSE_PROPHET_DATA } from "./falseProphetData";
-import { FATE_WEAVER_DATA } from "./fateWeaverData";
-import { FORMBENDER_DATA } from "./formbenderData";
-import { GAMBLER_DATA } from "./gamblerData";
-import { HUNTRESS_DATA } from "./huntressData";
-import { INSCRIPTOR_DATA } from "./inscriptorData";
-import { LICHBORNE_DATA } from "./lichborneData";
+import { GAMBIT_DATA } from "./gambitData";
+import { APEX_DATA } from "./apexData";
 import { LUNARCH_DATA } from "./lunarchData";
 import { MARTYR_DATA } from "./martyrData";
 import { MINSTREL_DATA } from "./minstrelData";
-import { ORACLE_DATA } from "./oracleData";
 import { PLAGUEBRINGER_DATA } from "./plaguebringerData";
-import { PRIMALIST_DATA } from "./primalistData";
+import { ANIMIST_DATA } from "./animistData";
 import { PYROFIEND_DATA } from "./pyrofiendData";
 import { SPELLGUARD_DATA } from "./spellguardData";
-import { TITAN_DATA } from "./titanData";
+
 import { TOXICOLOGIST_DATA } from "./toxicologistData";
 import { WARDEN_DATA } from "./wardenData";
-import { WITCH_DOCTOR_DATA } from "./witchDoctorData";
 import { AUGUR_DATA } from "./augurData";
-import { DOOMSAYER_DATA } from "./doomsayerData";
-
 export const ALL_CLASSES_DATA = {
   Arcanoneer: ARCANONEER_DATA,
   Berserker: BERSERKER_DATA,
-  Bladedancer: BLADEDANCER_DATA,
-  "Chaos Weaver": CHAOS_WEAVER_DATA,
+  // 'Bladedancer' and 'Formbender' merged into Shaper as Phase 1.8 consolidation
+  Shaper: SHAPER_DATA,
+  "Harbinger": HARBINGER_DATA,
   Chronarch: CHRONARCH_DATA,
-  Covenbane: COVENBANE_DATA,
-  Deathcaller: DEATHCALLER_DATA,
-  Dreadnaught: DREADNAUGHT_DATA,
-  Exorcist: EXORCIST_DATA,
+  // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
+  Inquisitor: INQUISITOR_DATA,
+  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+  Revenant: REVENANT_DATA,
   "False Prophet": FALSE_PROPHET_DATA,
-  "Fate Weaver": FATE_WEAVER_DATA,
-  Formbender: FORMBENDER_DATA,
-  Gambler: GAMBLER_DATA,
-  Huntress: HUNTRESS_DATA,
-  Inscriptor: INSCRIPTOR_DATA,
-  Lichborne: LICHBORNE_DATA,
+  "Gambit": GAMBIT_DATA,
+  Apex: APEX_DATA,
+  Animist: ANIMIST_DATA,
   Lunarch: LUNARCH_DATA,
   Martyr: MARTYR_DATA,
   Minstrel: MINSTREL_DATA,
-  Oracle: ORACLE_DATA,
   Plaguebringer: PLAGUEBRINGER_DATA,
-  Primalist: PRIMALIST_DATA,
   Pyrofiend: PYROFIEND_DATA,
   Spellguard: SPELLGUARD_DATA,
-  Titan: TITAN_DATA,
+  // 'Titan' removed (absorbed into Warden as Monolith specialization)
   Toxicologist: TOXICOLOGIST_DATA,
   Warden: WARDEN_DATA,
-  "Witch Doctor": WITCH_DOCTOR_DATA,
   Augur: AUGUR_DATA,
-  Doomsayer: DOOMSAYER_DATA,
 };

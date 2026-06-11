@@ -143,7 +143,7 @@ const CollectionViewWindow = ({
               spell.effectResolutions?.damage?.config?.formula ||
               '6d6',
         flat: spell.damageConfig.flatBonus || 0,
-        type: spell.damageConfig.elementType || spell.typeConfig?.school || 'force'
+        type: spell.damageConfig.elementType || spell.typeConfig?.school || 'arcane'
       } : null,
 
       // Damage types - CRITICAL: Use the same logic as Step10Review
@@ -407,7 +407,7 @@ const CollectionViewWindow = ({
                     transformedSpell.primaryDamage?.dice) {
                   transformedSpell.damageConfig = {
                     damageType: 'direct',
-                    elementType: transformedSpell.damageTypes?.[0] || 'fire',
+                    elementType: transformedSpell.damageTypes?.[0] || 'ember',
                     formula: transformedSpell.primaryDamage.dice
                   };
                 }

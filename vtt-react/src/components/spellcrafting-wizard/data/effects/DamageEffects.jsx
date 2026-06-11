@@ -31,7 +31,7 @@ const DamageEffects = () => {
     const currentDamageConfig = state.damageConfig || {};
     
     // Use damage types from Step 1 if available, otherwise use current config or defaults
-    const primaryElementType = currentDamageConfig.elementType || state.typeConfig?.school || 'fire';
+    const primaryElementType = currentDamageConfig.elementType || state.typeConfig?.school || 'ember';
     const secondaryElementType = currentDamageConfig.secondaryElementType || state.typeConfig?.secondaryElement || null;
 
     return {
@@ -269,7 +269,7 @@ const DamageEffects = () => {
   };
 
   const getCurrentElement = () => {
-    return damageConfig.elementType || 'fire';
+    return damageConfig.elementType || 'ember';
   };
 
   // Get all available character stats organized by category
@@ -396,7 +396,7 @@ const DamageEffects = () => {
       { name: 'Consecutive Force', formula: 'CONSECUTIVE_HEADS > 2 ? HEADS_COUNT * 12 : HEADS_COUNT * 6', description: 'Double damage per head with 3+ consecutive' },
       { name: 'Balance Chaos', formula: 'HEADS_COUNT == TAILS_COUNT ? 55 + intelligence * 2 : ABS(HEADS_COUNT - TAILS_COUNT) * 8', description: 'Big bonus if balanced, damage from imbalance' },
       { name: 'Fortune Storm', formula: 'HEADS_COUNT * 7 + (ALL_HEADS ? 30 : CONSECUTIVE_HEADS * 4)', description: '7 per head, +30 if all heads or +4 per consecutive' },
-      { name: 'Fate Weaver', formula: 'COIN_COUNT * 4 + LONGEST_STREAK * 8 + (PATTERN_MATCH > 0 ? 20 : 0)', description: 'Complex fate manipulation with pattern bonus' },
+      { name: 'Gambit', formula: 'COIN_COUNT * 4 + LONGEST_STREAK * 8 + (PATTERN_MATCH > 0 ? 20 : 0)', description: 'Complex fate manipulation with pattern bonus' },
       { name: 'Probability Bend', formula: 'HEADS_RATIO > 0.7 ? intelligence * 3 + HEADS_COUNT * 10 : HEADS_COUNT * 5', description: 'Massive bonus if 70%+ heads' }
     ];
   };

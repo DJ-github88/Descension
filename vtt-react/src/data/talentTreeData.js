@@ -30,17 +30,9 @@
 // Import the moved talent trees
 // Temporarily commented out to resolve duplicate declarations
 */
-import {
-  DREADNAUGHT_SHADOW_CITADEL,
-  DREADNAUGHT_SUFFERING_WEAVER,
-  DREADNAUGHT_DOOM_BRINGER
-} from './talentTrees/dreadnaught.js';
+// 'Dreadnaught' talent trees removed (absorbed into Martyr as Ironclad specialization)
 
-import {
-  TITAN_COLOSSAL_STRENGTH,
-  TITAN_EARTH_DOMINION,
-  TITAN_STRAIN_ENDURANCE
-} from './talentTrees/titan.js';
+// Titan talent trees removed (absorbed into Warden as Monolith specialization)
 
 import {
   TOXICOLOGIST_VENOMANCER,
@@ -67,23 +59,16 @@ import {
 } from './talentTrees/chronarch.js';
 
 import {
-  CHAOS_WEAVER_REALITY_BENDING,
-  CHAOS_WEAVER_ENTROPY_CONTROL,
-  CHAOS_WEAVER_CHAOS_DICE,
-  CHAOS_WEAVER_WILD_MAGIC
-} from './talentTrees/chaosweaver.js';
+  HARBINGER_WILD_PROPHET,
+  HARBINGER_DEATHS_SEER,
+  HARBINGER_FATE_RIFT
+} from './talentTrees/harbinger.js';
 
 import {
-  FATE_WEAVER_FORTUNE_TELLER,
-  FATE_WEAVER_CARD_MASTER,
-  FATE_WEAVER_THREAD_WEAVER
-} from './talentTrees/fateweaver.js';
-
-import {
-  GAMBLER_LUCK_MANIPULATION,
-  GAMBLER_RISK_MANAGEMENT,
-  GAMBLER_FATE_CONTROL
-} from './talentTrees/gambler.js';
+  GAMBIT_PROBABILITY_SAVANT,
+  GAMBIT_HIGH_ROLLER,
+  GAMBIT_KARMIC_WEAVER
+} from './talentTrees/gambit.js';
 
 import {
   MARTYR_REDEMPTION,
@@ -97,29 +82,25 @@ import {
   FALSE_PROPHET_CULTIST
 } from './talentTrees/falseprophet.js';
 
+// Inquisitor - Merged Covenbane + Exorcist
 import {
-  EXORCIST_DEMONOLOGIST,
-  EXORCIST_DEMON_LORD,
-  EXORCIST_POSSESSED
-} from './talentTrees/exorcist.js';
+  INQUISITOR_WITCH_HAMMER,
+  INQUISITOR_IRON_VERDICT,
+  INQUISITOR_HOLLOW_SAINT
+} from './talentTrees/inquisitor.js';
+
 
 import {
-  ORACLE_SEER,
-  ORACLE_TRUTHSEEKER,
-  ORACLE_FATESEER
-} from './talentTrees/oracle.js';
-
-import {
-  PLAGUEBRINGER_VIRULENT_SPREADER,
   PLAGUEBRINGER_TORMENT_WEAVER,
   PLAGUEBRINGER_DECAY_HARBINGER
 } from './talentTrees/plaguebringer.js';
 
+// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
 import {
-  LICHBORNE_FROSTBOUND_TYRANT,
-  LICHBORNE_SPECTRAL_REAPER,
-  LICHBORNE_PHYLACTERY_GUARDIAN
-} from './talentTrees/lichborne.js';
+  REVENANT_SANGUINE_HARVEST,
+  REVENANT_FROST_SOVEREIGN,
+  REVENANT_PHYLACTERY_ANCHOR
+} from './talentTrees/revenant.js';
 
 import {
   SPELLGUARD_ARCANE_WARDEN,
@@ -128,10 +109,10 @@ import {
 } from './talentTrees/spellguard.js';
 
 import {
-  INSCRIPTOR_RUNEBINDER,
-  INSCRIPTOR_ENCHANTER,
-  INSCRIPTOR_GLYPHWEAVER
-} from './talentTrees/inscriptor.js';
+  ANIMIST_THORNWARDEN,
+  ANIMIST_SPIRIT_BINDER,
+  ANIMIST_STORMSCRIBE
+} from './talentTrees/animist.js';
 
 import {
   ARCANONEER_PRISM_MAGE,
@@ -139,19 +120,7 @@ import {
   ARCANONEER_SPHERE_ARCHITECT
 } from './talentTrees/arcanoneer.js';
 
-import {
-  FORMBENDER_METAMORPH,
-  FORMBENDER_FORM_THIEF,
-  FORMBENDER_PRIMORDIAL
-} from './talentTrees/formbender.js';
 
-import {
-  WITCH_DOCTOR_BOKOR,
-
-  WITCH_DOCTOR_MAMBO,
-
-  WITCH_DOCTOR_HOUNGAN
-} from './talentTrees/witchdoctor.js';
 
 import {
   BERSERKER_PRIMAL_RAGE,
@@ -160,40 +129,16 @@ import {
 } from './talentTrees/berserker.js';
 
 import {
-  PRIMALIST_EARTHWARDEN,
-  PRIMALIST_STORMBRINGER,
-  PRIMALIST_SPIRITCALLER
-} from './talentTrees/primalist.js';
-
-import {
-  DEATHCALLER_BLOOD_REAVER,
-  DEATHCALLER_SPECTRAL_MASTER,
-  DEATHCALLER_VOID_CALLER
-} from './talentTrees/deathcaller.js';
-
-import {
   AUGUR_AUSPICE,
   AUGUR_HARBINGER,
   AUGUR_HIEROPHANT
 } from './talentTrees/augur.js';
 
 import {
-  DOOMSAYER_REQUIEM,
-  DOOMSAYER_ENDBRINGER,
-  DOOMSAYER_CATACLYSM
-} from './talentTrees/doomsayer.js';
-
-import {
-  COVENBANE_SHADOWBANE,
-  COVENBANE_SPELLBREAKER,
-  COVENBANE_DEMONHUNTER
-} from './talentTrees/covenbane.js';
-
-import {
-  BLADEDANCER_FLOW_MASTER,
-  BLADEDANCER_DUELIST,
-  BLADEDANCER_SHADOW_DANCER
-} from './talentTrees/bladedancer.js';
+  SHAPER_FLOW_MASTER,
+  SHAPER_IRON_DANCER,
+  SHAPER_PRIMAL_SHADOW
+} from './talentTrees/shaper.js';
 
 import {
   LUNARCH_MOONLIGHT_SENTINEL,
@@ -202,10 +147,10 @@ import {
 } from './talentTrees/lunarch.js';
 
 import {
-  HUNTRESS_SHADOWBLADE,
-  HUNTRESS_BLADESTORM,
-  HUNTRESS_BEASTMASTER
-} from './talentTrees/huntress.js';
+  APEX_SHADOWBLADE,
+  APEX_BLADESTORM,
+  APEX_BEASTMASTER
+} from './talentTrees/apex.js';
 
 import {
   WARDEN_SHADOWBLADE,
@@ -230,75 +175,54 @@ export const getTreeBackdrop = (className, specId) => {
       'displacement': 'url(/assets/backdrops/chronarch-displacement.jpg)',
       'rewinding': 'url(/assets/backdrops/chronarch-rewinding.jpg)'
     },
-    'Dreadnaught': {
-      'shadow_citadel': 'url(/assets/backdrops/dreadnaught-shadow-citadel.jpg)',
-      'suffering_weaver': 'url(/assets/backdrops/dreadnaught-suffering-weaver.jpg)',
-      'doom_bringer': 'url(/assets/backdrops/dreadnaught-doom-bringer.jpg)'
-    },
-    'Titan': {
-      'colossal_strength': 'url(/assets/backdrops/titan-colossal-strength.jpg)',
-      'earth_dominion': 'url(/assets/backdrops/titan-earth-dominion.jpg)',
-      'strain_endurance': 'url(/assets/backdrops/titan-strain-endurance.jpg)'
-    },
+    // 'Dreadnaught' backdrops removed (absorbed into Martyr as Ironclad specialization)
+    // 'Titan' backdrops removed (absorbed into Warden as Monolith specialization)
     'Toxicologist': {
       'venomancer': 'url(/assets/backdrops/toxicologist-venomancer.jpg)',
       'gadgeteer': 'url(/assets/backdrops/toxicologist-gadgeteer.jpg)',
       'saboteur': 'url(/assets/backdrops/toxicologist-saboteur.jpg)'
     },
-    'Chaos Weaver': {
-      'reality_bending': 'url(/assets/backdrops/chaos-reality.jpg)',
-      'entropy_control': 'url(/assets/backdrops/chaos-entropy.jpg)',
-      'chaos_dice': 'url(/assets/backdrops/chaos-dice.jpg)'
+    'Harbinger': {
+      'wild_prophet': 'url(/assets/backdrops/harbinger-wild-prophet.jpg)',
+      'deaths_seer': 'url(/assets/backdrops/harbinger-deaths-seer.jpg)',
+      'fate_rift': 'url(/assets/backdrops/harbinger-fate-rift.jpg)'
     },
     'Arcanoneer': {
       'prism_mage': 'url(/assets/backdrops/arcanoneer-prism.jpg)',
       'entropy_weaver': 'url(/assets/backdrops/arcanoneer-entropy.jpg)',
       'sphere_architect': 'url(/assets/backdrops/arcanoneer-sphere.jpg)'
     },
-    'Formbender': {
-      'metamorph': 'url(/assets/backdrops/formbender-metamorph.jpg)',
-      'form-thief': 'url(/assets/backdrops/formbender-form-thief.jpg)',
-      'primordial': 'url(/assets/backdrops/formbender-primordial.jpg)'
+
+    'Animist': {
+      'thornwarden': 'url(/assets/backdrops/animist-thornwarden.jpg)',
+      'spirit_binder': 'url(/assets/backdrops/animist-spirit-binder.jpg)',
+      'stormscribe': 'url(/assets/backdrops/animist-stormscribe.jpg)'
     },
-    'Witch Doctor': {
-      'bokor': 'url(/assets/backdrops/witch-doctor-shadow.jpg)',
-      'mambo': 'url(/assets/backdrops/witch-doctor-spirit.jpg)',
-      'houngan': 'url(/assets/backdrops/witch-doctor-war.jpg)'
+    'Inquisitor': {
+      'witch_hammer': 'url(/assets/backdrops/inquisitor-witch-hammer.jpg)',
+      'iron_verdict': 'url(/assets/backdrops/inquisitor-iron-verdict.jpg)',
+      'hollow_saint': 'url(/assets/backdrops/inquisitor-hollow-saint.jpg)'
     },
-    'Covenbane': {
-      'shadowbane': 'url(/assets/backdrops/covenbane-shadowbane.jpg)',
-      'spellbreaker': 'url(/assets/backdrops/covenbane-spellbreaker.jpg)',
-      'demonhunter': 'url(/assets/backdrops/covenbane-demonhunter.jpg)'
-    },
-    'Bladedancer': {
-      'flow-master': 'url(/assets/backdrops/bladedancer-flow-master.jpg)',
-      'duelist': 'url(/assets/backdrops/bladedancer-duelist.jpg)',
-      'shadow-dancer': 'url(/assets/backdrops/bladedancer-shadow-dancer.jpg)'
-    },
+
     'Lunarch': {
       'moonlight-sentinel': 'url(/assets/backdrops/lunarch-moonlight-sentinel.jpg)',
       'starfall-invoker': 'url(/assets/backdrops/lunarch-starfall-invoker.jpg)',
       'moonwell-guardian': 'url(/assets/backdrops/lunarch-moonwell-guardian.jpg)'
     },
-    'Huntress': {
-      'shadowblade': 'url(/assets/backdrops/huntress-shadowblade.jpg)',
-      'bladestorm': 'url(/assets/backdrops/huntress-bladestorm.jpg)',
-      'beastmaster': 'url(/assets/backdrops/huntress-beastmaster.jpg)'
+    'Apex': {
+      'shadowblade': 'url(/assets/backdrops/apex-shadowblade.jpg)',
+      'bladestorm': 'url(/assets/backdrops/apex-bladestorm.jpg)',
+      'beastmaster': 'url(/assets/backdrops/apex-beastmaster.jpg)'
     },
     'Warden': {
       'shadowblade': 'url(/assets/backdrops/warden-shadowblade.jpg)',
       'jailer': 'url(/assets/backdrops/warden-jailer.jpg)',
       'avenger': 'url(/assets/backdrops/warden-avenger.jpg)'
     },
-    'Fate Weaver': {
-      'fortune_teller': 'url(/assets/backdrops/fate-fortune.jpg)',
-      'card_master': 'url(/assets/backdrops/fate-cardmaster.jpg)',
-      'thread_weaver': 'url(/assets/backdrops/fate-thread.jpg)'
-    },
-    'Gambler': {
-      'fortunes_favor': 'url(/assets/backdrops/gambler-luck.jpg)',
+    'Gambit': {
+      'probability_savant': 'url(/assets/backdrops/fate-fortune.jpg)',
       'high_roller': 'url(/assets/backdrops/gambler-risk.jpg)',
-      'card_sharp': 'url(/assets/backdrops/gambler-fate.jpg)'
+      'karmic_weaver': 'url(/assets/backdrops/fate-thread.jpg)'
     },
     'Martyr': {
       'redemption': 'url(/assets/backdrops/martyr-protector.jpg)',
@@ -310,45 +234,21 @@ export const getTreeBackdrop = (className, specId) => {
       'deceiver': 'url(/assets/backdrops/falseprophet-deceiver.jpg)',
       'cultist': 'url(/assets/backdrops/falseprophet-cultist.jpg)'
     },
-    'Exorcist': {
-      'demonologist': 'url(/assets/backdrops/exorcist-demonologist.jpg)',
-      'demon_lord': 'url(/assets/backdrops/exorcist-demonlord.jpg)',
-      'possessed': 'url(/assets/backdrops/exorcist-possessed.jpg)'
-    },
-    'Oracle': {
-      'seer': 'url(/assets/backdrops/oracle-seer.jpg)',
-      'truthseeker': 'url(/assets/backdrops/oracle-truthseeker.jpg)',
-      'fateseer': 'url(/assets/backdrops/oracle-fateseer.jpg)'
-    },
     'Plaguebringer': {
       'virulent_spreader': 'url(/assets/backdrops/plaguebringer-virulent.jpg)',
       'torment_weaver': 'url(/assets/backdrops/plaguebringer-torment.jpg)',
       'decay_harbinger': 'url(/assets/backdrops/plaguebringer-decay.jpg)'
     },
-    'Lichborne': {
-      'frostbound_tyrant': 'url(/assets/backdrops/lichborne-frostbound.jpg)',
-      'spectral_reaper': 'url(/assets/backdrops/lichborne-spectral.jpg)',
-      'phylactery_guardian': 'url(/assets/backdrops/lichborne-phylactery.jpg)'
-    },
-    'Deathcaller': {
-      'blood_reaver': 'url(/assets/backdrops/deathcaller-blood.jpg)',
-      'spectral_master': 'url(/assets/backdrops/deathcaller-spectral.jpg)',
-      'void_caller': 'url(/assets/backdrops/deathcaller-void.jpg)'
+    // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+    'Revenant': {
+      'sanguine_harvest': 'url(/assets/backdrops/deathcaller-blood.jpg)',
+      'frost_sovereign': 'url(/assets/backdrops/lichborne-frostbound.jpg)',
+      'phylactery_anchor': 'url(/assets/backdrops/lichborne-phylactery.jpg)'
     },
     'Spellguard': {
       'arcane_warden': 'url(/assets/backdrops/spellguard-warden.jpg)',
       'spell_breaker': 'url(/assets/backdrops/spellguard-breaker.jpg)',
       'mana_reaver': 'url(/assets/backdrops/spellguard-reaver.jpg)'
-    },
-    'Inscriptor': {
-      'runebinder': 'url(/assets/backdrops/inscriptor-runebinder.jpg)',
-      'enchanter': 'url(/assets/backdrops/inscriptor-enchanter.jpg)',
-      'glyphweaver': 'url(/assets/backdrops/inscriptor-glyphweaver.jpg)'
-    },
-    'Primalist': {
-      'earthwarden': 'url(/assets/backdrops/primalist-earthwarden.jpg)',
-      'stormbringer': 'url(/assets/backdrops/primalist-stormbringer.jpg)',
-      'spiritcaller': 'url(/assets/backdrops/primalist-spiritcaller.jpg)'
     },
     'Berserker': {
       'primal_rage': 'url(/assets/backdrops/berserker-primal-rage.jpg)',
@@ -359,11 +259,6 @@ export const getTreeBackdrop = (className, specId) => {
       'auspex': 'url(/assets/backdrops/augur-auspex.jpg)',
       'harbinger': 'url(/assets/backdrops/augur-harbinger.jpg)',
       'hierophant': 'url(/assets/backdrops/augur-hierophant.jpg)'
-    },
-    'Doomsayer': {
-      'requiem': 'url(/assets/backdrops/doomsayer-requiem.jpg)',
-      'endbringer': 'url(/assets/backdrops/doomsayer-endbringer.jpg)',
-      'cataclysm': 'url(/assets/backdrops/doomsayer-cataclysm.jpg)'
     },
     // Add more classes as needed
   };
@@ -382,16 +277,8 @@ export const getFallbackBackground = (treeIndex) => {
   return backgrounds[treeIndex % 3];
 };
 export const TALENT_TREES = {
-  'Dreadnaught': {
-    'shadow_citadel': DREADNAUGHT_SHADOW_CITADEL,
-    'suffering_weaver': DREADNAUGHT_SUFFERING_WEAVER,
-    'doom_bringer': DREADNAUGHT_DOOM_BRINGER
-  },
-  'Titan': {
-    'colossal_strength': TITAN_COLOSSAL_STRENGTH,
-    'earth_dominion': TITAN_EARTH_DOMINION,
-    'strain_endurance': TITAN_STRAIN_ENDURANCE
-  },
+  // 'Dreadnaught' tree map removed (absorbed into Martyr as Ironclad specialization)
+  // 'Titan' tree map removed (absorbed into Warden as Monolith specialization)
   'Toxicologist': {
     'venomancer': TOXICOLOGIST_VENOMANCER,
     'gadgeteer': TOXICOLOGIST_GADGETEER,
@@ -412,21 +299,15 @@ export const TALENT_TREES = {
     'displacement': CHRONARCH_DISPLACEMENT_TREE,
     'rewinding': CHRONARCH_REWINDING_TREE
   },
-  'Chaos Weaver': {
-    'reality_bending': CHAOS_WEAVER_REALITY_BENDING,
-    'entropy_control': CHAOS_WEAVER_ENTROPY_CONTROL,
-    'chaos_dice': CHAOS_WEAVER_CHAOS_DICE,
-    'wild_magic': CHAOS_WEAVER_WILD_MAGIC
+  'Harbinger': {
+    'wild_prophet': HARBINGER_WILD_PROPHET,
+    'deaths_seer': HARBINGER_DEATHS_SEER,
+    'fate_rift': HARBINGER_FATE_RIFT
   },
-  'Fate Weaver': {
-    'fortune_teller': FATE_WEAVER_FORTUNE_TELLER,
-    'card_master': FATE_WEAVER_CARD_MASTER,
-    'thread_weaver': FATE_WEAVER_THREAD_WEAVER
-  },
-  'Gambler': {
-    'fortunes_favor': GAMBLER_LUCK_MANIPULATION,
-    'high_roller': GAMBLER_RISK_MANAGEMENT,
-    'card_sharp': GAMBLER_FATE_CONTROL
+  'Gambit': {
+    'probability_savant': GAMBIT_PROBABILITY_SAVANT,
+    'high_roller': GAMBIT_HIGH_ROLLER,
+    'karmic_weaver': GAMBIT_KARMIC_WEAVER
   },
   'Martyr': {
     'redemption': MARTYR_REDEMPTION,
@@ -438,70 +319,53 @@ export const TALENT_TREES = {
     'deceiver': FALSE_PROPHET_DECEIVER,
     'cultist': FALSE_PROPHET_CULTIST
   },
-  'Exorcist': {
-    'demonologist': EXORCIST_DEMONOLOGIST,
-    'demon_lord': EXORCIST_DEMON_LORD,
-    'possessed': EXORCIST_POSSESSED
-  },
-  'Oracle': {
-    'seer': ORACLE_SEER,
-    'truthseeker': ORACLE_TRUTHSEEKER,
-    'fateseer': ORACLE_FATESEER
-  },
   'Plaguebringer': {
     'virulent_spreader': PLAGUEBRINGER_VIRULENT_SPREADER,
     'torment_weaver': PLAGUEBRINGER_TORMENT_WEAVER,
     'decay_harbinger': PLAGUEBRINGER_DECAY_HARBINGER
   },
-  'Lichborne': {
-    'frostbound_tyrant': LICHBORNE_FROSTBOUND_TYRANT,
-    'spectral_reaper': LICHBORNE_SPECTRAL_REAPER,
-    'phylactery_guardian': LICHBORNE_PHYLACTERY_GUARDIAN
+  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+  'Revenant': {
+    'sanguine_harvest': REVENANT_SANGUINE_HARVEST,
+    'frost_sovereign': REVENANT_FROST_SOVEREIGN,
+    'phylactery_anchor': REVENANT_PHYLACTERY_ANCHOR
   },
   'Spellguard': {
     'arcane_warden': SPELLGUARD_ARCANE_WARDEN,
     'spell_breaker': SPELLGUARD_SPELL_BREAKER,
     'mana_reaver': SPELLGUARD_MANA_REAVER
   },
-  'Inscriptor': {
-    'runebinder': INSCRIPTOR_RUNEBINDER,
-    'enchanter': INSCRIPTOR_ENCHANTER,
-    'glyphweaver': INSCRIPTOR_GLYPHWEAVER
+  'Animist': {
+    'thornwarden': ANIMIST_THORNWARDEN,
+    'spirit_binder': ANIMIST_SPIRIT_BINDER,
+    'stormscribe': ANIMIST_STORMSCRIBE
   },
   'Arcanoneer': {
     'prism_mage': ARCANONEER_PRISM_MAGE,
     'entropy_weaver': ARCANONEER_ENTROPY_WEAVER,
     'sphere_architect': ARCANONEER_SPHERE_ARCHITECT
   },
-  'Formbender': {
-    'metamorph': FORMBENDER_METAMORPH,
-    'form_thief': FORMBENDER_FORM_THIEF,
-    'primordial': FORMBENDER_PRIMORDIAL
+  // 'Bladedancer' and 'Formbender' merged into Shaper as Phase 1.8 consolidation
+  'Shaper': {
+    'flow-master': SHAPER_FLOW_MASTER,
+    'iron-dancer': SHAPER_IRON_DANCER,
+    'primal-shadow': SHAPER_PRIMAL_SHADOW
   },
-  'Witch Doctor': {
-    'bokor': WITCH_DOCTOR_BOKOR,
-    'mambo': WITCH_DOCTOR_MAMBO,
-    'houngan': WITCH_DOCTOR_HOUNGAN
+  'Inquisitor': {
+    'witch_hammer': INQUISITOR_WITCH_HAMMER,
+    'iron_verdict': INQUISITOR_IRON_VERDICT,
+    'hollow_saint': INQUISITOR_HOLLOW_SAINT
   },
-  'Covenbane': {
-    'shadowbane': COVENBANE_SHADOWBANE,
-    'spellbreaker': COVENBANE_SPELLBREAKER,
-    'demonhunter': COVENBANE_DEMONHUNTER
-  },
-  'Bladedancer': {
-    'flow-master': BLADEDANCER_FLOW_MASTER,
-    'duelist': BLADEDANCER_DUELIST,
-    'shadow-dancer': BLADEDANCER_SHADOW_DANCER
-  },
+
   'Lunarch': {
     'moonlight-sentinel': LUNARCH_MOONLIGHT_SENTINEL,
     'starfall-invoker': LUNARCH_STARFALL_INVOKER,
     'moonwell-guardian': LUNARCH_MOONWELL_GUARDIAN
   },
-  'Huntress': {
-    'shadowblade': HUNTRESS_SHADOWBLADE,
-    'bladestorm': HUNTRESS_BLADESTORM,
-    'beastmaster': HUNTRESS_BEASTMASTER
+  'Apex': {
+    'shadowblade': APEX_SHADOWBLADE,
+    'bladestorm': APEX_BLADESTORM,
+    'beastmaster': APEX_BEASTMASTER
   },
   'Warden': {
     'shadowblade': WARDEN_SHADOWBLADE,
@@ -514,26 +378,17 @@ export const TALENT_TREES = {
     'blood_frenzy': BERSERKER_BLOOD_FRENZY,
     'savage_instincts': BERSERKER_SAVAGE_INSTINCTS
   },
-  'Primalist': {
-    'earthwarden': PRIMALIST_EARTHWARDEN,
-    'stormbringer': PRIMALIST_STORMBRINGER,
-    'spiritcaller': PRIMALIST_SPIRITCALLER
-  },
-  'Deathcaller': {
-    'blood_reaver': DEATHCALLER_BLOOD_REAVER,
-    'spectral_master': DEATHCALLER_SPECTRAL_MASTER,
-    'void_caller': DEATHCALLER_VOID_CALLER
+  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+  'Revenant': {
+    'sanguine_harvest': REVENANT_SANGUINE_HARVEST,
+    'frost_sovereign': REVENANT_FROST_SOVEREIGN,
+    'phylactery_anchor': REVENANT_PHYLACTERY_ANCHOR
   },
   'Augur': {
     'auspex': AUGUR_AUSPICE,
     'harbinger': AUGUR_HARBINGER,
     'hierophant': AUGUR_HIEROPHANT
   },
-  'Doomsayer': {
-    'requiem': DOOMSAYER_REQUIEM,
-    'endbringer': DOOMSAYER_ENDBRINGER,
-    'cataclysm': DOOMSAYER_CATACLYSM
-  }
 };
 
 // Helper function to get talents for a specific class and specialization

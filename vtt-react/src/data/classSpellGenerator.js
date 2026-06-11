@@ -9,34 +9,26 @@ import { CLASS_SPECIALIZATIONS } from './classSpellCategories';
 // Import ALL class data files
 import { ARCANONEER_DATA } from './classes/arcanoneerData';
 import { BERSERKER_DATA } from './classes/berserkerData';
-import { BLADEDANCER_DATA } from './classes/bladedancerData';
-import { CHAOS_WEAVER_DATA } from './classes/chaosWeaverData';
+import { SHAPER_DATA } from './classes/shaperData';
+import { HARBINGER_DATA } from './classes/harbingerData';
 import { CHRONARCH_DATA } from './classes/chronarchData';
-import { COVENBANE_DATA } from './classes/covenbaneData';
-import { DEATHCALLER_DATA } from './classes/deathcallerData';
-import { DREADNAUGHT_DATA } from './classes/dreadnaughtData';
-import { EXORCIST_DATA } from './classes/exorcistData';
+// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+import { REVENANT_DATA } from './classes/revenantData';
+// 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
+import { INQUISITOR_DATA } from './classes/inquisitorData';
 import { FALSE_PROPHET_DATA } from './classes/falseProphetData';
-import { FATE_WEAVER_DATA } from './classes/fateWeaverData';
-import { FORMBENDER_DATA } from './classes/formbenderData';
-import { GAMBLER_DATA } from './classes/gamblerData';
-import { HUNTRESS_DATA } from './classes/huntressData';
-import { INSCRIPTOR_DATA } from './classes/inscriptorData';
-import { LICHBORNE_DATA } from './classes/lichborneData';
+import { GAMBIT_DATA } from './classes/gambitData';
+import { APEX_DATA } from './classes/apexData';
 import { LUNARCH_DATA } from './classes/lunarchData';
 import { MARTYR_DATA } from './classes/martyrData';
 import { MINSTREL_DATA } from './classes/minstrelData';
-import { ORACLE_DATA } from './classes/oracleData';
 import { PLAGUEBRINGER_DATA } from './classes/plaguebringerData';
-import { PRIMALIST_DATA } from './classes/primalistData';
+import { ANIMIST_DATA } from './classes/animistData';
 import { PYROFIEND_DATA } from './classes/pyrofiendData';
 import { SPELLGUARD_DATA } from './classes/spellguardData';
-import { TITAN_DATA } from './classes/titanData';
 import { TOXICOLOGIST_DATA } from './classes/toxicologistData';
 import { WARDEN_DATA } from './classes/wardenData';
-import { WITCH_DOCTOR_DATA } from './classes/witchDoctorData';
 import { AUGUR_DATA } from './classes/augurData';
-import { DOOMSAYER_DATA } from './classes/doomsayerData';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
@@ -44,34 +36,27 @@ import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 export const CLASS_DATA_MAP = {
   'Arcanoneer': ARCANONEER_DATA,
   'Berserker': BERSERKER_DATA,
-  'Bladedancer': BLADEDANCER_DATA,
-  'Chaos Weaver': CHAOS_WEAVER_DATA,
+  'Shaper': SHAPER_DATA,
+  'Harbinger': HARBINGER_DATA,
   'Chronarch': CHRONARCH_DATA,
-  'Covenbane': COVENBANE_DATA,
-  'Deathcaller': DEATHCALLER_DATA,
-  'Dreadnaught': DREADNAUGHT_DATA,
-  'Exorcist': EXORCIST_DATA,
+  // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
+  'Inquisitor': INQUISITOR_DATA,
+  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+  'Revenant': REVENANT_DATA,
   'False Prophet': FALSE_PROPHET_DATA,
-  'Fate Weaver': FATE_WEAVER_DATA,
-  'Formbender': FORMBENDER_DATA,
-  'Gambler': GAMBLER_DATA,
-  'Huntress': HUNTRESS_DATA,
-  'Inscriptor': INSCRIPTOR_DATA,
-  'Lichborne': LICHBORNE_DATA,
+  'Gambit': GAMBIT_DATA,
+  'Apex': APEX_DATA,
+  'Animist': ANIMIST_DATA,
   'Lunarch': LUNARCH_DATA,
   'Martyr': MARTYR_DATA,
   'Minstrel': MINSTREL_DATA,
-  'Oracle': ORACLE_DATA,
   'Plaguebringer': PLAGUEBRINGER_DATA,
-  'Primalist': PRIMALIST_DATA,
   'Pyrofiend': PYROFIEND_DATA,
   'Spellguard': SPELLGUARD_DATA,
-  'Titan': TITAN_DATA,
   'Toxicologist': TOXICOLOGIST_DATA,
   'Warden': WARDEN_DATA,
-  'Witch Doctor': WITCH_DOCTOR_DATA,
   'Augur': AUGUR_DATA,
-  'Doomsayer': DOOMSAYER_DATA
+  'Harbinger': HARBINGER_DATA
 };
 
 // ===== GENERIC SPELL NORMALIZATION =====
@@ -527,52 +512,24 @@ if (CLASS_DATA_MAP['Martyr']?.spells || CLASS_DATA_MAP['Martyr']?.exampleSpells)
   // });
 }
 
-// Fate Weaver
-if (CLASS_DATA_MAP['Fate Weaver']?.spells || CLASS_DATA_MAP['Fate Weaver']?.exampleSpells) {
-  const fateWeaverSpells = CLASS_DATA_MAP['Fate Weaver'].spells || CLASS_DATA_MAP['Fate Weaver'].exampleSpells;
-  function determineFateWeaverSpecialization(spell) {
-    const id = (spell.id || '').toLowerCase();
-    const tags = (spell.tags || []).join(' ');
-    if (id.includes('echo') || id.includes('past') || tags.includes('support')) {
-      return 'fortune_teller';
-    }
-    if (id.includes('hand') || id.includes('draw') || id.includes('solitaire')) {
-      return 'card_master';
-    }
-    if (id.includes('heart') || id.includes('war') || id.includes('thread')) {
-      return 'thread_weaver';
-    }
-    return 'fortune_teller';
-  }
-  const processed = fateWeaverSpells
-    .map(spell => normalizeClassSpell(spell, 'Fate Weaver', determineFateWeaverSpecialization));
-  generatedSpells['Fate Weaver'] = processed;
-  // console.log(`✅ Loaded ${processed.length} Fate Weaver spells into ALL_CLASS_SPELLS`);
-} else {
-  // console.warn('⚠️ Fate Weaver spells not found in CLASS_DATA_MAP', {
-  //   hasFateWeaver: !!CLASS_DATA_MAP['Fate Weaver'],
-  //   hasSpells: !!CLASS_DATA_MAP['Fate Weaver']?.spells,
-  //   hasExampleSpells: !!CLASS_DATA_MAP['Fate Weaver']?.exampleSpells
-  // });
+// Gambit
+if (CLASS_DATA_MAP['Gambit']?.spells || CLASS_DATA_MAP['Gambit']?.exampleSpells) {
+  const gambitSpells = CLASS_DATA_MAP['Gambit'].spells || CLASS_DATA_MAP['Gambit'].exampleSpells;
+  const processed = gambitSpells
+    .map(spell => normalizeClassSpell(spell, 'Gambit', () => 'probability_savant'));
+  generatedSpells['Gambit'] = processed;
 }
 
-// Chaos Weaver
-if (CLASS_DATA_MAP['Chaos Weaver']?.spells || CLASS_DATA_MAP['Chaos Weaver']?.exampleSpells) {
-  const chaosWeaverSpells = CLASS_DATA_MAP['Chaos Weaver'].spells || CLASS_DATA_MAP['Chaos Weaver'].exampleSpells;
-  const processed = processChaosWeaverSpells(chaosWeaverSpells);
-  generatedSpells['Chaos Weaver'] = processed;
-  // console.log(`✅ Loaded ${processed.length} Chaos Weaver spells into ALL_CLASS_SPELLS`);
-} else {
-  // console.warn('⚠️ Chaos Weaver spells not found in CLASS_DATA_MAP', {
-  //   hasChaosWeaver: !!CLASS_DATA_MAP['Chaos Weaver'],
-  //   hasSpells: !!CLASS_DATA_MAP['Chaos Weaver']?.spells,
-  //   hasExampleSpells: !!CLASS_DATA_MAP['Chaos Weaver']?.exampleSpells
-  // });
+// Harbinger (merged from Chaos Weaver + Doomsayer)
+if (CLASS_DATA_MAP['Harbinger']?.spells || CLASS_DATA_MAP['Harbinger']?.exampleSpells) {
+  const harbingerSpells = CLASS_DATA_MAP['Harbinger'].spells || CLASS_DATA_MAP['Harbinger'].exampleSpells;
+  const processed = processGenericClassSpells(harbingerSpells, 'Harbinger', determineChaosWeaverSpecialization);
+  generatedSpells['Harbinger'] = processed;
 }
 
 // ===== PROCESS REMAINING CLASSES =====
 // Generic processing for all classes not handled above
-const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Fate Weaver', 'Chaos Weaver'];
+const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger'];
 const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !processedClasses.includes(className));
 
 // Generic spell processor for classes without special processing

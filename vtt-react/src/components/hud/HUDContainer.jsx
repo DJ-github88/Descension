@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import PartyHUD from './PartyHUD';
 import TargetHUD from './TargetHUD';
 import usePartyStore from '../../store/partyStore';
@@ -7,12 +7,14 @@ import useCharacterStore from '../../store/characterStore';
 import WowWindow from '../windows/WowWindow';
 import { InspectionProvider } from '../../contexts/InspectionContext';
 import ChatBubbleManager from '../chat/ChatBubbleManager';
+import useGameStore from '../../store/gameStore';
+import RestOverlay from '../rest/RestOverlay';
 
-// Import the main character sheet components
-import CharacterPanel from '../character-sheet/Equipment';
-import CharacterStats from '../character-sheet/CharacterStats';
-import Skills from '../character-sheet/Skills';
-import Lore from '../character-sheet/Lore';
+// Lazy-loaded character sheet components to avoid circular bundling with ClassResourceBar
+const CharacterPanel = lazy(() => import('../character-sheet/Equipment'));
+const CharacterStats = lazy(() => import('../character-sheet/CharacterStats'));
+const Skills = lazy(() => import('../character-sheet/Skills'));
+const Lore = lazy(() => import('../character-sheet/Lore'));
 
 // Character Sheet Window component for inspection (same as Navigation.jsx)
 function CharacterSheetWindow({ isOpen, onClose, title }) {
@@ -22,27 +24,17 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     const safeTitle = title || 'Character Sheet';
 
     const renderContent = () => {
-        if (!CharacterPanel || !CharacterStats || !Skills || !Lore) {
-            console.error('Character sheet components not loaded:', {
-                CharacterPanel: !!CharacterPanel,
-                CharacterStats: !!CharacterStats,
-                Skills: !!Skills,
-                Lore: !!Lore
-            });
-            return <div>Loading character sheet...</div>;
-        }
-
         switch (activeTab) {
             case 'character':
-                return <CharacterPanel />;
+                return <Suspense fallback={<div>Loading character sheet...</div>}><CharacterPanel /></Suspense>;
             case 'stats':
-                return <CharacterStats />;
+                return <Suspense fallback={<div>Loading stats...</div>}><CharacterStats /></Suspense>;
             case 'skills':
-                return <Skills />;
+                return <Suspense fallback={<div>Loading skills...</div>}><Skills /></Suspense>;
             case 'lore':
-                return <Lore />;
+                return <Suspense fallback={<div>Loading lore...</div>}><Lore /></Suspense>;
             default:
-                return <CharacterPanel />;
+                return <Suspense fallback={<div>Loading character sheet...</div>}><CharacterPanel /></Suspense>;
         }
     };
 
@@ -91,9 +83,6 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
         </WowWindow>
     );
 }
-
-import useGameStore from '../../store/gameStore';
-import RestOverlay from '../rest/RestOverlay';
 
 const HUDContainer = () => {
     const [characterSheetOpen, setCharacterSheetOpen] = useState(false);

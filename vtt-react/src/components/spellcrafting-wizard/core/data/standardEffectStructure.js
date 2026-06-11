@@ -50,7 +50,7 @@ export const createStandardEffect = (type, id, config = {}) => {
         ...baseEffect,
         config: {
           damageType: config.damageType || 'direct',
-          elementType: config.elementType || 'fire',
+          elementType: config.elementType || 'ember',
           secondaryElementType: config.secondaryElementType || null,
           formula: config.formula || '1d6 + INT',
           

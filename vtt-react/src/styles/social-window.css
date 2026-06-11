@@ -551,15 +551,16 @@
   color: #228b22;
 }
 
-/* Forest green */
-.social-window .friend-class.Lichborne {
+/* Deep violet */
+.social-window .friend-class.Revenant {
   color: #800080;
 }
 
-/* Purple */
-.social-window .friend-class.Deathcaller {
-  color: #8A2BE2;
-}
+/* REMOVED: Lichborne merged into Revenant as Phase 1.10 consolidation */
+/* .social-window .friend-class.Lichborne { color: #800080; } */
+
+/* REMOVED: Deathcaller merged into Revenant as Phase 1.10 consolidation */
+/* .social-window .friend-class.Deathcaller { color: #8A2BE2; } */
 
 /* Blue violet */
 .social-window .friend-class.Spellguard {
@@ -577,7 +578,7 @@
 }
 
 /* Medium purple */
-.social-window .friend-class.Formbender {
+.social-window .friend-class.Shaper {
   color: #32CD32;
 }
 
@@ -591,15 +592,9 @@
   color: #b22222;
 }
 
-/* Firebrick */
-.social-window .friend-class.Dreadnaught {
-  color: #8c4a32;
-}
+/* 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization) */
 
-/* Rustic brown */
-.social-window .friend-class.Titan {
-  color: #2F4F4F;
-}
+/* Titan class style removed (absorbed into Warden as Monolith specialization) */
 
 /* Dark slate gray */
 .social-window .friend-class.Toxicologist {
@@ -607,12 +602,12 @@
 }
 
 /* Yellow green */
-.social-window .friend-class.Covenbane {
+.social-window .friend-class.Inquisitor {
   color: #87CEEB;
 }
 
 /* Sky blue */
-.social-window .friend-class.Bladedancer {
+.social-window .friend-class.Shaper {
   color: #5a5a5a;
 }
 
@@ -622,7 +617,7 @@
 }
 
 /* Lavender */
-.social-window .friend-class.Huntress {
+.social-window .friend-class.Apex {
   color: #4a934a;
 }
 

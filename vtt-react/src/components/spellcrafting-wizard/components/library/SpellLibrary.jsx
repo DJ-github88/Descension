@@ -870,7 +870,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           spell.effectResolutions?.damage?.config?.formula ||
           '6d6',
         flat: spell.damageConfig.flatBonus || 0,
-        type: spell.damageConfig.elementType || spell.typeConfig?.school || 'force'
+        type: spell.damageConfig.elementType || spell.typeConfig?.school || 'arcane'
       } : null,
 
       // Damage types - CRITICAL: Use the same logic as Step10Review
@@ -2402,7 +2402,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                     // Library spells are already formatted, so we don't need to call formatAllEffects
                     // Just ensure the spell has the basic effect properties for display
                     if (!transformedSpell.damageEffects && transformedSpell.damageConfig) {
-                      transformedSpell.damageEffects = [`${transformedSpell.damageConfig.formula || '1d6'} ${transformedSpell.damageConfig.elementType || 'force'} damage`];
+                      transformedSpell.damageEffects = [`${transformedSpell.damageConfig.formula || '1d6'} ${transformedSpell.damageConfig.elementType || 'arcane'} damage`];
                     }
                     if (!transformedSpell.healingEffects && transformedSpell.healingConfig) {
                       transformedSpell.healingEffects = [`${transformedSpell.healingConfig.formula || '1d8'} healing`];
@@ -2456,7 +2456,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                     if (!transformedSpell.damageConfig && (transformedSpell.effectType === 'damage' || transformedSpell.damageTypes?.length > 0)) {
                       transformedSpell.damageConfig = spell.damageConfig || {
                         damageType: 'direct',
-                        elementType: (spell.damageTypes && spell.damageTypes[0]) || 'fire',
+                        elementType: (spell.damageTypes && spell.damageTypes[0]) || 'ember',
                         formula: spell.primaryDamage?.dice || '1d6',
                         criticalConfig: {
                           enabled: false,

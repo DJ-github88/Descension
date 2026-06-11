@@ -772,20 +772,20 @@ const CleanStatusEffectConfigPopup = ({
       <h4>Element Type</h4>
       <div className="effect-options">
         <button
-          className={`effect-option-button ${statusEffectData?.option === 'fire' ? 'active' : ''}`}
-          onClick={() => updateEffectConfig('option', 'fire')}
+          className={`effect-option-button ${statusEffectData?.option === 'ember' ? 'active' : ''}`}
+          onClick={() => updateEffectConfig('option', 'ember')}
         >
           Fire Infusion
         </button>
         <button
-          className={`effect-option-button ${statusEffectData?.option === 'frost' ? 'active' : ''}`}
-          onClick={() => updateEffectConfig('option', 'frost')}
+          className={`effect-option-button ${statusEffectData?.option === 'rime' ? 'active' : ''}`}
+          onClick={() => updateEffectConfig('option', 'rime')}
         >
           Frost Infusion
         </button>
         <button
-          className={`effect-option-button ${statusEffectData?.option === 'lightning' ? 'active' : ''}`}
-          onClick={() => updateEffectConfig('option', 'lightning')}
+          className={`effect-option-button ${statusEffectData?.option === 'storm' ? 'active' : ''}`}
+          onClick={() => updateEffectConfig('option', 'storm')}
         >
           Lightning Infusion
         </button>

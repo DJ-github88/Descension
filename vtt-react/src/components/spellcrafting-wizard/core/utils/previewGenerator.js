@@ -677,23 +677,25 @@ import {
             const damageType = config.damageConfig.damageTypes[0];
             
             switch(damageType) {
-              case 'fire':
+              case 'ember':
                 visualization = 'Flames burst from your fingertips, engulfing your target in searing heat.';
                 break;
-              case 'frost':
-              case 'cold':
+              case 'rime':
                 visualization = 'Crystalline ice forms in the air, blasting your target with freezing cold.';
                 break;
-              case 'lightning':
+              case 'storm':
                 visualization = 'Crackling energy arcs through the air, striking your target with electric fury.';
                 break;
-              case 'poison':
+              case 'blight':
                 visualization = 'Noxious green vapors seep forth, enveloping your target in toxic clouds.';
                 break;
-              case 'necrotic':
+              case 'arcane':
+                visualization = 'Mystical energies gather and strike your target with devastating force.';
+                break;
+              case 'wyrd':
                 visualization = 'Dark energies swirl around your hands, draining the life force from your target.';
                 break;
-              case 'radiant':
+              case 'physical':
                 visualization = 'A brilliant light bursts forth, searing your target with holy energy.';
                 break;
               default:
@@ -1342,11 +1344,11 @@ import {
       case 'damage':
         if (spellConfig.effectConfig.damageConfig && spellConfig.effectConfig.damageConfig.damageTypes) {
           const damageType = spellConfig.effectConfig.damageConfig.damageTypes[0];
-          if (damageType === 'fire') iconClass = 'spell-icon-fire';
-          else if (damageType === 'frost' || damageType === 'cold') iconClass = 'spell-icon-frost';
+          if (damageType === 'ember') iconClass = 'spell-icon-fire';
+          else if (damageType === 'rime' || damageType === 'rime') iconClass = 'spell-icon-frost';
           else if (damageType === 'nature') iconClass = 'spell-icon-nature';
-          else if (damageType === 'shadow' || damageType === 'necrotic') iconClass = 'spell-icon-shadow';
-          else if (damageType === 'holy' || damageType === 'radiant') iconClass = 'spell-icon-holy';
+          else if (damageType === 'blight' || damageType === 'blight') iconClass = 'spell-icon-shadow';
+          else if (damageType === 'ember' || damageType === 'ember') iconClass = 'spell-icon-holy';
         }
         break;
       case 'healing':
@@ -1408,7 +1410,7 @@ import {
    */
   function getEffectIcon(effectType) {
     switch(effectType.toLowerCase()) {
-      case 'damage': return 'fire';
+      case 'damage': return 'ember';
       case 'healing': return 'heart';
       case 'buff': return 'arrow-up';
       case 'debuff': return 'arrow-down';
@@ -1428,7 +1430,7 @@ import {
    */
   function getPersistentEffectIcon(persistentType) {
     switch(persistentType) {
-      case 'dot': return 'fire';
+      case 'dot': return 'ember';
       case 'hot': return 'heart';
       case 'trigger': return 'bolt';
       default: return 'clock';

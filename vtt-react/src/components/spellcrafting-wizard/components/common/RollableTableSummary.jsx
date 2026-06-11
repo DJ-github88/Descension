@@ -102,7 +102,7 @@ const RollableTableSummary = ({
         const config = entry.effectConfig;
         switch (entry.effectType) {
           case 'damage':
-            text += ` (${config.damageFormula || '2d6'} ${config.damageType || 'force'})`;
+            text += ` (${config.damageFormula || '2d6'} ${config.damageType || 'arcane'})`;
             break;
           case 'healing':
             text += ` (${config.healingFormula || '2d8'} healing)`;

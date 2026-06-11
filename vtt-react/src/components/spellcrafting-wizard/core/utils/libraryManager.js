@@ -302,21 +302,21 @@ export function categorizeSpell(spell) {
       const tagLower = tag.toLowerCase();
 
       // Map all damage type tags to offensive
-      if (tagLower.includes('acid') ||
-          tagLower.includes('cold') ||
-          tagLower.includes('frost') ||
-          tagLower.includes('fire') ||
-          tagLower.includes('force') ||
-          tagLower.includes('lightning') ||
-          tagLower.includes('thunder') ||
-          tagLower.includes('necrotic') ||
-          tagLower.includes('poison') ||
-          tagLower.includes('psychic') ||
-          tagLower.includes('radiant') ||
+      if (tagLower.includes('blight') ||
+          tagLower.includes('rime') ||
+          tagLower.includes('rime') ||
+          tagLower.includes('ember') ||
+          tagLower.includes('arcane') ||
+          tagLower.includes('storm') ||
+          tagLower.includes('storm') ||
+          tagLower.includes('blight') ||
+          tagLower.includes('blight') ||
+          tagLower.includes('wyrd') ||
+          tagLower.includes('ember') ||
           tagLower.includes('physical') ||
-          tagLower.includes('bludgeoning') ||
-          tagLower.includes('piercing') ||
-          tagLower.includes('slashing')) {
+          tagLower.includes('physical') ||
+          tagLower.includes('physical') ||
+          tagLower.includes('physical')) {
         categories.push('offensive');
       }
 
@@ -368,26 +368,26 @@ export function categorizeSpell(spell) {
 
   // Check spell name for additional clues - map all damage types to offensive
   const nameLower = spell.name ? spell.name.toLowerCase() : '';
-  if (nameLower.includes('acid') ||
+  if (nameLower.includes('blight') ||
       nameLower.includes('corrode') ||
-      nameLower.includes('cold') ||
-      nameLower.includes('frost') ||
+      nameLower.includes('rime') ||
+      nameLower.includes('rime') ||
       nameLower.includes('ice') ||
-      nameLower.includes('fire') ||
+      nameLower.includes('ember') ||
       nameLower.includes('flame') ||
       nameLower.includes('burn') ||
-      nameLower.includes('force') ||
-      nameLower.includes('lightning') ||
-      nameLower.includes('thunder') ||
+      nameLower.includes('arcane') ||
+      nameLower.includes('storm') ||
+      nameLower.includes('storm') ||
       nameLower.includes('shock') ||
-      nameLower.includes('necrotic') ||
+      nameLower.includes('blight') ||
       nameLower.includes('death') ||
-      nameLower.includes('poison') ||
+      nameLower.includes('blight') ||
       nameLower.includes('venom') ||
-      nameLower.includes('psychic') ||
+      nameLower.includes('wyrd') ||
       nameLower.includes('mind') ||
-      nameLower.includes('radiant') ||
-      nameLower.includes('holy')) {
+      nameLower.includes('ember') ||
+      nameLower.includes('ember')) {
     categories.push('offensive');
   }
 

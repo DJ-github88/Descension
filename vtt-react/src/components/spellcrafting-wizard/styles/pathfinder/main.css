@@ -1614,9 +1614,10 @@
 }
 
 .category-button.active {
-  background: var(--pf-brown-medium) !important;
-  color: var(--pf-text-on-dark) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: var(--pf-gold) !important;
+  color: var(--pf-brown-darkest) !important;
+  border-color: var(--pf-gold-dark) !important;
+  box-shadow: var(--pf-shadow-glow) !important;
 }
 
 .element-buttons {

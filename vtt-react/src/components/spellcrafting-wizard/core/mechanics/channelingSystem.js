@@ -1254,7 +1254,7 @@ function applyBacklashEffect(channelState, breakReason, gameState) {
     case 'disabling_status':
       // Mental shock from being disabled while channeling
       backlashEffects.damage = Math.floor(spellPower * 0.3);
-      backlashEffects.damageType = 'psychic';
+      backlashEffects.damageType = 'wyrd';
       break;
       
     case 'interrupted':
@@ -1268,7 +1268,7 @@ function applyBacklashEffect(channelState, breakReason, gameState) {
     case 'concentration_failed':
       // Loss of control from failed concentration
       backlashEffects.damage = Math.floor(spellPower * 0.1);
-      backlashEffects.damageType = 'force';
+      backlashEffects.damageType = 'arcane';
       break;
       
     default:

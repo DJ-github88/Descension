@@ -48,7 +48,7 @@ export const RESOLUTION_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '8d6+INT',
-      damageTypes: ['fire'],
+      damageTypes: ['ember'],
       resolution: 'DICE',
       diceConfig: {
         advantage: true,
@@ -106,7 +106,7 @@ export const RESOLUTION_TEST_SPELLS = [
     },
     damageConfig: {
       formula: 'CARD_VALUE + (FACE_CARDS * 5) + INT',
-      damageTypes: ['force', 'arcane'],
+      damageTypes: ['storm', 'arcane'],
       resolution: 'CARDS',
       cardConfig: {
         drawCount: 5,
@@ -158,7 +158,7 @@ export const RESOLUTION_TEST_SPELLS = [
     },
     damageConfig: {
       formula: 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)',
-      damageTypes: ['frost'],
+      damageTypes: ['rime'],
       resolution: 'COINS',
       coinConfig: {
         flipCount: 7,
@@ -218,7 +218,7 @@ export const EFFECT_TYPE_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '6d8',
-      damageTypes: ['lightning'],
+      damageTypes: ['storm'],
       resolution: 'DICE',
       useChainEffect: true,
       chainConfig: {
@@ -827,7 +827,7 @@ export const SPELL_TYPE_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '2d6',
-      damageTypes: ['force'],
+      damageTypes: ['storm'],
       resolution: 'DICE'
     },
     resourceCost: {
@@ -1017,7 +1017,7 @@ export const SPELL_TYPE_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '10d6',
-      damageTypes: ['fire', 'force'],
+      damageTypes: ['ember', 'storm'],
       resolution: 'DICE',
       savingThrow: 'agility',
       difficultyClass: 15,
@@ -1221,7 +1221,7 @@ export const TARGETING_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '1d10',
-      damageTypes: ['force'],
+      damageTypes: ['storm'],
       resolution: 'DICE'
     },
     resourceCost: {
@@ -1263,7 +1263,7 @@ export const TARGETING_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '1d4+1',
-      damageTypes: ['force'],
+      damageTypes: ['storm'],
       resolution: 'DICE'
     },
     resourceCost: {
@@ -1306,7 +1306,7 @@ export const TARGETING_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '8d6',
-      damageTypes: ['fire'],
+      damageTypes: ['ember'],
       resolution: 'DICE',
       savingThrow: 'agility',
       difficultyClass: 15,
@@ -1352,7 +1352,7 @@ export const TARGETING_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '6d8',
-      damageTypes: ['fire'],
+      damageTypes: ['ember'],
       resolution: 'DICE',
       savingThrow: 'agility',
       difficultyClass: 14,
@@ -1395,7 +1395,7 @@ export const TARGETING_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '8d6',
-      damageTypes: ['lightning'],
+      damageTypes: ['storm'],
       resolution: 'DICE',
       savingThrow: 'agility',
       difficultyClass: 15,
@@ -1477,7 +1477,7 @@ export const TARGETING_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '2d6+STR',
-      damageTypes: ['bludgeoning'],
+      damageTypes: ['physical'],
       resolution: 'DICE'
     },
     resourceCost: {
@@ -1582,7 +1582,7 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '8d6',
-      damageTypes: ['fire'],
+      damageTypes: ['ember'],
       resolution: 'DICE',
       savingThrow: 'agility',
       difficultyClass: 15,
@@ -1632,7 +1632,7 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '4d6',
-      damageTypes: ['fire'],
+      damageTypes: ['ember'],
       resolution: 'DICE'
     },
     resourceCost: {
@@ -1739,7 +1739,7 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '6d8',
-      damageTypes: ['necrotic'],
+      damageTypes: ['blight'],
       resolution: 'DICE'
     },
     healingConfig: {
@@ -1792,7 +1792,7 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '5d8+INT',
-      damageTypes: ['radiant'],
+      damageTypes: ['ember'],
       resolution: 'DICE'
     },
     debuffConfig: {
@@ -1861,7 +1861,7 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '12d6+INT',
-      damageTypes: ['force', 'radiant'],
+      damageTypes: ['storm', 'ember'],
       resolution: 'DICE',
       diceConfig: {
         advantage: true,

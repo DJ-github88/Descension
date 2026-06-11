@@ -66,74 +66,74 @@ const ITEM_SUBTYPES = {
             name: 'Sword',
             slot: 'ONE_HANDED',
             defaultHand: 'ONE_HAND',
-            damageType: 'slashing'
+            damageType: 'physical'
         },
         AXE: {
             name: 'Axe',
             slot: 'ONE_HANDED',
             defaultHand: 'ONE_HAND',
-            damageType: 'slashing'
+            damageType: 'physical'
         },
         MACE: {
             name: 'Mace',
             slot: 'ONE_HANDED',
             defaultHand: 'ONE_HAND',
-            damageType: 'bludgeoning'
+            damageType: 'physical'
         },
         DAGGER: {
             name: 'Dagger',
             slot: 'ONE_HANDED',
             defaultHand: 'ONE_HAND',
-            damageType: 'piercing'
+            damageType: 'physical'
         },
 
         // Two-Handed Weapons
         GREATSWORD: {
             name: 'Greatsword',
             slot: 'TWO_HANDED',
-            damageType: 'slashing'
+            damageType: 'physical'
         },
         GREATAXE: {
             name: 'Greataxe',
             slot: 'TWO_HANDED',
-            damageType: 'slashing'
+            damageType: 'physical'
         },
         MAUL: {
             name: 'Maul',
             slot: 'TWO_HANDED',
-            damageType: 'bludgeoning'
+            damageType: 'physical'
         },
         STAFF: {
             name: 'Staff',
             slot: 'TWO_HANDED',
-            damageType: 'bludgeoning'
+            damageType: 'physical'
         },
         POLEARM: {
             name: 'Polearm',
             slot: 'TWO_HANDED',
-            damageType: 'piercing'
+            damageType: 'physical'
         },
 
         // Ranged Weapons
         BOW: {
             name: 'Bow',
             slot: 'RANGED',
-            damageType: 'piercing'
+            damageType: 'physical'
         },
         CROSSBOW: {
             name: 'Crossbow',
             slot: 'RANGED',
-            damageType: 'piercing'
+            damageType: 'physical'
         },
         THROWN: {
             name: 'Thrown Weapon',
             slot: 'RANGED',
-            damageType: 'piercing'
+            damageType: 'physical'
         },
         WAND: {
             name: 'Wand',
             slot: 'RANGED',
-            damageType: 'force'
+            damageType: 'storm'
         }
     },
     armor: {
@@ -185,18 +185,17 @@ const ITEM_SUBTYPES = {
 
 // Damage types with colors (improved contrast for white backgrounds)
 const DAMAGE_TYPES = {
-    bludgeoning: { name: 'Bludgeoning', color: '#666666' },
-    piercing: { name: 'Piercing', color: '#777777' },
-    slashing: { name: 'Slashing', color: '#888888' },
-    fire: { name: 'Fire', color: '#cc2200' },
-    frost: { name: 'Frost', color: '#0066cc' },
-    lightning: { name: 'Lightning', color: '#cc9900' },
-    force: { name: 'Force', color: '#cc00cc' },
-    necrotic: { name: 'Necrotic', color: '#660066' },
-    radiant: { name: 'Radiant', color: '#ccaa00' },
-    poison: { name: 'Poison', color: '#00aa00' },
-    psychic: { name: 'Psychic', color: '#cc00cc' },
-    chaos: { name: 'Chaos', color: '#cc0066' }
+    slashing: { name: 'Slashing', color: '#8B4513' },
+    piercing: { name: 'Piercing', color: '#A0522D' },
+    bludgeoning: { name: 'Bludgeoning', color: '#6B4226' },
+    physical: { name: 'Physical', color: '#6B4226' },
+    ember: { name: 'Ember', color: '#D4380D' },
+    rime: { name: 'Rime', color: '#2C5F7C' },
+    storm: { name: 'Storm', color: '#8B7328' },
+    arcane: { name: 'Arcane', color: '#5B3A8C' },
+    primal: { name: 'Primal', color: '#2D5A1E' },
+    blight: { name: 'Blight', color: '#3D1F4E' },
+    wyrd: { name: 'Wyrd', color: '#7A2040' }
 };
 
 // Duration types
@@ -673,7 +672,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                     // Add bonus damage type for higher quality items
                     let bonusDamageType = null;
                     if (containerOpts.itemQuality !== 'poor' && containerOpts.itemQuality !== 'common' && damageBonus > 0) {
-                        const bonusDamageTypes = ['fire', 'frost', 'lightning', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'chaos'];
+                        const bonusDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
                         bonusDamageType = bonusDamageTypes[getRandomInt(0, bonusDamageTypes.length - 1)];
                     }
 
@@ -2509,7 +2508,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                                             type="button"
                                             onClick={() => {
                                                 const reagentTypes = ['herb', 'mineral', 'crystal', 'essence', 'extract', 'powder', 'oil'];
-                                                const magicTypes = ['fire', 'frost', 'lightning', 'poison', 'necrotic', 'radiant', 'psychic', 'force', 'chaos'];
+                                                const magicTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
                                                 const states = ['raw', 'refined', 'processed', 'pure', 'distilled'];
                                                 const preservationMethods = ['fresh', 'dried', 'powdered', 'distilled', 'crystallized', 'preserved'];
 

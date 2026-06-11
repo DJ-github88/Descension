@@ -77,7 +77,7 @@ const SampleSpellsLoader = () => {
           // Ensure the spell has proper damage configuration
           damageConfig: spell.damageConfig || {
             damageType: 'direct',
-            elementType: (spell.damageTypes && spell.damageTypes[0]) || 'fire',
+            elementType: (spell.damageTypes && spell.damageTypes[0]) || 'ember',
             formula: spell.primaryDamage?.dice || '1d6',
             criticalConfig: {
               enabled: true,

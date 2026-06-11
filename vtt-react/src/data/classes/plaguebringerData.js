@@ -22,7 +22,7 @@ export const PLAGUEBRINGER_DATA = {
   name: "Plaguebringer",
   icon: "fas fa-biohazard",
   role: "Damage/Control",
-  damageTypes: ["poison", "necrotic", "psychic"],
+  damageTypes: ["blight", "blight", "wyrd"],
 
   classIdentity: {
     title: "Class Identity",
@@ -391,11 +391,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 1,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Skull",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "curse", "dot", "decay", "plaguebringer"]
+        tags: ["blight", "curse", "dot", "decay", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -419,8 +419,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "1d6 + intelligence",
-        elementType: "necrotic",
-        damageTypes: ["necrotic"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         hasDotEffect: true,
         dotConfig: {
@@ -446,7 +446,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      tags: ["damage", "necrotic", "dot", "decay", "plaguebringer"],
+      tags: ["damage", "blight", "dot", "decay", "plaguebringer"],
       flavorText: "A seed of decay planted in the warm meat of the living. It grows, and they weep."
     },
     { id: "pb_venomous_touch",
@@ -458,11 +458,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 1,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Venomous Snakes",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "melee", "seed", "fester", "plaguebringer"]
+        tags: ["blight", "melee", "seed", "fester", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -486,8 +486,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "1d8 + intelligence",
-        elementType: "poison",
-        damageTypes: ["poison"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -506,7 +506,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      tags: ["damage", "poison", "seed", "fester", "plaguebringer"],
+      tags: ["damage", "blight", "seed", "fester", "plaguebringer"],
       flavorText: "A touch that rots the skin like overripe fruit, leaving weeping sores."
     },
     { id: "pb_whisper_of_decay",
@@ -518,11 +518,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 1,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Roar",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["psychic", "mind", "cultivation", "torment", "plaguebringer"]
+        tags: ["wyrd", "mind", "cultivation", "torment", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -546,8 +546,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "1d6 + intelligence",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
+        elementType: "wyrd",
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -566,7 +566,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
-      tags: ["damage", "psychic", "mind", "torment", "plaguebringer"],
+      tags: ["damage", "wyrd", "mind", "torment", "plaguebringer"],
       flavorText: "The dry hum of locusts inside the skull. It never stops, repeating the names of the dead."
     },
 
@@ -580,11 +580,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 2,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mental Chaos",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["psychic", "debuff", "cultivation", "torment", "plaguebringer"]
+        tags: ["wyrd", "debuff", "cultivation", "torment", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -608,8 +608,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "2d6",
-        elementType: "psychic",
-        damageTypes: ["psychic", "poison"],
+        elementType: "wyrd",
+        damageTypes: ["wyrd", "blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -649,7 +649,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      tags: ["damage", "psychic", "debuff", "torment", "plaguebringer"],
+      tags: ["damage", "wyrd", "debuff", "torment", "plaguebringer"],
       flavorText: "Their eyes roll back, witnessing the dark garden blooming behind their eyelids."
     },
     { id: "pb_mark_of_the_pestilent",
@@ -661,11 +661,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 2,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Death Mark",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "debuff", "weaken", "plaguebringer"]
+        tags: ["blight", "debuff", "weaken", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -689,8 +689,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "2d8",
-        elementType: "necrotic",
-        damageTypes: ["necrotic"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -741,11 +741,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 2,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "zone", "debuff", "weaken", "plaguebringer"]
+        tags: ["blight", "zone", "debuff", "weaken", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -813,11 +813,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 3,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Drain Soul",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "lifesteal", "decay", "plaguebringer"]
+        tags: ["blight", "lifesteal", "decay", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -841,8 +841,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "3d6",
-        elementType: "necrotic",
-        damageTypes: ["necrotic"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -879,11 +879,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 3,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Poison/Poison Blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["psychic", "control", "torment", "plaguebringer"]
+        tags: ["wyrd", "control", "torment", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -932,7 +932,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      tags: ["control", "psychic", "torment", "plaguebringer"],
+      tags: ["control", "wyrd", "torment", "plaguebringer"],
       flavorText: "A burst of blue, glowing spores. The dust enters their nostrils, and they begin to weep, clawing at invisible bugs."
     },
     { id: "pb_agonizing_wail",
@@ -944,11 +944,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 3,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Roar",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["psychic", "cone", "control", "torment", "plaguebringer"]
+        tags: ["wyrd", "cone", "control", "torment", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -972,8 +972,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "3d8",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
+        elementType: "wyrd",
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -1008,7 +1008,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      tags: ["damage", "control", "psychic", "torment", "plaguebringer"],
+      tags: ["damage", "control", "wyrd", "torment", "plaguebringer"],
       flavorText: "It is not a battle cry. It is the agonizing howl of a parent losing a child, amplified through the throat of the dead."
     },
 
@@ -1022,11 +1022,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 4,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Contagion",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "contagion", "fester", "plaguebringer"]
+        tags: ["blight", "contagion", "fester", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -1050,8 +1050,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "2d6",
-        elementType: "poison",
-        damageTypes: ["poison"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1073,7 +1073,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      tags: ["damage", "poison", "contagion", "fester", "plaguebringer"],
+      tags: ["damage", "blight", "contagion", "fester", "plaguebringer"],
       flavorText: "Yellow blisters swell rapidly and pop with a wet hiss, spraying infectious rot on bystanders."
     },
     { id: "pb_plague_of_flies",
@@ -1085,11 +1085,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 4,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "dot", "debuff", "fester", "plaguebringer"]
+        tags: ["blight", "dot", "debuff", "fester", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -1113,8 +1113,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "2d4",
-        elementType: "poison",
-        damageTypes: ["poison"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         hasDotEffect: true,
         dotConfig: {
@@ -1157,7 +1157,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      tags: ["damage", "debuff", "poison", "fester", "plaguebringer"],
+      tags: ["damage", "debuff", "blight", "fester", "plaguebringer"],
       flavorText: "A deafening buzz. A million tiny, black bodies swarm the eyes and open sores of the living."
     },
     { id: "pb_necrotic_burst",
@@ -1169,11 +1169,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 4,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Skull Explosion",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "aoe", "decay", "plaguebringer"]
+        tags: ["blight", "aoe", "decay", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -1197,8 +1197,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "4d6",
-        elementType: "necrotic",
-        damageTypes: ["necrotic"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1218,7 +1218,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      tags: ["damage", "aoe", "necrotic", "decay", "plaguebringer"],
+      tags: ["damage", "aoe", "blight", "decay", "plaguebringer"],
       flavorText: "Flesh swells, turns a deep, bruised purple, then bursts with wet, explosive decay."
     },
 
@@ -1232,11 +1232,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 5,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Wither",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "debuff", "weaken", "plaguebringer"]
+        tags: ["blight", "debuff", "weaken", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -1260,8 +1260,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "4d8",
-        elementType: "necrotic",
-        damageTypes: ["necrotic"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1297,7 +1297,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      tags: ["damage", "debuff", "necrotic", "weaken", "plaguebringer"],
+      tags: ["damage", "debuff", "blight", "weaken", "plaguebringer"],
       flavorText: "Flesh falls away under your grasp, revealing gray, crumbling bone."
     },
     { id: "pb_dark_rejuvenation",
@@ -1309,7 +1309,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 5,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Healing/Red Heart",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1374,11 +1374,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 5,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mental Chaos",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["psychic", "contagion", "fester", "plaguebringer"]
+        tags: ["wyrd", "contagion", "fester", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -1402,8 +1402,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "4d6",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
+        elementType: "wyrd",
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -1423,7 +1423,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      tags: ["damage", "psychic", "contagion", "fester", "plaguebringer"],
+      tags: ["damage", "wyrd", "contagion", "fester", "plaguebringer"],
       flavorText: "The agony of one mind reflects in another. The scream sounds twice."
     },
 
@@ -1437,7 +1437,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 6,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Plague",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1464,8 +1464,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "Immediate tick of all active DoTs",
-        elementType: "necrotic",
-        damageTypes: ["necrotic", "poison"],
+        elementType: "blight",
+        damageTypes: ["blight", "blight"],
         resolution: "AUTOMATIC"
       },
       specialMechanics: {
@@ -1492,11 +1492,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 6,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["psychic", "debuff", "anti-caster", "torment", "plaguebringer"]
+        tags: ["wyrd", "debuff", "anti-caster", "torment", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -1520,8 +1520,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "5d8",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
+        elementType: "wyrd",
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -1557,7 +1557,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      tags: ["damage", "debuff", "psychic", "torment", "plaguebringer"],
+      tags: ["damage", "debuff", "wyrd", "torment", "plaguebringer"],
       flavorText: "Your thoughts rot their wellspring. They reach for power, and find only ashes."
     },
     { id: "pb_affliction_mark",
@@ -1569,11 +1569,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 6,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Death Mark",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "debuff", "weaken", "fester", "plaguebringer"]
+        tags: ["blight", "debuff", "weaken", "fester", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -1642,11 +1642,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 7,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Poison/Poison Plague",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "aoe", "burst", "weaken", "plaguebringer"]
+        tags: ["blight", "aoe", "burst", "weaken", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -1670,8 +1670,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "5d6 per consumed affliction (max 6)",
-        elementType: "necrotic",
-        damageTypes: ["necrotic"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1691,7 +1691,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      tags: ["damage", "aoe", "necrotic", "weaken", "plaguebringer"],
+      tags: ["damage", "aoe", "blight", "weaken", "plaguebringer"],
       flavorText: "Their flesh splits like rotten skin. The harvest is messy."
     },
     { id: "pb_mass_affliction",
@@ -1703,11 +1703,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 7,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Contagion",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "aoe", "seed", "fester", "plaguebringer"]
+        tags: ["blight", "aoe", "seed", "fester", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -1756,7 +1756,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      tags: ["debuff", "aoe", "poison", "fester", "plaguebringer"],
+      tags: ["debuff", "aoe", "blight", "fester", "plaguebringer"],
       flavorText: "The gardener sows the seeds broadly. The soil is rich."
     },
     { id: "pb_pandemic",
@@ -1768,11 +1768,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 7,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Contagion",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "contagion", "fester", "plaguebringer"]
+        tags: ["blight", "contagion", "fester", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -1795,8 +1795,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "4d8",
-        elementType: "poison",
-        damageTypes: ["poison"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1828,11 +1828,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 7,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Wither",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "zone", "dot", "decay", "plaguebringer"]
+        tags: ["blight", "zone", "dot", "decay", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -1856,8 +1856,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "5d8",
-        elementType: "necrotic",
-        damageTypes: ["necrotic"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         hasDotEffect: true,
         dotConfig: {
@@ -1903,7 +1903,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      tags: ["damage", "zone", "necrotic", "decay", "plaguebringer"],
+      tags: ["damage", "zone", "blight", "decay", "plaguebringer"],
       flavorText: "The earth rots beneath their feet. Nothing grows here anymore."
     },
     { id: "pb_gardens_wrath",
@@ -1915,7 +1915,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 7,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Plague",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1942,8 +1942,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "All affliction DoT sums × virulence multiplier",
-        elementType: "poison",
-        damageTypes: ["necrotic", "poison", "psychic"],
+        elementType: "blight",
+  damageTypes: ["blight", "wyrd"],
         resolution: "AUTOMATIC"
       },
       specialMechanics: {
@@ -1972,11 +1972,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 7,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["psychic", "aoe", "control", "torment", "plaguebringer"]
+        tags: ["wyrd", "aoe", "control", "torment", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -2000,8 +2000,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "8d8 + (affliction stages × 2d8)",
-        elementType: "psychic",
-        damageTypes: ["psychic"],
+        elementType: "wyrd",
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -2036,7 +2036,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-      tags: ["damage", "psychic", "control", "torment", "plaguebringer"],
+      tags: ["damage", "wyrd", "control", "torment", "plaguebringer"],
       flavorText: "The mind rots first. The body follows in trembling convulsions."
     },
 
@@ -2050,7 +2050,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 8,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Poison/Poison Plague",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2117,11 +2117,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 8,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Contagion",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "contagion", "aoe", "fester", "plaguebringer"]
+        tags: ["blight", "contagion", "aoe", "fester", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -2145,8 +2145,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "8d6 + (active afflictions × 2d6)",
-        elementType: "poison",
-        damageTypes: ["poison"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -2184,11 +2184,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 9,
       specialization: "torment-weaver",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Necrotic/Necrotic Death",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "execute", "ultimate", "torment", "plaguebringer"]
+        tags: ["blight", "execute", "ultimate", "torment", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "area",
@@ -2212,8 +2212,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "12d10 (or instant kill)",
-        elementType: "poison",
-        damageTypes: ["poison"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -2245,11 +2245,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 9,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Death",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["necrotic", "aoe", "harvest", "decay", "plaguebringer"]
+        tags: ["blight", "aoe", "harvest", "decay", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "self",
@@ -2271,8 +2271,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "Consumed Afflictions × 4d8 necrotic (max 8)",
-        elementType: "necrotic",
-        damageTypes: ["necrotic"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "AUTOMATIC"
       },
       specialMechanics: {
@@ -2300,7 +2300,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 10,
       specialization: "decay-harbinger",
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Poison/Poison Contagion",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2371,11 +2371,11 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       level: 10,
       specialization: "virulent-spreader",
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Plague",
         castTime: 1,
         castTimeType: "IMMEDIATE",
-        tags: ["poison", "debuff", "ultimate", "amplify", "plaguebringer"]
+        tags: ["blight", "debuff", "ultimate", "amplify", "plaguebringer"]
       },
       targetingConfig: {
         targetingType: "single",
@@ -2399,8 +2399,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       },
       damageConfig: {
         formula: "15d10",
-        elementType: "poison",
-        damageTypes: ["poison"],
+        elementType: "blight",
+        damageTypes: ["blight"],
         resolution: "DICE",
         hasDotEffect: true,
         dotConfig: {
@@ -2462,7 +2462,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       icon: "Poison/Poison Blight",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Poison/Poison Blight",
         tags: ["passive", "restriction", "delayed_effect", "disease", "plaguebringer"],
         castTime: 0,
@@ -2487,7 +2487,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       icon: "Healing/Cure Within",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "poison",
+        school: "blight",
         icon: "Healing/Cure Within",
         tags: ["passive", "weakness", "holy_vulnerability", "suppression", "plaguebringer"],
         castTime: 0,

@@ -1379,7 +1379,7 @@ function getProgressVisualEffects(castState, percentage) {
     progressEffects.push({
       type: 'channeling',
       intensity: percentage / 100,
-      color: castState.spellConfig.element === 'fire' ? 'red' : 
+      color: castState.spellConfig.element === 'ember' ? 'red' : 
              castState.spellConfig.element === 'ice' ? 'blue' : 
              castState.spellConfig.element === 'nature' ? 'green' : 
              'purple'

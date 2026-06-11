@@ -12,7 +12,6 @@ export const MERCENARY_PATH = {
     integrationNotes: {
         actionPointSystem: 'Mercenary abilities focus on versatility and tactical combat.',
         backgroundSynergy: 'Works well with Soldier or Mercenary Veteran backgrounds.',
-        classCompatibility: 'Strong with Titan, Bladedancer, or Gambler classes.'
     },
 
     roleplayingTips: [
@@ -96,7 +95,7 @@ export const MERCENARY_PATH = {
             spellType: 'REACTION',
             tags: ['reaction', 'damage', 'counter', 'melee'],
             effectTypes: ['damage'],
-            damageTypes: ['piercing'],
+            damageTypes: ['physical'],
 
             typeConfig: {
                 school: 'physical',
@@ -106,7 +105,7 @@ export const MERCENARY_PATH = {
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'piercing',
+                elementType: 'physical',
                 formula: '2d6 + agility',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -238,11 +237,11 @@ export const MERCENARY_PATH = {
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'precision', 'armor piercing'],
             effectTypes: ['damage'],
-            damageTypes: ['piercing'],
+            damageTypes: ['physical'],
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'piercing',
+                elementType: 'physical',
                 formula: '4d8 + DEX',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -537,11 +536,11 @@ export const MERCENARY_PATH = {
                     spellType: 'REACTION',
                     tags: ['damage', 'counter', 'physical', 'precision'],
                     effectTypes: ['damage'],
-                    damageTypes: ['piercing'],
+                    damageTypes: ['physical'],
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'piercing',
+                        elementType: 'physical',
                         formula: '4d6 + AGI',
                         resolution: 'DICE',
                         hasDotEffect: false,
@@ -744,11 +743,11 @@ export const MERCENARY_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'ranged', 'precision', 'critical'],
                     effectTypes: ['damage'],
-                    damageTypes: ['piercing'],
+                    damageTypes: ['physical'],
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'piercing',
+                        elementType: 'physical',
                         formula: '6d8 + AGI',
                         resolution: 'DICE',
                         hasDotEffect: false,

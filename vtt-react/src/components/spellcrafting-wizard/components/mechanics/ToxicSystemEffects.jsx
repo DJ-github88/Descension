@@ -429,12 +429,12 @@ const ToxicSystemEffects = ({
         </div>
         <div className="tooltip-flavor">
           {toxicType.id === 'disease' && "\"A biological affliction that weakens its victims from within.\""}
-          {toxicType.id === 'poison' && "\"A toxic substance that causes damage over time.\""}
+          {toxicType.id === 'blight' && "\"A toxic substance that causes damage over time.\""}
           {toxicType.id === 'curse' && "\"A magical affliction that brings misfortune and suffering.\""}
           {toxicType.id === 'venom' && "\"A potent toxin delivered directly into the bloodstream.\""}
           {toxicType.id === 'blight' && "\"A corrupting influence that spreads to nearby targets.\""}
           {toxicType.id === 'plague' && "\"A highly contagious disease that affects multiple targets.\""}
-          {toxicType.id === 'necrotic' && "\"A rotting affliction that prevents healing and recovery.\""}
+          {toxicType.id === 'blight' && "\"A rotting affliction that prevents healing and recovery.\""}
           {toxicType.id === 'toxic' && "\"A caustic substance that burns and corrodes its victims.\""}
           {toxicType.id === 'corruption' && "\"Dark energy that corrupts from within, causing gradual decay.\""}
           {toxicType.id === 'contagion' && "\"A rapidly spreading infection that jumps between targets.\""}

@@ -5,6 +5,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
   color: #2c2416;
   font-family: 'Cinzel', serif;

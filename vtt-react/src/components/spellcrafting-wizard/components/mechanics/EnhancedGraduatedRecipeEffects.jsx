@@ -2389,12 +2389,12 @@ const EnhancedGraduatedRecipeEffects = ({
                           { id: 'leadingtone', name: 'Leading Tone', color: '#FF55FF', wowIcon: 'spell_holy_searinglightpriest', theory: 'The leading tone is the seventh degree of the scale, creating strong tension that pulls toward the tonic, especially in cadences.' }
                         ] : [
                           { id: 'disease', name: 'Disease', color: '#8B008B', wowIcon: 'ability_creature_disease_01' },
-                          { id: 'poison', name: 'Poison', color: '#006400', wowIcon: 'ability_creature_poison_06' },
+                          { id: 'blight', name: 'blight', color: '#006400', wowIcon: 'ability_creature_poison_06' },
                           { id: 'curse', name: 'Curse', color: '#4B0082', wowIcon: 'spell_shadow_curseofsargeras' },
                           { id: 'venom', name: 'Venom', color: '#006400', wowIcon: 'ability_creature_poison_03' },
                           { id: 'blight', name: 'Blight', color: '#8B4513', wowIcon: 'spell_shadow_creepingplague' },
                           { id: 'plague', name: 'Plague', color: '#2F4F4F', wowIcon: 'spell_shadow_plaguecloud' },
-                          { id: 'necrotic', name: 'Necrotic', color: '#8B008B', wowIcon: 'spell_deathknight_necroticplague' },
+                          { id: 'blight', name: 'blight', color: '#8B008B', wowIcon: 'spell_deathknight_necroticplague' },
                           { id: 'toxic', name: 'Toxic', color: '#006400', wowIcon: 'ability_creature_poison_02' },
                           { id: 'corruption', name: 'Corruption', color: '#4B0082', wowIcon: 'spell_shadow_abominationexplosion' },
                           { id: 'contagion', name: 'Contagion', color: '#8B4513', wowIcon: 'spell_shadow_contagion' },

@@ -6,9 +6,8 @@
 /* Import individual class resource bar styles */
 @import './resourceBars/base.css';
 @import './resourceBars/minstrel.css';
-@import './resourceBars/oracle.css';
-@import './resourceBars/mayhem-modifiers-display.css';
-@import './resourceBars/chaosweaver.css';
+/* @import './resourceBars/oracle.css'; — Oracle absorbed into Augur */
+/* @import './resourceBars/chaosweaver.css'; — Chaos Weaver merged into Harbinger */
 @import './resourceBars/elemental-spheres-display.css';
 @import './resourceBars/rage-bar.css';
 @import './resourceBars/stance-flow.css';
@@ -16,8 +15,7 @@
 @import './resourceBars/time-shards-strain.css';
 @import './resourceBars/hexbreaker-charges.css';
 @import './resourceBars/ascension-blood.css';
-@import './resourceBars/drp-resilience.css';
-@import './resourceBars/dominance-die-display.css';
+
 @import './resourceBars/madness-gauge.css';
 @import './resourceBars/threads-of-destiny.css';
 @import './resourceBars/wild-instinct-forms.css';
@@ -56,22 +54,17 @@
 
 /* Remove base background/border for custom resource bars to avoid grey track behind */
 .class-resource-bar.rage-bar,
-.class-resource-bar.mayhem-modifiers-display,
 .class-resource-bar.time-shards-strain,
 .class-resource-bar.hexbreaker-charges,
 .class-resource-bar.ascension-blood,
-.class-resource-bar.drp-resilience,
-.class-resource-bar.dominance-die-display,
 .class-resource-bar.madness-gauge,
 .class-resource-bar.threads-of-destiny,
 .class-resource-bar.wild-instinct-forms,
 .class-resource-bar.fortune-points-gambling,
 .class-resource-bar.quarry-marks-companion,
 .class-resource-bar.runes-inscriptions,
-.class-resource-bar.eternal-frost-phylactery,
 .class-resource-bar.lunar-phases,
 .class-resource-bar.musical-notes-combo,
-.class-resource-bar.prophetic-visions-bar,
 .class-resource-bar.devotion-gauge,
 .class-resource-bar.stance-flow,
 .class-resource-bar.elemental-spheres-display,

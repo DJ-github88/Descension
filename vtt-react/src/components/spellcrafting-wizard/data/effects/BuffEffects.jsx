@@ -182,19 +182,19 @@ const STATUS_EFFECTS = [
     category: 'empowerment',
     options: [
       {
-        id: 'fire',
+        id: 'ember',
         name: 'Fire Infusion',
         description: 'Attacks deal additional fire damage',
         icon: 'spell_fire_flamebolt'
       },
       {
-        id: 'frost',
+        id: 'rime',
         name: 'Frost Infusion',
         description: 'Attacks deal additional cold damage and slow targets',
         icon: 'spell_frost_frostbolt02'
       },
       {
-        id: 'lightning',
+        id: 'storm',
         name: 'Lightning Infusion',
         description: 'Attacks deal additional lightning damage and may jump to nearby targets',
         icon: 'spell_nature_lightning'
@@ -887,7 +887,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           },
           'resistance': {
             option: 'elemental',
-            damageTypes: ['fire'],
+            damageTypes: ['ember'],
             resistanceValue: '50',
             absorptionAmount: '',
             durationType: 'rounds',

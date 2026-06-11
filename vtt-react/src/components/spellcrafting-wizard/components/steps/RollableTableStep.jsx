@@ -126,7 +126,7 @@ const RollableTableStep = () => {
             effectType: 'damage',
             effectConfig: {
               damageFormula: '2d6',
-              damageType: 'fire',
+              damageType: 'ember',
               healingFormula: '2d8',
               creatureType: '',
               quantity: 1,
@@ -158,7 +158,7 @@ const RollableTableStep = () => {
             effectType: 'damage',
             effectConfig: {
               damageFormula: '2d6',
-              damageType: 'fire',
+              damageType: 'ember',
               healingFormula: '2d8',
               creatureType: '',
               quantity: 1,
@@ -190,7 +190,7 @@ const RollableTableStep = () => {
             effectType: 'damage',
             effectConfig: {
               damageFormula: '2d6',
-              damageType: 'fire',
+              damageType: 'ember',
               healingFormula: '2d8',
               creatureType: '',
               quantity: 1,
@@ -219,7 +219,7 @@ const RollableTableStep = () => {
         // Ensure effectConfig exists
         effectConfig: entry.effectConfig || {
           damageFormula: '2d6',
-          damageType: 'fire',
+          damageType: 'ember',
           healingFormula: '2d8',
           creatureType: '',
           quantity: 1,

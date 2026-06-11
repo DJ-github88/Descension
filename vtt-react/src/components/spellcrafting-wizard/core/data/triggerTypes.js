@@ -515,7 +515,7 @@ const PROXIMITY_TRIGGERS = [
     name: 'Proximity to Terrain',
     description: 'Triggers when near a specific type of terrain',
     parameters: [
-      { name: 'terrain', type: 'select', options: ['water', 'fire', 'forest', 'mountain', 'darkness'], default: 'water' },
+      { name: 'terrain', type: 'select', options: ['water', 'ember', 'forest', 'mountain', 'darkness'], default: 'water' },
       { name: 'range', type: 'number', unit: 'feet', default: 10 }
     ],
     entitiesAffected: ['self'],
@@ -567,7 +567,7 @@ const COMBAT_TRIGGERS = [
     name: 'Damage Taken',
     description: 'Triggers when damage is taken',
     parameters: [
-      { name: 'damage_type', type: 'select', options: ['any', 'physical', 'magical', 'fire', 'frost', 'arcane', 'nature', 'necrotic', 'radiant'], default: 'any' },
+      { name: 'damage_type', type: 'select', options: ['any', 'physical', 'magical', 'ember', 'rime', 'arcane', 'nature', 'blight', 'ember'], default: 'any' },
       { name: 'min_damage', type: 'number', default: 0 },
       { name: 'target_entity', type: 'select', options: ['self', 'target', 'ally', 'any'], default: 'self', label: 'Entity Taking Damage' }
     ],
@@ -579,7 +579,7 @@ const COMBAT_TRIGGERS = [
     name: 'Damage Dealt',
     description: 'Triggers when dealing damage to a target',
     parameters: [
-      { name: 'damage_type', type: 'select', options: ['any', 'physical', 'magical', 'fire', 'frost', 'arcane', 'nature', 'necrotic', 'radiant'], default: 'any' },
+      { name: 'damage_type', type: 'select', options: ['any', 'physical', 'magical', 'ember', 'rime', 'arcane', 'nature', 'blight', 'ember'], default: 'any' },
       { name: 'min_damage', type: 'number', default: 0 },
       { name: 'source_entity', type: 'select', options: ['self', 'ally', 'any'], default: 'self', label: 'Entity Dealing Damage' }
     ],

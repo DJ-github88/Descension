@@ -84,19 +84,19 @@ export const BIOMES = [
     encounterTable: [
       { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Uneventful travel. Describe the frozen landscape.' },
       { range: [7, 7], type: 'discovery', label: 'Tracks in Snow', note: 'Survival vs moderate die (d8) to identify.' },
-      { range: [8, 8], type: 'combat', label: 'Wolf Pack', note: 'Pack tactics. Animal Handling vs moderate die (d8) + fire may cause retreat.' },
-      { range: [9, 9], type: 'social', label: 'Nomad Patrol', note: 'Disposition varies. Persuasion vs challenging die (d10).' },
+      { range: [8, 8], type: 'combat', label: 'Stel (Glacier Memory)', note: 'Replays death-screams of the frozen. Perception vs moderate die (d8) to resist lure.' },
+      { range: [9, 9], type: 'social', label: 'Skald Patrol', note: 'Disposition varies. Persuasion vs challenging die (d10).' },
       { range: [10, 10], type: 'social', label: 'Stranded Traveller', note: 'Exhaustion 2-4. Medicine vs moderate die (d8) to stabilise.' },
-      { range: [11, 11], type: 'combat', label: 'Frost Predator', note: 'Regeneration stopped by fire. Hunts by smell.' },
-      { range: [12, 12], type: 'combat', label: 'Yeti', note: 'Chilling Gaze: Constitution vs moderate die (d8) or paralysed.' },
+      { range: [11, 11], type: 'combat', label: 'Skreika', note: 'Regeneration stopped by fire. Hunts by smell.' },
+      { range: [12, 12], type: 'combat', label: 'Rime-Born Frostbound', note: 'Chilling Gaze: Constitution vs moderate die (d8) or paralysed.' },
       { range: [13, 13], type: 'hazard', label: 'Crevasse Field', note: 'Perception vs challenging die (d10) or nearest character falls.' },
       { range: [14, 14], type: 'hazard', label: 'Avalanche', note: 'Agility vs challenging die (d10) or buried.' },
-      { range: [15, 15], type: 'combat', label: 'Ice Drake', note: 'Cold breath. Persuasion vs challenging die (d10) + offering to bribe.' },
-      { range: [16, 16], type: 'combat', label: 'Apex Predator', note: 'Area chilling ability. Cold immunity.' },
-      { range: [17, 17], type: 'discovery', label: 'Elemental Spirit', note: 'Perception vs challenging die (d10) to spot.' },
-      { range: [18, 18], type: 'social', label: 'Rival Expedition', note: 'Disposition varies.' },
-      { range: [19, 19], type: 'combat', label: 'Winter Wolf Pack', note: 'Cold breath, pack tactics. Hunts silently in blizzards.' },
-      { range: [20, 20], type: 'combat', label: 'Burrower', note: 'Burrows under snow. Perception vs difficult die (d12) or surprised.' }
+      { range: [15, 15], type: 'combat', label: 'Glacier Wyrm', note: 'Cold breath. Persuasion vs challenging die (d10) + offering to bribe.' },
+      { range: [16, 16], type: 'combat', label: 'Prime Stel', note: 'Area chilling ability. Cold immunity.' },
+      { range: [17, 17], type: 'discovery', label: 'Frozen Ancestor (Corvid)', note: 'Perception vs challenging die (d10) to spot.' },
+      { range: [18, 18], type: 'social', label: 'Bloodhammer Forge-Clan', note: 'Disposition varies.' },
+      { range: [19, 19], type: 'combat', label: 'Glacier Wyrm Pack', note: 'Cold breath, pack tactics. Hunts silently in blizzards.' },
+      { range: [20, 20], type: 'combat', label: 'Frozen Debt-Revenant', note: 'Buried under ice. Perception vs difficult die (d12) or surprised.' }
     ],
     atmospheres: {
       0: {
@@ -196,21 +196,21 @@ export const BIOMES = [
       { id: 'camel', name: 'Camel', speed: 3, restEvery: 4, restDur: 1, desc: 'Water storage. Endures heat better.' }
     ],
     encounterTable: [
-      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Endless dunes, shimmering heat, distant mirages.' },
+      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Endless basalt plains, shimmering heat, distant ash-devils.' },
       { range: [7, 7], type: 'discovery', label: 'Ancient Tracks', note: 'Survival vs moderate die (d8) to identify.' },
-      { range: [8, 8], type: 'combat', label: 'Scorpion Swarm', note: 'Poison stings. Fire or area effects disperse.' },
-      { range: [9, 9], type: 'social', label: 'Nomad Traders', note: 'Will trade water and shade for goods.' },
-      { range: [10, 10], type: 'social', label: 'Lost Caravan', note: 'Dehydrated, desperate. Medicine vs moderate die (d8) to help.' },
-      { range: [11, 11], type: 'combat', label: 'Sand Wurm', note: 'Tremorsense. Survival vs challenging die (d10) to detect.' },
-      { range: [12, 12], type: 'combat', label: 'Mummy Patrol', note: 'Undead. Fire and radiant vulnerability.' },
-      { range: [13, 13], type: 'hazard', label: 'Quicksand', note: 'Survival vs challenging die (d10) to detect.' },
-      { range: [14, 14], type: 'hazard', label: 'Flash Flood', note: 'Perception vs challenging die (d10) to hear coming.' },
-      { range: [15, 15], type: 'combat', label: 'Djinn', note: 'Persuasion vs difficult die (d12) to bargain.' },
-      { range: [16, 16], type: 'combat', label: 'Desert Drake', note: 'Fire breath, sand camouflage.' },
-      { range: [17, 17], type: 'discovery', label: 'Buried Ruin', note: 'Perception vs challenging die (d10) to spot.' },
-      { range: [18, 18], type: 'social', label: 'Rival Tribespeople', note: 'Water dispute.' },
-      { range: [19, 19], type: 'combat', label: 'Giant Scorpion', note: 'Armoured carapace, venomous sting.' },
-      { range: [20, 20], type: 'combat', label: 'Sand Lord', note: 'Legendary desert predator. Controls sand itself.' }
+      { range: [8, 8], type: 'combat', label: 'Cinder-Beast Hatchlings', note: 'Ember damage. Fire or area effects disperse.' },
+      { range: [9, 9], type: 'social', label: 'Emberth Thrask Rangers', note: 'Will trade volcanic goods for water and obsidian.' },
+      { range: [10, 10], type: 'social', label: 'Solvarn Pilgrims', note: 'Dehydrated, desperate. Medicine vs moderate die (d8) to help.' },
+      { range: [11, 11], type: 'combat', label: 'Sun-Husk', note: 'Tremorsense. Survival vs challenging die (d10) to detect.' },
+      { range: [12, 12], type: 'combat', label: 'Debt-Revenant', note: 'Rises from ash. Fire and radiant vulnerability.' },
+      { range: [13, 13], type: 'hazard', label: 'Basalt Collapse', note: 'Survival vs challenging die (d10) to detect.' },
+      { range: [14, 14], type: 'hazard', label: 'Ash-Vent Eruption', note: 'Perception vs challenging die (d10) to hear coming.' },
+      { range: [15, 15], type: 'combat', label: 'Cinder-Fiend', note: 'Persuasion vs difficult die (d12) to bargain.' },
+      { range: [16, 16], type: 'combat', label: 'Ash-Vent Drake', note: 'Ember breath, ash camouflage.' },
+      { range: [17, 17], type: 'discovery', label: 'Buried Monolith Fragment', note: 'Perception vs challenging die (d10) to spot.' },
+      { range: [18, 18], type: 'social', label: 'Thrask Badland Rangers', note: 'Water dispute.' },
+      { range: [19, 19], type: 'combat', label: 'Scrab Swarm', note: 'Armoured carapace, venomous pincers.' },
+      { range: [20, 20], type: 'combat', label: 'Husque', note: 'Legendary volcanic predator. Controls ember flow itself.' }
     ],
     atmospheres: {
       0: {
@@ -301,21 +301,21 @@ export const BIOMES = [
       { id: 'horse', name: 'Horse', speed: 4, restEvery: 2, restDur: 0.5, desc: 'Limited by undergrowth density.' }
     ],
     encounterTable: [
-      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Birdsong, dappled light, the creak of old growth.' },
+      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Birdsong, dappled light, the creak of ancient ironwood.' },
       { range: [7, 7], type: 'discovery', label: 'Animal Tracks', note: 'Survival vs easy die (d6) to identify.' },
-      { range: [8, 8], type: 'combat', label: 'Wolf Pack', note: 'Territorial. Pack tactics, howling summons reinforcements.' },
-      { range: [9, 9], type: 'social', label: 'Woodcutter / Ranger', note: 'Knows the local area. May share trail info.' },
-      { range: [10, 10], type: 'social', label: 'Lost Traveller', note: 'Disoriented, grateful. May know a shortcut.' },
-      { range: [11, 11], type: 'combat', label: 'Forest Predator', note: 'Ambush. Stealth vs challenging die (d10) to detect.' },
-      { range: [12, 12], type: 'combat', label: 'Animated Trees', note: 'Guardians of old growth. Fire effective.' },
-      { range: [13, 13], type: 'hazard', label: 'Wasp Nest / Thorn Thicket', note: 'Perception vs moderate die (d8) to avoid.' },
+      { range: [8, 8], type: 'combat', label: 'Gref (Face-Stealer)', note: 'Territorial. Shifts appearance; Insight vs challenging die (d10) to detect.' },
+      { range: [9, 9], type: 'social', label: 'Mimir Sentinel', note: 'Knows the local canopy. May share trail info.' },
+      { range: [10, 10], type: 'social', label: 'Lost Ledger Keeper', note: 'Disoriented, grateful. May know a shortcut.' },
+      { range: [11, 11], type: 'combat', label: 'Gambrel (Oath-Hunter)', note: 'Drawn to broken promises. Stealth vs challenging die (d10) to detect.' },
+      { range: [12, 12], type: 'combat', label: 'Ironwood Animated Grove', note: 'Guardians of old growth. Fire effective.' },
+      { range: [13, 13], type: 'hazard', label: 'Fog Pocket / Thorn Thicket', note: 'Perception vs moderate die (d8) to avoid.' },
       { range: [14, 14], type: 'hazard', label: 'Root Trip / Sinkhole', note: 'Perception vs moderate die (d8) or fall.' },
-      { range: [15, 15], type: 'combat', label: 'Bandit Ambush', note: 'Stealth vs challenging die (d10). Demands toll.' },
-      { range: [16, 16], type: 'combat', label: 'Giant Spider', note: 'Web traps, venom.' },
-      { range: [17, 17], type: 'discovery', label: 'Fairy Ring / Shrine', note: 'Arcana vs moderate die (d8) to understand.' },
-      { range: [18, 18], type: 'social', label: 'Druid Circle', note: 'Neutral unless provoked.' },
-      { range: [19, 19], type: 'combat', label: 'Corrupted Beast', note: 'Diseased or magically warped.' },
-      { range: [20, 20], type: 'combat', label: 'Ancient Forest Guardian', note: 'Legendary protector of the deep woods.' }
+      { range: [15, 15], type: 'combat', label: 'Unshorn Briaran Raid', note: 'Stealth vs challenging die (d10). Demands fog-repudiation.' },
+      { range: [16, 16], type: 'combat', label: 'Fog Stalker', note: 'Web traps in mist, venom.' },
+      { range: [17, 17], type: 'discovery', label: 'Wyrd-Nexus / Briaran Shrine', note: 'Arcana vs moderate die (d8) to understand.' },
+      { range: [18, 18], type: 'social', label: 'Mimir Canopy Seneschal', note: 'Neutral unless provoked.' },
+      { range: [19, 19], type: 'combat', label: 'Gref Pack', note: 'Diseased or Wyrd-warped.' },
+      { range: [20, 20], type: 'combat', label: 'Ancient Ironwood Guardian', note: 'Legendary protector of the deep woods. Wyrd-touched.' }
     ],
     atmospheres: {
       0: {
@@ -406,21 +406,21 @@ export const BIOMES = [
       { id: 'horse', name: 'Horse', speed: 4, restEvery: 2, restDur: 0.5, desc: 'Limited on boggy ground.' }
     ],
     encounterTable: [
-      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Standing water, cypress knees, the drone of insects.' },
-      { range: [7, 7], type: 'discovery', label: 'Bubbling Mud Pot', note: 'Nature vs moderate die (d8) — hot spring or volcanic vent.' },
-      { range: [8, 8], type: 'combat', label: 'Snake Swarm', note: 'Venomous. Fire or area effects scatter them.' },
-      { range: [9, 9], type: 'social', label: 'Hermit / Witch', note: 'Lives alone. Knowledgeable but eccentric.' },
-      { range: [10, 10], type: 'social', label: 'Fleeing Refugees', note: 'Running from something deeper in. May warn of hazard.' },
-      { range: [11, 11], type: 'combat', label: 'Bog Undead', note: 'Rise from muck. Resist slashing.' },
-      { range: [12, 12], type: 'combat', label: 'Lurker', note: 'Camouflaged ambush. Perception vs difficult die (d12).' },
+      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Standing water, bioluminescent fungi, the drone of peat-bog insects.' },
+      { range: [7, 7], type: 'discovery', label: 'Bubbling Mud Pot', note: 'Nature vs moderate die (d8) — hot spring or fungal vent.' },
+      { range: [8, 8], type: 'combat', label: 'Spore Swarm', note: 'Toxic spores. Fire or area effects scatter them.' },
+      { range: [9, 9], type: 'social', label: 'Vreken Crypt-Speaker', note: 'Lives alone. Knowledgeable but unsettling.' },
+      { range: [10, 10], type: 'social', label: 'Drun Outcasts', note: 'Fleeing Neth contract-enforcement. May warn of hazard.' },
+      { range: [11, 11], type: 'combat', label: 'Debt-Revenant', note: 'Rises from muck. Hunting a specific broken contract.' },
+      { range: [12, 12], type: 'combat', label: 'Cycle-Eater', note: 'Wyrd ambush predator. Perception vs difficult die (d12).' },
       { range: [13, 13], type: 'hazard', label: 'Quicksand / Bog Hole', note: 'Survival vs challenging die (d10) to spot.' },
-      { range: [14, 14], type: 'hazard', label: 'Disease Cloud', note: 'Constitution vs challenging die (d10) or disease.' },
-      { range: [15, 15], type: 'combat', label: 'Hag Covey', note: 'Three hags. Insight vs challenging die (d10).' },
-      { range: [16, 16], type: 'combat', label: 'Swamp Drake', note: 'Acid spit, amphibious.' },
-      { range: [17, 17], type: 'discovery', label: 'Sunken Ruin', note: 'Perception vs challenging die (d10) to spot.' },
-      { range: [18, 18], type: 'social', label: 'Lizardfolk Hunting Party', note: 'Cautious. Intimidation vs challenging die (d10).' },
-      { range: [19, 19], type: 'combat', label: 'Will-o-Wisps', note: 'Lead party into hazards.' },
-      { range: [20, 20], type: 'combat', label: 'Swamp Ancient', note: 'Primordial guardian. Controls vines and water.' }
+      { range: [14, 14], type: 'hazard', label: 'Fungal Spore Cloud', note: 'Constitution vs challenging die (d10) or disease.' },
+      { range: [15, 15], type: 'combat', label: 'Vreken Over-Lit Triad', note: 'Hush-consumed. Insight vs challenging die (d10).' },
+      { range: [16, 16], type: 'combat', label: 'Bog Drake', note: 'Acid spit, amphibious.' },
+      { range: [17, 17], type: 'discovery', label: 'Sunken Neth Archive', note: 'Perception vs challenging die (d10) to spot.' },
+      { range: [18, 18], type: 'social', label: 'Neth Contract-Enforcer', note: 'Cautious. Intimidation vs challenging die (d10).' },
+      { range: [19, 19], type: 'combat', label: 'Hungry Child', note: 'Wyrd-manifestation. Leads party into hazards.' },
+      { range: [20, 20], type: 'combat', label: 'Ancient Neth Debt-Walker', note: 'Primordial Neth whose contract was broken. Controls vines and bog.' }
     ],
     atmospheres: {
       0: {
@@ -512,21 +512,21 @@ export const BIOMES = [
       { id: 'canoe', name: 'Canoe / Kayak', speed: 2, restEvery: 4, restDur: 1, desc: 'Coastal only.' }
     ],
     encounterTable: [
-      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Rolling waves, salt spray, seabirds.' },
+      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Rolling waves, salt spray, distant icebergs.' },
       { range: [7, 7], type: 'discovery', label: 'Flotsam / Wreckage', note: 'Perception vs moderate die (d8). May contain survivors or clues.' },
-      { range: [8, 8], type: 'combat', label: 'Sahuagin Raiding Party', note: 'Board from below. Fire and thunder effective.' },
+      { range: [8, 8], type: 'combat', label: 'Drowned Spume Raiders', note: 'Board from below. Ember and lightning effective.' },
       { range: [9, 9], type: 'social', label: 'Merchant Vessel', note: 'Will trade supplies.' },
       { range: [10, 10], type: 'social', label: 'Castaway on Driftwood', note: 'Exhaustion 3+. Medicine vs moderate die (d8).' },
-      { range: [11, 11], type: 'combat', label: 'Sea Serpent', note: 'Constricting coils, crushing bite.' },
-      { range: [12, 12], type: 'combat', label: 'Water Elemental', note: 'Whirlpool attack. Flees if dispelled.' },
-      { range: [13, 13], type: 'hazard', label: 'Sargasso / Seaweed', note: 'Survival vs challenging die (d10) to navigate.' },
+      { range: [11, 11], type: 'combat', label: 'Abyssal Leviathan (Fragment)', note: 'Constricting coils, crushing bite. A piece of something larger.' },
+      { range: [12, 12], type: 'combat', label: 'Treakous Rift Tendrils', note: 'Whirlpool attack. Flees if dispelled.' },
+      { range: [13, 13], type: 'hazard', label: 'Iceberg Drift', note: 'Survival vs challenging die (d10) to navigate.' },
       { range: [14, 14], type: 'hazard', label: 'Reef / Shallows', note: 'Perception vs challenging die (d10) to spot.' },
-      { range: [15, 15], type: 'combat', label: 'Pirate Vessel', note: 'Grappling hooks, boarding action.' },
-      { range: [16, 16], type: 'combat', label: 'Merfolk War Band', note: 'Territorial. Nature vs moderate die (d8) to parley.' },
+      { range: [15, 15], type: 'combat', label: 'Merryn Pirate Cutter', note: 'Grappling hooks, boarding action.' },
+      { range: [16, 16], type: 'combat', label: 'Myrathil Deep-Born War Party', note: 'Territorial. Nature vs moderate die (d8) to parley.' },
       { range: [17, 17], type: 'discovery', label: 'Uncharted Island', note: 'Nature vs moderate die (d8) to assess.' },
-      { range: [18, 18], type: 'social', label: 'Smuggler\'s Cutter', note: 'Evasive. Intimidation vs challenging die (d10).' },
-      { range: [19, 19], type: 'combat', label: 'Kraken Tentacles', note: 'Grapple and drag. Athletics vs difficult die (d12).' },
-      { range: [20, 20], type: 'combat', label: 'Leviathan', note: 'Legendary sea creature. Controls currents.' }
+      { range: [18, 18], type: 'social', label: 'Myrathil Breakers-Born Delegation', note: 'Evasive. Intimidation vs challenging die (d10).' },
+      { range: [19, 19], type: 'combat', label: 'Abyssal Leviathan (Juvenile)', note: 'Grapple and drag. Athletics vs difficult die (d12).' },
+      { range: [20, 20], type: 'combat', label: 'Abyssal Leviathan (Adult)', note: 'Legendary sea creature. Controls currents.' }
     ],
     atmospheres: {
       0: {
@@ -620,19 +620,19 @@ export const BIOMES = [
     encounterTable: [
       { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Echoing drip of water, bioluminescent fungi.' },
       { range: [7, 7], type: 'discovery', label: 'Crystal Formation', note: 'Arcana vs moderate die (d8). May have magical properties.' },
-      { range: [8, 8], type: 'combat', label: 'Underdark Vermin Swarm', note: 'Spider or insect swarm. Fire and area effects disperse.' },
-      { range: [9, 9], type: 'social', label: 'Deep Dwarf Patrol', note: 'Suspicious. Persuasion vs challenging die (d10).' },
-      { range: [10, 10], type: 'social', label: 'Fugitive', note: 'Escaped slave or prisoner. May bargain knowledge for protection.' },
-      { range: [11, 11], type: 'combat', label: 'Hook Horror', note: 'Echolocation. Thunder damage disrupts tracking.' },
-      { range: [12, 12], type: 'combat', label: 'Mind Flayer Scout', note: 'Psionic blast. Intelligence vs challenging die (d10).' },
-      { range: [13, 13], type: 'hazard', label: 'Fungal Spore Cloud', note: 'Constitution vs challenging die (d10) or hallucinating.' },
-      { range: [14, 14], type: 'hazard', label: 'Unstable Ceiling', note: 'Perception vs challenging die (d10) to hear cracking.' },
-      { range: [15, 15], type: 'combat', label: 'Drow Raiding Party', note: 'Poisoned weapons, dark magic. May take prisoners.' },
-      { range: [16, 16], type: 'combat', label: 'Purple Worm', note: 'Burrows through stone. Survival vs difficult die (d12) to detect.' },
-      { range: [17, 17], type: 'discovery', label: 'Abandoned Duergar Forge', note: 'Investigation vs moderate die (d8). Rare metals.' },
-      { range: [18, 18], type: 'social', label: 'Myconid Circle', note: 'Pacifistic unless threatened. Spore communication.' },
-      { range: [19, 19], type: 'combat', label: 'Aboleth Servants', note: 'Dominated thralls. Will vs difficult die (d12) to resist.' },
-      { range: [20, 20], type: 'combat', label: 'Underdark Tyrant', note: 'Ancient evil. Its lair shapes the tunnels around it.' }
+      { range: [8, 8], type: 'combat', label: 'Scrab Swarm', note: 'Multi-legged horrors. Fire and area effects disperse.' },
+      { range: [9, 9], type: 'social', label: 'Fexric Sump-Miner Patrol', note: 'Suspicious. Persuasion vs challenging die (d10).' },
+      { range: [10, 10], type: 'social', label: 'Fugitive (Escaped Alchemy Subject)', note: 'Escaped from Deep Alchemist vats. May bargain knowledge for protection.' },
+      { range: [11, 11], type: 'combat', label: 'Crag-Stalker', note: 'Echolocation. Thunder damage disrupts tracking.' },
+      { range: [12, 12], type: 'combat', label: 'Fexric Deep Alchemist Patrol', note: 'Chemical weapons. Intelligence vs challenging die (d10).' },
+      { range: [13, 13], type: 'hazard', label: 'Toxic Spore Cloud', note: 'Constitution vs challenging die (d10) or hallucinating.' },
+      { range: [14, 14], type: 'hazard', label: 'Unstable Ceiling / Chasm Edge', note: 'Perception vs challenging die (d10) to hear cracking.' },
+      { range: [15, 15], type: 'combat', label: 'Drall Free-Clan Raid', note: 'Alchemical weapons, dark magic. May take prisoners.' },
+      { range: [16, 16], type: 'combat', label: 'Deep-Sump Wyrm', note: 'Burrows through stone. Survival vs difficult die (d12) to detect.' },
+      { range: [17, 17], type: 'discovery', label: 'Abandoned Fexric Vat-Chamber', note: 'Investigation vs moderate die (d8). Alchemical residues.' },
+      { range: [18, 18], type: 'social', label: 'Thrumm Brood-Circle', note: 'Pacifistic unless threatened. Seismic communication.' },
+      { range: [19, 19], type: 'combat', label: 'Debt-Revenant Thralls', note: 'Dominated husks. Will vs difficult die (d12) to resist.' },
+      { range: [20, 20], type: 'combat', label: 'Groven Ancestor-Bridge Guardian', note: 'Ancient Groven fused to a calcified span. Its bones control the tunnel around it.' }
     ],
     atmospheres: {
       0: {
@@ -647,6 +647,112 @@ export const BIOMES = [
       },
       3: { 0: ['The tremor sends loose stones rattling down the slopes. The walls groan.'], 1: ['The cave-in may have opened new passages — or sealed old ones.'], 2: ['Falling debris forces the party to press against the walls.'] },
       4: { 0: ['The gas is colourless and odourless at first, then the dizziness begins.'], 1: ['In the gas-filled darkness, shapes seem to move at the edge of vision.'], 2: ['The tunnel is collapsing. Lava seeps through cracks in the floor.'] }
+    }
+  },
+  {
+    id: 'steppe',
+    name: 'Steppe',
+    icon: 'fa-wind',
+    localIcon: 'assets/icons/abilities/Nature/Stylized Tree.png',
+    regionFlavor: {
+      regionName: 'Sundrift Vale',
+      curseName: 'Starless Navigation',
+      description: 'The wind-swept steppe of Sundrift Vale stretches beneath a permanently dark, starless sky. House Ordavan traded fertile soil for the endless migration, ensuring the steppe\'s grass always returns — but nothing deeper than grass can take root. Travelers navigate by the hum of ancestral burial mounds and the distant glow of Astril crystal-skin.',
+      rules: [
+        'Navigation checks suffer disadvantage under the starless sky; the ancestral mound-hum provides the only directional reference.',
+        'Every 8 hours of travel, the navigator must succeed on a Survival check against a moderate die (d8) or lose the herd-trails, adding 1d3 hours to the travel segment.',
+        'Powerful windstorms can strip exposed skin — Constitution save vs moderate die (d8) or suffer 1 level of Exhaustion from wind-chill.'
+      ]
+    },
+    cssVars: {
+      '--travel-primary': '#7a6a3a',
+      '--travel-primary-bright': '#9a8a5a',
+      '--travel-primary-dim': 'rgba(122,106,58,0.10)',
+      '--travel-accent': '#5a4a20',
+      '--travel-accent-bright': '#7a6a30',
+      '--travel-accent-dim': 'rgba(90,74,32,0.08)',
+      '--travel-gold': '#b8a060',
+      '--travel-gold-bright': '#d4b870',
+      '--travel-gold-dim': 'rgba(184,160,96,0.10)',
+      '--travel-green': '#5a7a3a',
+      '--travel-green-bright': '#6a9a4a',
+      '--travel-green-dim': 'rgba(90,122,58,0.09)',
+      '--travel-warn': '#8a6a00',
+      '--travel-warn-dim': 'rgba(138,106,0,0.09)',
+      '--travel-danger': '#8b2020',
+      '--travel-danger-dim': 'rgba(139,32,32,0.08)',
+      '--travel-bg': '#f0ecd8',
+      '--travel-bg-dark': '#e0d8b8',
+      '--travel-bg-darker': '#d0c8a0',
+      '--travel-text': '#1a1202',
+      '--travel-text-faded': '#7a6a40',
+      '--travel-text-muted': '#a09070',
+      '--travel-border': '#b8a060',
+      '--travel-border-light': 'rgba(160,130,70,0.25)',
+      '--travel-shadow': 'rgba(40,30,10,0.08)',
+      '--travel-bg-image': sandTexture,
+      '--travel-tab-bg': '#e0d8b8',
+      '--travel-tab-active': '#7a6a3a',
+      '--travel-tab-active-text': '#f0e6d2',
+      '--travel-border-pattern': 'repeating-linear-gradient(90deg, rgba(122,106,58,0.06) 0px, rgba(122,106,58,0.06) 10px, transparent 10px, transparent 20px)',
+      '--travel-header-font': "'Cinzel', serif",
+      '--travel-weather-effect': 'wind'
+    },
+    theme: {
+      borderStyle: 'grass',
+      particleType: 'wind',
+      mapLineColor: 'rgba(122,106,58,0.4)',
+      mapDotColor: '#7a6a3a',
+      mapBackground: 'linear-gradient(135deg, #e8e4d0 0%, #d8d4c0 50%, #e8e4d0 100%)'
+    },
+    weatherTable: [
+      { range: [1, 4], name: 'Clear & Windy', severity: 0, navDie: 'd6', envDie: 'd4', gearEffect: 'auto-pass', desc: 'Steady gusts, starless sky. Herd-trails visible.' },
+      { range: [5, 9], name: 'Overcast & Gusty', severity: 1, navDie: 'd8', envDie: 'd6', gearEffect: 'auto-pass', desc: 'Wind whips grass flat, muffling mound-hum.' },
+      { range: [10, 14], name: 'Windstorm', severity: 2, navDie: 'd10', envDie: 'd8', gearEffect: 'advantage', desc: 'Visibility 60 ft. Difficult terrain on open grassland.' },
+      { range: [15, 17], name: 'Howling Steppe-Gale', severity: 3, navDie: 'd12', envDie: 'd10', gearEffect: 'advantage', desc: 'Visibility 30 ft. Speech impossible. Speed halved.' },
+      { range: [18, 19], name: 'Blackout Gale', severity: 4, navDie: 'd20', envDie: 'd12', gearEffect: 'advantage', desc: 'Visibility 10 ft. Mound-hum silenced. Shelter or exposure risk.' },
+      { range: [20, 20], name: 'Wyrd-Wind Night', severity: 4, navDie: 'd20', envDie: 'd20', gearEffect: 'advantage', desc: 'Gale + Hungry Child active hunting. Mounds fall silent.' }
+    ],
+    terrainTypes: [
+      { id: 'open-grassland', name: 'Open Grassland', speedMod: 1.0, navDie: 'd8', desc: 'Flat, open. Wind exposure.' },
+      { id: 'tall-grass', name: 'Tall Grass / Lien-Stalks', speedMod: 0.5, navDie: 'd12', desc: 'Vision obscured. Hungry Child territory.' },
+      { id: 'mound-terrain', name: 'Mound Terrain', speedMod: 0.75, navDie: 'd10', desc: 'Ancestor mounds. Acoustic navigation bonus.' }
+    ],
+    transportModes: [
+      { id: 'foot', name: 'On Foot', speed: 1, restEvery: null, restDur: null, desc: 'Standard pace.' },
+      { id: 'horse', name: 'Horse', speed: 4, restEvery: 2, restDur: 0.5, desc: 'Wind-resistant breeds. Standard steppe mount.' },
+      { id: 'herd-beast', name: 'Woolly Herd-Beast', speed: 2, restEvery: 6, restDur: 1, desc: 'Slower but carries cargo. Follows herd-trails.' }
+    ],
+    encounterTable: [
+      { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Endless grey-green grass, the distant hum of ancestor mounds, cold wind.' },
+      { range: [7, 7], type: 'discovery', label: 'Herd Tracks', note: 'Survival vs moderate die (d8) to identify.' },
+      { range: [8, 8], type: 'combat', label: 'Hungry Child', note: 'Wyrd-shadow predator. Perception vs challenging die (d10) to detect before ambush.' },
+      { range: [9, 9], type: 'social', label: 'Ordan Nomad Clan', note: 'Will trade wool and dried meat for tools and salt.' },
+      { range: [10, 10], type: 'social', label: 'Lost Pilgrim', note: 'Disoriented without stars. Medicine vs moderate die (d8) to help.' },
+      { range: [11, 11], type: 'combat', label: 'Lien', note: 'Crystal-lattice predator. Tremorsense. Survival vs challenging die (d10) to detect.' },
+      { range: [12, 12], type: 'combat', label: 'Mound-Awakened Ancestor', note: 'Rises from barrow. Resist slashing.' },
+      { range: [13, 13], type: 'hazard', label: 'Collapsing Mound', note: 'Perception vs challenging die (d10) to spot unstable ground.' },
+      { range: [14, 14], type: 'hazard', label: 'Lien-Stalk Razorgrass Field', note: 'Agility vs challenging die (d10) or 1d4 slashing per 10 feet.' },
+      { range: [15, 15], type: 'combat', label: 'Astril Muren Agent', note: 'Constellation-spirit combat. Persuasion vs difficult die (d12) to bargain.' },
+      { range: [16, 16], type: 'combat', label: 'Wyrd-Touched Herd-Beast', note: 'Stampede risk. Animal Handling vs challenging die (d10).' },
+      { range: [17, 17], type: 'discovery', label: 'Buried Synod Archive', note: 'Perception vs challenging die (d10) to spot crystal-lattice.' },
+      { range: [18, 18], type: 'social', label: 'Unlit Veil Courier', note: 'Evasive. Deception vs challenging die (d10).' },
+      { range: [19, 19], type: 'combat', label: 'Hungry Child Pack', note: 'Pack tactics. Hunts only under starless sky.' },
+      { range: [20, 20], type: 'combat', label: 'Ancient Mound-Eater', note: 'Legendary steppe predator. Wyrd manifestation that consumes ancestor-hum.' }
+    ],
+    atmospheres: {
+      0: {
+        0: ['The steppe at night is utterly dark — no stars, no moon. Only the cold hum of distant burial mounds provides reference.'],
+        1: ['Dawn is a slow grey brightening without a sun. The grass seems to lean toward it, then away.'],
+        2: ['The sky is a pale, source-less grey. Wind is constant, pushing the tall grass in waves.']
+      },
+      2: {
+        0: ['The windstorm makes the grass roar. The mound-hum is barely perceptible beneath it.'],
+        1: ['Grey dawn through wind-driven grass. The herd-trails fill with debris.'],
+        2: ['Visibility drops to arm\'s length in the tall grass areas. Sound is reduced to wind-roar.']
+      },
+      3: { 0: ['The gale howls like something alive. The mound-hum is completely silenced.'], 1: ['Dawn and dusk are indistinguishable behind the wind.'], 2: ['Movement against the wind is exhausting. The steppe is fighting back.'] },
+      4: { 0: ['The blackout gale has swallowed the world. Ancestor mounds are silent as graves.'], 1: ['No light penetrates. The Hungry Child hunts openly.'], 2: ['Wyrd-wind carries whispers in dead languages. Something is very, very close.'] }
     }
   }
 ];

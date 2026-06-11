@@ -28,13 +28,13 @@ export const FALSE_PROPHET_DATA = {
   name: "False Prophet",
   icon: "fas fa-eye",
   role: "Caster/Controller",
-  damageTypes: ["psychic", "void", "necrotic"],
+  damageTypes: ["wyrd", "blight"],
 
   // Overview section
   overview: {
-    originStory: `In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Micah followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where the sun-god Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
+    originStory: `In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where the sun-god Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
 
-Micah returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars. The False Prophet is physically blind, his skin pale and cracked, and his heart beating in erratic, asynchronous patterns. His words carry a hypnotic madness that drains the stamina of listeners, forcing them to see the phantom embers of dead stars.
+Li Wei returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars. The False Prophet is physically blind, his skin pale and cracked, and his heart beating in erratic, asynchronous patterns. His words carry a hypnotic madness that drains the stamina of listeners, forcing them to see the phantom embers of dead stars.
 
 Speak the void's gospel. The stars are dead, and the vacuum is the only truth left. Lead them into the dark.`,
     title: "The False Prophet",
@@ -60,7 +60,7 @@ Speak the void's gospel. The stars are dead, and the vacuum is the only truth le
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE GENESIS**
-The false prophet's blinding fervor was born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. A nomadic herd-watcher named **Micah** stared into the empty, starless sky and surrendered his vision to the phantom lights of the steppe. The price of this revelation was physical blindness. Micah gouged his own physical sight to perceive the guiding embers, leaving his eyes blank and his mind permanently disoriented.
+The false prophet's blinding fervor was born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. A nomadic herd-watcher named **Li Wei** stared into the empty, starless sky and surrendered his vision to the phantom lights of the steppe. The price of this revelation was physical blindness. Li Wei gouged his own physical sight to perceive the guiding embers, leaving his eyes blank and his mind permanently disoriented.
 
 **CITIES & CIVIL RECEPTION**
 False Prophets are viewed with profound suspicion in civilized kingdoms, often treated as dangerous heretics, though they lead small, devoted followings among the steppe nomads.
@@ -69,13 +69,13 @@ False Prophets are viewed with profound suspicion in civilized kingdoms, often t
 The class is practiced by desperate humans and the constellationless <LoreLink termId="astril">Unlit Astril</LoreLink>.
 
 **NOTABLE FIGURES**
-* **Micah the Blind Prophet**: The herd-watcher who gouged his eyes to see the void's dead constellations.
+* **Li Wei the Blind Prophet**: The herd-watcher who gouged his eyes to see the void's dead constellations.
 * **Seraphina the Silent**: An Unlit Astril who led a small cult of starless heretics across the steppe.`
     },
 
     signatureQuote: {
       text: '"They call it madness. I call it freedom. The Void does not lie to me — it simply shows me things that would drive you mad, and I have the courage to look."',
-      speaker: 'Micah the Blind Prophet',
+      speaker: 'Li Wei the Blind Prophet',
       context: 'His first public sermon in the Over-Shanty, Year 501 of the Dimming'
     },
 
@@ -553,9 +553,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Arcane/Orb Manipulation",
-        tags: ["damage", "psychic", "madness", "self-harm", "voidcaller"],
+        tags: ["damage", "wyrd", "madness", "self-harm", "voidcaller"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -578,7 +578,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "1d8 + intelligence",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
 
@@ -605,7 +605,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "madness", "self-harm", "voidcaller"],
+      tags: ["damage", "wyrd", "madness", "self-harm", "voidcaller"],
     },
     { id: "fp_hollow_blessing",
       name: "Hollow Blessing",
@@ -618,9 +618,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Healing/Golden Heart",
-        tags: ["damage", "psychic", "dot", "deception", "madness"],
+        tags: ["damage", "wyrd", "dot", "deception", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -635,12 +635,12 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "1d4 + intelligence/2",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageTypes: ["psychic"],
+          damageTypes: ["wyrd"],
           tickFrequency: "turn",
           duration: 3,
           canStack: false,
@@ -681,7 +681,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "dot", "deception", "madness"],
+      tags: ["damage", "wyrd", "dot", "deception", "madness"],
     },
     { id: "fp_whispered_doubt",
       name: "Whispered Doubt",
@@ -694,7 +694,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         tags: ["debuff", "spirit reduction", "madness", "deceiver"],
         castTime: 1,
@@ -781,9 +781,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Drain Soul",
-        tags: ["damage", "healing", "necrotic", "vampiric", "madness"],
+        tags: ["damage", "healing", "blight", "vampiric", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -798,7 +798,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "1d6 + intelligence/2",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE",
       },
 
@@ -839,7 +839,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "healing", "necrotic", "vampiric", "madness"],
+      tags: ["damage", "healing", "blight", "vampiric", "madness"],
     },
     { id: "fp_zealots_mark",
       name: "Zealot's Mark",
@@ -852,7 +852,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Strike",
         tags: ["debuff", "mark", "vulnerability", "madness"],
         castTime: 1,
@@ -881,7 +881,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
                 id : "vulnerable",
                 name: "Vulnerable to Congregation",
                 option: "vulnerability",
-                vulnerabilityType: "psychic",
+                vulnerabilityType: "wyrd",
                 vulnerabilityPercent: 0,
                 bonusDamage: "1d6",
                 triggersOn: "ally_attack",
@@ -941,7 +941,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Healing/Reaching Hand",
         tags: ["buff", "debuff", "empathetic link", "damage redirect", "madness"],
         castTime: 1,
@@ -991,7 +991,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
                 option: "vulnerability",
                 vulnerabilityType: "empathetic_link",
                 vulnerabilityPercent: 30,
-                redirectDamageType: "psychic",
+                redirectDamageType: "wyrd",
                 redirectPercent: 30,
                 triggersOn: "ally_damage_taken",
                 consumed: false,
@@ -1040,7 +1040,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
           enabled: true,
           linkType: "damage_redirect",
           redirectPercent: 30,
-          redirectDamageType: "psychic",
+          redirectDamageType: "wyrd",
           requiresAllyProximity: true,
           proximityRange: 40,
           description:
@@ -1061,9 +1061,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Healing/Golden Heart",
-        tags: ["damage", "psychic", "dot", "deception", "madness"],
+        tags: ["damage", "wyrd", "dot", "deception", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1078,12 +1078,12 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "1d4 + intelligence/2",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageTypes: ["psychic"],
+          damageTypes: ["wyrd"],
           tickFrequency: "turn",
           duration: 3,
           canStack: false,
@@ -1124,7 +1124,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "dot", "deception", "madness"],
+      tags: ["damage", "wyrd", "dot", "deception", "madness"],
     },
     { id: "fp_parasitic_link",
       name: "Parasitic Link",
@@ -1137,7 +1137,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Psionic Strike",
         tags: ["buff", "empathetic link", "damage mirror", "madness"],
         castTime: 1,
@@ -1205,7 +1205,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         empatheticLink: {
           enabled: true,
           mirrorPercent: 50,
-          mirrorDamageType: "psychic",
+          mirrorDamageType: "wyrd",
           description: "50% of caster damage taken mirrored to linked enemy as psychic",
         },
       },
@@ -1223,7 +1223,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Decay 1",
         tags: ["buff", "sacrifice", "aoe", "madness", "cultist"],
         castTime: 1,
@@ -1313,7 +1313,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "General/Increase Strength",
         tags: ["buff", "madness", "self", "voidcaller"],
         castTime: 1,
@@ -1386,9 +1386,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Poison/Poison Plague",
-        tags: ["damage", "necrotic", "zone", "terrain", "madness", "cultist"],
+        tags: ["damage", "blight", "zone", "terrain", "madness", "cultist"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1404,12 +1404,12 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "1d6",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d6",
-          damageTypes: ["necrotic"],
+          damageTypes: ["blight"],
           tickFrequency: "round",
           duration: 4,
           canStack: false,
@@ -1468,7 +1468,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "necrotic", "zone", "terrain", "madness", "cultist"],
+      tags: ["damage", "blight", "zone", "terrain", "madness", "cultist"],
     },
     { id: "fp_sever_connections",
       name: "Sever Connections",
@@ -1481,7 +1481,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Radiant/Radiant Divinity",
         tags: ["debuff", "isolation", "curse", "madness", "deceiver"],
         castTime: 1,
@@ -1552,7 +1552,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Healing/Reaching Hand",
         tags: ["utility", "empathetic link", "debuff transfer", "madness"],
         castTime: 1,
@@ -1614,9 +1614,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
-        tags: ["control", "confusion", "psychic", "madness"],
+        tags: ["control", "confusion", "wyrd", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1700,7 +1700,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["control", "confusion", "psychic", "madness"],
+      tags: ["control", "confusion", "wyrd", "madness"],
     },
     { id: "fp_visions_of_heresy",
       name: "Visions of Heresy",
@@ -1713,9 +1713,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Strike",
-        tags: ["damage", "psychic", "dot", "madness"],
+        tags: ["damage", "wyrd", "dot", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1729,12 +1729,12 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "2d6 + intelligence",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "2d6",
-          damageTypes: ["psychic"],
+          damageTypes: ["wyrd"],
           tickFrequency: "turn",
           duration: 4,
           canStack: false,
@@ -1789,7 +1789,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "dot", "madness"],
+      tags: ["damage", "wyrd", "dot", "madness"],
     },
     { id: "fp_maddening_sermon",
       name: "Maddening Sermon",
@@ -1802,9 +1802,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "General/Fiery Rage",
-        tags: ["control", "confusion", "aoe", "psychic", "madness"],
+        tags: ["control", "confusion", "aoe", "wyrd", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1876,7 +1876,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["control", "confusion", "aoe", "psychic", "madness"],
+      tags: ["control", "confusion", "aoe", "wyrd", "madness"],
     },
     { id: "fp_communion_of_blood",
       name: "Communion of Blood",
@@ -1889,7 +1889,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Drain Soul",
         tags: ["temp_hp", "self", "madness", "voidcaller", "dangerous"],
         castTime: 1,
@@ -1963,7 +1963,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         tags: ["control", "corruption", "madness", "deceiver"],
         castTime: 1,
@@ -2063,9 +2063,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Agonizing Scream",
-        tags: ["damage", "psychic", "control", "paranoia", "madness", "deceiver"],
+        tags: ["damage", "wyrd", "control", "paranoia", "madness", "deceiver"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2080,7 +2080,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "4d6 + intelligence",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -2147,7 +2147,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "control", "paranoia", "madness", "deceiver"],
+      tags: ["damage", "wyrd", "control", "paranoia", "madness", "deceiver"],
     },
     { id: "fp_wrath_of_void_god",
       name: "Wrath of the Void God",
@@ -2160,9 +2160,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Void/Black Hole",
-        tags: ["damage", "necrotic", "madness", "voidcaller"],
+        tags: ["damage", "blight", "madness", "voidcaller"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2176,7 +2176,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "4d8 + intelligence + (2 * madness_spent)",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE",
       },
 
@@ -2198,7 +2198,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "necrotic", "madness", "voidcaller"],
+      tags: ["damage", "blight", "madness", "voidcaller"],
     },
     { id: "fp_empathetic_agony",
       name: "Empathetic Agony",
@@ -2211,7 +2211,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Psionic Strike",
         tags: ["buff", "empathetic link", "damage mirror", "madness"],
         castTime: 1,
@@ -2284,7 +2284,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         empatheticLink: {
           enabled: true,
           mirrorPercent: 100,
-          mirrorDamageType: "psychic",
+          mirrorDamageType: "wyrd",
           description: "100% of caster damage mirrored to enemy as psychic",
         },
       },
@@ -2302,7 +2302,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Psychic/Mind Control",
         tags: ["buff", "invisibility", "temptation", "madness"],
         castTime: 1,
@@ -2405,9 +2405,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Skull",
-        tags: ["damage", "necrotic", "dot", "madness", "cultist"],
+        tags: ["damage", "blight", "dot", "madness", "cultist"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2421,12 +2421,12 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "2d6",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "2d6",
-          damageTypes: ["necrotic"],
+          damageTypes: ["blight"],
           tickFrequency: "round",
           duration: 4,
           canStack: false,
@@ -2472,7 +2472,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "necrotic", "dot", "madness", "cultist"],
+      tags: ["damage", "blight", "dot", "madness", "cultist"],
     },
     { id: "fp_black_oath",
       name: "Black Oath",
@@ -2485,7 +2485,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Necrotic/Necrotic Decay 1",
         tags: ["debuff", "curse", "madness", "cultist"],
         castTime: 1,
@@ -2561,7 +2561,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Psionic Strike",
         tags: ["control", "domination", "madness", "deceiver"],
         castTime: 1,
@@ -2638,9 +2638,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "void",
+        school: "blight",
         icon: "Void/Consumed by Void",
-        tags: ["control", "fear", "void", "madness"],
+        tags: ["control", "fear", "blight", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2713,7 +2713,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["control", "fear", "void", "madness"],
+      tags: ["control", "fear", "blight", "madness"],
     },
     { id: "fp_summon_congregation",
       name: "Summon the Congregation",
@@ -2726,9 +2726,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "void",
+        school: "blight",
         icon: "Necrotic/Demonic Empowerment",
-        tags: ["summoning", "void", "madness", "cultist"],
+        tags: ["summoning", "blight", "madness", "cultist"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2790,7 +2790,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["summoning", "void", "madness", "cultist"],
+      tags: ["summoning", "blight", "madness", "cultist"],
     },
     { id: "fp_grand_deception",
       name: "Grand Deception",
@@ -2803,7 +2803,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         tags: ["control", "confusion", "aoe", "deception", "madness", "deceiver"],
         castTime: 1,
@@ -2904,9 +2904,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Void/Consumed by Void",
-        tags: ["damage", "psychic", "debuff", "distortion", "madness"],
+        tags: ["damage", "wyrd", "debuff", "distortion", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2922,7 +2922,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "8d8 + intelligence",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -2986,7 +2986,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "debuff", "distortion", "madness"],
+      tags: ["damage", "wyrd", "debuff", "distortion", "madness"],
     },
     { id: "fp_martyrs_shame",
       name: "Martyr's Shame",
@@ -2999,9 +2999,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Agonizing Scream",
-        tags: ["damage", "psychic", "empathetic link", "madness"],
+        tags: ["damage", "wyrd", "empathetic link", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3015,7 +3015,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "total_ally_damage_taken / 2",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "AUTOMATIC",
       },
 
@@ -3041,7 +3041,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "empathetic link", "madness"],
+      tags: ["damage", "wyrd", "empathetic link", "madness"],
     },
     { id: "fp_apocalyptic_revelation",
       name: "Apocalyptic Revelation",
@@ -3054,9 +3054,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Strike",
-        tags: ["damage", "psychic", "aoe", "temptation", "madness", "voidcaller"],
+        tags: ["damage", "wyrd", "aoe", "temptation", "madness", "voidcaller"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3071,7 +3071,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "12d6 + intelligence",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -3158,7 +3158,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
               name: "Psychic Shockwave",
               description: "4d6 psychic damage to all allies within 30ft",
               damageFormula: "4d6",
-              damageType: "psychic",
+              damageType: "wyrd",
               radius: 30,
             },
             {
@@ -3172,7 +3172,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "aoe", "temptation", "madness", "voidcaller"],
+      tags: ["damage", "wyrd", "aoe", "temptation", "madness", "voidcaller"],
     },
     { id: "fp_mass_manipulation",
       name: "Mass Manipulation",
@@ -3185,7 +3185,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         tags: ["control", "manipulation", "mind control", "mass", "madness", "deceiver"],
         castTime: 1,
@@ -3284,9 +3284,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "DICE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
-        tags: ["damage", "psychic", "ultimate", "deception", "madness"],
+        tags: ["damage", "wyrd", "ultimate", "deception", "madness"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3302,7 +3302,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
       damageConfig: {
         formula: "12d10 + intelligence",
-        damageTypes: ["psychic"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrow: {
           ability: "spirit",
@@ -3334,7 +3334,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         },
       },
 
-      tags: ["damage", "psychic", "ultimate", "deception", "madness"],
+      tags: ["damage", "wyrd", "ultimate", "deception", "madness"],
     },
     { id: "fp_prophet_of_lies",
       name: "Prophet of Lies",
@@ -3347,7 +3347,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         tags: ["transformation", "ultimate", "god form", "madness"],
         castTime: 1,
@@ -3451,7 +3451,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "AUTOMATIC",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Agonizing Scream",
         tags: ["passive", "debuff", "self-damage", "madness", "false prophet"],
         castTime: 0,
@@ -3499,7 +3499,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       resolution: "SAVE",
 
       typeConfig: {
-        school: "psychic",
+        school: "wyrd",
         icon: "Psychic/Mental Dissaray",
         tags: ["passive", "debuff", "confusion", "illusion", "false prophet"],
         castTime: 0,

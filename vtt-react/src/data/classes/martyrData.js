@@ -10,7 +10,7 @@ export const MARTYR_DATA = {
   name: "Martyr",
   icon: "fas fa-cross",
   role: "Tank/Support",
-  damageTypes: ["radiant", "fire"],
+  damageTypes: ["ember"],
 
   // Overview section
   overview: {
@@ -30,7 +30,7 @@ Suffer for them. You are the shield of meat and bone, and your wounds are the on
 
 **Resource**: Devotion Gauge (6 levels, thresholds at 10/20/40/60/80/100 damage taken)
 
-**CRITICAL DIFFERENCE FROM DREADNAUGHT**: The Dreadnaught is an immovable fortress that absorbs damage and converts it into shields. The Martyr is a BLEEDING FAITH HEALER who actively wounds themselves to heal others. The Dreadnaught's power comes from what hits them. The Martyr's power comes from what they CHOOSE to suffer. The Dreadnaught endures. The Martyr volunteers.
+**CRITICAL DIFFERENCE FROM IRONCLAD**: The Ironclad specialization is an immovable furnace-fortress that absorbs damage and converts it into heat and shields. The standard Martyr is a BLEEDING FAITH HEALER who actively wounds themselves to heal others. The Ironclad's power comes from what hits them. The other Martyrs' power comes from what they CHOOSE to suffer. The Ironclad endures. The others volunteer.
 
 **The Minor Hit Loop**: Intervene creates a tactical fork. Intercepting a major hit (10+ damage) yields maximum Devotion progression — your body drinks the violence and converts it into divine authority. But intercepting a minor hit (less than 10 damage) bypasses Devotion entirely and instead immediately restores 1d4 Mana. You must choose between building power and sustaining your casting endurance.
 
@@ -41,7 +41,7 @@ Suffer for them. You are the shield of meat and bone, and your wounds are the on
 **Best For**: Players who enjoy protective gameplay with genuine risk, the martyrdom fantasy, and the visceral satisfaction of turning personal catastrophe into party survival`,
     },
 
-    description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the soft meat of their own body to catch weapons swung at their companions. Through the Devotion Gauge — a resource that fills as they deliberately bleed themselves for allies — the Martyr transforms willing suffering into grotesque acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Dreadnaught who passively absorbs whatever hits them, the Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated agony. No other class can do this. But their connection to the divine is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion — a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
+    description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the soft meat of their own body to catch weapons swung at their companions. Through the Devotion Gauge — a resource that fills as they deliberately bleed themselves for allies — the Martyr transforms willing suffering into grotesque acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate armor, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated agony. No other class can do this. But their connection to the divine is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion — a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -103,7 +103,7 @@ Several houses have begun "recruiting" Martyrs — some by indoctrination, some 
 - Highly vulnerable to targeted crowd control that isolates them from the party — if they cannot reach allies to intercept, their Devotion starves
 - Can become overwhelmed if they sacrifice too aggressively
 - Requires ACTIVE self-sacrifice to reach full potential — passive damage absorption alone is insufficient
-- Fundamentally different from Dreadnaught: Dreadnaught absorbs whatever hits them (passive fortress). Martyr must CHOOSE to bleed (active sacrifice)
+- Fundamentally different from Ironclad spec: Ironclad absorbs whatever hits them (passive furnace fortress). Other Martyrs must CHOOSE to bleed (active sacrifice)
 - **The Zealot's Wrath Tithe**: Zealot-spec Martyrs deal devastating bonus damage scaled to Devotion, but suffer half that bonus as self-harm — they are simultaneously the party's most aggressive support and their own worst enemy
 
 The Martyr shines in prolonged encounters where they can build Devotion Levels and unleash devastating amplified abilities at critical moments. They wither in fights where they cannot reach allies or where enemies ignore them.`,
@@ -461,9 +461,9 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
   // Specializations
   specializations: {
     title: "Martyr Specializations",
-    subtitle: "Three Paths Through the Same Flesh",
+    subtitle: "Four Paths Through the Same Flesh",
 
-    description: `Every Martyr chooses one of three specializations that define how they approach the fundamental transaction: their body for their allies' survival. Each specialization is a different theology of suffering — not a different job, but a different interpretation of the same horrible math.`,
+    description: `Every Martyr chooses one of four specializations that define how they approach the fundamental transaction: their body for their allies' survival. Each specialization is a different theology of suffering — not a different job, but a different interpretation of the same horrible math.`,
 
     specs: [
       { id : "redemption",
@@ -602,6 +602,54 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
         recommendedFor:
           "Players who enjoy resource management, balanced gameplay, and sustained power",
       },
+
+      { id : "ironclad",
+        name: "Ironclad",
+        icon: "Fire/Flame Shield",
+        color: "#d35400",
+        theme: "Furnace-Bound Devotion — The Welded Martyr",
+
+        description: `Ironclad Martyrs have sealed themselves inside hundreds of pounds of crude, superheated iron plating — voluntarily. They combine the Martyr's theology of willing suffering with the Cragjaw Peaks' tradition of furnace-armor, welding alchemical steam-pistons to their own limbs and stoking their Devotion through literal combustion. Their armor is not worn; it is inhabited. Every wound they absorb for an ally heats the boiler, every Devotion threshold crossed vents scalding steam, and every step forward grinds pistons that scream with sacred friction. They do not dodge. They do not retreat. They are the iron wall that bleeds.
+
+Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs represent a heretical synthesis: instead of the Dreadnaught's passive absorption of punishment, the Ironclad chooses to suffer — channeling the Martyr's active self-sacrifice through furnace mechanics. Where a Dreadnaught is struck and endures, an Ironclad Martyr throws themselves into the blow and thanks the divine for the coal.`,
+
+        playstyle:
+          "Immovable frontline tank, area denial through furnace heat, Devotion-powered steam vents",
+
+        strengths: [
+          "Ironclad Vow grants stacking DR as Devotion rises — the most physically resilient Martyr spec",
+          "Furnace Heat aura punishes adjacent enemies at high Devotion",
+          "Immunity to physical crowd control at Devotion Level 5+ (pistons crush roots and chains)",
+          "Devotion-generated steam vents provide powerful area denial",
+        ],
+
+        weaknesses: [
+          "Movement speed reduced by 10 feet — the slowest Martyr spec",
+          "Vulnerability to Lightning damage (conductive armor) and Cold effects (lock pistons)",
+          "Cannot stealth, swim, or squeeze through narrow spaces",
+          "Lower healing output than Redemption — you are a wall, not a transfusion",
+        ],
+
+        passiveAbilities: [
+          {
+            name: "Suffering's Gift",
+            tier: "Path Passive",
+            description:
+              "At Devotion Level 3 or higher, whenever you take damage from an external source, all allies within 10 feet gain temporary HP equal to your current Devotion Level. Triggers once per instance of damage received. Temporary HP does not stack — the higher value applies. Self-inflicted damage does not trigger this effect.",
+            sharedBy: "All Martyrs",
+          },
+          {
+            name: "Ironclad Vow",
+            tier: "Specialization Passive",
+            description:
+              "Your furnace-plate armor scales with Devotion: at Devotion Level 3+, gain +2 DR. At Devotion Level 5+, enemies within 5 feet take 1d6 fire damage at the start of your turn from radiant furnace heat, and you are immune to physical crowd control (roots, grapples, slows) as your pistons crush all restraints. However, your movement speed is reduced by 10 feet, you have vulnerability to Lightning damage, and Cold effects that would slow instead root you for 1 round as your pistons freeze.",
+            uniqueTo: "Ironclad",
+          },
+        ],
+
+        recommendedFor:
+          "Players who want an immovable tank Martyr, area denial through furnace mechanics, and the Dreadnaught's iron-clad resilience expressed through willing sacrifice",
+      },
     ],
   },
 
@@ -711,7 +759,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Healing/Golden Heart",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Golden Heart",
         tags: ["healing", "basic", "devotion amplifiable", "level 1"],
         castTime: 1,
@@ -764,7 +812,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Utility/Shield",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Utility/Shield",
         tags: ["protection", "reaction", "devotion amplifiable", "level 1"],
         castTime: 1,
@@ -826,7 +874,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Radiant Beam",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Beam",
         tags: ["healing", "sacrificial", "devotion amplifiable", "level 1"],
         castTime: 1,
@@ -879,12 +927,12 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Radiant Bolt",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Bolt",
         tags: [
           "damage",
           "healing",
-          "radiant",
+          "ember",
           "devotion amplifiable",
           "level 1",
         ],
@@ -936,7 +984,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "1d6 + spirit/2",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -951,7 +999,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
-      tags: ["damage", "healing", "radiant", "devotion amplifiable", "level 1"],
+      tags: ["damage", "healing", "ember", "devotion amplifiable", "level 1"],
     },
 
     { id: "martyr_devoted_strike",
@@ -963,12 +1011,12 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Healing/Reaching Hand",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Reaching Hand",
         tags: [
           "damage",
           "melee",
-          "radiant",
+          "ember",
           "healing",
           "devotion amplifiable",
           "level 1",
@@ -1009,7 +1057,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "1d8 + strength",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -1027,7 +1075,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       tags: [
         "damage",
         "melee",
-        "radiant",
+        "ember",
         "healing",
         "devotion amplifiable",
         "level 1",
@@ -1043,7 +1091,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       level: 2,
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Shield",
         tags: [
           "buff",
@@ -1128,7 +1176,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       level: 2,
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Golden Heart",
         tags: [
           "healing",
@@ -1167,7 +1215,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "2d6",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         targetType: "self",
         resolution: "DICE",
       },
@@ -1214,7 +1262,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       level: 2,
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Radiant/Radiant Golden Shield",
         tags: [
           "buff",
@@ -1306,7 +1354,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Divine Blessing",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Radiant/Divine Blessing",
         tags: [
           "buff",
@@ -1399,7 +1447,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Force/Force Shield",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Shield",
         tags: ["buff", "protection", "sacrifice", "level 3"],
         castTime: 1,
@@ -1459,9 +1507,9 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Fire/Sun Symbol",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Fire/Sun Symbol",
-        tags: ["damage", "self damage", "radiant", "aoe", "level 3"],
+        tags: ["damage", "self damage", "ember", "aoe", "level 3"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1487,7 +1535,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "4d6 + spirit",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         savingThrow: {
           ability: "agility",
           difficultyClass: 14,
@@ -1502,7 +1550,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ["damage", "self damage", "radiant", "aoe", "level 3"],
+      tags: ["damage", "self damage", "ember", "aoe", "level 3"],
     },
 
     { id: "martyr_cleansing_touch",
@@ -1514,7 +1562,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Healing/Cure Within",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Cure Within",
         tags: ["purification", "sacrifice", "utility", "level 3"],
         castTime: 1,
@@ -1567,7 +1615,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Radiant Golden Shield",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Radiant/Radiant Golden Shield",
         tags: ["buff", "shield", "protection", "level 4"],
         castTime: 1,
@@ -1631,7 +1679,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Healing/Golden Heart",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Healing/Golden Heart",
         tags: ["healing", "sacrifice", "self damage", "level 4"],
         castTime: 1,
@@ -1680,7 +1728,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Necrotic/Blood Scroll",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Necrotic/Blood Scroll",
         tags: ["debuff", "utility", "healing", "mark", "level 4"],
         castTime: 1,
@@ -1741,7 +1789,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Divine Illumination",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Divine Illumination",
         tags: ["buff", "healing", "immunity", "aoe", "level 5"],
         castTime: 1,
@@ -1809,7 +1857,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Radiant Golden Shield",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Golden Shield",
         tags: ["buff", "protection", "sacrifice", "party", "level 5"],
         castTime: 1,
@@ -1870,9 +1918,9 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Radiant Golden Shield",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Golden Shield",
-        tags: ["damage", "radiant", "aoe", "stored damage", "level 5"],
+        tags: ["damage", "ember", "aoe", "stored damage", "level 5"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1898,7 +1946,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "6d8 + stored_damage",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         savingThrow: {
           ability: "constitution",
           difficultyClass: 15,
@@ -1921,7 +1969,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ["damage", "radiant", "aoe", "stored damage", "level 5"],
+      tags: ["damage", "ember", "aoe", "stored damage", "level 5"],
     },
 
     // ========================================
@@ -1936,7 +1984,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Bright Explosion",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Bright Explosion",
         tags: ["healing", "damage", "zone", "aoe", "level 6"],
         castTime: 1,
@@ -2000,7 +2048,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "3d8",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         targetRestrictions: ["undead", "demon"],
         description: "Damages undead and demons in the zone each round",
         resolution: "DICE",
@@ -2031,7 +2079,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Force/Force Field",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Force/Force Field",
         tags: ["buff", "protection", "sacrifice", "tank", "level 6"],
         castTime: 1,
@@ -2094,9 +2142,9 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Divine Downward Sword",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Divine Downward Sword",
-        tags: ["damage", "radiant", "single target", "level 6"],
+        tags: ["damage", "ember", "single target", "level 6"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2121,7 +2169,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "5d10 + spirit + missing_hp_percentage",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -2139,7 +2187,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      tags: ["damage", "radiant", "single target", "level 6"],
+      tags: ["damage", "ember", "single target", "level 6"],
     },
 
     // ========================================
@@ -2154,7 +2202,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Healing/Ressusitate",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Ressusitate",
         tags: ["healing", "resurrection", "aoe", "ultimate", "level 7"],
         castTime: 2,
@@ -2205,7 +2253,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Winged Angel",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Winged Angel",
         tags: ["buff", "protection", "cheat death", "level 7"],
         castTime: 1,
@@ -2266,9 +2314,9 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Radiant Sunburst",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Sunburst",
-        tags: ["damage", "radiant", "aoe", "devotion spend", "level 7"],
+        tags: ["damage", "ember", "aoe", "devotion spend", "level 7"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2294,7 +2342,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "8d8 + devotion_spent * 2",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         savingThrow: {
           ability: "constitution",
           difficultyClass: 17,
@@ -2324,7 +2372,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
 
-      tags: ["damage", "radiant", "aoe", "devotion spend", "level 7"],
+      tags: ["damage", "ember", "aoe", "devotion spend", "level 7"],
     },
 
     // ========================================
@@ -2339,7 +2387,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Divine Radiance",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Radiant/Divine Radiance",
         tags: ["protection", "reaction", "negate", "level 8"],
         castTime: 1,
@@ -2404,9 +2452,9 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Radiant Beam",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Beam",
-        tags: ["debuff", "damage", "link", "radiant", "level 8"],
+        tags: ["debuff", "damage", "link", "ember", "level 8"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2456,7 +2504,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      tags: ["debuff", "damage", "link", "psychic", "level 8"],
+      tags: ["debuff", "damage", "link", "wyrd", "level 8"],
     },
 
     // ========================================
@@ -2471,7 +2519,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Divine Illumination",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Divine Illumination",
         tags: ["transformation", "buff", "protection", "ultimate", "level 9"],
         castTime: 1,
@@ -2538,7 +2586,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Radiant Warrior",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Warrior",
         tags: ["damage", "healing", "aoe", "ultimate", "level 9"],
         castTime: 2,
@@ -2584,7 +2632,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
       damageConfig: {
         formula: "12d10 + spirit * 2",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         savingThrow: {
           ability: "spirit",
           difficultyClass: 20,
@@ -2624,7 +2672,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Force/Force Shield",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Force/Force Shield",
         tags: ["buff", "protection", "party", "sacrifice", "level 9"],
         castTime: 2,
@@ -2690,7 +2738,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Healing/Ressusitate",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Ressusitate",
         tags: ["resurrection", "sacrifice", "ultimate", "level 10"],
         castTime: 1,
@@ -2775,7 +2823,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Golden Ring",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Golden Ring",
         tags: [
           "buff",
@@ -2845,7 +2893,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       icon: "Radiant/Sacred Symbol",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Sacred Symbol",
         tags: ["passive", "restriction", "no self-heal", "sacrifice", "martyr"],
         castTime: 0,

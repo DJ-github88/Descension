@@ -40,7 +40,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         availableFor: {
@@ -67,7 +67,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         availableFor: {
@@ -94,7 +94,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         availableFor: {
@@ -369,7 +369,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'slashing'
+                damageType: 'physical'
             }
         },
         availableFor: {
@@ -396,7 +396,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'bludgeoning'
+                damageType: 'physical'
             }
         },
         availableFor: {
@@ -423,7 +423,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         availableFor: {
@@ -450,7 +450,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'piercing'
+                damageType: 'physical'
             }
         },
         availableFor: {

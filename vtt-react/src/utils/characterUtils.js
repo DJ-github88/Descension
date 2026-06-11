@@ -123,15 +123,24 @@ export function calculateEquipmentBonuses(equipment = {}) {
                     Object.entries(statData).forEach(([resType, resData]) => {
                         const normalizeDamageType = (type) => {
                             const map = {
-                                shadow: 'necrotic', holy: 'radiant', cold: 'frost',
-                                ice: 'frost', acid: 'poison', thunder: 'force',
-                                viscera: 'nature', physical: 'bludgeoning', electric: 'lightning',
+                                shadow: 'blight', holy: 'ember', cold: 'rime',
+                                ice: 'rime', acid: 'blight', thunder: 'storm',
+                                viscera: 'primal', physical: 'physical', electric: 'storm',
+                                fire: 'ember', radiant: 'ember',
+                                frost: 'rime', lightning: 'storm', force: 'storm',
+                                nature: 'primal',
+                                necrotic: 'blight', void: 'blight', poison: 'blight',
+                                psychic: 'wyrd', chaos: 'wyrd',
+                                bludgeoning: 'physical', piercing: 'physical', slashing: 'physical',
                             };
                             return map[type] || type;
                         };
                         const normalizedResType = normalizeDamageType(resType);
-                        const physicalTypes = ['bludgeoning', 'piercing', 'slashing'];
-                        const targetTypes = normalizedResType === 'physical' ? physicalTypes : [normalizedResType];
+                        if (normalizedResType === 'physical') {
+                            targetTypes = ['physical'];
+                        } else {
+                            targetTypes = [normalizedResType];
+                        }
 
                         // Check if this is a flat damage reduction (isPercentage is false or undefined, and value is a number)
                         const isFlatReduction = resData && typeof resData === 'object' &&
@@ -286,7 +295,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
         }
 
         // Handle individual spell damage types (fire, frost, etc.)
-        const spellDamageTypes = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'force', 'chaos', 'necrotic', 'radiant', 'poison', 'psychic', 'void'];
+        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
         spellDamageTypes.forEach(type => {
             const typeKey = `${type}Damage`;
             const spellPowerKey = `${type}SpellPower`;
@@ -309,7 +318,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
         });
 
         // Handle physical damage types
-        const physicalDamageTypes = ['piercing', 'slashing', 'bludgeoning'];
+        const physicalDamageTypes = ['physical'];
         physicalDamageTypes.forEach(type => {
             const typeKey = `${type}Damage`;
 

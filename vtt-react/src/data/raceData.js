@@ -17,11 +17,10 @@ import { briaran } from './races/briaran';
 import { groven } from './races/groven';
 import { emberth } from './races/emberth';
 import { vreken } from './races/vreken';
-import { morthel } from './races/morthel';
+import { neth } from './races/neth';
 import { astril } from './races/astril';
 import { fexrick } from './races/fexrick';
 import { human } from './races/human';
-import { corvani } from './races/corvani';
 
 export const RACE_DATA = {
     myrathil,
@@ -30,11 +29,10 @@ export const RACE_DATA = {
     groven,
     emberth,
     vreken,
-    morthel,
+    neth,
     astril,
     fexrick,
-    human,
-    corvani
+    human
 };
 
 export const getRaceList = () => {

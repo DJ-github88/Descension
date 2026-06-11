@@ -13,14 +13,14 @@ export const ARCANONEER_DATA = {
   role: "Magi-ballistic Mutilator (Damage/Utility -- Zero Healing)",
   damageTypes: [
     "arcane",
-    "radiant",
-    "necrotic",
-    "fire",
-    "frost",
-    "nature",
-    "chaos",
-    "force",
-    "lightning",
+    "ember",
+    "blight",
+    "ember",
+    "rime",
+    "primal",
+    "wyrd",
+    "storm",
+    "storm",
   ],
 
   // Overview section
@@ -665,21 +665,21 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
         ],
         [
           "2",
-          "Radiant",
+          "ember",
           "Divine Light",
           "Radiant damage, blinding, stunning, protection",
         ],
         [
           "3",
-          "Necrotic",
+          "blight",
           "Darkness/Necrotic",
           "Necrotic damage, curses, life drain, debuffs",
         ],
-        ["4", "Fire", "Flames", "Fire damage, burning, ignition, explosions"],
-        ["5", "Frost", "Frost", "Frost damage, freezing, slowing, disorientation"],
+        ["4", "ember", "Flames", "Fire damage, burning, ignition, explosions"],
+        ["5", "rime", "rime", "Frost damage, freezing, slowing, disorientation"],
         [
           "6",
-          "Nature",
+          "primal",
           "Storm & Growth",
           "Nature damage, lightning, vines, restraint, poison",
         ],
@@ -691,7 +691,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
         ],
         [
           "8",
-          "Chaos",
+          "wyrd",
           "Unpredictability",
           "Random effects, wild magic, variable damage",
         ],
@@ -1057,7 +1057,7 @@ MAX BANKED SPHERES: 12
         id: "arcane_arcane",
         name: "Arcane Pulse",
         elements: ["arcane", "arcane"],
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1069,8 +1069,8 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_holy",
         name: "Radiance",
-        elements: ["radiant", "radiant"],
-        damageTypes: ["radiant"],
+        elements: ["ember", "ember"],
+        damageTypes: ["ember"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1083,8 +1083,8 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_shadow",
         name: "Dark Bolt",
-        elements: ["necrotic", "necrotic"],
-        damageTypes: ["necrotic"],
+        elements: ["blight", "blight"],
+        damageTypes: ["blight"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1096,8 +1096,8 @@ MAX BANKED SPHERES: 12
       {
         id: "fire_fire",
         name: "Flame Burst",
-        elements: ["fire", "fire"],
-        damageTypes: ["fire"],
+        elements: ["ember", "ember"],
+        damageTypes: ["ember"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1109,8 +1109,8 @@ MAX BANKED SPHERES: 12
       {
         id: "ice_ice",
         name: "Frost Spike",
-        elements: ["frost", "frost"],
-        damageTypes: ["frost"],
+        elements: ["rime", "rime"],
+        damageTypes: ["rime"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1123,8 +1123,8 @@ MAX BANKED SPHERES: 12
       {
         id: "nature_nature",
         name: "Storm Surge",
-        elements: ["nature", "nature"],
-        damageTypes: ["nature"],
+        elements: ["primal", "primal"],
+        damageTypes: ["primal"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1137,7 +1137,7 @@ MAX BANKED SPHERES: 12
         id: "healing_healing",
         name: "Gristle Blockade",
         elements: ["healing", "healing"],
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         targetType: "area",
         range: 30,
         aoeShape: "circle",
@@ -1152,8 +1152,8 @@ MAX BANKED SPHERES: 12
       {
         id: "chaos_chaos",
         name: "Chaos Bolt",
-        elements: ["chaos", "chaos"],
-        damageTypes: ["chaos"],
+        elements: ["wyrd", "wyrd"],
+        damageTypes: ["wyrd"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
@@ -1167,7 +1167,7 @@ MAX BANKED SPHERES: 12
             name: "Chaos Nova",
             description:
               "The bolt detonates in a 15-foot radius, dealing chaos damage to all nearby enemies.",
-            damageTypes: ["chaos"],
+            damageTypes: ["wyrd"],
             targetType: "aoe",
             aoeRadius: 15,
           },
@@ -1182,7 +1182,7 @@ MAX BANKED SPHERES: 12
             name: "Entropy Drain",
             description:
               "The bolt siphons vitality from the target, dealing chaos damage and granting you temporary HP equal to the damage dealt. ⚠️ NOT healing — you gain a TEMP HP buffer that decays at the end of combat. The Arcanoneer CANNOT heal. This is absorption, not restoration.",
-            damageTypes: ["chaos"],
+            damageTypes: ["wyrd"],
             targetType: "single",
             selfHeal: false,
             tempHP: true,
@@ -1206,8 +1206,8 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_holy",
         name: "Divine Bolt",
-        elements: ["arcane", "radiant"],
-        damageTypes: ["force", "radiant"],
+        elements: ["arcane", "ember"],
+        damageTypes: ["storm", "ember"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1219,8 +1219,8 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_shadow",
         name: "Void Bolt",
-        elements: ["arcane", "necrotic"],
-        damageTypes: ["force", "necrotic"],
+        elements: ["arcane", "blight"],
+        damageTypes: ["storm", "blight"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1232,8 +1232,8 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_fire",
         name: "Arcane Flame",
-        elements: ["arcane", "fire"],
-        damageTypes: ["force", "fire"],
+        elements: ["arcane", "ember"],
+        damageTypes: ["storm", "ember"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1245,8 +1245,8 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_ice",
         name: "Crystal Shard",
-        elements: ["arcane", "frost"],
-        damageTypes: ["force", "frost"],
+        elements: ["arcane", "rime"],
+        damageTypes: ["storm", "rime"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1258,8 +1258,8 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_nature",
         name: "Thunderstrike",
-        elements: ["arcane", "nature"],
-        damageTypes: ["force", "nature"],
+        elements: ["arcane", "primal"],
+        damageTypes: ["storm", "primal"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1272,7 +1272,7 @@ MAX BANKED SPHERES: 12
         id: "arcane_healing",
         name: "Visceral Cocoon",
         elements: ["arcane", "healing"],
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         targetType: "single_ally",
         range: 30,
         primaryEffect: "barrier",
@@ -1285,8 +1285,8 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_chaos",
         name: "Wild Magic",
-        elements: ["arcane", "chaos"],
-        damageTypes: ["chaos"],
+        elements: ["arcane", "wyrd"],
+        damageTypes: ["wyrd"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
@@ -1308,7 +1308,7 @@ MAX BANKED SPHERES: 12
             name: "Manaburst",
             description:
               "A cascade of raw arcane energy deals chaos damage and restores 1d4 mana to you.",
-            damageTypes: ["chaos"],
+            damageTypes: ["wyrd"],
             targetType: "single",
             manaRestore: "1d4",
           },
@@ -1323,7 +1323,7 @@ MAX BANKED SPHERES: 12
             name: "Arcane Storm",
             description:
               "Lightning arcs from you to 1d4 random targets within 30 feet, dealing force damage.",
-            damageTypes: ["force"],
+            damageTypes: ["storm"],
             targetType: "random_aoe",
             maxTargets: "1d4",
           },
@@ -1337,8 +1337,8 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_shadow",
         name: "Twilight",
-        elements: ["radiant", "necrotic"],
-        damageTypes: ["radiant", "necrotic"],
+        elements: ["ember", "blight"],
+        damageTypes: ["ember", "blight"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1350,8 +1350,8 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_fire",
         name: "Solar Flare",
-        elements: ["radiant", "fire"],
-        damageTypes: ["radiant", "fire"],
+        elements: ["ember", "ember"],
+        damageTypes: ["ember", "ember"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1363,8 +1363,8 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_ice",
         name: "Aurora",
-        elements: ["radiant", "frost"],
-        damageTypes: ["radiant", "frost"],
+        elements: ["ember", "rime"],
+        damageTypes: ["ember", "rime"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1377,8 +1377,8 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_nature",
         name: "Verdant Light",
-        elements: ["radiant", "nature"],
-        damageTypes: ["radiant", "nature"],
+        elements: ["ember", "primal"],
+        damageTypes: ["ember", "primal"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1390,8 +1390,8 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_healing",
         name: "Crucible of Sinew",
-        elements: ["radiant", "healing"],
-        damageTypes: ["radiant"],
+        elements: ["ember", "healing"],
+        damageTypes: ["ember"],
         targetType: "single_ally",
         range: 60,
         primaryEffect: "cleanse",
@@ -1404,8 +1404,8 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_chaos",
         name: "Chaos Light",
-        elements: ["radiant", "chaos"],
-        damageTypes: ["chaos"],
+        elements: ["ember", "wyrd"],
+        damageTypes: ["wyrd"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
@@ -1419,7 +1419,7 @@ MAX BANKED SPHERES: 12
             name: "Beacon of Chaos",
             description:
               "A pillar of prismatic light erupts from the ground, dealing radiant damage to enemies and healing allies within 10 feet.",
-            damageTypes: ["radiant"],
+            damageTypes: ["ember"],
             targetType: "aoe",
             aoeRadius: 10,
           },
@@ -1457,8 +1457,8 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_fire",
         name: "Hellfire",
-        elements: ["necrotic", "fire"],
-        damageTypes: ["necrotic", "fire"],
+        elements: ["blight", "ember"],
+        damageTypes: ["blight", "ember"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1470,8 +1470,8 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_ice",
         name: "Frostbite",
-        elements: ["necrotic", "frost"],
-        damageTypes: ["necrotic", "frost"],
+        elements: ["blight", "rime"],
+        damageTypes: ["blight", "rime"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1484,12 +1484,12 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_nature",
         name: "Blight",
-        elements: ["necrotic", "nature"],
-        damageTypes: ["necrotic", "nature"],
+        elements: ["blight", "primal"],
+        damageTypes: ["blight", "primal"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
-        secondaryEffect: "poison",
+        secondaryEffect: "blight",
         effectDescription:
           "Thorny shadows inject necrotic poison into the target.",
         flavorText:
@@ -1498,8 +1498,8 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_healing",
         name: "Grisly Veil",
-        elements: ["necrotic", "healing"],
-        damageTypes: ["necrotic"],
+        elements: ["blight", "healing"],
+        damageTypes: ["blight"],
         targetType: "self",
         range: 0,
         primaryEffect: "barrier",
@@ -1512,8 +1512,8 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_chaos",
         name: "Entropy",
-        elements: ["necrotic", "chaos"],
-        damageTypes: ["chaos"],
+        elements: ["blight", "wyrd"],
+        damageTypes: ["wyrd"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
@@ -1527,7 +1527,7 @@ MAX BANKED SPHERES: 12
             name: "Wither",
             description:
               "A wave of decay reduces the target's armor by 2 for 2 rounds.",
-            damageTypes: ["necrotic"],
+            damageTypes: ["blight"],
             targetType: "single",
             armorReduction: 2,
           },
@@ -1535,7 +1535,7 @@ MAX BANKED SPHERES: 12
             name: "Soul Rend",
             description:
               "Deals necrotic damage and applies a random debuff to the target.",
-            damageTypes: ["necrotic"],
+            damageTypes: ["blight"],
             targetType: "single",
             randomDebuff: true,
           },
@@ -1551,7 +1551,7 @@ MAX BANKED SPHERES: 12
             name: "Dark Nova",
             description:
               "Necrotic energy erupts from you in a 10-foot radius, dealing necrotic damage to all nearby creatures (including allies).",
-            damageTypes: ["necrotic"],
+            damageTypes: ["blight"],
             targetType: "aoe",
             aoeRadius: 10,
             friendlyFire: true,
@@ -1566,8 +1566,8 @@ MAX BANKED SPHERES: 12
       {
         id: "fire_ice",
         name: "Steam",
-        elements: ["fire", "frost"],
-        damageTypes: ["fire", "frost"],
+        elements: ["ember", "rime"],
+        damageTypes: ["ember", "rime"],
         targetType: "cone",
         range: 30,
         aoeShape: "cone",
@@ -1582,8 +1582,8 @@ MAX BANKED SPHERES: 12
       {
         id: "fire_nature",
         name: "Wildfire",
-        elements: ["fire", "nature"],
-        damageTypes: ["fire", "nature"],
+        elements: ["ember", "primal"],
+        damageTypes: ["ember", "primal"],
         targetType: "single",
         range: 60,
         primaryEffect: "damage",
@@ -1595,8 +1595,8 @@ MAX BANKED SPHERES: 12
       {
         id: "fire_healing",
         name: "Cauterizing Slag",
-        elements: ["fire", "healing"],
-        damageTypes: ["fire"],
+        elements: ["ember", "healing"],
+        damageTypes: ["ember"],
         targetType: "single_ally",
         range: 30,
         primaryEffect: "cleanse",
@@ -1609,8 +1609,8 @@ MAX BANKED SPHERES: 12
       {
         id: "fire_chaos",
         name: "Chaos Flame",
-        elements: ["fire", "chaos"],
-        damageTypes: ["chaos"],
+        elements: ["ember", "wyrd"],
+        damageTypes: ["wyrd"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
@@ -1624,7 +1624,7 @@ MAX BANKED SPHERES: 12
             name: "Infernal Burst",
             description:
               "The chaos flame detonates in a 15-foot radius, dealing fire damage to all nearby enemies.",
-            damageTypes: ["fire"],
+            damageTypes: ["ember"],
             targetType: "aoe",
             aoeRadius: 15,
           },
@@ -1632,7 +1632,7 @@ MAX BANKED SPHERES: 12
             name: "Chain Fire",
             description:
               "The bolt bounces to 1d4 additional targets within 20 feet, dealing fire damage to each.",
-            damageTypes: ["fire"],
+            damageTypes: ["ember"],
             targetType: "chain",
             maxTargets: "1d4",
           },
@@ -1640,7 +1640,7 @@ MAX BANKED SPHERES: 12
             name: "Fire Shield",
             description:
               "Flames wrap around you, granting fire resistance and dealing 1d4 fire damage to melee attackers for 2 rounds.",
-            damageTypes: ["fire"],
+            damageTypes: ["ember"],
             targetType: "self",
             selfBuff: true,
           },
@@ -1648,7 +1648,7 @@ MAX BANKED SPHERES: 12
             name: "Backfire",
             description:
               "The flame sputters and backfires, dealing fire damage to you instead.",
-            damageTypes: ["fire"],
+            damageTypes: ["ember"],
             targetType: "self",
             selfDamage: true,
           },
@@ -1662,8 +1662,8 @@ MAX BANKED SPHERES: 12
       {
         id: "ice_nature",
         name: "Hailstorm",
-        elements: ["frost", "nature"],
-        damageTypes: ["frost", "nature"],
+        elements: ["rime", "primal"],
+        damageTypes: ["rime", "primal"],
         targetType: "aoe",
         range: 60,
         aoeShape: "circle",
@@ -1677,8 +1677,8 @@ MAX BANKED SPHERES: 12
       {
         id: "ice_healing",
         name: "Rime-Frozen Graft",
-        elements: ["frost", "healing"],
-        damageTypes: ["frost"],
+        elements: ["rime", "healing"],
+        damageTypes: ["rime"],
         targetType: "single_ally",
         range: 30,
         primaryEffect: "buff",
@@ -1691,8 +1691,8 @@ MAX BANKED SPHERES: 12
       {
         id: "ice_chaos",
         name: "Glitch Frost",
-        elements: ["frost", "chaos"],
-        damageTypes: ["chaos"],
+        elements: ["rime", "wyrd"],
+        damageTypes: ["wyrd"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
@@ -1706,7 +1706,7 @@ MAX BANKED SPHERES: 12
             name: "Flash Freeze",
             description:
               "A 10-foot radius of ground becomes slippery ice. All creatures in the area must save or fall prone.",
-            damageTypes: ["frost"],
+            damageTypes: ["rime"],
             targetType: "aoe",
             aoeRadius: 10,
             knockdown: true,
@@ -1715,7 +1715,7 @@ MAX BANKED SPHERES: 12
             name: "Frost Lance",
             description:
               "A single-target ice attack that deals double base damage and ignores armor.",
-            damageTypes: ["frost"],
+            damageTypes: ["rime"],
             targetType: "single",
             doubleDamage: true,
           },
@@ -1730,7 +1730,7 @@ MAX BANKED SPHERES: 12
             name: "Shatterstorm",
             description:
               "Frost shards explode outward in a 15-foot radius, dealing frost damage to all creatures.",
-            damageTypes: ["frost"],
+            damageTypes: ["rime"],
             targetType: "aoe",
             aoeRadius: 15,
           },
@@ -1744,8 +1744,8 @@ MAX BANKED SPHERES: 12
       {
         id: "nature_healing",
         name: "Sinew-Spark Leap",
-        elements: ["nature", "healing"],
-        damageTypes: ["nature"],
+        elements: ["primal", "healing"],
+        damageTypes: ["primal"],
         targetType: "self",
         range: 0,
         primaryEffect: "utility",
@@ -1758,8 +1758,8 @@ MAX BANKED SPHERES: 12
       {
         id: "nature_chaos",
         name: "Primal Chaos",
-        elements: ["nature", "chaos"],
-        damageTypes: ["chaos"],
+        elements: ["primal", "wyrd"],
+        damageTypes: ["wyrd"],
         targetType: "random",
         range: 60,
         primaryEffect: "random",
@@ -1773,7 +1773,7 @@ MAX BANKED SPHERES: 12
             name: "Thornquake",
             description:
               "Thorny vines erupt from the ground in a 15-foot radius, dealing nature damage and rooting enemies.",
-            damageTypes: ["nature"],
+            damageTypes: ["primal"],
             targetType: "aoe",
             aoeRadius: 15,
             root: true,
@@ -1782,7 +1782,7 @@ MAX BANKED SPHERES: 12
             name: "Chain Lightning",
             description:
               "A bolt of lightning arcs from you to 1d4 targets within 30 feet, dealing nature damage.",
-            damageTypes: ["nature"],
+            damageTypes: ["primal"],
             targetType: "chain",
             maxTargets: "1d4",
           },
@@ -1790,7 +1790,7 @@ MAX BANKED SPHERES: 12
             name: "Poison Cloud",
             description:
               "A cloud of noxious spores fills a 10-foot radius, dealing nature damage over 2 rounds.",
-            damageTypes: ["nature"],
+            damageTypes: ["primal"],
             targetType: "aoe_dot",
             aoeRadius: 10,
           },
@@ -1812,8 +1812,8 @@ MAX BANKED SPHERES: 12
       {
         id: "healing_chaos",
         name: "Amorphous Gristle Ward",
-        elements: ["healing", "chaos"],
-        damageTypes: ["chaos"],
+        elements: ["healing", "wyrd"],
+        damageTypes: ["wyrd"],
         targetType: "self",
         range: 0,
         primaryEffect: "random",
@@ -2004,9 +2004,9 @@ MAX BANKED SPHERES: 12
       icon: "Frost/Frost Touch",
 
       typeConfig: {
-        school: "frost",
+        school: "rime",
         icon: "Frost/Frost Touch",
-        tags: ["frost", "damage", "debuff", "touch", "starter"],
+        tags: ["rime", "damage", "debuff", "touch", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2026,14 +2026,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Gelu Clavis!",
         somaticText:
           "Freezing rime spreads from the pig-iron chassis across your hand as you clasp the target's neck.",
-        spheres: ["Frost", "Frost"],
+        spheres: ["rime", "rime"],
       },
 
       effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "1d8 + intelligence/4",
-        damageTypes: ["frost"],
+        damageTypes: ["rime"],
         resolution: "DICE",
         description:
           "Flash-freezes tissue at the point of contact, causing frost damage.",
@@ -2078,7 +2078,7 @@ MAX BANKED SPHERES: 12
         ],
       },
 
-      tags: ["frost", "damage", "debuff", "touch", "starter"],
+      tags: ["rime", "damage", "debuff", "touch", "starter"],
     },
 
     {
@@ -2147,7 +2147,7 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Missile",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Arcane/Missile",
         tags: ["arcane", "damage", "starter"],
         castTime: 0,
@@ -2170,14 +2170,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Sanguis Barrage!",
         somaticText:
           "Brace your arm as three crystallized marrow slugs feed into the breech, venting red and violet steam with each discharge",
-        spheres: ["Arcane", "Radiant"],
+        spheres: ["Arcane", "ember"],
       },
 
       effectTypes: ["damage"],
 
       damageConfig: {
         formula: "1d8 + intelligence/4",
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         resolution: "DICE",
         autoHit: true,
         description:
@@ -2203,9 +2203,9 @@ MAX BANKED SPHERES: 12
       icon: "Nature/Vines",
 
       typeConfig: {
-        school: "nature",
+        school: "primal",
         icon: "Nature/Vines",
-        tags: ["nature", "damage", "control", "starter"],
+        tags: ["primal", "damage", "control", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2226,14 +2226,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Vinea Mutilatio!",
         somaticText:
           "Slam the breech lever forward, venting hot gas as a heavy iron harpoon-spike plunges into the ground",
-        spheres: ["Nature", "Nature"],
+        spheres: ["primal", "primal"],
       },
 
       effectTypes: ["damage", "control"],
 
       damageConfig: {
         formula: "1d8 + intelligence/4",
-        damageTypes: ["nature"],
+        damageTypes: ["primal"],
         resolution: "DICE",
         description:
           "Thorny vines dig into the target, dealing nature damage from thorns and constriction.",
@@ -2277,7 +2277,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["nature", "damage", "control", "starter"],
+      tags: ["primal", "damage", "control", "starter"],
     },
 
     // ========================================
@@ -2294,10 +2294,10 @@ MAX BANKED SPHERES: 12
       icon: "Frost/Frost Touch",
 
       typeConfig: {
-        school: "frost",
-        secondaryElement: "fire",
+        school: "rime",
+        secondaryElement: "ember",
         icon: "Frost/Frost Touch",
-        tags: ["fire", "frost", "damage", "debuff"],
+        tags: ["ember", "rime", "damage", "debuff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2320,14 +2320,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Calidus Ventus!",
         somaticText:
           "Force open the cooling bypass valves on the forearm sleeve, spraying superheated white mist in a wide arc",
-        spheres: ["Fire", "Frost"],
+        spheres: ["ember", "rime"],
       },
 
       effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "1d8 + intelligence/4",
-        damageTypes: ["frost", "fire"],
+        damageTypes: ["rime", "ember"],
         resolution: "DICE",
       },
 
@@ -2362,7 +2362,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["fire", "frost", "damage", "debuff"],
+      tags: ["ember", "rime", "damage", "debuff"],
     },
 
     {
@@ -2376,9 +2376,9 @@ MAX BANKED SPHERES: 12
       icon: "Void/Red Energy Burst",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Void/Red Energy Burst",
-        tags: ["necrotic", "damage"],
+        tags: ["blight", "damage"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2399,14 +2399,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Sanguis Haurire!",
         somaticText:
           "Chamber a black, pulsing blood-crystal slug, taking a small amount of skin-searing heat as it discharges",
-        spheres: ["Necrotic", "Necrotic"],
+        spheres: ["blight", "blight"],
       },
 
       effectTypes: ["damage", "healing"],
 
       damageConfig: {
         formula: "1d8 + intelligence/4",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE",
         description:
           "The shadow bolt strikes with necrotic force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and necrotic, as if the flesh itself has died.",
@@ -2432,7 +2432,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["necrotic", "damage", "healing"],
+      tags: ["blight", "damage", "healing"],
     },
 
     {
@@ -2446,9 +2446,9 @@ MAX BANKED SPHERES: 12
       icon: "Radiant/Radiant Bolt",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Bolt",
-        tags: ["radiant", "arcane", "damage", "healing"],
+        tags: ["ember", "arcane", "damage", "healing"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2490,14 +2490,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Lux Lanceta!",
         somaticText:
           "Open all combustion chambers at once, letting a blinding white-hot beam of force erupt directly from the barrel",
-        spheres: ["Arcane", "Radiant"],
+        spheres: ["Arcane", "ember"],
       },
 
       effectTypes: ["damage", "healing"],
 
       damageConfig: {
         formula: "1d8 + intelligence/4",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         description:
           "The celestial ray burns enemies with searing radiant energy, as if they've been exposed to concentrated sunlight. Their flesh smokes and chars where the light touches, and they feel an intense burning sensation that seems to come from within their very soul.",
@@ -2528,7 +2528,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["radiant", "arcane", "damage", "healing"],
+      tags: ["ember", "arcane", "damage", "healing"],
     },
 
     // ========================================
@@ -2545,9 +2545,9 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Fiery Bolt",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fiery Bolt",
-        tags: ["fire", "damage"],
+        tags: ["ember", "damage"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2575,14 +2575,14 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Ignis Eruptio!",
         somaticText: "Chamber two searing fire-shards, locking the breech with a metallic clang before a deafening blast releases the shell",
-        spheres: ["Fire", "Fire"],
+        spheres: ["ember", "ember"],
       },
 
       effectTypes: ["damage"],
 
       damageConfig: {
         formula: "2d8 + intelligence/3",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
       },
 
@@ -2591,7 +2591,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage"],
+      tags: ["ember", "damage"],
     },
 
     {
@@ -2605,9 +2605,9 @@ MAX BANKED SPHERES: 12
       icon: "Frost/Frost Touch",
 
       typeConfig: {
-        school: "frost",
+        school: "rime",
         icon: "Frost/Frost Touch",
-        tags: ["frost", "damage", "debuff"],
+        tags: ["rime", "damage", "debuff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2627,14 +2627,14 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Glacies Lancet!",
         somaticText: "Insert a dual rime-core into the barrel, firing a pressurized spike of solid ice that shatters on impact",
-        spheres: ["Frost", "Frost"],
+        spheres: ["rime", "rime"],
       },
 
       effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "2d8 + intelligence/3",
-        damageTypes: ["frost"],
+        damageTypes: ["rime"],
         resolution: "DICE",
       },
 
@@ -2665,7 +2665,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["frost", "damage", "debuff"],
+      tags: ["rime", "damage", "debuff"],
     },
 
     {
@@ -2679,7 +2679,7 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Spiral Vortex",
 
       typeConfig: {
-        school: "force",
+        school: "storm",
         icon: "Arcane/Spiral Vortex",
         tags: ["arcane", "damage", "debuff", "aoe"],
         castTime: 1,
@@ -2711,7 +2711,7 @@ MAX BANKED SPHERES: 12
 
       damageConfig: {
         formula: "2d8 + intelligence/3",
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -2772,9 +2772,9 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Fire Storm",
 
       typeConfig: {
-        school: "fire",
+        school: "ember",
         icon: "Fire/Fire Storm",
-        tags: ["fire", "damage", "aoe"],
+        tags: ["ember", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2797,19 +2797,19 @@ MAX BANKED SPHERES: 12
         verbalText: "Tempestas Ignis!",
         somaticText:
           "Brace your shoulder against a rock face as your graft glows white-hot, releasing a roaring torrent of fire that peels the skin from your arm",
-        spheres: ["Fire", "Fire"],
+        spheres: ["ember", "ember"],
       },
 
       effectTypes: ["damage"],
 
       damageConfig: {
         formula: "2d8 + intelligence/3",
-        damageTypes: ["fire"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageTypes: ["fire"],
+          damageTypes: ["ember"],
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -2830,7 +2830,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["fire", "damage", "aoe"],
+      tags: ["ember", "damage", "aoe"],
     },
 
     {
@@ -2844,9 +2844,9 @@ MAX BANKED SPHERES: 12
       icon: "Frost/Ice Orb",
 
       typeConfig: {
-        school: "frost",
+        school: "rime",
         icon: "Frost/Ice Orb",
-        tags: ["frost", "damage", "debuff", "aoe"],
+        tags: ["rime", "damage", "debuff", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2868,14 +2868,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Nova Glacies!",
         somaticText:
           "Slam your iron graft into the soil, venting frost energy directly into the bedrock to freeze everything in a circle",
-        spheres: ["Frost", "Frost"],
+        spheres: ["rime", "rime"],
       },
 
       effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "2d8 + intelligence/3",
-        damageTypes: ["frost"],
+        damageTypes: ["rime"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -2921,7 +2921,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["frost", "damage", "debuff", "aoe"],
+      tags: ["rime", "damage", "debuff", "aoe"],
     },
 
     {
@@ -2935,9 +2935,9 @@ MAX BANKED SPHERES: 12
       icon: "Void/Maw Gripping Fear",
 
       typeConfig: {
-        school: "necrotic",
+        school: "blight",
         icon: "Void/Maw Gripping Fear",
-        tags: ["necrotic", "damage", "debuff"],
+        tags: ["blight", "damage", "debuff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2957,19 +2957,19 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Umbra Clausura!",
         somaticText: "Feed a dual-necrotic core into the breech, letting the shadows coil out of the barrel like writhing snakes",
-        spheres: ["Necrotic", "Necrotic"],
+        spheres: ["blight", "blight"],
       },
 
       effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "2d8 + intelligence/3",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         resolution: "DICE",
         dotConfig: {
           enabled: true,
           damagePerTick: "1d6",
-          damageTypes: ["necrotic"],
+          damageTypes: ["blight"],
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -3005,7 +3005,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["necrotic", "damage", "debuff"],
+      tags: ["blight", "damage", "debuff"],
     },
 
     // ========================================
@@ -3022,10 +3022,10 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Swirling Fireball",
 
       typeConfig: {
-        school: "fire",
-        secondaryElement: "frost",
+        school: "ember",
+        secondaryElement: "rime",
         icon: "Fire/Swirling Fireball",
-        tags: ["fire", "frost", "damage", "aoe"],
+        tags: ["ember", "rime", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3047,14 +3047,14 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Thermobarica!",
         somaticText: "Hammer the dual combustion lever, forcing high-pressure elements into a thermal collapse at the muzzle",
-        spheres: ["Fire", "Frost"],
+        spheres: ["ember", "rime"],
       },
 
       effectTypes: ["damage"],
 
       damageConfig: {
         formula: "3d8 + intelligence/2",
-        damageTypes: ["fire", "frost"],
+        damageTypes: ["ember", "rime"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -3071,7 +3071,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["fire", "frost", "damage", "aoe"],
+      tags: ["ember", "rime", "damage", "aoe"],
     },
 
     {
@@ -3085,9 +3085,9 @@ MAX BANKED SPHERES: 12
       icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Divinity",
-        tags: ["radiant", "defensive", "support"],
+        tags: ["ember", "defensive", "support"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3108,7 +3108,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Sanctus Scutum!",
         somaticText:
           "Trace a radiant sigil in the air that settles over the target as a glowing ward",
-        spheres: ["Radiant", "Healing"],
+        spheres: ["ember", "Healing"],
       },
 
       effectTypes: ["defensive"],
@@ -3128,7 +3128,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["radiant", "defensive", "support"],
+      tags: ["ember", "defensive", "support"],
     },
 
     {
@@ -3142,9 +3142,9 @@ MAX BANKED SPHERES: 12
       icon: "Void/Corrupted Eye",
 
       typeConfig: {
-        school: "chaos",
+        school: "wyrd",
         icon: "Void/Corrupted Eye",
-        tags: ["chaos", "damage"],
+        tags: ["wyrd", "damage"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3164,7 +3164,7 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Chaos Sagitta!",
         somaticText: "Hurl chaotic energy",
-        spheres: ["Chaos", "Chaos"],
+        spheres: ["wyrd", "wyrd"],
       },
 
       effectTypes: ["damage"],
@@ -3204,7 +3204,7 @@ MAX BANKED SPHERES: 12
 
       damageConfig: {
         formula: "3d8 + intelligence/2",
-        damageTypes: ["chaos"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
 
@@ -3213,7 +3213,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["chaos", "damage"],
+      tags: ["wyrd", "damage"],
     },
 
     // ========================================
@@ -3229,9 +3229,9 @@ MAX BANKED SPHERES: 12
       icon: "Frost/Frozen in Ice",
 
       typeConfig: {
-        school: "frost",
+        school: "rime",
         icon: "Frost/Frozen in Ice",
-        tags: ["frost", "radiant", "buff"],
+        tags: ["rime", "ember", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3257,7 +3257,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Glacies Benedicere!",
         somaticText:
           "Weave the three spheres into a crystalline lattice and press it gently onto the target",
-        spheres: ["Frost", "Healing", "Radiant"],
+        spheres: ["rime", "Healing", "ember"],
       },
 
       effectTypes: ["buff"],
@@ -3290,7 +3290,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["frost", "radiant", "buff"],
+      tags: ["rime", "ember", "buff"],
     },
 
     {
@@ -3305,7 +3305,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "arcane",
         icon: "Radiant/Radiant Divinity",
-        tags: ["arcane", "radiant", "nature", "buff", "purification"],
+        tags: ["arcane", "ember", "primal", "buff", "purification"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3337,7 +3337,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Prisma Custodia!",
         somaticText:
           "Hold the three spheres above your head, letting them merge into a prismatic dome that expands outward",
-        spheres: ["Arcane", "Radiant", "Nature"],
+        spheres: ["Arcane", "ember", "primal"],
       },
 
       effectTypes: ["buff", "purification"],
@@ -3380,7 +3380,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 3,
       },
 
-      tags: ["arcane", "radiant", "nature", "buff", "purification"],
+      tags: ["arcane", "ember", "primal", "buff", "purification"],
     },
 
     {
@@ -3393,9 +3393,9 @@ MAX BANKED SPHERES: 12
       icon: "Nature/Growth",
 
       typeConfig: {
-        school: "nature",
+        school: "primal",
         icon: "Nature/Growth",
-        tags: ["nature", "radiant", "buff"],
+        tags: ["primal", "ember", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3426,7 +3426,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Floreo Bellum!",
         somaticText:
           "Shape the merged spheres into weapons of living wood and golden light, pressing them into the target's hands",
-        spheres: ["Nature", "Healing", "Radiant"],
+        spheres: ["primal", "Healing", "ember"],
       },
 
       effectTypes: ["buff"],
@@ -3471,7 +3471,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 2,
       },
 
-      tags: ["nature", "radiant", "buff"],
+      tags: ["primal", "ember", "buff"],
     },
 
     // ========================================
@@ -3489,7 +3489,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "arcane",
         icon: "Arcane/Quick Step",
-        tags: ["arcane", "necrotic", "chaos", "utility", "teleport", "damage"],
+        tags: ["arcane", "blight", "wyrd", "utility", "teleport", "damage"],
         castTime: 0,
         castTimeType: "IMMEDIATE",
       },
@@ -3518,7 +3518,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Transitum Umbrae!",
         somaticText:
           "Press the three spheres together and step through the dimensional tear they create",
-        spheres: ["Arcane", "Necrotic", "Chaos"],
+        spheres: ["Arcane", "blight", "wyrd"],
       },
 
       effectTypes: ["utility", "damage"],
@@ -3545,7 +3545,7 @@ MAX BANKED SPHERES: 12
 
       damageConfig: {
         formula: "6d6 + intelligence",
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         triggerCondition: "area_entry",
         triggerDescription:
           "Enemies within 10 feet of your departure point take force damage from the void afterimage",
@@ -3559,7 +3559,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 2,
       },
 
-      tags: ["arcane", "necrotic", "chaos", "utility", "teleport", "damage"],
+      tags: ["arcane", "blight", "wyrd", "utility", "teleport", "damage"],
     },
 
     {
@@ -3572,10 +3572,10 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Rapid Fire Projectiles",
 
       typeConfig: {
-        school: "fire",
-        secondaryElement: "frost",
+        school: "ember",
+        secondaryElement: "rime",
         icon: "Fire/Rapid Fire Projectiles",
-        tags: ["fire", "frost", "nature", "radiant", "damage", "aoe"],
+        tags: ["ember", "rime", "primal", "ember", "damage", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -3610,14 +3610,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Elementum Procella!",
         somaticText:
           "Launch all four elemental spheres simultaneously at the target area",
-        spheres: ["Fire", "Frost", "Nature", "Radiant"],
+        spheres: ["ember", "rime", "primal", "ember"],
       },
 
       effectTypes: ["damage"],
 
       damageConfig: {
         formula: "12d6 + intelligence",
-        damageTypes: ["fire", "frost", "lightning", "radiant"],
+        damageTypes: ["ember", "rime", "storm", "ember"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -3634,7 +3634,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 1,
       },
 
-      tags: ["fire", "frost", "nature", "radiant", "damage", "aoe"],
+      tags: ["ember", "rime", "primal", "ember", "damage", "aoe"],
     },
 
     {
@@ -3647,9 +3647,9 @@ MAX BANKED SPHERES: 12
       icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Radiant/Radiant Divinity",
-        tags: ["radiant", "healing", "arcane", "damage", "aoe"],
+        tags: ["ember", "healing", "arcane", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3701,14 +3701,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Tempestas Caelestis!",
         somaticText:
           "Raise all three spheres skyward, causing a radiant storm to descend upon the area",
-        spheres: ["Radiant", "Healing", "Arcane"],
+        spheres: ["ember", "Healing", "Arcane"],
       },
 
       effectTypes: ["damage", "healing"],
 
       damageConfig: {
         formula: "10d6 + intelligence",
-        damageTypes: ["radiant"],
+        damageTypes: ["ember"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -3740,7 +3740,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 1,
       },
 
-      tags: ["radiant", "healing", "arcane", "damage", "aoe"],
+      tags: ["ember", "healing", "arcane", "damage", "aoe"],
     },
 
     // ========================================
@@ -3756,9 +3756,9 @@ MAX BANKED SPHERES: 12
       icon: "Healing/Golden Heart",
 
       typeConfig: {
-        school: "radiant",
+        school: "ember",
         icon: "Healing/Golden Heart",
-        tags: ["radiant", "necrotic", "healing", "chaos", "buff", "aoe"],
+        tags: ["ember", "blight", "healing", "wyrd", "buff", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -3793,7 +3793,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Harmonia Convergentia!",
         somaticText:
           "Hold all four spheres at arm's length, letting them orbit and merge into a single chord of resonant energy",
-        spheres: ["Radiant", "Necrotic", "Healing", "Chaos"],
+        spheres: ["ember", "blight", "Healing", "wyrd"],
       },
 
       effectTypes: ["buff"],
@@ -3837,7 +3837,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 4,
       },
 
-      tags: ["radiant", "necrotic", "healing", "chaos", "buff", "aoe"],
+      tags: ["ember", "blight", "healing", "wyrd", "buff", "aoe"],
     },
 
     {
@@ -3850,10 +3850,10 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Rapid Fire Projectiles",
 
       typeConfig: {
-        school: "force",
-        secondaryElement: "fire",
+        school: "storm",
+        secondaryElement: "ember",
         icon: "Fire/Rapid Fire Projectiles",
-        tags: ["arcane", "fire", "frost", "nature", "damage", "control", "aoe"],
+        tags: ["arcane", "ember", "rime", "primal", "damage", "control", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -3888,14 +3888,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Maelstrom Elementum!",
         somaticText:
           "Compress the four conflicting spheres into one unstable mass and hurl it at the target area",
-        spheres: ["Arcane", "Fire", "Frost", "Nature"],
+        spheres: ["Arcane", "ember", "rime", "primal"],
       },
 
       effectTypes: ["damage", "control"],
 
       damageConfig: {
         formula: "14d6 + intelligence",
-        damageTypes: ["fire", "frost", "lightning", "force"],
+        damageTypes: ["ember", "rime", "storm", "storm"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -3945,7 +3945,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 2,
       },
 
-      tags: ["arcane", "fire", "frost", "nature", "damage", "control", "aoe"],
+      tags: ["arcane", "ember", "rime", "primal", "damage", "control", "aoe"],
     },
 
     {
@@ -3958,9 +3958,9 @@ MAX BANKED SPHERES: 12
       icon: "Void/Corrupted Eye",
 
       typeConfig: {
-        school: "chaos",
+        school: "wyrd",
         icon: "Void/Corrupted Eye",
-        tags: ["chaos", "damage", "aoe"],
+        tags: ["wyrd", "damage", "aoe"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3983,7 +3983,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Tempestas Chaos!",
         somaticText:
           "Compress two chaos spheres into a single unstable point and release it",
-        spheres: ["Chaos", "Chaos", "Chaos"],
+        spheres: ["wyrd", "wyrd", "wyrd"],
       },
 
       effectTypes: ["damage"],
@@ -4023,7 +4023,7 @@ MAX BANKED SPHERES: 12
 
       damageConfig: {
         formula: "12d6 + intelligence",
-        damageTypes: ["chaos"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -4040,7 +4040,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 2,
       },
 
-      tags: ["chaos", "damage", "aoe"],
+      tags: ["wyrd", "damage", "aoe"],
     },
 
     // ========================================
@@ -4056,8 +4056,8 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Ebon Blaze",
 
       typeConfig: {
-        school: "force",
-        secondaryElement: "chaos",
+        school: "storm",
+        secondaryElement: "wyrd",
         icon: "Arcane/Ebon Blaze",
         tags: ["ultimate", "damage", "aoe", "all elements", "self damage"],
         castTime: 3,
@@ -4104,13 +4104,13 @@ MAX BANKED SPHERES: 12
           "Force all eight spheres into a single volatile point of prismatic energy",
         spheres: [
           "Arcane",
-          "Radiant",
-          "Necrotic",
-          "Fire",
-          "Frost",
-          "Nature",
+          "ember",
+          "blight",
+          "ember",
+          "rime",
+          "primal",
           "Healing",
-          "Chaos",
+          "wyrd",
         ],
       },
 
@@ -4119,13 +4119,13 @@ MAX BANKED SPHERES: 12
       damageConfig: {
         formula: "18d6 + intelligence",
         damageTypes: [
-          "fire",
-          "frost",
-          "lightning",
-          "radiant",
-          "necrotic",
-          "force",
-          "chaos",
+          "ember",
+          "rime",
+          "storm",
+          "ember",
+          "blight",
+          "storm",
+          "wyrd",
         ],
         resolution: "DICE",
         savingThrowConfig: {
@@ -4140,7 +4140,7 @@ MAX BANKED SPHERES: 12
 
       selfDamageConfig: {
         formula: "2d6",
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         description: "Elemental backlash from combining opposing elements",
       },
 
@@ -4163,9 +4163,9 @@ MAX BANKED SPHERES: 12
       icon: "Void/Corrupted Eye",
 
       typeConfig: {
-        school: "chaos",
+        school: "wyrd",
         icon: "Void/Corrupted Eye",
-        tags: ["chaos", "damage", "aoe", "ultimate", "self damage"],
+        tags: ["wyrd", "damage", "aoe", "ultimate", "self damage"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -4188,7 +4188,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Chaos Vorticem!",
         somaticText:
           "Spiral hands to concentrate chaos energy into an unstable vortex",
-        spheres: ["Chaos", "Chaos", "Chaos", "Chaos"],
+        spheres: ["wyrd", "wyrd", "wyrd", "wyrd"],
       },
 
       effectTypes: ["damage"],
@@ -4238,7 +4238,7 @@ MAX BANKED SPHERES: 12
 
       damageConfig: {
         formula: "16d6 + intelligence",
-        damageTypes: ["chaos"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -4252,7 +4252,7 @@ MAX BANKED SPHERES: 12
 
       selfDamageConfig: {
         formula: "1d8",
-        damageTypes: ["chaos"],
+        damageTypes: ["wyrd"],
         description: "Chaotic energy feedback from concentrated entropy",
       },
 
@@ -4262,7 +4262,7 @@ MAX BANKED SPHERES: 12
         description: "Once per combat",
       },
 
-      tags: ["chaos", "damage", "aoe", "ultimate", "self damage"],
+      tags: ["wyrd", "damage", "aoe", "ultimate", "self damage"],
     },
 
     {
@@ -4277,7 +4277,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "arcane",
         icon: "Arcane/Missile",
-        tags: ["arcane", "radiant", "necrotic", "fire", "buff", "healing", "aoe"],
+        tags: ["arcane", "ember", "blight", "ember", "buff", "healing", "aoe"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -4311,7 +4311,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Synthesis Elementum!",
         somaticText:
           "Weave four opposing elements into a state of perfect harmony, releasing the balanced energy outward",
-        spheres: ["Arcane", "Radiant", "Necrotic", "Fire"],
+        spheres: ["Arcane", "ember", "blight", "ember"],
       },
 
       effectTypes: ["buff", "healing", "debuff"],
@@ -4363,7 +4363,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 5,
       },
 
-      tags: ["arcane", "radiant", "necrotic", "fire", "buff", "healing", "aoe"],
+      tags: ["arcane", "ember", "blight", "ember", "buff", "healing", "aoe"],
     },
 
     // ========================================
@@ -4379,8 +4379,8 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Ebon Blaze",
 
       typeConfig: {
-        school: "force",
-        secondaryElement: "fire",
+        school: "storm",
+        secondaryElement: "ember",
         icon: "Arcane/Ebon Blaze",
         tags: [
           "ultimate",
@@ -4432,11 +4432,11 @@ MAX BANKED SPHERES: 12
           "Force all seven spheres into a single convergence point above your head, then release the cascading detonation",
         spheres: [
           "Arcane",
-          "Radiant",
-          "Necrotic",
-          "Fire",
-          "Frost",
-          "Nature",
+          "ember",
+          "blight",
+          "ember",
+          "rime",
+          "primal",
           "Healing",
         ],
       },
@@ -4446,12 +4446,12 @@ MAX BANKED SPHERES: 12
       damageConfig: {
         formula: "20d6 + intelligence",
         damageTypes: [
-          "fire",
-          "frost",
-          "lightning",
-          "radiant",
-          "necrotic",
-          "force",
+          "ember",
+          "rime",
+          "storm",
+          "ember",
+          "blight",
+          "storm",
         ],
         resolution: "DICE",
         savingThrowConfig: {
@@ -4466,7 +4466,7 @@ MAX BANKED SPHERES: 12
 
       selfDamageConfig: {
         formula: "3d6",
-        damageTypes: ["force"],
+        damageTypes: ["storm"],
         description: "Severe elemental backlash from convergence strain",
       },
 
@@ -4514,10 +4514,10 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Shadowy Blaze",
 
       typeConfig: {
-        school: "force",
-        secondaryElement: "necrotic",
+        school: "storm",
+        secondaryElement: "blight",
         icon: "Fire/Shadowy Blaze",
-        tags: ["ultimate", "damage", "control", "aoe", "void", "self damage"],
+        tags: ["ultimate", "damage", "control", "aoe", "blight", "self damage"],
         castTime: 2,
         castTimeType: "IMMEDIATE",
       },
@@ -4550,14 +4550,14 @@ MAX BANKED SPHERES: 12
         verbalText: "Rima Dimensio!",
         somaticText:
           "Tear reality apart with a sharp pulling motion, opening a swirling void portal",
-        spheres: ["Arcane", "Necrotic", "Chaos", "Chaos"],
+        spheres: ["Arcane", "blight", "wyrd", "wyrd"],
       },
 
       effectTypes: ["damage", "control"],
 
       damageConfig: {
         formula: "18d6 + intelligence",
-        damageTypes: ["force", "necrotic"],
+        damageTypes: ["storm", "blight"],
         resolution: "DICE",
         savingThrowConfig: {
           enabled: true,
@@ -4605,7 +4605,7 @@ MAX BANKED SPHERES: 12
 
       selfDamageConfig: {
         formula: "2d6",
-        damageTypes: ["necrotic"],
+        damageTypes: ["blight"],
         description: "Void energy feedback from unstable rift",
       },
 
@@ -4615,7 +4615,7 @@ MAX BANKED SPHERES: 12
         description: "Once per combat",
       },
 
-      tags: ["ultimate", "damage", "control", "aoe", "void", "self damage"],
+      tags: ["ultimate", "damage", "control", "aoe", "blight", "self damage"],
     },
 
     {
@@ -4665,7 +4665,7 @@ MAX BANKED SPHERES: 12
         verbalText: "Apotheosis Elementum!",
         somaticText:
           "Press all six spheres against your chest, absorbing them into your body in a prismatic flash",
-        spheres: ["Fire", "Frost", "Nature", "Radiant", "Necrotic", "Arcane"],
+        spheres: ["ember", "rime", "primal", "ember", "blight", "Arcane"],
       },
 
       effectTypes: ["transformation"],

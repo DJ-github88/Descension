@@ -148,12 +148,12 @@ function generateSpellDescription(name, theme, effectTypes, spellType) {
  */
 function getDamageTypesForTheme(theme) {
   const themeDamageTypes = {
-    ELEMENTAL: ['fire', 'cold', 'lightning', 'acid', 'thunder'],
-    ARCANE: ['force', 'psychic', 'radiant'],
-    DIVINE: ['radiant', 'necrotic', 'thunder'],
-    NATURE: ['poison', 'acid', 'piercing', 'bludgeoning'],
-    MIND: ['psychic', 'necrotic'],
-    TEMPORAL: ['force', 'necrotic', 'radiant']
+    ELEMENTAL: ['ember', 'rime', 'storm', 'blight'],
+    ARCANE: ['storm', 'wyrd', 'ember'],
+    DIVINE: ['ember', 'blight', 'storm'],
+    NATURE: ['blight', 'primal', 'physical'],
+    MIND: ['wyrd', 'blight'],
+    TEMPORAL: ['storm', 'blight', 'ember']
   };
   
   return themeDamageTypes[theme] || ['force'];

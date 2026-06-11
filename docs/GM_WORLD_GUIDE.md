@@ -1,6 +1,9 @@
 # MYTHRILL
 ## Game Master's World Guide
 
+> **CANONICAL SOURCE NOTICE**
+> This document is derived from `vtt-react/src/data/rulesData.js`, which is the canonical source for all in-app rules and lore. If this guide and rulesData.js conflict, rulesData.js is authoritative. This guide should be regenerated from rulesData.js rather than maintained independently to prevent drift.
+
 > **THE ELEVATOR PITCH**
 > **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
 
@@ -161,6 +164,10 @@ At the Vault's absolute center is **The Great Forge**, where oversized obsidian 
 
 The **Solvarn Humans** of House Solvan share the ashlands with the Emberth in an uneasy coexistence, staying in the dying surface capital because leaving would mean admitting their ancestors' sacrifice to Keth-Amar was meaningless. 
 
+**The Dawn Vigil — Solvarn Active Agenda**
+
+The Solvarn are no longer merely waiting to die. In the past two decades, a movement called the **Dawn Vigil** has spread through the ashland settlements — a militant theological faction that argues the vigil must become a hunt. Their doctrine holds that the seven Sundered Monoliths are not monuments but keys: if all seven can be gathered and reforged at Emberspire's caldera, the binding seal can be restored, Sol can complete its Deepening, and the sun will rise again. The Dawn Vigil sends expeditionary companies — small bands of Solvarn Martyrs, Pyrofiends, and Augurs — into every region to locate, study, and if possible recover Monolith fragments. They clash regularly with the Korr Emberth, who view this proactive approach as desecration, and with the Unwoven Emberth heretics, who want the Monoliths destroyed, not reassembled. The Dawn Vigil's sigil — a rising sun pierced by a shard of obsidian — is increasingly visible in Sundale's markets, painted on ash-stained banners and tattooed on the forearms of young Solvarn who have decided that eight centuries of waiting is enough.
+
 The **Emberth** themselves are split by a deep geological and philosophical chasm. The **Korr** of the Deep-Vault are the priestly elite. Evolving pitch-charcoal skin, elongated lungs to sip thin air, and bulbous eyes sensitive to heat, they have tended the Solbrand for eight centuries. They believe Sol's silence is a sacred language, and they advocate for absolute patience, conservative faith, and silent devotion. The **Thrask** of the surface badlands are the rangers, hunters, and miners. Evolving bronze, wind-scarred skin and thick muscle, they live in the volcanic frontier calderas. They are pragmatic, swift, and highly skeptical of the Korr's wait-and-see policy. Having noticed that the volcanic vents are cooling and the ash-growth is changing, the Thrask view the Korr's holy vigil as a stagnant, self-destructive lie that will freeze them all. The **Unwoven** — heretical Emberth who have ritually defaced their forge-marks — scour the wastes for Sundered Monoliths, believing that only by sealing the breach can Sol be reborn.
 
 **Localized Threats & Daily Realities**
@@ -213,6 +220,10 @@ The **Neth Velun** pact-lords run Ironjaw Port with legalistic coldness, frequen
 
 The Iceheart's Wyrd draws from Greek and West African/Yoruba folklore, producing creatures born from the fear of drowning, the fear of bad bargains, and the fear of what watches from below: the **Spume of the Drowned**, a memory-colony formed from the final thoughts of every sailor who ever went under; the **Brine**, a ghost-ferryman who offers passage to any port for a price the passenger does not understand until they've paid it; and **the Writ of Passage**, a sentient contract that drifts on the currents, binding anyone who reads it to terms written in a language that pre-dates human speech.
 
+**The Shard-Window — Iceheart Monolith Surface Manifestation**
+
+The Sundered Monolith of the Iceheart Sea rests at the bottom of the Treakous Oceanic Rift, but its presence is visible from the surface. Sailors call it the **Shard-Window**: a permanent, perfectly circular storm-vortex, three miles wide, that has rotated above the rift for as long as anyone can remember. No cloud enters. No cloud leaves. The vortex spins with a low, rhythmic pulse — a heartbeat-frequency that matches the thrumming the Deep-Born Myrathil feel in their teeth. Beneath the vortex, the ocean surface is unnaturally still — no waves, no swell, just a glass-flat disc of water that reflects a starless sky. At night, the still water glows with a pale, blue-white bioluminescence that traces the contours of the rift below like a topographic map drawn in cold light. The glow intensifies during Monolith resonance events, and during these periods, icebergs within fifty miles of the vortex begin to hum audibly — a low, mournful note that the Merryn captains navigate by in heavy fog. The effect is called **Shard-Song**, and it has been growing steadily louder for the past decade.
+
 The regional Sundered Monolith rests at the bottom of the Treakous Oceanic Rift, thrumming a deep, low frequency that causes the teeth of every Deep-Born Myrathil within a hundred miles to ache.
 
 **Daily Life, Trade & Food**
@@ -232,17 +243,12 @@ In Merrowport, taverns (like *The Pitching Hull*) are constructed within the car
 > - **The Ancestor-Spans:** Titanic bridges grown from the calcified bones of the Groven's dead.
 > - **Frostmaw Holdfast:** A lightless subterranean vertical city descending around geothermal vents.
 > - **The Groven:** Stone-troll descendants alchemically created by Fexrick engineers who rebelled for freedom.
-> - **The Corvani:** Raven-marked highlanders who dwell above the blizzard line where the fog meets the snow.
 
 **The Regional Landscape & Current Vibe**
 
 The Cragjaw Peaks are a vertical wilderness — razor mountain ridges and bottomless wind-gaps cloaked in perpetual, howling blizzard. The snow has not stopped falling since the dark bargain was sealed, burying every natural landmark, every ancient trail, every surface route under centuries of drift. The only visible shapes above the whiteout are the **Ancestor-Spans** — bridges grown from the calcified bodies of the Groven's willing dead, dark against the endless grey sky.
 
-Far above the blizzard line, where the fog from the Frostwood Reach collides with the perpetual snow, live the **Corvani** — a rare, raven-marked people who dwell in the highest aeries. They are the only beings who can navigate the space between the fog and the snow, serving as messengers and guides for those brave enough to cross the Peaks.
-
 **The Dark Bargain:** House Tesshan traded **visibility for the eternal snow-veil** — a perpetual blizzard to hide their keeps from the starving hordes that swept across the lowlands when the world froze. The keeps survived because nothing could find them. The price: every landmark was buried. The Tessen have not seen the sky in eight generations.
-
-The Corvani are tied to this bargain indirectly. When House Tesshan sealed the snow-veil, a splinter group of highland dwellers refused to descend into the buried keeps. They remained above the blizzard line, where the fog-memory of the Reach meets the eternal snow. Over generations, they became marked by the raven — a creature that can navigate both the fog and the whiteout. They are the only people who can cross the Peaks without the Ancestor-Spans, but the cost is their connection to the physical world grows thinner with each passing year.
 
 **The Seat of Power: Frostmaw Holdfast & The Spans**
 
@@ -260,8 +266,6 @@ The **Groven** themselves are divided by the **Ladder of Purity**, an unspoken c
 
 The **Fexrick** are split between the **Kethrin** (hereditary guild engineers who hoard oral maintenance songs) and the **Drall** (self-taught scrap-folk who survive on alchemical runoff).
 
-The **Corvani** live apart from all of these conflicts, in the highest aeries above the blizzard line. They trade with no one regularly, but both the Groven and the Fexrick seek their services as messengers when the Spans are iced over. The Corvani view the wars below as the squabbles of children.
-
 **Localized Threats & Daily Realities**
 
 The Cragjaw's Wyrd draws from Japanese Yokai and Andean/Incan folklore, producing creatures born from the fear of thresholds, the fear of debt, and the fear of what the mountain remembers: the **Scrab**, a metal-eater that consumes the very tools the Fexrick depend on for survival; **the Yawn**, an incomplete bridge-creature that builds itself toward settlements, never arriving but never stopping; and **the Thrum**, the mountain's own consciousness — a vast, slow intelligence that predates all the races and has only recently begun to stir.
@@ -273,8 +277,6 @@ The region's Sundered Monolith is sealed within a lightless alchemical chamber d
 Inhabitants of the Peaks subsist on lichen-stew, dried ram-meat, and flat moss-bread, drinking whiteout-distillate—a burning, clear liquor distilled from high-altitude roots. The economy depends on exporting alchemical reagents, ram-wool, and cold-iron gear systems, while importing coal, volcanic sulfur, and salt.
 
 Taverns on the Spans are drafty wooden structures bolted directly to the bone bridges. The wind howls constantly through the planks, and patrons cluster around a single central copper charcoal brazier. Currency is rarely used on the heights; trade is conducted via barter of wool, bone tools, and climbing spurs.
-
-The Corvani eat little — thin high-altitude broth, dried raven-berries, and frost-moth meat. They do not trade in goods but in information: a Corvani messenger can carry a sealed message across the Peaks in three days, a journey that takes a Groven caravan three weeks. Their price is always the same: a memory, freely given, recorded in their shifting raven-markings.
 
 ---
 
@@ -574,21 +576,13 @@ The Briaran's thorns migrate slowly across their bodies over a lifetime, driftin
 
 ---
 
-## The Corvani — The Raven-Marked
+## Nordhalla Subfolk — The Corvani (Raven-Marked)
 
-> *"We do not read the future. We read the space between the fog and the snow, and the future reads us back."*
+> *"We do not read the future. The glacier reads the future. We just listen closer than anyone else."*
 
-**The Current State**
+Not a full race but a rare subfolk of Nordhalla, the Corvani are raven-marked glacier-dwellers who carve their eyries into the sheer faces of the mile-high ice sheets. When House Skalvyr halted the glaciers at the price of eternal winter, a splinter group of highland survivors refused to descend into the fjord-keeps. They climbed higher, into the glacier-spires where the wind sings in polyphonic overtones and the boundary between the mortal coil and the spirit realm is thin as rime. There they struck a fate-bond with the ancient Corvid Fate-Spirits — shadow-winged entities of premonition — trading physical connection for absolute memory and destiny-sight.
 
-The Corvani are a rare, raven-marked people who dwell in the highest aeries of the Cragjaw Peaks, above the blizzard line where the fog of the Frostwood Reach meets the eternal snow. When House Tesshan sealed the snow-veil eight centuries ago, a splinter group of highland dwellers refused to descend into the buried keeps. They remained above the whiteout, and over generations became marked by the raven — a creature that navigates both fog and snow. Their raven-black markings shift and change with their moods and the fate-tides they sense. The Corvani serve as messengers and guides for those crossing the Peaks, trading information for memories.
-
-**The Internal Fractures**
-
-The Corvani are split by calling. The **Oracles** accept the heavy mental strain of fate-sight, listening to the constant whispering of the flock in their minds, their skin growing pale from monastic seclusion in the highest aeries. The **Scouts** are the agile patrollers who range the freezing peaks and guard the wind-gaps, navigating the space between fog and snow without the Ancestor-Spans. While Oracles seek to understand the threads of destiny, the Scouts demand action — warning that isolation above the blizzard line is a slow death.
-
-**Proximal Relations**
-
-The Corvani have a cautious, mutual respect for the **Mimir** and the **Briaran**, who also refused the Sun-Eater's compromises, though they trade warily. The **Groven** and **Fexrick** both seek Corvani messengers when the Spans are iced over, but neither fully trusts a people who can cross the Peaks without their bridges. The **Skald** humans view them with suspicion, equating their fate-markings with Wyrd-corruption. Their obsidian eyes cannot bear direct, bright sunlight or intense forge-glare, making them avoid the volcanic calderas of Sundale.
+The Corvani serve as messengers and guides between the isolated fjord-keeps of Nordhalla, navigating whiteout and glacier-crevasse with preternatural skill where no one else can travel. Their price is always a memory, freely given — recorded in the shifting raven-markings that crawl across their skin. The Rime-Born Rune Keepers of the Frozen Archive trade Archive access for Corvani knowledge of the glacier paths, and the Bloodhammer warriors hire them as scouts when Skreika swarms threaten the lower sumps. Their obsidian eyes cannot bear direct forge-glare, keeping them forever at arm's length from the volcanic south.
 
 ---
 
@@ -867,7 +861,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
 ### Street-Level NPCs
 * **Marra of the Nine:** The cynical human village elder, her hands heavily scarred from frostbite, desperate to save her grandchildren from the creeping cold.
 * **Jad the Stoker:** A retired Ithran Groven smith who tends the outpost's central heater-forge, coughing soot and warning that the furnace is on its last coal-shavings.
-* **Orl the Scout:** A young Corvani scout who saw the sledge's tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.
+* **Orl the Scout:** A young Corvani messenger — a raven-marked glacier-dweller from Nordhalla\'s frozen spires — who saw the sledge\'s tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.
 
 ### The Encounter & Stakes
 The adventurers track the sledge into a freezing, mist-veiled gorge. They find the sledge abandoned, its draft-beasts frozen, and two casks of coal remaining. The rest of the cargo has been dragged into a shallow basalt cave by a pack of **Gref-Spawn** — minor, faceless Wyrd-creatures born from the local loggers' fear of losing their names to the fog.

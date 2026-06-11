@@ -9,7 +9,7 @@ import './ProphecySummary.css';
  * Prophecy Summary Component
  * Renders the Doomsayer's prophecy resolution table with a charcoal-and-ink aesthetic.
  */
-const ProphecySummary = ({ prophecyData, damageType = 'necrotic', className = '' }) => {
+const ProphecySummary = ({ prophecyData, damageType = 'blight', className = '' }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   if (!prophecyData) return null;
@@ -37,7 +37,7 @@ const ProphecySummary = ({ prophecyData, damageType = 'necrotic', className = ''
 
   // Helper to format damage type for display
   const formatDamageType = (type) => {
-    if (!type) return 'necrotic';
+    if (!type) return 'blight';
     return type.toLowerCase();
   };
 
@@ -49,8 +49,7 @@ const ProphecySummary = ({ prophecyData, damageType = 'necrotic', className = ''
     if (typeof damage !== 'string') return `${damage} ${type}`;
     
     const knownTypes = [
-      'fire', 'frost', 'lightning', 'arcane', 'nature', 'force', 
-      'necrotic', 'radiant', 'poison', 'psychic', 'chaos', 'void', 'physical'
+      'physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'
     ];
     
     const hasType = knownTypes.some(t => damage.toLowerCase().includes(t));
