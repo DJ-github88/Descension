@@ -1277,6 +1277,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     customEffects: [],
                     useRollableTable: false
                 }
+            },
+            weaponStats: {
+                baseDamage: {
+                    diceCount: 1,
+                    diceType: 'd6',
+                    damageType: 'slashing',
+                    bonusDamage: 0,
+                    bonusDamageType: ''
+                }
             }
         }
 
@@ -1382,6 +1391,18 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         subtype: type === 'consumable' ? 'potion' : '',
                                         slots: [],
                                         consumableType: type === 'consumable' ? 'POTION' : undefined,
+                                        // Ensure weaponStats exists when selecting weapon type
+                                        ...(type === 'weapon' && {
+                                            weaponStats: itemData.weaponStats || {
+                                                baseDamage: {
+                                                    diceCount: 1,
+                                                    diceType: 'd6',
+                                                    damageType: 'slashing',
+                                                    bonusDamage: 0,
+                                                    bonusDamageType: ''
+                                                }
+                                            }
+                                        }),
                                         // Clear combat/stats when switching to miscellaneous since they don't apply
                                         ...(type === 'miscellaneous' && {
                                             weaponStats: undefined,

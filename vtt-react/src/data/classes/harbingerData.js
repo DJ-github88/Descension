@@ -119,7 +119,7 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
 * **Your Action**: Cast "Doom Bolt" (6 mana). Prophecy Range: d8=3, d6=5. Range: 3-5.
 * **Resolution Roll**: d6 = 4. **INSIDE RANGE. PROPHESIED.**
 * **The Amplification**: At 45 Mayhem, +1 bonus damage die.
-* **The Strike**: 4d8 necrotic damage (3d8 base + 1d8 Mayhem bonus) + Doom I debuff.
+* **The Strike**: 4d8 blight damage (3d8 base + 1d8 Mayhem bonus) + Doom I debuff.
 * **The Cost**: Mayhem builds by +2 (cast) + +3 (Prophesied) = +5. Mayhem: 50.
 * **Spent 2 Mayhem to widen range by 1** (3-5 becomes 2-6 for next spell).
 
@@ -209,7 +209,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
 3. **Reality Reversals (20% Chance, Rolls 61-80)**: Probability inversions (hits become misses, misses become crits) and chaotic spatial swaps that scramble combatants' positions.
 4. **Devastating Physical Backlashes (20% Chance, Rolls 81-100)**: Direct tissue dissociation, temporal hemorrhages, and permanent mana capacity depletion as the Harbinger's physical form dissolves into the void.
 
-**Prophecy Backlash**: When a prophecy rolls OUTSIDE the range, the Harbinger suffers backlash. Minor spells: 1d4 to 1d8 psychic damage. Medium spells: 1d8 to 2d8 necrotic + mana loss. Major spells: 2d8 to 3d10 damage. Ultimate spells: 3d10+ damage + stun. The fates punish hubris.`
+**Prophecy Backlash**: When a prophecy rolls OUTSIDE the range, the Harbinger suffers backlash. Minor spells: 1d4 to 1d8 wyrd damage. Medium spells: 1d8 to 2d8 necrotic + mana loss. Major spells: 2d8 to 3d10 damage. Ultimate spells: 3d10+ damage + stun. The fates punish hubris.`
     }
   },
   specializations: {
@@ -257,7 +257,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
           "Prophesied effects deal 50% more damage on single-target spells",
           "Bonus Mayhem (+2) from single-target Prophesied hits",
           "Can stack up to 3 prophecies on the same target simultaneously",
-          "Chaos/necrotic damage ignores 25% of enemy Armor",
+          "Chaos/blight damage ignores 25% of enemy Armor",
           "Inflicting rot on enemies reduces their Armor by 2 (stacking up to 5)"
         ],
         weaknesses: [
@@ -269,7 +269,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
         ],
         specPassive: {
           name: "Death's Precision",
-          description: "When you roll a Prophesied outcome on a single-target spell, gain +2 bonus Mayhem and the spell deals +50% damage. You can have up to 3 active prophecies on the same target. When one detonates, the others tick. Chaos and necrotic damage ignores 25% of enemy Armor."
+          description: "When you roll a Prophesied outcome on a single-target spell, gain +2 bonus Mayhem and the spell deals +50% damage. You can have up to 3 active prophecies on the same target. When one detonates, the others tick. Chaos and blight damage ignores 25% of enemy Armor."
         }
       },
       {
@@ -366,7 +366,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   exampleSpells: [
     { id: "harbinger-universal-doom_bolt",
       name: "Doom Bolt",
-      description: "Your throat tears open as you speak the first syllable of ending. A bolt of pure necrotic certainty lances toward the target, branding their flesh with a doom that whispers of inevitable ruin. Every word costs blood.",
+      description: "Your throat tears open as you speak the first syllable of ending. A bolt of pure blight certainty lances toward the target, branding their flesh with a doom that whispers of inevitable ruin. Every word costs blood.",
       spellType: "ACTION", icon: "Necrotic/Skull Burst", level: 1, specialization: "universal",
       effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Skull Burst", tags: ["blight", "damage", "debuff", "prophecy", "universal", "doom"] },
@@ -375,9 +375,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
       resolution: "PROPHECY",
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d8", "d6"], resolutionDie: "d6",
-        prophesied: { damage: "4d8", effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Marked by prophetic doom. Target suffers -1 to Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, havocGain: 3, description: "Deals 4d8 necrotic damage and afflicts the target with Doom I." },
-        base: { damage: "2d8", havocGain: 1, description: "Deals 2d8 necrotic damage." },
-        outside: { backlash: "1d8 psychic to self", havocGain: 0, description: "The prophecy turns inward. Deals 1d8 psychic damage to you." }
+        prophesied: { damage: "4d8", effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Marked by prophetic doom. Target suffers -1 to Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, havocGain: 3, description: "Deals 4d8 blight damage and afflicts the target with Doom I." },
+        base: { damage: "2d8", havocGain: 1, description: "Deals 2d8 blight damage." },
+        outside: { backlash: "1d8 wyrd to self", havocGain: 0, description: "The prophecy turns inward. Deals 1d8 wyrd damage to you." }
       }}],
       damageConfig: { formula: "2d8", damageTypes: ["blight"], resolution: "PROPHECY" },
       cooldownConfig: { cooldownType: "none", cooldownValue: 0 },
@@ -410,7 +410,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-deaths_seer-entropic_touch",
       name: "Entropic Touch",
-      description: "Touch a target to introduce molecular decay. Necrotic damage + Armor shredding over time.",
+      description: "Touch a target to introduce molecular decay. blight damage + Armor shredding over time.",
       level: 1, icon: "Necrotic/Necrotic Hand Rising", spellType: "ACTION", effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Hand Rising", tags: ["blight", "damage", "debuff", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 5, targetRestrictions: ["enemy"] },
@@ -433,7 +433,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
         { range: { min: 1, max: 1 }, customName: "Static Charge", effect: "Next creature to touch you takes 1d6 lightning damage.", effectConfig: { staticDamage: "1d6" } },
         { range: { min: 2, max: 2 }, customName: "Spatial Lag", effect: "Movement reduced by 10 feet for 1 round.", effectConfig: { speedPenalty: -10, duration: 1 } },
         { range: { min: 3, max: 3 }, customName: "Temporal Echo", effect: "A duplicate appears 5ft away. 50% chance attacks hit the duplicate.", effectConfig: { mirrorCount: 1, missChance: 50 } },
-        { range: { min: 4, max: 4 }, customName: "Entropic Rupture", effect: "All creatures within 5ft take 1d4 psychic damage.", effectConfig: { damageFormula: "1d4", damageType: "wyrd", radius: 5 } },
+        { range: { min: 4, max: 4 }, customName: "Entropic Rupture", effect: "All creatures within 5ft take 1d4 wyrd damage.", effectConfig: { damageFormula: "1d4", damageType: "wyrd", radius: 5 } },
         { range: { min: 5, max: 5 }, customName: "Gravity Well", effect: "All within 10ft have movement halved for 1 round.", effectConfig: { gravitySlow: true, radius: 10, duration: 1 } },
         { range: { min: 6, max: 6 }, customName: "Perfect Phasing", effect: "Increase Flicker duration to 2 rounds.", effectConfig: { durationIncrease: 1 } }
       ]}},
@@ -443,7 +443,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // LEVEL 2 SPELLS
     { id: "harbinger-fate_rift-doom_countdown",
       name: "Doom Countdown",
-      description: "You press your bloodied palm against the air and speak a number. Doom burrows into the target's flesh like a second heartbeat. Each round it ticks, a slow drumbeat of necrotic certainty building toward detonation.",
+      description: "You press your bloodied palm against the air and speak a number. Doom burrows into the target's flesh like a second heartbeat. Each round it ticks, a slow drumbeat of blight certainty building toward detonation.",
       spellType: "ACTION", icon: "Necrotic/Skull Explosion", level: 2, specialization: "fate_rift",
       effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Skull Explosion", tags: ["blight", "damage", "debuff", "prophecy", "fate_rift", "delayed", "concentration", "doom"] },
@@ -452,9 +452,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
       resolution: "PROPHECY",
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d6", "d4"], resolutionDie: "d4", tickDamage: "1d6 necrotic",
-        prophesied: { damage: "4d8", effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Target suffers -1 to Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, havocGain: 3, description: "Detonates for 4d8 necrotic damage + Doom I." },
-        base: { damage: "2d8", havocGain: 1, description: "Detonates for 2d8 necrotic damage." },
-        outside: { backlash: "1d8 necrotic to self", havocGain: 0, description: "The countdown backfires. Deals 1d8 necrotic damage to you." }
+        prophesied: { damage: "4d8", effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Target suffers -1 to Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, havocGain: 3, description: "Detonates for 4d8 blight damage + Doom I." },
+        base: { damage: "2d8", havocGain: 1, description: "Detonates for 2d8 blight damage." },
+        outside: { backlash: "1d8 blight to self", havocGain: 0, description: "The countdown backfires. Deals 1d8 blight damage to you." }
       }}],
       damageConfig: { formula: "1d6", damageTypes: ["blight"], resolution: "PROPHECY" },
       durationConfig: { durationValue: 3, durationUnit: "rounds", concentrationRequired: true, durationType: "rounds" },
@@ -475,7 +475,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-deaths_seer-chaotic_decay",
       name: "Chaotic Decay",
-      description: "Saturate a 15ft area with an entropic mist that rapidly breaks down matter. All creatures take necrotic damage and their Armor is corroded.",
+      description: "Saturate a 15ft area with an entropic mist that rapidly breaks down matter. All creatures take blight damage and their Armor is corroded.",
       level: 2, icon: "Necrotic/Necrotic Decay 1", spellType: "ACTION", effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Decay 1", tags: ["blight", "damage", "debuff", "area", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaShape: "circle", areaSize: 15, targetRestrictions: ["enemy"] },
@@ -496,9 +496,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
       resolution: "PROPHECY",
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d10", "d8"], resolutionDie: "d8",
-        prophesied: { damage: "3d8 fire + 1d8 force", effect: { name: "Burning Ground", duration: 3, unit: "rounds", damagePerRound: "1d4", damageType: "ember", description: "Zone becomes burning difficult terrain (1d4 fire/round, half speed) for 3 rounds." }, havocGain: 4, description: "Deals 3d8 fire + 1d8 force to all in area. Burning difficult terrain for 3 rounds." },
-        base: { damage: "2d8 fire", havocGain: 2, description: "Deals 2d8 fire damage to all in area." },
-        outside: { backlash: "1d6 fire to self", havocGain: 0, description: "The ground erupts beneath you. 1d6 fire damage." }
+        prophesied: { damage: "3d8 ember + 1d8 force", effect: { name: "Burning Ground", duration: 3, unit: "rounds", damagePerRound: "1d4", damageType: "ember", description: "Zone becomes burning difficult terrain (1d4 ember/round, half speed) for 3 rounds." }, havocGain: 4, description: "Deals 3d8 fire + 1d8 force to all in area. Burning difficult terrain for 3 rounds." },
+        base: { damage: "2d8 fire", havocGain: 2, description: "Deals 2d8 ember damage to all in area." },
+        outside: { backlash: "1d6 ember to self", havocGain: 0, description: "The ground erupts beneath you. 1d6 ember damage." }
       }}],
       damageConfig: { formula: "2d8", damageTypes: ["ember", "storm"], resolution: "PROPHECY" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -534,14 +534,14 @@ The Master Wild Surge table is structured across four absolute thematic categori
       cooldownConfig: { cooldownType: "none", cooldownValue: 0 }, resolution: "DICE",
       damageConfig: { formula: "4d6", damageTypes: ["wyrd"], resolution: "DICE" },
       mechanicsConfig: { rollableTable: { enabled: true, tableName: "Prismatic Table", description: "Unstable elemental manifests", diceFormula: "1d8", entries: [
-        { range: { min: 1, max: 1 }, customName: "Infernal Rot", effect: "Deals fire damage. Target ignited, 1d6 fire/turn for 3 rounds.", effectConfig: { damageType: "ember", burnFormula: "1d6", duration: 3 } },
-        { range: { min: 2, max: 2 }, customName: "Glacial Freeze", effect: "Deals frost damage. Movement reduced by 20ft for 2 rounds.", effectConfig: { damageType: "rime", slowValue: -20, duration: 2 } },
-        { range: { min: 3, max: 3 }, customName: "Searing Spark", effect: "Deals psychic damage. Leaps to 2 nearby enemies within 15ft for 2d6 psychic.", effectConfig: { damageType: "wyrd", leapTargets: 2, leapDamage: "2d6" } },
-        { range: { min: 4, max: 4 }, customName: "Marrow Corrosion", effect: "Deals necrotic damage. Physical attack rolls reduced by 3 for 2 rounds.", effectConfig: { damageType: "blight", rollPenalty: -3, duration: 2 } },
-        { range: { min: 5, max: 5 }, customName: "Deathly Void", effect: "Deals necrotic damage. Cannot receive healing for 2 rounds.", effectConfig: { damageType: "blight", healBlock: true, duration: 2 } },
+        { range: { min: 1, max: 1 }, customName: "Infernal Rot", effect: "Deals ember damage. Target ignited, 1d6 fire/turn for 3 rounds.", effectConfig: { damageType: "ember", burnFormula: "1d6", duration: 3 } },
+        { range: { min: 2, max: 2 }, customName: "Glacial Freeze", effect: "Deals rime damage. Movement reduced by 20ft for 2 rounds.", effectConfig: { damageType: "rime", slowValue: -20, duration: 2 } },
+        { range: { min: 3, max: 3 }, customName: "Searing Spark", effect: "Deals wyrd damage. Leaps to 2 nearby enemies within 15ft for 2d6 psychic.", effectConfig: { damageType: "wyrd", leapTargets: 2, leapDamage: "2d6" } },
+        { range: { min: 4, max: 4 }, customName: "Marrow Corrosion", effect: "Deals blight damage. Physical attack rolls reduced by 3 for 2 rounds.", effectConfig: { damageType: "blight", rollPenalty: -3, duration: 2 } },
+        { range: { min: 5, max: 5 }, customName: "Deathly Void", effect: "Deals blight damage. Cannot receive healing for 2 rounds.", effectConfig: { damageType: "blight", healBlock: true, duration: 2 } },
         { range: { min: 6, max: 6 }, customName: "Temporal Stutter", effect: "Deals force damage. AP cost increased by 1 for 1 round.", effectConfig: { damageType: "storm", apTax: 1, duration: 1 } },
-        { range: { min: 7, max: 7 }, customName: "Planar Blindness", effect: "Deals fire damage. Blinded for 1 round.", effectConfig: { damageType: "ember", blindDuration: 1 } },
-        { range: { min: 8, max: 8 }, customName: "Synaptic Shred", effect: "Deals psychic damage + 3d6 extra psychic + disadvantage on next roll.", effectConfig: { damageType: "wyrd", extraDamage: "3d6", disadvantage: true } }
+        { range: { min: 7, max: 7 }, customName: "Planar Blindness", effect: "Deals ember damage. Blinded for 1 round.", effectConfig: { damageType: "ember", blindDuration: 1 } },
+        { range: { min: 8, max: 8 }, customName: "Synaptic Shred", effect: "Deals wyrd damage + 3d6 extra psychic + disadvantage on next roll.", effectConfig: { damageType: "wyrd", extraDamage: "3d6", disadvantage: true } }
       ]}},
       tags: ["damage", "rollable table", "wild_prophet"], specialization: "wild_prophet"
     },
@@ -575,7 +575,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-deaths_seer-chaos_burst",
       name: "Chaos Burst",
-      description: "Condense a sphere of compressed necrotic embers and launch it at a target. On impact, the sphere explodes dealing necrotic and fire damage.",
+      description: "Condense a sphere of compressed necrotic embers and launch it at a target. On impact, the sphere explodes dealing necrotic and ember damage.",
       level: 3, icon: "Fire/Hellfire", spellType: "ACTION", effectTypes: ["damage"],
       typeConfig: { school: "wyrd", icon: "Fire/Hellfire", tags: ["blight", "ember", "damage", "burst", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemy"] },
@@ -598,8 +598,8 @@ The Master Wild Surge table is structured across four absolute thematic categori
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d4", "d4"], resolutionDie: "d4",
         prophesied: { damage: "6d8", effect: { id: "marked_for_death", name: "Marked for Death", duration: 5, unit: "rounds", healingBlock: true, bonusDamageTaken: "1d8", bonusDamageType: "blight", description: "Target cannot be healed and takes +1d8 necrotic from all hits for 5 rounds." }, havocGain: 0, description: "6d8 necrotic + no healing + +1d8 from all incoming damage for 5 rounds." },
-        base: { damage: "3d8", havocGain: 0, description: "3d8 necrotic damage." },
-        outside: { backlash: "2d8 necrotic to self + Doom I", havocGain: 0, effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Death mark rebounds. -1 Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, description: "2d8 necrotic to you + Doom I." }
+        base: { damage: "3d8", havocGain: 0, description: "3d8 blight damage." },
+        outside: { backlash: "2d8 blight to self + Doom I", havocGain: 0, effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Death mark rebounds. -1 Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, description: "2d8 necrotic to you + Doom I." }
       }}],
       damageConfig: { formula: "3d8", damageTypes: ["blight"], resolution: "PROPHECY" },
       debuffConfig: { debuffType: "statusEffect", effects: [{ id: "marked_for_death", name: "Marked for Death", description: "No healing + +1d8 necrotic from all damage sources, 5 rounds", statusType: "death_mark", mechanicsText: "Target cannot be healed and takes bonus necrotic from all incoming damage." }], durationType: "rounds", durationValue: 5, durationUnit: "rounds" },
@@ -620,7 +620,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-deaths_seer-chaos_wave",
       name: "Chaos Wave",
-      description: "Unleash a wide, crashing wave of entropic force in a 30ft cone. All creatures caught suffer necrotic damage and their physical attributes are drained.",
+      description: "Unleash a wide, crashing wave of entropic force in a 30ft cone. All creatures caught suffer blight damage and their physical attributes are drained.",
       level: 4, icon: "Necrotic/Necrotic Decay 1", spellType: "ACTION", effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Decay 1", tags: ["blight", "damage", "cone", "debuff", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "cone", areaSize: 30, targetRestrictions: ["enemy"] },
@@ -722,7 +722,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
         rangeDice: ["d4", "d4"], resolutionDie: "d4",
         prophesied: { damage: "instant_death", effect: { name: "Execution", description: "Target reduced to 0 HP instantly. No save. No immunity.", instantKill: true, bypassImmunity: true }, havocGain: 10, description: "Instant death. No save. No immunity." },
         base: { damage: "8d10 necrotic", effect: { name: "Near Execution", description: "If target below 50% HP, Spirit save or reduced to 0 HP.", conditionalKill: true, hpThreshold: 50, saveType: "spirit" }, havocGain: 5, description: "8d10 necrotic. Below 50% HP: Spirit save or 0 HP." },
-        outside: { backlash: "8d10 necrotic to self", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "Execution turns on its speaker.", doomStack: true, doomStackValue: 3 }, havocGain: 0, description: "8d10 necrotic to you + Doom III." }
+        outside: { backlash: "8d10 blight to self", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "Execution turns on its speaker.", doomStack: true, doomStackValue: 3 }, havocGain: 0, description: "8d10 necrotic to you + Doom III." }
       }}],
       damageConfig: { formula: "8d10", damageTypes: ["blight"], resolution: "PROPHECY" },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -741,7 +741,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-deaths_seer-decay_cascade",
       name: "Decay Cascade",
-      description: "Inject rapidly multiplying entropic decay into a target. Necrotic damage, then chains to up to five adjacent targets within 15 feet.",
+      description: "Inject rapidly multiplying entropic decay into a target. blight damage, then chains to up to five adjacent targets within 15 feet.",
       level: 6, icon: "Necrotic/Necrotic Decay 1", spellType: "ACTION", effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Decay 1", tags: ["blight", "damage", "chain", "debuff", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
@@ -798,8 +798,8 @@ The Master Wild Surge table is structured across four absolute thematic categori
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d4", "d4"], resolutionDie: "d4",
         prophesied: { damage: "12d12 necrotic", effect: { name: "Erasure", description: "If target below 25% HP after damage, erased from existence. No resurrection for 24 hours.", conditionalErase: true, hpThreshold: 25, eraseDuration: 24, eraseDurationUnit: "hours", blockResurrection: true }, havocGain: 10, description: "12d12 necrotic. Below 25% HP = erased." },
-        base: { damage: "8d12 necrotic", havocGain: 5, description: "8d12 necrotic damage." },
-        outside: { backlash: "6d12 necrotic to self", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "Annihilation turns inward. Stunned 1 round.", doomStack: true, doomStackValue: 3, stunDuration: 1, stunDurationUnit: "rounds" }, havocGain: 0, description: "6d12 necrotic to you + Doom III + stunned 1 round." }
+        base: { damage: "8d12 necrotic", havocGain: 5, description: "8d12 blight damage." },
+        outside: { backlash: "6d12 blight to self", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "Annihilation turns inward. Stunned 1 round.", doomStack: true, doomStackValue: 3, stunDuration: 1, stunDurationUnit: "rounds" }, havocGain: 0, description: "6d12 necrotic to you + Doom III + stunned 1 round." }
       }}],
       damageConfig: { formula: "8d12", damageTypes: ["blight"], resolution: "PROPHECY" },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -867,8 +867,8 @@ The Master Wild Surge table is structured across four absolute thematic categori
       resolution: "PROPHECY",
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d8", "d6"], resolutionDie: "d6",
-        prophesied: { damage: "8d8", effect: { name: "Legion Ignition", description: "All ignited, 2d6 fire/round for 3 rounds. +4 Mayhem per enemy hit.", dotDamage: "2d6", dotDamageType: "ember", dotDuration: 3, dotDurationUnit: "rounds", havocPerTarget: 4 }, havocGain: 4, description: "8d8 fire+necrotic to EACH enemy. All ignited (2d6 fire/round, 3 rounds). +4 Mayhem per enemy." },
-        base: { damage: "5d8", havocGain: 2, description: "5d8 fire+necrotic to each enemy." },
+        prophesied: { damage: "8d8", effect: { name: "Legion Ignition", description: "All ignited, 2d6 ember/round for 3 rounds. +4 Mayhem per enemy hit.", dotDamage: "2d6", dotDamageType: "ember", dotDuration: 3, dotDurationUnit: "rounds", havocPerTarget: 4 }, havocGain: 4, description: "8d8 ember+blight to EACH enemy. All ignited (2d6 ember/round, 3 rounds). +4 Mayhem per enemy." },
+        base: { damage: "5d8", havocGain: 2, description: "5d8 ember+blight to each enemy." },
         outside: { backlash: "2d8 per target in range to self", havocGain: 0, description: "The legion turns. 2d8 damage per enemy in range." }
       }}],
       damageConfig: { formula: "5d8", damageTypes: ["ember", "blight"], resolution: "PROPHECY", dotConfig: { enabled: true, damagePerTick: "2d6", damageType: "ember", tickFrequency: "round", duration: 3, canStack: false, maxStacks: 1 } },
@@ -894,7 +894,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-deaths_seer-entropy_plague",
       name: "Entropy Plague",
-      description: "Inflict an intensely infectious molecular decay on a target. Necrotic damage over time, spreads to adjacent targets whenever the infected target acts.",
+      description: "Inflict an intensely infectious molecular decay on a target. blight damage over time, spreads to adjacent targets whenever the infected target acts.",
       level: 8, icon: "Necrotic/Dark Poison Pool", spellType: "ACTION", effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", icon: "Necrotic/Dark Poison Pool", tags: ["blight", "damage", "dot", "spread", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemy"] },
@@ -936,8 +936,8 @@ The Master Wild Surge table is structured across four absolute thematic categori
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d4", "d4"], resolutionDie: "d4",
         prophesied: { damage: "instant_death", effect: { name: "Absolute Requiem", description: "Target reduced to 0 HP. No save. No immunity. All creature types. Absolute.", instantKill: true, bypassImmunity: true, allCreatureTypes: true, absolute: true }, havocGain: 12, description: "Target reduced to 0 HP. No save. No immunity. All creature types. Absolute." },
-        base: { damage: "15d12 necrotic", havocGain: 6, description: "15d12 necrotic damage." },
-        outside: { backlash: "15d12 necrotic to self", effect: { id: "doom_iv", name: "Doom IV", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "Absolute requiem turns on its speaker.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "15d12 necrotic to you + Doom IV." }
+        base: { damage: "15d12 necrotic", havocGain: 6, description: "15d12 blight damage." },
+        outside: { backlash: "15d12 blight to self", effect: { id: "doom_iv", name: "Doom IV", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "Absolute requiem turns on its speaker.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "15d12 necrotic to you + Doom IV." }
       }}],
       damageConfig: { formula: "15d12", damageTypes: ["blight"], resolution: "PROPHECY" },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1018,8 +1018,8 @@ The Master Wild Surge table is structured across four absolute thematic categori
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d4", "d4", "d4"], resolutionDie: "d4",
         prophesied: { damage: "instant_death", effect: { name: "Final Requiem", description: "Target erased from existence. No save. No immunity. No resurrection. Ever. All creature types. Absolute. Final.", instantKill: true, bypassImmunity: true, allCreatureTypes: true, absolute: true, blockResurrection: true, resurrectionBlockDuration: "permanent" }, havocGain: 15, description: "Target erased. No save. No immunity. No resurrection. Ever. Absolute. Final." },
-        base: { damage: "20d12 necrotic", havocGain: 8, description: "20d12 necrotic damage." },
-        outside: { backlash: "20d12 necrotic to self", effect: { id: "doom_iv", name: "Doom IV", duration: 3, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "The Final Requiem consumes its prophet.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "20d12 necrotic to you + Doom IV." }
+        base: { damage: "20d12 necrotic", havocGain: 8, description: "20d12 blight damage." },
+        outside: { backlash: "20d12 blight to self", effect: { id: "doom_iv", name: "Doom IV", duration: 3, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "The Final Requiem consumes its prophet.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "20d12 necrotic to you + Doom IV." }
       }}],
       damageConfig: { formula: "20d12", damageTypes: ["blight"], resolution: "PROPHECY" },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },

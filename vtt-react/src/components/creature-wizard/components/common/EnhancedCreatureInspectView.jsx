@@ -2147,9 +2147,55 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     return (
       <>
         <div className="creature-inspect-section">
+          {/* Main Description */}
           <div className="creature-description">
             {creature.description || "No description available."}
           </div>
+
+          {/* Lore & Legends - Rich world-building content */}
+          {creature.origin && (
+            <div className="creature-lore-section">
+              <h4 className="creature-lore-title">
+                <i className="fas fa-feather-pointed"></i> Folklore Origin
+              </h4>
+              <div className="creature-lore-content">
+                {creature.origin}
+              </div>
+            </div>
+          )}
+
+          {creature.nature && (
+            <div className="creature-lore-section">
+              <h4 className="creature-lore-title">
+                <i className="fas fa-dragon"></i> Nature & Behavior
+              </h4>
+              <div className="creature-lore-content">
+                {creature.nature}
+              </div>
+            </div>
+          )}
+
+          {creature.habitat && (
+            <div className="creature-lore-section">
+              <h4 className="creature-lore-title">
+                <i className="fas fa-map-location-dot"></i> Habitat
+              </h4>
+              <div className="creature-lore-content">
+                {creature.habitat}
+              </div>
+            </div>
+          )}
+
+          {creature.depth && (
+            <div className="creature-lore-section creature-lore-depth">
+              <h4 className="creature-lore-title">
+                <i className="fas fa-mask-cat"></i> The Truth Beneath
+              </h4>
+              <div className="creature-lore-content">
+                {creature.depth}
+              </div>
+            </div>
+          )}
 
           {creature.tags && creature.tags.length > 0 && (
             <div className="creature-tags-section">

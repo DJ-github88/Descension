@@ -9,6 +9,7 @@ const RENDERER_REGISTRY = {
   'elemental-spheres': () => new ArcanoneerSphereRenderer(),
   'rage-bar': () => new BerserkerRageRenderer(),
   'shaper-stance': () => new ShaperStanceRenderer(),
+  'stance-flow': () => new ShaperStanceRenderer(),
   'mayhem-bar': () => new HarbingerMayhemRenderer(),
   'inferno-bar': () => new PyrofiendInfernoRenderer(),
   'musical-staff': () => new MinstrelMusicalRenderer(),

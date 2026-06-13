@@ -13,42 +13,42 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'movement',
       name: 'Movement',
       description: 'Affects movement capabilities of targets or the caster',
-      icon: 'ability_rogue_sprint',
+      icon: '/assets/icons/abilities/Utility/Rest.png',
       actionPointCost: 2,
       subtypes: [
         {
           id: 'teleport',
           name: 'Teleport',
           description: 'Instantly move to a new location without traversing the intervening space',
-          icon: 'spell_arcane_blink',
+          icon: '/assets/icons/abilities/Arcane/Abstract Rune.png',
           parameters: ['distance', 'needsLineOfSight', 'takesOthers', 'otherTargets']
         },
         {
           id: 'flight',
           name: 'Flight',
           description: 'Grant the ability to fly through the air, ignoring ground-based obstacles',
-          icon: 'ability_mount_flyingcarpet',
+          icon: '/assets/icons/abilities/General/Sword.png',
           parameters: ['flightSpeed', 'maxAltitude', 'flightType']
         },
         {
           id: 'speed',
           name: 'Speed Boost',
           description: 'Dramatically increase movement speed for rapid traversal',
-          icon: 'ability_rogue_sprint',
+      icon: '/assets/icons/abilities/Utility/Rest.png',
           parameters: ['speedMultiplier', 'duration', 'affectsActionPoints']
         },
         {
           id: 'phasing',
           name: 'Phasing',
           description: 'Shift partially out of reality, allowing passage through solid objects',
-          icon: 'spell_arcane_portalironforge',
+          icon: '/assets/icons/abilities/Arcane/Abstract Rune.png',
           parameters: ['phasingDuration', 'canAttack', 'visibility']
         },
         {
           id: 'wallWalking',
           name: 'Wall Walking',
           description: 'Walk on vertical surfaces and ceilings',
-          icon: 'ability_rogue_quickrecovery',
+          icon: '/assets/icons/abilities/Utility/Rest.png',
           parameters: ['duration', 'climbSpeed', 'canHang']
         }
       ]
@@ -57,35 +57,35 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'control',
       name: 'Control',
       description: 'Manipulates the battlefield by restricting or directing movement',
-      icon: 'spell_frost_chainsofice',
+      icon: '/assets/icons/abilities/Frost/Frost Touch.png',
       actionPointCost: 3,
       subtypes: [
         {
           id: 'pull',
           name: 'Pull',
           description: 'Force targets to move toward a specific location using magical force',
-          icon: 'ability_druid_typhoon',
+          icon: '/assets/icons/abilities/Natural.png',
           parameters: ['pullDistance', 'allowSave', 'saveType', 'pullDealsDamage', 'pullDamage']
         },
         {
           id: 'push',
           name: 'Push',
           description: 'Forcefully move targets away from a central point or line',
-          icon: 'ability_warrior_charge',
+          icon: '/assets/icons/abilities/General/Sword.png',
           parameters: ['pushDistance', 'allowSave', 'saveType', 'pushDealsDamage', 'pushDamage']
         },
         {
           id: 'barrier',
           name: 'Barrier',
           description: 'Create an impassable wall or dome that blocks movement and possibly attacks',
-          icon: 'spell_holy_powerwordbarrier',
+          icon: '/assets/icons/abilities/Utility/Shield.png',
           parameters: ['barrierType', 'barrierSize', 'barrierMaterial', 'barrierHP', 'barrierDealsDamage', 'barrierDamage']
         },
         {
           id: 'gravity',
           name: 'Gravity Manipulation',
           description: 'Alter local gravity to impede movement or cause levitation',
-          icon: 'spell_arcane_blast',
+          icon: '/assets/icons/abilities/Arcane/Abstract Rune.png',
           parameters: ['gravityMultiplier', 'affectedArea', 'duration', 'damageOnFall']
         }
       ]
@@ -94,35 +94,35 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'environment',
       name: 'Environment',
       description: 'Alters the physical environment for tactical advantage',
-      icon: 'spell_nature_earthquake',
+      icon: '/assets/icons/abilities/Rock Throw.png',
       actionPointCost: 2,
       subtypes: [
         {
           id: 'terrain',
           name: 'Terrain Modification',
           description: 'Change the physical landscape by creating difficult terrain, pits, or elevated platforms',
-          icon: 'spell_nature_earthquake',
+      icon: '/assets/icons/abilities/Rock Throw.png',
           parameters: ['terrainType', 'areaShape', 'areaSize', 'heightDepth', 'duration']
         },
         {
           id: 'hazard',
           name: 'Hazard Creation',
           description: 'Create environmental hazards like fire, ice, acid pools, or electrical fields',
-          icon: 'spell_fire_soulburn',
+          icon: '/assets/icons/abilities/Fire/Flame Burst.png',
           parameters: ['hazardType', 'areaShape', 'areaSize', 'hazardDamage', 'hazardPersistent', 'hazardDuration']
         },
         {
           id: 'light',
           name: 'Light/Darkness',
           description: 'Manipulate ambient lighting to create illumination or magical darkness',
-          icon: 'spell_holy_mindsooth',
+          icon: '/assets/icons/abilities/Light Path.png',
           parameters: ['lightType', 'intensity', 'radius', 'duration', 'moves']
         },
         {
           id: 'weather',
           name: 'Weather Manipulation',
           description: 'Create localized weather effects like fog, rain, wind, or supernatural storms',
-          icon: 'spell_frost_icestorm',
+          icon: '/assets/icons/abilities/Frost/Frost Touch.png',
           parameters: ['weatherType', 'intensity', 'radius', 'duration', 'damaging']
         }
       ]
@@ -131,35 +131,35 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'illusion',
       name: 'Illusion',
       description: 'Creates deceptive sensory effects to mislead or distract',
-      icon: 'spell_shadow_psychicscream',
+      icon: '/assets/icons/abilities/Purple Star.png',
       actionPointCost: 2,
       subtypes: [
         {
           id: 'visual',
           name: 'Visual Illusion',
           description: 'Create false visual images that can range from simple objects to complex scenes',
-          icon: 'spell_shadow_mindtwisting',
+          icon: '/assets/icons/abilities/Purple Star.png',
           parameters: ['illusionType', 'complexity', 'size', 'movement', 'interactivity']
         },
         {
           id: 'sound',
           name: 'Sound Illusion',
           description: 'Generate illusory sounds from whispers to thunderous explosions',
-          icon: 'spell_holy_excorcism',
+          icon: '/assets/icons/abilities/Light Path.png',
           parameters: ['soundType', 'volume', 'complexity', 'duration', 'direction']
         },
         {
           id: 'complex',
           name: 'Complex Illusion',
           description: 'Create fully interactive illusions that affect multiple senses simultaneously',
-          icon: 'spell_shadow_demoniccircleteleport',
+          icon: '/assets/icons/abilities/Void/Void.png',
           parameters: ['illusionComplexity', 'sensesCovered', 'interactive', 'believability', 'duration']
         },
         {
           id: 'disguise',
           name: 'Disguise/Mimicry',
           description: 'Alter appearance to mimic another creature or object convincingly',
-          icon: 'ability_rogue_disguise',
+          icon: '/assets/icons/abilities/Utility/Rest.png',
           parameters: ['disguiseType', 'quality', 'duration', 'detectDC', 'voiceChange']
         }
       ]
@@ -168,42 +168,42 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'transformation',
       name: 'Transformation',
       description: 'Changes physical form or properties of targets',
-      icon: 'spell_nature_elementalshields',
+      icon: '/assets/icons/abilities/Natural.png',
       actionPointCost: 3,
       subtypes: [
         {
           id: 'animal',
           name: 'Animal Form',
           description: 'Transform target into an animal with corresponding abilities and limitations',
-          icon: 'ability_druid_catform',
+          icon: '/assets/icons/abilities/Natural.png',
           parameters: ['animalType', 'size', 'abilities', 'mentalCapacity', 'duration']
         },
         {
           id: 'element',
           name: 'Elemental Transformation',
           description: 'Convert physical form partially or wholly into elemental material like fire, stone, or water',
-          icon: 'spell_fire_elemental_totem',
+          icon: '/assets/icons/abilities/Fire/Flame Burst.png',
           parameters: ['elementType', 'transformPercent', 'elementalAbilities', 'vulnerabilities', 'duration']
         },
         {
           id: 'size',
           name: 'Size Alteration',
           description: 'Dramatically increase or decrease the size of the target',
-          icon: 'spell_nature_wispsplode',
+          icon: '/assets/icons/abilities/Natural.png',
           parameters: ['sizeMultiplier', 'statChanges', 'massChange', 'duration', 'maxSize']
         },
         {
           id: 'object',
           name: 'Object Transformation',
           description: 'Transform target into an inanimate object temporarily',
-          icon: 'inv_misc_statue_07',
+          icon: '/assets/icons/abilities/General/Sword.png',
           parameters: ['objectType', 'size', 'awareness', 'vulnerability', 'duration']
         },
         {
           id: 'phaseshift',
           name: 'Phase Shift',
           description: 'Shift target partially into another plane of existence',
-          icon: 'spell_arcane_portalshattrath',
+          icon: '/assets/icons/abilities/Arcane/Abstract Rune.png',
           parameters: ['phaseType', 'corporeality', 'visibility', 'interactivity', 'duration']
         }
       ]
@@ -212,42 +212,42 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'divination',
       name: 'Divination',
       description: 'Reveals hidden information or predicts future events',
-      icon: 'spell_holy_mindvision',
+          icon: '/assets/icons/abilities/Light Path.png',
       actionPointCost: 2,
       subtypes: [
         {
           id: 'detection',
           name: 'Detection',
           description: 'Sense the presence and location of specific entities, objects, or magical effects',
-          icon: 'spell_holy_mindvision',
+      icon: '/assets/icons/abilities/Light Path.png',
           parameters: ['detectionType', 'range', 'detail', 'duration', 'throughObstacles']
         },
         {
           id: 'scrying',
           name: 'Scrying',
           description: 'View distant locations or subjects remotely',
-          icon: 'spell_shadow_demoniccirclesummon',
+          icon: '/assets/icons/abilities/Void/Void.png',
           parameters: ['scryRange', 'accuracy', 'sensorType', 'detection', 'duration']
         },
         {
           id: 'identification',
           name: 'Identification',
           description: 'Determine properties, history, or nature of objects, creatures, or magical effects',
-          icon: 'spell_holy_dispelmagic',
+          icon: '/assets/icons/abilities/Light Path.png',
           parameters: ['idComplexity', 'revealCurses', 'revealHistory', 'accuracy', 'detailLevel']
         },
         {
           id: 'prediction',
           name: 'Prediction',
           description: 'Glimpse possible future events or outcomes',
-          icon: 'spell_holy_sealofjustice',
+          icon: '/assets/icons/abilities/Light Path.png',
           parameters: ['predictionRange', 'accuracy', 'detail', 'alternatives', 'predictionWindow']
         },
         {
           id: 'truesight',
           name: 'Truesight',
           description: 'See through illusions, invisibility, and into other planes',
-          icon: 'spell_shadow_detectinvisibility',
+          icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
           parameters: ['truesightRange', 'planarVision', 'detectMagic', 'revealDisguises', 'duration']
         }
       ]
@@ -256,35 +256,35 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'conjuration',
       name: 'Conjuration',
       description: 'Summons creatures, objects, or materials from elsewhere',
-      icon: 'spell_shadow_summoninfernal',
+      icon: '/assets/icons/abilities/Void/Void.png',
       actionPointCost: 4,
       subtypes: [
         {
           id: 'creature',
           name: 'Creature Summoning',
           description: 'Summon creatures to aid you in battle or perform tasks',
-          icon: 'spell_shadow_summonvoidwalker',
+          icon: '/assets/icons/abilities/Void/Void.png',
           parameters: ['creatureType', 'creatureLevel', 'controlType', 'duration', 'number']
         },
         {
           id: 'object',
           name: 'Object Conjuration',
           description: 'Create non-magical items temporarily or permanently',
-          icon: 'inv_misc_enggizmos_19',
+          icon: '/assets/icons/abilities/General/Sword.png',
           parameters: ['objectType', 'objectSize', 'complexity', 'permanence', 'quality']
         },
         {
           id: 'element',
           name: 'Elemental Conjuration',
           description: 'Create raw elemental materials like fire, water, or stone',
-          icon: 'spell_fire_volcano',
+          icon: '/assets/icons/abilities/Fire/Flame Burst.png',
           parameters: ['elementType', 'quantity', 'duration', 'intensity', 'control']
         },
         {
           id: 'portal',
           name: 'Portal Creation',
           description: 'Create gateways between locations or planes',
-          icon: 'spell_arcane_portaldalaran',
+          icon: '/assets/icons/abilities/Arcane/Abstract Rune.png',
           parameters: ['portalRange', 'destination', 'size', 'stability', 'duration']
         }
       ]
@@ -293,35 +293,35 @@ export const UTILITY_EFFECT_TYPES = [
       id: 'enchantment',
       name: 'Enchantment',
       description: 'Imbues objects or creatures with magical properties',
-      icon: 'spell_holy_greaterblessingofkings',
+      icon: '/assets/icons/abilities/Light Path.png',
       actionPointCost: 3,
       subtypes: [
         {
           id: 'weapon',
           name: 'Weapon Enchantment',
           description: 'Grant magical properties to weapons',
-          icon: 'inv_sword_04',
+          icon: '/assets/icons/abilities/General/Sword.png',
           parameters: ['enchantmentType', 'power', 'duration', 'charges', 'specialEffect']
         },
         {
           id: 'armor',
           name: 'Armor Enchantment',
           description: 'Grant magical properties to armor or clothing',
-          icon: 'inv_chest_plate_raidpaladin_i_01',
+          icon: '/assets/icons/abilities/Utility/Shield.png',
           parameters: ['enchantmentType', 'power', 'duration', 'charges', 'specialEffect']
         },
         {
           id: 'item',
           name: 'Item Enchantment',
           description: 'Grant magical properties to ordinary items',
-          icon: 'inv_jewelcrafting_gem_14',
+          icon: '/assets/icons/abilities/Light Path.png',
           parameters: ['enchantmentType', 'power', 'duration', 'charges', 'specialEffect']
         },
         {
           id: 'sentience',
           name: 'Sentience Granting',
           description: 'Grant temporary awareness and intelligence to inanimate objects',
-          icon: 'inv_misc_book_17',
+          icon: '/assets/icons/abilities/Arcane/Abstract Rune.png',
           parameters: ['intelligence', 'personality', 'abilities', 'loyalty', 'duration']
         }
       ]

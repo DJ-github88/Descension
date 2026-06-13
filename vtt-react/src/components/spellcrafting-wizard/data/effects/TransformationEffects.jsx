@@ -16,43 +16,50 @@ import {
 import { FaSearch } from 'react-icons/fa';
 import CreatureSelectionWindow from '../../components/common/CreatureSelectionWindow';
 import BasicAbilityCreator from '../../../creature-wizard/components/windows/BasicAbilityCreator';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 // Pathfinder styles imported via main.css
+
+// Get icon URL using local ability icons
+const getIconUrl = (iconName) => {
+  if (!iconName) return '';
+  return getAbilityIconUrl(iconName);
+};
 
 // Transformation types (for creature library)
 export const TRANSFORMATION_TYPES = {
   BEAST_FORM: {
     id: 'beast_form',
     name: 'Beast Form',
-    icon: 'ability_druid_catform',
+    icon: 'Nature/Transform Bear',
     description: 'Transform into various beasts and creatures',
     effectIcon: FaDragon
   },
   DISGUISE: {
     id: 'disguise',
     name: 'Disguise',
-    icon: 'ability_hunter_beastwithin',
+    icon: 'Utility/Fear',
     description: 'Transform appearance to look like other humanoids',
     effectIcon: FaPersonDress
   },
   WATER_FORM: {
     id: 'water_form',
     name: 'Water Form',
-    icon: 'ability_druid_aquaticform',
+    icon: 'Nature/Snake Transform',
     description: 'Transform into liquid or aquatic forms',
     effectIcon: FaWater
   },
   AIR_FORM: {
     id: 'air_form',
     name: 'Air Form',
-    icon: 'spell_nature_cyclone',
+    icon: 'Nature/Tornado Vortex',
     description: 'Transform into gaseous or aerial forms',
     effectIcon: FaWind
   },
   EARTH_FORM: {
     id: 'earth_form',
     name: 'Earth Form',
-    icon: 'spell_nature_stoneskintotem',
+    icon: 'Nature/Earth Shield',
     description: 'Transform into mineral or earthen forms',
     effectIcon: FaEarthAmericas
   }
@@ -60,16 +67,16 @@ export const TRANSFORMATION_TYPES = {
 
 // Custom transformation types (for self-enhancement / non-creature transformations)
 export const CUSTOM_TRANSFORMATION_TYPES = [
-  { id: 'physical', name: 'Physical Transformation', icon: 'ability_warrior_strengthofarms', description: 'Enhance physical attributes - strength, muscles, resilience' },
-  { id: 'elemental', name: 'Elemental Transformation', icon: 'spell_fire_burnout', description: 'Take on elemental properties - fire, ice, lightning, etc.' },
-  { id: 'mental', name: 'Mental Transformation', icon: 'spell_holy_mindvision', description: 'Enhance mental capabilities - focus, perception, willpower' },
-  { id: 'spectral', name: 'Spectral Form', icon: 'spell_shadow_possession', description: 'Become ghostly or ethereal' },
-  { id: 'ascended', name: 'Ascended Form', icon: 'spell_holy_divineillumination', description: 'Transcend mortal limitations temporarily' },
-  { id: 'demonic', name: 'Demonic Form', icon: 'spell_shadow_metamorphosis', description: 'Take on demonic characteristics' },
-  { id: 'divine', name: 'Divine Form', icon: 'spell_holy_holyprotection', description: 'Channel divine power through your form' },
-  { id: 'primal', name: 'Primal Form', icon: 'ability_druid_primalprecision', description: 'Tap into primal, bestial energy' },
-  { id: 'blight', name: 'Shadow Form', icon: 'spell_shadow_shadowform', description: 'Merge with shadows, becoming darkness' },
-  { id: 'arcane', name: 'Arcane Form', icon: 'spell_arcane_arcane04', description: 'Infuse your form with raw arcane energy' }
+  { id: 'physical', name: 'Physical Transformation', icon: 'General/Strength', description: 'Enhance physical attributes - strength, muscles, resilience' },
+  { id: 'elemental', name: 'Elemental Transformation', icon: 'Fire/Rising Inferno', description: 'Take on elemental properties - fire, ice, lightning, etc.' },
+  { id: 'mental', name: 'Mental Transformation', icon: 'Psychic/Mind Read', description: 'Enhance mental capabilities - focus, perception, willpower' },
+  { id: 'spectral', name: 'Spectral Form', icon: 'Necrotic/Soul Exit', description: 'Become ghostly or ethereal' },
+  { id: 'ascended', name: 'Ascended Form', icon: 'Radiant/Divine Illumination', description: 'Transcend mortal limitations temporarily' },
+  { id: 'demonic', name: 'Demonic Form', icon: 'Demonic Transformation', description: 'Take on demonic characteristics' },
+  { id: 'divine', name: 'Divine Form', icon: 'Radiant/Radiant Golden Shield', description: 'Channel divine power through your form' },
+  { id: 'primal', name: 'Primal Form', icon: 'Nature/Roar', description: 'Tap into primal, bestial energy' },
+  { id: 'blight', name: 'Shadow Form', icon: 'Shadow', description: 'Merge with shadows, becoming darkness' },
+  { id: 'arcane', name: 'Arcane Form', icon: 'Arcane/Magical Sword', description: 'Infuse your form with raw arcane energy' }
 ];
 
 // Power levels for custom transformations
@@ -81,28 +88,28 @@ const POWER_LEVELS = [
 
 // Duration types
 const DURATION_TYPES = [
-  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'inv_misc_pocketwatch_02' },
-  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'inv_misc_pocketwatch_03' }
+  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'Utility/Rest' },
+  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'Utility/Rest' },
+  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'Utility/Rest' }
 ];
 
 // Target types
 const TARGET_TYPES = [
-  { id: 'self', name: 'Self', icon: 'spell_shadow_charm', description: 'Transform yourself' },
-  { id: 'willing', name: 'Willing Creature', icon: 'spell_shadow_soulfeast', description: 'Transform another willing creature' },
-  { id: 'unwilling', name: 'Unwilling Creature', icon: 'spell_shadow_possession', description: 'Force transformation on an unwilling target (requires saving throw)' }
+  { id: 'self', name: 'Self', icon: 'General/Influence', description: 'Transform yourself' },
+  { id: 'willing', name: 'Willing Creature', icon: 'Necrotic/Soul Exit', description: 'Transform another willing creature' },
+  { id: 'unwilling', name: 'Unwilling Creature', icon: 'Necrotic/Soul Exit', description: 'Force transformation on an unwilling target (requires saving throw)' }
 ];
 
 
 
 // Saving throw types
 const SAVING_THROW_TYPES = [
-  { id: 'con', name: 'Constitution', icon: 'spell_holy_blessingofstamina' },
-  { id: 'str', name: 'Strength', icon: 'spell_nature_strength' },
-  { id: 'agi', name: 'Agility', icon: 'ability_rogue_quickrecovery' },
-  { id: 'int', name: 'Intelligence', icon: 'spell_holy_magicalsentry' },
-  { id: 'spirit', name: 'Spirit', icon: 'spell_holy_elunesblessing' },
-  { id: 'cha', name: 'Charisma', icon: 'spell_holy_powerwordshield' }
+  { id: 'con', name: 'Constitution', icon: 'Radiant/Divine Blessing' },
+  { id: 'str', name: 'Strength', icon: 'General/Strength' },
+  { id: 'agi', name: 'Agility', icon: 'Utility/Speed Boot' },
+  { id: 'int', name: 'Intelligence', icon: 'Radiant/Radiant Aura' },
+  { id: 'spirit', name: 'Spirit', icon: 'Radiant/Radiant Blessing 1' },
+  { id: 'cha', name: 'Charisma', icon: 'Utility/Golden Shield' }
 ];
 
 // Difficulty levels
@@ -115,12 +122,12 @@ const DIFFICULTY_LEVELS = [
 
 // Ability grant options
 const ABILITY_OPTIONS = [
-  { id: 'natural_weapons', name: 'Natural Weapons', icon: 'ability_druid_catform', description: 'Claws, teeth, horns, etc.' },
-  { id: 'enhanced_senses', name: 'Enhanced Senses', icon: 'spell_nature_eyeoftheowl', description: 'Improved sight, hearing, smell' },
-  { id: 'damage_resistance', name: 'Damage Resistance', icon: 'inv_shield_04', description: 'Innate resistance to physical damage' },
-  { id: 'special_movement', name: 'Special Movement', icon: 'ability_rogue_sprint', description: 'Swimming, climbing, burrowing, etc.' },
-  { id: 'special_attack', name: 'Special Attack', icon: 'spell_fire_flamebolt', description: 'Breath weapon, poison, etc.' },
-  { id: 'size_change', name: 'Size Change', icon: 'spell_nature_wispsplode', description: 'Grow larger or smaller' }
+  { id: 'natural_weapons', name: 'Natural Weapons', icon: 'Nature/Transform Bear', description: 'Claws, teeth, horns, etc.' },
+  { id: 'enhanced_senses', name: 'Enhanced Senses', icon: 'Nature/Owl', description: 'Improved sight, hearing, smell' },
+  { id: 'damage_resistance', name: 'Damage Resistance', icon: 'Utility/Shield', description: 'Innate resistance to physical damage' },
+  { id: 'special_movement', name: 'Special Movement', icon: 'Utility/Speed Dash', description: 'Swimming, climbing, burrowing, etc.' },
+  { id: 'special_attack', name: 'Special Attack', icon: 'Fire/Flame Burst', description: 'Breath weapon, poison, etc.' },
+  { id: 'size_change', name: 'Size Change', icon: 'Nature/Glowing Green Orb', description: 'Grow larger or smaller' }
 ];
 
 const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) => {
@@ -218,10 +225,10 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
 
 
 
-  // Get WoW-style icon URL
+  // Get icon URL using local ability icons
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Format transformation type for display
@@ -763,7 +770,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
                       src={getIconUrl(selectedCreature.tokenIcon)}
                       alt={selectedCreature.name}
                       onError={(e) => {
-                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                        e.target.src = getAbilityIconUrl('Utility/Utility');
                       }}
                     />
                   </div>

@@ -15,12 +15,12 @@ const OUTCOME_TEMPLATES = {
       [COIN_SIDES.HEADS]: {
         effect: 'Deal increased damage',
         multiplier: 1.5,
-        icon: 'spell_fire_flamebolt'
+        icon: 'Fire/Flame Burst'
       },
       [COIN_SIDES.TAILS]: {
         effect: 'Deal reduced damage',
         multiplier: 0.8,
-        icon: 'spell_frost_frostblast'
+        icon: 'Frost/Frozen in Ice'
       }
     }
   },
@@ -30,12 +30,12 @@ const OUTCOME_TEMPLATES = {
       [COIN_SIDES.HEADS]: {
         effect: 'Apply positive effect',
         duration: 10,
-        icon: 'spell_holy_divinespirit'
+        icon: 'Radiant/Radiant Aura'
       },
       [COIN_SIDES.TAILS]: {
         effect: 'Apply negative effect',
         duration: 5,
-        icon: 'spell_shadow_shadowwordpain'
+        icon: 'Necrotic/Necrotic Skull'
       }
     }
   },
@@ -45,12 +45,12 @@ const OUTCOME_TEMPLATES = {
       [COIN_SIDES.HEADS]: {
         effect: 'Apply beneficial effect',
         duration: 8,
-        icon: 'spell_nature_rejuvenation'
+        icon: 'Healing/Golden Heart'
       },
       [COIN_SIDES.TAILS]: {
         effect: 'Deal damage instead',
         multiplier: 1.0,
-        icon: 'spell_fire_meteorstorm'
+        icon: 'Fire/Swirling Fireball'
       }
     }
   }

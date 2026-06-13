@@ -74,7 +74,7 @@ const EFFECT_TYPES = [
       id: 'summoning',
       name: 'Summoning',
       description: 'Summon allies or creatures to assist in battle',
-      icon: 'spell_shadow_summoninfernal',
+      icon: '/assets/icons/abilities/Void.png',
       category: 'conjuration',
       actionPointCost: 3
     },
@@ -82,7 +82,7 @@ const EFFECT_TYPES = [
       id: 'transformation',
       name: 'Transformation',
       description: 'Change form or properties of targets',
-      icon: 'spell_nature_elementalshields',
+      icon: '/assets/icons/abilities/Natural.png',
       category: 'alteration',
       actionPointCost: 2
     },

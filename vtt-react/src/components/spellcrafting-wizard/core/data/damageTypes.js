@@ -4,7 +4,7 @@ const DAMAGE_TYPES = [
       id: 'physical',
       name: 'Physical',
       description: 'Martial damage from weapons, claws, and brute force. Bludgeoning, piercing, and slashing are weapon properties.',
-      icon: 'inv_mace_2h_blacksmithing_01',
+      icon: '/assets/icons/abilities/Bludgeoning/Hammer.png',
       category: 'physical',
       commonResistance: 'heavy armor',
       commonVulnerability: 'constructs'
@@ -13,7 +13,7 @@ const DAMAGE_TYPES = [
       id: 'ember',
       name: 'Ember',
       description: 'Scorching heat and divine light from Sol\'s buried warmth.',
-      icon: 'spell_fire_fire',
+      icon: '/assets/icons/abilities/Fire/Fire Orb.png',
       category: 'elemental',
       commonResistance: 'red dragons, fire elementals',
       commonVulnerability: 'undead, plants, ice creatures'
@@ -22,7 +22,7 @@ const DAMAGE_TYPES = [
       id: 'rime',
       name: 'Rime',
       description: 'The frozen world\'s grip. Icy energy that slows, freezes, and shatters.',
-      icon: 'spell_frost_frostbolt02',
+      icon: '/assets/icons/abilities/Frost/Frost Bolt.png',
       category: 'elemental',
       commonResistance: 'ice elementals, white dragons',
       commonVulnerability: 'fire creatures, water elementals'
@@ -31,7 +31,7 @@ const DAMAGE_TYPES = [
       id: 'storm',
       name: 'Storm',
       description: 'Kinetic fury from lightning, thunder, and concussive force.',
-      icon: 'spell_lightning_lightningbolt01',
+      icon: '/assets/icons/abilities/Lightning/Lightning Bolt.png',
       category: 'elemental',
       commonResistance: 'blue dragons, air elementals',
       commonVulnerability: 'creatures in metal armor, water-based creatures'
@@ -40,7 +40,7 @@ const DAMAGE_TYPES = [
       id: 'arcane',
       name: 'Arcane',
       description: 'Pure magic. Binding ritual residue and raw arcane energy.',
-      icon: 'spell_arcane_arcanepotency',
+      icon: '/assets/icons/abilities/Arcane/Arcane.png',
       category: 'arcane',
       commonResistance: 'arcane golems, magic-resistant creatures',
       commonVulnerability: 'non-magical creatures, constructs'
@@ -49,7 +49,7 @@ const DAMAGE_TYPES = [
       id: 'primal',
       name: 'Primal',
       description: 'Living things and growth. The world\'s refusal to die.',
-      icon: 'spell_nature_naturetouchgrow',
+      icon: '/assets/icons/abilities/Nature/Natural.png',
       category: 'elemental',
       commonResistance: 'nature-aligned creatures, druids',
       commonVulnerability: 'undead, constructs, corrupted beings'
@@ -58,7 +58,7 @@ const DAMAGE_TYPES = [
       id: 'blight',
       name: 'Blight',
       description: 'Keth-Amar\'s corruption. Necrotic decay, void consumption, poison, and acid.',
-      icon: 'spell_shadow_deathcoil',
+      icon: '/assets/icons/abilities/Necrotic/Drain Life.png',
       category: 'otherworldly',
       commonResistance: 'undead, constructs',
       commonVulnerability: 'living creatures, plants'
@@ -67,7 +67,7 @@ const DAMAGE_TYPES = [
       id: 'wyrd',
       name: 'Wyrd',
       description: 'Spiritual rot. Chaotic and psychic energy that warps minds and fractures reality.',
-      icon: 'spell_shadow_mindtwisting',
+      icon: '/assets/icons/abilities/Psychic/Purple Star.png',
       category: 'otherworldly',
       commonResistance: 'mindless creatures, constructs',
       commonVulnerability: 'intelligent creatures, psionic beings'
@@ -76,7 +76,7 @@ const DAMAGE_TYPES = [
       id: 'healing',
       name: 'Healing',
       description: 'Restorative energy that repairs damage and restores vitality.',
-      icon: 'spell_holy_greaterheal',
+      icon: '/assets/icons/abilities/Healing/Golden Heart.png',
       category: 'restorative',
       commonResistance: 'undead (reversed)',
       commonVulnerability: 'living creatures'

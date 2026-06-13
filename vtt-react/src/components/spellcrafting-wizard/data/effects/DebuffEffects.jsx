@@ -21,62 +21,63 @@ import {
 
 import { NEGATIVE_STATUS_EFFECTS, COMBAT_DISADVANTAGES } from '../../core/data/statusEffects';
 import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
-// Debuff types with WoW icons
+// Debuff types with local icons
 const DEBUFF_TYPES = {
   VULNERABILITY: {
     id: 'vulnerability',
     name: 'Vulnerability',
-    icon: 'spell_shadow_shadowwordpain',
+    icon: 'Psychic/Mind Strike',
     description: 'Increases damage taken or reduces resistances',
     category: 'vulnerability'
   },
   WEAKENING: {
     id: 'weakening',
     name: 'Weakening',
-    icon: 'spell_shadow_curseofweakness',
+    icon: 'Necrotic/Necrotic Skull',
     description: 'Reduces damage output or combat effectiveness',
     category: 'statReduction'
   },
   IMPAIRMENT: {
     id: 'impairment',
     name: 'Impairment',
-    icon: 'spell_frost_chainsofice',
+    icon: 'Frost/Frost Freeze 1',
     description: 'Reduces movement speed or mobility',
     category: 'control'
   },
   CONFUSION: {
     id: 'confusion',
     name: 'Confusion',
-    icon: 'spell_shadow_mindshear',
+    icon: 'Psychic/Psionic Strike',
     description: 'Reduces accuracy or spell effectiveness',
     category: 'mental'
   },
   EXPOSURE: {
     id: 'exposure',
     name: 'Exposure',
-    icon: 'spell_shadow_antishadow',
+    icon: 'Radiant/Radiant Divinity',
     description: 'Reduces defensive capabilities or damage resistance',
     category: 'vulnerability'
   },
   DAMAGE: {
     id: 'damage',
     name: 'Damage Over Time',
-    icon: 'spell_fire_immolation',
+    icon: 'Fire/Enveloping Fire',
     description: 'Deals damage over time',
     category: 'damage'
   },
   CONTROL: {
     id: 'control',
     name: 'Control Effect',
-    icon: 'spell_frost_stun',
+    icon: 'Frost/Confused',
     description: 'Restricts ability to move or act',
     category: 'control'
   },
   CURSE: {
     id: 'curse',
     name: 'Curse/Hex',
-    icon: 'spell_shadow_antishadow',
+    icon: 'Radiant/Radiant Divinity',
     description: 'Powerful debuff with special removal requirements',
     category: 'cursehex'
   }
@@ -84,27 +85,27 @@ const DEBUFF_TYPES = {
 
 // Duration types
 const DURATION_TYPES = [
-  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'inv_misc_pocketwatch_02' },
-  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'inv_misc_pocketwatch_03' },
-  { id: 'days', name: 'Days', description: 'In-game days', icon: 'inv_misc_pocketwatch_01' }
+  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'Utility/Utility' },
+  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'Utility/Utility' },
+  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'Utility/Utility' },
+  { id: 'days', name: 'Days', description: 'In-game days', icon: 'Utility/Utility' }
 ];
 
-// Saving throw types with WoW icons
+// Saving throw types with local icons
 const SAVE_TYPES = [
-  { id: 'strength', name: 'Strength', icon: 'spell_nature_strength', description: 'Physical power and force' },
-  { id: 'agility', name: 'Agility', icon: 'ability_rogue_quickrecovery', description: 'Reflexes, balance, and coordination' },
-  { id: 'constitution', name: 'Constitution', icon: 'spell_holy_devotionaura', description: 'Endurance and physical fortitude' },
-  { id: 'intelligence', name: 'Intelligence', icon: 'spell_arcane_arcane02', description: 'Mental acuity and knowledge' },
-  { id: 'spirit', name: 'Spirit', icon: 'spell_holy_holyguidance', description: 'Mental fortitude and willpower' },
-  { id: 'charisma', name: 'Charisma', icon: 'spell_holy_powerinfusion', description: 'Force of personality' }
+  { id: 'strength', name: 'Strength', icon: 'General/Increase Strength', description: 'Physical power and force' },
+  { id: 'agility', name: 'Agility', icon: 'Healing/Renewal', description: 'Reflexes, balance, and coordination' },
+  { id: 'constitution', name: 'Constitution', icon: 'Radiant/Divine Blessing', description: 'Endurance and physical fortitude' },
+  { id: 'intelligence', name: 'Intelligence', icon: 'Arcane/Magical Sword', description: 'Mental acuity and knowledge' },
+  { id: 'spirit', name: 'Spirit', icon: 'Radiant/Enlightened Vision', description: 'Mental fortitude and willpower' },
+  { id: 'charisma', name: 'Charisma', icon: 'Radiant/Radiant Divinity', description: 'Force of personality' }
 ];
 
 // Status effect levels
 const SEVERITY_LEVELS = [
-  { id: 'minor', name: 'Minor', icon: 'inv_misc_gem_diamond_05', description: 'Slight impairment' },
-  { id: 'moderate', name: 'Moderate', icon: 'inv_misc_gem_diamond_06', description: 'Noticeable impairment' },
-  { id: 'major', name: 'Major', icon: 'inv_misc_gem_diamond_07', description: 'Severe impairment' }
+  { id: 'minor', name: 'Minor', icon: 'Utility/Glowing Shard', description: 'Slight impairment' },
+  { id: 'moderate', name: 'Moderate', icon: 'Utility/Glowing Shard', description: 'Noticeable impairment' },
+  { id: 'major', name: 'Major', icon: 'Utility/Glowing Shard', description: 'Severe impairment' }
 ];
 
 const STAT_CATEGORIES = {
@@ -715,39 +716,39 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
       specialOptions.push({
         id: 'all_primary_stats',
         name: 'All Primary Stats',
-        icon: 'spell_holy_blessingofstrength',
+        icon: 'Radiant/Divine Blessing',
         description: 'Reduces all primary attributes',
         category: 'primary'
       });
     } else if (category === 'resistance') {
       // Add resistance modifiers with debuff scaling system
       const RESISTANCE_MODIFIERS = [
-        { id: 'all_resistances', name: 'All Resistances', icon: 'spell_shadow_shadowwordpain', description: 'Reduces resistance to all damage types', category: 'resistance', resistanceType: 'general' },
-        { id: 'physical_resistance', name: 'Physical Resistance', icon: 'inv_shield_05', description: 'Reduces resistance to physical damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'fire_resistance', name: 'Fire Resistance', icon: 'spell_fire_firearmor', description: 'Reduces resistance to fire damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'cold_resistance', name: 'Cold Resistance', icon: 'spell_frost_frostarmor', description: 'Reduces resistance to cold damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'spell_nature_lightningshield', description: 'Reduces resistance to lightning damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'spell_shadow_antishadow', description: 'Reduces resistance to necrotic damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'spell_holy_blessingofprotection', description: 'Reduces resistance to radiant damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'poison_resistance', name: 'Poison Resistance', icon: 'ability_creature_poison_02', description: 'Reduces resistance to poison damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'spell_shadow_mindsteal', description: 'Reduces resistance to psychic damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'force_resistance', name: 'Force Resistance', icon: 'spell_arcane_blast', description: 'Reduces resistance to force damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'acid_resistance', name: 'Acid Resistance', icon: 'spell_nature_acid_01', description: 'Reduces resistance to acid damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'sonic_resistance', name: 'Sonic Resistance', icon: 'spell_holy_silence', description: 'Reduces resistance to sonic damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'all_resistances', name: 'All Resistances', icon: 'Psychic/Mind Strike', description: 'Reduces resistance to all damage types', category: 'resistance', resistanceType: 'general' },
+        { id: 'physical_resistance', name: 'Physical Resistance', icon: 'Utility/Shield', description: 'Reduces resistance to physical damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'fire_resistance', name: 'Fire Resistance', icon: 'Fire/Flame Shield', description: 'Reduces resistance to fire damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'cold_resistance', name: 'Cold Resistance', icon: 'Frost/Frozen in Ice', description: 'Reduces resistance to cold damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'Lightning/Lightning Shield', description: 'Reduces resistance to lightning damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'Radiant/Radiant Divinity', description: 'Reduces resistance to necrotic damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'Radiant/Divine Blessing', description: 'Reduces resistance to radiant damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'poison_resistance', name: 'Poison Resistance', icon: 'Poison/Poison Venom', description: 'Reduces resistance to poison damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'Psychic/Mind Control', description: 'Reduces resistance to psychic damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'force_resistance', name: 'Force Resistance', icon: 'Arcane/Magical Sword', description: 'Reduces resistance to force damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'acid_resistance', name: 'Acid Resistance', icon: 'Poison/Acid Splash', description: 'Reduces resistance to acid damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'sonic_resistance', name: 'Sonic Resistance', icon: 'Psychic/Mind Control', description: 'Reduces resistance to sonic damage', category: 'resistance', resistanceType: 'standard' },
 
         // Absorption reduction types - use flat numbers for all damage types
-        { id: 'damage_absorption', name: 'All Damage Absorption', icon: 'spell_shadow_antimagicshell', description: 'Reduces absorption of all damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'physical_absorption', name: 'Physical Absorption', icon: 'inv_shield_05', description: 'Reduces absorption of physical damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'fire_absorption', name: 'Fire Absorption', icon: 'spell_fire_firearmor', description: 'Reduces absorption of fire damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'cold_absorption', name: 'Cold Absorption', icon: 'spell_frost_frostarmor', description: 'Reduces absorption of cold damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'lightning_absorption', name: 'Lightning Absorption', icon: 'spell_nature_lightningshield', description: 'Reduces absorption of lightning damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'necrotic_absorption', name: 'Necrotic Absorption', icon: 'spell_shadow_antishadow', description: 'Reduces absorption of necrotic damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'radiant_absorption', name: 'Radiant Absorption', icon: 'spell_holy_blessingofprotection', description: 'Reduces absorption of radiant damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'poison_absorption', name: 'Poison Absorption', icon: 'ability_creature_poison_02', description: 'Reduces absorption of poison damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'psychic_absorption', name: 'Psychic Absorption', icon: 'spell_shadow_mindsteal', description: 'Reduces absorption of psychic damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'force_absorption', name: 'Force Absorption', icon: 'spell_arcane_blast', description: 'Reduces absorption of force damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'acid_absorption', name: 'Acid Absorption', icon: 'spell_nature_acid_01', description: 'Reduces absorption of acid damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'sonic_absorption', name: 'Sonic Absorption', icon: 'spell_holy_silence', description: 'Reduces absorption of sonic damage', category: 'resistance', resistanceType: 'absorption' }
+        { id: 'damage_absorption', name: 'All Damage Absorption', icon: 'Necrotic/Protective Aura', description: 'Reduces absorption of all damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'physical_absorption', name: 'Physical Absorption', icon: 'Utility/Shield', description: 'Reduces absorption of physical damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'fire_absorption', name: 'Fire Absorption', icon: 'Fire/Flame Shield', description: 'Reduces absorption of fire damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'cold_absorption', name: 'Cold Absorption', icon: 'Frost/Frozen in Ice', description: 'Reduces absorption of cold damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'lightning_absorption', name: 'Lightning Absorption', icon: 'Lightning/Lightning Shield', description: 'Reduces absorption of lightning damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'necrotic_absorption', name: 'Necrotic Absorption', icon: 'Radiant/Radiant Divinity', description: 'Reduces absorption of necrotic damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'radiant_absorption', name: 'Radiant Absorption', icon: 'Radiant/Divine Blessing', description: 'Reduces absorption of radiant damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'poison_absorption', name: 'Poison Absorption', icon: 'Poison/Poison Venom', description: 'Reduces absorption of poison damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'psychic_absorption', name: 'Psychic Absorption', icon: 'Psychic/Mind Control', description: 'Reduces absorption of psychic damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'force_absorption', name: 'Force Absorption', icon: 'Arcane/Magical Sword', description: 'Reduces absorption of force damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'acid_absorption', name: 'Acid Absorption', icon: 'Poison/Acid Splash', description: 'Reduces absorption of acid damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'sonic_absorption', name: 'Sonic Absorption', icon: 'Psychic/Mind Control', description: 'Reduces absorption of sonic damage', category: 'resistance', resistanceType: 'absorption' }
       ];
 
       return RESISTANCE_MODIFIERS;
@@ -764,30 +765,30 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
 
     if (category === 'secondary') {
       additionalStats.push(
-        { id: 'healing_received', name: 'Healing Received', icon: 'spell_holy_healingaura', description: 'Reduces effectiveness of healing received', category: 'secondary' }
+        { id: 'healing_received', name: 'Healing Received', icon: 'Healing/Heart Ripple', description: 'Reduces effectiveness of healing received', category: 'secondary' }
       );
     } else if (category === 'combat') {
       additionalStats.push(
-        { id: 'attack_bonus', name: 'Attack Bonus', icon: 'inv_sword_04', description: 'Reduces accuracy with attacks', category: 'combat' },
-        { id: 'damage_bonus', name: 'Damage Bonus', icon: 'ability_warrior_decisivestrike', description: 'Reduces damage dealt with attacks', category: 'combat' },
-        { id: 'spell_penetration', name: 'Spell Penetration', icon: 'spell_arcane_blast', description: 'Reduces ability to penetrate spell resistance', category: 'combat' }
+        { id: 'attack_bonus', name: 'Attack Bonus', icon: 'Slashing/Sword Pierce', description: 'Reduces accuracy with attacks', category: 'combat' },
+        { id: 'damage_bonus', name: 'Damage Bonus', icon: 'Slashing/Sword Strike', description: 'Reduces damage dealt with attacks', category: 'combat' },
+        { id: 'spell_penetration', name: 'Spell Penetration', icon: 'Arcane/Magical Sword', description: 'Reduces ability to penetrate spell resistance', category: 'combat' }
       );
     } else if (category === 'damage') {
       // Add damage type modifiers for debuffs (reducing damage output)
       additionalStats.push(
-        { id: 'all_spell_damage', name: 'All Spell Damage', icon: 'spell_shadow_curseofweakness', description: 'Reduces damage dealt with all spells', category: 'damage' },
-        { id: 'fire_spell_power', name: 'Fire Spell Power', icon: 'spell_fire_fire', description: 'Reduces damage dealt with fire spells', category: 'damage' },
-        { id: 'cold_spell_power', name: 'Cold Spell Power', icon: 'spell_frost_frostbolt02', description: 'Reduces damage dealt with cold spells', category: 'damage' },
-        { id: 'lightning_spell_power', name: 'Lightning Spell Power', icon: 'spell_nature_lightning', description: 'Reduces damage dealt with lightning spells', category: 'damage' },
-        { id: 'necrotic_spell_power', name: 'Necrotic Spell Power', icon: 'spell_shadow_shadowbolt', description: 'Reduces damage dealt with necrotic spells', category: 'damage' },
-        { id: 'radiant_spell_power', name: 'Radiant Spell Power', icon: 'spell_holy_holysmite', description: 'Reduces damage dealt with radiant spells', category: 'damage' },
-        { id: 'poison_spell_power', name: 'Poison Spell Power', icon: 'spell_nature_corrosivebreath', description: 'Reduces damage dealt with poison spells', category: 'damage' },
-        { id: 'psychic_spell_power', name: 'Psychic Spell Power', icon: 'spell_shadow_mindsteal', description: 'Reduces damage dealt with psychic spells', category: 'damage' },
-        { id: 'force_spell_power', name: 'Force Spell Power', icon: 'spell_arcane_blast', description: 'Reduces damage dealt with force spells', category: 'damage' },
-        { id: 'acid_spell_power', name: 'Acid Spell Power', icon: 'spell_nature_acid_01', description: 'Reduces damage dealt with acid spells', category: 'damage' },
-        { id: 'sonic_spell_power', name: 'Sonic Spell Power', icon: 'spell_holy_silence', description: 'Reduces damage dealt with sonic spells', category: 'damage' },
-        { id: 'weapon_damage', name: 'Weapon Damage', icon: 'inv_sword_04', description: 'Reduces damage dealt with weapons', category: 'damage' },
-        { id: 'ranged_damage', name: 'Ranged Damage', icon: 'ability_hunter_aimedshot', description: 'Reduces damage dealt with ranged weapons', category: 'damage' }
+        { id: 'all_spell_damage', name: 'All Spell Damage', icon: 'Necrotic/Necrotic Skull', description: 'Reduces damage dealt with all spells', category: 'damage' },
+        { id: 'fire_spell_power', name: 'Fire Spell Power', icon: 'Fire/Flame Burst', description: 'Reduces damage dealt with fire spells', category: 'damage' },
+        { id: 'cold_spell_power', name: 'Cold Spell Power', icon: 'Frost/Frozen in Ice', description: 'Reduces damage dealt with cold spells', category: 'damage' },
+        { id: 'lightning_spell_power', name: 'Lightning Spell Power', icon: 'Lightning/Lightning Bolt', description: 'Reduces damage dealt with lightning spells', category: 'damage' },
+        { id: 'necrotic_spell_power', name: 'Necrotic Spell Power', icon: 'Void/Black Hole', description: 'Reduces damage dealt with necrotic spells', category: 'damage' },
+        { id: 'radiant_spell_power', name: 'Radiant Spell Power', icon: 'Radiant/Divine Blessing', description: 'Reduces damage dealt with radiant spells', category: 'damage' },
+        { id: 'poison_spell_power', name: 'Poison Spell Power', icon: 'Poison/Poison Contagion', description: 'Reduces damage dealt with poison spells', category: 'damage' },
+        { id: 'psychic_spell_power', name: 'Psychic Spell Power', icon: 'Psychic/Mind Control', description: 'Reduces damage dealt with psychic spells', category: 'damage' },
+        { id: 'force_spell_power', name: 'Force Spell Power', icon: 'Arcane/Magical Sword', description: 'Reduces damage dealt with force spells', category: 'damage' },
+        { id: 'acid_spell_power', name: 'Acid Spell Power', icon: 'Poison/Acid Splash', description: 'Reduces damage dealt with acid spells', category: 'damage' },
+        { id: 'sonic_spell_power', name: 'Sonic Spell Power', icon: 'Psychic/Mind Control', description: 'Reduces damage dealt with sonic spells', category: 'damage' },
+        { id: 'weapon_damage', name: 'Weapon Damage', icon: 'Slashing/Sword Pierce', description: 'Reduces damage dealt with weapons', category: 'damage' },
+        { id: 'ranged_damage', name: 'Ranged Damage', icon: 'Piercing/Focused Arrow Shot', description: 'Reduces damage dealt with ranged weapons', category: 'damage' }
       );
     }
 
@@ -807,7 +808,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
   // Helper function to get icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Add a function to generate detailed effect descriptions based on the selected effect type and intensity level

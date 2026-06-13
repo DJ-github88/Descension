@@ -134,10 +134,11 @@ const MapCanvas = ({
         try {
           const instance = ref.instance;
           if (instance && instance.setTransform) {
+            const currentScale = instance.transformState.scale;
             instance.setTransform(
               driftRef.current.x,
               driftRef.current.y,
-              instance.transformState.scale || 0.4,
+              currentScale > 0 ? currentScale : minScale,
               50
             );
           }
@@ -339,7 +340,7 @@ const MapCanvas = ({
         maxScale={3}
         limitToBounds={false}
         centerOnInit={false}
-        wheel={{ step: 0.01, smoothStep: 0.002, zoomAnimation: { disabled: false, animationTime: 150 } }}
+        wheel={{ step: 0.005, smoothStep: 0.001, zoomAnimation: { disabled: false, animationTime: 250 } }}
         doubleClick={{ disabled: false }}
         panning={{ disabled: (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId ? true : false }}
         onTransformed={handleTransformed}

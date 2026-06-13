@@ -36,51 +36,286 @@ const COLLECTIONS = {
   FAVORITES: 'spell_favorites'
 };
 
-// Mock data for when Firebase is not available
+// Mock data and state for when Firebase is not available (Demo Mode)
+const MOCK_USER_VOTES = {};
+const MOCK_USER_FAVORITES = new Set();
 
 const MOCK_FEATURED_SPELLS = [
   {
-    id: 'featured-1',
-    name: 'Arcane Missile',
-    description: 'A reliable spell that fires multiple magical projectiles at a target.',
+    id: 'mock-fireball',
+    name: 'Pyroclastic Fireball',
+    description: 'Fling a massive, swirling orb of molten fire that explodes in a 20-foot radius sphere, incinerating all targets and leaving behind a smoldering field of ash.',
     school: 'Evocation',
-    level: 1,
+    level: 3,
     castingTime: '1 action',
-    range: '120 feet',
-    components: ['V', 'S'],
+    range: '150 feet',
+    components: ['V', 'S', 'M'],
     duration: 'Instantaneous',
-    damage: '1d4+1 force',
-    author: 'Community Wizard',
-    rating: 4.5,
-    ratingCount: 23,
-    downloadCount: 156,
+    damage: '8d6 fire',
+    author: 'Archmage Ignis',
+    rating: 4.9,
+    ratingCount: 142,
+    downloadCount: 843,
     categoryId: 'damage',
-    tags: ['damage', 'force', 'reliable']
+    tags: ['damage', 'fire', 'aoe', 'explosive'],
+    icon: 'Fire/Swirling Fireball',
+    rarity: 'rare',
+    isPublic: true,
+    isFeatured: true,
+    upvotes: 140,
+    downvotes: 2,
+    damageConfig: {
+      damageType: 'direct',
+      elementType: 'ember',
+      formula: '8d6',
+      criticalConfig: { enabled: true, critMultiplier: 2 }
+    },
+    resourceCost: { mana: 40, actionPoints: 1 }
   },
   {
-    id: 'featured-2',
-    name: 'Healing Light',
-    description: 'A gentle spell that restores health with warm, golden light.',
+    id: 'mock-frostbolt',
+    name: 'Glacial Spear',
+    description: 'Conjure a piercing spear of solid ice and hurl it at a target. Deals cold damage and freezes the target\'s joints, reducing their movement speed by 15 feet.',
     school: 'Evocation',
     level: 1,
     castingTime: '1 action',
-    range: 'Touch',
+    range: '60 feet',
     components: ['V', 'S'],
     duration: 'Instantaneous',
-    healing: '1d8+2',
-    author: 'Temple Healer',
+    damage: '1d10 cold',
+    author: 'Frostweaver Jaina',
+    rating: 4.7,
+    ratingCount: 89,
+    downloadCount: 512,
+    categoryId: 'damage',
+    tags: ['damage', 'cold', 'slow', 'single-target'],
+    icon: 'Frost/Frozen in Ice',
+    rarity: 'common',
+    isPublic: true,
+    isFeatured: true,
+    upvotes: 86,
+    downvotes: 3,
+    damageConfig: {
+      damageType: 'direct',
+      elementType: 'rime',
+      formula: '1d10',
+      criticalConfig: { enabled: true, critMultiplier: 2 }
+    },
+    resourceCost: { mana: 15, actionPoints: 1 }
+  },
+  {
+    id: 'mock-chains-shadow',
+    name: 'Grasp of the Abyss',
+    description: 'Summon writhing chains of dark energy from the shadow realm to bind up to three creatures. Bound targets are restrained and take necrotic damage at the start of each turn.',
+    school: 'Conjuration',
+    level: 2,
+    castingTime: '1 action',
+    range: '90 feet',
+    components: ['V', 'S'],
+    duration: 'Concentration, up to 1 minute',
+    damage: '2d6 necrotic',
+    author: 'Warlock Malakar',
     rating: 4.8,
-    ratingCount: 31,
-    downloadCount: 203,
+    ratingCount: 74,
+    downloadCount: 418,
+    categoryId: 'control',
+    tags: ['control', 'necrotic', 'restrained', 'multi-target'],
+    icon: 'Shadow/Shadow Darkness',
+    rarity: 'rare',
+    isPublic: true,
+    isFeatured: true,
+    upvotes: 72,
+    downvotes: 2,
+    damageConfig: {
+      damageType: 'dot',
+      elementType: 'blight',
+      formula: '2d6',
+      criticalConfig: { enabled: false }
+    },
+    resourceCost: { mana: 25, actionPoints: 1 }
+  },
+  {
+    id: 'mock-healing-light',
+    name: 'Celestial Mend',
+    description: 'Call down a beam of pure radiant starlight upon a wounded ally. Instantly restores health and provides a minor ward that increases saving throws for 2 turns.',
+    school: 'Abjuration',
+    level: 2,
+    castingTime: '1 action',
+    range: '60 feet',
+    components: ['V', 'S'],
+    duration: 'Instantaneous',
+    healing: '2d8+4',
+    author: 'High Priest Alistair',
+    rating: 4.8,
+    ratingCount: 95,
+    downloadCount: 632,
     categoryId: 'healing',
-    tags: ['healing', 'light', 'touch']
+    tags: ['healing', 'radiant', 'buff', 'single-target'],
+    icon: 'Radiant/Divine Blessing',
+    rarity: 'uncommon',
+    isPublic: true,
+    isFeatured: true,
+    upvotes: 93,
+    downvotes: 2,
+    healingConfig: {
+      healingType: 'direct',
+      formula: '2d8+4'
+    },
+    resourceCost: { mana: 20, actionPoints: 1 }
+  },
+  {
+    id: 'mock-ember-shield',
+    name: 'Emberflame Aegis',
+    description: 'Surround yourself with a barrier of swirling flame. You gain fire resistance, and any creature that hits you with a melee attack takes fire damage.',
+    school: 'Abjuration',
+    level: 1,
+    castingTime: '1 bonus action',
+    range: 'Self',
+    components: ['V', 'S'],
+    duration: '10 minutes',
+    damage: '1d4 fire',
+    author: 'Forge Master Valkan',
+    rating: 4.6,
+    ratingCount: 54,
+    downloadCount: 320,
+    categoryId: 'utility',
+    tags: ['utility', 'buff', 'fire', 'defense'],
+    icon: 'Fire/Flame Burst',
+    rarity: 'uncommon',
+    isPublic: true,
+    isFeatured: false,
+    upvotes: 52,
+    downvotes: 2,
+    damageConfig: {
+      damageType: 'direct',
+      elementType: 'ember',
+      formula: '1d4',
+      criticalConfig: { enabled: false }
+    },
+    resourceCost: { mana: 15, actionPoints: 1 }
+  },
+  {
+    id: 'mock-lightning-bolt',
+    name: 'Tempest Javelin',
+    description: 'Strike with a concentrated javelin of crackling lightning. The bolt punches through the first target and jumps to two nearby targets, dealing storm damage.',
+    school: 'Evocation',
+    level: 3,
+    castingTime: '1 action',
+    range: '90 feet',
+    components: ['V', 'S'],
+    duration: 'Instantaneous',
+    damage: '4d10 lightning',
+    author: 'Stormcaller Raiden',
+    rating: 4.9,
+    ratingCount: 112,
+    downloadCount: 789,
+    categoryId: 'damage',
+    tags: ['damage', 'lightning', 'storm', 'chain'],
+    icon: 'Lightning/Lightning Bolt',
+    rarity: 'epic',
+    isPublic: true,
+    isFeatured: true,
+    upvotes: 110,
+    downvotes: 2,
+    damageConfig: {
+      damageType: 'direct',
+      elementType: 'storm',
+      formula: '4d10',
+      criticalConfig: { enabled: true, critMultiplier: 2 }
+    },
+    resourceCost: { mana: 35, actionPoints: 1 }
+  },
+  {
+    id: 'mock-grasp-nature',
+    name: 'Wildwood Entanglement',
+    description: 'Command roots and vines to erupt from the earth, grasping at creatures in a 15-foot square. Targets are rooted and take physical bludgeoning damage.',
+    school: 'Transmutation',
+    level: 1,
+    castingTime: '1 action',
+    range: '60 feet',
+    components: ['V', 'S', 'M'],
+    duration: 'Concentration, up to 1 minute',
+    damage: '1d6 physical',
+    author: 'Archdruid Sylva',
+    rating: 4.5,
+    ratingCount: 43,
+    downloadCount: 245,
+    categoryId: 'control',
+    tags: ['control', 'nature', 'physical', 'aoe'],
+    icon: 'Utility/Summon Minion',
+    rarity: 'common',
+    isPublic: true,
+    isFeatured: false,
+    upvotes: 41,
+    downvotes: 2,
+    damageConfig: {
+      damageType: 'direct',
+      elementType: 'physical',
+      formula: '1d6',
+      criticalConfig: { enabled: false }
+    },
+    resourceCost: { mana: 10, actionPoints: 1 }
+  },
+  {
+    id: 'mock-arcane-torrent',
+    name: 'Aether Resonance',
+    description: 'Unleash a wave of volatile force energy that disrupts spellcasting in a 15-foot cone. Targets are silenced for 1 round and take arcane force damage.',
+    school: 'Evocation',
+    level: 2,
+    castingTime: '1 action',
+    range: '15 feet',
+    components: ['V'],
+    duration: 'Instantaneous',
+    damage: '3d8 force',
+    author: 'Aetherologist Elyria',
+    rating: 4.7,
+    ratingCount: 68,
+    downloadCount: 395,
+    categoryId: 'control',
+    tags: ['control', 'arcane', 'silence', 'force'],
+    icon: 'Arcane/Arcane Blast',
+    rarity: 'rare',
+    isPublic: true,
+    isFeatured: false,
+    upvotes: 66,
+    downvotes: 2,
+    damageConfig: {
+      damageType: 'direct',
+      elementType: 'arcane',
+      formula: '3d8',
+      criticalConfig: { enabled: true, critMultiplier: 2 }
+    },
+    resourceCost: { mana: 25, actionPoints: 1 }
+  },
+  {
+    id: 'mock-summon-golem',
+    name: 'Summon Clay Guardian',
+    description: 'Erect a loyal clay sentinel from the earth to fight by your side. The guardian has high health, can taunt enemies, and deals physical bludgeoning damage.',
+    school: 'Conjuration',
+    level: 3,
+    castingTime: '1 minute',
+    range: '30 feet',
+    components: ['V', 'S', 'M'],
+    duration: 'Concentration, up to 1 hour',
+    author: 'Golemancer Martha',
+    rating: 4.8,
+    ratingCount: 57,
+    downloadCount: 290,
+    categoryId: 'summoning',
+    tags: ['summon', 'physical', 'tank', 'minion'],
+    icon: 'Utility/Summon Minion',
+    rarity: 'rare',
+    isPublic: true,
+    isFeatured: false,
+    upvotes: 55,
+    downvotes: 2,
+    resourceCost: { mana: 40, actionPoints: 1 }
   }
 ];
 
 // Helper function to check if Firebase is available
 const checkFirebaseAvailable = () => {
   if (!db) {
-    console.warn('Firebase not available, using mock data');
     return false;
   }
   return true;
@@ -92,8 +327,18 @@ const checkFirebaseAvailable = () => {
 export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortBy = 'rating') {
   try {
     if (!checkFirebaseAvailable()) {
+      // Sort mock spells dynamically for Demo Mode
+      let sortedMock = [...MOCK_FEATURED_SPELLS];
+      if (sortBy === 'rating') {
+        sortedMock.sort((a, b) => b.rating - a.rating);
+      } else if (sortBy === 'downloads') {
+        sortedMock.sort((a, b) => b.downloadCount - a.downloadCount);
+      } else if (sortBy === 'newest') {
+        // Mock ID creation order is stable, sort reverse by level as a proxy
+        sortedMock.sort((a, b) => b.level - a.level);
+      }
       return {
-        spells: [],
+        spells: sortedMock.slice(0, pageSize),
         lastDoc: null,
         hasMore: false
       };
@@ -183,7 +428,6 @@ export async function searchSpells(searchTerm, pageSize = 20) {
 
     // Note: Firestore doesn't support full-text search natively
     // This is a simple implementation that searches by name prefix
-    // For production, consider using Algolia or similar service
     const q = query(
       spellsRef,
       where('isPublic', '==', true),
@@ -217,7 +461,7 @@ export async function searchSpells(searchTerm, pageSize = 20) {
 export async function getFeaturedSpells(pageSize = 10) {
   try {
     if (!checkFirebaseAvailable()) {
-      return MOCK_FEATURED_SPELLS.slice(0, limit);
+      return MOCK_FEATURED_SPELLS.filter(s => s.isFeatured).slice(0, pageSize);
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
@@ -237,7 +481,7 @@ export async function getFeaturedSpells(pageSize = 10) {
     }));
   } catch (error) {
     console.error('Error fetching featured spells:', error);
-    return MOCK_FEATURED_SPELLS.slice(0, limit);
+    return MOCK_FEATURED_SPELLS.filter(s => s.isFeatured).slice(0, pageSize);
   }
 }
 
@@ -284,6 +528,15 @@ export async function uploadSpell(spellData, userId) {
  */
 export async function downloadSpell(spellId) {
   try {
+    if (!checkFirebaseAvailable()) {
+      const spell = MOCK_FEATURED_SPELLS.find(s => s.id === spellId);
+      if (!spell) throw new Error('Spell not found');
+      
+      // Increment local download count
+      spell.downloadCount = (spell.downloadCount || 0) + 1;
+      return { ...spell };
+    }
+
     const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
     const spellDoc = await getDoc(spellRef);
 
@@ -311,6 +564,10 @@ export async function downloadSpell(spellId) {
  */
 export async function rateSpell(spellId, userId, rating) {
   try {
+    if (!checkFirebaseAvailable()) {
+      return;
+    }
+
     // Add or update rating
     const ratingRef = doc(db, COLLECTIONS.RATINGS, `${spellId}_${userId}`);
     await updateDoc(ratingRef, {
@@ -321,7 +578,6 @@ export async function rateSpell(spellId, userId, rating) {
     });
 
     // Recalculate average rating for the spell
-    // This would typically be done with a Cloud Function in production
     await recalculateSpellRating(spellId);
 
   } catch (error) {
@@ -348,7 +604,7 @@ async function recalculateSpellRating(spellId) {
 
     const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
     await updateDoc(spellRef, {
-      rating: Math.round(averageRating * 10) / 10, // Round to 1 decimal place
+      rating: Math.round(averageRating * 10) / 10,
       ratingCount: ratings.length
     });
 
@@ -363,7 +619,12 @@ async function recalculateSpellRating(spellId) {
 export async function favoriteSpell(spellId, userId, isFavorite) {
   try {
     if (!checkFirebaseAvailable() || !userId) {
-      throw new Error('Firebase not available or user not logged in');
+      if (isFavorite) {
+        MOCK_USER_FAVORITES.add(spellId);
+      } else {
+        MOCK_USER_FAVORITES.delete(spellId);
+      }
+      return { success: true };
     }
 
     const favoriteRef = doc(db, COLLECTIONS.FAVORITES, `${userId}_${spellId}`);
@@ -391,7 +652,7 @@ export async function favoriteSpell(spellId, userId, isFavorite) {
 export async function isSpellFavorited(spellId, userId) {
   try {
     if (!checkFirebaseAvailable() || !userId) {
-      return false;
+      return MOCK_USER_FAVORITES.has(spellId);
     }
 
     const favoriteRef = doc(db, COLLECTIONS.FAVORITES, `${userId}_${spellId}`);
@@ -410,7 +671,7 @@ export async function isSpellFavorited(spellId, userId) {
 export async function getUserFavorites(userId, pageSize = 20) {
   try {
     if (!checkFirebaseAvailable() || !userId) {
-      return [];
+      return MOCK_FEATURED_SPELLS.filter(s => MOCK_USER_FAVORITES.has(s.id));
     }
 
     const favoritesRef = collection(db, COLLECTIONS.FAVORITES);
@@ -450,7 +711,8 @@ export async function getUserFavorites(userId, pageSize = 20) {
 export async function getUserSpells(userId, pageSize = 20) {
   try {
     if (!checkFirebaseAvailable()) {
-      return [];
+      // Return a subset of mock spells to represent the user's shared spells
+      return MOCK_FEATURED_SPELLS.slice(4, 6);
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
@@ -480,7 +742,26 @@ export async function getUserSpells(userId, pageSize = 20) {
 export async function voteSpell(spellId, userId, voteType) {
   try {
     if (!checkFirebaseAvailable()) {
-      throw new Error('Firebase not available');
+      const spell = MOCK_FEATURED_SPELLS.find(s => s.id === spellId);
+      if (!spell) throw new Error('Spell not found');
+
+      const vote = voteType === 'upvote' ? 1 : -1;
+      MOCK_USER_VOTES[spellId] = vote;
+
+      if (voteType === 'upvote') {
+        spell.upvotes = (spell.upvotes || 0) + 1;
+      } else {
+        spell.downvotes = (spell.downvotes || 0) + 1;
+      }
+
+      const total = (spell.upvotes || 0) + (spell.downvotes || 0);
+      const score = total > 0
+        ? Math.max(0, Math.min(5, ((spell.upvotes - spell.downvotes) / total) * 2.5 + 2.5))
+        : 0;
+
+      spell.rating = Math.round(score * 10) / 10;
+      spell.ratingCount = total;
+      return;
     }
 
     const vote = voteType === 'upvote' ? 1 : -1;
@@ -523,7 +804,7 @@ export async function voteSpell(spellId, userId, voteType) {
 export async function getUserVote(spellId, userId) {
   try {
     if (!checkFirebaseAvailable() || !userId) {
-      return null;
+      return MOCK_USER_VOTES[spellId] || null;
     }
 
     const ratingRef = doc(db, COLLECTIONS.RATINGS, `${spellId}_${userId}`);
@@ -573,7 +854,7 @@ async function recalculateSpellVotes(spellId) {
 
     const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
     await updateDoc(spellRef, {
-      rating: Math.round(score * 10) / 10, // Round to 1 decimal place
+      rating: Math.round(score * 10) / 10,
       ratingCount: totalVotes,
       upvotes,
       downvotes
@@ -583,4 +864,5 @@ async function recalculateSpellVotes(spellId) {
     console.error('Error recalculating spell votes:', error);
   }
 }
+
 

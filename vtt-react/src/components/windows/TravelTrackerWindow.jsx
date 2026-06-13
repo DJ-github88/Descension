@@ -4,7 +4,7 @@ import useTravelStore from '../../store/travelStore';
 import usePartyStore from '../../store/partyStore';
 import { BIOMES, getBiome, getAtmosphere, getEncounterTable } from '../../data/biomeData';
 import useGameStore from '../../store/gameStore';
-import { FaSnowflake, FaSun, FaTree, FaWater, FaAnchor, FaDungeon } from 'react-icons/fa';
+import { FaSnowflake, FaSun, FaTree, FaWater, FaAnchor, FaDungeon, FaWind } from 'react-icons/fa';
 import './TravelTrackerWindow.css';
 
 const BIOME_ICONS = {
@@ -13,7 +13,8 @@ const BIOME_ICONS = {
   forest: FaTree,
   swamp: FaWater,
   ocean: FaAnchor,
-  underdark: FaDungeon
+  underdark: FaDungeon,
+  steppe: FaWind
 };
 
 const TABS = [
@@ -116,7 +117,7 @@ function SetupTab() {
         </div>
         <div className="tt-biome-grid">
           {BIOMES.map((b) => {
-            const Icon = BIOME_ICONS[b.id];
+            const Icon = BIOME_ICONS[b.id] || FaWind;
             return (
               <button
                 key={b.id}

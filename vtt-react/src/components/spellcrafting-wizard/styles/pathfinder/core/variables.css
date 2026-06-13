@@ -44,15 +44,23 @@
   --pf-info: #2f4f4f;
   --pf-info-light: #708090;
   
-  /* Damage Type Colors (Dark Pathfinder RPG palette) */
+  /* Damage Type Colors (8-type schema) */
+  --pf-ember: #a62626;
+  --pf-rime: #24587a;
+  --pf-storm: #a3811f;
+  --pf-arcane: #6c3dbf;
+  --pf-primal: #2b5c20;
+  --pf-blight: #53236e;
+  --pf-wyrd: #87206f;
+  --pf-physical: #51626b;
+  
+  /* Legacy aliases */
   --pf-fire: #8B1A1A;
   --pf-frost: #2C5F7C;
   --pf-nature: #2D5A1E;
-  --pf-arcane: #7B4FBF;
   --pf-holy: #8B7328;
   --pf-shadow: #6B2D8B;
   --pf-lightning: #8B7328;
-  --pf-physical: #5A6A72;
   --pf-force: #9B5FBF;
   --pf-necrotic: #6B2D8B;
   --pf-radiant: #8B7328;

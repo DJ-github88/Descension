@@ -7,13 +7,14 @@ import ResolutionSelector from '../../components/mechanics/ResolutionSelector';
 
 
 import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 // Pathfinder styles imported via main.css
 
 
 // Helper function to get icon URL
 const getIconUrl = (iconName) => {
-  return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+  return getAbilityIconUrl(iconName);
 };
 
 // Variable definitions for stats and attributes
@@ -753,21 +754,21 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
       id: 'health',
       name: 'Health',
       description: 'Vital life force that sustains all living beings',
-      icon: 'spell_holy_sealofsacrifice',
+      icon: 'General/Heart',
       reactIcon: FaHeart
     },
     {
       id: 'mana',
       name: 'Mana',
       description: 'Magical energy used for spellcasting',
-      icon: 'spell_holy_magicalsentry',
+      icon: 'General/Crystal Ball',
       reactIcon: FaDroplet
     },
     {
       id: 'action_points',
       name: 'Action Points',
       description: 'Combat resources used for special abilities and attacks',
-      icon: 'ability_rogue_quickrecovery',
+      icon: 'General/Fiery Rage',
       reactIcon: FaBolt
     }
   ];

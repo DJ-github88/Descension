@@ -375,7 +375,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 | d6 | Effect |
 |---|---|
 | 1-2 | **Grief Strike** — Your next attack this round has disadvantage as your hands shake with loss. |
-| 3-4 | **Phantom Pain** — Take 1d6 psychic damage. The bond hurts even broken. |
+| 3-4 | **Phantom Pain** — Take 1d6 wyrd damage. The bond hurts even broken. |
 | 5 | **Rage** — Your next attack deals +1d6 extra damage. The fury is real. |
 | 6 | **Cold Focus** — You gain advantage on your next attack. The hunter channels grief into precision. |
 
@@ -543,7 +543,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
             name: "Lethal Precision",
             icon: "Poison/Poison Concoction",
             description:
-              "Attacks made from stealth or immediately after using Shadowstep deal an additional 2d6 damage. Additionally, your glaive chain damage becomes necrotic instead of slashing, and chained enemies cannot see you until the start of their next turn (Shadow Chain).",
+              "Attacks made from stealth or immediately after using Shadowstep deal an additional 2d6 damage. Additionally, your glaive chain damage becomes blight instead of slashing, and chained enemies cannot see you until the start of their next turn (Shadow Chain).",
           },
         ],
 
@@ -2204,7 +2204,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         },
         damage: {
           description:
-            "Frightened enemies take psychic damage at the start of their turns",
+            "Frightened enemies take wyrd damage at the start of their turns",
           damageFormula: "3d8",
         },
       },

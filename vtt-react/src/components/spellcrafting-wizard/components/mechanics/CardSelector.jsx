@@ -45,74 +45,74 @@ const HAND_RANKINGS = {
 const EFFECT_PRESETS = {
   damage: {
     name: 'Damage',
-    icon: 'ability_mage_firestarter',
+    icon: 'Fire/Fiery Skull',
     suitEffects: {
-      [CARD_SUITS.HEARTS]: { name: 'Healing Touch', effect: 'healing', icon: 'spell_holy_healingfocus' },
-      [CARD_SUITS.DIAMONDS]: { name: 'Fiery Blast', effect: 'fire_damage', icon: 'spell_fire_fireball02' },
-      [CARD_SUITS.CLUBS]: { name: 'Earth Shatter', effect: 'earth_damage', icon: 'spell_nature_earthquake' },
-      [CARD_SUITS.SPADES]: { name: 'Wind Slash', effect: 'air_damage', icon: 'spell_nature_cyclone' }
+      [CARD_SUITS.HEARTS]: { name: 'Healing Touch', effect: 'healing', icon: 'Healing/Golden Heart' },
+      [CARD_SUITS.DIAMONDS]: { name: 'Fiery Blast', effect: 'fire_damage', icon: 'Fire/Swirling Fireball' },
+      [CARD_SUITS.CLUBS]: { name: 'Earth Shatter', effect: 'earth_damage', icon: 'Nature/Earth Shield' },
+      [CARD_SUITS.SPADES]: { name: 'Wind Slash', effect: 'air_damage', icon: 'Nature/Tornado Vortex' }
     },
     rankEffects: {
-      number: { name: 'Damage Scaling', effect: 'damage_scaling', icon: 'spell_fire_incinerate' },
-      jack: { name: 'Bonus Damage', effect: 'bonus_damage', icon: 'ability_warrior_savageblow' },
-      queen: { name: 'Expanded Range', effect: 'bonus_range', icon: 'ability_hunter_longshots' },
-      king: { name: 'Wider Area', effect: 'bonus_area', icon: 'spell_nature_earthquaketotem' },
-      ace: { name: 'Critical Strike', effect: 'critical', icon: 'ability_criticalstrike' }
+      number: { name: 'Damage Scaling', effect: 'damage_scaling', icon: 'Fire/Fire Bolt' },
+      jack: { name: 'Bonus Damage', effect: 'bonus_damage', icon: 'General/Combat Downward Strike' },
+      queen: { name: 'Expanded Range', effect: 'bonus_range', icon: 'Utility/Target Crosshair' },
+      king: { name: 'Wider Area', effect: 'bonus_area', icon: 'Nature/Earth Shield' },
+      ace: { name: 'Critical Strike', effect: 'critical', icon: 'General/Sword' }
     },
     handEffects: {
-      [HAND_RANKINGS.FLUSH]: { name: 'Elemental Fury', effect: 'elemental_bonus', icon: 'spell_fire_elemental_totem' },
-      [HAND_RANKINGS.STRAIGHT]: { name: 'Penetrating Strike', effect: 'penetration', icon: 'ability_backstab' },
-      [HAND_RANKINGS.THREE_OF_A_KIND]: { name: 'Triple Damage', effect: 'triple_damage', icon: 'ability_warrior_punishingblow' },
-      [HAND_RANKINGS.FOUR_OF_A_KIND]: { name: 'Quadruple Damage', effect: 'quadruple_damage', icon: 'ability_deathknight_deathstrike' },
-      [HAND_RANKINGS.ROYAL_FLUSH]: { name: 'Ultimate Power', effect: 'ultimate_power', icon: 'spell_holy_auraoflight' }
+      [HAND_RANKINGS.FLUSH]: { name: 'Elemental Fury', effect: 'elemental_bonus', icon: 'Fire/Flame Burst' },
+      [HAND_RANKINGS.STRAIGHT]: { name: 'Penetrating Strike', effect: 'penetration', icon: 'General/Sword' },
+      [HAND_RANKINGS.THREE_OF_A_KIND]: { name: 'Triple Damage', effect: 'triple_damage', icon: 'General/Combat Downward Strike' },
+      [HAND_RANKINGS.FOUR_OF_A_KIND]: { name: 'Quadruple Damage', effect: 'quadruple_damage', icon: 'Necrotic/Necrotic Skull' },
+      [HAND_RANKINGS.ROYAL_FLUSH]: { name: 'Ultimate Power', effect: 'ultimate_power', icon: 'Radiant/Divine Blessing' }
     }
   },
   healing: {
     name: 'Healing',
-    icon: 'spell_holy_flashheal',
+    icon: 'Healing/Golden Heart',
     suitEffects: {
-      [CARD_SUITS.HEARTS]: { name: 'Major Healing', effect: 'major_healing', icon: 'spell_holy_greaterheal' },
-      [CARD_SUITS.DIAMONDS]: { name: 'Healing Over Time', effect: 'regen_over_time', icon: 'spell_nature_rejuvenation' },
-      [CARD_SUITS.CLUBS]: { name: 'Armor Bonus', effect: 'armor_bonus', icon: 'spell_holy_sealofprotection' },
-      [CARD_SUITS.SPADES]: { name: 'Cleanse', effect: 'cleanse', icon: 'spell_holy_renew' }
+      [CARD_SUITS.HEARTS]: { name: 'Major Healing', effect: 'major_healing', icon: 'Healing/Golden Heart' },
+      [CARD_SUITS.DIAMONDS]: { name: 'Healing Over Time', effect: 'regen_over_time', icon: 'Healing/Renewal' },
+      [CARD_SUITS.CLUBS]: { name: 'Armor Bonus', effect: 'armor_bonus', icon: 'Utility/Golden Shield' },
+      [CARD_SUITS.SPADES]: { name: 'Cleanse', effect: 'cleanse', icon: 'Healing/Healing Compass' }
     },
     rankEffects: {
-      number: { name: 'Healing Scaling', effect: 'healing_scaling', icon: 'spell_holy_sealofsacrifice' },
-      jack: { name: 'Group Healing', effect: 'aoe_healing', icon: 'spell_holy_prayerofhealing02' },
-      queen: { name: 'Extended Duration', effect: 'extended_duration', icon: 'spell_nature_reincarnation' },
-      king: { name: 'Barrier', effect: 'barrier', icon: 'spell_holy_powerwordshield' },
-      ace: { name: 'Revitalize', effect: 'revitalize', icon: 'spell_holy_divineprovidence' }
+      number: { name: 'Healing Scaling', effect: 'healing_scaling', icon: 'Healing/Golden Heart' },
+      jack: { name: 'Group Healing', effect: 'aoe_healing', icon: 'Healing/Golden Heart' },
+      queen: { name: 'Extended Duration', effect: 'extended_duration', icon: 'Healing/Renewal' },
+      king: { name: 'Barrier', effect: 'barrier', icon: 'Utility/Golden Shield' },
+      ace: { name: 'Revitalize', effect: 'revitalize', icon: 'Healing/Healing Compass' }
     },
     handEffects: {
-      [HAND_RANKINGS.FLUSH]: { name: 'Group Heal', effect: 'group_heal', icon: 'spell_holy_circleofrenewal' },
-      [HAND_RANKINGS.STRAIGHT]: { name: 'Chain Heal', effect: 'chain_heal', icon: 'spell_nature_healingwavegreater' },
-      [HAND_RANKINGS.THREE_OF_A_KIND]: { name: 'Triple Healing', effect: 'triple_healing', icon: 'spell_holy_holybolt' },
-      [HAND_RANKINGS.FULL_HOUSE]: { name: 'Sustained Healing', effect: 'sustained_healing', icon: 'spell_holy_elunesgrace' },
-      [HAND_RANKINGS.ROYAL_FLUSH]: { name: 'Divine Intervention', effect: 'divine_intervention', icon: 'spell_holy_divineillumination' }
+      [HAND_RANKINGS.FLUSH]: { name: 'Group Heal', effect: 'group_heal', icon: 'Healing/Golden Heart' },
+      [HAND_RANKINGS.STRAIGHT]: { name: 'Chain Heal', effect: 'chain_heal', icon: 'Healing/Renewal' },
+      [HAND_RANKINGS.THREE_OF_A_KIND]: { name: 'Triple Healing', effect: 'triple_healing', icon: 'Healing/Golden Heart' },
+      [HAND_RANKINGS.FULL_HOUSE]: { name: 'Sustained Healing', effect: 'sustained_healing', icon: 'Healing/Healing Compass' },
+      [HAND_RANKINGS.ROYAL_FLUSH]: { name: 'Divine Intervention', effect: 'divine_intervention', icon: 'Radiant/Divine Blessing' }
     }
   },
   utility: {
     name: 'Utility',
-    icon: 'spell_nature_moonkey',
+    icon: 'Nature/Nature Natural',
     suitEffects: {
-      [CARD_SUITS.HEARTS]: { name: 'Charm', effect: 'charm', icon: 'spell_shadow_charm' },
-      [CARD_SUITS.DIAMONDS]: { name: 'Haste', effect: 'haste', icon: 'spell_nature_invisibility' },
-      [CARD_SUITS.CLUBS]: { name: 'Root', effect: 'root', icon: 'spell_nature_stranglevines' },
-      [CARD_SUITS.SPADES]: { name: 'Silence', effect: 'silence', icon: 'spell_shadow_impphaseshift' }
+      [CARD_SUITS.HEARTS]: { name: 'Charm', effect: 'charm', icon: 'Utility/Charm' },
+      [CARD_SUITS.DIAMONDS]: { name: 'Haste', effect: 'haste', icon: 'Utility/Speed Dash' },
+      [CARD_SUITS.CLUBS]: { name: 'Root', effect: 'root', icon: 'Nature/Nature Natural' },
+      [CARD_SUITS.SPADES]: { name: 'Silence', effect: 'silence', icon: 'Utility/Stun' }
     },
     rankEffects: {
-      number: { name: 'Duration Scaling', effect: 'duration_scaling', icon: 'spell_nature_timestop' },
-      jack: { name: 'Area Effect', effect: 'area_effect', icon: 'spell_nature_starfall' },
-      queen: { name: 'Double Duration', effect: 'double_duration', icon: 'spell_nature_enchantarmor' },
-      king: { name: 'Control Enhancement', effect: 'control_enhancement', icon: 'spell_frost_wizardmark' },
-      ace: { name: 'Immunity', effect: 'immunity', icon: 'spell_holy_blessingofprotection' }
+      number: { name: 'Duration Scaling', effect: 'duration_scaling', icon: 'Utility/Rest' },
+      jack: { name: 'Area Effect', effect: 'area_effect', icon: 'Nature/Nature Natural' },
+      queen: { name: 'Double Duration', effect: 'double_duration', icon: 'Healing/Renewal' },
+      king: { name: 'Control Enhancement', effect: 'control_enhancement', icon: 'Frost/Dripping Ice' },
+      ace: { name: 'Immunity', effect: 'immunity', icon: 'Utility/Golden Shield' }
     },
     handEffects: {
-      [HAND_RANKINGS.FLUSH]: { name: 'Group Buff', effect: 'group_buff', icon: 'spell_holy_prayerofspirit' },
-      [HAND_RANKINGS.STRAIGHT]: { name: 'Combo Effect', effect: 'combo_effect', icon: 'ability_rogue_shadowstep' },
-      [HAND_RANKINGS.TWO_PAIR]: { name: 'Dual Effect', effect: 'dual_effect', icon: 'spell_nature_lightning' },
-      [HAND_RANKINGS.FULL_HOUSE]: { name: 'Major Control', effect: 'major_control', icon: 'spell_shadow_mindcontrol' },
-      [HAND_RANKINGS.ROYAL_FLUSH]: { name: 'Total Dominance', effect: 'total_dominance', icon: 'spell_arcane_mindmastery' }
+      [HAND_RANKINGS.FLUSH]: { name: 'Group Buff', effect: 'group_buff', icon: 'Healing/Golden Heart' },
+      [HAND_RANKINGS.STRAIGHT]: { name: 'Combo Effect', effect: 'combo_effect', icon: 'Utility/Speed Dash' },
+      [HAND_RANKINGS.TWO_PAIR]: { name: 'Dual Effect', effect: 'dual_effect', icon: 'Lightning/Lightning Bolt' },
+      [HAND_RANKINGS.FULL_HOUSE]: { name: 'Major Control', effect: 'major_control', icon: 'Shadow.png' },
+      [HAND_RANKINGS.ROYAL_FLUSH]: { name: 'Total Dominance', effect: 'total_dominance', icon: 'Arcane/Magical Sword' }
     }
   }
 };
@@ -353,17 +353,17 @@ const CardSelector = ({ effectType = 'damage', effectId = '', onConfigUpdate = n
     if (availableEffect) {
       // Default icon mapping
       const iconMap = {
-        'damage': 'spell_fire_fireball02',
-        'healing': 'spell_holy_flashheal',
-        'buff': 'spell_holy_blessingofagility',
-        'debuff': 'spell_shadow_curseofsargeras',
-        'utility': 'spell_nature_moonkey',
-        'control': 'spell_frost_chainsofice',
-        'summoning': 'spell_shadow_summonvoidwalker',
-        'transformation': 'spell_nature_polymorph'
+        'damage': 'Fire/Swirling Fireball',
+        'healing': 'Healing/Golden Heart',
+        'buff': 'Radiant/Radiant Aura',
+        'debuff': 'Necrotic/Necrotic Skull',
+        'utility': 'Nature/Nature Natural',
+        'control': 'Frost/Dripping Ice',
+        'summoning': 'Utility/Summon Minion',
+        'transformation': 'Utility/Resize'
       };
 
-      return iconMap[effectId] || 'inv_misc_questionmark';
+      return iconMap[effectId] || 'Utility/Utility';
     }
 
     // Fallback to preset icons
@@ -375,7 +375,7 @@ const CardSelector = ({ effectType = 'damage', effectId = '', onConfigUpdate = n
     }, []);
 
     const foundEffect = allEffects.find(e => e.effect === effectId);
-    return foundEffect ? foundEffect.icon : 'inv_misc_questionmark';
+    return foundEffect ? foundEffect.icon : 'Utility/Utility';
   };
 
   // Render suit tabs for card selection

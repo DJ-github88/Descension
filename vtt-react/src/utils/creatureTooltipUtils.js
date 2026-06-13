@@ -138,6 +138,15 @@ export const formatDamageType = (damageType) => {
   if (!damageType) return '';
   
   const typeColors = {
+    physical: '#795548',
+    ember: '#FF5722',
+    rime: '#03A9F4',
+    storm: '#FFEB3B',
+    arcane: '#9C27B0',
+    primal: '#4CAF50',
+    blight: '#4A148C',
+    wyrd: '#E91E63',
+    healing: '#2E8B57',
     slashing: '#B71C1C',
     piercing: '#D32F2F',
     bludgeoning: '#E64A19',
@@ -148,13 +157,11 @@ export const formatDamageType = (damageType) => {
     acid: '#8BC34A',
     poison: '#4CAF50',
     force: '#673AB7',
-    arcane: '#9C27B0',
     psychic: '#E91E63',
     radiant: '#FFD700',
     necrotic: '#4A148C',
     holy: '#FFD700',
-    shadow: '#263238',
-    physical: '#795548'
+    shadow: '#263238'
   };
   
   return {

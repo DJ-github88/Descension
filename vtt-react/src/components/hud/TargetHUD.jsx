@@ -795,14 +795,26 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const partyState = usePartyStore.getState();
                 const member = partyState.partyMembers.find(m => m.id === memberId);
                 if (member && member.character?.classResource) {
+                    let updatedClassResource;
+                    const existingField = member.character.classResource[field];
+                    const isNestedField = existingField && typeof existingField === 'object' && !Array.isArray(existingField) && 'current' in existingField && (value === null || typeof value !== 'object');
+                    if (isNestedField) {
+                        updatedClassResource = {
+                            ...member.character.classResource,
+                            [field]: { ...existingField, current: value },
+                            lastUpdate: Date.now()
+                        };
+                    } else {
+                        updatedClassResource = {
+                            ...member.character.classResource,
+                            [field]: value,
+                            lastUpdate: Date.now()
+                        };
+                    }
                     updatePartyMember(memberId, {
                         character: {
                             ...member.character,
-                            classResource: {
-                                ...member.character.classResource,
-                                [field]: value,
-                                lastUpdate: Date.now()
-                            }
+                            classResource: updatedClassResource
                         }
                     });
                 }

@@ -9,7 +9,7 @@ export const GAMBIT_DATA = {
     title: "The Wagering Architect",
     subtitle: "The Probability Siphon",
     utility: "Absolute d20 outcome manipulation through dual resource systems. They combine stolen Fortune Points with pre-drawn Fate Reserve cards to nudge, override, or replace any active roll on the battlefield. No other class wields both real-time nudging and hard-coded card overrides simultaneously.",
-    fatalFlaw: "Dual collapse conditions. Fortune depletion triggers Cosmic Bankruptcy (2d10 necrotic, 100% vulnerability). Karmic Debt overflow triggers Tapestry Collapse (6d10 psychic, incapacitation, Fortune emptied, max HP reduced). Every resource gained costs HP through Debtor's Tax, and every resource spent deals psychic damage through Calculated Risk. They possess zero defensive multi-target tools and are uniquely vulnerable to sustained physical and spirit-focused attacks."
+    fatalFlaw: "Dual collapse conditions. Fortune depletion triggers Cosmic Bankruptcy (2d10 necrotic, 100% vulnerability). Karmic Debt overflow triggers Tapestry Collapse (6d10 psychic, incapacitation, Fortune emptied, max HP reduced). Every resource gained costs HP through Debtor's Tax, and every resource spent deals wyrd damage through Calculated Risk. They possess zero defensive multi-target tools and are uniquely vulnerable to sustained physical and spirit-focused attacks."
   },
 
   spellPools: {
@@ -46,7 +46,7 @@ Flip the coin. Read the card. The universe is a game, and the board is yours to 
 
 **Core Mechanic 2 (Fate Reserve Override)**: You draw rune-etched cards and bank them in your Fate Reserve. You spend these banked cards to hard-override d20 rolls, replacing dice results with pre-drawn card values. Face cards and Aces map to high values, numbered cards to their face value.
 
-**Dual Cost System**: Every FP gained costs 1 unpreventable HP damage (Debtor's Tax). Every FP spent deals 1d4 psychic damage per point (Calculated Risk, irreducible). Every card override generates Karmic Debt, which stacks vulnerability and arcane strain.
+**Dual Cost System**: Every FP gained costs 1 unpreventable HP damage (Debtor's Tax). Every FP spent deals 1d4 wyrd damage per point (Calculated Risk, irreducible). Every card override generates Karmic Debt, which stacks vulnerability and arcane strain.
 
 **Two Collapse Conditions**: Fortune hitting 0 triggers Cosmic Bankruptcy. Karmic Debt hitting 13 triggers Tapestry Collapse. Both are devastating and can end a fight instantly.
 
@@ -110,7 +110,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
       title: "Combat Role",
       content: `**Why Bring Me?**: Unmatched dual-axis probability control. The Gambit possesses both the real-time roll nudging of Fortune Points and the absolute d20 override power of Fate Reserve cards. They can squeeze a close failure into a success with FP nudging, or bypass the roll entirely with a hard-coded card override. They are the ultimate mathematical safety net and the most devastating high-stakes payload on the field.
 
-**The Fatal Flaw (Dual Collapse)**: You are at risk from two directions simultaneously. Fortune hitting 0 triggers Cosmic Bankruptcy (2d10 necrotic damage, 100 percent Spirit/shadow vulnerability for 2 rounds). Karmic Debt hitting 13 triggers Tapestry Collapse (6d10 irreducible psychic damage, 1-round incapacitation, Fortune emptied, max HP reduced by 5 until long rest). Managing both resource pools under combat pressure is the defining challenge of the class.`,
+**The Fatal Flaw (Dual Collapse)**: You are at risk from two directions simultaneously. Fortune hitting 0 triggers Cosmic Bankruptcy (2d10 blight damage, 100 percent Spirit/shadow vulnerability for 2 rounds). Karmic Debt hitting 13 triggers Tapestry Collapse (6d10 irreducible wyrd damage, 1-round incapacitation, Fortune emptied, max HP reduced by 5 until long rest). Managing both resource pools under combat pressure is the defining challenge of the class.`,
     },
 
     playstyle: {
@@ -121,7 +121,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
 - Start combat with 1 Fortune Point and 0 Karmic Debt.
 - Use Gambler spells (Lucky Strike, Lucky Toss, Dice Dart) to generate Fortune Points, paying 1 HP per point via Debtor's Tax.
 - Use Fate Weaver spells (Fate Reserve, Arcane Dirge) to draw and bank cards for hard overrides, generating Karmic Debt.
-- Spend Fortune Points to nudge rolls (1d4 psychic damage per point, irreducible).
+- Spend Fortune Points to nudge rolls (1d4 wyrd damage per point, irreducible).
 - Spend Fate Reserve cards to override rolls entirely (generates Karmic Debt per override).
 
 **Managing the Dual Void**:
@@ -152,13 +152,13 @@ You roll 4d12 bone dice: two pairs emerge. The damage doubles.
 **Turn 3: The Nudge and the Wager (FP: 4 to 2, HP: 41 to 39, Debt: 4)**
 *Your ally's spell attack rolls a 12 against the inquisitor's Spirit save DC of 14.*
 You spend 2 Fortune Points to nudge the roll to 14. Exact hit.
-**Calculated Risk**: 2d4 psychic damage lances through your skull.
+**Calculated Risk**: 2d4 wyrd damage lances through your skull.
 
 **Turn 4: The Push (FP: 2 to 0, HP: 39 to Bankruptcy, Debt: 4 to 7)**
 *Desperate, you cast Arcane Dirge, drawing 5 cards for a poker hand: Two Pair.*
-**The Damage**: 2d8 psychic damage to the inquisitor. Debt climbs to 7.
+**The Damage**: 2d8 wyrd damage to the inquisitor. Debt climbs to 7.
 Your Fortune hits 0.
-**Cosmic Bankruptcy**: 2d10 necrotic damage. 100 percent Spirit vulnerability for 2 rounds. You are bleeding from both ledgers now.`,
+**Cosmic Bankruptcy**: 2d10 blight damage. 100 percent Spirit vulnerability for 2 rounds. You are bleeding from both ledgers now.`,
     },
   },
 
@@ -181,7 +181,7 @@ Your Fortune hits 0.
       {
         title: "Calculated Risk (Fortune Spending Cost)",
         stats: "1d4 Psychic per FP Spent",
-        details: "Spending Fortune Points to nudge rolls deals 1d4 psychic damage per point spent. This damage cannot be reduced or prevented. Manipulating fate demands agonizing mental exertion.",
+        details: "Spending Fortune Points to nudge rolls deals 1d4 wyrd damage per point spent. This damage cannot be reduced or prevented. Manipulating fate demands agonizing mental exertion.",
       },
       {
         title: "Karmic Debt (Secondary)",
@@ -191,7 +191,7 @@ Your Fortune hits 0.
       {
         title: "Tapestry Collapse (Karmic Debt Overflow)",
         stats: "Triggers at 13 Stacks",
-        details: "6d10 irreducible psychic damage. 1-round incapacitation. Fortune pool completely emptied. Maximum HP reduced by 5 until long rest. The ultimate price of pushing destiny too far.",
+        details: "6d10 irreducible wyrd damage. 1-round incapacitation. Fortune pool completely emptied. Maximum HP reduced by 5 until long rest. The ultimate price of pushing destiny too far.",
       },
     ],
 
@@ -219,7 +219,7 @@ Your Fortune hits 0.
 
     overheatRules: {
       title: "Dual Collapse Conditions",
-      content: "The Gambit faces two catastrophic failure states. Cosmic Bankruptcy triggers when Fortune Points drop to 0: 2d10 necrotic damage, 100 percent vulnerability to Spirit and shadow damage for 2 rounds, inability to generate Fortune Points. Tapestry Collapse triggers when Karmic Debt reaches 13: 6d10 irreducible psychic damage, 1-round incapacitation, Fortune pool emptied, maximum HP reduced by 5 until long rest. A Gambit who collapses from both systems simultaneously is effectively removed from combat.",
+      content: "The Gambit faces two catastrophic failure states. Cosmic Bankruptcy triggers when Fortune Points drop to 0: 2d10 blight damage, 100 percent vulnerability to Spirit and shadow damage for 2 rounds, inability to generate Fortune Points. Tapestry Collapse triggers when Karmic Debt reaches 13: 6d10 irreducible wyrd damage, 1-round incapacitation, Fortune pool emptied, maximum HP reduced by 5 until long rest. A Gambit who collapses from both systems simultaneously is effectively removed from combat.",
     },
 
     rageStatesTable: {
@@ -228,7 +228,7 @@ Your Fortune hits 0.
       rows: [
         ["Bust / Empty", "0 FP", "No nudging. Cosmic Bankruptcy triggers.", "Disadvantage on all gambling rolls. Vulnerability active."],
         ["Strapped", "1-3 FP", "Basic nudging. Can modify rolls by plus/minus 1-3.", "Debtor's Tax on every gain. Playing it cautious."],
-        ["Flush", "4-8 FP", "Mid-tier wagers unlocked. Consistent roll control.", "Calculated Risk psychic damage scales sharply."],
+        ["Flush", "4-8 FP", "Mid-tier wagers unlocked. Consistent roll control.", "Calculated Risk wyrd damage scales sharply."],
         ["High Roller", "9-14 FP", "Premium wagers and ultimate abilities available.", "Self-damage per cast increases. One bad roll from Bust."],
         ["All-In", "15-21 FP", "Maximum nudging power. All abilities available.", "Extreme risk of catastrophic loss. Every FP spent hurts."],
       ],
@@ -300,7 +300,7 @@ Your Fortune hits 0.
         ],
         specPassive: {
           name: "Balanced Ledger",
-          description: "Your Calculated Risk damage is fixed at 1 psychic damage per FP spent instead of 1d4. When an enemy within 60 feet rolls a saving throw, you may peek at the top card of your deck. If it is a face card, the enemy has disadvantage on the save. Maximum Fortune: 13, Maximum Karmic Debt: 10.",
+          description: "Your Calculated Risk damage is fixed at 1 wyrd damage per FP spent instead of 1d4. When an enemy within 60 feet rolls a saving throw, you may peek at the top card of your deck. If it is a face card, the enemy has disadvantage on the save. Maximum Fortune: 13, Maximum Karmic Debt: 10.",
         },
       },
       {
@@ -334,7 +334,7 @@ Your Fortune hits 0.
         color: "#8e44ad",
         theme: "Thread Manipulation",
         description: "Obsessive readers who have trained their senses to physically feel the vibrating strings of destiny, channeling them through focused card manipulation and damage redirection. They combine the Gambler's deck control with the Fate Weaver's thread binding.",
-        playstyle: "Strategic deck siphoning and damage redirection. You drag enemies into high-stakes games, link targets together to share damage, and turn Karmic Debt stacks into bonus necrotic damage.",
+        playstyle: "Strategic deck siphoning and damage redirection. You drag enemies into high-stakes games, link targets together to share damage, and turn Karmic Debt stacks into bonus blight damage.",
         strengths: [
           "Maximum Fortune capacity set to 15",
           "Maximum Karmic Debt set to 13",
@@ -349,7 +349,7 @@ Your Fortune hits 0.
         ],
         specPassive: {
           name: "Loaded Deck",
-          description: "Whenever you draw from your magical deck, draw two cards and choose which to resolve. While you have 5 or more stacks of Karmic Debt, your spell attacks deal bonus necrotic damage equal to your current debt level. You may link two creatures within 30 feet to share damage. Maximum Fortune: 15, Maximum Karmic Debt: 13.",
+          description: "Whenever you draw from your magical deck, draw two cards and choose which to resolve. While you have 5 or more stacks of Karmic Debt, your spell attacks deal bonus blight damage equal to your current debt level. You may link two creatures within 30 feet to share damage. Maximum Fortune: 15, Maximum Karmic Debt: 13.",
         },
       },
     ],
@@ -496,7 +496,7 @@ Your Fortune hits 0.
 
     { id: "gambler_dice_dart",
       name: "Dice Dart",
-      description: "Throw a magically weighted bone die at a creature. Deals 1d8 psychic damage. Generates 1 Fortune Point, inflicting 1 HP damage to you. You can spend up to 3 Fortune Points to add +1d6 psychic damage per point, taking 1d4 psychic damage per point spent.",
+      description: "Throw a magically weighted bone die at a creature. Deals 1d8 wyrd damage. Generates 1 Fortune Point, inflicting 1 HP damage to you. You can spend up to 3 Fortune Points to add +1d6 wyrd damage per point, taking 1d4 wyrd damage per point spent.",
       level: 1,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -531,7 +531,7 @@ Your Fortune hits 0.
         fortunePoints: {
           generates: 1,
           optionalCost: "1-3 FP",
-          description: "Generates 1 FP (1 HP cost). You can spend 1-3 FP to add +1d6 psychic damage per point (1d4 psychic damage per point spent).",
+          description: "Generates 1 FP (1 HP cost). You can spend 1-3 FP to add +1d6 wyrd damage per point (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "dice_throw",
@@ -615,7 +615,7 @@ Your Fortune hits 0.
 
     { id: "gambler_calculated_risk",
       name: "Calculated Risk",
-      description: "Every twist of probability has a price. When you spend Fortune Points to modify an active d20 roll, intense mental feedback tears through your concentration. You suffer 1d4 psychic damage per Fortune Point spent. This damage cannot be reduced or prevented. Manipulating fate demands exertion.",
+      description: "Every twist of probability has a price. When you spend Fortune Points to modify an active d20 roll, intense mental feedback tears through your concentration. You suffer 1d4 wyrd damage per Fortune Point spent. This damage cannot be reduced or prevented. Manipulating fate demands exertion.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Slashing/Viking Axes",
@@ -636,8 +636,8 @@ Your Fortune hits 0.
           {
             id : "calculated_risk_debuff",
             name: "Calculated Risk",
-            description: "Suffer 1d4 psychic damage per Fortune Point spent to nudge rolls.",
-            mechanicsText: "Suffer 1d4 psychic damage per FP spent on nudging d20 rolls. Cannot be reduced or prevented.",
+            description: "Suffer 1d4 wyrd damage per Fortune Point spent to nudge rolls.",
+            mechanicsText: "Suffer 1d4 wyrd damage per FP spent on nudging d20 rolls. Cannot be reduced or prevented.",
           },
         ],
         durationValue: 0,
@@ -692,7 +692,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_coin_toss",
       name: "Coin Toss",
-      description: "Flip a heavy iron coin wreathed in probability energy. Heads: gain a +2 bonus to all attack rolls and saving throws for 1 hour. Tails: suffer a -2 penalty to all attack rolls and saving throws for 1 hour. Generates 1 Fortune Point (inflicting 1 HP damage). You can spend 1 Fortune Point (taking 1d4 psychic damage) to force the coin to flip its result.",
+      description: "Flip a heavy iron coin wreathed in probability energy. Heads: gain a +2 bonus to all attack rolls and saving throws for 1 hour. Tails: suffer a -2 penalty to all attack rolls and saving throws for 1 hour. Generates 1 Fortune Point (inflicting 1 HP damage). You can spend 1 Fortune Point (taking 1d4 wyrd damage) to force the coin to flip its result.",
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -756,7 +756,7 @@ Your Fortune hits 0.
         fortunePoints: {
           generates: 1,
           optionalCost: "1 FP",
-          description: "Generates 1 FP on cast (1 HP damage). Spend 1 FP to flip the result (1d4 psychic damage spent).",
+          description: "Generates 1 FP on cast (1 HP damage). Spend 1 FP to flip the result (1d4 wyrd damage spent).",
         },
         gamblingGame: {
           gameType: "coin_flip",
@@ -884,7 +884,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_taunt_the_odds",
       name: "Taunt the Odds",
-      description: "Challenge the math of the universe. Predict a number between 1 and 20, then roll a d20. If your roll is within 3 of your guess, deal 3d10 psychic damage to a target. If you are off by 4 or more, the probability backfires, dealing 1d10 psychic damage to you. You can spend Fortune Points to nudge the d20 roll toward your guess (1d4 psychic damage per point). Gain 1 FP on success (1 HP damage).",
+      description: "Challenge the math of the universe. Predict a number between 1 and 20, then roll a d20. If your roll is within 3 of your guess, deal 3d10 wyrd damage to a target. If you are off by 4 or more, the probability backfires, dealing 1d10 wyrd damage to you. You can spend Fortune Points to nudge the d20 roll toward your guess (1d4 wyrd damage per point). Gain 1 FP on success (1 HP damage).",
       level: 3,
       spellType: "ACTION",
       icon: "Radiant/Radiant Warrior",
@@ -919,7 +919,7 @@ Your Fortune hits 0.
         fortunePoints: {
           generates: 1,
           optionalCost: "1-5 FP",
-          description: "Generates 1 FP on success (1 HP cost). Spend Fortune Points to nudge your d20 roll toward your guess (1d4 psychic damage per point spent).",
+          description: "Generates 1 FP on success (1 HP cost). Spend Fortune Points to nudge your d20 roll toward your guess (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "number_guess",
@@ -981,7 +981,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_double_or_nothing",
       name: "Double or Nothing",
-      description: "Make an all-or-nothing gamble on your physical limits. Make a Unified Strike roll against an enemy. On a hit: it becomes an automatic critical hit dealing double damage (4d10 + Charisma force). On a miss: you suffer the kinetic recoil yourself, taking the damage instead. If this reduces you to 0 HP, you immediately plunge into Cosmic Bankruptcy. Spend Fortune Points to nudge the strike roll (1d4 psychic damage per point spent).",
+      description: "Make an all-or-nothing gamble on your physical limits. Make a Unified Strike roll against an enemy. On a hit: it becomes an automatic critical hit dealing double damage (4d10 + Charisma force). On a miss: you suffer the kinetic recoil yourself, taking the damage instead. If this reduces you to 0 HP, you immediately plunge into Cosmic Bankruptcy. Spend Fortune Points to nudge the strike roll (1d4 wyrd damage per point spent).",
       level: 4,
       spellType: "ACTION",
       icon: "Utility/Empowered Warrior",
@@ -1016,7 +1016,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           optionalCost: "1-10 FP",
-          description: "Spend Fortune Points to nudge the attack roll toward hitting (1d4 psychic damage per point spent).",
+          description: "Spend Fortune Points to nudge the attack roll toward hitting (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "double_down",
@@ -1038,7 +1038,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_hot_streak",
       name: "Hot Streak",
-      description: "Let the probability fever take hold. Spend 4 Fortune Points (taking 4d4 psychic damage) to accelerate your stolen probability. For 1 round, each successful attack or spell cast grants a stacking +1d6 force damage to your next strike, up to a maximum of 4 stacks. Each stack siphoned generates 1 FP (and deals 1 HP damage).",
+      description: "Let the probability fever take hold. Spend 4 Fortune Points (taking 4d4 wyrd damage) to accelerate your stolen probability. For 1 round, each successful attack or spell cast grants a stacking +1d6 force damage to your next strike, up to a maximum of 4 stacks. Each stack siphoned generates 1 FP (and deals 1 HP damage).",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Enveloping Fire",
@@ -1079,7 +1079,7 @@ Your Fortune hits 0.
         fortunePoints: {
           cost: 4,
           generates: "up_to_4",
-          description: "Costs 4 FP to cast (4d4 psychic damage). Generates 1 FP (1 HP damage) per stack built during the duration.",
+          description: "Costs 4 FP to cast (4d4 wyrd damage). Generates 1 FP (1 HP damage) per stack built during the duration.",
         },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -1088,7 +1088,7 @@ Your Fortune hits 0.
 
     { id: "gambler_mirage_flip",
       name: "Mirage Flip",
-      description: "As a reaction when an attack lands on a target within 30ft, flip a probability-charged coin. Heads: double the damage dealt to the target. Tails: nullify the damage entirely, but suffer 2d6 psychic damage as the probability shockwave rebounds through your concentration. Spend 1 FP (1d4 psychic damage) to force heads.",
+      description: "As a reaction when an attack lands on a target within 30ft, flip a probability-charged coin. Heads: double the damage dealt to the target. Tails: nullify the damage entirely, but suffer 2d6 wyrd damage as the probability shockwave rebounds through your concentration. Spend 1 FP (1d4 wyrd damage) to force heads.",
       level: 5,
       spellType: "REACTION",
       icon: "Utility/Utility",
@@ -1133,8 +1133,8 @@ Your Fortune hits 0.
           {
             id : "mirage_flip_nullify",
             name: "Mirage Flip Ã¢â‚¬â€ Nullified Damage",
-            description: "Triggering attack's damage is reduced to 0, but you suffer 2d6 psychic damage.",
-            mechanicsText: "Nullify triggering attack's damage, but suffer 2d6 psychic damage as probability feedback.",
+            description: "Triggering attack's damage is reduced to 0, but you suffer 2d6 wyrd damage.",
+            mechanicsText: "Nullify triggering attack's damage, but suffer 2d6 wyrd damage as probability feedback.",
           },
         ],
         durationValue: 1,
@@ -1144,11 +1144,11 @@ Your Fortune hits 0.
       specialMechanics: {
         coinFlip: {
           heads: { effect: "double_damage", description: "Doubles the damage of the triggering attack." },
-          tails: { effect: "nullify_damage", description: "Reduces triggering damage to 0, but inflicts 2d6 psychic damage to you." },
+          tails: { effect: "nullify_damage", description: "Reduces triggering damage to 0, but inflicts 2d6 wyrd damage to you." },
         },
         fortunePoints: {
           optionalCost: "1 FP",
-          description: "Spend 1 FP to force heads (1d4 psychic damage spent).",
+          description: "Spend 1 FP to force heads (1d4 wyrd damage spent).",
         },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -1157,7 +1157,7 @@ Your Fortune hits 0.
 
     { id: "gambler_fate_reroll",
       name: "Fate Reroll",
-      description: "Pull the threads of probability with maximum exertion. Spend 4 Fortune Points (4d4 psychic damage) to force all your d20 rolls this turn to be rolled with advantage. Taking this loan of luck leaves your nerves rattled; you have disadvantage on all saving throws until the start of your next turn.",
+      description: "Pull the threads of probability with maximum exertion. Spend 4 Fortune Points (4d4 wyrd damage) to force all your d20 rolls this turn to be rolled with advantage. Taking this loan of luck leaves your nerves rattled; you have disadvantage on all saving throws until the start of your next turn.",
       level: 5,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1211,7 +1211,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           cost: 4,
-          description: "Costs 4 FP (4d4 psychic damage) to guarantee advantage on all d20 rolls for the turn.",
+          description: "Costs 4 FP (4d4 wyrd damage) to guarantee advantage on all d20 rolls for the turn.",
         },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
@@ -1223,7 +1223,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_house_advantage",
       name: "House Advantage",
-      description: "The cosmic house always wins. Siphon the luck of all nearby enemies. All enemies in a 20ft radius make a Spirit save (DC 16). On a fail, their probability is drained, giving them disadvantage on all attack rolls and saving throws for 3 rounds. Meanwhile, you gain advantage on all rolls for 3 rounds. Costs 5 Fortune Points (5d4 psychic damage) to activate.",
+      description: "The cosmic house always wins. Siphon the luck of all nearby enemies. All enemies in a 20ft radius make a Spirit save (DC 16). On a fail, their probability is drained, giving them disadvantage on all attack rolls and saving throws for 3 rounds. Meanwhile, you gain advantage on all rolls for 3 rounds. Costs 5 Fortune Points (5d4 wyrd damage) to activate.",
       level: 6,
       spellType: "ACTION",
       icon: "Psychic/Mind Roar",
@@ -1291,7 +1291,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           cost: 5,
-          description: "Spend 5 FP (5d4 psychic damage) to steal luck from all nearby foes.",
+          description: "Spend 5 FP (5d4 wyrd damage) to steal luck from all nearby foes.",
         },
       },
       tags: ["debuff", "buff", "luck", "gambit"],
@@ -1374,7 +1374,7 @@ Your Fortune hits 0.
 
     { id: "gambler_poker_face",
       name: "Poker Face",
-      description: "Project an aura of absolute, impenetrable calm, becoming entirely immune to charm, fear, and mind-reading effects for 5 rounds. Costs 5 Fortune Points (5d4 psychic damage) to activate.",
+      description: "Project an aura of absolute, impenetrable calm, becoming entirely immune to charm, fear, and mind-reading effects for 5 rounds. Costs 5 Fortune Points (5d4 wyrd damage) to activate.",
       level: 6,
       spellType: "ACTION",
       icon: "General/Fiery Rage",
@@ -1415,7 +1415,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           cost: 5,
-          description: "Spend 5 FP (5d4 psychic damage) to become mentally impenetrable.",
+          description: "Spend 5 FP (5d4 wyrd damage) to become mentally impenetrable.",
         },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -1427,7 +1427,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_death_roll",
       name: "Death Roll",
-      description: "Force an enemy into a competitive match of Death Roll. Unwilling targets make a Spirit save (DC 15) to resist. You both take turns rolling a d20. The lower roll becomes the new ceiling. The first to roll over the current ceiling loses, taking 1-10d10 psychic damage (winner's choice) and becoming stunned for 1 round. You may spend Fortune Points mid-game to stay under the ceiling (1d4 psychic damage per FP spent).",
+      description: "Force an enemy into a competitive match of Death Roll. Unwilling targets make a Spirit save (DC 15) to resist. You both take turns rolling a d20. The lower roll becomes the new ceiling. The first to roll over the current ceiling loses, taking 1-10d10 wyrd damage (winner's choice) and becoming stunned for 1 round. You may spend Fortune Points mid-game to stay under the ceiling (1d4 wyrd damage per FP spent).",
       level: 7,
       spellType: "ACTION",
       icon: "Necrotic/Demonic Empowerment",
@@ -1484,11 +1484,11 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           optionalCost: "1-10 FP",
-          description: "Spend FP during the roll sequence to stay under the ceiling (1d4 psychic damage per point spent).",
+          description: "Spend FP during the roll sequence to stay under the ceiling (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "death_roll",
-          description: "A competitive d20 rolling match to establish a shrinking ceiling. The loser takes massive psychic damage.",
+          description: "A competitive d20 rolling match to establish a shrinking ceiling. The loser takes massive wyrd damage.",
           resolution: "DICE",
           rules: { diceType: "d20", startCeiling: 20 },
         },
@@ -1499,7 +1499,7 @@ Your Fortune hits 0.
 
     { id: "gambler_all_or_nothing",
       name: "All or Nothing",
-      description: "Flip a high-stakes coin wreathed in searing cosmic force. Heads: deal 12d6 force damage to all enemies in a 30ft radius, and stun them for 1 round (Spirit DC 16 save negates). Tails: the spell backfires, dealing 6d6 force damage to you. You may spend 1 Fortune Point (1d4 psychic damage) to flip the result. Generates 3 FP on heads (inflicting 3 HP damage).",
+      description: "Flip a high-stakes coin wreathed in searing cosmic force. Heads: deal 12d6 force damage to all enemies in a 30ft radius, and stun them for 1 round (Spirit DC 16 save negates). Tails: the spell backfires, dealing 6d6 force damage to you. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the result. Generates 3 FP on heads (inflicting 3 HP damage).",
       level: 7,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1558,7 +1558,7 @@ Your Fortune hits 0.
           cost: 6,
           generates: 3,
           optionalCost: "1 FP",
-          description: "Costs 6 FP to cast. Generates 3 FP on heads (3 HP damage). Spend 1 FP to flip the result (1d4 psychic damage).",
+          description: "Costs 6 FP to cast. Generates 3 FP on heads (3 HP damage). Spend 1 FP to flip the result (1d4 wyrd damage).",
         },
         gamblingGame: {
           gameType: "coin_flip",
@@ -1580,7 +1580,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_jackpot",
       name: "Jackpot",
-      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 necrotic damage, go Bust), 4-12 (Bad Luck: take 2d6 force damage, gain 1 FP), 13-25 (Small Win: deal 2d10 force damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 force damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 force damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 radiant damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 radiant damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 radiant damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Suffer 1 HP damage per FP gained. Spend FP to adjust individual dice by Ã‚Â±1 per point (1d4 psychic damage per FP spent).",
+      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 force damage, gain 1 FP), 13-25 (Small Win: deal 2d10 force damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 force damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 force damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Suffer 1 HP damage per FP gained. Spend FP to adjust individual dice by Ã‚Â±1 per point (1d4 wyrd damage per FP spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1622,7 +1622,7 @@ Your Fortune hits 0.
         fortunePoints: {
           generates: "variable",
           optionalCost: "1-10 FP",
-          description: "Siphons 1-5 FP depending on win tier (1 HP cost per FP gained). Spend FP to nudge individual dice results (1d4 psychic damage per point spent).",
+          description: "Siphons 1-5 FP depending on win tier (1 HP cost per FP gained). Spend FP to nudge individual dice results (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "slot_machine",
@@ -1647,7 +1647,7 @@ Your Fortune hits 0.
 
     { id: "gambler_weighted_dice",
       name: "Weighted Dice",
-      description: "Cheat the cosmos entirely. Deal 14d6 force damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chanceÃ¢â‚¬â€because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 psychic damage per point spent).",
+      description: "Cheat the cosmos entirely. Deal 14d6 force damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chanceÃ¢â‚¬â€because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1682,7 +1682,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           cost: 7,
-          description: "Spend up to 7 FP (1d4 psychic damage per FP spent) to force d6s to roll 6.",
+          description: "Spend up to 7 FP (1d4 wyrd damage per FP spent) to force d6s to roll 6.",
         },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
@@ -1694,7 +1694,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_high_roller",
       name: "High Roller",
-      description: "Wager everything on a single throw. Roll a d20. On a 15+, deal 18d6 + Charisma force damage to a single enemy. On a 6-14, deal half damage. On a 1-5, the probability violently backfires, dealing the full 18d6 + Charisma force damage to yourself. Spend Fortune Points to adjust the roll (1d4 psychic damage per point spent).",
+      description: "Wager everything on a single throw. Roll a d20. On a 15+, deal 18d6 + Charisma force damage to a single enemy. On a 6-14, deal half damage. On a 1-5, the probability violently backfires, dealing the full 18d6 + Charisma force damage to yourself. Spend Fortune Points to adjust the roll (1d4 wyrd damage per point spent).",
       level: 9,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1734,7 +1734,7 @@ Your Fortune hits 0.
         fortunePoints: {
           cost: 8,
           optionalCost: "1-10 FP",
-          description: "Costs 8 FP to cast. Spend FP to adjust your d20 roll (1d4 psychic damage per point spent).",
+          description: "Costs 8 FP to cast. Spend FP to adjust your d20 roll (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "high_card",
@@ -1815,7 +1815,7 @@ Your Fortune hits 0.
 
     { id: "gambler_fortune_reversal",
       name: "Fortune Reversal",
-      description: "A terrifying swap of probability and vitality. Flip a coin. Heads: swap your current HP percentage with a target enemy's HP percentage. Tails: the swap fails, but you learn their current and max HP and gain advantage on your next attack against them. You can spend 1 Fortune Point (1d4 psychic damage) to force the coin to flip its result.",
+      description: "A terrifying swap of probability and vitality. Flip a coin. Heads: swap your current HP percentage with a target enemy's HP percentage. Tails: the swap fails, but you learn their current and max HP and gain advantage on your next attack against them. You can spend 1 Fortune Point (1d4 wyrd damage) to force the coin to flip its result.",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Rewind Time",
@@ -1860,7 +1860,7 @@ Your Fortune hits 0.
         fortunePoints: {
           cost: 8,
           optionalCost: "1 FP",
-          description: "Costs 8 FP to cast. Spend 1 FP to force heads (1d4 psychic damage spent).",
+          description: "Costs 8 FP to cast. Spend 1 FP to force heads (1d4 wyrd damage spent).",
         },
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1872,7 +1872,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_all_in",
       name: "All-In",
-      description: "Wager your entire physical existence on a single d100 roll. Each Fortune Point spent (up to 10) shrinks the death window by 1%. At 0 FP spent: 1-50 (double your current HP), 51-90 (heal to full HP), 91-100 (drop to 0 HP and immediately plunge into Cosmic Bankruptcy). At 10 FP spent, the death window is eliminated entirely. Suffer Calculated Risk psychic damage for each FP spent.",
+      description: "Wager your entire physical existence on a single d100 roll. Each Fortune Point spent (up to 10) shrinks the death window by 1%. At 0 FP spent: 1-50 (double your current HP), 51-90 (heal to full HP), 91-100 (drop to 0 HP and immediately plunge into Cosmic Bankruptcy). At 10 FP spent, the death window is eliminated entirely. Suffer Calculated Risk wyrd damage for each FP spent.",
       level: 10,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1915,7 +1915,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           cost: 10,
-          description: "Spend up to 10 FP (1d4 psychic damage per FP spent) to shrink the death window by 1% per point.",
+          description: "Spend up to 10 FP (1d4 wyrd damage per FP spent) to shrink the death window by 1% per point.",
         },
         gamblingGame: {
           gameType: "d100_wager",
@@ -1930,7 +1930,7 @@ Your Fortune hits 0.
 
     { id: "gambler_divine_jackpot",
       name: "Divine Jackpot",
-      description: "Flip a coin wreathed in searing cosmic energy. Heads: deal 20d6 force damage to all enemies in a 60ft radius. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Tails: your systems overload and you take 20d6 force damage, but you survive at 1 HP with advantage on all rolls for 1 round. You may spend 1 Fortune Point (1d4 psychic damage) to flip the coin result.",
+      description: "Flip a coin wreathed in searing cosmic energy. Heads: deal 20d6 force damage to all enemies in a 60ft radius. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Tails: your systems overload and you take 20d6 force damage, but you survive at 1 HP with advantage on all rolls for 1 round. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the coin result.",
       level: 10,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1987,7 +1987,7 @@ Your Fortune hits 0.
         fortunePoints: {
           cost: 10,
           optionalCost: "1 FP",
-          description: "Costs 10 FP to cast. Spend 1 FP to flip the result (1d4 psychic damage spent).",
+          description: "Costs 10 FP to cast. Spend 1 FP to flip the result (1d4 wyrd damage spent).",
         },
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -2105,16 +2105,16 @@ Your Fortune hits 0.
         pokerHandScaling: {
           description: "Pairs high-risk rewards with Karmic Debt escalation.",
           hands: [
-            { name: "Royal Flush", damage: "12d10 necrotic", debtGain: 4, description: "Deals 12d10 necrotic damage + inflicts 4 debt. Absolute probability override." },
-            { name: "Straight Flush", damage: "10d10 necrotic", debtGain: 3, description: "Deals 10d10 necrotic damage + inflicts 3 debt." },
-            { name: "Four of a Kind", damage: "8d10 necrotic", debtGain: 3, description: "Deals 8d10 necrotic damage + inflicts 3 debt." },
-            { name: "Full House", damage: "6d10 necrotic", debtGain: 2, description: "Deals 6d10 necrotic damage + inflicts 2 debt." },
-            { name: "Flush", damage: "4d10 necrotic", debtGain: 2, description: "Deals 4d10 necrotic damage + inflicts 2 debt." },
-            { name: "Straight", damage: "3d10 necrotic", debtGain: 1, description: "Deals 3d10 necrotic damage + inflicts 1 debt." },
-            { name: "Three of a Kind", damage: "2d10 necrotic", debtGain: 1, description: "Deals 2d10 necrotic damage + inflicts 1 debt." },
-            { name: "Two Pair", damage: "2d8 psychic", debtGain: 1, description: "Deals 2d8 psychic damage + inflicts 1 debt." },
-            { name: "One Pair", damage: "1d8 psychic", debtGain: 1, description: "Deals 1d8 psychic damage + inflicts 1 debt." },
-            { name: "High Card", damage: "1d4 psychic", debtGain: 2, description: "Deals 1d4 psychic damage + inflicts 2 debt (the weak outcome strains your concentration severely)." }
+            { name: "Royal Flush", damage: "12d10 necrotic", debtGain: 4, description: "Deals 12d10 blight damage + inflicts 4 debt. Absolute probability override." },
+            { name: "Straight Flush", damage: "10d10 necrotic", debtGain: 3, description: "Deals 10d10 blight damage + inflicts 3 debt." },
+            { name: "Four of a Kind", damage: "8d10 necrotic", debtGain: 3, description: "Deals 8d10 blight damage + inflicts 3 debt." },
+            { name: "Full House", damage: "6d10 necrotic", debtGain: 2, description: "Deals 6d10 blight damage + inflicts 2 debt." },
+            { name: "Flush", damage: "4d10 necrotic", debtGain: 2, description: "Deals 4d10 blight damage + inflicts 2 debt." },
+            { name: "Straight", damage: "3d10 necrotic", debtGain: 1, description: "Deals 3d10 blight damage + inflicts 1 debt." },
+            { name: "Three of a Kind", damage: "2d10 necrotic", debtGain: 1, description: "Deals 2d10 blight damage + inflicts 1 debt." },
+            { name: "Two Pair", damage: "2d8 psychic", debtGain: 1, description: "Deals 2d8 wyrd damage + inflicts 1 debt." },
+            { name: "One Pair", damage: "1d8 psychic", debtGain: 1, description: "Deals 1d8 wyrd damage + inflicts 1 debt." },
+            { name: "High Card", damage: "1d4 psychic", debtGain: 2, description: "Deals 1d4 wyrd damage + inflicts 2 debt (the weak outcome strains your concentration severely)." }
           ]
         },
         threadsOfDestiny: {
@@ -2168,7 +2168,7 @@ Your Fortune hits 0.
       specialMechanics: {
         warOfWills: {
           description: "Compare one drawn card with target's drawn card. High card wins.",
-          failureOutcome: "You take 1d8 psychic damage and gain 1 stack of Karmic Debt."
+          failureOutcome: "You take 1d8 wyrd damage and gain 1 stack of Karmic Debt."
         }
       },
       cooldownConfig: {
@@ -2278,7 +2278,7 @@ Your Fortune hits 0.
 
     { id: "fate_lucky_strike",
       name: "Scythe of Destiny",
-      description: "Draw 1 card. Face/Ace: deal 2d8 psychic damage and gain critical threat on next attack. Numbered: deal 1d8 psychic and gain 1 Karmic Debt.",
+      description: "Draw 1 card. Face/Ace: deal 2d8 wyrd damage and gain critical threat on next attack. Numbered: deal 1d8 psychic and gain 1 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
       icon: "Slashing/Curved Scythe",
@@ -2530,7 +2530,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "draw-of-the-damned",
       name: "Arcane Blackjack",
-      description: "Force an enemy into a contest of probability. Draw cards trying to get as close to 21 as possible. Each drawn card deals 1d10 necrotic damage to the target. You may 'hit' up to 4 times. If your total exceeds 21, you bust: the target takes no further damage, you take 4d10 necrotic damage yourself, and you gain 3 Karmic Debt.",
+      description: "Force an enemy into a contest of probability. Draw cards trying to get as close to 21 as possible. Each drawn card deals 1d10 blight damage to the target. You may 'hit' up to 4 times. If your total exceeds 21, you bust: the target takes no further damage, you take 4d10 blight damage yourself, and you gain 3 Karmic Debt.",
       level: 3,
       spellType: "ACTION",
       icon: "Bludgeoning/Cranium Crush",
@@ -2583,7 +2583,7 @@ Your Fortune hits 0.
 
     { id: "echo-of-fate",
       name: "Sympathetic Link",
-      description: "Sever two probability threads and weave them together. Choose two creatures within 30 feet of each other. For the next 3 rounds, whenever the primary target takes damage, the bound target takes 50% of that damage as untreatable necrotic damage. Generating this link generates 2 Karmic Debt.",
+      description: "Sever two probability threads and weave them together. Choose two creatures within 30 feet of each other. For the next 3 rounds, whenever the primary target takes damage, the bound target takes 50% of that damage as untreatable blight damage. Generating this link generates 2 Karmic Debt.",
       level: 3,
       spellType: "ACTION",
       icon: "Utility/Chained",
@@ -2738,7 +2738,7 @@ Your Fortune hits 0.
 
     { id: "destiny-bond",
       name: "Fate Binding",
-      description: "Project a strand of condensed probability energy to bind an enemy within 30 feet. For the next 3 rounds, 50% of all damage you receive is redirected to the bound enemy as necrotic damage. If you take damage, they must make a Spirit save or be pulled 10 feet closer to you. Weaving this bond generates 2 Karmic Debt.",
+      description: "Project a strand of condensed probability energy to bind an enemy within 30 feet. For the next 3 rounds, 50% of all damage you receive is redirected to the bound enemy as blight damage. If you take damage, they must make a Spirit save or be pulled 10 feet closer to you. Weaving this bond generates 2 Karmic Debt.",
       level: 4,
       spellType: "ACTION",
       icon: "Utility/Chained",
@@ -3489,7 +3489,7 @@ Your Fortune hits 0.
 
     { id: "fate_weaver_jackpot_supreme",
       name: "Karmic Rupture",
-      description: "Draw 3 cards and shatter them. Ranks dictate necrotic damage in a 30-foot circle: One Pair multiplies a 10d10 base damage by 3. Three of a kind multiplies damage by 7 and targets suffer 'Temporal Overload' (incapacitated and take 4d10 necrotic damage at start of turn for 1 round). No matches deal 10d10 base and inflict 3 debt.",
+      description: "Draw 3 cards and shatter them. Ranks dictate blight damage in a 30-foot circle: One Pair multiplies a 10d10 base damage by 3. Three of a kind multiplies damage by 7 and targets suffer 'Temporal Overload' (incapacitated and take 4d10 blight damage at start of turn for 1 round). No matches deal 10d10 base and inflict 3 debt.",
       level: 9,
       spellType: "ACTION",
       icon: "Force/Explosion Burst",
@@ -3540,7 +3540,7 @@ Your Fortune hits 0.
       specialMechanics: {
         jackpot: {
           noMatch: { multiplier: 1, description: "10d10 base damage + 3 debt" },
-          twoMatch: { multiplier: 3, description: "10d10 Ãƒâ€” 3 necrotic damage" },
+          twoMatch: { multiplier: 3, description: "10d10 Ãƒâ€” 3 blight damage" },
           threeMatch: { multiplier: 7, description: "10d10 Ãƒâ€” 7 damage + Temporal Overload incapacitation for 1 round" }
         },
         threadsOfDestiny: {
@@ -3560,7 +3560,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "fate_weaver_rewrite_destiny",
       name: "Epitaph of Fate",
-      description: "Draw 13 cards and rearrange them to rewrite reality. All Face: target ally is immune to all damage and automatically succeeds on all rolls for 1 minute. Same Suit: target enemy is reduced to 1 HP and suffers Temporal Collapse (incapacitated and takes 5d10 necrotic damage each turn for 1 minute). Failure to form a pattern inflicts 5 Karmic Debt.",
+      description: "Draw 13 cards and rearrange them to rewrite reality. All Face: target ally is immune to all damage and automatically succeeds on all rolls for 1 minute. Same Suit: target enemy is reduced to 1 HP and suffers Temporal Collapse (incapacitated and takes 5d10 blight damage each turn for 1 minute). Failure to form a pattern inflicts 5 Karmic Debt.",
       level: 10,
       spellType: "ACTION",
       icon: "Arcane/Rewind Time",
@@ -3777,7 +3777,7 @@ Your Fortune hits 0.
     // ===== PASSIVE ABILITIES =====
     { id: "fate_weaver_deck_exhaustion",
       name: "Arcane Exhaustion",
-      description: "When your deck runs dry and must be reshuffled, the probability drain taxes your system. You take 2d6 psychic damage and are unable to call cards or manipulate rolls for that turn.",
+      description: "When your deck runs dry and must be reshuffled, the probability drain taxes your system. You take 2d6 wyrd damage and are unable to call cards or manipulate rolls for that turn.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Arcane/Magical Cross Emblem 2",
@@ -3797,7 +3797,7 @@ Your Fortune hits 0.
 
     { id: "fate_weaver_fates_wrath",
       name: "Karmic Strain",
-      description: "Every time you override a natural roll, force a destiny, or use the 'Call Card' ability, you accumulate 1 stack of Karmic Debt (max 13). Each stack of debt imposes +5% vulnerability to all damage types and deals 1d4 psychic strain at the end of each round (untreatable by normal magic). Reaching 13 debt triggers immediate Tapestry Collapse, dealing 6d10 psychic damage and incapacitating you for 1 round.",
+      description: "Every time you override a natural roll, force a destiny, or use the 'Call Card' ability, you accumulate 1 stack of Karmic Debt (max 13). Each stack of debt imposes +5% vulnerability to all damage types and deals 1d4 psychic strain at the end of each round (untreatable by normal magic). Reaching 13 debt triggers immediate Tapestry Collapse, dealing 6d10 wyrd damage and incapacitating you for 1 round.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",

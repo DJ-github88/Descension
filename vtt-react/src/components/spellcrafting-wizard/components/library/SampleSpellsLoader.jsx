@@ -34,7 +34,7 @@ const SampleSpellsLoader = () => {
           description: spell.description || 'No description available.',
 
           // Ensure the spell has a proper icon
-          icon: spell.icon || 'spell_holy_holybolt',
+          icon: spell.icon || 'Healing/Golden Heart',
 
           // Ensure the spell has proper tags
           tags: spell.tags || [],

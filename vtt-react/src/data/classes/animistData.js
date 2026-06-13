@@ -9,7 +9,7 @@ export const ANIMIST_DATA = {
     title: "The Ancestral Conduit",
     subtitle: "Blood-Bound Voice of the Wild and the Written Word",
     utility: "Channel three distinct ancestral traditions through a single unified resource. The Animist erupts bone totems from self-mutilation (Primalist heritage), invokes ancient spirits through curse-driven invocation rituals (Witch Doctor heritage), and carves permanent runic networks into earth and flesh (Inscriptor heritage). They simultaneously terraform the battlefield, summon specters, and inscribe divine sigils, paying for every manifestation with their own blood, memories, and sanity.",
-    fatalFlaw: "Triple catastrophic flaw from fused traditions. Spirit Erosion at 15+ Ancestral Resonance: 100% fire vulnerability, cannot receive party healing, forced movement shatters active runic networks dealing backlash, and the spirits demand service with 1d6 psychic/turn if you hoard resonance without invoking. The Animist walks three tightropes simultaneously, and falling from any one is devastating."
+    fatalFlaw: "Triple catastrophic flaw from fused traditions. Spirit Erosion at 15+ Ancestral Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters active runic networks dealing backlash, and the spirits demand service with 1d6 wyrd/turn if you hoard resonance without invoking. The Animist walks three tightropes simultaneously, and falling from any one is devastating."
   },
 
   overview: {
@@ -32,9 +32,9 @@ Carve the bone. Invoke the dead. Inscribe the earth. The ancestors remember what
 
 **Core Mechanic 1 (Ancestral Resonance 0-20)**: Build resonance by sacrificing HP to summon totems, cast curses, carve runes, and complete rituals. Spend resonance on devastating invocations, totem powers, and runic network activations.
 
-**Core Mechanic 2 (Spirit Erosion)**: At 15+ resonance, the triple toll activates. You suffer 100% fire vulnerability, cannot receive party healing, and forced movement shatters your runic network. The spirits also demand service: 1d6 psychic damage per turn if you hoard resonance without spending.
+**Core Mechanic 2 (Spirit Erosion)**: At 15+ resonance, the triple toll activates. You suffer 100% ember vulnerability, cannot receive party healing, and forced movement shatters your runic network. The spirits also demand service: 1d6 wyrd damage per turn if you hoard resonance without spending.
 
-**Core Mechanic 3 (Blood Price)**: Every ability costs HP. Totem eruption costs 5 HP. Rune carving costs 1d4-2d6 slashing self-damage. Curse casting drains 1d4 necrotic. The Animist is always bleeding.
+**Core Mechanic 3 (Blood Price)**: Every ability costs HP. Totem eruption costs 5 HP. Rune carving costs 1d4-2d6 slashing self-damage. Curse casting drains 1d4 blight. The Animist is always bleeding.
 
 **Playstyle**: Extreme battlefield control through three simultaneous systems. Terraform the terrain, summon ancestral specters, and invoke spirit interventions while managing a mounting spiritual debt that threatens to consume you.`,
     },
@@ -102,27 +102,27 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       {
         title: "Spirit Erosion",
         stats: "Triple Catastrophic Flaw (15+ Resonance)",
-        details: "100% fire vulnerability. Cannot receive party healing. Forced movement shatters runic networks (1d10 force per active rune). Spirits demand service: 1d6 psychic/turn if 15+ resonance and no invocation/spend this turn."
+        details: "100% ember vulnerability. Cannot receive party healing. Forced movement shatters runic networks (1d10 force per active rune). Spirits demand service: 1d6 wyrd/turn if 15+ resonance and no invocation/spend this turn."
       },
       {
         title: "Blood Price",
         stats: "Constant Self-Damage",
-        details: "Totem eruption costs 5 HP. Rune carving costs 1d4-2d6 slashing self-damage. Curse casting drains 1d4 necrotic self-damage. Every power costs the body."
+        details: "Totem eruption costs 5 HP. Rune carving costs 1d4-2d6 slashing self-damage. Curse casting drains 1d4 blight self-damage. Every power costs the body."
       }
     ],
     generationTable: {
       headers: ["Action", "Resonance Gained", "Blood Price (HP Cost)", "Tradition"],
       rows: [
         ["Summon/Upgrade Totem", "+3 Resonance", "-5 HP", "Primalist"],
-        ["Cast Curse", "+1 Resonance", "-1d4 necrotic self", "Spirit"],
+        ["Cast Curse", "+1 Resonance", "-1d4 blight self", "Spirit"],
         ["Apply Poison", "+1 Resonance", "-1 HP", "Spirit"],
         ["Place Healing Totem", "+1 Resonance", "-5 HP", "Primalist + Spirit"],
-        ["Complete Ritual", "+2 Resonance", "-3d4 necrotic self", "Spirit"],
+        ["Complete Ritual", "+2 Resonance", "-3d4 blight self", "Spirit"],
         ["Carve Level 1-2 Rune", "+1 Resonance", "-1d4 slashing self", "Inscriptor"],
         ["Carve Level 3+ Rune", "+2 Resonance", "-2d6 slashing self", "Inscriptor"],
         ["Remain Stationary (Turn Start)", "+1 Resonance", "Joints calcify", "Inscriptor"],
         ["Defeat Cursed Enemy", "+3 Resonance", "None", "Spirit"],
-        ["Invoke Loa Spirit", "Spends 5-10 Resonance", "-3d6 necrotic self", "Spirit"],
+        ["Invoke Loa Spirit", "Spends 5-10 Resonance", "-3d6 blight self", "Spirit"],
         ["Activate Runic Network", "Spends 3-8 Resonance", "-2d6 force self", "Inscriptor"],
         ["Totem Cataclysm", "Spends 10+ Resonance", "-15 HP", "Primalist"]
       ]
@@ -133,7 +133,7 @@ Some Animists believe the Dissonance is a sign that the three founders never int
     },
     overheatRules: {
       title: "Spirit Erosion (The Triple Toll)",
-      content: "At 15+ Ancestral Resonance, three catastrophic flaws activate simultaneously:\n1. **Flammable Being**: All fire damage is increased by 100%. No resistance bypass.\n2. **Ancestral Isolation**: Cannot benefit from healing spells cast by others. Your own totem healing still works on allies but not on you.\n3. **Runic Shatter**: If you are forcibly moved, all active runes shatter. Take 1d10 force damage per active rune and become vulnerable to all damage until end of next turn.\n4. **Spirit Demand**: If you end your turn at 15+ resonance without spending any, take 1d6 psychic damage from the demanding spirits."
+      content: "At 15+ Ancestral Resonance, three catastrophic flaws activate simultaneously:\n1. **Flammable Being**: All ember damage is increased by 100%. No resistance bypass.\n2. **Ancestral Isolation**: Cannot benefit from healing spells cast by others. Your own totem healing still works on allies but not on you.\n3. **Runic Shatter**: If you are forcibly moved, all active runes shatter. Take 1d10 force damage per active rune and become vulnerable to all damage until end of next turn.\n4. **Spirit Demand**: If you end your turn at 15+ resonance without spending any, take 1d6 wyrd damage from the demanding spirits."
     },
     strategicConsiderations: {
       title: "Weaving Three Traditions",
@@ -147,7 +147,7 @@ Some Animists believe the Dissonance is a sign that the three founders never int
     description: "The Animist chooses how to balance the three ancestral traditions. Each specialization emphasizes a different fusion of totemic power, spirit invocation, and runic inscription.",
     passiveAbility: {
       name: "Spirit Erosion",
-      description: "At 15+ Ancestral Resonance: 100% fire vulnerability, cannot receive party healing, forced movement shatters runic networks (1d10 force/active rune), and 1d6 psychic/turn if hoarding without spending."
+      description: "At 15+ Ancestral Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters runic networks (1d10 force/active rune), and 1d6 wyrd/turn if hoarding without spending."
     },
     specs: [
       {
@@ -188,7 +188,7 @@ Some Animists believe the Dissonance is a sign that the three founders never int
         color: "#8B008B",
         theme: "Beast Specters, Death Curses, Loa Invocation",
         description: "Fuses the Primalist's Bone-Stalker summoning with the Witch Doctor's Bokor death magic. The Spirit Binder is a summon-and-slay specialist who stitches the souls of dead beasts to their own nervous system, invokes death loa for devastating AoE, and curses enemies to feed the ancestral hunger.",
-        playstyle: "Summoning specters, necrotic devastation, curse spreading, death invocation.",
+        playstyle: "Summoning specters, blight devastation, curse spreading, death invocation.",
         strengths: [
           "Summon multiple beast specters that share and amplify curse damage",
           "Baron Samedi invocation costs 2 less resonance and needs only 2 cursed enemies",
@@ -196,7 +196,7 @@ Some Animists believe the Dissonance is a sign that the three founders never int
           "Drains enemy vitality to replenish sacrificed HP through soul-siphon"
         ],
         weaknesses: [
-          "Summons share your HP pool; fire damage to specters causes feedback damage",
+          "Summons share your HP pool; ember damage to specters causes feedback damage",
           "Limited direct healing; must drain enemies to survive",
           "Weakest defensive positioning; no barriers or walls",
           "Cannot benefit from party healing at high resonance"
@@ -207,7 +207,7 @@ Some Animists believe the Dissonance is a sign that the three founders never int
         },
         keyAbilities: [
           "Wendigo Specters: Erupt starving wolves of bone and shadow from your torso.",
-          "Invoke Baron Samedi: 14d6+spirit necrotic to all enemies, triple to cursed.",
+          "Invoke Baron Samedi: 14d6+spirit blight to all enemies, triple to cursed.",
           "Soul-Dredge: Drain vitality from target to heal your own flesh.",
           "Soul Siphon: Lifesteal that generates resonance on kill."
         ]
@@ -227,7 +227,7 @@ Some Animists believe the Dissonance is a sign that the three founders never int
           "Simbi invocation costs 2 less; Erzulie costs 2 less for clutch healing"
         ],
         weaknesses: [
-          "Allies take minor necrotic damage from branded weapons",
+          "Allies take minor blight damage from branded weapons",
           "Lower personal shields; must rely on allies for defense",
           "Resonance generation depends on buffed allies dealing/taking damage",
           "Triple toll hits hardest due to aggressive playstyle"

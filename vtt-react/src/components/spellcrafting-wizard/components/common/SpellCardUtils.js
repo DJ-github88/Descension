@@ -821,30 +821,38 @@ export const formatEffectComponent = (spell, effectType, subType = null) => {
 };
 
 const DAMAGE_TYPE_COLORS = {
-  fire: '#8B1A1A',
-  frost: '#2C5F7C',
-  lightning: '#8B7328',
-  nature: '#2D5A1E',
-  arcane: '#5B3A8C',
-  force: '#7A3B6E',
-  necrotic: '#3D1F4E',
+  // 8-type schema (primary)
+  ember: '#a62626',
+  rime: '#24587a',
+  storm: '#a3811f',
+  arcane: '#6c3dbf',
+  primal: '#2b5c20',
+  blight: '#53236e',
+  wyrd: '#87206f',
+  physical: '#51626b',
+  // Legacy aliases
+  fire: '#a62626',
+  frost: '#24587a',
+  cold: '#24587a',
+  ice: '#24587a',
+  lightning: '#a3811f',
+  electric: '#a3811f',
+  thunder: '#a3811f',
+  nature: '#2b5c20',
+  shadow: '#53236e',
+  necrotic: '#53236e',
+  psychic: '#87206f',
+  force: '#6c3dbf',
+  // Other legacy types
+  holy: '#8B7328',
   radiant: '#8B7328',
   poison: '#2D6A3F',
-  psychic: '#7A2E6E',
-  chaos: '#7A2040',
+  acid: '#2D6A3F',
   void: '#1A1A2E',
   bludgeoning: '#5C4033',
   piercing: '#5A6A72',
   slashing: '#6B2D2D',
-  physical: '#5A6A72',
-  magical: '#5B3A8C',
-  acid: '#2D6A3F',
-  thunder: '#8B7328',
-  cold: '#2C5F7C',
-  ice: '#2C5F7C',
-  shadow: '#3D1F4E',
-  holy: '#8B7328',
-  electric: '#8B7328'
+  magical: '#6c3dbf'
 };
 
 export const getDamageTypeColor = (type) => {

@@ -1925,9 +1925,22 @@ const useCharacterStore = create((set, get) => ({
         set(state => {
             if (!state.classResource) return state;
 
+            // SMART FIX: If value is a plain number and the field is nested (has .current), auto-wrap it
+            const existingField = state.classResource[field];
+            const isNestedField = existingField && typeof existingField === 'object' && !Array.isArray(existingField) && 'current' in existingField;
+            const isPrimitiveValue = value !== null && typeof value !== 'object';
+
+            let fieldValue = value;
+            if (isNestedField && isPrimitiveValue) {
+                fieldValue = {
+                    ...existingField,
+                    current: value
+                };
+            }
+
             const updatedResource = {
                 ...state.classResource,
-                [field]: value,
+                [field]: fieldValue,
                 lastUpdate: Date.now()
             };
 

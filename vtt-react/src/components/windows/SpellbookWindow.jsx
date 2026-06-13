@@ -156,10 +156,18 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
       customHeader={
         <div className="spellbook-tab-container">
           {tabs.map(tab => (
-            <button
+            <div
               key={tab.id}
               className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
               onClick={() => setActiveTab(tab.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setActiveTab(tab.id);
+                }
+              }}
+              style={{ cursor: 'pointer' }}
             >
               <span>{tab.label}</span>
               {/* Add Import/Export buttons to Spell Library tab */}
@@ -214,7 +222,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
                   </button>
                 </div>
               )}
-            </button>
+            </div>
           ))}
         </div>
       }

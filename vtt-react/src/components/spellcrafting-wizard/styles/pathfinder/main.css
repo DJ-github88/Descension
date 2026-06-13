@@ -1630,16 +1630,18 @@
 
 
 .element-button.primary {
-  background: var(--pf-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: color-mix(in srgb, var(--element-color, #3366cc) 30%, var(--pf-gradient-button)) !important;
+  border-color: var(--element-color, var(--pf-gold-dark)) !important;
+  color: var(--pf-text-on-dark) !important;
+  box-shadow: var(--pf-shadow-md), 0 0 18px color-mix(in srgb, var(--element-color, #3366cc) 50%, transparent) !important;
 }
 
 .element-button.secondary {
-  background: var(--pf-brown-medium) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: color-mix(in srgb, var(--element-color, #6c757d) 25%, var(--pf-gradient-button)) !important;
+  border-color: var(--element-color, var(--pf-brown-dark)) !important;
+  border-style: dashed !important;
   color: var(--pf-text-on-dark) !important;
+  box-shadow: var(--pf-shadow-md), 0 0 14px color-mix(in srgb, var(--element-color, #6c757d) 40%, transparent) !important;
 }
 
 
@@ -1667,22 +1669,6 @@
   display: flex !important;
   align-items: center !important;
   gap: var(--pf-space-2) !important;
-}
-
-.primary-dot {
-  width: 12px !important;
-  height: 12px !important;
-  border-radius: 50% !important;
-  background: var(--pf-gold) !important;
-  border: 2px solid var(--pf-gold-dark) !important;
-}
-
-.secondary-dot {
-  width: 12px !important;
-  height: 12px !important;
-  border-radius: 50% !important;
-  background: var(--pf-brown-medium) !important;
-  border: 2px solid var(--pf-brown-dark) !important;
 }
 
 /* ===== HELP TEXT AND FORM ELEMENTS ===== */

@@ -195,45 +195,424 @@
    Player Annotations CSS (Toolbar, Editor Popup, Carousel, Shared View Inbox)
    ========================================================================== */
 
-/* 1. Floating Annotation Toolbar */
-.annotation-toolbar {
+/* 1. Collapsible Map Tools Sidebar (right side, below map controls) */
+.map-tools-sidebar {
   position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 310px;
+  right: 0;
   z-index: 100;
   display: flex;
+  align-items: stretch;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.map-tools-sidebar:not(.open) {
+  transform: translateX(calc(100% - 32px));
+}
+
+.map-tools-sidebar.open {
+  transform: translateX(0);
+}
+
+/* ── Trigger tab ── */
+.map-tools-trigger {
+  width: 32px;
+  min-height: 64px;
+  background: linear-gradient(180deg,
+    rgba(26, 15, 8, 0.95) 0%,
+    rgba(18, 10, 5, 0.97) 50%,
+    rgba(26, 15, 8, 0.95) 100%);
+  border: 1px solid rgba(180, 145, 55, 0.25);
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  color: #b89a3e;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  background: rgba(26, 17, 10, 0.92);
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.65),
-    inset 0 0 15px rgba(212, 175, 55, 0.15);
-  border-radius: 10px;
-  padding: 10px 18px;
-  backdrop-filter: blur(8px);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 0;
+  backdrop-filter: blur(14px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    inset 0 1px 0 rgba(212, 175, 55, 0.06),
+    inset 0 -1px 0 rgba(212, 175, 55, 0.04),
+    -4px 0 12px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
 }
 
-.world-map-immersive.sidebar-open .annotation-toolbar {
-  transform: translateX(-55%);
+/* Subtle vertical gold line accent */
+.map-tools-trigger::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.18) 30%,
+    rgba(212, 175, 55, 0.25) 50%,
+    rgba(212, 175, 55, 0.18) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
 
-.toolbar-section {
+/* Inner glow overlay */
+.map-tools-trigger::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(212, 175, 55, 0.04) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.map-tools-trigger:hover::after {
+  opacity: 1;
+}
+
+.map-tools-trigger:hover {
+  background: linear-gradient(180deg,
+    rgba(34, 20, 10, 0.96) 0%,
+    rgba(24, 14, 7, 0.97) 50%,
+    rgba(34, 20, 10, 0.96) 100%);
+  border-color: rgba(196, 164, 74, 0.45);
+  color: #d4b85c;
+  box-shadow:
+    inset 0 1px 0 rgba(212, 175, 55, 0.08),
+    inset 0 -1px 0 rgba(212, 175, 55, 0.06),
+    -4px 0 16px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(212, 175, 55, 0.03);
+}
+
+.map-tools-trigger:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
+}
+
+.map-tools-trigger .trigger-icon {
+  font-size: 13px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.15));
+  position: relative;
+  z-index: 1;
+}
+
+.map-tools-trigger:hover .trigger-icon {
+  color: #d4b85c;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.35));
+}
+
+.map-tools-trigger .trigger-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 8px;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(184, 154, 62, 0.3);
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.map-tools-trigger:hover .trigger-label {
+  color: rgba(212, 175, 55, 0.5);
+}
+
+/* Panel open: trigger merges with panel */
+.map-tools-sidebar.open .map-tools-trigger {
+  border-color: rgba(180, 145, 55, 0.3);
+  border-left-color: rgba(180, 145, 55, 0.35);
+  box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.03);
+}
+
+/* ── Slide-out panel ── */
+.map-tools-panel {
+  display: flex;
+  flex-direction: column;
+  width: 190px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(180deg,
+    rgba(24, 14, 7, 0.97) 0%,
+    rgba(16, 9, 4, 0.98) 100%);
+  border: 1px solid rgba(160, 130, 45, 0.3);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  padding: 0;
+  backdrop-filter: blur(18px);
+  box-shadow:
+    inset 0 1px 0 rgba(212, 175, 55, 0.06),
+    inset 0 0 25px rgba(0, 0, 0, 0.2),
+    -8px 0 35px rgba(0, 0, 0, 0.55);
+}
+
+/* Subtle top edge glow */
+.map-tools-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8px;
+  right: 8px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.2) 50%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Panel header */
+.map-tools-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid rgba(160, 130, 45, 0.15);
+  position: relative;
+}
+
+/* Ornamental line below header */
+.map-tools-panel-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.15) 30%,
+    rgba(212, 175, 55, 0.2) 50%,
+    rgba(212, 175, 55, 0.15) 70%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+.map-tools-panel-header i {
+  font-size: 11px;
+  color: rgba(212, 175, 55, 0.4);
+}
+
+.map-tools-panel-header span {
+  font-size: 9px;
+  font-family: 'Cinzel', serif;
+  color: rgba(212, 175, 55, 0.45);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Panel body */
+.map-tools-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 8px;
+}
+
+/* ── Panel buttons ── */
+.map-tools-panel .toolbar-btn {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 10px 12px;
+  font-size: 11.5px;
+  font-family: 'Cinzel', serif;
+  background: rgba(20, 12, 6, 0.45);
+  border: 1px solid rgba(160, 130, 45, 0.12);
+  border-radius: 5px;
+  gap: 10px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.map-tools-panel .toolbar-btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 1px;
+  background: rgba(212, 175, 55, 0);
+  transition: background 0.2s ease;
+}
+
+.map-tools-panel .toolbar-btn:hover:not(.locked)::before {
+  background: rgba(212, 175, 55, 0.25);
+}
+
+.map-tools-panel .toolbar-btn:hover:not(.locked) {
+  background: rgba(40, 24, 12, 0.6);
+  border-color: rgba(180, 145, 55, 0.25);
+  box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.03);
+}
+
+.map-tools-panel .toolbar-btn:active:not(.locked) {
+  background: rgba(50, 30, 15, 0.7);
+}
+
+.map-tools-panel .toolbar-btn.active {
+  background: rgba(196, 164, 74, 0.12);
+  border-color: rgba(196, 164, 74, 0.35);
+  box-shadow:
+    inset 0 0 15px rgba(212, 175, 55, 0.05),
+    inset 0 1px 0 rgba(212, 175, 55, 0.08);
+}
+
+.map-tools-panel .toolbar-btn.active::before {
+  background: rgba(212, 175, 55, 0.4);
+}
+
+.map-tools-panel .toolbar-btn.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.map-tools-panel .toolbar-btn .lock-icon {
+  margin-left: auto;
+  font-size: 8px;
+  color: rgba(180, 70, 70, 0.7) !important;
+}
+
+.map-tools-panel .toolbar-btn i {
+  width: 18px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(184, 154, 62, 0.7);
+  transition: color 0.2s ease;
+}
+
+.map-tools-panel .toolbar-btn:hover:not(.locked) i {
+  color: #d4b85c;
+}
+
+.map-tools-panel .toolbar-btn.active i {
+  color: #ffe082;
+}
+
+/* ── Pin selector in panel ── */
+.map-tools-panel .pin-selector-container {
+  border-left: none;
+  border-top: 1px solid rgba(160, 130, 45, 0.1);
+  padding: 8px 4px 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.map-tools-panel .pin-type-selector {
+  gap: 3px;
+}
+
+.map-tools-panel .pin-type-btn {
+  width: 26px;
+  height: 26px;
+  background: rgba(20, 12, 6, 0.5);
+  border: 1px solid rgba(160, 130, 45, 0.12);
+}
+
+.map-tools-panel .pin-type-btn:hover {
+  background: rgba(196, 164, 74, 0.1);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.map-tools-panel .pin-type-btn.selected {
+  background: rgba(196, 164, 74, 0.15);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+/* ── Drawing info in panel ── */
+.map-tools-panel .drawing-info-alert {
+  margin: 4px 0;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+/* ── Panel divider ── */
+.map-tools-panel .toolbar-divider {
+  width: 100%;
+  height: 1px;
+  margin: 6px 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(160, 130, 45, 0.2) 30%,
+    rgba(212, 175, 55, 0.25) 50%,
+    rgba(160, 130, 45, 0.2) 70%,
+    transparent 100%);
+}
+
+/* ── Active tool indicator ── */
+.active-tool-indicator {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin: 4px 0 0;
+  padding: 8px 10px;
+  background: rgba(45, 90, 70, 0.12);
+  border: 1px solid rgba(75, 140, 100, 0.2);
+  border-radius: 5px;
+  font-size: 10px;
+  font-family: 'Cinzel', serif;
+  color: #c8e6a0;
 }
 
-.toolbar-title {
-  font-size: 11px;
-  color: rgba(240, 230, 210, 0.45);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-right: 6px;
-  font-weight: 600;
+.active-tool-indicator i {
+  font-size: 6px;
+  color: #6abf69;
+  animation: toolPulse 1.8s ease-in-out infinite;
 }
+
+@keyframes toolPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+.cancel-tool-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid rgba(200, 80, 80, 0.2);
+  border-radius: 3px;
+  color: rgba(200, 100, 100, 0.5);
+  cursor: pointer;
+  padding: 2px 5px;
+  font-size: 9px;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.cancel-tool-btn:hover {
+  background: rgba(200, 60, 60, 0.12);
+  border-color: rgba(200, 80, 80, 0.4);
+  color: rgba(240, 160, 160, 0.9);
+}
+
+/* Lore sidebar-open: shift everything left */
+.world-map-immersive.sidebar-open .map-controls-fixed {
+  transform: translateX(-360px);
+}
+
+.world-map-immersive.sidebar-open .map-tools-sidebar:not(.open) {
+  transform: translateX(calc(-360px + 100% - 36px));
+}
+
+.world-map-immersive.sidebar-open .map-tools-sidebar.open {
+  transform: translateX(-360px);
+}
+
+
 
 .toolbar-btn {
   background: rgba(44, 24, 16, 0.8);
@@ -290,12 +669,6 @@
   color: #d32f2f !important;
 }
 
-.toolbar-divider {
-  width: 1px;
-  height: 24px;
-  background: rgba(212, 175, 55, 0.2);
-  margin: 0 4px;
-}
 
 /* Icon Sub-selector */
 .pin-selector-container {
@@ -304,6 +677,14 @@
   gap: 6px;
   border-left: 1px dashed rgba(212, 175, 55, 0.2);
   padding-left: 10px;
+}
+
+.map-tools-panel .pin-selector-container {
+  border-left: none;
+  border-top: 1px dashed rgba(212, 175, 55, 0.2);
+  padding-left: 0;
+  padding-top: 8px;
+  flex-wrap: wrap;
 }
 
 .pin-selector-container .sub-title {
@@ -352,6 +733,10 @@
   background: rgba(196, 164, 74, 0.08);
   border-radius: 4px;
   padding: 4px 8px;
+}
+
+.map-tools-panel .drawing-info-alert {
+  flex-wrap: wrap;
 }
 
 .drawing-info-alert i {

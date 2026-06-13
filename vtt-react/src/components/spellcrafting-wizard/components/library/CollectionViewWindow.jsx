@@ -6,6 +6,7 @@ import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 // Pathfinder styles imported via main.css
+import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
 import '../../styles/CollectionMaps.css';
 
 /**
@@ -25,7 +26,7 @@ const CollectionViewWindow = ({
   const mapSpellToUnifiedFormat = (spell) => {
     // Extract icon from spell
     const extractSpellIcon = (spellData) => {
-      return spellData.typeConfig?.icon || spellData.icon || 'inv_misc_questionmark';
+      return spellData.typeConfig?.icon || spellData.icon || 'Utility/Utility';
     };
 
     const formatCastTime = (spellData) => {
@@ -46,7 +47,7 @@ const CollectionViewWindow = ({
       return castTime;
     };
 
-    const icon = spell.typeConfig?.icon || extractSpellIcon(spell) || 'inv_misc_questionmark';
+    const icon = spell.typeConfig?.icon || extractSpellIcon(spell) || 'Utility/Utility';
 
     // Determine damage types - SAME LOGIC AS STEP10REVIEW
     const damageTypes = [];
@@ -355,7 +356,7 @@ const CollectionViewWindow = ({
           <div className="pf-collection-view-title">
             <div className="collection-icon-wrapper">
               <img
-                src={`https://wow.zamimg.com/images/wow/icons/large/${collection.icon || 'inv_misc_questionmark'}.jpg`}
+                src={getCustomIconUrl(collection.icon || 'Utility/Utility', 'abilities')}
                 alt={collection.name}
                 className="collection-icon"
               />
@@ -478,7 +479,7 @@ const CollectionViewWindow = ({
                       const spellData = {
                         id: spell.id,
                         name: spell.name,
-                        icon: spell.icon || 'spell_holy_holybolt',
+                        icon: spell.icon || 'Healing/Golden Heart',
                         cooldown: spell.cooldown || 0,
                         level: spell.level || 1,
                         spellType: spell.spellType || 'ACTION'

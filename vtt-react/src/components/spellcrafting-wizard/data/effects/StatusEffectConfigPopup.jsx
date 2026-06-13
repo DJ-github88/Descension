@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 // Pathfinder styles imported via main.css
 
 const StatusEffectConfigPopup = ({
@@ -47,7 +48,7 @@ const StatusEffectConfigPopup = ({
   // Get icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Render the main popup content

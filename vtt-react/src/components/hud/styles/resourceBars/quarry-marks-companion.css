@@ -3,7 +3,34 @@
     border: none;
     height: auto;
     padding: 0;
+    overflow: hidden;
 }
+
+/* Party frame constraints */
+.party-member-frame .class-resource-bar.quarry-marks-companion {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    max-height: 14px;
+    margin: 0;
+}
+
+.party-member-frame .huntress-single-bar {
+    height: 12px;
+    overflow: hidden;
+}
+
+.party-member-frame .qm-segment {
+    height: 12px !important;
+    overflow: hidden;
+}
+
+.party-member-frame .companion-hp-bar {
+    height: 12px;
+    overflow: hidden;
+}
+
 
 .apex-container {
     display: flex;
@@ -41,18 +68,15 @@
     z-index: 2;
 }
 
-/* Companion HP Bar (bottom of portrait) */
+/* Companion HP Bar - flex child in single-row huntress layout */
 .companion-hp-bar {
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 36px;
-    height: 4px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 2px;
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
     overflow: hidden;
-    border: 1px solid rgba(139, 115, 85, 0.4);
+    border-radius: 4px;
+    border: 1px solid #4A2C1A;
 }
 
 .companion-hp-fill {
@@ -181,8 +205,7 @@
 }
 
 .class-resource-bar.quarry-marks-companion.small .companion-hp-bar {
-    width: 28px;
-    height: 3px;
+    border-radius: 3px;
 }
 
 .class-resource-bar.quarry-marks-companion.small .qm-segment {
@@ -218,8 +241,7 @@
 }
 
 .class-resource-bar.quarry-marks-companion.large .companion-hp-bar {
-    width: 44px;
-    height: 5px;
+    border-radius: 5px;
 }
 
 .class-resource-bar.quarry-marks-companion.large .qm-segment {

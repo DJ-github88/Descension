@@ -13,7 +13,7 @@ import { formatEffectComponent } from '../common/SpellCardUtils';
 const getEffectIconUrl = (effectType) => {
   const effectIcons = {
     damage: 'Fire/Flame Burst',
-    healing: 'Healing/Healing',
+    healing: 'Healing/Golden Heart',
     buff: 'Radiant/Radiant Aura',
     debuff: 'Necrotic/Necrotic Skull',
     control: 'Utility/Stun',
@@ -21,7 +21,7 @@ const getEffectIconUrl = (effectType) => {
     summon: 'Utility/Summon Minion',
     transform: 'Utility/Utility',
     purification: 'Radiant/Divine Blessing',
-    restoration: 'Healing/Healing'
+    restoration: 'Healing/Golden Heart'
   };
 
   return getCustomIconUrl(effectIcons[effectType] || 'Utility/Utility', 'abilities');
@@ -306,21 +306,21 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
   // Resource types for resource threshold trigger
   const RESOURCE_TYPES = [
-    { id: 'health', name: 'Health', icon: 'spell_holy_sealofsacrifice' },
-    { id: 'mana', name: 'Mana', icon: 'spell_frost_wizardmark' },
-    { id: 'energy', name: 'Energy', icon: 'spell_shadow_shadowworddominate' },
-    { id: 'rage', name: 'Rage', icon: 'ability_warrior_rampage' },
-    { id: 'inferno', name: 'Inferno', icon: 'spell_fire_fire' }
+    { id: 'health', name: 'Health', icon: 'Healing/Golden Heart' },
+    { id: 'mana', name: 'Mana', icon: 'Arcane/Orb Manipulation' },
+    { id: 'energy', name: 'Energy', icon: 'Utility/Glowing Orb' },
+    { id: 'rage', name: 'Rage', icon: 'General/Sword' },
+    { id: 'inferno', name: 'Inferno', icon: 'Fire/Fiery Skull' }
   ];
 
   // Trigger categories
   const triggerCategories = [
-    { id: 'combat', name: 'Combat', iconPath: 'Combat/Striking Hammer' },
+    { id: 'combat', name: 'Combat', iconPath: 'General/Sword' },
     { id: 'movement', name: 'Movement', iconPath: 'Utility/Speed Dash' },
-    { id: 'health', name: 'Health, Resources & Death', iconPath: 'Healing/Healing' },
+    { id: 'health', name: 'Health, Resources & Death', iconPath: 'Healing/Golden Heart' },
     { id: 'status', name: 'Status Effects', iconPath: 'Utility/Utility' },
     { id: 'environment', name: 'Environment', iconPath: 'Nature/Nature Natural' },
-    { id: 'time', name: 'Time & Turns', iconPath: 'Utility/Hourglass' },
+    { id: 'time', name: 'Time & Turns', iconPath: 'Utility/Rest' },
     { id: 'trap', name: 'Trap Triggers', iconPath: 'Utility/Trapped' }
   ];
 
@@ -1806,7 +1806,11 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                 </span>
                                 <span className="wow-effect-detail-value">
                                   <img
-                                    src={getCustomIconUrl(`${state.damageConfig.elementType || 'ember'}/${state.damageConfig.elementType === 'ember' ? 'Flame Burst' : state.damageConfig.elementType === 'rime' ? 'Dripping Ice' : state.damageConfig.elementType === 'storm' ? 'Lightning Bolt' : 'Flame Burst'}`, 'abilities')}
+                                    src={getCustomIconUrl(
+                                      state.damageConfig.elementType === 'ember' ? 'Fire/Flame Burst' :
+                                      state.damageConfig.elementType === 'rime' ? 'Frost/Frost Touch' :
+                                      state.damageConfig.elementType === 'storm' ? 'Lightning/Lightning Strike' :
+                                      'Fire/Flame Burst', 'abilities')}
                                     alt={state.damageConfig.elementType || 'ember'}
                                     className="wow-element-icon"
                                     onError={(e) => {

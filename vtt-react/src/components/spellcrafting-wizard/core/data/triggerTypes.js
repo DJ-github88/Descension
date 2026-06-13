@@ -3,7 +3,7 @@ const TARGETING_TYPES = [
     id: 'single',
     name: 'Single Target',
     description: 'Affects one specific target',
-    icon: 'ability_hunter_snipershot',
+    icon: '/assets/icons/abilities/General/Sword.png',
     actionPointModifier: 0,
     tooltip: 'Focus your spell\'s energy on a single target for maximum effect'
   },
@@ -11,7 +11,7 @@ const TARGETING_TYPES = [
     id: 'multi',
     name: 'Multiple Targets',
     description: 'Affects several individually selected targets',
-    icon: 'spell_frost_chainofdamnation',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
     actionPointModifier: 1,
     tooltip: 'Split your spell\'s energy between multiple targets you choose'
   },
@@ -19,7 +19,7 @@ const TARGETING_TYPES = [
     id: 'area',
     name: 'Area of Effect',
     description: 'Affects all targets within a defined area',
-    icon: 'spell_fire_flamestrike',
+    icon: '/assets/icons/abilities/Fire/Fire.png',
     actionPointModifier: 1,
     tooltip: 'Create a magical effect that impacts everything in a specific area'
   },
@@ -27,7 +27,7 @@ const TARGETING_TYPES = [
     id: 'chain',
     name: 'Chain Effect',
     description: 'Effect jumps from one target to nearby targets',
-    icon: 'spell_frost_chainheal',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
     actionPointModifier: 2,
     tooltip: 'Your spell chains from one target to others within proximity'
   },
@@ -35,7 +35,7 @@ const TARGETING_TYPES = [
     id: 'cone',
     name: 'Cone',
     description: 'Affects targets in a cone-shaped area',
-    icon: 'spell_fire_flamegeyser',
+    icon: '/assets/icons/abilities/Fire/Fire.png',
     actionPointModifier: 1,
     tooltip: 'Project your spell in a widening cone from your position'
   },
@@ -43,7 +43,7 @@ const TARGETING_TYPES = [
     id: 'line',
     name: 'Line',
     description: 'Affects targets in a line',
-    icon: 'spell_arcane_starfire',
+    icon: '/assets/icons/abilities/Arcane/Arcane.png',
     actionPointModifier: 1,
     tooltip: 'Your spell strikes in a straight line, affecting all in its path'
   },
@@ -51,7 +51,7 @@ const TARGETING_TYPES = [
     id: 'self',
     name: 'Self',
     description: 'Only affects the caster',
-    icon: 'spell_holy_powerwordshield',
+    icon: '/assets/icons/abilities/Utility/Shield.png',
     actionPointModifier: -1,
     tooltip: 'Channel the spell\'s energy into yourself'
   },
@@ -59,7 +59,7 @@ const TARGETING_TYPES = [
     id: 'smart',
     name: 'Smart Targeting',
     description: 'Automatically selects targets based on parameters',
-    icon: 'spell_holy_divineillumination',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
     actionPointModifier: 2,
     tooltip: 'Your spell intelligently chooses optimal targets based on the situation'
   }
@@ -70,7 +70,7 @@ const AOE_SHAPES = [
     id: 'circle',
     name: 'Circle',
     description: 'Affects all targets within a circular area',
-    icon: 'spell_holy_circleofrenewal',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
     defaultRadius: 20,
     parameterType: 'radius',
     tooltip: 'Creates a perfectly circular area of magical effect'
@@ -79,7 +79,7 @@ const AOE_SHAPES = [
     id: 'square',
     name: 'Square',
     description: 'Affects all targets within a square area',
-    icon: 'inv_misc_gem_diamond_02',
+    icon: '/assets/icons/abilities/General/Sword.png',
     defaultSize: 15,
     parameterType: 'sideLength',
     tooltip: 'Forms a square-shaped area of effect with equal sides'
@@ -88,7 +88,7 @@ const AOE_SHAPES = [
     id: 'cone',
     name: 'Cone',
     description: 'Affects targets in a cone-shaped area extending from the caster',
-    icon: 'inv_throwingaxe_03',
+    icon: '/assets/icons/abilities/General/Sword.png',
     defaultRange: 15,
     defaultAngle: 90,
     parameterType: 'rangeAngle',
@@ -98,7 +98,7 @@ const AOE_SHAPES = [
     id: 'line',
     name: 'Line',
     description: 'Affects targets in a straight line from the caster',
-    icon: 'inv_weapon_bow_07',
+    icon: '/assets/icons/abilities/General/Sword.png',
     defaultLength: 30,
     defaultWidth: 5,
     parameterType: 'lengthWidth',
@@ -108,7 +108,7 @@ const AOE_SHAPES = [
     id: 'cube',
     name: 'Cube',
     description: 'Affects all targets within a three-dimensional cube',
-    icon: 'inv_misc_gem_diamond_01',
+    icon: '/assets/icons/abilities/General/Sword.png',
     defaultSize: 15,
     parameterType: 'sideLength',
     tooltip: 'Forms a magical cube that affects everything inside it'
@@ -117,7 +117,7 @@ const AOE_SHAPES = [
     id: 'sphere',
     name: 'Sphere',
     description: 'Affects all targets within a three-dimensional sphere',
-    icon: 'inv_misc_orb_01',
+    icon: '/assets/icons/abilities/General/Sword.png',
     defaultRadius: 20,
     parameterType: 'radius',
     tooltip: 'Creates a perfect sphere of magical energy'
@@ -126,7 +126,7 @@ const AOE_SHAPES = [
     id: 'cylinder',
     name: 'Cylinder',
     description: 'Affects all targets within a cylinder',
-    icon: 'spell_holy_circleofrenewal',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
     defaultRadius: 10,
     defaultHeight: 20,
     parameterType: 'radiusHeight',
@@ -136,7 +136,7 @@ const AOE_SHAPES = [
     id: 'wall',
     name: 'Wall',
     description: 'Creates a wall-shaped effect',
-    icon: 'spell_holy_powerwordbarrier',
+    icon: '/assets/icons/abilities/Utility/Shield.png',
     defaultLength: 30,
     defaultHeight: 10,
     defaultWidth: 5,
@@ -492,7 +492,7 @@ const PROXIMITY_TRIGGERS = [
     description: 'Triggers when a creature enters within a certain range of the target',
     parameters: [{ name: 'range', type: 'number', unit: 'feet', default: 30 }],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: 'spell_mage_flameorb',
+    icon: '/assets/icons/abilities/Fire/Fire.png',
   },
   {
     id: 'exit_range',
@@ -500,7 +500,7 @@ const PROXIMITY_TRIGGERS = [
     description: 'Triggers when a creature leaves a certain range of the target',
     parameters: [{ name: 'range', type: 'number', unit: 'feet', default: 30 }],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: 'ability_fixated_state_red',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'line_of_sight',
@@ -508,7 +508,7 @@ const PROXIMITY_TRIGGERS = [
     description: 'Triggers when a creature enters or exits line of sight',
     parameters: [{ name: 'state', type: 'select', options: ['enter', 'exit'], default: 'enter' }],
     entitiesAffected: ['allies', 'enemies'],
-    icon: 'ability_hunter_snipershot',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'proximity_to_terrain',
@@ -519,7 +519,7 @@ const PROXIMITY_TRIGGERS = [
       { name: 'range', type: 'number', unit: 'feet', default: 10 }
     ],
     entitiesAffected: ['self'],
-    icon: 'spell_frost_summonwaterelemental',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
   }
 ];
 
@@ -530,7 +530,7 @@ const STATUS_TRIGGERS = [
     description: 'Triggers when a status effect is applied',
     parameters: [{ name: 'status', type: 'string', default: 'any' }],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: 'spell_holy_sealofsacrifice',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'status_removed',
@@ -538,7 +538,7 @@ const STATUS_TRIGGERS = [
     description: 'Triggers when a status effect is removed',
     parameters: [{ name: 'status', type: 'string', default: 'any' }],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: 'spell_holy_removecurse',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'health_threshold',
@@ -549,7 +549,7 @@ const STATUS_TRIGGERS = [
       { name: 'condition', type: 'select', options: ['below', 'above', 'equals'], default: 'below' }
     ],
     entitiesAffected: ['allies', 'enemies', 'self'],
-    icon: 'spell_holy_sealofsacrifice',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'stun_break',
@@ -557,7 +557,7 @@ const STATUS_TRIGGERS = [
     description: 'Triggers when recovering from a stun effect',
     parameters: [],
     entitiesAffected: ['self', 'allies'],
-    icon: 'ability_paladin_blindinglight',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   }
 ];
 
@@ -572,7 +572,7 @@ const COMBAT_TRIGGERS = [
       { name: 'target_entity', type: 'select', options: ['self', 'target', 'ally', 'any'], default: 'self', label: 'Entity Taking Damage' }
     ],
     entitiesAffected: ['self', 'allies', 'target', 'any'],
-    icon: 'ability_warrior_bloodbath',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'damage_dealt',
@@ -584,7 +584,7 @@ const COMBAT_TRIGGERS = [
       { name: 'source_entity', type: 'select', options: ['self', 'ally', 'any'], default: 'self', label: 'Entity Dealing Damage' }
     ],
     entitiesAffected: ['self', 'allies', 'any'],
-    icon: 'ability_warrior_savageblow',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'critical_hit',
@@ -594,7 +594,7 @@ const COMBAT_TRIGGERS = [
       { name: 'attack_type', type: 'select', options: ['any', 'melee', 'spell'], default: 'any' }
     ],
     entitiesAffected: ['self'],
-    icon: 'ability_backstab',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'dodge',
@@ -602,7 +602,7 @@ const COMBAT_TRIGGERS = [
     description: 'Triggers when an attack is dodged',
     parameters: [],
     entitiesAffected: ['self'],
-    icon: 'ability_rogue_feint',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
   },
   {
     id: 'parry',
@@ -610,7 +610,7 @@ const COMBAT_TRIGGERS = [
     description: 'Triggers when an attack is parried',
     parameters: [],
     entitiesAffected: ['self'],
-    icon: 'ability_parry',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'block',
@@ -618,7 +618,7 @@ const COMBAT_TRIGGERS = [
     description: 'Triggers when an attack is blocked',
     parameters: [],
     entitiesAffected: ['self'],
-    icon: 'inv_shield_05',
+    icon: '/assets/icons/abilities/Utility/Shield.png',
   },
   {
     id: 'attack_miss',
@@ -626,7 +626,7 @@ const COMBAT_TRIGGERS = [
     description: 'Triggers when an attack misses',
     parameters: [],
     entitiesAffected: ['self'],
-    icon: 'ability_hunter_mastermarksman',
+    icon: '/assets/icons/abilities/General/Sword.png',
   }
 ];
 
@@ -640,7 +640,7 @@ const RESOURCE_TRIGGERS = [
       { name: 'condition', type: 'select', options: ['below', 'above'], default: 'below' }
     ],
     entitiesAffected: ['self'],
-    icon: 'spell_frost_wizardmark',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
   },
   {
     id: 'resource_spent',
@@ -651,7 +651,7 @@ const RESOURCE_TRIGGERS = [
       { name: 'amount', type: 'number', default: 0 }
     ],
     entitiesAffected: ['self'],
-    icon: 'inv_misc_gem_sapphire_02',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'resource_gained',
@@ -662,7 +662,7 @@ const RESOURCE_TRIGGERS = [
       { name: 'amount', type: 'number', default: 0 }
     ],
     entitiesAffected: ['self'],
-    icon: 'inv_misc_gem_emerald_01',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'combo_points',
@@ -672,7 +672,7 @@ const RESOURCE_TRIGGERS = [
       { name: 'points', type: 'number', default: 5 }
     ],
     entitiesAffected: ['self'],
-    icon: 'ability_rogue_eviscerate',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
   }
 ];
 
@@ -683,7 +683,7 @@ const TURN_BASED_TRIGGERS = [
     description: 'Triggers at the start of a turn',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'spell_holy_borrowedtime',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'turn_end',
@@ -691,7 +691,7 @@ const TURN_BASED_TRIGGERS = [
     description: 'Triggers at the end of a turn',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'spell_holy_revivetime',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'round_start',
@@ -699,7 +699,7 @@ const TURN_BASED_TRIGGERS = [
     description: 'Triggers at the start of a combat round',
     parameters: [],
     entitiesAffected: ['global'],
-    icon: 'achievement_bg_returnxflags_def_wsg',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'round_end',
@@ -707,7 +707,7 @@ const TURN_BASED_TRIGGERS = [
     description: 'Triggers at the end of a combat round',
     parameters: [],
     entitiesAffected: ['global'],
-    icon: 'achievement_bg_captureflag_eos',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'nth_turn',
@@ -717,7 +717,7 @@ const TURN_BASED_TRIGGERS = [
       { name: 'turn', type: 'number', default: 3 }
     ],
     entitiesAffected: ['self'],
-    icon: 'spell_shadow_demoniccircleteleport',
+    icon: '/assets/icons/abilities/Void/Void.png',
   }
 ];
 
@@ -728,7 +728,7 @@ const MOVEMENT_TRIGGERS = [
     description: 'Triggers when movement begins',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'ability_hunter_runningshot',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'movement_stop',
@@ -736,7 +736,7 @@ const MOVEMENT_TRIGGERS = [
     description: 'Triggers when movement ends',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'spell_frost_icyveins',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
   },
   {
     id: 'jump',
@@ -744,7 +744,7 @@ const MOVEMENT_TRIGGERS = [
     description: 'Triggers when jumping',
     parameters: [],
     entitiesAffected: ['self'],
-    icon: 'ability_rogue_sprint',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
   },
   {
     id: 'fall_damage',
@@ -752,7 +752,7 @@ const MOVEMENT_TRIGGERS = [
     description: 'Triggers when taking fall damage',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'spell_shadow_twistedfaith',
+    icon: '/assets/icons/abilities/Psychic/Purple Star.png',
   },
   {
     id: 'distance_traveled',
@@ -762,7 +762,7 @@ const MOVEMENT_TRIGGERS = [
       { name: 'distance', type: 'number', unit: 'feet', default: 30 }
     ],
     entitiesAffected: ['self'],
-    icon: 'ability_monk_roll',
+    icon: '/assets/icons/abilities/General/Sword.png',
   }
 ];
 
@@ -775,7 +775,7 @@ const SPELL_BASED_TRIGGERS = [
       { name: 'spell_type', type: 'select', options: ['any', 'damage', 'healing', 'buff', 'debuff', 'utility'], default: 'any' }
     ],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'spell_holy_holysmite',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'spell_reflected',
@@ -783,7 +783,7 @@ const SPELL_BASED_TRIGGERS = [
     description: 'Triggers when a spell is reflected',
     parameters: [],
     entitiesAffected: ['self'],
-    icon: 'ability_warrior_shieldreflection',
+    icon: '/assets/icons/abilities/Utility/Shield.png',
   },
   {
     id: 'spell_interrupted',
@@ -791,7 +791,7 @@ const SPELL_BASED_TRIGGERS = [
     description: 'Triggers when a spell is interrupted',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'ability_kick',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'counterspell',
@@ -799,7 +799,7 @@ const SPELL_BASED_TRIGGERS = [
     description: 'Triggers when a spell is countered',
     parameters: [],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'spell_frost_iceshock',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
   },
   {
     id: 'dispel',
@@ -809,7 +809,7 @@ const SPELL_BASED_TRIGGERS = [
       { name: 'effect_type', type: 'select', options: ['any', 'buff', 'debuff'], default: 'any' }
     ],
     entitiesAffected: ['self', 'allies', 'enemies'],
-    icon: 'spell_holy_dispelmagic',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   }
 ];
 
@@ -824,7 +824,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['enemies'],
     class: 'warrior',
-    icon: 'ability_warrior_execute',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   // Paladin
   {
@@ -836,7 +836,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'paladin',
-    icon: 'spell_holy_divineshield',
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   // Mage
   {
@@ -848,7 +848,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'mage',
-    icon: 'spell_arcane_arcane01',
+    icon: '/assets/icons/abilities/Arcane/Arcane.png',
   },
   // Rogue
   {
@@ -858,7 +858,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     parameters: [],
     entitiesAffected: ['self'],
     class: 'rogue',
-    icon: 'ability_stealth',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
   },
   // Priest
   {
@@ -870,7 +870,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'priest',
-    icon: 'spell_shadow_shadowform',
+    icon: '/assets/icons/abilities/Shadow/Shadow.png',
   },
   // Hunter
   {
@@ -882,7 +882,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['pets'],
     class: 'hunter',
-    icon: 'ability_hunter_beastcall',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   // Warlock
   {
@@ -895,7 +895,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'warlock',
-    icon: 'inv_misc_gem_amethyst_02',
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   // Druid
   {
@@ -907,7 +907,7 @@ const CLASS_SPECIFIC_TRIGGERS = [
     ],
     entitiesAffected: ['self'],
     class: 'druid',
-    icon: 'ability_druid_catform',
+    icon: '/assets/icons/abilities/Nature/Natural.png',
   }
 ];
 
@@ -917,21 +917,21 @@ const TRIGGER_CATEGORIES = [
     name: 'Proximity',
     description: 'Triggers based on spatial relationships',
     triggers: PROXIMITY_TRIGGERS,
-    icon: 'ability_hunter_markedfordeath'
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'status',
     name: 'Status Effects',
     description: 'Triggers related to status effects and conditions',
     triggers: STATUS_TRIGGERS,
-    icon: 'spell_holy_wordfortitude'
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'combat',
     name: 'Combat',
     description: 'Triggers related to combat actions',
     triggers: COMBAT_TRIGGERS,
-    icon: 'ability_warrior_challange'
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'resource',
@@ -945,21 +945,21 @@ const TRIGGER_CATEGORIES = [
     name: 'Turn Based',
     description: 'Triggers on specific turns or rounds',
     triggers: TURN_BASED_TRIGGERS,
-    icon: 'ability_warrior_decisivestrike'
+    icon: '/assets/icons/abilities/General/Sword.png',
   },
   {
     id: 'movement',
     name: 'Movement',
     description: 'Triggers related to character movement',
     triggers: MOVEMENT_TRIGGERS,
-    icon: 'ability_rogue_sprint'
+    icon: '/assets/icons/abilities/Utility/Rest.png',
   },
   {
     id: 'spell_based',
     name: 'Spell Based',
     description: 'Triggers based on spell interactions',
     triggers: SPELL_BASED_TRIGGERS,
-    icon: 'spell_holy_holybolt'
+    icon: '/assets/icons/abilities/Radiant/Light Path.png',
   },
   {
     id: 'class_specific',

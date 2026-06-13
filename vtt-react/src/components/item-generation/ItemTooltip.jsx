@@ -1729,7 +1729,9 @@ function ItemTooltip({ item }) {
     const damageTypeColors = {
         arcane: '#9370DB', // Purple - matches character sheet
         bludgeoning: '#8B4513', // Brown - matches character sheet
+        blight: '#3D1F4E',
         chaos: '#ec4899', // Pink - matches character sheet
+        ember: '#D4380D',
         fire: '#FF4500', // Orange-red - matches character sheet
         force: '#9370DB', // Purple - matches character sheet
         frost: '#87CEEB', // Light blue - matches character sheet (using frost, not cold)
@@ -1738,11 +1740,15 @@ function ItemTooltip({ item }) {
         necrotic: '#8B008B', // Dark magenta - matches character sheet
         piercing: '#708090', // Slate grey - matches character sheet
         poison: '#228B22', // Forest green - matches character sheet
+        primal: '#2D5A1E',
         psychic: '#FF1493', // Deep pink - matches character sheet
         radiant: '#b8860b', // Gold - matches character sheet
+        rime: '#2C5F7C',
         slashing: '#B22222', // Fire brick red - matches character sheet
+        storm: '#8B7328',
         thunder: '#2563eb', // Bright blue
-        void: '#1a1a2e' // Very dark blue - matches character sheet
+        void: '#1a1a2e', // Very dark blue - matches character sheet
+        wyrd: '#7A2040'
     };
 
     // Check for chance-on-being-hit effects

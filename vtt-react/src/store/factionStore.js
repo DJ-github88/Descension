@@ -56,7 +56,7 @@ const SEEDED_FACTIONS = [
 
     headquarters: 'greymark-keep',
 
-    territory: ['greymark-keep', 'scribes-tower', 'the-shallows'],
+    territory: ['greymark-keep', 'scribes-tower', 'the-shallows', 'mistbarrow', 'greythorn-copse', 'mirror-mere', 'skalds-landing'],
 
     relationships: [
 
@@ -168,7 +168,7 @@ const SEEDED_FACTIONS = [
 
     headquarters: 'scribes-tower',
 
-    territory: ['scribes-tower', 'ledger-halls'],
+    territory: ['scribes-tower', 'ledger-halls', 'mistbarrow', 'the-shifting-fen'],
 
     relationships: [
 
@@ -260,7 +260,7 @@ const SEEDED_FACTIONS = [
 
     headquarters: 'frozen-archive',
 
-    territory: ['frozen-archive', 'fjord-gate', 'rimors-hearth'],
+    territory: ['frozen-archive', 'fjord-gate', 'rimors-hearth', 'vargtor', 'ymirs-col', 'the-black-firth', 'bloodhammer-sump', 'vesperas-perch'],
 
     relationships: [
 
@@ -352,7 +352,7 @@ const SEEDED_FACTIONS = [
 
     headquarters: 'ironwood-heart',
 
-    territory: ['ironwood-heart'],
+    territory: ['ironwood-heart', 'bramble-heath', 'greythorn-copse'],
 
     relationships: [
 
@@ -442,7 +442,7 @@ const SEEDED_FACTIONS = [
 
     headquarters: 'synod-hold',
 
-    territory: ['synod-hold', 'merrowport', 'ironjaw-port'],
+    territory: ['synod-hold', 'merrowport', 'ironjaw-port', 'the-unlit-knoll', 'starfall-vale', 'nova-heath', 'root-veil-scriptorium', 'the-sunken-spire'],
 
     relationships: [
 
@@ -538,7 +538,7 @@ const SEEDED_FACTIONS = [
 
     headquarters: 'synod-hold',
 
-    territory: ['synod-hold'],
+    territory: ['synod-hold', 'kumis-downs', 'ancestor-wold', 'the-long-steppe', 'mound-camps'],
 
     relationships: [
 
@@ -597,7 +597,7 @@ const SEEDED_FACTIONS = [
     },
     members: [],
     headquarters: 'emberspire-caldera',
-    territory: ['emberspire-caldera', 'basalt-shyr', 'cinder-badlands'],
+    territory: ['emberspire-caldera', 'basalt-shyr', 'cinder-badlands', 'sols-anvil-mesa', 'ember-lagoon', 'cinderhoodoo'],
     relationships: [
       { targetFactionId: 'house-solvan', type: 'allied', description: 'The Vigil is the Solvan house\'s sword-arm — officially deniable, unofficially essential' },
       { targetFactionId: 'deep-alchemists', type: 'rival', description: 'The Alchemists\' Wyrd-experimentation threatens to wake what the Vigil is trying to keep asleep' }
@@ -627,7 +627,7 @@ const SEEDED_FACTIONS = [
     },
     members: [],
     headquarters: 'lost-brood-vats',
-    territory: ['lost-brood-vats', 'sump-galleries'],
+    territory: ['lost-brood-vats', 'sump-galleries', 'sump-rift', 'gearworks-gulch'],
     relationships: [
       { targetFactionId: 'vat-breakers-guild', type: 'hostile', description: 'The Groven were their creation. The Groven shattered their vats. Neither has forgiven the other.' },
       { targetFactionId: 'vat-breakers-guild', type: 'hostile', description: 'The Vat-Breakers are the direct descendants of the revolt — the Alchemists consider them stolen property' }
@@ -657,7 +657,7 @@ const SEEDED_FACTIONS = [
     },
     members: [],
     headquarters: 'frostmaw-holdfast',
-    territory: ['frostmaw-holdfast', 'the-spans', 'ancestor-gaps'],
+    territory: ['frostmaw-holdfast', 'the-spans', 'ancestor-gaps', 'the-great-gorge', 'stags-rest-moraine', 'deepchasm-keep'],
     relationships: [
       { targetFactionId: 'deep-alchemists', type: 'hostile', description: 'Eight hundred years of war, temporarily paused. The Alchemists stay in their deep tunnels. The Groven patrol the surface.' },
       { targetFactionId: 'house-tesshan', type: 'allied', description: 'The Tesshan depend on the Ancestor-Spans for all travel above the blizzard-line — a dependency the Groven are increasingly willing to leverage' }
@@ -687,7 +687,7 @@ const SEEDED_FACTIONS = [
     },
     members: [],
     headquarters: 'great-forge',
-    territory: ['great-forge', 'basalt-shyr', 'cinder-badlands'],
+    territory: ['great-forge', 'basalt-shyr', 'cinder-badlands', 'the-ashen-escarpment', 'vulkars-karst', 'slag-gulch', 'harath-vault'],
     relationships: [
       { targetFactionId: 'dawn-vigil', type: 'allied', description: 'The Vigil is Solvan\'s sword-arm, pursuing Monolith fragments that the house cannot officially seek' },
       { targetFactionId: 'house-tesshan', type: 'neutral', description: 'Tesshan coal-iron feeds Solvan forges — a trade relationship neither house can afford to jeopardize despite mutual distrust' }
@@ -717,7 +717,7 @@ const SEEDED_FACTIONS = [
     },
     members: [],
     headquarters: 'merrowport',
-    territory: ['merrowport', 'gale-storm-shallows', 'first-shore'],
+    territory: ['merrowport', 'gale-storm-shallows', 'first-shore', 'spindrift-lagoon', 'deepwell-archipelago', 'wraithsound', 'the-saltmaw-estuary', 'kelpies-cove', 'skalds-longport'],
     relationships: [
       { targetFactionId: 'unlit-veil', type: 'neutral', description: 'Uneasy maritime truce — the Veil needs Mereval\'s ships; Mereval needs Veil intelligence' },
       { targetFactionId: 'deep-alchemists', type: 'rival', description: 'Mereval\'s deep-ocean mapping expeditions keep trespassing into the Alchemists\' submerged tunnel-networks — both sides claim the deeps' }
@@ -747,7 +747,7 @@ const SEEDED_FACTIONS = [
     },
     members: [],
     headquarters: 'frostmaw-holdfast',
-    territory: ['frostmaw-holdfast', 'sump-galleries'],
+    territory: ['frostmaw-holdfast', 'sump-galleries', 'iron-ravine', 'frostmaw-massif', 'gearworks-gulch'],
     relationships: [
       { targetFactionId: 'house-skalvyr', type: 'rival', description: 'Disputed territory along the Cragjaw-Nordhalla border. Both houses claim the geothermal vents.' },
       { targetFactionId: 'vat-breakers-guild', type: 'allied', description: 'The Tesshan depend on Groven Ancestor-Spans — the Guild is simultaneously indispensable and increasingly independent' }
@@ -777,7 +777,7 @@ const SEEDED_FACTIONS = [
     },
     members: [],
     headquarters: 'atropolis',
-    territory: ['atropolis', 'peat-bog-sinks', 'over-shanty'],
+    territory: ['atropolis', 'peat-bog-sinks', 'over-shanty', 'morrens-bogpost', 'thalrens-ledger-post', 'vel-keth-bayou', 'aran-glen', 'fangmere-grove', 'widows-quagmire', 'black-fen', 'drowned-dingle', 'hunters-gully', 'merryns-drift'],
     relationships: [
       { targetFactionId: 'scribe-sentinels', type: 'vassal', description: 'The Sentinels maintain the legal archives that prove the Morrath line exists — without their records, the seventh seat would be declared vacant' },
       { targetFactionId: 'unlit-veil', type: 'neutral', description: 'Morrath descendants still exist among the Drun — unrecognized, unnamed, uncounted' }

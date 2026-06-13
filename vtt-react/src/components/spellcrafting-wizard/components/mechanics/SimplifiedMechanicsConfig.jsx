@@ -94,22 +94,22 @@ const MECHANICS_SYSTEMS = {
     ],
     toxicTypes: [
       // Core Toxic Types
-      { id: 'disease', name: 'Disease', description: 'Biological afflictions that weaken the target over time', color: '#8B008B', wowIcon: 'ability_creature_disease_01' },
-      { id: 'blight', name: 'blight', description: 'Toxic substances that cause immediate and ongoing damage', color: '#00AA00', wowIcon: 'ability_creature_poison_06' },
-      { id: 'curse', name: 'Curse', description: 'Magical afflictions that reduce effectiveness and luck', color: '#4B0082', wowIcon: 'spell_shadow_curseofsargeras' },
-      { id: 'venom', name: 'Venom', description: 'Injected toxins that cause severe damage and paralysis', color: '#228B22', wowIcon: 'ability_creature_poison_03' },
+      { id: 'disease', name: 'Disease', description: 'Biological afflictions that weaken the target over time', color: '#8B008B', wowIcon: 'Necrotic/Necrotic Skull' },
+      { id: 'blight', name: 'blight', description: 'Toxic substances that cause immediate and ongoing damage', color: '#00AA00', wowIcon: 'Poison/Poison Venom' },
+      { id: 'curse', name: 'Curse', description: 'Magical afflictions that reduce effectiveness and luck', color: '#4B0082', wowIcon: 'Necrotic/Necrotic Skull' },
+      { id: 'venom', name: 'Venom', description: 'Injected toxins that cause severe damage and paralysis', color: '#228B22', wowIcon: 'Poison/Poison Venom' },
 
       // Advanced Toxic Types
-      { id: 'blight', name: 'Blight', description: 'Corrupting force that spreads to nearby targets', color: '#8B0000', wowIcon: 'spell_shadow_creepingplague' },
-      { id: 'blight', name: 'blight', description: 'Corrosive substance that dissolves armor and flesh', color: '#FFD700', wowIcon: 'spell_nature_acid_01' },
-      { id: 'necrosis', name: 'Necrosis', description: 'Death magic that causes tissue decay and weakness', color: '#2F4F4F', wowIcon: 'spell_shadow_deathcoil' },
-      { id: 'miasma', name: 'Miasma', description: 'Toxic cloud that impairs vision and breathing', color: '#696969', wowIcon: 'spell_shadow_plaguecloud' },
+      { id: 'blight', name: 'Blight', description: 'Corrupting force that spreads to nearby targets', color: '#8B0000', wowIcon: 'Shadow.png' },
+      { id: 'blight', name: 'blight', description: 'Corrosive substance that dissolves armor and flesh', color: '#FFD700', wowIcon: 'Poison/Poison Venom' },
+      { id: 'necrosis', name: 'Necrosis', description: 'Death magic that causes tissue decay and weakness', color: '#2F4F4F', wowIcon: 'Necrotic/Necrotic Skull' },
+      { id: 'miasma', name: 'Miasma', description: 'Toxic cloud that impairs vision and breathing', color: '#696969', wowIcon: 'Shadow.png' },
 
       // Exotic Toxic Types
-      { id: 'parasites', name: 'Parasites', description: 'Living organisms that drain health and mana', color: '#8B4513', wowIcon: 'spell_nature_insectswarm' },
-      { id: 'radiation', name: 'Radiation', description: 'Arcane energy that mutates and weakens over time', color: '#00CED1', wowIcon: 'spell_arcane_arcanetorrent' },
-      { id: 'corruption', name: 'Corruption', description: 'Dark energy that corrupts from within', color: '#4B0082', wowIcon: 'spell_shadow_abominationexplosion' },
-      { id: 'contagion', name: 'Contagion', description: 'Rapidly spreading infection that jumps between targets', color: '#8B4513', wowIcon: 'spell_shadow_contagion' }
+      { id: 'parasites', name: 'Parasites', description: 'Living organisms that drain health and mana', color: '#8B4513', wowIcon: 'Nature/Nature Natural' },
+      { id: 'radiation', name: 'Radiation', description: 'Arcane energy that mutates and weakens over time', color: '#00CED1', wowIcon: 'Arcane/Arcane Blast' },
+      { id: 'corruption', name: 'Corruption', description: 'Dark energy that corrupts from within', color: '#4B0082', wowIcon: 'Shadow.png' },
+      { id: 'contagion', name: 'Contagion', description: 'Rapidly spreading infection that jumps between targets', color: '#8B4513', wowIcon: 'Necrotic/Necrotic Skull' }
     ]
   },
   CHORD_SYSTEM: {
@@ -126,13 +126,13 @@ const MECHANICS_SYSTEMS = {
       { id: 'extender', name: 'Extender', description: 'Extends the duration of the improvisation window', icon: faClock }
     ],
     chordFunctions: [
-      { id: 'tonic', name: 'Tonic', description: 'The home chord or note (I)', color: '#FF5555', wowIcon: 'spell_holy_holybolt', theory: 'The tonic is the first note of a scale and represents the key center or home base of a piece of music.' },
-      { id: 'supertonic', name: 'Supertonic', description: 'The second scale degree (ii)', color: '#FF9955', wowIcon: 'spell_holy_sealofwisdom', theory: 'The supertonic is the second degree of the scale, sitting just above the tonic, often creating tension that resolves to the tonic.' },
-      { id: 'mediant', name: 'Mediant', description: 'The third scale degree (iii)', color: '#FFFF55', wowIcon: 'spell_holy_blessedrecovery', theory: 'The mediant is the third degree of the scale, sitting between the tonic and dominant, creating a bridge between these important functions.' },
-      { id: 'subdominant', name: 'Subdominant', description: 'The fourth scale degree (IV)', color: '#55FF55', wowIcon: 'spell_holy_healingaura', theory: 'The subdominant is the fourth degree of the scale, creating a sense of movement away from the tonic and toward the dominant.' },
-      { id: 'dominant', name: 'Dominant', description: 'The fifth scale degree (V)', color: '#55FFFF', wowIcon: 'spell_holy_divineillumination', theory: 'The dominant is the fifth degree of the scale, creating strong tension that wants to resolve back to the tonic.' },
-      { id: 'submediant', name: 'Submediant', description: 'The sixth scale degree (vi)', color: '#5555FF', wowIcon: 'spell_holy_sealofsacrifice', theory: 'The submediant is the sixth degree of the scale, often used as a substitute for the tonic in deceptive cadences.' },
-      { id: 'leading_tone', name: 'Leading Tone', description: 'The seventh scale degree (vii)', color: '#FF55FF', wowIcon: 'spell_holy_sealofwrath', theory: 'The leading tone is the seventh degree of the scale, creating strong tension that pulls toward the tonic.' }
+      { id: 'tonic', name: 'Tonic', description: 'The home chord or note (I)', color: '#FF5555', wowIcon: 'Healing/Golden Heart', theory: 'The tonic is the first note of a scale and represents the key center or home base of a piece of music.' },
+      { id: 'supertonic', name: 'Supertonic', description: 'The second scale degree (ii)', color: '#FF9955', wowIcon: 'Healing/Renewal', theory: 'The supertonic is the second degree of the scale, sitting just above the tonic, often creating tension that resolves to the tonic.' },
+      { id: 'mediant', name: 'Mediant', description: 'The third scale degree (iii)', color: '#FFFF55', wowIcon: 'Healing/Healing Compass', theory: 'The mediant is the third degree of the scale, sitting between the tonic and dominant, creating a bridge between these important functions.' },
+      { id: 'subdominant', name: 'Subdominant', description: 'The fourth scale degree (IV)', color: '#55FF55', wowIcon: 'Radiant/Divine Blessing', theory: 'The subdominant is the fourth degree of the scale, creating a sense of movement away from the tonic and toward the dominant.' },
+      { id: 'dominant', name: 'Dominant', description: 'The fifth scale degree (V)', color: '#55FFFF', wowIcon: 'Radiant/Radiant Aura', theory: 'The dominant is the fifth degree of the scale, creating strong tension that wants to resolve back to the tonic.' },
+      { id: 'submediant', name: 'Submediant', description: 'The sixth scale degree (vi)', color: '#5555FF', wowIcon: 'Healing/Golden Heart', theory: 'The submediant is the sixth degree of the scale, often used as a substitute for the tonic in deceptive cadences.' },
+      { id: 'leading_tone', name: 'Leading Tone', description: 'The seventh scale degree (vii)', color: '#FF55FF', wowIcon: 'Arcane/Enchanted Sword', theory: 'The leading tone is the seventh degree of the scale, creating strong tension that pulls toward the tonic.' }
     ]
   },
   PROPHECY_SYSTEM: {

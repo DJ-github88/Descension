@@ -133,6 +133,22 @@ The seven cultures that exist today are not the direct products of the noble hou
         {
             name: "Tesshan Keep",
             description: 'The ancestral seat of House Tesshan in the Cragjaw Peaks, buried under eighty feet of permanent snow-drift. The keep is accessible only through a single tunnel carved through the drift, defended by a gate that has not been opened from the outside in four hundred years. The Tessen inside number perhaps two hundred, the last remnants of a house that once governed thousands. They survive on geothermal heat purchased from the Fexric through pipes that run beneath the snow. They have never seen their suppliers. They have never asked what the Fexric look like.'
+        },
+        {
+            name: 'Kumis Downs',
+            description: 'The spiritual heartland of the Ordan people on the Sundrift Vale — rolling grassland hills where the great mare-herds graze. The Downs produce the fermented mare\'s milk that fuels the steppe\'s trade economy and sustains its rituals. Ordan throat-singers can be heard for miles across the open ground, their harmonic overtones carrying further than any shout. The Downs are peaceful by necessity — the herds will not tolerate violence near their grazing. This is as close to sacred ground as the practical Ordan acknowledge.'
+        },
+        {
+            name: "Morren's Bogpost",
+            description: 'The primary Morren outpost on the Sundrift Vale\'s forest-steppe border, where Bryngloom goods — fungal lights, memory-glass, bog-mushroom reagents — are exchanged for Ordan wool and hide. The Bogpost is a cluster of squat peat-stone buildings perpetually smelling of bog-water, run by Morren debt-brokers who extend credit at generous terms. The interest always compounds. The Morren learned contract-law from the Neth and applied it to every transaction. No one has ever paid off a Bogpost debt. This is considered a feature, not a bug.'
+        },
+        {
+            name: "Skald's Landing",
+            description: 'The cultural bridge between the Frostwood Reach and Nordhalla — a small river-port where Skald longships dock to trade cold-iron and whale oil for ironwood timber and resin. The settlement is a collision of architectural traditions: Norse-style dragon-prow longhouses amid Thalren peat-stone. The Skald traders here are the only Nordhalla people most Reach-dwellers will ever meet, and their presence has shaped Frostwood\'s northern culture for centuries.'
+        },
+        {
+            name: 'Ember Lagoon',
+            description: 'Sundale\'s only port and its lifeline to the outside world — a warm saltwater lagoon heated by volcanic vents, glowing orange-red at night. The lagoon is one of the few places where three cultures genuinely cooperate: Emberth control the docks, Solvarn maintain the shrine to Sol on the eastern cliff, and Merryn sailors run the shipping lanes. It is never truly dark here. The thermal glow illuminates the basalt cliffs from below, casting rippling red light that the Merryn call "the Boiling Door."'
         }
     ],
 

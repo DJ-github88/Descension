@@ -15,6 +15,8 @@
     box-sizing: border-box;
     margin: 0;
     align-self: stretch;
+    overflow: hidden;
+    max-height: 16px;
 }
 
 .resource-bars-container .class-resource-bar.hexbreaker-charges {
@@ -81,6 +83,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    overflow: hidden;
 }
 
 .charge-indicator.filled {
@@ -104,6 +107,14 @@
     font-size: 10px;
     color: #E8E8E8;
     text-shadow: 0 0 4px rgba(192, 192, 192, 0.6);
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 .charges-value {
@@ -178,6 +189,48 @@
 }
 
 /* Hexbreaker charges menu now uses unified-context-menu.css system */
+
+/* Party member frame overrides - compact single-row */
+.party-member-frame .class-resource-bar.hexbreaker-charges .hexbreaker-container {
+    padding: 0 4px;
+    gap: 4px;
+    min-height: 14px;
+    max-height: 14px;
+    overflow: hidden;
+}
+
+.party-member-frame .class-resource-bar.hexbreaker-charges .charges-display {
+    padding: 0;
+    gap: 2px;
+    min-height: 14px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.party-member-frame .class-resource-bar.hexbreaker-charges .charges-value {
+    display: none;
+}
+
+.party-member-frame .class-resource-bar.hexbreaker-charges .charges-grid {
+    gap: 2px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.party-member-frame .class-resource-bar.hexbreaker-charges .charge-indicator {
+    min-width: 12px;
+    height: 12px;
+    overflow: hidden;
+}
+
+.party-member-frame .class-resource-bar.hexbreaker-charges .charge-icon {
+    font-size: 6px;
+}
+
+/* Hide attack counter in party frame — too cluttered */
+.party-member-frame .class-resource-bar.hexbreaker-charges .attack-counter {
+    display: none;
+}
 
 /* Size Variations */
 .class-resource-bar.hexbreaker-charges.small .hexbreaker-container {

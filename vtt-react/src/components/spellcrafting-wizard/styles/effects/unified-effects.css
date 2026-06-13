@@ -1805,7 +1805,7 @@
 
 .control-category-buttons {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: var(--pf-space-2);
   margin-bottom: var(--pf-space-4);
   justify-content: center;
@@ -1825,9 +1825,11 @@
   font-weight: 600;
   cursor: pointer;
   transition: all var(--pf-transition-normal);
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
+  max-width: 200px;
   justify-content: center;
+  overflow: hidden;
 }
 
 .control-category-btn:hover {
@@ -1848,6 +1850,14 @@
   height: 28px;
   border-radius: var(--pf-border-radius);
   flex-shrink: 0;
+  object-fit: contain;
+}
+
+.control-category-btn span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .control-effects-grid {
@@ -1871,6 +1881,7 @@
   min-height: 100px;
   justify-content: center;
   gap: var(--pf-space-2);
+  overflow: hidden;
 }
 
 .control-effect-card:hover {
@@ -2332,6 +2343,7 @@
   border-radius: var(--pf-border-radius);
   border: 1px solid var(--pf-brown-medium);
   box-shadow: var(--pf-shadow-sm);
+  object-fit: contain;
 }
 
 .control-effect-name {

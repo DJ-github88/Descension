@@ -13,7 +13,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'inspired',
       name: 'Inspired',
       description: 'Gain bonuses to ability checks, attacks, or saving throws',
-      icon: 'spell_holy_divineillumination',
+      icon: '/assets/icons/abilities/Light Path.png',
       category: 'mental',
       actionPointCost: 1,
       options: [
@@ -36,7 +36,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'blessed',
       name: 'Blessed',
       description: 'Divine favor grants various protective benefits',
-      icon: 'spell_holy_blessedrecovery',
+      icon: '/assets/icons/abilities/Healing/Golden Heart.png',
       category: 'divine',
       actionPointCost: 2,
       options: [
@@ -59,7 +59,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'regeneration',
       name: 'Regeneration',
       description: 'Recover hit points over time',
-      icon: 'inv_relics_totemoflife',
+      icon: '/assets/icons/abilities/Natural.png',
       category: 'healing',
       actionPointCost: 2,
       options: [
@@ -78,7 +78,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'invisible',
       name: 'Invisible',
       description: 'Cannot be seen by normal sight',
-      icon: 'ability_vanish',
+      icon: '/assets/icons/abilities/Utility/Rest.png',
       category: 'stealth',
       actionPointCost: 3,
       options: [
@@ -101,7 +101,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'haste',
       name: 'Haste',
       description: 'Move and act more quickly',
-      icon: 'ability_rogue_sprint',
+      icon: '/assets/icons/abilities/Utility/Rest.png',
       category: 'movement',
       actionPointCost: 3,
       options: [
@@ -129,7 +129,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'resistance',
       name: 'Resistance',
       description: 'Take reduced damage from specific sources',
-      icon: 'spell_holy_powerwordshield',
+      icon: '/assets/icons/abilities/Utility/Shield.png',
       category: 'protection',
       actionPointCost: 2,
       options: [
@@ -147,7 +147,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'flying',
       name: 'Flying',
       description: 'Gain the ability to fly',
-      icon: 'ability_mount_flyingcarpet',
+      icon: '/assets/icons/abilities/General/Sword.png',
       category: 'movement',
       actionPointCost: 3,
       options: [
@@ -166,7 +166,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'truesight',
       name: 'Truesight',
       description: 'See through illusions and into magical darkness',
-      icon: 'spell_holy_mindsooth',
+      icon: '/assets/icons/abilities/Light Path.png',
       category: 'perception',
       actionPointCost: 2,
       options: [
@@ -185,7 +185,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'energized',
       name: 'Energized',
       description: 'Gain additional action points and improved energy recovery',
-      icon: 'spell_nature_lightning',
+      icon: '/assets/icons/abilities/Lightning/Lightning Bolt.png',
       category: 'enhancement',
       actionPointCost: 3,
       options: [
@@ -204,7 +204,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'shielded',
       name: 'Energy Shield',
       description: 'Surrounded by a protective energy barrier that absorbs damage',
-      icon: 'spell_holy_powerwordshield',
+      icon: '/assets/icons/abilities/Utility/Shield.png',
       category: 'protection',
       actionPointCost: 2,
       options: [
@@ -223,7 +223,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       id: 'empowered',
       name: 'Empowered',
       description: 'Increases the power of spells and abilities',
-      icon: 'spell_arcane_arcane02',
+      icon: '/assets/icons/abilities/Arcane/Arcane.png',
       category: 'enhancement',
       actionPointCost: 2,
       options: [
@@ -248,7 +248,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'attackers_advantage_buff',
       name: 'Attackers Have Advantage',
       description: 'Attackers roll twice and take the higher result when attacking you',
-      icon: 'ability_warrior_defensivestance',
+      icon: '/assets/icons/abilities/General/Sword.png',
       category: 'buff',
       actionPointCost: 2,
       options: [
@@ -271,7 +271,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'attackers_disadvantage',
       name: 'Attackers Have Disadvantage',
       description: 'Attackers roll twice and take the lower result when attacking you',
-      icon: 'ability_warrior_defensivestance',
+      icon: '/assets/icons/abilities/General/Sword.png',
       category: 'buff',
       actionPointCost: 2,
       options: [
@@ -294,7 +294,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'advantage_attack',
       name: 'Advantage on Attacks',
       description: 'Roll twice and take the higher result on attack rolls',
-      icon: 'ability_warrior_battleshout',
+      icon: '/assets/icons/abilities/General/Sword.png',
       category: 'buff',
       actionPointCost: 2,
       options: [
@@ -317,7 +317,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'critical_improved',
       name: 'Improved Critical',
       description: 'Expand critical hit range and/or increase critical damage',
-      icon: 'ability_rogue_coldblood',
+      icon: '/assets/icons/abilities/Utility/Rest.png',
       category: 'buff',
       actionPointCost: 2,
       options: [
@@ -336,7 +336,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'damage_bonus',
       name: 'Bonus Damage',
       description: 'Deal additional damage on successful attacks',
-      icon: 'ability_warrior_weaponmastery',
+      icon: '/assets/icons/abilities/General/Sword.png',
       category: 'buff',
       actionPointCost: 1,
       options: [
@@ -357,7 +357,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'extra_action',
       name: 'Extra Action',
       description: 'Gain additional actions in combat',
-      icon: 'spell_nature_timestop',
+      icon: '/assets/icons/abilities/Natural.png',
       category: 'buff',
       actionPointCost: 4,
       options: [
@@ -376,7 +376,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'damage_resistance',
       name: 'Damage Resistance',
       description: 'Reduce damage taken from specific sources',
-      icon: 'spell_holy_devotionaura',
+      icon: '/assets/icons/abilities/Light Path.png',
       category: 'buff',
       actionPointCost: 2,
       options: [
@@ -395,7 +395,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'saving_throw_advantage',
       name: 'Saving Throw Advantage',
       description: 'Roll twice and take the higher result on saving throws',
-      icon: 'spell_holy_sealofprotection',
+      icon: '/assets/icons/abilities/Light Path.png',
       category: 'buff',
       actionPointCost: 1,
       options: [
@@ -413,7 +413,7 @@ export const COMBAT_ADVANTAGES = [
       id: 'lifesteal',
       name: 'Life Steal',
       description: 'Recover health based on damage dealt',
-      icon: 'spell_shadow_lifedrain02',
+      icon: '/assets/icons/abilities/Drain Life.png',
       category: 'buff',
       actionPointCost: 2,
       options: [
@@ -438,7 +438,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       id: 'blinded',
       name: 'Blinded',
       description: 'Cannot see, automatically fails sight-based checks, disadvantage on attacks',
-      icon: 'spell_shadow_eyeofthedarkmoon',
+      icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
       category: 'sensory',
       actionPointCost: 3,
       options: [
@@ -459,7 +459,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       id: 'charmed',
       name: 'Charmed',
       description: 'Regards the charmer as a friendly acquaintance, cannot attack them',
-      icon: 'spell_shadow_mindsteal',
+      icon: '/assets/icons/abilities/Purple Star.png',
       category: 'mental',
       actionPointCost: 4,
       options: [
@@ -479,7 +479,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       id: 'frightened',
       name: 'Frightened',
       description: 'Disadvantage on ability checks and attacks while source of fear is in sight',
-      icon: 'spell_shadow_possession',
+      icon: '/assets/icons/abilities/Dark Abyss.png',
       category: 'mental',
       actionPointCost: 2,
       options: [
@@ -499,7 +499,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       id: 'paralyzed',
       name: 'Paralyzed',
       description: 'Incapacitated, cannot move or speak, auto-fails STR and AGI saves',
-      icon: 'spell_nature_stranglevines',
+      icon: '/assets/icons/abilities/Rock Throw.png',
       category: 'physical',
       actionPointCost: 4,
       options: [
@@ -519,7 +519,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       id: 'poisoned',
       name: 'Poisoned',
       description: 'Disadvantage on attack rolls and ability checks',
-      icon: 'ability_rogue_poisonousanimosity',
+      icon: '/assets/icons/abilities/Projectile Acid.png',
       category: 'physical',
       actionPointCost: 2,
       options: [
@@ -541,7 +541,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       id: 'restrained',
       name: 'Restrained',
       description: 'Speed becomes 0, disadvantage on attacks, advantage on attacks against them',
-      icon: 'ability_warrior_throwdown',
+      icon: '/assets/icons/abilities/General/Sword.png',
       category: 'physical',
       actionPointCost: 3,
       options: [
@@ -562,7 +562,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       id: 'silenced',
       name: 'Silenced',
       description: 'Cannot speak or cast spells with verbal components',
-      icon: 'spell_holy_silence',
+      icon: '/assets/icons/abilities/Light Path.png',
       category: 'magical',
       actionPointCost: 2,
       options: [
@@ -607,7 +607,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'attackers_advantage',
       name: 'Attackers Have Advantage',
       description: 'Attackers roll twice and take the higher result when attacking you',
-      icon: 'ability_warrior_defensivestance',
+      icon: '/assets/icons/abilities/General/Sword.png',
       category: 'debuff',
       actionPointCost: 2,
       options: [
@@ -630,7 +630,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'disadvantage_attack',
       name: 'Disadvantage on Attacks',
       description: 'Roll twice and take the lower result on attack rolls',
-      icon: 'ability_rogue_wrongfullyaccused',
+      icon: '/assets/icons/abilities/General/Sword.png',
       category: 'debuff',
       actionPointCost: 2,
       options: [
@@ -653,7 +653,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'disadvantage_save',
       name: 'Disadvantage on Saves',
       description: 'Roll twice and take the lower result on saving throws',
-      icon: 'spell_shadow_antishadow',
+      icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
       category: 'debuff',
       actionPointCost: 2,
       options: [
@@ -661,12 +661,12 @@ export const COMBAT_DISADVANTAGES = [
         { id: 'specific', name: 'Specific Save', description: 'Disadvantage on a specific saving throw' }
       ],
       saveTypes: [
-        { id: 'strength', name: 'Strength', icon: 'spell_nature_strength' },
-        { id: 'agility', name: 'Agility', icon: 'ability_rogue_quickrecovery' },
-        { id: 'constitution', name: 'Constitution', icon: 'spell_holy_devotion' },
-        { id: 'intelligence', name: 'Intelligence', icon: 'spell_arcane_arcane01' },
-        { id: 'spirit', name: 'Spirit', icon: 'spell_holy_divinespirit' },
-        { id: 'charisma', name: 'Charisma', icon: 'spell_holy_powerwordshield' }
+        { id: 'strength', name: 'Strength', icon: '/assets/icons/abilities/Natural.png' },
+        { id: 'agility', name: 'Agility', icon: '/assets/icons/abilities/Utility/Rest.png' },
+        { id: 'constitution', name: 'Constitution', icon: '/assets/icons/abilities/Light Path.png' },
+        { id: 'intelligence', name: 'Intelligence', icon: '/assets/icons/abilities/Arcane/Arcane.png' },
+        { id: 'spirit', name: 'Spirit', icon: '/assets/icons/abilities/Light Path.png' },
+        { id: 'charisma', name: 'Charisma', icon: '/assets/icons/abilities/Light Path.png' }
       ],
       defaultParameters: {
         specificSave: 'strength',
@@ -678,7 +678,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'damage_vulnerability',
       name: 'Vulnerability',
       description: 'Take increased damage from specific sources',
-      icon: 'spell_shadow_shadowwordpain',
+      icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
       category: 'debuff',
       actionPointCost: 3,
       options: [
@@ -697,7 +697,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'reduced_speed',
       name: 'Reduced Speed',
       description: 'Movement speed is reduced',
-      icon: 'spell_frost_chainsofice',
+      icon: '/assets/icons/abilities/Frost/Frost Bolt.png',
       category: 'debuff',
       actionPointCost: 1,
       options: [
@@ -716,7 +716,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'stat_reduction',
       name: 'Stat Reduction',
       description: 'Primary attribute values are reduced',
-      icon: 'spell_shadow_curseofweakness',
+      icon: '/assets/icons/abilities/Cursed Letter.png',
       category: 'debuff',
       actionPointCost: 3,
       options: [
@@ -740,7 +740,7 @@ export const COMBAT_DISADVANTAGES = [
       id: 'action_point_drain',
       name: 'Action Point Drain',
       description: 'Target loses action points or regenerates fewer per round',
-      icon: 'spell_nature_timestop',
+      icon: '/assets/icons/abilities/Natural.png',
       category: 'debuff',
       actionPointCost: 3,
       options: [

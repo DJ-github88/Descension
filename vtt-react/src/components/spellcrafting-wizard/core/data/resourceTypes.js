@@ -15,7 +15,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'AP',
       description: 'Used to perform actions in combat',
       color: '#4e9df5',
-      icon: 'spell_nature_timestop',
+      icon: '/assets/icons/abilities/Nature/Natural.png',
       defaultMax: 5,
       defaultRegen: 3,
       regenTrigger: 'startOfTurn',
@@ -32,7 +32,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'MP',
       description: 'Magical energy used to cast spells',
       color: '#25a6e0',
-      icon: 'spell_arcane_arcane02',
+      icon: '/assets/icons/abilities/Arcane/Arcane.png',
       defaultMax: 100,
       defaultRegen: 5,
       regenTrigger: 'rest',
@@ -49,7 +49,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'HP',
       description: 'Represents physical well-being and vitality',
       color: '#e02525',
-      icon: 'spell_holy_sealofsacrifice',
+      icon: '/assets/icons/abilities/Light Path.png',
       defaultMax: 10,
       defaultRegen: 0,
       regenTrigger: 'rest',
@@ -66,7 +66,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'EN',
       description: 'Physical stamina used for special abilities',
       color: '#f9e825',
-      icon: 'inv_alchemy_elixir_05',
+      icon: '/assets/icons/abilities/Healing/Golden Heart.png',
       defaultMax: 100,
       defaultRegen: 10,
       regenTrigger: 'outOfCombat',
@@ -83,7 +83,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'RG',
       description: 'Combat fury that builds through dealing and taking damage',
       color: '#e84c38',
-      icon: 'ability_warrior_rampage',
+      icon: '/assets/icons/abilities/General/Sword.png',
       defaultMax: 100,
       defaultRegen: -5, // Degenerates outside of combat
       regenTrigger: 'dealDamage',
@@ -100,7 +100,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'CP',
       description: 'Accumulated points used for executing finishing moves',
       color: '#8d3de8',
-      icon: 'ability_rogue_eviscerate',
+      icon: '/assets/icons/abilities/Utility/Rest.png',
       defaultMax: 5,
       defaultRegen: 0, // Generated through specific abilities
       regenTrigger: 'ability',
@@ -123,7 +123,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'SS',
       description: 'Soul fragments used for powerful Harrow spells',
       color: '#8745e0',
-      icon: 'spell_shadow_soulgem',
+      icon: '/assets/icons/abilities/Shadow.png',
       defaultMax: 5,
       defaultRegen: 0, // Generated through specific abilities
       regenTrigger: 'killing',
@@ -141,7 +141,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'HP',
       description: 'Divine energy used for Zealot abilities',
       color: '#f2e596',
-      icon: 'spell_holy_divinepurpose',
+      icon: '/assets/icons/abilities/Light Path.png',
       defaultMax: 5,
       defaultRegen: 0, // Generated through specific abilities
       regenTrigger: 'ability',
@@ -159,7 +159,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'FC',
       description: 'Concentration used for Apex abilities',
       color: '#e5a561',
-      icon: 'ability_hunter_focusfire',
+      icon: '/assets/icons/abilities/General/Sword.png',
       defaultMax: 100,
       defaultRegen: 10,
       regenTrigger: 'passive',
@@ -177,7 +177,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'KI',
       description: 'Spiritual energy used for monk abilities',
       color: '#78dc78',
-      icon: 'ability_monk_chiwave',
+      icon: '/assets/icons/abilities/General/Sword.png',
       defaultMax: 20,
       defaultRegen: 1,
       regenTrigger: 'startOfTurn',
@@ -195,7 +195,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'AP',
       description: 'Celestial energy used for Hexer balance abilities',
       color: '#4287f5',
-      icon: 'ability_druid_eclipse',
+      icon: '/assets/icons/abilities/Nature/Natural.png',
       defaultMax: 100,
       defaultRegen: 0, // Generated through specific abilities
       regenTrigger: 'ability',
@@ -214,7 +214,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'RP',
       description: 'Death energy used for Dreadnaught abilities',
       color: '#519be0',
-      icon: 'spell_deathknight_frostpresence',
+      icon: '/assets/icons/abilities/Frost/Frost Touch.png',
       defaultMax: 100,
       defaultRegen: 0, // Generated through rune consumption
       regenTrigger: 'runeUsage',
@@ -232,7 +232,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'RN',
       description: 'Magical inscriptions used for Dreadnaught abilities',
       color: '#5ec0db',
-      icon: 'spell_deathknight_runesofpower',
+      icon: '/assets/icons/abilities/Dark Abyss.png',
       defaultMax: 6,
       defaultRegen: 1,
       regenTrigger: 'time',
@@ -251,7 +251,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'BN',
       description: 'Radiant omen energy generated from even d20 results. Powers boons, blessings, and protective signs for the Augur.',
       color: '#FFD700',
-      icon: 'spell_holy_farsight',
+      icon: '/assets/icons/abilities/Light Path.png',
       defaultMax: 10,
       defaultRegen: 0,
       regenTrigger: 'evenD20',
@@ -271,7 +271,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'ML',
       description: 'Dark omen energy generated from odd d20 results. Powers curses, debuffs, and ill portents for the Augur.',
       color: '#8B008B',
-      icon: 'spell_shadow_curseofsargeras',
+      icon: '/assets/icons/abilities/Cursed Letter.png',
       defaultMax: 10,
       defaultRegen: 0,
       regenTrigger: 'oddD20',
@@ -291,7 +291,7 @@ export const STANDARD_RESOURCE_TYPES = [
       shortName: 'HV',
       description: 'Chaotic energy earned by fulfilling prophecies for the Doomsayer. Spent to widen prophecy ranges and cast stronger spells.',
       color: '#FF4500',
-      icon: 'spell_fire_selfdestruct',
+      icon: '/assets/icons/abilities/Fire/Fire Orb.png',
       defaultMax: 15,
       defaultRegen: 0,
       regenTrigger: 'prophecyFulfilled',
@@ -337,13 +337,13 @@ export const STANDARD_RESOURCE_TYPES = [
           type: 'health',
           conversionRate: 0.5, // 1 AP = 0.5 health
           name: 'Blood Magic',
-          icon: 'spell_shadow_lifedrain'
+          icon: '/assets/icons/abilities/Necrotic/Drain Life.png'
         },
         {
           type: 'rage',
           conversionRate: 2, // 1 AP = 2 rage
           name: 'Furious Casting',
-          icon: 'ability_warrior_rampage'
+          icon: '/assets/icons/abilities/General/Sword.png'
         }
       ]
     },
@@ -367,7 +367,7 @@ export const STANDARD_RESOURCE_TYPES = [
           type: 'health',
           conversionRate: 1.5, // 1 AP = 1.5 health
           name: 'Sacrificial Healing',
-          icon: 'spell_holy_sealofsacrifice'
+          icon: '/assets/icons/abilities/Light Path.png'
         }
       ]
     },
@@ -459,7 +459,7 @@ export const STANDARD_RESOURCE_TYPES = [
           type: 'soulShards',
           conversionRate: 0.33, // 1 AP = 0.33 soul shards
           name: 'Soul Summoning',
-          icon: 'spell_shadow_soulgem',
+      icon: '/assets/icons/abilities/Shadow.png',
           classRestriction: 'warlock'
         }
       ]

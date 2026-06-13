@@ -13,6 +13,7 @@ import {
 
 // Import stat data
 import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 // Pathfinder styles imported via main.css
 
@@ -21,42 +22,42 @@ export const CONTROL_TYPES = {
   FORCED_MOVEMENT: {
     id: 'forced_movement',
     name: 'Forced Movement',
-    icon: 'ability_warrior_charge',
+    icon: 'Utility/Bull Charge',
     description: 'Push, pull, or relocate targets',
     effectIcon: FaPersonWalkingArrowRight
   },
   RESTRAINT: {
     id: 'restraint',
     name: 'Restraint',
-    icon: 'spell_nature_stranglevines',
+    icon: 'Utility/Bound Wrists',
     description: 'Immobilize or restrict movement',
     effectIcon: FaGrip
   },
   KNOCKDOWN: {
     id: 'knockdown',
     name: 'Knockdown',
-    icon: 'ability_warrior_groundingstand',
+    icon: 'General/Trip',
     description: 'Knock targets prone or off balance',
     effectIcon: FaPersonFalling
   },
   INCAPACITATION: {
     id: 'incapacitation',
     name: 'Incapacitation',
-    icon: 'spell_shadow_possession',
+    icon: 'Utility/Stun',
     description: 'Sleep, stun, or paralyze targets',
     effectIcon: FaBed
   },
   MIND_CONTROL: {
     id: 'mind_control',
     name: 'Mind Control',
-    icon: 'spell_shadow_mindtwisting',
+    icon: 'Psychic/Mind Control',
     description: 'Control or influence target behavior',
     effectIcon: FaPersonCircleQuestion
   },
   RESTRICTION: {
     id: 'restriction',
     name: 'Action Restriction',
-    icon: 'spell_shadow_impphaseshift',
+    icon: 'Utility/Chained',
     description: 'Prevent specific actions or damage types',
     effectIcon: FaCircleXmark
   }
@@ -64,20 +65,20 @@ export const CONTROL_TYPES = {
 
 // Saving throw types
 const SAVING_THROW_TYPES = [
-  { id: 'strength', name: 'Strength', icon: 'spell_nature_strength' },
-  { id: 'agility', name: 'Agility', icon: 'ability_rogue_sprint' },
-  { id: 'constitution', name: 'Constitution', icon: 'spell_holy_devotionaura' },
-  { id: 'intelligence', name: 'Intelligence', icon: 'spell_shadow_brainwash' },
-  { id: 'spirit', name: 'Spirit', icon: 'spell_holy_divinespirit' },
-  { id: 'charisma', name: 'Charisma', icon: 'spell_holy_powerinfusion' }
+  { id: 'strength', name: 'Strength', icon: 'General/Strength' },
+  { id: 'agility', name: 'Agility', icon: 'Utility/Speed Dash' },
+  { id: 'constitution', name: 'Constitution', icon: 'Utility/Shield' },
+  { id: 'intelligence', name: 'Intelligence', icon: 'Psychic/Focused Mind' },
+  { id: 'spirit', name: 'Spirit', icon: 'Radiant/Radiant Aura' },
+  { id: 'charisma', name: 'Charisma', icon: 'General/Influence' }
 ];
 
 // Duration types
 const DURATION_TYPES = [
-  { id: 'instant', name: 'Instantaneous', description: 'Effect happens immediately with no duration', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'inv_misc_pocketwatch_02' },
-  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'inv_misc_pocketwatch_03' }
+  { id: 'instant', name: 'Instantaneous', description: 'Effect happens immediately with no duration', icon: 'Utility/Rest' },
+  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'Utility/Rest' },
+  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'Utility/Rest' },
+  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'Utility/Rest' }
 ];
 
 // Difficulty levels
@@ -90,96 +91,96 @@ const DIFFICULTY_LEVELS = [
 
 // Target types
 const TARGET_TYPES = [
-  { id: 'single', name: 'Single Target', icon: 'spell_shadow_soulfeast', description: 'Affects one creature' },
-  { id: 'multiple', name: 'Multiple Targets', icon: 'spell_holy_prayerofhealing', description: 'Affects several creatures' },
-  { id: 'area', name: 'Area Effect', icon: 'spell_fire_flamestrike', description: 'Affects all creatures in an area' }
+  { id: 'single', name: 'Single Target', icon: 'Utility/Target Crosshair', description: 'Affects one creature' },
+  { id: 'multiple', name: 'Multiple Targets', icon: 'Utility/Multi Directional Shot', description: 'Affects several creatures' },
+  { id: 'area', name: 'Area Effect', icon: 'Utility/Radial Explosion', description: 'Affects all creatures in an area' }
 ];
 
 // Forced movement types
 const FORCED_MOVEMENT_TYPES = [
-  { id: 'push', name: 'Push', icon: 'ability_warrior_shockwave', description: 'Move the target away from the caster, potentially knocking them prone or disrupting their concentration.' },
-  { id: 'pull', name: 'Pull', icon: 'ability_hunter_harpoon', description: 'Move the target toward the caster, potentially pulling them into melee range or disrupting their positioning.' },
-  { id: 'slide', name: 'Slide', icon: 'ability_rogue_sprint', description: 'Move the target in any direction, potentially repositioning them or creating an opening for allies.' },
-  { id: 'teleport', name: 'Teleport', icon: 'spell_arcane_portalironforge', description: 'Instantaneously relocate the target to a location of the caster\'s choice, potentially catching them off guard or repositioning them for strategic advantage.' }
+  { id: 'push', name: 'Push', icon: 'Utility/Bull Charge', description: 'Move the target away from the caster, potentially knocking them prone or disrupting their concentration.' },
+  { id: 'pull', name: 'Pull', icon: 'Nature/Strangle', description: 'Move the target toward the caster, potentially pulling them into melee range or disrupting their positioning.' },
+  { id: 'slide', name: 'Slide', icon: 'Utility/Speed Dash', description: 'Move the target in any direction, potentially repositioning them or creating an opening for allies.' },
+  { id: 'teleport', name: 'Teleport', icon: 'Nature/Teleport', description: 'Instantaneously relocate the target to a location of the caster\'s choice, potentially catching them off guard or repositioning them for strategic advantage.' }
 ];
 
 // Restraint types
 const RESTRAINT_TYPES = [
-  { id: 'bind', name: 'Binding', icon: 'spell_nature_stranglevines', description: 'Physically restrain the target, preventing them from moving or taking reactions.' },
-  { id: 'slow', name: 'Slowing', icon: 'spell_frost_freezingbreath', description: 'Reduce the target\'s movement speed, making it harder for them to move or react.' },
-  { id: 'snare', name: 'Snare', icon: 'ability_ensnare', description: 'Root the target in place, preventing them from moving or taking reactions.' },
-  { id: 'web', name: 'Web', icon: 'spell_nature_web', description: 'Entangle multiple targets, slowing their movement and making it harder for them to react.' }
+  { id: 'bind', name: 'Binding', icon: 'Utility/Bound Wrists', description: 'Physically restrain the target, preventing them from moving or taking reactions.' },
+  { id: 'slow', name: 'Slowing', icon: 'Utility/Slow Speed', description: 'Reduce the target\'s movement speed, making it harder for them to move or react.' },
+  { id: 'snare', name: 'Snare', icon: 'Nature/Tied up', description: 'Root the target in place, preventing them from moving or taking reactions.' },
+  { id: 'web', name: 'Web', icon: 'Nature/Web', description: 'Entangle multiple targets, slowing their movement and making it harder for them to react.' }
 ];
 
 // Knockdown effects
 const KNOCKDOWN_TYPES = [
-  { id: 'trip', name: 'Trip', icon: 'ability_hunter_triplekill', description: 'Knock the target prone, leaving them vulnerable to attacks and potentially disrupting their concentration.' },
-  { id: 'stagger', name: 'Stagger', icon: 'ability_warrior_trauma', description: 'Leave the target reeling, potentially disrupting their concentration or making them more vulnerable to attacks.' },
-  { id: 'repel', name: 'Repel', icon: 'ability_warrior_shockwave', description: 'Knock the target back and down, potentially creating distance or disrupting their positioning.' },
-  { id: 'throw', name: 'Throw', icon: 'inv_throwingaxe_01', description: 'Launch the target into the air, potentially knocking them prone or disrupting their concentration.' }
+  { id: 'trip', name: 'Trip', icon: 'General/Trip', description: 'Knock the target prone, leaving them vulnerable to attacks and potentially disrupting their concentration.' },
+  { id: 'stagger', name: 'Stagger', icon: 'General/Slap', description: 'Leave the target reeling, potentially disrupting their concentration or making them more vulnerable to attacks.' },
+  { id: 'repel', name: 'Repel', icon: 'General/Throw', description: 'Knock the target back and down, potentially creating distance or disrupting their positioning.' },
+  { id: 'throw', name: 'Throw', icon: 'Rock Throw', description: 'Launch the target into the air, potentially knocking them prone or disrupting their concentration.' }
 ];
 
 // Incapacitation types
 const INCAPACITATION_TYPES = [
-  { id: 'sleep', name: 'Sleep', icon: 'spell_holy_mindvision', description: 'Put the target to sleep, making them unable to act or react.' },
-  { id: 'stun', name: 'Stun', icon: 'ability_priest_psychicscream', description: 'Leave the target stunned, potentially disrupting their concentration or making them more vulnerable to attacks.' },
-  { id: 'paralyze', name: 'Paralyze', icon: 'spell_shadow_possession', description: 'Paralyze the target, preventing them from moving or taking reactions.' },
-  { id: 'daze', name: 'Daze', icon: 'spell_shadow_fumble', description: 'Leave the target dazed, potentially disrupting their concentration or making them more vulnerable to attacks.' }
+  { id: 'sleep', name: 'Sleep', icon: 'Utility/Sleep', description: 'Put the target to sleep, making them unable to act or react.' },
+  { id: 'stun', name: 'Stun', icon: 'Utility/Stunning Blow', description: 'Leave the target stunned, potentially disrupting their concentration or making them more vulnerable to attacks.' },
+  { id: 'paralyze', name: 'Paralyze', icon: 'Utility/Paralyzed', description: 'Paralyze the target, preventing them from moving or taking reactions.' },
+  { id: 'daze', name: 'Daze', icon: 'General/Confused', description: 'Leave the target dazed, potentially disrupting their concentration or making them more vulnerable to attacks.' }
 ];
 
 // Mind control types
 const MIND_CONTROL_TYPES = [
-  { id: 'command', name: 'Command', icon: 'spell_shadow_charm', description: 'Issue a single command to the target, potentially influencing their behavior or actions.' },
-  { id: 'confuse', name: 'Confuse', icon: 'spell_shadow_mindsteal', description: 'Confuse the target, potentially disrupting their concentration or making them more vulnerable to attacks.' },
-  { id: 'dominate', name: 'Dominate', icon: 'spell_shadow_mindtwisting', description: 'Take complete control of the target, potentially influencing their behavior or actions.' },
-  { id: 'fear', name: 'Fear', icon: 'spell_shadow_possession', description: 'Instill fear in the target, potentially causing them to flee or become more vulnerable to attacks.' }
+  { id: 'command', name: 'Command', icon: 'General/Command', description: 'Issue a single command to the target, potentially influencing their behavior or actions.' },
+  { id: 'confuse', name: 'Confuse', icon: 'General/Confused', description: 'Confuse the target, potentially disrupting their concentration or making them more vulnerable to attacks.' },
+  { id: 'dominate', name: 'Dominate', icon: 'Psychic/Mind Control', description: 'Take complete control of the target, potentially influencing their behavior or actions.' },
+  { id: 'fear', name: 'Fear', icon: 'Utility/Fear', description: 'Instill fear in the target, potentially causing them to flee or become more vulnerable to attacks.' }
 ];
 
 // Primary restriction categories
 const PRIMARY_RESTRICTION_TYPES = [
-  { id: 'actions', name: 'Actions', icon: 'ability_warrior_battleshout', description: 'Prevent the target from taking actions.' },
-  { id: 'reactions', name: 'Reactions', icon: 'ability_warrior_challange', description: 'Prevent the target from taking reactions.' },
-  { id: 'attack_types', name: 'Attack Types', icon: 'ability_warrior_disarm', description: 'Prevent specific types of attacks.' },
-  { id: 'damage_types', name: 'Damage Types', icon: 'spell_fire_flamebolt', description: 'Prevent specific types of damage.' }
+  { id: 'actions', name: 'Actions', icon: 'General/Command', description: 'Prevent the target from taking actions.' },
+  { id: 'reactions', name: 'Reactions', icon: 'General/Defend', description: 'Prevent the target from taking reactions.' },
+  { id: 'attack_types', name: 'Attack Types', icon: 'General/Sword', description: 'Prevent specific types of attacks.' },
+  { id: 'damage_types', name: 'Damage Types', icon: 'Fire/Flame Burst', description: 'Prevent specific types of damage.' }
 ];
 
 // Action restriction types
 const ACTION_RESTRICTION_TYPES = [
-  { id: 'melee_attacks', name: 'Melee Attacks', icon: 'ability_warrior_disarm', description: 'Prevent the target from making melee attacks.' },
-  { id: 'ranged_attacks', name: 'Ranged Attacks', icon: 'ability_hunter_snipershot', description: 'Prevent the target from making ranged attacks.' },
-  { id: 'spellcasting', name: 'Spellcasting', icon: 'spell_shadow_detectlesserinvisibility', description: 'Prevent the target from casting spells.' },
-  { id: 'healing', name: 'Healing', icon: 'spell_holy_holybolt', description: 'Prevent the target from receiving or casting healing effects.' }
+  { id: 'melee_attacks', name: 'Melee Attacks', icon: 'General/Sword', description: 'Prevent the target from making melee attacks.' },
+  { id: 'ranged_attacks', name: 'Ranged Attacks', icon: 'Utility/Piercing Shot', description: 'Prevent the target from making ranged attacks.' },
+  { id: 'spellcasting', name: 'Spellcasting', icon: 'Psychic/Psionic Blessing', description: 'Prevent the target from casting spells.' },
+  { id: 'healing', name: 'Healing', icon: 'Healing/Golden Heart', description: 'Prevent the target from receiving or casting healing effects.' }
 ];
 
 // Melee damage subtypes
 const MELEE_DAMAGE_SUBTYPES = [
-  { id: 'bludgeoning_damage', name: 'physical', icon: 'inv_mace_2h_pvp410_c_01', description: 'Restrict bludgeoning damage from hammers, clubs, etc.' },
-  { id: 'piercing_damage', name: 'physical', icon: 'inv_sword_31', description: 'Restrict piercing damage from spears, arrows, etc.' },
-  { id: 'slashing_damage', name: 'physical', icon: 'ability_warrior_cleave', description: 'Restrict slashing damage from swords, axes, etc.' }
+  { id: 'bludgeoning_damage', name: 'physical', icon: 'General/Break Bone', description: 'Restrict bludgeoning damage from hammers, clubs, etc.' },
+  { id: 'piercing_damage', name: 'physical', icon: 'General/Spear', description: 'Restrict piercing damage from spears, arrows, etc.' },
+  { id: 'slashing_damage', name: 'physical', icon: 'General/Sword', description: 'Restrict slashing damage from swords, axes, etc.' }
 ];
 
 // Magic damage subtypes - All D&D 5e damage types
 const MAGIC_DAMAGE_SUBTYPES = [
-  { id: 'acid_damage', name: 'blight', icon: 'ability_creature_poison_03', description: 'Restrict acid damage specifically.' },
-  { id: 'cold_damage', name: 'rime', icon: 'spell_frost_frostbolt02', description: 'Restrict cold/frost damage specifically.' },
-  { id: 'fire_damage', name: 'ember', icon: 'spell_fire_flamebolt', description: 'Restrict fire damage specifically.' },
-  { id: 'force_damage', name: 'arcane', icon: 'spell_arcane_blast', description: 'Restrict force damage specifically.' },
-  { id: 'lightning_damage', name: 'storm', icon: 'spell_nature_lightning', description: 'Restrict lightning/electric damage specifically.' },
-  { id: 'necrotic_damage', name: 'blight', icon: 'spell_shadow_shadowbolt', description: 'Restrict necrotic/shadow damage specifically.' },
-  { id: 'poison_damage', name: 'blight', icon: 'ability_rogue_poisonousblades', description: 'Restrict poison damage specifically.' },
-  { id: 'psychic_damage', name: 'wyrd', icon: 'spell_shadow_mindtwisting', description: 'Restrict psychic damage specifically.' },
-  { id: 'radiant_damage', name: 'ember', icon: 'spell_holy_holybolt', description: 'Restrict radiant/holy damage specifically.' },
-  { id: 'thunder_damage', name: 'storm', icon: 'spell_nature_thunderclap', description: 'Restrict thunder/sonic damage specifically.' },
-  { id: 'arcane_damage', name: 'Arcane', icon: 'spell_arcane_arcane01', description: 'Restrict arcane damage specifically.' },
-  { id: 'void_damage', name: 'blight', icon: 'spell_shadow_seedofdestruction', description: 'Restrict void/chaos damage specifically.' },
-  { id: 'healing_effect', name: 'Healing', icon: 'spell_holy_sealofsacrifice', description: 'Restrict healing effects specifically.' }
+  { id: 'acid_damage', name: 'blight', icon: 'Projectile Acid', description: 'Restrict acid damage specifically.' },
+  { id: 'cold_damage', name: 'rime', icon: 'Frost/FrostBite', description: 'Restrict cold/frost damage specifically.' },
+  { id: 'fire_damage', name: 'ember', icon: 'Fire/Flame Burst', description: 'Restrict fire damage specifically.' },
+  { id: 'force_damage', name: 'arcane', icon: 'Arcane/Magical Sword', description: 'Restrict force damage specifically.' },
+  { id: 'lightning_damage', name: 'storm', icon: 'Lightning/Lightning Strike', description: 'Restrict lightning/electric damage specifically.' },
+  { id: 'necrotic_damage', name: 'blight', icon: 'Necrotic/Necrotic Decay 1', description: 'Restrict necrotic/shadow damage specifically.' },
+  { id: 'poison_damage', name: 'blight', icon: 'Poison/Poison Venom', description: 'Restrict poison damage specifically.' },
+  { id: 'psychic_damage', name: 'wyrd', icon: 'Psychic/Mind Strike', description: 'Restrict psychic damage specifically.' },
+  { id: 'radiant_damage', name: 'ember', icon: 'Radiant/Radiant Beam', description: 'Restrict radiant/holy damage specifically.' },
+  { id: 'thunder_damage', name: 'storm', icon: 'Lightning/Lightning Bolt', description: 'Restrict thunder/sonic damage specifically.' },
+  { id: 'arcane_damage', name: 'Arcane', icon: 'Arcane/Enchanted Sword', description: 'Restrict arcane damage specifically.' },
+  { id: 'void_damage', name: 'blight', icon: 'Shadow Darkness', description: 'Restrict void/chaos damage specifically.' },
+  { id: 'healing_effect', name: 'Healing', icon: 'Healing/Golden Heart', description: 'Restrict healing effects specifically.' }
 ];
 
 // Damage type restriction types (top level)
 const DAMAGE_RESTRICTION_TYPES = [
-  { id: 'melee_damage', name: 'Melee Damage', icon: 'ability_warrior_savageblow', description: 'Restrict all physical melee damage (bludgeoning, piercing, slashing).', hasSubtypes: true, subtypes: MELEE_DAMAGE_SUBTYPES },
-  { id: 'magic_damage', name: 'Magic Damage', icon: 'spell_arcane_blast', description: 'Restrict all magical damage (fire, frost, arcane, etc.).', hasSubtypes: true, subtypes: MAGIC_DAMAGE_SUBTYPES },
-  { id: 'healing_category', name: 'Healing', icon: 'spell_holy_sealofsacrifice', description: 'Restrict healing effects.', hasSubtypes: false }
+  { id: 'melee_damage', name: 'Melee Damage', icon: 'General/Sword', description: 'Restrict all physical melee damage (bludgeoning, piercing, slashing).', hasSubtypes: true, subtypes: MELEE_DAMAGE_SUBTYPES },
+  { id: 'magic_damage', name: 'Magic Damage', icon: 'Arcane/Magical Sword', description: 'Restrict all magical damage (fire, frost, arcane, etc.).', hasSubtypes: true, subtypes: MAGIC_DAMAGE_SUBTYPES },
+  { id: 'healing_category', name: 'Healing', icon: 'Healing/Golden Heart', description: 'Restrict healing effects.', hasSubtypes: false }
 ];
 
 const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, onChange }) => {
@@ -770,10 +771,10 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
     });
   };
 
-  // Get WoW-style icon URL
+  // Get icon URL using local ability icons
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Get stat modifiers by category
@@ -1190,13 +1191,13 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
               onClick={() => handleEffectToggle('healing_effect', {
                 id: 'healing_effect',
                 name: 'Healing',
-                icon: 'spell_holy_sealofsacrifice',
+                icon: 'Healing/Golden Heart',
                 description: 'Restrict healing effects specifically.'
               })}
 
             >
               <img
-                src={getIconUrl('spell_holy_sealofsacrifice')}
+                src={getIconUrl('Healing/Golden Heart')}
                 alt="Healing"
                 className="stat-icon"
               />

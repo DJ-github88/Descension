@@ -12,7 +12,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences physical damage, carrying capacity, and physical checks',
     defaultValue: 10,
     category: 'primary',
-    icon: 'ability_warrior_strengthofarms',
+    icon: '/assets/icons/abilities/General/Sword.png',
     affects: ['piercingDamage', 'slashingDamage', 'bludgeoningDamage', 'carryingCapacity']
   },
   {
@@ -21,7 +21,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences dodge chance, movement speed, and agility checks',
     defaultValue: 10,
     category: 'primary',
-    icon: 'ability_rogue_quickrecovery',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
     affects: ['evasion', 'initiative', 'critChance']
   },
   {
@@ -30,7 +30,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences health points, stamina, and resistance to physical effects',
     defaultValue: 10,
     category: 'primary',
-    icon: 'spell_holy_wordfortitude',
+    icon: '/assets/icons/abilities/Light Path.png',
     affects: ['maxHealth', 'healthRegen']
   },
   {
@@ -39,7 +39,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences spell power, knowledge checks, and magic resistance',
     defaultValue: 10,
     category: 'primary',
-    icon: 'spell_holy_magicalsentry',
+    icon: '/assets/icons/abilities/Light Path.png',
     affects: ['spellPower', 'manaRegen', 'spellCritChance']
   },
   {
@@ -48,7 +48,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences mana pool, healing power, and willpower checks',
     defaultValue: 10,
     category: 'primary',
-    icon: 'inv_enchant_essenceeternallarge',
+    icon: '/assets/icons/abilities/Light Path.png',
     affects: ['maxMana', 'healingPower']
   },
   {
@@ -57,7 +57,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences social interactions, persuasion, and some spell effects',
     defaultValue: 10,
     category: 'primary',
-    icon: 'spell_holy_powerwordshield',
+    icon: '/assets/icons/abilities/Light Path.png',
     affects: ['persuasion', 'intimidation', 'leadership']
   }
 ];
@@ -70,7 +70,7 @@ export const SECONDARY_STAT_MODIFIERS = [
     description: 'Amount of health regenerated per round',
     defaultValue: 0,
     category: 'secondary',
-    icon: 'spell_nature_rejuvenation',
+    icon: '/assets/icons/abilities/Nature/Natural.png',
     regenerates: true,
     derivedFrom: ['constitution']
   },
@@ -80,7 +80,7 @@ export const SECONDARY_STAT_MODIFIERS = [
     description: 'Amount of mana regenerated per round',
     defaultValue: 0,
     category: 'secondary',
-    icon: 'spell_magic_managain',
+    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
     regenerates: true,
     derivedFrom: ['spirit', 'intelligence']
   },
@@ -90,7 +90,7 @@ export const SECONDARY_STAT_MODIFIERS = [
     description: 'Increases the effectiveness of healing spells',
     defaultValue: 0,
     category: 'secondary',
-    icon: 'spell_holy_flashheal',
+    icon: '/assets/icons/abilities/Healing/Golden Heart.png',
     derivedFrom: ['spirit']
   },
 
@@ -104,7 +104,7 @@ export const COMBAT_STAT_MODIFIERS = [
     description: 'Determines action order in combat',
     defaultValue: 0,
     category: 'combat',
-    icon: 'ability_rogue_sprint',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
     derivedFrom: ['agility', 'intelligence']
   },
   {
@@ -113,7 +113,7 @@ export const COMBAT_STAT_MODIFIERS = [
     description: 'Percentage of damage dealt converted to healing',
     defaultValue: 0,
     category: 'combat',
-    icon: 'spell_shadow_lifedrain02',
+    icon: '/assets/icons/abilities/Necrotic/Drain Life.png',
     derivedFrom: ['spirit']
   },
   {
@@ -122,7 +122,7 @@ export const COMBAT_STAT_MODIFIERS = [
     description: 'Percentage of damage taken reflected back to attacker',
     defaultValue: 0,
     category: 'combat',
-    icon: 'spell_fire_fireball02',
+    icon: '/assets/icons/abilities/Fire/Fire Orb.png',
     derivedFrom: ['intelligence', 'spirit']
   }
 ];
@@ -135,7 +135,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of fire spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_fire_fire',
+    icon: '/assets/icons/abilities/Fire/Fire Orb.png',
     derivedFrom: ['intelligence']
   },
   {
@@ -144,7 +144,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of frost spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_frost_frostbolt02',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
     derivedFrom: ['intelligence']
   },
   {
@@ -153,7 +153,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of lightning spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_nature_lightning',
+    icon: '/assets/icons/abilities/Lightning/Lightning Bolt.png',
     derivedFrom: ['intelligence']
   },
   {
@@ -162,7 +162,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of arcane spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_arcane_arcanepotency',
+    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
     derivedFrom: ['intelligence']
   },
   {
@@ -171,7 +171,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of nature spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_nature_naturetouchgrow',
+    icon: '/assets/icons/abilities/Nature/Natural.png',
     derivedFrom: ['intelligence']
   },
   {
@@ -180,7 +180,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of force spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_arcane_blast',
+    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
     derivedFrom: ['intelligence']
   },
   {
@@ -189,7 +189,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of necrotic spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_shadow_shadowbolt',
+    icon: '/assets/icons/abilities/Shadow.png',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
@@ -198,7 +198,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of radiant spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_holy_holybolt',
+    icon: '/assets/icons/abilities/Light Path.png',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
@@ -207,7 +207,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of poison spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'ability_rogue_dualweild',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
     derivedFrom: ['intelligence']
   },
   {
@@ -216,7 +216,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of psychic spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_shadow_mindtwisting',
+    icon: '/assets/icons/abilities/Purple Star.png',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
@@ -225,7 +225,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of chaos spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_shadow_charm',
+    icon: '/assets/icons/abilities/Shadow.png',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
@@ -234,7 +234,7 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of void spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: 'spell_shadow_shadowwordpain',
+    icon: '/assets/icons/abilities/Shadow.png',
     derivedFrom: ['intelligence', 'spirit']
   }
 ];
@@ -247,7 +247,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Grants immunity to all damage types',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_holy_divineprotection',
+    icon: '/assets/icons/abilities/Light Path.png',
     derivedFrom: ['constitution', 'spirit']
   },
   {
@@ -256,7 +256,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces all incoming damage by a percentage',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_holy_devotionaura',
+    icon: '/assets/icons/abilities/Light Path.png',
     derivedFrom: ['constitution']
   },
   {
@@ -265,7 +265,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from physical attacks',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_holy_divineprotection',
+    icon: '/assets/icons/abilities/Light Path.png',
     derivedFrom: ['constitution', 'spirit']
   },
   {
@@ -274,7 +274,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces all incoming damage by a percentage',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_holy_devotionaura',
+    icon: '/assets/icons/abilities/Light Path.png',
     derivedFrom: ['constitution']
   },
   {
@@ -283,7 +283,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from fire',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_fire_fire',
+    icon: '/assets/icons/abilities/Fire/Fire Orb.png',
     derivedFrom: ['constitution']
   },
   {
@@ -292,7 +292,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from cold',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_frost_frostbolt02',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
     derivedFrom: ['constitution']
   },
   {
@@ -301,7 +301,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from lightning',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_nature_lightning',
+    icon: '/assets/icons/abilities/Lightning/Lightning Bolt.png',
     derivedFrom: ['constitution']
   },
   {
@@ -310,7 +310,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from acid',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'ability_creature_poison_02',
+    icon: '/assets/icons/abilities/Projectile Acid.png',
     derivedFrom: ['constitution']
   },
   {
@@ -319,7 +319,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from force',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_arcane_blast',
+    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
     derivedFrom: ['constitution', 'intelligence']
   },
   {
@@ -328,7 +328,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from necrotic magic',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_shadow_shadowbolt',
+    icon: '/assets/icons/abilities/Shadow.png',
     derivedFrom: ['constitution', 'spirit']
   },
   {
@@ -337,7 +337,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from radiant magic',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_holy_holybolt',
+    icon: '/assets/icons/abilities/Light Path.png',
     derivedFrom: ['constitution', 'spirit']
   },
   {
@@ -346,7 +346,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from poison',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'ability_rogue_dualweild',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
     derivedFrom: ['constitution']
   },
   {
@@ -355,7 +355,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from psychic attacks',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_shadow_mindtwisting',
+    icon: '/assets/icons/abilities/Purple Star.png',
     derivedFrom: ['constitution', 'spirit']
   },
   {
@@ -364,7 +364,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from thunder',
     defaultValue: 0,
     category: 'resistance',
-    icon: 'spell_nature_thunderclap',
+    icon: '/assets/icons/abilities/Nature/Natural.png',
     derivedFrom: ['constitution']
   }
 ];
@@ -377,7 +377,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Base movement speed in feet per round',
     defaultValue: 30,
     category: 'utility',
-    icon: 'ability_rogue_sprint',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
     derivedFrom: ['agility']
   },
   {
@@ -386,7 +386,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Speed when swimming in feet per round',
     defaultValue: 15,
     category: 'utility',
-    icon: 'ability_druid_aquaticform',
+    icon: '/assets/icons/abilities/Utility/Rest.png',
     derivedFrom: ['strength', 'constitution']
   },
   {
@@ -395,7 +395,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Distance at which you can see clearly',
     defaultValue: 60,
     category: 'utility',
-    icon: 'spell_holy_sealofwisdom',
+    icon: '/assets/icons/abilities/Light Path.png',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
@@ -404,7 +404,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Maximum weight you can carry',
     defaultValue: 10,
     category: 'utility',
-    icon: 'inv_misc_bag_08',
+    icon: '/assets/icons/abilities/General/Sword.png',
     derivedFrom: ['strength']
   },
   {
@@ -413,7 +413,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Reduces the mana cost of spells by a percentage',
     defaultValue: 0,
     category: 'utility',
-    icon: 'spell_arcane_arcaneresilience',
+    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
@@ -422,7 +422,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Additional inventory slots available',
     defaultValue: 0,
     category: 'utility',
-    icon: 'inv_misc_bag_15',
+    icon: '/assets/icons/abilities/General/Sword.png',
     derivedFrom: ['strength']
   }
 ];
@@ -435,7 +435,7 @@ export const WEAPON_DAMAGE_MODIFIERS = [
     description: 'Damage bonus with piercing weapons',
     defaultValue: 0,
     category: 'weapon_damage',
-    icon: 'inv_sword_04',
+    icon: '/assets/icons/abilities/General/Sword.png',
     derivedFrom: ['strength']
   },
   {
@@ -444,7 +444,7 @@ export const WEAPON_DAMAGE_MODIFIERS = [
     description: 'Damage bonus with slashing weapons',
     defaultValue: 0,
     category: 'weapon_damage',
-    icon: 'inv_axe_01',
+    icon: '/assets/icons/abilities/General/Sword.png',
     derivedFrom: ['strength']
   },
   {
@@ -453,7 +453,7 @@ export const WEAPON_DAMAGE_MODIFIERS = [
     description: 'Damage bonus with bludgeoning weapons',
     defaultValue: 0,
     category: 'weapon_damage',
-    icon: 'inv_mace_02',
+    icon: '/assets/icons/abilities/Bludgeoning/Mace.png',
     derivedFrom: ['strength']
   }
 ];

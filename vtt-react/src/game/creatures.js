@@ -23,10 +23,14 @@ export const defaultStats = {
     meleeDamage: 1,
     rangedDamage: 1,
     spellDamage: {
-        fire: 0,
-        frost: 0,
-        holy: 0,
-        shadow: 0
+        physical: 0,
+        ember: 0,
+        rime: 0,
+        storm: 0,
+        arcane: 0,
+        primal: 0,
+        blight: 0,
+        wyrd: 0
     }
 };
 

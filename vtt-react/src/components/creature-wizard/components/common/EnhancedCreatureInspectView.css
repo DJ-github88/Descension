@@ -1924,3 +1924,75 @@
     gap: 8px;
   }
 }
+
+/* Creature Lore & Legends Sections */
+.creature-lore-section {
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(240, 230, 210, 0.5) 100%);
+  border: 2px solid #8b7355;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.creature-lore-section:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.creature-lore-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 15px 0;
+  padding: 0 0 10px 0;
+  border-bottom: 2px solid #8b7355;
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #5a1e12;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.creature-lore-title i {
+  font-size: 18px;
+  color: #7a3b2e;
+}
+
+.creature-lore-content {
+  font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #3a2a1a;
+  text-align: justify;
+}
+
+.creature-lore-depth {
+  background: linear-gradient(135deg,
+    rgba(122, 59, 46, 0.1) 0%,
+    rgba(90, 30, 18, 0.05) 100%);
+  border-color: #7a3b2e;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+}
+
+.creature-lore-depth .creature-lore-title {
+  border-bottom-color: #7a3b2e;
+  color: #5e2e23;
+}
+
+.creature-lore-depth .creature-lore-title i {
+  color: #8b4513;
+}
+
+.creature-lore-content p {
+  margin: 0 0 12px 0;
+}
+
+.creature-lore-content p:last-child {
+  margin-bottom: 0;
+}

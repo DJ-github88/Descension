@@ -146,7 +146,7 @@ const AOE_SHAPES = [
       id: 'trail',
       name: 'Movement Trail',
       description: 'Creates a trail of effects along a movement path',
-      icon: 'Nature/Nature Natural',
+      icon: 'Nature/Nature Natural 10',
       defaultWidth: 5,
       defaultDuration: 10,
       parameterType: 'widthDuration'

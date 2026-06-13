@@ -8,14 +8,14 @@ export const CLASS_RESOURCE_TYPES = {
         name: 'Inferno Veil',
         shortName: 'Inferno',
         type: 'stages',
-        description: 'Demonic corruption through 9 inferno levels, each granting fire damage but severe drawbacks',
+        description: 'Demonic corruption through 9 inferno levels, each granting ember damage but severe drawbacks',
         visual: {
             type: 'inferno-veil',
             baseColor: '#8B0000',
             activeColor: '#FF4500',
             glowColor: '#FF6347',
             icon: 'fa-fire',
-            effects: ['fire', 'infernal', 'corruption']
+            effects: ['ember', 'infernal', 'corruption']
         },
         mechanics: {
             max: 9, // Levels 0-9
@@ -26,7 +26,7 @@ export const CLASS_RESOURCE_TYPES = {
         },
         tooltip: {
             title: 'Inferno Veil: Level {current}',
-            description: 'Each level grants +1 fire damage but inflicts severe drawbacks based on circles of hell',
+            description: 'Each level grants +1 ember damage but inflicts severe drawbacks based on circles of hell',
             showLevel: true,
             showBonuses: true,
             showDrawbacks: true
@@ -302,7 +302,7 @@ export const CLASS_RESOURCE_TYPES = {
                 'deaths_seer': {
                     color: '#4B0082',
                     particleColor: '#7B68EE',
-                    theme: 'necrotic-doom'
+                    theme: 'blight-doom'
                 },
                 'fate_rift': {
                     color: '#e67e22',
@@ -433,16 +433,16 @@ export const CLASS_RESOURCE_TYPES = {
             activeColor: '#FFD700',
             glowColor: '#FFA500',
             specializations: {
-                'fortunes-favor': {
-                    name: "Fortune's Favor",
+                'probability_savant': {
+                    name: 'Probability Savant',
                     max: 7,
                     theme: 'coins',
-                    color: '#FFD700',
-                    icon: 'fas fa-coins',
-                    description: 'Lucky 7 - Coin flip mastery',
-                    approach: 'Coin flips and reroll manipulation',
-                    useCase: 'Spend FP to flip coin results, grant ally rerolls, force enemy rerolls',
-                    why7: 'Binary outcomes (heads/tails) require fewer points for decisive control'
+                    color: '#2980b9',
+                    icon: 'fas fa-brain',
+                    description: 'Mathematical foresight - incremental roll manipulation',
+                    approach: 'Treating fate as a ledger to be meticulously balanced',
+                    useCase: 'Spend FP to manipulate rolls, predict enemy saves, maintain balanced probabilities',
+                    why7: 'Precision over volume - fewer points for deliberate, measured control'
                 },
                 'high-roller': {
                     name: 'High Roller',
@@ -455,22 +455,22 @@ export const CLASS_RESOURCE_TYPES = {
                     useCase: 'Spend FP to guarantee bet payouts, hedge resource wagers (HP/mana/actions)',
                     why21: 'Complex betting requires maximum points to hedge multiple bets and ensure payouts'
                 },
-                'card-sharp': {
-                    name: 'Card Sharp',
+                'karmic_weaver': {
+                    name: 'Karmic Weaver',
                     max: 13,
                     theme: 'cards',
-                    color: '#4B0082',
+                    color: '#8e44ad',
                     icon: 'fas fa-diamond',
-                    description: 'Unlucky 13 - Card counting strategy',
-                    approach: 'Prediction and competitive gambling',
-                    useCase: 'Spend FP to adjust Jackpot dice, win Death Roll competitions, predict outcomes',
-                    why13: 'Strategic play with calculated risks - unlucky 13 turned into advantage'
+                    description: 'Thread manipulation and fate-binding',
+                    approach: 'Deck siphoning and damage redirection through karmic links',
+                    useCase: 'Spend FP to weave damage threads between enemies, siphon enemy advantages, redirect fate',
+                    why13: 'Thirteen threads of fate - each card a potential connection in the karmic web'
                 }
             },
             effects: ['luck', 'gambling', 'probability']
         },
         mechanics: {
-            max: 'varies_by_spec', // 7, 21, or 13 based on specialization
+            max: 'calculated', // 7, 21, or 13 based on specialization (on hold, now calculated)
             current: 0,
             regen: 0,
             consumeVerb: 'spend',
@@ -487,11 +487,11 @@ export const CLASS_RESOURCE_TYPES = {
 
     // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
     'Revenant': {
-        id: 'necroticAscension',
-        name: 'Necrotic Ascension & Blood Tokens',
-        shortName: 'NA/BT',
+        id: 'blightAscension',
+        name: 'Blight Ascension & Blood Tokens',
+        shortName: 'BA/BT',
         type: 'ascension-blood',
-        description: 'Dual resource system: Necrotic Ascension Paths (permanent power/curses) and Blood Tokens (VOLATILE ticking time bombs with escalating self-damage). The Revenant combines volatile blood magic with methodical frost harvesting.',
+        description: 'Dual resource system: Blight Ascension Paths (permanent power/curses) and Blood Tokens (VOLATILE ticking time bombs with escalating self-damage). The Revenant combines volatile blood magic with methodical frost harvesting.',
         visual: {
             type: 'ascension-blood',
             ascensionPaths: {
@@ -541,7 +541,7 @@ export const CLASS_RESOURCE_TYPES = {
             {
                 name: 'Shrouded Veil',
                 level: 1,
-                boon: '+2d6 necrotic damage, advantage on Stealth',
+                boon: '+2d6 blight damage, advantage on Stealth',
                 curse: '-10 max HP (perpetual shadow drain)',
                 shortName: 'Veil'
             },
@@ -555,15 +555,15 @@ export const CLASS_RESOURCE_TYPES = {
             {
                 name: 'Spectral Command',
                 level: 5,
-                boon: 'Summon 2 specters, +1d6 necrotic damage',
+                boon: 'Summon 2 specters, +1d6 blight damage',
                 curse: 'Specters drain 1d4 HP/turn from you',
                 shortName: 'Spectral'
             },
             {
                 name: 'Frostwalker',
                 level: 7,
-                boon: 'Aura: 15ft radius, -10ft enemy speed, 1d4 cold/turn',
-                curse: '+50% fire damage taken (vulnerability)',
+                boon: 'Aura: 15ft radius, -10ft enemy speed, 1d4 rime/turn',
+                curse: '+50% ember damage taken (vulnerability)',
                 shortName: 'Frost'
             },
             {
@@ -584,17 +584,17 @@ export const CLASS_RESOURCE_TYPES = {
                 name: 'Deep Void',
                 level: 13,
                 boon: '1/long rest: Negate any spell targeting you',
-                curse: '2d6 psychic damage when used (void consumption)',
+                curse: '2d6 wyrd damage when used (void consumption)',
                 shortName: 'Void'
             }
         ],
         bloodTokens: {
             name: 'Blood Tokens',
-            description: 'Generated by sacrificing health, enhance necrotic spells',
+            description: 'Generated by sacrificing health, enhance blight spells',
             generation: '1 HP sacrificed = 1 Blood Token',
-            usage: 'Spend tokens to add 1d6 necrotic damage per token',
+            usage: 'Spend tokens to add 1d6 blight damage per token',
             expiration: '10 minutes (15 with Crimson Pact)',
-            burstDamage: '1d10 necrotic per unused token',
+            burstDamage: '1d10 blight per unused token',
             warningThreshold: 10, // Show warning at 10+ tokens
             dangerThreshold: 20 // Show danger at 20+ tokens
         }
@@ -655,9 +655,9 @@ export const CLASS_RESOURCE_TYPES = {
             { name: 'Mortal Resolve', level: 0, requirement: 'Starting state', passive: 'None' },
             { name: 'Flickering Faith', level: 1, requirement: '10 damage', passive: 'Resistance to the first instance of damage each round' },
             { name: 'Steadfast Conviction', level: 2, requirement: '20 damage', passive: 'Regain 1d6 HP at the start of each of your turns' },
-            { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage', passive: 'All allies within 10 ft gain +1 Armor' },
+            { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage', passive: 'All allies within 10 ft gain +1 damage reduction' },
             { name: 'Divine Ascendance', level: 4, requirement: '60 damage', passive: 'Allies within 10 ft gain resistance to the first damage type they take each round' },
-            { name: 'Holy Martyrdom', level: 5, requirement: '80 damage', passive: '+10 radiant damage on attacks, allies within 10 ft gain temp HP when you take damage' },
+            { name: 'Holy Martyrdom', level: 5, requirement: '80 damage', passive: '+10 ember damage on attacks, allies within 10 ft gain temp HP when you take damage' },
             { name: 'Celestial Protector', level: 6, requirement: '100 damage', passive: 'Allies within 15 ft resist all damage' }
         ],
         specializations: {
@@ -680,7 +680,7 @@ export const CLASS_RESOURCE_TYPES = {
                 },
                 uniquePassive: {
                     name: 'Zealous Wrath',
-                    description: 'Radiant spells deal +(Devotion Level × 2) damage. Heal for 15% of radiant damage dealt'
+                    description: 'Ember spells deal +(Devotion Level × 2) damage. Heal for 15% of ember damage dealt'
                 }
             },
             ascetic: {
@@ -724,7 +724,7 @@ export const CLASS_RESOURCE_TYPES = {
             regen: 0,
             consumeVerb: 'spend',
             gainVerb: 'accumulate',
-            damageBonus: 1 // +1 damage per Madness Point to all False Prophet damage types (psychic, void, necrotic)
+            damageBonus: 1 // +1 damage per Madness Point to all False Prophet damage types (wyrd, blight)
         },
         tooltip: {
             sections: [
@@ -757,17 +757,17 @@ export const CLASS_RESOURCE_TYPES = {
                     type: 'convulsion',
                     title: 'Insanity Convulsion Table (1d6)',
                     content: [
-                        { roll: 1, name: 'Shadow Burst', effect: '5d6 necrotic to self + all within 20 ft' },
+                        { roll: 1, name: 'Shadow Burst', effect: '5d6 blight to self + all within 20 ft' },
                         { roll: 2, name: 'Mind Shatter', effect: 'Stunned for 2 rounds' },
                         { roll: 3, name: 'Dark Whispers', effect: 'Disadvantage on attacks/saves (3 rounds)' },
-                        { roll: 4, name: 'Chaotic Pulse', effect: 'Random teleport 60 ft + 4d6 psychic' },
+                        { roll: 4, name: 'Chaotic Pulse', effect: 'Random teleport 60 ft + 4d6 wyrd' },
                         { roll: 5, name: 'Psychic Scream', effect: 'All in 30 ft save or frightened (3 rounds)' },
-                        { roll: 6, name: 'Nightmare Echoes', effect: '6d6 psychic + Short-Term Madness (1d4 rounds)' }
+                        { roll: 6, name: 'Nightmare Echoes', effect: '6d6 wyrd + Short-Term Madness (1d4 rounds)' }
                     ]
                 },
                 {
                     type: 'mechanics-note',
-                    content: 'Spells generate Madness (1d4-2d6). Each point adds +1 to psychic, void, and necrotic damage. Some spells spend Madness for power.'
+                    content: 'Spells generate Madness (1d4-2d6). Each point adds +1 to wyrd and blight damage. Some spells spend Madness for power.'
                 }
             ]
         },
@@ -883,12 +883,12 @@ export const CLASS_RESOURCE_TYPES = {
                 description: 'Base afflictions apply to 2 adjacent targets. Stage 2+ afflictions auto-spread. +1 spread target per 25 Virulence.'
             },
             tormentWeaver: {
-                name: 'Psychic Resonance',
-                description: 'Same affliction on multiple targets creates Psychic Links. Cultivating one cultivates all. +1 link per 25 Virulence.'
+                name: 'Wyrd Resonance',
+                description: 'Same affliction on multiple targets creates Wyrd Links. Cultivating one cultivates all. +1 link per 25 Virulence.'
             },
             decayHarbinger: {
                 name: 'Accelerated Decay',
-                description: 'No final form. Post-Stage 3 adds permanent stacks (max 15/target). +1d6 necrotic per stack per 25 Virulence. Stacks above 10 require concentration.'
+                description: 'No final form. Post-Stage 3 adds permanent stacks (max 15/target). +1d6 blight per stack per 25 Virulence. Stacks above 10 require concentration.'
             }
         }
     },
@@ -1009,6 +1009,17 @@ export const initializeClassResource = (className, characterStats) => {
             default:
                 baseResource.max = 5; // Default fallback
         }
+    }
+
+    // Initialize custom fields for Revenant and Apex
+    if (className === 'Revenant') {
+        baseResource.bloodTokens = 0;
+        baseResource.stacks = [true, false, false, false, false, false, false];
+    } else if (className === 'Apex') {
+        baseResource.companionHP = config.mechanics.companion?.hp || 50;
+        baseResource.companionMaxHP = config.mechanics.companion?.maxHP || 50;
+        baseResource.current = config.mechanics.quarryMarks?.current || 0;
+        baseResource.max = config.mechanics.quarryMarks?.max || 5;
     }
 
     return baseResource;
@@ -1170,8 +1181,8 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
             description: 'Raw magical force'
         },
         {
-            id: 'radiant',
-            name: 'Radiant',
+            id: 'ember',
+            name: 'Ember',
             color: '#FFD700',
             glowColor: '#FFE55C',
             d8Value: 2,
@@ -1179,31 +1190,31 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
             description: 'Divine radiance'
         },
         {
-            id: 'necrotic',
-            name: 'Necrotic',
+            id: 'blight',
+            name: 'Blight',
             color: '#1C1C1C',
             glowColor: '#4A4A4A',
             d8Value: 3,
-            icon: 'fas fa-moon',
-            description: 'Necrotic darkness'
+            icon: 'fas fa-skull',
+            description: 'Blight corruption'
         },
         {
-            id: 'fire',
-            name: 'Fire',
+            id: 'ember2',
+            name: 'Ember',
             color: '#FF4500',
             glowColor: '#FF6347',
             d8Value: 4,
             icon: 'fas fa-fire',
-            description: 'Burning flames'
+            description: 'Scorching flames'
         },
         {
-            id: 'frost',
-            name: 'Frost',
+            id: 'rime',
+            name: 'Rime',
             color: '#4169E1',
             glowColor: '#6495ED',
             d8Value: 5,
             icon: 'fas fa-snowflake',
-            description: 'Freezing cold'
+            description: 'Bitter frost'
         },
         {
             id: 'nature',
@@ -1236,7 +1247,6 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
     ]
 };
 
-// SHAPER PATH (merged Bladedancer + Formbender)
 CLASS_RESOURCE_TYPES['Shaper'] = {
     id: 'kineticFluxBodyToll',
     name: 'Kinetic Flux & Body Toll',
@@ -1254,41 +1264,41 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
             effects: ['flow', 'rhythm']
         },
         flourish: {
-            max: 5,
-            baseColor: '#34495E',
-            activeColor: '#F39C12',
-            glowColor: '#F8C471',
-            icon: 'fas fa-star',
-            effects: ['mastery', 'finesse']
+            max: 10,
+            baseColor: '#5C1A1A',
+            activeColor: '#C0392B',
+            glowColor: '#E74C3C',
+            icon: 'fas fa-heart-crack',
+            effects: ['strain', 'erosion']
         },
         stances: {
-            'Flowing Water': {
+            'Ataxic Flow': {
                 icon: 'fas fa-water',
                 color: '#3498DB',
-                type: 'Defensive/Evasive'
+                type: 'Defensive/Agile'
             },
-            'Striking Serpent': {
-                icon: 'fas fa-dragon',
-                color: '#27AE60',
+            'Arterial Strike': {
+                icon: 'fas fa-crosshairs',
+                color: '#C0392B',
                 type: 'Offensive/Precision'
             },
-            'Whirling Wind': {
-                icon: 'fas fa-wind',
-                color: '#95A5A6',
-                type: 'AoE/Multi-target'
+            'Centrifugal Fury': {
+                icon: 'fas fa-tornado',
+                color: '#E67E22',
+                type: 'AoE/Multi'
             },
-            'Rooted Stone': {
-                icon: 'fas fa-mountain',
+            'Deadened Bastion': {
+                icon: 'fas fa-shield-halved',
                 color: '#7F8C8D',
                 type: 'Defensive/Counter'
             },
-            'Dancing Blade': {
-                icon: 'fas fa-bolt',
+            'Fluid Apex': {
+                icon: 'fas fa-yin-yang',
                 color: '#9B59B6',
                 type: 'Balanced/Hub'
             },
-            'Shadow Step': {
-                icon: 'fas fa-user-ninja',
+            'Void Predator': {
+                icon: 'fas fa-ghost',
                 color: '#2C3E50',
                 type: 'Stealth/Burst'
             }
@@ -1317,7 +1327,7 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
             gainVerb: 'build'
         },
         flourish: {
-            max: 5,
+            max: 10,
             current: 0,
             generation: {
                 signatureMove: 1
@@ -1330,61 +1340,61 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
             gainVerb: 'earn'
         },
         stance: {
-            current: 'Flowing Water',
+            current: 'Ataxic Flow',
             available: [
-                'Flowing Water',
-                'Striking Serpent',
-                'Whirling Wind',
-                'Rooted Stone',
-                'Dancing Blade',
-                'Shadow Step'
+                'Ataxic Flow',
+                'Arterial Strike',
+                'Centrifugal Fury',
+                'Deadened Bastion',
+                'Fluid Apex',
+                'Void Predator'
             ]
         }
     },
     tooltip: {
-        title: 'Momentum: {momentum}/20 | Flourish: {flourish}/5 | Stance: {stance}',
-        description: 'Build Kinetic Flux through combat, earn Flourish through mastery',
+        title: 'Flux: {momentum}/20 | Toll: {flourish}/10 | Form: {stance}',
+        description: 'Build Kinetic Flux through combat, accumulate Body Toll from transformations',
         showMomentum: true,
         showFlourish: true,
         showStance: true
     },
     stanceNetwork: {
-        'Flowing Water': ['Striking Serpent', 'Shadow Step', 'Dancing Blade'],
-        'Striking Serpent': ['Whirling Wind', 'Rooted Stone', 'Flowing Water'],
-        'Whirling Wind': ['Dancing Blade', 'Rooted Stone'],
-        'Rooted Stone': ['Striking Serpent', 'Flowing Water'],
-        'Dancing Blade': ['Flowing Water', 'Striking Serpent', 'Whirling Wind', 'Rooted Stone', 'Shadow Step'],
-        'Shadow Step': ['Striking Serpent', 'Dancing Blade']
+        'Ataxic Flow': ['Arterial Strike', 'Void Predator', 'Fluid Apex'],
+        'Arterial Strike': ['Centrifugal Fury', 'Deadened Bastion', 'Ataxic Flow'],
+        'Centrifugal Fury': ['Fluid Apex', 'Deadened Bastion'],
+        'Deadened Bastion': ['Arterial Strike', 'Ataxic Flow'],
+        'Fluid Apex': ['Ataxic Flow', 'Arterial Strike', 'Centrifugal Fury', 'Deadened Bastion', 'Void Predator'],
+        'Void Predator': ['Arterial Strike', 'Fluid Apex']
     },
     transitionCosts: {
-        'Flowing Water': {
-            'Striking Serpent': 2,
-            'Shadow Step': 2,
-            'Dancing Blade': 2
+        'Ataxic Flow': {
+            'Arterial Strike': 2,
+            'Void Predator': 2,
+            'Fluid Apex': 2
         },
-        'Striking Serpent': {
-            'Whirling Wind': 2,
-            'Rooted Stone': 2,
-            'Flowing Water': 2
+        'Arterial Strike': {
+            'Centrifugal Fury': 2,
+            'Deadened Bastion': 2,
+            'Ataxic Flow': 2
         },
-        'Whirling Wind': {
-            'Dancing Blade': 3,
-            'Rooted Stone': 3
+        'Centrifugal Fury': {
+            'Fluid Apex': 3,
+            'Deadened Bastion': 3
         },
-        'Rooted Stone': {
-            'Striking Serpent': 2,
-            'Flowing Water': 2
+        'Deadened Bastion': {
+            'Arterial Strike': 2,
+            'Ataxic Flow': 2
         },
-        'Dancing Blade': {
-            'Flowing Water': 4,
-            'Striking Serpent': 4,
-            'Whirling Wind': 4,
-            'Rooted Stone': 4,
-            'Shadow Step': 4
+        'Fluid Apex': {
+            'Ataxic Flow': 4,
+            'Arterial Strike': 4,
+            'Centrifugal Fury': 4,
+            'Deadened Bastion': 4,
+            'Void Predator': 4
         },
-        'Shadow Step': {
-            'Striking Serpent': 2,
-            'Dancing Blade': 2
+        'Void Predator': {
+            'Arterial Strike': 2,
+            'Fluid Apex': 2
         }
     }
 };
@@ -1457,7 +1467,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
             effects: ['Primal Roar', 'Bloodlust', '+2 attack rolls', 'Self-healing unlocked'],
             attackBonus: 2,
             bonuses: ['+2 damage on melee hits', '1 HP lifesteal on crits'],
-            penalties: ['-1 Armor while raging']
+            penalties: ['Take 1 extra damage from ranged attacks while raging']
         },
         {
             range: [61, 80],
@@ -1481,7 +1491,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
             effects: ['Obliterating Strike', 'Wrath of the Berserker', '+5 attack rolls', 'OVERHEAT IMMINENT'],
             attackBonus: 5,
             bonuses: ['+5 damage on melee hits', 'Critical hits explode: +1d6 splash to adjacent enemies'],
-            penalties: ['-2 Armor', 'Attackers gain +2 to hit you'],
+            penalties: ['Cannot parry while raging', 'Attackers gain +2 to hit you'],
             warning: 'Must spend Rage this round or take 2d6 damage and reset to 0'
         },
         {
@@ -1490,7 +1500,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
             effects: ['Annihilating Fury', 'Unstoppable Rampage', '+6 attack rolls', 'CRITICAL OVERHEAT'],
             attackBonus: 6,
             bonuses: ['+6 damage on melee hits', '+10 ft movement speed', 'Crit range expanded by 1 on weapon dice', 'Advantage on Strength checks'],
-            penalties: ['-3 Armor', 'Attackers gain +3 to hit you', '-5 ft movement speed after rage ends', 'Take 1d6 damage at start of each turn']
+            penalties: ['Cannot receive healing while raging', 'Attackers gain +3 to hit you', '-5 ft movement speed after rage ends', 'Take 1d6 damage at start of each turn']
         },
         {
             range: [150, 999],
@@ -1498,7 +1508,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
             effects: ['Apocalyptic Wrath', 'Berserker God Mode', '+7 attack rolls', 'MAXIMUM OVERHEAT'],
             attackBonus: 7,
             bonuses: ['+8 damage on melee hits', '+15 ft movement speed', 'Crit range expanded by 2 on weapon dice', 'All melee attacks hit adjacent enemies', 'Immune to all conditions'],
-            penalties: ['-5 Armor', 'Attackers gain +4 to hit you', '-10 ft movement speed after rage ends', 'Take 2d6 damage at start of each turn', 'Cannot use ranged attacks']
+            penalties: ['Take double damage from all sources while raging', 'Attackers gain +4 to hit you', '-10 ft movement speed after rage ends', 'Take 2d6 damage at start of each turn', 'Cannot use ranged attacks']
         }
     ]
 };
@@ -1786,8 +1796,8 @@ export const getResourceDisplayText = (classResource, config) => {
 
 CLASS_RESOURCE_TYPES['Warden'] = {
     id: 'vengeance-points',
-    name: 'Tether Tension',
-    shortName: 'TT',
+    name: 'Vengeance Points',
+    shortName: 'VP',
     type: 'vengeance-points',
     description: 'Build power through attacks, evasions, and critical hits to unleash devastating abilities. Pursuit Movement: +5ft speed per VP toward marked target (max +50ft). The Warden does NOT teleport.',
     visual: {
@@ -1822,7 +1832,7 @@ CLASS_RESOURCE_TYPES['Warden'] = {
     spending: [
         { cost: 2, ability: 'Vengeful Strike', effect: '+2d6 damage on next attack' },
         { cost: 3, ability: 'Whirling Glaive', effect: '15-ft cone AoE, 2d6 damage + slow' },
-        { cost: 4, ability: 'Hunter\'s Resolve', effect: 'Heal 2d8 HP, +2 Armor for 2 rounds' },
+        { cost: 4, ability: 'Hunter\'s Resolve', effect: 'Heal 2d8 HP, +2 damage reduction for 2 rounds' },
         { cost: 6, ability: 'Cage of Vengeance', effect: 'Trap target for 3 rounds' },
         { cost: 10, ability: 'Avatar of Vengeance', effect: 'Ultimate transformation for 4 rounds' }
     ]
@@ -1926,11 +1936,11 @@ CLASS_RESOURCE_TYPES['Augur'] = {
         { action: 'Omen Ritual (10 min, once/short rest)', benediction: 2, malediction: 2 }
     ],
     spending: [
-        { cost: '2-3 Benediction', ability: 'Minor Blessing', effect: 'Buff ally +1 to rolls or +2 Armor' },
-        { cost: '2-3 Malediction', ability: 'Minor Curse', effect: 'Debuff enemy -1 to rolls or -2 Armor' },
+        { cost: '2-3 Benediction', ability: 'Minor Blessing', effect: 'Buff ally +1 to rolls or +2 defence' },
+        { cost: '2-3 Malediction', ability: 'Minor Curse', effect: 'Debuff enemy -1 to rolls or -2 defence' },
         { cost: '4-5 Benediction', ability: 'Sacred Terrain', effect: 'Create blessed zone (heal, +saves)' },
         { cost: '4-5 Malediction', ability: 'Cursed Terrain', effect: 'Create hazard zone (damage, -speed)' },
-        { cost: '6+ Malediction', ability: 'Grand Malediction', effect: 'Severe debuff + psychic damage' },
+        { cost: '6+ Malediction', ability: 'Grand Malediction', effect: 'Severe debuff + wyrd damage' },
         { cost: '8+ Benediction', ability: 'Domain', effect: 'Large sacred zone with powerful buffs' },
         {         cost: '3/3 Both', ability: 'Balanced Sign', effect: 'Simultaneous buff + debuff zone' }
     ]

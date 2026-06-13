@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 // Pathfinder styles imported via main.css
 
 const CleanStatusEffectConfigPopup = ({
@@ -39,7 +40,7 @@ const CleanStatusEffectConfigPopup = ({
   // Get icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Render basic configuration based on effect type

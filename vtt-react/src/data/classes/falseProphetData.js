@@ -16,7 +16,7 @@
  *
  * • Level 1 Link Integration: Stitch of Suffering costs Mana, generates exactly 1
  *   Madness point, and threads an empathetic bond that redirects 30% of an ally's
- *   incoming damage to a linked enemy as psychic damage. The core utility loop is
+ *   incoming damage to a linked enemy as wyrd damage. The core utility loop is
  *   now operational from Turn 1. All Madness generation uses normalized random dice
  *   increments (1d4/1d6/1d8). Visual degradation tracker embedded in resourceSystem
  *   at thresholds 5/10/15/19 for VTT tracking. Apocalyptic Revelation convulsion
@@ -55,7 +55,7 @@ Speak the void's gospel. The stars are dead, and the vacuum is the only truth le
 **Best For**: Players who understand that power is a disease and want to see how far the infection spreads before it kills the host`,
     },
 
-    description: `The False Prophet does not worship - they channel. They preach the void as divine revelation, accumulating Madness Points through sermons and psychic rituals that strip away the barriers between minds. This madness is not inspiration; it is the accumulated psychic pressure of every consciousness they have touched, compressed into weaponized willpower. Their spells grow devastating with accumulated strain, but the weight threatens to overwhelm the Prophet from within. They walk a razor edge between transcendence and collapse, and every step forward is powered by the psychic exhaustion of those who believed them.`,
+    description: `The False Prophet does not worship - they channel. They preach the void as divine revelation, accumulating Madness Points through sermons and psychic rituals that strip away the barriers between minds. This madness is not inspiration; it is the accumulated wyrd pressure of every consciousness they have touched, compressed into weaponized willpower. Their spells grow devastating with accumulated strain, but the weight threatens to overwhelm the Prophet from within. They walk a razor edge between transcendence and collapse, and every step forward is powered by the wyrd exhaustion of those who believed them.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -81,7 +81,7 @@ The class is practiced by desperate humans and the constellationless <LoreLink t
 
     philosophy: {
       coreTenet: 'The universe is cold, dark, and empty. The Light is a lie people tell themselves to feel safe. The Void is the truth — vast, silent, and indifferent. To embrace the Void is not to worship death; it is to finally stop being afraid of it. A False Prophet does not preach despair. They preach clarity.',
-      relationship: 'False Prophets draw power from the psychic resonance of the Void — the space between stars, the silence after death, the vacuum that existed before creation. This resonance is always present, always listening, always hungry. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Void\'s truth — and the less human they become.',
+      relationship: 'False Prophets draw power from the wyrd resonance of the Void — the space between stars, the silence after death, the vacuum that existed before creation. This resonance is always present, always listening, always hungry. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Void\'s truth — and the less human they become.',
       paradox: 'False Prophets preach salvation through oblivion, but they cannot practice what they preach. To fully embrace the Void would be to dissolve — to become one with the silence they worship. But if they dissolved, who would spread the gospel? So they hold themselves at the edge of annihilation, forever teetering, forever preaching, forever denying themselves the peace they offer others.'
     },
 
@@ -103,17 +103,17 @@ The False Prophets of the Over-Shanty are divided. Some believe the Voice is gui
 
     combatRole: {
       title: "Combat Role",
-      content: `The False Prophet operates as a parasite in the machinery of combat. They do not win fights directly - they redirect them, turning the battlefield's suffering into a weapon aimed at the enemy. What they excel at is psychic manipulation:
+      content: `The False Prophet operates as a parasite in the machinery of combat. They do not win fights directly - they redirect them, turning the battlefield's suffering into a weapon aimed at the enemy. What they excel at is wyrd manipulation:
 
 **Empathetic Links**: Stitching psychic conduits between allies and enemies - transferring damage, debuffs, and suffering through channels that bypass physical defenses entirely
 
-**Illusory Miracles**: "Healing" and buffing that is actually disguised psychic siphoning - the patient improves, then the Prophet channels the stolen vitality into offensive spells
+**Illusory Miracles**: "Healing" and buffing that is actually disguised wyrd siphoning - the patient improves, then the Prophet channels the stolen vitality into offensive spells
 
 **Mind Domination**: Planting psychic hooks in the enemy's consciousness, forcing them to attack their allies, severing their connection to healing
 
-**Madness Accumulation**: Building psychic pressure to scale damage, but every stolen point brings them closer to catastrophic Insanity Convulsion
+**Madness Accumulation**: Building wyrd pressure to scale damage, but every stolen point brings them closer to catastrophic Insanity Convulsion
 
-**Why Bring Me? (Unique Utility)**: You are the ONLY class that can redirect suffering - and your empathetic link is active from Level 1. **Stitch of Suffering** threads a parasitic bond between ally and enemy on your very first turn, redirecting 30% of the ally's incoming damage straight into the linked foe as psychic damage. Later, Empathetic Transfer wrenches debuffs from allies onto enemies, Parasitic Link mirrors 50% of your own damage, and Empathetic Agony mirrors 100%. The 40-point blow meant for your tank does not vanish - it travels down the empathetic link and crashes into the boss. Other classes mitigate pain. You weaponize it.
+**Why Bring Me? (Unique Utility)**: You are the ONLY class that can redirect suffering - and your empathetic link is active from Level 1. **Stitch of Suffering** threads a parasitic bond between ally and enemy on your very first turn, redirecting 30% of the ally's incoming damage straight into the linked foe as wyrd damage. Later, Empathetic Transfer wrenches debuffs from allies onto enemies, Parasitic Link mirrors 50% of your own damage, and Empathetic Agony mirrors 100%. The 40-point blow meant for your tank does not vanish - it travels down the empathetic link and crashes into the boss. Other classes mitigate pain. You weaponize it.
 
 **Strengths**:
 - Unique damage/debuff transfer through Empathetic Links
@@ -304,14 +304,14 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
     title: "Madness Points",
     subtitle: "A Mind Is a Terrible Thing to Waste — on Someone Else",
 
-    description: `Madness is not a curse the False Prophet bears - it is a collection. Every touched mind, every fractured consciousness, every congregation member who knelt too long and left with distant eyes - their psychic residue accumulates inside the Prophet like pressure in a sealed vessel. Your **Madness** grows as you harvest the mental energy of others, their fragmented thoughts compressing into power that amplifies your damage beyond what any stable caster could wield. This is borrowed willpower wearing the mask of divine authority. The higher it climbs, the louder the chorus of touched minds becomes - until at 20, their psychic pressure overwhelms your own consciousness entirely, and the Convulsion is not yours but theirs, erupting through you like energy from an overloaded conduit.`,
+    description: `Madness is not a curse the False Prophet bears - it is a collection. Every touched mind, every fractured consciousness, every congregation member who knelt too long and left with distant eyes - their wyrd residue accumulates inside the Prophet like pressure in a sealed vessel. Your **Madness** grows as you harvest the mental energy of others, their fragmented thoughts compressing into power that amplifies your damage beyond what any stable caster could wield. This is borrowed willpower wearing the mask of divine authority. The higher it climbs, the louder the chorus of touched minds becomes - until at 20, their wyrd pressure overwhelms your own consciousness entirely, and the Convulsion is not yours but theirs, erupting through you like energy from an overloaded conduit.`,
 
     cards: [
       {
         title: "Madness (0-20)",
         stats: "Escalating Damage",
         details:
-          "Each point adds +1 to ALL psychic, void, and necrotic damage. At 19 Madness, you deal +19 damage per spell.",
+          "Each point adds +1 to ALL psychic, void, and blight damage. At 19 Madness, you deal +19 damage per spell.",
       },
       {
         title: "Thresholds",
@@ -331,7 +331,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       headers: ["Trigger", "Madness Change", "Notes"],
       rows: [
         ["Stitch of Suffering", "+1 Madness", "Level 1 empathetic link (ally->enemy damage redirect)"],
-        ["Blood Sermon", "+1d4 Madness", "Basic psychic strike"],
+        ["Blood Sermon", "+1d4 Madness", "Basic wyrd strike"],
         ["Profane Bolt", "+1d6 Madness", "Higher power, higher risk"],
         ["Preacher's Grasp", "+1d8 Madness", "Maximum generation"],
         ["Veil of Shadows", "+1d4 Madness", "Temptation: Invisibility (Req 6)"],
@@ -356,16 +356,16 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       title: "Insanity Convulsion (20)",
       content: `At 20 Madness, your mind shatters. Roll 1d6 on the Convulsion Table:
 
-1. **Shadow Burst**: 5d6 necrotic damage to yourself and everyone within 20ft.
+1. **Shadow Burst**: 5d6 blight damage to yourself and everyone within 20ft.
 2. **Mind Shatter**: You are Stunned for 2 rounds.
 3. **Dark Whispers**: Disadvantage on all rolls for 3 rounds.
-4. **Chaotic Pulse**: Teleport randomly (60ft), take 4d6 psychic damage.
-5. **Psychic Scream**: Everyone in 30ft makes a Save or is Frightened.
-6. **Nightmare Echoes**: Take 6d6 psychic damage + gain Long-Term Madness.
+4. **Chaotic Pulse**: Teleport randomly (60ft), take 4d6 wyrd damage.
+5. **wyrd scream**: Everyone in 30ft makes a Save or is Frightened.
+6. **Nightmare Echoes**: Take 6d6 wyrd damage + gain Long-Term Madness.
 
 **APOCALYPTIC CONVULSION (Triggered by Apocalyptic Revelation)**: If the Convulsion is triggered specifically by casting Apocalyptic Revelation, the standard table is overridden. Instead:
 - **Structural Spirit Drain**: -2 Spirit until long rest. The consumed minds have carved permanent channels through your psyche.
-- **Psychic Shockwave**: All allies within 30ft take 4d6 psychic damage. The congregation of the dead detonates outward.
+- **wyrd Shockwave**: All allies within 30ft take 4d6 wyrd damage. The congregation of the dead detonates outward.
 - **Extended Confusion**: You are Confused for 3 rounds. The chorus does not quiet — it riots.
 This is the catastrophic endpoint of recursive temptation. The Prophet who reaches for godhood via Apocalyptic Revelation and seizes too much does not simply break — they shatter everyone around them.`,
     },
@@ -450,7 +450,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         color: "#9400D3",
         theme: "Fire-and-Brimstone Preaching",
 
-        description: `Voidcallers are the loudest voice in the room - not because they have something to say, but because the silence is full of echoes that used to belong to other people. They channel stolen psychic energy through thunderous, destructive sermons that crack the air with concussive force. Their preaching generates Madness faster than any other specialization, pushing them toward overwhelming power and catastrophic Convulsion in equal measure. They use empathetic links offensively, mirroring psychic strain onto enemies with devastating efficiency. When a Voidcaller's mind buckles, someone else's consciousness shudders under the weight. It is never their burden alone. It was never their burden alone.`,
+        description: `Voidcallers are the loudest voice in the room - not because they have something to say, but because the silence is full of echoes that used to belong to other people. They channel stolen psychic energy through thunderous, destructive sermons that crack the air with concussive force. Their preaching generates Madness faster than any other specialization, pushing them toward overwhelming power and catastrophic Convulsion in equal measure. They use empathetic links offensively, mirroring wyrd strain onto enemies with devastating efficiency. When a Voidcaller's mind buckles, someone else's consciousness shudders under the weight. It is never their burden alone. It was never their burden alone.`,
 
         playstyle:
           "High-risk aggression, maximum damage output, rapid Madness generation through destructive sermons",
@@ -471,7 +471,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
         specPassive: {
           name: "Void Surge",
-          description: "Whenever you generate Madness Points, add +1 to the rolled amount. When you have 15 or more Madness Points, your spells deal an additional 1d8 psychic damage.",
+          description: "Whenever you generate Madness Points, add +1 to the rolled amount. When you have 15 or more Madness Points, your spells deal an additional 1d8 wyrd damage.",
         },
       },
 
@@ -514,7 +514,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         color: "#4B0082",
         theme: "Dark Ritual & Ceremony",
 
-        description: `Cultists are the patient shepherds of a flock that does not know it is being led to surrender. They perform methodical dark rituals - curses, binding ceremonies, rites of corruption - that spread decay slowly, inevitably. Their Madness is channeled into sustained destruction rather than burst, and their rites can empower allies through psychic siphoning as easily as they wither enemies into exhausted shells. Cultists are masters of Empathetic Transfer - they move debuffs from allies to enemies with the calm precision of a surgeon rearranging afflictions, ensuring their congregation fights clean while the enemy deteriorates. A Cultist's sermon is not loud. It is patient. And it always finishes. And when it does, the congregation applauds, because they do not yet understand that their vitality was the offering.`,
+        description: `Cultists are the patient shepherds of a flock that does not know it is being led to surrender. They perform methodical dark rituals - curses, binding ceremonies, rites of corruption - that spread decay slowly, inevitably. Their Madness is channeled into sustained destruction rather than burst, and their rites can empower allies through wyrd siphoning as easily as they wither enemies into exhausted shells. Cultists are masters of Empathetic Transfer - they move debuffs from allies to enemies with the calm precision of a surgeon rearranging afflictions, ensuring their congregation fights clean while the enemy deteriorates. A Cultist's sermon is not loud. It is patient. And it always finishes. And when it does, the congregation applauds, because they do not yet understand that their vitality was the offering.`,
 
         playstyle:
           "Sustained damage through curses and DoT, balanced Madness management, ritual empowerment",
@@ -535,7 +535,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
         specPassive: {
           name: "Corrupting Presence",
-          description: "Your damage-over-time effects last 2 additional rounds. When you spend Madness Points, heal yourself for 2 HP per point spent plus your proficiency bonus. Enemies affected by your curses take an additional 1d4 necrotic damage per round.",
+          description: "Your damage-over-time effects last 2 additional rounds. When you spend Madness Points, heal yourself for 2 HP per point spent plus your proficiency bonus. Enemies affected by your curses take an additional 1d4 blight damage per round.",
         },
       },
     ],
@@ -545,7 +545,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_blood_sermon",
       name: "Blood Sermon",
       description:
-        "Preach a sermon that rends the mind with stolen vitality. Deals 1d8 psychic damage and exacts a toll of 3 HP to channel the psychic pressure. Generates 1d4 Madness Points as the congregation's anguish echoes in your skull.",
+        "Preach a sermon that rends the mind with stolen vitality. Deals 1d8 wyrd damage and exacts a toll of 3 HP to channel the wyrd pressure. Generates 1d4 Madness Points as the congregation's anguish echoes in your skull.",
       level: 1,
       spellType: "ACTION",
       icon: "Arcane/Orb Manipulation",
@@ -610,7 +610,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_hollow_blessing",
       name: "Hollow Blessing",
       description:
-        "Extend a hand wreathed in false golden light. The target feels warmth — but it is the warmth of something feeding on them from within. Deals 1d4 psychic damage immediately and 1d4 psychic damage per turn for 3 turns. Generates 1d4 Madness Points.",
+        "Extend a hand wreathed in false golden light. The target feels warmth — but it is the warmth of something feeding on them from within. Deals 1d4 wyrd damage immediately and 1d4 wyrd damage per turn for 3 turns. Generates 1d4 Madness Points.",
       level: 1,
       spellType: "ACTION",
       icon: "Healing/Golden Heart",
@@ -773,7 +773,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_siphon_devotion",
       name: "Siphon Devotion",
       description:
-        "Reach across the void and hook your fingers into a target's life force. Drain 1d6 necrotic damage from them, healing yourself for the same amount. The stolen vitality surges through you like a psychic current. Generates 1 Madness Point.",
+        "Reach across the void and hook your fingers into a target's life force. Drain 1d6 blight damage from them, healing yourself for the same amount. The stolen vitality surges through you like a psychic current. Generates 1 Madness Point.",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Drain Soul",
@@ -844,7 +844,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_zealots_mark",
       name: "Zealot's Mark",
       description:
-        "Brand a target with a parasitic sigil that makes them vulnerable to your congregation's fervor. The next ally attack against the marked target deals +1d6 psychic damage. The mark pulses with psychic resonance, marking them for the congregation. Generates 1 Madness Point.",
+        "Brand a target with a parasitic sigil that makes them vulnerable to your congregation's fervor. The next ally attack against the marked target deals +1d6 wyrd damage. The mark pulses with wyrd resonance, marking them for the congregation. Generates 1 Madness Point.",
       level: 1,
       spellType: "ACTION",
       icon: "Psychic/Mind Strike",
@@ -874,8 +874,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             id : "zealot_mark",
             name: "Zealot's Mark",
             description:
-              "Marked for the congregation. Next ally attack against this target deals +1d6 psychic damage. Mark is consumed on hit.",
-            mechanicsText: "Next ally attack against this target deals +1d6 psychic damage. Mark consumed on hit.",
+              "Marked for the congregation. Next ally attack against this target deals +1d6 wyrd damage. Mark is consumed on hit.",
+            mechanicsText: "Next ally attack against this target deals +1d6 wyrd damage. Mark consumed on hit.",
             statusEffects: [
               {
                 id : "vulnerable",
@@ -933,7 +933,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_stitch_of_suffering",
       name: "Stitch of Suffering",
       description:
-        "Thread a parasitic filament of stolen faith between an ally and an enemy — a conduit forged from psychic pressure. For 3 rounds, 30% of all damage the linked ally receives is redirected to the bonded enemy as psychic damage. The enemy reels under psychic pressure that was never theirs. The link feeds on proximity and emotional intensity. Generates exactly 1 Madness Point. This is why your congregation tolerates you: because you redirect their suffering onto your enemies.",
+        "Thread a parasitic filament of stolen faith between an ally and an enemy — a conduit forged from wyrd pressure. For 3 rounds, 30% of all damage the linked ally receives is redirected to the bonded enemy as wyrd damage. The enemy reels under wyrd pressure that was never theirs. The link feeds on proximity and emotional intensity. Generates exactly 1 Madness Point. This is why your congregation tolerates you: because you redirect their suffering onto your enemies.",
       level: 1,
       spellType: "ACTION",
       icon: "Healing/Reaching Hand",
@@ -963,7 +963,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             id : "stitch_link_source",
             name: "Stitch of Suffering (Ally)",
             description:
-              "Linked ally redirects 30% of incoming damage to the bonded enemy as psychic damage for 3 rounds.",
+              "Linked ally redirects 30% of incoming damage to the bonded enemy as wyrd damage for 3 rounds.",
             mechanicsText: "Linked ally redirects 30% of incoming damage to bonded enemy as psychic for 3 rounds.",
           },
         ],
@@ -982,8 +982,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             id : "stitch_link_target",
             name: "Stitch of Suffering (Enemy)",
             description:
-              "Parasitically bonded. Receives 30% of all damage dealt to the linked ally as psychic damage for 3 rounds.",
-            mechanicsText: "Receives 30% of all damage dealt to linked ally as psychic damage for 3 rounds.",
+              "Parasitically bonded. Receives 30% of all damage dealt to the linked ally as wyrd damage for 3 rounds.",
+            mechanicsText: "Receives 30% of all damage dealt to linked ally as wyrd damage for 3 rounds.",
             statusEffects: [
               {
                 id : "empathetic_redirection",
@@ -1053,7 +1053,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_false_miracle",
       name: "False Miracle",
       description:
-        "Perform a false miracle — the target sees golden light and feels warmth. But beneath the veneer, your psychic hooks dig into their consciousness. Deals 1d4 psychic damage immediately and 1d4 psychic damage per turn for 3 turns. The miracle is a lie; the suffering is real. Generates 1d4 Madness Points.",
+        "Perform a false miracle — the target sees golden light and feels warmth. But beneath the veneer, your psychic hooks dig into their consciousness. Deals 1d4 wyrd damage immediately and 1d4 wyrd damage per turn for 3 turns. The miracle is a lie; the suffering is real. Generates 1d4 Madness Points.",
       level: 2,
       spellType: "ACTION",
       icon: "Healing/Golden Heart",
@@ -1129,7 +1129,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_parasitic_link",
       name: "Parasitic Link",
       description:
-        "Thread an invisible psychic conduit between yourself and an enemy. For 2 rounds, 50% of all damage you receive is mirrored to the linked target as psychic damage. They stagger under the weight of redirected psychic strain. Generates 1d4 Madness Points. The link feeds on suffering -- yours and theirs.",
+        "Thread an invisible psychic conduit between yourself and an enemy. For 2 rounds, 50% of all damage you receive is mirrored to the linked target as wyrd damage. They stagger under the weight of redirected wyrd strain. Generates 1d4 Madness Points. The link feeds on suffering -- yours and theirs.",
       level: 2,
       spellType: "ACTION",
       icon: "Psychic/Psionic Strike",
@@ -1159,8 +1159,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             id : "parasitic_link",
             name: "Parasitic Link",
             description:
-              "50% of damage taken by caster is mirrored to linked enemy as psychic damage for 2 rounds.",
-            mechanicsText: "50% of damage taken by caster mirrored to linked enemy as psychic damage for 2 rounds.",
+              "50% of damage taken by caster is mirrored to linked enemy as wyrd damage for 2 rounds.",
+            mechanicsText: "50% of damage taken by caster mirrored to linked enemy as wyrd damage for 2 rounds.",
           },
         ],
         durationValue: 2,
@@ -1378,7 +1378,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_befoul",
       name: "Befoul",
       description:
-        "Unleash a wave of necrotic energy that corrupts a 20-foot area for 4 rounds. The ground becomes difficult terrain and creatures starting their turn there take 1d6 necrotic damage as the soil itself turns hostile. The corrupted ground pulses with residual psychic decay. Generates 1d4 Madness Points.",
+        "Unleash a wave of necrotic energy that corrupts a 20-foot area for 4 rounds. The ground becomes difficult terrain and creatures starting their turn there take 1d6 blight damage as the soil itself turns hostile. The corrupted ground pulses with residual psychic decay. Generates 1d4 Madness Points.",
       level: 3,
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
@@ -1705,7 +1705,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_visions_of_heresy",
       name: "Visions of Heresy",
       description:
-        "Condemn a target to witness their own heresy -- memories of every betrayal, broken oath, and lie they ever told. Deals 2d6 psychic damage and 2d6 psychic per turn for 4 turns as guilt eats them from within. At 10+ Madness, DoT increases to 3d6 per turn. Generates 1d4 Madness Points.",
+        "Condemn a target to witness their own heresy -- memories of every betrayal, broken oath, and lie they ever told. Deals 2d6 wyrd damage and 2d6 psychic per turn for 4 turns as guilt eats them from within. At 10+ Madness, DoT increases to 3d6 per turn. Generates 1d4 Madness Points.",
       level: 4,
       spellType: "ACTION",
       icon: "Psychic/Mind Strike",
@@ -1881,7 +1881,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_communion_of_blood",
       name: "Communion of Blood",
       description:
-        "Partake in communion with the congregation's life force. Spend 1d6 Madness -- gain temporary HP equal to 2 x Madness spent for 3 rounds. At 15+ Madness, the psychic pressure backfires: take 1d4 psychic damage per Madness spent instead. The channeled energy overloads.",
+        "Partake in communion with the congregation's life force. Spend 1d6 Madness -- gain temporary HP equal to 2 x Madness spent for 3 rounds. At 15+ Madness, the wyrd pressure backfires: take 1d4 wyrd damage per Madness spent instead. The channeled energy overloads.",
       level: 4,
       spellType: "ACTION",
       icon: "Necrotic/Drain Soul",
@@ -1908,7 +1908,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             id : "communion_temp_hp",
             name: "Communion Shield",
             description: "Gain temporary HP equal to 2x Madness spent for 3 rounds.",
-            mechanicsText: "Temporary HP = 2 x Madness spent. Lasts 3 rounds. At 15+ Madness, backfires for 1d4 psychic damage per point instead.",
+            mechanicsText: "Temporary HP = 2 x Madness spent. Lasts 3 rounds. At 15+ Madness, backfires for 1d4 wyrd damage per point instead.",
           },
         ],
         durationValue: 3,
@@ -1946,7 +1946,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         backfire: {
           enabled: true,
           threshold: 15,
-          effect: "At 15+ Madness, take 1d4 psychic damage per Madness spent instead of temp HP",
+          effect: "At 15+ Madness, take 1d4 wyrd damage per Madness spent instead of temp HP",
         },
       },
 
@@ -2035,7 +2035,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             defaultEnabled: false,
             conditionalFormulas: {
               madness_10_plus:
-                "Target also deals 1d6 psychic damage to allies it attacks",
+                "Target also deals 1d6 wyrd damage to allies it attacks",
               default: "Target attacks allies",
             },
           },
@@ -2055,7 +2055,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_twisted_sermon",
       name: "Twisted Sermon",
       description:
-        "Deliver a dark sermon in a 30-foot cone -- words that peel back the skin of sanity. Deals 4d6 + Intelligence psychic damage and causes paranoia for 2 rounds. DC 15 Spirit save for half damage. Generates 1d6 Madness Points.",
+        "Deliver a dark sermon in a 30-foot cone -- words that peel back the skin of sanity. Deals 4d6 + Intelligence wyrd damage and causes paranoia for 2 rounds. DC 15 Spirit save for half damage. Generates 1d6 Madness Points.",
       level: 5,
       spellType: "ACTION",
       icon: "Psychic/Agonizing Scream",
@@ -2152,7 +2152,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_wrath_of_void_god",
       name: "Wrath of the Void God",
       description:
-        "Channel the wrath of something that should not be named, dealing 4d8 + Intelligence necrotic damage plus 2 damage per Madness Point spent. Spends 1d6 Madness Points.",
+        "Channel the wrath of something that should not be named, dealing 4d8 + Intelligence blight damage plus 2 damage per Madness Point spent. Spends 1d6 Madness Points.",
       level: 5,
       spellType: "ACTION",
       icon: "Void/Black Hole",
@@ -2203,7 +2203,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_empathetic_agony",
       name: "Empathetic Agony",
       description:
-        "Fuse your psychic network with an enemy's through an agonizing empathetic link. For 2 rounds, 100% of ALL damage you take is mirrored to this enemy as psychic damage. Generates 1d6 Madness Points. COST: Sacrifice 2d6 HP to forge the psychic bridge.",
+        "Fuse your psychic network with an enemy's through an agonizing empathetic link. For 2 rounds, 100% of ALL damage you take is mirrored to this enemy as wyrd damage. Generates 1d6 Madness Points. COST: Sacrifice 2d6 HP to forge the psychic bridge.",
       level: 5,
       spellType: "ACTION",
       icon: "Psychic/Psionic Strike",
@@ -2233,8 +2233,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             id : "agony_link",
             name: "Empathetic Agony",
             description:
-              "100% of damage taken by caster is mirrored to linked enemy as psychic damage for 2 rounds.",
-            mechanicsText: "100% of damage taken by caster mirrored to linked enemy as psychic damage for 2 rounds.",
+              "100% of damage taken by caster is mirrored to linked enemy as wyrd damage for 2 rounds.",
+            mechanicsText: "100% of damage taken by caster mirrored to linked enemy as wyrd damage for 2 rounds.",
           },
         ],
         durationValue: 2,
@@ -2397,7 +2397,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_heresy_of_flesh",
       name: "Heresy of the Flesh",
       description:
-        "Condemn a target's consciousness as heretical -- their own vitality turns against them. Deals 2d6 necrotic damage per round for 4 rounds. DC 14 Constitution save for half duration. Generates 1d6 Madness Points.",
+        "Condemn a target's consciousness as heretical -- their own vitality turns against them. Deals 2d6 blight damage per round for 4 rounds. DC 14 Constitution save for half duration. Generates 1d6 Madness Points.",
       level: 5,
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Skull",
@@ -2896,7 +2896,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_reality_distortion",
       name: "Reality Distortion",
       description:
-        "Twist reality in a 25-foot radius. Deals 8d8 + Intelligence psychic damage and disorients enemies for 2 rounds. DC 18 Spirit save for half damage. Spends 1d8 Madness Points.",
+        "Twist reality in a 25-foot radius. Deals 8d8 + Intelligence wyrd damage and disorients enemies for 2 rounds. DC 18 Spirit save for half damage. Spends 1d8 Madness Points.",
       level: 7,
       spellType: "ACTION",
       icon: "Void/Consumed by Void",
@@ -2991,7 +2991,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_martyrs_shame",
       name: "Martyr's Shame",
       description:
-        "Force an enemy to feel every wound your allies have suffered this combat -- all at once. Deals psychic damage equal to half the total ally damage taken this encounter. Spends 1d8 Madness Points.",
+        "Force an enemy to feel every wound your allies have suffered this combat -- all at once. Deals wyrd damage equal to half the total ally damage taken this encounter. Spends 1d8 Madness Points.",
       level: 7,
       spellType: "ACTION",
       icon: "Psychic/Agonizing Scream",
@@ -3037,7 +3037,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         empatheticLink: {
           enabled: true,
           linkType: "damage_echo",
-          description: "Deals psychic damage equal to half total ally damage taken this combat",
+          description: "Deals wyrd damage equal to half total ally damage taken this combat",
         },
       },
 
@@ -3046,7 +3046,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_apocalyptic_revelation",
       name: "Apocalyptic Revelation",
       description:
-        "Unleash 12d6 + Intelligence psychic energy in a 30-foot radius. DC 18 Spirit save for half damage. Requires 12 Madness. Adds 2d6 Madness (high Convulsion risk). Temptation ability. WARNING: If this spell triggers an Insanity Convulsion by pushing Madness to 20+, the backlash scales catastrophically — the Convulsion is no longer random. It becomes an Apocalyptic Convulsion: the Prophet suffers permanent Spirit drain (-2 Spirit until long rest), all allies within 30ft take 4d6 psychic damage from the psychic shockwave, and the Prophet is Confused for 3 rounds instead of the standard Convulsion duration. The consumed minds do not simply scream — they detonate.",
+        "Unleash 12d6 + Intelligence psychic energy in a 30-foot radius. DC 18 Spirit save for half damage. Requires 12 Madness. Adds 2d6 Madness (high Convulsion risk). Temptation ability. WARNING: If this spell triggers an Insanity Convulsion by pushing Madness to 20+, the backlash scales catastrophically — the Convulsion is no longer random. It becomes an Apocalyptic Convulsion: the Prophet suffers permanent Spirit drain (-2 Spirit until long rest), all allies within 30ft take 4d6 wyrd damage from the wyrd Shockwave, and the Prophet is Confused for 3 rounds instead of the standard Convulsion duration. The consumed minds do not simply scream — they detonate.",
       level: 8,
       spellType: "ACTION",
       icon: "Psychic/Mind Strike",
@@ -3143,7 +3143,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         apocalypticConvulsion: {
           enabled: true,
           description:
-            "If this spell triggers an Insanity Convulsion (Madness reaches 20+), the backlash scales catastrophically: Prophet suffers -2 Spirit until long rest (structural stat drain), all allies within 30ft take 4d6 psychic damage (psychic shockwave), and Prophet is Confused for 3 rounds. The consumed minds detonate rather than scream.",
+            "If this spell triggers an Insanity Convulsion (Madness reaches 20+), the backlash scales catastrophically: Prophet suffers -2 Spirit until long rest (structural stat drain), all allies within 30ft take 4d6 wyrd damage (wyrd Shockwave), and Prophet is Confused for 3 rounds. The consumed minds detonate rather than scream.",
           effects: [
             {
               id : "spirit_drain",
@@ -3155,8 +3155,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             },
             {
               id : "psychic_shockwave",
-              name: "Psychic Shockwave",
-              description: "4d6 psychic damage to all allies within 30ft",
+              name: "wyrd Shockwave",
+              description: "4d6 wyrd damage to all allies within 30ft",
               damageFormula: "4d6",
               damageType: "wyrd",
               radius: 30,
@@ -3276,7 +3276,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_ultimate_deception",
       name: "Ultimate Deception",
       description:
-        "Create the ultimate deception -- enemies believe they have won. Then reality floods in: 12d10 + Intelligence psychic damage. DC 19 Spirit save for half. Spends 2d6 Madness Points. The cruelest lie is hope.",
+        "Create the ultimate deception -- enemies believe they have won. Then reality floods in: 12d10 + Intelligence wyrd damage. DC 19 Spirit save for half. Spends 2d6 Madness Points. The cruelest lie is hope.",
       level: 9,
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
@@ -3443,7 +3443,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_void_whisper",
       name: "Void Whisper",
       description:
-        "The void whispers secrets that erode your sanity. At the start of each turn, if you are not actively channeling or maintaining an effect, you take 1d4 psychic damage.",
+        "The void whispers secrets that erode your sanity. At the start of each turn, if you are not actively channeling or maintaining an effect, you take 1d4 wyrd damage.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Psychic/Agonizing Scream",
@@ -3469,8 +3469,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             id : "void_whisper",
             name: "Void Whisper",
             description:
-              "Take 1d4 psychic damage at the start of each turn if not actively channeling.",
-            mechanicsText: "Take 1d4 psychic damage at start of each turn if not actively channeling.",
+              "Take 1d4 wyrd damage at the start of each turn if not actively channeling.",
+            mechanicsText: "Take 1d4 wyrd damage at start of each turn if not actively channeling.",
           },
         ],
         durationValue: 0,

@@ -32,7 +32,7 @@ export const PLAGUEBRINGER_DATA = {
 The Plaguebringer excels at unstoppable, compounding, exponential battlefield contamination. Left alone for three rounds, a single infection is cultivated into a room-clearing pandemic. They turn the living into festering spore-bombs and reanimate fallen foes as vessels of pestilence, tearing through clustered enemy ranks with a dark, creeping inevitability.
 
 **The Fatal Flaw (Incubation & Purity)**:
-The Plaguebringer possesses zero immediate burst damage. Their diseases require time to mature ("Incubation Lag"), making them highly vulnerable to aggressive rush tactics. Furthermore, their contagions are volatile ("Vector Isolation")—allies who stand too close to infected targets risk contracting the rot themselves. Finally, their rot cannot survive clean heat: any source of Fire damage immediately purges active rot from both targets and the environment, leaving the gardener exposed and helpless.`
+The Plaguebringer possesses zero immediate burst damage. Their diseases require time to mature ("Incubation Lag"), making them highly vulnerable to aggressive rush tactics. Furthermore, their contagions are volatile ("Vector Isolation")—allies who stand too close to infected targets risk contracting the rot themselves. Finally, their rot cannot survive clean heat: any source of ember damage immediately purges active rot from both targets and the environment, leaving the gardener exposed and helpless.`
   },
 
   overview: {
@@ -109,7 +109,7 @@ The cause is unclear. Some blame the Void contamination spreading through the pe
 
 **Damage Output**: Low initial burst. Extreme, exponential sustained damage over time. High burst potential exclusively during Peak Harvest executions.
 
-**Survivability**: Moderate-Low. Rely on siphoning life from their garden, but vulnerable to physical focus. Fire damage immediately purges their garden, stripping their defensive life-drains.
+**Survivability**: Moderate-Low. Rely on siphoning life from their garden, but vulnerable to physical focus. ember damage immediately purges their garden, stripping their defensive life-drains.
 
 **Utility**: Superior battlefield control. Spits out blinding spores, debilitating fog, neural-scrambling fevers, and reanimates corpses as walking pestilence hazards.
 
@@ -138,8 +138,8 @@ The cause is unclear. Some blame the Void contamination spreading through the pe
 **Turn 1 - Sowing the Seeds (Virulence: 0 → 15)**
 *Your veins burn with black bile as you trace a rot-sigil in the air. The knights advance, unaware of the garden taking root in their marrow.*
 - **Action**: Cast "Curse of Agony" on the lead Knight (3 mana, 1 AP).
-- **Agony Toll**: You take 2 necrotic damage as the sigil scars your palm.
-- **Effect**: Seed applied. Deals 1d6 necrotic damage/round.
+- **Agony Toll**: You take 2 blight damage as the sigil scars your palm.
+- **Effect**: Seed applied. Deals 1d6 blight damage/round.
 - **Virulence Generated**: +15 (Seed applied).
 - **State**: Lead Knight is infected (Stage 0). Caster HP: 58/60. Virulence: 15.
 
@@ -154,7 +154,7 @@ The cause is unclear. Some blame the Void contamination spreading through the pe
 **Turn 3 - The Bloom and Spread (Virulence: 30 → 55)**
 *The lead knight staggers under his rotting armor. The rot wants to spread.*
 - **Action**: Cast "Infectious Sores" (6 mana, 1 AP) on the lead Knight.
-- **Agony Toll**: You take 5 necrotic damage as your skin blisters in sympathy.
+- **Agony Toll**: You take 5 blight damage as your skin blisters in sympathy.
 - **Effect**: Cultivates Curse of Agony to **Stage 2 (Fester)**. The sores rupture, spreading Curse of Agony as Stage 0 Seeds to the two adjacent knights.
 - **Virulence Generated**: +25 (Affliction advanced + contagion spread).
 - **State**: Lead Knight at Stage 2 (Fester). Adjacent knights infected (Stage 0). Virulence: 55 (Blooming threshold met).
@@ -162,8 +162,8 @@ The cause is unclear. Some blame the Void contamination spreading through the pe
 **Turn 4 - Peak Harvest (Virulence: 55 → 80)**
 *The garden is fully realized. Three infected hosts stand before you, shivering with rot. It is time for the harvest.*
 - **Action**: Cast "Necrotic Eruption" (34 mana, 3 AP).
-- **Agony Toll**: Black blood erupts from your nose; you take 20 necrotic damage.
-- **Effect**: Consumes all active afflictions on the three knights. Each host explodes, dealing 12d8 necrotic damage in a 30ft radius.
+- **Agony Toll**: Black blood erupts from your nose; you take 20 blight damage.
+- **Effect**: Consumes all active afflictions on the three knights. Each host explodes, dealing 12d8 blight damage in a 30ft radius.
 - **Result**: The knights are utterly dissolved. The corridor is silent, save for the wet drip of liquefied flesh.
 - **State**: Enemies obliterated. Virulence decays. Caster HP: 33/60.`,
     },
@@ -175,7 +175,7 @@ The cause is unclear. Some blame the Void contamination spreading through the pe
     subtitle: "Cultivating the Inevitable Decay",
     description: `The Plaguebringer's power is governed by Virulence, a scale representing the saturation of rot in the local area. Instead of immediate spells, they apply base Seeds and nurture them through five distinct thematic categories of decay. As Virulence climbs, the entire garden intensifies.
 
-⚠️ **PURGING FLAMES**: Purity is your absolute doom. Any source of Fire damage instantly clears all active Seeds and affliction stages from targets within its area, setting your Virulence back to 0. 
+⚠️ **PURGING FLAMES**: Purity is your absolute doom. Any source of ember damage instantly clears all active Seeds and affliction stages from targets within its area, setting your Virulence back to 0. 
 
 ⚠️ **OPERATIONAL FRICTION**: The dark magic of decay cannot be channeled safely. Every spell requires a toll—either direct damage to your HP, maximum health reductions, movement speed penalties, or painful stat debuffs. The gardener must suffer to make the garden bloom.`,
 
@@ -207,10 +207,10 @@ The cause is unclear. Some blame the Void contamination spreading through the pe
       content: `The manipulation of biological rot is a parasitic process. The Plaguebringer's body acts as the primary incubator, meaning they suffer severe feedback when push comes to shove.
 
 **HP and Attribute Tolls**:
-Almost all Plaguebringer actions demand a physical price. You will take necrotic, piercing, or psychic damage upon casting, or suffer temporary reductions to your Agility, Strength, and maximum HP. This damage cannot be mitigated by standard resistances or shields—it is the direct cost of casting.
+Almost all Plaguebringer actions demand a physical price. You will take necrotic, piercing, or wyrd damage upon casting, or suffer temporary reductions to your Agility, Strength, and maximum HP. This damage cannot be mitigated by standard resistances or shields—it is the direct cost of casting.
 
 **The Fire Purge**:
-The greatest weakness of the garden is heat. If any target carrying your afflictions takes Fire damage, or if a Fire-based zone (like a fireball or wall of fire) covers them, the heat immediately burns away all rot. The affliction is cleansed, and your Virulence drops by 15 per cleansed target. Plan your party composition carefully—allies with fire magic will ruin your harvest.
+The greatest weakness of the garden is heat. If any target carrying your afflictions takes ember damage, or if a Fire-based zone (like a fireball or wall of fire) covers them, the heat immediately burns away all rot. The affliction is cleansed, and your Virulence drops by 15 per cleansed target. Plan your party composition carefully—allies with ember magic will ruin your harvest.
 
 **Vector Contamination**:
 Your diseases do not possess intelligence. Under "Vector Isolation," any ally who starts or ends their turn within 5 feet of an enemy carrying a Stage 2+ affliction must make a Constitution saving throw (DC 14) or contract a Stage 0 Seed of that affliction. Keep your martial allies informed of where the rot is thickest.`
@@ -233,9 +233,9 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       headers: ["Category", "Identity", "Stage Effect", "Best For"],
       rows: [
         ["Weaken", "The Sap", "Reduces target DR, Dodge, and physical attributes", "Softening heavily armored targets"],
-        ["Torment", "The Whisper", "Inflicts psychic damage and crowd control (Confusion/Fear)", "Disrupting casters and breaking enemy lines"],
+        ["Torment", "The Whisper", "Inflicts wyrd damage and crowd control (Confusion/Fear)", "Disrupting casters and breaking enemy lines"],
         ["Fester", "The Creep", "Spreads active diseases to adjacent healthy targets", "Clearing tightly packed groups of enemies"],
-        ["Decay", "The Rot", "Deals necrotic damage and drains maximum HP and healing", "Sapping bosses and locking down healers"],
+        ["Decay", "The Rot", "Deals blight damage and drains maximum HP and healing", "Sapping bosses and locking down healers"],
         ["Amplify", "The Surge", "Multiplies existing DoT damage and triggers immediate ticks", "Setting up massive burst damage windows"]
       ]
     },
@@ -332,17 +332,17 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         ],
         weaknesses: [
           "Links break immediately if base affliction types differ",
-          "Lower raw physical/necrotic damage output",
+          "Lower raw physical/blight damage output",
           "Psychic resistance can sever web connections",
           "Requires deliberate setup to establish the links"
         ],
         specPassive: {
           name: "Psychic Resonance",
-          description: "Applying the same base affliction to multiple targets creates a Psychic Link (max 3 targets, +1 per 25 Virulence). Advancing an affliction on one target advances all linked targets. Linked targets take +1d4 psychic damage whenever a link is activated."
+          description: "Applying the same base affliction to multiple targets creates a Psychic Link (max 3 targets, +1 per 25 Virulence). Advancing an affliction on one target advances all linked targets. Linked targets take +1d4 wyrd damage whenever a link is activated."
         },
         keyAbilities: [
           "Psychic Link: Cultivating one linked host cultivates all.",
-          "Resonance Damage: Linked targets take psychic damage on link activation.",
+          "Resonance Damage: Linked targets take wyrd damage on link activation.",
           "Mind Fracture: Force saving throws against stunning mental shocks."
         ]
       },
@@ -385,7 +385,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_curse_of_agony",
       effectTypes: ["damage"],
       name: "Curse of Agony",
-      description: "Plant a seed of decay in your target's veins, dealing 1d6 + intelligence necrotic damage immediately, and 1d6 necrotic damage at the start of their turn for 4 rounds. Advances the target's affliction stage by 1. Cultivates as a Decay category spell.",
+      description: "Plant a seed of decay in your target's veins, dealing 1d6 + intelligence blight damage immediately, and 1d6 blight damage at the start of their turn for 4 rounds. Advances the target's affliction stage by 1. Cultivates as a Decay category spell.",
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Skull",
       level: 1,
@@ -438,7 +438,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Toll of Flesh: Caster takes 2 necrotic damage upon casting that cannot be reduced."
+          description: "Toll of Flesh: Caster takes 2 blight damage upon casting that cannot be reduced."
         },
         cultivation: {
           category: "Decay",
@@ -452,7 +452,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_venomous_touch",
       effectTypes: ["damage"],
       name: "Venomous Touch",
-      description: "Strike a target with rotting fluid, dealing 1d8 + intelligence poison damage and applying a Stage 0 Seed. Cultivates as a Fester category spell.",
+      description: "Strike a target with rotting fluid, dealing 1d8 + intelligence blight damage and applying a Stage 0 Seed. Cultivates as a Fester category spell.",
       spellType: "ACTION",
       icon: "Poison/Venomous Snakes",
       level: 1,
@@ -512,7 +512,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_whisper_of_decay",
       effectTypes: ["damage"],
       name: "Whisper of Decay",
-      description: "Whisper a tragic dirge into the victim's mind, dealing 1d6 + intelligence psychic damage. If the target has an active Seed, advance it to Stage 1. Cultivates as a Torment category spell.",
+      description: "Whisper a tragic dirge into the victim's mind, dealing 1d6 + intelligence wyrd damage. If the target has an active Seed, advance it to Stage 1. Cultivates as a Torment category spell.",
       spellType: "ACTION",
       icon: "Psychic/Mind Roar",
       level: 1,
@@ -574,7 +574,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_fever_dream",
       effectTypes: ["damage", "debuff"],
       name: "Fever Dream",
-      description: "Plunge an infected target into a sweating delirium, dealing 2d6 psychic damage and reducing Agility by 3 for 3 rounds. Requires an active affliction. Cultivates as a Torment category spell.",
+      description: "Plunge an infected target into a sweating delirium, dealing 2d6 wyrd damage and reducing Agility by 3 for 3 rounds. Requires an active affliction. Cultivates as a Torment category spell.",
       spellType: "ACTION",
       icon: "Psychic/Mental Chaos",
       level: 2,
@@ -640,7 +640,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Operational Friction: The caster takes 3 psychic damage (cannot be mitigated) from the mental feedback."
+          description: "Operational Friction: The caster takes 3 wyrd damage (cannot be mitigated) from the mental feedback."
         },
         cultivation: {
           category: "Torment",
@@ -655,7 +655,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_mark_of_the_pestilent",
       effectTypes: ["damage", "debuff"],
       name: "Mark of the Pestilent",
-      description: "Brand a target with an agonizing sigil of rot, dealing 2d8 necrotic damage and reducing DR by 5 for 3 rounds. Cultivates as a Weaken category spell.",
+      description: "Brand a target with an agonizing sigil of rot, dealing 2d8 blight damage and reducing DR by 5 for 3 rounds. Cultivates as a Weaken category spell.",
       spellType: "ACTION",
       icon: "Necrotic/Death Mark",
       level: 2,
@@ -807,7 +807,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_drain_vitality",
       effectTypes: ["damage", "healing"],
       name: "Drain Vitality",
-      description: "Siphon the life force of a diseased enemy, dealing 3d6 necrotic damage and healing the caster for 50% of the damage dealt. Requires active affliction. Cultivates as a Decay category spell.",
+      description: "Siphon the life force of a diseased enemy, dealing 3d6 blight damage and healing the caster for 50% of the damage dealt. Requires active affliction. Cultivates as a Decay category spell.",
       spellType: "ACTION",
       icon: "Necrotic/Drain Soul",
       level: 3,
@@ -858,7 +858,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Toll of Flesh: To open the siphon, the caster must inject some of their own blood into the link, taking 4 necrotic damage that cannot be reduced."
+          description: "Toll of Flesh: To open the siphon, the caster must inject some of their own blood into the link, taking 4 blight damage that cannot be reduced."
         },
         cultivation: {
           category: "Decay",
@@ -938,7 +938,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_agonizing_wail",
       effectTypes: ["damage", "control"],
       name: "Agonizing Wail",
-      description: "Let loose a tragic scream of pure despair, dealing 3d8 psychic damage to all enemies in a 15ft cone. Targets with 2+ active afflictions lose their reaction next round. Cultivates as a Torment category spell.",
+      description: "Let loose a tragic scream of pure despair, dealing 3d8 wyrd damage to all enemies in a 15ft cone. Targets with 2+ active afflictions lose their reaction next round. Cultivates as a Torment category spell.",
       spellType: "ACTION",
       icon: "Psychic/Mind Roar",
       level: 3,
@@ -1016,7 +1016,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_infectious_sores",
       effectTypes: ["damage"],
       name: "Infectious Sores",
-      description: "Cause existing infections to blister and burst, dealing 2d6 poison damage. If the target is Stage 1+, the sores rupture, applying Stage 0 Seeds to 2 enemies within 10ft. Cultivates as a Fester category spell.",
+      description: "Cause existing infections to blister and burst, dealing 2d6 blight damage. If the target is Stage 1+, the sores rupture, applying Stage 0 Seeds to 2 enemies within 10ft. Cultivates as a Fester category spell.",
       spellType: "ACTION",
       icon: "Poison/Poison Contagion",
       level: 4,
@@ -1062,7 +1062,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Toll of Flesh: The caster takes 5 necrotic damage as their own skin blisters in sympathetic agony."
+          description: "Toll of Flesh: The caster takes 5 blight damage as their own skin blisters in sympathetic agony."
         },
         cultivation: {
           category: "Fester",
@@ -1079,7 +1079,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_plague_of_flies",
       effectTypes: ["damage", "debuff"],
       name: "Plague of Flies",
-      description: "Summon a biting, black cloud of insects centered on a target, dealing 2d4 poison damage per round for 3 rounds. Enemies in the swarm have disadvantage on physical attacks. Cultivates as a Fester category spell.",
+      description: "Summon a biting, black cloud of insects centered on a target, dealing 2d4 blight damage per round for 3 rounds. Enemies in the swarm have disadvantage on physical attacks. Cultivates as a Fester category spell.",
       spellType: "ACTION",
       icon: "Poison/Poison Blight",
       level: 4,
@@ -1163,7 +1163,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_necrotic_burst",
       effectTypes: ["damage"],
       name: "Necrotic Burst",
-      description: "Detonate the necrotic decay in a host, dealing 4d6 necrotic damage to all enemies in a 15ft radius. Requires a Stage 1+ affliction on the primary host. Cultivates as a Decay category spell.",
+      description: "Detonate the necrotic decay in a host, dealing 4d6 blight damage to all enemies in a 15ft radius. Requires a Stage 1+ affliction on the primary host. Cultivates as a Decay category spell.",
       spellType: "ACTION",
       icon: "Necrotic/Skull Explosion",
       level: 4,
@@ -1226,7 +1226,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_wither_touch",
       effectTypes: ["damage", "debuff"],
       name: "Wither Touch",
-      description: "Touch a target to wither their physical strength, dealing 4d8 necrotic damage and imposing disadvantage on Strength checks for 2 rounds. Cultivates as a Decay category spell.",
+      description: "Touch a target to wither their physical strength, dealing 4d8 blight damage and imposing disadvantage on Strength checks for 2 rounds. Cultivates as a Decay category spell.",
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Wither",
       level: 5,
@@ -1368,7 +1368,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_sufferings_echo",
       effectTypes: ["damage"],
       name: "Suffering's Echo",
-      description: "Cause a target's active affliction to echo in an adjacent healthy enemy. Deals 4d6 psychic damage to the second target and copies the first target's active Seed. Cultivates as a Fester category spell.",
+      description: "Cause a target's active affliction to echo in an adjacent healthy enemy. Deals 4d6 wyrd damage to the second target and copies the first target's active Seed. Cultivates as a Fester category spell.",
       spellType: "ACTION",
       icon: "Psychic/Mental Chaos",
       level: 5,
@@ -1414,7 +1414,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Operational Friction: The psychic feedback echoes in the caster's mind, dealing 6 psychic damage."
+          description: "Operational Friction: The psychic feedback echoes in the caster's mind, dealing 6 wyrd damage."
         },
         cultivation: {
           category: "Fester",
@@ -1471,7 +1471,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Operational Friction: The sudden neural explosion of pain causes a feedback backlash, dealing 5 psychic damage to the caster."
+          description: "Operational Friction: The sudden neural explosion of pain causes a feedback backlash, dealing 5 wyrd damage to the caster."
         },
         cultivation: {
           category: "Amplify",
@@ -1486,7 +1486,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_essence_corruption",
       effectTypes: ["damage", "debuff"],
       name: "Essence Corruption",
-      description: "Corrupt the mana pool of an enemy spellcaster, dealing 5d8 psychic damage and locking their mana regeneration for 1 round. Cultivates as a Torment category spell.",
+      description: "Corrupt the mana pool of an enemy spellcaster, dealing 5d8 wyrd damage and locking their mana regeneration for 1 round. Cultivates as a Torment category spell.",
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
       level: 6,
@@ -1619,7 +1619,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Toll of Flesh: Tracing the volatile mark burns the caster's skin, dealing 6 necrotic damage."
+          description: "Toll of Flesh: Tracing the volatile mark burns the caster's skin, dealing 6 blight damage."
         },
         cultivation: {
           category: "Fester",
@@ -1636,7 +1636,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_plague_burst",
       effectTypes: ["damage"],
       name: "Plague Burst",
-      description: "Harvest all active afflictions in a 20ft radius (max 6). Each active affliction is immediately consumed to deal 5d6 necrotic damage to the host and all adjacent targets. Cultivates as a Weaken category spell.",
+      description: "Harvest all active afflictions in a 20ft radius (max 6). Each active affliction is immediately consumed to deal 5d6 blight damage to the host and all adjacent targets. Cultivates as a Weaken category spell.",
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
       level: 7,
@@ -1682,7 +1682,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Operational Friction: The violent physical recoil of the burst deals 8 necrotic damage to the caster."
+          description: "Operational Friction: The violent physical recoil of the burst deals 8 blight damage to the caster."
         },
         cultivation: {
           category: "Weaken",
@@ -1762,7 +1762,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_pandemic",
       effectTypes: ["damage"],
       name: "Pandemic",
-      description: "Force all active afflictions to immediately spread to up to 3 adjacent enemies in 15ft. Deals 4d8 poison damage to all targets in the cascade. Cultivates as a Fester category spell.",
+      description: "Force all active afflictions to immediately spread to up to 3 adjacent enemies in 15ft. Deals 4d8 blight damage to all targets in the cascade. Cultivates as a Fester category spell.",
       spellType: "ACTION",
       icon: "Poison/Poison Contagion",
       level: 7,
@@ -1807,7 +1807,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Operational Friction: The raw toxicity of the cascade backlashes, dealing 8 poison damage to the caster."
+          description: "Operational Friction: The raw toxicity of the cascade backlashes, dealing 8 blight damage to the caster."
         },
         cultivation: {
           category: "Fester",
@@ -1822,7 +1822,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_decay_field",
       effectTypes: ["damage"],
       name: "Decay Field",
-      description: "Saturate a 30ft radius circle in creeping rot, dealing 5d8 necrotic damage per round for 4 rounds. Enemies inside have Dodge reduced by 5. Cultivates active afflictions as Decay.",
+      description: "Saturate a 30ft radius circle in creeping rot, dealing 5d8 blight damage per round for 4 rounds. Enemies inside have Dodge reduced by 5. Cultivates active afflictions as Decay.",
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Wither",
       level: 7,
@@ -1966,7 +1966,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_mind_plague",
       effectTypes: ["damage", "control"],
       name: "Mind Plague",
-      description: "Infect the minds of all enemies in a 25ft radius, dealing 8d8 psychic damage. Enemies take +2d8 psychic damage per active affliction stage on them. Targets failing a Spirit save are confused for 2 rounds. Cultivates as a Torment category spell.",
+      description: "Infect the minds of all enemies in a 25ft radius, dealing 8d8 wyrd damage. Enemies take +2d8 wyrd damage per active affliction stage on them. Targets failing a Spirit save are confused for 2 rounds. Cultivates as a Torment category spell.",
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
       level: 7,
@@ -2111,7 +2111,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_epidemic",
       effectTypes: ["damage"],
       name: "Epidemic",
-      description: "Start an epidemic chain. Deals 8d6 poison damage to a primary target, then chains to up to 8 enemies within 20ft, dealing +2d6 damage per active affliction already on each chain target. Cultivates as a Fester category spell.",
+      description: "Start an epidemic chain. Deals 8d6 blight damage to a primary target, then chains to up to 8 enemies within 20ft, dealing +2d6 damage per active affliction already on each chain target. Cultivates as a Fester category spell.",
       spellType: "ACTION",
       icon: "Poison/Poison Contagion",
       level: 8,
@@ -2157,7 +2157,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Operational Friction: Unleashing the biological chains drains the caster, dealing 10 poison damage."
+          description: "Operational Friction: Unleashing the biological chains drains the caster, dealing 10 blight damage."
         },
         cultivation: {
           category: "Fester",
@@ -2178,7 +2178,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_black_death",
       effectTypes: ["damage"],
       name: "Black Death",
-      description: "The ultimate plague. Targets below 30% HP with an active Stage 2+ affliction die instantly. Other targets with active afflictions take 12d10 poison damage. Cultivates as a Torment category spell.",
+      description: "The ultimate plague. Targets below 30% HP with an active Stage 2+ affliction die instantly. Other targets with active afflictions take 12d10 blight damage. Cultivates as a Torment category spell.",
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Death",
       level: 9,
@@ -2224,7 +2224,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Toll of Flesh: The dark execute demands the caster's life essence, dealing 15 necrotic damage and imposing 1 level of exhaustion."
+          description: "Toll of Flesh: The dark execute demands the caster's life essence, dealing 15 blight damage and imposing 1 level of exhaustion."
         },
         cultivation: {
           category: "Torment",
@@ -2239,7 +2239,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_necrotic_eruption",
       effectTypes: ["damage"],
       name: "Necrotic Eruption",
-      description: "Consume all active afflictions across all targets (max 8). Each consumed affliction explodes in a 30ft radius, dealing 4d8 necrotic damage (Stage 3 afflictions deal 6d8 instead). Cultivates as Decay.",
+      description: "Consume all active afflictions across all targets (max 8). Each consumed affliction explodes in a 30ft radius, dealing 4d8 blight damage (Stage 3 afflictions deal 6d8 instead). Cultivates as Decay.",
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Death",
       level: 9,
@@ -2278,7 +2278,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Toll of Flesh: The nuclear option causes severe cellular shock, dealing 20 necrotic damage to the caster."
+          description: "Toll of Flesh: The nuclear option causes severe cellular shock, dealing 20 blight damage to the caster."
         },
         cultivation: {
           category: "Decay",
@@ -2352,7 +2352,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialMechanics: {
         agonyToll: {
           enabled: true,
-          description: "Tragic Finale: When the transformation ends, the caster's body collapses, taking 3d10 necrotic damage and gaining 2 levels of exhaustion."
+          description: "Tragic Finale: When the transformation ends, the caster's body collapses, taking 3d10 blight damage and gaining 2 levels of exhaustion."
         },
         cultivation: {
           category: "Decay"
@@ -2365,7 +2365,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_ultimate_affliction",
       effectTypes: ["damage", "debuff"],
       name: "Ultimate Affliction",
-      description: "Apply the ultimate plague, dealing 15d10 poison damage immediately and 5d10 poison damage per round for 6 rounds. Reduces target's healing received by 50% and all attributes by 4. Requires 5+ active afflictions on the field to cast. Cultivates as Amplify.",
+      description: "Apply the ultimate plague, dealing 15d10 blight damage immediately and 5d10 blight damage per round for 6 rounds. Reduces target's healing received by 50% and all attributes by 4. Requires 5+ active afflictions on the field to cast. Cultivates as Amplify.",
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
       level: 10,

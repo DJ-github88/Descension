@@ -1,4 +1,5 @@
 import React from 'react';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 // Pathfinder styles imported via main.css
 
 const LifelinkConfigPopup = ({
@@ -35,7 +36,7 @@ const LifelinkConfigPopup = ({
         <div className="lifelink-popup-header">
           <div className="lifelink-popup-title">
             <img
-              src={`https://wow.zamimg.com/images/wow/icons/large/${effect.icon}.jpg`}
+              src={getAbilityIconUrl(effect.icon)}
               alt={effect.name}
               className="lifelink-popup-icon"
             />

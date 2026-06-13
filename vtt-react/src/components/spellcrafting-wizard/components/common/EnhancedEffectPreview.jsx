@@ -7,52 +7,48 @@ import { formatEffectComponent } from './SpellCardUtils';
 // Helper function to get effect icons
 const getEffectIconUrl = (effectType) => {
   const effectIcons = {
-    damage: 'spell_fire_flamebolt',
-    healing: 'spell_holy_heal02',
-    buff: 'spell_holy_divineillumination',
-    debuff: 'spell_shadow_curseofsargeras',
-    control: 'spell_frost_chainsofice',
-    utility: 'spell_nature_earthbind',
-    summon: 'spell_shadow_demonform',
-    transform: 'spell_nature_polymorph',
-    purification: 'spell_holy_dispelmagic',
-    restoration: 'spell_holy_restoration'
+    damage: 'Fire/Flame Burst',
+    healing: 'Healing/Golden Heart',
+    buff: 'Radiant/Radiant Aura',
+    debuff: 'Necrotic/Necrotic Skull',
+    control: 'Frost/Dripping Ice',
+    utility: 'Nature/Nature Natural',
+    summon: 'Shadow.png',
+    transform: 'Utility/Resize',
+    purification: 'Utility/Broken',
+    restoration: 'Healing/Healing Compass'
   };
 
   // Handle sub-types like damage_dot, healing_hot, etc.
   const baseType = effectType.split('_')[0];
   const subType = effectType.includes('_') ? effectType.split('_')[1] : null;
 
-  let iconId = effectIcons[baseType] || 'inv_misc_questionmark';
+  let iconId = effectIcons[baseType] || 'Utility/Utility';
 
   // Override for specific subtypes
-  if (subType === 'dot') iconId = 'spell_shadow_plaguecloud';
-  if (subType === 'hot') iconId = 'spell_holy_sealofsacrifice';
-  if (subType === 'shield') iconId = 'spell_holy_powerwordshield';
-  if (subType === 'stat' && baseType === 'buff') iconId = 'spell_holy_greaterblessingofkings';
-  if (subType === 'stat' && baseType === 'debuff') iconId = 'spell_shadow_curseofachimonde';
-  if (subType === 'control') iconId = 'spell_frost_chainsofice';
-  if (subType === 'protection') iconId = 'spell_holy_blessingofprotection';
+  if (subType === 'dot') iconId = 'Poison/Poison Venom';
+  if (subType === 'hot') iconId = 'Healing/Golden Heart';
+  if (subType === 'shield') iconId = 'Utility/Golden Shield';
+  if (subType === 'stat' && baseType === 'buff') iconId = 'Radiant/Radiant Aura';
+  if (subType === 'stat' && baseType === 'debuff') iconId = 'Shadow.png';
+  if (subType === 'control') iconId = 'Frost/Dripping Ice';
+  if (subType === 'protection') iconId = 'Utility/Barred Shield';
 
-  // Map WoW icon IDs to ability icons
+  // Map local icon paths to ability icons
   const iconMap = {
-    'spell_fire_flamebolt': 'Fire/Flame Burst',
-    'spell_holy_heal02': 'Healing/Golden Heart',
-    'spell_holy_divineillumination': 'Radiant/Radiant Aura',
-    'spell_shadow_curseofsargeras': 'Shadow/Shadow Darkness',
-    'spell_frost_chainsofice': 'Frost/Dripping Ice',
-    'spell_nature_earthbind': 'Nature/Nature Natural',
-    'spell_shadow_demonform': 'Shadow/Shadow Entity',
-    'spell_nature_polymorph': 'Utility/Resize',
-    'spell_holy_dispelmagic': 'Utility/Broken',
-    'spell_holy_restoration': 'Healing/Healing Compass',
-    'spell_shadow_plaguecloud': 'Poison/Poison Venom',
-    'spell_holy_sealofsacrifice': 'Healing/Golden Heart',
-    'spell_holy_powerwordshield': 'Utility/Golden Shield',
-    'spell_holy_greaterblessingofkings': 'Radiant/Radiant Aura',
-    'spell_shadow_curseofachimonde': 'Shadow/Shadow Darkness',
-    'spell_holy_blessingofprotection': 'Utility/Barred Shield',
-    'inv_misc_questionmark': 'Utility/Utility'
+    'Fire/Flame Burst': 'Fire/Flame Burst',
+    'Healing/Golden Heart': 'Healing/Golden Heart',
+    'Radiant/Radiant Aura': 'Radiant/Radiant Aura',
+    'Shadow.png': 'Shadow.png',
+    'Frost/Dripping Ice': 'Frost/Dripping Ice',
+    'Nature/Nature Natural': 'Nature/Nature Natural',
+    'Utility/Resize': 'Utility/Resize',
+    'Utility/Broken': 'Utility/Broken',
+    'Healing/Healing Compass': 'Healing/Healing Compass',
+    'Poison/Poison Venom': 'Poison/Poison Venom',
+    'Utility/Golden Shield': 'Utility/Golden Shield',
+    'Utility/Barred Shield': 'Utility/Barred Shield',
+    'Utility/Utility': 'Utility/Utility'
   };
   return getAbilityIconUrl(iconMap[iconId] || 'Utility/Utility', 'abilities');
 };
@@ -726,15 +722,17 @@ const EnhancedEffectPreview = ({
                   label="Duration"
                   value={`${baseConfig.duration || '1'} ${baseConfig.durationUnit || 'rounds'}`}
                 />
-                <PropertyDisplay
-                  icon="property-icon-save"
-                  label="Save"
-                  value={`DC ${baseConfig.difficultyClass || '15'} (${baseConfig.savingThrow === 'agility' ? 'Agility' :
-                      baseConfig.savingThrow === 'wisdom' ? 'Spirit' :
-                        baseConfig.savingThrow ? baseConfig.savingThrow.charAt(0).toUpperCase() + baseConfig.savingThrow.slice(1) :
-                          'Strength'
-                    })`}
-                />
+                {baseConfig.savingThrow !== null && baseConfig.savingThrow !== undefined && baseConfig.savingThrow !== false && (
+                  <PropertyDisplay
+                    icon="property-icon-save"
+                    label="Save"
+                    value={`DC ${baseConfig.difficultyClass || '15'} (${baseConfig.savingThrow === 'agility' ? 'Agility' :
+                        baseConfig.savingThrow === 'wisdom' ? 'Spirit' :
+                          baseConfig.savingThrow ? baseConfig.savingThrow.charAt(0).toUpperCase() + baseConfig.savingThrow.slice(1) :
+                            'Strength'
+                      })`}
+                  />
+                )}
                 <PropertyDisplay
                   icon="property-icon-control"
                   label="Control"

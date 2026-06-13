@@ -2380,32 +2380,32 @@ const EnhancedGraduatedRecipeEffects = ({
                         // Find the matching toxic type from the STEP_MECHANICS_SYSTEMS
                         const toxicTypes = isChordSystem ? [
                           // Chord functions for chord system
-                          { id: 'tonic', name: 'Tonic', color: '#FF5555', wowIcon: 'spell_holy_holybolt', theory: 'The tonic is the first note of a scale and represents the key center or home base of a piece of music.' },
-                          { id: 'supertonic', name: 'Supertonic', color: '#FF9955', wowIcon: 'spell_holy_sealofwisdom', theory: 'The supertonic is the second degree of the scale, sitting just above the tonic, often creating tension that resolves to the tonic.' },
-                          { id: 'mediant', name: 'Mediant', color: '#FFFF55', wowIcon: 'spell_holy_sealofmight', theory: 'The mediant is the third degree of the scale, positioned midway between the tonic and dominant, adding emotional color to progressions.' },
-                          { id: 'subdominant', name: 'Subdominant', color: '#55FF55', wowIcon: 'spell_holy_divineillumination', theory: 'The subdominant is the fourth degree of the scale, creating a sense of movement away from the tonic and toward the dominant.' },
-                          { id: 'dominant', name: 'Dominant', color: '#55FFFF', wowIcon: 'spell_holy_auraoflight', theory: 'The dominant is the fifth degree of the scale, creating strong tension that typically resolves to the tonic, driving harmonic progression.' },
-                          { id: 'submediant', name: 'Submediant', color: '#5555FF', wowIcon: 'spell_holy_blessedrecovery', theory: 'The submediant is the sixth degree of the scale, often used in deceptive cadences and as a substitute for the tonic in minor keys.' },
-                          { id: 'leadingtone', name: 'Leading Tone', color: '#FF55FF', wowIcon: 'spell_holy_searinglightpriest', theory: 'The leading tone is the seventh degree of the scale, creating strong tension that pulls toward the tonic, especially in cadences.' }
+                          { id: 'tonic', name: 'Tonic', color: '#FF5555', wowIcon: 'Healing/Golden Heart', theory: 'The tonic is the first note of a scale and represents the key center or home base of a piece of music.' },
+                          { id: 'supertonic', name: 'Supertonic', color: '#FF9955', wowIcon: 'Healing/Renewal', theory: 'The supertonic is the second degree of the scale, sitting just above the tonic, often creating tension that resolves to the tonic.' },
+                          { id: 'mediant', name: 'Mediant', color: '#FFFF55', wowIcon: 'Healing/Golden Heart', theory: 'The mediant is the third degree of the scale, positioned midway between the tonic and dominant, adding emotional color to progressions.' },
+                          { id: 'subdominant', name: 'Subdominant', color: '#55FF55', wowIcon: 'Radiant/Divine Blessing', theory: 'The subdominant is the fourth degree of the scale, creating a sense of movement away from the tonic and toward the dominant.' },
+                          { id: 'dominant', name: 'Dominant', color: '#55FFFF', wowIcon: 'Radiant/Radiant Aura', theory: 'The dominant is the fifth degree of the scale, creating strong tension that typically resolves to the tonic, driving harmonic progression.' },
+                          { id: 'submediant', name: 'Submediant', color: '#5555FF', wowIcon: 'Healing/Healing Compass', theory: 'The submediant is the sixth degree of the scale, often used in deceptive cadences and as a substitute for the tonic in minor keys.' },
+                          { id: 'leadingtone', name: 'Leading Tone', color: '#FF55FF', wowIcon: 'Radiant/Divine Blessing', theory: 'The leading tone is the seventh degree of the scale, creating strong tension that pulls toward the tonic, especially in cadences.' }
                         ] : [
-                          { id: 'disease', name: 'Disease', color: '#8B008B', wowIcon: 'ability_creature_disease_01' },
-                          { id: 'blight', name: 'blight', color: '#006400', wowIcon: 'ability_creature_poison_06' },
-                          { id: 'curse', name: 'Curse', color: '#4B0082', wowIcon: 'spell_shadow_curseofsargeras' },
-                          { id: 'venom', name: 'Venom', color: '#006400', wowIcon: 'ability_creature_poison_03' },
-                          { id: 'blight', name: 'Blight', color: '#8B4513', wowIcon: 'spell_shadow_creepingplague' },
-                          { id: 'plague', name: 'Plague', color: '#2F4F4F', wowIcon: 'spell_shadow_plaguecloud' },
-                          { id: 'blight', name: 'blight', color: '#8B008B', wowIcon: 'spell_deathknight_necroticplague' },
-                          { id: 'toxic', name: 'Toxic', color: '#006400', wowIcon: 'ability_creature_poison_02' },
-                          { id: 'corruption', name: 'Corruption', color: '#4B0082', wowIcon: 'spell_shadow_abominationexplosion' },
-                          { id: 'contagion', name: 'Contagion', color: '#8B4513', wowIcon: 'spell_shadow_contagion' },
-                          { id: 'decay', name: 'Decay', color: '#8B4513', wowIcon: 'ability_creature_disease_02' },
-                          { id: 'pestilence', name: 'Pestilence', color: '#2F4F4F', wowIcon: 'spell_nature_nullifydisease' },
-                          { id: 'toxin', name: 'Toxin', color: '#006400', wowIcon: 'ability_creature_poison_05' },
-                          { id: 'miasma', name: 'Miasma', color: '#4B0082', wowIcon: 'spell_shadow_rainoffire' },
-                          { id: 'rot', name: 'Rot', color: '#8B4513', wowIcon: 'ability_creature_disease_03' },
-                          { id: 'infection', name: 'Infection', color: '#8B008B', wowIcon: 'inv_misc_herb_plaguebloom' },
-                          { id: 'vile', name: 'Vile', color: '#006400', wowIcon: 'spell_shadow_lifedrain02' },
-                          { id: 'putrid', name: 'Putrid', color: '#8B4513', wowIcon: 'ability_creature_cursed_04' }
+                          { id: 'disease', name: 'Disease', color: '#8B008B', wowIcon: 'Necrotic/Necrotic Skull' },
+                          { id: 'blight', name: 'blight', color: '#006400', wowIcon: 'Poison/Poison Venom' },
+                          { id: 'curse', name: 'Curse', color: '#4B0082', wowIcon: 'Necrotic/Necrotic Skull' },
+                          { id: 'venom', name: 'Venom', color: '#006400', wowIcon: 'Poison/Poison Venom' },
+                          { id: 'blight', name: 'Blight', color: '#8B4513', wowIcon: 'Shadow.png' },
+                          { id: 'plague', name: 'Plague', color: '#2F4F4F', wowIcon: 'Poison/Poison Venom' },
+                          { id: 'blight', name: 'blight', color: '#8B008B', wowIcon: 'Necrotic/Necrotic Skull' },
+                          { id: 'toxic', name: 'Toxic', color: '#006400', wowIcon: 'Poison/Poison Venom' },
+                          { id: 'corruption', name: 'Corruption', color: '#4B0082', wowIcon: 'Shadow.png' },
+                          { id: 'contagion', name: 'Contagion', color: '#8B4513', wowIcon: 'Necrotic/Necrotic Skull' },
+                          { id: 'decay', name: 'Decay', color: '#8B4513', wowIcon: 'Necrotic/Necrotic Skull' },
+                          { id: 'pestilence', name: 'Pestilence', color: '#2F4F4F', wowIcon: 'Poison/Poison Venom' },
+                          { id: 'toxin', name: 'Toxin', color: '#006400', wowIcon: 'Poison/Poison Venom' },
+                          { id: 'miasma', name: 'Miasma', color: '#4B0082', wowIcon: 'Shadow.png' },
+                          { id: 'rot', name: 'Rot', color: '#8B4513', wowIcon: 'Necrotic/Necrotic Skull' },
+                          { id: 'infection', name: 'Infection', color: '#8B008B', wowIcon: 'Nature/Nature Natural' },
+                          { id: 'vile', name: 'Vile', color: '#006400', wowIcon: 'Poison/Poison Venom' },
+                          { id: 'putrid', name: 'Putrid', color: '#8B4513', wowIcon: 'Necrotic/Necrotic Skull' }
                         ];
 
                         const matchingType = toxicTypes.find(t => t.id === toxicId);

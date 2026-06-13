@@ -577,7 +577,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
     // Map effect types to local ability icons
     const effectIcons = {
       'damage': 'Fire/Fire Burst',
-      'healing': 'Healing/Healing',
+      'healing': 'Healing/Golden Heart',
       'buff': 'Radiant/Radiant Aura',
       'debuff': 'Necrotic/Necrotic Skull',
       'control': 'Utility/Stun',
@@ -585,7 +585,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
       'summon': 'Utility/Summon Minion',
       'transform': 'Utility/Utility',
       'purification': 'Radiant/Divine Blessing',
-      'restoration': 'Healing/Healing'
+      'restoration': 'Healing/Golden Heart'
     };
 
     return getCustomIconUrl(effectIcons[effectType] || 'Utility/Utility', 'abilities');

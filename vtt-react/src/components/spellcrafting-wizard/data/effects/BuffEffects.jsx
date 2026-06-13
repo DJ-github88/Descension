@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
 import DiceFormulaExamples from '../../components/tooltips/DiceFormulaExamples';
 import SpellSelector from '../../components/common/SpellSelector';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 // Pathfinder styles imported via main.css
 
@@ -21,13 +22,13 @@ import {
   UTILITY_STAT_MODIFIERS
 } from '../../core/data/statModifier';
 
-// Status effects with WoW icons
+// Status effects with local icons
 const STATUS_EFFECTS = [
   {
     id: 'combat_advantage',
     name: 'Combat Advantage',
     description: 'Gain advantage on specific combat rolls',
-    icon: 'classicon_warrior',
+    icon: 'General/Powerful Warrior',
     category: 'combat',
     hasAdvancedConfig: true,
     options: [
@@ -35,33 +36,33 @@ const STATUS_EFFECTS = [
         id: 'attack_rolls',
         name: 'Attack Advantage',
         description: 'Gain advantage on attack rolls',
-        icon: 'ability_rogue_quickdraw'
+        icon: 'Piercing/Focused Arrow Shot'
       },
       {
         id: 'damage_rolls',
         name: 'Damage Advantage',
         description: 'Gain advantage on damage rolls for specific damage types',
-        icon: 'spell_fire_flamebolt',
+        icon: 'Fire/Flame Burst',
         hasAdvancedConfig: true
       },
       {
         id: 'healing_rolls',
         name: 'Healing Advantage',
         description: 'Gain advantage on healing rolls',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         hasAdvancedConfig: true
       },
       {
         id: 'saving_throws',
         name: 'Defensive Stance',
         description: 'Gain advantage on saving throws',
-        icon: 'ability_paladin_shieldofvengeance'
+        icon: 'Radiant/Radiant Golden Shield'
       },
       {
         id: 'initiative',
         name: 'Combat Readiness',
         description: 'Gain advantage on initiative rolls',
-        icon: 'ability_hunter_mastermarksman'
+        icon: 'Piercing/On the Mark'
       }
     ]
   },
@@ -69,26 +70,26 @@ const STATUS_EFFECTS = [
     id: 'skill_mastery',
     name: 'Skill Mastery',
     description: 'Gain advantage on specific skill checks',
-    icon: 'classicon_rogue',
+    icon: 'Utility/Hide',
     category: 'skills',
     options: [
       {
         id: 'physical',
         name: 'Physical Prowess',
         description: 'Gain advantage on Strength and Agility checks',
-        icon: 'inv_sword_04'
+        icon: 'Slashing/Sword Pierce'
       },
       {
         id: 'mental',
         name: 'Mental Acuity',
         description: 'Gain advantage on Intelligence and Wisdom checks',
-        icon: 'inv_misc_book_16'
+        icon: 'Utility/Ornate Staff'
       },
       {
         id: 'social',
         name: 'Social Grace',
         description: 'Gain advantage on Charisma checks',
-        icon: 'inv_misc_gem_bloodstone_02'
+        icon: 'Social/Social'
       }
     ]
   },
@@ -96,26 +97,26 @@ const STATUS_EFFECTS = [
     id: 'empower_next',
     name: 'Empower Next',
     description: 'Enhance the power of your next action',
-    icon: 'classicon_mage',
+    icon: 'Arcane/Spellcasting Aura',
     category: 'empowerment',
     options: [
       {
         id: 'spell',
         name: 'Spell Surge',
         description: 'Your next spell deals maximum damage',
-        icon: 'spell_fire_firebolt02'
+        icon: 'Fire/Swirling Fireball'
       },
       {
         id: 'heal',
         name: 'Healing Surge',
         description: 'Your next healing spell heals for maximum value',
-        icon: 'spell_holy_holybolt'
+        icon: 'Radiant/Radiant Bolt'
       },
       {
         id: 'weapon',
         name: 'Weapon Surge',
         description: 'Your next weapon attack deals maximum damage',
-        icon: 'inv_sword_27'
+        icon: 'Slashing/Sword Pierce'
       }
     ]
   },
@@ -123,26 +124,26 @@ const STATUS_EFFECTS = [
     id: 'damage_shield',
     name: 'Damage Shield',
     description: 'The next X hits against you deal reduced damage',
-    icon: 'classicon_paladin',
+    icon: 'Radiant/Radiant Golden Shield',
     category: 'protection',
     options: [
       {
         id: 'physical',
         name: 'Physical Shield',
         description: 'Reduce physical damage from the next 3 hits by 50%',
-        icon: 'inv_shield_04'
+        icon: 'Utility/Shield'
       },
       {
         id: 'magical',
         name: 'Spell Shield',
         description: 'Reduce magical damage from the next 3 hits by 50%',
-        icon: 'spell_holy_magicalsentry'
+        icon: 'Utility/Watchful Eye'
       },
       {
         id: 'complete',
         name: 'Complete Shield',
         description: 'Reduce all damage from the next 2 hits by 75%',
-        icon: 'inv_shield_82'
+        icon: 'Utility/Shield'
       }
     ]
   },
@@ -151,26 +152,26 @@ const STATUS_EFFECTS = [
     id: 'haste',
     name: 'Haste',
     description: 'Increase speed and reaction time',
-    icon: 'ability_rogue_sprint',
+    icon: 'Utility/Speed Boot',
     category: 'mobility',
     options: [
       {
         id: 'movement',
         name: 'Swift Movement',
         description: 'Increase movement speed',
-        icon: 'ability_rogue_sprint'
+        icon: 'Utility/Speed Boot'
       },
       {
         id: 'action',
         name: 'Quick Action',
         description: 'Gain additional action points',
-        icon: 'ability_monk_flyingdragonkick'
+        icon: 'Utility/Dash'
       },
       {
         id: 'reaction',
         name: 'Fast Reactions',
         description: 'Gain additional reaction per round',
-        icon: 'ability_warrior_challange'
+        icon: 'Utility/Overlords Command'
       }
     ]
   },
@@ -178,26 +179,26 @@ const STATUS_EFFECTS = [
     id: 'elemental_infusion',
     name: 'Elemental Infusion',
     description: 'Infuse attacks with elemental energy',
-    icon: 'spell_fire_immolation',
+    icon: 'Fire/Enveloping Fire',
     category: 'empowerment',
     options: [
       {
         id: 'ember',
         name: 'Fire Infusion',
         description: 'Attacks deal additional fire damage',
-        icon: 'spell_fire_flamebolt'
+        icon: 'Fire/Flame Burst'
       },
       {
         id: 'rime',
         name: 'Frost Infusion',
         description: 'Attacks deal additional cold damage and slow targets',
-        icon: 'spell_frost_frostbolt02'
+        icon: 'Frost/Frozen in Ice'
       },
       {
         id: 'storm',
         name: 'Lightning Infusion',
         description: 'Attacks deal additional lightning damage and may jump to nearby targets',
-        icon: 'spell_nature_lightning'
+        icon: 'Lightning/Lightning Bolt'
       }
     ]
   },
@@ -205,26 +206,26 @@ const STATUS_EFFECTS = [
     id: 'invisibility',
     name: 'Invisibility',
     description: 'Become difficult or impossible to see',
-    icon: 'ability_stealth',
+    icon: 'Utility/Hide',
     category: 'stealth',
     options: [
       {
         id: 'partial',
         name: 'Camouflage',
         description: 'Advantage on stealth checks, disadvantage on attacks against you',
-        icon: 'ability_stealth'
+        icon: 'Utility/Hide'
       },
       {
         id: 'complete',
         name: 'Complete Invisibility',
         description: 'Become invisible until you attack or cast a spell',
-        icon: 'spell_magic_invisibility'
+        icon: 'Arcane/Revealing Steps'
       },
       {
         id: 'greater',
         name: 'Greater Invisibility',
         description: 'Remain invisible even when attacking',
-        icon: 'spell_magic_greatcerinvisibility'
+        icon: 'Arcane/Channeling Stance'
       }
     ]
   },
@@ -232,26 +233,26 @@ const STATUS_EFFECTS = [
     id: 'inspiration',
     name: 'Inspiration',
     description: 'Gain creative insight and mental clarity',
-    icon: 'spell_holy_divinespirit',
+    icon: 'Radiant/Radiant Divinity',
     category: 'mental',
     options: [
       {
         id: 'focus',
         name: 'Mental Focus',
         description: 'Advantage on concentration checks for spells',
-        icon: 'spell_arcane_mindmastery'
+        icon: 'Psychic/Focused Mind'
       },
       {
         id: 'insight',
         name: 'Tactical Insight',
         description: 'Gain advantage on tactics and strategy checks',
-        icon: 'spell_holy_innerfire'
+        icon: 'Radiant/Radiant Aura'
       },
       {
         id: 'creativity',
         name: 'Creative Surge',
         description: 'Gain advantage on creative and artistic checks',
-        icon: 'inv_misc_book_17'
+        icon: 'Utility/Ornate Staff'
       }
     ]
   },
@@ -260,26 +261,26 @@ const STATUS_EFFECTS = [
     id: 'luck',
     name: 'Luck',
     description: 'Improve your fortune and chance of success',
-    icon: 'inv_misc_gem_pearl_06',
+    icon: 'Utility/Glowing Shard',
     category: 'fortune',
     options: [
       {
         id: 'minor',
         name: 'Lucky Break',
         description: 'Reroll one failed roll',
-        icon: 'inv_misc_coin_17'
+        icon: 'Utility/Utility'
       },
       {
         id: 'major',
         name: 'Fortune\'s Favor',
         description: 'Reroll any number of failed rolls during the duration',
-        icon: 'inv_misc_gem_pearl_06'
+        icon: 'Utility/Glowing Shard'
       },
       {
         id: 'fate',
         name: 'Fate\'s Hand',
         description: 'Choose the result of one roll instead of rolling',
-        icon: 'inv_misc_gem_diamond_03'
+        icon: 'Utility/Glowing Shard'
       }
     ]
   },
@@ -287,7 +288,7 @@ const STATUS_EFFECTS = [
     id: 'lifelink',
     name: 'Lifelink',
     description: 'Create a sympathetic bond that transfers resources between entities',
-    icon: 'spell_shadow_lifedrain02',
+    icon: 'Necrotic/Drain Soul',
     category: 'vampiric',
     hasAdvancedConfig: true,
     options: [
@@ -295,37 +296,37 @@ const STATUS_EFFECTS = [
         id: 'hp_to_hp',
         name: 'Health Link',
         description: 'Transfer health between entities',
-        icon: 'spell_shadow_lifedrain'
+        icon: 'Necrotic/Drain Soul'
       },
       {
         id: 'mana_to_mana',
         name: 'Mana Link',
         description: 'Transfer mana between entities',
-        icon: 'spell_shadow_manaburn'
+        icon: 'Arcane/Orb Manipulation'
       },
       {
         id: 'hp_to_mana',
         name: 'Life to Mana',
         description: 'Convert health to mana',
-        icon: 'spell_shadow_soulleech_2'
+        icon: 'Necrotic/Drain Soul'
       },
       {
         id: 'mana_to_hp',
         name: 'Mana to Life',
         description: 'Convert mana to health',
-        icon: 'spell_holy_divineillumination'
+        icon: 'Radiant/Divine Illumination'
       },
       {
         id: 'damage_to_healing',
         name: 'Damage to Healing',
         description: 'Convert damage dealt to healing',
-        icon: 'spell_shadow_lifedrain02'
+        icon: 'Necrotic/Drain Soul'
       },
       {
         id: 'healing_to_damage',
         name: 'Healing to Damage',
         description: 'Convert healing done to bonus damage',
-        icon: 'spell_shadow_bloodboil'
+        icon: 'Necrotic/Blood Skull'
       }
     ]
   }
@@ -333,39 +334,39 @@ const STATUS_EFFECTS = [
 
 // Category icons
 const CATEGORY_ICONS = {
-  combat: 'inv_sword_27',
-  skills: 'inv_misc_book_11',
-  empowerment: 'spell_arcane_blast',
-  protection: 'inv_shield_04',
-  mobility: 'ability_rogue_sprint',
-  stealth: 'ability_stealth',
-  mental: 'spell_arcane_mindmastery',
-  fortune: 'inv_misc_gem_pearl_06',
-  vampiric: 'spell_shadow_lifedrain02',
-  all: 'inv_misc_questionmark'
+  combat: 'Slashing/Sword Pierce',
+  skills: 'Utility/Ornate Staff',
+  empowerment: 'Arcane/Magical Sword',
+  protection: 'Utility/Shield',
+  mobility: 'Utility/Speed Boot',
+  stealth: 'Utility/Hide',
+  mental: 'Psychic/Focused Mind',
+  fortune: 'Utility/Glowing Shard',
+  vampiric: 'Necrotic/Drain Soul',
+  all: 'Utility/Utility'
 };
 
 // Stacking rules with their descriptions and icons
 const STACKING_RULES = [
-  { id: 'exclusive', name: 'Exclusive', description: 'Only one buff of this type can be active at once', icon: 'inv_jewelcrafting_gem_37' },
-  { id: 'highestValue', name: 'Highest Value', description: 'Multiple buffs of same type use the highest value only', icon: 'inv_jewelcrafting_gem_32' },
-  { id: 'additive', name: 'Additive', description: 'Multiple buffs add their values together', icon: 'inv_jewelcrafting_gem_14' },
-  { id: 'multiplicative', name: 'Multiplicative', description: 'Percentage-based effects multiply with each other', icon: 'inv_jewelcrafting_gem_16' },
-  { id: 'selfStacking', name: 'Self-Stacking', description: 'Designed to accumulate multiple stacks of the same buff', icon: 'inv_misc_gem_amethyst_02' }
+  { id: 'exclusive', name: 'Exclusive', description: 'Only one buff of this type can be active at once', icon: 'Utility/Glowing Shard' },
+  { id: 'highestValue', name: 'Highest Value', description: 'Multiple buffs of same type use the highest value only', icon: 'Utility/Glowing Shard' },
+  { id: 'additive', name: 'Additive', description: 'Multiple buffs add their values together', icon: 'Utility/Glowing Shard' },
+  { id: 'multiplicative', name: 'Multiplicative', description: 'Percentage-based effects multiply with each other', icon: 'Utility/Glowing Shard' },
+  { id: 'selfStacking', name: 'Self-Stacking', description: 'Designed to accumulate multiple stacks of the same buff', icon: 'Utility/Glowing Shard' }
 ];
 
 // Duration types
 const DURATION_TYPES = [
-  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'inv_misc_pocketwatch_02' },
-  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'inv_misc_pocketwatch_03' }
+  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'Utility/Utility' },
+  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'Utility/Utility' },
+  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'Utility/Utility' }
 ];
 
 // Level icons
 const LEVEL_ICONS = {
-  minor: 'inv_misc_gem_diamond_05',
-  moderate: 'inv_misc_gem_diamond_06',
-  major: 'inv_misc_gem_diamond_07'
+  minor: 'Utility/Glowing Shard',
+  moderate: 'Utility/Glowing Shard',
+  major: 'Utility/Glowing Shard'
 };
 
 // Stat categories for tabs
@@ -584,7 +585,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
   // Helper function to get icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Get resistance scaling options
@@ -657,67 +658,67 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
   const getStatModifiersByCategory = (category) => {
     // Define primary stat modifiers with an All option
     const PRIMARY_STAT_MODIFIERS_EXTENDED = [
-      { id: 'all_primary_stats', name: 'All Primary Stats', icon: 'spell_holy_blessingofstrength', description: 'Increases all primary attributes', category: 'primary' },
+      { id: 'all_primary_stats', name: 'All Primary Stats', icon: 'Radiant/Divine Blessing', description: 'Increases all primary attributes', category: 'primary' },
       ...PRIMARY_STAT_MODIFIERS
     ];
 
     // Define damage type modifiers with an All option
     const DAMAGE_TYPE_MODIFIERS_EXTENDED = [
-      { id: 'all_spell_damage', name: 'All Spell Damage', icon: 'spell_fire_flamebolt', description: 'Increases damage for all spell types', category: 'damage' },
+      { id: 'all_spell_damage', name: 'All Spell Damage', icon: 'Fire/Flame Burst', description: 'Increases damage for all spell types', category: 'damage' },
       ...DAMAGE_TYPE_MODIFIERS
     ];
 
     // Define resistance modifiers with new scaling system
     const RESISTANCE_MODIFIERS = [
-      { id: 'all_resistances', name: 'All Resistances', icon: 'spell_holy_divineshield', description: 'Modifies resistance to all damage types', category: 'resistance', resistanceType: 'general' },
-      { id: 'physical_resistance', name: 'Physical Resistance', icon: 'inv_shield_05', description: 'Modifies resistance to physical damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'fire_resistance', name: 'Fire Resistance', icon: 'spell_fire_firearmor', description: 'Modifies resistance to fire damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'cold_resistance', name: 'Cold Resistance', icon: 'spell_frost_frostarmor', description: 'Modifies resistance to cold damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'spell_nature_lightningshield', description: 'Modifies resistance to lightning damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'acid_resistance', name: 'Acid Resistance', icon: 'spell_nature_acid_01', description: 'Modifies resistance to acid damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'spell_shadow_antishadow', description: 'Modifies resistance to necrotic damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'spell_holy_blessingofprotection', description: 'Modifies resistance to radiant damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'poison_resistance', name: 'Poison Resistance', icon: 'ability_creature_poison_02', description: 'Modifies resistance to poison damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'spell_shadow_mindtwisting', description: 'Modifies resistance to psychic damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'thunder_resistance', name: 'Thunder Resistance', icon: 'spell_nature_thunderclap', description: 'Modifies resistance to thunder damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'force_resistance', name: 'Force Resistance', icon: 'spell_arcane_blast', description: 'Modifies resistance to force damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'slashing_resistance', name: 'Slashing Resistance', icon: 'inv_sword_04', description: 'Modifies resistance to slashing damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'piercing_resistance', name: 'Piercing Resistance', icon: 'inv_spear_06', description: 'Modifies resistance to piercing damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'bludgeoning_resistance', name: 'Bludgeoning Resistance', icon: 'inv_mace_02', description: 'Modifies resistance to bludgeoning damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'all_resistances', name: 'All Resistances', icon: 'Radiant/Radiant Golden Shield', description: 'Modifies resistance to all damage types', category: 'resistance', resistanceType: 'general' },
+      { id: 'physical_resistance', name: 'Physical Resistance', icon: 'Utility/Shield', description: 'Modifies resistance to physical damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'fire_resistance', name: 'Fire Resistance', icon: 'Fire/Flame Shield', description: 'Modifies resistance to fire damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'cold_resistance', name: 'Cold Resistance', icon: 'Frost/Frozen in Ice', description: 'Modifies resistance to cold damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'Lightning/Lightning Shield', description: 'Modifies resistance to lightning damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'acid_resistance', name: 'Acid Resistance', icon: 'Poison/Acid Splash', description: 'Modifies resistance to acid damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'Radiant/Radiant Divinity', description: 'Modifies resistance to necrotic damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'Radiant/Divine Blessing', description: 'Modifies resistance to radiant damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'poison_resistance', name: 'Poison Resistance', icon: 'Poison/Poison Venom', description: 'Modifies resistance to poison damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'Psychic/Mind Roar', description: 'Modifies resistance to psychic damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'thunder_resistance', name: 'Thunder Resistance', icon: 'Lightning/Thunder', description: 'Modifies resistance to thunder damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'force_resistance', name: 'Force Resistance', icon: 'Arcane/Magical Sword', description: 'Modifies resistance to force damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'slashing_resistance', name: 'Slashing Resistance', icon: 'Slashing/Sword Pierce', description: 'Modifies resistance to slashing damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'piercing_resistance', name: 'Piercing Resistance', icon: 'Piercing/Thrown Dagger', description: 'Modifies resistance to piercing damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'bludgeoning_resistance', name: 'Bludgeoning Resistance', icon: 'Bludgeoning/Mortal Strike', description: 'Modifies resistance to bludgeoning damage', category: 'resistance', resistanceType: 'standard' },
 
       // Absorption types - use flat numbers for all damage types
-      { id: 'damage_absorption', name: 'All Damage Absorption', icon: 'spell_arcane_arcaneshield', description: 'Absorbs a fixed amount of all damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'physical_absorption', name: 'Physical Absorption', icon: 'inv_shield_05', description: 'Absorbs a fixed amount of physical damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'fire_absorption', name: 'Fire Absorption', icon: 'spell_fire_firearmor', description: 'Absorbs a fixed amount of fire damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'cold_absorption', name: 'Cold Absorption', icon: 'spell_frost_frostarmor', description: 'Absorbs a fixed amount of cold damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'lightning_absorption', name: 'Lightning Absorption', icon: 'spell_nature_lightningshield', description: 'Absorbs a fixed amount of lightning damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'acid_absorption', name: 'Acid Absorption', icon: 'spell_nature_acid_01', description: 'Absorbs a fixed amount of acid damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'necrotic_absorption', name: 'Necrotic Absorption', icon: 'spell_shadow_antishadow', description: 'Absorbs a fixed amount of necrotic damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'radiant_absorption', name: 'Radiant Absorption', icon: 'spell_holy_blessingofprotection', description: 'Absorbs a fixed amount of radiant damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'poison_absorption', name: 'Poison Absorption', icon: 'ability_creature_poison_02', description: 'Absorbs a fixed amount of poison damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'psychic_absorption', name: 'Psychic Absorption', icon: 'spell_shadow_mindtwisting', description: 'Absorbs a fixed amount of psychic damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'thunder_absorption', name: 'Thunder Absorption', icon: 'spell_nature_thunderclap', description: 'Absorbs a fixed amount of thunder damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'force_absorption', name: 'Force Absorption', icon: 'spell_arcane_blast', description: 'Absorbs a fixed amount of force damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'slashing_absorption', name: 'Slashing Absorption', icon: 'inv_sword_04', description: 'Absorbs a fixed amount of slashing damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'piercing_absorption', name: 'Piercing Absorption', icon: 'inv_spear_06', description: 'Absorbs a fixed amount of piercing damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'bludgeoning_absorption', name: 'Bludgeoning Absorption', icon: 'inv_mace_02', description: 'Absorbs a fixed amount of bludgeoning damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'magical_absorption', name: 'Magical Absorption', icon: 'spell_arcane_prismaticcloak', description: 'Absorbs a fixed amount of magical damage', category: 'resistance', resistanceType: 'absorption' }
+      { id: 'damage_absorption', name: 'All Damage Absorption', icon: 'Arcane/Empowering Growth', description: 'Absorbs a fixed amount of all damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'physical_absorption', name: 'Physical Absorption', icon: 'Utility/Shield', description: 'Absorbs a fixed amount of physical damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'fire_absorption', name: 'Fire Absorption', icon: 'Fire/Flame Shield', description: 'Absorbs a fixed amount of fire damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'cold_absorption', name: 'Cold Absorption', icon: 'Frost/Frozen in Ice', description: 'Absorbs a fixed amount of cold damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'lightning_absorption', name: 'Lightning Absorption', icon: 'Lightning/Lightning Shield', description: 'Absorbs a fixed amount of lightning damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'acid_absorption', name: 'Acid Absorption', icon: 'Poison/Acid Splash', description: 'Absorbs a fixed amount of acid damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'necrotic_absorption', name: 'Necrotic Absorption', icon: 'Radiant/Radiant Divinity', description: 'Absorbs a fixed amount of necrotic damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'radiant_absorption', name: 'Radiant Absorption', icon: 'Radiant/Divine Blessing', description: 'Absorbs a fixed amount of radiant damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'poison_absorption', name: 'Poison Absorption', icon: 'Poison/Poison Venom', description: 'Absorbs a fixed amount of poison damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'psychic_absorption', name: 'Psychic Absorption', icon: 'Psychic/Mind Roar', description: 'Absorbs a fixed amount of psychic damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'thunder_absorption', name: 'Thunder Absorption', icon: 'Lightning/Thunder', description: 'Absorbs a fixed amount of thunder damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'force_absorption', name: 'Force Absorption', icon: 'Arcane/Magical Sword', description: 'Absorbs a fixed amount of force damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'slashing_absorption', name: 'Slashing Absorption', icon: 'Slashing/Sword Pierce', description: 'Absorbs a fixed amount of slashing damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'piercing_absorption', name: 'Piercing Absorption', icon: 'Piercing/Thrown Dagger', description: 'Absorbs a fixed amount of piercing damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'bludgeoning_absorption', name: 'Bludgeoning Absorption', icon: 'Bludgeoning/Mortal Strike', description: 'Absorbs a fixed amount of bludgeoning damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'magical_absorption', name: 'Magical Absorption', icon: 'Arcane/Ebon Blaze', description: 'Absorbs a fixed amount of magical damage', category: 'resistance', resistanceType: 'absorption' }
     ];
 
     // Define secondary stat modifiers to include healing received
     const SECONDARY_STAT_MODIFIERS_EXTENDED = [
       ...SECONDARY_STAT_MODIFIERS,
-      { id: 'healing_received', name: 'Healing Received', icon: 'spell_holy_healingaura', description: 'Increases effectiveness of healing received', category: 'secondary' }
+      { id: 'healing_received', name: 'Healing Received', icon: 'Healing/Heart Ripple', description: 'Increases effectiveness of healing received', category: 'secondary' }
     ];
 
     // Define utility modifiers
     const UTILITY_STAT_MODIFIERS = [
-      { id: 'movement_speed', name: 'Movement Speed', icon: 'ability_rogue_sprint', description: 'Increases movement speed', category: 'utility' },
-      { id: 'carrying_capacity', name: 'Carrying Capacity', icon: 'inv_misc_bag_08', description: 'Increases maximum weight you can carry', category: 'utility' },
-      { id: 'swim_speed', name: 'Swim Speed', icon: 'ability_druid_aquaticform', description: 'Increases swimming speed', category: 'utility' },
+      { id: 'movement_speed', name: 'Movement Speed', icon: 'Utility/Speed Boot', description: 'Increases movement speed', category: 'utility' },
+      { id: 'carrying_capacity', name: 'Carrying Capacity', icon: 'Utility/Utility', description: 'Increases maximum weight you can carry', category: 'utility' },
+      { id: 'swim_speed', name: 'Swim Speed', icon: 'Utility/Utility', description: 'Increases swimming speed', category: 'utility' },
 
-      { id: 'mana_cost_reduction', name: 'Mana Cost Reduction', icon: 'spell_arcane_arcane01', description: 'Reduces mana cost of abilities', category: 'utility' },
-      { id: 'vision_range', name: 'Vision Range', icon: 'ability_hunter_eagleeye', description: 'Increases distance at which you can see clearly', category: 'utility' }
+      { id: 'mana_cost_reduction', name: 'Mana Cost Reduction', icon: 'Arcane/Enchanted Sword', description: 'Reduces mana cost of abilities', category: 'utility' },
+      { id: 'vision_range', name: 'Vision Range', icon: 'Utility/Watchful Eye', description: 'Increases distance at which you can see clearly', category: 'utility' }
     ];
 
     switch (category) {

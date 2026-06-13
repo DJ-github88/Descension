@@ -322,22 +322,6 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
     return (
         <div className={`pyrofiend-resource-wrapper ${size} ${infernoLevel >= 9 ? 'catastrophic-warning' : ''}`}>
-            {/* Spec Selector Dropdown */}
-            {showSpecSelector && (
-                <div className="spec-selector-dropdown">
-                    {Object.entries(specConfigs).map(([key, spec]) => (
-                        <div 
-                            key={key} 
-                            className={`spec-option ${selectedSpec === key ? 'selected' : ''}`} 
-                            onClick={() => handleSpecChange(key)}
-                        >
-                            <i className={`fas ${spec.icon}`} style={{ color: spec.glowColor }}></i>
-                            <span>{spec.name}</span>
-                        </div>
-                    ))}
-                </div>
-            )}
-            
             {/* Main Resource Bar - CLICKABLE */}
             <div
                 ref={barRef}
@@ -478,22 +462,6 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                                     <i className="fas fa-plus-circle"></i>
                                     +1
                                 </button>
-                            </div>
-
-                            <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>
-                                Specialization
-                            </div>
-
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '4px' }}>
-                                {Object.entries(specConfigs).map(([key, spec]) => (
-                                    <button
-                                        key={key}
-                                        className={`context-menu-button ${selectedSpec === key ? 'active' : ''}`}
-                                        onClick={() => setSelectedSpec(key)}
-                                    >
-                                        <i className={`fas ${spec.icon}`}></i> {spec.name}
-                                    </button>
-                                ))}
                             </div>
 
                             <div className="context-menu-main-separator" style={{margin: '12px 0'}}></div>

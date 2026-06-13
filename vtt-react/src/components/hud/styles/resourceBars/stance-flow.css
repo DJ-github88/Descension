@@ -1,10 +1,19 @@
-/* ===== STANCE FLOW DISPLAY (BLADEDANCER) ===== */
+/* ===== SHAPER STANCE FLOW DISPLAY ===== */
 .class-resource-bar.stance-flow {
     background: transparent;
     border: none;
     height: auto;
     margin-bottom: 0;
     padding-bottom: 0;
+}
+
+.shaper-zone-overlay {
+    background: transparent;
+    transition: background 0.15s ease;
+}
+
+.shaper-zone-overlay:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .stance-flow-compact {

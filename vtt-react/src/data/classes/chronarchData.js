@@ -11,7 +11,7 @@
  *   entirely rewind an ally's positioning and action state to an earlier round.
  * Fatal Flaw:    Temporal Inversion and Fragility. Because they are actively tearing
  *   the fabric of probability, their atomic alignment is dangerously thin. They possess
- *   a permanent, massive vulnerability to raw Void/Necrotic forces, and if caught
+ *   a permanent, massive vulnerability to raw blight forces, and if caught
  *   in a zone that accelerates time or inflicts mass impact (forced movement), their
  *   internal clock breaks, dropping Dodge to zero and triggering instantaneous backlash.
  * Mechanical Fix: Implemented a permanent max HP erosion tax (-1 to -10 max HP until Long Rest)
@@ -31,7 +31,7 @@ export const CHRONARCH_DATA = {
     title: "The Accidental Anchor",
     subtitle: "A Dying Vessel Bound to a Bleeding Timeline",
     utility: "Unmatched, absolute battlefield manipulation and time distortion. The Chronarch is the only class capable of freezing entire areas in perfect stasis frames, manually pausing or extending debuff clocks on enemies, and entirely rewinding an ally's HP and position back to an earlier round. They bend duration itself to their whim.",
-    fatalFlaw: "Temporal Inversion and Fragility. Because they actively crack probability, their atomic alignment is dangerously thin. They possess a permanent 50% vulnerability to raw Void and Necrotic forces, which unravels their chronal coherence. Furthermore, if they are caught in a zone that accelerates time or are struck by a heavy physical impact (forced movement/shoves), their internal clock fractures—dropping their Dodge rating to zero and triggering an instantaneous Temporal Backlash roll on their 1d6 table."
+    fatalFlaw: "Temporal Inversion and Fragility. Because they actively crack probability, their atomic alignment is dangerously thin. They possess a permanent 50% vulnerability to raw Void and blight forces, which unravels their chronal coherence. Furthermore, if they are caught in a zone that accelerates time or are struck by a heavy physical impact (forced movement/shoves), their internal clock fractures—dropping their Dodge rating to zero and triggering an instantaneous Temporal Backlash roll on their 1d6 table."
   },
 
   // Overview section
@@ -145,7 +145,7 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
       title: "Immersive Combat Example: The Chronal Recall",
       content: `**Round 1 — Establishing the Engine**: The battle begins as a massive ironclad vanguard charges your fragile marksman ally. You cast Chrono Bolt (5 mana) at a nearby archer, dealing 1d8 + INT force damage and slowing it. Because you are at 0 Temporal Strain, the spell kickstarts your focus and generates 2 Time Shards (2/10). Strain: 0.
 
-**Round 2 — Reaction Recovery**: The vanguard's heavy warhammer connects with your marksman. You cast Temporal Rewind as a Reaction (6 mana), rewinding the immediate trauma to heal 2d6 + Spirit. The ally's wounds knit, but you take 2 necrotic damage as you absorb the shock into your own nervous system as localized recoil. You gain 1 Shard (3/10). Strain: 0.
+**Round 2 — Reaction Recovery**: The vanguard's heavy warhammer connects with your marksman. You cast Temporal Rewind as a Reaction (6 mana), rewinding the immediate trauma to heal 2d6 + Spirit. The ally's wounds knit, but you take 2 blight damage as you absorb the shock into your own nervous system as localized recoil. You gain 1 Shard (3/10). Strain: 0.
 
 **Round 3 — Heavy Flux Violation**: With 3 Shards banked, you cast Temporal Flux: Speed on your rogue (12 mana, 4 Shards, +2 Strain). The rogue is hyper-accelerated, gaining +2 AP and double movement. Your focus shimmers with silver heat; you permanently lose 1 maximum HP until your next Long Rest as cellular stability fractures. Shards: 0/10. Strain: 2.`
     }
@@ -197,7 +197,7 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 
 **The Anomaly Matrix (1d6 Table)**:
 When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
-1. **Accelerated Aging**: Take 3d6 necrotic damage and permanently lose 2 max HP until your next Long Rest.
+1. **Accelerated Aging**: Take 3d6 blight damage and permanently lose 2 max HP until your next Long Rest.
 2. **Entropic Echo**: An entropic, hostile clone of yourself manifests in an adjacent space for 1 round, attacking your closest ally using basic Chrono Bolt profiles.
 3. **Causality Loop**: Pinned to the timeline. For 1 round, you cannot move and must repeat the exact action you took last turn.
 4. **Timeline Desynchronization**: You desynchronize completely, lengthening your Phased Out status to 2 rounds.
@@ -308,13 +308,13 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
           "Excellent debuff and condition cleanses"
         ],
         weaknesses: [
-          "Caster takes self-inflicted necrotic damage on heals",
+          "Caster takes self-inflicted blight damage on heals",
           "High mana expenditure",
           "Extremely punishing cellular decay on ultimates"
         ],
         specPassive: {
           name: "Wound Grafting",
-          description: "Whenever you rewind damage for an ally, you absorb a fraction of the impact, dealing 2 necrotic damage to yourself but increasing the healing output by +1d8."
+          description: "Whenever you rewind damage for an ally, you absorb a fraction of the impact, dealing 2 blight damage to yourself but increasing the healing output by +1d8."
         }
       }
     ]
@@ -534,7 +534,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "chrono_frailty",
       name: "Temporal Inversion & Fragility",
-      description: "Frayed coherence gives you 50% Void/Necrotic vulnerability. Forced movement or acceleration drops Dodge to 0 and triggers immediate Temporal Backlash.",
+      description: "Frayed coherence gives you 50% blight vulnerability. Forced movement or acceleration drops Dodge to 0 and triggers immediate Temporal Backlash.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Arcane/Rewind Time",
@@ -560,8 +560,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
           {
             id : "frayed_chronal_coherence",
             name: "Frayed Anchor",
-            description: "Takes 50% extra damage from Void and Necrotic damage.",
-            mechanicsText: "Gain 50% vulnerability to Void and Necrotic damage.",
+            description: "Takes 50% extra damage from Void and blight damage.",
+            mechanicsText: "Gain 50% vulnerability to Void and blight damage.",
             statusEffect: {
               type: "vulnerability",
               vulnerabilityTypes: ["blight", "blight"],
@@ -622,7 +622,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
           {
             range: { min: 1, max: 1 },
             customName: "Accelerated Aging",
-            effect: "Your cellular clock accelerates under friction. Take 3d6 necrotic damage and permanently lose 2 max HP until your next Long Rest."
+            effect: "Your cellular clock accelerates under friction. Take 3d6 blight damage and permanently lose 2 max HP until your next Long Rest."
           },
           {
             range: { min: 2, max: 2 },
@@ -720,7 +720,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "temporal_rewind",
       name: "Temporal Rewind",
-      description: "As a reaction, rewind time around a recent injury to heal an ally for 2d6 + Spirit. The caster takes 2 necrotic damage from absorbing local recoil.",
+      description: "As a reaction, rewind time around a recent injury to heal an ally for 2d6 + Spirit. The caster takes 2 blight damage from absorbing local recoil.",
       level: 2,
       spellType: "REACTION",
       icon: "Arcane/Rewind Time",
@@ -762,7 +762,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
             id : "temporal_rewind_recoil",
             name: "Chronal Recoil",
             triggerType: "on_cast",
-            action: "Caster takes 2 necrotic damage from absorbing local recoil."
+            action: "Caster takes 2 blight damage from absorbing local recoil."
           }
         ]
       },
@@ -1101,7 +1101,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "temporal_flux_rewind",
       name: "Temporal Flux: Rewind",
-      description: "Heavy Flux. Rewind an ally's timeline to heal 4d8 + Spirit and clear physical debuffs. Caster takes 1d6 necrotic recoil and erodes 1 max HP.",
+      description: "Heavy Flux. Rewind an ally's timeline to heal 4d8 + Spirit and clear physical debuffs. Caster takes 1d6 blight recoil and erodes 1 max HP.",
       level: 4,
       spellType: "ACTION",
       icon: "Arcane/Rewind Time",
@@ -1144,7 +1144,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
             id : "temporal_flux_rewind_recoil",
             name: "Chronal Recoil",
             triggerType: "on_cast",
-            action: "Caster takes 1d6 necrotic recoil damage and erodes 1 max HP."
+            action: "Caster takes 1d6 blight recoil damage and erodes 1 max HP."
           }
         ]
       },
@@ -1254,7 +1254,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "temporal_thorns",
       name: "Temporal Thorns",
-      description: "Weave chronal threads on an ally: attackers take 1d6 necrotic damage and gain disadvantage on attacks against the ally for 3 rounds (DC 15 Con save).",
+      description: "Weave chronal threads on an ally: attackers take 1d6 blight damage and gain disadvantage on attacks against the ally for 3 rounds (DC 15 Con save).",
       level: 5,
       spellType: "ACTION",
       icon: "Force/Force Shield",
@@ -1291,8 +1291,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
           {
             id : "temporal_barrier_effect",
             name: "Temporal Aging",
-            description: "Attackers age rapidly, taking 1d6 necrotic damage and having disadvantage on attacks.",
-            mechanicsText: "Attackers take 1d6 necrotic damage and suffer disadvantage on attacks.",
+            description: "Attackers age rapidly, taking 1d6 blight damage and having disadvantage on attacks.",
+            mechanicsText: "Attackers take 1d6 blight damage and suffer disadvantage on attacks.",
             statusEffect: {
               type: "attackers_disadvantage"
             }
@@ -1695,7 +1695,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "chronal_reversal",
       name: "Chronal Reversal",
-      description: "Rewind the temporal stream for a creature, fully healing all damage taken last round (10d6 + Spirit). Caster takes 3d6 necrotic recoil.",
+      description: "Rewind the temporal stream for a creature, fully healing all damage taken last round (10d6 + Spirit). Caster takes 3d6 blight recoil.",
       level: 7,
       spellType: "ACTION",
       icon: "Arcane/Rewind Time",
@@ -1737,7 +1737,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
             id : "chronal_reversal_recoil",
             name: "Chronal Recoil",
             triggerType: "on_cast",
-            action: "Caster takes 3d6 necrotic recoil damage."
+            action: "Caster takes 3d6 blight recoil damage."
           }
         ]
       },
@@ -1912,7 +1912,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
             id : "temporal_flux_resurrection_recoil",
             name: "Chronal Recoil",
             triggerType: "on_cast",
-            action: "Caster takes 4d6 necrotic recoil damage and erodes 3 max HP."
+            action: "Caster takes 4d6 blight recoil damage and erodes 3 max HP."
           }
         ]
       },
@@ -2267,7 +2267,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
             id : "chronal_restoration_recoil",
             name: "Chronal Recoil",
             triggerType: "on_cast",
-            action: "Caster takes 5d6 necrotic recoil damage and erodes 10 max HP."
+            action: "Caster takes 5d6 blight recoil damage and erodes 10 max HP."
           }
         ]
       },

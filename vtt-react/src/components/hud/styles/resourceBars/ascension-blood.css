@@ -1,33 +1,48 @@
 .class-resource-bar.ascension-blood {
     background: transparent;
     border: none;
-    height: auto;
+    height: auto !important;
 }
 
-.deathcaller-dual-bars {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    background: linear-gradient(135deg, rgba(26, 13, 26, 0.2) 0%, rgba(45, 10, 10, 0.25) 100%);
-    border: 1px solid rgba(139, 0, 0, 0.4);
-    border-radius: 4px;
-    padding: 6px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+.revenant-single-bar {
+    width: 100%;
+    overflow: hidden;
 }
 
-/* Party context styling - no frame */
+/* Party frame constraints */
+.party-member-frame .class-resource-bar.ascension-blood {
+    height: auto !important;
+    max-height: 14px;
+    overflow: hidden;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+}
+
+.party-member-frame .revenant-single-bar {
+    height: 14px;
+    overflow: hidden;
+}
+
+.party-member-frame .ascension-paths-bar,
+.party-member-frame .blood-tokens-bar {
+    height: 14px !important;
+    overflow: hidden;
+}
+
+/* Party context - keep transparent no-frame */
 .class-resource-bar.ascension-blood.party-context .deathcaller-dual-bars {
     background: transparent;
     border: none;
     border-radius: 0;
     padding: 0;
     box-shadow: none;
-    gap: 2px; /* Match resource-bars-container gap */
+    gap: 2px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    min-height: 24px; /* Allow natural height for two 10px bars + gap */
 }
 
 .class-resource-bar.ascension-blood.party-context .ascension-paths-bar {

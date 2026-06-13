@@ -770,6 +770,100 @@ The calling is natively practiced by the **Sylen Astril** (who seek immediate li
 
 ---
 
+# PART IV-B: EXPANDED REGIONAL GAZETTEER
+
+*The following locations supplement the original five per region, drawn from the linguistic traditions of each culture and the terrain features of the land. Names carry the weight of who named them and why.*
+
+---
+
+## Frostwood Reach — Expanded Locations
+
+| Location | Type | Named By | Linguistic Origin |
+|---|---|---|---|
+| **Wraithfen** | Wilderness | Thalren | Germanic compound (Wraith + Fen). The fog here is thick enough to dissolve identity — a Thalren name for a Thalren fear. |
+| **Mistbarrow** | Ruin | Unknown (pre-Thalren) | English terrain (Barrow). Predates House Thalreth. The builders are unknown — the name was given by the first Thalren to find it. |
+| **Greythorn Copse** | Settlement | Thalren + Briaran joint | "Grey" connects to Greymark (Thalren), "Thorn" to Briaran botanical tradition. A name that records two cultures sharing ground. |
+| **Bramble Heath** | Wilderness | Briaran | Pure Briaran botanical naming — plants and terrain. The Briaran name for the edge of their world. |
+| **Skald's Landing** | Settlement | Skald diaspora | Norse possessive naming, incongruous in the Reach. The Skald traders named it in their own tongue. |
+| **The Shifting Fen** | Wilderness | Mimir | Abstract, descriptive. Mimir naming favors perception and change over permanence. |
+| **Mirror Mere** | Settlement | Mimir (Mask-Borne) | Abstract concept + water feature. The Mimir's most sacred naming convention — identity verification. |
+
+## Nordhalla — Expanded Locations
+
+| Location | Type | Named By | Linguistic Origin |
+|---|---|---|---|
+| **Ymir's Col** | Wilderness | Skald | Old Norse mythological reference (Ymir) + terrain (Col). Saga-style possessive naming. |
+| **Vargtor** | Settlement | Skald | Old Norse compound (Varg = wolf, Tor = rocky hill). Pure Skald topographic naming. |
+| **Frostcirque** | Ruin | Rime-Born | Elemental (Frost) + terrain (Cirque). Stark, elemental naming — the Rime-Born do not decorate words. |
+| **The Still Crag** | Wilderness | Rime-Born | Elemental adjective + terrain (Crag). The Rime-Born name for where the Warden touched. |
+| **Rook's Promontory** | Wilderness | Corvani | Gothic avian (Rook) + terrain (Promontory). Corvani name their landmarks after birds. |
+| **The Black Firth** | Wilderness | Skald | Descriptive + terrain (Firth, the Norse term for a narrow inlet). Geographic naming. |
+| **Vespera's Perch** | Settlement | Corvani | Gothic possessive (Vespera) + roosting term. The Corvani name places after their own. |
+
+## Sundale — Expanded Locations
+
+| Location | Type | Named By | Linguistic Origin |
+|---|---|---|---|
+| **Sol's Anvil Mesa** | Wilderness | Solvarn | Latin/solar (Sol) + structure (Anvil) + terrain (Mesa). Imperial solar theology. |
+| **The Ashen Escarpment** | Wilderness | Solvarn | Volcanic descriptor + terrain (Escarpment). Solvarn military-geographic naming. |
+| **Vulcar's Karst** | Wilderness | Emberth (shared) | Forge name (Vulkar) + terrain (Karst). Industrial + geological. |
+| **Cinderhoodoo** | Wilderness | Emberth | Fire residue (Cinder) + terrain (Hoodoo). Emberth compound naming. |
+| **Slag Gulch** | Settlement | Emberth + Groven | Industrial waste (Slag) + terrain (Gulch). Forge-people naming for a forge-place. |
+| **The Cinder Strait** | Wilderness | Merryn diaspora | Fire residue + maritime terrain (Strait). A nautical name in a volcanic land. |
+| **Ember Lagoon** | Settlement | Emberth + Merryn | Fire (Ember) + maritime terrain (Lagoon). Two cultures naming one harbor. |
+
+## Iceheart Sea — Expanded Locations
+
+| Location | Type | Named By | Linguistic Origin |
+|---|---|---|---|
+| **Kelpie's Cove** | Settlement | Merryn | Celtic supernatural (Kelpie) + terrain (Cove). Celtic folklore meets nautical terrain. |
+| **The Saltmaw Estuary** | Wilderness | Merryn | Salt vocabulary (Saltmaw) + terrain (Estuary). Nautical descriptive naming. |
+| **Wraithsound** | Wilderness | Merryn | Spectral + terrain (Sound, a large inlet). Celtic-nautical compound. |
+| **Deepwell Archipelago** | Wilderness | Myrathil | Aquatic descriptor (Deepwell) + terrain (Archipelago). Myrathil ethereal meets geography. |
+| **Spindrift Lagoon** | Settlement | Myrathil | Aquatic poetry (Spindrift) + terrain (Lagoon). Ethereal, water-born naming. |
+| **The Shivering Bight** | Wilderness | Merryn | Descriptive + terrain (Bight). Physical-nautical naming. |
+| **Skald's Longport** | Settlement | Skald diaspora | Norse possessive + maritime (Longport). A Skald name on a Merryn sea. |
+
+## Cragjaw Peaks — Expanded Locations
+
+| Location | Type | Named By | Linguistic Origin |
+|---|---|---|---|
+| **Deepchasm Keep** | Settlement | Tessen | Anglo-Saxon compound (Deep + Chasm) + structure (Keep). Tessen fortress naming. |
+| **Iron Ravine** | Wilderness | Tessen | Material (Iron) + terrain (Ravine). Industrial-geographic naming. |
+| **The Great Gorge** | Wilderness | Groven | Simple, ancient. The Groven do not embellish — their oldest names are just descriptions. |
+| **Stag's Rest Moraine** | Ruin | Groven | Nature reference (Stag) + terrain (Moraine). Nature-ritual naming. |
+| **Sump Rift** | Wilderness | Fexrick | Industrial (Sump) + terrain (Rift). Mechanical-geological naming. |
+| **Gearworks Gulch** | Settlement | Fexrick | Industrial (Gearworks) + terrain (Gulch). Pure Fexrick industrial naming. |
+| **Frostmaw Massif** | Wilderness | Tessen | Cold compound (Frostmaw) + terrain (Massif). Tessen military-geographic naming. |
+
+## Sundrift Vale — Expanded Locations
+
+| Location | Type | Named By | Linguistic Origin |
+|---|---|---|---|
+| **Kumis Downs** | Wilderness | Ordan | Fermented mare's milk (Kumis) + terrain (Downs). Nomadic pastoral naming. |
+| **The Long Steppe** | Wilderness | Ordan | Simple descriptive + terrain (Steppe). Ordan practical naming — the land is what it is. |
+| **Ancestor Wold** | Ruin | Ordan | Sacred concept (Ancestor) + terrain (Wold). Ritual-geographic naming. |
+| **Starfall Vale** | Wilderness | Astril (Sylen) | Celestial (Starfall) + terrain (Vale). Astril cosmic-geographic naming. |
+| **Nova Heath** | Wilderness | Astril | Celestial (Nova) + terrain (Heath). Star-naming on open ground. |
+| **The Unlit Knoll** | Ruin | Astril (Unlit) | Absence (Unlit) + terrain (Knoll). The Unlit name places by what is NOT there. |
+| **Morren's Bogpost** | Settlement | Morren diaspora | Cultural possessive + trade structure (Bogpost). Bog-people naming on the steppe. |
+
+## Bryngloom Forest — Expanded Locations
+
+| Location | Type | Named By | Linguistic Origin |
+|---|---|---|---|
+| **Widow's Quagmire** | Wilderness | Morren | Gothic (Widow) + terrain (Quagmire). Morren debt-and-death naming. |
+| **Black Fen** | Wilderness | Morren | Stark descriptor + terrain (Fen). The simplest, darkest Morren naming. |
+| **Drowned Dingle** | Wilderness | Morren | Gothic (Drowned) + terrain (Dingle). Flemish-gothic naming for flooded land. |
+| **Vel-Keth Bayou** | Wilderness | Neth | Hyphenated Neth proper name + terrain (Bayou). The Neth name places in their own tongue. |
+| **Aran-Glen** | Settlement | Neth (Kessen) | Hyphenated Neth name + terrain (Glen). Silver/elvish naming convention. |
+| **Hunter's Gully** | Wilderness | Vreken | Predator concept + terrain (Gully). Vreken hunter naming. |
+| **Fangmere Grove** | Ruin | Vreken | Predator anatomy (Fang) + terrain (Grove). Blood-rite naming. |
+| **Thalren's Ledger-Post** | Settlement | Thalren diaspora | Scholarly (Ledger) + structure (Post). Thalren archival naming in the bog. |
+| **Merryn's Drift** | Settlement | Merryn diaspora | Nautical (Drift) adapted to bog-river. Salt-people naming on fresh water. |
+
+---
+
 # PART V: SCHISMS, SCARS & SUPERNATURAL REALITIES
 
 The survival of Mythrill’s peoples is not merely a matter of finding coal or scaling bridges; it is an ongoing negotiation of blood, belief, and tragedy. The dark bargains that preserved the seven continents have left deep, weeping scars across the social and physical landscape. To run a campaign in Mythrill, a Game Master must understand not just where the warm vents lie, but how the compromises of the past have calcified into modern, breathing conflicts.

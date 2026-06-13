@@ -46,7 +46,7 @@ export const BACKGROUND_DATA = {
     emberspirePilgrim: {
         id: 'emberspirePilgrim',
         name: 'Emberspire Pilgrim',
-        description: 'You made the pilgrimage to Emberspire, standing at the wound through which Keth-Amar breached the seal. You have witnessed the Solbrand\'s fading light — the last eternal ember of the dying sun — and the experience left you with either unshakeable purpose or gnawing doubt.',
+        description: 'You made the pilgrimage to Emberspire, standing at the wound through which Keth-Amar breached the seal. You have witnessed the Solbrand\'s fading light — the last eternal ember of the dying sun — and the experience left you with either unshakeable purpose or gnawing doubt. The Ashen Escarpment is the first landmark pilgrims see as they approach Sundale from the lowlands — a steep ridge of compacted ash crowned with Solvarn watchtowers — and at Ember Lagoon, pilgrims depart by ship to carry word of the Solbrand\'s fading light to the wider world.',
         skillProficiencies: ['Insight', 'Religion'],
         languages: 2,
         equipment: [
@@ -74,7 +74,7 @@ export const BACKGROUND_DATA = {
     shyrRunner: {
         id: 'shyrRunner',
         name: 'Shyr Runner',
-        description: 'You navigated the ninety-mile Basalt Shyr — the cooling lava trade route that never freezes — running caravans between Sundale\'s fortress-outposts. You learned when the basalt pillars shift, where Husque-rifts tear open, and exactly what the Thrask rangers demand in toll.',
+        description: 'You navigated the ninety-mile Basalt Shyr — the cooling lava trade route that never freezes — running caravans between Sundale\'s fortress-outposts. You learned when the basalt pillars shift, where Husque-rifts tear open, and exactly what the Thrask rangers demand in toll. Slag Gulch serves as a critical resupply point along the Shyr where runners restock before the longest stretches, and at Ember Lagoon, the route\'s southern terminus, Shyr cargo is loaded onto Merryn ships for distribution across the Iceheart Sea.',
         skillProficiencies: ['Deception', 'Stealth'],
         toolProficiencies: ['Thieves\' tools', 'Gaming set'],
         languages: 1,
@@ -103,7 +103,7 @@ export const BACKGROUND_DATA = {
     ledgerKeeper: {
         id: 'ledgerKeeper',
         name: 'Ledger Keeper',
-        description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach. The protective fog — House Thalreth\'s ancient bargain — endlessly erases memory, and your exhaustive journals are the only proof that anyone existed. Your own personal ledger IS your legal identity; without it, the fog would claim you, too.',
+        description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach. The protective fog — House Thalreth\'s ancient bargain — endlessly erases memory, and your exhaustive journals are the only proof that anyone existed. Your own personal ledger IS your legal identity; without it, the fog would claim you, too. At Greythorn Copse on the eastern border, ledger-keepers verify travelers\' identities before they are permitted deeper into the Reach, and at Mistbarrow, archivists have spent centuries trying to decode the unknown carvings buried beneath the fog.',
         skillProficiencies: ['Animal Handling', 'Survival'],
         toolProficiencies: ['Artisan\'s tools', 'Vehicles (land)'],
         languages: 1,
@@ -161,7 +161,7 @@ export const BACKGROUND_DATA = {
     synodAcademic: {
         id: 'synodAcademic',
         name: 'Synod Academic',
-        description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved in memory-glass. You learned to read the throat-sung ancestor-maps of the Ordan nomads and catalogued spirit-genealogies that predate the sky\'s erasure.',
+        description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved in memory-glass. You learned to read the throat-sung ancestor-maps of the Ordan nomads and catalogued spirit-genealogies that predate the sky\'s erasure. Starfall Vale, where Sol\'s shattered celestial court impacted the earth, remains a pilgrimage site for Astril scholars seeking resonance with the trapped starlight, while The Unlit Knoll is a restricted site controlled entirely by the Unlit Veil — a place no constellation-spirit can approach.',
         skillProficiencies: ['Arcana', 'History'],
         languages: 2,
         equipment: [
@@ -277,7 +277,7 @@ export const BACKGROUND_DATA = {
     forgeWright: {
         id: 'forgeWright',
         name: 'Forge Wright',
-        description: 'You apprenticed in the Harath-Vault\'s great forges beneath Emberspire, the Bloodhammer Sump\'s geothermal foundries, or the iron-working halls of Ironjaw Port. You understand metal not as dead material but as living memory — every hammer-strike recorded, every alloy a conversation between elements.',
+        description: 'You apprenticed in the Harath-Vault\'s great forges beneath Emberspire, the Bloodhammer Sump\'s geothermal foundries, or the iron-working halls of Ironjaw Port. You understand metal not as dead material but as living memory — every hammer-strike recorded, every alloy a conversation between elements. At Gearworks Gulch in the Cragjaw Peaks, forge-workers learn clockwork engineering from Fexrick artisans, and at Sol\'s Anvil Mesa in Sundale, a forge-complex operated by Solvarn sun-priests produces ceremonial metalwork using techniques passed down since the Binding.',
         skillProficiencies: ['Insight', 'Persuasion'],
         toolProficiencies: ['Artisan\'s tools'],
         languages: 1,
@@ -334,7 +334,7 @@ export const BACKGROUND_DATA = {
     peakTracker: {
         id: 'peakTracker',
         name: 'Peak Tracker',
-        description: 'You navigated the Cragjaw Peaks\' vertical labyrinth — a world of perpetual blizzard where no one has seen the sky in eight generations. You learned to read the Ancestor-Spans (bridges grown from Groven calcified dead), interpret the blizzard\'s shifting moods, and survive where landmarks are buried within hours.',
+        description: 'You navigated the Cragjaw Peaks\' vertical labyrinth — a world of perpetual blizzard where no one has seen the sky in eight generations. You learned to read the Ancestor-Spans (bridges grown from Groven calcified dead), interpret the blizzard\'s shifting moods, and survive where landmarks are buried within hours. Deepchasm Keep serves as a key navigation landmark for any tracker crossing between the upper peaks and lower galleries, and The Great Gorge — bridged by seven calcified bone-spans — is the primary span-crossing without which all north-south travel through the Peaks would be impossible.',
         skillProficiencies: ['Athletics', 'Survival'],
         toolProficiencies: ['Musical instrument'],
         languages: 1,
@@ -364,7 +364,7 @@ export const BACKGROUND_DATA = {
     merrowSailor: {
         id: 'merrowSailor',
         name: 'Merrow Sailor',
-        description: 'You sailed the Iceheart Sea from Merrowport — the lawless floating city of lashed ships anchored to a volcanic seamount. Your trade-tattoos are legal contracts inked on your skin because paper rots at sea. You have survived at least one wager with the Iceheart Sea, and you know the Brine\'s price, though you have refused to pay it — so far.',
+        description: 'You sailed the Iceheart Sea from Merrowport — the lawless floating city of lashed ships anchored to a volcanic seamount. Your trade-tattoos are legal contracts inked on your skin because paper rots at sea. You have survived at least one wager with the Iceheart Sea, and you know the Brine\'s price, though you have refused to pay it — so far. Spindrift Lagoon\'s warm-water port is a frequent destination for Merryn captains seeking respite from the Iceheart\'s storms, while Skald\'s Longport on the northern coast operates as a rival harbor where Nordhalla longships compete for the same trade routes.',
         skillProficiencies: ['Athletics', 'Perception'],
         toolProficiencies: ['Navigator\'s tools', 'Vehicles (water)'],
         languages: 1,
@@ -393,7 +393,7 @@ export const BACKGROUND_DATA = {
     gloomwayTrader: {
         id: 'gloomwayTrader',
         name: 'Gloomway Trader',
-        description: 'You traded goods across the Bryngloom Forest — dealing in memory-glass tablets, peat-bog preservations, fog-charms, and wyrd-warded curios. You learned the unspoken trade laws of the Over-Shanty\'s rope-bridges, the Drun\'s lawless mercy, and the Mist-Gate Market where memories are currency.',
+        description: 'You traded goods across the Bryngloom Forest — dealing in memory-glass tablets, peat-bog preservations, fog-charms, and wyrd-warded curios. You learned the unspoken trade laws of the Over-Shanty\'s rope-bridges, the Drun\'s lawless mercy, and the Mist-Gate Market where memories are currency. Morren\'s Bogpost at the forest-steppe border is the primary trading post where Bryngloom goods exchange hands with Ordan wool, and Thalren\'s Ledger-Post serves as a neutral archive-outpost where trade agreements are recorded and preserved against the fog.',
         skillProficiencies: ['Insight', 'Persuasion'],
         toolProficiencies: ['Navigator\'s tools'],
         languages: 2,

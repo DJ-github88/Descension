@@ -187,7 +187,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
     {
       step: 3,
       title: "Bind Your Stance",
-      description: "Toggle Calloused Hide (+2 Armor, build Blood-Heat on pain) or Boiling Veins (+1d4 fire/slashing damage, constant HP drain).",
+      description: "Toggle Calloused Hide (+2 Armor, build Blood-Heat on pain) or Boiling Veins (+1d4 ember/slashing damage, constant HP drain).",
     },
     {
       step: 4,
@@ -440,7 +440,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           { range: { min: 1, max: 2 }, customName: "Tendon Rupture", effect: "Your shoulder dislocates. Take 1d6 damage and your next attack has disadvantage." },
           { range: { min: 3, max: 5 }, customName: "Shallow Gash", effect: "Normal damage. You take 1d4 recoil damage." },
           { range: { min: 6, max: 10 }, customName: "Savage Rent", effect: "Deal +1d6 physical damage. You take 1d4 recoil." },
-          { range: { min: 11, max: 15 }, customName: "Boiling Splatter", effect: "Your boiling blood sprays the target. Deal +1d6 fire damage. Gain +2 additional Blood-Heat." },
+          { range: { min: 11, max: 15 }, customName: "Boiling Splatter", effect: "Your boiling blood sprays the target. Deal +1d6 ember damage. Gain +2 additional Blood-Heat." },
           { range: { min: 16, max: 18 }, customName: "Arterial Sunder", effect: "Deal +2d6 damage. Target is inflicted with Bleeding (1d4 damage/round for 2 rounds). Take 1d4 recoil." },
           { range: { min: 19, max: 20 }, customName: "Hemorrhagic Meltdown", effect: "Apocalyptic swing. Bypasses all armor. Deal +3d6 damage and gain +1d8 Blood-Heat. Take 2d4 recoil." },
         ],
@@ -536,7 +536,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       id: "berserk_boiling_veins",
       name: "Boiling Veins",
       description:
-        "Toggle a terrifying offensive stance. You allow your Blood-Heat to boil within your vessels. Your melee attacks deal bonus fire/slashing damage and boil your adrenaline rapidly—but your vessels rupture, burning your own life away each turn.",
+        "Toggle a terrifying offensive stance. You allow your Blood-Heat to boil within your vessels. Your melee attacks deal bonus ember/slashing damage and boil your adrenaline rapidly—but your vessels rupture, burning your own life away each turn.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Slashing/Bloody Slash",
@@ -572,8 +572,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "boiling_blood_strike",
             name: "Boiling Blood Strike",
-            description: "Your melee attacks deal +1d4 bonus fire/slashing damage and generate +2 additional Blood-Heat on hit.",
-            mechanicsText: "+1d4 bonus fire/slashing damage, +2 Blood-Heat on hit",
+            description: "Your melee attacks deal +1d4 bonus ember/slashing damage and generate +2 additional Blood-Heat on hit.",
+            mechanicsText: "+1d4 bonus ember/slashing damage, +2 Blood-Heat on hit",
             statModifier: {
               stat: "damage",
               magnitude: "1d4",
@@ -611,7 +611,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "boiling_veins_hit",
             name: "Boiling Blood Strike",
             triggerType: "on_hit",
-            action: "Add +1d4 bonus fire/slashing damage and generate +2 Blood-Heat."
+            action: "Add +1d4 bonus ember/slashing damage and generate +2 Blood-Heat."
           }
         ]
       },
@@ -1371,8 +1371,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "vascular_leak",
             name: "Vascular Burst",
-            description: "Take 1d6 fire/physical damage at the start of each of your turns as your veins burst.",
-            mechanicsText: "Take 1d6 fire/physical damage to self at start of turn for 3 rounds",
+            description: "Take 1d6 ember/physical damage at the start of each of your turns as your veins burst.",
+            mechanicsText: "Take 1d6 ember/physical damage to self at start of turn for 3 rounds",
             statModifier: {
               stat: "health",
               magnitude: "-1d6",
@@ -1398,7 +1398,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "unstoppable_force_leak",
             name: "Vascular Recoil",
             triggerType: "start_of_turn",
-            action: "Take 1d6 fire/physical damage to self at the start of each of your turns for 3 rounds."
+            action: "Take 1d6 ember/physical damage to self at the start of each of your turns for 3 rounds."
           }
         ]
       },
@@ -1652,8 +1652,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "boiling_blood_spray",
             name: "Boiling Blood Spray",
-            description: "All melee attacks deal +2d6 bonus fire/slashing damage. Bypasses 50% of enemy Armor.",
-            mechanicsText: "Melee attacks deal +2d6 bonus fire/slashing damage and bypass 50% Armor",
+            description: "All melee attacks deal +2d6 bonus ember/slashing damage. Bypasses 50% of enemy Armor.",
+            mechanicsText: "Melee attacks deal +2d6 bonus ember/slashing damage and bypass 50% Armor",
             statModifier: {
               stat: "damage",
               magnitude: "2d6",
@@ -1691,7 +1691,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "blood_frenzy_spray",
             name: "Arterial Stance",
             triggerType: "passive",
-            action: "melee attacks deal +2d6 bonus fire/slashing damage and bypass 50% of enemy Armor while active."
+            action: "melee attacks deal +2d6 bonus ember/slashing damage and bypass 50% of enemy Armor while active."
           },
           {
             id: "blood_frenzy_leak",
@@ -2218,8 +2218,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         entries: [
           { range: { min: 1, max: 2 }, customName: "Cardiac Rupture", effect: "Your heart ruptures completely. Take 8d8 physical damage and you are Stunned for 2 rounds." },
           { range: { min: 3, max: 5 }, customName: "Systemic Collapse", effect: "Normal damage. You collapse to 1 HP. Your Blood-Heat is reset to 0." },
-          { range: { min: 6, max: 12 }, customName: "Scorched Earth", effect: "All affected enemies are knocked prone and take +2d6 fire damage. You take normal self-damage." },
-          { range: { min: 13, max: 17 }, customName: "Boiling Shockwave", effect: "All affected enemies take +4d6 fire damage. Area is ignited (1d8 fire/round for 3 rounds)." },
+          { range: { min: 6, max: 12 }, customName: "Scorched Earth", effect: "All affected enemies are knocked prone and take +2d6 ember damage. You take normal self-damage." },
+          { range: { min: 13, max: 17 }, customName: "Boiling Shockwave", effect: "All affected enemies take +4d6 ember damage. Area is ignited (1d8 ember/round for 3 rounds)." },
           { range: { min: 18, max: 20 }, customName: "Ragnarok Manifest", effect: "The blast sunders the room. All enemies take double damage (16d12 + Strength). Non-bosses are pulverized completely. You heal to full HP from pure adrenaline, and all your abilities are reset. Self-damage is completely bypassed." },
         ],
       },

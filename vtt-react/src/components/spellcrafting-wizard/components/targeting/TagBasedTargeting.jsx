@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
+import { getCustomIconUrl } from '../../../../utils/assetManager';
 
 
 const DEFAULT_TAGS = [
-  { id: 'damage', name: 'Damage', icon: 'spell_fire_flamebolt', defaultTarget: 'target' },
-  { id: 'healing', name: 'Healing', icon: 'spell_holy_heal02', defaultTarget: 'self' },
-  { id: 'buff', name: 'Buff', icon: 'spell_holy_divineillumination', defaultTarget: 'self' },
-  { id: 'debuff', name: 'Debuff', icon: 'spell_shadow_curseofsargeras', defaultTarget: 'target' },
-  { id: 'control', name: 'Control', icon: 'spell_frost_chainsofice', defaultTarget: 'target' },
-  { id: 'utility', name: 'Utility', icon: 'spell_nature_earthbind', defaultTarget: 'target' }
+  { id: 'damage', name: 'Damage', icon: 'Fire/Flame Burst', defaultTarget: 'target' },
+  { id: 'healing', name: 'Healing', icon: 'Healing/Golden Heart', defaultTarget: 'self' },
+  { id: 'buff', name: 'Buff', icon: 'Radiant/Radiant Aura', defaultTarget: 'self' },
+  { id: 'debuff', name: 'Debuff', icon: 'Necrotic/Necrotic Skull', defaultTarget: 'target' },
+  { id: 'control', name: 'Control', icon: 'Frost/Dripping Ice', defaultTarget: 'target' },
+  { id: 'utility', name: 'Utility', icon: 'Nature/Nature Natural', defaultTarget: 'target' }
 ];
 
 const TARGET_OPTIONS = [
-  { id: 'target', name: 'Target', icon: 'ability_hunter_snipershot', description: 'Apply to the spell\'s target' },
-  { id: 'self', name: 'Self', icon: 'spell_holy_innerfire', description: 'Apply to the caster' },
-  { id: 'both', name: 'Both', icon: 'spell_holy_prayerofspirit', description: 'Apply to both the target and caster' }
+  { id: 'target', name: 'Target', icon: 'Utility/Target Crosshair', description: 'Apply to the spell\'s target' },
+  { id: 'self', name: 'Self', icon: 'Radiant/Radiant Aura', description: 'Apply to the caster' },
+  { id: 'both', name: 'Both', icon: 'Healing/Golden Heart', description: 'Apply to both the target and caster' }
 ];
 
 const TagBasedTargeting = () => {
@@ -72,7 +73,7 @@ const TagBasedTargeting = () => {
           >
             <div className="targeting-mode-icon">
               <img
-                src={`https://wow.zamimg.com/images/wow/icons/large/spell_arcane_portaldalaran.jpg`}
+                src={getCustomIconUrl('Utility/Utility', 'abilities')}
                 alt="Unified Targeting"
               />
             </div>
@@ -88,7 +89,7 @@ const TagBasedTargeting = () => {
           >
             <div className="targeting-mode-icon">
               <img
-                src={`https://wow.zamimg.com/images/wow/icons/large/ability_hunter_snipershot.jpg`}
+                src={getCustomIconUrl('Utility/Target Crosshair', 'abilities')}
                 alt="Tagged Targeting"
               />
             </div>
@@ -113,7 +114,7 @@ const TagBasedTargeting = () => {
                 <div className="tag-header">
                   <div className="tag-icon">
                     <img
-                      src={`https://wow.zamimg.com/images/wow/icons/large/${tag.icon}.jpg`}
+                      src={getCustomIconUrl(tag.icon, 'abilities')}
                       alt={tag.name}
                     />
                   </div>
@@ -131,7 +132,7 @@ const TagBasedTargeting = () => {
                       >
                         <div className="target-option-icon">
                           <img
-                            src={`https://wow.zamimg.com/images/wow/icons/large/${option.icon}.jpg`}
+                            src={getCustomIconUrl(option.icon, 'abilities')}
                             alt={option.name}
                           />
                         </div>

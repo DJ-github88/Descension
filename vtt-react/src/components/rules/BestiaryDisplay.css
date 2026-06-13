@@ -675,12 +675,6 @@
     border-bottom: 1.5px dashed #e8dfd0;
 }
 
-.bestiary-lore-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
 .bestiary-lore-section h4 {
     font-family: 'Cinzel', serif;
     font-size: 1.05rem;
@@ -714,10 +708,9 @@
 
 .bestiary-depth {
     background: #fcf9f2;
-    border-left: 4px solid #c9b38c !important;
     border: 1px solid #e9dfca;
     padding: 1.2rem;
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px;
 }
 
 .bestiary-depth h4 i {

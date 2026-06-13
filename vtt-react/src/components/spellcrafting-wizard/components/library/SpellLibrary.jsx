@@ -512,7 +512,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           name: characterClass,
           description: `${characterClass} class spells`,
           color: '#8B4513',
-          icon: 'spell_holy_magicalsentry',
+          icon: 'Radiant/Divine Blessing',
           spells: filteredClassSpells,
           // Store expected count for display (actual visible spells)
           expectedCount: expectedSpellCount,
@@ -545,7 +545,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         name: 'Racial',
         description: 'Racial abilities from your race and subrace',
         color: '#8B4513',
-        icon: 'spell_holy_devotion',
+        icon: 'Radiant/Radiant Aura',
         spells: racialSpells,
         isRacial: true
       });
@@ -569,7 +569,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         name: 'Discipline',
         description: 'Discipline abilities from your chosen path',
         color: '#8B4513',
-        icon: 'spell_holy_magicalsentry',
+        icon: 'Radiant/Divine Blessing',
         spells: disciplineSpells,
         isDiscipline: true
       });
@@ -588,7 +588,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         name: 'My Spells',
         description: 'Custom spells you have created in the Spell Wizard',
         color: '#9370DB', // Purple-ish
-        icon: 'inv_misc_scroll_01',
+        icon: 'Utility/Utility',
         spells: customSpells,
         isCustom: true
       });

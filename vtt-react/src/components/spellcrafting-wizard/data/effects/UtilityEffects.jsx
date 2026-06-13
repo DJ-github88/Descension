@@ -9,6 +9,7 @@ import { FaCog } from 'react-icons/fa';
 // Import utilities and stat data
 import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
 import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 
 // Utility type definitions
@@ -16,35 +17,35 @@ export const UTILITY_TYPES = {
   ENHANCEMENT: {
     id: 'enhancement',
     name: 'Enhancement',
-    icon: 'inv_misc_gem_02',
+    icon: 'Utility/Glowing Shard',
     description: 'Improve abilities, grant skills, or enhance existing attributes',
     color: '#4e7cff'
   },
   DETECTION: {
     id: 'detection',
     name: 'Detection',
-    icon: 'inv_misc_eye_03',
+    icon: 'Utility/All Seeing Eye',
     description: 'Reveal hidden objects, creatures, or gain special senses',
     color: '#9966ff'
   },
   MOVEMENT: {
     id: 'movement',
     name: 'Movement',
-    icon: 'ability_warrior_warcry',
+    icon: 'Utility/Overlords Command',
     description: 'Special movement abilities like flight, teleportation, or water walking',
     color: '#66ffcc'
   },
   ILLUMINATION: {
     id: 'illumination',
     name: 'Illumination',
-    icon: 'inv_misc_lantern_01',
+    icon: 'Utility/Utility',
     description: 'Create light, affect visibility, or manipulate visual perception',
     color: '#ffcc00'
   },
   PROTECTION: {
     id: 'protection',
     name: 'Protection',
-    icon: 'inv_shield_06',
+    icon: 'Utility/Shield',
     description: 'Create wards, barriers, and protective enchantments',
     color: '#ff6633'
   }
@@ -52,11 +53,11 @@ export const UTILITY_TYPES = {
 
 // Duration types
 const DURATION_TYPES = [
-  { id: 'instant', name: 'Instantaneous', description: 'Effect happens immediately with no duration', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'inv_misc_pocketwatch_02' },
-  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'inv_misc_pocketwatch_03' },
-  { id: 'days', name: 'Days', description: 'In-game days', icon: 'inv_misc_pocketwatch_01' }
+  { id: 'instant', name: 'Instantaneous', description: 'Effect happens immediately with no duration', icon: 'Utility/Utility' },
+  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'Utility/Utility' },
+  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'Utility/Utility' },
+  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'Utility/Utility' },
+  { id: 'days', name: 'Days', description: 'In-game days', icon: 'Utility/Utility' }
 ];
 
 // Potency options with proper scaling
@@ -70,49 +71,49 @@ const POTENCY_OPTIONS = [
 
 // Enhancement effects
 const ENHANCEMENT_EFFECTS = [
-  { id: 'attribute', name: 'Attribute Boost', description: 'Enhances one or more attributes', icon: 'inv_misc_gem_02' },
-  { id: 'skill', name: 'Skill Enhancement', description: 'Grants advantage on skill checks', icon: 'inv_misc_book_11' },
-  { id: 'speed', name: 'Speed Increase', description: 'Increases movement speed', icon: 'ability_mount_jungletiger' },
-  { id: 'senses', name: 'Enhanced Senses', description: 'Improves perception, hearing, or other senses', icon: 'inv_misc_eye_03' },
-  { id: 'speak', name: 'Speak Languages', description: 'Grants ability to understand or speak languages', icon: 'inv_misc_tome_07' },
-  { id: 'disguise', name: 'Magical Disguise', description: 'Alters appearance temporarily', icon: 'inv_misc_mask_01' }
+  { id: 'attribute', name: 'Attribute Boost', description: 'Enhances one or more attributes', icon: 'Utility/Glowing Shard' },
+  { id: 'skill', name: 'Skill Enhancement', description: 'Grants advantage on skill checks', icon: 'Utility/Ornate Staff' },
+  { id: 'speed', name: 'Speed Increase', description: 'Increases movement speed', icon: 'Utility/Speed Boot' },
+  { id: 'senses', name: 'Enhanced Senses', description: 'Improves perception, hearing, or other senses', icon: 'Utility/All Seeing Eye' },
+  { id: 'speak', name: 'Speak Languages', description: 'Grants ability to understand or speak languages', icon: 'Utility/Ornate Staff' },
+  { id: 'disguise', name: 'Magical Disguise', description: 'Alters appearance temporarily', icon: 'Utility/Glowing Hooded Figure' }
 ];
 
 // Detection effects
 const DETECTION_EFFECTS = [
-  { id: 'truesight', name: 'Truesight', description: 'See through illusions, invisibility, and darkness', icon: 'inv_misc_eye_03' },
-  { id: 'magic', name: 'Detect Magic', description: 'Perceive magical auras and enchantments', icon: 'inv_misc_gem_02' },
-  { id: 'invisible', name: 'See Invisible', description: 'Detect invisible creatures and objects', icon: 'inv_misc_eye_03' },
-  { id: 'hidden', name: 'Find Hidden', description: 'Detect secret doors, traps, and hidden compartments', icon: 'inv_misc_key_06' },
-  { id: 'creatures', name: 'Detect Creatures', description: 'Detect specific types of creatures', icon: 'inv_misc_eye_03' }
+  { id: 'truesight', name: 'Truesight', description: 'See through illusions, invisibility, and darkness', icon: 'Utility/All Seeing Eye' },
+  { id: 'magic', name: 'Detect Magic', description: 'Perceive magical auras and enchantments', icon: 'Utility/Glowing Shard' },
+  { id: 'invisible', name: 'See Invisible', description: 'Detect invisible creatures and objects', icon: 'Utility/All Seeing Eye' },
+  { id: 'hidden', name: 'Find Hidden', description: 'Detect secret doors, traps, and hidden compartments', icon: 'Utility/Utility' },
+  { id: 'creatures', name: 'Detect Creatures', description: 'Detect specific types of creatures', icon: 'Utility/All Seeing Eye' }
 ];
 
 // Movement effects
 const MOVEMENT_EFFECTS = [
-  { id: 'teleport', name: 'Teleportation', description: 'Instantly transport to another location', icon: 'spell_arcane_teleportorium' },
-  { id: 'fly', name: 'Flight', description: 'Grant the ability to fly', icon: 'ability_warrior_warcry' },
-  { id: 'swim', name: 'Water Movement', description: 'Walk on water or swim with ease', icon: 'inv_misc_fish_02' },
-  { id: 'climb', name: 'Climbing', description: 'Scale vertical surfaces with ease', icon: 'inv_misc_rope_01' },
-  { id: 'dimension', name: 'Dimensional Door', description: 'Create a portal to another location', icon: 'inv_misc_key_06' },
-  { id: 'phasing', name: 'Phasing', description: 'Move through solid objects', icon: 'inv_misc_gem_02' }
+  { id: 'teleport', name: 'Teleportation', description: 'Instantly transport to another location', icon: 'Arcane/Quick Step' },
+  { id: 'fly', name: 'Flight', description: 'Grant the ability to fly', icon: 'Utility/Overlords Command' },
+  { id: 'swim', name: 'Water Movement', description: 'Walk on water or swim with ease', icon: 'Utility/Utility' },
+  { id: 'climb', name: 'Climbing', description: 'Scale vertical surfaces with ease', icon: 'Utility/Utility' },
+  { id: 'dimension', name: 'Dimensional Door', description: 'Create a portal to another location', icon: 'Utility/Utility' },
+  { id: 'phasing', name: 'Phasing', description: 'Move through solid objects', icon: 'Utility/Glowing Shard' }
 ];
 
 // Illumination effects
 const ILLUMINATION_EFFECTS = [
-  { id: 'light', name: 'Light Creation', description: 'Create magical light source', icon: 'inv_misc_lantern_01' },
-  { id: 'darkness', name: 'Magical Darkness', description: 'Create an area of supernatural darkness', icon: 'inv_misc_mask_01' },
-  { id: 'color', name: 'Color Spray', description: 'Dazzling display of colored light', icon: 'inv_misc_gem_02' },
-  { id: 'illusion', name: 'Minor Illusion', description: 'Create illusory images or sounds', icon: 'inv_misc_mask_01' },
-  { id: 'silence', name: 'Silence', description: 'Create an area of magical silence', icon: 'inv_misc_tome_07' }
+  { id: 'light', name: 'Light Creation', description: 'Create magical light source', icon: 'Utility/Utility' },
+  { id: 'darkness', name: 'Magical Darkness', description: 'Create an area of supernatural darkness', icon: 'Utility/Glowing Hooded Figure' },
+  { id: 'color', name: 'Color Spray', description: 'Dazzling display of colored light', icon: 'Utility/Glowing Shard' },
+  { id: 'illusion', name: 'Minor Illusion', description: 'Create illusory images or sounds', icon: 'Utility/Glowing Hooded Figure' },
+  { id: 'silence', name: 'Silence', description: 'Create an area of magical silence', icon: 'Utility/Ornate Staff' }
 ];
 
 // Protection effects
 const PROTECTION_EFFECTS = [
-  { id: 'barrier', name: 'Magical Barrier', description: 'Create a force barrier that blocks attacks', icon: 'inv_shield_06' },
-  { id: 'resistance', name: 'Elemental Resistance', description: 'Reduce damage from specific elements', icon: 'inv_misc_gem_02' },
-  { id: 'ward', name: 'Ward Area', description: 'Create a protective ward around an area', icon: 'inv_misc_key_06' },
-  { id: 'sanctuary', name: 'Personal Sanctuary', description: 'Protect self from harm', icon: 'inv_misc_mask_01' },
-  { id: 'dispel', name: 'Dispel Magic', description: 'Remove magical effects', icon: 'inv_misc_tome_07' }
+  { id: 'barrier', name: 'Magical Barrier', description: 'Create a force barrier that blocks attacks', icon: 'Utility/Shield' },
+  { id: 'resistance', name: 'Elemental Resistance', description: 'Reduce damage from specific elements', icon: 'Utility/Glowing Shard' },
+  { id: 'ward', name: 'Ward Area', description: 'Create a protective ward around an area', icon: 'Utility/Utility' },
+  { id: 'sanctuary', name: 'Personal Sanctuary', description: 'Protect self from harm', icon: 'Utility/Glowing Hooded Figure' },
+  { id: 'dispel', name: 'Dispel Magic', description: 'Remove magical effects', icon: 'Utility/Ornate Staff' }
 ];
 
 // Enhanced effect descriptions with proper potency scaling
@@ -290,12 +291,12 @@ const UTILITY_EFFECT_DESCRIPTIONS = {
 
 // Define ability scores for saving throws
 const ABILITY_SCORES = [
-  { id: 'str', name: 'Strength', icon: 'spell_nature_strength' },
-  { id: 'agi', name: 'Agility', icon: 'ability_rogue_quickrecovery' },
-  { id: 'con', name: 'Constitution', icon: 'spell_holy_blessingofstamina' },
-  { id: 'int', name: 'Intelligence', icon: 'spell_holy_magicalsentry' },
-  { id: 'spi', name: 'Spirit', icon: 'spell_holy_elunesblessing' },
-  { id: 'cha', name: 'Charisma', icon: 'spell_holy_powerwordshield' }
+  { id: 'str', name: 'Strength', icon: 'General/Increase Strength' },
+  { id: 'agi', name: 'Agility', icon: 'Healing/Renewal' },
+  { id: 'con', name: 'Constitution', icon: 'Radiant/Divine Blessing' },
+  { id: 'int', name: 'Intelligence', icon: 'Utility/Watchful Eye' },
+  { id: 'spi', name: 'Spirit', icon: 'Radiant/Enlightened Vision' },
+  { id: 'cha', name: 'Charisma', icon: 'Radiant/Radiant Golden Shield' }
 ];
 
 // Utility Effect Configuration Popup Component
@@ -316,7 +317,7 @@ const UtilityEffectConfigPopup = ({
   // Get icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Update effect configuration function
@@ -839,7 +840,7 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
   // Get WoW-style icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Tooltip handlers
@@ -1035,7 +1036,7 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
               onClick={() => setSelectedUtilityCategory(type.id)}
             >
               <img
-                src={`https://wow.zamimg.com/images/wow/icons/large/${type.icon}.jpg`}
+                src={getAbilityIconUrl(type.icon)}
                 alt={type.name}
                 className="utility-category-btn-icon"
               />

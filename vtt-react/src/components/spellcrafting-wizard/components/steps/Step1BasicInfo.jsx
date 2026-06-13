@@ -17,27 +17,25 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
   const [showIconSelector, setShowIconSelector] = useState(false);
 
   // Import icons for damage types
-  const [selectedElementCategory, setSelectedElementCategory] = useState('elemental');
+  const [selectedElementCategory, setSelectedElementCategory] = useState('all');
 
-  // Define element categories with ability icons
+  // Define all damage types with colors and icons
+  const allElements = [
+    { id: 'physical', name: 'Physical', description: 'Martial damage from weapons and brute force', iconPath: 'Slashing/Bloody Meat Cleaver', iconCategory: 'abilities', color: '#51626b' },
+    { id: 'ember', name: 'Ember', description: 'Destructive flames that burn and consume', iconPath: 'Fire/Flame Burst', iconCategory: 'abilities', color: '#a62626' },
+    { id: 'rime', name: 'Rime', description: 'Freezing cold that slows and damages', iconPath: 'Frost/Dripping Ice', iconCategory: 'abilities', color: '#24587a' },
+    { id: 'storm', name: 'Storm', description: 'Electrical energy that shocks and stuns', iconPath: 'Lightning/Lightning Bolt', iconCategory: 'abilities', color: '#a3811f' },
+    { id: 'primal', name: 'Primal', description: 'Magic drawn from nature, growth, and the living world', iconPath: 'Nature/Nature Natural', iconCategory: 'abilities', color: '#2b5c20' },
+    { id: 'arcane', name: 'Arcane', description: 'Pure magical energy that bypasses normal defenses', iconPath: 'Arcane/Orb Manipulation', iconCategory: 'abilities', color: '#6c3dbf' },
+    { id: 'blight', name: 'Blight', description: 'Death magic, toxic poison, and void corruption', iconPath: 'Necrotic/Necrotic Skull', iconCategory: 'abilities', color: '#53236e' },
+    { id: 'wyrd', name: 'Wyrd', description: 'Mind-based magic that confuses and terrifies', iconPath: 'Psychic/Brain Psionics', iconCategory: 'abilities', color: '#87206f' },
+  ];
+
   const elementCategories = {
-    physical: [
-      { id: 'physical', name: 'Physical', description: 'Martial damage from weapons, claws, and brute force (Bludgeoning, Piercing, Slashing)', iconPath: 'Slashing/Bloody Meat Cleaver', iconCategory: 'abilities' }
-    ],
-    elemental: [
-      { id: 'ember', name: 'Ember', description: 'Destructive flames that burn and consume', iconPath: 'Fire/Flame Burst', iconCategory: 'abilities' },
-      { id: 'rime', name: 'Rime', description: 'Freezing cold that slows and damages', iconPath: 'Frost/Dripping Ice', iconCategory: 'abilities' },
-      { id: 'storm', name: 'Storm', description: 'Electrical energy that shocks and stuns', iconPath: 'Lightning/Lightning Bolt', iconCategory: 'abilities' },
-      { id: 'primal', name: 'Primal', description: 'Primal magic drawn from nature, growth, and the living world', iconPath: 'Nature/Nature Natural', iconCategory: 'abilities' }
-    ],
-    arcane: [
-      { id: 'arcane', name: 'Arcane', description: 'Pure magical energy that bypasses normal defenses and manipulates reality', iconPath: 'Arcane/Orb Manipulation', iconCategory: 'abilities' }
-    ],
-    otherworldly: [
-      { id: 'wyrd', name: 'Wyrd', description: 'Mind-based magic that confuses and terrifies', iconPath: 'Psychic/Brain Psionics', iconCategory: 'abilities' },
-      { id: 'blight', name: 'Blight', description: 'Death magic, toxic poison, and void corruption that drains life', iconPath: 'Necrotic/Necrotic Skull', iconCategory: 'abilities' },
-      { id: 'chaos', name: 'Chaos', description: 'Unpredictable magic that defies categorization and creates random effects', iconPath: 'Chaos/Chaotic Shuffle', iconCategory: 'abilities' }
-    ]
+    all: allElements,
+    elemental: allElements.filter(e => ['ember', 'rime', 'storm', 'primal'].includes(e.id)),
+    magical: allElements.filter(e => ['arcane', 'wyrd', 'blight'].includes(e.id)),
+    physical: allElements.filter(e => e.id === 'physical'),
   };
 
 
@@ -221,6 +219,37 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
               </label>
 
               <div className="element-selector-container">
+                {/* Selected types summary */}
+                {(state.typeConfig.school || state.typeConfig.secondaryElement) && (
+                  <div className="selected-types-summary">
+                    <div className="selected-type-display">
+                      {state.typeConfig.school ? (
+                        <span className="selected-type-badge primary" style={{ borderColor: allElements.find(e => e.id === state.typeConfig.school)?.color }}>
+                          <span className="selected-type-label">Primary</span>
+                          {allElements.find(e => e.id === state.typeConfig.school)?.name || state.typeConfig.school}
+                        </span>
+                      ) : (
+                        <span className="selected-type-badge empty">No primary</span>
+                      )}
+                      {state.typeConfig.school && state.typeConfig.secondaryElement && (
+                        <span className="selected-type-swap" onClick={() => {
+                          const temp = state.typeConfig.school;
+                          dispatch(actionCreators.updateTypeConfig({ school: state.typeConfig.secondaryElement, secondaryElement: temp }));
+                        }} title="Swap primary and secondary">⇄</span>
+                      )}
+                      {state.typeConfig.secondaryElement ? (
+                        <span className="selected-type-badge secondary" style={{ borderColor: allElements.find(e => e.id === state.typeConfig.secondaryElement)?.color }}>
+                          <span className="selected-type-label">Secondary</span>
+                          {allElements.find(e => e.id === state.typeConfig.secondaryElement)?.name || state.typeConfig.secondaryElement}
+                        </span>
+                      ) : (
+                        <span className="selected-type-badge empty">No secondary</span>
+                      )}
+                      <span className="selected-type-clear" onClick={() => dispatch(actionCreators.updateTypeConfig({ school: null, secondaryElement: null }))} title="Clear selections">✕</span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Element category tabs */}
                 <div className="element-categories">
                   {Object.keys(elementCategories).map(category => (
@@ -236,39 +265,40 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
 
                 {/* Element selection buttons */}
                 <div className="element-buttons">
-                  {elementCategories[selectedElementCategory].map(element => (
-                    <button
-                      key={element.id}
-                      className={`element-button ${state.typeConfig.school === element.id ? 'primary' : ''} ${state.typeConfig.secondaryElement === element.id ? 'secondary' : ''}`}
-                      onClick={() => handleElementSelection(element.id)}
-                    >
-                      <div className="element-icon-wrapper">
-                        <img
-                          src={getCustomIconUrl(element.iconPath, element.iconCategory)}
-                          alt={element.name}
-                          className="element-icon"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
-                          }}
-                        />
-                      </div>
-                      <span className="element-name">{element.name}</span>
-                    </button>
-                  ))}
+                  {elementCategories[selectedElementCategory].map(element => {
+                    const isPrimary = state.typeConfig.school === element.id;
+                    const isSecondary = state.typeConfig.secondaryElement === element.id;
+                    return (
+                      <button
+                        key={element.id}
+                        className={`element-button ${isPrimary ? 'primary' : ''} ${isSecondary ? 'secondary' : ''}`}
+                        style={{ '--element-color': element.color }}
+                        onClick={() => handleElementSelection(element.id)}
+                      >
+                        {isPrimary && <span className="element-position-badge">1</span>}
+                        {isSecondary && <span className="element-position-badge">2</span>}
+                        <div className="element-icon-wrapper">
+                          <img
+                            src={getCustomIconUrl(element.iconPath, element.iconCategory)}
+                            alt={element.name}
+                            className="element-icon"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                            }}
+                          />
+                        </div>
+                        <span className="element-name">{element.name}</span>
+                      </button>
+                    );
+                  })}
                 </div>
 
                 {/* Element selection instructions */}
                 <div className="selection-instruction">
                   <p>
-                    <span className="primary-dot"></span> Primary element: {state.typeConfig.school ? elementCategories[Object.keys(elementCategories).find(cat =>
-                      elementCategories[cat].some(el => el.id === state.typeConfig.school)
-                    )]?.find(el => el.id === state.typeConfig.school)?.name || '' : 'None'}
-                  </p>
-                  <p>
-                    <span className="secondary-dot"></span> Secondary element: {state.typeConfig.secondaryElement ? elementCategories[Object.keys(elementCategories).find(cat =>
-                      elementCategories[cat].some(el => el.id === state.typeConfig.secondaryElement)
-                    )]?.find(el => el.id === state.typeConfig.secondaryElement)?.name || '' : 'None'}
+                    Click an element to set it as <strong>primary</strong>. Click a second to set <strong>secondary</strong>.
+                    Click an active element to remove it. Spells can have 1-2 damage types.
                   </p>
                 </div>
               </div>

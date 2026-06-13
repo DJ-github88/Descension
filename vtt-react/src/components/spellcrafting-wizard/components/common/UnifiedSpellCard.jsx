@@ -440,22 +440,27 @@ const UnifiedSpellCard = ({
 
   const getSpellSchoolClass = () => {
     const schoolMap = {
-      'ember': 'spell-fire',
-      'rime': 'spell-frost',
+      'ember': 'spell-ember',
+      'rime': 'spell-rime',
+      'storm': 'spell-storm',
       'arcane': 'spell-arcane',
-      'arcane': 'spell-arcane',
-      'nature': 'spell-nature',
-      'blight': 'spell-shadow',
-      'ember': 'spell-holy',
-      'storm': 'spell-lightning',
-      'blight': 'spell-nature',
-      'wyrd': 'spell-shadow',
-      'chaos': 'spell-arcane',
-      'blight': 'spell-shadow',
+      'primal': 'spell-primal',
+      'blight': 'spell-blight',
+      'wyrd': 'spell-wyrd',
       'physical': 'spell-physical',
-      'physical': 'spell-physical',
-      'physical': 'spell-physical',
-      'physical': 'spell-physical'
+      // Legacy aliases
+      'fire': 'spell-ember',
+      'frost': 'spell-rime',
+      'cold': 'spell-rime',
+      'ice': 'spell-rime',
+      'lightning': 'spell-storm',
+      'electric': 'spell-storm',
+      'thunder': 'spell-storm',
+      'nature': 'spell-primal',
+      'shadow': 'spell-blight',
+      'necrotic': 'spell-blight',
+      'psychic': 'spell-wyrd',
+      'chaos': 'spell-wyrd',
     };
     const school = spell?.typeConfig?.school || spell?.school || spell?.damageTypes?.[0] || spell?.elementType || 'arcane';
     return schoolMap[school.toLowerCase()] || 'spell-arcane';
@@ -5397,20 +5402,31 @@ const UnifiedSpellCard = ({
     }
 
     // Only show damage types if spell actually has damage configured
+    // Also show if the user selected damage types in Step 1 (typeConfig)
     const hasDamageConfig = spell.damageConfig?.formula || spell.damageConfig?.damageType || spell.damageTypes?.length > 0;
     const hasDamageEffect = spell.effects?.damage?.instant?.formula || spell.effects?.damage?.dot?.formula;
     const hasDamageType = spell.effectTypes?.includes('damage');
+    const hasTypeConfig = spell.typeConfig?.school || spell.typeConfig?.secondaryElement;
     
     // If spell has no damage configuration at all, don't infer damage types
-    if (!hasDamageConfig && !hasDamageEffect && !hasDamageType) {
+    if (!hasDamageConfig && !hasDamageEffect && !hasDamageType && !hasTypeConfig) {
       return [];
     }
 
     // Use a Set to automatically handle duplicates
     const damageTypesSet = new Set();
 
-    // Priority order: damageTypes array -> typeConfig (Step 1) -> other sources
-    // Check damageTypes array FIRST (highest priority, especially for weapon-dependent spells)
+    // Priority: typeConfig (Step 1 wizard) controls ORDER when present
+    // typeConfig determines which type is primary (displayed first) and which is secondary
+    if (spell.typeConfig?.school) {
+      damageTypesSet.add(spell.typeConfig.school.toLowerCase().trim());
+    }
+    if (spell.typeConfig?.secondaryElement) {
+      damageTypesSet.add(spell.typeConfig.secondaryElement.toLowerCase().trim());
+    }
+
+    // Add any types from damageTypes array that aren't already in the set
+    // These fill in types from other sources without overriding typeConfig order
     const damageTypesArray = spell.damageTypes || spell.damageConfig?.damageTypes;
     if (damageTypesArray && Array.isArray(damageTypesArray) && damageTypesArray.length > 0) {
       damageTypesArray.forEach(type => {
@@ -5418,19 +5434,6 @@ const UnifiedSpellCard = ({
           damageTypesSet.add(type.toLowerCase().trim());
         }
       });
-    }
-
-    // Then check typeConfig.school and typeConfig.secondaryElement (from Step 1 wizard)
-    // But exclude 'physical' as it's not a specific damage type (should use bludgeoning/piercing/slashing instead)
-    // Only use typeConfig if we don't already have damage types from the array
-    if (damageTypesSet.size === 0) {
-      const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
-      if (spell.typeConfig?.school && !magicSchools.includes(spell.typeConfig.school.toLowerCase()) && spell.typeConfig.school.toLowerCase() !== 'physical') {
-        damageTypesSet.add(spell.typeConfig.school.toLowerCase().trim());
-      }
-      if (spell.typeConfig?.secondaryElement) {
-        damageTypesSet.add(spell.typeConfig.secondaryElement.toLowerCase().trim());
-      }
     }
 
     // Also check for singular damageType if no array found
@@ -5451,29 +5454,18 @@ const UnifiedSpellCard = ({
       }
     }
 
-    // Only add elementType if we don't have explicit damage types
-    // NEVER use school as damage type - schools and damage types are completely separate
+    // Only add elementType if we don't have explicit damage types from typeConfig or damageTypes array
     if (damageTypesSet.size === 0) {
-      // Only use elementType if it's explicitly set, different from school, and not a magic school
-      // Also exclude 'physical' as it's not a specific damage type (should use bludgeoning/piercing/slashing instead)
       if (spell.elementType && spell.elementType.trim()) {
         const elementType = spell.elementType.toLowerCase().trim();
-        const school = (spell.school || '').toLowerCase().trim();
-        const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
-
-        // Only add if it's not the same as school, not a magic school, and not 'physical'
-        if (elementType !== school && !magicSchools.includes(elementType) && elementType !== 'physical') {
+        if (elementType !== 'physical') {
           damageTypesSet.add(elementType);
         }
       }
 
-      // Only use damageConfig elementType if it's explicitly set and not a magic school
-      // Also exclude 'physical' as it's not a specific damage type (should use bludgeoning/piercing/slashing instead)
       if (spell.damageConfig?.elementType && spell.damageConfig.elementType.trim()) {
         const elementType = spell.damageConfig.elementType.toLowerCase().trim();
-        const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
-
-        if (!magicSchools.includes(elementType) && elementType !== 'physical') {
+        if (elementType !== 'physical') {
           damageTypesSet.add(elementType);
         }
       }
@@ -5487,7 +5479,7 @@ const UnifiedSpellCard = ({
         const formula = spell.damageConfig.formula.toLowerCase();
         if (formula.includes('ember') || formula.includes('ember') || formula.includes('ember')) damageTypesSet.add('ember');
         else if (formula.includes('rime') || formula.includes('rime') || formula.includes('ice')) damageTypesSet.add('rime');
-        else if (formula.includes('storm') || formula.includes('electric') || formula.includes('arcane') || formula.includes('storm')) damageTypesSet.add('storm');
+        else if (formula.includes('storm') || formula.includes('electric')) damageTypesSet.add('storm');
         else if (formula.includes('arcane')) damageTypesSet.add('arcane');
         else if (formula.includes('nature')) damageTypesSet.add('primal');
         else if (formula.includes('blight') || formula.includes('blight') || formula.includes('blight') || formula.includes('blight')) damageTypesSet.add('blight');
@@ -5498,7 +5490,7 @@ const UnifiedSpellCard = ({
       const spellText = `${spell.name || ''} ${spell.description || ''}`.toLowerCase();
       if (spellText.includes('ember') || spellText.includes('flame') || spellText.includes('burn') || spellText.includes('ember') || spellText.includes('ember') || spellText.includes('divine') || spellText.includes('light')) damageTypesSet.add('ember');
       else if (spellText.includes('rime') || spellText.includes('rime') || spellText.includes('ice')) damageTypesSet.add('rime');
-      else if (spellText.includes('storm') || spellText.includes('electric') || spellText.includes('storm') || spellText.includes('arcane') || spellText.includes('storm')) damageTypesSet.add('storm');
+      else if (spellText.includes('storm') || spellText.includes('electric')) damageTypesSet.add('storm');
       else if (spellText.includes('arcane')) damageTypesSet.add('arcane');
       else if (spellText.includes('nature') || spellText.includes('primal')) damageTypesSet.add('primal');
       else if (spellText.includes('blight') || spellText.includes('death') || spellText.includes('decay') || spellText.includes('blight') || spellText.includes('blight') || spellText.includes('venom') || spellText.includes('toxic') || spellText.includes('blight') || spellText.includes('blight')) damageTypesSet.add('blight');
@@ -5526,7 +5518,7 @@ const UnifiedSpellCard = ({
       const legacyMap = {
         'ember': 'ember', 'ember': 'ember', 'ember': 'ember',
         'rime': 'rime', 'rime': 'rime', 'ice': 'rime',
-        'storm': 'storm', 'arcane': 'storm', 'storm': 'storm', 'electric': 'storm',
+        'storm': 'storm', 'arcane': 'arcane', 'electric': 'storm',
         'nature': 'primal', 'viscera': 'primal',
         'blight': 'blight', 'blight': 'blight', 'blight': 'blight', 'blight': 'blight', 'blight': 'blight',
         'wyrd': 'wyrd', 'chaos': 'wyrd',
@@ -12800,19 +12792,11 @@ const UnifiedSpellCard = ({
                         const hasControlSavingThrow = controlData?.savingThrow !== null && controlData?.savingThrow !== false;
                         if (hasControlSavingThrow && controlSaveType) {
                           const saveType = normalizeSaveType(controlSaveType);
-                          saveText = `${saveType}`;
                           if (controlDC) {
-                            saveText = `DC ${controlDC} ${saveText} save`;
+                            saveText = `DC ${controlDC} ${saveType} save`;
                           } else {
                             saveText = `${saveType} save`;
                           }
-                        } else if (controlDC && controlSaveType) {
-                          // Show DC and save type even if savingThrow flag isn't set
-                          const saveType = normalizeSaveType(controlSaveType);
-                          saveText = `DC ${controlDC} ${saveType} save`;
-                        } else if (controlDC) {
-                          // Show DC even without saving throws if it exists
-                          saveText = `DC ${controlDC}`;
                         }
 
                         // Handle selected effects with their individual configurations
@@ -12872,10 +12856,6 @@ const UnifiedSpellCard = ({
                             // Build saving throw text for this effect
                             let effectSaveText = '';
                             if (effectSavingThrow && effectSavingThrow !== false && effectSavingThrowType && effectDifficultyClass) {
-                              const saveType = normalizeSaveType(effectSavingThrowType);
-                              effectSaveText = `DC ${effectDifficultyClass} ${saveType} save`;
-                            } else if (effectDifficultyClass && effectSavingThrowType) {
-                              // Show DC and save type even if savingThrow flag isn't explicitly set
                               const saveType = normalizeSaveType(effectSavingThrowType);
                               effectSaveText = `DC ${effectDifficultyClass} ${saveType} save`;
                             } else if (saveText) {

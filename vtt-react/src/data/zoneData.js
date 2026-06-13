@@ -69,6 +69,83 @@ export const ZONE_DATA = [
     connections: ['the-shallows', 'ledger-halls'],
     wyrdCreatures: ['Gambrel', 'Gref']
   },
+  {
+    id: 'wraithfen',
+    regionId: 'frostwood-reach',
+    name: 'Wraithfen',
+    type: 'wilderness',
+    description: 'A fog-drowned fen on the eastern border where the ground breathes and the water is warm to the touch. Mimir Unwoven wander here without masks, their forms dissolving and reforming in the mist. Thalren trappers avoid it — those who enter too deep return speaking languages no one recognizes.',
+    dangerLevel: 'high',
+    factions: ['Mimir Unwoven'],
+    connections: ['the-shallows', 'mistbarrow'],
+    wyrdCreatures: ['Gref', 'Revel']
+  },
+  {
+    id: 'mistbarrow',
+    regionId: 'frostwood-reach',
+    name: 'Mistbarrow',
+    type: 'ruin',
+    description: 'An ancient burial mound shrouded in fog so dense it has its own weather. The barrow predates House Thalreth — its builders are unknown, and the stone chambers inside are carved with symbols that match no recorded language. Expeditions have recovered amber tablets and corroded bronze masks of unsettling workmanship.',
+    dangerLevel: 'high',
+    factions: ['Forgotten Archivists'],
+    connections: ['wraithfen', 'greythorn-copse'],
+    wyrdCreatures: ['Gallows-Wood', 'Gref']
+  },
+  {
+    id: 'greythorn-copse',
+    regionId: 'frostwood-reach',
+    name: 'Greythorn Copse',
+    type: 'settlement',
+    description: 'A fortified copse of ironwood trees on the trade route between Greymark and the eastern fens, maintained jointly by Thalren timber-wardens and Briaran thorn-tenders. The trees here grow deliberately tangled — a living wall of iron-hard thorns that funnels all traffic through a single, watched gate.',
+    dangerLevel: 'low',
+    factions: ['Thalren Trappers', 'Unshorn Briaran'],
+    connections: ['mistbarrow', 'bramble-heath'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'bramble-heath',
+    regionId: 'frostwood-reach',
+    name: 'Bramble Heath',
+    type: 'wilderness',
+    description: 'An open stretch of thorn-covered heathland at the forest edge where the ironwood canopy breaks and the fog thins for the first time. Briaran rangers patrol here, tending the thorn-barriers that mark the boundary between the Reach and the lowland approaches. The heath is beautiful in a savage way — crimson thorn-flowers bloom year-round in soil nourished by centuries of blood.',
+    dangerLevel: 'medium',
+    factions: ['Unshorn Briaran'],
+    connections: ['greythorn-copse', 'skalds-landing'],
+    wyrdCreatures: ['Pooka', 'Gallows-Wood']
+  },
+  {
+    id: 'skalds-landing',
+    regionId: 'frostwood-reach',
+    name: "Skald's Landing",
+    type: 'settlement',
+    description: 'A small trading post on the northern river where Nordhalla longships dock after navigating the frozen waterways. The settlement is overwhelmingly Skald — timber longhouses with carved dragon-prows sit incongruously among the peat-stone Thalren architecture. The Skald traders exchange cold-iron, whale oil, and glacier ice for ironwood timber and resin.',
+    dangerLevel: 'low',
+    factions: ['Skald Traders', 'Thalren Trappers'],
+    connections: ['bramble-heath', 'the-shallows'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'the-shifting-fen',
+    regionId: 'frostwood-reach',
+    name: 'The Shifting Fen',
+    type: 'wilderness',
+    description: 'A Mimir-held fen that literally changes position with the seasons — paths that existed last month are now impassable bog, and new clearings open where solid ground once stood. The Mist-Woven Mimir who tend it claim the fen is alive, a living test of perception that rewards those who do not rely on memory.',
+    dangerLevel: 'high',
+    factions: ['Mist-Woven Mimir'],
+    connections: ['wraithfen', 'scribes-tower'],
+    wyrdCreatures: ['Gref', 'Moot']
+  },
+  {
+    id: 'mirror-mere',
+    regionId: 'frostwood-reach',
+    name: 'Mirror Mere',
+    type: 'settlement',
+    description: 'A perfectly still lake settlement where Mask-Borne Mimir test their reflections against their masks to ensure their identity holds. The mere never ripples — even in storm weather, the surface remains glass-still. Mimir scholars use the lake as a divination tool, reading the reflections of possible futures in its depths.',
+    dangerLevel: 'low',
+    factions: ['Mask-Borne Mimir'],
+    connections: ['the-shifting-fen', 'greymark-keep'],
+    wyrdCreatures: []
+  },
 
   // =========================================================================
   // NORDHALLA
@@ -127,6 +204,83 @@ export const ZONE_DATA = [
     factions: ['Fjords-Riders'],
     connections: ['frozen-archive', 'hunger-glaciers'],
     wyrdCreatures: ['Stel']
+  },
+  {
+    id: 'ymirs-col',
+    regionId: 'nordhalla',
+    name: "Ymir's Col",
+    type: 'wilderness',
+    description: 'A treacherous mountain pass between two glacier-capped peaks, named for the frost giant of Skald legend. The wind through the col is so violent it can strip flesh from bone in minutes. Cairns of frozen corpses mark the safest path — their expressions preserved in perfect, screaming clarity.',
+    dangerLevel: 'extreme',
+    factions: ['Skald Ice-Trackers'],
+    connections: ['hunger-glaciers', 'vargtor'],
+    wyrdCreatures: ['Stel', 'Skrei']
+  },
+  {
+    id: 'vargtor',
+    regionId: 'nordhalla',
+    name: 'Vargtor',
+    type: 'settlement',
+    description: 'A watchtower settlement built atop a rocky tor that rises above the glacier line. The Skald garrison here watches for Corvani movements and glacier wyrms. Wolves gather at the tor\'s base in winter — the Skald believe they are the spirits of dead trackers returning to the watch.',
+    dangerLevel: 'medium',
+    factions: ['Skald Keepers', 'Fjords-Riders'],
+    connections: ['ymirs-col', 'frostcirque'],
+    wyrdCreatures: ['Kjarn']
+  },
+  {
+    id: 'frostcirque',
+    regionId: 'nordhalla',
+    name: 'Frostcirque',
+    type: 'ruin',
+    description: 'A glacial hollow high in the mountains where the Rime-Born perform their oldest rituals — the freezing of memory into ice. The cirque walls are covered in runic script so old that even the Skald Keepers cannot read it. The air here is absolutely still, as if time itself has frozen.',
+    dangerLevel: 'high',
+    factions: ['Rime-Born Frostbound'],
+    connections: ['vargtor', 'the-still-crag'],
+    wyrdCreatures: ['Stel', 'Tatzelwurm']
+  },
+  {
+    id: 'the-still-crag',
+    regionId: 'nordhalla',
+    name: 'The Still Crag',
+    type: 'wilderness',
+    description: 'A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the crag is where the Warden\'s breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face — no one knows who carved them or who they depict.',
+    dangerLevel: 'high',
+    factions: ['Rime-Born Rune Keepers'],
+    connections: ['frostcirque', 'rooks-promontory'],
+    wyrdCreatures: ['Huld', 'Skrei']
+  },
+  {
+    id: 'rooks-promontory',
+    regionId: 'nordhalla',
+    name: "Rook's Promontory",
+    type: 'wilderness',
+    description: 'A high cliff jutting over the frozen sea where the Corvani gather in vast, dark congregations. Ravens circle the promontory at all hours, and the Corvani interpret their flight patterns as prophecies. The cliff stone is black and glassy — obsidian formed by ancient volcanic activity, now sheathed in centuries of rime.',
+    dangerLevel: 'high',
+    factions: ['Corvani Flock'],
+    connections: ['the-still-crag', 'fjord-gate'],
+    wyrdCreatures: ['Jawl']
+  },
+  {
+    id: 'the-black-firth',
+    regionId: 'nordhalla',
+    name: 'The Black Firth',
+    type: 'wilderness',
+    description: 'A long, narrow inlet of the frozen sea flanked by obsidian cliffs that rise hundreds of feet on either side. The water here is black and still, reflecting the cliffs like a dark mirror. Skald longships navigate the firth by starlight — the only reliable light source in a passage where the sun has not shone in eight centuries.',
+    dangerLevel: 'high',
+    factions: ['Sea-Guard'],
+    connections: ['fjord-gate', 'bloodhammer-sump'],
+    wyrdCreatures: ['Skerry', 'Skrei']
+  },
+  {
+    id: 'vesperas-perch',
+    regionId: 'nordhalla',
+    name: "Vespera's Perch",
+    type: 'settlement',
+    description: 'A Corvani cliff-settlement built into the high caves of the eastern mountains, named for the Corvani matriarch Vespera. The dwellings are inaccessible from the ground — reachable only by rope-ladders and gliding on fixed lines. The Corvani here trade raven-feather cloaks and storm-predictions with the Skald.',
+    dangerLevel: 'medium',
+    factions: ['Corvani Flock'],
+    connections: ['rooks-promontory', 'bloodhammer-sump'],
+    wyrdCreatures: []
   },
 
   // =========================================================================
@@ -187,6 +341,83 @@ export const ZONE_DATA = [
     connections: ['ancestor-gaps', 'sump-galleries'],
     wyrdCreatures: ['Scrab', 'Chasm-Stalker']
   },
+  {
+    id: 'deepchasm-keep',
+    regionId: 'cragjaw-peaks',
+    name: 'Deepchasm Keep',
+    type: 'settlement',
+    description: 'A Tessen fortress built spanning a massive fissure in the mountain, its foundations anchored into both walls of the chasm with iron stakes driven into living rock. The keep controls the only reliable passage between the upper peaks and the lower mining galleries. Travelers cross on a bridge of Groven-calcified bone that groans underfoot.',
+    dangerLevel: 'medium',
+    factions: ['house-tesshan', 'Tessen Scouts'],
+    connections: ['frostmaw-holdfast', 'the-spans'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'iron-ravine',
+    regionId: 'cragjaw-peaks',
+    name: 'Iron Ravine',
+    type: 'wilderness',
+    description: 'A narrow, ore-rich gorge where Tessen miners extract cold-iron from seams of volcanic magnetite. The ravine walls are streaked red and black, and the air is thick with metallic dust. Mine-shafts honeycomb the cliff faces, connected by precarious wooden platforms and rope-bridges.',
+    dangerLevel: 'high',
+    factions: ['Sump-Miners', 'Tessen Scouts'],
+    connections: ['deepchasm-keep', 'sump-galleries'],
+    wyrdCreatures: ['Scrab', 'Qalpa']
+  },
+  {
+    id: 'the-great-gorge',
+    regionId: 'cragjaw-peaks',
+    name: 'The Great Gorge',
+    type: 'wilderness',
+    description: 'The primary Groven-spanned canyon — a mile-wide, bottomless tear in the mountain range bridged by seven calcified bone-spans, each grown from the skeleton of a willing Groven ancestor. The gorge is the main thoroughfare between the eastern and western peaks, and toll-collection is the Groven\'s primary source of leverage.',
+    dangerLevel: 'high',
+    factions: ['The Groven', 'Bone-Weavers'],
+    connections: ['the-spans', 'stags-rest-moraine'],
+    wyrdCreatures: ['Chasm-Stalker', 'Tarn']
+  },
+  {
+    id: 'stags-rest-moraine',
+    regionId: 'cragjaw-peaks',
+    name: "Stag's Rest Moraine",
+    type: 'ruin',
+    description: 'A massive glacial deposit of shattered rock and ancient ice where the Groven hold their ancestral gatherings. The moraine is shaped like a sleeping stag — a natural formation that the Groven consider sacred. Petroglyphs of Groven lineage are carved into every exposed surface of stone.',
+    dangerLevel: 'medium',
+    factions: ['The Groven', 'Bone-Weavers'],
+    connections: ['the-great-gorge', 'ancestor-gaps'],
+    wyrdCreatures: ['Kintsu']
+  },
+  {
+    id: 'sump-rift',
+    regionId: 'cragjaw-peaks',
+    name: 'Sump Rift',
+    type: 'wilderness',
+    description: 'An underground fissure used by the Fexrick for waste disposal and mechanical salvage. The rift descends for thousands of feet, its walls slick with chemical runoff and industrial residue. Strange things grow in the depths — fungal colonies that feed on forge-slag and mechanical parts.',
+    dangerLevel: 'extreme',
+    factions: ['Fexrick Scavengers'],
+    connections: ['sump-galleries', 'gearworks-gulch'],
+    wyrdCreatures: ['Scrab', 'Yawn']
+  },
+  {
+    id: 'gearworks-gulch',
+    regionId: 'cragjaw-peaks',
+    name: 'Gearworks Gulch',
+    type: 'settlement',
+    description: 'A Fexrick industrial settlement built into a narrow ravine where steam-powered machinery grinds day and night. The gulch is heated by geothermal vents channeled through iron pipes, and the air is thick with sulfur and the constant clatter of industry. Fexrick artisans here produce the finest clockwork mechanisms in the known world.',
+    dangerLevel: 'medium',
+    factions: ['Fexrick Scavengers', 'Kethrin Guild-Bound'],
+    connections: ['sump-rift', 'frostmaw-holdfast'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'frostmaw-massif',
+    regionId: 'cragjaw-peaks',
+    name: 'Frostmaw Massif',
+    type: 'wilderness',
+    description: 'The compact mountain group surrounding Frostmaw Holdfast — a cluster of peaks so dense they form a single, nearly impregnable fortress of natural stone. The massif is perpetually shrouded in the blizzard that House Tesshan traded for, and navigation requires either Groven bone-compasses or intimate knowledge of the ice-tunnels.',
+    dangerLevel: 'extreme',
+    factions: ['house-tesshan'],
+    connections: ['deepchasm-keep', 'iron-ravine'],
+    wyrdCreatures: ['Chasm-Stalker', 'Thrum']
+  },
 
   // =========================================================================
   // SUNDALE
@@ -195,7 +426,7 @@ export const ZONE_DATA = [
     id: 'harath-vault',
     regionId: 'sundale',
     name: 'The Harath-Vault',
-    type: 'ruin',
+    type: 'city',
     description: 'The massive subterranean capital of the Emberth forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun\'s death. It serves as both sacred temple to the Solbrand and industrial forge-caldera where the Korr Emberth tend the eternal ember in holy silence.',
     dangerLevel: 'extreme',
     factions: ['Solvarn Martyrs', 'Emberth Watchers'],
@@ -245,6 +476,83 @@ export const ZONE_DATA = [
     factions: ['Thrask Badland Rangers'],
     connections: ['emberspire-caldera', 'basalt-shyr'],
     wyrdCreatures: ['Sun-Husk']
+  },
+  {
+    id: 'sols-anvil-mesa',
+    regionId: 'sundale',
+    name: "Sol's Anvil Mesa",
+    type: 'wilderness',
+    description: 'A massive flat-topped mountain of black basalt where Solvarn sun-priests hold outdoor ceremonies during the rare moments when volcanic haze clears enough to glimpse the buried sun\'s residual glow. The mesa surface is carved with solar calendars and prophecy charts stretching back centuries. Heat-shimmer makes the mesa appear to float above the ashlands.',
+    dangerLevel: 'medium',
+    factions: ['Solvarn Martyrs', 'Dawn Vigil'],
+    connections: ['emberspire-caldera', 'the-ashen-escarpment'],
+    wyrdCreatures: ['Ba-Spirit']
+  },
+  {
+    id: 'the-ashen-escarpment',
+    regionId: 'sundale',
+    name: 'The Ashen Escarpment',
+    type: 'wilderness',
+    description: 'A long, steep slope of compacted volcanic ash that forms the natural border between Sundale and the lowland approaches. The ash is packed hard as stone in places, but a wrong step can send a traveler sliding hundreds of feet into glass-scarred gullies. Solvarn watchtowers dot the escarpment rim, their eternal signal-fires burning with heartwood resin.',
+    dangerLevel: 'high',
+    factions: ['Dawn Vigil'],
+    connections: ['sols-anvil-mesa', 'basalt-shyr'],
+    wyrdCreatures: ['Sun-Husk', 'Croon']
+  },
+  {
+    id: 'vulkars-karst',
+    regionId: 'sundale',
+    name: "Vulkar's Karst",
+    type: 'wilderness',
+    description: 'A honeycombed landscape of limestone terrain riddled with underground rivers and sinkholes, named for the Emberth forge-master who first mapped its depths. Geothermal vents heat the underground streams to boiling, and the mineral-rich water deposits vivid orange and red crystals along every cave wall. The karst connects to the Harath-Vault through miles of submerged passages.',
+    dangerLevel: 'high',
+    factions: ['Emberth Watchers', 'Korr Emberth'],
+    connections: ['harath-vault', 'cinderhoodoo'],
+    wyrdCreatures: ['Cinder-Fiend', 'Udu']
+  },
+  {
+    id: 'cinderhoodoo',
+    regionId: 'sundale',
+    name: 'Cinderhoodoo',
+    type: 'wilderness',
+    description: 'A cluster of fire-scorched rock spires rising from the ash plain like grasping fingers. Each hoodoo is crowned with a cap of harder stone that protects the softer pillar beneath — some of the caps have melted and re-fused into grotesque, face-like shapes. Thrask Emberth use the hoodoos as navigational landmarks and shelter from the soot-storms.',
+    dangerLevel: 'medium',
+    factions: ['Thrask Badland Rangers'],
+    connections: ['vulkars-karst', 'cinder-badlands'],
+    wyrdCreatures: ['Ashwen', 'Husque']
+  },
+  {
+    id: 'slag-gulch',
+    regionId: 'sundale',
+    name: 'Slag Gulch',
+    type: 'settlement',
+    description: 'A narrow ravine settlement filled with forge waste and industrial debris, where Emberth and Groven workers process slag for salvageable metals. The gulch is hot, loud, and acrid — a permanent foundry town built on the principle that nothing useful should be wasted. The inhabitants have developed a unique patois mixing Sundari and Terran.',
+    dangerLevel: 'medium',
+    factions: ['Emberth Forge-Clans', 'Groven Workers'],
+    connections: ['great-forge', 'cinderhoodoo'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'the-cinder-strait',
+    regionId: 'sundale',
+    name: 'The Cinder Strait',
+    type: 'wilderness',
+    description: 'A narrow water passage between two volcanic islands in the boiling sea off Sundale\'s coast. The water steams perpetually, and the cliffs on either side weep molten rock during peak volcanic cycles. Merryn sailors navigate the strait at great risk — the passage halves the journey to Merrowport but has claimed more ships than any other route.',
+    dangerLevel: 'extreme',
+    factions: ['Merryn Smugglers'],
+    connections: ['emberspire-caldera', 'slag-gulch'],
+    wyrdCreatures: ['Cinder-Fiend', 'Nekh']
+  },
+  {
+    id: 'ember-lagoon',
+    regionId: 'sundale',
+    name: 'Ember Lagoon',
+    type: 'settlement',
+    description: 'A warm saltwater lagoon heated by volcanic vents on Sundale\'s southern coast, where Emberth divers harvest fire-coral and thermal crystals. The lagoon glows orange-red at night from the volcanic activity below. It serves as Sundale\'s primary port — the only harbor where the water does not freeze.',
+    dangerLevel: 'low',
+    factions: ['Emberth Forge-Clans', 'Merryn Traders'],
+    connections: ['the-cinder-strait', 'basalt-shyr'],
+    wyrdCreatures: []
   },
 
   // =========================================================================
@@ -305,6 +613,83 @@ export const ZONE_DATA = [
     connections: ['merrowport', 'first-shore'],
     wyrdCreatures: ['Drowned Spume']
   },
+  {
+    id: 'kelpies-cove',
+    regionId: 'iceheart-sea',
+    name: "Kelpie's Cove",
+    type: 'settlement',
+    description: 'A sheltered inlet used by smugglers and black-market traders, hidden behind a wall of grinding ice-shoals that only the most skilled Merryn pilots can navigate. The cove is named for the phantom sea-horse said to lure ships onto the rocks. Lanterns of captured bioluminescence mark the safe channel.',
+    dangerLevel: 'medium',
+    factions: ['Merryn Pirates', 'Drun Outcasts'],
+    connections: ['merrowport', 'the-saltmaw-estuary'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'the-saltmaw-estuary',
+    regionId: 'iceheart-sea',
+    name: 'The Saltmaw Estuary',
+    type: 'wilderness',
+    description: 'Where a glacial river from Nordhalla meets the frozen sea, creating a treacherous mix of fresh and salt water choked with ice-floes. The estuary is rich with seal-hunting grounds and rare thermal minerals washed down from the mountains. Merryn whalers and Myrathil divers compete violently for territory.',
+    dangerLevel: 'high',
+    factions: ['Merryn Whalers', 'Myrathil River-Fed'],
+    connections: ['kelpies-cove', 'ironjaw-port'],
+    wyrdCreatures: ['Orun', 'Brine']
+  },
+  {
+    id: 'wraithsound',
+    regionId: 'iceheart-sea',
+    name: 'Wraithsound',
+    type: 'wilderness',
+    description: 'A wide, deep inlet perpetually shrouded in sea-mist, where the echoes of drowned sailors carry for miles. Myrathil Deep-Born claim the sound is a living thing — that it listens and remembers every voice that crosses its water. Ships that enter the sound without a Myrathil guide often emerge with crews who refuse to speak of what they heard.',
+    dangerLevel: 'extreme',
+    factions: ['Myrathil Deep-Stalkers'],
+    connections: ['first-shore', 'deepwell-archipelago'],
+    wyrdCreatures: ['Drowned Spume', 'Pelagos']
+  },
+  {
+    id: 'deepwell-archipelago',
+    regionId: 'iceheart-sea',
+    name: 'Deepwell Archipelago',
+    type: 'wilderness',
+    description: 'A chain of ice-islands where Deep-Born Myrathil congregate in underwater cave-cities beneath the frozen surface. The archipelago stretches for forty miles, each island connected by submerged tunnels. The Deep-Born maintain a culture entirely separate from the surface — they emerge only to trade and to conduct their mysterious Drowning Rites.',
+    dangerLevel: 'extreme',
+    factions: ['Myrathil Deep-Born'],
+    connections: ['wraithsound', 'spindrift-lagoon'],
+    wyrdCreatures: ['Thalass', 'Pelagos']
+  },
+  {
+    id: 'spindrift-lagoon',
+    regionId: 'iceheart-sea',
+    name: 'Spindrift Lagoon',
+    type: 'settlement',
+    description: 'A coral-reef lagoon warmed by volcanic currents, one of the few places in the Iceheart Sea where the water is tropical. Myrathil Breakers-Born tend living coral-gardens here, harvesting bioluminescent organisms for trade. The lagoon glows blue-green at night — visible for miles, a beacon in the frozen darkness.',
+    dangerLevel: 'low',
+    factions: ['Myrathil Breakers-Born'],
+    connections: ['deepwell-archipelago', 'merrowport'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'the-shivering-bight',
+    regionId: 'iceheart-sea',
+    name: 'The Shivering Bight',
+    type: 'wilderness',
+    description: 'A wide, shallow bay with constant tremors caused by unstable volcanic activity beneath the seabed. The bight is rich in thermal vents and the exotic organisms that feed on them, but the constant quakes make anchoring impossible. Ships must drift through, engines running, hoping the tremors do not worsen.',
+    dangerLevel: 'high',
+    factions: ['Merryn Cartographers'],
+    connections: ['gale-storm-shallows', 'ironjaw-port'],
+    wyrdCreatures: ['Spume', 'Writ']
+  },
+  {
+    id: 'skalds-longport',
+    regionId: 'iceheart-sea',
+    name: "Skald's Longport",
+    type: 'settlement',
+    description: 'A Norse-style harbor on the northern coast where Skald longships dock to trade Nordhalla goods — cold-iron, glacier ice, whale products — for Merryn salt-fish and Myrathil coral. The port is built from black basalt in the Skald style, with dragon-prow longhouses that terrify the local Merryn.',
+    dangerLevel: 'low',
+    factions: ['Skald Traders', 'Merryn Whalers'],
+    connections: ['ironjaw-port', 'the-saltmaw-estuary'],
+    wyrdCreatures: []
+  },
 
   // =========================================================================
   // SUNDRIFT VALE
@@ -364,6 +749,83 @@ export const ZONE_DATA = [
     connections: ['ancestor-mounds', 'grass-tundra'],
     wyrdCreatures: ['Hungry Child']
   },
+  {
+    id: 'kumis-downs',
+    regionId: 'sundrift-vale',
+    name: 'Kumis Downs',
+    type: 'wilderness',
+    description: 'Rolling hills of pale grass where Ordan mares graze in vast herds, producing the fermented mare\'s milk that is the steppe\'s primary trade good and sacred drink. The downs are peaceful by steppe standards — the herds are guarded by Ordan riders who know every hillock by heart. Throat-singing carries for miles across the open ground.',
+    dangerLevel: 'low',
+    factions: ['Ordan Nomads', 'Ordan Hunters'],
+    connections: ['grass-tundra', 'the-long-steppe'],
+    wyrdCreatures: ['Nokhor']
+  },
+  {
+    id: 'the-long-steppe',
+    regionId: 'sundrift-vale',
+    name: 'The Long Steppe',
+    type: 'wilderness',
+    description: 'The vast central grasslands stretching from horizon to horizon, featureless except for the occasional burial mound or standing stone. The grass here is grey-green and tough as rope, growing waist-high even in the starless dark. Caravans navigate by the hum of the ancestral mounds — each mound produces a unique tone that carries through the earth.',
+    dangerLevel: 'medium',
+    factions: ['Ordan Nomads'],
+    connections: ['kumis-downs', 'ancestor-wold'],
+    wyrdCreatures: ['Zud', 'Unzag']
+  },
+  {
+    id: 'ancestor-wold',
+    regionId: 'sundrift-vale',
+    name: 'Ancestor Wold',
+    type: 'ruin',
+    description: 'High, open ground where the Ordan dead are honored in vast earthen barrows marked by standing stones. The wold is the most sacred place in the Vale — to speak above a whisper here is to invite the wrath of twenty generations. The hum of the barrows is constant and resonant, a deep bass tone that Ordan herders claim guides their migration.',
+    dangerLevel: 'medium',
+    factions: ['Mound-Keepers', 'Ordan Nomads'],
+    connections: ['the-long-steppe', 'starfall-vale'],
+    wyrdCreatures: ['Lorn']
+  },
+  {
+    id: 'starfall-vale',
+    regionId: 'sundrift-vale',
+    name: 'Starfall Vale',
+    type: 'wilderness',
+    description: 'A deep valley in the otherwise flat steppe where Astril claim constellation-spirits fell to earth during the Breach. The valley floor is littered with crystalline shards that glow faintly with trapped starlight — the physical residue of Sol\'s shattered celestial court. Sylen Astril make pilgrimages here to commune with their nesting spirits.',
+    dangerLevel: 'high',
+    factions: ['Astril Sylen'],
+    connections: ['ancestor-wold', 'nova-heath'],
+    wyrdCreatures: ['Lien', 'Qilin']
+  },
+  {
+    id: 'nova-heath',
+    regionId: 'sundrift-vale',
+    name: 'Nova Heath',
+    type: 'wilderness',
+    description: 'Open heathland lit by Astril beacon-fires — great pyres of crystalline Lien-wood that burn with pale, cold light visible for miles. The heath is a gathering ground for Astril of all castes during the solstice observances. Muren Astril maintain the beacons and use them to transmit coded messages across the steppe.',
+    dangerLevel: 'medium',
+    factions: ['Astril Muren', 'Astril Sylen'],
+    connections: ['starfall-vale', 'the-unlit-knoll'],
+    wyrdCreatures: ['Sere']
+  },
+  {
+    id: 'the-unlit-knoll',
+    regionId: 'sundrift-vale',
+    name: 'The Unlit Knoll',
+    type: 'ruin',
+    description: 'A small, rounded hill where Unlit Astril hold their secret judgments — the trials of those whose constellation-spirits have gone dark. The knoll is devoid of all light by Unlit design; even fire refuses to burn here. Unlit Veil operatives use the knoll as a dead-drop and meeting point, knowing no Astril with star-glow in their blood can approach.',
+    dangerLevel: 'high',
+    factions: ['Unlit Veil'],
+    connections: ['nova-heath', 'synod-hold'],
+    wyrdCreatures: ['Lien']
+  },
+  {
+    id: 'morrens-bogpost',
+    regionId: 'sundrift-vale',
+    name: "Morren's Bogpost",
+    type: 'settlement',
+    description: 'A Morren trading outpost at the forest-steppe edge where Bryngloom goods — fungal lights, memory-glass, bog-mushroom reagents — are exchanged for Ordan wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Morren traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds.',
+    dangerLevel: 'medium',
+    factions: ['Morren Traders', 'Kessen Merchants'],
+    connections: ['mound-camps', 'lien-stalked-grazes'],
+    wyrdCreatures: []
+  },
 
   // =========================================================================
   // BRYNGLOOM FOREST
@@ -422,6 +884,105 @@ export const ZONE_DATA = [
     factions: ['Drun Outcasts', 'Morren Peat-Cutters'],
     connections: ['peat-bog-sinks', 'root-veil-scriptorium'],
     wyrdCreatures: ['Cycle-Eater']
+  },
+  {
+    id: 'widows-quagmire',
+    regionId: 'bryngloom-forest',
+    name: "Widow's Quagmire",
+    type: 'wilderness',
+    description: 'A treacherous bog area where the ground liquefies without warning, swallowing travelers whole. The quagmire earned its name from the Morren widows who, according to legend, walked into the bog willingly to join their debt-dead husbands — and now preserve forever in the peat, their hands still clutching unsigned contract-fragments.',
+    dangerLevel: 'extreme',
+    factions: ['Morren Peat-Cutters'],
+    connections: ['peat-bog-sinks', 'black-fen'],
+    wyrdCreatures: ['Debt-Revenant', 'Canker']
+  },
+  {
+    id: 'black-fen',
+    regionId: 'bryngloom-forest',
+    name: 'Black Fen',
+    type: 'wilderness',
+    description: 'An acidic fen where nothing grows and the water is black as ink. The fen is the dumping ground of the Neth contract courts — failed contracts, dissolved agreements, and legally-voided individuals are cast into its depths. The acidity is so extreme that bone dissolves within hours. Nothing preserved here. Nothing remembered. The Neth call it the Final Clause.',
+    dangerLevel: 'extreme',
+    factions: ['Velun Pact-Lords'],
+    connections: ['widows-quagmire', 'vel-keth-bayou'],
+    wyrdCreatures: ['Cycle-Eater', 'Edict']
+  },
+  {
+    id: 'drowned-dingle',
+    regionId: 'bryngloom-forest',
+    name: 'Drowned Dingle',
+    type: 'wilderness',
+    description: 'A wooded valley permanently flooded by bog water, where dead ironwood trees stand like skeletal fingers above the dark surface. Morren peat-cutters navigate the dingle in flat-bottomed boats, harvesting peat and the occasional preserved corpse. The trees here are petrified — their branches chime like bells when the wind blows.',
+    dangerLevel: 'high',
+    factions: ['Morren Peat-Cutters'],
+    connections: ['black-fen', 'over-shanty'],
+    wyrdCreatures: ['Morok', 'Wist']
+  },
+  {
+    id: 'vel-keth-bayou',
+    regionId: 'bryngloom-forest',
+    name: 'Vel-Keth Bayou',
+    type: 'wilderness',
+    description: 'A marshy channel in the deep forest named in the Neth tongue — Vel-Keth translates roughly to "the water that remembers." The bayou flows against the natural gradient, defying physics in ways the Neth insist are perfectly legal under the First Contract. Memory-glass deposits line the banks, glowing faintly with recorded thoughts of the long-dead.',
+    dangerLevel: 'high',
+    factions: ['Kessen Weavers', 'Velun Pact-Lords'],
+    connections: ['black-fen', 'aran-glen'],
+    wyrdCreatures: ['Vatra', 'Leshy']
+  },
+  {
+    id: 'aran-glen',
+    regionId: 'bryngloom-forest',
+    name: 'Aran-Glen',
+    type: 'settlement',
+    description: 'A narrow valley in the forest\'s heart where Kessen Neth weavers tend the living ironwood groves that supply Atropolis with building material. The glen is peaceful by Bryngloom standards — the Neth legal presence here is strong enough to enforce the Contract\'s non-aggression clauses. The buildings are grown, not built, coaxed from living wood over decades.',
+    dangerLevel: 'low',
+    factions: ['Kessen Weavers', 'Velun Pact-Lords'],
+    connections: ['vel-keth-bayou', 'atropolis'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'hunters-gully',
+    regionId: 'bryngloom-forest',
+    name: "Hunter's Gully",
+    type: 'wilderness',
+    description: 'A water-worn ravine used by Vreken for ambush hunts — the narrow walls force prey into single-file, and the Vreken drop from above in coordinated strikes. The gully floor is carpeted with bioluminescent moss that illuminates the kill-zones in eerie green light. Marked Vreken claim this territory; trespassers are considered sport.',
+    dangerLevel: 'high',
+    factions: ['Marked Vreken'],
+    connections: ['the-sunken-spire', 'fangmere-grove'],
+    wyrdCreatures: ['Vyraj', 'Morok']
+  },
+  {
+    id: 'fangmere-grove',
+    regionId: 'bryngloom-forest',
+    name: 'Fangmere Grove',
+    type: 'ruin',
+    description: 'A small, sacred wood where Vreken hold blood-rites and ancestral communion ceremonies. The trees here grow in a perfect circle, their roots intertwined with the bones of Vreken dead. The grove is quiet — preternaturally so. Even the ambient bioluminescence dims here, as if the light itself shows respect.',
+    dangerLevel: 'medium',
+    factions: ['Clean Vreken', 'Crypt-Council'],
+    connections: ['hunters-gully', 'root-veil-scriptorium'],
+    wyrdCreatures: ['Wist']
+  },
+  {
+    id: 'thalrens-ledger-post',
+    regionId: 'bryngloom-forest',
+    name: "Thalren's Ledger-Post",
+    type: 'settlement',
+    description: 'A shared Thalren-Morren archive outpost on the forest edge, where Thalren scribes copy Neth contract records onto vellum as insurance against the fog\'s memory-erasure. The outpost is built of peat-stone and ironwood — a hybrid of Thalren and Morren construction styles. It serves as a neutral ground where the two cultures exchange archival techniques.',
+    dangerLevel: 'low',
+    factions: ['Thalren Scribes', 'Morren Peat-Cutters'],
+    connections: ['root-veil-scriptorium', 'morrens-bogpost'],
+    wyrdCreatures: []
+  },
+  {
+    id: 'merryns-drift',
+    regionId: 'bryngloom-forest',
+    name: "Merryn's Drift",
+    type: 'settlement',
+    description: 'A Merryn river-trading camp on the forest\'s western waterways, where flat-bottomed barges carry goods between Bryngloom and the Iceheart Sea. The camp is a cluster of houseboats lashed together, perpetually bobbing in the slow-moving bog water. The Merryn here have adapted to fresh water — their salt-scars fade within a generation.',
+    dangerLevel: 'low',
+    factions: ['Merryn River-Traders'],
+    connections: ['thalrens-ledger-post', 'the-sunken-spire'],
+    wyrdCreatures: []
   }
 ];
 

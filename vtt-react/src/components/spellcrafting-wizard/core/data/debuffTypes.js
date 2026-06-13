@@ -15,7 +15,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'statReduction',
     name: 'Stat Reduction',
     description: 'Directly reduces one or more character statistics',
-    icon: 'spell_shadow_curseofweakness',
+    icon: '/assets/icons/abilities/Cursed Letter.png',
     examples: ['Curse of Weakness', 'Ray of Enfeeblement', 'Mind Fog'],
     saveType: 'constitution',
     duration: 'medium',
@@ -27,7 +27,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'vulnerability',
     name: 'Vulnerability',
     description: 'Increases damage taken from specific sources',
-    icon: 'spell_shadow_shadowwordpain',
+    icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
     examples: ['Amplify Magic', 'Frost Vulnerability', 'Mark of Flame'],
     saveType: 'constitution',
     duration: 'medium',
@@ -39,7 +39,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'control',
     name: 'Control Effect',
     description: 'Restricts ability to move or act',
-    icon: 'spell_frost_chainsofice',
+    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
     examples: ['Polymorph', 'Freeze', 'Entangling Roots'],
     saveType: 'varies',
     duration: 'short',
@@ -51,7 +51,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'damage',
     name: 'Damage Over Time',
     description: 'Inflicts ongoing damage at regular intervals',
-    icon: 'spell_fire_immolation',
+    icon: '/assets/icons/abilities/Fire/Flame Burst.png',
     examples: ['Corruption', 'Ignite', 'Deadly Poison'],
     saveType: 'constitution',
     duration: 'medium',
@@ -63,7 +63,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'spreading',
     name: 'Spreading Effect',
     description: 'Can transfer between nearby targets',
-    icon: 'spell_shadow_unstableaffliction_3',
+    icon: '/assets/icons/abilities/Dark Abyss.png',
     examples: ['Plague', 'Chain Affliction', 'Infectious Wound'],
     saveType: 'constitution',
     duration: 'short to medium',
@@ -75,7 +75,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'cursehex',
     name: 'Curse/Hex',
     description: 'Powerful debuff with special removal requirements',
-    icon: 'spell_shadow_antishadow',
+    icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
     examples: ['Curse of Doom', 'Hex of Weakness', 'Soul Drain'],
     saveType: 'charisma',
     duration: 'long',
@@ -87,7 +87,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'mental',
     name: 'Mental Effect',
     description: 'Affects mind, perception, or decision-making',
-    icon: 'spell_shadow_mindshear',
+    icon: '/assets/icons/abilities/Purple Star.png',
     examples: ['Fear', 'Confusion', 'Hallucination'],
     saveType: 'spirit',
     duration: 'short',
@@ -99,7 +99,7 @@ export const DEBUFF_CATEGORIES = [
     id: 'disabling',
     name: 'Disabling Effect',
     description: 'Prevents use of specific abilities or resources',
-    icon: 'spell_holy_silence',
+    icon: '/assets/icons/abilities/Light Path.png',
     examples: ['Silence', 'Disarm', 'Mana Burn'],
     saveType: 'varies',
     duration: 'short',
@@ -146,7 +146,7 @@ export const DEBUFF_SAVE_TYPES = [
     description: 'Resist with physical fortitude and stamina',
     relevantEffects: ['blight', 'disease', 'exhaustion', 'physical transformations'],
     countered: 'Physical impairments, bodily effects',
-    icon: 'spell_holy_devotionaura'
+    icon: '/assets/icons/abilities/Light Path.png'
   },
   {
     id: 'agility',
@@ -154,7 +154,7 @@ export const DEBUFF_SAVE_TYPES = [
     description: 'Resist with agility and reflexes',
     relevantEffects: ['restraint', 'area damage', 'movement impairment'],
     countered: 'Physical traps, movement restrictions',
-    icon: 'ability_rogue_quickrecovery'
+    icon: '/assets/icons/abilities/Utility/Rest.png'
   },
   {
     id: 'strength',
@@ -162,7 +162,7 @@ export const DEBUFF_SAVE_TYPES = [
     description: 'Resist with raw power',
     relevantEffects: ['paralysis', 'restraint', 'grapple'],
     countered: 'Physical bindings, force effects',
-    icon: 'spell_nature_strength'
+    icon: '/assets/icons/abilities/Nature/Natural.png'
   },
   {
     id: 'spirit',
@@ -170,7 +170,7 @@ export const DEBUFF_SAVE_TYPES = [
     description: 'Resist with mental fortitude and willpower',
     relevantEffects: ['fear', 'charm', 'illusion', 'mind control'],
     countered: 'Mental manipulation, perception effects',
-    icon: 'spell_holy_holyguidance'
+    icon: '/assets/icons/abilities/Light Path.png'
   },
   {
     id: 'intelligence',
@@ -178,7 +178,7 @@ export const DEBUFF_SAVE_TYPES = [
     description: 'Resist with mental acuity and knowledge',
     relevantEffects: ['confusion', 'memory effects', 'complex illusions'],
     countered: 'Mental misdirection, knowledge tampering',
-    icon: 'spell_arcane_arcane02'
+    icon: '/assets/icons/abilities/Arcane/Arcane.png'
   },
   {
     id: 'charisma',
@@ -186,7 +186,7 @@ export const DEBUFF_SAVE_TYPES = [
     description: 'Resist with force of personality and sense of self',
     relevantEffects: ['possession', 'banishment', 'curses', 'compulsion'],
     countered: 'Soul effects, forced behavior',
-    icon: 'spell_holy_powerinfusion'
+    icon: '/assets/icons/abilities/Light Path.png'
   }
 ];
 

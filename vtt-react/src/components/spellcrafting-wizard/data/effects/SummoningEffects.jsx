@@ -22,6 +22,7 @@ import {
 import { FaSearch } from 'react-icons/fa';
 import CreatureSelectionWindow from '../../components/common/CreatureSelectionWindow';
 import BasicAbilityCreator from '../../../creature-wizard/components/windows/BasicAbilityCreator';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 // Pathfinder styles imported via main.css
 // Pathfinder styles imported via main.css
@@ -30,9 +31,9 @@ import BasicAbilityCreator from '../../../creature-wizard/components/windows/Bas
 
 // Duration types
 const DURATION_TYPES = [
-  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'inv_misc_pocketwatch_02' },
-  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'inv_misc_pocketwatch_03' }
+  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'Utility/Utility' },
+  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'Utility/Utility' },
+  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'Utility/Utility' }
 ];
 
 // Individual creature configuration defaults
@@ -67,10 +68,10 @@ const CONTROL_RANGES = [
 
 // Control types
 const CONTROL_TYPES = [
-  { id: 'verbal', name: 'Verbal Commands', icon: 'inv_misc_horn_01', description: 'Control through spoken orders' },
-  { id: 'mental', name: 'Mental Link', icon: 'spell_arcane_mindmastery', description: 'Direct mental control of summons' },
-  { id: 'empathic', name: 'Empathic Bond', icon: 'spell_holy_spiritualguidence', description: 'Emotional connection with summons' },
-  { id: 'autonomous', name: 'Autonomous', icon: 'inv_misc_gem_sapphire_01', description: 'Summons follow preset behaviors' }
+  { id: 'verbal', name: 'Verbal Commands', icon: 'Utility/Utility', description: 'Control through spoken orders' },
+  { id: 'mental', name: 'Mental Link', icon: 'Psychic/Focused Mind', description: 'Direct mental control of summons' },
+  { id: 'empathic', name: 'Empathic Bond', icon: 'Radiant/Divine Radiance', description: 'Emotional connection with summons' },
+  { id: 'autonomous', name: 'Autonomous', icon: 'Utility/Glowing Shard', description: 'Summons follow preset behaviors' }
 ];
 
 const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, onChange }) => {
@@ -418,7 +419,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
   // Get WoW-style icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
 
@@ -457,7 +458,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                         src={getIconUrl(creature.tokenIcon)}
                         alt={creature.name}
                         onError={(e) => {
-                          e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                          e.target.src = getAbilityIconUrl('Utility/Utility');
                         }}
                       />
                     </div>

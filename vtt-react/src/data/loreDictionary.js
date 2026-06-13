@@ -15,7 +15,7 @@ export const LORE_DICTIONARY = {
     region: 'frostwood-reach',
     summary: 'A dense, fog-choked ironwood forest in the western hemisphere where volcanic heat from the south collides with the northern freeze.',
     fullEntry: 'The Frostwood Reach represents the desperate compromise between the warmth of the deep earth and the encroaching silence of the Freeze-Front. Ancient, towering ironwood forests stretch beneath a perpetual canopy of mist, their petrified trunks hardened by centuries of cold until the wood mimics tempered iron. To prevent the forests and their native beasts from freezing into glass, House Thalreth traded spatial clarity for an insulating, protective fog. Scribe-sentinels patrol the timber keeps, quills constantly scratching out lineages and maps before the fog slowly eats what they remember of themselves.',
-    relatedTerms: ['house_thalreth', 'greymark_keep', 'mimir', 'briaran', 'gref', 'gambrel']
+    relatedTerms: ['house_thalreth', 'greymark_keep', 'mimir', 'briaran', 'gref', 'gambrel', 'wraithfen', 'mistbarrow', 'mirror_mere', 'greythorn_copse', 'bramble_heath']
   },
   'nordhalla': {
     id: 'nordhalla',
@@ -24,7 +24,7 @@ export const LORE_DICTIONARY = {
     region: 'nordhalla',
     summary: 'A brutalist cathedral of frozen black fjords and towering glaciers in the northern reaches, warmed only by deep geothermal sumps.',
     fullEntry: 'Nordhalla is a freezing wilderness where the advance of titanic, mountain-crushing glaciers was halted mid-stride by the desperate bargain of House Skalvyr. The tundra is a flat black mirror beneath a washed-out sky that has not seen true sunlight in eight centuries. Wind-carved ice sculptures stand as monuments to the ancient dead, and keeps are dug into geothermal volcanic vents. Survival here is an endurance-purist\'s trial, where bloodlines are fiercely guarded and the heat determines a family\'s status.',
-    relatedTerms: ['house_skalvyr', 'frozen_archive', 'rime_born', 'bloodhammer', 'stel', 'skreika']
+    relatedTerms: ['house_skalvyr', 'frozen_archive', 'rime_born', 'bloodhammer', 'stel', 'skreika', 'ymirs_col', 'vargtor', 'the_black_firth', 'rooks_promontory', 'frostcirque']
   },
   'sundale': {
     id: 'sundale',
@@ -33,7 +33,7 @@ export const LORE_DICTIONARY = {
     region: 'sundale',
     summary: 'The scorched ashlands surrounding Emberspire, where the dying sun-god Sol was bound beneath the earth.',
     fullEntry: 'Sundale is the volcanic womb of the world, a desert of basalt, obsidian rivers, and perpetual ashfall. It is here that Sol was bound beneath the volcanic crust by the seven noble families to protect the star from the cosmic hunter Keth-Amar. Warmed by the world-heart volcano Emberspire, the region is thick with geothermal activity and soot-filled air. It is shared by the forge-clans of the Emberth, who tend the Solbrand, and the remnants of Solvarn humans who refuse to abandon the tomb of their star.',
-    relatedTerms: ['house_solvan', 'emberspire', 'harath_vault', 'emberth', 'solbrand', 'cinder']
+    relatedTerms: ['house_solvan', 'emberspire', 'harath_vault', 'emberth', 'solbrand', 'cinder', 'sols_anvil_mesa', 'the_ashen_escarpment', 'ember_lagoon', 'cinderhoodoo']
   },
   'iceheart-sea': {
     id: 'iceheart-sea',
@@ -42,7 +42,7 @@ export const LORE_DICTIONARY = {
     region: 'iceheart-sea',
     summary: 'A violent, freezing ocean of city-sized icebergs and perpetual gales, navigated only by the grace of unfreezing currents.',
     fullEntry: 'The Iceheart Sea is a churning, frozen expanse where storm-cycles are perpetual and icebergs drift like slow-moving mountains. House Mereval traded calm waters for navigable sea-lanes that never freeze, ensuring trade routes remain open at the cost of the ocean never sleeping. Ships pitch and roll through freezing foam, and sailors navigate by bioluminescent light and the advice of the Merryn captains who tattoo their charts directly onto their skin.',
-    relatedTerms: ['house_mereval', 'merrowport', 'ironjaw_port', 'myrathil', 'drowned_spume']
+    relatedTerms: ['house_mereval', 'merrowport', 'ironjaw_port', 'myrathil', 'drowned_spume', 'spindrift_lagoon', 'deepwell_archipelago', 'wraithsound', 'kelpies_cove']
   },
   'cragjaw-peaks': {
     id: 'cragjaw-peaks',
@@ -51,7 +51,7 @@ export const LORE_DICTIONARY = {
     region: 'cragjaw-peaks',
     summary: 'A vertical wilderness of howling blizzards and razor ridges, bridged together by the calcified spans of the Groven.',
     fullEntry: 'The Cragjaw Peaks are a vertical labyrinth of rock and ice where visibility was traded for a perpetual blizzard to hide the keeps of House Tesshan from the starving lowlanders. Centuries of drift have buried all natural landmarks, leaving the high mountain holds isolated. The only thoroughfares above the whiteout are the Ancestor-Spans — bridges grown from the bones of the Groven\'s willing dead, spanning bottomless ravines.',
-    relatedTerms: ['house_tesshan', 'frostmaw_holdfast', 'groven', 'fexrick', 'thrumm', 'scrab']
+    relatedTerms: ['house_tesshan', 'frostmaw_holdfast', 'groven', 'fexrick', 'thrumm', 'scrab', 'the_great_gorge', 'gearworks_gulch', 'deepchasm_keep', 'frostmaw_massif']
   },
   'sundrift-vale': {
     id: 'sundrift-vale',
@@ -60,7 +60,7 @@ export const LORE_DICTIONARY = {
     region: 'sundrift-vale',
     summary: 'A wind-swept, starless steppe of dead tundra grass where nomadic clans follow woolly herds.',
     fullEntry: 'The Sundrift Vale stretches beneath a dark sky empty of stars, constellations, or navigable heavens. House Ordavan traded fertile soil for the endless migration, ensuring the steppe\'s grass always returns to feed the great woolly herds. Nomadic clans navigate the starless grasslands by memory and the hum of ancestral burial mounds, sharing the steppe with the crystal-skinned Astril who carry the constellation-spirits of Sol\'s ministers in their veins.',
-    relatedTerms: ['house_ordavan', 'synod_hold', 'astril', 'lien', 'hungry_child']
+    relatedTerms: ['house_ordavan', 'synod_hold', 'astril', 'lien', 'hungry_child', 'starfall_vale', 'the_unlit_knoll', 'kumis_downs', 'ancestor_wold']
   },
   'bryngloom-forest': {
     id: 'bryngloom-forest',
@@ -69,7 +69,7 @@ export const LORE_DICTIONARY = {
     region: 'bryngloom-forest',
     summary: 'A semi-frozen sinking bog and bioluminescent forest governed by the contracts of the silver-skinned Neth.',
     fullEntry: 'The Bryngloom Forest is a damp, twilight canopy where ironwood trees grow above bottomless, peat-sinking bogs. Here, the ancestors of the Neth struck a legalistic contract with the Root-Veil, trading death\'s finality for silver skin and stilled breath. It is a land of litigation, memory-preservation, and bioluminescent fungal groves, shared in cold silence with the lantern-eyed Vreken who sing to their glowing ancestors in inverted cathedrals.',
-    relatedTerms: ['atropolis', 'sunken_spire', 'neth', 'vreken', 'cycle_eater', 'debt_revenant']
+    relatedTerms: ['atropolis', 'sunken_spire', 'neth', 'vreken', 'cycle_eater', 'debt_revenant', 'vel_keth_bayou', 'aran_glen', 'black_fen', 'widows_quagmire', 'morrens_bogpost']
   },
 
   // NOBLE HOUSES
@@ -79,8 +79,8 @@ export const LORE_DICTIONARY = {
     type: 'noble_house',
     region: 'frostwood-reach',
     summary: 'The noble lineage of the Frostwood Reach who traded the region\'s spatial clarity for an insulating, protective fog.',
-    fullEntry: 'House Thalreth is the ancient ruling family of the Frostwood Reach, whose seat of power is Greymark Keep. Driven by a desperate need to protect their territory and wildlife from freezing solid during the Deepening, they bargained away the spatial clarity of the Reach. The resulting insulating fog keeps their ironwood timber warm but slowly eats the memories of their descendants, forcing them to maintain exhaustive, chained ledger-libraries to verify their lineages.',
-    relatedTerms: ['frostwood-reach', 'greymark_keep']
+    fullEntry: 'House Thalreth is the ancient ruling family of the Frostwood Reach, whose seat of power is Greymark Keep. Driven by a desperate need to protect their territory and wildlife from freezing solid during the Deepening, they bargained away the spatial clarity of the Reach. The resulting insulating fog keeps their ironwood timber warm but slowly eats the memories of their descendants, forcing them to maintain exhaustive, chained ledger-libraries to verify their lineages. The house also maintains satellite settlements at Mistbarrow, where archivists continue to petition for excavation of the ancient barrow, and Greythorn Copse, the fortified copse on the eastern trade route co-managed with the Briaran.',
+    relatedTerms: ['frostwood-reach', 'greymark_keep', 'mistbarrow', 'greythorn_copse', 'mirror_mere']
   },
   'house_skalvyr': {
     id: 'house_skalvyr',
@@ -88,8 +88,8 @@ export const LORE_DICTIONARY = {
     type: 'noble_house',
     region: 'nordhalla',
     summary: 'The northern lords of Nordhalla who halted the glaciers at the price of an eternal winter.',
-    fullEntry: 'House Skalvyr is the unyielding noble family of Nordhalla. During the sun\'s burial, when titanic glaciers advanced to grind their mountain keeps into dust, Skalvyr bargained with the Cosmic Warden to freeze the ice sheets in place. The Warden capitulated, halting the glaciers permanently — but decreed that summer would never return to the north. Their descendants rule the brutalist fjord-keeps, valuing cold-resistance above all.',
-    relatedTerms: ['nordhalla', 'frozen_archive']
+    fullEntry: 'House Skalvyr is the unyielding noble family of Nordhalla. During the sun\'s burial, when titanic glaciers advanced to grind their mountain keeps into dust, Skalvyr bargained with the Cosmic Warden to freeze the ice sheets in place. The Warden capitulated, halting the glaciers permanently — but decreed that summer would never return to the north. Their descendants rule the brutalist fjord-keeps, valuing cold-resistance above all. Vargtor, the wolf-tor garrison rising above the glacier line, serves as the house\'s primary forward garrison against glacier wyrms and eastern threats.',
+    relatedTerms: ['nordhalla', 'frozen_archive', 'vargtor', 'ymirs_col', 'the_black_firth']
   },
   'house_solvan': {
     id: 'house_solvan',
@@ -97,8 +97,8 @@ export const LORE_DICTIONARY = {
     type: 'noble_house',
     region: 'sundale',
     summary: 'The tragic family of Sundale whose heirs were sacrificed to bind the dying star Sol beneath their ashlands.',
-    fullEntry: 'House Solvan is the noble family of Sundale, heavily scarred by the history of the Great Breach. It was Solvan who spearheaded the entombment of Sol, flaying Aex to weave the binding seal. Pressed to extinction by the cold, they capitulated to Keth-Amar, marching their firstborn north. Their descendants remain in the scorched, soot-choked badlands of Emberspire, refusing to leave because leaving would mean admitting their ancestral sacrifice was meaningless.',
-    relatedTerms: ['sundale', 'emberspire', 'keth_amar']
+    fullEntry: 'House Solvan is the noble family of Sundale, heavily scarred by the history of the Great Breach. It was Solvan who spearheaded the entombment of Sol, flaying Aex to weave the binding seal. Pressed to extinction by the cold, they capitulated to Keth-Amar, marching their firstborn north. Their descendants remain in the scorched, soot-choked badlands of Emberspire, refusing to leave because leaving would mean admitting their ancestral sacrifice was meaningless. Sol\'s Anvil Mesa, the massive basalt tableland where Solvarn sun-priests conduct their holiest ceremonies, remains the house\'s most sacred ceremonial site outside Emberspire itself.',
+    relatedTerms: ['sundale', 'emberspire', 'keth_amar', 'sols_anvil_mesa', 'the_ashen_escarpment', 'ember_lagoon']
   },
 
   // FIGURES
@@ -146,8 +146,8 @@ export const LORE_DICTIONARY = {
     type: 'race',
     region: 'frostwood-reach',
     summary: 'A secretive, shape-shifting people of the Frostwood Reach who wear heartwood, storm-glass, or pine masks.',
-    fullEntry: 'The Mimir are a slender, rare people of the Frostwood Reach. Evolving from the forester Sylvain, who merged with a doppelganger death-omen, the Mimir possess the ability to shift their physical forms. Because the regional fog decays memory and threatened their identity, they began wearing masks carved from heartwood or storm-glass to lock their true forms. They are divided into the Mask-Borne canopy aristocrats, the Mist-Woven sentinels, and the Unwoven maskless floor-dwellers.',
-    relatedTerms: ['frostwood-reach', 'gref']
+    fullEntry: 'The Mimir are a slender, rare people of the Frostwood Reach. Evolving from the forester Sylvain, who merged with a doppelganger death-omen, the Mimir possess the ability to shift their physical forms. Because the regional fog decays memory and threatened their identity, they began wearing masks carved from heartwood or storm-glass to lock their true forms. They are divided into the Mask-Borne canopy aristocrats, the Mist-Woven sentinels, and the Unwoven maskless floor-dwellers. Mirror Mere, the perfectly still lake at the heart of Mask-Borne territory, serves as both the Mimir\'s spiritual center and their most reliable tool for verifying identity against the fog\'s erosion.',
+    relatedTerms: ['frostwood-reach', 'gref', 'mirror_mere', 'the_shifting_fen', 'wraithfen']
   },
   'rite-of-masks': {
     id: 'rite-of-masks',
@@ -164,8 +164,8 @@ export const LORE_DICTIONARY = {
     type: 'race',
     region: 'sundale',
     summary: 'A powerful, dark-skinned people of Sundale who bear deliberate burn-scars encoding their lineage and trade.',
-    fullEntry: 'The Emberth are the broad-shouldered craftsmen and Sun-Speakers of Sundale. Warned by prophecy of the sun\'s death, their ancestors sheltered in the thermal caverns beneath Emberspire before the surface froze. They possess large, heat-sensitive eyes and long lungs adapted to thin air. They are divided into the Korr of the deep vault, who tend the Solbrand in holy silence, and the Thrask badland rangers who hunt and mine the volcanic frontier.',
-    relatedTerms: ['sundale', 'solbrand', 'harath_vault']
+    fullEntry: 'The Emberth are the broad-shouldered craftsmen and Sun-Speakers of Sundale. Warned by prophecy of the sun\'s death, their ancestors sheltered in the thermal caverns beneath Emberspire before the surface froze. They possess large, heat-sensitive eyes and long lungs adapted to thin air. They are divided into the Korr of the deep vault, who tend the Solbrand in holy silence, and the Thrask badland rangers who hunt and mine the volcanic frontier. Ember Lagoon, Sundale\'s only port, is jointly operated by Emberth harbourmasters and Merryn shipping clans, serving as the primary conduit through which Sundale\'s forged goods reach the wider world.',
+    relatedTerms: ['sundale', 'solbrand', 'harath_vault', 'ember_lagoon', 'cinderhoodoo', 'slag_gulch']
   },
   'neth': {
     id: 'neth',
@@ -173,8 +173,8 @@ export const LORE_DICTIONARY = {
     type: 'race',
     region: 'bryngloom-forest',
     summary: 'An immortal, silver-skinned people of the Bryngloom Forest bound by legal contracts to the Root-Veil.',
-    fullEntry: 'The Neth are a legalistic, stilled-breath people of Atropolis. Descended from a dying scribe-clan that negotiated a treaty with the Keeper of the Last Threshold, the Neth traded death\'s finality for survival. Their bloodlines are written in the First Contract, rendering them unable to tell a direct lie. They are divided into the silver-skinned Velun pact-lords, the Kessen weavers of the forest floor, and the leaden-grey Drun outcasts who legally do not exist.',
-    relatedTerms: ['bryngloom-forest', 'atropolis', 'drun', 'velun', 'kessen']
+    fullEntry: 'The Neth are a legalistic, stilled-breath people of Atropolis. Descended from a dying scribe-clan that negotiated a treaty with the Keeper of the Last Threshold, the Neth traded death\'s finality for survival. Their bloodlines are written in the First Contract, rendering them unable to tell a direct lie. They are divided into the silver-skinned Velun pact-lords, the Kessen weavers of the forest floor, and the leaden-grey Drun outcasts who legally do not exist. Beyond Atropolis, the Vel-Keth Bayou — "the water that remembers" — supplies memory-glass deposits harvested by Kessen weavers, while the living-ironwood settlement of Aran-Glen demonstrates the Neth capacity for patient, biological architecture.',
+    relatedTerms: ['bryngloom-forest', 'atropolis', 'drun', 'velun', 'kessen', 'vel_keth_bayou', 'aran_glen', 'black_fen']
   },
   'astril': {
     id: 'astril',
@@ -182,8 +182,8 @@ export const LORE_DICTIONARY = {
     type: 'race',
     region: 'sundrift-vale',
     summary: 'A crystal-skinned people of the Sundrift Vale whose bodies carry the nesting constellation-spirits of Sol\'s ministers.',
-    fullEntry: 'The Astril are the luminous guardians of the starless steppe. When Sol was bound, the constellation-spirits of the sun\'s celestial court took refuge inside the bloodlines of the steppe peoples. This nesting manifests as crystalline, glowing skin patterns that hum with celestial resonance. They are divided into the Sylen, who seek total symbiosis with their spirits, the Muren, who bind and suppress them, and the Unlit, who carry no star-glow.',
-    relatedTerms: ['sundrift-vale', 'synod_hold']
+    fullEntry: 'The Astril are the luminous guardians of the starless steppe. When Sol was bound, the constellation-spirits of the sun\'s celestial court took refuge inside the bloodlines of the steppe peoples. This nesting manifests as crystalline, glowing skin patterns that hum with celestial resonance. They are divided into the Sylen, who seek total symbiosis with their spirits, the Muren, who bind and suppress them, and the Unlit, who carry no star-glow. Starfall Vale, where the residue of Sol\'s shattered celestial court impacts the earth, remains the most important pilgrimage site for Astril of every caste — a place where the Memory of Sol can still be heard in the harmonic tones of trapped starlight.',
+    relatedTerms: ['sundrift-vale', 'synod_hold', 'starfall_vale', 'the_unlit_knoll', 'nova_heath']
   },
 
   // RESOURCES
@@ -754,8 +754,8 @@ export const LORE_DICTIONARY = {
     type: 'noble_house',
     region: 'iceheart-sea',
     summary: 'The seafaring noble family of the Iceheart Sea who traded calm waters for perpetually unfreezing sea-lanes, binding the ocean to never rest.',
-    fullEntry: 'House Mereval rules the great, churning expanse of the Iceheart Sea. When their ancestors faced the freezing of the oceans during the Deepening, they bargained for navigable sea-lanes that would never freeze. The Warden accepted, but the price was the ocean\'s peace: the Iceheart would never sleep. Storm-cycles are now perpetual, and the sea must be fought as much as navigated. Their descendants rule from Merrowport, a floating city anchored to a warm submarine volcano, maintaining the trade routes that connect all seven regions.',
-    relatedTerms: ['iceheart-sea', 'merrowport', 'minstrel']
+    fullEntry: 'House Mereval rules the great, churning expanse of the Iceheart Sea. When their ancestors faced the freezing of the oceans during the Deepening, they bargained for navigable sea-lanes that would never freeze. The Warden accepted, but the price was the ocean\'s peace: the Iceheart would never sleep. Storm-cycles are now perpetual, and the sea must be fought as much as navigated. Their descendants rule from Merrowport, a floating city anchored to a warm submarine volcano, maintaining the trade routes that connect all seven regions. Spindrift Lagoon, the warm-water coral port tended by the Breakers-Born Myrathil, and the Deepwell Archipelago, the hidden underwater chain of Myrathil cave-cities, serve as the house\'s key southern and deep-water ports.',
+    relatedTerms: ['iceheart-sea', 'merrowport', 'minstrel', 'spindrift_lagoon', 'deepwell_archipelago', 'kelpies_cove']
   },
   'house_tesshan': {
     id: 'house_tesshan',
@@ -763,8 +763,8 @@ export const LORE_DICTIONARY = {
     type: 'noble_house',
     region: 'cragjaw-peaks',
     summary: 'The mountain lords of the Cragjaw Peaks who traded visibility for a perpetual blizzard to hide their highland keeps from starving lowlanders.',
-    fullEntry: 'House Tesshan rules the vertical labyrinth of the Cragjaw Peaks, where the eternal blizzard hides their fortress-keeps from the starving lowland riders. Their bargain traded spatial visibility for protective snow-veil — a dense, permanent whiteout that buries all natural landmarks. Their descendants survive through the Groven\'s Ancestor-Spans, the only thoroughfares above the blizzard line. The Tesshan value altitude as status and concealment as currency.',
-    relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'groven']
+    fullEntry: 'House Tesshan rules the vertical labyrinth of the Cragjaw Peaks, where the eternal blizzard hides their fortress-keeps from the starving lowland riders. Their bargain traded spatial visibility for protective snow-veil — a dense, permanent whiteout that buries all natural landmarks. Their descendants survive through the Groven\'s Ancestor-Spans, the only thoroughfares above the blizzard line. The Tesshan value altitude as status and concealment as currency. Deepchasm Keep, the fortress spanning the great mountain fissure, controls the only reliable passage between upper peaks and lower galleries and serves as the house\'s most strategically vital installation.',
+    relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'groven', 'deepchasm_keep', 'gearworks_gulch', 'frostmaw_massif']
   },
   'house_ordavan': {
     id: 'house_ordavan',
@@ -772,8 +772,8 @@ export const LORE_DICTIONARY = {
     type: 'noble_house',
     region: 'sundrift-vale',
     summary: 'The nomadic noble family of the Sundrift Vale who traded fertile soil for the endless migration, ensuring the steppe grass always returns to feed the great woolly herds.',
-    fullEntry: 'House Ordavan governs the wind-swept, starless steppe of the Sundrift Vale. Their bargain traded fertile soil for the endless migration — the grass will always return, but nothing deeper than grass can take root. Their descendants follow the woolly herds in perpetual nomadic cycles, navigating by the hum of ancestral burial mounds. The Ordavan are increasingly puppeteered by the Unlit Veil, whose "advisors" have embedded themselves at every level of governance.',
-    relatedTerms: ['sundrift-vale', 'synod_hold', 'astril']
+    fullEntry: 'House Ordavan governs the wind-swept, starless steppe of the Sundrift Vale. Their bargain traded fertile soil for the endless migration — the grass will always return, but nothing deeper than grass can take root. Their descendants follow the woolly herds in perpetual nomadic cycles, navigating by the hum of ancestral burial mounds. The Ordavan are increasingly puppeteered by the Unlit Veil, whose "advisors" have embedded themselves at every level of governance. The Kumis Downs, rolling grasslands in the southern steppe, serve as the primary gathering grounds for the Ordavan clan-meets where migration routes are negotiated and bloodline disputes are settled.',
+    relatedTerms: ['sundrift-vale', 'synod_hold', 'astril', 'kumis_downs', 'ancestor_wold', 'starfall_vale']
   },
   'house_morrath': {
     id: 'house_morrath',
@@ -781,8 +781,8 @@ export const LORE_DICTIONARY = {
     type: 'noble_house',
     region: 'bryngloom-forest',
     summary: 'The seventh and most mysterious of the binding houses, who rule the Bryngloom Forest. Unique among the houses: they had nothing left to trade, so they borrowed their survival from the Neth.',
-    fullEntry: 'House Morrath is the ghost among houses — the seventh noble family named in the Binding Compact, yet the one with the least surviving record. When the six other houses marched their firstborn to the northern peaks to satisfy Keth-Amar, Morrath had nothing left to trade that Keth-Amar would accept. Their survival was instead borrowed from the Neth — the scribe-clan who had already struck their own legalistic contract with the Keeper of the Last Threshold. This has produced a permanent tension: the Morrath are a noble house whose authority is mediated through the Neth\'s contract-law, making them simultaneously sovereign and subordinate, a contradiction that has defined the Bryngloom\'s politics for eight centuries.',
-    relatedTerms: ['bryngloom-forest', 'neth', 'keth_amar']
+    fullEntry: 'House Morrath is the ghost among houses — the seventh noble family named in the Binding Compact, yet the one with the least surviving record. When the six other houses marched their firstborn to the northern peaks to satisfy Keth-Amar, Morrath had nothing left to trade that Keth-Amar would accept. Their survival was instead borrowed from the Neth — the scribe-clan who had already struck their own legalistic contract with the Keeper of the Last Threshold. This has produced a permanent tension: the Morrath are a noble house whose authority is mediated through the Neth\'s contract-law, making them simultaneously sovereign and subordinate, a contradiction that has defined the Bryngloom\'s politics for eight centuries. Morren\'s Bogpost, the trading outpost at the forest-steppe edge, exemplifies the Morrath strategy of financial entanglement — generous credit, compounding interest, and permanent economic leverage over every trading partner.',
+    relatedTerms: ['bryngloom-forest', 'neth', 'keth_amar', 'morrens_bogpost', 'black_fen', 'widows_quagmire']
   },
 
   // ============================================================
@@ -940,5 +940,730 @@ export const LORE_DICTIONARY = {
     summary: 'The governing body of the Groven, founded by the first generation who shattered their containment vats and rose against the Deep Alchemists in the revolt that freed their people.',
     fullEntry: 'The Vat-Breakers\' Guild is the governing body of Groven civilization — founded by the first generation of transformed Groven who shattered their alchemical containment vats and rose against their Fexric creators. The Guild maintains the Ancestor-Spans (bridges grown from the calcified bones of willing Groven dead), adjudicates Groven law, and patrols the lower tunnels for signs of renewed Deep Alchemist experimentation. Their headquarters in Frostmaw Holdfast houses the calcified skeleton of the first foreman — the Groven who shattered the first vat — her outstretched hand forming the keystone of the main Ancestor-Span. The Guild secretly maintains an archive of stolen Fexric alchemical formulae, including one that may reverse calcification entirely.',
     relatedTerms: ['groven', 'deep_alchemists', 'frostmaw_holdfast', 'house_tesshan', 'thrumm']
+  },
+
+  // ============================================================
+  // NEW LOCATIONS — Regional Expansion (Aquatic, Mountain, Wasteland Terrain)
+  // ============================================================
+
+  // FROSTWOOD REACH — New Locations
+  'wraithfen': {
+    id: 'wraithfen',
+    term: 'Wraithfen',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A fog-drowned fen on the eastern border where Mimir Unwoven wander without masks, their forms dissolving in the mist.',
+    fullEntry: 'The Wraithfen is a liminal place where the Frostwood Reach\'s protective fog becomes something else — thicker, warmer, and seemingly alive. The Unwoven Mimir who drift through its depths have abandoned their masks entirely, allowing their forms to blur and shift with the mist. Thalren trappers give the fen a wide berth. Those who enter too deep return speaking languages that no living scholar can identify, their memories contaminated with impressions of lives they never lived.',
+    relatedTerms: ['frostwood-reach', 'mimir', 'gref']
+  },
+  'mistbarrow': {
+    id: 'mistbarrow',
+    term: 'Mistbarrow',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'An ancient burial mound predating House Thalreth, shrouded in fog so dense it has its own weather.',
+    fullEntry: 'Mistbarrow is one of the Frostwood Reach\'s deepest mysteries — a burial mound that predates every known civilization in the region. The barrow is encased in fog so permanent and so dense that it generates its own microclimate: rain falls inside the fog-bubble even when the surrounding forest is dry. Expeditions have recovered amber tablets inscribed with unknown script and corroded bronze masks of workmanship that surpasses any known Thalren or Mimir craft. The Forgotten Archivists of the Ledger Halls have petitioned House Thalreth for a full excavation for three centuries.',
+    relatedTerms: ['frostwood-reach', 'greymark_keep', 'gallows_wood']
+  },
+  'greythorn_copse': {
+    id: 'greythorn_copse',
+    term: 'Greythorn Copse',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A fortified copse of ironwood jointly maintained by Thalren timber-wardens and Briaran thorn-tenders on the eastern trade route.',
+    fullEntry: 'Greythorn Copse is a living fortress — a copse of deliberately tangled ironwood trees grown into a defensive wall by generations of Briaran horticulture and maintained by Thalren timber-wardens. The "Grey" in its name connects it to Greymark; the "Thorn" is pure Briaran influence. It serves as the primary waystation between Greymark Keep and the eastern fens, and its single watched gate funnels all trade through a customs post where both races collect tolls.',
+    relatedTerms: ['frostwood-reach', 'briaran', 'house_thalreth']
+  },
+  'bramble_heath': {
+    id: 'bramble_heath',
+    term: 'Bramble Heath',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'Open thorn-covered heathland at the forest edge, patrolled by Briaran rangers tending the living boundary-walls.',
+    fullEntry: 'The Bramble Heath marks where the ironwood canopy finally breaks and the fog thins for the first time. It is a savage, beautiful landscape — crimson thorn-flowers bloom year-round in soil nourished by centuries of blood, and the Briaran rangers who patrol here cultivate the thorn-barriers as both defense and art. The heath is the Briaran\'s most visible territorial claim in the Reach, and they defend it with a ferocity that surprises those who underestimate the quiet, plant-tending folk.',
+    relatedTerms: ['frostwood-reach', 'briaran', 'pooka']
+  },
+  'skalds_landing': {
+    id: 'skalds_landing',
+    term: "Skald's Landing",
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A Skald trading post on the northern river where Nordhalla longships dock to exchange cold-iron and whale oil for ironwood timber.',
+    fullEntry: 'Skald\'s Landing is the primary cultural exchange point between the Frostwood Reach and Nordhalla — a small but vital settlement where Norse-style timber longhouses sit incongruously among Thalren peat-stone architecture. The Skald traders bring cold-iron, whale oil, and glacier ice south; they return with ironwood timber, heartwood resin, and Mimir-crafted storm-glass. The cultural friction is constant but productive — both peoples respect stoicism and oral tradition.',
+    relatedTerms: ['frostwood-reach', 'nordhalla', 'house_thalreth', 'house_skalvyr']
+  },
+  'the_shifting_fen': {
+    id: 'the_shifting_fen',
+    term: 'The Shifting Fen',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A Mimir-held fen that physically changes position with the seasons, tended by Mist-Woven sentinels.',
+    fullEntry: 'The Shifting Fen is the Mist-Woven Mimir\'s domain — a stretch of bogland that literally rearranges itself with the turning of the year. Paths that were solid ground last month are impassable mire today; new clearings open where dense marsh stood before. The Mist-Woven claim the fen is a living test of perception, rewarding those who do not rely on memory and punishing those who trust old maps. It is both a sacred site and a practical training ground for the Mimir\'s most dangerous operatives.',
+    relatedTerms: ['frostwood-reach', 'mimir']
+  },
+  'mirror_mere': {
+    id: 'mirror_mere',
+    term: 'Mirror Mere',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A perfectly still lake settlement where Mask-Borne Mimir test their reflections against their masks to verify their identity holds.',
+    fullEntry: 'Mirror Mere is the spiritual center of the Mask-Borne Mimir — a perfectly still lake that reflects not just the present but ripples with echoes of the near future. The Mimir built their settlement around it as both anchor and oracle, using the lake\'s reflections to verify their identities against the fog\'s erosion and to divine coming events. The mere never ripples, even in storm weather, and the Mimir believe it is conscious — that it watches and remembers everything it reflects.',
+    relatedTerms: ['frostwood-reach', 'mimir', 'rite-of-masks']
+  },
+
+  // NORDHALLA — New Locations
+  'ymirs_col': {
+    id: 'ymirs_col',
+    term: "Ymir's Col",
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A treacherous mountain pass between glacier-capped peaks, named for the frost giant of Skald legend.',
+    fullEntry: 'Ymir\'s Col is the most dangerous pass in Nordhalla — a wind-scoured gap between two peaks where the air moves fast enough to strip flesh from bone. Named for the frost giant of Skald pre-Binding mythology, the col is marked by cairns of frozen corpses, their expressions preserved in perfect, screaming clarity. Only the Skald Ice-Trackers can navigate it safely, and even they lose people every year.',
+    relatedTerms: ['nordhalla', 'house_skalvyr', 'stel']
+  },
+  'vargtor': {
+    id: 'vargtor',
+    term: 'Vargtor',
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A watchtower settlement atop a rocky tor rising above the glacier line, garrisoned by Skald Ice-Trackers.',
+    fullEntry: 'Vargtor — Wolf-Tor in the Old Nord tongue — is a military garrison built atop a natural granite pillar that rises two hundred feet above the glacier line. Wolves gather at its base every winter, drawn by some affinity the Skald cannot explain but do not question. The garrison commands the eastern approaches to the Frozen Archive and serves as the first line of defense against Corvani raiding parties and glacier wyrms. In the tor\'s deepest chambers, runic carvings predating the Skald by centuries have drawn the attention of Rime-Born Rune Keepers.',
+    relatedTerms: ['nordhalla', 'house_skalvyr', 'rime_born']
+  },
+  'frostcirque': {
+    id: 'frostcirque',
+    term: 'Frostcirque',
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A glacial hollow high in the mountains where the Rime-Born perform their oldest rituals — the freezing of memory into ice.',
+    fullEntry: 'Frostcirque is sacred ground to the Rime-Born — a natural amphitheater carved by ancient glaciers where the ice walls are covered in runic script so old that even the Skald Keepers cannot read it. The Rime-Born perform their Memory-Freezing rites here, preserving their most important experiences in blocks of glacier ice that are stored in the cirque walls for eternity. The air in Frostcirque is absolutely still — a quality that even the constant Nordhalla wind respects.',
+    relatedTerms: ['nordhalla', 'rime_born']
+  },
+  'the_still_crag': {
+    id: 'the_still_crag',
+    term: 'The Still Crag',
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A cliff face perpetually frozen in absolute silence, where the Rime-Born claim the Warden\'s breath touched the mountain.',
+    fullEntry: 'The Still Crag is one of Nordhalla\'s most unsettling landmarks — a cliff face where no wind blows, no sound carries, and the ice sculptures of unknown figures stand frozen in attitudes of supplication. The Rime-Born believe the crag is where the Warden\'s breath physically touched the mountain during the Glacier Bargain, freezing everything it touched into permanent, silent witness. The sculptures are not carved — they appear to have been people, caught mid-gesture by something that stopped time itself.',
+    relatedTerms: ['nordhalla', 'rime_born', 'the_warden']
+  },
+  'rooks_promontory': {
+    id: 'rooks_promontory',
+    term: "Rook's Promontory",
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A high cliff over the frozen sea where the Corvani gather in vast, dark congregations to read prophecy in raven-flight.',
+    fullEntry: 'Rook\'s Promontory is the Corvani\'s most sacred site in Nordhalla — a black obsidian cliff jutting over the frozen sea where ravens gather in thousands, their flight patterns interpreted as living prophecy by the Corvani shamans. The cliff is cold even by Nordhalla standards, and the Corvani dwellings carved into its face are accessible only to those who can fly or climb without rope. The Skald consider the promontory cursed; the Corvani consider it home.',
+    relatedTerms: ['nordhalla', 'corvani']
+  },
+  'the_black_firth': {
+    id: 'the_black_firth',
+    term: 'The Black Firth',
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A long, narrow inlet flanked by obsidian cliffs where the black water reflects like a dark mirror.',
+    fullEntry: 'The Black Firth is a long, narrow sea inlet flanked by obsidian cliffs hundreds of feet high — a natural corridor of black stone and blacker water. The firth is the Skald\'s primary naval route to the Iceheart Sea, navigated by starlight since no sunlight has penetrated its depths in eight centuries. The water is perfectly still and perfectly reflective, showing a mirror-image of the cliffs that is indistinguishable from reality. Sailors report seeing things in the reflection that do not exist above the waterline.',
+    relatedTerms: ['nordhalla', 'house_skalvyr']
+  },
+
+  // SUNDALE — New Locations
+  'sols_anvil_mesa': {
+    id: 'sols_anvil_mesa',
+    term: "Sol's Anvil Mesa",
+    type: 'location',
+    region: 'sundale',
+    summary: 'A massive flat-topped mountain where Solvarn sun-priests hold ceremonies during rare moments of volcanic clarity.',
+    fullEntry: 'Sol\'s Anvil Mesa is the spiritual high ground of Sundale — a massive basalt mesa whose flat surface has been carved with solar calendars, prophecy charts, and genealogical records stretching back to the Binding. When the volcanic haze clears enough to glimpse the buried sun\'s residual glow, Solvarn sun-priests ascend the mesa to conduct their holiest ceremonies. The mesa appears to float above the ashlands due to heat-shimmer, creating the illusion that it has been lifted toward the sun it worships.',
+    relatedTerms: ['sundale', 'house_solvan', 'solbrand']
+  },
+  'the_ashen_escarpment': {
+    id: 'the_ashen_escarpment',
+    term: 'The Ashen Escarpment',
+    type: 'location',
+    region: 'sundale',
+    summary: 'A long, steep slope of compacted volcanic ash forming Sundale\'s natural border, dotted with Solvarn watchtowers.',
+    fullEntry: 'The Ashen Escarpment is Sundale\'s defensive wall — a miles-long ridge of compacted volcanic ash that rises sharply from the lowland approaches. Solvarn watchtowers dot the rim, their eternal signal-fires burning with heartwood resin and visible across the ashlands. The escarpment is treacherous to climb — the ash is packed hard as stone in places, but a wrong step can send a traveler sliding into glass-scarred gullies. It serves as both natural fortification and pilgrimage route for those approaching Emberspire from the lowlands.',
+    relatedTerms: ['sundale', 'house_solvan', 'dawn_vigil']
+  },
+  'cinderhoodoo': {
+    id: 'cinderhoodoo',
+    term: 'Cinderhoodoo',
+    type: 'location',
+    region: 'sundale',
+    summary: 'A cluster of fire-scorched rock spires on the ash plain, used as navigational landmarks by Thrask Emberth rangers.',
+    fullEntry: 'Cinderhoodoo is a forest of rock spires rising from the ash plain like grasping fingers — each hoodoo crowned with a cap of harder stone that protects the softer pillar beneath. Some caps have melted and re-fused into grotesque, face-like shapes that change expression depending on the angle of the volcanic light. Thrask Emberth rangers use the hoodoos as navigational landmarks and shelter from the soot-storms, and the formations are slowly being adopted as sacred sites by a growing Pyrofiend cult.',
+    relatedTerms: ['sundale', 'emberth', 'pyrofiend']
+  },
+  'ember_lagoon': {
+    id: 'ember_lagoon',
+    term: 'Ember Lagoon',
+    type: 'location',
+    region: 'sundale',
+    summary: 'Sundale\'s only port — a warm saltwater lagoon heated by volcanic vents where Emberth and Merryn traders coexist.',
+    fullEntry: 'Ember Lagoon is Sundale\'s lifeline to the outside world — the only harbor where the water does not freeze, warmed perpetually by volcanic vents beneath the seabed. The lagoon glows orange-red at night, earning it the Merryn nickname "the Boiling Door." It is a rare point of genuine cooperation between Emberth, Solvarn, and Merryn — the Emberth control the port infrastructure, the Solvarn maintain the shrine to Sol on the eastern cliff, and the Merryn operate the shipping lanes. Three cultures, one harbor, constant tension, constant profit.',
+    relatedTerms: ['sundale', 'emberth', 'house_solvan']
+  },
+
+  // ICEHEART SEA — New Locations
+  'kelpies_cove': {
+    id: 'kelpies_cove',
+    term: "Kelpie's Cove",
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A smuggler\'s inlet hidden behind ice-shoals, marked by bioluminescent lanterns.',
+    fullEntry: 'Kelpie\'s Cove is the Iceheart Sea\'s most notorious black-market port — a sheltered inlet hidden behind a wall of grinding ice-shoals that only the most skilled Merryn pilots can navigate. Named for the phantom sea-horse said to lure ships onto the rocks, the cove is where contraband from every region changes hands without questions. Drun outcasts from the Bryngloom maintain a permanent presence here, running the memory-trade alongside traditional smuggling.',
+    relatedTerms: ['iceheart-sea', 'house_mereval', 'neth']
+  },
+  'wraithsound': {
+    id: 'wraithsound',
+    term: 'Wraithsound',
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A wide, deep inlet where the echoes of drowned sailors carry for miles and the water is said to listen.',
+    fullEntry: 'Wraithsound is a place the Merryn navigate only with Myrathil guides — a wide, deep inlet perpetually shrouded in sea-mist where the echoes of the drowned carry for miles. The Myrathil Deep-Born claim the sound is alive — that it listens, remembers, and occasionally speaks in the voices of those it has swallowed. Ships that enter without a guide emerge with crews who refuse to describe what they heard, or worse — crews who speak only in the voices of the dead.',
+    relatedTerms: ['iceheart-sea', 'myrathil', 'drowned_spume']
+  },
+  'deepwell_archipelago': {
+    id: 'deepwell_archipelago',
+    term: 'Deepwell Archipelago',
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A forty-mile chain of ice-islands concealing underwater Myrathil cave-cities beneath the frozen surface.',
+    fullEntry: 'The Deepwell Archipelago is the Deep-Born Myrathil\'s hidden civilization — a chain of ice-islands stretching forty miles, each one concealing underwater cave-cities beneath its frozen surface. The Deep-Born maintain a culture entirely separate from the surface world, emerging only to trade and to conduct their Drowning Rites — rituals that surface-dwellers are not permitted to witness. The archipelago is connected by submerged tunnels that only the Myrathil can navigate.',
+    relatedTerms: ['iceheart-sea', 'myrathil']
+  },
+  'spindrift_lagoon': {
+    id: 'spindrift_lagoon',
+    term: 'Spindrift Lagoon',
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A coral-reef lagoon warmed by volcanic currents, glowing blue-green with cultivated bioluminescence.',
+    fullEntry: 'Spindrift Lagoon is the most beautiful settlement in the Iceheart Sea — a warm-water anomaly where coral survived the Deepening, sheltered by volcanic thermal dynamics. The Breakers-Born Myrathil have tended the reef for centuries, cultivating bioluminescent organisms that illuminate the entire lagoon in shades of blue-green. Merryn traders dock at the surface platforms while Myrathil artisans work in underwater markets grown from living coral. The lagoon is visible for miles across the frozen sea — a beacon of warmth and light in the endless dark.',
+    relatedTerms: ['iceheart-sea', 'myrathil', 'house_mereval']
+  },
+
+  // CRAGJAW PEAKS — New Locations
+  'deepchasm_keep': {
+    id: 'deepchasm_keep',
+    term: 'Deepchasm Keep',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'A Tessen fortress spanning a massive fissure, controlling the only reliable passage between upper peaks and lower galleries.',
+    fullEntry: 'Deepchasm Keep is a feat of Tessen engineering — a fortress built across a massive mountain fissure, its foundations anchored into both cliff walls with iron stakes driven into living rock. The only crossing is a bridge of Groven-calcified bone that groans underfoot. The keep controls the primary passage between the upper peaks and the lower mining galleries, making it both a military installation and a toll-collection point of enormous strategic value.',
+    relatedTerms: ['cragjaw-peaks', 'house_tesshan', 'groven']
+  },
+  'the_great_gorge': {
+    id: 'the_great_gorge',
+    term: 'The Great Gorge',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'A mile-wide canyon bridged by seven calcified bone-spans grown from willing Groven ancestors.',
+    fullEntry: 'The Great Gorge is the Cragjaw Peaks\' primary thoroughfare — a mile-wide, bottomless tear in the mountain range bridged by seven calcified bone-spans, each grown from the skeleton of a willing Groven ancestor. The gorge is the Groven\'s greatest leverage: every passage is tolled, every toll is negotiated, and every negotiation favors the Groven. The Bone-Weavers who maintain the spans are among the most respected — and most feared — people in the Peaks.',
+    relatedTerms: ['cragjaw-peaks', 'groven', 'vat_breakers_guild']
+  },
+  'gearworks_gulch': {
+    id: 'gearworks_gulch',
+    term: 'Gearworks Gulch',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'A Fexrick industrial settlement powered by geothermal vents, producing the finest clockwork in the known world.',
+    fullEntry: 'Gearworks Gulch is the industrial heart of the Cragjaw Peaks — a narrow ravine packed with geothermal-powered machinery that runs day and night without pause. The Fexrick artisans here produce the finest clockwork mechanisms, automaton components, and refined metals in the known world. The Chief Artificer governs through competitive exhibition, and the gulch\'s atmosphere of feverish invention attracts the most brilliant — and most unstable — engineers from every region.',
+    relatedTerms: ['cragjaw-peaks', 'fexrick', 'house_tesshan']
+  },
+  'frostmaw_massif': {
+    id: 'frostmaw_massif',
+    term: 'Frostmaw Massif',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'The compact mountain group surrounding Frostmaw Holdfast, perpetually shrouded in the Tesshan blizzard.',
+    fullEntry: 'The Frostmaw Massif is a cluster of peaks so dense they form a single, nearly impregnable natural fortress — the mountain stronghold that House Tesshan traded visibility to protect. The massif is perpetually shrouded in the enchanted blizzard, and navigation without Groven bone-compasses or intimate knowledge of the ice-tunnels is suicide. It is both the most defensible and most isolated position in the Cragjaw Peaks.',
+    relatedTerms: ['cragjaw-peaks', 'house_tesshan', 'frostmaw_holdfast']
+  },
+
+  // SUNDRIFT VALE — New Locations
+  'starfall_vale': {
+    id: 'starfall_vale',
+    term: 'Starfall Vale',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'A deep valley carpeted with crystalline shards of trapped starlight — the impact site of Sol\'s shattered celestial court.',
+    fullEntry: 'Starfall Vale is the most sacred site in the Sundrift Vale — a crater where the physical residue of Sol\'s shattered celestial court impacted the earth during the Breach. Thousands of crystalline shards carpet the valley floor, glowing with trapped starlight and producing harmonic tones that the Sylen Astril call the Memory of Sol. The vale is a place of pilgrimage for every Astril caste and a source of prophecy through the Star-Oracle who tends the First Shard.',
+    relatedTerms: ['sundrift-vale', 'astril', 'the_breach']
+  },
+  'the_unlit_knoll': {
+    id: 'the_unlit_knoll',
+    term: 'The Unlit Knoll',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'A small hill where Unlit Astril hold secret judgments — a place where fire refuses to burn and no star-glow can approach.',
+    fullEntry: 'The Unlit Knoll is the Unlit Veil\'s most closely guarded site — a small, rounded hill where fire refuses to burn and no light persists. The Unlit have shaped this quality into a tool: their secret judgments, dead-drops, and intelligence operations all center on a place that Astril with constellation-spirits in their blood physically cannot approach. It is a hole in the light of the world, and the Unlit Veil has made it their headquarters.',
+    relatedTerms: ['sundrift-vale', 'astril', 'unlit_veil']
+  },
+  'ancestor_wold': {
+    id: 'ancestor_wold',
+    term: 'Ancestor Wold',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'High, open ground where the Ordan dead are honored in vast earthen barrows that hum with ancestral resonance.',
+    fullEntry: 'The Ancestor Wold is the spiritual anchor of the Ordan people — high, open ground where twenty generations of chieftains lie buried beneath earthen barrows that hum with a constant, resonant tone. The hum guides Ordan herders across the starless steppe and marks the Wold as sacred ground where silence is enforced by custom stronger than law. To speak above a whisper here is to invite the wrath of every ancestor buried in the mounds.',
+    relatedTerms: ['sundrift-vale', 'house_ordavan']
+  },
+  'morrens_bogpost': {
+    id: 'morrens_bogpost',
+    term: "Morren's Bogpost",
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'A Morren trading outpost at the forest-steppe edge, the primary exchange point between Bryngloom and Sundrift goods.',
+    fullEntry: 'Morren\'s Bogpost is the primary trade gateway between the Bryngloom Forest and the Sundrift Vale — a cluster of squat peat-stone buildings that smell perpetually of bog-water. Morren debt-brokers here exchange Bryngloom goods (fungal lights, memory-glass, bog-mushroom reagents) for Ordan wool and hide. The credit terms are always generous. The interest always compounds. The Bogpost is the Morren\'s most successful financial outpost outside the Bryngloom.',
+    relatedTerms: ['sundrift-vale', 'bryngloom-forest', 'neth']
+  },
+
+  // BRYNGLOOM FOREST — New Locations
+  'widows_quagmire': {
+    id: 'widows_quagmire',
+    term: "Widow's Quagmire",
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A treacherous bog where the ground liquefies without warning, named for the Morren widows who walked in to join their debt-dead husbands.',
+    fullEntry: 'Widow\'s Quagmire is the Bryngloom Forest\'s most lethal terrain — a stretch of bog where the ground has no solid bottom and the peat is active, digesting anything organic that sinks into it. The quagmire earned its name from the Morren widows who, according to legend, walked into the bog to join their husbands whose debts had killed them. Their hands are said to still clutch unsigned contract-fragments, preserved forever in the acidic peat, reaching upward from depths that no one has survived measuring.',
+    relatedTerms: ['bryngloom-forest', 'debt_revenant', 'cycle_eater']
+  },
+  'black_fen': {
+    id: 'black_fen',
+    term: 'Black Fen',
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'An acidic fen where nothing grows — the Neth\'s dumping ground for voided contracts and legally-annihilated individuals.',
+    fullEntry: 'The Black Fen is the Neth contract court\'s final solution — a fen of such extreme acidity that bone dissolves within hours and nothing grows, nothing lives, and nothing is remembered. Failed contracts, dissolved agreements, and legally-voided individuals are cast into its depths. The Neth call it the Final Clause. It is the only place in the Bryngloom where the Root-Veil has no presence and the Keeper of the Last Threshold has no jurisdiction — a legal void that serves as both garbage dump and ultimate threat.',
+    relatedTerms: ['bryngloom-forest', 'neth', 'keeper_of_the_last_threshold']
+  },
+  'vel_keth_bayou': {
+    id: 'vel_keth_bayou',
+    term: 'Vel-Keth Bayou',
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A marshy channel flowing against the natural gradient, named in the Neth tongue as "the water that remembers."',
+    fullEntry: 'Vel-Keth Bayou — "the water that remembers" in the Neth tongue — is a marshy channel that flows uphill, defying physics in ways the Neth insist are perfectly legal under the First Contract. Memory-glass deposits line the banks, glowing faintly with recorded thoughts of the long-dead. The Kessen weavers who tend the bayou harvest the memory-glass for Atropolis\'s contract-archives and sell the excess to Thalren scribes desperate for anything that preserves information against the fog.',
+    relatedTerms: ['bryngloom-forest', 'neth', 'atropolis']
+  },
+  'aran_glen': {
+    id: 'aran_glen',
+    term: 'Aran-Glen',
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A Kessen Neth settlement where every structure is grown from living ironwood, governed by a steward bound to the grove\'s health.',
+    fullEntry: 'Aran-Glen is proof that architecture can be alive — a Kessen Neth settlement where every wall, arch, and roof has been coaxed from living ironwood over centuries of patient horticulture. The Grove-Steward who governs the glen is legally bound to its health: if the grove sickens, their authority voids automatically. It is a governance system designed to prevent corruption through pure self-interest, and it has produced one of the most harmonious settlements in the Bryngloom.',
+    relatedTerms: ['bryngloom-forest', 'neth', 'atropolis']
+  },
+  'hunters_gully': {
+    id: 'hunters_gully',
+    term: "Hunter's Gully",
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A water-worn ravine used by Vreken for coordinated ambush hunts, illuminated by bioluminescent kill-zone markers.',
+    fullEntry: 'Hunter\'s Gully is Marked Vreken territory — a narrow, water-worn ravine where the walls force prey into single-file and the Vreken drop from above in coordinated strikes. The gully floor is carpeted with bioluminescent moss that the Vreken have cultivated in distinct brightness patterns to mark their kill-zones. Trespassers are considered sport, and the Vreken have never lost a hunt in their home territory.',
+    relatedTerms: ['bryngloom-forest', 'vreken']
+  },
+  'fangmere_grove': {
+    id: 'fangmere_grove',
+    term: 'Fangmere Grove',
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A sacred Vreken wood where blood-rites and ancestral communion ceremonies are held in preternatural silence.',
+    fullEntry: 'Fangmere Grove is the Vreken\'s most sacred site outside the Sunken Spire — a perfect circle of ironwood trees whose roots intertwine with Vreken ancestral bones. The grove is preternaturally quiet; even the ambient bioluminescence dims here, as if the light itself shows respect. The Clean Vreken hold their blood-rites and naming ceremonies here, and the Crypt-Council convenes beneath the central tree when matters of ancestral importance demand judgment.',
+    relatedTerms: ['bryngloom-forest', 'vreken', 'sunken_spire']
+  },
+
+  // FROSTWOOD REACH
+  'the_shallows': {
+    id: 'the_shallows',
+    term: 'The Shallows',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A labyrinth of mist-veiled ravines and marshy pine stands surrounding Greymark Keep, where ironwood roots drift when the mists thicken.',
+    fullEntry: 'The Shallows are the first test of any traveler entering the Frostwood Reach — a tangle of shallow ravines and silt-roads where the fog presses close and rusted lantern-posts mark paths that may no longer exist. Mist-Sentinels patrol the margins, but even they rely on ironwood root-patterns to navigate, as the roots themselves seem to shift when no one is watching. Gambrels and Grefs hunt here, drawn by the desperation of lost travelers and the oaths they make to find their way out.',
+    relatedTerms: ['frostwood-reach', 'greymark_keep', 'gambrel', 'gref']
+  },
+  'scribes_tower': {
+    id: 'scribes_tower',
+    term: "Scribes' Tower",
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A vertical archive built inside the hollow shell of a dead ironwood, where archivists copy records before the fog erases them.',
+    fullEntry: "The Scribes' Tower is the Frostwood Reach's bulwark against forgetting — a hollowed petrified ironwood converted into a vertical cathedral of parchment and ink. Archivists work in silent shifts, copying maps and genealogies onto calfskin vellum in races against the fog that will eventually consume their memories of what they have written. The Tower connects directly to the Ledger Halls below, where older records lie scattered among petrified roots and the silent echoes of clerks who forgot their own names.",
+    relatedTerms: ['frostwood-reach', 'greymark_keep', 'ledger_halls', 'house_thalreth']
+  },
+  'ledger_halls': {
+    id: 'ledger_halls',
+    term: 'Ledger Halls',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A partially collapsed underground archive from the first century of the Dimming, where chained books of records lie among petrified roots.',
+    fullEntry: 'The Ledger Halls are a tomb of knowledge — an underground archive dating to the first century after the sun\'s death, now partially collapsed and shrouded in the same fog that plagues the surface above. Chained volumes of records lie scattered among the petrified roots, their pages stiff with cold and damp. The Forgotten Archivists who guard the deeper chambers have been here so long that they have forgotten their own names, knowing only the records they tend and the importance of preserving them.',
+    relatedTerms: ['frostwood-reach', 'scribes_tower', 'ironwood_heart', 'gref']
+  },
+  'ironwood_heart': {
+    id: 'ironwood_heart',
+    term: 'Ironwood Heart',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'The deepest, darkest grove of the Frostwood Reach, where a titanic glowing white tree stands at the center of a stagnant mist-lake.',
+    fullEntry: 'The Ironwood Heart is the deepest, most dangerous place in the Frostwood Reach — a grove so dense that the mist forms a heavy, stagnant lake on the forest floor and the canopy admits no light whatsoever. At its center stands a titanic white tree whose sap remains warm eight centuries after every other ironwood petrified, a living beacon that draws both desperate survivalists and the horrific predators that hunt them. The Unshorn Briaran claim the Heart as sacred ground, tending the white tree with thorn-blood rituals that predate the Fog Compact.',
+    relatedTerms: ['frostwood-reach', 'briaran', 'gambrel', 'the_shallows']
+  },
+
+  // NORDHALLA
+  'bloodhammer_sump': {
+    id: 'bloodhammer_sump',
+    term: 'Bloodhammer Sump',
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A deep volcanic crater where geothermal heat powers the massive iron smelters that forge the Skalds\' runic cold-iron axes.',
+    fullEntry: 'The Bloodhammer Sump is the industrial forge-heart of Nordhalla — a deep, steam-venting volcanic crater ringed by towering walls of ice that channel the geothermal heat into smelters of staggering size. The Bloodhammer Clan of Rime-Born work the forges here, their frost-touched hands immune to burns that would kill a human smith, forging runic cold-iron axes that hold their edge in temperatures that would shatter ordinary steel. The contrast between the glacial walls and the volcanic floor produces a perpetual steam-storm that the Skald have learned to read as a form of divination.',
+    relatedTerms: ['nordhalla', 'rime_born', 'fjord_gate', 'house_skalvyr']
+  },
+  'fjord_gate': {
+    id: 'fjord_gate',
+    term: 'Fjord-Gate',
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A massive coastal harbor inside a black fjord, guarded by towering stone doors that seal against sea-storms.',
+    fullEntry: 'Fjord-Gate is Nordhalla\'s primary harbor and the greatest engineering achievement of House Skalvyr — a deep coastal fjord sealed by towering stone doors that slide shut to block the worst of the sea-storms. It is the gateway through which all northern trade flows, connecting Nordhalla to the Iceheart Sea and the wider world. The Sea-Guard who patrol the harbor are the only Skald who regularly interact with foreigners, and they have developed a culture distinct from the insular fjord-keepers of the interior.',
+    relatedTerms: ['nordhalla', 'house_skalvyr', 'frozen_archive', 'bloodhammer_sump']
+  },
+  'hunger_glaciers': {
+    id: 'hunger_glaciers',
+    term: 'Hunger Glaciers',
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A vast, shifting expanse of pure whiteout and deadly crevasses where the ice moves with predatory intent.',
+    fullEntry: 'The Hunger Glaciers are the killing ground of Nordhalla — a vast, shifting expanse of pure whiteout where the wind carries a predatory howl and the crevasses open and close with the grinding of the ice sheets. Travelers swear the glaciers move with intention, herding caravans toward dead ends and freezing them into permanent monuments to their own hubris. The Endurance Purists who train here consider survival a spiritual practice, deliberately stranding themselves for weeks to prove their worth to the Rime-Born ancestors.',
+    relatedTerms: ['nordhalla', 'house_skalvyr', 'stel', 'rimors_hearth']
+  },
+  'rimors_hearth': {
+    id: 'rimors_hearth',
+    term: "Rimor's Hearth",
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'The volcanic ruins of a great mountain keep buried by a sudden glacier advance, still warmed by a few stubborn steam vents.',
+    fullEntry: 'Rimor\'s Hearth is a monument to the glacier\'s indifference — a great mountain keep that was buried in a single season when the Hunger Glaciers surged during the first century of the Dimming. A few steam vents still pierce the ice, keeping patches of the black basalt ruins warm enough to shelter freezing travelers and the smugglers who prey on them. Fjord-Riders use the Hearth as a waystation on the dangerous route between the Frozen Archive and the eastern approaches.',
+    relatedTerms: ['nordhalla', 'frozen_archive', 'hunger_glaciers', 'stel']
+  },
+  'vesperas_perch': {
+    id: 'vesperas_perch',
+    term: "Vespera's Perch",
+    type: 'location',
+    region: 'nordhalla',
+    summary: 'A Corvani cliff-settlement named for the matriarch Vespera, reachable only by rope-ladder and gliding on fixed lines.',
+    fullEntry: 'Vespera\'s Perch is the largest permanent Corvani settlement in Nordhalla — a cluster of dwellings carved into the high caves of the eastern mountains, named for the matriarch who led her flock here during the Glacier Bargain. The settlement is inaccessible from the ground, reachable only by rope-ladders and fixed gliding lines that the Corvani navigate with avian grace. The Skald tolerate the Perch because the Corvani trade raven-feather cloaks and storm-predictions of uncanny accuracy, reading prophecies in the flight patterns of the ravens that circle the mountain.',
+    relatedTerms: ['nordhalla', 'corvani', 'rooks_promontory', 'house_skalvyr']
+  },
+
+  // CRAGJAW PEAKS
+  'the_spans': {
+    id: 'the_spans',
+    term: 'The Spans',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'A terrifying network of arching bone bridges linking the peaks above the blizzard-clouds, grown from Groven ancestors\' calcified skeletons.',
+    fullEntry: 'The Spans are the Cragjaw Peaks\' only thoroughfares above the whiteout — a network of arching bridges grown from the calcified skeletons of willing Groven dead, spanning bottomless chasms where the blizzard rages below. Each span represents a Groven ancestor who chose to give their bones to connect the peaks, a sacrifice that the Groven honor with eternal maintenance and the Tessen Scouts cross with white-knuckled terror. Chasm-Stalkers nest in the supports, patient and hungry.',
+    relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'groven', 'ancestor_gaps']
+  },
+  'ancestor_gaps': {
+    id: 'ancestor_gaps',
+    term: 'The Ancestor-Gaps',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'An ancient vertical burial valley where the Groven grow their bone-spans, its walls honeycombed with thousands of burial niches.',
+    fullEntry: 'The Ancestor-Gaps are the most sacred site in Groven civilization — a vertical valley where the rock walls are honeycombed with thousands of burial niches, each one containing a Groven ancestor whose bones may one day be called upon to grow a new span. The air hums with a deep, constant vibration as the mountain winds pass through the ancestral bones, producing a tone the Bone-Weavers interpret as the voices of the dead. It is here that new spans are germinated, the bones of the recently deceased planted in the cliff face to begin their centuries-long calcification.',
+    relatedTerms: ['cragjaw-peaks', 'groven', 'the_spans', 'vat_breakers_guild']
+  },
+  'sump_galleries': {
+    id: 'sump_galleries',
+    term: 'Sump Galleries',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'Toxic mining shafts beneath the mountain peaks where leather-masked miners extract sulfur and coal-iron amidst volcanic gases.',
+    fullEntry: 'The Sump Galleries are the poisoned underbelly of the Cragjaw Peaks — the lower mining shafts where Tessen miners in leather respirators extract sulfur and coal-iron from seams that bleed volcanic gas. The air is warm but heavy with toxins, and the shadows hide scurrying, multi-legged horrors that the Fexrick Scavengers harvest for alchemical components. The galleries connect to both Frostmaw Holdfast above and the Lost Brood Vats below, making them the most dangerous transit corridor in the Peaks.',
+    relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'fexrick', 'scrab']
+  },
+  'lost_brood_vats': {
+    id: 'lost_brood_vats',
+    term: 'Lost Brood Vats',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'Deep subterranean vaults of cracked stone chambers once used to cultivate biological life, now guarded by feral Wyrd-horrors.',
+    fullEntry: 'The Lost Brood Vats are the Deep Alchemists\' original laboratory — a deep, subterranean vault of cracked stone chambers where an unknown race once cultivated biological life in petrified egg-casings and strange runic tubing. The Feral Fexrick who have claimed the upper chambers are descended from the Alchemists\' servitors, warped by centuries of exposure into something only nominally Fexrick. The deeper chambers remain sealed, and the scraping sounds that emanate from behind the sealed doors suggest that the Alchemists\' oldest experiments may still be growing.',
+    relatedTerms: ['cragjaw-peaks', 'deep_alchemists', 'groven', 'scrab']
+  },
+  'iron_ravine': {
+    id: 'iron_ravine',
+    term: 'Iron Ravine',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'A narrow, ore-rich gorge streaked red and black, where mine-shafts honeycomb the cliff faces above precarious rope-bridges.',
+    fullEntry: 'The Iron Ravine is the Cragjaw Peaks\' primary source of cold-iron — a narrow gorge where volcanic magnetite stains the walls in streaks of red and black and the air is thick with metallic dust. Mine-shafts honeycomb the cliff faces, connected by wooden platforms and rope-bridges that sway in the constant wind. The Sump-Miners who work the ravine are a hard people, accustomed to cave-ins, toxic gas, and the Scrabs that nest in the deepest seams.',
+    relatedTerms: ['cragjaw-peaks', 'house_tesshan', 'deepchasm_keep', 'scrab']
+  },
+  'stags_rest_moraine': {
+    id: 'stags_rest_moraine',
+    term: "Stag's Rest Moraine",
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'A massive glacial deposit shaped like a sleeping stag, sacred to the Groven, where every stone surface is carved with lineage petroglyphs.',
+    fullEntry: 'Stag\'s Rest Moraine is the Groven\'s most sacred gathering ground — a massive deposit of shattered rock and ancient ice naturally shaped like a sleeping stag, a formation the Groven consider a message from the mountain itself. Every exposed surface of stone is carved with petroglyphs tracing Groven lineage back to the Vat-Breakers\' revolt, and the Bone-Weavers hold their most important ceremonies here, invoking the ancestors whose bones form the spans that bind the Peaks together.',
+    relatedTerms: ['cragjaw-peaks', 'groven', 'the_great_gorge', 'vat_breakers_guild']
+  },
+  'sump_rift': {
+    id: 'sump_rift',
+    term: 'Sump Rift',
+    type: 'location',
+    region: 'cragjaw-peaks',
+    summary: 'A thousand-foot underground fissure slick with chemical runoff, where strange fungal colonies feed on forge-slag and mechanical parts.',
+    fullEntry: 'The Sump Rift is the Cragjaw Peaks\' abyss — an underground fissure that descends for thousands of feet, its walls slick with chemical runoff and industrial residue from centuries of Fexrick industry. Fungal colonies thrive in the depths, feeding on forge-slag and corroded machinery in an ecosystem that exists nowhere else in the known world. The Fexrick Scavengers who dare the rift\'s upper reaches return with materials of extraordinary alchemical potential — and stories of things growing in the dark that have learned to eat metal.',
+    relatedTerms: ['cragjaw-peaks', 'fexrick', 'sump_galleries', 'gearworks_gulch']
+  },
+
+  // SUNDALE
+  'great_forge': {
+    id: 'great_forge',
+    term: 'The Great Forge',
+    type: 'location',
+    region: 'sundale',
+    summary: 'A sprawling volcanic cavern city powered by the world\'s magma-core, producing refined cold-iron for all seven regions.',
+    fullEntry: 'The Great Forge is Sundale\'s industrial heart and the largest smelting operation in the known world — a sprawling city of black iron and basalt built inside a volcanic cavern warmed by a branch of the world\'s magma-core. The Emberth forge-masters who tend the geothermal bellows produce refined cold-iron in quantities that supply every region on the continent, and the city\'s population of smiths, miners, and merchants makes it second only to the Harath-Vault in Sundale importance. The heat is oppressive, the noise is constant, and the forges never sleep.',
+    relatedTerms: ['sundale', 'harath_vault', 'emberth', 'house_solvan']
+  },
+  'emberspire_caldera': {
+    id: 'emberspire_caldera',
+    term: 'Emberspire Caldera',
+    type: 'location',
+    region: 'sundale',
+    summary: 'The active, soot-choked volcanic mouth of Emberspire, where ancient fire-weaving entities dwell among the molten glass.',
+    fullEntry: 'The Emberspire Caldera is the screaming mouth of Sundale\'s world-heart volcano — an active, soot-choked caldera that continuously vents ash and molten glass into the dark sky. The heat is lethal to all but the most hardened Emberth, and the volcanic vents are home to fire-weaving elemental entities older than the Dimming itself. Pyrofiend cultists make pilgrimages to the caldera\'s rim to commune with the Cinder-Fiends that nest in the molten rock, returning with scorched eyes and prophecies of burning.',
+    relatedTerms: ['sundale', 'emberspire', 'harath_vault', 'pyrofiend']
+  },
+  'basalt_shyr': {
+    id: 'basalt_shyr',
+    term: 'Basalt Shyr',
+    type: 'location',
+    region: 'sundale',
+    summary: 'A trade outpost atop cooling basalt columns on the Sundale border, the primary gateway between the ashlands and the lowlands.',
+    fullEntry: 'Basalt Shyr is Sundale\'s window to the outside world — a trade outpost built atop a formation of cooling basalt columns where the volcanic region meets the lowland approaches. Kessen Merchants and house Solvan factors exchange Sundale\'s refined metals and volcanic coal for Bryngloom fungal-lights, timber, and the rare goods that the frozen world produces in diminishing quantities. The outpost is the closest thing to neutral ground in Sundale, a place where the geothermal heat yields to ordinary cold and the rules of commerce outweigh the passions of sun-worship.',
+    relatedTerms: ['sundale', 'house_solvan', 'great_forge', 'ember_lagoon']
+  },
+  'cinder_badlands': {
+    id: 'cinder_badlands',
+    term: 'Cinder Badlands',
+    type: 'location',
+    region: 'sundale',
+    summary: 'A vast desert of black obsidian sands and jagged glass spires where toxic soot storms strip the flesh from the unwary.',
+    fullEntry: 'The Cinder Badlands are Sundale\'s killing ground — a vast, windswept desert of black obsidian sands and jagged glass spires where the wind carries toxic soot and travelers must wrap themselves in heavy leather or risk having their eyes gouged by flying glass-shards. The Thrask Emberth rangers who patrol this wasteland are among the hardiest people in the known world, navigating by thermal vent patterns and the positions of the hoodoo formations that serve as the only landmarks in an ocean of black sand.',
+    relatedTerms: ['sundale', 'emberspire_caldera', 'emberth', 'basalt_shyr']
+  },
+  'vulkars_karst': {
+    id: 'vulkars_karst',
+    term: "Vulkar's Karst",
+    type: 'location',
+    region: 'sundale',
+    summary: 'A honeycombed limestone landscape riddled with underground rivers and sinkholes, heated to boiling by geothermal vents.',
+    fullEntry: 'Vulkar\'s Karst is a geological impossibility made real — a honeycombed limestone landscape riddled with underground rivers heated to boiling by geothermal vents, depositing vivid orange and red crystals along every cave wall. Named for the Emberth forge-master who first mapped its depths, the karst connects to the Harath-Vault through miles of submerged passages that only the Korr Emberth dare to navigate. The mineral-rich waters produce crystals of extraordinary alchemical value, but the combination of boiling water, unstable limestone, and volcanic gas makes every expedition a gamble with death.',
+    relatedTerms: ['sundale', 'harath_vault', 'emberth', 'cinderhoodoo']
+  },
+  'slag_gulch': {
+    id: 'slag_gulch',
+    term: 'Slag Gulch',
+    type: 'location',
+    region: 'sundale',
+    summary: 'A narrow ravine settlement built on forge waste, where Emberth and Groven workers salvage metals from industrial debris.',
+    fullEntry: 'Slag Gulch is Sundale\'s monument to the principle that nothing useful should be wasted — a permanent foundry town built inside a narrow ravine filled with centuries of forge waste and industrial debris. Emberth and Groven workers process the slag for salvageable metals in operations that are hot, loud, and acrid enough to strip paint from iron. The inhabitants have developed a unique patois mixing Sundari and Terran, and the Gulch produces a surprising volume of refined secondary metals that supplement the Great Forge\'s output.',
+    relatedTerms: ['sundale', 'great_forge', 'emberth', 'groven']
+  },
+  'the_cinder_strait': {
+    id: 'the_cinder_strait',
+    term: 'The Cinder Strait',
+    type: 'location',
+    region: 'sundale',
+    summary: 'A narrow, boiling water passage between volcanic islands that halves the journey to Merrowport but has claimed more ships than any other route.',
+    fullEntry: 'The Cinder Strait is the most dangerous shipping lane in the known world — a narrow passage between two volcanic islands where the water steams perpetually and the cliffs weep molten rock during peak volcanic cycles. Merryn sailors navigate the strait at tremendous risk, as the passage halves the journey to Merrowport and the profit justifies the danger for those who survive. The strait is home to Cinder-Fiends that surface during eruptions, and the wreckage of a hundred ships litters the boiling floor beneath the waves.',
+    relatedTerms: ['sundale', 'emberspire_caldera', 'slag_gulch', 'merrowport']
+  },
+
+  // ICEHEART SEA
+  'treakous_rift': {
+    id: 'treakous_rift',
+    term: 'Treakous Oceanic Rift',
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A bottomless, freezing ocean rift where city-sized glaciers drift above ancient, tentacled horrors sleeping in the black depths.',
+    fullEntry: 'The Treakous Oceanic Rift is the deepest known point in the Iceheart Sea — a bottomless, freezing chasm where the water runs black and silent beneath city-sized glaciers. The Myrathil Deep-Stalkers who probe its edges speak of ancient, multi-tentacled horrors coiled in the sub-zero depths, entities that predate the Dimming and regard the ice above as a temporary inconvenience. The currents are violent and unpredictable, capable of dragging a fully-rigged vessel into the abyss in seconds.',
+    relatedTerms: ['iceheart-sea', 'myrathil', 'ironjaw_port', 'drowned_spume']
+  },
+  'first_shore': {
+    id: 'first_shore',
+    term: 'First Shore',
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'The ancient coastal ruins where House Mereval\'s ancestors first landed eight centuries ago, now encrusted in ice and guarded by standing dead.',
+    fullEntry: 'First Shore is the most historically significant — and most haunted — site in the Iceheart Sea: the coastal ruins where the human ancestors of House Mereval first landed eight centuries ago. The stone watchtowers are now encrusted with heavy ice and barnacles, and the skeletal archers who once manned them still stand at their posts, frozen in attitudes of vigilance that the Drowned Revenants who haunt the harbor find amusing. No one excavates here. The dead are still on duty.',
+    relatedTerms: ['iceheart-sea', 'house_mereval', 'treakous_rift', 'drowned_spume']
+  },
+  'gale_storm_shallows': {
+    id: 'gale_storm_shallows',
+    term: 'Gale-Storm Shallows',
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A treacherous expanse of shallow reefs and perpetual storm-cycles navigated only by bioluminescent moss and ink-charts tattooed on skin.',
+    fullEntry: 'The Gale-Storm Shallows are the Iceheart Sea\'s proving ground — a treacherous expanse of shallow reefs, jagged ice-crags, and perpetual storm-cycles where the winds can tear sails to ribbons and the reefs can gut a hull in seconds. Merryn Pirates use the shallows as both hunting ground and refuge, navigating by the soft glow of bioluminescent ocean moss and the ink-charts tattooed on their skin. The storms here never fully cease; they only vary in intensity from dangerous to catastrophic.',
+    relatedTerms: ['iceheart-sea', 'merrowport', 'house_mereval', 'first_shore']
+  },
+  'the_saltmaw_estuary': {
+    id: 'the_saltmaw_estuary',
+    term: 'The Saltmaw Estuary',
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A treacherous mixing of glacial river and frozen sea where Merryn whalers and Myrathil divers compete violently for territory.',
+    fullEntry: 'The Saltmaw Estuary is where Nordhalla\'s glacial rivers meet the Iceheart Sea — a churning mix of fresh and salt water choked with ice-floes and rich with seal-hunting grounds and rare thermal minerals washed down from the mountains. Merryn whalers and Myrathil River-Fed divers compete violently for territory, their territorial disputes occasionally escalating into armed skirmishes that House Mereval pretends not to notice. The estuary\'s name comes from the way the glacial water bites at anything that enters it, salt and cold combining into a solution that numbs flesh in seconds.',
+    relatedTerms: ['iceheart-sea', 'house_mereval', 'myrathil', 'ironjaw_port']
+  },
+  'the_shivering_bight': {
+    id: 'the_shivering_bight',
+    term: 'The Shivering Bight',
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A wide, shallow bay of constant volcanic tremors where ships must drift with engines running, hoping the quakes do not worsen.',
+    fullEntry: 'The Shivering Bight is the Iceheart Sea\'s most geologically unstable region — a wide, shallow bay where unstable volcanic activity beneath the seabed produces constant tremors that make anchoring impossible. The bight is rich in thermal vents and the exotic organisms that feed on them, drawing Merryn Cartographers and Myrathil divers despite the danger. Ships must drift through with engines running, crews watching the water for the sudden discoloration that precedes a major eruption.',
+    relatedTerms: ['iceheart-sea', 'gale_storm_shallows', 'merrowport', 'myrathil']
+  },
+  'skalds_longport': {
+    id: 'skalds_longport',
+    term: "Skald's Longport",
+    type: 'location',
+    region: 'iceheart-sea',
+    summary: 'A Norse-style harbor on the northern coast where Skald longships trade cold-iron and whale products for Merryn salt-fish and Myrathil coral.',
+    fullEntry: 'Skald\'s Longport is the cultural bridge between Nordhalla and the Iceheart Sea — a black basalt harbor built in the Skald style, with dragon-prow longhouses that terrify the local Merryn and impress the Myrathil in equal measure. The Skald traders who dock here bring cold-iron, glacier ice, and whale products from the north; they return with salt-fish, Myrathil coral, and news from the wider world. The port is peaceful by Iceheart standards, protected by a natural breakwater of black stone that the Skald have reinforced with iron stakes.',
+    relatedTerms: ['iceheart-sea', 'nordhalla', 'ironjaw_port', 'the_saltmaw_estuary']
+  },
+
+  // SUNDRIFT VALE
+  'mound_camps': {
+    id: 'mound_camps',
+    term: 'Mound-Camps',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'A sprawling seasonal settlement of wooly-yurts around the great grass mounds, where nomadic throat-singers trade under the starless sky.',
+    fullEntry: 'The Mound-Camps are the Sundrift Vale\'s commercial heartbeat — a sprawling, seasonal settlement of heavy wooly-yurts that grows around the base of the great grass mounds every summer when the nomadic clans converge to trade. Ordan throat-singers exchange wool, dried meat, and memory-beads for cold-iron tools and salt, while Astril Outcast Guilds hawk constellation-readings and Lien-crystal trinkets. The camps disassemble completely when the herds move on, leaving no trace but trampled grass and the faint hum of the mounds beneath.',
+    relatedTerms: ['sundrift-vale', 'synod_hold', 'house_ordavan', 'grass_tundra']
+  },
+  'ancestor_mounds': {
+    id: 'ancestor_mounds',
+    term: 'Ancestor Mounds',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'A vast network of grass-covered earthen barrows holding twenty generations of Ordan chieftains, emitting a continuous guiding hum.',
+    fullEntry: 'The Ancestor Mounds are the Sundrift Vale\'s most sacred and practical landmark — a vast network of grass-covered earthen barrows containing the preserved remains of twenty generations of Ordan chieftains, each mound emitting a low, continuous hum at a unique frequency. The Mound-Keepers who tend the barrows maintain that the hum is the ancestors still speaking, guiding lost travelers through the starless steppe and warning of danger through changes in pitch and rhythm. Astril Sylen make pilgrimages here to harmonize with the ancestral tones, seeking glimpses of the constellation-spirits that fell during the Breach.',
+    relatedTerms: ['sundrift-vale', 'house_ordavan', 'synod_hold', 'astril']
+  },
+  'grass_tundra': {
+    id: 'grass_tundra',
+    term: 'Grass Tundra Steppe',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'An endless, wind-swept plain of grey-green grass beneath a starless sky, home to massive woolly herds and the hunting shadows of the Hungry Child.',
+    fullEntry: 'The Grass Tundra Steppe is the Sundrift Vale\'s vast, featureless interior — an endless plain of tough grey-green grass that grows waist-high even without sunlight, stretching beneath a sky empty of stars, constellations, or any navigable feature. Ordan Hunters stalk the woolly herds that graze here, but even they give wide berth to the sudden, hunting shadows of the Hungry Child, the Wyrd-creature that the steppe clans believe is the embodiment of starvation itself.',
+    relatedTerms: ['sundrift-vale', 'house_ordavan', 'mound_camps', 'hungry_child']
+  },
+  'lien_stalked_grazes': {
+    id: 'lien_stalked_grazes',
+    term: 'Lien-Stalked Grazes',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'A region where glowing crystal-infused Lien-stalks replace ordinary grass, attracting mutated beasts and crystal-skinned Astril scavengers.',
+    fullEntry: 'The Lien-Stalked Grazes are the Sundrift Vale\'s most alien landscape — a region where the ordinary steppe grass has been replaced by glowing, crystal-infused Lien-stalks that make the ground shimmer with trapped starlight. The soil here is extraordinarily fertile, but the crystalline grass makes grazing dangerous for ordinary herds, attracting instead mutated beasts and the Muren Astril who harvest the Lien-crystals for their beacon-fires. The Hungry Child has been sighted here more frequently than anywhere else on the steppe, drawn by the concentrated starlight.',
+    relatedTerms: ['sundrift-vale', 'astril', 'grass_tundra', 'hungry_child']
+  },
+  'kumis_downs': {
+    id: 'kumis_downs',
+    term: 'Kumis Downs',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'Rolling hills of pale grass where Ordan mares produce the fermented mare\'s milk that is the steppe\'s sacred drink and primary trade good.',
+    fullEntry: 'The Kumis Downs are the gentlest terrain in the Sundrift Vale — rolling hills of pale grass where Ordan mares graze in vast herds, producing the fermented mare\'s milk that serves as the steppe\'s sacred drink, primary trade good, and ceremonial offering to the ancestral mounds. Ordan riders guard the herds with intimate knowledge of every hillock, and their throat-singing carries for miles across the open ground. The downs are where the Ordan clan-meets are held, where migration routes are negotiated, and where bloodline disputes are settled before they can fester into war.',
+    relatedTerms: ['sundrift-vale', 'house_ordavan', 'grass_tundra', 'the_long_steppe']
+  },
+  'the_long_steppe': {
+    id: 'the_long_steppe',
+    term: 'The Long Steppe',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'The vast central grasslands stretching horizon to horizon, navigated by the unique hum of ancestral burial mounds.',
+    fullEntry: 'The Long Steppe is the Sundrift Vale\'s spine — the vast, featureless central grasslands that stretch from horizon to horizon, broken only by the occasional burial mound or standing stone. Caravans navigate by the hum of the ancestral mounds, each one producing a unique tone that carries through the earth and allows experienced travelers to fix their position with remarkable accuracy. The grass here is grey-green and tough as rope, growing waist-high in soil that the Ordavan Bargain ensures will always produce but never produce anything deeper than grass.',
+    relatedTerms: ['sundrift-vale', 'house_ordavan', 'kumis_downs', 'ancestor_wold']
+  },
+  'nova_heath': {
+    id: 'nova_heath',
+    term: 'Nova Heath',
+    type: 'location',
+    region: 'sundrift-vale',
+    summary: 'Open heathland lit by Astril beacon-fires of crystalline Lien-wood, a gathering ground for solstice observances across all Astril castes.',
+    fullEntry: 'Nova Heath is the Sundrift Vale\'s brightest landmark — open heathland where the Muren Astril maintain great pyres of crystalline Lien-wood that burn with pale, cold light visible for miles across the starless steppe. The beacons serve as gathering points for Astril of all castes during solstice observances, and the Muren use coded fire-patterns to transmit messages across the vast distances of the Vale. It is the closest thing the Astril have to a shared home — a place where Sylen, Muren, and even Unlit gather under light that none of them can take for granted.',
+    relatedTerms: ['sundrift-vale', 'astril', 'starfall_vale', 'the_unlit_knoll']
+  },
+
+  // BRYNGLOOM FOREST
+  'peat_bog_sinks': {
+    id: 'peat_bog_sinks',
+    term: 'Peat-Bog Sinks',
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A treacherous swamp of bottomless black peat filled with the preserved, aware corpses of ancient debtors risen from broken contracts.',
+    fullEntry: 'The Peat-Bog Sinks are the Bryngloom\'s most lethal natural hazard — a swamp of bottomless, preserving black peat where the acidic water is thick enough to walk on and deep enough to swallow anything that breaks the surface. The preserved corpses of ancient debtors lie suspended in the peat, aware and watching through clouded eyes, risen when their contracts were broken by death. Morren Peat-Cutters harvest the bog\'s surface layers with practiced caution, while Drun Outcasts use the deeper sinks as disposal sites for things that must never be found.',
+    relatedTerms: ['bryngloom-forest', 'sunken_spire', 'debt_revenant', 'cycle_eater']
+  },
+  'root_veil_scriptorium': {
+    id: 'root_veil_scriptorium',
+    term: 'Root-Veil Scriptorium',
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A hollow-root complex where Velun Inscriptors carve genealogies onto memory-glass tablets under the direct watch of the Keeper.',
+    fullEntry: 'The Root-Veil Scriptorium is where the Neth\'s most sacred records are kept — a quiet complex built where the great ironwood roots descend into the deep bogs, close enough to the Root-Veil\'s mycelial network that the Inscriptors claim they can feel the Keeper\'s presence while they work. Velun scholars carve historical genealogies onto compressed memory-glass tablets here, producing records that the fog cannot erase and the peat cannot dissolve. It is the most legally significant location in the Bryngloom after the Heart-Vault of Atropolis itself.',
+    relatedTerms: ['bryngloom-forest', 'atropolis', 'neth', 'keeper_of_the_last_threshold']
+  },
+  'over_shanty': {
+    id: 'over_shanty',
+    term: 'Over-Shanty',
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A chaotic hanging slum of rope-bridges beneath Atropolis, populated by Drun outcasts and Morren peat-cutters beyond the First Contract\'s reach.',
+    fullEntry: 'Over-Shanty is the Bryngloom\'s open secret — a chaotic slum of rope-bridges and ramshackle cabins suspended beneath Atropolis\'s main platforms, populated by Drun Neth who burned their names from the First Contract and Morren peat-cutters who never had names there to begin with. No Neth law applies here. No Vreken ancestor watches. The Cult of Forgotten Shadow operates openly, running a memory-trade in extracted experiences that the Velun Pact-Lords officially deny exists. Everything in the Shanty sways, everything is for sale, and everyone is running from something.',
+    relatedTerms: ['bryngloom-forest', 'atropolis', 'neth', 'peat_bog_sinks']
+  },
+  'drowned_dingle': {
+    id: 'drowned_dingle',
+    term: 'Drowned Dingle',
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A permanently flooded woodland valley where petrified ironwood trees chime like bells and Morren peat-cutters harvest in flat-bottomed boats.',
+    fullEntry: 'The Drowned Dingle is the Bryngloom\'s most melancholic landscape — a wooded valley permanently flooded by bog water where dead ironwood trees stand like skeletal fingers above the dark surface, their petrified branches chiming like bells when the wind blows. Morren peat-cutters navigate the dingle in flat-bottomed boats, harvesting peat and occasionally pulling preserved corpses from the depths. The sound of the chiming trees carries for miles, a slow, random music that the Vreken claim are the voices of ancestors trying to speak through wood instead of bone.',
+    relatedTerms: ['bryngloom-forest', 'black_fen', 'over_shanty', 'neth']
+  },
+  'thalrens_ledger_post': {
+    id: 'thalrens_ledger_post',
+    term: "Thalren's Ledger-Post",
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A shared Thalren-Morren archive outpost on the forest edge, where scribes copy Neth contract records onto vellum as insurance against the fog.',
+    fullEntry: 'Thalren\'s Ledger-Post is a rare collaboration between two cultures that have little else in common — a hybrid outpost of peat-stone and ironwood where Thalren scribes copy Neth contract records onto calfskin vellum, creating duplicates that the fog cannot consume and the peat cannot dissolve. The Morren who co-manage the outpost see it as a business opportunity, charging the Neth for archival services while selling the Thalren access to Bryngloom trade routes. It serves as neutral ground in a forest where neutrality is a commodity more precious than gold.',
+    relatedTerms: ['bryngloom-forest', 'root_veil_scriptorium', 'morrens_bogpost', 'neth']
+  },
+  'merryns_drift': {
+    id: 'merryns_drift',
+    term: "Merryn's Drift",
+    type: 'location',
+    region: 'bryngloom-forest',
+    summary: 'A Merryn river-trading camp of lashed houseboats on the forest\'s western waterways, carrying goods between Bryngloom and the Iceheart Sea.',
+    fullEntry: 'Merryn\'s Drift is the Bryngloom\'s aquatic lifeline — a cluster of houseboats lashed together on the forest\'s western waterways, perpetually bobbing in the slow-moving bog water as Merryn River-Traders shuttle goods between the Bryngloom and the Iceheart Sea. The Merryn here have adapted to fresh water over generations, their salt-scars fading into something gentler, but they retain the storm-sailors\' instinct for reading water and the tattooed ink-charts that mark every safe passage. The Drift is the only reliable overland trade route between the forest and the sea.',
+    relatedTerms: ['bryngloom-forest', 'sunken_spire', 'thalrens_ledger_post', 'iceheart-sea']
   }
 };

@@ -13,7 +13,7 @@ export const REVENANT_DATA = {
         name: "Blood Rites Kit",
         icon: "Necrotic/Drain Soul",
         items: [
-          "Ritual Dagger (1d6 slashing, necrotic resonance — HP sacrificed with this weapon generates +1 Death Toll per strike)",
+          "Ritual Dagger (1d6 slashing, blight resonance — HP sacrificed with this weapon generates +1 Death Toll per strike)",
           "Bloodstained Leather Armor (No agility penalty)",
           "Copper Chalice (ritual focus — reduces HP cost of first spell each combat by 1)",
         ],
@@ -25,7 +25,7 @@ export const REVENANT_DATA = {
         icon: "Frost/Frozen in Ice",
         items: [
           "Obsidian Staff (1d8 bludgeoning, +5 ft reach on necrotic and frost spells)",
-          "Tattered Robes (+1 frost damage to all spells)",
+          "Tattered Robes (+1 rime damage to all spells)",
           "Basalt Phylactery Shard (beginning soul anchor — stores up to 15 Phylactery HP, upgrades as you level)",
         ],
         description:
@@ -39,7 +39,7 @@ export const REVENANT_DATA = {
       "Lantern with black iron cage",
       "1d10 × 5 tarnished silver pieces",
     ],
-    notes: "Revenants cannot wield holy symbols or consecrated weapons — the necrotic resonance in their blood causes such items to crack and dull. Bows and crossbows are forbidden; the Revenant's work requires the press of blood or frost against flesh.",
+    notes: "Revenants cannot wield holy symbols or consecrated weapons — the blight resonance in their blood causes such items to crack and dull. Bows and crossbows are forbidden; the Revenant's work requires the press of blood or frost against flesh.",
   },
 
   overview: {
@@ -47,7 +47,7 @@ export const REVENANT_DATA = {
     subtitle: "Death Is Fuel. The Grave Is a Door. You Walk Both Ways.",
     originStory: `Two traditions of death magic, born in the same peat-bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, bound by the same terrible truth: life force is the only currency that matters.
 
-The Vreken Veil-Speaker <LoreLink termId="kora">Kora</LoreLink> was the first to pay it. Desperate to keep the ancestral lights of thirty generations burning, she walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as necrotic thread. The covenant was absolute — every spell she wove drained her own life, generating volatile Blood Tokens that orbited her body like carrion flies. The dead answered. The living recoiled. Kora's voice was reduced to a dry whisper by the overlapping screams of ancestors she could never silence.
+The Vreken Veil-Speaker <LoreLink termId="kora">Kora</LoreLink> was the first to pay it. Desperate to keep the ancestral lights of thirty generations burning, she walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread. The covenant was absolute — every spell she wove drained her own life, generating volatile Blood Tokens that orbited her body like carrion flies. The dead answered. The living recoiled. Kora's voice was reduced to a dry whisper by the overlapping screams of ancestors she could never silence.
 
 The human scribe <LoreLink termId="vesper">Vesper</LoreLink> sought the same bogs decades later, dying of the sumps' lung-rot. He performed the forbidden Rite of the Cold Hearth — binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. Vesper achieved immortality, but his body became a cold, rotting tomb. His heart beats once an hour. His flesh is cold as bog-iron. He must constantly harvest life force to prevent his skeleton from dissolving.
 
@@ -62,7 +62,7 @@ You died once. That was the easy part. Coming back is where the price starts.`,
 
     quickOverview: {
       title: "The Undying Economy",
-      content: `**What You Need to Know**: The Revenant is a death mage who has returned from the grave with two intertwined economies: **Death Toll** (0-20, volatile necrotic energy built through HP sacrifice and kills) and a **Phylactery** (resurrection pool charged by killing enemies). You can toggle **Death Shroud** mode to burn HP instead of Mana for enhanced frost+necrotic spells.
+      content: `**What You Need to Know**: The Revenant is a death mage who has returned from the grave with two intertwined economies: **Death Toll** (0-20, volatile blight energy built through HP sacrifice and kills) and a **Phylactery** (resurrection pool charged by killing enemies). You can toggle **Death Shroud** mode to burn HP instead of Mana for enhanced frost+necrotic spells.
 
 **Core Loop**: Sacrifice HP / Kill enemies → Build Death Toll + Charge Phylactery → Toggle Death Shroud for devastating HP-burning spells → Die strategically → Resurrect via Phylactery → Death Trigger freeze → Repeat
 
@@ -73,7 +73,7 @@ You died once. That was the easy part. Coming back is where the price starts.`,
 **Best For**: Players who want to ride the razor's edge between annihilation and godhood, who treat death as a tactical resource, and who understand that the real enemy is the timer in their own veins`,
     },
 
-    description: `The Revenant is a death caster who walks between two necrotic traditions — the blood-fueled sacrifice of Kora's covenant and the frost-stasis harvest of Vesper's phylactery. Every spell costs life. Every kill feeds the grave. The Death Toll they carry is not safe storage — it is boiling necrotic energy orbiting their body, volatile and searing. Their Phylactery is their insurance against the inevitable: when the cold consumes them, the harvested souls drag them back from the threshold. Death Shroud mode transforms them into a walking blizzard of HP-burning devastation. They are the only class that converts their own death into a tactical weapon — the Death Trigger freeze that erupts from their resurrection is one of the strongest control effects in the game. They are not alive. They are not dead. They are the Revenant, and they have work to do.`,
+    description: `The Revenant is a death caster who walks between two necrotic traditions — the blood-fueled sacrifice of Kora's covenant and the frost-stasis harvest of Vesper's phylactery. Every spell costs life. Every kill feeds the grave. The Death Toll they carry is not safe storage — it is boiling blight energy orbiting their body, volatile and searing. Their Phylactery is their insurance against the inevitable: when the cold consumes them, the harvested souls drag them back from the threshold. Death Shroud mode transforms them into a walking blizzard of HP-burning devastation. They are the only class that converts their own death into a tactical weapon — the Death Trigger freeze that erupts from their resurrection is one of the strongest control effects in the game. They are not alive. They are not dead. They are the Revenant, and they have work to do.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -141,10 +141,10 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
       title: "The Undying Economy",
       content: `**Primary Role**: The only class that converts its own HP and death itself into explosive damage and tactical resurrection.
 
-**Why Bring a Revenant?**: No other class rides this razor's edge. They pay for power in flesh — every spell costs HP and/or Mana — and generate Death Toll that supercharges the next cast. At 16+ Toll, a single spell becomes a walking nuclear detonation. They drain life back from enemies. They toggle Death Shroud to burn HP for devastating frost+necrotic damage. They kill to charge their Phylactery, die strategically to trigger a battlefield-wide freeze, resurrect, and do it again. When the party needs something dead and the healer is down, the Revenant opens a vein, freezes the room, and solves the problem permanently.
+**Why Bring a Revenant?**: No other class rides this razor's edge. They pay for power in flesh — every spell costs HP and/or Mana — and generate Death Toll that supercharges the next cast. At 16+ Toll, a single spell becomes a walking nuclear detonation. They drain life back from enemies. They toggle Death Shroud to burn HP for devastating frost+blight damage. They kill to charge their Phylactery, die strategically to trigger a battlefield-wide freeze, resurrect, and do it again. When the party needs something dead and the healer is down, the Revenant opens a vein, freezes the room, and solves the problem permanently.
 
 **Damage Profile**:
-- Sustained necrotic/frost damage through HP sacrifice
+- Sustained necrotic/rime damage through HP sacrifice
 - Burst damage via Death Toll consumption
 - Area denial through Death Shroud auras and spectral allies
 - Tactical death via Phylactery resurrection + Death Trigger freeze
@@ -189,7 +189,7 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
       content: `**The Setup**: Your party faces a powerful undead knight and three skeletal archers. You're a Level 4 Revenant (Sanguine Harvest) with 2 Death Marks active (Shrouded Veil, Crimson Pact). HP: 60/72, Mana: 40/50, Death Toll: 0, Phylactery: 10 HP, Death Shroud: OFF.
 
 **Active Death Marks**:
-- **Shrouded Veil**: +2d6 necrotic damage to all spells, advantage on Stealth, -10% max HP (max 72, not 80)
+- **Shrouded Veil**: +2d6 blight damage to all spells, advantage on Stealth, -10% max HP (max 72, not 80)
 - **Crimson Pact**: Death Toll generates +1 extra per trigger, each Toll spent adds +1d8 damage (instead of +1d6)
 
 **Starting State**: HP: 60/72 | Mana: 40/50 | Toll: 0 | Phylactery: 10 | Shroud: OFF
@@ -200,7 +200,7 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 **Health Cost Roll**: 1d6 → [4] = 4 HP sacrificed
 **Death Toll**: +4+1 (Crimson Pact bonus) = +5 Toll (now at 5)
 **HP**: 60 - 4 = 56 HP
-**Spell Damage**: 3d8 + 2d6 (Shrouded Veil) → [7,6,5] + [5,4] = 27 necrotic damage
+**Spell Damage**: 3d8 + 2d6 (Shrouded Veil) → [7,6,5] + [5,4] = 27 blight damage
 
 **Action (1 AP)**: Summon Spectral Allies (10 mana, costs 1d4 HP)
 **Health Cost Roll**: 1d4 → [3] = 3 HP sacrificed
@@ -275,18 +275,18 @@ You're not a mage who casts spells. You're an UNDYING PREDATOR who burns your ow
 
   resourceSystem: {
     title: "Death Toll & Phylactery",
-    subtitle: "Volatile Necrotic Energy + Kill-Harvested Resurrection",
+    subtitle: "Volatile blight energy + Kill-Harvested Resurrection",
 
-    description: `The Revenant's power is a dual economy built on death itself. **Death Toll** (0-20) is volatile necrotic energy generated through HP sacrifice and killing — spend it to devastating effect, or let it build and risk catastrophic self-damage. **Phylactery HP** is a kill-charged resurrection pool — every enemy felled by your spells adds life force to your soul anchor, and when you die, that stored life drags you back.
+    description: `The Revenant's power is a dual economy built on death itself. **Death Toll** (0-20) is volatile blight energy generated through HP sacrifice and killing — spend it to devastating effect, or let it build and risk catastrophic self-damage. **Phylactery HP** is a kill-charged resurrection pool — every enemy felled by your spells adds life force to your soul anchor, and when you die, that stored life drags you back.
 
 **Death Shroud Toggle**:
 The Revenant can switch between two casting modes:
 - **Shroud OFF (Rest Mode)**: Spells cost Mana normally. Death Toll does not decay.
-- **Shroud ON (Death Mode)**: Spells cost HP instead of Mana. All spells deal +1d6 frost+necrotic damage. Enemies hit: DC 15 Con save or Chilled (-10 ft speed). Lose 1d6/1d8/1d10 HP at start of each turn (scales with level). Toggle is free, once per turn.
+- **Shroud ON (Death Mode)**: Spells cost HP instead of Mana. All spells deal +1d6 frost+blight damage. Enemies hit: DC 15 Con save or Chilled (-10 ft speed). Lose 1d6/1d8/1d10 HP at start of each turn (scales with level). Toggle is free, once per turn.
 
 **Death Toll Volatility**:
 - **1-5 Toll**: Stable. No side effects.
-- **6-10 Toll**: Unstable. 1 necrotic damage/turn to self. Enemies within 5ft take 1 necrotic/Toll.
+- **6-10 Toll**: Unstable. 1 blight damage/turn to self. Enemies within 5ft take 1 necrotic/Toll.
 - **11-15 Toll**: Volatile. 1d4 necrotic/Toll/turn. Cannot be healed by others. All spell saves at -2.
 - **16-20 Toll**: CRITICAL MASS. 1d6 necrotic/Toll/turn. Advantage on death saves but disadvantage on all other saves. If you die at 16+, ALL Toll detonates — 1d10 necrotic/Toll to EVERYTHING within 30ft (including allies).
 
@@ -370,7 +370,7 @@ The Revenant can switch between two casting modes:
         [
           "Frostwalker",
           "Death Shroud gains +1d4 frost/turn aura to enemies within 15ft",
-          "+50% fire vulnerability",
+          "+50% ember vulnerability",
           "5",
         ],
         [
@@ -382,7 +382,7 @@ The Revenant can switch between two casting modes:
         [
           "Deep Void",
           "1/long rest: Negate any spell targeting you",
-          "2d6 psychic damage when used",
+          "2d6 wyrd damage when used",
           "10",
         ],
       ],
@@ -463,7 +463,7 @@ The Revenant can switch between two casting modes:
           name: "Sanguine Hunger",
           icon: "Necrotic/Drain Soul",
           description:
-            "Your life drain effects are 25% more effective. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4). Minions have 10 HP and deal 1d6 necrotic damage per turn. When below 25% HP, your next life drain is cast instantly and costs no mana.",
+            "Your life drain effects are 25% more effective. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4). Minions have 10 HP and deal 1d6 blight damage per turn. When below 25% HP, your next life drain is cast instantly and costs no mana.",
         },
         keyAbilities: [
           "Blood Leech — Drain health, restoring 25% per HP sacrificed (8 mana, 1d4 HP cost)",
@@ -479,7 +479,7 @@ The Revenant can switch between two casting modes:
         color: "#4A90E2",
         theme: "Freeze-Shatter Loop + Frost Control",
 
-        description: `Frost Sovereigns mastered the art of freezing enemies solid and shattering them for devastating burst damage. Their Death Shroud is the coldest — frost radiates from their body even in Rest Mode, and in Death Mode the temperature drops to lethal levels. The Frostwalker and Shrouded Veil marks are their preferred scars, granting extended freeze durations and bonus necrotic damage. They create an active loop: freeze, shatter, refreeze, shatter again. Each cycle is faster and more devastating than the last. Their battlefield is a sculpture gallery of frozen corpses, and every new enemy is just raw material.`,
+        description: `Frost Sovereigns mastered the art of freezing enemies solid and shattering them for devastating burst damage. Their Death Shroud is the coldest — frost radiates from their body even in Rest Mode, and in Death Mode the temperature drops to lethal levels. The Frostwalker and Shrouded Veil marks are their preferred scars, granting extended freeze durations and bonus blight damage. They create an active loop: freeze, shatter, refreeze, shatter again. Each cycle is faster and more devastating than the last. Their battlefield is a sculpture gallery of frozen corpses, and every new enemy is just raw material.`,
 
         playstyle: "Ranged frost/necrotic caster, freeze-shatter loop, area control through ice",
 
@@ -524,7 +524,7 @@ The Revenant can switch between two casting modes:
           "Highest survivability — 75 HP Phylactery",
           "Death Trigger freeze in 25ft radius",
           "Can afford aggressive Death Shroud usage",
-          "Psychic damage integration for resistances",
+          "wyrd damage integration for resistances",
         ],
         weaknesses: [
           "Lower damage output than other specs",
@@ -537,7 +537,7 @@ The Revenant can switch between two casting modes:
           name: "Fortified Phylactery",
           icon: "Frost/Frost Manipulation",
           description:
-            "Your Phylactery stores up to 75 HP (instead of 50). Death Trigger freeze radius increased to 25ft (instead of 15ft). In Death Shroud, store 1 HP in Phylactery per 10 damage taken from any source (max 5/round). Your psychic damage spells ignore resistance.",
+            "Your Phylactery stores up to 75 HP (instead of 50). Death Trigger freeze radius increased to 25ft (instead of 15ft). In Death Shroud, store 1 HP in Phylactery per 10 damage taken from any source (max 5/round). Your wyrd damage spells ignore resistance.",
         },
         keyAbilities: [
           "Siphon Soul — Frost+necrotic drain that heals and charges Phylactery on kill (8 mana)",
@@ -577,7 +577,7 @@ The Revenant can switch between two casting modes:
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "A low, rattling hiss — like air escaping a collapsed lung.",
-        somaticText: "Press your palm outward, dark veins flaring as necrotic energy condenses into a bolt.",
+        somaticText: "Press your palm outward, dark veins flaring as blight energy condenses into a bolt.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
       },
@@ -826,8 +826,8 @@ The Revenant can switch between two casting modes:
         effects: [
           { id: "rv_necrotic_vulnerability",
             name: "Grave Whisper",
-            description: "+50% necrotic damage taken for 3 rounds.",
-            mechanicsText: "+50% necrotic vulnerability for 3 rounds (Con save negates)",
+            description: "+50% blight damage taken for 3 rounds.",
+            mechanicsText: "+50% blight vulnerability for 3 rounds (Con save negates)",
             statusEffect: {
               vulnerabilityType: "blight",
               vulnerabilityPercent: 50,

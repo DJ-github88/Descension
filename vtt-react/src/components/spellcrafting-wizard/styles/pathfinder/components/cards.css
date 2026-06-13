@@ -895,6 +895,31 @@
   color: var(--pf-nature);
 }
 
+/* 8-type schema text colors */
+.pf-damage-type-badge.ember {
+  color: var(--pf-ember);
+}
+
+.pf-damage-type-badge.rime {
+  color: var(--pf-rime);
+}
+
+.pf-damage-type-badge.storm {
+  color: var(--pf-storm);
+}
+
+.pf-damage-type-badge.primal {
+  color: var(--pf-primal);
+}
+
+.pf-damage-type-badge.blight {
+  color: var(--pf-blight);
+}
+
+.pf-damage-type-badge.wyrd {
+  color: var(--pf-wyrd);
+}
+
 /* Void */
 .pf-damage-type-badge.void {
   color: var(--pf-void);
@@ -1444,6 +1469,32 @@
 }
 
 .pf-damage-type-badge.psychic {
+  background: linear-gradient(135deg, #87206f, #3d0731) !important;
+}
+
+/* ===== 8-TYPE SCHEMA BADGE COLORS ===== */
+
+.pf-damage-type-badge.ember {
+  background: linear-gradient(135deg, #a62626, #591010) !important;
+}
+
+.pf-damage-type-badge.rime {
+  background: linear-gradient(135deg, #24587a, #112d40) !important;
+}
+
+.pf-damage-type-badge.storm {
+  background: linear-gradient(135deg, #a3811f, #54410a) !important;
+}
+
+.pf-damage-type-badge.primal {
+  background: linear-gradient(135deg, #2b5c20, #10260b) !important;
+}
+
+.pf-damage-type-badge.blight {
+  background: linear-gradient(135deg, #53236e, #2b0b3d) !important;
+}
+
+.pf-damage-type-badge.wyrd {
   background: linear-gradient(135deg, #87206f, #3d0731) !important;
 }
 

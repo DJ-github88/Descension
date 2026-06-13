@@ -470,7 +470,7 @@
   gap: var(--pf-space-2);
   padding: var(--pf-space-3);
   background: var(--pf-gradient-button);
-  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border: var(--pf-border-width-thick) solid var(--element-color, var(--pf-brown-medium));
   border-radius: var(--pf-border-radius);
   cursor: pointer;
   transition: all var(--pf-transition-normal);
@@ -482,25 +482,133 @@
 .element-button:hover {
   background: var(--pf-gradient-button-hover);
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--pf-shadow-md), 0 0 12px color-mix(in srgb, var(--element-color, #888) 40%, transparent);
 }
 
 .element-button.primary {
-  background: var(--pf-gradient-primary);
-  border-color: var(--pf-primary-dark);
+  background: color-mix(in srgb, var(--element-color, #3366cc) 30%, var(--pf-gradient-button));
+  border-color: var(--element-color, var(--pf-primary-dark));
   color: var(--pf-text-on-dark);
-  box-shadow:
-    var(--pf-shadow-md),
-    0 0 15px rgba(0, 123, 255, 0.3);
+  box-shadow: var(--pf-shadow-md), 0 0 18px color-mix(in srgb, var(--element-color, #3366cc) 50%, transparent);
 }
 
 .element-button.secondary {
-  background: var(--pf-gradient-secondary);
-  border-color: var(--pf-secondary-dark);
+  background: color-mix(in srgb, var(--element-color, #6c757d) 25%, var(--pf-gradient-button));
+  border-color: var(--element-color, var(--pf-secondary-dark));
   color: var(--pf-text-on-dark);
-  box-shadow:
-    var(--pf-shadow-md),
-    0 0 15px rgba(108, 117, 125, 0.3);
+  box-shadow: var(--pf-shadow-md), 0 0 14px color-mix(in srgb, var(--element-color, #6c757d) 40%, transparent);
+  border-style: dashed;
+}
+
+.element-position-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--pf-font-ui);
+  color: #fff !important;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.element-button.primary .element-position-badge {
+  background: var(--element-color, var(--pf-primary));
+}
+
+.element-button.secondary .element-position-badge {
+  background: var(--element-color, var(--pf-secondary));
+}
+
+/* Selected types summary bar */
+.selected-types-summary {
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+}
+
+.selected-type-display {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.selected-type-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--pf-space-2) var(--pf-space-4);
+  border-radius: var(--pf-border-radius);
+  border: 2px solid;
+  background: rgba(0,0,0,0.2);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  min-width: 80px;
+}
+
+.selected-type-badge.empty {
+  border-color: var(--pf-brown-light);
+  color: var(--pf-text-muted);
+  font-style: italic;
+  font-weight: normal;
+}
+
+.selected-type-badge.primary {
+  border-style: solid;
+}
+
+.selected-type-badge.secondary {
+  border-style: dashed;
+}
+
+.selected-type-label {
+  font-size: var(--pf-text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+.selected-type-swap {
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--pf-text-secondary);
+  padding: var(--pf-space-1);
+  border-radius: var(--pf-border-radius);
+  transition: all var(--pf-transition-normal);
+  user-select: none;
+}
+
+.selected-type-swap:hover {
+  color: var(--pf-text-primary);
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.1);
+}
+
+.selected-type-clear {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--pf-text-muted);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  transition: all var(--pf-transition-normal);
+  user-select: none;
+}
+
+.selected-type-clear:hover {
+  color: var(--pf-error-light);
+  background: rgba(139, 0, 0, 0.15);
 }
 
 .element-icon-wrapper {
@@ -551,22 +659,6 @@
   align-items: center;
   gap: var(--pf-space-2);
   margin: 0;
-}
-
-.primary-dot {
-  width: 12px;
-  height: 12px;
-  background: var(--pf-primary);
-  border-radius: 50%;
-  border: 2px solid var(--pf-primary-dark);
-}
-
-.secondary-dot {
-  width: 12px;
-  height: 12px;
-  background: var(--pf-secondary);
-  border-radius: 50%;
-  border: 2px solid var(--pf-secondary-dark);
 }
 
 /* ===== SPELL ICON SELECTOR ===== */

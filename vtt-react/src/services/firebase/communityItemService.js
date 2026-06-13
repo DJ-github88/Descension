@@ -115,7 +115,7 @@ const MOCK_FEATURED_ITEMS = [
     imageUrl: getIconUrl('magical-sword-pendant', 'items'),
     itemData: {
       damage: '2d8+3',
-      damageType: 'fire',
+      damageType: 'ember',
       weight: 3,
       value: 5000,
       slot: 'Main Hand',

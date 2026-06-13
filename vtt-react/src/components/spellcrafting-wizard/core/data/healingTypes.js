@@ -13,7 +13,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'direct',
       name: 'Direct Healing',
       description: 'Immediate healing effect that restores hit points',
-      icon: 'spell_holy_flashheal',
+      icon: '/assets/icons/abilities/Healing/Golden Heart.png',
       actionPointCost: 2,
       targetTypes: ['single', 'multi', 'area'],
       effectParameters: ['healingAmount', 'criticalChance', 'potencyMultiplier'],
@@ -26,7 +26,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'regeneration',
       name: 'Regeneration',
       description: 'Healing over time effect that restores hit points gradually',
-      icon: 'spell_nature_rejuvenation',
+        icon: '/assets/icons/abilities/Natural.png',
       actionPointCost: 2,
       targetTypes: ['single', 'multi'],
       effectParameters: ['healingPerTick', 'duration', 'tickFrequency', 'scalingFactor'],
@@ -40,7 +40,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'vampiric',
       name: 'Vampiric Healing',
       description: 'Drains health from target and heals the caster',
-      icon: 'spell_shadow_lifedrain',
+      icon: '/assets/icons/abilities/Drain Life.png',
       actionPointCost: 3,
       targetTypes: ['single'],
       effectParameters: ['drainAmount', 'conversionRate', 'damageType', 'transfers'],
@@ -54,7 +54,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'conditional',
       name: 'Conditional Healing',
       description: 'More effective healing under specific conditions',
-      icon: 'spell_holy_holynova',
+      icon: '/assets/icons/abilities/Light Path.png',
       actionPointCost: 2,
       targetTypes: ['single', 'multi', 'area'],
       effectParameters: ['baseHealing', 'bonusCondition', 'bonusMultiplier', 'statusEffect'],
@@ -72,7 +72,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'resurrection',
       name: 'Resurrection',
       description: 'Brings fallen allies back to life',
-      icon: 'spell_holy_resurrection',
+      icon: '/assets/icons/abilities/Golden Winged Entity.png',
       actionPointCost: 5,
       targetTypes: ['single'],
       effectParameters: ['healthPercent', 'penalties', 'materialComponents', 'timeLimit'],
@@ -86,7 +86,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'spirit',
       name: 'Spirit Healing',
       description: 'Channeled healing that draws from spiritual energy',
-      icon: 'spell_holy_guardianspirit',
+      icon: '/assets/icons/abilities/Ethereal Spirit.png',
       actionPointCost: 3,
       targetTypes: ['single', 'area'],
       effectParameters: ['channelDuration', 'healingPerSecond', 'spiritCost', 'auraSize'],
@@ -152,7 +152,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'standard',
       name: 'Standard Shield',
       description: 'Basic protective barrier that absorbs all damage types equally',
-      icon: 'spell_holy_powerwordshield',
+      icon: '/assets/icons/abilities/Utility/Shield.png',
       durability: 'average',
       regenDelay: 3, // rounds before regeneration starts
       regenRate: 0, // percent of total per round
@@ -162,7 +162,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'fortified',
       name: 'Fortified Shield',
       description: 'Stronger shield with higher capacity but no regeneration',
-      icon: 'spell_holy_avengersshield',
+      icon: '/assets/icons/abilities/Utility/Shield.png',
       durability: 'high',
       multiplier: 1.5, // shield amount multiplier
       regenDelay: 0, // no regeneration
@@ -173,7 +173,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'regenerating',
       name: 'Regenerating Shield',
       description: 'Shield that regenerates over time while not taking damage',
-      icon: 'spell_nature_skinofearth',
+      icon: '/assets/icons/abilities/Rock Throw.png',
       durability: 'average',
       regenDelay: 1, // rounds before regeneration starts
       regenRate: 20, // percent of total per round
@@ -183,7 +183,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'reactive',
       name: 'Reactive Shield',
       description: 'Shield that provides damage reduction and can trigger effects when hit',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: '/assets/icons/abilities/Light Path.png',
       durability: 'low',
       multiplier: 0.75, // shield amount multiplier
       damageReduction: 25, // percent damage reduction
@@ -195,7 +195,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'elemental',
       name: 'Elemental Shield',
       description: 'Shield specialized against specific damage types',
-      icon: 'spell_fire_firearmor',
+      icon: '/assets/icons/abilities/Fire/Flame Burst.png',
       durability: 'average',
       damageTypes: ['ember', 'rime', 'storm', 'blight'],
       specializationMultiplier: 2.0, // multiplier for specialized damage type
@@ -206,7 +206,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'layered',
       name: 'Layered Shield',
       description: 'Multiple shield layers that absorb damage sequentially',
-      icon: 'spell_holy_sealofsacrifice',
+      icon: '/assets/icons/abilities/Light Path.png',
       durability: 'high',
       layers: 3, // number of shield layers
       layerDistribution: 'equal', // how total shield amount is distributed
@@ -218,7 +218,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'absorbing',
       name: 'Absorbing Shield',
       description: 'Shield that converts portion of damage absorbed into healing',
-      icon: 'spell_shadow_lifedrain',
+      icon: '/assets/icons/abilities/Drain Life.png',
       durability: 'below average',
       multiplier: 0.8, // shield amount multiplier
       absorptionRate: 25, // percent of damage converted to healing
@@ -228,7 +228,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'overloading',
       name: 'Overloading Shield',
       description: 'Shield that explodes when depleted, damaging nearby enemies',
-      icon: 'spell_fire_selfdestruct',
+      icon: '/assets/icons/abilities/Fire/Flame Burst.png',
       durability: 'average',
       explosionDamage: 'remainingCapacity', // damage depends on remaining capacity
       explosionRadius: 15, // feet
@@ -246,31 +246,31 @@ export const ENHANCED_HEALING_TYPES = [
         id: 'most_injured',
         name: 'Most Injured',
         description: 'Chains to the most injured valid target',
-        icon: 'spell_holy_healingfocus'
+        icon: '/assets/icons/abilities/Healing/Golden Heart.png'
       },
       {
         id: 'lowest_health_percent',
         name: 'Lowest Health Percentage',
         description: 'Chains to the target with the lowest health percentage',
-        icon: 'spell_holy_chastise'
+        icon: '/assets/icons/abilities/Light Path.png'
       },
       {
         id: 'nearest_injured',
         name: 'Nearest Injured',
         description: 'Chains to the nearest injured ally',
-        icon: 'spell_holy_heal'
+        icon: '/assets/icons/abilities/Healing/Golden Heart.png'
       },
       {
         id: 'random_injured',
         name: 'Random Injured',
         description: 'Chains to a random injured ally within range',
-        icon: 'spell_holy_holybolt'
+        icon: '/assets/icons/abilities/Light Path.png'
       },
       {
         id: 'priority_role',
         name: 'Priority Role',
         description: 'Chains to targets based on role priority (tank → healer → damage)',
-        icon: 'spell_holy_divineillumination'
+        icon: '/assets/icons/abilities/Light Path.png'
       }
     ],
     falloffTypes: [
@@ -278,28 +278,28 @@ export const ENHANCED_HEALING_TYPES = [
         id: 'linear',
         name: 'Linear Reduction',
         description: 'Each jump reduces healing by a fixed amount',
-        icon: 'spell_holy_flashheal',
+      icon: '/assets/icons/abilities/Healing/Golden Heart.png',
         reductionPerJump: '1d6'
       },
       {
         id: 'percentage',
         name: 'Percentage Reduction',
         description: 'Each jump reduces healing by a percentage',
-        icon: 'spell_holy_heal',
+        icon: '/assets/icons/abilities/Healing/Golden Heart.png',
         percentageReduction: 20 // percent
       },
       {
         id: 'dice_reduction',
         name: 'Dice Reduction',
         description: 'Each jump reduces the number of dice rolled',
-        icon: 'spell_holy_sealofsalvation',
+        icon: '/assets/icons/abilities/Light Path.png',
         diceReduction: 1 // remove 1 die per jump
       },
       {
         id: 'adaptive',
         name: 'Adaptive Reduction',
         description: 'Healing reduction depends on target\'s current health',
-        icon: 'spell_holy_layonhands',
+        icon: '/assets/icons/abilities/Healing/Golden Heart.png',
         lowHealthReduction: 10, // percent reduction for targets below 30% health
         highHealthReduction: 40 // percent reduction for targets above 70% health
       },
@@ -307,7 +307,7 @@ export const ENHANCED_HEALING_TYPES = [
         id: 'progressive',
         name: 'Progressive Enhancement',
         description: 'Earlier jumps get more healing, later jumps get other benefits',
-        icon: 'spell_holy_renew',
+      icon: '/assets/icons/abilities/Healing/Golden Heart.png',
         healingReduction: 25, // percent
         additionalEffects: ['hot', 'shield', 'cleanse']
       }
@@ -317,7 +317,7 @@ export const ENHANCED_HEALING_TYPES = [
         id: 'cleansing_chain',
         name: 'Cleansing Chain',
         description: 'Each jump has a chance to remove harmful effects',
-        icon: 'spell_holy_dispelmagic',
+        icon: '/assets/icons/abilities/Light Path.png',
         cleansePower: 1, // number of effects cleansed
         cleanseChance: 50 // percent
       },
@@ -325,7 +325,7 @@ export const ENHANCED_HEALING_TYPES = [
         id: 'shielding_chain',
         name: 'Shielding Chain',
         description: 'Each jump applies a small protective shield',
-        icon: 'spell_holy_powerwordshield',
+      icon: '/assets/icons/abilities/Utility/Shield.png',
         shieldAmount: '1d6',
         shieldDuration: '1d4' // rounds
       },
@@ -333,7 +333,7 @@ export const ENHANCED_HEALING_TYPES = [
         id: 'blessing_chain',
         name: 'Blessing Chain',
         description: 'Each jump applies a short blessing effect',
-        icon: 'spell_holy_greaterblessingofkings',
+        icon: '/assets/icons/abilities/Light Path.png',
         blessingEffect: 'minor_stats', // small stat boost
         blessingDuration: '1d6' // rounds
       },
@@ -341,7 +341,7 @@ export const ENHANCED_HEALING_TYPES = [
         id: 'rejuvenating_chain',
         name: 'Rejuvenating Chain',
         description: 'Each jump applies a healing over time effect',
-        icon: 'spell_nature_rejuvenation',
+      icon: '/assets/icons/abilities/Natural.png',
         hotAmount: '1d4',
         hotDuration: '2d4' // rounds
       },
@@ -349,7 +349,7 @@ export const ENHANCED_HEALING_TYPES = [
         id: 'fortifying_chain',
         name: 'Fortifying Chain',
         description: 'Each jump provides temporary damage resistance',
-        icon: 'spell_holy_devotionaura',
+        icon: '/assets/icons/abilities/Light Path.png',
         damageReduction: 10, // percent
         fortifyDuration: '1d4' // rounds
       }
@@ -364,7 +364,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'vitalityBoost',
       name: 'Vitality Boost',
       description: 'Target gains temporary vitality bonus',
-      icon: 'spell_holy_holybolt',
+      icon: '/assets/icons/abilities/Light Path.png',
       effect: 'Increases maximum health by 10% for 1 minute',
       stacks: false
     },
@@ -372,7 +372,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'statusRemoval',
       name: 'Status Removal',
       description: 'Removes negative status effects',
-      icon: 'spell_holy_dispelmagic',
+      icon: '/assets/icons/abilities/Light Path.png',
       effect: 'Removes one random negative status effect',
       stacks: false
     },
@@ -380,7 +380,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'regeneration',
       name: 'Regeneration',
       description: 'Target gains healing over time effect',
-      icon: 'spell_holy_renew',
+      icon: '/assets/icons/abilities/Healing/Golden Heart.png',
       effect: 'Heals for 1d4 health per round for 3 rounds',
       stacks: true,
       maxStacks: 3
@@ -389,7 +389,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'fortification',
       name: 'Fortification',
       description: 'Target gains temporary damage resistance',
-      icon: 'spell_holy_devotionaura',
+      icon: '/assets/icons/abilities/Light Path.png',
       effect: 'Grants 20% damage resistance for 2 rounds',
       stacks: false
     },
@@ -397,7 +397,7 @@ export const ENHANCED_HEALING_TYPES = [
       id: 'inspiration',
       name: 'Inspiration',
       description: 'Target gains bonus to their next action',
-      icon: 'spell_holy_powerinfusion',
+      icon: '/assets/icons/abilities/Light Path.png',
       effect: '+2 bonus to next attack roll, ability check, or saving throw',
       stacks: false
     }

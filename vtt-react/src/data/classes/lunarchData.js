@@ -26,13 +26,13 @@ Shine in the dark. The moon's light is cold, but it is the only guide left in a 
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: You did not choose this. An ancient celestial parasite has fused with your nervous system. Every three rounds it FORCEFULLY REWRITES your physiology -- dealing 2d6 necrotic damage as it feeds on a different aspect of your humanity. You are its host. Its hunger is your power.
+      content: `**What You Need to Know**: You did not choose this. An ancient celestial parasite has fused with your nervous system. Every three rounds it FORCEFULLY REWRITES your physiology -- dealing 2d6 blight damage as it feeds on a different aspect of your humanity. You are its host. Its hunger is your power.
 
-**Core Mechanic**: Parasitic Phase Cycle -- New Moon (Memory Eater: +3 DR, immune to charm/fear, but -2 attacks, lose 1d4 mana/turn) → Waxing Moon (Sensation Harvest: +1d6 damage, +10ft speed, but take 1d4 necrotic/turn, no healing) → Full Moon (Sanity Erosion: +2d8 radiant, crit 19-20, ignores 50% DR, but Delirium rolls each turn, -5 max HP/round) → Waning Moon (Vitality Drain: -3 mana costs, vampiric 25%, but -2 DR, -10 max HP)
+**Core Mechanic**: Parasitic Phase Cycle -- New Moon (Memory Eater: +3 DR, immune to charm/fear, but -2 attacks, lose 1d4 mana/turn) → Waxing Moon (Sensation Harvest: +1d6 damage, +10ft speed, but take 1d4 blight/turn, no healing) → Full Moon (Sanity Erosion: +2d8 radiant, crit 19-20, ignores 50% DR, but Delirium rolls each turn, -5 max HP/round) → Waning Moon (Vitality Drain: -3 mana costs, vampiric 25%, but -2 DR, -10 max HP)
 
 **Gauge — Lunar Flux**: The parasite's feeding cycle bleeds mana and flesh in equal measure. Every natural cycle shift deals 2d6 necrotic. Manual shifts cost 8 mana + 1d8+2 necrotic. Roll on the Transition Shock Table (1d6) every time.
 
-**Fatal Flaw -- Celestial Rejection**: +25% vulnerability to Bludgeoning damage. Standard magical healing deals psychic damage to you instead of healing (the parasite devours foreign magic). Only your own phase-specific restoration works.
+**Fatal Flaw -- Celestial Rejection**: +25% vulnerability to Bludgeoning damage. Standard magical healing deals wyrd damage to you instead of healing (the parasite devours foreign magic). Only your own phase-specific restoration works.
 
 **Unique Utility -- Battlefield Cycle Manipulation**: The only class that can distort the passage of rounds, impose phase-specific vulnerabilities across the entire battlefield, and force enemies to sync with your volatile internal clock.
 
@@ -108,10 +108,10 @@ The elder parasites � those bonded to the first Lunarchs � are beginning to 
 
 **Combat Weaknesses (The Fatal Flaw)**:
 - **Celestial Rejection**: +25% vulnerability to Bludgeoning damage (your starlight-infused organs rupture under blunt trauma)
-- **Healing Immunity**: Standard magical healing deals psychic damage to you equal to 50% of the heal amount -- the parasite devours foreign magic and converts it to psychic feedback
+- **Healing Immunity**: Standard magical healing deals wyrd damage to you equal to 50% of the heal amount -- the parasite devours foreign magic and converts it to wyrd feedback
 - **Transition Shock**: Every phase shift (natural or manual) forces a roll on the Transition Shock Table (1d6) -- you may take extra damage, lose mana, lose AP, or go blind
-- **Self-Destructive Economy**: Natural cycle shifts deal 2d6 necrotic damage every 3 rounds. Manual shifts cost 8 mana + 1d8+2 necrotic. You are always bleeding.
-- **Full Moon Delirium**: During Sanity Erosion, you must roll on the Delirium Table each turn -- you may attack allies, lose AP, or take psychic damage
+- **Self-Destructive Economy**: Natural cycle shifts deal 2d6 blight damage every 3 rounds. Manual shifts cost 8 mana + 1d8+2 necrotic. You are always bleeding.
+- **Full Moon Delirium**: During Sanity Erosion, you must roll on the Delirium Table each turn -- you may attack allies, lose AP, or take wyrd damage
 
 **Optimal Positioning**:
 Medium range (30-60 feet), close enough to spread phase contagion to enemies but far enough to avoid the bludgeoning attacks that will rupture your organs. Position near allies during Waxing Moon so they benefit from your redirected parasite-feeding (Sanguine Warden). Stay far from allies during Full Moon -- the Delirium Table may force you to attack them.`,
@@ -123,7 +123,7 @@ Medium range (30-60 feet), close enough to spread phase contagion to enemies but
 The Lunarch does not choose whether to suffer -- only HOW. Each phase is a different flavor of horror:
 
 - **New Moon (Memory Eater)**: The parasite feeds on cognition. +3 DR, immune to charm/fear, but -2 to attacks and lose 1d4 mana/turn. Use this when you're being targeted and need to survive. You are a passenger in your own body -- the parasite drives, and it has excellent reflexes but terrible aim.
-- **Waxing Moon (Sensation Harvest)**: The parasite feeds on nerve endings. +1d6 damage, +10ft speed, advantage on perception, but take 1d4 necrotic/turn and CANNOT be healed by any means. Use this for aggressive repositioning and damage bursts when you're healthy enough to absorb the feeding.
+- **Waxing Moon (Sensation Harvest)**: The parasite feeds on nerve endings. +1d6 damage, +10ft speed, advantage on perception, but take 1d4 blight/turn and CANNOT be healed by any means. Use this for aggressive repositioning and damage bursts when you're healthy enough to absorb the feeding.
 - **Full Moon (Sanity Erosion)**: The parasite floods your brain with cosmic signal. +2d8 radiant, crit 19-20, ignores 50% DR, but roll Delirium each turn and lose 5 max HP/round. This is your nuclear option -- devastating but self-destructive. Never stay here longer than you must.
 - **Waning Moon (Vitality Drain)**: The parasite drinks your life force. -3 mana costs, +10ft spell range, debuffs last +1 round, 25% vampiric healing, but -2 DR, -10ft speed, -10 max HP. Use this to recover through vampirism while controlling the field.
 
@@ -135,11 +135,11 @@ Every shift (natural or manual), roll 1d6:
 | 2 | Synaptic Flash -- Blinded for 1 round as the parasite reroutes your optic nerves |
 | 3 | Mana Hemorrhage -- Lose 2d4 mana as the parasite drains arcane reserves |
 | 4 | Temporal Dissonance -- Lose 1 AP on your next turn as time stutters |
-| 5 | Psychic Whiplash -- Take 1d6 psychic damage, disadvantage on next save |
-| 6 | Parasitic Mercy -- Only 1 necrotic damage. The parasite is sated... for now |
+| 5 | Psychic Whiplash -- Take 1d6 wyrd damage, disadvantage on next save |
+| 6 | Parasitic Mercy -- Only 1 blight damage. The parasite is sated... for now |
 
 **The Healing Problem**:
-You CANNOT be healed by standard magical means. A cleric casting healing spells on you deals psychic damage instead. Your only recovery options are: Waning Moon vampirism (25% of damage dealt), Sanguine Warden blood-rites (cost your own HP), and specific self-damage spells that convert parasite-feeding into temporary sustenance. Plan accordingly.
+You CANNOT be healed by standard magical means. A cleric casting healing spells on you deals wyrd damage instead. Your only recovery options are: Waning Moon vampirism (25% of damage dealt), Sanguine Warden blood-rites (cost your own HP), and specific self-damage spells that convert parasite-feeding into temporary sustenance. Plan accordingly.
 
 **Round Manipulation**:
 Your unique utility. Key abilities let you add or remove rounds from effects, extend debuffs on enemies, compress buff durations on allies, and force enemies to "sync" with your current phase. This makes you the only class that can accelerate or decelerate the entire battlefield's tempo.`,
@@ -165,7 +165,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 - Eclipse Vulnerability: During the round you shift phases, the celestial transition leaves you exposed. Roll 1d4 on the Transition Shock table each time you shift:
 | d4 | Effect |
 |---|---|
-| 1 | Celestial Burn - Take 1d8 radiant damage as the phase tears through you. |
+| 1 | Celestial Burn - Take 1d8 ember damage as the phase tears through you. |
 | 2 | Lunar Dizziness - You have disadvantage on your next attack roll this turn. |
 | 3 | Mana Drain - Lose 1d4 mana as the shift consumes energy. |
 | 4 | Exposed - You take double damage from the next attack that hits you this round. |
@@ -227,7 +227,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **Base Damage**: 1d8 radiant ? [6] = 6 radiant
 **New Moon Phase Bonus**: Target loses 1d4 mana or takes 1d4 extra necrotic ? [3] necrotic
 **Total Damage**: **6 radiant + 3 necrotic = 9 damage**
-**Self-Damage from Parasitic Bolt**: 1d4 necrotic ? [2] = 2 necrotic to you
+**Self-Damage from Parasitic Bolt**: 1d4 necrotic ? [2] = 2 blight to you
 
 **HP**: 55 - 2 = 53/65
 **Mana**: 47 - 4 = 43/60
@@ -250,10 +250,10 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **Mana Drain**: -1d4 ? [2] = -2 mana. *Your memory of last night's campfire fades.*
 **Mana**: 43 - 2 = 41/60
 
-**Your Action**: Cast "Phase Tear" -- Force shift to FULL MOON (8 mana + 1d8+2 necrotic self-damage)
+**Your Action**: Cast "Phase Tear" -- Force shift to FULL MOON (8 mana + 1d8+2 blight self-damage)
 *You cannot endure another round of being a punching bag. You reach into the parasite's cycle and TEAR yourself toward Full Moon. Your flesh screams.*
 
-**Phase Shift Cost**: 8 mana + 1d8+2 necrotic ? [6] + 2 = 8 necrotic to you
+**Phase Shift Cost**: 8 mana + 1d8+2 necrotic ? [6] + 2 = 8 blight to you
 **Transition Shock Table (1d6)**: [4] = **Temporal Dissonance** -- lose 1 AP on your next turn
 
 *Your skin splits along the starlight seams. Cold white light pours from the cracks. Your perception SHATTERS -- for a moment, you see through the moon's eyes. Everything is so small. Everything is so breakable.*
@@ -264,7 +264,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **FULL MOON -- THE SANITY EROSION (Rounds 2-4)**
 
 **Full Moon Active**:
-- +2d8 radiant damage on all attacks
+- +2d8 ember damage on all attacks
 - Critical hits on 19-20
 - Attacks ignore 50% of DR
 - DELIRIUM: Roll on Delirium Table at start of each turn
@@ -273,8 +273,8 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **Max HP Reduction**: 65 - 5 = 60 (temporary)
 **HP**: 33/60 (still 33 HP, but ceiling drops)
 
-**Delirium Roll (1d4)**: [3] = Take 1d6 psychic damage
-**Psychic Damage**: [4] = 4 psychic. *The cosmos whisper a name. It might be yours. It might be the name of the star that will die last.*
+**Delirium Roll (1d4)**: [3] = Take 1d6 wyrd damage
+**wyrd damage**: [4] = 4 psychic. *The cosmos whisper a name. It might be yours. It might be the name of the star that will die last.*
 
 **HP**: 33 - 4 = 29/60
 
@@ -282,7 +282,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **Attack Roll**: d20+6 ? [19] = **CRITICAL HIT!** (19-20 crit range)
 **Base Damage**: 1d8 radiant ? [8] = 8, doubled = 16 radiant
 **Full Moon Bonus**: +2d8 radiant ? [7, 6] = 13, doubled = 26 radiant
-**Total Critical Damage**: **42 radiant damage**
+**Total Critical Damage**: **42 ember damage**
 **Self-Damage**: 1d4 necrotic ? [3] = 3
 
 *The bolt doesn't just hit the Weaver. It UNRAVELS it. Cold starlight erupts from every joint, every orifice, every crack in its carapace. The thing doesn't die -- it stops. Mid-motion. Frozen in a moment of cosmic horror. Then it collapses into a pile of light-bleached chitin.*
@@ -316,7 +316,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **HP**: 25 - 23 = 2/55
 
 **Your Party's Healer**: "I'll heal you!"
-**You**: "DON'T. Your healing will KILL me. The parasite eats foreign magic and feeds it back as psychic damage. I need to shift to Waning and vampiric drain."
+**You**: "DON'T. Your healing will KILL me. The parasite eats foreign magic and feeds it back as wyrd damage. I need to shift to Waning and vampiric drain."
 
 **Your Party's Tank**: Interposes, blocking the Matriarch's next attack.
 
@@ -370,7 +370,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
     title: "The Lunar Parasite Economy",
     subtitle: "Flesh Is the Currency of the Cosmos",
 
-    description: `The Lunar Cycle is not a tool. It is a feeding schedule imposed by an alien parasite fused to the Lunarch's nervous system. Every three rounds, the parasite FORCEFULLY REWRITES the host's physiology to extract a different nutrient -- memory, sensation, sanity, or vitality. This is not optional. This is not free. Every natural cycle shift deals 2d6 irreducible necrotic damage as the Lunarch's flesh tears along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop the feeding. They can only direct it -- choosing which horror to embrace at the cost of their own blood, and praying the parasite's hunger can be weaponized against their enemies before it consumes them entirely.`,
+    description: `The Lunar Cycle is not a tool. It is a feeding schedule imposed by an alien parasite fused to the Lunarch's nervous system. Every three rounds, the parasite FORCEFULLY REWRITES the host's physiology to extract a different nutrient -- memory, sensation, sanity, or vitality. This is not optional. This is not free. Every natural cycle shift deals 2d6 irreducible blight damage as the Lunarch's flesh tears along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop the feeding. They can only direct it -- choosing which horror to embrace at the cost of their own blood, and praying the parasite's hunger can be weaponized against their enemies before it consumes them entirely.`,
 
     cards: [
       {
@@ -381,7 +381,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
       },
       {
         title: "Waxing Moon -- The Sensation Harvest",
-        stats: "+1d6 Damage | +10ft Speed | Adv Perception | 1d4 Necrotic/turn | No Healing",
+        stats: "+1d6 Damage | +10ft Speed | Adv Perception | 1d4 blight/turn | No Healing",
         details:
           "The parasite feeds on nerve endings. Every sensation is amplified into agony. Pain becomes power -- channeled into destructive force and hyper-awareness. But you CANNOT be healed by any means during this phase. The parasite intercepts all restoration and converts it into more sensation to feed on.",
       },
@@ -389,7 +389,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
         title: "Full Moon -- The Sanity Erosion",
         stats: "+2d8 Radiant | Crit 19-20 | Ignores 50% DR | Delirium Roll/turn | -5 Max HP/round",
         details:
-          "The parasite floods your brain with cosmic signal. Reality fractures. Your attacks become terrifying -- raw stellar radiation channeled through a breaking mind. But each turn you must roll on the Delirium Table: attack an ally, lose AP, take psychic damage, or -- rarely -- nothing. Your max HP erodes every round you remain.",
+          "The parasite floods your brain with cosmic signal. Reality fractures. Your attacks become terrifying -- raw stellar radiation channeled through a breaking mind. But each turn you must roll on the Delirium Table: attack an ally, lose AP, take wyrd damage, or -- rarely -- nothing. Your max HP erodes every round you remain.",
       },
       {
         title: "Waning Moon -- The Vitality Drain",
@@ -433,12 +433,12 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 | d6 | Name | Effect |
 |---|---|---|
-| 1 | Tissue Rupture | Take 2d6 necrotic damage as flesh splits along starlight seams |
+| 1 | Tissue Rupture | Take 2d6 blight damage as flesh splits along starlight seams |
 | 2 | Synaptic Flash | Blinded for 1 round as the parasite reroutes optic nerves |
 | 3 | Mana Hemorrhage | Lose 2d4 mana as the parasite drains arcane reserves to fuel transition |
 | 4 | Temporal Dissonance | Lose 1 AP on your next turn as your perception of time stutters |
-| 5 | Psychic Whiplash | Take 1d6 psychic damage and disadvantage on your next saving throw |
-| 6 | Parasitic Mercy | Only 1 necrotic damage. The parasite is briefly sated. It almost feels... grateful. |
+| 5 | Psychic Whiplash | Take 1d6 wyrd damage and disadvantage on your next saving throw |
+| 6 | Parasitic Mercy | Only 1 blight damage. The parasite is briefly sated. It almost feels... grateful. |
 
 **The Delirium Table (Full Moon Only)**:
 At the START of each turn during Full Moon (Sanity Erosion), roll 1d4:
@@ -447,15 +447,15 @@ At the START of each turn during Full Moon (Sanity Erosion), roll 1d4:
 |---|---|
 | 1 | Cosmic Hallucination -- You MUST attack the nearest creature (ally or enemy) with your next action |
 | 2 | Temporal Seizure -- Lose 1 AP this turn as your body convulses with starlight |
-| 3 | Psychic Bleed -- Take 1d6 psychic damage as the cosmos whisper the names of dead stars |
+| 3 | Psychic Bleed -- Take 1d6 wyrd damage as the cosmos whisper the names of dead stars |
 | 4 | Moment of Clarity -- No drawback this turn. The parasite blinks. Make it count. |`,
     },
 
     strategicConsiderations: {
       title: "The Flesh Economist",
-      content: `**The 3-Round Death Clock**: Every 3 rounds, the parasite forces a natural cycle shift. This deals 2d6 necrotic damage AND forces a Transition Shock roll. You cannot opt out. You cannot reduce the damage. You can only choose WHICH phase you bleed into by shifting manually (which costs MORE blood). Every combat is a countdown -- how many cycles can your body survive before the parasite consumes more than you can replenish?
+      content: `**The 3-Round Death Clock**: Every 3 rounds, the parasite forces a natural cycle shift. This deals 2d6 blight damage AND forces a Transition Shock roll. You cannot opt out. You cannot reduce the damage. You can only choose WHICH phase you bleed into by shifting manually (which costs MORE blood). Every combat is a countdown -- how many cycles can your body survive before the parasite consumes more than you can replenish?
 
-**The Healing Problem**: You CANNOT be healed by standard magical means. The parasite devours foreign magic and converts it to psychic feedback. A cleric's healing spell deals psychic damage to you equal to 50% of the heal amount. Your ONLY recovery options are:
+**The Healing Problem**: You CANNOT be healed by standard magical means. The parasite devours foreign magic and converts it to wyrd feedback. A cleric's healing spell deals wyrd damage to you equal to 50% of the heal amount. Your ONLY recovery options are:
 - Waning Moon vampirism (25% of all damage dealt returns as HP)
 - Sanguine Warden blood-rites (heal allies by damaging yourself, then leech life back through Waning)
 - Specific self-damaging spells that convert the parasite's feeding into temporary sustenance
@@ -465,7 +465,7 @@ At the START of each turn during Full Moon (Sanity Erosion), roll 1d4:
 
 **Phase Triage (Choose Your Suffering)**:
 - Being focused by enemies? New Moon. The +3 DR and charm/fear immunity might keep you alive. You'll hit like a toddler, but you'll be alive.
-- Healthy and need damage? Waxing Moon. +1d6 damage and +10ft speed. You'll take 1d4 necrotic/turn and can't be healed, but if you're healthy that's manageable.
+- Healthy and need damage? Waxing Moon. +1d6 damage and +10ft speed. You'll take 1d4 blight/turn and can't be healed, but if you're healthy that's manageable.
 - Something needs to DIE right now? Full Moon. +2d8 radiant, crit 19-20, ignores half DR. You may hallucinate and stab your healer. Your max HP drops every round. Get in, kill, get out.
 - Dying and need sustain? Waning Moon. -3 mana costs and 25% vampirism. Your body withers but you steal life from everything you damage. This is your emergency room.
 
@@ -533,7 +533,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
         strengths: [
           "Ranged attacks ignore 25% of DR (the parasite calculates weak points)",
-          "Critical hits during Full Moon deal additional 2d6 psychic damage -- the target glimpses the cosmos through the wound",
+          "Critical hits during Full Moon deal additional 2d6 wyrd damage -- the target glimpses the cosmos through the wound",
           "Can mark targets, making them visible through walls and immune to concealment",
           "Devastating single-target elimination potential",
         ],
@@ -558,7 +558,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             tier: "Specialization Passive",
             icon: "Piercing/On the Mark",
             description:
-              "Your ranged attacks ignore 25% of the target's DR. The starlight in your eyes perceives structural weak points in any defense. During Full Moon (Sanity Erosion), critical hits deal an additional 2d6 psychic damage as the wound channels a glimpse of the cosmos directly into the target's mind.",
+              "Your ranged attacks ignore 25% of the target's DR. The starlight in your eyes perceives structural weak points in any defense. During Full Moon (Sanity Erosion), critical hits deal an additional 2d6 wyrd damage as the wound channels a glimpse of the cosmos directly into the target's mind.",
             uniqueTo: "Hollow Sentinel",
           },
           {
@@ -566,7 +566,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             tier: "Specialization Ability",
             icon: "Piercing/Targeted Strike",
             description:
-              "When you hit a creature with a ranged attack, you can mark them until the end of your next turn. Marked creatures are visible to you through walls and concealment. Your next spell against a marked creature deals +1d6 radiant damage as the parasite focuses its hunger.",
+              "When you hit a creature with a ranged attack, you can mark them until the end of your next turn. Marked creatures are visible to you through walls and concealment. Your next spell against a marked creature deals +1d6 ember damage as the parasite focuses its hunger.",
             uniqueTo: "Hollow Sentinel",
           },
         ],
@@ -590,7 +590,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           "Battlefield controller who tears reality apart, spreading cosmic contamination and phase contagion across entire enemy formations",
 
         strengths: [
-          "AoE spells apply Star-Sickness: disadvantage on next attack roll, 1d4 radiant damage at start of turn for 2 rounds",
+          "AoE spells apply Star-Sickness: disadvantage on next attack roll, 1d4 ember damage at start of turn for 2 rounds",
           "During Waxing Moon, AoE radius increases by 5 ft (the parasite's tendrils reach further when feeding on sensation)",
           "Can spread the current phase's effects to enemies via Phase Contagion",
           "Round manipulation -- add or remove rounds from active battlefield effects",
@@ -616,7 +616,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             tier: "Specialization Passive",
             icon: "Arcane/Star Trail Path",
             description:
-              "Your AoE spells during Full Moon apply Star-Sickness to all enemies hit: disadvantage on their next attack roll and 1d4 radiant damage at the start of their next turn for 2 rounds. During Waxing Moon, all AoE spell radii increase by 5 feet as the parasite's tendrils extend through the tears in reality.",
+              "Your AoE spells during Full Moon apply Star-Sickness to all enemies hit: disadvantage on their next attack roll and 1d4 ember damage at the start of their next turn for 2 rounds. During Waxing Moon, all AoE spell radii increase by 5 feet as the parasite's tendrils extend through the tears in reality.",
             uniqueTo: "Void Caller",
           },
           {
@@ -624,7 +624,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             tier: "Specialization Passive",
             icon: "Arcane/Magical Sword",
             description:
-              "When you deal damage with an AoE spell, you can choose to spread your current phase's horror to one enemy hit. New Moon: target loses 1d4 mana or takes 1d4 psychic damage. Waxing: target takes 1d4 extra necrotic. Full Moon: target has disadvantage on next save. Waning: target loses 5 ft speed for 1 round.",
+              "When you deal damage with an AoE spell, you can choose to spread your current phase's horror to one enemy hit. New Moon: target loses 1d4 mana or takes 1d4 wyrd damage. Waxing: target takes 1d4 extra necrotic. Full Moon: target has disadvantage on next save. Waning: target loses 5 ft speed for 1 round.",
             uniqueTo: "Void Caller",
           },
         ],
@@ -642,7 +642,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         color: "#8B0000",
         theme: "Self-Mutilating Healer",
 
-        description: `The Sanguine Warden has learned to redirect the parasite's feeding outward -- siphoning vitality from the moon's gravitational pull and channeling it through their own bleeding flesh to mend allies. This is not holy healing. This is not divine intervention. The Sanguine Warden literally bleeds moonlight, tearing open the starlight seams in their own body to create conduits through which stolen life force can flow into wounded companions. During Waxing Moon, their healing is increased by 50% because the parasite's sensation-feeding creates more tears to channel through -- but each heal costs the Warden 1d4 necrotic damage as they rip themselves open further. During Waning Moon, a vampiric feedback loop allows them to recover 25% of the healing they deal to others. The Sanguine Warden is the only Lunarch who can semi-reliably sustain themselves, and they do it by making their own suffering into medicine.`,
+        description: `The Sanguine Warden has learned to redirect the parasite's feeding outward -- siphoning vitality from the moon's gravitational pull and channeling it through their own bleeding flesh to mend allies. This is not holy healing. This is not divine intervention. The Sanguine Warden literally bleeds moonlight, tearing open the starlight seams in their own body to create conduits through which stolen life force can flow into wounded companions. During Waxing Moon, their healing is increased by 50% because the parasite's sensation-feeding creates more tears to channel through -- but each heal costs the Warden 1d4 blight damage as they rip themselves open further. During Waning Moon, a vampiric feedback loop allows them to recover 25% of the healing they deal to others. The Sanguine Warden is the only Lunarch who can semi-reliably sustain themselves, and they do it by making their own suffering into medicine.`,
 
         playstyle:
           "Self-mutilating healer who bleeds moonlight to keep allies alive, sustaining themselves through vampiric feedback loops during Waning Moon",
@@ -674,7 +674,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             tier: "Specialization Passive",
             icon: "Radiant/Radiant Golden Shield",
             description:
-              "Your healing spells during Waxing Moon deal 1d4 necrotic damage to you but heal for 50% more. During Waning Moon, you recover 25% of all healing you deal to others as self-healing (vampiric feedback). This is the only reliable way a Lunarch can sustain themselves.",
+              "Your healing spells during Waxing Moon deal 1d4 blight damage to you but heal for 50% more. During Waning Moon, you recover 25% of all healing you deal to others as self-healing (vampiric feedback). This is the only reliable way a Lunarch can sustain themselves.",
             uniqueTo: "Sanguine Warden",
           },
           {
@@ -749,11 +749,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       specialMechanics: {
         phaseInteraction: {
           newMoon: "Damage type becomes necrotic. Target loses 1d4 mana or takes 1d4 extra necrotic if no mana.",
-          waxingMoon: "Add +1d4 radiant damage. Take 1 necrotic damage.",
-          fullMoon: "Add +1d8 radiant damage and increase crit range by 2.",
+          waxingMoon: "Add +1d4 ember damage. Take 1 blight damage.",
+          fullMoon: "Add +1d8 ember damage and increase crit range by 2.",
           waningMoon: "Heal for 25% of damage dealt. Costs 1 less mana (minimum 1).",
         },
-        selfDamage: "Take 1d4 necrotic damage when you cast this spell",
+        selfDamage: "Take 1d4 blight damage when you cast this spell",
         phaseAdvancement: 1,
       },
 
@@ -1029,7 +1029,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_celestial_rejection",
       name: "Celestial Rejection",
       description:
-        "PASSIVE: +25% Bludgeoning vulnerability (starlight-infused organs rupture under blunt trauma). Immune to standard magical healing -- the parasite devours foreign magic, dealing psychic damage equal to 50% of heal amount instead. Only your own phase-specific restoration works.",
+        "PASSIVE: +25% Bludgeoning vulnerability (starlight-infused organs rupture under blunt trauma). Immune to standard magical healing -- the parasite devours foreign magic, dealing wyrd damage equal to 50% of heal amount instead. Only your own phase-specific restoration works.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
@@ -1057,10 +1057,10 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           },
           { id : "healing_rejection",
             name: "Magic Devourer",
-            description: "Magical healing deals psychic damage equal to 50% of heal amount. The parasite devours foreign magic.",
+            description: "Magical healing deals wyrd damage equal to 50% of heal amount. The parasite devours foreign magic.",
             statusType: "cursed",
             level: "major",
-            mechanicsText: "Magical healing deals 50% psychic damage instead",
+            mechanicsText: "Magical healing deals 50% wyrd damage instead",
           },
         ],
       },
@@ -1314,7 +1314,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       specialMechanics: {
         phaseInteraction: {
           fullMoon: "Mark lasts 3 rounds. Bonus damage 1d8. Advantage on next attack vs target below half HP.",
-          waxingMoon: "Mark also deals 1d4 necrotic/round.",
+          waxingMoon: "Mark also deals 1d4 blight/round.",
           waningMoon: "Duration +1 round. Heal 25% of damage to marked target.",
         },
       },
@@ -1456,7 +1456,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         effects: [
           { id : "parasitic_bind",
             name: "Parasitic Bind",
-            description: "Restrained by living tendrils. Cannot move. 1d4 necrotic/turn as tendrils feed.",
+            description: "Restrained by living tendrils. Cannot move. 1d4 blight/turn as tendrils feed.",
             config: {
               restraintType: "parasitic_bind",
               saveType: "strength",
@@ -1475,7 +1475,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         phaseInteraction: {
           newMoon: "Target loses 1d4 mana/round or takes 1d4 psychic.",
           waxingMoon: "Disadvantage on initial save.",
-          fullMoon: "Tendrils deal 1d6 radiant/round. Duration 4 rounds.",
+          fullMoon: "Tendrils deal 1d6 ember/round. Duration 4 rounds.",
           waningMoon: "Heal 25% of tendril damage. Mana cost reduced by 2.",
         },
       },
@@ -1532,7 +1532,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             "Full Moon: Next attack deals +1d6 damage with +2 crit range",
             "Waning: Next spell costs 2 less mana",
           ],
-          selfDamage: "Take 4d4 necrotic damage (cumulative tissue damage from four rapid shifts). Roll Transition Shock once.",
+          selfDamage: "Take 4d4 blight damage (cumulative tissue damage from four rapid shifts). Roll Transition Shock once.",
           phaseAdvancement: 1,
         },
       },
@@ -1731,7 +1731,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
-        selfDamage: "Take 2d4 necrotic damage per target hit (parasite feeds on each bolt).",
+        selfDamage: "Take 2d4 blight damage per target hit (parasite feeds on each bolt).",
         phaseAdvancement: 1,
         phaseInteraction: {
           fullMoon: "Can target 6 enemies. Each bolt deals +1d8 radiant. Ignore 25% DR (Starlight Sockets).",
@@ -1877,7 +1877,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
-        selfDamage: "Take 4d6 necrotic damage. This damage cannot reduce you below 1 HP (the parasite will not let you die before it finishes feeding).",
+        selfDamage: "Take 4d6 blight damage. This damage cannot reduce you below 1 HP (the parasite will not let you die before it finishes feeding).",
         phaseAdvancement: 1,
         phaseInteraction: {
           waxingMoon: "Direct healing +2d6. HOT +1d6. Allies gain 2d6 temp HP.",
@@ -1940,7 +1940,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
       specialMechanics: {
-        selfDamage: "Take 4d6 necrotic damage. The bolt is forged from your own vital essence.",
+        selfDamage: "Take 4d6 blight damage. The bolt is forged from your own vital essence.",
         phaseAdvancement: 1,
         phaseInteraction: {
           fullMoon: "Damage +3d8 radiant. Crit range 18-20. Ignore 50% DR.",
@@ -2212,7 +2212,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           },
           { id : "parasitic_immunity",
             name: "Starlight Form",
-            description: "Immune to radiant and necrotic damage. Half damage from all other sources.",
+            description: "Immune to radiant and blight damage. Half damage from all other sources.",
           },
           { id : "parasitic_flight",
             name: "Void Step",
@@ -2293,7 +2293,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           },
           { id : "lunar_immunity",
             name: "Eclipse Body",
-            description: "Immune to radiant, necrotic, and psychic damage. Half damage from all other sources.",
+            description: "Immune to radiant, necrotic, and wyrd damage. Half damage from all other sources.",
           },
           { id : "lunar_phasing",
             name: "Phase Walk",
@@ -2301,7 +2301,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           },
           { id : "lunar_aura",
             name: "The Feeding Zone",
-            description: "All enemies within 30 ft take 2d6 radiant damage at start of each turn. You heal for 100% of this damage (the parasite feeds on a cosmic scale).",
+            description: "All enemies within 30 ft take 2d6 ember damage at start of each turn. You heal for 100% of this damage (the parasite feeds on a cosmic scale).",
           },
           { id : "lunar_exhaustion",
             name: "The Reversion (On End)",
@@ -2377,9 +2377,9 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
-        selfDamage: "Take 6d6 necrotic damage. Your maximum HP is reduced by 10 until your next long rest (the parasite takes time to regenerate the portion of itself you fired).",
+        selfDamage: "Take 6d6 blight damage. Your maximum HP is reduced by 10 until your next long rest (the parasite takes time to regenerate the portion of itself you fired).",
         phaseAdvancement: 1,
-        specialRules: "Ignores resistance to radiant damage. Destroys unattended objects in path.",
+        specialRules: "Ignores resistance to ember damage. Destroys unattended objects in path.",
         phaseInteraction: {
           fullMoon: "Damage +4d6 radiant. Crit range 17-20.",
           waningMoon: "Heal 25% of total damage. Mana cost reduced by 10.",
@@ -2433,7 +2433,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           areaType: "circle",
           areaSize: 30,
           targetRestrictions: ["enemy"],
-          description: "All enemies in the zone take radiant damage each round",
+          description: "All enemies in the zone take ember damage each round",
         },
       },
 

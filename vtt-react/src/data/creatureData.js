@@ -10,12 +10,12 @@ export const BESTIARY_DATA = {
           "name": "Gref",
           "dangerLevel": "Low",
           "illustration": "/assets/images/creatures/gref.png",
-          "illustrationCaption": "A sketch of Gref in its natural environment",
-          "role": "The merchant of forgotten things",
-          "origin": "A wandering spirit formed from the collective memory of items left behind in the fog. It does not steal; it collects and trades.",
-          "nature": "A small, stooped humanoid pushing a wooden cart filled with lost keys, old letters, and rusty tools. It offers these lost items to travelers in exchange for memories.",
-          "habitat": "Misty crossroads in the Frostwood Reach at twilight.",
-          "combat": "Flees if attacked (40 HP). Its masks can be thrown as distractions (Charm Person, single target, DC 12). Overturning its cart releases 2d6 trapped faces that fly back to their original owners — who may not want them back.",
+          "illustrationCaption": "Gref pushing its crude cart of forgotten memories through the twilight fog",
+          "role": "The memory-merchant goblin",
+          "origin": "In the world of Mythrill, the Frostwood Reach was once the heartland of the Seelie Accord, a pact between ancient human settlers and the Fair Folk who wandered the twilight borders between waking and dream. When the Wyrd corruption seeped through the world's fractures, it twisted the memory-keeping traditions of the Seelie into something bittersweet. Gref is one of the many 'twilight merchants' born from this corruption—spirits that once guided lost travelers to safety, now cursed to collect fragments of mortal memory to sustain their own fading existence. In Frostwood Reach, where the sun rarely pierces the perpetual mist, the locals leave small offerings of copper and old keys at crossroads, hoping to appease the memory-merchants rather than face the empty silence of forgetting.",
+          "nature": "A small, stooped goblin-like creature no taller than a child, dressed in tattered canvas that was once a shepherd's cloak. Its skin is the color of dried birch bark, and its eyes are milky white with no visible pupils—yet it sees perfectly well in the twilight gloom. Gref pushes a squeaking wooden barrow filled with rusted keys, old letters sealed with wax, and iron trinkets that once belonged to forgotten travelers. It speaks in a soft, whispering sigh that sounds like wind through autumn leaves, and it avoids physical conflict entirely, preferring to vanish into the mist when threatened.",
+          "habitat": "Gref roams the misty crossroads and forest paths of the Frostwood Reach at twilight, especially near the ancient trade routes that connect the small villages of Drunhold and the Grimmwood. It is drawn to places where strong emotions have been felt—graveyards, abandoned campsites, and the thresholds of homes where someone has recently departed. The locals know that if Gref appears at your door, it means someone in the household has forgotten something important, and the spirit has come to trade it back.",
+          "combat": "40 HP. Flees if attacked. Memory Trade (requires a DC 13 SPI save or target loses one small memory, granting Gref full evasion for 3 rounds). Release Faces (if its barrow is overturned, releases trapped memories that dazzle and confuse all targets in a 15-ft radius for 1 round).",
           "stats": {
             "strength": 8,
             "agility": 14,
@@ -25,400 +25,164 @@ export const BESTIARY_DATA = {
             "charisma": 16,
             "maxHp": 40,
             "maxMana": 20,
-            "maxActionPoints": 4,
+            "maxActionPoints": 3,
             "speed": 30,
             "resistances": {
-              "psychic": 50
+              "wyrd": 50
             }
           },
-          "depth": "It is peaceful and harmless. It simply wishes to return lost objects to those who can recall their significance.",
+          "depth": "Gref is entirely peaceful, but its existence is a tragic one. It only seeks to return lost objects to those who can recall their significance, feeding on the emotional energy of the recalled memory. Without these memories, Gref and its kind would fade into the mist forever, becoming nothing more than the whispers that travelers sometimes hear on the wind. The memory-merchants are a reminder that in the Frostwood, even forgetting has a price, and the Wyrd corruption has turned something once beautiful into a cycle of gentle exploitation.",
           "hooks": [
-            "A noble's son bought a face and can no longer remove it. The party must find the Gref and negotiate the return — but the son has forgotten who he was without the mask.",
-            "The Gref knows the location of every soul lost in the fog. A grieving widow wants to know if her husband still lives. The Gref will trade — for a face of equal value.",
-            "A village has been found empty, every inhabitant wearing identical masks. The Gref visited three nights ago. The party must find which villager started the trade."
+            "A merchant's son traded his name to Gref for a brass locket. The party must locate Gref and trade a memory of equal weight to recover the boy's identity.",
+            "Gref knows the exact location of a path that disappeared from the woods. To buy the memory of this path, the party must trade a memory of their greatest regret."
           ]
         },
         {
-          "id": "vetch",
-          "name": "Vetch",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/vetch.png",
-          "illustrationCaption": "A sketch of Vetch in its natural environment",
-          "role": "The path sprite",
-          "origin": "A small woodland spirit shaped by the natural game trails of the Frostwood Reach.",
-          "nature": "A quick, scurrying sprite made of twigs and dry leaves. It runs ahead of travelers, mimicking animal trails to guide them safely through the fog.",
-          "habitat": "Thick undergrowth and mossy paths.",
-          "combat": "20 HP. Cannot deal damage directly. Each round it moves 60 ft in a direction that seems purposeful — any creature that follows it must make a DC 10 INT check or lose their sense of direction for 1d4 hours. Its twig-body can be crushed (vulnerability to bludgeoning), releasing a burst of stolen memories (2d6 psychic, DC 12 WIS half) that reveal fragments of where the Vetch has led others.",
-          "stats": {
-            "strength": 4,
-            "agility": 18,
-            "constitution": 8,
-            "intelligence": 6,
-            "spirit": 10,
-            "charisma": 6,
-            "maxHp": 20,
-            "maxMana": 0,
-            "maxActionPoints": 4,
-            "speed": 60,
-            "resistances": {
-              "psychic": 75
-            },
-            "vulnerabilities": {
-              "bludgeoning": 100
-            }
-          },
-          "depth": "Entirely benign and easily startled. It will flee if approached too quickly.",
-          "hooks": [
-            "A Vetch has been leading merchant caravans into a Briaran ambush. The Briaran did not command the Vetch — the fog simply found their hiding spot interesting. Determine whether the Briaran know they are being \"helped.\"",
-            "Follow a Vetch deliberately. It will lead you somewhere — but you must decide if the destination is worth losing a day's travel. Some Vetch lead to caches of forgotten supplies. Others lead to Gambrel groves.",
-            "A Thalren archivist discovered that crushing a Vetch releases the memories of every path it ever walked. She wants the party to capture one alive — but the Vetch becomes suicidal when cornered, and a dead Vetch remembers nothing."
-          ]
-        },
-        {
-          "id": "moot",
-          "name": "Gloomwood Warden",
+          "id": "oillipheist",
+          "name": "Oilliph\u00e9ist",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/moot.png",
-          "illustrationCaption": "A sketch of Gloomwood Warden in its natural environment",
-          "role": "Guardian of the forest boundaries",
-          "origin": "Born from the ancient treaties sworn between the first human settlers and the forest spirits.",
-          "nature": "A majestic, moss-draped elk whose antlers are hung with old stone tablets and copper keys. It stands at the edges of sacred groves, turning back intruders with a low warning call.",
-          "habitat": "Ancient forest clearings and boundaries.",
-          "combat": "110 HP. Each encounter begins with the Moot announcing a charge (DC 14 CHA to present a defense — roleplay, not combat). If the defense satisfies the Moot, it steps aside. If it detects deception or the defense fails, combat begins. Gavel Strike (2d8+4 bludgeoning + DC 15 CHA save or lose 3 CHA for 2 rounds as false guilt sets in). Recite the Charges (30-ft cone, 3d6 psychic, DC 14 INT save or stunned 1 round). Contempt of Court (single target, DC 14 STR save or restrained 2 rounds by spectral juror-hands). Resistant to psychic damage — you cannot shame it.",
-          "stats": {
-            "strength": 14,
-            "agility": 12,
-            "constitution": 16,
-            "intelligence": 16,
-            "spirit": 14,
-            "charisma": 18,
-            "maxHp": 110,
-            "maxMana": 40,
-            "maxActionPoints": 5,
-            "speed": 30,
-            "resistances": {
-              "psychic": 50
-            },
-            "vulnerabilities": {
-              "radiant": 50
-            }
-          },
-          "depth": "It represents the preservation of bounds and only acts defensively if its grove is defiled.",
-          "hooks": [
-            "The Moot has blocked the only road to a plague-stricken village. It announces that the village's elder is guilty of \"conspiracy of breath.\" The party must either defend the elder in a trial the Moot takes seriously, or fight through it.",
-            "A Moot has appeared inside Greymark Keep itself, announcing charges against House Thalreth. The nobles want it destroyed quietly — but destroying a Moot releases every verdict it carried back into the fog, where they become whispers that accuse everyone.",
-            "The Moot's gavel is made of petrified ironwood from a Briaran hanging-tree. Return it to the tree and the Moot may dissolve — but the Briaran who planted that tree may not want the reminder."
-          ]
-        },
-        {
-          "id": "gallows-wood",
-          "name": "Gloomwood Treant",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/gallows-wood.png",
-          "illustrationCaption": "A sketch of Gloomwood Treant in its natural environment",
-          "role": "The weeping ironwood",
-          "origin": "An ancient ironwood tree that has absorbed the thick mist and mineral runoff of the mountains.",
-          "nature": "A massive, gnarled tree with weeping, vine-like branches that hang low to the ground. It reacts defensively to loud noises and fire, sweeping its heavy vines to ensnare trespassers.",
-          "habitat": "Deep ironwood groves.",
-          "combat": "220 HP, immune to poison and 75% resistant to psychic. Immovable — speed 0. Gallows Drop (30 ft reach, 2d10+5 bludgeoning, DC 16 AGI save or restrained for 2 rounds as a noose-vine hoists the target into the canopy — restrained targets take 1d6 bludgeoning per round from the vine). Root Surge (30-ft radius, 4d8 bludgeoning, DC 15 AGI half, and DC 15 STR or prone). Bark Sentence (40-ft radius, 3d8 psychic, DC 16 SPI save or frightened for 2 rounds — the faces in the bark scream the condemned's last words). Briaran Hardening (self-buff, +4 defense for 3 rounds). Fire vulnerability — the ironwood burns if the bark is breached.",
-          "stats": {
-            "strength": 20,
-            "agility": 6,
-            "constitution": 20,
-            "intelligence": 10,
-            "spirit": 16,
-            "charisma": 12,
-            "maxHp": 220,
-            "maxMana": 30,
-            "maxActionPoints": 5,
-            "speed": 0,
-            "resistances": {
-              "physical": 50,
-              "poison": 100,
-              "psychic": 75
-            },
-            "vulnerabilities": {
-              "fire": 100,
-              "radiant": 50
-            }
-          },
-          "depth": "It is a plant reacting to environmental threats rather than a malicious hunter.",
-          "hooks": [
-            "The only path to a Sundered Monolith fragment leads through a Gallows-Wood grove. The Briaran will not enter. The party must decide: burn the grove (destroying irreplaceable evidence of the purges), fight through it (facing the noose-vines and screaming bark), or find a Briaran willing to confess what the grove remembers.",
-            "The faces in the bark can speak if questioned gently with genuine compassion. Each face reveals the name of the person who turned them in — and some of those names belong to Briaran elders who still live. One elder will pay any price to keep the grove silent.",
-            "The noose-vines, if cut rather than burned, produce a living rope that remembers how to bind only the guilty. A Thalreth inquisitor wants this rope for her trials — but harvesting it requires surviving the Gallows-Wood's judgment."
-          ]
-        },
-        {
-          "id": "gambrel",
-          "name": "Briar Stalker",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/gambrel.png",
-          "illustrationCaption": "A sketch of Briar Stalker in its natural environment",
-          "role": "Guardian of the thorns",
-          "origin": "A bramble-woven elemental shape formed to protect and reclaim cleared forest land.",
-          "nature": "A slender humanoid figure made of woven brambles and sharp thorns. It remains motionless in thickets, warning away woodcutters with dry rustling sounds.",
-          "habitat": "Thorny thickets and crossroads.",
-          "combat": "100 HP. Her vines create difficult terrain in a 30-ft radius (DC 14 STR or grappled). She can teleport between any two thorn-vines within 60 ft. Her blood-briar strike deals 2d8+4 piercing and forces the target to confess one secret (DC 15 WIS or stunned for 1 round with shame).",
-          "stats": {
-            "strength": 14,
-            "agility": 16,
-            "constitution": 14,
-            "intelligence": 12,
-            "spirit": 16,
-            "charisma": 14,
-            "maxHp": 100,
-            "maxMana": 30,
-            "maxActionPoints": 5,
-            "speed": 30,
-            "vulnerabilities": {
-              "fire": 50
-            }
-          },
-          "depth": "It protects its nesting grounds and is peaceful if left unprovoked.",
-          "hooks": [
-            "A village is trapped behind a wall of her thorns — someone among them broke an oath. Find the oathbreaker and bring them to confess before the thorns tighten.",
-            "The Briaran elders know a ritual that can unbind her knots using the true name of a forgotten fae. The party must journey to the old fae roads to learn it.",
-            "She holds a piece of information the party needs — a location, a name, a secret — and will trade it for a genuine confession from someone who has wronged her."
-          ]
-        },
-        {
-          "id": "revel",
-          "name": "Gloomwood Hounds",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Gloomwood Hounds",
-          "role": "Ethereal mist wolves",
-          "origin": "Steppe wolves that wandered into the deep fog and adapted to hunt as a coordinated pack.",
-          "nature": "Ethereal wolves whose fur shifts like mist, blending perfectly into the whiteout. They hunt in packs, using coordinated flanking maneuvers.",
-          "habitat": "Open woods and misty cols.",
-          "combat": "The court functions as a single entity with 250 HP. Legendary actions (3). The Mist-Hounds (6, each) are extensions of the Revel's will. The Revel's dance aura (60 ft) forces a DC 16 WIS save or the target must dance — spending their action to move toward the Revel. If all four hounds are killed, the Revel dissipates until the next moonless night.",
+          "illustration": "/assets/images/creatures/oillipheist.png",
+          "illustrationCaption": "An Oilliph\u00e9ist coiled in a dark peat-pool, its mossy skin glistening under the cold stars",
+          "role": "The silt-leech serpent",
+          "origin": "The Oillipheist is a creature born from the fusion of ancient Irish water-dragon myths and the cold reality of the Frostwood Reach's peat-bogs. In the Age of the First Fae, the great serpents of the Oillipheist kind were guardians of sacred rivers, their scales gleaming with the light of the setting sun. When the Wyrd broke the world's boundaries, the Frostwood's endless cold and darkness twisted these noble guardians into blind, segmented eels that lurk in the stagnant pools, their once-magnificent forms reduced to something primal and hungering. The Drun fishermen speak of the 'silt-serpents' as cursed spirits of those who drowned in the bogs during the Long Winter, their bodies fused with the peat and moss to become something that is neither living nor dead.",
+          "nature": "A blind, segmented eel-serpent approximately six feet long, its body composed of river-silt, rotting green moss, and the fossilized remains of ancient bog-plants. It lacks eyes entirely, navigating by sensing vibrations and blood-heat through the water with specialized sensory organs along its flanks. Its mouth is a circular maw ringed with tiny, needle-like teeth that can grip with the strength of a spring-trap. When submerged, it is nearly invisible, its silt-colored body blending perfectly with the dark peat-water. The creature emits a low, thrumming vibration that can be felt through the soles of boots before it strikes.",
+          "habitat": "The Oillipheist haunts the stagnant peat-pools and boggy rivers of the Frostwood Reach, particularly in the Siltmire Flats where the ancient peat has turned the water into a thick, black soup. It prefers pools where the water is deep enough to hide its full length but shallow enough to trap prey. During the rare warm months, the serpents become sluggish and retreat to the deepest pools, but in the winter they grow aggressive, driven by the need to store fat for the long cold.",
+          "combat": "75 HP. Silt Grasp (melee, +5 to hit, DC 13 AGI save or grappled and pulled into difficult swamp water). Blood Drain (deals 1d8+3 physical damage to a grappled target each round and heals the serpent for the same amount). Blind-sense (immune to blindness effects). Vulnerable to ember.",
           "stats": {
             "strength": 12,
-            "agility": 18,
-            "constitution": 16,
-            "intelligence": 14,
-            "spirit": 18,
-            "charisma": 20,
-            "maxHp": 250,
-            "maxMana": 60,
-            "maxActionPoints": 6,
-            "speed": 50,
+            "agility": 16,
+            "constitution": 14,
+            "intelligence": 4,
+            "spirit": 12,
+            "charisma": 4,
+            "maxHp": 75,
+            "maxMana": 0,
+            "maxActionPoints": 4,
+            "speed": 25,
             "resistances": {
-              "psychic": 75,
-              "cold": 50
-            },
-            "vulnerabilities": {
-              "radiant": 50
+              "rime": 50
             }
           },
-          "depth": "They are natural predators, hunting for survival rather than malice.",
+          "depth": "They are simple, instinct-driven predators that keep the swamp waters free of bloated carcasses, feeding on anything that disturbs their pool. The Wyrd's corruption did not grant them malice, only hunger. Some scholars believe that the Oillipheist's blindness is a mercy—that if they could see the world they now inhabit, they would die of sorrow. The silt that makes up their bodies is the same silt that preserves the bodies of ancient warriors in the bogs, and there are tales of serpents that have swallowed bones whole, carrying the memories of the dead in their bellies.",
           "hooks": [
-            "A performer accepted their invitation. The party must enter the Revel during the height of the ball and retrieve them before dawn — without accepting the dance themselves.",
-            "The Revel passes through the same grove every 13th moon. The Briaran know how to petition them for a boon — but the price is always a dance, and no one has ever danced with the Revel and returned unchanged.",
-            "The party believes the Court holds a shard-fragment woven into the crown of its king. Sever the Wyrd-node that animates the Revel and the dancers may finally rest — or they may simply collapse into ash."
+            "A local fisher went to harvest bog-iron and never returned; his empty rowboat is floating in an Oilliph\u00e9ist's pool.",
+            "Drun alchemists need the vibration-sensitive hide of an Oilliph\u00e9ist to craft dowsing tools that can locate pure underground water."
+          ]
+        },
+        {
+          "id": "grimmstalk",
+          "name": "Grimmstalk",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/grimmstalk.png",
+          "illustrationCaption": "A Grimmstalk dryad standing silently on a gnarled branch, its hollow skull-head baring hollow eyes",
+          "role": "The feather-skull dryad",
+          "origin": "The Grimmstalks are the forest's grief given form. In the deep history of the Frostwood Reach, before the first human axe touched the ironwood trees, the forest was home to a race of dryads who sang to the trees and kept them healthy through the long winters. When the Wyrd descended, the forest's pain at the loss of so many trees to logging and the relentless cold coalesced into the Grimmstalks—dark, wood-plated guardians who carry the skulls of the birds that once nested in the highest branches. They are not the dryads of old, but something born from the forest's desire for vengeance and protection. The loggers of Frostwood call them 'the hollow watchers' and know that to cut a tree marked with a Grimmstalk's sigil is to invite death from above.",
+          "nature": "A tall, wood-plated humanoid sprite standing nearly seven feet tall, its bark-like plates fitting together like natural armor. Its head is a hollow bird-skull, inside which beats a mass of dark, rustling black feathers that create a sound like dry leaves in a windstorm. The plates of its body are made of ironwood bark, harder than steel and etched with the natural runes of the forest. It moves silently through the high canopy, its long limbs allowing it to swing between branches with the grace of an ape. When it speaks, the sound is a hollow, wind-like whistling made by forcing air through its skull-head, a warning to woodcutters before it attacks.",
+          "habitat": "The Grimmstalks dwell exclusively in the highest branches of the oldest ironwood and pine trees in the Frostwood Reach, particularly in the Grimmwood Proper where the trees have stood for ten thousand years. They never touch the ground if they can avoid it, and their territory is marked by small piles of bird bones at the base of the trees they guard. They are most active during the spring, when the sap runs and the trees are most vulnerable to cutting, and during the autumn, when the falling leaves make the forest floor noisy enough to mask their approach.",
+          "combat": "140 HP. Skull Stare (ranged, DC 14 SPI save or paralyzed with terror for 1 round). Feather Slash (melee, 2d8+5 slashing, reach 10 ft). Canopy Jump (teleports 40 ft between trees as a bonus action, avoiding opportunity attacks). Vulnerable to ember.",
+          "stats": {
+            "strength": 16,
+            "agility": 18,
+            "constitution": 14,
+            "intelligence": 10,
+            "spirit": 14,
+            "charisma": 8,
+            "maxHp": 140,
+            "maxMana": 30,
+            "maxActionPoints": 5,
+            "speed": 35,
+            "resistances": {
+              "physical": 50
+            }
+          },
+          "depth": "A strict and reclusive forest protector, the Grimmstalk is not evil but uncompromising. It communicates with the forest through the roots of the trees, feeling the pain of every cut and the joy of every new growth. The black feathers inside its skull are said to be the spirits of the birds that once sang in the forest's canopy, and when a Grimmstalk dies, the feathers scatter to the wind, carrying the forest's song to new trees. The Wyrd's corruption gave the forest a voice of anger, but the Grimmstalks remember the songs of joy, and some say that if the forest is ever healed, they will sing again.",
+          "hooks": [
+            "A logging crew is trapped inside their cabin because a Grimmstalk has claimed the surrounding trees, killing anyone who steps outside with their axe.",
+            "The black feathers inside a Grimmstalk's skull are highly prized by wizards; they can be woven into a cloak that grants absolute silence."
           ]
         },
         {
           "id": "pooka",
           "name": "Pooka",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Pooka",
-          "role": "The hedge sprite",
-          "origin": "A wild fey creature of Celtic-Grimm folklore.",
-          "nature": "A mischievous shapeshifting sprite that takes the form of a sleek black pony or a wild hare. It enjoys leading travelers on wild, fast chases through the woods but avoids causing direct harm.",
-          "habitat": "Hedges and forest edges at twilight.",
-          "combat": "80 HP. Cannot attack directly. Lure of the Briar (DC 13 WIS save or charmed, climbing on its back or following it into difficult terrain). Gallop of Panic (dashes 80 ft, carrying a grappled/charmed rider into brambles dealing 2d6 piercing damage). Fleeing form: when reduced to 0 HP, vanishes in a gust of dry leaves.",
+          "illustration": "/assets/images/creatures/pooka.png",
+          "illustrationCaption": "A sleek charcoal Pooka sitting quietly in the brambles, its human-like eyes glinting",
+          "role": "The shape-shifting fey trickster",
+          "origin": "The Pooka is a creature as old as the paths of the Frostwood Reach itself. In the time before the Wyrd, when the Fair Folk walked openly among mortals, the Pooka were the guardians of the hedgerows and wild places, spirits of the untamed land that delighted in playing harmless pranks on travelers. The corruption of the Wyrd did not change their nature, but it did sharpen their sense of irony—now, the Pooka's tricks often carry a lesson, a warning, or a test of character. The farmers of the Frostwood know that a Pooka in the field means the harvest will be unpredictable, and they leave bowls of milk at the field's edge to ensure the spirit's goodwill. The Pooka is a reminder that even in a world of corruption, some things remain playful and free.",
+          "nature": "A sleek, charcoal-grey fey creature resembling a large hare with long, deer-like ears that can rotate independently to catch sounds from any direction. Its eyes are human-like, gleaming with intelligence and a hint of mischief, and its legs end in tiny hooves that make a soft clicking sound on stone. It can shift into a small wild pony at will, a form it uses to offer rides to travelers before bolting wildly and dropping them in peat-pools or briar patches. Its fur is always slightly damp, even in the driest weather, and it smells of crushed clover and rain.",
+          "habitat": "Pookas inhabit the brambles, forest paths, and country lane hedges of the Frostwood Reach, particularly in the borderlands between the cultivated fields and the wild forest. They are drawn to places where the wild and the tame meet—abandoned orchards, overgrown hedgerows, and the edges of villages where the cobblestones give way to dirt. They are most active during the twilight hours and on moonless nights, when their dark fur makes them nearly invisible.",
+          "combat": "70 HP. Shift Form (bonus action, shapeshifts into a small pony to double its speed). Distract (ranged, DC 13 SPI save or target is distracted by sudden shifts, giving Pooka evasion). Hoof Kick (2d6+2 physical damage). Vulnerable to iron.",
           "stats": {
-            "strength": 14,
+            "strength": 10,
             "agility": 18,
             "constitution": 12,
-            "intelligence": 10,
-            "spirit": 14,
+            "intelligence": 12,
+            "spirit": 16,
             "charisma": 14,
-            "maxHp": 80,
+            "maxHp": 70,
             "maxMana": 30,
             "maxActionPoints": 4,
-            "speed": 50,
+            "speed": 45,
             "resistances": {
-              "psychic": 50
+              "wyrd": 50
             }
           },
-          "depth": "A mischievous but ultimately harmless trickster.",
+          "depth": "Pookas are not inherently malicious, but they love causing confusion. They often offer rides to travelers, only to run wildly and drop them in peat-pools, teaching the lesson that one should not trust every friendly offer. The Pooka's tricks are never fatal, but they are always humiliating. Some sages believe that the Pooka is testing the character of mortals, separating the humble from the proud, and that those who laugh at their misfortune are blessed with good luck for the rest of their journey.",
           "hooks": [
-            "A traveler's horse was replaced by a Pooka. The traveler has been missing for two days, last seen riding wildly into the deepest thornwoods.",
-            "The Pooka knows the true path through the shifting briars of a Gambrel grove. To earn its guidance, the party must solve its riddle or trade a story of a broken promise.",
-            "A child has befriended a Pooka in hare form, unaware of its nature. The party must intervene before the Pooka takes the child on a twilight run."
+            "A traveler's mount has been stolen and replaced by a Pooka that refuses to leave. The party must trick the spirit into revealing its true form.",
+            "A local farmer's crop was ruined overnight; the villagers blame a Pooka and ask the party to bargain with it for better fortune."
+          ]
+        },
+        {
+          "id": "wolpertinger",
+          "name": "Wolpertinger",
+          "dangerLevel": "Low",
+          "illustration": "/assets/images/creatures/wolpertinger.png",
+          "illustrationCaption": "A small Wolpertinger fey hare with antlers and wings, sitting on a mossy log",
+          "role": "The horned fey hare",
+          "origin": "The Wolpertinger is a creature of the Alpine highlands, born from the mingling of fey magic and the harsh reality of mountain life. In the Frostwood Reach, where the alpine forests meet the perpetual mist, the Wolpertingers are the spirits of the forest's lost children—creatures that are too small to be predators and too magical to be prey. The old hunters of the Reach tell stories of the Wolpertinger as a messenger of the mountain gods, a creature that appears to those who are lost in the fog to guide them back to the path. The Wyrd's corruption has made them shy and elusive, but it has not dimmed their curiosity. A Wolpertinger that visits a camp is considered a sign of good fortune, though the creature will almost certainly steal something small as a souvenir.",
+          "nature": "A small fey creature resembling a golden-furred hare, but possessing tiny roe deer antlers on its forehead and colorful pheasant wings on its back. Its fur is the color of autumn leaves, and its eyes are large and amber, reflecting light like a cat's. Highly elusive and mischievous, it uses its wings for short gliding leaps to escape predators, and its antlers contain traces of fey mana that can be used in alchemical preparations. It is known to steal small items from campfires—buttons, coins, and pieces of string—taking them back to its nest in the high pine branches.",
+          "habitat": "The Wolpertinger lives in the alpine pine forests and misty mossy logs of the Frostwood Reach, particularly in the high elevations where the air is thin and the fog never clears. It builds its nests in the hollows of ancient pines, lining them with stolen trinkets and the soft needles of the forest floor. It is most active during the early morning, when the mist is thickest and the forest is quiet, and it can often be seen sitting on a mossy log, preening its wings with its tiny paws.",
+          "combat": "30 HP. Cannot deal direct damage. Antler Prod (+4 to hit, 1d4 physical). Gliding Leap (can fly/glide up to 30 ft as a bonus action, avoiding opportunity attacks). Camouflage (+5 to stealth in forest foliage). Vulnerable to iron.",
+          "stats": {
+            "strength": 4,
+            "agility": 18,
+            "constitution": 10,
+            "intelligence": 8,
+            "spirit": 12,
+            "charisma": 12,
+            "maxHp": 30,
+            "maxMana": 10,
+            "maxActionPoints": 3,
+            "speed": 40,
+            "resistances": {
+              "wyrd": 25
+            }
+          },
+          "depth": "Shy and generally harmless, but highly prized by alchemists for their antlers, which contain traces of fey mana. The Wolpertinger's nests are said to be treasure troves of lost items, and some hunters seek them out not to kill the creature, but to trade with it. The Wyrd's corruption has made the Wolpertinger more cautious, but it has also given the creature a strange wisdom—some say that if you can catch a Wolpertinger and hold it gently, it will whisper a secret of the forest in your ear.",
+          "hooks": [
+            "A Wolpertinger stole a wizard's spell component pouch. Retrieve the pouch from its nest in the high pine branches.",
+            "An alchemist wants to study the antlers of a live Wolpertinger to craft a potion of flight."
           ]
         }
       ]
     },
     {
       "id": "nordhalla",
-      "name": "Nordhalla & The Valley of Ymir",
+      "name": "Nordhalla",
       "folklore": "Norse + Alpine",
       "creatures": [
         {
-          "id": "rimor",
-          "name": "Hearth Sprite",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/rimor.png",
-          "illustrationCaption": "A sketch of Hearth Sprite in its natural environment",
-          "role": "The ash imp",
-          "origin": "A tiny elemental sprite born from fireplace ash and cold air.",
-          "nature": "A small, soot-covered imp that nests in the chimneys of longhouses. It plays minor pranks, like blowing out candles or hiding tinder, but is easily chased away by a bright fire.",
-          "habitat": "Chimneys, stoves, and hearth walls.",
-          "combat": "25 HP. Can cling to any surface and siphons heat from living creatures within 10 ft (1 cold damage per round + target loses sense of temperature). Fears open flame — will flee if cornered with a torch. Its nest contains 1d4 small warm objects (heirloom rings, heated stones, preserved coals).",
-          "stats": {
-            "strength": 6,
-            "agility": 14,
-            "constitution": 8,
-            "intelligence": 6,
-            "spirit": 10,
-            "charisma": 6,
-            "maxHp": 25,
-            "maxMana": 0,
-            "maxActionPoints": 3,
-            "speed": 20,
-            "resistances": {
-              "cold": 100
-            },
-            "vulnerabilities": {
-              "fire": 100
-            }
-          },
-          "depth": "A domestic nuisance that can be pacified with small offerings of firewood.",
-          "hooks": [
-            "A family was found frozen in their own home, fire still burning. The party must track the Rimor to its nest — it has grown bold because the family neglected the old traditions.",
-            "The Skald know that Rimor-spoor can be smoked out using dried skaldfire moss, which only grows on the cliffs of the eastern fjords — a dangerous climb.",
-            "Offer the Rimor a dedicated hearth of its own. If the family maintains it, the Rimor becomes a guardian against worse Wyrd-creatures — a permanent but uneasy arrangement."
-          ]
-        },
-        {
-          "id": "kjarn",
-          "name": "Glacial Golem",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/kjarn.png",
-          "illustrationCaption": "A sketch of Glacial Golem in its natural environment",
-          "role": "Ice construct",
-          "origin": "An ancient construct carved from glacial runic stone and packed ice.",
-          "nature": "A massive elemental of stone and blue ice that patrols old ruins, acting as a tireless guardian.",
-          "habitat": "Glacial cols and mountain peaks.",
-          "combat": "15 HP. Cannot deal damage. Each round it drains 1d4 HP from the nearest living creature within 5 ft (cold damage, no save — it is simply colder than you). If killed, it shatters into harmless frost-dust. Cannot be harmed by cold or physical attacks (immune). Vulnerable to fire — a torch kills it instantly. Its ice-needle legs leave a trail of frost-flowers that last for 1d6 hours — Skald children collect them as keepsakes.",
-          "stats": {
-            "strength": 2,
-            "agility": 16,
-            "constitution": 14,
-            "intelligence": 2,
-            "spirit": 8,
-            "charisma": 2,
-            "maxHp": 15,
-            "maxMana": 0,
-            "maxActionPoints": 4,
-            "speed": 30,
-            "resistances": {
-              "cold": 100,
-              "physical": 75
-            },
-            "vulnerabilities": {
-              "fire": 100
-            }
-          },
-          "depth": "A mindless protector following its ancient runic commands.",
-          "hooks": [
-            "A Skald child has been \"adopted\" by a swarm of Kjarn — fifteen of them follow her everywhere, keeping her perpetually cold. The Frostbound say this is a gift. The Bloodhammer say it is a death sentence. The child does not seem bothered.",
-            "A Kjarn swarm has migrated from the lower sumps into the Frozen Archive, settling on the ancient brass cylinders. The Rune Keepers fear the cold will crack the cylinders — but they also notice the Kjarn are drawn to specific cylinders, as if the machines inside are generating warmth.",
-            "The Frostbound have learned to trap Kjarn in obsidian jars, creating portable cold-sources. A Bloodhammer warrior wants a jar to cool his forge-rage. The Frostbound refuse — the Kjarn are not tools."
-          ]
-        },
-        {
-          "id": "huld",
-          "name": "Fjord Troll",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Fjord Troll",
-          "role": "Mountain dweller",
-          "origin": "A standard mountain troll species native to the northern peaks.",
-          "nature": "A thick-skinned, mossy troll that blends into rocky hillsides. It is territorial but keeps to its caves unless provoked.",
-          "habitat": "Fjord cliffs and rocky peaks.",
-          "combat": "130 HP. Immune to cold. Each round she can emit a Pulse of Archive Memory (30-ft cone, 3d6 psychic, DC 15 INT save — those who fail see a random memory from the Archive flash through their mind, gaining +2 INT for 1 round but losing 1d4 HP as the memory burns neural pathways). Rune-Lock (single target, DC 16 AGI save or paralyzed for 1 round as brass bands clamp around limbs). Bone-Shatter Slam (2d10+5 bludgeoning, reach 10 ft). At half HP, her bands flare and she enters Archive Frenzy — attacks twice per round but cannot use Pulse. Vulnerable to fire — heat warps the brass and disrupts the runes.",
-          "stats": {
-            "strength": 16,
-            "agility": 10,
-            "constitution": 18,
-            "intelligence": 14,
-            "spirit": 16,
-            "charisma": 6,
-            "maxHp": 130,
-            "maxMana": 20,
-            "maxActionPoints": 5,
-            "speed": 20,
-            "resistances": {
-              "cold": 100,
-              "psychic": 50
-            },
-            "vulnerabilities": {
-              "fire": 75
-            }
-          },
-          "depth": "Standard mountain beast that defends its territory.",
-          "hooks": [
-            "The party needs information from a brass cylinder the Huld guards. They can fight her, try to read her rune-bands to learn her story and pacify her through understanding, or offer her a memory to trade — the first memory she has been offered in forty years.",
-            "A young Rune-Keeper has gone missing in the deep Archive. The Bloodhammer assume the cold got her. The Rune Keepers know better — she went looking for Huldveig and found the Huld. The Huld may have taken her in, interpreting her as a new cylinder to guard.",
-            "The brass bands on the Huld are inscribed with the contents of a cylinder that was lost centuries ago. If the bands can be read and transcribed, the knowledge is recovered — but removing the bands may kill the Huld, and she is technically still alive inside all that metal and bone."
-          ]
-        },
-        {
-          "id": "skrei",
-          "name": "Snow Eagle",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Snow Eagle",
-          "role": "Glacial hunter",
-          "origin": "A large, white-feathered eagle native to the high fjords.",
-          "nature": "A majestic raptor that hunts mountain goats and small game, nesting high on sheer cliffs.",
-          "habitat": "Glacial peaks and cliff edges.",
-          "combat": "200 HP per Skrei. Always encountered in groups of 2d4. Cold Aura (10 ft, 1d6 cold per round, no save — simply being near them freezes blood). Hauling Grip (melee, 2d8+5 cold damage, DC 15 STR or grappled and dragged 15 ft toward the nearest water). Barnacle Hide (immunity to piercing and slashing, vulnerability to bludgeoning — the barnacles shatter under impact). Death Rattle (when a Skrei dies, it releases a scream in the voice of the person it was, 30 ft, DC 14 SPI save or frightened for 1 round). If dragged into water, they regenerate 10 HP per round.",
-          "stats": {
-            "strength": 18,
-            "agility": 8,
-            "constitution": 20,
-            "intelligence": 6,
-            "spirit": 4,
-            "charisma": 2,
-            "maxHp": 200,
-            "maxMana": 0,
-            "maxActionPoints": 5,
-            "speed": 20,
-            "resistances": {
-              "cold": 100,
-              "piercing": 100,
-              "slashing": 100
-            },
-            "vulnerabilities": {
-              "bludgeoning": 75,
-              "fire": 50
-            }
-          },
-          "depth": "A natural bird of prey.",
-          "hooks": [
-            "A Skrei haul has emerged in the fjord nearest the Frozen Archive. The Rune Keepers want them stopped before they reach the Archive's lower sumps — the salt water would corrode the brass cylinders. The Bloodhammer refuse to interfere: the dead have a right to surface.",
-            "One of the Skrei is wearing a Skald Rune-Keeper's brass bands. The bands contain the location of a buried pre-bargain settlement. The party must recover the bands without destroying the Skrei — or accept the consequences.",
-            "A Bloodhammer elder recognizes a Skrei as his grandfather. He wants to perform the return-ritual personally. But his grandfather's name-song was never recorded — it was traded to the Archive decades ago. The party must find the cylinder that holds the song before the next freeze."
-          ]
-        },
-                {
           "id": "skerry",
           "name": "Skerry",
           "dangerLevel": "Medium",
           "illustration": "/assets/images/creatures/skerry.png",
           "illustrationCaption": "A Skerry clinging to a frozen dock piling, its eyes gleaming with the reflection of stolen gold",
           "role": "The drowned-greed shipwright",
-          "origin": "Born from Norse myths of Andvari—the treasure-hoarding water dwarf—and maritime tales of the Klabautermann. The Skerries are stout, dwarf-like sea sprites driven by an insatiable greed for salvaged metal and gold.",
-          "nature": "A stout, broad water-sprite with waterlogged blue-grey skin like wet oak. It wears a coat of salvaged sailcloth and copper sheeting. Its webbed fingers end in chisel-like claws of copper. Highly skilled in shipbuilding, it listens to the stresses in ship hulls and demands silver or gold to make repairs; if cheated, it actively sabotages the vessel.",
-          "habitat": "Frozen bays, ice-locked docks, and sunken shipwrecks in Nordhalla.",
-          "combat": "120 HP. Rivet Hammer (melee, 2d8+4 bludgeoning, ignores 4 points of physical damage reduction). Pry Timber (damages ships or structural defenses, deals double damage to wooden objects). Gild-Grip (target's movement speed is reduced by 10 ft for each piece of metal equipment or coin purse they carry, DC 13 CON negates). Vulnerable to fire.",
+          "origin": "The Skerry is a creature born from the greed of the sea and the cold of the Nordhalla fjords. In the Age of the Norse Kings, the water dwarves were the guardians of sunken treasure, spirits who ensured that the wealth of the sea was distributed according to the will of the gods. When the Wyrd broke the world, the Skerries were twisted into creatures of insatiable greed, their natural love of beauty and craftsmanship turned into an obsession with hoarding salvaged metal and gold. The sailors of Nordhalla have learned to respect the Skerries, leaving copper coins at the water's edge as a tax for safe passage, but they also fear them, for a Skerry cheated of its due will sink a ship as easily as it will repair one.",
+          "nature": "A stout, broad water-sprite with waterlogged blue-grey skin that looks like wet oak. It wears a coat of salvaged sailcloth and copper sheeting, its seams stitched with kelp-fiber. Its webbed fingers end in chisel-like claws of copper, and its eyes are the color of deep water, always scanning for the glint of metal. The Skerry is highly skilled in shipbuilding, able to listen to the stresses in a ship's hull and identify the exact point of weakness. It demands silver or gold for its repairs, and if cheated, it will actively sabotage the vessel, loosening rivets and rotting timber from the inside.",
+          "habitat": "The Skerry inhabits the frozen bays, ice-locked docks, and sunken shipwrecks of Nordhalla, particularly in the Sunken Fjord where the wreck of the ancient fleet lies beneath the ice. It is most active during the spring thaw, when the ice breaks and the wrecks are exposed, and during the winter storms, when ships are most likely to need repairs. The Skerries have a complex social structure based on hoard size, and the Skerry with the largest hoard is considered the king of the local waters.",
+          "combat": "120 HP. Rivet Hammer (melee, 2d8+4 bludgeoning, ignores 4 points of physical damage reduction). Pry Timber (damages ships or structural defenses, deals double damage to wooden objects). Gild-Grip (target's movement speed is reduced by 10 ft for each piece of metal equipment or coin purse they carry, DC 13 CON negates). Vulnerable to ember.",
           "stats": {
             "strength": 16,
             "agility": 12,
@@ -431,93 +195,142 @@ export const BESTIARY_DATA = {
             "maxActionPoints": 4,
             "speed": 25,
             "resistances": {
-              "cold": 100,
+              "rime": 100,
               "physical": 25
-            },
-            "vulnerabilities": {
-              "fire": 50
             }
           },
-          "depth": "Sailors and shipwrights in Nordhalla keeps respect the Skerries. They throw copper coins into the icy water before docking, as the cost of a clean repair is far cheaper than a sudden hull breach in the freezing open sea.",
+          "depth": "Sailors and shipwrights in Nordhalla keep respect the Skerries. They throw copper coins into the icy water before docking, as the cost of a clean repair is far cheaper than a sudden hull breach in the freezing open sea. The Skerry's greed is not natural—it is a curse of the Wyrd, a corruption of the water dwarf's natural love of beauty into an obsession with possession. Some sailors say that the Skerries are trying to build something from the salvaged metal, something that will allow them to return to the sea's depths and escape the cold forever.",
           "hooks": [
             "A wealthy trading cog sank just outside the harbor. The local Skerries have blockaded the wreck, claiming the cargo as their sovereign hoard and dragging salvage divers down.",
-            "A Skerry was cheated of its pay by a corrupt harbormaster. In revenge, it has begun systematically loosening the hull rivets of every boat in the harbor.",
-            "An ancient, titanic Skerry has surfaced near the fjord mouth, dragging driftwood and sunken anchors to build a massive, gold-adorned shore-shrine that blockades the shipping lanes."
+            "A Skerry was cheated of its pay by a corrupt harbormaster. In revenge, it has begun systematically loosening the hull rivets of every boat in the harbor."
           ]
         },
         {
-          "id": "jawl",
-          "name": "Frost Serpent",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Frost Serpent",
-          "role": "Subterranean hunter",
-          "origin": "A large serpentine beast that burrows through the loose snow and shale of the mountains.",
-          "nature": "A legless reptile that hunts by sensing vibrations through the rock.",
-          "habitat": "Subterranean caves and snowbanks.",
-          "combat": "Cannot move. The jawbone itself has 300 HP and is immune to all damage except radiant. Each round it can target one creature with a question (DC 18 WIS or take 4d10 psychic damage as the answer is forced into the mind). Frozen guardians (6, each) defend the approach. If the Jawl is destroyed, it releases a shockwave of ancient memory (10d10 psychic, half on DC 20 WIS save).",
+          "id": "nachtkrapp",
+          "name": "Nachtkrapp",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/nachtkrapp.png",
+          "illustrationCaption": "A Nachtkrapp soot-raven perched on a chimney stone, its bone-head stark against its black feathers",
+          "role": "The soot-raven",
+          "origin": "The Nachtkrapp is a creature of the dark and the cold, born from the soot and smoke of the Nordhalla longhouses. In the Age of the Skalds, the Nachtkrapp was a bird of warning, a spirit that appeared before the fires to carry away the bad luck of the household. The Wyrd's corruption did not change its nature, but it did make it larger and more desperate, for the creature now feeds on heat itself, stealing burning coals and oil lamps to keep its nests warm. The Skalds believe that the Nachtkrapp still carries away bad luck, but that it now demands payment in the form of heat, and that a household that cannot keep its fires burning will be cursed with misfortune.",
+          "nature": "A massive, pitch-black raven with a wingspan of eight feet, its wings perpetually covered in coal-dust and soot. Its head is a solid white bone skull, the eye sockets glowing with a faint, ember-like light. The creature behaves like a magpie, but instead of shiny metal, it steals burning coals, oil lamps, and warm ash. It is a domestic pest in northern keeps, but it is also a creature of habit, and it will return to the same chimney night after night, building its nest in the warm soot until the chimney is blocked and the longhouse fills with smoke.",
+          "habitat": "The Nachtkrapp nests in the high chimney stacks, volcanic vents, and longhouse roof peaks of Nordhalla, particularly in the capital city of Skaldheim where the longhouses burn day and night. It is most active during the winter, when the fires are burning the brightest and the heat is most needed, and during the volcanic eruptions that occasionally shake the northern peaks. The Nachtkrapp's nest is a massive structure of soot and cinders, warm enough to hatch eggs even in the deepest winter.",
+          "combat": "70 HP. Ash Cloud (vents a cloud of hot soot from its wings, 15-ft radius, DC 13 CON save or blinded and coughing for 1 round). Coal Snatch (melee, attempts to steal a light source or burning item, DC 13 AGI to prevent). Wing Slash (2d6+3 physical damage). Vulnerable to rime.",
           "stats": {
-            "strength": 0,
-            "agility": 0,
-            "constitution": 20,
-            "intelligence": 20,
-            "spirit": 18,
-            "charisma": 16,
-            "maxHp": 300,
-            "maxMana": 80,
+            "strength": 10,
+            "agility": 16,
+            "constitution": 12,
+            "intelligence": 10,
+            "spirit": 14,
+            "charisma": 8,
+            "maxHp": 70,
+            "maxMana": 0,
             "maxActionPoints": 3,
-            "speed": 0,
+            "speed": 15,
             "resistances": {
-              "cold": 100,
-              "psychic": 75,
-              "physical": 75
-            },
-            "vulnerabilities": {
-              "radiant": 100
+              "ember": 50
             }
           },
-          "depth": "A natural predator of the deep cols.",
+          "depth": "A domestic pest in northern keeps. While they steal precious fuel, Skalds believe they carry away domestic bad luck with the soot they scavenge, and leave small trays of tallow outside to pacify them. The Nachtkrapp's skull-head is a mystery to scholars—some say it is the skull of the first Nachtkrapp, worn by every generation as a reminder of the creature's origin. Others say that the skull is a mask, and that beneath it, the Nachtkrapp is a creature of pure fire, its true form too bright for mortal eyes to see.",
           "hooks": [
-            "The party needs ancient knowledge to locate the region's shard. The Jawl knows where it is. Who will pay the price in years?",
-            "The Jawl respects creatures that outwit it. A game of riddles with stakes — each wrong riddle costs a memory, each correct answer reveals a truth.",
-            "The Skald believe the jawbone belongs to a larger skeleton. Find the rest of it and lay the bones together — the Jawl may finally be silenced, or it may wake completely and walk."
+            "A Nachtkrapp has stolen a sacred hearth-coal containing the family line's runic fire. Retrieve the coal before the nest burns down or the fire goes cold.",
+            "A giant flock of Nachtkrapps has gathered over the keep's main chimney, blocking the smoke and causing the longhouse to fill with suffocating draft-smoke."
           ]
         },
         {
-          "id": "tatzelwurm",
-          "name": "Tatzelwurm",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Tatzelwurm",
-          "role": "Alpine cleft drake",
-          "origin": "A cat-headed serpentine drake inhabiting deep crevasses.",
-          "nature": "A rare serpentine dragon that hunts alpine rodents. It is venomous but reclusive.",
-          "habitat": "Glacial crevasses and rocky cols.",
-          "combat": "90 HP. Poisonous Breath (15-ft cone, 2d6 cold + 1d6 poison, DC 13 CON half). Leap Strike (leaps up to 20 ft, dealing 2d8+3 slashing with claws, DC 12 AGI or knocked prone). Runic scales (resistant to cold and poison).",
+          "id": "glacier_gremlin",
+          "name": "Glacier Gremlin",
+          "dangerLevel": "Low",
+          "illustration": "/assets/images/creatures/glacier_gremlin.png",
+          "illustrationCaption": "A small Glacier Gremlin licking a frozen runic stone near the crevasses",
+          "role": "The ice-licking imp",
+          "origin": "The Glacier Gremlin is a creature of the ice and the runes, born from the intersection of Alpine legends and the cold magic of Nordhalla. In the Age of the Rune-Singers, the ice was alive with spirits, small creatures that absorbed the magic of the runic stones and used it to sustain themselves. The Wyrd's corruption did not change their nature, but it did make them more desperate, for the runic stones are now few and the competition for their mana is fierce. The Glacier Gremlins are the scavengers of the ice, small creatures that lick the frozen stones to feed on the last traces of magic. The Skalds consider them pests, but they also know that the gremlins are drawn to the most powerful runes, and that their presence is a sign of ancient magic.",
+          "nature": "A small, hunched gremlin about a foot tall, with skin made of cracked, translucent blue ice that shows the faint glow of the mana it has absorbed. It is blind and mouthless, using a long, icy tongue to lick the cold runic stones and absorb their power. The creature's body is constantly cold, and it leaves a trail of frost wherever it goes. They are harmless individually, but they are highly annoying, freezing boots to the ice and jamming sled runners with their cold touch. When threatened, they emit a high-pitched whistle that can shatter ice crystals.",
+          "habitat": "The Glacier Gremlin inhabits the glacial cols, runic ruins, and ice sheets of Nordhalla, particularly in the Rune-Cleft Glacier where the ancient rune-singers carved their spells into the ice. It is drawn to high concentrations of runic magic, and it is most active during the dark winter months, when the aurora borealis charges the runic stones with additional power. The gremlins are territorial, and fights between rival bands over the best stones are common.",
+          "combat": "35 HP. Frost Lick (melee tongue attack, DC 12 CON save or target's movement speed is halved for 2 rounds as ice creeps up their leg). Runic Absorb (drains 10 mana from a target on a successful hit). Vulnerable to ember (shatters instantly if it takes 10+ ember damage in one hit).",
           "stats": {
-            "strength": 12,
-            "agility": 16,
-            "constitution": 14,
-            "intelligence": 6,
+            "strength": 8,
+            "agility": 14,
+            "constitution": 10,
+            "intelligence": 8,
             "spirit": 10,
-            "charisma": 4,
+            "charisma": 6,
+            "maxHp": 35,
+            "maxMana": 40,
+            "maxActionPoints": 3,
+            "speed": 25,
+            "resistances": {
+              "rime": 100
+            }
+          },
+          "depth": "They are simple elemental pests that are drawn to high concentrations of runic magic. Hunters clear them out of sled paths using torches, but the Skald scholars study them, believing that their icy tongues hold the secret to preserving the runic stones from the decay of time. The Glacier Gremlin's blindness is a blessing, for the runic stones are often too bright for mortal eyes to look upon, and the creature's ice-skin is a natural shield against the stones' radiation.",
+          "hooks": [
+            "A Glacier Gremlin has frozen itself to a crucial runic lever in the mines. Melting it requires heat, but too much heat will detonate the gas pocket nearby.",
+            "Skald scholars want three gremlins captured alive; their icy tongues can be used to preserve fragile scrolls without freezing them."
+          ]
+        },
+        {
+          "id": "nokk_stallion",
+          "name": "Nokk Stallion",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/nokk_stallion.png",
+          "illustrationCaption": "A ghostly Nokk Stallion formed of river-mist and cold water, its eyes like pale lanterns",
+          "role": "The mist-horse water spirit",
+          "origin": "The Nokk Stallion is a creature of the water and the mist, born from the ancient Norse legends of the Bäckahästen, the water spirit that lures the unwary to their doom. In Nordhalla, where the rivers are cold and the waterfalls are tall, the Nokk Stallions are the guardians of the waterways, spirits that protect the rivers from pollution and overfishing. The Wyrd's corruption has twisted their protective nature into something predatory, and they now lure travelers into the water not to save the river, but to feed their own hunger for the warmth of living bodies. The Nordhalla fishermen know the signs of a Nokk's presence—a mist that rises from the water even on a clear day, and the sound of hooves on stone where no horse should be.",
+          "nature": "A ghostly stallion composed entirely of swirling grey river-mist, cold water droplets, and floating river-kelp. Its eyes glow like pale swamp lanterns, and its hooves make no sound on the stones, though they leave a trail of frost wherever they touch. The creature stands near deep pools and waterfalls, offering rides to travelers with a gentle whinny and a bow of its head. When a rider mounts, the Nokk's body becomes solid and cold, and it carries the victim into the deepest part of the water, where it dissolves back into mist, leaving the rider to drown.",
+          "habitat": "The Nokk Stallion haunts the deep rivers, cold waterfalls, and misty lakes of Nordhalla, particularly in the Veilwater Falls where the river drops three hundred feet into a pool that is said to be bottomless. It is most active during the early morning, when the mist is thickest and the water is coldest, and during the autumn rains, when the rivers are swollen and the currents are strong. The Nokk is territorial, and each stretch of river is guarded by a single stallion that will fight to the death to protect its domain.",
+          "combat": "90 HP. Water Dash (moves up to 50 ft as a bonus action, leaving a freezing trail). Mist Lure (DC 13 SPI save or target is charmed and compelled to move toward the Nokk). Drown (melee, +5 to hit, DC 13 AGI save or grappled and pulled under the water). Vulnerable to ember.",
+          "stats": {
+            "strength": 14,
+            "agility": 16,
+            "constitution": 12,
+            "intelligence": 10,
+            "spirit": 14,
+            "charisma": 14,
             "maxHp": 90,
-            "maxMana": 0,
+            "maxMana": 30,
+            "maxActionPoints": 4,
+            "speed": 45,
+            "resistances": {
+              "rime": 100
+            }
+          },
+          "depth": "Territorial and deceptive spirits. While dangerous, they can be pacified by playing a stringed instrument or offering a clean silver coin to the water. The Nokk's mist-body is a mystery to scholars—some say it is the spirit of a horse that drowned in the river, others that it is a manifestation of the water itself, given form by the Wyrd's corruption. The silver coin is said to remind the Nokk of the sun, which it has not seen since it was bound to the water.",
+          "hooks": [
+            "A local skald went missing near the waterfall; his silver harp was found on the shore, where a Nokk has been spotted.",
+            "A merchant cog refuses to cross the river because a Nokk Stallion is standing in the shallows, blocking the ferry path."
+          ]
+        },
+        {
+          "id": "huldra",
+          "name": "Huldra",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/huldra.png",
+          "illustrationCaption": "A Huldra forest nymph standing in a sunbeam, her cow tail hidden in the grass",
+          "role": "The hollow-back nymph",
+          "origin": "The Huldra is a creature of the deep forest and the lonely heart, born from the Scandinavian legends of the forest spirits that seduce the unwary. In Nordhalla, where the pine forests are ancient and the winters are long, the Huldras are the spirits of the trees that have been cut, the forest's grief given form. The Wyrd's corruption has twisted their protective nature into something predatory, and they now lure woodcutters and miners into the forest not to protect them, but to bind them to the forest's will. The Nordhalla woodcutters know the signs of a Huldra's presence—a beautiful song on the wind, and the smell of pine needles where no pine trees grow.",
+          "nature": "A beautiful woodland spirit that appears as a young maiden with long golden hair and eyes the color of forest pools. She hides a cow's tail beneath her skirts, and her back is completely hollow like a rotting tree, a feature that is only visible when she turns away. She moves with the grace of a dancer, and her voice is a soft, melodic song that can charm the most hardened warrior. She is drawn to lonely woodcutters and miners, offering them comfort and warmth in the cold forest, but her embrace is a trap, and those who succumb to her are never seen again.",
+          "habitat": "The Huldra inhabits the ancient pine groves, forest springs, and mining paths of Nordhalla, particularly in the Deepwood where the trees have stood for ten thousand years. She is most active during the winter, when the cold drives travelers to seek warmth, and during the spring, when the sap runs and the forest is most alive. The Huldra's territory is marked by small shrines of stones and pine cones, offerings left by those who have escaped her embrace.",
+          "combat": "90 HP. Seductive Song (DC 13 SPI save or target is charmed and must move toward the Huldra). Wood-Slam (+5 to hit, 2d8+3 physical, she possesses supernatural strength). Tree Meld (can teleport up to 40 ft between pine trees). Vulnerable to cold iron.",
+          "stats": {
+            "strength": 16,
+            "agility": 14,
+            "constitution": 12,
+            "intelligence": 12,
+            "spirit": 14,
+            "charisma": 18,
+            "maxHp": 90,
+            "maxMana": 30,
             "maxActionPoints": 4,
             "speed": 35,
             "resistances": {
-              "cold": 100,
-              "poison": 50
-            },
-            "vulnerabilities": {
-              "fire": 50
+              "physical": 25
             }
           },
-          "depth": "Reclusive dragon species.",
+          "depth": "Reclusive spirits of the deep forest. They are generally peaceful if their trees are respected but will curse woodcutters who cut ancient sacred groves. The Huldra's hollow back is a symbol of her nature—she is empty inside, a vessel for the forest's grief, and those who fill her with their love are consumed by it. Some scholars believe that the Huldra was once a mortal woman who loved the forest so deeply that she became one with it, and that her curse is to seek that love forever, never finding it.",
           "hooks": [
-            "A pack of Tatzelwurms has nested in a critical pass, preventing the migration of a Skald caravan. Clear the pass before the next blizzard hits.",
-            "An alchemist wants a live Tatzelwurm to study its cold-poison gland. Capturing one alive requires finding its den without collapsing the snow-bridge above.",
-            "A Tatzelwurm has swallowed a runic brass cylinder from the Frozen Archive. Track it to its icy cave and recover the cylinder."
+            "A miner has gone missing; his boots were found near a deep forest pool where a beautiful maiden has been seen singing.",
+            "A Huldra has cursed a village logging camp, causing their axes to break on the wood, because they cut a sacred rowan tree."
           ]
         }
       ]
@@ -528,297 +341,165 @@ export const BESTIARY_DATA = {
       "folklore": "Mesopotamian/Zoroastrian + Egyptian",
       "creatures": [
         {
-          "id": "cinder",
-          "name": "Cinder Sprite",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/cinder.png",
-          "illustrationCaption": "A sketch of Cinder Sprite in its natural environment",
-          "role": "Fire elemental",
-          "origin": "A tiny flame spirit born from active volcanic vents.",
-          "nature": "A floating, warm orb of ash and fire that drifts near hot springs.",
-          "habitat": "Volcanic vents and hot springs.",
-          "combat": "15 HP, cannot be harmed by fire. If attacked, it releases a burst of ash (1 round, obscured in 10-ft radius) and flees. It can be captured in an obsidian jar — it becomes a permanent light source that never extinguishes but always points toward the nearest danger.",
-          "stats": {
-            "strength": 2,
-            "agility": 12,
-            "constitution": 8,
-            "intelligence": 8,
-            "spirit": 14,
-            "charisma": 12,
-            "maxHp": 15,
-            "maxMana": 10,
-            "maxActionPoints": 2,
-            "speed": 20,
-            "resistances": {
-              "fire": 100
-            }
-          },
-          "depth": "Completely harmless unless touched.",
-          "hooks": [
-            "Follow it to find a lost caravan. It led them to a geothermal vent — they died of dehydration a mile from water, their last expressions peaceful.",
-            "Capture it in a jar of obsidian and volcanic glass. It becomes a compass that always points toward the nearest warm thing — including hidden vents, lava flows, and the dying.",
-            "The Emberth know a ritual to unmake it: return it to Solbrand-touched ground. The party must carry it to the heart of Emberspire, where the Cinder may finally be released — or rejoin the Solbrand."
-          ]
-        },
-        {
-          "id": "ashwen",
-          "name": "Ash Hound",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/ashwen.png",
-          "illustrationCaption": "A sketch of Ash Hound in its natural environment",
-          "role": "Volcanic beast",
-          "origin": "A standard canine species native to the warm basalt flats.",
-          "nature": "A quick, fire-resistant hound with smoldering fur that hunts in small packs.",
-          "habitat": "Basalt flats and hot springs.",
-          "combat": "30 HP (molten stone). Immune to fire and physical attacks (liquid stone absorbs impacts). Vulnerable to cold — any frost damage solidifies a section, dealing damage equal to the cold damage rolled. Cannot deal direct damage, but any creature that touches it takes 1d8 fire damage per round of contact (no save — it is simply hot). If killed by cold, it shatters into usable obsidian shards (worth 2d6 gold).",
-          "stats": {
-            "strength": 0,
-            "agility": 6,
-            "constitution": 18,
-            "intelligence": 2,
-            "spirit": 4,
-            "charisma": 2,
-            "maxHp": 30,
-            "maxMana": 0,
-            "maxActionPoints": 1,
-            "speed": 10,
-            "resistances": {
-              "fire": 100,
-              "physical": 100
-            },
-            "vulnerabilities": {
-              "cold": 100,
-              "frost": 100
-            }
-          },
-          "depth": "A natural canine predator.",
-          "hooks": [
-            "An Ashwen flow has broken into a Thrask settlement's water-cistern, boiling the reserves. The party must redirect the flow using cold-resistant materials before the settlement runs dry.",
-            "The Emberth Unwoven believe a specific Ashwen flow leads to a hidden entrance in Emberspire's secondary caldera. Follow it, but it moves slowly — and the surrounding ash-wastes are full of Husque.",
-            "A Korr Sun-Speaker wants the party to capture an Ashwen alive in a cold-resistant vessel. She claims it can be returned to the Solbrand as an offering — the first new ember in centuries."
-          ]
-        },
-        {
-          "id": "nekh",
-          "name": "Fire Beetle",
+          "id": "sirrush",
+          "name": "Sirrush",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/nekh.png",
-          "illustrationCaption": "A sketch of Fire Beetle in its natural environment",
-          "role": "Volcanic insect",
-          "origin": "A giant beetle species feeding on sulfuric minerals.",
-          "nature": "A slow, heavily-armored insect with a glowing shell that lives near hot vents.",
-          "habitat": "Sulfuric mines and hot tunnels.",
-          "combat": "75 HP. Clay Body (immune to poison, psychic, and necrotic — it has no organs to poison, no mind to wound). Sweeping Strike (melee, 1d8+3 bludgeoning with a clay arm, DC 12 AGI save or knocked prone — it is sweeping). Ash Cloud (15-ft radius, DC 12 CON save or blinded for 1 round). Guardian Protocol (if it witnesses a creature attempting to open a container, door, or tomb it guards, it enters a rage: +4 STR, +2 damage, but -4 defense for 3 rounds). When destroyed, it crumbles into clay dust, releasing a burst of compressed ash (10-ft radius, DC 10 CON or choking for 1 round).",
-          "stats": {
-            "strength": 16,
-            "agility": 8,
-            "constitution": 16,
-            "intelligence": 4,
-            "spirit": 2,
-            "charisma": 4,
-            "maxHp": 75,
-            "maxMana": 0,
-            "maxActionPoints": 4,
-            "speed": 20,
-            "resistances": {
-              "poison": 100,
-              "psychic": 100,
-              "necrotic": 100
-            },
-            "vulnerabilities": {
-              "bludgeoning": 50
-            }
-          },
-          "depth": "Harmless miner-insect.",
-          "hooks": [
-            "A Nekh guards the entrance to a pre-bargain Solvarn tomb that was never properly catalogued. Inside may be artifacts from before the Dimming. The Nekh will not yield — but if the party can determine the original burial ritual and perform it, the Nekh may open the door willingly.",
-            "A Thrask settlement has adopted a Nekh that sweeps their streets. The Korr are furious — they believe the Nekh is a sacred object, not a tool. The conflict between Thrask pragmatism and Korr devotion is dividing the settlement.",
-            "A Nekh has begun a new task — one it was never assigned. It is building something from volcanic glass and ash in the wastes. The structure is enormous and the Nekh has been at it for months. No one knows what it is building or why it started."
-          ]
-        },
-        {
-          "id": "emberveil",
-          "name": "Magma Salamander",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/emberveil.png",
-          "illustrationCaption": "A sketch of Magma Salamander in its natural environment",
-          "role": "Fire reptile",
-          "origin": "A large amphibian thriving in high geothermal heat.",
-          "nature": "A thick-skinned lizard that swims through magma pools and feeds on basalt coal.",
-          "habitat": "Lava flows and volcanic calderas.",
-          "combat": "250 HP. Immune to fire, cold, and radiant (it IS light). Formless — immune to critical hits and precision damage. Ember Shift (each round it changes form: humanoid form grants +4 CHA to all abilities, serpent form grants +4 AGI and reach 15 ft, lion form grants +4 STR and melee damage, fire-pillar form grants AoE). Molten Weep (single target, 3d10 fire damage + DC 16 CON save or burning for 3 rounds — 1d6 fire per round). Solbrand Echo (60 ft radius, 4d8 radiant, DC 18 SPI save, those who fail are blinded for 1 round — the light is too bright). At half HP, it begins to Dim — all damage reduction ends and it takes double damage from all sources, but its attacks deal triple damage. Vulnerable to void and shadow damage — the light can be consumed by darkness.",
+          "illustration": "/assets/images/creatures/sirrush.png",
+          "illustrationCaption": "A Sirrush dragon standing alert on a basalt ridge, its long scaled neck arched",
+          "role": "The horned dragon-serpent",
+          "origin": "The Sirrush is a creature of the ancient world, born from the Babylonian myths of the Mušḫuššu, the dragon-serpent that guarded the gates of the gods. In Sundale, where the desert sands cover the ruins of ten thousand years, the Sirrush is a rare and sacred beast, a guardian of the ancient temples and the secrets they hold. The Wyrd's corruption did not change the Sirrush's nature, but it did make it more solitary, for the creature now sees all mortals as potential thieves, and it guards its treasures with a ferocity that is legendary. The nomads of Sundale believe that the Sirrush is the reincarnation of the ancient kings, and that to kill one is to bring a curse upon ten generations.",
+          "nature": "A slender, quadrupedal dragon with feline front paws, eagle-claw hind legs, and a long scaled neck ending in a horned, serpentine head. Its scales are a dusty ochre-yellow that matches the desert sands, and it has a single, straight crown-horn that glows with a faint, golden light. The Sirrush moves with the grace of a lion and the speed of a falcon, and its eyes are the color of ancient bronze, wise and wary. It is intelligent enough to recognize peaceful intentions, but it will aggressively hunt those who desecrate ancient structures.",
+          "habitat": "The Sirrush dwells in the desert ruins, basalt arches, and sandy dunes of Sundale, particularly in the Valley of the Forgotten Kings where the ancient temples lie buried beneath the sand. It is most active during the dawn and dusk, when the heat is bearable and the light is golden, and during the rare rainstorms that turn the desert into a brief, blooming paradise. The Sirrush's lair is always near a source of water, for the creature is a symbol of life in the desert, and it guards the water as fiercely as it guards the ruins.",
+          "combat": "110 HP. Tail Whip (+5 to hit, 2d6+3 physical, DC 13 AGI save or knocked back 10 ft). Crown Strike (+5 to hit, 2d8+3 physical, ignores 3 points of physical armor). Sand Veil (can teleport 30 ft in a swirl of dust as a bonus action). Vulnerable to rime.",
           "stats": {
             "strength": 14,
-            "agility": 16,
-            "constitution": 16,
-            "intelligence": 18,
-            "spirit": 20,
-            "charisma": 20,
-            "maxHp": 250,
-            "maxMana": 60,
-            "maxActionPoints": 6,
-            "speed": 30,
-            "resistances": {
-              "fire": 100,
-              "cold": 100,
-              "radiant": 100,
-              "physical": 25
-            },
-            "vulnerabilities": {
-              "void": 75,
-              "shadow": 75
-            }
-          },
-          "depth": "Peaceful if left unbothered.",
-          "hooks": [
-            "The Emberveil has extended a tendril of ember-light into the lower Vault tunnels. The Korr want the party to follow it and report what they find. The Thrask want the party to sever the tendril before whatever it touches is infected. The Unwoven want the party to capture a piece of it for study.",
-            "The Emberveil wept a perfect obsidian sphere that shows a vision of the moment Keth-Amar first breached the seal. The sphere is in the possession of a Thrask ranger who found it. The Korr want it back — they believe the Emberveil chose to show this vision for a reason.",
-            "The Emberveil is dying — its light dims a little more each year. The Korr are performing the Vault-Breath more intensely to sustain it, which is draining the Solbrand faster. The Unwoven have proposed a radical solution: carry the Emberveil to the breach-point in Emberspire and let it choose — return to Sol or fall into Keth-Amar."
-          ]
-        },
-        {
-          "id": "croon",
-          "name": "Phoenix Sentinel",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/croon.png",
-          "illustrationCaption": "A sketch of Phoenix Sentinel in its natural environment",
-          "role": "Sun-altar guardian",
-          "origin": "A rare fire-bird native to the ruins of old sun altars.",
-          "nature": "A beautiful bird of crimson feathers and warm embers that watches over ancient ruins.",
-          "habitat": "Ruined sun altars and high peaks.",
-          "combat": "90 HP. Immune to fire and poison. Each round she weaves 1d4 threads that can be thrown as psychic projectiles (2d6 psychic). Her croon requires a DC 14 CON save each round or the target is hypnotized, moving toward her. Taking a tapestry without payment triggers her wrath: she animates 2 obsidian shard golems (each) from the cooling glass around her.",
-          "stats": {
-            "strength": 10,
-            "agility": 14,
+            "agility": 18,
             "constitution": 12,
-            "intelligence": 16,
-            "spirit": 18,
-            "charisma": 14,
-            "maxHp": 90,
-            "maxMana": 50,
-            "maxActionPoints": 5,
-            "speed": 10,
-            "resistances": {
-              "fire": 100,
-              "poison": 100
-            },
-            "vulnerabilities": {
-              "cold": 50
-            }
-          },
-          "depth": "Revered as a symbol of renewal.",
-          "hooks": [
-            "The party needs a prophecy to navigate the caldera safely. Offer a memory — it must be a painful one. The Croon feeds on regret, and the more you give, the clearer the vision.",
-            "Shatter her obsidian shell to free her. She may die — or she may emerge as the first new Sun-Speaker in centuries, bearing a message from Sol itself. The risk is that she emerges as something else entirely.",
-            "The Unwoven believe her tapestries are a map. Commission a weaving and have an Astril spirit-reader interpret the thread-patterns — each color and twist corresponds to a continent."
-          ]
-        },
-        {
-          "id": "husque",
-          "name": "Cinder Ghoul",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Cinder Ghoul",
-          "role": "Volcanic skeleton",
-          "origin": "Reanimated remains of miners trapped in geothermal vents.",
-          "nature": "Smoldering skeletons animated by volcanic energy that patrol old mine shafts.",
-          "habitat": "Abandoned mine shafts and steam tunnels.",
-          "combat": "220 HP. Aura of Entropy: all creatures within 120 ft take 1d6 cold per round and cannot regain HP. Melee slam (3d10+6 bludgeoning plus 2d10 necrotic). Can release a pulse of absorbed heat (recharge 5-6, 60-ft radius, 8d8 fire damage, DC 18 DEX half). Resistances: cold, fire, necrotic. Vulnerable: radiant.",
-          "stats": {
-            "strength": 18,
-            "agility": 12,
-            "constitution": 18,
             "intelligence": 10,
-            "spirit": 14,
-            "charisma": 8,
-            "maxHp": 220,
-            "maxMana": 0,
-            "maxActionPoints": 5,
-            "speed": 25,
+            "spirit": 16,
+            "charisma": 12,
+            "maxHp": 110,
+            "maxMana": 30,
+            "maxActionPoints": 4,
+            "speed": 45,
             "resistances": {
-              "cold": 50,
-              "fire": 50,
-              "necrotic": 50
-            },
-            "vulnerabilities": {
-              "radiant": 100
+              "ember": 50
             }
           },
-          "depth": "Blind guardians of the deep mines.",
+          "depth": "Regarded as sacred guardians by local nomads. They are intelligent enough to recognize peaceful intentions but will aggressively hunt those who desecrate ancient structures. The Sirrush's crown-horn is said to be the key to the greatest temple in Sundale, a place where the gods once walked among mortals, and many have died seeking to take it. The nomads believe that the Sirrush is the last of the old guardians, and that when it dies, the desert will swallow the last of the ancient world.",
           "hooks": [
-            "A Husque is drifting toward a settlement. The party must stop it before everyone freezes. Lead it away using controlled fires as bait.",
-            "The Solbrand can call it home. Carry the ember toward the Husque and it will follow — directly into the caldera, where it may be consumed or redeemed.",
-            "Reverse the transformation through a ritual at the caldera's edge. But the ritual requires a willing sacrifice — someone who will take the Husque's place in the entropy field. The Unwoven believe the Husque can be weaponized against Keth-Amar."
+            "A Sirrush is guarding the entrance to a forgotten tomb. The party must solve a riddle or present a token of respect to pass without combat.",
+            "Poachers are hunting the Sirrush for its rare scales and obsidian horn. Protect the beast and locate the poachers' camp."
           ]
         },
         {
-          "id": "ba-spirit",
-          "name": "Ba-Spirit",
+          "id": "aswad",
+          "name": "Aswad",
           "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Ba-Spirit",
-          "role": "Sun-watcher of the tomb",
-          "origin": "A traditional Egyptian/Mesopotamian bird-spirit watching over ruined sun altars.",
-          "nature": "A bird with a human head that sits on ancient pillars, emitting warm light.",
-          "habitat": "Ruined sun altars.",
-          "combat": "30 HP. Cannot deal damage. Mournful Hymn (60-ft radius, DC 12 WIS save or filled with deep sorrow, disadvantage on attack rolls for 2 rounds). Fade to Ash (teleports up to 40 ft, leaving a cloud of gold ash that obscures vision). Immune to fire and necrotic.",
+          "illustration": "/assets/images/creatures/aswad.png",
+          "illustrationCaption": "An Aswad wisp peeking out of its soot-blackened clay jar, its ember-eye glowing",
+          "role": "The clay-pot wisp",
+          "origin": "The Aswad is a creature of the hearth and the fire, born from the Mesopotamian myths of the furnace-demons and the Zoroastrian preservation of fire. In Sundale, where the desert is cold at night and the fires burn day and night, the Aswads are the spirits of the hearth, small creatures that live in the embers and keep the fires burning. The Wyrd's corruption did not change their nature, but it did make them more protective, for the creature now sees all water as a threat, and it will attack anyone who tries to extinguish its fire. The shepherds and miners of Sundale carry embers in clay jars, and when the embers wake, they know that the Aswad has chosen to protect them.",
+          "nature": "A tiny wisp residing inside a soot-blackened, cracked earthenware jar. Inside is a single, large glowing charcoal ember that acts as its eye, and it walks on small, twig-like clay legs that stick out of the bottom of the pot. The creature eats ash and soot to sustain its fire, and it emits a soft, crackling sound that is comforting to those who know it. It is harmless and cute, but it will aggressively spit embers if its jar is struck or water is thrown on it, and its rage is a terrible thing to behold.",
+          "habitat": "The Aswad lives in the kitchen stoves, basalt furnaces, and ash heaps of Sundale, particularly in the nomad camps where the fires burn day and night. It is drawn to places where the fire is strong and the ash is plentiful, and it is most active during the cold desert nights, when the fire is most needed. The Aswad's jar is its home and its body, and it will defend it with its life, for without the jar, the creature is just a wisp of smoke.",
+          "combat": "30 HP. Ember Spit (ranged, +4 to hit, 1d6 ember damage). Soot Shield (vents smoke from its jar, DC 12 AGI to hit it with ranged attacks). Ember Resist (immune to ember). Vulnerable to water (extinguishes the wisp instantly).",
           "stats": {
             "strength": 4,
             "agility": 14,
-            "constitution": 10,
+            "constitution": 12,
+            "intelligence": 8,
+            "spirit": 12,
+            "charisma": 8,
+            "maxHp": 30,
+            "maxMana": 10,
+            "maxActionPoints": 3,
+            "speed": 20,
+            "resistances": {
+              "ember": 100
+            }
+          },
+          "depth": "A harmless and cute hearth-companion. They keep stoves hot and chimneys clear, but will aggressively spit embers if their jar is struck or water is thrown on them. The Aswad's ember-eye is said to see the true nature of those who look into it, and some sages use the creatures to test the character of strangers. The Wyrd's corruption has made the Aswad more protective, but it has not dimmed its warmth, and a home with an Aswad is a home that is never cold.",
+          "hooks": [
+            "An Aswad has nested inside a tavern's brewing oven, making it so hot that the casks are bursting. Move it safely without using water, which would kill it.",
+            "A scholar needs a piece of the soot-bark that Aswads use to line their jars, believing it can insulate alchemical flasks against extreme cold."
+          ]
+        },
+        {
+          "id": "serpopard",
+          "name": "Serpopard",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/serpopard.png",
+          "illustrationCaption": "A Serpopard crouching in the shadow of a basalt arch, its long serpentine neck coiled to strike",
+          "role": "The serpentine leopard",
+          "origin": "The Serpopard is a creature of the desert shadows, born from the ancient Egyptian and Mesopotamian art that depicted feline beasts with serpentine necks. In Sundale, where the basalt canyons are deep and the sun is merciless, the Serpopards are the apex predators of the rocky wastes, creatures that have evolved to hunt in the narrow spaces between the cliffs. The Wyrd's corruption did not change their nature, but it did make them more cunning, for the creature now understands the value of ambush, and it will wait for days for the perfect moment to strike. The desert traders know the signs of a Serpopard's territory—scratches on the canyon walls, and the bones of its prey arranged in patterns that are almost artistic.",
+          "nature": "A sleek, spotted desert leopard with a neck as long and flexible as a python, its head an elegant blend of feline grace and reptilian features. The creature's scales are the color of the desert rocks, and its eyes are vertical slits that glow with a faint, golden light. It moves with a silent, undulating sway, coiling its long neck before lunging from the shadows with the speed of a striking snake. The Serpopard is a solitary hunter, and it is fiercely territorial, marking its domain with the bones of its prey.",
+          "habitat": "The Serpopard inhabits the basalt canyons, rocky ravines, and volcanic cliffs of Sundale, particularly in the Serpent's Spine where the canyons are narrow and the shadows are deep. It is most active during the dawn and dusk, when the light is low and the prey is active, and during the rare sandstorms that reduce visibility to zero. The Serpopard's lair is always in the highest, most inaccessible part of the canyon, and it is said to be a nest of bones and treasure, the remains of a thousand years of hunting.",
+          "combat": "130 HP. Serpentine Lunge (melee, reach 15 ft, +6 to hit, 2d8+4 physical, DC 14 AGI save or grappled). Constrict (deals 2d6+4 crushing damage to a grappled target). Hypnotic Sway (DC 13 SPI save or target has disadvantage on attack rolls for 2 rounds). Vulnerable to rime.",
+          "stats": {
+            "strength": 16,
+            "agility": 16,
+            "constitution": 14,
+            "intelligence": 8,
+            "spirit": 12,
+            "charisma": 8,
+            "maxHp": 130,
+            "maxMana": 0,
+            "maxActionPoints": 5,
+            "speed": 40,
+            "resistances": {
+              "ember": 50
+            }
+          },
+          "depth": "Lethal, solitary predators. They hunt by coiling around high basalt arches and lunging down on travelers, wrapping their long necks around the prey to crush them. The Serpopard's serpentine neck is a marvel of evolution, a combination of the leopard's strength and the snake's flexibility, and it is said that the creature can squeeze with enough force to crush stone. The Wyrd's corruption has made the Serpopard more cunning, but it has not changed its essential nature—it is a hunter, and the desert is its kingdom.",
+          "hooks": [
+            "A merchant caravan was ambushed in the canyon by a mated pair of Serpopards. The survivors are trapped on a cliff ledge.",
+            "A wealthy noble wants a winter cloak made of Serpopard fur, offering a hefty reward for a clean hide."
+          ]
+        },
+        {
+          "id": "lamassu",
+          "name": "Lamassu",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/lamassu.png",
+          "illustrationCaption": "A stone-carved Lamassu with a crowned human face and winged bull body, standing guard",
+          "role": "The winged bull sentinel",
+          "origin": "The Lamassu is a creature of the ancient world, born from the Mesopotamian mythology of the protective deities that guarded the gates of the gods. In Sundale, where the temples are ancient and the seals are strong, the Lamassus are the last guardians of the old world, creatures that have stood watch for ten thousand years. The Wyrd's corruption did not change their nature, but it did make them more suspicious, for the creature now sees all who approach as potential thieves, and it will not open the gate until it is satisfied that the visitor is worthy. The scholars of Sundale study the Lamassus, trying to learn the secrets of their construction, for the creatures are made of a stone that is harder than any known material, and their runes are written in a language that has been dead for millennia.",
+          "nature": "A majestic sentinel carved from volcanic basalt, featuring the body of a bull, massive eagle wings, and a crowned, bearded human face. Runic gold mortar glows in its stone joints, and its eyes are carved from a gemstone that shines with a faint, golden light. The creature stands silent at tomb doors, speaking in a low, resonant rumble that can be felt in the bones of those who hear it. It is bound to a specific location, and it cannot move more than a hundred feet from the gate it guards. The Lamassu is a creature of law and order, and it will negotiate with travelers who show knowledge of the old ways, but it will destroy any who try to force the gate.",
+          "habitat": "The Lamassu stands at the ancient stone entrances, basalt temples, and sacred vaults of Sundale, particularly in the Temple of the Forgotten Gods where the greatest treasures of the old world are hidden. It is active at all times, for the creature does not sleep, and it is most dangerous during the full moon, when the runes on its body glow with a light that is blinding to mortal eyes. The Lamassu's presence is a sign that the temple is still sealed, and that the treasures within are still safe.",
+          "combat": "150 HP. Runic Stomp (+6 to hit, 2d8+5 physical, DC 14 CON save or stunned for 1 round). Sunburst Wing (AoE, DC 14 SPI save or blinded by radiant light for 1 round). Stone Ward (takes 5 less damage from all physical attacks). Vulnerable to blight.",
+          "stats": {
+            "strength": 18,
+            "agility": 10,
+            "constitution": 16,
             "intelligence": 12,
             "spirit": 16,
             "charisma": 14,
-            "maxHp": 30,
-            "maxMana": 30,
-            "maxActionPoints": 3,
-            "speed": 15,
+            "maxHp": 150,
+            "maxMana": 40,
+            "maxActionPoints": 4,
+            "speed": 25,
             "resistances": {
-              "fire": 100,
-              "necrotic": 100
+              "physical": 50,
+              "ember": 50
             }
           },
-          "depth": "A peaceful guardian.",
+          "depth": "Sacred, lawful constructs bound to protect the seals of ancient tombs. They will negotiate with travelers who show deep knowledge of historical runes or carry a royal seal. The Lamassu's gold mortar is a mystery to alchemists, for it is harder than any known metal and it glows with a light that is not fire. Some scholars believe that the mortar is made of the same material as the sun, and that the Lamassu is a piece of the sky, brought down to guard the earth.",
           "hooks": [
-            "A Ba-Spirit has flown into a Neth contract-house, and its mournful song is filling the clerks with such sorrow that no business can be done. The Neth want it removed without violence.",
-            "Track a Ba-Spirit at night. The gold ash it weeps leaves a glowing trail that leads directly to a buried vault containing Solvarn artifacts.",
-            "Reconstruct a sun-hymn. A scholar needs the party to record three different songs sung by Ba-Spirits at three separate ruins."
+            "An excavation team is trapped inside a tomb because the Lamassu sentinel at the door woke up and sealed the exit, demanding a runic riddle's answer.",
+            "A corrupt collector wants to chisel the runic gold gold-mortar out of a sleeping Lamassu, risking waking the beast."
           ]
         },
         {
-          "id": "udu",
-          "name": "Udu",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/udu.png",
-          "illustrationCaption": "An Udu perched on a warm basalt pipe, its long ears perked for shifting stones",
-          "role": "The soot-sweeper hearth imp",
-          "origin": "Formed from Mesopotamian myths of the Udug—spirits that slip through narrow cracks—and Zoroastrian beliefs in hearth-guardians. The Udu are small, soot-furred desert rodents that seek geothermal warmth in the cold, sunless valleys.",
-          "nature": "A long-eared, large-eyed jerboa-like rodent covered in soft, charcoal-grey fur that sheds ash. It has a single basalt horn on its forehead for chipping minerals. Its tail ends in a smoldering, orange-glowing tuft that acts as a natural light source. Highly inquisitive and peaceful, but prone to stealing hot embers for its nest.",
-          "habitat": "Geothermal crevices, longhouse ovens, and volcanic mine shafts in Sundale.",
-          "combat": "25 HP. Cannot deal direct damage. Soot Cloud (AoE, 10-ft radius, DC 12 CON save or blinded for 1 round as it kicks up a cloud of ash). Spark Flash (emits a bright flash from its tail tuft, DC 10 AGI save or target has disadvantage on their next attack). Scurry (can leap 20 ft as a bonus action, avoiding opportunity attacks). Vulnerable to cold.",
+          "id": "ushabti_guard",
+          "name": "Ushabti Guard",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/ushabti_guard.png",
+          "illustrationCaption": "An Ushabti Guard construct carrying a clay sickle-sword, decorated in blue lapis lazuli",
+          "role": "The clay servant sentinel",
+          "origin": "The Ushabti Guard is a creature of the afterlife and the earth, born from the ancient Egyptian funerary practices of the Ushabti, the servant figurines that were placed in tombs to serve the dead in the next world. In Sundale, where the tombs are ancient and the dead are powerful, the Ushabti Guards are the last servants of the old kings, creatures that have been waiting for ten thousand years to fulfill their purpose. The Wyrd's corruption did not change their nature, but it did make them more vigilant, for the creature now sees all who enter the tomb as potential thieves, and it will attack any who disturb the sleep of the dead. The tomb robbers of Sundale fear the Ushabti Guards, for they are relentless, and they cannot be bribed or reasoned with.",
+          "nature": "A life-sized terracotta construct painted with patterns of blue lapis lazuli and gold leaf, its body stiff and its movements grinding like stone on stone. It carries a heavy clay sickle-sword (khopesh) and moves with the precision of a clockwork mechanism, its eyes painted with a glaze that seems to follow the viewer. The creature is bound to a specific tomb chamber, and it stands motionless until the seal is broken, at which point it activates and begins its patrol. The Ushabti Guard is a mindless construct, but it is also a thing of terrible beauty, and some scholars study the creatures to learn the secrets of the old art.",
+          "habitat": "The Ushabti Guard stands in the tomb vaults, basalt corridors, and treasure chambers of Sundale, particularly in the Pyramid of the Eternal Sun where the greatest of the old kings are buried. It is active only when the tomb is disturbed, and it is most dangerous during the new moon, when the darkness is deepest and the dead are closest to the world of the living. The Ushabti's presence is a sign that the tomb is still sealed, and that the treasures within are still guarded.",
+          "combat": "100 HP. Sickle Slash (+5 to hit, 2d6+3 physical, DC 13 CON save or target bleeds for 1d6 damage per round). Clay Shield (takes 3 less damage from physical attacks). Shatter (if destroyed, explodes in a shower of sharp clay shards, dealing 2d6 physical to all nearby). Vulnerable to physical.",
           "stats": {
-            "strength": 4,
-            "agility": 16,
-            "constitution": 10,
-            "intelligence": 6,
-            "spirit": 12,
-            "charisma": 10,
-            "maxHp": 25,
-            "maxMana": 10,
+            "strength": 14,
+            "agility": 10,
+            "constitution": 16,
+            "intelligence": 4,
+            "spirit": 10,
+            "charisma": 4,
+            "maxHp": 100,
+            "maxMana": 0,
             "maxActionPoints": 3,
-            "speed": 40,
+            "speed": 25,
             "resistances": {
-              "fire": 50
-            },
-            "vulnerabilities": {
-              "cold": 50
+              "physical": 50,
+              "ember": 100
             }
           },
-          "depth": "Emberth miners welcome the Udu because they consume dangerous soot deposits in chimneys and warn of cave-ins by sensing low-frequency vibrations with their large ears. However, their hoarding of hot coals makes them minor household pests.",
+          "depth": "Mindless construct servants built to protect and maintain the tomb. They follow simple verbal commands left by their creators thousands of years ago. The Ushabti's lapis lazuli paint is a mystery to alchemists, for it is brighter than any modern pigment and it does not fade. Some scholars believe that the paint is made of the same material as the sky, and that the Ushabti is a piece of the heavens, brought down to serve the earth.",
           "hooks": [
-            "A colony of Udu has nested in the primary air shaft of a Neth furnace, choking it with their glowing coal hoard. Retrieve the coal and relocate the colony safely.",
-            "An Udu has stolen a rare glowing ember-stone meant for a Solvarn ritual. Track its glowing tail trail to find its warm burrow.",
-            "Miners report that the local Udu have all suddenly fled the lower levels of a mine, suggesting an imminent collapse or something far worse waking in the dark."
+            "A group of archaeologists woke a squad of Ushabti Guards, who are now methodically clearing the campsite outside the tomb.",
+            "A collector wants the golden headpiece of an Ushabti Guard to study the ancient gold-leaf bonding technique."
           ]
         }
       ]
@@ -829,128 +510,16 @@ export const BESTIARY_DATA = {
       "folklore": "Greek/Aegean + West African/Yoruba",
       "creatures": [
         {
-          "id": "spume",
-          "name": "Water Elemental",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/spume.png",
-          "illustrationCaption": "A sketch of Water Elemental in its natural environment",
-          "role": "Tidal protector",
-          "origin": "An elemental formed from the violent ocean waves and kelp.",
-          "nature": "A shifting shape of water and sea foam that keeps beaches clean of debris.",
-          "habitat": "Coastal waters and rocky shores.",
-          "combat": "30 HP, immobile. Cannot attack. If destroyed, each polyp releases a scream in a different voice (2d6 psychic, DC 12 WIS half, and the party hears the final moments of every drowning victim at once).",
-          "stats": {
-            "strength": 0,
-            "agility": 0,
-            "constitution": 12,
-            "intelligence": 14,
-            "spirit": 16,
-            "charisma": 14,
-            "maxHp": 30,
-            "maxMana": 30,
-            "maxActionPoints": 0,
-            "speed": 0,
-            "resistances": {
-              "psychic": 50
-            }
-          },
-          "depth": "Friendly to sailors.",
-          "hooks": [
-            "Find a sailor's final message to their family. The Spume has their voice. Trade a story for the secret — the story does not have to be true, but it must be told with conviction.",
-            "Learn the location of a shipwreck. The Spume absorbed the navigator's voice and remembers the last course plotted.",
-            "Feed the Spume a fictional story. It will believe it and carry it into the sea, where the Myrathill will hear it as truth. A way to spread information across the ocean without leaving a trace."
-          ]
-        },
-        {
-          "id": "orun",
-          "name": "Deep Sea Jellyfish",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/orun.png",
-          "illustrationCaption": "A sketch of Deep Sea Jellyfish in its natural environment",
-          "role": "Bioluminescent drifter",
-          "origin": "A large jellyfish native to the deep trenches.",
-          "nature": "A floating, glowing jellyfish that drifts with the ocean currents.",
-          "habitat": "Open ocean and deep rifts.",
-          "combat": "5 HP (crystal). Cannot be harmed by physical, cold, or fire attacks — it simply refracts the energy. Can be shattered by force damage (bludgeoning/piercing above 20 total in a single hit). Touching it with bare skin forces a vision (DC 16 SPI save — success reveals a glimpse of the starless sky before the Dimming and grants advantage on the next INT or SPI check; failure causes 2d6 psychic damage and a lingering sense of cosmic grief for 1 hour). If shattered, it releases a burst of stellar light (30 ft, 4d6 radiant, DC 14 CON half) and the star's unfinished word — a single syllable in a language older than any on Mythrill.",
-          "stats": {
-            "strength": 0,
-            "agility": 0,
-            "constitution": 20,
-            "intelligence": 18,
-            "spirit": 20,
-            "charisma": 14,
-            "maxHp": 5,
-            "maxMana": 0,
-            "maxActionPoints": 0,
-            "speed": 0,
-            "resistances": {
-              "cold": 100,
-              "fire": 100,
-              "physical": 100,
-              "radiant": 50
-            },
-            "vulnerabilities": {
-              "bludgeoning": 100,
-              "force": 100
-            }
-          },
-          "depth": "Luminous but harmless.",
-          "hooks": [
-            "A Merryn captain claims an Orun led her to an uncharted island. She wants the party to help her find it again — but Orun drift, and the one she found is long gone. She needs a Deep-Born Myrathil to listen to the sea's memory of the crystal's path.",
-            "A Neth Velun arcanist has developed a method to read an Orun without shattering it, using specially cut ghost-crystal lenses. He needs a fresh Orun and permission to work in the Synod-Hold's crystal-lattice observatory. The Astril are reluctant to allow a Neth anywhere near their constellation-spirits.",
-            "An Orun has washed ashore at Merrowport, and the pirate-gamblers are holding a betting pool on what the crystal's unfinished word means. The party can try to touch it and hear the word — but hearing an unfinished celestial thought has driven two Deep-Born Myrathil into permanent meditation."
-          ]
-        },
-        {
-          "id": "thalass",
-          "name": "Sea Golem",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/thalass.png",
-          "illustrationCaption": "A sketch of Sea Golem in its natural environment",
-          "role": "Rift sentinel",
-          "origin": "A massive stone construct built to guard deep sea portals.",
-          "nature": "A stone guardian covered in coral and barnacles that patrols the ocean floor.",
-          "habitat": "Deep ocean floor.",
-          "combat": "100 HP. Immune to cold and poison. Wave-Break (melee, 2d8+4 bludgeoning, reach 15 ft — a mass of water shaped like a fist). Undertow (single target, DC 14 STR save or pulled 30 ft toward the Thalass and grappled for 1 round). Stormsong (30-ft radius, DC 14 SPI save — those who fail are confused for 1 round and hear the ghost of the sea's old harmonics, taking 2d6 psychic damage). If it hears music (within 60 ft), it gains +2 to all attacks and moves 50% faster toward the source. Fire and radiant damage suppress its foam-form (vulnerability — fire causes it to lose 10 HP per round until it reforms over water).",
-          "stats": {
-            "strength": 14,
-            "agility": 16,
-            "constitution": 14,
-            "intelligence": 12,
-            "spirit": 18,
-            "charisma": 16,
-            "maxHp": 100,
-            "maxMana": 20,
-            "maxActionPoints": 5,
-            "speed": 40,
-            "resistances": {
-              "cold": 100,
-              "poison": 100,
-              "necrotic": 50
-            },
-            "vulnerabilities": {
-              "fire": 75,
-              "radiant": 50
-            }
-          },
-          "depth": "Mindless construct.",
-          "hooks": [
-            "The Thalass has been following the party's ship for three days, growing closer each night. The Deep-Born crew member wants to communicate with it using the old harmonic frequencies, but she needs a thermal vent that still produces sound — and those are nearly extinct.",
-            "A Merryn musician has composed a song that mimics the sea's old harmonics. He believes it could give the Thalass its voice back — or drive it mad. The Deep-Born want him to try. The Merryn want to sell tickets.",
-            "The Thalass surfaced near Ironjaw Port and began pounding on the sea-wall with wave-fists. The Neth believe it is trying to deliver a message from the sea-shard. The message, if decoded, may reveal the shard's exact depth and location."
-          ]
-        },
-                {
           "id": "pelagos",
           "name": "Pelagos",
           "dangerLevel": "Medium",
           "illustration": "/assets/images/creatures/pelagos.png",
           "illustrationCaption": "A Pelagos bounding through the icy spray, its bioluminescent whiskers twitching",
           "role": "The spume-hound pack hunter",
-          "origin": "Inspired by Yoruba maritime tales of Olokun's Sea Dogs—guardians of deep waters—and the Greek Hippocampus. Fused by the Wyrd, the Pelagos are highly intelligent, amphibious pack hunters tracking deep currents.",
-          "nature": "A sleek hound resembling a greyhound but covered in smooth, rubbery shark skin with deep indigo and sea-foam green countershading. It has webbed paws, a dolphin-like dorsal fin, and a powerful shark tail. Its chin features soft, glowing sensory whiskers that detect movement under freezing waters, and its eyes emit a soft green bioluminescence.",
-          "habitat": "Coastal reefs, ice shelves, and kelp forests in the Iceheart Sea.",
-          "combat": "85 HP. Spume Bite (melee, 2d6+4 piercing, plus DC 12 CON save or bleeds for 1d6 physical damage per round for 3 rounds). Bioluminescent Flash (emits a sharp flash of light from its eyes, 30 ft range, DC 13 AGI save or blinded for 1 round). Slipstream (moves 50 ft, ignoring difficult terrain in water). Immune to cold, resistant to piercing and slashing.",
+          "origin": "The Pelagos is a creature of the sea and the sky, born from the fusion of Yoruba maritime tales and the Greek legends of the Hippocampus. In the Iceheart Sea, where the waters are cold and the reefs are treacherous, the Pelagos are the guardians of the deep, creatures that were created to protect the treasures of the sea from those who would steal them. The Wyrd's corruption did not change their nature, but it did make them more fierce, for the creature now sees all who enter the water as potential thieves, and it will attack any who disturb the peace of the deep. The coastal fishers of the Iceheart Sea have learned to respect the Pelagos, and they will not fish in the waters where the creatures are known to hunt.",
+          "nature": "A sleek hound resembling a greyhound but covered in smooth, rubbery shark skin with deep indigo and sea-foam green countershading. It has webbed paws, a dolphin-like dorsal fin, and a powerful shark tail that propels it through the water with incredible speed. Its chin features soft, glowing sensory whiskers that detect movement under freezing waters, and its eyes emit a soft green bioluminescence that can be seen from a hundred feet away. The Pelagos is intelligent enough to be trained, and it is fiercely loyal to those who earn its trust.",
+          "habitat": "The Pelagos inhabits the coastal reefs, ice shelves, and kelp forests of the Iceheart Sea, particularly in the Myrathil Reef where the waters are warmest and the fish are most plentiful. It is most active during the dawn and dusk, when the light is low and the prey is active, and during the spring migration, when the whales pass through the Iceheart Sea and the Pelagos follows them. The creature's den is always near a source of fresh water, for the Pelagos is a creature of both sea and land, and it needs to drink as well as swim.",
+          "combat": "85 HP. Spume Bite (melee, 2d6+4 piercing, plus DC 12 CON save or bleeds for 1d6 physical damage per round for 3 rounds). Bioluminescent Flash (emits a sharp flash of light from its eyes, 30 ft range, DC 13 AGI save or blinded for 1 round). Slipstream (moves 50 ft, ignoring difficult terrain in water). Immune to rime, resistant to physical.",
           "stats": {
             "strength": 14,
             "agility": 18,
@@ -963,127 +532,145 @@ export const BESTIARY_DATA = {
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "cold": 100,
-              "piercing": 50,
-              "slashing": 50
+              "rime": 100,
+              "physical": 50
             }
           },
-          "depth": "Highly intelligent and trainable companions. Coastal fishers and Deep-Born divers domesticate them to guide ships through rocky shoals, retrieve dropped anchors, and alert crews to low-frequency underwater vibrations.",
+          "depth": "Highly intelligent and trainable companions. Coastal fishers and Deep-Born divers domesticate them to guide ships through rocky shoals, retrieve dropped anchors, and alert crews to low-frequency underwater vibrations. The Pelagos' bioluminescence is a mystery to scholars, for it is not the cold light of the deep, but the warm light of the surface, and some believe that the creature is a bridge between the two worlds, a creature that belongs to neither and both.",
           "hooks": [
             "A pack of feral Pelagos has begun harrying fishing boats near the reefs. The local fishers want them driven off, but a Deep-Born elder claims they are fleeing a far larger predator waking in the trench.",
-            "An albino Pelagos, sacred to Olokun, was captured by a Neth merchant for sale. The Myrathil reef-keepers hire the party to break into the merchant's warehouse and rescue it before it is shipped off.",
-            "A diver lost their copper navigational compass in a deep trench. The party must bribe a domesticated Pelagos with raw reef-crabs to dive down and track the metallic scent."
+            "An albino Pelagos, sacred to Olokun, was captured by a Neth merchant for sale. The Myrathil reef-keepers hire the party to break into the merchant's warehouse and rescue it before it is shipped off."
           ]
         },
         {
-          "id": "brine",
-          "name": "Sea Kelpie",
+          "id": "egbere",
+          "name": "Egbere",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/brine.png",
-          "illustrationCaption": "A sketch of Sea Kelpie in its natural environment",
-          "role": "Spectral mount",
-          "origin": "A fey water spirit resembling a horse made of mist and foam.",
-          "nature": "It appears at the water's edge, offering rides to travelers but disappearing into foam if touched.",
-          "habitat": "Sea caves and misty shores.",
-          "combat": "The ship has 160 HP and is crewed by 8 skeletal sailors (each). The captain casts fear and control water at will. The ship can submerge for 1d4 rounds and reappear 500 ft away. Killing the captain disperses the ship until the next storm — he reforms with the rain.",
+          "illustration": "/assets/images/creatures/egbere.png",
+          "illustrationCaption": "An Egbere weeping on a coastal rock, its small seaweed-mat head shield catching the spray",
+          "role": "The crying reef-sprite",
+          "origin": "The Egbere is a creature of the sea and the sorrow, born from the Yoruba legends of the small, crying spirits that carry magical mats. In the Iceheart Sea, where the waves are cold and the rocks are sharp, the Egbere are the spirits of the drowned, creatures that were once children who perished in the sea and were transformed by the Wyrd into something that is both pitiful and dangerous. The Wyrd's corruption did not change their nature, but it did make them more desperate, for the creature now cries not for itself, but for the living, and its tears are a lure that draws the unwary to their doom. The sailors of the Iceheart Sea know the sound of the Egbere's cry, and they will cover their ears when they hear it, for the creature's voice is a siren song that cannot be resisted.",
+          "nature": "A small, amphibious humanoid with skin covered in wet scales and seaweed, sitting on coastal rocks or in dark caves, holding a small woven kelp mat on its head. It emits a loud, mournful crying sound that sounds like a lost child, and its eyes are large and black, reflecting the light of the moon. If a sailor attempts to rescue it, the Egbere attempts to steal their iron tools, using a blinding wave of salt water to escape. The creature is not evil, but it is hungry, and it will do whatever it takes to survive.",
+          "habitat": "The Egbere inhabits the sea caves, rocky shoals, and reef borders of the Iceheart Sea, particularly in the Weeping Rocks where the waves crash against the shore with a sound like crying. It is most active during the stormy season, when the waves are high and the ships are most likely to be wrecked, and during the full moon, when the light is bright and the creature's eyes are most visible. The Egbere's cave is always near a source of fresh water, for the creature is a creature of both sea and land, and it needs to drink as well as swim.",
+          "combat": "65 HP. Crying Call (AoE, 60 ft range, DC 13 SPI save or target is charmed, compelled to move toward the Egbere). Mat Shield (+4 defense while holding its woven mat). Salt Wave (30-ft cone, DC 13 AGI save or blinded by salt for 1 round). Vulnerable to ember.",
           "stats": {
-            "strength": 14,
-            "agility": 14,
-            "constitution": 16,
-            "intelligence": 14,
-            "spirit": 16,
-            "charisma": 18,
-            "maxHp": 160,
-            "maxMana": 50,
-            "maxActionPoints": 5,
-            "speed": 40,
-            "resistances": {
-              "cold": 50,
-              "necrotic": 50
-            },
-            "vulnerabilities": {
-              "fire": 50
-            }
-          },
-          "depth": "Playful and elusive.",
-          "hooks": [
-            "Accept passage to a destination unreachable by normal means — the Brine knows every current and can cross the Iceheart in three days instead of three weeks. The price is a year and a mark.",
-            "Break the captain's contract by finding his original ship's bell, preserved in a Merryn port tavern. Ring it at the moment the Brine appears, and the ship may finally sink.",
-            "Complete the captain's unfinished voyage. He was carrying a cargo when he died — a letter, a treasure, a prisoner. Deliver it, and the Brine may release its crew."
-          ]
-        },
-        {
-          "id": "writ",
-          "name": "Tidal Siren",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Tidal Siren",
-          "role": "Aquatic hunter",
-          "origin": "A humanoid aquatic species native to the Iceheart Sea.",
-          "nature": "A webbed hunter that uses simple harpoons and water magic to fish in the deep currents.",
-          "habitat": "Coastal caves and shipwrecks.",
-          "combat": "350 HP. Legendary actions (3). Tentacle strikes (3d10+7 bludgeoning, reach 80 ft). Can capsize ships (DC 22 STR check on a grapple). At half HP, it invokes an emergency clause: it calls 2d4 lesser leviathans as reinforcements. Its contract explicitly forbids it from attacking ships that have paid — it will not break this rule.",
-          "stats": {
-            "strength": 20,
-            "agility": 14,
-            "constitution": 20,
-            "intelligence": 16,
-            "spirit": 14,
-            "charisma": 12,
-            "maxHp": 350,
-            "maxMana": 30,
-            "maxActionPoints": 6,
-            "speed": 40,
-            "resistances": {
-              "cold": 50,
-              "physical": 25
-            },
-            "vulnerabilities": {
-              "lightning": 50
-            }
-          },
-          "depth": "Reclusive fisher-folk.",
-          "hooks": [
-            "The party's ship cannot afford the toll. Challenge the contract's terms in Neth court at Ironjaw Port — this requires legal expertise, a copy of the contract, and a compelling precedent.",
-            "Discover an unratified amendment. The Writ's lease expired 50 years ago, but no one noticed because the renewal was buried in a cargo manifest. The Writ may not know it is squatting on borrowed jurisdiction.",
-            "Pay the toll in unconventional currency. The Writ accepts secrets, memories, and names — the value is determined by how much they mean to the payer. A childhood memory of warmth is worth more than gold in the Iceheart."
-          ]
-        },
-        {
-          "id": "yemoja-sentinel",
-          "name": "Yemoja Sentinel",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Yemoja Sentinel",
-          "role": "Coral guardian",
-          "origin": "A construct of sea shell and coral reefs embodying the protective spirit of the deep.",
-          "nature": "A large shell-construct that protects coral beds from predators.",
-          "habitat": "Coral reefs.",
-          "combat": "160 HP. Coral Fist (melee, 2d10+6 bludgeoning + DC 14 CON save or bleed 1d6 piercing damage per round). Tidal Wave (30-ft cone, DC 15 STR save or knocked prone and pushed 15 ft). Shield of Shells (+4 defense for 2 rounds). Resistant to physical and cold damage. Vulnerable to thunder.",
-          "stats": {
-            "strength": 20,
-            "agility": 10,
-            "constitution": 18,
+            "strength": 8,
+            "agility": 16,
+            "constitution": 12,
             "intelligence": 10,
-            "spirit": 14,
-            "charisma": 10,
-            "maxHp": 160,
+            "spirit": 12,
+            "charisma": 14,
+            "maxHp": 65,
             "maxMana": 20,
-            "maxActionPoints": 5,
+            "maxActionPoints": 3,
             "speed": 20,
             "resistances": {
-              "physical": 50,
-              "cold": 50
-            },
-            "vulnerabilities": {
-              "thunder": 50
+              "rime": 50,
+              "physical": 25
             }
           },
-          "depth": "Protective sentinel.",
+          "depth": "They are greedy beach-scavengers. The woven mat they carry is magically water-resistant; if stolen, it can be sold for a high price to shipwrights. The Egbere's mat is a mystery to scholars, for it is woven from a seaweed that does not exist in any known catalog, and some believe that the creature weaves the mats from its own hair, a process that takes a hundred years and is the creature's only purpose in life.",
           "hooks": [
-            "A merchant ship crashed on a reef, and a Sentinel is preventing any salvage operations, dragging divers under. Negotiate with the sea-dwellers to pacify the construct.",
-            "A Sentinel's core gem has been stolen by a group of pirates. Without the gem, the Sentinel is slowly crumbling, and the surrounding reef is dying. Recover the gem from the pirate cove.",
-            "The party needs a piece of calcified bone-coral from a Sentinel's body to craft a cure for a local plague. Harvest it without destroying the guardian."
+            "A trading boat was lured onto a reef by a crying Egbere, and the crew is now stranded on a rocky islet. Rescue them before the tide rises.",
+            "A Myrathil scholar wants the party to steal an Egbere's mat without killing the sprite. The mat holds the secret to weaving water-resistant sails."
+          ]
+        },
+        {
+          "id": "scylla_crab",
+          "name": "Scylla-Crab",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/scylla_crab.png",
+          "illustrationCaption": "A Scylla-Crab standing on an ice floe, its volcanic glass shell glinting in the pale light",
+          "role": "The ice-flow crab",
+          "origin": "The Scylla-Crab is a creature of the deep and the dark, born from the maritime myths of Scylla and the northern tales of giant crustaceans. In the Iceheart Sea, where the waters are cold and the volcanic vents are hot, the Scylla-Crabs are the guardians of the deep, creatures that have evolved to survive in the most extreme environments. The Wyrd's corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its ice sheet. The fishermen of the Iceheart Sea know the signs of a Scylla-Crab's presence—a field of ice that is too smooth, and the absence of any other life.",
+          "nature": "A giant crustacean with a shell made of dark, jagged volcanic glass (obsidian) and frozen sea-spray, its body the size of a small boat. It has massive, asymmetrical claws capable of cutting wooden hulls or crushing ice sheets, and its eyes line the rim of its shell like small, glowing blue beads. The creature moves with a slow, deliberate pace, but it can strike with incredible speed, and its claws are sharp enough to cut through steel. The Scylla-Crab is a creature of instinct, and it will defend its territory to the death.",
+          "habitat": "The Scylla-Crab inhabits the ice sheets, glacier walls, and volcanic vents of the Iceheart Sea, particularly in the Obsidian Flats where the volcanic vents are most active and the ice is thickest. It is most active during the winter, when the ice is thickest and the creature's territory is most secure, and during the volcanic eruptions, when the vents are active and the water is warm. The Scylla-Crab's lair is always near a source of heat, for the creature is a creature of both fire and ice, and it needs the warmth to survive.",
+          "combat": "140 HP. Obsidian Claw (+6 to hit, 2d8+5 physical, ignores 3 points of armor). Ice Cutter (+6 to hit, DC 14 AGI save or target's leg is pinned, halving their speed). Volcanic Steam (AoE, vents hot steam from its shell, 15-ft cone, 2d6 ember damage). Vulnerable to storm.",
+          "stats": {
+            "strength": 18,
+            "agility": 12,
+            "constitution": 18,
+            "intelligence": 6,
+            "spirit": 12,
+            "charisma": 4,
+            "maxHp": 140,
+            "maxMana": 0,
+            "maxActionPoints": 4,
+            "speed": 25,
+            "resistances": {
+              "rime": 100,
+              "ember": 50
+            }
+          },
+          "depth": "Highly aggressive, territorial predators. They defend their ice sheets fiercely, striking instantly at any vessel or explorer that draws near. The Scylla-Crab's obsidian shell is a mystery to alchemists, for it is harder than any known material and it does not melt. Some scholars believe that the shell is made of the same material as the volcanic vents, and that the creature is a piece of the earth's fire, brought up to guard the ice.",
+          "hooks": [
+            "A giant Scylla-Crab has crawled onto a village's fishing ice sheet, making it impossible for the villagers to harvest fish.",
+            "Craftsmen want to harvest the volcanic glass shell of a Scylla-Crab to forge shield plates that resist both extreme cold and heat."
+          ]
+        },
+        {
+          "id": "draugr_helmsman",
+          "name": "Draugr Helmsman",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/draugr_helmsman.png",
+          "illustrationCaption": "A sea-drenched Draugr Helmsman fused to a rotting ship wheel, seaweed coiling around its skull",
+          "role": "The frozen mariner",
+          "origin": "The Draugr Helmsman is a creature of the sea and the dead, born from the Norse maritime tales of the undead sailors who guard their sunken ships. In the Iceheart Sea, where the waters are cold and the wrecks are many, the Draugr Helmsmans are the spirits of the drowned, creatures that have been bound to their ships by the force of their own greed. The Wyrd's corruption did not change their nature, but it did make them more vengeful, for the creature now sees all who approach its wreck as thieves, and it will attack any who try to salvage its cargo. The divers of the Iceheart Sea know the signs of a Draugr's presence—a ship that is too well preserved, and the sound of a helmsman's whistle in the depths.",
+          "nature": "A sea-drenched, blue-skinned undead sailor whose hands are fused to the rotting wood of a ship's helm wheel, its body draped in frozen blue kelp, barnacles, and rotting ropes. Its eyes glow with a chilling frost-light, and it speaks in a hollow, wind-swept whistle that can be heard through the water. The creature is bound to its ship, and it cannot move more than a hundred feet from the wreck. It is a creature of tragedy, and its rage is a thing of terrible beauty, for it is the rage of a man who died for his cargo and will not rest until it is safe.",
+          "habitat": "The Draugr Helmsman haunts the shipwrecks, frozen bays, and ice floes of the Iceheart Sea, particularly in the Graveyard of the North where the wrecks of a thousand ships lie beneath the ice. It is most active during the winter, when the ice is thickest and the wrecks are most accessible, and during the storms, when the waves are high and the ships are most likely to sink. The Draugr's presence is a sign that the wreck is still sealed, and that the cargo within is still guarded.",
+          "combat": "110 HP. Rotting Anchor (+5 to hit, 2d8+3 bludgeoning, reach 10 ft). Sea-Salt Curse (DC 13 SPI save or target's lungs fill with salt water, choking and dealing 1d8 damage per round). Frost Bind (ranged, DC 13 CON save or target is frozen in place). Vulnerable to ember.",
+          "stats": {
+            "strength": 16,
+            "agility": 12,
+            "constitution": 16,
+            "intelligence": 8,
+            "spirit": 14,
+            "charisma": 6,
+            "maxHp": 110,
+            "maxMana": 20,
+            "maxActionPoints": 4,
+            "speed": 25,
+            "resistances": {
+              "rime": 100,
+              "blight": 100
+            }
+          },
+          "depth": "Tragic, vengeful spirits bound to their sunken ships. They protect the cargo they died carrying, dragging salvage divers down into the freezing deep. The Draugr's frost-light is a mystery to scholars, for it is not the cold light of the dead, but the warm light of the living, and some believe that the creature is not truly dead, but suspended between life and death, a guardian that will never rest.",
+          "hooks": [
+            "A salvager cog is trapped in a frozen bay because a Draugr Helmsman has anchored their chain to his sunken ship.",
+            "A scholar wants the helmsman's runic compass, believed to be able to navigate through the thickest sea fogs."
+          ]
+        },
+        {
+          "id": "qalupalik",
+          "name": "Qalupalik",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/qalupalik.png",
+          "illustrationCaption": "A scaly Qalupalik emerging from an ice crack, its long claws reaching out",
+          "role": "The ice-well child-snatcher",
+          "origin": "The Qalupalik is a creature of the ice and the dark, born from the Inuit mythology of the humanoid sea creatures that carry away children. In the Iceheart Sea, where the ice is thick and the water is cold, the Qalupaliks are the spirits of the frozen, creatures that have been twisted by the Wyrd into something that is both pitiful and terrifying. The Wyrd's corruption did not change their nature, but it did make them more predatory, for the creature now sees all who approach the ice as prey, and it will drag any who come near into the water. The parents of the Iceheart Sea know the signs of a Qalupalik's presence—a humming song on the wind, and the absence of any children.",
+          "nature": "An amphibious, scaly humanoid sprite with dark green skin and long, slimy hair that smells of sulfur. It wears a large seal-skin parka with an oversized hood (amautik) on its back, and it hides beneath ice cracks, waiting to grab travelers and drag them down. The creature is stealthy and patient, and it can wait for hours beneath the ice, its only movement the slow rise and fall of its breathing. The Qalupalik is a creature of the dark, and it is most active during the long winter nights, when the ice is thickest and the children are most likely to wander.",
+          "habitat": "The Qalupalik inhabits the frozen ocean shores, glacier fissures, and ice wells of the Iceheart Sea, particularly in the Child's End where the ice is thin and the water is deep. It is most active during the winter, when the ice is thickest and the children are most likely to wander, and during the spring thaw, when the ice cracks and the creature can reach through. The Qalupalik's lair is always beneath the ice, in a cave that is warm and dry, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "85 HP. Amautik Snatch (+5 to hit, DC 13 AGI save or pulled into the Qalupalik's hood and restrained). Ice Dive (can submerge into freezing water as a bonus action, avoiding attacks). Claw Strike (2d6+3 physical). Vulnerable to ember.",
+          "stats": {
+            "strength": 12,
+            "agility": 16,
+            "constitution": 12,
+            "intelligence": 8,
+            "spirit": 12,
+            "charisma": 6,
+            "maxHp": 85,
+            "maxMana": 10,
+            "maxActionPoints": 4,
+            "speed": 30,
+            "resistances": {
+              "rime": 100
+            }
+          },
+          "depth": "Stealthy, solitary hunters. They use a low, humming song to lure unwary children and travelers close to the ice cracks, dragging them down to live in their sub-glacial caves. The Qalupalik's amautik is a mystery to scholars, for it is made of a seal-skin that does not exist in any known catalog, and some believe that the creature skinned the seals itself, a process that takes a hundred years and is the creature's only purpose in life.",
+          "hooks": [
+            "A child was snatched from the shore ice by a Qalupalik. The party must venture down into the ice caves under the bay to rescue her.",
+            "Hunters want to study the insulated seal-skin hood of a Qalupalik, believing it holds a secret to surviving extreme freezing wind."
           ]
         }
       ]
@@ -1091,258 +678,168 @@ export const BESTIARY_DATA = {
     {
       "id": "cragjaw-peaks",
       "name": "Cragjaw Peaks",
-      "folklore": "Japanese Yōkai + Andean/Incan",
+      "folklore": "Japanese Yokai + Incan/Andean",
       "creatures": [
         {
-          "id": "scrab",
-          "name": "Rust Beetle",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Rust Beetle",
-          "role": "Scrap scrawler",
-          "origin": "A small beetle adapted to feed on rusted metals.",
-          "nature": "A hard-shelled beetle that eats scrap iron and copper.",
-          "habitat": "Mountain mines and scrap piles.",
-          "combat": "50 HP (metal hide). Can swallow a metal object (DC 13 STR save or weapon is eaten, dealing 2d6 to the Scrab). A Scrab that has consumed too much precious metal becomes dangerously magnetic — creatures wearing metal within 20 ft must make a DC 12 STR save or be pulled toward it.",
+          "id": "gaki",
+          "name": "Gaki",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/gaki.png",
+          "illustrationCaption": "A Gaki ghoul crouching on a coal ledge, its glowing gold veins illuminating the darkness",
+          "role": "The coal-scavenger mountain ghoul",
+          "origin": "The Gaki is a creature of the earth and the greed, born from the fusion of Incan and Japanese mythology, the spirits of the hungry dead who were cursed to roam the earth in search of sustenance. In the Cragjaw Peaks, where the mines are deep and the gold is plentiful, the Gakis are the spirits of the miners who died in the darkness, their greed turning them into something that is both human and monster. The Wyrd's corruption did not change their nature, but it did make them more terrible, for the creature now sees all who enter its territory as prey, and it will attack any who come near its hoard. The miners of the Cragjaw Peaks know the signs of a Gaki's presence—a mine that is too quiet, and the smell of sulfur in the air.",
+          "nature": "A coal-black bipedal humanoid sprite with a third arm growing from its chest and skin patterned by glowing yellow veins of mineral gold. It has long, pick-like stone claws and a stone jaw for crushing ore, and it haunts the dark mines, aggressively hunting miners to steal their jewelry, coins, and mineral-rich blood. The creature is a thing of terrible beauty, and its glowing veins are a sign of the gold that flows through its body. The Gaki is a creature of hunger, and it will eat anything that contains gold, including the flesh of its prey.",
+          "habitat": "The Gaki inhabits the deep mine shafts, sulfur caverns, and volcanic veins of the Cragjaw Peaks, particularly in the Gold-Cleft Mine where the veins are thickest and the miners are most numerous. It is most active during the night, when the mines are dark and the workers are few, and during the volcanic eruptions, when the sulfur is thick and the air is poison. The Gaki's lair is always near the richest vein, and it is said to be a nest of gold and bones, the remains of a thousand years of mining.",
+          "combat": "150 HP. Gold Drain (melee, +6 to hit, DC 14 SPI save or target loses 1 point of strength for 2 rounds; drains more if target carries gold). Pick Claw (2d8+5 slashing, ignores 2 points of physical defense). Gold Scream (AoE, DC 14 SPI save or targets are stunned for 1 round by resonant vibrations).",
           "stats": {
-            "strength": 10,
-            "agility": 12,
-            "constitution": 14,
-            "intelligence": 4,
-            "spirit": 8,
-            "charisma": 4,
-            "maxHp": 50,
-            "maxMana": 0,
-            "maxActionPoints": 3,
-            "speed": 20,
-            "resistances": {
-              "physical": 50,
-              "fire": 25
-            }
-          },
-          "depth": "A minor nuisance in holds.",
-          "hooks": [
-            "A mine has collapsed — a wild Scrab ate the support beams. The party must clear the rubble and drive it out before the mine can be worked again.",
-            "A Fexric master crafter will pay handsomely for a trained Scrab. But training one requires feeding it progressively more valuable metals — a costly investment.",
-            "A Scrab's stomach contains rare undigested alloys. Track one that has been feeding in a rich vein, kill it, and extract the metal — but the vein it found belongs to whoever claims the tunnel."
-          ]
-        },
-        {
-          "id": "qalpa",
-          "name": "Cliff Guardian",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Cliff Guardian",
-          "role": "Stone guardian",
-          "origin": "A stone gargoyle carved to guard mountain passages.",
-          "nature": "A winged gargoyle that sits motionless on peaks, warning travelers of blizzards.",
-          "habitat": "Mountain passes.",
-          "combat": "40 HP (metal hide). Immune to fire and poison. Claw-Chisel (melee, 1d6+3 piercing, reach 5 ft — its limbs are chisel-blades). Furnace-Breath (5-ft cone, 1d8 fire damage, DC 12 DEX half — the chest-furnace vents superheated air). Darkness Sense: it cannot be surprised in dim light or darkness. If its chest-furnace is doused (targeted attack, DC 12 to hit the furnace, which bypasses defense), it becomes sluggish (half speed, -2 to all attacks) for 1d4 rounds until it reignites from a coal-vein or heat-source. Vulnerable to cold — ice disrupts the furnace joints.",
-          "stats": {
-            "strength": 12,
+            "strength": 16,
             "agility": 14,
             "constitution": 16,
-            "intelligence": 4,
-            "spirit": 6,
-            "charisma": 2,
-            "maxHp": 40,
-            "maxMana": 0,
-            "maxActionPoints": 4,
-            "speed": 25,
-            "resistances": {
-              "fire": 100,
-              "poison": 100
-            },
-            "vulnerabilities": {
-              "cold": 50,
-              "frost": 50
-            }
-          },
-          "depth": "Mindless stone sentinel.",
-          "hooks": [
-            "A Qalpa swarm has infested a coal-mine that the Drall need to reopen. The Qalpa are eating the best seams and the Drall cannot afford to lose the coal. The party must drive the Qalpa out without destroying them — the Drall want to domesticate them.",
-            "A Qalpa has scuttled into Frostmaw Holdfast's upper galleries. The Kethrin want it killed — it is eating their document-coals, the compressed fuel that stores their maintenance songs. Without the coals, the Kethrin lose their oral archives.",
-            "A Groven bridge-builder claims a Qalpa carried a lost Fexric maintenance song across a chasm inside its chest-furnace. If the furnace is opened carefully, the song might be recovered — but opening it may also release the heat that keeps the Qalpa alive."
-          ]
-        },
-        {
-          "id": "kintsu",
-          "name": "Stone Gargoyle",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Stone Gargoyle",
-          "role": "Peak eagle",
-          "origin": "A massive stone bird guarding the high Cols.",
-          "nature": "A bird construct that watches the valleys from above.",
-          "habitat": "High peaks.",
-          "combat": "90 HP. Incorporeal — immune to physical damage. Can only be harmed by radiant (its opposite: light that is intentional rather than reflected) or by destroying the span it stands on. Name-Toll (single target, DC 14 SPI save — failure means the target forgets their own name for 3 days. During this time, all CHA-based checks have disadvantage and the target cannot use items that require a name to activate). Bone-Light Shift (self, teleport to any point on the same span). Memory Flash (15 ft radius, 2d6 psychic, DC 14 WIS — failure means the target sees a random memory of someone who crossed this bridge before). If the span is damaged, the Kintsu takes equal damage — it is the bridge, and the bridge is it.",
-          "stats": {
-            "strength": 10,
-            "agility": 18,
-            "constitution": 14,
-            "intelligence": 14,
-            "spirit": 18,
-            "charisma": 16,
-            "maxHp": 90,
-            "maxMana": 20,
-            "maxActionPoints": 4,
-            "speed": 40,
-            "resistances": {
-              "physical": 100,
-              "cold": 50
-            },
-            "vulnerabilities": {
-              "radiant": 75
-            }
-          },
-          "depth": "Guardian of the sky.",
-          "hooks": [
-            "The party must cross a Kintsu-guarded span with no time to wait for the name to return. One party member volunteers — but the negotiations they need to conduct on the far side require they prove their identity to a Neth contract-house. Find a way to operate namelessly or find the name before the contract deadline.",
-            "A Kintsu on a major span has stopped offering passage and instead stands motionless, weeping bone-light. The Groven believe the span's original bones have been disturbed — someone is trying to extract a calcified body from the bridge's structure. The party must investigate who is dismantling the span and why.",
-            "An Ithran councilor wants the party to capture a Kintsu's light. He believes it could be used to identify any traveler who ever crossed a Groven bridge — a powerful intelligence tool. The Morgh Groven view this as desecration."
-          ]
-        },
-        {
-          "id": "tarn",
-          "name": "Thunderbird",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Thunderbird",
-          "role": "Storm hawk",
-          "origin": "A large eagle that channels electrical storms through its wings.",
-          "nature": "A majestic bird nesting on lightning-struck peaks.",
-          "habitat": "Peak tops.",
-          "combat": "The Tarn itself is terrain. The pool has 180 HP and can be attacked (vulnerable to fire — boiling the water deals double damage). Each round, 1d4 water-tendrils emerge and attempt to grapple creatures within 20 ft (DC 16 STR or restrained, dragged 10 ft toward the pool per round). Restrained creatures submerged in the pool must make a DC 16 SPI save — failure means they see their future self and are paralyzed for 1 round with awe or horror. If a creature is submerged for 3 consecutive rounds, they begin dissolving — 2d8 necrotic per round. The pool radiates a Visions aura (60 ft, creatures must make a DC 14 SPI save at the start of their turn or see a flash of their future self, gaining advantage on the next attack roll but taking 1d4 psychic damage from the emotional shock). The pool cannot leave its basin.",
-          "stats": {
-            "strength": 16,
-            "agility": 0,
-            "constitution": 18,
-            "intelligence": 14,
-            "spirit": 20,
-            "charisma": 16,
-            "maxHp": 180,
-            "maxMana": 0,
-            "maxActionPoints": 4,
-            "speed": 0,
-            "resistances": {
-              "cold": 100,
-              "physical": 50,
-              "psychic": 75
-            },
-            "vulnerabilities": {
-              "fire": 100
-            }
-          },
-          "depth": "High-altitude hunter.",
-          "hooks": [
-            "The party needs to cross a pass that leads past a Tarn. The Tarn will show each of them their future if they survive. One party member sees something terrible and refuses to continue. The Tarn begins reaching for them. The party must decide: help their companion accept the vision, or fight the Tarn to free them.",
-            "A Fexric Deep Alchemist wants the Tarn's water — he believes it contains liquid memory of the future and could be used to predict the outcome of experiments. The Groven will not allow the Tarn to be disturbed. The Fexric has a counter-proposal: drain only what the Tarn willingly gives.",
-            "A Morgh bridge-builder looked into the Tarn and saw himself becoming an Ithran councilor. This is impossible under the Ladder of Purity — but the vision was clear. He wants the party to help him fulfill the future the Tarn showed him, even if it means breaking every caste rule the Groven have."
-          ]
-        },
-        {
-          "id": "yawn",
-          "name": "Crag Yeti",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Crag Yeti",
-          "role": "Cliff troll",
-          "origin": "A large, white-furred troll native to the snowy crags.",
-          "nature": "A thick-furred beast that climbs sheer cliffs with ease.",
-          "habitat": "Sheer cliffs.",
-          "combat": "The Yawn itself is terrain, not a creature. It has 120 HP and can be attacked. Each round, 1d4 bone-hands emerge from the span and attempt to grab creatures (DC 14 DEX or grappled, dragged into the bridge structure — 2d6 bludgeoning per round). The bridge-keeper's ghost manifests at the midpoint and must be passed to cross safely.",
-          "stats": {
-            "strength": 16,
-            "agility": 8,
-            "constitution": 16,
             "intelligence": 10,
-            "spirit": 14,
-            "charisma": 8,
-            "maxHp": 120,
-            "maxMana": 0,
-            "maxActionPoints": 4,
-            "speed": 0,
+            "spirit": 12,
+            "charisma": 6,
+            "maxHp": 150,
+            "maxMana": 30,
+            "maxActionPoints": 5,
+            "speed": 30,
             "resistances": {
               "physical": 50,
-              "necrotic": 50
-            },
-            "vulnerabilities": {
-              "fire": 50
+              "ember": 50
             }
           },
-          "depth": "Reclusive climber.",
+          "depth": "Territorial and cruel miners' nightmares. Miners mark boundaries with runic warding stakes to prevent them from entering active mine layers. The Gaki's gold veins are a mystery to alchemists, for they are made of a gold that is purer than any known metal, and some believe that the creature's body is a natural smelter, a living furnace that turns ore into gold.",
           "hooks": [
-            "The only path to the shard's vault is across the Yawn's chasm. Cross it by stepping only on the oldest, most calcified bone — newer sections are unstable and will grab.",
-            "Complete the bridge properly. Find the original bridge-keeper's remains and lay them at the anchor-point. The Yawn may accept them as the final piece and rest.",
-            "Burn the Yawn. The bone will crack and fall into the chasm — but the chasm becomes impassable forever, sealing whatever lies on the far side."
-          ]
-        },
-        {
-          "id": "thrum",
-          "name": "Earth Elemental",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Earth Elemental",
-          "role": "Mountain mind",
-          "origin": "An elemental manifestation of the mountain's stone.",
-          "nature": "A slow-moving giant of granite and quartz.",
-          "habitat": "Deep chasms.",
-          "combat": "The Thrum cannot be killed — it is a phenomenon. Each round it asks a question through tectonic vibration (DC 18 Insight/Religion to interpret). Wrong answers cause a cave-in (6d6 bludgeoning, DC 16 DEX half). Right answers calm it. After 3 right answers, the path to the Subterranean Vault opens. If the party fails 3 questions in a row, the chamber collapses entirely.",
-          "stats": {
-            "strength": 24,
-            "agility": 0,
-            "constitution": 24,
-            "intelligence": 16,
-            "spirit": 20,
-            "charisma": 10,
-            "maxHp": 500,
-            "maxMana": 0,
-            "maxActionPoints": 4,
-            "speed": 0,
-            "resistances": {
-              "physical": 75,
-              "fire": 100,
-              "cold": 50
-            }
-          },
-          "depth": "Peaceful unless attacked.",
-          "hooks": [
-            "The party needs the Thrum's knowledge to open the Subterranean Vault where the shard lies. Decipher the Fexric prayer-language carved on the walls — it is a confession, a map, and an apology.",
-            "Clear the blocked vent to relieve the Thrum's pain. This requires navigating flooded tunnels filled with superheated steam and awakened minerals.",
-            "Bring a Fexric Deep Alchemist who knows the old rituals. The Thrum remembers the Fexric's touch and may respond to their voice with recognition rather than pain."
+            "A Gaki has nested in a newly discovered vein of gold, killing three miners. Clear the shaft before the vein can be worked.",
+            "An alchemist believes the gold-veined hide of a Gaki can be processed into a potion of mineral detection. Hunt one and deliver its hide."
           ]
         },
         {
           "id": "kamaitachi",
-          "name": "Kama-Itachi",
+          "name": "Kamaitachi",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Kama-Itachi",
-          "role": "Wind yokai weasel",
-          "origin": "A fast, weasel-like yokai riding the glacial winds.",
-          "nature": "A swift weasel with razor claws that slashes glacial drafts.",
-          "habitat": "Glacial wind tunnels.",
-          "combat": "100 HP. Wind Sliders (moves 60 ft without triggering opportunity attacks). Sickle Strike (2d8+4 slashing + DC 14 DEX save or bleed 1d8 damage per round for 3 rounds). Triple Cut (attacks three times in a single action, but has -2 to hit on each). Resistant to physical attacks while moving.",
+          "illustration": "/assets/images/creatures/kamaitachi.png",
+          "illustrationCaption": "A Kamaitachi weasel riding a blast of icy wind, its blade-tail slicing the air",
+          "role": "The blade-tailed wind weasel",
+          "origin": "The Kamaitachi is a creature of the wind and the blade, born from the Japanese legends of the sickle-cut wind weasel. In the Cragjaw Peaks, where the wind is strong and the mountains are tall, the Kamaitachis are the spirits of the storm, creatures that have been twisted by the Wyrd into something that is both beautiful and deadly. The Wyrd's corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its territory as prey, and it will attack any who come near its nest. The miners of the Cragjaw Peaks know the signs of a Kamaitachi's presence—a wind that cuts like a knife, and the sound of weasel-like laughter in the air.",
+          "nature": "A sleek, long-bodied weasel about three feet long, with fur that mimics the grey color of cold slate. Its front claws and long tail are flat, sharp, copper-like blades, and it moves with blinding speed, riding mountain drafts and pipeline updrafts, slicing travelers before they even notice its presence. The creature is a thing of terrible grace, and its blades are sharper than any known metal. The Kamaitachi is a creature of the wind, and it is most active during the stormy season, when the winds are strong and the air is charged with electricity.",
+          "habitat": "The Kamaitachi inhabits the vertical mines, pipeline rifts, and high girders of the Cragjaw Peaks, particularly in the Wind-Cleft Pass where the drafts are strongest and the updrafts are most reliable. It is most active during the stormy season, when the winds are strong and the air is charged with electricity, and during the spring, when the snow melts and the air is warm. The Kamaitachi's nest is always near a source of wind, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "80 HP. Sickle Cut (melee, 2d6+4 physical damage). Wind Gale (creates a blast of mountain wind, DC 13 AGI save or knocked prone and pushed 15 ft). Blade Dance (moves up to 20 ft between attacks without opportunity attacks). Vulnerable to ember.",
           "stats": {
-            "strength": 10,
-            "agility": 20,
+            "strength": 8,
+            "agility": 18,
             "constitution": 12,
             "intelligence": 8,
             "spirit": 12,
-            "charisma": 6,
-            "maxHp": 100,
-            "maxMana": 0,
-            "maxActionPoints": 5,
-            "speed": 50,
+            "charisma": 8,
+            "maxHp": 80,
+            "maxMana": 10,
+            "maxActionPoints": 4,
+            "speed": 45,
             "resistances": {
-              "physical": 50
+              "physical": 25
             }
           },
-          "depth": "Trickster of the cold drafts.",
+          "depth": "They hunt birds and smaller rodents along vertical shafts. Miners listen for their sharp whistling calls, which signal high winds and impending cuts. The Kamaitachi's copper blades are a mystery to alchemists, for they are made of a copper that is harder than any known metal, and some believe that the creature's blades are a natural alloy, a living forge that turns copper into steel.",
           "hooks": [
-            "A bridge-building crew is trapped in a gorge because a pack of Kama-Itachi has claimed the wind-currents above. Drive them out or find a way to silence the winds.",
-            "Gather copper claws from a slain Kama-Itachi to forge a wind-cutting blade for a local warrior.",
-            "A Kama-Itachi has stolen a key wind-tome from an Ithran councilor. Track the wind-currents to locate its nest on a sheer cliff face."
+            "A Kamaitachi has nested inside a pipeline ventilation fan, slicing anyone trying to fix it. Drive it out safely.",
+            "A wealthy merchant wants to capture a Kamaitachi alive to train as a high-speed courier or guard beast."
+          ]
+        },
+        {
+          "id": "kcoa",
+          "name": "Kcoa",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/kcoa.png",
+          "illustrationCaption": "A Kcoa storm-cat spirit floating near a storm cloud, its eyes crackling with lightning",
+          "role": "The storm-cat spirit",
+          "origin": "The Kcoa is a creature of the storm and the sky, born from the Incan mythology of the cat-like weather spirits that dwell in the clouds. In the Cragjaw Peaks, where the mountains are tall and the storms are fierce, the Kcoas are the spirits of the weather, creatures that have been twisted by the Wyrd into something that is both beautiful and dangerous. The Wyrd's corruption did not change their nature, but it did make them more unpredictable, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its cloud. The mountain guides of the Cragjaw Peaks know the signs of a Kcoa's presence—a storm that appears from nowhere, and the sound of a cat's scream in the thunder.",
+          "nature": "A large wildcat-like spirit with wings made of grey storm clouds and rain, its fur dark grey and constantly dripping water. Its eyes flash with bright yellow lightning, and it can release hail from its ears when enraged. The creature is a thing of terrible beauty, and its cloud-wings are a sign of the storm that follows it. The Kcoa is a creature of the sky, and it is most active during the stormy season, when the clouds are thick and the air is charged with electricity.",
+          "habitat": "The Kcoa inhabits the highest peaks, storm clouds, and volcanic vents of the Cragjaw Peaks, particularly in the Storm-Crown Peak where the clouds are thickest and the lightning is most frequent. It is most active during the stormy season, when the clouds are thick and the air is charged with electricity, and during the volcanic eruptions, when the ash is thick and the air is poison. The Kcoa's nest is always in the clouds, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "95 HP. Lightning Scratch (melee, +5 to hit, 1d8+3 physical + 1d8 storm). Hail Rain (ranged AoE, 15-ft radius, DC 13 AGI save or 2d6 rime/physical damage). Storm Flight (immune to fall damage, can hover). Vulnerable to ember.",
+          "stats": {
+            "strength": 12,
+            "agility": 18,
+            "constitution": 12,
+            "intelligence": 8,
+            "spirit": 16,
+            "charisma": 10,
+            "maxHp": 95,
+            "maxMana": 40,
+            "maxActionPoints": 4,
+            "speed": 35,
+            "resistances": {
+              "storm": 100,
+              "rime": 50
+            }
+          },
+          "depth": "Weather spirits that represent the volatile climate of the peaks. Mountain guides make food offerings to Kcoa spirits before crossing high passes to ensure clear weather. The Kcoa's cloud-wings are a mystery to scholars, for they are made of a cloud that does not exist in any known catalog, and some believe that the creature's wings are a natural storm, a living cloud that follows the creature wherever it goes.",
+          "hooks": [
+            "A sudden, unnatural hail storm has locked down a mining camp. The miners believe a Kcoa has been angered by their deep excavations.",
+            "A shaman needs a cloud-feather from a Kcoa to brew a potion that grants lightning immunity."
+          ]
+        },
+        {
+          "id": "tengu_scout",
+          "name": "Tengu Scout",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/tengu_scout.png",
+          "illustrationCaption": "A Tengu Scout perched on a pipeline girder, its wings folded and beak sharp",
+          "role": "The peak-dwelling scout",
+          "origin": "The Tengu Scout is a creature of the mountain and the wind, born from the Japanese legends of the winged mountain protectors. In the Cragjaw Peaks, where the pipelines are tall and the bridges are narrow, the Tengu Scouts are the guardians of the heights, creatures that have been twisted by the Wyrd into something that is both protective and territorial. The Wyrd's corruption did not change their nature, but it did make them more suspicious, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its nest. The Fexric engineers of the Cragjaw Peaks know the signs of a Tengu's presence—a wind that blows from nowhere, and the sound of a bird's cry in the air.",
+          "nature": "A small, raven-winged humanoid sprite with a long bird-beak and glossy eyes like mountain obsidian. It is highly agile, leaping between pipelines and girders, carrying a wind-copper staff that hums with the energy of the mountain. It is defensive and gathers copper and shiny minerals, and it will attack any who come near its nest. The Tengu Scout is a creature of the wind, and it is most active during the stormy season, when the winds are strong and the air is charged with electricity.",
+          "habitat": "The Tengu Scout inhabits the pipeline scaffolds, high mountain bridges, and mine entries of the Cragjaw Peaks, particularly in the Fexric Pipeline where the scaffolds are tallest and the bridges are narrowest. It is most active during the stormy season, when the winds are strong and the air is charged with electricity, and during the spring, when the snow melts and the air is warm. The Tengu's nest is always near a source of wind, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "55 HP. Wind-Copper strike (melee, 1d8+4 physical, plus DC 12 AGI save or slowed by copper resonance). Gale Jump (as a reaction, can jump 20 ft to avoid an attack, DC 12 AGI to hit). Flight (can fly up to 45 ft). Vulnerable to rime.",
+          "stats": {
+            "strength": 8,
+            "agility": 18,
+            "constitution": 10,
+            "intelligence": 12,
+            "spirit": 14,
+            "charisma": 10,
+            "maxHp": 55,
+            "maxMana": 20,
+            "maxActionPoints": 4,
+            "speed": 35,
+            "resistances": {
+              "physical": 25
+            }
+          },
+          "depth": "Highly defensive scouts. They keep watch over pipeline corridors, alerting mine holds of any invaders by letting out a sharp, bird-like cry. The Tengu's wind-copper staff is a mystery to alchemists, for it is made of a copper that is harder than any known metal, and some believe that the creature's staff is a natural alloy, a living forge that turns copper into steel.",
+          "hooks": [
+            "A Tengu Scout has blockaded a pipeline bridge, claiming it is private peak territory. The party must bargain with it using shiny copper ores.",
+            "A Fexric engineer wants to retrieve the obsidian eyes of a Tengu Scout, believing they can be used to craft lenses of wind-sight."
+          ]
+        },
+        {
+          "id": "yuki_onna",
+          "name": "Yuki-Onna",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/yuki_onna.png",
+          "illustrationCaption": "A pale Yuki-Onna frost spirit floating in a snowstorm, her white kimono blending into the snow",
+          "role": "The frost-breath specter",
+          "origin": "The Yuki-Onna is a creature of the snow and the cold, born from the Japanese legends of the snow woman who appears in blizzards to freeze travelers. In the Cragjaw Peaks, where the snow is deep and the wind is fierce, the Yuki-Onnas are the spirits of the winter, creatures that have been twisted by the Wyrd into something that is both beautiful and deadly. The Wyrd's corruption did not change their nature, but it did make them more cruel, for the creature now sees all who enter its territory as prey, and it will freeze any who come near its storm. The mountain guides of the Cragjaw Peaks know the signs of a Yuki-Onna's presence—a snowstorm that appears from nowhere, and the sound of a woman's voice in the wind.",
+          "nature": "A beautiful, ethereal woman with pale blue skin, long black hair, and eyes like frozen stars. She wears a long white kimono that leaves no footprints in the snow, and she floats slightly above the drifts, accompanied by a freezing wind. The creature is a thing of terrible beauty, and her frost-breath is cold enough to freeze a man in seconds. The Yuki-Onna is a creature of the snow, and she is most active during the winter, when the snow is deepest and the wind is strongest.",
+          "habitat": "The Yuki-Onna inhabits the snowy peaks, glacier cols, and high passes of the Cragjaw Peaks, particularly in the Frost-Crown Pass where the snow is deepest and the wind is strongest. She is most active during the winter, when the snow is deepest and the wind is strongest, and during the spring, when the snow melts and the air is warm. The Yuki-Onna's lair is always in the snow, and it is said to be a place of terrible beauty, filled with the frozen bodies of her prey.",
+          "combat": "110 HP. Frost Breath (15-ft cone, DC 14 CON save or take 2d8 rime damage and be frozen/restrained for 1 round). Chilling Touch (+6 to hit, 2d6 rime damage + drains 5 mana). Snow Cloak (gains full concealment inside snowstorms). Vulnerable to ember.",
+          "stats": {
+            "strength": 10,
+            "agility": 16,
+            "constitution": 12,
+            "intelligence": 14,
+            "spirit": 16,
+            "charisma": 16,
+            "maxHp": 110,
+            "maxMana": 60,
+            "maxActionPoints": 4,
+            "speed": 35,
+            "resistances": {
+              "rime": 100
+            }
+          },
+          "depth": "Volatile winter spirits. They represent the beautiful but deadly nature of high mountain blizzards. They will sometimes spare travelers who display great courage or tell a beautiful story. The Yuki-Onna's frost-breath is a mystery to scholars, for it is colder than any known substance, and some believe that her breath is made of the same material as the stars, a living cold that freezes the soul as well as the body.",
+          "hooks": [
+            "A high mountain pass is permanently frozen by a Yuki-Onna, blocking the trade route. Find a way to pacify her or defeat her.",
+            "A hunter claims a Yuki-Onna spared his life in exchange for a promise he has now broken, and she is hunting him."
           ]
         }
       ]
@@ -1353,258 +850,165 @@ export const BESTIARY_DATA = {
       "folklore": "Mongol/Turkic + Chinese",
       "creatures": [
         {
-          "id": "lien",
-          "name": "Starlight Unicorn",
+          "id": "mogwai",
+          "name": "Mogwai",
           "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Starlight Unicorn",
-          "role": "Moon hare",
-          "origin": "A fey unicorn with glowing starlight horns.",
-          "nature": "A beautiful unicorn that runs across the starless steppe, guiding lost children.",
-          "habitat": "Open grasslands.",
-          "combat": "10 HP. Cannot directly harm. Its pollen causes the target to forget one specific memory of their choice — or one the DM chooses (DC 12 CON save). Swarms of 10+ Liens can drain a person's entire history in one night.",
+          "illustration": "/assets/images/creatures/mogwai.png",
+          "illustrationCaption": "A Mogwai peering through the tall grass, a horse-hair braid in its hand",
+          "role": "The horse-braiding grass sprite",
+          "origin": "The Mogwai is a creature of the grass and the rain, born from the Chinese legends of the mischievous rain sprites and the nomadic steppe tales. In Sundrift Vale, where the grass is tall and the horses are many, the Mogwais are the spirits of the grass, creatures that have been twisted by the Wyrd into something that is both playful and dangerous. The Wyrd's corruption did not change their nature, but it did make them more mischievous, for the creature now sees all who enter its territory as a source of amusement, and it will play pranks on any who come near its nest. The nomads of Sundrift Vale know the signs of a Mogwai's presence—a horse that is spooked for no reason, and the sound of pebbles clicking in the grass.",
+          "nature": "A small, fuzzy, cat-sized grass sprite with a round face, tufted wildcat ears, and a bushy tail made of woven steppe grass. Its pale, dead-grass yellow fur camouflages it perfectly in the open plains, and it is highly mischievous, clicking pebbles to startle horses and stealing horse-hair to braid into its necklaces. The creature is a thing of terrible cuteness, and its pranks are harmless but annoying. The Mogwai is a creature of the grass, and it is most active during the spring, when the grass is tallest and the horses are most active.",
+          "habitat": "The Mogwai inhabits the open steppe and grasslands of Sundrift Vale, particularly in the Horse-Plain where the grass is tallest and the horses are most numerous. It is most active during the spring, when the grass is tallest and the horses are most active, and during the summer, when the sun is warm and the air is filled with the sound of insects. The Mogwai's nest is always in the grass, and it is said to be a place of terrible beauty, filled with the braids of a thousand horses.",
+          "combat": "30 HP. Scurry (moves 40 ft without opportunity attacks). Startle Herd (claps its hands, 30 ft range, DC 12 SPI save or target's mount bolts 20 ft). Grass Camouflage (gains total concealment in tall grass). Tangle-Snare (ranged, 30 ft, DC 12 AGI save or speed is halved for 2 rounds). Vulnerable to ember.",
           "stats": {
-            "strength": 2,
+            "strength": 6,
             "agility": 16,
-            "constitution": 6,
-            "intelligence": 10,
-            "spirit": 14,
-            "charisma": 8,
-            "maxHp": 10,
-            "maxMana": 15,
-            "maxActionPoints": 2,
-            "speed": 30,
-            "resistances": {
-              "psychic": 50
-            }
-          },
-          "depth": "Peaceful guide.",
-          "hooks": [
-            "A merchant is being drained by a swarm — someone in their bloodline owes a debt from three generations ago. The party must find the original debtor (long dead) and settle the account.",
-            "Follow a single Lien across the steppe. It will lead you to whoever carries the largest unpaid debt in the region — a debtor who has been running for years.",
-            "The Astril believe the Liens follow the same paths as the constellation-spirits. Follow the moths, and you may find the spirits — or what is left of them."
-          ]
-        },
-        {
-          "id": "nokhor",
-          "name": "Steppe Falcon",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Steppe Falcon",
-          "role": "Hunting bird",
-          "origin": "A trained falcon used by nomadic clans.",
-          "nature": "A swift raptor hunting rodents in the steppe.",
-          "habitat": "Nomadic camps.",
-          "combat": "10 HP. Cannot deal damage. Radiates a Warm Presence (20 ft, all creatures within recover 1 HP per round and gain immunity to exhaustion). Comforting Pur (all creatures within 20 ft must make a DC 12 SPI save each round or lose the desire to move — effectively charmed, they simply want to sit with the Nokhor. The charm lasts as long as they remain within range and for 1d4 hours after leaving). Cannot be harmed by cold or physical attacks (too soft, attacks pass through). Vulnerable to radiant and fire — the warmth is its essence and can be consumed. If killed, its golden fur sheds a glow that lasts for 1d6 hours, providing a comfort effect in a 30-ft radius without the memory-loss risk.",
-          "stats": {
-            "strength": 2,
-            "agility": 16,
-            "constitution": 8,
+            "constitution": 10,
             "intelligence": 8,
-            "spirit": 16,
-            "charisma": 18,
-            "maxHp": 10,
-            "maxMana": 0,
-            "maxActionPoints": 2,
+            "spirit": 12,
+            "charisma": 12,
+            "maxHp": 30,
+            "maxMana": 10,
+            "maxActionPoints": 3,
             "speed": 40,
             "resistances": {
-              "cold": 100,
-              "physical": 100
-            },
-            "vulnerabilities": {
-              "radiant": 100,
-              "fire": 100
+              "physical": 25
             }
           },
-          "depth": "Trained companion.",
+          "depth": "They are grassland tricksters that feed on steppe rodents. While mostly harmless, they are a nuisance to the nomadic clans because their pebble-clicking can cause whole horse herds to stampede in the dark. The Mogwai's braids are a mystery to scholars, for they are woven from a grass that does not exist in any known catalog, and some believe that the creature's braids are a natural art, a living tapestry that tells the story of the steppe.",
           "hooks": [
-            "A key Ordan herd-guide has been sitting with a Nokhor for three days. His companions cannot wake him — not because he is asleep, but because he no longer wants to go anywhere. The party must find a way to break the Nokhor's charm without killing it.",
-            "An Unlit Astril has discovered that Nokhor fur, when woven into a cloak, provides warmth without the memory-loss effect. She wants the party to help her gather fur — but the fur only retains its properties if the Nokhor sheds it willingly.",
-            "The Ordan believe that Nokhor gather at the oldest Ancestor Mound during the winter solstice. A Sylen Astril wants to be there when it happens — she believes the Nokhor will lead her to a constellation-spirit that has been dormant since the stars went dark."
+            "A nomadic clan's prize warhorse was spooked by a Mogwai and ran into a rift. The party must locate the horse before the Wind-Hungry find it.",
+            "A Mogwai has braided the hair of an Astril clan-elder, weaving a key star-rune into her braids that prevents her from reciting the daily light-prayer. Untangle the braids without angering the sprite."
           ]
         },
         {
-          "id": "unzag",
-          "name": "Steppe Lynx",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Steppe Lynx",
-          "role": "Grasslands hunter",
-          "origin": "A large wildcat native to the open tundra.",
-          "nature": "A quiet, spotted cat that hunts in the tall grass.",
-          "habitat": "Tundra grass.",
-          "combat": "Cannot be fought directly — it is in the sky. Its influence is felt through its Shadow on the ground (60-ft radius, follows the Unzag's position above). Sky-Fault (creatures in the shadow take 2d6 cold damage per round, no save — the cold of the absent stars). Star-Hunger (DC 16 SPI save at the start of each turn — those who fail are compelled to stare at the sky for 1 round, losing their action. Those who succeed see a glimpse of the Unzag's true form: a wound in reality, and gain +2 SPI for 1 round from the cosmic insight). To fight the Unzag, ranged attacks must reach the sky — fire and radiant attacks extend upward toward it (120 ft range, normal attack roll, the Unzag has in the sky). 150 HP. When destroyed, the stars do not return — but a single new star appears, faintly, where the Unzag fell.",
-          "stats": {
-            "strength": 0,
-            "agility": 10,
-            "constitution": 18,
-            "intelligence": 14,
-            "spirit": 20,
-            "charisma": 14,
-            "maxHp": 150,
-            "maxMana": 0,
-            "maxActionPoints": 3,
-            "speed": 10,
-            "resistances": {
-              "cold": 100,
-              "physical": 100,
-              "psychic": 50
-            },
-            "vulnerabilities": {
-              "radiant": 75,
-              "fire": 50
-            }
-          },
-          "depth": "Reclusive hunter.",
-          "hooks": [
-            "The Unzag's shadow is passing over a major Ordan camp. The herds are panicking and the grass is dying. The party has one hour before the camp is destroyed. Options: drive the herds out of the shadow's path, try to dispel the shadow, or attack the Unzag itself.",
-            "An Astril Sylen believes that a constellation-spirit trapped inside the Unzag could be released by feeding it enough radiant energy — specifically, the light of a Sylen Astril at full constellation-bleed. This would kill the Astril but free the spirit. The Astril has volunteered. The party must decide whether to assist.",
-            "The Ordan know a song that can calm the Unzag — not banish it, but slow its drift so its shadow lingers longer in one place. The Neth want to study the calm Unzag to determine if it contains the location of the Sundrift Sundered Monolith, which was buried in a mound whose location was erased from memory."
-          ]
-        },
-        {
-          "id": "zud",
-          "name": "Steppe Mammoth",
+          "id": "olgoi_khorkhoi",
+          "name": "Olgoi-Khorkhoi",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Steppe Mammoth",
-          "role": "Glacial yak",
-          "origin": "A massive woolly mammoth migrating across the plains.",
-          "nature": "A huge, peaceful herbivore with long tusks and thick fur.",
-          "habitat": "Steppe paths.",
-          "combat": "250 HP (massive, diffuse target). Immune to cold, poison, and psychic — it is weather. Immune to piercing and slashing — blades pass through frozen grass. Vulnerable to fire and bludgeoning — the grass burns and the structure collapses. Blizzard Body (the Zud is a 40-ft wide wall; all creatures within it take 2d8 cold damage per round and must make a DC 16 STR save or pushed 15 ft in the direction of the Zud's movement). Herd-Memory (the Zud absorbs the last spoken words of any creature it kills — it repeats these words in a chorus of frozen voices, 60-ft radius, DC 14 SPI save or frightened for 1 round). Whiteout (30-ft radius around the Zud, visibility reduced to 5 ft). At half HP, the Zud compresses — it becomes 20-ft wide but attacks deal double damage and the cold aura intensifies (3d8 cold per round).",
+          "illustration": "/assets/images/creatures/olgoi_khorkhoi.png",
+          "illustrationCaption": "An Olgoi-Khorkhoi death worm coiled in the sands, its maw open to spit acid",
+          "role": "The steppe death worm",
+          "origin": "The Olgoi-Khorkhoi is a creature of the sand and the death, born from the Mongolian legends of the giant sand worm that kills from a distance. In Sundrift Vale, where the sand is deep and the sun is merciless, the Olgoi-Khorkhois are the apex predators of the desert, creatures that have been twisted by the Wyrd into something that is both terrifying and unstoppable. The Wyrd's corruption did not change their nature, but it did make them more cunning, for the creature now sees all who enter its territory as prey, and it will wait for days for the perfect moment to strike. The nomads of Sundrift Vale know the signs of an Olgoi-Khorkhoi's presence—a patch of sand that is too smooth, and the absence of any other life.",
+          "nature": "A thick, sausage-like crimson worm, about five feet long, covered in smooth, blood-red skin with no visible head or tail, only a circular, tooth-lined maw that opens at one end. The creature moves by burrowing through the steppe sands, popping up to attack with a speed that is terrifying. The Olgoi-Khorkhoi is a thing of terrible hunger, and its maw is large enough to swallow a man whole. The creature is a creature of the sand, and it is most active during the summer, when the sand is hot and the prey is thirsty.",
+          "habitat": "The Olgoi-Khorkhoi inhabits the sandy dunes, dry grasslands, and rocky valleys of Sundrift Vale, particularly in the Red-Sand Desert where the sand is deepest and the sun is hottest. It is most active during the summer, when the sand is hot and the prey is thirsty, and during the spring, when the sand is warm and the air is filled with the sound of insects. The Olgoi-Khorkhoi's lair is always beneath the sand, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "120 HP. Acid Spit (ranged, +5 to hit, 2d6 blight damage + DC 13 CON save or target's armor is corroded). Electrical Discharge (AoE, 10-ft radius, DC 13 AGI save or 2d8 storm damage). Sand Burrow (can submerge into sand as a bonus action, gaining full cover). Vulnerable to rime.",
           "stats": {
-            "strength": 22,
-            "agility": 6,
-            "constitution": 22,
+            "strength": 14,
+            "agility": 14,
+            "constitution": 16,
             "intelligence": 4,
-            "spirit": 12,
-            "charisma": 2,
-            "maxHp": 250,
-            "maxMana": 0,
+            "spirit": 14,
+            "charisma": 4,
+            "maxHp": 120,
+            "maxMana": 20,
             "maxActionPoints": 4,
             "speed": 30,
             "resistances": {
-              "cold": 100,
-              "poison": 100,
-              "psychic": 100,
-              "piercing": 100,
-              "slashing": 100
-            },
-            "vulnerabilities": {
-              "fire": 100,
-              "bludgeoning": 75
+              "storm": 50,
+              "blight": 50
             }
           },
-          "depth": "Highly peaceful.",
+          "depth": "Terrifying, subterranean predators that hunt by sensing vibrations. Nomads avoid dry sand patches where the worms are known to nest. The Olgoi-Khorkhoi's blood-red skin is a mystery to alchemists, for it is made of a substance that is harder than any known material, and some believe that the creature's skin is a natural armor, a living shield that protects it from the heat of the sand.",
           "hooks": [
-            "The Zud is approaching a permanent Ordan camp. The herds are not moving — they are trapped by a blizzard that blocks the migration route. The party must either clear the migration route to restart the herd-motion, sing the Migration Song loudly enough to calm the Zud, or burn enough of the Zud's body to create a path through it.",
-            "A Sylen Astril believes the Zud contains the compressed memory of every winter the steppe ever experienced — including the winters before the sun died. If the Zud can be calmed and \"interviewed\" using the Migration Song as a foundation, it may reveal what the weather was like before the Dimming.",
-            "The Zud has merged with another Zud — something that has never happened before. The resulting super-Zud is twice as large, twice as cold, and moving toward the Synod-Hold. The Astril cannot flee — the Synod-Hold is their only permanent structure. The Ordan will sing, but even they are not sure the song will work on a double-Zud."
+            "A nomadic tribe's herd of sheep was decimated overnight; the tracks show circular sand collapse holes from a Death Worm.",
+            "An alchemist wants to retrieve the acidic gland of an Olgoi-Khorkhoi to brew an acid that can dissolve solid iron."
           ]
         },
         {
-          "id": "lorn",
-          "name": "Celestial Stag",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Celestial Stag",
-          "role": "Starry deer",
-          "origin": "A deer with antlers reflecting the lost constellations.",
-          "nature": "A quiet stag that walks the steppe, leaving glowing tracks.",
-          "habitat": "Grasslands.",
-          "combat": "80 HP. Can animate grass in a 60-ft radius (DC 15 STR or restrained). The Lorn itself does not attack — it cries, and each cry forces a DC 14 WIS save or the target must move toward it. If killed, it dissolves into grass seed and regenerates in 1d4 days unless the seeds are gathered and burned.",
-          "stats": {
-            "strength": 12,
-            "agility": 14,
-            "constitution": 14,
-            "intelligence": 6,
-            "spirit": 18,
-            "charisma": 16,
-            "maxHp": 80,
-            "maxMana": 40,
-            "maxActionPoints": 4,
-            "speed": 10,
-            "resistances": {
-              "psychic": 50
-            }
-          },
-          "depth": "Sacred guide.",
-          "hooks": [
-            "Show the Lorn genuine parental care without being pulled under. It can sense deception — only true empathy works. If successful, the Lorn may release those it has taken and finally rest.",
-            "The Ordan know the song that can repel her. But the song must be sung by a pure voice — one who has never abandoned anyone.",
-            "Burn the grass circle she has claimed. She will flee, but she will also cry, and the sound may break the party's resolve. The grass will grow back unless the roots are salted."
-          ]
-        },
-        {
-          "id": "sere",
-          "name": "Steppe Gryphon",
+          "id": "yalbagan",
+          "name": "Yalbagan",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Steppe Gryphon",
-          "role": "Sun eagle",
-          "origin": "A creature with the head of an eagle and the body of a lion.",
-          "nature": "A proud hunter nesting on open rock columns.",
-          "habitat": "Steppe columns.",
-          "combat": "200 HP. Legendary actions. Spear of Unfinished Business (2d10+5 piercing, target cannot regain HP until the Sere's next turn). Raises forgotten dead from the steppe (2d4 riders each round). At half HP, calls a Wind-Hungry swarm (20-ft radius, 3d6 cold per round). His horse can phase through solid matter.",
+          "illustration": "/assets/images/creatures/yalbagan.png",
+          "illustrationCaption": "A Yalbagan coiled in the dry steppe grass, all three heads swaying in unison",
+          "role": "The three-headed steppe snake",
+          "origin": "The Yalbagan is a creature of the grass and the venom, born from the Siberian and Turkic mythology of the multi-headed dragon-serpent. In Sundrift Vale, where the grass is tall and the snakes are many, the Yalbagans are the apex predators of the steppe, creatures that have been twisted by the Wyrd into something that is both terrifying and cunning. The Wyrd's corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its territory as prey, and it will attack any who come near its nest. The nomads of Sundrift Vale know the signs of a Yalbagan's presence—a waterhole that is too quiet, and the sound of scales rustling in the grass.",
+          "nature": "A long, green-and-yellow scaled serpent about ten feet long, with three distinct heads that sway in unison. The creature lies coiled in the tall dead grass of the steppe, mimicking grass movement to lure rodents and mounts. The three heads strike independently and coordinate their attacks with absolute precision. The Yalbagan is a thing of terrible hunger, and its venom is strong enough to kill a horse in seconds. The creature is a creature of the grass, and it is most active during the summer, when the grass is tallest and the prey is most active.",
+          "habitat": "The Yalbagan inhabits the open steppe, tall grass beds, and waterholes of Sundrift Vale, particularly in the Three-Head Pass where the grass is tallest and the waterholes are most plentiful. It is most active during the summer, when the grass is tallest and the prey is most active, and during the spring, when the grass is green and the air is filled with the sound of insects. The Yalbagan's nest is always near a waterhole, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "160 HP. Triple Strike (attacks three times in a single action, once with each head). Poison Bite (1d10+4 physical + DC 13 CON save or poisoned for 3 rounds). Grass Mimic (gains +6 to stealth checks while in tall grass). Vulnerable to ember.",
           "stats": {
             "strength": 18,
-            "agility": 16,
-            "constitution": 18,
-            "intelligence": 14,
-            "spirit": 16,
-            "charisma": 18,
-            "maxHp": 200,
-            "maxMana": 30,
+            "agility": 14,
+            "constitution": 16,
+            "intelligence": 6,
+            "spirit": 12,
+            "charisma": 6,
+            "maxHp": 160,
+            "maxMana": 0,
             "maxActionPoints": 5,
-            "speed": 60,
+            "speed": 35,
             "resistances": {
-              "cold": 50,
-              "necrotic": 50
-            },
-            "vulnerabilities": {
-              "radiant": 50
+              "rime": 50
             }
           },
-          "depth": "Native hunter.",
+          "depth": "A dangerous apex predator of the steppe. The Ordan nomads travel in tight groups and keep fires burning at night to prevent them from slipping into their corrals. The Yalbagan's three heads are a mystery to scholars, for they are controlled by a single brain, and some believe that the creature's heads are a natural adaptation, a living weapon that allows it to attack from multiple directions at once.",
           "hooks": [
-            "The Sere has marked a settlement. The party must find him before the Wind-Hungry arrive — three nights — and challenge his judgment. Present evidence of the community's worth.",
-            "Sing his forgotten name-song. The song contains the story of his first impossible choice, and hearing it may remind him of the mercy he once had. The last elder who knows it lives at the edge of the steppe and will only teach it to someone who has made an impossible choice themselves.",
-            "Challenge him to a duel. He respects courage and will accept a champion. Winning earns his mark of favor — and his knowledge of the shard's burial mound."
+            "A Yal-Bagan has claimed a waterhole, preventing three clans' herds from drinking. Kill it or redirect the herds before a clash over resources occurs.",
+            "A hunter wants to retrieve the venom from all three heads of a Yal-Bagan to brew a potent counter-toxin for a poisoned clan chief."
           ]
         },
         {
           "id": "qilin",
-          "name": "Steppe Qilin",
+          "name": "Qilin",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Steppe Qilin",
-          "role": "Starry scale deer",
-          "origin": "A draconic deer covered in starry golden scales.",
-          "nature": "A peaceful protector seen only during winter migrations.",
-          "habitat": "Grasslands.",
-          "combat": "180 HP. Starry Breath (30-ft cone, 4d8 radiant + DC 15 SPI save or blinded 1 round). Runic Horn (2d10+5 piercing + DC 15 STR save or knocked back 15 ft). Aura of Hope (all allies within 30 ft gain +2 to all saves and recover 5 HP per round). Immune to radiant and cold.",
+          "illustration": "/assets/images/creatures/qilin.png",
+          "illustrationCaption": "A Qilin walking through the steppe, its single starry horn glowing warmly",
+          "role": "The sacred steppe protector",
+          "origin": "The Qilin is a creature of the stars and the steppe, born from the Chinese and Siberian legends of the sacred deer that protects the innocent. In Sundrift Vale, where the stars are bright and the grass is endless, the Qilins are the guardians of the steppe, creatures that have been blessed by the Wyrd with a power that is both beautiful and terrible. The Wyrd's corruption did not change their nature, but it did make them more elusive, for the creature now sees all who approach as a potential threat, and it will only appear to those of pure spirit. The nomads of Sundrift Vale know the signs of a Qilin's presence—a star that falls from the sky, and the sound of a deer's call in the night.",
+          "nature": "A slender deer-like fey creature covered in iridescent blue scales, with a single, warm-glowing horn on its forehead and a tufted wildcat tail. The creature walks silently, its hooves leaving glowing trail footprints in the tall grass, and it only appears to those of pure spirit. The Qilin is a thing of terrible beauty, and its horn is said to be the key to the gates of heaven. The creature is a creature of the stars, and it is most active during the night, when the stars are brightest and the air is filled with the sound of the cosmos.",
+          "habitat": "The Qilin inhabits the deep steppe, starry valleys, and ancient mounds of Sundrift Vale, particularly in the Star-Field where the grass is tallest and the stars are brightest. It is most active during the night, when the stars are brightest and the air is filled with the sound of the cosmos, and during the spring, when the grass is green and the air is filled with the sound of insects. The Qilin's nest is always in the stars, and it is said to be a place of terrible beauty, filled with the light of a thousand suns.",
+          "combat": "100 HP. Starry Path (creates a 20-ft lane of glowing starlight, granting allies +10 speed and advantage on saves). Solar Horn (ranged, 30 ft, 2d8 ember damage). Evasion (ignores opportunity attacks). Resistant to wyrd and ember.",
           "stats": {
-            "strength": 16,
-            "agility": 18,
-            "constitution": 16,
+            "strength": 12,
+            "agility": 16,
+            "constitution": 14,
             "intelligence": 14,
-            "spirit": 20,
-            "charisma": 18,
-            "maxHp": 180,
-            "maxMana": 60,
-            "maxActionPoints": 5,
-            "speed": 45,
+            "spirit": 18,
+            "charisma": 16,
+            "maxHp": 100,
+            "maxMana": 40,
+            "maxActionPoints": 4,
+            "speed": 40,
             "resistances": {
-              "radiant": 100,
-              "cold": 100
+              "wyrd": 100,
+              "ember": 100
             }
           },
-          "depth": "Peaceful omen.",
+          "depth": "Highly intelligent and peaceful guardians. They protect migration routes and ancestor mounds, actively fleeing or neutralizing hunters who threaten the herds. The Qilin's starry horn is a mystery to scholars, for it is made of a substance that does not exist in any known catalog, and some believe that the creature's horn is a natural star, a living light that guides the innocent to safety.",
           "hooks": [
-            "A Steppe Qilin has appeared near a sundered monolith fragment, but it is surrounded by a swarm of Wind-Hungry. Help the Qilin defeat the swarm.",
-            "An Unlit Astril believes she can cure her starlessness by touching a Qilin's horn. Help her find one and earn its trust without violence.",
-            "A greedy merchant has hired hunters to capture a Qilin for its golden scales. Protect the sacred beast from the hunters."
+            "A Qilin has appeared near a clan's camp, signaling an impending Wyrd storm. The party must interpret its starry horn signals to guide the clan to safety.",
+            "A corrupt merchant has hired hunters to capture a Qilin's horn. The party must defend the sacred deer and banish the hunters."
+          ]
+        },
+        {
+          "id": "bixie",
+          "name": "Bixie",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/bixie.png",
+          "illustrationCaption": "A winged Bixie chimera standing guard on a grassy hill, its stone-like scales glinting",
+          "role": "The winged chimera guardian",
+          "origin": "The Bixie is a creature of the sky and the stone, born from the Chinese legends of the winged celestial chimera that wards off evil spirits. In Sundrift Vale, where the steppe is wide and the sky is endless, the Bixies are the guardians of the ancient mounds, creatures that have been blessed by the Wyrd with a power that is both beautiful and terrible. The Wyrd's corruption did not change their nature, but it did make them more protective, for the creature now sees all who approach the mounds as a potential threat, and it will attack any who come near the graves. The nomads of Sundrift Vale know the signs of a Bixie's presence—a wind that blows from nowhere, and the sound of a lion's roar in the night.",
+          "nature": "A winged, lion-like celestial beast covered in jade-green, stone-like scales, with two curved horns on its forehead and bird-like wings. The creature is a protective spirit that guards nomadic burial mounds and ruins from corruption, and it is a thing of terrible beauty. The Bixie is a creature of the sky, and it is most active during the night, when the stars are brightest and the air is filled with the sound of the cosmos. The creature's scales are harder than any known metal, and its wings are said to be able to create a wind that can blow away evil spirits.",
+          "habitat": "The Bixie inhabits the steppe mounds, ancient stone ruins, and sacred hills of Sundrift Vale, particularly in the Jade-Hill Mound where the grass is tallest and the mounds are oldest. It is most active during the night, when the stars are brightest and the air is filled with the sound of the cosmos, and during the spring, when the grass is green and the air is filled with the sound of insects. The Bixie's nest is always in the mounds, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "115 HP. Ward Roar (AoE, DC 13 SPI save or target is frightened and has disadvantage on spells). Jade Claw (+5 to hit, 2d6+4 physical). Wing Sweep (melee, DC 13 AGI save or knocked back 15 ft). Vulnerable to blight.",
+          "stats": {
+            "strength": 16,
+            "agility": 14,
+            "constitution": 14,
+            "intelligence": 10,
+            "spirit": 16,
+            "charisma": 12,
+            "maxHp": 115,
+            "maxMana": 20,
+            "maxActionPoints": 4,
+            "speed": 35,
+            "resistances": {
+              "wyrd": 100
+            }
+          },
+          "depth": "Benevolent and noble guardians. They will actively protect peaceful travelers and nomads from undead or shadow spirits, but will attack grave-robbers instantly. The Bixie's jade scales are a mystery to alchemists, for they are made of a substance that does not exist in any known catalog, and some believe that the creature's scales are a natural armor, a living shield that protects it from the evil spirits that it guards against.",
+          "hooks": [
+            "A clan's ancestral burial mound is being looted by tomb raiders, and the guardian Bixie has gone wild, attacking anyone nearby.",
+            "Nomads want the party to perform a ritual of cleansing at a defiled shrine to calm the resident Bixie spirit."
           ]
         }
       ]
@@ -1615,264 +1019,164 @@ export const BESTIARY_DATA = {
       "folklore": "Slavic/Carpathian + Hindu/Vedic",
       "creatures": [
         {
-          "id": "wist",
-          "name": "Whispering Dryad",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Whispering Dryad",
-          "role": "Gloomwood protector",
-          "origin": "A dryad formed from the ancient ironwood roots.",
-          "nature": "A woodland spirit that whispers forest secrets and news to travelers.",
-          "habitat": "Forest clearings.",
-          "combat": "Immobile. 50 HP. Cannot attack. If threatened, it screams every secret it has ever heard in a deafening chorus (DC 14 WIS or stunned for 1 round by psychic overload — the secrets are that terrible). After screaming, it forgets everything and starts over.",
+          "id": "vila",
+          "name": "Vila",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/vila.png",
+          "illustrationCaption": "A Vila wind-nymph dancing in a fairy ring under the moon, her hair trailing like mist",
+          "role": "The wind-dancing nymph",
+          "origin": "The Vila is a creature of the wind and the forest, born from the Slavic legends of the forest and mountain nymphs that dance in rings and control storm-winds. In the Bryngloom Forest, where the trees are ancient and the wind is strong, the Vilas are the guardians of the old growth, creatures that have been blessed by the Wyrd with a power that is both beautiful and terrible. The Wyrd's corruption did not change their nature, but it did make them more fierce, for the creature now sees all who enter its forest as a potential threat, and it will attack any who come near its trees. The woodcutters of the Bryngloom Forest know the signs of a Vila's presence—a wind that blows from nowhere, and the sound of a woman's song in the trees.",
+          "nature": "An ethereal, beautiful humanoid sprite with long, floating pale-green hair and a dress of woven willow leaves. She moves by floating above the ground and is often surrounded by a swirling draft of autumn leaves. She is generally peaceful but fierce if her forest is harmed. The Vila is a creature of the wind, and she is most active during the spring, when the leaves are new and the air is filled with the sound of birds. The creature's hair is said to be made of the same material as the wind, and her dress is a living thing that changes with the seasons.",
+          "habitat": "The Vila inhabits the fairy rings, ancient willow groves, and misty clearings of the Bryngloom Forest, particularly in the Willow-Ring Grove where the trees are oldest and the wind is strongest. She is most active during the spring, when the leaves are new and the air is filled with the sound of birds, and during the autumn, when the leaves are falling and the air is filled with the smell of decay. The Vila's nest is always in the trees, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "85 HP. Whirlwind (ranged, DC 13 AGI save or knocked back 20 ft and taking 2d6 physical damage). Falcon Shift (bonus action, turns into a falcon to gain fly speed 50). Sleep Song (AoE, DC 13 SPI save or sleep for 1 round). Vulnerable to iron.",
           "stats": {
-            "strength": 0,
-            "agility": 0,
-            "constitution": 14,
-            "intelligence": 18,
+            "strength": 8,
+            "agility": 18,
+            "constitution": 10,
+            "intelligence": 14,
             "spirit": 16,
-            "charisma": 12,
-            "maxHp": 50,
-            "maxMana": 40,
-            "maxActionPoints": 0,
-            "speed": 0,
+            "charisma": 18,
+            "maxHp": 85,
+            "maxMana": 50,
+            "maxActionPoints": 4,
+            "speed": 35,
             "resistances": {
-              "psychic": 100
+              "wyrd": 50
             }
           },
-          "depth": "Peaceful helper.",
+          "depth": "Ethereal guardians of the old growth. They will aid lost travelers who speak respectfully but will curse those who hunt for sport or cut healthy timber. The Vila's willow-leaf dress is a mystery to scholars, for it is made of a material that does not exist in any known catalog, and some believe that the creature's dress is a natural adaptation, a living camouflage that allows her to blend in with the forest.",
           "hooks": [
-            "The party needs a secret only the Wist knows. It will trade — one secret for another, always of equal weight. It does not negotiate; it balances.",
-            "The Neth use the Wist as a contract witness. Ask it whether a deal was broken. It remembers every word spoken within a mile of its grove — including the fine print.",
-            "Seal its bark with wax and the Wist sleeps, unable to hear or speak. Destroy it, and every secret it holds scatters into the wind, audible to anyone within a mile."
+            "A group of travelers wandered into a Vila's dancing circle and fell into a deep sleep. Find a way to wake them before the Vila returns.",
+            "A Vila's sacred willow tree has been poisoned by runoff from a Neth mining camp. Find a cure to pacify her wrath."
           ]
         },
         {
-          "id": "morok",
-          "name": "Bog Hag",
-          "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Bog Hag",
-          "role": "Swamp dweller",
-          "origin": "A reclusive hag living in the deep peat bogs.",
-          "nature": "An old woman who brews moss remedies in the swamp.",
-          "habitat": "Deep peat bogs.",
-          "combat": "Cannot be damaged by physical attacks — it is not solid. Cannot be damaged by cold or necrotic — it IS cold and necrosis. Takes full damage from radiant and fire (2x) — it is the absence of light, and light destroys absence. Touching it (a creature moves into its space) requires a DC 14 CON save — failure means 2d6 necrotic damage and the creature gains a \"morok-stain\" (a dark patch on their skin that does not heal for 1d6 days, during which they have disadvantage on all SPI checks as their sense of vitality wavers). The Morok has no HP. It persists as long as the darkness persists. Light sources within 30 ft shrink it (each light source reduces its effective radius by 10 ft).",
+          "id": "vodyan",
+          "name": "Vodyan",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/vodyan.png",
+          "illustrationCaption": "A Vodyan pool-sprite lurking in stagnant peat-water, only its green eyes visible",
+          "role": "The swamp-pool sprite",
+          "origin": "The Vodyan is a creature of the water and the mud, born from the Slavic legends of the grumpy swamp and pool water spirits. In the Bryngloom Forest, where the water is stagnant and the mud is deep, the Vodyans are the guardians of the pools, creatures that have been twisted by the Wyrd into something that is both grumpy and territorial. The Wyrd's corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its pool as a potential threat, and it will attack any who come near its water. The villagers of the Bryngloom Forest know the signs of a Vodyan's presence—a pool that is too still, and the smell of sulfur in the air.",
+          "nature": "A hunched, green-skinned pool sprite made of wet peat-mud and gnarled wood, wearing a cloak of hanging moss and weeds. It has bulbous eyes and webbed hands, and it speaks in a wet, bubbling gurgle that is difficult to understand. The creature is grumpy and territorial, but it possesses deep knowledge of swamp remedies and will trade with travelers who show respect. The Vodyan is a creature of the water, and it is most active during the spring, when the rain is heavy and the pools are full.",
+          "habitat": "The Vodyan inhabits the stagnant peat-pools, deep bogs, and mossy swamp wells of the Bryngloom Forest, particularly in the Mud-Deep Bog where the water is darkest and the mud is deepest. It is most active during the spring, when the rain is heavy and the pools are full, and during the autumn, when the leaves are falling and the air is filled with the smell of decay. The Vodyan's nest is always beneath the water, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "80 HP. Bog Curse (ranged, DC 13 SPI save or target's speed is halved and they take 1d6 rime damage per round for 3 rounds). Moss Remedy (heals self or ally for 2d8+4 HP). Swamp Fog (creates a 20-ft radius of thick mist, obscuring all targets). Vulnerable to primal.",
           "stats": {
-            "strength": 0,
-            "agility": 6,
-            "constitution": 0,
-            "intelligence": 4,
-            "spirit": 8,
-            "charisma": 2,
-            "maxHp": 0,
-            "maxMana": 0,
-            "maxActionPoints": 1,
-            "speed": 15,
+            "strength": 10,
+            "agility": 12,
+            "constitution": 14,
+            "intelligence": 16,
+            "spirit": 14,
+            "charisma": 8,
+            "maxHp": 80,
+            "maxMana": 30,
+            "maxActionPoints": 4,
+            "speed": 25,
             "resistances": {
-              "physical": 100,
-              "cold": 100,
-              "necrotic": 100,
-              "psychic": 100
-            },
-            "vulnerabilities": {
-              "radiant": 200,
-              "fire": 200
+              "blight": 100
             }
           },
-          "depth": "Grumpy but trades remedies.",
+          "depth": "Reclusive and territorial, but will trade remedies with travelers who show respect and present rare mosses or swamp secrets. The Vodyan's moss-cloak is a mystery to scholars, for it is made of a moss that does not exist in any known catalog, and some believe that the creature's cloak is a natural adaptation, a living camouflage that allows it to blend in with the swamp.",
           "hooks": [
-            "A Vreken crypt-council is reporting that their fungal shrouds are going dark — the preserved ancestors inside are losing their distinction between living and dead, becoming neither. A Morok has found its way into the Sunken Spire. The party must introduce enough light to drive it out without damaging the sensitive fungal ecosystems of the crypt.",
-            "A Marked Vreken claims the Morok is following a specific path — a boundary that no one mapped. If the party can trace where the Morok patrols, they may discover a hidden border in the Bryngloom — a place where the Keeper's authority does not extend.",
-            "The Morok has stained a party member. The stain will not heal, and it is spreading — slowly, over days, the dark patch is growing. The Vreken Clean know a fungal poultice that can halt the spread, but the Morok-stain must be exposed to living fungal light for a full day. The party must find a safe place with continuous fungal glow — the Synod-Hold's crystal lattice, perhaps."
+            "A Vodyan has captured a Neth miner who tried to harvest peat-stone from its pool. The Neth want him rescued, but the Vodyan demands a contract-secret as ransom.",
+            "The party needs a specific moss remedy that only grows in a Vodyan's pool to cure a local swamp-rot sickness. Trade a secret to earn it."
           ]
         },
-                        {
-          "id": "vatra",
-          "name": "Vatra",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/vatra.png",
-          "illustrationCaption": "A Vatra sprite scurrying inside a hollow tree, its mossy mane carrying a miniature swamp",
-          "role": "The scurrying moss-sprite",
-          "origin": "Formed from Slavic myths of the Leshachiks—tiny tree-dwelling helpers of the Leshy—and Carpathian tales of the warm Vatra-sap. These wood-sprites carry a highly prized, glowing hot resin in their veins, making them prey for alchemists seeking warmth in the sunless world.",
-          "nature": "A tiny, cute bark-skinned sprite (about 1.5 feet tall) with long, spindly twig limbs that let it climb and scurry rapidly. Its head is crowned with a thick mane of damp moss, ferns, and mushrooms. When threatened, it crawls into hollow logs or tree knots, tucking in its limbs to disguise itself perfectly as a natural wooden burl. It speaks in a secretive clicking and rustling language.",
-          "habitat": "Damp ironwood hollows and deep peat-bogs in the Bryngloom Forest.",
-          "combat": "45 HP. Scurry (moves 50 ft as a bonus action, avoiding opportunity attacks). Needleshot (ranged, 30 ft range, 1d6+3 piercing + DC 12 CON save or poisoned for 2 rounds). Bark Disguise (as an action, blends into wood to gain total concealment). Warm Sap Leak (when reduced to 0 HP, its warm gold sap leaks out; any creature within 5 ft gains temporary fire resistance for 3 rounds). Vulnerable to fire.",
+        {
+          "id": "bukavac",
+          "name": "Bukavac",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/bukavac.png",
+          "illustrationCaption": "A Bukavac swamp screamer rising from the mud, its six clawed limbs extended",
+          "role": "The six-legged swamp screamer",
+          "origin": "The Bukavac is a creature of the swamp and the scream, born from the Slavic legends of the horned swamp monsters that strangle people and animals. In the Bryngloom Forest, where the water is stagnant and the mud is deep, the Bukavacs are the apex predators of the swamp, creatures that have been twisted by the Wyrd into something that is both terrifying and cunning. The Wyrd's corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its swamp as prey, and it will attack any who come near its lair. The villagers of the Bryngloom Forest know the signs of a Bukavac's presence—a scream that echoes through the swamp, and the absence of any other life.",
+          "nature": "A large, six-legged reptilian beast with a body covered in slime-glistening black scales, long curved horns, and webbed claws. The creature remains submerged in mud, and rises to emit a deafening scream that disorients prey before dragging them down. The Bukavac is a thing of terrible hunger, and its scream is loud enough to shatter eardrums. The creature is a creature of the swamp, and it is most active during the night, when the water is dark and the prey is sleeping.",
+          "habitat": "The Bukavac inhabits the peat-pools, swamp channels, and stagnant marshlands of the Bryngloom Forest, particularly in the Scream-Deep Marsh where the water is darkest and the mud is deepest. It is most active during the night, when the water is dark and the prey is sleeping, and during the autumn, when the leaves are falling and the air is filled with the smell of decay. The Bukavac's lair is always beneath the mud, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "150 HP. Deafening Screech (AoE, DC 14 SPI save or deafened and stunned for 1 round). Six-Claw Grasp (melee, +6 to hit, DC 14 AGI save or grappled and restrained). Mud Drag (moves at full speed in mud, pulling grappled targets down). Vulnerable to ember.",
           "stats": {
-            "strength": 6,
-            "agility": 18,
-            "constitution": 10,
-            "intelligence": 12,
-            "spirit": 14,
-            "charisma": 12,
-            "maxHp": 45,
+            "strength": 18,
+            "agility": 12,
+            "constitution": 16,
+            "intelligence": 6,
+            "spirit": 12,
+            "charisma": 4,
+            "maxHp": 150,
+            "maxMana": 0,
+            "maxActionPoints": 5,
+            "speed": 25,
+            "resistances": {
+              "rime": 50,
+              "blight": 50
+            }
+          },
+          "depth": "Savage, ambush predators of the deep bogs. They hide beneath the stagnant peat-water, emitting a scream that sounds like a drowning child to lure prey close. The Bukavac's scream is a mystery to scholars, for it is louder than any known animal, and some believe that the creature's scream is a natural weapon, a living sound that can stun prey from a distance.",
+          "hooks": [
+            "A Bukavac has made its lair under the only wooden bridge crossing the peat-river, completely cutting off trade.",
+            "Drun warriors want to hunt a Bukavac to test their strength, but they need the party's help tracking it in the treacherous swamp."
+          ]
+        },
+        {
+          "id": "hut_ling",
+          "name": "Hut-ling",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/hut_ling.png",
+          "illustrationCaption": "A Hut-ling chicken-legged chest standing alert in a swamp clearing",
+          "role": "The chicken-legged chest",
+          "origin": "The Hut-ling is a creature of the forest and the witch, born from the Slavic tales of the animated treasure chests that protect the witch's hoard. In the Bryngloom Forest, where the witches are many and the treasure is hidden, the Hut-lings are the guardians of the witch's hoard, creatures that have been created by the Wyrd to serve as the witch's eyes and ears. The Wyrd's corruption did not change their nature, but it did make them more protective, for the creature now sees all who approach its treasure as a potential thief, and it will attack any who come near its chest. The treasure hunters of the Bryngloom Forest know the signs of a Hut-ling's presence—a chest that walks on chicken legs, and the sound of a witch's laughter in the air.",
+          "nature": "An animated treasure chest made of dark swamp-oak, held together by runic iron bands, walking on two massive, scaly bird-like legs. The creature is highly protective of its contents and will run away or kick aggressively if approached. The Hut-ling is a thing of terrible cuteness, and its chicken legs are fast enough to outrun a horse. The creature is a creature of the witch, and it is most active during the night, when the witch is sleeping and the treasure is unguarded.",
+          "habitat": "The Hut-ling inhabits the deep marshes, forest clearings, and ruins of the Bryngloom Forest, particularly in the Witch's Hollow where the witches are most numerous and the treasure is most hidden. It is most active during the night, when the witch is sleeping and the treasure is unguarded, and during the spring, when the grass is green and the air is filled with the sound of insects. The Hut-ling's nest is always near the witch's lair, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "95 HP. Talon Kick (melee, +5 to hit, 2d6+3 physical, DC 13 AGI save or knocked prone). Runic Lock (if a creature attempts to open the chest, they take 2d6 storm damage, DC 13 AGI to avoid). Dash (can move 60 ft as a bonus action). Vulnerable to ember.",
+          "stats": {
+            "strength": 12,
+            "agility": 16,
+            "constitution": 14,
+            "intelligence": 6,
+            "spirit": 12,
+            "charisma": 6,
+            "maxHp": 95,
             "maxMana": 10,
             "maxActionPoints": 4,
             "speed": 40,
             "resistances": {
-              "poison": 50,
-              "necrotic": 50
-            },
-            "vulnerabilities": {
-              "fire": 50
+              "physical": 25
             }
           },
-          "depth": "They are clever undergrowth hunters, preying on insects and small frogs. They are relentlessly hunted by Drun and Neth alchemists for their glowing gold sap, which serves as a long-lasting, smokeless heat source for lanterns and hearths.",
+          "depth": "Comical yet dangerous constructs. They are bound to a master (usually a forest witch) and will only allow their master to open them without detonating the runic lock. The Hut-ling's runic lock is a mystery to scholars, for it is made of a rune that does not exist in any known catalog, and some believe that the creature's lock is a natural adaptation, a living defense that protects the witch's treasure from thieves.",
           "hooks": [
-            "A group of Neth alchemists has set up traps in a sacred grove to harvest Vatra sap. The local Drun want the party to dismantle the traps and drive the harvesters out before the forest's balance is broken.",
-            "A Vatra has nested in the hollow leg of a noble's wooden desk, hiding from collectors. It has been stealing small items and documents to line its nest. Find the sprite and recover the items without harming it.",
-            "The party needs high-grade warm sap to survive a passage through a freezing mountain pass. They must locate a colony of scurrying Vatras and convince them to trade their sap for a rare swamp-fly delicacy."
+            "A Hut-ling was spotted running through the forest carrying a noble's family sigil. The party must track it and catch it.",
+            "A forest hag has died, and her Hut-ling is wandering aimlessly, kicking anyone who gets near its treasure."
           ]
         },
         {
-          "id": "vyraj",
-          "name": "Swamp Hydra",
+          "id": "likho",
+          "name": "Likho",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Swamp Hydra",
-          "role": "Forest guardian",
-          "origin": "A multi-headed marsh serpent guarding ancient ruins.",
-          "nature": "A giant reptile that defends the deep peat gates.",
-          "habitat": "Peat-stone gates.",
-          "combat": "300 HP. Immune to psychic and physical damage — it is law made flesh, and law is abstract. Legendary actions (3/round). Clause-Strike (melee, 3d10+6 force damage — the impact is not physical but legal, the target's body reacting as if a contract has been violated, DC 18 CON or stunned 1 round). Paradox Field (30-ft radius, all creatures within must make a DC 16 INT save — failure means they cannot take any action that involves an agreement, promise, or coordination for 1 round, effectively acting alone). Devour Agreement (the Vyraj targets a single creature and attempts to consume a buff, magical effect, or tactical advantage — DC 18 SPI save, failure means the target loses one buff or positive effect of the DM's choice). Vulnerable to radiant and void — light that reveals truth dissolves legal abstractions, and void represents the absence of law.",
-          "stats": {
-            "strength": 18,
-            "agility": 14,
-            "constitution": 22,
-            "intelligence": 20,
-            "spirit": 18,
-            "charisma": 16,
-            "maxHp": 300,
-            "maxMana": 60,
-            "maxActionPoints": 6,
-            "speed": 30,
-            "resistances": {
-              "physical": 75,
-              "psychic": 100,
-              "necrotic": 50
-            },
-            "vulnerabilities": {
-              "radiant": 75,
-              "void": 75
-            }
-          },
-          "depth": "Territorial sentinel.",
-          "hooks": [
-            "The Vyraj has surfaced near Atropolis during a major Neth trade summit. Every contract being negotiated is at risk of being consumed. The Neth Velun want the party to drive it back into the deep bog. The Neth Kessen want to study its behavior. The Drun want to negotiate with it — and the Vyraj is willing to listen to beings without legal existence.",
-            "A Vreken crypt has been breached and all the fungal-light contracts dissolved. The Vyraj is the suspect. The party must determine whether the Vyraj consumed the contracts deliberately or whether the contracts collapsed on their own due to paradoxes the Vyraj exposed.",
-            "The Vyraj has consumed a copy of the First Contract — not the original, but a Neth transcription. With the contract inside it, the Vyraj now carries the authority that governs all Neth immortality. If the Vyraj is destroyed, the contract may be recovered. If the Vyraj digests it, all Neth immortality ends."
-          ]
-        },
-        {
-          "id": "canker",
-          "name": "Fungal Husk",
-          "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Fungal Husk",
-          "role": "Spore zombie",
-          "origin": "A corpse animated by parasitic forest spores.",
-          "nature": "A slow-moving husk covered in orange mushrooms.",
-          "habitat": "Swamp edges.",
-          "combat": "The host has 80 HP. The Canker's true body is a mycelial network in the host's brain. Killing the host releases a spore burst (30-ft cone, DC 14 CON or infected). Infected targets progress through four stages over 7 days: cough, spore-lung, fungal bloom, death. At each stage they can be cured with a DC 16 Medicine check using Vreken anti-fungal poultice.",
+          "illustration": "/assets/images/creatures/likho.png",
+          "illustrationCaption": "A gaunt Likho hag with a single large eye in the center of her forehead, lurking in the shadows",
+          "role": "The one-eyed misfortune",
+          "origin": "The Likho is a creature of the misfortune and the curse, born from the Slavic legends of the personification of evil fate and bad luck. In the Bryngloom Forest, where the shadows are deep and the luck is bad, the Likhos are the spirits of misfortune, creatures that have been twisted by the Wyrd into something that is both pitiful and terrifying. The Wyrd's corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its territory as a source of bad luck, and it will cling to any who come near its lair. The villagers of the Bryngloom Forest know the signs of a Likho's presence—a series of terrible accidents, and the feeling of a heavy weight on their back.",
+          "nature": "A tall, gaunt, skeletal hag with pale, grey skin and a single, large bloodshot eye in the center of her forehead. She wears tattered black rags and moves silently through the dark undergrowth, her presence marked by a sudden chill and the smell of rotting leaves. The creature represents bad luck, cursing those she encounters with a series of terrible accidents that can lead to death. The Likho is a creature of the shadow, and she is most active during the night, when the darkness is deepest and the luck is at its worst.",
+          "habitat": "The Likho inhabits the damp caves, deep forest hollows, and abandoned cabins of the Bryngloom Forest, particularly in the Misfortune Hollow where the shadows are deepest and the luck is at its worst. She is most active during the night, when the darkness is deepest and the luck is at its worst, and during the autumn, when the leaves are falling and the air is filled with the smell of decay. The Likho's lair is always in the dark, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+          "combat": "130 HP. Gaze of Misfortune (ranged, DC 14 SPI save or target has disadvantage on all checks and attack rolls for 3 rounds). Clinging Curse (+6 to hit, DC 14 AGI save or she climbs onto the target's back, dealing 2d6 wyrd damage per round). Sharp Claws (2d8+3 physical). Vulnerable to ember.",
           "stats": {
             "strength": 12,
-            "agility": 10,
+            "agility": 14,
             "constitution": 16,
-            "intelligence": 14,
-            "spirit": 12,
-            "charisma": 10,
-            "maxHp": 80,
-            "maxMana": 20,
-            "maxActionPoints": 4,
-            "speed": 25,
-            "resistances": {
-              "poison": 100,
-              "necrotic": 50
-            },
-            "vulnerabilities": {
-              "fire": 50,
-              "radiant": 50
-            }
-          },
-          "depth": "Mindless spore spreader.",
-          "hooks": [
-            "A village shows signs of spore-infection. Track the host before the infection spreads to the whole settlement. Burn the host, isolate the infected, and find the Canker's mycelial source.",
-            "The Vreken know a fungal counter — a rare mushroom that neutralizes the spores. It only grows in the deepest bog-caves, tended by the Vreken Clean.",
-            "Negotiate with the hive-mind. The Canker is sentient and capable of legal reasoning. If the party can prove it breached its own contract terms, it must release all signatories — but the terms are written in spores and no one has read the full document."
-          ]
-        },
-        {
-          "id": "edict",
-          "name": "Peat Golem",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Peat Golem",
-          "role": "Forest enforcer",
-          "origin": "A golem made of packed peat-stone and ironwood.",
-          "nature": "A heavy sentinel guarding the boundaries of Atropolis.",
-          "habitat": "Atropolis borders.",
-          "combat": "400 HP. Legendary actions (4). Damage immunity: non-magical weapons. Ironwood fists (4d12+8 bludgeoning). Each round, it invokes one contract clause: Null and Void (dispel magic on one target), Breach of Terms (force a reroll), In Perpetuity (restrain one target with spectral moss until terms are met). Cannot be tricked, bargained with, or deceived while active.",
-          "stats": {
-            "strength": 22,
-            "agility": 12,
-            "constitution": 22,
-            "intelligence": 20,
-            "spirit": 20,
-            "charisma": 18,
-            "maxHp": 400,
-            "maxMana": 80,
-            "maxActionPoints": 6,
-            "speed": 30,
-            "resistances": {
-              "physical": 50,
-              "psychic": 100,
-              "necrotic": 100
-            },
-            "vulnerabilities": {
-              "radiant": 50
-            }
-          },
-          "depth": "Mindless boundary guard.",
-          "hooks": [
-            "The Edict is approaching a settlement. Someone broke a Neth contract — possibly unknowingly. Find the violator before the Edict does, and either hide them or help them fulfill the terms before the Edict arrives.",
-            "Produce a prior precedent that overrides the broken contract. This requires access to the Neth legal archives in Atropolis, which are not open to outsiders — the party must negotiate or infiltrate.",
-            "Destroy the First Contract itself — the source of all Neth law kept in the heartwood of Atropolis. Without it, the Edict has no authority. But no one knows what happens if the source of Neth immortality burns."
-          ]
-        },
-        {
-          "id": "leshy",
-          "name": "Leshy Shepherd",
-          "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/placeholder.png",
-          "illustrationCaption": "Sketch pending for Leshy Shepherd",
-          "role": "Slavic woodland warden",
-          "origin": "A mossy forest warden keeping the balance of life.",
-          "nature": "A large peat-wood guardian who shepherds the wild beasts.",
-          "habitat": "Deep moss groves.",
-          "combat": "200 HP. Peat-Wood Club (melee, 3d8+6 bludgeoning, reach 15 ft). Moss Strangler (30 ft range, DC 16 AGI save or restrained, taking 2d6 choking damage per round). Size Shift (self-buff, increases size to huge, gaining +4 STR and temporary HP). Vulnerable to fire.",
-          "stats": {
-            "strength": 20,
-            "agility": 10,
-            "constitution": 20,
             "intelligence": 12,
             "spirit": 16,
-            "charisma": 10,
-            "maxHp": 200,
+            "charisma": 4,
+            "maxHp": 130,
             "maxMana": 30,
-            "maxActionPoints": 5,
-            "speed": 25,
+            "maxActionPoints": 4,
+            "speed": 30,
             "resistances": {
-              "physical": 50
-            },
-            "vulnerabilities": {
-              "fire": 100
+              "wyrd": 50
             }
           },
-          "depth": "Reclusive warden.",
+          "depth": "A physical embodiment of bad luck. Once she targets a victim, she clings to their back, draining their hope and bringing constant misfortune until she is driven off with hot iron. The Likho's single eye is a mystery to scholars, for it is said to see the future, and some believe that the creature's eye is a natural adaptation, a living oracle that allows her to see the bad luck that she brings.",
           "hooks": [
-            "A Neth logging crew has gone missing in a grove guarded by a Leshy. Retrieve the survivors and negotiate a boundary line with the forest spirit.",
-            "A Leshy is shepherding a pack of Cankers towards a local settlement, believing the infected are part of the forest's natural decay. Persuade the Leshy that the settlement must be protected.",
-            "Harvest a rare glowing peat-flower that only grows on the Leshy's mossy shoulder while it is asleep."
+            "A local woodcutter has been struck by a sequence of terrible accidents; the villagers believe a Likho hag has crawled onto his back.",
+            "To lift a curse from a town's chief, the party must locate the Likho's lair in the dark undergrowth and destroy her iron cooking pot."
           ]
         }
       ]

@@ -54,13 +54,13 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'hellfire',
+        id: 'apostate',
 
-        name: 'Hellfire',
+        name: 'Apostate',
 
-        description: 'Demonic resilience - self-sustain and dark powers',
+        description: 'Controlled corruption - mana-intensive sustained damage with slower ascension',
 
-        color: '#8B0000',
+        color: '#6B2020',
 
         icon: 'spell_shadow_shadowwordpain'
 
@@ -206,7 +206,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: "Death's Seer",
 
-        description: 'Prophesy doom and decay, amplifying necrotic energy through prophetic foresight',
+        description: 'Prophesy doom and decay, amplifying blight energy through prophetic foresight',
 
         color: '#4B0082',
 
@@ -375,11 +375,11 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'primal_rage',
+        id: 'savage',
 
-        name: 'Primal Rage',
+        name: 'Savage',
 
-        description: 'Raw fury channeled into devastating attacks',
+        description: 'Raw fury channeled into devastating attacks and hemorrhagic ruin',
 
         color: '#8B0000',
 
@@ -389,11 +389,11 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'blood_frenzy',
+        id: 'juggernaut',
 
-        name: 'Blood Frenzy',
+        name: 'Juggernaut',
 
-        description: 'Combat abilities that grow stronger with damage taken',
+        description: 'Unbreakable resilience fueled by rage, absorbing damage to retaliate',
 
         color: '#DC143C',
 
@@ -403,11 +403,11 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'savage_instincts',
+        id: 'warlord',
 
-        name: 'Savage Instincts',
+        name: 'Warlord',
 
-        description: 'Instinctual combat techniques and survival skills',
+        description: 'Battlefield commander whose rage empowers allies and demoralizes enemies',
 
         color: '#B22222',
 
@@ -453,7 +453,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Torment Weaver',
 
-        description: 'Specialists in psychic afflictions who break minds as easily as bodies',
+        description: 'Specialists in wyrd afflictions who break minds as easily as bodies',
 
         color: '#4B0082',
 
@@ -467,7 +467,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Decay Harbinger',
 
-        description: 'Masters of necrotic decay who accelerate decomposition and prevent healing',
+        description: 'Masters of blight decay who accelerate decomposition and prevent healing',
 
         color: '#2F4F2F',
 
@@ -562,7 +562,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Spectral Reaper',
 
-        description: 'Combines frost and necrotic damage for devastating hybrid attacks and minions',
+        description: 'Combines rime and blight damage for devastating hybrid attacks and minions',
 
         color: '#9370DB',
 
@@ -910,13 +910,13 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'duelist',
+        id: 'iron-dancer',
 
-        name: 'Duelist',
+        name: 'Iron Dancer',
 
-        description: 'Masters of precision strikes and defensive counters, excelling in one-on-one combat with perfect timing',
+        description: 'Masters of extreme precision, counter-attacks, and stolen biological traits from slain enemies',
 
-        color: '#FFD700',
+        color: '#27AE60',
 
         icon: 'ability_duelist'
 
@@ -924,13 +924,13 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'shadow-dancer',
+        id: 'primal-shadow',
 
-        name: 'Shadow Dancer',
+        name: 'Primal Shadow',
 
-        description: 'Masters of stealth and burst damage, striking from darkness with devastating ambushes and supernatural mobility',
+        description: 'Masters of stealth burst damage and shadow-infused transformations, striking from the void',
 
-        color: '#4B0082',
+        color: '#2C3E50',
 
         icon: 'ability_stealth'
 
@@ -950,13 +950,13 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'moonlight-sentinel',
+        id: 'hollow-sentinel',
 
-        name: 'Moonlight Sentinel',
+        name: 'Hollow Sentinel',
 
-        description: 'Celestial archers who channel moonlight through precise ranged attacks, excelling at single-target elimination and critical damage',
+        description: 'Precision killers who see through the parasite\'s alien geometry, bypassing defenses with surgical ranged attacks',
 
-        color: '#E6E6FA',
+        color: '#A0A0A0',
 
         icon: 'ability_hunter_focusedaim'
 
@@ -964,11 +964,11 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'starfall-invoker',
+        id: 'sanguine-warden',
 
-        name: 'Starfall Invoker',
+        name: 'Sanguine Warden',
 
-        description: 'Cosmic mages who summon falling stars and celestial energy, mastering area damage and battlefield control',
+        description: 'Healers who tear open their own seams to spill blood-tinged moonlight, sacrificing their body to heal allies',
 
         color: '#FFD700',
 
@@ -978,13 +978,13 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'moonwell-guardian',
+        id: 'void-caller',
 
-        name: 'Moonwell Guardian',
+        name: 'Void Caller',
 
-        description: 'Lunar healers who create sacred moonwells and protective barriers, focusing on group healing and ally protection',
+        description: 'Shadow mages who channel the parasite\'s hunger, mastering area damage through void-infused lunar magic',
 
-        color: '#87CEEB',
+        color: '#2C3E50',
 
         icon: 'spell_holy_circleofrenewal'
 
@@ -1004,29 +1004,15 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'shadowblade',
+        id: 'bladestorm',
 
-        name: 'Shadowblade',
+        name: 'Bladestorm',
 
-        description: 'Stealthy glaive masters who strike from darkness with devastating precision, enhanced by shadowy tactics and burst damage',
+        description: 'Glaive masters who chain attacks through multiple enemies, creating whirlwinds of multi-target devastation',
 
-        color: '#2F1B14',
+        color: '#DC143C',
 
         icon: 'ability_stealth'
-
-      },
-
-      {
-
-        id: 'sentinel',
-
-        name: 'Sentinel',
-
-        description: 'Protective guardians who defend allies with wards and barriers, coordinating with their companion for group safety',
-
-        color: '#4169E1',
-
-        icon: 'spell_holy_devotionaura'
 
       },
 
@@ -1041,6 +1027,20 @@ export const CLASS_SPECIALIZATIONS = {
         color: '#8B4513',
 
         icon: 'ability_hunter_beastcall'
+
+      },
+
+      {
+
+        id: 'shadowblade',
+
+        name: 'Shadowblade',
+
+        description: 'Stealthy glaive masters who strike from darkness with devastating precision, enhanced by shadowy tactics and burst damage',
+
+        color: '#2F1B14',
+
+        icon: 'ability_stealth'
 
       }
 
@@ -1072,11 +1072,11 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'jailer',
+        id: 'vengeance-seeker',
 
-        name: 'Jailer',
+        name: 'Vengeance Seeker',
 
-        description: 'Masters of imprisonment who trap enemies in spectral cages, controlling the battlefield through containment and torment',
+        description: 'Relentless tormentors who drag enemies across the battlefield, crushing them with inexorable pursuit and displacement',
 
         color: '#2F4F4F',
 
@@ -1086,13 +1086,13 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'avenger',
+        id: 'monolith',
 
-        name: 'Avenger',
+        name: 'Monolith',
 
-        description: 'Embodiments of vengeance who channel fury into overwhelming damage, burning enemies with relentless retribution',
+        description: 'Immovable anchors who calcify their bodies with volcanic iron, becoming unbreakable battlefield sentinels through gravitational control',
 
-        color: '#B22222',
+        color: '#533C33',
 
         icon: 'spell_fire_elemental_totem'
 

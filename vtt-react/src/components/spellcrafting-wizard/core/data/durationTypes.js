@@ -4,40 +4,40 @@ const DURATION_TYPES = [
       id: 'instant',
       name: 'Instant',
       description: 'Effect occurs once and immediately',
-      icon: 'spell_nature_timestop',
+      icon: '/assets/icons/abilities/Nature/Natural.png',
       actionPointModifier: 0
     },
     {
       id: 'rounds',
       name: 'Rounds',
       description: 'Effect lasts for a specific number of combat rounds',
-      icon: 'spell_holy_borrowedtime',
+      icon: '/assets/icons/abilities/Radiant/Light Path.png',
       actionPointModifier: 1
     },
     { id: 'turns', 
       name: 'Turns', 
       description: 'Effect lasts for a specific number of turns', 
-      icon: 'spell_nature_timestop', 
+      icon: '/assets/icons/abilities/Nature/Natural.png', 
       actionPointModifier: 1 },
     {
       id: 'minutes',
       name: 'Minutes',
       description: 'Effect lasts for a specific number of minutes',
-      icon: 'spell_holy_innerfire',
+      icon: '/assets/icons/abilities/Radiant/Light Path.png',
       actionPointModifier: 2
     },
     {
       id: 'hours',
       name: 'Hours',
       description: 'Effect lasts for a specific number of hours',
-      icon: 'spell_holy_guardianspirit',
+      icon: '/assets/icons/abilities/Ethereal Spirit.png',
       actionPointModifier: 3
     },
     {
       id: 'concentration',
       name: 'Concentration',
       description: 'Effect lasts as long as caster maintains concentration',
-      icon: 'spell_arcane_mindmastery',
+      icon: '/assets/icons/abilities/Arcane/Arcane.png',
       actionPointModifier: 1,
       requiresConcentration: true
     },
@@ -45,7 +45,7 @@ const DURATION_TYPES = [
       id: 'permanent',
       name: 'Permanent',
       description: 'Effect lasts until dispelled or ended by specific condition',
-      icon: 'spell_holy_divineillumination',
+      icon: '/assets/icons/abilities/Radiant/Light Path.png',
       actionPointModifier: 4,
       requiresRitualCasting: true
     }

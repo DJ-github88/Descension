@@ -1973,8 +1973,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const characterState = useCharacterStore.getState();
             const currentClassResource = characterState.classResource || {};
             
-            // SMART FIX: Determine if this is a nested field update (Chronarch) or simple field update
-            const isNestedField = ['timeShards', 'temporalStrain'].includes(field);
+            // SMART FIX: Determine if this is a nested field update (Chronarch, Shaper) or simple field update
+            const isNestedField = ['timeShards', 'temporalStrain', 'momentum', 'flourish'].includes(field);
             
             if (isNestedField) {
                 // For Chronarch: update the nested object's current value
@@ -2029,8 +2029,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             // Update party member's class resource in party store
             const member = findMemberById(memberId);
             if (member && member.character?.classResource) {
-                // SMART FIX: Handle nested fields for Chronarch
-                const isNestedField = ['timeShards', 'temporalStrain'].includes(field);
+                // SMART FIX: Handle nested fields for Chronarch and Shaper
+                const isNestedField = ['timeShards', 'temporalStrain', 'momentum', 'flourish'].includes(field);
                 
                 let updatedClassResource;
                 if (isNestedField) {

@@ -21,6 +21,23 @@ const buildDemoClassResource = (className) => {
   const cfg = getClassResourceConfig(className);
   if (!cfg) return { current: 0, max: 10, spheres: [] };
 
+  // Custom consolidated class overrides:
+  if (className === 'Gambit') {
+    return { current: 5, max: 7, risk: 3, spheres: [] };
+  }
+  if (className === 'Revenant') {
+    return { current: 3, max: 7, bloodTokens: 12, stacks: [true, true, true, false, false, false, false], spheres: [] };
+  }
+  if (className === 'Apex') {
+    return { current: 2, max: 5, companionHP: 35, companionMaxHP: 50, spheres: [] };
+  }
+  if (className === 'Inquisitor') {
+    return { current: 4, max: 8, hexbreakerCharges: 4, attackCounter: 2, spheres: [] };
+  }
+  if (className === 'Animist') {
+    return { current: 12, max: 20, spheres: [] };
+  }
+
   const m = cfg.mechanics;
 
   // Shaper: momentum + flourish + stance
@@ -30,7 +47,7 @@ const buildDemoClassResource = (className) => {
       max: m.momentum.max || 20,
       momentum: 8,
       flourish: 3,
-      stance: m.stance?.current || 'Flowing Water',
+      stance: m.stance?.current || 'Ataxic Flow',
       spheres: []
     };
   }

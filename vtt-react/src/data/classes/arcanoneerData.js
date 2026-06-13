@@ -37,7 +37,7 @@ You are the contract's executioner. The Keeper has written the syntax in your bo
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: You are a Magi-ballistic Mutilator. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you gouge out your own crystallized blood and soul-shards — rolling 4d8 to generate volatile ballistic spheres (Arcane, Radiant, Necrotic, Fire, Frost, Nature, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Frost shatters from the barrel as a flesh-scorching steam vent, while Fire + Fire kicks back with a rib-shattering inferno blast.
+      content: `**What You Need to Know**: You are a Magi-ballistic Mutilator. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you gouge out your own crystallized blood and soul-shards — rolling 4d8 to generate volatile ballistic spheres (Arcane, Radiant, blight+blight, Fire, Frost, Nature, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Frost shatters from the barrel as a flesh-scorching steam vent, while Fire + Fire kicks back with a rib-shattering inferno blast.
 
 **Recoil and Pain**: Firing this weapon shatters your own ribs and tears your flesh. You do not cast safe spells; you trigger explosive detonations that demand a toll in blood and bone. This constant self-mutilation is mechanically mandatory across all firing profiles.
 
@@ -119,7 +119,7 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
 
 **Strengths**:
 - Unmatched versatility: can produce ANY damage type to exploit enemy weaknesses.
-- Dual damage types on mixed combos (Fire+Frost hits both fire-weak AND frost-weak enemies).
+- Dual damage types on mixed combos (Ember+Rime hits both ember-weak AND rime-weak enemies).
 - Powerful cover-shattering siege detonations.
 - Nature combos provide defensive and support utility (Nature+Nature for gristle blockades, Nature+Radiant for slag-sutures).
 - Chaos combos provide wild swing potential (high risk, high reward).
@@ -140,16 +140,16 @@ Every turn begins with the sound of bones grinding as you roll 4d8 and watch you
 **Turn 1 — The Hand You're Dealt**
 
 You roll: Fire, Fire, Frost, Nature. Your mind races through the matrix:
-- Fire + Fire = *Combustion Shell* (single target fire damage)
+- Fire + Fire = *Combustion Shell* (single target ember damage)
 - Fire + Frost = *Steam Vent* (cone of mixed damage + blind)
-- Fire + Nature = *Cauterizing Slag* (burn away one debuff, deals fire damage to ally)
+- Fire + Nature = *Cauterizing Slag* (burn away one debuff, deals ember damage to ally)
 - Frost + Nature = *Rime-Frozen Graft* (+3 Armor for 3 rounds)
 
 Do you have Recipes for any of these? If you've learned *Steam Burst*, then Fire + Frost suddenly adds a blinding cone effect. If you've learned *Firestorm*, then Fire + Fire adds a massive AoE burning vortex.
 
 **Turn 2 — Banking for Power**
 
-You banked all 4 spheres from Turn 1. Now you roll Arcane, Necrotic, Nature, Chaos. You have 8 spheres total. Suddenly you can:
+You banked all 4 spheres from Turn 1. Now you roll Arcane, blight+blight, Nature, Chaos. You have 8 spheres total. Suddenly you can:
 - Cast a 2-sphere combo AND still have 6 spheres left
 - Start building toward a 3-sphere Recipe (need 1 more turn of banking)
 - Cast multiple 2-sphere combos if you have the action points
@@ -181,18 +181,18 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Necrotic, Nature, Cha
 
 *You slam the fire and ice shards into the main chamber. The pig-iron cylinder roars as the opposing forces react. A pressurized column of superheated steam erupts from the barrel, boiling the bandits' skin. The kinetic back-blast punches your shoulder, cracking your ribs (1d6 recoil damage) and anchoring you to the stone bridge (movement speed reduced to 0).*
 
-**Result**: Cast **Superheated Steam Vent** via Area action. 1d8 + INT/4 fire+frost damage to all three bandits + Blinded. **Cost: 7 mana, 1d6 HP. Remaining: 27 mana, 1 AP. Movement: 0.** You bank the Fire and Nature spheres.
+**Result**: Cast **Superheated Steam Vent** via Area action. 1d8 + INT/4 ember+rime damage to all three bandits + Blinded. **Cost: 7 mana, 1d6 HP. Remaining: 27 mana, 1 AP. Movement: 0.** You bank the Ember and Nature spheres.
 
 **Turn 2 — Chambering the Shell** *(2 AP available, 31 mana after regen)*
 
 *The bandit leader finishes his chant. Dark energy swirls around his blade. The fighter is engaged — he can't reach the caster in time. It's down to you.*
 
-**Roll 4d8**: [1, 3, 6, 8] → Arcane, Necrotic, Nature, Chaos
+**Roll 4d8**: [1, 3, 6, 8] → Arcane, blight+blight, Nature, Chaos
 
-*Four more shards erupt: a violet sliver of force, a writhing necrotic shadow, a crackling nature spike, and a volatile chaos core.*
+*Four more shards erupt: a violet sliver of force, a writhing blight+blight shadow, a crackling nature spike, and a volatile chaos core.*
 
 **Your Banked Spheres**: Fire, Nature (from Turn 1)
-**Total Available**: Fire, Nature, Arcane, Necrotic, Nature, Chaos — 6 spheres
+**Total Available**: Fire, Nature, Arcane, blight+blight, Nature, Chaos — 6 spheres
 
 **The Decision**: You need to stop the leader, but your rolled elements are scattered and you want a massive payload. You bank all spheres into the reserve chambers, letting the iron cool slightly while preparing a massive blast. Since you didn't fire, you take no recoil damage and your movement is unaffected.
 
@@ -202,19 +202,19 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Necrotic, Nature, Cha
 
 *The leader's blade glows with dark power. You raise your pig-iron arm, bracing your shoulder as the bones grind.*
 
-**Roll 4d8**: [3, 3, 5, 2] → Necrotic, Necrotic, Frost, Radiant
+**Roll 4d8**: [3, 3, 5, 2] → blight+blight, blight+blight, Frost, Radiant
 
-*Two dark necrotic shards emerge. Perfect. You load them directly.*
+*Two dark blight+blight shards emerge. Perfect. You load them directly.*
 
-**Your Total Spheres**: Fire, Nature, Arcane, Necrotic, Nature, Chaos, Necrotic, Necrotic, Frost, Radiant — 10 spheres.
+**Your Total Spheres**: Fire, Nature, Arcane, blight+blight, Nature, Chaos, blight+blight, blight+blight, Frost, Radiant — 10 spheres.
 
-*You select Necrotic + Necrotic. You unleash the Recipe: **Abyssal Maw**.*
+*You select blight+blight + blight+blight. You unleash the Recipe: **Abyssal Maw**.*
 
 *"Umbra Clausura!"*
 
 *The pig-iron chassis shudders violently. Firing it sends a sickening crack through your collarbone (1d6 HP recoil damage) and anchoring you (movement speed 0). Skeletal jaws of living shadow erupt from the barrel, chewing through the leader's flesh and draining his strength.*
 
-**Result**: Cast **Abyssal Maw** (Recipe-enhanced Necrotic + Necrotic). 2d8 + INT/3 necrotic + 1d6 necrotic DoT + target STR reduced by 2. **Cost: 14 mana, 1d6 HP. Remaining: 21 mana, 1 AP. Movement: 0.**
+**Result**: Cast **Abyssal Maw** (Recipe-enhanced blight+blight + blight+blight). 2d8 + INT/3 blight+blight + 1d6 blight+blight DoT + target STR reduced by 2. **Cost: 14 mana, 1d6 HP. Remaining: 21 mana, 1 AP. Movement: 0.**
 
 *The bandit leader staggers. Your fighter finishes him with a clean strike.*
 
@@ -261,13 +261,13 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
         step: 3,
         title: "Pick Your First 3 Recipes",
         content:
-          "Choose from 5 Level 1 spells: Spark Bolt (arcane damage, pierces armor), Frost Touch (frost damage + slow + fragile), Spark Shield (arcane absorb shield), Arcane Missile (force damage, cannot miss), Nature Vine (nature damage + restraint). Recommend: 2 damage, 1 defensive.",
+          "Choose from 5 Level 1 spells: Spark Bolt (arcane damage, pierces armor), Frost Touch (rime damage + slow + fragile), Spark Shield (arcane absorb shield), Arcane Missile (force damage, cannot miss), Nature Vine (nature damage + restraint). Recommend: 2 damage, 1 defensive.",
       },
       {
         step: 4,
         title: "Learn the d8 Element Table",
         content:
-          "You will roll 4d8 every single turn. Memorize or screenshot the sphere generation table (1=Arcane, 2=Radiant, 3=Necrotic, 4=Fire, 5=Frost, 6=Nature, 7=Healing, 8=Chaos). Speed of recognition is your most important skill.",
+          "You will roll 4d8 every single turn. Memorize or screenshot the sphere generation table (1=Arcane, 2=Radiant, 3=blight+blight, 4=Fire, 5=Frost, 6=Nature, 7=Healing, 8=Chaos). Speed of recognition is your most important skill.",
       },
       {
         step: 5,
@@ -359,7 +359,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 **Visual Representation**:
 - **Arcane Spheres**: Purple orbs of pure, humming force
 - **Radiant Spheres**: Golden orbs of searing, white-hot light
-- **Necrotic Spheres**: Pitch-black orbs of writhing, necrotic darkness
+- **blight+blight Spheres**: Pitch-black orbs of writhing, blight darkness
 - **Fire Spheres**: Red-orange orbs of sputtering, explosive heat
 - **Frost Spheres**: Pale blue orbs of jagged rime and frost crystals
 - **Nature Spheres**: Green orbs crackling with thunderous ozone static
@@ -553,7 +553,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
           {
             level: "Lv 2",
             name: "Superheated Steam Vent",
-            upgrade: "Fire+Frost → 20ft cone (base Attack is single-target)",
+            upgrade: "Ember+Rime → 20ft cone (base Attack is single-target)",
           },
           {
             level: "Lv 3",
@@ -564,17 +564,17 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
             level: "Lv 4",
             name: "Incinerating Slag-Shower",
             upgrade:
-              "Fire+Fire → 15ft AoE + 1d6 fire DoT 2 rounds (2d8 + INT/3)",
+              "Ember+Ember → 15ft AoE + 1d6 ember DoT 2 rounds (2d8 + INT/3)",
           },
           {
             level: "Lv 5",
             name: "Thermobaric Burst",
-            upgrade: "Fire+Frost → 10ft AoE (3d8 + INT/2)",
+            upgrade: "Ember+Rime → 10ft AoE (3d8 + INT/2)",
           },
           {
             level: "Lv 6",
             name: "Glacial Blessing",
-            upgrade: "Frost+Nature+Radiant → +4 Armor + fire resist (Rime-Frozen Graft / no clinical healing)",
+            upgrade: "Rime+Nature+Ember → +4 Armor + ember resist (Rime-Frozen Graft / no clinical healing)",
           },
           {
             level: "Lv 9",
@@ -667,16 +667,16 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
           "2",
           "ember",
           "Divine Light",
-          "Radiant damage, blinding, stunning, protection",
+          "ember damage, blinding, stunning, protection",
         ],
         [
           "3",
           "blight",
-          "Darkness/Necrotic",
-          "Necrotic damage, curses, life drain, debuffs",
+          "Darkness/blight+blight",
+          "blight damage, curses, life drain, debuffs",
         ],
-        ["4", "ember", "Flames", "Fire damage, burning, ignition, explosions"],
-        ["5", "rime", "rime", "Frost damage, freezing, slowing, disorientation"],
+        ["4", "ember", "Flames", "ember damage, burning, ignition, explosions"],
+        ["5", "rime", "rime", "rime damage, freezing, slowing, disorientation"],
         [
           "6",
           "primal",
@@ -714,12 +714,12 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 - You have more spheres than you need — spend the excess, bank the rest
 
 **Reading Your Options**:
-- **Pure combos** (Fire+Fire, Frost+Frost): Focused single-target damage. Reliable.
-- **Opposing combos** (Fire+Frost, Radiant+Necrotic): Unique mixed effects. Steam, Twilight — these are the "chemistry" combos.
+- **Pure combos** (Ember+Ember, Rime+Rime): Focused single-target damage. Reliable.
+- **Opposing combos** (Ember+Rime, Radiant+blight+blight): Unique mixed effects. Steam, Twilight — these are the "chemistry" combos.
 - **Nature combos** (Nature+Nature, Nature+X): Defensive and utility effects -- gristle blockades, rime-frozen grafts, sinew-spark leaps, slag-sutures.
 - **Chaos combos** (Chaos+X): Wild swings. Use them when you're desperate or when the Entropy Weaver in you wants to gamble.
 
-**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Frost for Steam on the front line, then Nature+Nature for a Gristle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
+**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Ember+Rime for Steam on the front line, then Nature+Nature for a Gristle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
 
 **Advanced: The Banking Mathematics**:
 - You generate 4 spheres per turn (5 for Entropy Weavers)
@@ -736,21 +736,21 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 
 **Turn 1 Roll**: [4, 4, 5, 7] → Fire, Fire, Frost, Nature
 
-**Rookie Mistake**: "Fire + Fire = Flame Burst! Maximum fire damage!"
+**Rookie Mistake**: "Fire + Fire = Flame Burst! Maximum ember damage!"
 - Result: Wasted spheres on a fire-resistant enemy. Your base matrix damage (1d8 + INT/4) barely tickles it.
 
 **Smart Play**: "Frost + Nature = **Rime-Frozen Graft** on our tank. Give them +3 Armor for 3 rounds. Then bank the two Fire spheres — the goblins aren't fire-resistant."
 - Result: Tank gets a grotesque, protective gristle graft. Fire spheres banked for next turn.
 
-**Turn 2 Roll**: [1, 3, 6, 8] → Arcane, Necrotic, Nature, Chaos
+**Turn 2 Roll**: [1, 3, 6, 8] → Arcane, blight+blight, Nature, Chaos
 
 **Your Bank**: Fire, Fire (from Turn 1)
-**Total Available**: Fire, Fire, Arcane, Necrotic, Nature, Chaos (6 spheres)
+**Total Available**: Fire, Fire, Arcane, blight+blight, Nature, Chaos (6 spheres)
 
 **Decision Point**:
 - **Option A**: Fire + Fire = **Flame Burst** on the goblins. Cheap (5 mana), decent damage, uses banked spheres effectively.
 - **Option B**: Bank everything. Next turn, you might have the spheres for a 3-sphere Recipe.
-- **Option C**: Arcane + Necrotic = **Void Bolt** on the fire elemental. Force + necrotic bypasses fire resistance.
+- **Option C**: Arcane + blight+blight = **Void Bolt** on the fire elemental. Force + blight+blight bypasses ember resistance.
 
 **The Right Call**: Option A on the goblins (they're the immediate threat), then Option C on the fire elemental if you have the AP and mana. You can multi-cast — spend 4 spheres, 2 spells, one turn.
 
@@ -771,7 +771,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 **Recommended Token Colors**:
 - Arcane (1): Purple
 - Radiant (2): Gold/Yellow
-- Necrotic (3): Black
+- blight+blight (3): Black
 - Fire (4): Red
 - Frost (5): Blue
 - Nature (6): Green
@@ -790,11 +790,11 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 
 All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see Action Table). Fixed damage: 1d8 + INT/4. Firing standard profiles inflicts recoil damage. Firing reduces your movement speed to 0.
 
-| | Arcane | Radiant | Necrotic | Fire | Frost | Nature | Flesh | Chaos |
+| | Arcane | Radiant | blight+blight | Fire | Frost | Nature | Flesh | Chaos |
 |---|---|---|---|---|---|---|---|---|
 | **Arcane** | Arcane Pulse | Divine Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Visceral Cocoon | Wild Magic ★ |
 | **Radiant** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Sinew | Chaos Light ★ |
-| **Necrotic** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
+| **blight+blight** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
 | **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterizing Slag | Chaos Flame ★ |
 | **Frost** | → | → | → | → | Frost Spike | Hailstorm | Rime-Frozen Graft | Glitch Frost ★ |
 | **Nature** | → | → | → | → | → | Storm Surge | Sinew-Spark Leap | Primal Chaos ★ |
@@ -807,7 +807,7 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 **Matrix Reading Guide** (use the upper-right triangle):
 - Same row + column = pure pair (e.g., Fire row + Fire column = Flame Burst)
 - Mixed = cross-reference (e.g., Fire row + Frost column = Steam)
-- Arrow (→) = see the mirror entry (Fire+Frost and Frost+Fire are both Steam)
+- Arrow (→) = see the mirror entry (Ember+Rime and Rime+Ember are both Steam)
 
 **Quick Effect Reference**:
 
@@ -815,33 +815,33 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 |---|---|---|
 | Arcane Pulse | Force | Single target damage |
 | Radiance | Radiant | Single target + blind |
-| Dark Bolt | Necrotic | Single target damage |
+| Dark Bolt | blight+blight | Single target damage |
 | Flame Burst | Fire | Single target damage |
 | Frost Spike | Frost | Single target + slow |
 | Storm Surge | Nature | Single target damage |
 | Gristle Blockade | Force | Grotesque bone-gristle barrier, blocks movement 2 rounds |
 | Chaos Bolt | Chaos | ★ Random effect |
 | Divine Bolt | Force, Radiant | Cannot miss |
-| Void Bolt | Force, Necrotic | Barrier-piercing |
+| Void Bolt | Force, blight+blight | Barrier-piercing |
 | Arcane Flame | Force, Fire | Barrier-piercing fire |
 | Crystal Shard | Force, Frost | Armor-piercing |
 | Thunderstrike | Force, Nature | Lightning bolt |
 | Visceral Cocoon | Force | Flesh-knit absorb shield (4d8) |
 | Wild Magic | Chaos | ★ Random effect |
-| Twilight | Radiant, Necrotic | Dual damage |
+| Twilight | Radiant, blight+blight | Dual damage |
 | Solar Flare | Radiant, Fire | Heavy burn |
 | Aurora | Radiant, Frost | Damage + slow |
 | Verdant Light | Radiant, Nature | Burning vines |
 | Crucible of Sinew | Radiant | Remove all debuffs + 1d6 radiant/debuff |
 | Chaos Light | Chaos | ★ Random effect |
-| Hellfire | Necrotic, Fire | Necrotic flames |
-| Frostbite | Necrotic, Frost | Rot + slow |
-| Blight | Necrotic, Nature | Poison thorns |
-| Grisly Veil | Necrotic | Absorb spell + reflect 50% necrotic |
+| Hellfire | blight+blight, Fire | blight+blight flames |
+| Frostbite | blight+blight, Frost | Rot + slow |
+| Blight | blight+blight, Nature | Poison thorns |
+| Grisly Veil | blight+blight | Absorb spell + reflect 50% blight+blight |
 | Entropy | Chaos | ★ Random effect |
 | Steam | Fire, Frost | 20ft cone + blind |
 | Wildfire | Fire, Nature | Burning vines |
-| Cauterizing Slag | Fire | Remove 1 debuff + 2d6 fire damage to ally |
+| Cauterizing Slag | Fire | Remove 1 debuff + 2d6 ember damage to ally |
 | Chaos Flame | Chaos | ★ Random effect |
 | Hailstorm | Frost, Nature | 10ft AoE |
 | Rime-Frozen Graft | Frost | +3 Armor for 3 rounds |
@@ -859,7 +859,7 @@ ARCANONEER — SPHERE GENERATION & RECOIL
 Roll 4d8 each turn:
 1 = Arcane (Purple)    5 = Frost (Blue)
 2 = Radiant (Gold)     6 = Nature (Green)
-3 = Necrotic (Black)   7 = Flesh (Crimson)
+3 = blight+blight (Black)   7 = Flesh (Crimson)
 4 = Fire (Red)         8 = Chaos (Rainbow)
 
 CORE MECHANIC: Firing reduce movement speed to 0.
@@ -896,14 +896,14 @@ MAX BANKED SPHERES: 12
         color: "#FF4500",
         theme: "Pure Element Mastery",
 
-        description: `Prism Mages obsess over elemental purity. While other Arcanoneers mix and match, Prism Mages perfect the art of the pure combo — Fire+Fire, Frost+Frost, Arcane+Arcane. They can reroll unwanted spheres to fish for their preferred element, and their pure-element matrix combos hit significantly harder. If you want consistency and the satisfaction of a perfectly focused build, this is your path.`,
+        description: `Prism Mages obsess over elemental purity. While other Arcanoneers mix and match, Prism Mages perfect the art of the pure combo — Ember+Ember, Rime+Rime, Arcane+Arcane. They can reroll unwanted spheres to fish for their preferred element, and their pure-element matrix combos hit significantly harder. If you want consistency and the satisfaction of a perfectly focused build, this is your path.`,
 
         playstyle:
           "Pure element focus, rerolling spheres, elemental specialization, consistent damage",
 
         strengths: [
           "Can reroll spheres to get desired elements",
-          "Pure element combos (Fire+Fire, Frost+Frost, etc.) deal +50% damage",
+          "Pure element combos (Ember+Ember, Rime+Rime, etc.) deal +50% damage",
           "Gain resistance to your most-used element type",
           "More consistent and predictable than other specs",
           "Excellent against enemies weak to specific elements",
@@ -1345,7 +1345,7 @@ MAX BANKED SPHERES: 12
         effectDescription:
           "Light and darkness collide, creating a bolt of twilight energy that burns with opposing forces.",
         flavorText:
-          "Radiant gold meets necrotic black, and where they clash, twilight is born — a strange, shimmering grey that burns and chills in equal measure. It should not exist. It does anyway.",
+          "Radiant gold meets blight+blight black, and where they clash, twilight is born — a strange, shimmering grey that burns and chills in equal measure. It should not exist. It does anyway.",
       },
       {
         id: "holy_fire",
@@ -1397,7 +1397,7 @@ MAX BANKED SPHERES: 12
         primaryEffect: "cleanse",
         secondaryEffect: "damage",
         effectDescription:
-          "A scourging burst of divine marrow-light. Removes all debuffs from the target but deals 1d6 radiant damage per debuff removed as tissue is forcefully cauterized.",
+          "A scourging burst of divine marrow-light. Removes all debuffs from the target but deals 1d6 ember damage per debuff removed as tissue is forcefully cauterized.",
         flavorText:
           "Searing holy fire collides with the viscera sphere, causing a blinding, agonizing flash. The target's skin melts and knits together instantly, purging toxins and curses. Your ally screams in agony, but stands entirely cleansed.",
       },
@@ -1418,7 +1418,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Beacon of Chaos",
             description:
-              "A pillar of prismatic light erupts from the ground, dealing radiant damage to enemies and healing allies within 10 feet.",
+              "A pillar of prismatic light erupts from the ground, dealing ember damage to enemies and healing allies within 10 feet.",
             damageTypes: ["ember"],
             targetType: "aoe",
             aoeRadius: 10,
@@ -1465,7 +1465,7 @@ MAX BANKED SPHERES: 12
         effectDescription:
           "Dark flames that burn the flesh and consume the soul.",
         flavorText:
-          "Necrotic feeds fire, and fire gives necrotic form. The result is something that should not burn but does — black flames that cast no light and leave frost-bitten char wherever they touch.",
+          "blight+blight feeds fire, and fire gives blight+blight form. The result is something that should not burn but does — black flames that cast no light and leave frost-bitten char wherever they touch.",
       },
       {
         id: "shadow_ice",
@@ -1491,7 +1491,7 @@ MAX BANKED SPHERES: 12
         primaryEffect: "damage",
         secondaryEffect: "blight",
         effectDescription:
-          "Thorny shadows inject necrotic poison into the target.",
+          "Thorny shadows inject blight+blight poison into the target.",
         flavorText:
           "Nature twisted by shadow — black thorns that grow from darkness itself, dripping with poison that rots from within. They wrap around the target and squeeze, each thorn injecting decay.",
       },
@@ -1505,9 +1505,9 @@ MAX BANKED SPHERES: 12
         primaryEffect: "barrier",
         secondaryEffect: "reflect",
         effectDescription:
-          "Encase yourself in a shifting barrier of flayed skin and shadow that absorbs the next incoming spell. Reflect 50% of the absorbed spell's damage back at the caster as necrotic feedback.",
+          "Encase yourself in a shifting barrier of flayed skin and shadow that absorbs the next incoming spell. Reflect 50% of the absorbed spell's damage back at the caster as blight+blight feedback.",
         flavorText:
-          "Necrotic shadows wrap around the viscera sphere, weaving a grotesque shield of pulsating skin and absolute darkness around you. The next spell that strikes is absorbed by the fleshy matrix and violently deflected.",
+          "blight+blight shadows wrap around the viscera sphere, weaving a grotesque shield of pulsating skin and absolute darkness around you. The next spell that strikes is absorbed by the fleshy matrix and violently deflected.",
       },
       {
         id: "shadow_chaos",
@@ -1519,7 +1519,7 @@ MAX BANKED SPHERES: 12
         primaryEffect: "random",
         isChaosCombo: true,
         effectDescription:
-          "Necrotic and chaos combine into pure entropic force — decay made unpredictable.",
+          "blight+blight and chaos combine into pure entropic force — decay made unpredictable.",
         flavorText:
           "Entropy. The death of order. The spheres don't combine so much as unravel each other, producing a flickering mass of shadow and static that even you find unsettling.",
         randomEffects: [
@@ -1534,13 +1534,13 @@ MAX BANKED SPHERES: 12
           {
             name: "Soul Rend",
             description:
-              "Deals necrotic damage and applies a random debuff to the target.",
+              "Deals blight damage and applies a random debuff to the target.",
             damageTypes: ["blight"],
             targetType: "single",
             randomDebuff: true,
           },
           {
-            name: "Necrotic Step",
+            name: "blight+blight Step",
             description:
               "You dissolve into shadow and reappear behind the target.",
             damageTypes: [],
@@ -1550,7 +1550,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Dark Nova",
             description:
-              "Necrotic energy erupts from you in a 10-foot radius, dealing necrotic damage to all nearby creatures (including allies).",
+              "blight energy erupts from you in a 10-foot radius, dealing blight damage to all nearby creatures (including allies).",
             damageTypes: ["blight"],
             targetType: "aoe",
             aoeRadius: 10,
@@ -1590,7 +1590,7 @@ MAX BANKED SPHERES: 12
         effectDescription:
           "Living flame wrapped in thorny vines — burns and constricts simultaneously.",
         flavorText:
-          "Fire and nature have an ancient pact: nature provides the fuel, fire provides the transformation. Vines of living flame lash outward, burning as they bind.",
+          "Ember and Nature have an ancient pact: nature provides the fuel, fire provides the transformation. Vines of living flame lash outward, burning as they bind.",
       },
       {
         id: "fire_healing",
@@ -1602,7 +1602,7 @@ MAX BANKED SPHERES: 12
         primaryEffect: "cleanse",
         secondaryEffect: "damage",
         effectDescription:
-          "Burn away afflictions with molten slag. Deals 2d6 fire damage to the ally and removes ONE debuff or condition by violently searing the tissue.",
+          "Burn away afflictions with molten slag. Deals 2d6 ember damage to the ally and removes ONE debuff or condition by violently searing the tissue.",
         flavorText:
           "Fire does not heal — it purges. The forearm graft vents a jet of boiling magma that is smeared directly onto the ally's wounds. They scream as their flesh melts, but the heat instantly burns away any poison, disease, or curse, leaving permanent molten scars.",
       },
@@ -1623,7 +1623,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Infernal Burst",
             description:
-              "The chaos flame detonates in a 15-foot radius, dealing fire damage to all nearby enemies.",
+              "The chaos flame detonates in a 15-foot radius, dealing ember damage to all nearby enemies.",
             damageTypes: ["ember"],
             targetType: "aoe",
             aoeRadius: 15,
@@ -1631,7 +1631,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Chain Fire",
             description:
-              "The bolt bounces to 1d4 additional targets within 20 feet, dealing fire damage to each.",
+              "The bolt bounces to 1d4 additional targets within 20 feet, dealing ember damage to each.",
             damageTypes: ["ember"],
             targetType: "chain",
             maxTargets: "1d4",
@@ -1639,7 +1639,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Fire Shield",
             description:
-              "Flames wrap around you, granting fire resistance and dealing 1d4 fire damage to melee attackers for 2 rounds.",
+              "Flames wrap around you, granting ember resistance and dealing 1d4 ember damage to melee attackers for 2 rounds.",
             damageTypes: ["ember"],
             targetType: "self",
             selfBuff: true,
@@ -1647,7 +1647,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Backfire",
             description:
-              "The flame sputters and backfires, dealing fire damage to you instead.",
+              "The flame sputters and backfires, dealing ember damage to you instead.",
             damageTypes: ["ember"],
             targetType: "self",
             selfDamage: true,
@@ -1729,7 +1729,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Shatterstorm",
             description:
-              "Frost shards explode outward in a 15-foot radius, dealing frost damage to all creatures.",
+              "Frost shards explode outward in a 15-foot radius, dealing rime damage to all creatures.",
             damageTypes: ["rime"],
             targetType: "aoe",
             aoeRadius: 15,
@@ -2025,7 +2025,7 @@ MAX BANKED SPHERES: 12
         components: ["verbal", "somatic"],
         verbalText: "Gelu Clavis!",
         somaticText:
-          "Freezing rime spreads from the pig-iron chassis across your hand as you clasp the target's neck.",
+          "Freezing rime spreads from the pig-iron chassis across your hand as you clasp the target's blight+k.",
         spheres: ["rime", "rime"],
       },
 
@@ -2036,7 +2036,7 @@ MAX BANKED SPHERES: 12
         damageTypes: ["rime"],
         resolution: "DICE",
         description:
-          "Flash-freezes tissue at the point of contact, causing frost damage.",
+          "Flash-freezes tissue at the point of contact, causing rime damage.",
       },
 
       debuffConfig: {
@@ -2369,7 +2369,7 @@ MAX BANKED SPHERES: 12
       id: "arc_shadow_bolt",
       name: "Vampiric Slug",
       description:
-        "Fires a heavy shell forged from crystallized necrotic marrow. The bullet drains the target's life force on impact, siphoning their vitality back into your own bloodstream.",
+        "Fires a heavy shell forged from crystallized blight+blight marrow. The bullet drains the target's life force on impact, siphoning their vitality back into your own bloodstream.",
       level: 2,
       enhancesCombo: "shadow_shadow",
       spellType: "ACTION",
@@ -2409,7 +2409,7 @@ MAX BANKED SPHERES: 12
         damageTypes: ["blight"],
         resolution: "DICE",
         description:
-          "The shadow bolt strikes with necrotic force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and necrotic, as if the flesh itself has died.",
+          "The shadow bolt strikes with blight force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and blight+blight, as if the flesh itself has died.",
       },
 
       debuffConfig: {
@@ -2956,7 +2956,7 @@ MAX BANKED SPHERES: 12
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "Umbra Clausura!",
-        somaticText: "Feed a dual-necrotic core into the breech, letting the shadows coil out of the barrel like writhing snakes",
+        somaticText: "Feed a dual-blight+blight core into the breech, letting the shadows coil out of the barrel like writhing snakes",
         spheres: ["blight", "blight"],
       },
 
@@ -3223,7 +3223,7 @@ MAX BANKED SPHERES: 12
       id: "arc_glacial_blessing",
       name: "Glacial Blessing",
       description:
-        "Weave ice and holy spheres into crystalline armor. Target gains +4 Armor and resistance to fire damage for 3 rounds.",
+        "Weave ice and holy spheres into crystalline armor. Target gains +4 Armor and resistance to ember damage for 3 rounds.",
       level: 6,
       spellType: "ACTION",
       icon: "Frost/Frozen in Ice",
@@ -3269,8 +3269,8 @@ MAX BANKED SPHERES: 12
             id: "glacial_armor",
             name: "Glacial Armor",
             description:
-              "Gain +4 Armor and resistance to fire damage for 3 rounds. Crystalline armor of ice and holy light deflects blows and absorbs heat.",
-            mechanicsText: "+4 armor and fire resistance for 3 rounds",
+              "Gain +4 Armor and resistance to ember damage for 3 rounds. Crystalline armor of ice and holy light deflects blows and absorbs heat.",
+            mechanicsText: "+4 armor and ember resistance for 3 rounds",
             statModifier: {
               stat: "armor",
               magnitude: 4,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 
 import IconSelectionCard from '../../components/common/IconSelectionCard';
@@ -25,14 +26,14 @@ export const PURIFICATION_TYPES = {
   DISPEL: {
     id: 'dispel',
     name: 'Dispel',
-    icon: 'spell_holy_dispelmagic',
+    icon: 'Arcane/Magical Cross Emblem 2',
     description: 'Remove magical or physical effects from targets',
     color: '#9966ff'
   },
   RESURRECTION: {
     id: 'resurrection',
     name: 'Resurrection',
-    icon: 'spell_holy_resurrection',
+    icon: 'Necrotic/Resurrect',
     description: 'Bring dead targets back to life',
     color: '#ffcc66'
   }
@@ -40,51 +41,51 @@ export const PURIFICATION_TYPES = {
 
 // Duration types
 const DURATION_TYPES = [
-  { id: 'instant', name: 'Instantaneous', description: 'Effect happens immediately with no duration', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'inv_misc_pocketwatch_01' },
-  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'inv_misc_pocketwatch_02' },
-  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'inv_misc_pocketwatch_03' }
+  { id: 'instant', name: 'Instantaneous', description: 'Effect happens immediately with no duration', icon: 'Utility/Utility' },
+  { id: 'rounds', name: 'Rounds', description: 'Combat rounds (approx. 6 seconds each)', icon: 'Utility/Utility' },
+  { id: 'minutes', name: 'Minutes', description: 'Real-time minutes', icon: 'Utility/Utility' },
+  { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'Utility/Utility' }
 ];
 
 // Dispel effect types
 const DISPEL_TYPES = [
-  { id: 'magic', name: 'Magic', icon: 'spell_arcane_arcane01', description: 'Dispel magical buffs and debuffs' },
-  { id: 'physical', name: 'Physical', icon: 'ability_warrior_bloodfrenzy', description: 'Remove physical effects like poison, disease, or bleeds' },
-  { id: 'curse', name: 'Curse', icon: 'spell_nature_removecurse', description: 'Remove curses and hexes' },
-  { id: 'beneficial', name: 'Beneficial', icon: 'spell_holy_powerwordshield', description: 'Remove only beneficial effects (buffs)' },
-  { id: 'harmful', name: 'Harmful', icon: 'spell_shadow_shadowwordpain', description: 'Remove only harmful effects (debuffs)' },
-  { id: 'all', name: 'All Effects', icon: 'spell_holy_dispelmagic', description: 'Remove all types of effects' }
+  { id: 'magic', name: 'Magic', icon: 'Arcane/Enchanted Sword', description: 'Dispel magical buffs and debuffs' },
+  { id: 'physical', name: 'Physical', icon: 'General/Fiery Rage', description: 'Remove physical effects like poison, disease, or bleeds' },
+  { id: 'curse', name: 'Curse', icon: 'Healing/Cure Within', description: 'Remove curses and hexes' },
+  { id: 'beneficial', name: 'Beneficial', icon: 'Radiant/Radiant Golden Shield', description: 'Remove only beneficial effects (buffs)' },
+  { id: 'harmful', name: 'Harmful', icon: 'Psychic/Mind Strike', description: 'Remove only harmful effects (debuffs)' },
+  { id: 'all', name: 'All Effects', icon: 'Arcane/Magical Cross Emblem 2', description: 'Remove all types of effects' }
 ];
 
 // Specific physical effect types
 const PHYSICAL_EFFECT_TYPES = [
-  { id: 'physical', name: 'physical', icon: 'inv_mace_2h_pvp410_c_01', description: 'Remove bludgeoning effects' },
-  { id: 'physical', name: 'physical', icon: 'inv_sword_31', description: 'Remove piercing effects' },
-  { id: 'physical', name: 'physical', icon: 'ability_warrior_cleave', description: 'Remove slashing effects' },
-  { id: 'blight', name: 'blight', icon: 'spell_nature_nullifypoison', description: 'Remove poison effects' },
-  { id: 'disease', name: 'Disease', icon: 'spell_holy_nullifydisease', description: 'Remove disease effects' },
-  { id: 'bleed', name: 'Bleed', icon: 'ability_warrior_bloodfrenzy', description: 'Remove bleeding effects' }
+  { id: 'physical', name: 'physical', icon: 'Bludgeoning/Mortal Strike', description: 'Remove bludgeoning effects' },
+  { id: 'physical', name: 'physical', icon: 'Slashing/Sword Pierce', description: 'Remove piercing effects' },
+  { id: 'physical', name: 'physical', icon: 'Slashing/Cleave', description: 'Remove slashing effects' },
+  { id: 'blight', name: 'blight', icon: 'Healing/Cure Within', description: 'Remove poison effects' },
+  { id: 'disease', name: 'Disease', icon: 'Healing/Cure Within', description: 'Remove disease effects' },
+  { id: 'bleed', name: 'Bleed', icon: 'General/Fiery Rage', description: 'Remove bleeding effects' }
 ];
 
 // Specific magical effect types
 const MAGICAL_EFFECT_TYPES = [
-  { id: 'blight', name: 'blight', icon: 'spell_nature_acid_01', description: 'Remove acid effects' },
-  { id: 'rime', name: 'rime', icon: 'spell_frost_frostbolt02', description: 'Remove cold effects' },
-  { id: 'ember', name: 'ember', icon: 'spell_fire_flamebolt', description: 'Remove fire effects' },
-  { id: 'arcane', name: 'arcane', icon: 'spell_arcane_blast', description: 'Remove force effects' },
-  { id: 'storm', name: 'storm', icon: 'spell_nature_lightning', description: 'Remove lightning effects' },
-  { id: 'blight', name: 'blight', icon: 'spell_shadow_shadowbolt', description: 'Remove necrotic effects' },
-  { id: 'wyrd', name: 'wyrd', icon: 'spell_shadow_mindtwisting', description: 'Remove psychic effects' },
-  { id: 'ember', name: 'ember', icon: 'spell_holy_holybolt', description: 'Remove radiant effects' },
-  { id: 'storm', name: 'storm', icon: 'spell_nature_thunderclap', description: 'Remove thunder effects' },
-  { id: 'blight', name: 'blight', icon: 'spell_shadow_shadowfury', description: 'Remove void effects' }
+  { id: 'blight', name: 'blight', icon: 'Poison/Acid Splash', description: 'Remove acid effects' },
+  { id: 'rime', name: 'rime', icon: 'Frost/Frozen in Ice', description: 'Remove cold effects' },
+  { id: 'ember', name: 'ember', icon: 'Fire/Flame Burst', description: 'Remove fire effects' },
+  { id: 'arcane', name: 'arcane', icon: 'Arcane/Magical Sword', description: 'Remove force effects' },
+  { id: 'storm', name: 'storm', icon: 'Lightning/Lightning Bolt', description: 'Remove lightning effects' },
+  { id: 'blight', name: 'blight', icon: 'Void/Black Hole', description: 'Remove necrotic effects' },
+  { id: 'wyrd', name: 'wyrd', icon: 'Psychic/Mind Roar', description: 'Remove psychic effects' },
+  { id: 'ember', name: 'ember', icon: 'Radiant/Radiant Bolt', description: 'Remove radiant effects' },
+  { id: 'storm', name: 'storm', icon: 'Lightning/Thunder', description: 'Remove thunder effects' },
+  { id: 'blight', name: 'blight', icon: 'Void/Black Hole', description: 'Remove void effects' }
 ];
 
 // Resurrection configuration
 const RESURRECTION_CONFIG = {
   id: 'resurrection',
   name: 'Resurrection',
-  icon: 'spell_holy_resurrection',
+  icon: 'Necrotic/Resurrect',
   description: 'Bring dead targets back to life'
 };
 
@@ -198,7 +199,7 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
   // Get WoW-style icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+    return getAbilityIconUrl(iconName);
   };
 
   // Get appropriate effects list for the selected purification type

@@ -87,16 +87,16 @@ Wardens are stoic, grim, and utterly hollowed out by their duty. They speak in h
 **Combat Weaknesses**:
 - **Shared Torment**: Because they are physically chained to the monster, they absorb 50% of all AoE or environmental damage that strikes their prisoner.
 - **Agonizing Recoil**: If they tether a beast of vastly superior strength or speed, they are helplessly dragged across the battlefield, suffering massive bludgeoning damage (1d10 per 10 feet dragged).
-- **Hard-coded Psychic Vulnerability**: Constant proximity to eldritch horrors fractures their mind, causing them to take +50% Psychic damage.
+- **Hard-coded Wyrd Vulnerability**: Constant proximity to eldritch horrors fractures their mind, causing them to take +50% wyrd damage.
 - **Zero Ranged Attacks**: Completely helpless at distance; they must reel targets in or walk them down in heavy iron.
-- **Agonizing Cast Costs**: Establishing tethers or reelings requires sacrificing their own HP (1d6 necrotic/piercing to self) as the grafted hooks tear through flesh.`,
+- **Agonizing Cast Costs**: Establishing tethers or reelings requires sacrificing their own HP (1d6 blight/piercing to self) as the grafted hooks tear through flesh.`,
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
       content: `**Tether Tension Management**:
 Warden combat is a high-wire balancing act of pain and control. Tether Tension caps at 10. You must constantly manage this tension:
-- **Tether and Reel**: Start combat by driving a *Flesh Tether* into the primary target (generates 2 Tension at the cost of 1d6 self-inflicted necrotic damage).
+- **Tether and Reel**: Start combat by driving a *Flesh Tether* into the primary target (generates 2 Tension at the cost of 1d6 self-inflicted blight damage).
 - **Pain is Power**: Build Tension by taking damage or using abilities that manually pull the chains tighter.
 - **Spend to Subdue**: Consume Tether Tension to activate heavy defensive braces (*Penitent Resolve*, 4 Tension) or to deliver crushing flails (*Barbed Lash*, 2 Tension).
 - **Iron Ascendancy**: Save 10 Tension to enter *Flayed Ascendancy* (ultimate transformation), where the Warden's flesh fuses with the iron, lashing out at all nearby foes and rendering them immune to displacement while the target is dragged helplessly.
@@ -104,8 +104,8 @@ Warden combat is a high-wire balancing act of pain and control. Tether Tension c
 **The Fatal Drag**:
 Be wary of tethering high-strength targets. If they move, you are dragged. Use *Iron Brace* to double your weight and resist displacement, or suffer the bludgeoning recoil of being dragged across the gravel.
 
-**Psychic Shielding**:
-With a permanent +50% Psychic vulnerability, you must rely on your party's casters or your own *Penitent Resolve* to survive mental assaults. Keep the abomination's physical body bound to you, but keep your mind guarded.`,
+**Wyrd Shielding**:
+With a permanent +50% Wyrd vulnerability, you must rely on your party's casters or your own *Penitent Resolve* to survive mental assaults. Keep the abomination's physical body bound to you, but keep your mind guarded.`,
     },
 
     immersiveCombatExample: {
@@ -119,7 +119,7 @@ With a permanent +50% Psychic vulnerability, you must rely on your party's caste
 *The flesh-golem roars, stepping toward your fragile mage. You step forward. You do not shout a holy oath. You grip the rusted chain extending from your forearms and drive the colossal hook straight through your own wrist and deep into the golem's shoulder.*
 
 **Your Action**: "Flesh Tether" on Flesh-Golem (1 Action Point)
-**Self-Harm**: Take 1d6 necrotic damage → [4] = 86 HP remaining.
+**Self-Harm**: Take 1d6 blight damage → [4] = 86 HP remaining.
 **Effect**: Golem is tethered. It physically cannot target your allies or move beyond a 15-foot radius from you.
 **Tension Generated**: +2 Tension (Tension: **2/10**)
 
@@ -201,7 +201,7 @@ With a permanent +50% Psychic vulnerability, you must rely on your party's caste
       {
         title: "Flesh Tether",
         stats: "1 Target Tethered",
-        details: "Drive your rusted hooks into a target within 15 feet. They cannot leave the 15-foot radius or target your allies. Marking a new target tears the hooks out, dealing necrotic damage to you."
+        details: "Drive your rusted hooks into a target within 15 feet. They cannot leave the 15-foot radius or target your allies. Marking a new target tears the hooks out, dealing blight damage to you."
       },
       {
         title: "Shared Torment",
@@ -237,7 +237,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         title: "Tension Generation",
         headers: ["Action", "Tension Gained", "Notes"],
         rows: [
-          ["Establish Flesh Tether", "2 Tension", "Costs 1d6 self-inflicted necrotic damage"],
+          ["Establish Flesh Tether", "2 Tension", "Costs 1d6 self-inflicted blight damage"],
           ["Suffer Strike from Tethered Target", "1 Tension", "Pain builds tension in the links"],
           ["Agonizing Reel (AP Cost)", "2 Tension", "Pull the chains tighter, dealing 1d4 piercing to self"],
           ["Evasive Brace Miss/Hit", "1 Tension", "Successful bracing or deflection builds tension"]
@@ -376,7 +376,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           "Highest burst damage of all Warden specs",
           "Attacks from stealth generate +1 Tension (total 3 Tension)",
           "Agonizing silence hides them after spending Tension",
-          "Devastating bleed and necrotic synergy"
+          "Devastating bleed and blight synergy"
         ],
         weaknesses: [
           "Requires stealth setup for maximum effectiveness",
@@ -495,7 +495,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         weaknesses: [
           "Movement speed is permanently reduced by 15 ft due to calcified joints",
           "Cannot benefit from Dodge while calcified",
-          "Catastrophic vulnerability to Acid damage (+50% damage, dissolves Calcified Armor)",
+          "Catastrophic vulnerability to blight damage (+50% damage, dissolves Calcified Armor)",
           "Zero ranged capability and cannot chase fleeing enemies"
         ],
         passiveAbilities: [
@@ -507,7 +507,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           {
             name: "Terminal Density",
             icon: "Force/Force Shield",
-            description: "Your physical mass is doubled. You have advantage on saving throws against being moved, pushed, or knocked prone. However, your Dodge is locked at 0 while you have any Calcified Armor active, and Acid damage deals +50% damage to you and immediately dissolves all Calcified Armor."
+            description: "Your physical mass is doubled. You have advantage on saving throws against being moved, pushed, or knocked prone. However, your Dodge is locked at 0 while you have any Calcified Armor active, and blight damage deals +50% damage to you and immediately dissolves all Calcified Armor."
           }
         ],
         recommendedSpells: [
@@ -634,7 +634,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
           description: "Tethered target physically cannot select your allies as targets for single-target attacks or spells."
         },
         selfHarm: {
-          description: "Casting deals 1d6 necrotic damage to yourself as the hooks rip through your flesh."
+          description: "Casting deals 1d6 blight damage to yourself as the hooks rip through your flesh."
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -696,7 +696,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         effects: [
           { id : "barbed_bleed",
             name: "Lacerating Bleed",
-            description: "Taking 1d4 necrotic damage at the start of each turn from ripped flesh."
+            description: "Taking 1d4 blight damage at the start of each turn from ripped flesh."
           }
         ]
       },
@@ -1122,7 +1122,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
     { id : "warden_spectral_strike",
       name: "Necrotic Piercing",
-      description: "Phase your chains slightly into the shadow realm, driving them through armor and bone to deal direct necrotic damage to the target's internal organs.",
+      description: "Phase your chains slightly into the shadow realm, driving them through armor and bone to deal direct blight damage to the target's internal organs.",
       spellType: "ACTION",
       icon: "Piercing/Night Dagger",
       level: 3,
@@ -1268,7 +1268,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       },
       specialMechanics: {
         conductiveBonus: {
-          description: "Trapped or caged targets take an additional +1d6 necrotic damage."
+          description: "Trapped or caged targets take an additional +1d6 blight damage."
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },

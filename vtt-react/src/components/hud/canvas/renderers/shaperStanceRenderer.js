@@ -22,6 +22,32 @@ function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
+function drawHalfRoundRect(ctx, x, y, w, h, r, side) {
+  // Draws a rect with rounded outer corners and a straight inner edge
+  // side: 'left' means straight right edge, 'right' means straight left edge
+  r = Math.max(0, Math.min(r, w / 2, h / 2));
+  ctx.beginPath();
+  if (side === 'left') {
+    // Left zone: round top-left + bottom-left, straight right edge
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w, y);
+    ctx.lineTo(x + w, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.arcTo(x, y + h, x, y + h - r, r);
+    ctx.lineTo(x, y + r);
+    ctx.arcTo(x, y, x + r, y, r);
+  } else {
+    // Right zone: straight left edge, round top-right + bottom-right
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.arcTo(x + w, y, x + w, y + r, r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+    ctx.lineTo(x, y + h);
+  }
+  ctx.closePath();
+}
+
 function drawDiamond(ctx, cx, cy, size) {
   ctx.beginPath();
   ctx.moveTo(cx, cy - size);
@@ -32,12 +58,12 @@ function drawDiamond(ctx, cx, cy, size) {
 }
 
 const STANCE_COLORS = {
-  'Flowing Water':  { color: '#3498DB', glow: '#85C1E9', dark: '#1a4d6d' },
-  'Striking Serpent': { color: '#27AE60', glow: '#82E0AA', dark: '#145a32' },
-  'Whirling Wind':  { color: '#95A5A6', glow: '#BDC3C7', dark: '#566573' },
-  'Rooted Stone':   { color: '#7F8C8D', glow: '#AAB7B8', dark: '#4a4a4a' },
-  'Dancing Blade':  { color: '#9B59B6', glow: '#C39BD3', dark: '#6c3483' },
-  'Shadow Step':    { color: '#5D6D7E', glow: '#85929E', dark: '#2C3E50' },
+  'Ataxic Flow':      { color: '#3498DB', glow: '#85C1E9', dark: '#1a4d6d' },
+  'Arterial Strike':  { color: '#C0392B', glow: '#F1948A', dark: '#78281F' },
+  'Centrifugal Fury': { color: '#E67E22', glow: '#F0B27A', dark: '#935116' },
+  'Deadened Bastion': { color: '#7F8C8D', glow: '#AAB7B8', dark: '#4a4a4a' },
+  'Fluid Apex':       { color: '#9B59B6', glow: '#C39BD3', dark: '#6c3483' },
+  'Void Predator':    { color: '#2C3E50', glow: '#85929E', dark: '#1B2631' },
 };
 
 const MOMENTUM_THRESHOLDS = [
@@ -96,9 +122,10 @@ export default class ShaperStanceRenderer {
     this.sparks = [];
     this.flowParticles = [];
     this.prevMomentum = 0;
+    this.prevFlourish = 0;
     this.prevStance = null;
     this.stanceFlashTimer = 0;
-    this.pipPulse = new Array(5).fill(0);
+    this.tollFlashTimer = 0;
     this.time = 0;
     this.hoveredZone = null;
     this.hoveredX = -1;
@@ -117,8 +144,9 @@ export default class ShaperStanceRenderer {
 
   _getZone(mx) {
     if (!this.zones) return null;
+    // Stance zone gets priority in the middle overlap
+    if (mx >= this.zones.stance.x && mx < this.zones.stance.x + this.zones.stance.width) return 'stance';
     if (mx < this.zones.momentum.x + this.zones.momentum.width) return 'momentum';
-    if (mx < this.zones.stance.x + this.zones.stance.width) return 'stance';
     return 'flourish';
   }
 
@@ -126,12 +154,17 @@ export default class ShaperStanceRenderer {
     const isLarge = size === 'large';
     const isSmall = size === 'small';
     const stanceW = isLarge ? 44 : (isSmall ? 24 : 28);
-    const sideW = Math.max(10, (width - stanceW) / 2);
+    const centerX = width / 2;
+    const halfStance = stanceW / 2;
     return {
-      momentum: { x: 0, y: 0, width: sideW, height },
-      stance: { x: sideW, y: 0, width: stanceW, height },
-      flourish: { x: sideW + stanceW, y: 0, width: Math.max(10, width - sideW - stanceW), height },
-      stanceW,
+      // Flux zone fills from left edge to center
+      momentum: { x: 0, y: 0, width: centerX, height },
+      // Stance sphere sits centered, overlapping both sides
+      stance: { x: centerX - halfStance, y: 0, width: stanceW, height },
+      // Body Toll zone fills from center to right edge
+      flourish: { x: centerX, y: 0, width: width - centerX, height },
+      centerX,
+      halfStance,
     };
   }
 
@@ -147,7 +180,7 @@ export default class ShaperStanceRenderer {
     const momentumMax = config.momentum?.max ?? 20;
     const flourish = config.flourish?.current ?? 0;
     const flourishMax = config.flourish?.max ?? 5;
-    const currentStance = config.currentStance || 'Flowing Water';
+    const currentStance = config.currentStance || 'Ataxic Flow';
     const isLarge = size === 'large';
     const isSmall = size === 'small';
 
@@ -156,20 +189,19 @@ export default class ShaperStanceRenderer {
     const momentumGain = momentum - this.prevMomentum;
     if (momentumGain > 0) {
       this._spawnMomentumBurst(momentumGain, momentum, momentumMax, width, height, size);
-      if (momentumGain >= 2 && flourish > 0) {
-        this.pipPulse[Math.min(flourish, flourishMax) - 1] = 0.3;
-      }
+    }
+    const flourishGain = flourish - (this.prevFlourish || 0);
+    if (flourishGain > 0) {
+      this.tollFlashTimer = 0.3;
     }
     if (currentStance !== this.prevStance && this.prevStance !== null) {
       this.stanceFlashTimer = 0.4;
     }
     this.prevMomentum = momentum;
+    this.prevFlourish = flourish;
     this.prevStance = currentStance;
     if (this.stanceFlashTimer > 0) this.stanceFlashTimer -= 0.016;
-
-    for (let i = 0; i < this.pipPulse.length; i++) {
-      if (this.pipPulse[i] > 0) this.pipPulse[i] -= 0.016;
-    }
+    if (this.tollFlashTimer > 0) this.tollFlashTimer -= 0.016;
 
     this._spawnFlowParticles(momentum, momentumMax, width, height, config, size);
 
@@ -194,6 +226,9 @@ export default class ShaperStanceRenderer {
     if (this.stanceFlashTimer > 0) {
       this._drawStanceFlash(ctx, z.stance);
     }
+    if (this.tollFlashTimer > 0) {
+      this._drawTollFlash(ctx, z.flourish);
+    }
 
     ctx.restore();
   }
@@ -205,7 +240,7 @@ export default class ShaperStanceRenderer {
     const intensity = momentum / max;
 
     ctx.save();
-    drawRoundRect(ctx, x, y, zw, zh, isLarge ? 16 : 12);
+    drawHalfRoundRect(ctx, x, y, zw, zh, isLarge ? 16 : 12, 'left');
     ctx.clip();
 
     const bgAlpha = isHovered ? 0.2 : 0.1;
@@ -317,7 +352,7 @@ export default class ShaperStanceRenderer {
 
   _drawStanceZone(ctx, zone, currentStance, isLarge, isSmall, momentum, config) {
     const { x, y, width: zw, height: zh } = zone;
-    const sc = STANCE_COLORS[currentStance] || STANCE_COLORS['Flowing Water'];
+    const sc = STANCE_COLORS[currentStance] || STANCE_COLORS['Ataxic Flow'];
     const cx = x + zw / 2;
     const cy = y + zh / 2;
     const baseR = Math.min(zw, zh) * 0.32;
@@ -327,9 +362,9 @@ export default class ShaperStanceRenderer {
 
     ctx.save();
 
-    // Check if we should render Shadow Step shadowy purple aura
-    const isShadowStep = currentStance === 'Shadow Step';
-    const hasShadowAura = spec === 'Shadow Dancer' && isShadowStep;
+    // Check if we should render Void Predator shadowy purple aura
+    const isShadowStep = currentStance === 'Void Predator';
+    const hasShadowAura = spec === 'Primal Shadow' && isShadowStep;
 
     const outerR = baseR * 2.2;
     const outerGrad = ctx.createRadialGradient(cx, cy, baseR * 0.5, cx, cy, outerR);
@@ -413,7 +448,7 @@ export default class ShaperStanceRenderer {
         const tStance = availableTransitions[i];
         
         let cost = transitionCosts[currentStance]?.[tStance] || 2;
-        if (spec === 'Shadow Dancer' && tStance === 'Shadow Step') {
+        if (spec === 'Primal Shadow' && tStance === 'Void Predator') {
           cost = 3;
         } else if (spec === 'Flow Master') {
           cost = Math.max(1, cost - 1);
@@ -429,8 +464,8 @@ export default class ShaperStanceRenderer {
         
         let fillColor = tSc.color;
         let glowColor = tSc.glow;
-        const isTShadowStep = tStance === 'Shadow Step';
-        const hasTDotShadowAura = spec === 'Shadow Dancer' && isTShadowStep;
+        const isTShadowStep = tStance === 'Void Predator';
+        const hasTDotShadowAura = spec === 'Primal Shadow' && isTShadowStep;
         
         ctx.save();
         
@@ -474,72 +509,118 @@ export default class ShaperStanceRenderer {
     const { x, y, width: zw, height: zh } = zone;
     if (zw < 10) return;
     const isHovered = this.hoveredZone === 'flourish';
+    const intensity = flourish / max;
 
     ctx.save();
-    drawRoundRect(ctx, x, y, zw, zh, isLarge ? 16 : 12);
+    drawHalfRoundRect(ctx, x, y, zw, zh, isLarge ? 16 : 12, 'right');
     ctx.clip();
 
-    const bgAlpha = isHovered ? 0.15 : 0.06;
-    const bg = ctx.createLinearGradient(x + zw * 0.4, y, x + zw, y);
-    bg.addColorStop(0, 'rgba(66, 66, 66, 0.02)');
-    bg.addColorStop(1, 'rgba(66, 66, 66, ' + bgAlpha + ')');
+    const bgAlpha = isHovered ? 0.2 : 0.08;
+    const bg = ctx.createLinearGradient(x + zw, y, x + zw * 0.4, y);
+    bg.addColorStop(0, hexToRgba('#5C1A1A', bgAlpha));
+    bg.addColorStop(1, 'rgba(60, 20, 20, 0.02)');
     ctx.fillStyle = bg;
     ctx.fillRect(x, y, zw, zh);
 
-    if (isHovered) {
-      ctx.fillStyle = 'rgba(243, 156, 18, 0.03)';
+    if (flourish > 0) {
+      const fillRatio = Math.min(flourish / max, 1);
+      const fillW = Math.max(3, zw * fillRatio);
+      const fillX = x + zw - fillW;
+      const pulse = Math.sin(this.time * 2.5) * 0.12 + 0.88;
+
+      let baseColor, glowColor;
+      if (flourish >= 10)    { baseColor = '#3D0000'; glowColor = '#8B0000'; }
+      else if (flourish >= 7) { baseColor = '#5C1A1A'; glowColor = '#922B21'; }
+      else if (flourish >= 5) { baseColor = '#78281F'; glowColor = '#C0392B'; }
+      else if (flourish >= 3) { baseColor = '#922B21'; glowColor = '#E74C3C'; }
+      else                   { baseColor = '#A93226'; glowColor = '#F1948A'; }
+
+      const fillGrad = ctx.createLinearGradient(fillX, y, fillX + fillW, y);
+      fillGrad.addColorStop(0, hexToRgba(baseColor, 0.5));
+      fillGrad.addColorStop(0.3, hexToRgba(baseColor, 0.7 * pulse));
+      fillGrad.addColorStop(0.7, hexToRgba(glowColor, 0.55 * pulse));
+      fillGrad.addColorStop(1, hexToRgba(glowColor, 0.2 * pulse));
+      ctx.fillStyle = fillGrad;
+      ctx.fillRect(fillX, y, fillW, zh);
+
+      const inner = ctx.createLinearGradient(fillX, y, fillX, y + zh);
+      inner.addColorStop(0, 'rgba(255,255,255,0.12)');
+      inner.addColorStop(0.5, 'rgba(255,255,255,0.02)');
+      inner.addColorStop(1, 'rgba(0,0,0,0.22)');
+      ctx.fillStyle = inner;
+      ctx.fillRect(fillX, y, fillW, zh);
+
+      const edgeGlow = ctx.createRadialGradient(fillX, zh / 2, 0, fillX, zh / 2, zh * 0.7);
+      edgeGlow.addColorStop(0, hexToRgba(glowColor, 0.4 * pulse * (0.4 + intensity * 0.6)));
+      edgeGlow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = edgeGlow;
+      ctx.fillRect(Math.max(0, fillX - zh * 0.6), 0, zh * 1.2, zh);
+
+      const TOLL_THRESHOLDS = [
+        { val: 3, label: 'Lock', color: '#E67E22' },
+        { val: 5, label: 'Erode', color: '#E74C3C' },
+        { val: 7, label: 'Feral', color: '#C0392B' },
+        { val: 10, label: 'Ravel', color: '#8B0000' },
+      ];
+
+      for (const t of TOLL_THRESHOLDS) {
+        const threshRatio = Math.min(t.val / max, 1);
+        const tx = x + zw - (threshRatio * zw);
+        if (tx < x + 2 || tx > x + zw - 2) continue;
+        const triggered = flourish >= t.val;
+
+        ctx.beginPath();
+        ctx.moveTo(tx, y + 1);
+        ctx.lineTo(tx, y + zh - 1);
+        if (triggered) {
+          ctx.strokeStyle = hexToRgba(t.color, 0.5 + Math.sin(this.time * 2.5) * 0.2);
+          ctx.lineWidth = 1.5;
+        } else {
+          ctx.strokeStyle = 'rgba(120, 50, 50, 0.15)';
+          ctx.lineWidth = 1;
+        }
+        ctx.stroke();
+
+        if (triggered && isLarge) {
+          ctx.save();
+          ctx.font = '7px "Cinzel", serif';
+          ctx.textAlign = 'center';
+          ctx.fillStyle = hexToRgba(t.color, 0.65);
+          ctx.fillText(t.label, tx, y - 2);
+          ctx.restore();
+        }
+      }
+
+      if (flourish >= 10) {
+        const dangerPulse = Math.sin(this.time * 6) * 0.3 + 0.7;
+        ctx.fillStyle = 'rgba(139, 0, 0, ' + (0.08 * dangerPulse) + ')';
+        ctx.fillRect(x, y, zw, zh);
+      }
+    } else {
+      const ambient = Math.sin(this.time * 0.5) * 0.012 + 0.015;
+      ctx.fillStyle = 'rgba(92, 26, 26, ' + ambient + ')';
       ctx.fillRect(x, y, zw, zh);
     }
 
-    const pipSize = isLarge ? 6 : (isSmall ? 3.5 : 5);
-    const pipGap = isLarge ? 8 : (isSmall ? 5 : 6);
-    const totalPipW = max * (pipSize * 2 * 0.7) + (max - 1) * pipGap;
-    const startX = x + (zw - totalPipW) / 2 + pipSize * 0.7;
-    const cy = y + zh / 2;
-
-    for (let i = 0; i < max; i++) {
-      const px = startX + i * (pipSize * 2 * 0.7 + pipGap);
-      const isFilled = i < flourish;
-      const isLastFilled = i === flourish - 1 && flourish > 0;
-      const pipPulseVal = this.pipPulse[i] || 0;
-
-      if (isFilled) {
-        const basePulse = isLastFilled ? (Math.sin(this.time * 2.5) * 0.15 + 0.85) : 1;
-        const burstPulse = pipPulseVal > 0 ? (1 + pipPulseVal * 2) : 1;
-        const pulse = basePulse * burstPulse;
-
-        ctx.save();
-        ctx.shadowColor = 'rgba(243, 156, 18, 0.6)';
-        ctx.shadowBlur = (4 + pipPulseVal * 8) * pulse;
-
-        drawDiamond(ctx, px, cy, pipSize);
-        const dGrad = ctx.createRadialGradient(px, cy - pipSize * 0.2, 0, px, cy, pipSize * 1.2);
-        dGrad.addColorStop(0, hexToRgba('#FFF3CD', 0.9 * pulse));
-        dGrad.addColorStop(0.4, hexToRgba('#F39C12', 0.85));
-        dGrad.addColorStop(1, hexToRgba('#D68910', 0.7));
-        ctx.fillStyle = dGrad;
-        ctx.fill();
-
-        ctx.strokeStyle = hexToRgba('#FFD54F', 0.6 * pulse);
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-
-        ctx.fillStyle = 'rgba(255,255,255,' + (0.5 * pulse) + ')';
-        ctx.beginPath();
-        ctx.arc(px - pipSize * 0.1, cy - pipSize * 0.3, pipSize * 0.18, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-      } else {
-        drawDiamond(ctx, px, cy, pipSize);
-        ctx.fillStyle = 'rgba(80, 80, 80, 0.06)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(139, 115, 85, 0.18)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
+    if (isHovered) {
+      ctx.fillStyle = 'rgba(231, 76, 60, 0.04)';
+      ctx.fillRect(x, y, zw, zh);
     }
+
+    const fontSize = isLarge ? 13 : (isSmall ? 9 : 11);
+    ctx.font = 'bold ' + fontSize + 'px "Cinzel", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(0,0,0,0.95)';
+    ctx.shadowBlur = 5;
+    ctx.shadowOffsetY = 1;
+    ctx.fillText(flourish, x + zw / 2, y + zh / 2 + 0.5);
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 1;
+    ctx.fillText(flourish, x + zw / 2, y + zh / 2 + 0.5);
+    ctx.shadowOffsetX = -1;
+    ctx.fillText(flourish, x + zw / 2, y + zh / 2 + 0.5);
 
     ctx.restore();
   }
@@ -572,6 +653,22 @@ export default class ShaperStanceRenderer {
     ctx.restore();
   }
 
+  _drawTollFlash(ctx, zone) {
+    const { x, y, width: zw, height: zh } = zone;
+    const alpha = this.tollFlashTimer / 0.3;
+    const expandR = (1 - alpha) * Math.max(zw, zh) * 0.8;
+
+    ctx.save();
+    ctx.globalAlpha = alpha * 0.4;
+    const flash = ctx.createRadialGradient(x + zw, zh / 2, 0, x + zw, zh / 2, expandR);
+    flash.addColorStop(0, 'rgba(231, 76, 60, 0.8)');
+    flash.addColorStop(0.4, 'rgba(192, 57, 43, 0.3)');
+    flash.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = flash;
+    ctx.fillRect(x, y, zw, zh);
+    ctx.restore();
+  }
+
   _spawnMomentumBurst(amount, momentum, max, canvasW, canvasH, size) {
     const z = this.computeZones(canvasW, canvasH, size);
     const fillX = z.momentum.x + z.momentum.width * Math.min(momentum / max, 1) * 0.85;
@@ -589,7 +686,7 @@ export default class ShaperStanceRenderer {
     if (Math.random() > intensity * 0.12) return;
 
     const z = this.computeZones(canvasW, canvasH, size);
-    const sc = STANCE_COLORS[config.currentStance] || STANCE_COLORS['Flowing Water'];
+    const sc = STANCE_COLORS[config.currentStance] || STANCE_COLORS['Ataxic Flow'];
     const sx = z.momentum.x + z.momentum.width * (0.4 + Math.random() * 0.5);
     const sy = canvasH * (0.3 + Math.random() * 0.4);
     const tx = z.stance.x + z.stance.width / 2;
@@ -601,8 +698,8 @@ export default class ShaperStanceRenderer {
   _drawEnergyFlowLine(ctx, width, height, size, momentum, config) {
     const z = this.computeZones(width, height, size);
     const cy = height / 2;
-    const startX = z.momentum.x + z.momentum.width - 2;
-    const endX = z.flourish.x + 2;
+    const startX = z.momentum.x + z.momentum.width - 8;
+    const endX = z.flourish.x + 8;
 
     if (endX <= startX) return;
 
@@ -611,7 +708,7 @@ export default class ShaperStanceRenderer {
     const spec = config.specialization;
     const isSmall = size === 'small';
     const isLarge = size === 'large';
-    const sc = STANCE_COLORS[config.currentStance] || STANCE_COLORS['Flowing Water'];
+    const sc = STANCE_COLORS[config.currentStance] || STANCE_COLORS['Ataxic Flow'];
     const intensity = Math.min(momentum / (config.momentum?.max ?? 20), 1);
     const pulse = Math.sin(this.time * 4) * 0.15 + 0.85;
 
@@ -621,7 +718,7 @@ export default class ShaperStanceRenderer {
     ctx.lineTo(endX, cy);
     
     let glowColor = sc.glow;
-    if (spec === 'Shadow Dancer' && config.currentStance === 'Shadow Step') {
+    if (spec === 'Primal Shadow' && config.currentStance === 'Void Predator') {
       glowColor = '#8E44AD';
     } else if (spec === 'Flow Master') {
       glowColor = '#48C9B0';
@@ -631,19 +728,18 @@ export default class ShaperStanceRenderer {
     ctx.lineWidth = isLarge ? 8 : (isSmall ? 4 : 6);
     ctx.stroke();
 
-    // Inner core line with linear gradient
     const grad = ctx.createLinearGradient(startX, cy, endX, cy);
     grad.addColorStop(0, hexToRgba('#85C1E9', 0.3));
     
     let coreColor = sc.color;
-    if (spec === 'Shadow Dancer' && config.currentStance === 'Shadow Step') {
+    if (spec === 'Primal Shadow' && config.currentStance === 'Void Predator') {
       coreColor = '#8E44AD';
     } else if (spec === 'Flow Master') {
       coreColor = '#48C9B0';
     }
     
     grad.addColorStop(0.5, hexToRgba(coreColor, 0.75 * pulse * (0.5 + intensity * 0.5)));
-    grad.addColorStop(1, hexToRgba('#F39C12', 0.3)); // Gold flourish side
+    grad.addColorStop(1, hexToRgba('#C0392B', 0.3));
 
     ctx.strokeStyle = grad;
     ctx.lineWidth = isLarge ? 2.5 : (isSmall ? 1 : 1.6);
@@ -657,11 +753,12 @@ export default class ShaperStanceRenderer {
 
     const zones = this.computeZones(canvasW, canvasH, size);
 
+    // Stance gets priority in the center overlap
+    if (mouseX >= zones.stance.x && mouseX < zones.stance.x + zones.stance.width) {
+      return { zone: 'stance', elementIndex: 1, element: null, count: 0 };
+    }
     if (mouseX < zones.momentum.x + zones.momentum.width) {
       return { zone: 'momentum', elementIndex: 0, element: null, count: 0, barX: mouseX };
-    }
-    if (mouseX < zones.stance.x + zones.stance.width) {
-      return { zone: 'stance', elementIndex: 1, element: null, count: 0 };
     }
     return { zone: 'flourish', elementIndex: 2, element: null, count: 0, barX: mouseX };
   }
