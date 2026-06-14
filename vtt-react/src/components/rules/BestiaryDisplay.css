@@ -251,7 +251,7 @@
 
 .bestiary-card-image {
     height: 160px;
-    background: linear-gradient(135deg, #201a12 0%, #0c0a07 100%);
+    background: #eae2cb;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -263,7 +263,7 @@
 .bestiary-card-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.5s ease;
 }
 
@@ -423,7 +423,7 @@
 
 .bestiary-portrait-frame {
     border: 6px double #c9b38c;
-    background: #201a12;
+    background: #eae2cb;
     padding: 6px;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -437,7 +437,7 @@
 .bestiary-portrait-frame img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 4px;
     border: 1px solid rgba(226, 209, 166, 0.2);
 }
@@ -1199,3 +1199,70 @@
         align-self: flex-start;
     }
 }
+
+/* Wyrd Heritage & Manifestation Premium Styling */
+.bestiary-heritage-section {
+    background: linear-gradient(135deg, rgba(82, 34, 150, 0.08) 0%, rgba(26, 20, 11, 0.03) 100%);
+    border: 1.5px solid rgba(82, 34, 150, 0.25);
+    box-shadow: 0 4px 15px rgba(82, 34, 150, 0.05), inset 0 0 20px rgba(82, 34, 150, 0.03);
+    border-radius: 8px;
+    padding: 1.25rem !important;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.bestiary-heritage-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, #8a2be2, #4b0082);
+}
+
+.bestiary-heritage-section:hover {
+    border-color: rgba(82, 34, 150, 0.45);
+    box-shadow: 0 6px 20px rgba(82, 34, 150, 0.1), inset 0 0 25px rgba(82, 34, 150, 0.05);
+    transform: translateY(-1px);
+}
+
+.bestiary-heritage-section h4 {
+    color: #4b0082 !important;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.1);
+}
+
+.bestiary-heritage-section h4 i {
+    color: #8a2be2;
+    animation: wyrdPulse 2.5s infinite ease-in-out;
+}
+
+.bestiary-heritage-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #2e243a;
+    font-style: italic;
+}
+
+@keyframes wyrdPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+        filter: drop-shadow(0 0 2px rgba(138, 43, 226, 0.4));
+    }
+    50% {
+        transform: scale(1.15);
+        opacity: 1;
+        filter: drop-shadow(0 0 6px rgba(138, 43, 226, 0.8));
+    }
+}
+

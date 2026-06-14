@@ -3,9 +3,12 @@ import { BESTIARY_DATA } from '../../data/creatureData';
 import './BestiaryDisplay.css';
 
 const DANGER_COLORS = {
+  Trivial: { bg: '#6c757d', text: '#fff' },
   Low: { bg: '#2d6a4f', text: '#fff' },
   Medium: { bg: '#bc6c25', text: '#fff' },
-  High: { bg: '#9b2226', text: '#fff' }
+  High: { bg: '#d90429', text: '#fff' },
+  'Very High': { bg: '#9b2226', text: '#fff' },
+  Extreme: { bg: '#7b2cb7', text: '#fff' }
 };
 
 const REGION_ICONS = {
@@ -312,6 +315,13 @@ const BestiaryDisplay = () => {
                         <h4><i className="fas fa-feather-pointed"></i> Folklore Origin</h4>
                         <p>{currentCreature.origin}</p>
                       </div>
+
+                      {currentCreature.heritage && (
+                        <div className="bestiary-lore-section bestiary-heritage-section">
+                          <h4><i className="fas fa-sparkles"></i> Wyrd Heritage &amp; Manifestation</h4>
+                          <p className="bestiary-heritage-text">{currentCreature.heritage}</p>
+                        </div>
+                      )}
 
                       <div className="bestiary-lore-section">
                         <h4><i className="fas fa-dragon"></i> Nature &amp; Behavior</h4>
